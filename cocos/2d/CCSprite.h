@@ -171,6 +171,18 @@ public:
      * @return  An autoreleased sprite object.
      */
     static Sprite* createWithSpriteFrameName(const std::string& spriteFrameName);
+    
+    /**
+     * Creates a sprite with an sprite frame name from a texture.
+     *
+     * A SpriteFrame will be fetched from the SpriteFrameCache by spriteFrameName param.
+     * If the SpriteFrame doesn't exist it will raise an exception.
+     *
+     * @param   spriteFrameName A null terminated string which indicates the sprite frame name.
+     * @param   p_texture a pointer to an existing Texture2D from which the sprite frame has been extracted
+     * @return  An autoreleased sprite object.
+     */
+    static Sprite* createWithSpriteFrameName(const std::string& spriteFrameName, Texture2D* p_texture);
 
     //  end of creators group
     /// @}

@@ -130,6 +130,19 @@ Sprite* Sprite::createWithSpriteFrameName(const std::string& spriteFrameName)
     return createWithSpriteFrame(frame);
 }
 
+Sprite* Sprite::createWithSpriteFrameName(const std::string& spriteFrameName, Texture2D* p_texture)
+{
+    SpriteFrame *frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(spriteFrameName, p_texture);
+    
+#if COCOS2D_DEBUG > 0
+    char msg[256] = {0};
+    sprintf(msg, "Invalid spriteFrameName: %s", spriteFrameName.c_str());
+    CCASSERT(frame != nullptr, msg);
+#endif
+    
+    return createWithSpriteFrame(frame);
+}
+
 Sprite* Sprite::create()
 {
     Sprite *sprite = new (std::nothrow) Sprite();

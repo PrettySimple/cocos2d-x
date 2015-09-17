@@ -1,29 +1,29 @@
 /****************************************************************************
-Copyright (c) 2008-2011 Ricardo Quesada
-Copyright (c) 2010-2012 cocos2d-x.org
-Copyright (c) 2011      Zynga Inc.
-Copyright (c) 2013-2014 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-****************************************************************************/
+ Copyright (c) 2008-2011 Ricardo Quesada
+ Copyright (c) 2010-2012 cocos2d-x.org
+ Copyright (c) 2011      Zynga Inc.
+ Copyright (c) 2013-2014 Chukong Technologies Inc.
+ 
+ http://www.cocos2d-x.org
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ ****************************************************************************/
 
 #include "renderer/CCTextureCache.h"
 #include "2d/CCSpriteFrame.h"
@@ -38,7 +38,7 @@ SpriteFrame* SpriteFrame::create(const std::string& filename, const Rect& rect)
     SpriteFrame *spriteFrame = new (std::nothrow) SpriteFrame();
     spriteFrame->initWithTextureFilename(filename, rect);
     spriteFrame->autorelease();
-
+    
     return spriteFrame;
 }
 
@@ -56,7 +56,7 @@ SpriteFrame* SpriteFrame::createWithTexture(Texture2D* texture, const Rect& rect
     SpriteFrame *spriteFrame = new (std::nothrow) SpriteFrame();
     spriteFrame->initWithTexture(texture, rect, rotated, offset, originalSize);
     spriteFrame->autorelease();
-
+    
     return spriteFrame;
 }
 
@@ -65,7 +65,7 @@ SpriteFrame* SpriteFrame::create(const std::string& filename, const Rect& rect, 
     SpriteFrame *spriteFrame = new (std::nothrow) SpriteFrame();
     spriteFrame->initWithTextureFilename(filename, rect, rotated, offset, originalSize);
     spriteFrame->autorelease();
-
+    
     return spriteFrame;
 }
 
@@ -91,12 +91,7 @@ bool SpriteFrame::initWithTextureFilename(const std::string& filename, const Rec
 bool SpriteFrame::initWithTexture(Texture2D* texture, const Rect& rect, bool rotated, const Vec2& offset, const Size& originalSize)
 {
     _texture = texture;
-
-    if (texture)
-    {
-        texture->retain();
-    }
-
+    
     _rectInPixels = rect;
     _rect = CC_RECT_PIXELS_TO_POINTS(rect);
     _offsetInPixels = offset;
@@ -128,14 +123,12 @@ bool SpriteFrame::initWithTextureFilename(const std::string& filename, const Rec
 SpriteFrame::~SpriteFrame()
 {
     CCLOGINFO("deallocing SpriteFrame: %p", this);
-    CC_SAFE_RELEASE(_texture);
 }
 
 SpriteFrame* SpriteFrame::clone() const
 {
-	// no copy constructor	
+    // no copy constructor
     SpriteFrame *copy = new (std::nothrow) SpriteFrame();
-    copy->initWithTextureFilename(_textureFilename, _rectInPixels, _rotated, _offsetInPixels, _originalSizeInPixels);
     copy->setTexture(_texture);
     copy->autorelease();
     return copy;
@@ -193,8 +186,6 @@ bool SpriteFrame::hasAnchorPoint() const
 void SpriteFrame::setTexture(Texture2D * texture)
 {
     if( _texture != texture ) {
-        CC_SAFE_RELEASE(_texture);
-        CC_SAFE_RETAIN(texture);
         _texture = texture;
     }
 }
@@ -204,8 +195,8 @@ Texture2D* SpriteFrame::getTexture()
     if( _texture ) {
         return _texture;
     }
-
-    if( !_textureFilename.empty()) {
+    
+    if(!_textureFilename.empty()) {
         return Director::getInstance()->getTextureCache()->addImage(_textureFilename);
     }
     // no texture or texture filename
