@@ -104,6 +104,11 @@ public:
     @param new height
     */
     virtual void applicationScreenSizeChanged(int newWidth, int newHeight);
+    
+    /**
+     @brief  This function will be called when the application receives a memory warning.
+     */
+    virtual void applicationReceivedMemoryWarning();
 
 protected:
     static Application * sm_pSharedApplication;

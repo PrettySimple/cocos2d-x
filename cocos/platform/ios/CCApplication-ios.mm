@@ -158,6 +158,11 @@ void Application::applicationScreenSizeChanged(int newWidth, int newHeight) {
 
 }
 
+void Application::applicationReceivedMemoryWarning()
+{
+    
+}
+
 NS_CC_END
 
 #endif // CC_PLATFORM_IOS
