@@ -187,7 +187,25 @@ public:
 
     // Overrides
 	virtual SpriteFrame *clone() const override;
-    
+
+    /** Set the polygon info for polygon mesh sprites
+     *
+     * @param polygonInfo triangle mesh of the sprite
+     */
+    void setPolygonInfo(const PolygonInfo &polygonInfo);
+
+    /** Get the polygonInfo for this sprite
+     *
+     * @return polygonInfo structure
+     */
+    const PolygonInfo &getPolygonInfo() const;
+
+    /** Check if sprite frame is a polygon sprite
+     *
+     * @return true if polygonInfo is available
+     */
+    bool hasPolygonInfo() const;
+
 CC_CONSTRUCTOR_ACCESS:
     /**
      * @lua NA
