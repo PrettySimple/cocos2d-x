@@ -206,9 +206,7 @@ public:
 
     // Overrides
 	virtual SpriteFrame *clone() const override;
-
-    /** Set the polygon info for polygon mesh sprites
-     *
+     * @param polygonInfo triangle mesh of teh sprite
      * @param polygonInfo triangle mesh of the sprite
      */
     void setPolygonInfo(const PolygonInfo &polygonInfo);
