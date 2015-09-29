@@ -29,6 +29,7 @@ THE SOFTWARE.
 #define __SPRITE_CCSPRITE_FRAME_H__
 
 #include "2d/CCNode.h"
+#include "2d/CCAutoPolygon.h"
 #include "base/CCRef.h"
 #include "math/CCGeometry.h"
 
@@ -187,9 +188,7 @@ public:
 
     // Overrides
 	virtual SpriteFrame *clone() const override;
-
-    /** Set the polygon info for polygon mesh sprites
-     *
+     * @param polygonInfo triangle mesh of teh sprite
      * @param polygonInfo triangle mesh of the sprite
      */
     void setPolygonInfo(const PolygonInfo &polygonInfo);
@@ -249,6 +248,7 @@ protected:
     Size _originalSizeInPixels;
     Texture2D *_texture;
     std::string  _textureFilename;
+    PolygonInfo _polygonInfo;
 };
 
 // end of _2d group

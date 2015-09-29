@@ -42,6 +42,7 @@ NS_CC_BEGIN
 
 class Sprite;
 class Texture2D;
+class PolygonInfo;
 
 /**
  * @addtogroup _2d
@@ -245,11 +246,25 @@ protected:
     void addSpriteFramesWithDictionary(ValueMap& dictionary, Texture2D *texture);
     
     /** Removes multiple Sprite Frames from Dictionary.
+    * @since v0.99.5
+    */
+    void removeSpriteFramesFromDictionary(ValueMap& dictionary);
+
+    /** Parses list of space-separated integers */
+    void parseIntegerList(const std::string string, std::vector<int> &res);
      * @since v0.99.5
      */
     void removeSpriteFramesFromDictionary(ValueMap& dictionary, Texture2D* texture);
     
     
+    /** Configures PolygonInfo class with the passed sizes + triangles */
+    void initializePolygonInfo(const Size &textureSize,
+                               const Size &spriteSize,
+                               const std::vector<int> &vertices,
+                               const std::vector<int> &verticesUV,
+                               const std::vector<int> &triangleIndices,
+                               PolygonInfo &polygonInfo);
+
     std::unordered_map<std::string, std::vector<SpriteFrame*>*> _spriteFrames;
     ValueMap _spriteFramesAliases;
     std::set<std::string>*  _loadedFileNames;

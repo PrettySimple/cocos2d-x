@@ -33,6 +33,7 @@
 
 
 #include "2d/CCSprite.h"
+#include "2d/CCAutoPolygon.h"
 #include "platform/CCFileUtils.h"
 #include "base/CCNS.h"
 #include "base/ccMacros.h"
@@ -92,12 +93,12 @@ void SpriteFrameCache::parseIntegerList(const std::string string, std::vector<in
     int i=0;
     while (end != std::string::npos)
     {
-        res[i++] = atoi(string.substr(start, end - start).c_str());
+        res[i++] = std::stoi(string.substr(start, end - start));
         start = end + delim.length();
         end = string.find(delim, start);
     }
     
-    res[i] = atoi(string.substr(start, end).c_str());
+    res[i] = std::stoi(string.substr(start, end));
 }
 
 void SpriteFrameCache::initializePolygonInfo(const Size &textureSize,
@@ -139,23 +140,32 @@ void SpriteFrameCache::initializePolygonInfo(const Size &textureSize,
 void SpriteFrameCache::addSpriteFramesWithDictionary(ValueMap& dictionary, Texture2D* texture)
 {
     /*
-     Supported Zwoptex Formats:
-     
-     ZWTCoordinatesFormatOptionXMLLegacy = 0, // Flash Version
-     ZWTCoordinatesFormatOptionXML1_0 = 1, // Desktop Version 0.0 - 0.4b
-     ZWTCoordinatesFormatOptionXML1_1 = 2, // Desktop Version 1.0.0 - 1.0.1
-     ZWTCoordinatesFormatOptionXML1_2 = 3, // Desktop Version 1.0.2+
-     */
-    
+    Supported Zwoptex Formats:
+
+    ZWTCoordinatesFormatOptionXMLLegacy = 0, // Flash Version
+    ZWTCoordinatesFormatOptionXML1_0 = 1, // Desktop Version 0.0 - 0.4b
+    ZWTCoordinatesFormatOptionXML1_1 = 2, // Desktop Version 1.0.0 - 1.0.1
+    ZWTCoordinatesFormatOptionXML1_2 = 3, // Desktop Version 1.0.2+
+
+    Version 3 with TexturePacker 4.0 polygon mesh packing
+    */
+
     
     ValueMap& framesDict = dictionary["frames"].asValueMap();
     int format = 0;
-    
+
+    Size textureSize;
+
     // get the format
     if (dictionary.find("metadata") != dictionary.end())
     {
         ValueMap& metadataDict = dictionary["metadata"].asValueMap();
         format = metadataDict["format"].asInt();
+
+        if(metadataDict.find("size") != metadataDict.end())
+        {
+            textureSize = SizeFromString(metadataDict["size"].asString());
+        }
     }
     
     // check the format
@@ -264,6 +274,20 @@ void SpriteFrameCache::addSpriteFramesWithDictionary(ValueMap& dictionary, Textu
                                                          textureRotated,
                                                          spriteOffset,
                                                          spriteSourceSize);
+
+            if(frameDict.find("vertices") != frameDict.end())
+            {
+                std::vector<int> vertices;
+                parseIntegerList(frameDict["vertices"].asString(), vertices);
+                std::vector<int> verticesUV;
+                parseIntegerList(frameDict["verticesUV"].asString(), verticesUV);
+                std::vector<int> indices;
+                parseIntegerList(frameDict["triangles"].asString(), indices);
+
+                PolygonInfo info;
+                initializePolygonInfo(textureSize, spriteSourceSize, vertices, verticesUV, indices, info);
+                spriteFrame->setPolygonInfo(info);
+            }
         }
         
         bool flag = NinePatchImageParser::isNinePatchImage(spriteFrameName);
