@@ -54,7 +54,8 @@ enum
 
 SpriteTests::SpriteTests()
 {
-	ADD_TEST_CASE(SpriteFramesFromFileContent);
+    ADD_TEST_CASE(SpriteFramesFromFileContent);
+    ADD_TEST_CASE(SpritePolygonFromFileContent);
     ADD_TEST_CASE(SpriteBatchNodeReorder);
     ADD_TEST_CASE(SpriteBatchNodeReorderIssue744);
     ADD_TEST_CASE(SpriteBatchNodeReorderIssue766);
@@ -1763,7 +1764,7 @@ void SpriteFramesFromFileContent::onEnter()
 
 	std::string plist_content;
 	{
-		std::string fullPath = FileUtils::getInstance()->fullPathForFilename("animations/grossini.plist");
+		std::string fullPath = FileUtils::getInstance()->fullPathForFilename(sheetName() + ".plist");
 		Data data = FileUtils::getInstance()->getDataFromFile(fullPath);
 		if (!data.isNull())
 			plist_content.assign((const char*)data.getBytes(), data.getSize());
@@ -1771,7 +1772,7 @@ void SpriteFramesFromFileContent::onEnter()
 
 	std::string image_content;
 	{
-		std::string fullPath = FileUtils::getInstance()->fullPathForFilename("animations/grossini.png");
+		std::string fullPath = FileUtils::getInstance()->fullPathForFilename(sheetName() + ".png");
 		Data data = FileUtils::getInstance()->getDataFromFile(fullPath);
 		if (!data.isNull())
 			image_content.assign((const char*)data.getBytes(), data.getSize());
@@ -1830,6 +1831,27 @@ std::string SpriteFramesFromFileContent::title() const
 std::string SpriteFramesFromFileContent::subtitle() const
 {
 	return "SpriteFrameCache load from plist file content";
+}
+
+std::string SpriteFramesFromFileContent::sheetName() const
+{
+    return "animations/grossini";
+}
+
+//------------------------------------------------------------------
+//
+// SpritePolygonFromFileContent
+//
+//------------------------------------------------------------------
+
+std::string SpritePolygonFromFileContent::subtitle() const
+{
+    return "SpriteFrameCache load polygon info from plist file";
+}
+
+std::string SpritePolygonFromFileContent::sheetName() const
+{
+    return "animations/grossini_polygon";
 }
 
 //------------------------------------------------------------------
