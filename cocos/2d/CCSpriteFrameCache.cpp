@@ -79,6 +79,63 @@ SpriteFrameCache::~SpriteFrameCache()
     CC_SAFE_DELETE(_loadedFileNames);
 }
 
+void SpriteFrameCache::parseIntegerList(const std::string string, std::vector<int> &res)
+{
+    std::string delim(" ");
+
+    size_t n = std::count(string.begin(), string.end(), ' ');
+    res.resize(n+1);
+    
+    size_t start  = 0U;
+    size_t end = string.find(delim);
+    
+    int i=0;
+    while (end != std::string::npos)
+    {
+        res[i++] = atoi(string.substr(start, end - start).c_str());
+        start = end + delim.length();
+        end = string.find(delim, start);
+    }
+    
+    res[i] = atoi(string.substr(start, end).c_str());
+}
+
+void SpriteFrameCache::initializePolygonInfo(const Size &textureSize,
+                                             const Size &spriteSize,
+                                             const std::vector<int> &vertices,
+                                             const std::vector<int> &verticesUV,
+                                             const std::vector<int> &triangleIndices,
+                                             PolygonInfo &info)
+{
+    size_t vertexCount = vertices.size();
+    size_t indexCount = triangleIndices.size();
+    
+    float scaleFactor = CC_CONTENT_SCALE_FACTOR();
+
+    V3F_C4B_T2F *vertexData = new V3F_C4B_T2F[vertexCount];
+    for (size_t i = 0; i < vertexCount/2; i++)
+    {
+        vertexData[i].colors = Color4B::WHITE;
+        vertexData[i].vertices = Vec3(vertices[i*2] / scaleFactor,
+                                      (spriteSize.height - vertices[i*2+1]) / scaleFactor,
+                                      0);
+        vertexData[i].texCoords = Tex2F(verticesUV[i*2] / textureSize.width,
+                                        verticesUV[i*2+1] / textureSize.height);
+    }
+
+    unsigned short *indexData = new unsigned short[indexCount];
+    for (size_t i = 0; i < indexCount; i++)
+    {
+        indexData[i] = static_cast<unsigned short>(triangleIndices[i]);
+    }
+
+    info.triangles.vertCount = vertexCount;
+    info.triangles.verts = vertexData;
+    info.triangles.indexCount = indexCount;
+    info.triangles.indices = indexData;
+    info.rect = Rect(0, 0, spriteSize.width, spriteSize.height);
+}
+
 void SpriteFrameCache::addSpriteFramesWithDictionary(ValueMap& dictionary, Texture2D* texture)
 {
     /*
