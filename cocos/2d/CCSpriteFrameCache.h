@@ -94,7 +94,7 @@ public:
      * @js NA
      */
     static SpriteFrameCache* getInstance();
-    
+
     /** @deprecated Use getInstance() instead
      @js NA
      */
@@ -104,7 +104,7 @@ public:
      * @js NA
      */
     static void destroyInstance();
-    
+
     /** @deprecated Use destroyInstance() instead
      * @js NA
      */
