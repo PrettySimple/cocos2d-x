@@ -257,8 +257,6 @@ protected:
 
     /** Parses list of space-separated integers */
     void parseIntegerList(const std::string string, std::vector<int> &res);
-     * @since v0.99.5
-     */
     void removeSpriteFramesFromDictionary(ValueMap& dictionary, Texture2D* texture);
 
     /** Parses list of space-separated integers */
