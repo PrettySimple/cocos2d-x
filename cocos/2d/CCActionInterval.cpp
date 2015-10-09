@@ -2379,7 +2379,12 @@ void Animate::stop()
 {
     if (_animation->getRestoreOriginalFrame() && _target)
     {
-        static_cast<Sprite*>(_target)->setSpriteFrame(_origFrame);
+        Sprite* target_sprite = static_cast<Sprite*>(_target);
+        
+        auto color = target_sprite->getColor();
+        target_sprite->setSpriteFrame(_origFrame);
+        target_sprite->setColor(color);
+
     }
 
     ActionInterval::stop();
@@ -2413,7 +2418,12 @@ void Animate::update(float t)
             _currFrameIndex = i;
             AnimationFrame* frame = frames.at(_currFrameIndex);
             frameToDisplay = frame->getSpriteFrame();
-            static_cast<Sprite*>(_target)->setSpriteFrame(frameToDisplay);
+            
+            Sprite* target_sprite = static_cast<Sprite*>(_target);
+            
+            auto color = target_sprite->getColor();
+            target_sprite->setSpriteFrame(frameToDisplay);
+            target_sprite->setColor(color);
 
             const ValueMap& dict = frame->getUserInfo();
             if ( !dict.empty() )
