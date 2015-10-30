@@ -44,6 +44,7 @@ void _spAtlasPage_createTexture (spAtlasPage* self, const char* path) {
 
 void _spAtlasPage_disposeTexture (spAtlasPage* self) {
 	((Texture2D*)self->rendererObject)->release();
+    Director::getInstance()->getTextureCache()->removeTexture((Texture2D*)self->rendererObject);
 }
 
 char* _spUtil_readFile (const char* path, int* length) {
