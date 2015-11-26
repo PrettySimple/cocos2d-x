@@ -315,6 +315,8 @@ public:
      * @return If succeed, it will return true.
      */
     bool initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat format, GLuint depthStencilFormat);
+    
+    void setGroupCommand(GroupCommand* p_group);
 
 protected:
     virtual void beginWithClear(float r, float g, float b, float a, float depthValue, int stencilValue, GLbitfield flags);
@@ -348,7 +350,7 @@ protected:
      */
     Sprite* _sprite;
     
-    GroupCommand _groupCommand;
+    GroupCommand* _groupCommand;
     CustomCommand _beginWithClearCommand;
     CustomCommand _clearDepthCommand;
     CustomCommand _clearCommand;
