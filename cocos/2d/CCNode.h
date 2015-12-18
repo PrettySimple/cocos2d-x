@@ -1717,6 +1717,8 @@ public:
     /** get & set camera mask, the node is visible by the camera whose camera flag & node's camera mask is true */
     unsigned short getCameraMask() const { return _cameraMask; }
     virtual void setCameraMask(unsigned short mask, bool applyChildren = true);
+    
+    cocos2d::Mat4 getModelViewMatrix() { return _modelViewTransform; }
 
 CC_CONSTRUCTOR_ACCESS:
     // Nodes should be created using create();

@@ -771,7 +771,19 @@ void Renderer::fillVerticesAndIndices(const TrianglesCommand* cmd)
     {
         V3F_C4B_T2F *q = &_verts[i + _filledVertex];
         Vec3 *vec1 = (Vec3*)&q->vertices;
-        modelView.transformPoint(vec1);
+        if (abs(modelView.m[15] - 1.0f) > 0.00001f)
+        {
+            Vec4 vec4 = Vec4((*vec1).x, (*vec1).y, (*vec1).z, 1.0f);
+            modelView.transformVector(&vec4);
+            vec4 = vec4 / vec4.w;
+            vec1->x = vec4.x;
+            vec1->y = vec4.y;
+            vec1->z = vec4.z;
+        }
+        else
+        {
+            modelView.transformPoint(vec1);
+        }
     }
     
     const unsigned short* indices = cmd->getIndices();
