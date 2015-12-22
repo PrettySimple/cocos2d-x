@@ -169,7 +169,7 @@ Node::~Node()
 
     for (auto& child : _children)
     {
-        child->setParent(nullptr);
+        child->_parent = nullptr;
     }
 
     removeAllComponents();
