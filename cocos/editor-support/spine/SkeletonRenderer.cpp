@@ -301,7 +301,8 @@ Texture2D* SkeletonRenderer::getTexture (spSkinnedMeshAttachment* attachment) co
 }
 
 Rect SkeletonRenderer::getBoundingBox () const {
-	float minX = FLT_MAX, minY = FLT_MAX, maxX = FLT_MIN, maxY = FLT_MIN;
+//    float minX = FLT_MAX, minY = FLT_MAX, maxX = FLT_MIN, maxY = FLT_MIN;
+    float minX = FLT_MAX, minY = FLT_MAX, maxX = -FLT_MAX, maxY = -FLT_MAX; // FLT_MIN is Minimum representable floating-point number (1E-37) not negative at all.
 	float scaleX = getScaleX(), scaleY = getScaleY();
 	for (int i = 0; i < _skeleton->slotsCount; ++i) {
 		spSlot* slot = _skeleton->slots[i];
