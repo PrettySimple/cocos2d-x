@@ -217,6 +217,12 @@ public:
      */
 	void releaseGLTexture();
 
+    /**
+     * Pretty Fix!
+     * update the texture without having to create a new CCTexture2D
+     */
+    void updateData(const void *data, ssize_t dalaLen, Texture2D::PixelFormat pixelFormat, unsigned int pixelsWide, unsigned int pixelsHigh, const Size& contentSize);
+    
     /** Initializes with a texture2d with data.
      
      @param data Specifies a pointer to the image data in memory.

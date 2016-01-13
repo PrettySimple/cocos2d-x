@@ -537,6 +537,19 @@ bool Texture2D::hasPremultipliedAlpha() const
     return _hasPremultipliedAlpha;
 }
 
+/**
+ * Pretty Fix!
+ * update the texture without having to create a new CCTexture2D, the data must have same dimensions and same format
+ */
+void Texture2D::updateData(const void *data, ssize_t dataLen, Texture2D::PixelFormat pixelFormat, unsigned int pixelsWide, unsigned int pixelsHigh, const Size& contentSize)
+{
+    if(_name)
+    {
+        GL::deleteTexture(_name);
+    }
+    initWithData(data, dataLen, pixelFormat, pixelsWide, pixelsHigh, contentSize);
+}
+
 bool Texture2D::initWithData(const void *data, ssize_t dataLen, Texture2D::PixelFormat pixelFormat, int pixelsWide, int pixelsHigh, const Size& contentSize)
 {
     CCASSERT(dataLen>0 && pixelsWide>0 && pixelsHigh>0, "Invalid size");
