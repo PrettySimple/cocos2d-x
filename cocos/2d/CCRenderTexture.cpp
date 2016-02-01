@@ -734,9 +734,11 @@ void RenderTexture::draw(Renderer *renderer, const Mat4 &transform, uint32_t fla
         begin();
 
         //clear screen
-        _clearCommand.init(_globalZOrder);
-        _clearCommand.func = CC_CALLBACK_0(RenderTexture::onClear, this);
-        renderer->addCommand(&_clearCommand);
+        if(getClearFlags() != 0x0) {
+            _clearCommand.init(_globalZOrder);
+            _clearCommand.func = CC_CALLBACK_0(RenderTexture::onClear, this);
+            renderer->addCommand(&_clearCommand);
+        }
 
         //! make sure all children are drawn
         sortAllChildren();
