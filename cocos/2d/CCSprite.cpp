@@ -1086,6 +1086,7 @@ void Sprite::setSpriteFrame(SpriteFrame *spriteFrame)
     if(spriteFrame->hasPolygonInfo())
     {
         _polyInfo = spriteFrame->getPolygonInfo();
+        updateColor();
     }
     if (spriteFrame->hasAnchorPoint())
     {
