@@ -51,12 +51,12 @@ NS_CC_BEGIN
  * @js NA
  * @lua NA
  */
-template <class K, class V>
+template <class K, class V, class H = std::hash<K>>
 class Map
 {
 public: 
 #if USE_STD_UNORDERED_MAP
-    typedef std::unordered_map<K, V> RefMap;
+    typedef std::unordered_map<K, V, H> RefMap;
 #else
     typedef std::map<K, V> RefMap;
 #endif
@@ -86,7 +86,7 @@ public:
     const_iterator cend() const { return _data.cend(); }
     
     /** Default constructor */
-    Map<K, V>()
+    Map<K, V, H>()
     : _data()
     {
         static_assert(std::is_convertible<V, Ref*>::value, "Invalid Type for cocos2d::Map<K, V>!");
@@ -94,7 +94,7 @@ public:
     }
     
     /** Constructor with capacity. */
-    explicit Map<K, V>(ssize_t capacity)
+    explicit Map<K, V, H>(ssize_t capacity)
     : _data()
     {
         static_assert(std::is_convertible<V, Ref*>::value, "Invalid Type for cocos2d::Map<K, V>!");
@@ -103,7 +103,7 @@ public:
     }
     
     /** Copy constructor. */
-    Map<K, V>(const Map<K, V>& other)
+    Map<K, V, H>(const Map<K, V, H>& other)
     {
         static_assert(std::is_convertible<V, Ref*>::value, "Invalid Type for cocos2d::Map<K, V>!");
         CCLOGINFO("In the copy constructor of Map!");
@@ -112,7 +112,7 @@ public:
     }
     
     /** Move constructor. */
-    Map<K, V>(Map<K, V>&& other)
+    Map<K, V, H>(Map<K, V, H>&& other)
     {
         static_assert(std::is_convertible<V, Ref*>::value, "Invalid Type for cocos2d::Map<K, V>!");
         CCLOGINFO("In the move constructor of Map!");
@@ -123,7 +123,7 @@ public:
      * Destructor.
      * It will release all objects in map.
      */
-    ~Map<K, V>()
+    ~Map<K, V, H>()
     {
         CCLOGINFO("In the destructor of Map!");
         clear();
@@ -380,7 +380,7 @@ public:
     //    }
     
     /** Copy assignment operator. */
-    Map<K, V>& operator= ( const Map<K, V>& other )
+    Map<K, V, H>& operator= ( const Map<K, V, H>& other )
     {
         if (this != &other) {
             CCLOGINFO("In the copy assignment operator of Map!");
@@ -392,7 +392,7 @@ public:
     }
     
     /** Move assignment operator. */
-    Map<K, V>& operator= ( Map<K, V>&& other )
+    Map<K, V, H>& operator= ( Map<K, V, H>&& other )
     {
         if (this != &other) {
             CCLOGINFO("In the move assignment operator of Map!");
