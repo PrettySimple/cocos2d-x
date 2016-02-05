@@ -758,14 +758,27 @@ void SpriteFrameCache::reloadSpriteFramesWithDictionary(ValueMap& dictionary, Te
         ValueMap& frameDict = iter->second.asValueMap();
         std::string spriteFrameName = iter->first;
 
-        auto it = _spriteFrames.find(spriteFrameName);
-        if (it != _spriteFrames.end())
+        std::vector<SpriteFrame*>* spriteFrames;
+        if (_spriteFrames.find(iter->first) != _spriteFrames.end())
         {
-            _spriteFrames.erase(it);
+            spriteFrames = _spriteFrames.at(spriteFrameName);
+        }
+        else
+        {
+            spriteFrames = new std::vector<SpriteFrame*>();
+            _spriteFrames.insert(std::make_pair(spriteFrameName, spriteFrames));
+        }
+        
+        for (auto it = spriteFrames->begin(); it != spriteFrames->end(); ++it)
+        {
+            if ((*it)->getTexture() == texture)
+            {
+                it = spriteFrames->erase(it);
+            }
         }
 
         SpriteFrame* spriteFrame = nullptr;
-
+        
         if (format == 0)
         {
             float x = frameDict["x"].asFloat();
@@ -845,7 +858,7 @@ void SpriteFrameCache::reloadSpriteFramesWithDictionary(ValueMap& dictionary, Te
         }
 
         // add sprite frame
-        _spriteFrames.insert(spriteFrameName, spriteFrame);
+        spriteFrames->push_back(spriteFrame);
     }
 }
 

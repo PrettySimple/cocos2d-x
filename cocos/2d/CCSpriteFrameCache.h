@@ -254,16 +254,10 @@ protected:
     * @since v0.99.5
     */
     void removeSpriteFramesFromDictionary(ValueMap& dictionary);
-
-    /** Parses list of space-separated integers */
-    void parseIntegerList(const std::string string, std::vector<int> &res);
     void removeSpriteFramesFromDictionary(ValueMap& dictionary, Texture2D* texture);
 
     /** Parses list of space-separated integers */
-    void parseIntegerList(const std::string &string, std::vector<int> &res);
-    
-
-    Map<std::string, SpriteFrame*> _spriteFrames;
+    void parseIntegerList(const std::string& string, std::vector<int> &res);
     
     std::unordered_map<std::string, std::vector<SpriteFrame*>*> _spriteFrames;
     /** Configures PolygonInfo class with the passed sizes + triangles */
