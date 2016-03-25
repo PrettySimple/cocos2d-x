@@ -1,30 +1,343 @@
-apply plugin: 'com.android.library'
+import org.apache.tools.ant.taskdefs.condition.Os
 
-android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+apply plugin: 'com.android.model.library'
 
-    defaultConfig {
-        minSdkVersion 10
-        targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+model {
+
+    repositories {
+        libs(PrebuiltLibraries) {
+            chipmunk {
+                headers.srcDir "../../../../external/chipmunk/include"
+                binaries.withType(SharedLibraryBinary) {
+                    //
+                    // NOTE: this block should be "StaticLibraryBinary"/staticLibraryFile - but SharedLibraryBinary works and StaticLibraryBinary doesn't as of 0.6.0-alpha2
+                    // bug reported here: https://code.google.com/p/android/issues/detail?id=196065
+                    //
+                    sharedLibraryFile = file("../../../../external/chipmunk/prebuilt/android/${targetPlatform.getName()}/libchipmunk.a")
+                }
+            }
+            freetype2 {
+                headers.srcDir "../../../../external/freetype2/include/android/freetype2"
+                binaries.withType(SharedLibraryBinary) {
+                    sharedLibraryFile = file("../../../../external/freetype2/prebuilt/android/${targetPlatform.getName()}/libfreetype.a")
+                }
+            }
+            curl {
+                headers.srcDir "../../../../external/curl/include/android/curl"
+                binaries.withType(SharedLibraryBinary) {
+                    sharedLibraryFile = file("../../../../external/curl/prebuilt/android/${targetPlatform.getName()}/libcurl.a")
+                }
+            }
+            png {
+                headers.srcDir "../../../../external/png/include/android"
+                binaries.withType(SharedLibraryBinary) {
+                    sharedLibraryFile = file("../../../../external/png/prebuilt/android/${targetPlatform.getName()}/libpng.a")
+                }
+            }
+            jpeg {
+                headers.srcDir "../../../../external/jpeg/include/android"
+                binaries.withType(SharedLibraryBinary) {
+                    sharedLibraryFile = file("../../../../external/jpeg/prebuilt/android/${targetPlatform.getName()}/libjpeg.a")
+                }
+            }
+            tiff {
+                headers.srcDir "../../../../external/tiff/include/android"
+                binaries.withType(SharedLibraryBinary) {
+                    sharedLibraryFile = file("../../../../external/tiff/prebuilt/android/${targetPlatform.getName()}/libtiff.a")
+                }
+            }
+            webp {
+                headers.srcDir "../../../../external/webp/include/android"
+                binaries.withType(SharedLibraryBinary) {
+                    sharedLibraryFile = file("../../../../external/webp/prebuilt/android/${targetPlatform.getName()}/libwebp.a")
+                }
+            }
+//            bullet {
+//                headers.srcDir "../../../../external/bullet/"
+//                binaries.withType(SharedLibraryBinary) {
+//                    sharedLibraryFile = file("../../../../external/bullet/obj/local/${targetPlatform.getName()}/libbullet.a")
+//                }
+//            }
+//            recast {
+//                headers.srcDir "../../../../external/recast/"
+//                binaries.withType(SharedLibraryBinary) {
+//                    sharedLibraryFile = file("../../../../external/recast/obj/local/${targetPlatform.getName()}/librecast.a")
+//                }
+//            }
+            websockets {
+                headers.srcDir "../../../../external/websockets/include/android"
+                binaries.withType(SharedLibraryBinary) {
+                    sharedLibraryFile = file("../../../../external/websockets/prebuilt/android/${targetPlatform.getName()}/libwebsockets.a")
+                }
+            }
+            ssl {
+                headers.srcDir "../../../../external/curl/include/android/curl"
+                binaries.withType(SharedLibraryBinary) {
+                    sharedLibraryFile = file("../../../../external/curl/prebuilt/android/${targetPlatform.getName()}/libssl.a")
+                }
+            }
+            crypto {
+                headers.srcDir "../../../../external/curl/include/android/curl"
+                binaries.withType(SharedLibraryBinary) {
+                    sharedLibraryFile = file("../../../../external/curl/prebuilt/android/${targetPlatform.getName()}/libcrypto.a")
+                }
+            }
+        }
     }
 
-    sourceSets.main {
-        aidl.srcDir "../java/src"
-        java.srcDir "../java/src"
-        manifest.srcFile "AndroidManifest.xml"
+    android {
+        compileSdkVersion = 21
+        buildToolsVersion = "23.0.2"
+
+        defaultConfig.with {
+            minSdkVersion.apiLevel = 9
+            targetSdkVersion.apiLevel = 9
+        }
     }
 
-    buildTypes {
+    android.ndk {
+
+        // Retrieve ndk dir
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        def ndkDir = properties.getProperty('ndk.dir', null)
+
+        moduleName = "cocos2dx"
+        stl = "c++_static"
+        cppFlags.add("-std=c++11")
+        cppFlags.add("-pthread")
+        cppFlags.add("-fexceptions")
+        cppFlags.add("-frtti")
+
+        cppFlags.add("-DUSE_FILE32API")
+
+        cppFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/native_app_glue")}".toString())
+        cppFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/cpufeatures")}".toString())
+        cppFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/ndk_helper")}".toString())
+
+        ldLibs.addAll(["atomic", "log", "android", "EGL", "GLESv2", "z"  ])
+        abiFilters.addAll(["armeabi-v7a", "x86"])
+
+        CFlags.add("-DUSE_FILE32API")
+        CFlags.add("-fexceptions")
+
+
+    }
+
+    android.sources {
+        main {
+            manifest.source {
+                srcDir "."
+                include "AndroidManifest.xml"
+            }
+
+            jni {
+                source {
+                    // INTERNAL CPP FILES
+                    //srcDir "../../../../cocos/"
+                    // include only file at this level
+                    srcDir "../../../../cocos/2d"
+                    srcDir "../../../../cocos/sourceFile"
+                    srcDir "../../../../cocos/3d"
+                    srcDir "../../../../cocos/math"
+                    srcDir "../../../../cocos/base"
+                    srcDir "../../../../cocos/platform/sourceFiles"
+                    srcDir "../../../../cocos/cpufeatures"
+                    // include only file at this level
+                    srcDir "../../../../cocos/platform/android"
+                    srcDir "../../../../cocos/renderer"
+                    srcDir "../../../../cocos/deprecated"
+                    srcDir "../../../../cocos/physics"
+                    srcDir "../../../../cocos/physics3d"
+                    srcDir "../../../../cocos/navmesh"
+                    srcDir "../../../../cocos/network"
+                        exclude "**/*-apple.mm"
+                        exclude "**/*-apple.m"
+                        exclude "**/*-apple.h"
+                        exclude "**/*-curl.cpp"
+                        exclude "**/*-curl.h"
+                        exclude "**/*-winrt.cpp"
+                        exclude "**/*-winrt.h"
+
+//                    srcDir "../../../../cocos/network/HttpClient-android.cpp"
+//                    srcDir "../../../../cocos/network/SocketIO.cpp"
+//                    srcDir "../../../../cocos/network/WebSocket.cpp"
+//                    srcDir "../../../../cocos/network/CCDownloader.cpp"
+//                    srcDir "../../../../cocos/network/CCDownloader-android.cpp"
+
+                    srcDir "../../../../tests/cpp-empty-test/Classes"
+                    srcDir "../../../../tests/cpp-empty-test/Main"
+
+                    // EXTERNAL CPP FILES
+                    srcDir "../../../../external/ConvertUTF"
+                    srcDir "../../../../external/tinyxml2"
+                    srcDir "../../../../external/unzip"
+                    srcDir "../../../../external/edtaa3func"
+                    srcDir "../../../../external/poly2tri"
+                    srcDir "../../../../external/clipper"
+                    srcDir "../../../../external/xxhash"
+//                    srcDir "/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/native_app_glue"
+//                    srcDir "/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/cpufeatures"
+//                    srcDir "/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/ndk_helper"
+                }
+
+                exportedHeaders {
+                    // INTERNAL HEADERS
+                    srcDir "../../../../cocos"
+                    srcDir "../../../../cocos/2d"
+                    srcDir "../../../../cocos/math"
+                    srcDir "../../../../cocos/base"
+                    srcDir "../../../../cocos/platform"
+                    srcDir "../../../../cocos/platform/android"
+                    srcDir "../../../../cocos/renderer"
+                    srcDir "../../../../cocos/deprecated"
+                    srcDir "../../../../cocos/physics"
+                    srcDir "../../../../cocos/physics3d"
+                    srcDir "../../../../cocos/navmesh"
+                    srcDir "../../../../tests/cpp-empty-test/Classes"
+
+
+                    // EXTERNAL HEADERS
+                    srcDir "../../../../external"
+                    srcDir "../../../../external/ConvertUTF"
+                    srcDir "../../../../external/tinyxml2"
+                    srcDir "../../../../external/unzip"
+                    srcDir "../../../../external/edtaa3func"
+                    srcDir "../../../../external/poly2tri"
+                    srcDir "../../../../external/poly2tri/common"
+                    srcDir "../../../../external/poly2tre/sweep"
+                    srcDir "../../../../external/clipper"
+                    srcDir "../../../../external/xxhash"
+//                    srcDir "/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/native_app_glue"
+//                    srcDir "/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/cpufeatures"
+//                    srcDir "/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/ndk_helper"
+
+
+                    // STATIC LIBRARIES
+                    srcDir "../../../../external/chipmunk/include/chipmunk"
+                    srcDir "../../../../external/freetype2/include/android/freetype2"
+                    srcDir "../../../../external/curl/include/android"
+                    srcDir "../../../../external/png/include/android"
+                    srcDir "../../../../external/tiff/include/android"
+                    srcDir "../../../../external/jpeg/include/android"
+                    srcDir "../../../../external/webp/include/android"
+                    srcDir "../../../../external/websockets/include/android"
+                }
+
+                dependencies {
+                    library "chipmunk"
+                    library "freetype2"
+                    library "curl"
+                    library "png"
+                    library "jpeg"
+                    library "tiff"
+                    library "webp"
+//                    library "bullet"
+//                    library "recast"
+                    library "websockets"
+                    library "ssl"
+                    library "crypto"
+                }
+            }
+        }
+    }
+
+    android.buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+        }
+        debug {
+            ndk.with {
+                debuggable = true
+            }
+        }
+    }
+
+    android.productFlavors {
+        create ("arm") {
+            ndk.with {
+                abiFilters.add("armeabi-v7a")
+                ldFlags.addAll([
+                        "-L${file("./obj/local/armeabi-v7a")}".toString()
+                ])
+            }
+        }
+        create("x86") {
+            ndk.with {
+                abiFilters.add("x86")
+                ldFlags.addAll([
+                        "-L${file("./obj/local/x86")}".toString()
+                ])
+            }
         }
     }
 }
 
+//task buildMkRecast(type: Exec) {
+//    // Retrieve ndk dir
+//    Properties properties = new Properties()
+//    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+//    def ndkDir = properties.getProperty('ndk.dir', null)
+//
+//
+//    println("" + file('.').absolutePath)
+//
+//    // Call ndk build
+//    def ndkBuildExt = Os.isFamily(Os.FAMILY_WINDOWS) ? ".cmd" : ""
+//    commandLine "$ndkDir/ndk-build${ndkBuildExt}",
+//            '-C', file('.').absolutePath,
+//            'NDK_APPLICATION_MK=../../../../../../../../../mobile/Wizards/proj.android/wizCards/src/main/jni/Application.mk',
+//            'APP_BUILD_SCRIPT=../../../../external/recast/Android.mk',
+//            'NDK_PROJECT_PATH=../../../../external/recast/'
+//}
+//
+//task buildMkBullet(dependsOn: "buildMkRecast",type: Exec) {
+//    // Retrieve ndk dir
+//    Properties properties = new Properties()
+//    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+//    def ndkDir = properties.getProperty('ndk.dir', null)
+//
+//    // Call ndk build
+//    def ndkBuildExt = Os.isFamily(Os.FAMILY_WINDOWS) ? ".cmd" : ""
+//    commandLine "$ndkDir/ndk-build${ndkBuildExt}",
+//            '-C', file('.').absolutePath,
+//            'NDK_APPLICATION_MK=../../../../../../../../../mobile/Wizards/proj.android/wizCards/src/main/jni/Application.mk',
+//            'APP_BUILD_SCRIPT=../../../../external/bullet/Android.mk',
+//            'NDK_PROJECT_PATH=../../../../external/bullet/'
+//}
+//
+//tasks.whenTaskAdded { task ->
+//    def taskName = task.name
+//
+//    if (taskName.startsWith("compile")) {
+//        task.dependsOn "buildMkBullet"
+//    }
+//}
+
+//task buildNetwork(type: Exec) {
+//    // Retrieve ndk dir
+//    Properties properties = new Properties()
+//    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+//    def ndkDir = properties.getProperty('ndk.dir', null)
+//
+//    // Call ndk build
+//    def ndkBuildExt = Os.isFamily(Os.FAMILY_WINDOWS) ? ".cmd" : ""
+//    commandLine "$ndkDir/ndk-build${ndkBuildExt}",
+//            '-C', file('.').absolutePath,
+//            'NDK_APPLICATION_MK=../../../../../../../../../mobile/Wizardsw/proj.android/wizCards/src/main/jni/Application.mk',
+//            'APP_BUILD_SCRIPT=../../../network/Android.mk',
+//            'NDK_PROJECT_PATH=../../../network'
+//}
+//
+//tasks.whenTaskAdded { task ->
+//    def taskName = task.name
+//
+//    if (taskName.startsWith("compile")) {
+//        task.dependsOn "buildNetwork"
+//    }
+//}
+
+
 dependencies {
-    compile fileTree(dir: '../java/libs', include: ['*.jar'])
+    compile files('../java/libs/android-async-http-1.4.8.jar')
 }
