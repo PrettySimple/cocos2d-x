@@ -52,18 +52,18 @@ model {
                     sharedLibraryFile = file("../../../../external/webp/prebuilt/android/${targetPlatform.getName()}/libwebp.a")
                 }
             }
-//            bullet {
-//                headers.srcDir "../../../../external/bullet/"
-//                binaries.withType(SharedLibraryBinary) {
-//                    sharedLibraryFile = file("../../../../external/bullet/obj/local/${targetPlatform.getName()}/libbullet.a")
-//                }
-//            }
-//            recast {
-//                headers.srcDir "../../../../external/recast/"
-//                binaries.withType(SharedLibraryBinary) {
-//                    sharedLibraryFile = file("../../../../external/recast/obj/local/${targetPlatform.getName()}/librecast.a")
-//                }
-//            }
+            bullet {
+                headers.srcDir "../../../../external/bullet/"
+                binaries.withType(SharedLibraryBinary) {
+                    sharedLibraryFile = file("../../../../external/bullet/obj/local/${targetPlatform.getName()}/libbullet.a")
+                }
+            }
+            recast {
+                headers.srcDir "../../../../external/recast/"
+                binaries.withType(SharedLibraryBinary) {
+                    sharedLibraryFile = file("../../../../external/recast/obj/local/${targetPlatform.getName()}/librecast.a")
+                }
+            }
             websockets {
                 headers.srcDir "../../../../external/websockets/include/android"
                 binaries.withType(SharedLibraryBinary) {
@@ -134,7 +134,26 @@ model {
             jni {
                 source {
                     // INTERNAL CPP FILES
-                    //srcDir "../../../../cocos/"
+                    srcDir "../../../../cocos/"
+                        exclude "editor-support/**"
+                        exclude "scripting/**"
+                        exclude "audio/**"
+                        exclude "platform/apple/**"
+                        exclude "platform/desktop/**"
+                        exclude "platform/ios/**"
+                        exclude "platform/linux/**"
+                        exclude "platform/mac/**"
+                        exclude "platform/win8.1-universal/**"
+                        exclude "platform/win32/**"
+                        exclude "platform/winrt/**"
+                        exclude "**/*-apple.mm"
+                        exclude "**/*-apple.m"
+                        exclude "**/*-apple.h"
+                        exclude "**/*-curl.cpp"
+                        exclude "**/*-curl.h"
+                        exclude "**/*-winrt.cpp"
+                        exclude "**/*-winrt.h"
+                        exclude "**/HttpClient.cpp"
                     // include only file at this level
                     srcDir "../../../../cocos/2d"
                     srcDir "../../../../cocos/sourceFile"
@@ -150,14 +169,8 @@ model {
                     srcDir "../../../../cocos/physics"
                     srcDir "../../../../cocos/physics3d"
                     srcDir "../../../../cocos/navmesh"
-                    srcDir "../../../../cocos/network"
-                        exclude "**/*-apple.mm"
-                        exclude "**/*-apple.m"
-                        exclude "**/*-apple.h"
-                        exclude "**/*-curl.cpp"
-                        exclude "**/*-curl.h"
-                        exclude "**/*-winrt.cpp"
-                        exclude "**/*-winrt.h"
+//                    srcDir "../../../../cocos/network"
+
 
 //                    srcDir "../../../../cocos/network/HttpClient-android.cpp"
 //                    srcDir "../../../../cocos/network/SocketIO.cpp"
@@ -232,8 +245,8 @@ model {
                     library "jpeg"
                     library "tiff"
                     library "webp"
-//                    library "bullet"
-//                    library "recast"
+                    library "bullet"
+                    library "recast"
                     library "websockets"
                     library "ssl"
                     library "crypto"
@@ -273,46 +286,46 @@ model {
     }
 }
 
-//task buildMkRecast(type: Exec) {
-//    // Retrieve ndk dir
-//    Properties properties = new Properties()
-//    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-//    def ndkDir = properties.getProperty('ndk.dir', null)
-//
-//
-//    println("" + file('.').absolutePath)
-//
-//    // Call ndk build
-//    def ndkBuildExt = Os.isFamily(Os.FAMILY_WINDOWS) ? ".cmd" : ""
-//    commandLine "$ndkDir/ndk-build${ndkBuildExt}",
-//            '-C', file('.').absolutePath,
-//            'NDK_APPLICATION_MK=../../../../../../../../../mobile/Wizards/proj.android/wizCards/src/main/jni/Application.mk',
-//            'APP_BUILD_SCRIPT=../../../../external/recast/Android.mk',
-//            'NDK_PROJECT_PATH=../../../../external/recast/'
-//}
-//
-//task buildMkBullet(dependsOn: "buildMkRecast",type: Exec) {
-//    // Retrieve ndk dir
-//    Properties properties = new Properties()
-//    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-//    def ndkDir = properties.getProperty('ndk.dir', null)
-//
-//    // Call ndk build
-//    def ndkBuildExt = Os.isFamily(Os.FAMILY_WINDOWS) ? ".cmd" : ""
-//    commandLine "$ndkDir/ndk-build${ndkBuildExt}",
-//            '-C', file('.').absolutePath,
-//            'NDK_APPLICATION_MK=../../../../../../../../../mobile/Wizards/proj.android/wizCards/src/main/jni/Application.mk',
-//            'APP_BUILD_SCRIPT=../../../../external/bullet/Android.mk',
-//            'NDK_PROJECT_PATH=../../../../external/bullet/'
-//}
-//
-//tasks.whenTaskAdded { task ->
-//    def taskName = task.name
-//
-//    if (taskName.startsWith("compile")) {
-//        task.dependsOn "buildMkBullet"
-//    }
-//}
+task buildMkRecast(type: Exec) {
+    // Retrieve ndk dir
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    def ndkDir = properties.getProperty('ndk.dir', null)
+
+
+    println("" + file('.').absolutePath)
+
+    // Call ndk build
+    def ndkBuildExt = Os.isFamily(Os.FAMILY_WINDOWS) ? ".cmd" : ""
+    commandLine "$ndkDir/ndk-build${ndkBuildExt}",
+            '-C', file('.').absolutePath,
+            'NDK_APPLICATION_MK=../../../../../../../../../mobile/Wizards/proj.android/wizCards/src/main/jni/Application.mk',
+            'APP_BUILD_SCRIPT=../../../../external/recast/Android.mk',
+            'NDK_PROJECT_PATH=../../../../external/recast/'
+}
+
+task buildMkBullet(dependsOn: "buildMkRecast",type: Exec) {
+    // Retrieve ndk dir
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    def ndkDir = properties.getProperty('ndk.dir', null)
+
+    // Call ndk build
+    def ndkBuildExt = Os.isFamily(Os.FAMILY_WINDOWS) ? ".cmd" : ""
+    commandLine "$ndkDir/ndk-build${ndkBuildExt}",
+            '-C', file('.').absolutePath,
+            'NDK_APPLICATION_MK=../../../../../../../../../mobile/Wizards/proj.android/wizCards/src/main/jni/Application.mk',
+            'APP_BUILD_SCRIPT=../../../../external/bullet/Android.mk',
+            'NDK_PROJECT_PATH=../../../../external/bullet/'
+}
+
+tasks.whenTaskAdded { task ->
+    def taskName = task.name
+
+    if (taskName.startsWith("compile")) {
+        task.dependsOn "buildMkBullet"
+    }
+}
 
 //task buildNetwork(type: Exec) {
 //    // Retrieve ndk dir
