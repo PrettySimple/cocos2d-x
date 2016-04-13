@@ -52,6 +52,8 @@ ParticleSystemQuad::ParticleSystemQuad()
 ,_VAOname(0)
 {
     memset(_buffersVBO, 0, sizeof(_buffersVBO));
+    
+    _prevWorldToNodeTM.setIdentity();
 }
 
 ParticleSystemQuad::~ParticleSystemQuad()
@@ -315,6 +317,10 @@ void ParticleSystemQuad::updateParticleQuads()
     {
         currentPosition = this->convertToWorldSpace(Vec2::ZERO);
     }
+    else if (_positionType == PositionType::WORLD)
+    {
+        currentPosition = this->convertToWorldSpace(Vec2::ZERO);
+    }
     else if (_positionType == PositionType::RELATIVE)
     {
         currentPosition = _position;
@@ -355,6 +361,24 @@ void ParticleSystemQuad::updateParticleQuads()
             p2 = p1 - p2;
             newPos.x -= p2.x - pos.x;
             newPos.y -= p2.y - pos.y;
+            updatePosWithParticle(quadStart, newPos, *s, *r);
+        }
+    }
+    else if( _positionType == PositionType::WORLD )
+    {
+        Vec3 p1(currentPosition.x, currentPosition.y, 0);
+        Mat4 worldToNodeTM = getWorldToNodeTransform();
+        worldToNodeTM.transformPoint(&p1);
+        Vec3 p2;
+        Vec2 newPos;
+        float* x = _particleData.posx;
+        float* y = _particleData.posy;
+        float* s = _particleData.size;
+        float* r = _particleData.rotation;
+        V3F_C4B_T2F_Quad* quadStart = startQuad;
+        for (int i = 0 ; i < _particleCount; ++i, ++x, ++y, ++quadStart, ++s, ++r)
+        {
+            newPos.set(*x,*y);
             updatePosWithParticle(quadStart, newPos, *s, *r);
         }
     }

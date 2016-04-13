@@ -679,6 +679,10 @@ dc[i] = (dc[i] - c[i]) / _particleData.timeToLive[i];\
     {
         pos = this->convertToWorldSpace(Vec2::ZERO);
     }
+    else if (_positionType == PositionType::WORLD)
+    {
+        pos = this->convertToWorldSpace(Vec2::ZERO);
+    }
     else if (_positionType == PositionType::RELATIVE)
     {
         pos = _position;
@@ -832,6 +836,19 @@ void ParticleSystem::update(float dt)
 {
     CC_PROFILER_START_CATEGORY(kProfilerCategoryParticles , "CCParticleSystem - update");
 
+    Mat4 delta; // the matrix that represents delta transformations between two frames
+    if( _positionType == PositionType::WORLD )
+    {
+        // build current matrix and get previous one
+        Mat4 curWorldToNode = getWorldToNodeTransform();
+        Mat4 prevMatrix = _prevWorldToNodeTM;
+        _prevWorldToNodeTM = curWorldToNode;
+        
+        // compute differential between the 2 matrixs
+        bool result = _prevWorldToNodeTM.inverse();
+        delta = curWorldToNode * prevMatrix;
+    }
+    
     if (_isActive && _emissionRate)
     {
         float rate = 1.0f / _emissionRate;
@@ -893,6 +910,9 @@ void ParticleSystem::update(float dt)
         
         if (_emitterMode == Mode::GRAVITY)
         {
+            Vec3 axeX;
+            delta.getRightVector( &axeX );
+            float deltaAngle = CC_RADIANS_TO_DEGREES( atan2f( -axeX.y, axeX.x ) );
             for (int i = 0 ; i < _particleCount; ++i)
             {
                 particle_point tmp, radial = {0.0f, 0.0f}, tangential;
@@ -920,6 +940,21 @@ void ParticleSystem::update(float dt)
                 _particleData.modeA.dirX[i] += tmp.x;
                 _particleData.modeA.dirY[i] += tmp.y;
                 
+                if( _positionType == PositionType::WORLD )
+                {
+                    Vec4 posTest = Vec4(_particleData.posx[i], _particleData.posy[i], 0.0f, 1.0f);
+                    delta.transformVector(&posTest);
+                    _particleData.posx[i] = posTest.x;
+                    _particleData.posy[i] = posTest.y;
+                    
+                    Vec4 dirTest = Vec4(_particleData.modeA.dirX[i], _particleData.modeA.dirY[i], 0.0f, 0.0f);
+                    delta.transformVector(&dirTest);
+                    _particleData.modeA.dirX[i] = dirTest.x;
+                    _particleData.modeA.dirY[i] = dirTest.y;
+                    
+                    _particleData.rotation[i] += deltaAngle;
+                }
+
                 // this is cocos2d-x v3.0
                 // if (_configName.length()>0 && _yCoordFlipped != -1)
                 

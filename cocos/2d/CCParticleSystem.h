@@ -219,6 +219,7 @@ public:
         
         GROUPED, /** Living particles are attached to the emitter and are translated along with it. */
 
+        WORLD, /** Living particles are attached to the world but emition is affected by emitter repositioning and rotations. */
     };
     
     //* @enum
@@ -867,6 +868,7 @@ protected:
     //Emitter name
     std::string _configName;
 
+    Mat4    _prevWorldToNodeTM;
     // color modulate
     //    BOOL colorModulate;
 
