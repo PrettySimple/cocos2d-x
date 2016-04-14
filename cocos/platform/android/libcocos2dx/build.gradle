@@ -1,6 +1,6 @@
 import org.apache.tools.ant.taskdefs.condition.Os
 
-apply plugin: 'com.android.model.library'
+apply plugin: 'com.android.model.native'
 
 model {
 
@@ -70,18 +70,18 @@ model {
                     sharedLibraryFile = file("../../../../external/websockets/prebuilt/android/${targetPlatform.getName()}/libwebsockets.a")
                 }
             }
-            ssl {
-                headers.srcDir "../../../../external/curl/include/android/curl"
+            openssl {
+                headers.srcDir "../../../../external/openssl/include/android/"
                 binaries.withType(SharedLibraryBinary) {
-                    sharedLibraryFile = file("../../../../external/curl/prebuilt/android/${targetPlatform.getName()}/libssl.a")
+                    sharedLibraryFile = file("../../../../external/openssl/prebuilt/android/${targetPlatform.getName()}/libssl.a")
                 }
             }
-            crypto {
-                headers.srcDir "../../../../external/curl/include/android/curl"
-                binaries.withType(SharedLibraryBinary) {
-                    sharedLibraryFile = file("../../../../external/curl/prebuilt/android/${targetPlatform.getName()}/libcrypto.a")
-                }
-            }
+//            crypto {
+//                headers.srcDir "../../../../external/curl/include/android/curl"
+//                binaries.withType(SharedLibraryBinary) {
+//                    sharedLibraryFile = file("../../../../external/curl/prebuilt/android/${targetPlatform.getName()}/libcrypto.a")
+//                }
+//            }
         }
     }
 
@@ -108,12 +108,25 @@ model {
         cppFlags.add("-pthread")
         cppFlags.add("-fexceptions")
         cppFlags.add("-frtti")
-
+        cppFlags.add("-DANDROID")
         cppFlags.add("-DUSE_FILE32API")
 
-        cppFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/native_app_glue")}".toString())
-        cppFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/cpufeatures")}".toString())
-        cppFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/ndk_helper")}".toString())
+//        cppFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/native_app_glue")}".toString())
+//        cppFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/cpufeatures")}".toString())
+//        cppFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/ndk_helper")}".toString())
+
+//        cppFlags.addAll(["-I${file("../jni/Common/cpufeatures")}".toString(),
+//                         "-I${file("../jni/Common/native_app_glue")}".toString(),
+//                         "-I${file("../jni/Common/ndk_helper")}".toString()
+//        ])
+
+//        cppFlags.addAll(["-I${file("/Users/guilhem/Documents/0_application/android/ndks/android-ndk-r10e/sources/android/cpu_features")}".toString(),
+//                        "-I${file("/Users/guilhem/Documents/0_application/android/ndks/android-ndk-r10e/sources/android/native_app_glue")}".toString(),
+//                        "-I${file("/Users/guilhem/Documents/0_application/android/ndks/android-ndk-r10e/sources/android/ndk_helper")}".toString()])
+
+//        cppFlags.addAll(["-I${file("src/main/jni/Common/native_app_glue")}".toString(),
+//                         "-I${file("src/main/jni/Common/cpufeatures")}".toString(),
+//                         "-I${file("src/main/jni/Common/android/ndk_helper")}".toString()])
 
         ldLibs.addAll(["atomic", "log", "android", "EGL", "GLESv2", "z", "OpenSLES" ])
         abiFilters.addAll(["armeabi-v7a", "x86"])
@@ -121,23 +134,28 @@ model {
         CFlags.add("-DUSE_FILE32API")
         CFlags.add("-fexceptions")
 
-        CFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/cpufeatures")}".toString())
-        CFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/ndk_helper")}".toString())
-        CFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/native_app_glue")}".toString())
+//        CFlags.addAll(["-I${file("/Users/guilhem/Documents/0_application/android/ndks/android-ndk-r10e/sources/android/cpu_features")}".toString(),
+//                         "-I${file("/Users/guilhem/Documents/0_application/android/ndks/android-ndk-r10e/sources/android/native_app_glue")}".toString(),
+//                         "-I${file("/Users/guilhem/Documents/0_application/android/ndks/android-ndk-r10e/sources/android/ndk_helper")}".toString()])
+
+//        CFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/cpufeatures")}".toString())
+//        CFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/ndk_helper")}".toString())
+//        CFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/native_app_glue")}".toString())
     }
 
     android.sources {
         main {
-            manifest.source {
-                srcDir "."
-                include "AndroidManifest.xml"
-            }
+//            manifest.source {
+//                srcDir "."
+//                include "AndroidManifest.xml"
+//            }
 
             jni {
                 source {
                     // INTERNAL CPP FILES
                     srcDir "../../../../cocos/"
-                        exclude "editor-support/**"
+                        exclude "editor-support/cocosbuilder/**"
+                        exclude "editor-support/cocostudio/**"
                         exclude "scripting/**"
                         exclude "platform/apple/**"
                         exclude "platform/desktop/**"
@@ -170,14 +188,15 @@ model {
                         exclude "audio/winrt/**"
                         exclude "audio/winrt/**"
                     srcDir "../../../../cocos/2d"
-                    srcDir "../../../../cocos/sourceFile"
+//                    srcDir "../../../../cocos/sourceFile"
                     srcDir "../../../../cocos/3d"
                     srcDir "../../../../cocos/math"
                     srcDir "../../../../cocos/base"
-                    srcDir "../../../../cocos/platform/sourceFiles"
-                    srcDir "../../../../cocos/cpufeatures"
+//                    srcDir "../../../../cocos/platform/sourceFiles"
+                    //srcDir "../../../../cocos/cpufeatures"
                     // include only file at this level
                     srcDir "../../../../cocos/platform/android"
+//                        exclude "**/Common"
                     srcDir "../../../../cocos/renderer"
                     srcDir "../../../../cocos/deprecated"
                     srcDir "../../../../cocos/physics"
@@ -186,14 +205,14 @@ model {
 //                    srcDir "../../../../cocos/network"
 
 
-//                    srcDir "../../../../cocos/network/HttpClient-android.cpp"
-//                    srcDir "../../../../cocos/network/SocketIO.cpp"
-//                    srcDir "../../../../cocos/network/WebSocket.cpp"
-//                    srcDir "../../../../cocos/network/CCDownloader.cpp"
-//                    srcDir "../../../../cocos/network/CCDownloader-android.cpp"
+//                   srcDir "../../../../cocos/network/HttpClient-android.cpp"
+//                   srcDir "../../../../cocos/network/SocketIO.cpp"
+//                   srcDir "../../../../cocos/network/WebSocket.cpp"
+//                   srcDir "../../../../cocos/network/CCDownloader.cpp"
+//                   srcDir "../../../../cocos/network/CCDownloader-android.cpp"
 
-                    srcDir "../../../../tests/cpp-empty-test/Classes"
-                    srcDir "../../../../tests/cpp-empty-test/Main"
+//                   srcDir "../../../../tests/cpp-empty-test/Classes"
+//                   srcDir "../../../../tests/cpp-empty-test/Main"
 
                     // EXTERNAL CPP FILES
                     srcDir "../../../../external/ConvertUTF"
@@ -206,11 +225,15 @@ model {
 //                    srcDir "/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/native_app_glue"
 //                    srcDir "/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/cpufeatures"
 //                    srcDir "/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/ndk_helper"
+
+
+                    srcDir "../../../../extensions"
                 }
 
                 exportedHeaders {
                     // INTERNAL HEADERS
                     srcDir "../../../../cocos"
+                    srcDir "../../../../cocos/editor-support"
                     srcDir "../../../../cocos/audio/include"
                     srcDir "../../../../cocos/audio/android"
                     srcDir "../../../../cocos/2d"
@@ -237,15 +260,29 @@ model {
                     srcDir "../../../../external/poly2tre/sweep"
                     srcDir "../../../../external/clipper"
                     srcDir "../../../../external/xxhash"
+
+                    srcDir "../../../../external/json"
+                    srcDir "../../../../external/json/error"
+                    srcDir "../../../../external/json/internal"
+                    //srcDir "../../../../external/json/msinttypes"
+
 //                    srcDir "/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/native_app_glue"
 //                    srcDir "/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/cpufeatures"
 //                    srcDir "/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/ndk_helper"
+
+                    srcDir "../jni/Common/native_app_glue"
+                    srcDir "../jni/Common/cpufeatures"
+                    srcDir "../jni/Common/ndk_helper"
+
+                    // extensions header
+                    srcDir "../../../.."
 
 
                     // STATIC LIBRARIES
                     srcDir "../../../../external/chipmunk/include/chipmunk"
                     srcDir "../../../../external/freetype2/include/android/freetype2"
-                    srcDir "../../../../external/curl/include/android"
+                    srcDir "../../../../external/curl/include/android/"
+                    srcDir "../../../../external/openssl/include/android/"
                     srcDir "../../../../external/png/include/android"
                     srcDir "../../../../external/tiff/include/android"
                     srcDir "../../../../external/jpeg/include/android"
@@ -264,8 +301,8 @@ model {
                     library "bullet"
                     library "recast"
                     library "websockets"
-                    library "ssl"
-                    library "crypto"
+                    library "openssl"
+                    //library "crypto"
                 }
             }
         }
@@ -307,9 +344,6 @@ task buildMkRecast(type: Exec) {
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
     def ndkDir = properties.getProperty('ndk.dir', null)
-
-
-    println("" + file('.').absolutePath)
 
     // Call ndk build
     def ndkBuildExt = Os.isFamily(Os.FAMILY_WINDOWS) ? ".cmd" : ""
@@ -367,6 +401,6 @@ tasks.whenTaskAdded { task ->
 //}
 
 
-dependencies {
-    compile files('../java/libs/android-async-http-1.4.8.jar')
-}
+//dependencies {
+//    compile files('../java/libs/android-async-http-1.4.8.jar')
+//}
