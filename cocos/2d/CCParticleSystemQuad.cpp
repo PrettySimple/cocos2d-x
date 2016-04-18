@@ -366,10 +366,6 @@ void ParticleSystemQuad::updateParticleQuads()
     }
     else if( _positionType == PositionType::WORLD )
     {
-        Vec3 p1(currentPosition.x, currentPosition.y, 0);
-        Mat4 worldToNodeTM = getWorldToNodeTransform();
-        worldToNodeTM.transformPoint(&p1);
-        Vec3 p2;
         Vec2 newPos;
         float* x = _particleData.posx;
         float* y = _particleData.posy;
