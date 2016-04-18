@@ -111,38 +111,16 @@ model {
         cppFlags.add("-DANDROID")
         cppFlags.add("-DUSE_FILE32API")
 
-//        cppFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/native_app_glue")}".toString())
-//        cppFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/cpufeatures")}".toString())
-//        cppFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/ndk_helper")}".toString())
-
         cppFlags.addAll(["-I${file("../jni/Common/cpufeatures")}".toString(),
                          "-I${file("../jni/Common/native_app_glue")}".toString(),
                          "-I${file("../jni/Common/ndk_helper")}".toString()
         ])
-
-//        cppFlags.addAll(["-I${file("/Users/guilhem/Documents/0_application/android/ndks/android-ndk-r10e/sources/android/cpu_features")}".toString(),
-//                        "-I${file("/Users/guilhem/Documents/0_application/android/ndks/android-ndk-r10e/sources/android/native_app_glue")}".toString(),
-//                        "-I${file("/Users/guilhem/Documents/0_application/android/ndks/android-ndk-r10e/sources/android/ndk_helper")}".toString()])
-
-//        cppFlags.addAll(["-I${file("src/main/jni/Common/native_app_glue")}".toString(),
-//                         "-I${file("src/main/jni/Common/cpufeatures")}".toString(),
-//                         "-I${file("src/main/jni/Common/android/ndk_helper")}".toString()])
 
         ldLibs.addAll(["atomic", "log", "android", "EGL", "GLESv2", "z", "OpenSLES" ])
         abiFilters.addAll(["armeabi-v7a", "x86"])
 
         CFlags.add("-DUSE_FILE32API")
         CFlags.add("-fexceptions")
-
-
-
-//        CFlags.addAll(["-I${file("/Users/guilhem/Documents/0_application/android/ndks/android-ndk-r10e/sources/android/cpu_features")}".toString(),
-//                         "-I${file("/Users/guilhem/Documents/0_application/android/ndks/android-ndk-r10e/sources/android/native_app_glue")}".toString(),
-//                         "-I${file("/Users/guilhem/Documents/0_application/android/ndks/android-ndk-r10e/sources/android/ndk_helper")}".toString()])
-
-//        CFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/cpufeatures")}".toString())
-//        CFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/ndk_helper")}".toString())
-//        CFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/native_app_glue")}".toString())
     }
 
     android.sources {
@@ -175,8 +153,6 @@ model {
                         exclude "**/*-winrt.cpp"
                         exclude "**/*-winrt.h"
                         exclude "**/HttpClient.cpp"
-                    // include only file at this level
-                    //srcDir "../../../../cocos/audio"
                         exclude "audio/**/ccd*.cpp"
                         exclude "audio/**/ccd*.h"
                         exclude "audio/**/cdd*.cpp"
@@ -189,32 +165,6 @@ model {
                         exclude "audio/win32/**"
                         exclude "audio/winrt/**"
                         exclude "audio/winrt/**"
-                    //srcDir "../../../../cocos/2d"
-//                    srcDir "../../../../cocos/sourceFile"
-                   // srcDir "../../../../cocos/3d"
-                   // srcDir "../../../../cocos/math"
-                   // srcDir "../../../../cocos/base"
-//                    srcDir "../../../../cocos/platform/sourceFiles"
-                    //srcDir "../../../../cocos/cpufeatures"
-                    // include only file at this level
-                   // srcDir "../../../../cocos/platform/android"
-//                        exclude "**/Common"
-                    //srcDir "../../../../cocos/renderer"
-                    //srcDir "../../../../cocos/deprecated"
-                    //srcDir "../../../../cocos/physics"
-                    //srcDir "../../../../cocos/physics3d"
-                    //srcDir "../../../../cocos/navmesh"
-//                    srcDir "../../../../cocos/network"
-
-
-//                   srcDir "../../../../cocos/network/HttpClient-android.cpp"
-//                   srcDir "../../../../cocos/network/SocketIO.cpp"
-//                   srcDir "../../../../cocos/network/WebSocket.cpp"
-//                   srcDir "../../../../cocos/network/CCDownloader.cpp"
-//                   srcDir "../../../../cocos/network/CCDownloader-android.cpp"
-
-//                   srcDir "../../../../tests/cpp-empty-test/Classes"
-//                   srcDir "../../../../tests/cpp-empty-test/Main"
 
                     // EXTERNAL CPP FILES
                     srcDir "../../../../external/ConvertUTF"
@@ -224,13 +174,6 @@ model {
                     srcDir "../../../../external/poly2tri"
                     srcDir "../../../../external/clipper"
                     srcDir "../../../../external/xxhash"
-//                    srcDir "/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/native_app_glue"
-//                    srcDir "/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/cpufeatures"
-//                    srcDir "/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/ndk_helper"
-
-//                    srcDir "../jni/Common/native_app_glue"
-//                    srcDir "../jni/Common/cpufeatures"
-//                    srcDir "../jni/Common/ndk_helper"
 
                     srcDir "../../../../extensions"
                 }
@@ -269,11 +212,6 @@ model {
                     srcDir "../../../../external/json"
                     srcDir "../../../../external/json/error"
                     srcDir "../../../../external/json/internal"
-                    //srcDir "../../../../external/json/msinttypes"
-
-//                    srcDir "/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/native_app_glue"
-//                    srcDir "/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/cpufeatures"
-//                    srcDir "/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/ndk_helper"
 
                     srcDir "../jni/Common/native_app_glue"
                     srcDir "../jni/Common/cpufeatures"
@@ -282,14 +220,11 @@ model {
                     // extensions header
                     srcDir "../../../.."
 
-
                     // STATIC LIBRARIES
                     srcDir "../../../../external/chipmunk/include/chipmunk"
                     srcDir "../../../../external/freetype2/include/android/freetype2"
                     srcDir "../../../../external/curl/include/"
                     srcDir "../../../../external/ssl/include/"
-
-
                     srcDir "../../../../external/png/include/android"
                     srcDir "../../../../external/tiff/include/android"
                     srcDir "../../../../external/jpeg/include/android"
