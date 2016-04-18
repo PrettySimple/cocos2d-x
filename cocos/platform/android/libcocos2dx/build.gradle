@@ -67,19 +67,19 @@ model {
             ssl {
                 headers.srcDir "../../../../external/ssl/include/"
                 binaries.withType(SharedLibraryBinary) {
-                    sharedLibraryFile = file("../../../../external/ssl/libs/${targetPlatform.getName()}/libssl.a")
+                    sharedLibraryFile = file("../../../../external/ssl/prebuilt/${targetPlatform.getName()}/libssl.a")
                 }
             }
             crypto {
                 headers.srcDir "../../../../external/crypto/include/"
                 binaries.withType(SharedLibraryBinary) {
-                    sharedLibraryFile = file("../../../../external/crypto/libs/${targetPlatform.getName()}/libcrypto.a")
+                    sharedLibraryFile = file("../../../../external/crypto/prebuilt/${targetPlatform.getName()}/libcrypto.a")
                 }
             }
             curl {
                 headers.srcDir "../../../../external/curl/include"
                 binaries.withType(SharedLibraryBinary) {
-                    sharedLibraryFile = file("../../../../external/curl/libs/${targetPlatform.getName()}/libcurl.a")
+                    sharedLibraryFile = file("../../../../external/curl/prebuilt/${targetPlatform.getName()}/libcurl.a")
                 }
             }
         }
