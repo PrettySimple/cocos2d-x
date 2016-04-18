@@ -22,12 +22,6 @@ model {
                     sharedLibraryFile = file("../../../../external/freetype2/prebuilt/android/${targetPlatform.getName()}/libfreetype.a")
                 }
             }
-            curl {
-                headers.srcDir "../../../../external/curl/include/android/curl"
-                binaries.withType(SharedLibraryBinary) {
-                    sharedLibraryFile = file("../../../../external/curl/prebuilt/android/${targetPlatform.getName()}/libcurl.a")
-                }
-            }
             png {
                 headers.srcDir "../../../../external/png/include/android"
                 binaries.withType(SharedLibraryBinary) {
@@ -70,18 +64,24 @@ model {
                     sharedLibraryFile = file("../../../../external/websockets/prebuilt/android/${targetPlatform.getName()}/libwebsockets.a")
                 }
             }
-            openssl {
-                headers.srcDir "../../../../external/openssl/include/android/"
+            ssl {
+                headers.srcDir "../../../../external/ssl/include/"
                 binaries.withType(SharedLibraryBinary) {
-                    sharedLibraryFile = file("../../../../external/openssl/prebuilt/android/${targetPlatform.getName()}/libssl.a")
+                    sharedLibraryFile = file("../../../../external/ssl/libs/${targetPlatform.getName()}/libssl.a")
                 }
             }
-//            crypto {
-//                headers.srcDir "../../../../external/curl/include/android/curl"
-//                binaries.withType(SharedLibraryBinary) {
-//                    sharedLibraryFile = file("../../../../external/curl/prebuilt/android/${targetPlatform.getName()}/libcrypto.a")
-//                }
-//            }
+            crypto {
+                headers.srcDir "../../../../external/crypto/include/"
+                binaries.withType(SharedLibraryBinary) {
+                    sharedLibraryFile = file("../../../../external/crypto/libs/${targetPlatform.getName()}/libcrypto.a")
+                }
+            }
+            curl {
+                headers.srcDir "../../../../external/curl/include"
+                binaries.withType(SharedLibraryBinary) {
+                    sharedLibraryFile = file("../../../../external/curl/libs/${targetPlatform.getName()}/libcurl.a")
+                }
+            }
         }
     }
 
@@ -115,10 +115,10 @@ model {
 //        cppFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/cpufeatures")}".toString())
 //        cppFlags.add("-I${file("/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/ndk_helper")}".toString())
 
-//        cppFlags.addAll(["-I${file("../jni/Common/cpufeatures")}".toString(),
-//                         "-I${file("../jni/Common/native_app_glue")}".toString(),
-//                         "-I${file("../jni/Common/ndk_helper")}".toString()
-//        ])
+        cppFlags.addAll(["-I${file("../jni/Common/cpufeatures")}".toString(),
+                         "-I${file("../jni/Common/native_app_glue")}".toString(),
+                         "-I${file("../jni/Common/ndk_helper")}".toString()
+        ])
 
 //        cppFlags.addAll(["-I${file("/Users/guilhem/Documents/0_application/android/ndks/android-ndk-r10e/sources/android/cpu_features")}".toString(),
 //                        "-I${file("/Users/guilhem/Documents/0_application/android/ndks/android-ndk-r10e/sources/android/native_app_glue")}".toString(),
@@ -133,6 +133,8 @@ model {
 
         CFlags.add("-DUSE_FILE32API")
         CFlags.add("-fexceptions")
+
+
 
 //        CFlags.addAll(["-I${file("/Users/guilhem/Documents/0_application/android/ndks/android-ndk-r10e/sources/android/cpu_features")}".toString(),
 //                         "-I${file("/Users/guilhem/Documents/0_application/android/ndks/android-ndk-r10e/sources/android/native_app_glue")}".toString(),
@@ -187,21 +189,21 @@ model {
                         exclude "audio/win32/**"
                         exclude "audio/winrt/**"
                         exclude "audio/winrt/**"
-                    srcDir "../../../../cocos/2d"
+                    //srcDir "../../../../cocos/2d"
 //                    srcDir "../../../../cocos/sourceFile"
-                    srcDir "../../../../cocos/3d"
-                    srcDir "../../../../cocos/math"
-                    srcDir "../../../../cocos/base"
+                   // srcDir "../../../../cocos/3d"
+                   // srcDir "../../../../cocos/math"
+                   // srcDir "../../../../cocos/base"
 //                    srcDir "../../../../cocos/platform/sourceFiles"
                     //srcDir "../../../../cocos/cpufeatures"
                     // include only file at this level
-                    srcDir "../../../../cocos/platform/android"
+                   // srcDir "../../../../cocos/platform/android"
 //                        exclude "**/Common"
-                    srcDir "../../../../cocos/renderer"
-                    srcDir "../../../../cocos/deprecated"
-                    srcDir "../../../../cocos/physics"
-                    srcDir "../../../../cocos/physics3d"
-                    srcDir "../../../../cocos/navmesh"
+                    //srcDir "../../../../cocos/renderer"
+                    //srcDir "../../../../cocos/deprecated"
+                    //srcDir "../../../../cocos/physics"
+                    //srcDir "../../../../cocos/physics3d"
+                    //srcDir "../../../../cocos/navmesh"
 //                    srcDir "../../../../cocos/network"
 
 
@@ -226,6 +228,9 @@ model {
 //                    srcDir "/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/cpufeatures"
 //                    srcDir "/Users/guilhem/Documents/0_application/android/sdks/android-sdk-macosx/ndk-bundle/sources/android/ndk_helper"
 
+//                    srcDir "../jni/Common/native_app_glue"
+//                    srcDir "../jni/Common/cpufeatures"
+//                    srcDir "../jni/Common/ndk_helper"
 
                     srcDir "../../../../extensions"
                 }
@@ -281,8 +286,10 @@ model {
                     // STATIC LIBRARIES
                     srcDir "../../../../external/chipmunk/include/chipmunk"
                     srcDir "../../../../external/freetype2/include/android/freetype2"
-                    srcDir "../../../../external/curl/include/android/"
-                    srcDir "../../../../external/openssl/include/android/"
+                    srcDir "../../../../external/curl/include/"
+                    srcDir "../../../../external/ssl/include/"
+
+
                     srcDir "../../../../external/png/include/android"
                     srcDir "../../../../external/tiff/include/android"
                     srcDir "../../../../external/jpeg/include/android"
@@ -301,8 +308,8 @@ model {
                     library "bullet"
                     library "recast"
                     library "websockets"
-                    library "openssl"
-                    //library "crypto"
+                    library "ssl"
+                    library "crypto"
                 }
             }
         }
