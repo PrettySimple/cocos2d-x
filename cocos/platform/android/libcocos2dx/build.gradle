@@ -64,16 +64,16 @@ model {
                     sharedLibraryFile = file("../../../../external/websockets/prebuilt/android/${targetPlatform.getName()}/libwebsockets.a")
                 }
             }
-            ssl {
-                headers.srcDir "../../../../external/ssl/include/"
-                binaries.withType(SharedLibraryBinary) {
-                    sharedLibraryFile = file("../../../../external/ssl/prebuilt/${targetPlatform.getName()}/libssl.a")
-                }
-            }
             crypto {
                 headers.srcDir "../../../../external/crypto/include/"
                 binaries.withType(SharedLibraryBinary) {
                     sharedLibraryFile = file("../../../../external/crypto/prebuilt/${targetPlatform.getName()}/libcrypto.a")
+                }
+            }
+            ssl {
+                headers.srcDir "../../../../external/ssl/include/"
+                binaries.withType(SharedLibraryBinary) {
+                    sharedLibraryFile = file("../../../../external/ssl/prebuilt/${targetPlatform.getName()}/libssl.a")
                 }
             }
             curl {
@@ -111,12 +111,12 @@ model {
         cppFlags.add("-DANDROID")
         cppFlags.add("-DUSE_FILE32API")
 
-        cppFlags.addAll(["-I${file("../jni/Common/cpufeatures")}".toString(),
-                         "-I${file("../jni/Common/native_app_glue")}".toString(),
-                         "-I${file("../jni/Common/ndk_helper")}".toString()
-        ])
+//        cppFlags.addAll(["-I${file("../jni/Common/cpufeatures")}".toString(),
+//                         "-I${file("../jni/Common/native_app_glue")}".toString(),
+//                         "-I${file("../jni/Common/ndk_helper")}".toString()
+//        ])
 
-        ldLibs.addAll(["atomic", "log", "android", "EGL", "GLESv2", "z", "OpenSLES" ])
+        ldLibs.addAll(["atomic", "log", "android", "EGL", "GLESv2", "z", "OpenSLES"])
         abiFilters.addAll(["armeabi-v7a", "x86"])
 
         CFlags.add("-DUSE_FILE32API")
@@ -145,6 +145,8 @@ model {
                         exclude "platform/win8.1-universal/**"
                         exclude "platform/win32/**"
                         exclude "platform/winrt/**"
+
+
                         exclude "**/*-apple.mm"
                         exclude "**/*-apple.m"
                         exclude "**/*-apple.h"
@@ -163,7 +165,6 @@ model {
                         exclude "audio/mac/**"
                         exclude "audio/openal/**"
                         exclude "audio/win32/**"
-                        exclude "audio/winrt/**"
                         exclude "audio/winrt/**"
 
                     // EXTERNAL CPP FILES
@@ -208,7 +209,6 @@ model {
                     srcDir "../../../../external/poly2tre/sweep"
                     srcDir "../../../../external/clipper"
                     srcDir "../../../../external/xxhash"
-
                     srcDir "../../../../external/json"
                     srcDir "../../../../external/json/error"
                     srcDir "../../../../external/json/internal"
@@ -223,8 +223,8 @@ model {
                     // STATIC LIBRARIES
                     srcDir "../../../../external/chipmunk/include/chipmunk"
                     srcDir "../../../../external/freetype2/include/android/freetype2"
-                    srcDir "../../../../external/curl/include/"
                     srcDir "../../../../external/ssl/include/"
+                    srcDir "../../../../external/curl/include/"
                     srcDir "../../../../external/png/include/android"
                     srcDir "../../../../external/tiff/include/android"
                     srcDir "../../../../external/jpeg/include/android"
@@ -233,9 +233,15 @@ model {
                 }
 
                 dependencies {
+                    library "crypto"
+                    library "ssl"
+                    library "curl"
+                    // it looks like the order matters, however when linking to it in wizard project, it appears that the order is randomized
+                    // which makes the build fail to link sometimes. Check it withgradle experimental plugin team
+                    // the right order is curl > ssl > crypto
+
                     library "chipmunk"
                     library "freetype2"
-                    library "curl"
                     library "png"
                     library "jpeg"
                     library "tiff"
@@ -243,8 +249,6 @@ model {
                     library "bullet"
                     library "recast"
                     library "websockets"
-                    library "ssl"
-                    library "crypto"
                 }
             }
         }
