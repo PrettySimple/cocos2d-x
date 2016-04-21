@@ -64,10 +64,10 @@ model {
                     sharedLibraryFile = file("../../../../external/websockets/prebuilt/android/${targetPlatform.getName()}/libwebsockets.a")
                 }
             }
-            crypto {
-                headers.srcDir "../../../../external/crypto/include/"
+            curl {
+                headers.srcDir "../../../../external/curl/include"
                 binaries.withType(SharedLibraryBinary) {
-                    sharedLibraryFile = file("../../../../external/crypto/prebuilt/${targetPlatform.getName()}/libcrypto.a")
+                    sharedLibraryFile = file("../../../../external/curl/prebuilt/${targetPlatform.getName()}/libcurl.a")
                 }
             }
             ssl {
@@ -76,10 +76,10 @@ model {
                     sharedLibraryFile = file("../../../../external/ssl/prebuilt/${targetPlatform.getName()}/libssl.a")
                 }
             }
-            curl {
-                headers.srcDir "../../../../external/curl/include"
+            crypto {
+                headers.srcDir "../../../../external/crypto/include/"
                 binaries.withType(SharedLibraryBinary) {
-                    sharedLibraryFile = file("../../../../external/curl/prebuilt/${targetPlatform.getName()}/libcurl.a")
+                    sharedLibraryFile = file("../../../../external/crypto/prebuilt/${targetPlatform.getName()}/libcrypto.a")
                 }
             }
         }
@@ -233,19 +233,20 @@ model {
                 }
 
                 dependencies {
-                    library "crypto"
-                    library "ssl"
                     library "curl"
+                    library "ssl"
+                    library "crypto"
                     // it looks like the order matters, however when linking to it in wizard project, it appears that the order is randomized
-                    // which makes the build fail to link sometimes. Check it withgradle experimental plugin team
+                    // which makes the build fail to link sometimes. Check it with gradle experimental plugin team
                     // the right order is curl > ssl > crypto
 
+
+                    library "webp"
                     library "chipmunk"
                     library "freetype2"
                     library "png"
                     library "jpeg"
                     library "tiff"
-                    library "webp"
                     library "bullet"
                     library "recast"
                     library "websockets"
