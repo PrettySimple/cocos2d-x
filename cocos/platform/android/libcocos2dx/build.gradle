@@ -2,8 +2,16 @@ import org.apache.tools.ant.taskdefs.condition.Os
 
 apply plugin: 'com.android.model.native'
 
-model {
 
+def ndkDir = System.getenv("ANDROID_NDK_HOME")
+def propertiesFile = project.rootProject.file('local.properties')
+if (propertiesFile.exists()) {
+    Properties properties = new Properties()
+    properties.load(propertiesFile.newDataInputStream())
+    ndkDir = properties.getProperty('ndk.dir')
+}
+
+model {
     repositories {
         libs(PrebuiltLibraries) {
             chipmunk {
@@ -86,35 +94,28 @@ model {
     }
 
     android {
-        compileSdkVersion = 21
+        compileSdkVersion = 23
         buildToolsVersion = "23.0.2"
 
         defaultConfig.with {
-            minSdkVersion.apiLevel = 9
-            targetSdkVersion.apiLevel = 9
+            minSdkVersion.apiLevel = 17
+            targetSdkVersion.apiLevel = 22
         }
     }
 
     android.ndk {
 
         // Retrieve ndk dir
-        Properties properties = new Properties()
-        properties.load(project.rootProject.file('local.properties').newDataInputStream())
-        def ndkDir = properties.getProperty('ndk.dir', null)
+        //Properties properties = new Properties()
+        //properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        //def ndkDir = properties.getProperty('ndk.dir', null)
 
         moduleName = "cocos2dx"
         stl = "c++_static"
-        cppFlags.add("-std=c++11")
-        cppFlags.add("-pthread")
-        cppFlags.add("-fexceptions")
-        cppFlags.add("-frtti")
-        cppFlags.add("-DANDROID")
-        cppFlags.add("-DUSE_FILE32API")
-
-//        cppFlags.addAll(["-I${file("../jni/Common/cpufeatures")}".toString(),
-//                         "-I${file("../jni/Common/native_app_glue")}".toString(),
-//                         "-I${file("../jni/Common/ndk_helper")}".toString()
-//        ])
+        cppFlags.addAll(['-I' + "${ndkDir}/sources/android/cpufeatures",
+                         '-I' + "${ndkDir}/sources/android/native_app_glue",
+                         '-I' + file('../jni/ndk_helper')])
+        cppFlags.addAll(["-std=c++11", "-pthread", "-fexceptions", "-frtti", "-DUSE_FILE32API"])
 
         ldLibs.addAll(["atomic", "log", "android", "EGL", "GLESv2", "z", "OpenSLES"])
         abiFilters.addAll(["armeabi-v7a", "x86"])
@@ -129,7 +130,6 @@ model {
 //                srcDir "."
 //                include "AndroidManifest.xml"
 //            }
-
             jni {
                 source {
                     // INTERNAL CPP FILES
@@ -145,8 +145,6 @@ model {
                         exclude "platform/win8.1-universal/**"
                         exclude "platform/win32/**"
                         exclude "platform/winrt/**"
-
-
                         exclude "**/*-apple.mm"
                         exclude "**/*-apple.m"
                         exclude "**/*-apple.h"
@@ -167,6 +165,8 @@ model {
                         exclude "audio/win32/**"
                         exclude "audio/winrt/**"
 
+
+
                     // EXTERNAL CPP FILES
                     srcDir "../../../../external/ConvertUTF"
                     srcDir "../../../../external/tinyxml2"
@@ -176,7 +176,12 @@ model {
                     srcDir "../../../../external/clipper"
                     srcDir "../../../../external/xxhash"
 
+                    // EXTENSIONS CPP FILES
                     srcDir "../../../../extensions"
+
+                    // NDK FILEs
+                    srcDir "${ndkDir}/sources/android/cpufeatures"
+
                 }
 
                 exportedHeaders {
@@ -195,7 +200,6 @@ model {
                     srcDir "../../../../cocos/physics"
                     srcDir "../../../../cocos/physics3d"
                     srcDir "../../../../cocos/navmesh"
-                    srcDir "../../../../tests/cpp-empty-test/Classes"
 
 
                     // EXTERNAL HEADERS
@@ -213,12 +217,24 @@ model {
                     srcDir "../../../../external/json/error"
                     srcDir "../../../../external/json/internal"
 
-                    srcDir "../jni/Common/native_app_glue"
-                    srcDir "../jni/Common/cpufeatures"
-                    srcDir "../jni/Common/ndk_helper"
+                    //srcDir "../jni/Common/native_app_glue"
+                    //srcDir "../jni/Common/cpufeatures"
+                    //srcDir "../jni/Common/ndk_helper"
 
                     // extensions header
                     srcDir "../../../.."
+//                        exclude "build/**"
+//                        exclude "cmake/**"
+//                        exclude "cocos/**"
+//                        exclude "docs/**"
+//                        exclude "external/**"
+//                        exclude "licences/**"
+//                        exclude "plugin/**"
+//                        exclude "prebuilt/**"
+//                        exclude "templates/**"
+//                        exclude "tests/**"
+//                        exclude "tools/**"
+//                        exclude "web/**"
 
                     // STATIC LIBRARIES
                     srcDir "../../../../external/chipmunk/include/chipmunk"
@@ -290,7 +306,7 @@ task buildMkRecast(type: Exec) {
     // Retrieve ndk dir
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    def ndkDir = properties.getProperty('ndk.dir', null)
+    //def ndkDir = properties.getProperty('ndk.dir', null)
 
     // Call ndk build
     def ndkBuildExt = Os.isFamily(Os.FAMILY_WINDOWS) ? ".cmd" : ""
@@ -305,7 +321,7 @@ task buildMkBullet(dependsOn: "buildMkRecast",type: Exec) {
     // Retrieve ndk dir
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    def ndkDir = properties.getProperty('ndk.dir', null)
+    //def ndkDir = properties.getProperty('ndk.dir', null)
 
     // Call ndk build
     def ndkBuildExt = Os.isFamily(Os.FAMILY_WINDOWS) ? ".cmd" : ""
