@@ -73,9 +73,9 @@ model {
                 }
             }
             curl {
-                headers.srcDir "../../../../external/curl/include"
+                headers.srcDir "../../../../external/curl/include/android"
                 binaries.withType(SharedLibraryBinary) {
-                    sharedLibraryFile = file("../../../../external/curl/prebuilt/${targetPlatform.getName()}/libcurl.a")
+                    sharedLibraryFile = file("../../../../external/curl/prebuilt/android/${targetPlatform.getName()}/libcurl.a")
                 }
             }
             ssl {
@@ -217,30 +217,14 @@ model {
                     srcDir "../../../../external/json/error"
                     srcDir "../../../../external/json/internal"
 
-                    //srcDir "../jni/Common/native_app_glue"
-                    //srcDir "../jni/Common/cpufeatures"
-                    //srcDir "../jni/Common/ndk_helper"
-
                     // extensions header
                     srcDir "../../../.."
-//                        exclude "build/**"
-//                        exclude "cmake/**"
-//                        exclude "cocos/**"
-//                        exclude "docs/**"
-//                        exclude "external/**"
-//                        exclude "licences/**"
-//                        exclude "plugin/**"
-//                        exclude "prebuilt/**"
-//                        exclude "templates/**"
-//                        exclude "tests/**"
-//                        exclude "tools/**"
-//                        exclude "web/**"
 
                     // STATIC LIBRARIES
                     srcDir "../../../../external/chipmunk/include/chipmunk"
                     srcDir "../../../../external/freetype2/include/android/freetype2"
                     srcDir "../../../../external/ssl/include/"
-                    srcDir "../../../../external/curl/include/"
+                    srcDir "../../../../external/curl/include/android"
                     srcDir "../../../../external/png/include/android"
                     srcDir "../../../../external/tiff/include/android"
                     srcDir "../../../../external/jpeg/include/android"
