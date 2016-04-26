@@ -296,7 +296,7 @@ task buildMkRecast(type: Exec) {
     def ndkBuildExt = Os.isFamily(Os.FAMILY_WINDOWS) ? ".cmd" : ""
     commandLine "$ndkDir/ndk-build${ndkBuildExt}",
             '-C', file('.').absolutePath,
-            'NDK_APPLICATION_MK=../../../../../../../../../mobile/Wizards/proj.android/wizCards/src/main/jni/Application.mk',
+            'NDK_APPLICATION_MK=../../../../../../../../../mobile/Wizards/proj.android/wizards/src/main/jni/Application.mk',
             'APP_BUILD_SCRIPT=../../../../external/recast/Android.mk',
             'NDK_PROJECT_PATH=../../../../external/recast/'
 }
@@ -311,7 +311,7 @@ task buildMkBullet(dependsOn: "buildMkRecast",type: Exec) {
     def ndkBuildExt = Os.isFamily(Os.FAMILY_WINDOWS) ? ".cmd" : ""
     commandLine "$ndkDir/ndk-build${ndkBuildExt}",
             '-C', file('.').absolutePath,
-            'NDK_APPLICATION_MK=../../../../../../../../../mobile/Wizards/proj.android/wizCards/src/main/jni/Application.mk',
+            'NDK_APPLICATION_MK=../../../../../../../../../mobile/Wizards/proj.android/wizards/src/main/jni/Application.mk',
             'APP_BUILD_SCRIPT=../../../../external/bullet/Android.mk',
             'NDK_PROJECT_PATH=../../../../external/bullet/'
 }
