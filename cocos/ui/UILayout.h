@@ -459,7 +459,7 @@ public:
      */
     virtual void setCameraMask(unsigned short mask, bool applyChildren = true) override;
 
-    ResourceData getRenderFile();
+//    ResourceData getRenderFile();
 
 CC_CONSTRUCTOR_ACCESS:
     //override "init" method of widget.

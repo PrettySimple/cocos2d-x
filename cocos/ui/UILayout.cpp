@@ -38,7 +38,7 @@ THE SOFTWARE.
 #include "2d/CCSprite.h"
 #include "base/CCEventFocus.h"
 #include "base/CCStencilStateManager.hpp"
-#include "editor-support/cocostudio/CocosStudioExtension.h"
+//#include "editor-support/cocostudio/CocosStudioExtension.h"
 
 
 NS_CC_BEGIN
@@ -1892,13 +1892,13 @@ void Layout::setCameraMask(unsigned short mask, bool applyChildren)
     }
 }
     
-ResourceData Layout::getRenderFile()
-{
-    ResourceData rData;
-    rData.type = (int)_bgImageTexType;
-    rData.file = _backGroundImageFileName;
-    return rData;
-}
+//ResourceData Layout::getRenderFile()
+//{
+//    ResourceData rData;
+//    rData.type = (int)_bgImageTexType;
+//    rData.file = _backGroundImageFileName;
+//    return rData;
+//}
 
 }
 NS_CC_END
