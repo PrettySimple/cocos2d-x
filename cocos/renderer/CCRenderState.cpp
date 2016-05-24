@@ -242,7 +242,7 @@ void RenderState::StateBlock::bindNoRestore()
             glDisable(GL_BLEND);
         _defaultState->_blendEnabled = _blendEnabled;
     }
-    if ((_bits & RS_BLEND_FUNC) && (_blendSrc != _defaultState->_blendSrc || _blendDst != _defaultState->_blendDst))
+    if (_blendEnabled && (_bits & RS_BLEND_FUNC) && (_blendSrc != _defaultState->_blendSrc || _blendDst != _defaultState->_blendDst))
     {
         GL::blendFunc((GLenum)_blendSrc, (GLenum)_blendDst);
         _defaultState->_blendSrc = _blendSrc;
