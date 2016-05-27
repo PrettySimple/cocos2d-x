@@ -679,10 +679,6 @@ dc[i] = (dc[i] - c[i]) / _particleData.timeToLive[i];\
     {
         pos = this->convertToWorldSpace(Vec2::ZERO);
     }
-    else if (_positionType == PositionType::WORLD)
-    {
-        pos = this->convertToWorldSpace(Vec2::ZERO);
-    }
     else if (_positionType == PositionType::RELATIVE)
     {
         pos = _position;
@@ -779,6 +775,43 @@ dc[i] = (dc[i] - c[i]) / _particleData.timeToLive[i];\
     }
 }
 
+/**
+ * Evenlly distribute position of new born particles between two frames and the two emitter positions (takes into account rotation)
+ */
+
+void ParticleSystem::interpolateNewBornParticles( Mat4 delta, int emitCount )
+{
+    Vec3 translation;
+    delta.getTranslation(&translation);
+    
+    Mat4 tmp;
+    Quaternion quat, quatId, dstQuat;
+    
+    quat = delta;
+    quat.normalize();
+    quatId.setIdentity();
+    
+    int start = _particleCount - emitCount;
+    
+    for (int i = start; i < _particleCount; ++i)
+    {
+        float Q = (_particleCount - i - 1) / (float)emitCount;
+        
+        _particleData.posx[i] += (translation.x * Q);
+        _particleData.posy[i] += (translation.y * Q);
+           
+        Quaternion::slerp(quatId, quat, Q, &dstQuat);
+        Mat4::createRotation(dstQuat, &tmp);
+            
+        Vec4 dirTest = Vec4(_particleData.modeA.dirX[i], _particleData.modeA.dirY[i], 0.0f, 0.0f);
+        tmp.transformVector(&dirTest);
+        _particleData.modeA.dirX[i] = dirTest.x;
+        _particleData.modeA.dirY[i] = dirTest.y;
+            
+        _particleData.rotation[i] = -CC_RADIANS_TO_DEGREES(Vec2(dirTest.x, dirTest.y).getAngle());
+    }
+}
+
 void ParticleSystem::onEnter()
 {
 #if CC_ENABLE_SCRIPT_BINDING
@@ -839,6 +872,11 @@ void ParticleSystem::update(float dt)
     Mat4 delta; // the matrix that represents delta transformations between two frames
     if( _positionType == PositionType::WORLD )
     {
+        if (_particleCount == 0) {
+            // startup or no particles
+            _prevWorldToNodeTM = getWorldToNodeTransform();
+        }
+
         // build current matrix and get previous one
         Mat4 curWorldToNode = getWorldToNodeTransform();
         Mat4 prevMatrix = _prevWorldToNodeTM;
@@ -847,6 +885,29 @@ void ParticleSystem::update(float dt)
         // compute differential between the 2 matrixs
         bool result = _prevWorldToNodeTM.inverse();
         delta = curWorldToNode * prevMatrix;
+        
+        Vec3 deltaTranslation;
+        delta.getTranslation(&deltaTranslation);
+
+        // compenssate alive particles
+        Vec3 axeX;
+        delta.getRightVector( &axeX );
+        float deltaAngle = CC_RADIANS_TO_DEGREES( atan2f( -axeX.y, axeX.x ) );
+
+        for (int i = 0 ; i < _particleCount; ++i)
+        {
+            Vec4 posTest = Vec4(_particleData.posx[i], _particleData.posy[i], 0.0f, 1.0f);
+            delta.transformVector(&posTest);
+            _particleData.posx[i] = posTest.x;
+            _particleData.posy[i] = posTest.y;
+                
+            Vec4 dirTest = Vec4(_particleData.modeA.dirX[i], _particleData.modeA.dirY[i], 0.0f, 0.0f);
+            delta.transformVector(&dirTest);
+            _particleData.modeA.dirX[i] = dirTest.x;
+            _particleData.modeA.dirY[i] = dirTest.y;
+                
+            _particleData.rotation[i] += deltaAngle;
+        }
     }
     
     if (_isActive && _emissionRate)
@@ -859,9 +920,15 @@ void ParticleSystem::update(float dt)
             if (_emitCounter < 0.f)
                 _emitCounter = 0.f;
         }
-        
+       
         int emitCount = MIN(_totalParticles - _particleCount, _emitCounter / rate);
         addParticles(emitCount);
+
+        if( _positionType == PositionType::WORLD && emitCount > 1)
+        {
+            interpolateNewBornParticles(delta, emitCount);
+        }
+        
         _emitCounter -= rate * emitCount;
         
         _elapsed += dt;
@@ -910,9 +977,6 @@ void ParticleSystem::update(float dt)
         
         if (_emitterMode == Mode::GRAVITY)
         {
-            Vec3 axeX;
-            delta.getRightVector( &axeX );
-            float deltaAngle = CC_RADIANS_TO_DEGREES( atan2f( -axeX.y, axeX.x ) );
             for (int i = 0 ; i < _particleCount; ++i)
             {
                 particle_point tmp, radial = {0.0f, 0.0f}, tangential;
@@ -939,21 +1003,6 @@ void ParticleSystem::update(float dt)
                 
                 _particleData.modeA.dirX[i] += tmp.x;
                 _particleData.modeA.dirY[i] += tmp.y;
-                
-                if( _positionType == PositionType::WORLD )
-                {
-                    Vec4 posTest = Vec4(_particleData.posx[i], _particleData.posy[i], 0.0f, 1.0f);
-                    delta.transformVector(&posTest);
-                    _particleData.posx[i] = posTest.x;
-                    _particleData.posy[i] = posTest.y;
-                    
-                    Vec4 dirTest = Vec4(_particleData.modeA.dirX[i], _particleData.modeA.dirY[i], 0.0f, 0.0f);
-                    delta.transformVector(&dirTest);
-                    _particleData.modeA.dirX[i] = dirTest.x;
-                    _particleData.modeA.dirY[i] = dirTest.y;
-                    
-                    _particleData.rotation[i] += deltaAngle;
-                }
 
                 // this is cocos2d-x v3.0
                 // if (_configName.length()>0 && _yCoordFlipped != -1)

@@ -253,6 +253,8 @@ public:
     static ParticleSystem* createWithTotalParticles(int numberOfParticles);
     
     void addParticles(int count);
+
+    void interpolateNewBornParticles(Mat4 delta, int emitCount);
     
     void stopSystem();
     /** Kill all living particles.
