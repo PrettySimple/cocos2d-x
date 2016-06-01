@@ -53,7 +53,8 @@ ParticleSystemQuad::ParticleSystemQuad()
 {
     memset(_buffersVBO, 0, sizeof(_buffersVBO));
     
-    _prevWorldToNodeTM.setIdentity();
+    _currentTransforms.setIdentity();
+    _previousTransforms.setIdentity();
 }
 
 ParticleSystemQuad::~ParticleSystemQuad()

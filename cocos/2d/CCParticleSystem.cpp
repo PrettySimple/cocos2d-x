@@ -779,30 +779,40 @@ dc[i] = (dc[i] - c[i]) / _particleData.timeToLive[i];\
  * Evenlly distribute position of new born particles between two frames and the two emitter positions (takes into account rotation)
  */
 
-void ParticleSystem::interpolateNewBornParticles( Mat4 delta, int emitCount )
+void ParticleSystem::interpolateNewBornParticles( int emitCount )
 {
-    Vec3 translation;
-    delta.getTranslation(&translation);
-    
+    if( _positionType != PositionType::WORLD ) {
+        // works only for WORLD mode
+        // need more time for other modes that may not be relevant for us
+        return;
+    }
     Mat4 tmp;
-    Quaternion quat, quatId, dstQuat;
+
+    // get world position and delta position
+    Vec3 oldPosition, position;
+    _currentTransforms.getTranslation(&position);
+    _previousTransforms.getTranslation(&oldPosition);
+    Vec3 dtPos = position - oldPosition;
     
-    quat = delta;
+    // compute delta rotation between two frames
+    Quaternion oldQuat, quat, dstQuat;
+    _currentTransforms.getRotation(&quat);
+    _previousTransforms.getRotation(&oldQuat);
     quat.normalize();
-    quatId.setIdentity();
-    
+    oldQuat.normalize();
+
     int start = _particleCount - emitCount;
     
     for (int i = start; i < _particleCount; ++i)
     {
         float Q = (_particleCount - i - 1) / (float)emitCount;
         
-        _particleData.posx[i] += (translation.x * Q);
-        _particleData.posy[i] += (translation.y * Q);
-           
-        Quaternion::slerp(quatId, quat, Q, &dstQuat);
+        _particleData.posx[i] += position.x - (dtPos.x * Q);
+        _particleData.posy[i] += position.y - (dtPos.y * Q);
+
+        Quaternion::slerp(quat, oldQuat, Q, &dstQuat);
         Mat4::createRotation(dstQuat, &tmp);
-            
+        
         Vec4 dirTest = Vec4(_particleData.modeA.dirX[i], _particleData.modeA.dirY[i], 0.0f, 0.0f);
         tmp.transformVector(&dirTest);
         _particleData.modeA.dirX[i] = dirTest.x;
@@ -869,45 +879,20 @@ void ParticleSystem::update(float dt)
 {
     CC_PROFILER_START_CATEGORY(kProfilerCategoryParticles , "CCParticleSystem - update");
 
-    Mat4 delta; // the matrix that represents delta transformations between two frames
     if( _positionType == PositionType::WORLD )
     {
+        setAdditionalTransform(nullptr);
+        
         if (_particleCount == 0) {
             // startup or no particles
-            _prevWorldToNodeTM = getWorldToNodeTransform();
+            _currentTransforms = getNodeToWorldTransform();
         }
 
-        // build current matrix and get previous one
-        Mat4 curWorldToNode = getWorldToNodeTransform();
-        Mat4 prevMatrix = _prevWorldToNodeTM;
-        _prevWorldToNodeTM = curWorldToNode;
-        
-        // compute differential between the 2 matrixs
-        bool result = _prevWorldToNodeTM.inverse();
-        delta = curWorldToNode * prevMatrix;
-        
-        Vec3 deltaTranslation;
-        delta.getTranslation(&deltaTranslation);
-
-        // compenssate alive particles
-        Vec3 axeX;
-        delta.getRightVector( &axeX );
-        float deltaAngle = CC_RADIANS_TO_DEGREES( atan2f( -axeX.y, axeX.x ) );
-
-        for (int i = 0 ; i < _particleCount; ++i)
-        {
-            Vec4 posTest = Vec4(_particleData.posx[i], _particleData.posy[i], 0.0f, 1.0f);
-            delta.transformVector(&posTest);
-            _particleData.posx[i] = posTest.x;
-            _particleData.posy[i] = posTest.y;
-                
-            Vec4 dirTest = Vec4(_particleData.modeA.dirX[i], _particleData.modeA.dirY[i], 0.0f, 0.0f);
-            delta.transformVector(&dirTest);
-            _particleData.modeA.dirX[i] = dirTest.x;
-            _particleData.modeA.dirY[i] = dirTest.y;
-                
-            _particleData.rotation[i] += deltaAngle;
-        }
+        _previousTransforms = _currentTransforms;
+        _currentTransforms = getNodeToWorldTransform();
+        Mat4 currentInverseTransforms = _currentTransforms;
+        currentInverseTransforms.inverse();
+        setAdditionalTransform( &currentInverseTransforms );
     }
     
     if (_isActive && _emissionRate)
@@ -924,9 +909,9 @@ void ParticleSystem::update(float dt)
         int emitCount = MIN(_totalParticles - _particleCount, _emitCounter / rate);
         addParticles(emitCount);
 
-        if( _positionType == PositionType::WORLD && emitCount > 1)
+        if( emitCount > 1)
         {
-            interpolateNewBornParticles(delta, emitCount);
+            interpolateNewBornParticles(emitCount);
         }
         
         _emitCounter -= rate * emitCount;

@@ -254,7 +254,7 @@ public:
     
     void addParticles(int count);
 
-    void interpolateNewBornParticles(Mat4 delta, int emitCount);
+    void interpolateNewBornParticles(int emitCount);
     
     void stopSystem();
     /** Kill all living particles.
@@ -870,7 +870,8 @@ protected:
     //Emitter name
     std::string _configName;
 
-    Mat4    _prevWorldToNodeTM;
+    Mat4    _previousTransforms;
+    Mat4    _currentTransforms;
     // color modulate
     //    BOOL colorModulate;
 
