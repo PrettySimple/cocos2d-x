@@ -881,18 +881,14 @@ void ParticleSystem::update(float dt)
 
     if( _positionType == PositionType::WORLD )
     {
-        setAdditionalTransform(nullptr);
-        
         if (_particleCount == 0) {
             // startup or no particles
             _currentTransforms = getNodeToWorldTransform();
         }
-
         _previousTransforms = _currentTransforms;
         _currentTransforms = getNodeToWorldTransform();
         Mat4 currentInverseTransforms = _currentTransforms;
         currentInverseTransforms.inverse();
-        setAdditionalTransform( &currentInverseTransforms );
     }
     
     if (_isActive && _emissionRate)

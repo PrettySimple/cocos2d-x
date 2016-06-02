@@ -318,10 +318,6 @@ void ParticleSystemQuad::updateParticleQuads()
     {
         currentPosition = this->convertToWorldSpace(Vec2::ZERO);
     }
-    else if (_positionType == PositionType::WORLD)
-    {
-        currentPosition = this->convertToWorldSpace(Vec2::ZERO);
-    }
     else if (_positionType == PositionType::RELATIVE)
     {
         currentPosition = _position;
@@ -485,7 +481,7 @@ void ParticleSystemQuad::draw(Renderer *renderer, const Mat4 &transform, uint32_
     //quad command
     if(_particleCount > 0)
     {
-        _quadCommand.init(_globalZOrder, _texture->getName(), getGLProgramState(), _blendFunc, _quads, _particleCount, transform, flags);
+        _quadCommand.init(_globalZOrder, _texture->getName(), getGLProgramState(), _blendFunc, _quads, _particleCount, _positionType == PositionType::WORLD ? Mat4::IDENTITY : transform, flags);
         renderer->addCommand(&_quadCommand);
     }
 }
