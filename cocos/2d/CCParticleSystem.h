@@ -254,6 +254,9 @@ public:
     
     void addParticles(int count);
 
+    /**
+     * PS: for emition interpolation in WORLD mode only !!!
+     */
     void interpolateNewBornParticles(int emitCount);
     
     void stopSystem();
@@ -870,8 +873,10 @@ protected:
     //Emitter name
     std::string _configName;
 
+    // PS: added for emition interpollation (when the emitter "travels" a lot between 2 frames)
     Mat4    _previousTransforms;
     Mat4    _currentTransforms;
+
     // color modulate
     //    BOOL colorModulate;
 

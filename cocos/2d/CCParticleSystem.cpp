@@ -874,6 +874,7 @@ bool ParticleSystem::isFull()
     return (_particleCount == _totalParticles);
 }
 
+
 // ParticleSystem - MainLoop
 void ParticleSystem::update(float dt)
 {
@@ -905,10 +906,7 @@ void ParticleSystem::update(float dt)
         int emitCount = MIN(_totalParticles - _particleCount, _emitCounter / rate);
         addParticles(emitCount);
 
-        if( emitCount > 1)
-        {
-            interpolateNewBornParticles(emitCount);
-        }
+        interpolateNewBornParticles(emitCount);
         
         _emitCounter -= rate * emitCount;
         
