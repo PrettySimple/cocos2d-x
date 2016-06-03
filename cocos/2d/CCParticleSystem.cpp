@@ -809,6 +809,8 @@ void ParticleSystem::interpolateNewBornParticles( int emitCount )
         
         _particleData.posx[i] += position.x - (dtPos.x * Q);
         _particleData.posy[i] += position.y - (dtPos.y * Q);
+        _particleData.startPosX[i] = _particleData.posx[i];
+        _particleData.startPosY[i] = _particleData.posy[i];
 
         Quaternion::slerp(quat, oldQuat, Q, &dstQuat);
         Mat4::createRotation(dstQuat, &tmp);
@@ -888,8 +890,6 @@ void ParticleSystem::update(float dt)
         }
         _previousTransforms = _currentTransforms;
         _currentTransforms = getNodeToWorldTransform();
-        Mat4 currentInverseTransforms = _currentTransforms;
-        currentInverseTransforms.inverse();
     }
     
     if (_isActive && _emissionRate)
@@ -1005,13 +1005,22 @@ void ParticleSystem::update(float dt)
                 _particleData.modeB.radius[i] += _particleData.modeB.deltaRadius[i] * dt;
             }
             
-            for (int i = 0; i < _particleCount; ++i)
-            {
-                _particleData.posx[i] = - cosf(_particleData.modeB.angle[i]) * _particleData.modeB.radius[i];
+            if( _positionType == PositionType::WORLD) {
+                for (int i = 0; i < _particleCount; ++i)
+                {
+                    _particleData.posx[i] = _particleData.startPosX[i] - cosf(_particleData.modeB.angle[i]) * _particleData.modeB.radius[i];
+                    _particleData.posy[i] = _particleData.startPosY[i] - sinf(_particleData.modeB.angle[i]) * _particleData.modeB.radius[i] * _yCoordFlipped;
+                }
             }
-            for (int i = 0; i < _particleCount; ++i)
-            {
-                _particleData.posy[i] = - sinf(_particleData.modeB.angle[i]) * _particleData.modeB.radius[i] * _yCoordFlipped;
+            else {
+                for (int i = 0; i < _particleCount; ++i)
+                {
+                    _particleData.posx[i] = - cosf(_particleData.modeB.angle[i]) * _particleData.modeB.radius[i];
+                }
+                for (int i = 0; i < _particleCount; ++i)
+                {
+                    _particleData.posy[i] = - sinf(_particleData.modeB.angle[i]) * _particleData.modeB.radius[i] * _yCoordFlipped;
+                }
             }
         }
         
