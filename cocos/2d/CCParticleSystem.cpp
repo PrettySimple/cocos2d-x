@@ -806,15 +806,22 @@ void ParticleSystem::interpolateNewBornParticles( int emitCount )
     for (int i = start; i < _particleCount; ++i)
     {
         float Q = (_particleCount - i - 1) / (float)emitCount;
-        
-        _particleData.posx[i] += position.x - (dtPos.x * Q);
-        _particleData.posy[i] += position.y - (dtPos.y * Q);
+        Quaternion::slerp(quat, oldQuat, Q, &dstQuat);
+        Mat4::createRotation(dstQuat, &tmp);
+
+        if(_posVar.x > 0 || _posVar.y > 0) {
+            Vec4 startPosVary = Vec4(_particleData.posx[i] - _sourcePosition.x, (_particleData.posy[i] - _sourcePosition.y), 0.0f, 1.0f);
+            tmp.transformVector(&startPosVary);
+            _particleData.posx[i] = _sourcePosition.x + startPosVary.x + position.x - (dtPos.x * Q);
+            _particleData.posy[i] = _sourcePosition.y + startPosVary.y + position.y - (dtPos.y * Q);
+        }
+        else {
+            _particleData.posx[i] += position.x - (dtPos.x * Q);
+            _particleData.posy[i] += position.y - (dtPos.y * Q);
+        }
         _particleData.startPosX[i] = _particleData.posx[i];
         _particleData.startPosY[i] = _particleData.posy[i];
 
-        Quaternion::slerp(quat, oldQuat, Q, &dstQuat);
-        Mat4::createRotation(dstQuat, &tmp);
-        
         Vec4 dirTest = Vec4(_particleData.modeA.dirX[i], _particleData.modeA.dirY[i], 0.0f, 0.0f);
         tmp.transformVector(&dirTest);
         _particleData.modeA.dirX[i] = dirTest.x;
