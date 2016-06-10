@@ -46,7 +46,6 @@
 
 NS_CC_BEGIN
 
-static const int UNDERLINE_NODE_TAG = 0xaabbccdd;
 /**
  * LabelLetter used to update the quad in texture atlas without SpriteBatchNode.
  */
@@ -587,6 +586,7 @@ void Label::setFontAtlas(FontAtlas* atlas,bool distanceFieldEnabled /* = false *
     {
         _lineHeight = _fontAtlas->getLineHeight();
         _contentDirty = true;
+        _systemFontDirty = false;
     }
     _useDistanceField = distanceFieldEnabled;
     _useA8Shader = useA8Shader;
@@ -779,9 +779,9 @@ bool Label::alignText()
     do {
         _fontAtlas->prepareLetterDefinitions(_utf16Text);
         auto& textures = _fontAtlas->getTextures();
-        if (textures.size() > _batchNodes.size())
+        if (textures.size() > static_cast<size_t>(_batchNodes.size()))
         {
-            for (auto index = _batchNodes.size(); index < textures.size(); ++index)
+            for (auto index = static_cast<size_t>(_batchNodes.size()); index < textures.size(); ++index)
             {
                 auto batchNode = SpriteBatchNode::createWithTexture(textures.at(index));
                 if (batchNode)
@@ -949,7 +949,6 @@ bool Label::setTTFConfigInternal(const TTFConfig& ttfConfig)
         reset();
         return false;
     }
-    _systemFontDirty = false;
 
     _currentLabelType = LabelType::TTF;
     setFontAtlas(newAtlas,ttfConfig.distanceFieldEnabled,true);
@@ -1129,7 +1128,7 @@ void Label::enableBold()
     if (!_boldEnabled)
     {
         // bold is implemented with outline
-        enableShadow(Color4B::WHITE, Size(0.9,0), 0);
+        enableShadow(Color4B::WHITE, Size(0.9f, 0), 0);
         // add one to kerning
         setAdditionalKerning(_additionalKerning+1);
         _boldEnabled = true;
@@ -1824,7 +1823,7 @@ void Label::computeStringNumLines()
     size_t stringLen = _utf16Text.length();
     for (size_t i = 0; i < stringLen - 1; ++i)
     {
-        if (_utf16Text[i] == '\n')
+        if (_utf16Text[i] == (char16_t)TextFormatter::NewLine)
         {
             quantityOfLines++;
         }

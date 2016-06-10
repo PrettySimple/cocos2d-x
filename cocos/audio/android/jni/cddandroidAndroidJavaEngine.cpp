@@ -23,11 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "cddandroidAndroidJavaEngine.h"
+#include "audio/android/jni/cddandroidAndroidJavaEngine.h"
 #include <stdlib.h>
 #include <android/log.h>
 #include <sys/system_properties.h>
-#include "ccdandroidUtils.h"
+#include "audio/android/ccdandroidUtils.h"
 #include "audio/include/AudioEngine.h"
 #include "platform/android/jni/JniHelper.h"
 
@@ -75,12 +75,12 @@ AndroidJavaEngine::~AndroidJavaEngine()
 
 void AndroidJavaEngine::preloadBackgroundMusic(const char* filePath) {
     std::string fullPath = CocosDenshion::android::getFullPathWithoutAssetsPrefix(filePath);
-    JniHelper::callStaticVoidMethod(helperClassName, "preloadBackgroundMusic", filePath);
+    JniHelper::callStaticVoidMethod(helperClassName, "preloadBackgroundMusic", fullPath);
 }
 
 void AndroidJavaEngine::playBackgroundMusic(const char* filePath, bool loop) {
     std::string fullPath = CocosDenshion::android::getFullPathWithoutAssetsPrefix(filePath);
-    JniHelper::callStaticVoidMethod(helperClassName, "playBackgroundMusic", filePath, loop);
+    JniHelper::callStaticVoidMethod(helperClassName, "playBackgroundMusic", fullPath, loop);
 }
 
 void AndroidJavaEngine::stopBackgroundMusic(bool releaseData) {

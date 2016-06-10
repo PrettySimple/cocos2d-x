@@ -23,16 +23,15 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "CCDictionary.h"
-#include "deprecated/CCString.h"
-#include "CCInteger.h"
+#include "deprecated/CCDictionary.h"
+#include <type_traits>
 #include "platform/CCFileUtils.h"
 #include "deprecated/CCString.h"
-#include "CCBool.h"
-#include "CCInteger.h"
-#include "CCFloat.h"
-#include "CCDouble.h"
-#include "CCArray.h"
+#include "deprecated/CCBool.h"
+#include "deprecated/CCInteger.h"
+#include "deprecated/CCFloat.h"
+#include "deprecated/CCDouble.h"
+#include "deprecated/CCArray.h"
 
 using namespace std;
 
@@ -571,7 +570,8 @@ __Dictionary* __Dictionary::clone() const
     Clonable* obj = nullptr;
     if (_dictType == kDictInt)
     {
-        CCDICT_FOREACH(this, element)
+        DictElement* tmp = nullptr;
+        HASH_ITER(hh, _elements, element, tmp)
         {
             obj = dynamic_cast<Clonable*>(element->getObject());
             if (obj)
@@ -584,13 +584,14 @@ __Dictionary* __Dictionary::clone() const
             }
             else
             {
-                CCLOGWARN("%s isn't clonable.", typeid(*element->getObject()).name());
+                CCLOGWARN("%s isn't clonable.", typeid(std::remove_pointer<decltype(element->getObject())>::type).name());
             }
         }
     }
     else if (_dictType == kDictStr)
     {
-        CCDICT_FOREACH(this, element)
+        DictElement* tmp = nullptr;
+        HASH_ITER(hh, _elements, element, tmp)
         {
             obj = dynamic_cast<Clonable*>(element->getObject());
             if (obj)
@@ -603,7 +604,7 @@ __Dictionary* __Dictionary::clone() const
             }
             else
             {
-                CCLOGWARN("%s isn't clonable.", typeid(*element->getObject()).name());
+                CCLOGWARN("%s isn't clonable.", typeid(std::remove_pointer<decltype(element->getObject())>::type).name());
             }
         }
     }

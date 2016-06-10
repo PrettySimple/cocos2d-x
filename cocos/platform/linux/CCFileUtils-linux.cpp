@@ -26,8 +26,8 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
 
-#include "CCFileUtils-linux.h"
-#include "CCApplication-linux.h"
+#include "platform/linux/CCFileUtils-linux.h"
+#include "platform/linux/CCApplication-linux.h"
 #include "platform/CCCommon.h"
 #include "base/ccMacros.h"
 #include "deprecated/CCString.h"
@@ -35,7 +35,6 @@ THE SOFTWARE.
 #include <sys/stat.h>
 #include <stdio.h>
 #include <errno.h>
-#include <sys/stat.h>
 
 #ifndef CC_RESOURCE_FOLDER_LINUX
 #define CC_RESOURCE_FOLDER_LINUX ("/Resources/")

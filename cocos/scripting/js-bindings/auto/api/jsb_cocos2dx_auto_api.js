@@ -755,10 +755,10 @@ str
 
 /**
  * @method setPhysicsBody
- * @param {cc.Component} arg0
+ * @param {cc.PhysicsBody} arg0
  */
 setPhysicsBody : function (
-component 
+physicsbody 
 )
 {
 },
@@ -1251,16 +1251,6 @@ int
 reorderChild : function (
 node, 
 int 
-)
-{
-},
-
-/**
- * @method ignoreAnchorPointForPosition
- * @param {bool} arg0
- */
-ignoreAnchorPointForPosition : function (
-bool 
 )
 {
 },
@@ -1928,6 +1918,16 @@ getBoundingBox : function (
 )
 {
     return cc.Rect;
+},
+
+/**
+ * @method setIgnoreAnchorPointForPosition
+ * @param {bool} arg0
+ */
+setIgnoreAnchorPointForPosition : function (
+bool 
+)
+{
 },
 
 /**
@@ -3323,9 +3323,9 @@ tasktype
 },
 
 /**
- * @method destoryInstance
+ * @method destroyInstance
  */
-destoryInstance : function (
+destroyInstance : function (
 )
 {
 },
@@ -3495,6 +3495,15 @@ reverse : function (
     return cc.Action;
 },
 
+/**
+ * @method Action
+ * @constructor
+ */
+Action : function (
+)
+{
+},
+
 };
 
 /**
@@ -3638,6 +3647,24 @@ rect
 },
 
 /**
+ * @method initWithTargetAndOffset
+ * @param {cc.Node} arg0
+ * @param {float} arg1
+ * @param {float} arg2
+ * @param {rect_object} arg3
+ * @return {bool}
+ */
+initWithTargetAndOffset : function (
+node, 
+float, 
+float, 
+rect 
+)
+{
+    return false;
+},
+
+/**
  * @method isBoundarySet
  * @return {bool}
  */
@@ -3655,6 +3682,24 @@ isBoundarySet : function (
  */
 create : function (
 node, 
+rect 
+)
+{
+    return cc.Follow;
+},
+
+/**
+ * @method createWithOffset
+ * @param {cc.Node} arg0
+ * @param {float} arg1
+ * @param {float} arg2
+ * @param {rect_object} arg3
+ * @return {cc.Follow}
+ */
+createWithOffset : function (
+node, 
+float, 
+float, 
 rect 
 )
 {
@@ -3860,6 +3905,16 @@ bool
  * @param {bool} arg0
  */
 setPVRImagesHavePremultipliedAlpha : function (
+bool 
+)
+{
+},
+
+/**
+ * @method setPNGPremultipliedAlphaEnabled
+ * @param {bool} arg0
+ */
+setPNGPremultipliedAlphaEnabled : function (
 bool 
 )
 {
@@ -13820,6 +13875,16 @@ node
 },
 
 /**
+ * @method getString
+ * @return {String}
+ */
+getString : function (
+)
+{
+    return ;
+},
+
+/**
  * @method getDisabledColor
  * @return {color3b_object}
  */
@@ -20297,6 +20362,16 @@ int
 },
 
 /**
+ * @method getUniformFlags
+ * @return {cc.GLProgram::UniformFlags}
+ */
+getUniformFlags : function (
+)
+{
+    return cc.GLProgram::UniformFlags;
+},
+
+/**
  * @method getUniformLocationForName
  * @param {char} arg0
  * @return {int}
@@ -21966,7 +22041,7 @@ cc.TextFieldTTF = {
 
 /**
  * @method getCharCount
- * @return {int}
+ * @return {unsigned long}
  */
 getCharCount : function (
 )
@@ -21975,10 +22050,30 @@ getCharCount : function (
 },
 
 /**
+ * @method setCursorChar
+ * @param {char} arg0
+ */
+setCursorChar : function (
+char 
+)
+{
+},
+
+/**
  * @method setSecureTextEntry
  * @param {bool} arg0
  */
 setSecureTextEntry : function (
+bool 
+)
+{
+},
+
+/**
+ * @method setCursorEnabled
+ * @param {bool} arg0
+ */
+setCursorEnabled : function (
 bool 
 )
 {
@@ -22015,6 +22110,36 @@ float
 },
 
 /**
+ * @method appendString
+ * @param {String} arg0
+ */
+appendString : function (
+str 
+)
+{
+},
+
+/**
+ * @method getPasswordTextStyle
+ * @return {String}
+ */
+getPasswordTextStyle : function (
+)
+{
+    return ;
+},
+
+/**
+ * @method setPasswordTextStyle
+ * @param {String} arg0
+ */
+setPasswordTextStyle : function (
+str 
+)
+{
+},
+
+/**
  * @method setColorSpaceHolder
 * @param {color4b_object|color3b_object} color4b
 */
@@ -22045,6 +22170,18 @@ str
 },
 
 /**
+ * @method setCursorFromPoint
+ * @param {vec2_object} arg0
+ * @param {cc.Camera} arg1
+ */
+setCursorFromPoint : function (
+vec2, 
+camera 
+)
+{
+},
+
+/**
  * @method isSecureTextEntry
  * @return {bool}
  */
@@ -22062,6 +22199,16 @@ getPlaceHolder : function (
 )
 {
     return ;
+},
+
+/**
+ * @method setCursorPosition
+ * @param {unsigned long} arg0
+ */
+setCursorPosition : function (
+long 
+)
+{
 },
 
 /**
