@@ -630,6 +630,11 @@ void TextureCache::renameTextureWithKey(const std::string& srcName, const std::s
     }
 }
 
+std::unordered_map<std::string, Texture2D*>& TextureCache::getTextures()
+{
+    return _textures;
+}
+
 #if CC_ENABLE_CACHE_TEXTURE_DATA
 
 std::list<VolatileTexture*> VolatileTextureMgr::_textures;

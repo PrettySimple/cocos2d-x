@@ -211,6 +211,9 @@ public:
     * @since v3.10
     */
     void renameTextureWithKey(const std::string& srcName, const std::string& dstName);
+    
+    // Added by S.Flory (because I need to change the key for a texture and nothing let me do that easily, the function above is incorrectly named
+    std::unordered_map<std::string, Texture2D*>& getTextures();
 
 
 private:
