@@ -1,5 +1,5 @@
 /****************************************************************************
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
 
@@ -145,7 +145,7 @@ void Bone::setBoneData(BoneData *boneData)
     }
 
     _name = _boneData->name;
-    _localZOrder = _boneData->zOrder;
+    _setLocalZOrder(_boneData->zOrder);
 
     _displayManager->initDisplayList(boneData);
 }
@@ -379,7 +379,7 @@ Tween *Bone::getTween()
 
 void Bone::setLocalZOrder(int zOrder)
 {
-    if (_localZOrder != zOrder)
+    if (getLocalZOrder() != zOrder)
         Node::setLocalZOrder(zOrder);
 }
 

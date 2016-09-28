@@ -1,6 +1,6 @@
 /****************************************************************************
  Copyright (c) 2013      cocos2d-x.org
- Copyright (c) 2013-2015 Chukong Technologies Inc.
+ Copyright (c) 2013-2016 Chukong Technologies Inc.
 
  http://www.cocos2d-x.org
 
@@ -104,7 +104,11 @@ bool AppDelegate::applicationDidFinishLaunching()
     console->listenOnTCP(5678);
 
     _testController = TestController::getInstance();
-    
+
+    // To enable built-in VR, use this line.
+//    auto vrImpl = new VRGenericRenderer;
+//    glview->setVR(vrImpl);
+
     return true;
 }
 

@@ -79,7 +79,7 @@ namespace cocostudio
             else if (key == P_TextureData){
                 
                 stExpCocoNode *backGroundChildren = stChildArray[i].GetChildArray(cocoLoader);
-                std::string resType = backGroundChildren[2].GetValue(cocoLoader);;
+                std::string resType = backGroundChildren[2].GetValue(cocoLoader);
                 
                 Widget::TextureResType imageFileNameType = (Widget::TextureResType)valueToInt(resType);
                 
@@ -258,6 +258,11 @@ namespace cocostudio
                 if (FileUtils::getInstance()->isFileExist(imageFileName))
                 {
                     fileExist = true;
+                }
+                else if (SpriteFrameCache::getInstance()->getSpriteFrameByName(imageFileName))
+                {
+                    fileExist = true;
+                    imageFileNameType = 1;
                 }
                 else
                 {
