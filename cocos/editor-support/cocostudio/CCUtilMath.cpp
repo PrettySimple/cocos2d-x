@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "editor-support/cocostudio/CCUtilMath.h"
+#include "cocostudio/CCUtilMath.h"
 
 using namespace cocos2d;
 

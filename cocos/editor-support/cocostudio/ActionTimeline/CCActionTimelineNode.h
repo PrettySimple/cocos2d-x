@@ -25,9 +25,9 @@
 #ifndef __COCOSSTUDIO_CCACTIONTIMELINENODE_H__
 #define __COCOSSTUDIO_CCACTIONTIMELINENODE_H__
 
-#include "editor-support/cocostudio/ActionTimeline/CCActionTimeline.h"
-#include "editor-support/cocostudio/ActionTimeline/CCTimelineMacro.h"
-#include "editor-support/cocostudio/CocosStudioExport.h"
+#include "CCActionTimeline.h"
+#include "CCTimelineMacro.h"
+#include "cocostudio/CocosStudioExport.h"
 
 NS_TIMELINE_BEGIN
 

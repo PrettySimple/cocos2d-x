@@ -7,15 +7,15 @@
 #include "2d/CCSpriteFrameCache.h"
 #include "renderer/CCTextureCache.h"
 
-#include "editor-support/cocosbuilder/CCBReader.h"
-#include "editor-support/cocosbuilder/CCNodeLoader.h"
-#include "editor-support/cocosbuilder/CCNodeLoaderLibrary.h"
-#include "editor-support/cocosbuilder/CCNodeLoaderListener.h"
-#include "editor-support/cocosbuilder/CCBMemberVariableAssigner.h"
-#include "editor-support/cocosbuilder/CCBSelectorResolver.h"
-#include "editor-support/cocosbuilder/CCBAnimationManager.h"
-#include "editor-support/cocosbuilder/CCBSequenceProperty.h"
-#include "editor-support/cocosbuilder/CCBKeyframe.h"
+#include "CCBReader.h"
+#include "CCNodeLoader.h"
+#include "CCNodeLoaderLibrary.h"
+#include "CCNodeLoaderListener.h"
+#include "CCBMemberVariableAssigner.h"
+#include "CCBSelectorResolver.h"
+#include "CCBAnimationManager.h"
+#include "CCBSequenceProperty.h"
+#include "CCBKeyframe.h"
 #include <sstream>
 
 using namespace cocos2d;
@@ -604,7 +604,7 @@ Node * CCBReader::readNodeGraph(Node * pParent)
         embeddedNode->setScaleY(ccbFileNode->getScaleY());
         embeddedNode->setTag(ccbFileNode->getTag());
         embeddedNode->setVisible(true);
-        //embeddedNode->setIgnoreAnchorPointForPosition(ccbFileNode->isIgnoreAnchorPointForPosition());
+        //embeddedNode->ignoreAnchorPointForPosition(ccbFileNode->isIgnoreAnchorPointForPosition());
         
         _animationManager->moveAnimationsFromNode(ccbFileNode, embeddedNode);
 
@@ -613,6 +613,13 @@ Node * CCBReader::readNodeGraph(Node * pParent)
         node = embeddedNode;
     }
 
+#ifdef CCB_ENABLE_JAVASCRIPT
+    /*
+     if (memberVarAssignmentType && memberVarAssignmentName && ![memberVarAssignmentName isEqualToString:@""])
+     {
+     [[JSCocoa sharedController] setObject:node withName:memberVarAssignmentName];
+     }*/
+#else
     if (memberVarAssignmentType != TargetType::NONE)
     {
         if(!_jsControlled)
@@ -689,6 +696,8 @@ Node * CCBReader::readNodeGraph(Node * pParent)
             }
         }
     }
+
+#endif // CCB_ENABLE_JAVASCRIPT
     
     delete _animatedProps;
     _animatedProps = nullptr;

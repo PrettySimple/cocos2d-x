@@ -25,12 +25,12 @@ THE SOFTWARE.
 #ifndef __CCSKELETONNODE_H__
 #define  __CCSKELETONNODE_H__
 
-#include "editor-support/cocostudio/ActionTimeline/CCTimelineMacro.h"
+#include "CCTimelineMacro.h"
 #include "renderer/CCRenderer.h"
-#include "editor-support/cocostudio/CocosStudioExport.h"
+#include "cocostudio/CocosStudioExport.h"
 #include "base/CCMap.h"
 
-#include "editor-support/cocostudio/ActionTimeline/CCBoneNode.h"
+#include "CCBoneNode.h"
 
 NS_TIMELINE_BEGIN
 
