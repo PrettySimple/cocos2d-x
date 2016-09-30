@@ -75,7 +75,9 @@ set(COCOS_SRC cocos2d.cpp
     ${COCOS_RENDERER_SRC}
     ${COCOS_BASE_SRC}
     ${COCOS_AUDIO_SRC}
-    ${COCOS_UI_SRC}
+    #${COCOS_UI_SRC}
+    ui/UIScale9Sprite.cpp
+
     ${COCOS_DEPRECATED_SRC}
     ${COCOS_NETWORK_SRC}
     ${COCOS_EDITOR_SUPPORT_SRC}
