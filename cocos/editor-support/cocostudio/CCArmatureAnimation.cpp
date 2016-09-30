@@ -1,5 +1,5 @@
 /****************************************************************************
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
 
@@ -22,12 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "editor-support/cocostudio/CCArmatureAnimation.h"
-#include "editor-support/cocostudio/CCArmature.h"
-#include "editor-support/cocostudio/CCBone.h"
-#include "editor-support/cocostudio/CCArmatureDefine.h"
-#include "editor-support/cocostudio/CCUtilMath.h"
-#include "editor-support/cocostudio/CCDatas.h"
+#include "cocostudio/CCArmatureAnimation.h"
+#include "cocostudio/CCArmature.h"
+#include "cocostudio/CCBone.h"
+#include "cocostudio/CCArmatureDefine.h"
+#include "cocostudio/CCUtilMath.h"
+#include "cocostudio/CCDatas.h"
 
 using namespace cocos2d;
 
@@ -230,7 +230,7 @@ void ArmatureAnimation::play(const std::string& animationName, int durationTo,  
         Tween *tween = bone->getTween();
         if(movementBoneData && movementBoneData->frameList.size() > 0)
         {
-            _tweenList.push_back(tween);
+            _tweenList.pushBack(tween);
             movementBoneData->duration = _movementData->duration;
             tween->play(movementBoneData, durationTo, durationTween, loop, tweenEasing);
 

@@ -60,7 +60,7 @@ using namespace Microsoft::WRL;
 
 NS_CC_BEGIN
 
-static GLViewImpl* s_pEglView = NULL;
+static GLViewImpl* s_pEglView = nullptr;
 
 GLViewImpl* GLViewImpl::create(const std::string& viewName)
 {
@@ -103,7 +103,7 @@ GLViewImpl::GLViewImpl()
 GLViewImpl::~GLViewImpl()
 {
 	CC_ASSERT(this == s_pEglView);
-    s_pEglView = NULL;
+    s_pEglView = nullptr;
 
 	// TODO: cleanup 
 }
@@ -259,7 +259,7 @@ void GLViewImpl::OnPointerPressed(CoreWindow^ sender, PointerEventArgs^ args)
 
 void GLViewImpl::OnPointerPressed(PointerEventArgs^ args)
 {
-    int id = args->CurrentPoint->PointerId;
+    intptr_t id = args->CurrentPoint->PointerId;
     Vec2 pt = GetPoint(args);
     handleTouchesBegin(1, &id, &pt.x, &pt.y);
 }
@@ -267,7 +267,7 @@ void GLViewImpl::OnPointerPressed(PointerEventArgs^ args)
 void GLViewImpl::OnPointerWheelChanged(CoreWindow^ sender, PointerEventArgs^ args)
 {
     float direction = (float)args->CurrentPoint->Properties->MouseWheelDelta;
-    int id = 0;
+    intptr_t id = 0;
     Vec2 p(0.0f,0.0f);
     handleTouchesBegin(1, &id, &p.x, &p.y);
     p.y += direction;
@@ -297,7 +297,7 @@ void GLViewImpl::OnPointerMoved( PointerEventArgs^ args)
 	{
 		if (m_lastPointValid)
 		{
-			int id = args->CurrentPoint->PointerId;
+            intptr_t id = args->CurrentPoint->PointerId;
 			Vec2 p = GetPoint(args);
 			handleTouchesMove(1, &id, &p.x, &p.y);
 		}
@@ -317,7 +317,7 @@ void GLViewImpl::OnPointerReleased(CoreWindow^ sender, PointerEventArgs^ args)
 
 void GLViewImpl::OnPointerReleased(PointerEventArgs^ args)
 {
-    int id = args->CurrentPoint->PointerId;
+    intptr_t id = args->CurrentPoint->PointerId;
     Vec2 pt = GetPoint(args);
     handleTouchesEnd(1, &id, &pt.x, &pt.y);
 }

@@ -1,7 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010      ForzeField Studios S.L. http://forzefield.com
 Copyright (c) 2010-2012 cocos2d-x.org
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
 
@@ -26,6 +26,7 @@ THE SOFTWARE.
 
 #include "deprecated/CCArray.h"
 #include "deprecated/CCString.h"
+#include "base/ccUTF8.h"
 #include "platform/CCFileUtils.h"
 
 NS_CC_BEGIN
