@@ -66,8 +66,6 @@ endif(NOT CMAKE_BUILD_TYPE)
 
 include(CocosBuildHelpers)
 
-message(${BUILDING_STRING})
-
 # SelectModule() is a macro to select building modules
 include(SelectModule)
 SelectModule()

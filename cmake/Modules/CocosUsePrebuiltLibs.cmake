@@ -134,6 +134,9 @@ if(ANDROID)
   list(APPEND all_prebuilt_libs zlib)
 endif()
 
+# <ANDROID> HACK otherwise can't find the cocos libraries
+set(TEMP ${CMAKE_SYSROOT})
+unset(CMAKE_SYSROOT) # why is this set? It is used as a prefix for all find_library!!! and they can't find it obviously
 
 # END CONFIG
 
@@ -179,8 +182,7 @@ foreach(_lib ${all_prebuilt_libs})
         set(${_prefix}_INCLUDE_DIRS ${include_dirs} CACHE PATH "Path to includes for ${_prefix}" FORCE)
       endif()
       #message(STATUS "${_lib} ${_prefix}_INCLUDE_DIRS: ${${_prefix}_INCLUDE_DIRS}")
-
-      set(lib_dir_candidates
+     set(lib_dir_candidates
         ${_root}/prebuilt/${PLATFORM_FOLDER}/${ANDROID_ABI}
         ${_root}/prebuilt/${PLATFORM_FOLDER}/${ARCH_DIR}
         ${_root}/prebuilt/${PLATFORM_FOLDER}
@@ -192,10 +194,12 @@ foreach(_lib ${all_prebuilt_libs})
       set(libs)
       foreach(_dir ${lib_dir_candidates})
         if(EXISTS ${_dir})
+        message(" CANDIDATE LIB DIR " ${_dir})
           # find all libs
           foreach(_lib_name ${_${_lib}_libs})
             unset(_lib_tmp CACHE)
-            find_library(_lib_tmp ${_lib_name} PATHS ${_dir} NO_DEFAULT_PATH)
+            find_library(_lib_tmp ${_lib_name} PATHS ${_dir} NO_DEFAULT_PATH NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH)
+            message("LIB_TMP " ${_lib_tmp} " " ${_lib_name})
             if(_lib_tmp)
               list(APPEND libs ${_lib_tmp})
             endif()
@@ -214,3 +218,7 @@ foreach(_lib ${all_prebuilt_libs})
     endif(EXISTS ${_root})
   endforeach()
 endforeach()
+
+# <ANDROID> HACK otherwise can't find the cocos libraries
+set(CMAKE_SYSROOT ${TEMP})
+#message(CMAKE_SYSROOT ${CMAKE_SYSROOT})
