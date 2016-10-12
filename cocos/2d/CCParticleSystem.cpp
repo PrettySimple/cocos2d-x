@@ -219,6 +219,7 @@ ParticleSystem::ParticleSystem()
 , _opacityModifyRGB(false)
 , _yCoordFlipped(1)
 , _positionType(PositionType::FREE)
+, _bUseSrcPosOnly(false)
 , _paused(false)
 {
     modeA.gravity.setZero();
@@ -780,13 +781,13 @@ dc[i] = (dc[i] - c[i]) / _particleData.timeToLive[i];\
 }
 
 /**
- * Evenlly distribute position of new born particles between two frames and the two emitter positions (takes into account rotation)
+ * Evenly distribute position of new born particles between two frames and the two emitter positions (takes into account rotation)
  */
 
 void ParticleSystem::interpolateNewBornParticles( int emitCount )
 {
     if( _positionType != PositionType::WORLD ) {
-        // works only for WORLD mode
+        // works only for PositionType::WORLD mode
         // need more time for other modes that may not be relevant for us
         return;
     }
@@ -806,6 +807,8 @@ void ParticleSystem::interpolateNewBornParticles( int emitCount )
     oldQuat.normalize();
 
     int start = _particleCount - emitCount;
+    float emitterX = _bUseSrcPosOnly ? 0.0f : position.x;
+    float emitterY = _bUseSrcPosOnly ? 0.0f : position.y;
     
     for (int i = start; i < _particleCount; ++i)
     {
@@ -816,12 +819,12 @@ void ParticleSystem::interpolateNewBornParticles( int emitCount )
         if(_posVar.x > 0 || _posVar.y > 0) {
             Vec4 startPosVary = Vec4(_particleData.posx[i] - _sourcePosition.x, (_particleData.posy[i] - _sourcePosition.y), 0.0f, 1.0f);
             tmp.transformVector(&startPosVary);
-            _particleData.posx[i] = _sourcePosition.x + startPosVary.x + position.x - (dtPos.x * Q);
-            _particleData.posy[i] = _sourcePosition.y + startPosVary.y + position.y - (dtPos.y * Q);
+            _particleData.posx[i] = _sourcePosition.x + startPosVary.x + emitterX - (dtPos.x * Q);
+            _particleData.posy[i] = _sourcePosition.y + startPosVary.y + emitterY - (dtPos.y * Q);
         }
         else {
-            _particleData.posx[i] += position.x - (dtPos.x * Q);
-            _particleData.posy[i] += position.y - (dtPos.y * Q);
+            _particleData.posx[i] += emitterX - (dtPos.x * Q);
+            _particleData.posy[i] += emitterY - (dtPos.y * Q);
         }
         _particleData.startPosX[i] = _particleData.posx[i];
         _particleData.startPosY[i] = _particleData.posy[i];

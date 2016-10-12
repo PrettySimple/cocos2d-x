@@ -746,6 +746,18 @@ public:
      * @param type The particles movement type.
      */
     void setPositionType(PositionType type) { _positionType = type; }
+
+    /**
+     * In PositionType::WORLD only
+     *
+     * if true, the emition starts from SourcePosition in world space coordinates (the position of the emitter is discarded).
+     *
+     * had to add this functionality for emitters located inside 3D Nodes (any angles for the 3 axis + z depth) that wouldn't work
+     * properly as they emit in 2D
+     * like this you can set the source Emission directly without worying about the emitter transforms and still keep the emitter in the Node hierarchy.
+     * if true, then you will have to use setSourcePosition() and compute the emission position manually (each time a transform changes in the hierarchy)
+     */
+    void setUseSourcePosOnly( bool bUseSrcPosOnly ) { _bUseSrcPosOnly = bUseSrcPosOnly; }
     
     // Overrides
     virtual void onEnter() override;
@@ -973,10 +985,12 @@ protected:
     int _yCoordFlipped;
 
 
-    /** particles movement type: Free or Grouped
+    /** particles movement type: Free, relative, Grouped, or World
      @since v0.8
      */
     PositionType _positionType;
+    
+    bool    _bUseSrcPosOnly;
     
     /** is the emitter paused */
     bool _paused;
