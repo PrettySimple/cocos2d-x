@@ -61,6 +61,7 @@ RenderTexture::RenderTexture()
 , _sprite(nullptr)
 , _saveFileCallback(nullptr)
 , _groupCommand(nullptr)
+, _commandAutoCreated(false)
 {
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     // Listen this event to save render texture before come to background.
@@ -91,7 +92,7 @@ RenderTexture::~RenderTexture()
 
     CC_SAFE_DELETE(_UITextureImage);
     
-    if (_groupCommand != nullptr)
+    if (_groupCommand != nullptr && _commandAutoCreated)
     {
         delete _groupCommand;
         _groupCommand = nullptr;
@@ -802,6 +803,7 @@ void RenderTexture::begin()
     
     if (_groupCommand == nullptr)
     {
+        _commandAutoCreated = true;
         _groupCommand = new GroupCommand();
     }
     _groupCommand->init(_globalZOrder);
@@ -834,6 +836,8 @@ void RenderTexture::end()
 
 void RenderTexture::setGroupCommand(cocos2d::GroupCommand *p_group)
 {
+    if (_groupCommand != nullptr && _commandAutoCreated)
+        delete _groupCommand;
     _groupCommand = p_group;
 }
 

@@ -335,6 +335,7 @@ protected:
     GLclampf     _clearDepth;
     GLint        _clearStencil;
     bool         _autoDraw;
+    bool         _commandAutoCreated;
 
     /** The Sprite being used.
      The sprite, by default, will use the following blending function: GL_ONE, GL_ONE_MINUS_SRC_ALPHA.
