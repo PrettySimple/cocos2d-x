@@ -60,8 +60,6 @@ RenderTexture::RenderTexture()
 , _autoDraw(false)
 , _sprite(nullptr)
 , _saveFileCallback(nullptr)
-, _groupCommand(nullptr)
-, _commandAutoCreated(false)
 {
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     // Listen this event to save render texture before come to background.
@@ -91,12 +89,6 @@ RenderTexture::~RenderTexture()
     }
 
     CC_SAFE_DELETE(_UITextureImage);
-    
-    if (_groupCommand != nullptr && _commandAutoCreated)
-    {
-        delete _groupCommand;
-        _groupCommand = nullptr;
-    }
 }
 
 void RenderTexture::listenToBackground(EventCustom *event)
@@ -801,16 +793,11 @@ void RenderTexture::begin()
         director->multiplyMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, orthoMatrix);
     }
     
-    if (_groupCommand == nullptr)
-    {
-        _commandAutoCreated = true;
-        _groupCommand = new GroupCommand();
-    }
-    _groupCommand->init(_globalZOrder);
+    _groupCommand.init(_globalZOrder);
 
     Renderer *renderer =  Director::getInstance()->getRenderer();
-    renderer->addCommand(_groupCommand);
-    renderer->pushGroup(_groupCommand->getRenderQueueID());
+    renderer->addCommand(&_groupCommand);
+    renderer->pushGroup(_groupCommand.getRenderQueueID());
 
     _beginCommand.init(_globalZOrder);
     _beginCommand.func = CC_CALLBACK_0(RenderTexture::onBegin, this);
@@ -832,13 +819,6 @@ void RenderTexture::end()
     
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
-}
-
-void RenderTexture::setGroupCommand(cocos2d::GroupCommand *p_group)
-{
-    if (_groupCommand != nullptr && _commandAutoCreated)
-        delete _groupCommand;
-    _groupCommand = p_group;
 }
 
 NS_CC_END

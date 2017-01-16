@@ -308,8 +308,6 @@ public:
      * @return If succeed, it will return true.
      */
     bool initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat format, GLuint depthStencilFormat);
-    
-    void setGroupCommand(GroupCommand* p_group);
 
 protected:
     virtual void beginWithClear(float r, float g, float b, float a, float depthValue, int stencilValue, GLbitfield flags);
@@ -335,7 +333,6 @@ protected:
     GLclampf     _clearDepth;
     GLint        _clearStencil;
     bool         _autoDraw;
-    bool         _commandAutoCreated;
 
     /** The Sprite being used.
      The sprite, by default, will use the following blending function: GL_ONE, GL_ONE_MINUS_SRC_ALPHA.
@@ -344,7 +341,7 @@ protected:
      */
     Sprite* _sprite;
     
-    GroupCommand* _groupCommand;
+    GroupCommand  _groupCommand;
     CustomCommand _beginWithClearCommand;
     CustomCommand _clearDepthCommand;
     CustomCommand _clearCommand;
