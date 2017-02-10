@@ -574,7 +574,15 @@ bool GLProgram::link()
 
     if (status == GL_FALSE)
     {
-        CCLOG("cocos2d: ERROR: Failed to link program: %i", _program);
+        GLint maxLength = 0;
+        glGetProgramiv(_program, GL_INFO_LOG_LENGTH, &maxLength);
+        if (maxLength > 1)
+        {
+            char* buf = new char[maxLength];
+            glGetProgramInfoLog(_program, maxLength, &maxLength, buf);
+            CCLOG("cocos2d: ERROR: Failed to link program: %i - %s", _program, buf);
+            delete[] buf;
+        }
         GL::deleteProgram(_program);
         _program = 0;
     }
