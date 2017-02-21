@@ -95,6 +95,17 @@ set_target_properties(cocos2dxandroid_static
   VERSION "${COCOS2D_X_VERSION}"
 )
 
+elseif(EMSCRIPTEN)
+
+set(COCOS_PLATFORM_SPECIFIC_SRC
+  platform/emscripten/CCApplication-emscripten.cpp
+  platform/emscripten/CCCommon-emscripten.cpp
+  platform/emscripten/CCDevice-emscripten.cpp
+  platform/emscripten/CCFileUtils-emscripten.cpp
+  platform/emscripten/CCGLViewImpl-emscripten.cpp
+  platform/emscripten/CCStdC-emscripten.cpp
+)
+
 endif()
 
 #leave andatory external stuff here also

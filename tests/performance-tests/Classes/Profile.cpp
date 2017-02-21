@@ -1,4 +1,5 @@
 #include "Profile.h"
+#include "json/rapidjson.h"
 #include "json/document.h"
 #include "json/prettywriter.h"
 #include "json/stringbuffer.h"

@@ -26,6 +26,8 @@ THE SOFTWARE.
 #include "base/ccUtils.h"
 
 #include <cmath>
+#include <chrono>
+#include <ratio>
 #include <stdlib.h>
 
 #include "base/CCDirector.h"
@@ -256,17 +258,14 @@ double atof(const char* str)
 
 double gettime()
 {
-    struct timeval tv;
-    gettimeofday(&tv, nullptr);
-
-    return (double)tv.tv_sec + (double)tv.tv_usec/1000000;
+    auto duration = std::chrono::system_clock::now().time_since_epoch();
+    return std::chrono::duration_cast<std::chrono::duration<double, std::micro>>(duration).count();
 }
 
 long long getTimeInMilliseconds()
 {
-    struct timeval tv;
-    gettimeofday (&tv, nullptr);
-    return (long long)tv.tv_sec * 1000 + tv.tv_usec / 1000;
+    auto duration = std::chrono::system_clock::now().time_since_epoch();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
 }
 
 Rect getCascadeBoundingBox(Node *node)

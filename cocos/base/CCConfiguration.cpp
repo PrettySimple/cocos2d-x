@@ -39,7 +39,7 @@ Configuration* Configuration::s_sharedConfiguration = nullptr;
 const char* Configuration::CONFIG_FILE_LOADED = "config_file_loaded";
 
 Configuration::Configuration()
-: _maxTextureSize(0) 
+: _maxTextureSize(0)
 , _maxModelviewStackDepth(0)
 , _supportsPVRTC(false)
 , _supportsETC1(false)
@@ -128,22 +128,22 @@ void Configuration::gatherGPUInfo()
     glGetIntegerv(GL_MAX_SAMPLES_APPLE, &_maxSamplesAllowed);
 	_valueDict["gl.max_samples_allowed"] = Value((int)_maxSamplesAllowed);
 #endif
-    
+
     _supportsETC1 = checkForGLExtension("GL_OES_compressed_ETC1_RGB8_texture");
     _valueDict["gl.supports_ETC1"] = Value(_supportsETC1);
-    
+
     _supportsS3TC = checkForGLExtension("GL_EXT_texture_compression_s3tc");
     _valueDict["gl.supports_S3TC"] = Value(_supportsS3TC);
-    
+
     _supportsATITC = checkForGLExtension("GL_AMD_compressed_ATC_texture");
     _valueDict["gl.supports_ATITC"] = Value(_supportsATITC);
-    
+
     _supportsPVRTC = checkForGLExtension("GL_IMG_texture_compression_pvrtc");
 	_valueDict["gl.supports_PVRTC"] = Value(_supportsPVRTC);
 
     _supportsNPOT = true;
 	_valueDict["gl.supports_NPOT"] = Value(_supportsNPOT);
-	
+
     _supportsBGRA8888 = checkForGLExtension("GL_IMG_texture_format_BGRA8888");
 	_valueDict["gl.supports_BGRA8888"] = Value(_supportsBGRA8888);
 
@@ -159,7 +159,7 @@ void Configuration::gatherGPUInfo()
     _supportsOESDepth24 = checkForGLExtension("GL_OES_depth24");
     _valueDict["gl.supports_OES_depth24"] = Value(_supportsOESDepth24);
 
-    
+
     _supportsOESPackedDepthStencil = checkForGLExtension("GL_OES_packed_depth_stencil");
     _valueDict["gl.supports_OES_packed_depth_stencil"] = Value(_supportsOESPackedDepthStencil);
 
@@ -174,7 +174,7 @@ Configuration* Configuration::getInstance()
         s_sharedConfiguration = new (std::nothrow) Configuration();
         s_sharedConfiguration->init();
     }
-    
+
     return s_sharedConfiguration;
 }
 
@@ -293,7 +293,7 @@ bool Configuration::supportsMapBuffer() const
 bool Configuration::supportsOESDepth24() const
 {
     return _supportsOESDepth24;
-    
+
 }
 bool Configuration::supportsOESPackedDepthStencil() const
 {
@@ -352,10 +352,10 @@ void Configuration::loadConfigFile(const std::string& filename)
 	auto metadataIter = dict.find("metadata");
 	if (metadataIter != dict.cend() && metadataIter->second.getType() == Value::Type::MAP)
     {
-        
+
 		const auto& metadata = metadataIter->second.asValueMap();
         auto formatIter = metadata.find("format");
-        
+
 		if (formatIter != metadata.cend())
         {
 			int format = formatIter->second.asInt();
@@ -382,7 +382,7 @@ void Configuration::loadConfigFile(const std::string& filename)
 	}
 
 	// Add all keys in the existing dictionary
-    
+
 	const auto& dataMap = dataIter->second.asValueMap();
     for (auto dataMapIter = dataMap.cbegin(); dataMapIter != dataMap.cend(); ++dataMapIter)
     {
@@ -391,32 +391,32 @@ void Configuration::loadConfigFile(const std::string& filename)
         else
             CCLOG("Key already present. Ignoring '%s'",dataMapIter->first.c_str());
     }
-    
+
     //light info
     std::string name = "cocos2d.x.3d.max_dir_light_in_shader";
 	if (_valueDict.find(name) != _valueDict.end())
         _maxDirLightInShader = _valueDict[name].asInt();
     else
         _valueDict[name] = Value(_maxDirLightInShader);
-    
+
     name = "cocos2d.x.3d.max_point_light_in_shader";
 	if (_valueDict.find(name) != _valueDict.end())
         _maxPointLightInShader = _valueDict[name].asInt();
     else
         _valueDict[name] = Value(_maxPointLightInShader);
-    
+
     name = "cocos2d.x.3d.max_spot_light_in_shader";
 	if (_valueDict.find(name) != _valueDict.end())
         _maxSpotLightInShader = _valueDict[name].asInt();
     else
         _valueDict[name] = Value(_maxSpotLightInShader);
-    
+
     name = "cocos2d.x.3d.animate_quality";
     if (_valueDict.find(name) != _valueDict.end())
         _animate3DQuality = (Animate3DQuality)_valueDict[name].asInt();
     else
         _valueDict[name] = Value((int)_animate3DQuality);
-    
+
     Director::getInstance()->getEventDispatcher()->dispatchEvent(_loadedEvent);
 }
 

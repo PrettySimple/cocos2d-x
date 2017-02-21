@@ -3,6 +3,7 @@
 
 #include <string>
 #include <unordered_map>
+#include "json/rapidjson.h"
 #include "json/document.h"
 #include "editor-support/cocostudio/CocosStudioExport.h"
 

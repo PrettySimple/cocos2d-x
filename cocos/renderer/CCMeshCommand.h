@@ -30,6 +30,7 @@
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCRenderState.h"
 #include "math/CCMath.h"
+#include "platform/CCPlatformConfig.h"
 
 NS_CC_BEGIN
 
@@ -56,17 +57,17 @@ public:
     void setLightMask(unsigned int lightmask);
 
     void execute();
-    
+
     //used for batch
     void preBatchDraw();
     void batchDraw();
     void postBatchDraw();
-    
+
     void genMaterialID(GLuint texID, void* glProgramState, GLuint vertexBuffer, GLuint indexBuffer, BlendFunc blend);
-    
+
     uint32_t getMaterialID() const;
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     void listenRendererRecreated(EventCustom* event);
 #endif
 
@@ -74,27 +75,27 @@ protected:
     //build & release vao
     void buildVAO();
     void releaseVAO();
-    
+
     // apply renderstate, not used when using material
     void applyRenderState();
 
 
     Vec4 _displayColor; // in order to support tint and fade in fade out
-    
+
     // used for skin
     const Vec4* _matrixPalette;
     int   _matrixPaletteSize;
-    
+
     uint32_t _materialID; //material ID
-    
+
     GLuint   _vao; //use vao if possible
-    
+
     GLuint _vertexBuffer;
     GLuint _indexBuffer;
     GLenum _primitive;
     GLenum _indexFormat;
     ssize_t _indexCount;
-    
+
     // States, default value all false
 
 
@@ -112,7 +113,7 @@ protected:
     GLuint _textureID;
 
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     EventListenerCustom* _rendererRecreatedListener;
 #endif
 };

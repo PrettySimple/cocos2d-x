@@ -37,6 +37,7 @@ THE SOFTWARE.
 #include "base/uthash.h"
 #include "renderer/ccGLStateCache.h"
 #include "platform/CCFileUtils.h"
+#include "platform/CCPlatformConfig.h"
 
 // helper functions
 
@@ -458,9 +459,9 @@ bool GLProgram::compileShader(GLuint* shader, GLenum type, const GLchar* source,
 
     const GLchar *sources[] = {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
-        (type == GL_VERTEX_SHADER ? "precision mediump float;\n precision mediump int;\n" : "precision mediump float;\n precision mediump int;\n"),
+        (type == GL_VERTEX_SHADER ? "precision mediump float;\nprecision mediump int;\n" : "precision mediump float;\nprecision mediump int;\n"),
 #elif (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32 && CC_TARGET_PLATFORM != CC_PLATFORM_LINUX && CC_TARGET_PLATFORM != CC_PLATFORM_MAC)
-        (type == GL_VERTEX_SHADER ? "precision highp float;\n precision highp int;\n" : "precision mediump float;\n precision mediump int;\n"),
+        (type == GL_VERTEX_SHADER ? "precision highp float;\nprecision highp int;\n" : "precision mediump float;\nprecision mediump int;\n"),
 #endif
         COCOS2D_SHADER_UNIFORMS,
         convertedDefines.c_str(),

@@ -25,6 +25,7 @@ THE SOFTWARE.
 #ifndef __DICTIONARYHELPER_H__
 #define __DICTIONARYHELPER_H__
 
+#include "json/rapidjson.h"
 #include "json/document.h"
 #include "cocostudio/CocosStudioExport.h"
 

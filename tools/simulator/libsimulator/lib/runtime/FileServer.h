@@ -26,6 +26,7 @@ THE SOFTWARE.
 #define  _FILE_SERVER__H_
 
 #include "cocos2d.h"
+#include "json/rapidjson.h"
 #include "json/document.h"
 #include "json/filestream.h"
 #include "json/stringbuffer.h"

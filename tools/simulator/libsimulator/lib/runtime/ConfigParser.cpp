@@ -1,4 +1,5 @@
 
+#include "json/rapidjson.h"
 #include "json/document.h"
 #include "json/filestream.h"
 #include "json/stringbuffer.h"
