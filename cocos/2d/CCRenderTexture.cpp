@@ -219,10 +219,13 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
         }
 
         auto dataLen = powW * powH * 4;
-        data = malloc(dataLen);
-        CC_BREAK_IF(! data);
 
-        memset(data, 0, dataLen);
+        // we shouldn't have to allocate system memory for a render texture
+        // first patch test before spending little more time on it (we keep a dataLen for initWithData() not to triger an exeption)
+        /*    data = malloc(dataLen);
+            CC_BREAK_IF(! data);
+            memset(data, 0, dataLen); */
+        
         _pixelFormat = format;
 
         _texture = new (std::nothrow) Texture2D();
