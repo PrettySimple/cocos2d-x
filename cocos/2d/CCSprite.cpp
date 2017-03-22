@@ -949,13 +949,7 @@ void Sprite::setFlippedX(bool flippedX)
     if (_flippedX != flippedX)
     {
         _flippedX = flippedX;
-        for (ssize_t i = 0; i < _polyInfo.triangles.vertCount; i++) {
-            auto& v = _polyInfo.triangles.verts[i].vertices;
-            v.x = _contentSize.width -v.x;
-        }
-        if (_textureAtlas) {
-            setDirty(true);
-        }
+        updateFlipX();
     }
 }
 
@@ -969,13 +963,7 @@ void Sprite::setFlippedY(bool flippedY)
     if (_flippedY != flippedY)
     {
         _flippedY = flippedY;
-        for (ssize_t i = 0; i < _polyInfo.triangles.vertCount; i++) {
-            auto& v = _polyInfo.triangles.verts[i].vertices;
-            v.y = _contentSize.height -v.y;
-        }
-        if (_textureAtlas) {
-            setDirty(true);
-        }
+        updateFlipY();
     }
 }
 
@@ -1021,6 +1009,28 @@ void Sprite::updateColor(void)
     
     // self render
     // do nothing
+}
+
+void Sprite::updateFlipX(void)
+{
+    for (ssize_t i = 0; i < _polyInfo.triangles.vertCount; i++) {
+        auto& v = _polyInfo.triangles.verts[i].vertices;
+        v.x = _contentSize.width -v.x;
+    }
+    if (_textureAtlas) {
+        setDirty(true);
+    }
+}
+
+void Sprite::updateFlipY(void)
+{
+    for (ssize_t i = 0; i < _polyInfo.triangles.vertCount; i++) {
+        auto& v = _polyInfo.triangles.verts[i].vertices;
+        v.y = _contentSize.height -v.y;
+    }
+    if (_textureAtlas) {
+        setDirty(true);
+    }
 }
 
 void Sprite::setOpacityModifyRGB(bool modify)
@@ -1085,6 +1095,17 @@ void Sprite::setSpriteFrame(SpriteFrame *spriteFrame)
     if (spriteFrame->hasAnchorPoint())
     {
         setAnchorPoint(spriteFrame->getAnchorPoint());
+    }
+    
+    // reapply color and opacity values to the updated _polygon's vertices
+    updateColor();
+    
+    // reapply flip values to the polygon's vertices
+    if(_flippedX) {
+        updateFlipX();
+    }
+    if (_flippedY) {
+        updateFlipY();
     }
 }
 
