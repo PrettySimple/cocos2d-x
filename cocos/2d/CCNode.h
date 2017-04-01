@@ -1268,7 +1268,7 @@ public:
      *
      * @return The action object with the given tag.
      */
-    Action* getActionByTag(int tag);
+    Action* getActionByTag(int tag) const;
 
     /**
      * Returns the numbers of actions that are running plus the ones that are schedule to run (actions in actionsToAdd and actions arrays).

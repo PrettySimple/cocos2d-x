@@ -1451,7 +1451,7 @@ void Node::stopActionsByFlags(unsigned int flags)
     }
 }
 
-Action * Node::getActionByTag(int tag)
+Action * Node::getActionByTag(int tag) const
 {
     CCASSERT( tag != Action::INVALID_TAG, "Invalid tag");
     return _actionManager->getActionByTag(tag, this);
