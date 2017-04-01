@@ -786,7 +786,7 @@ dc[i] = (dc[i] - c[i]) / _particleData.timeToLive[i];\
 
 void ParticleSystem::interpolateNewBornParticles( int emitCount )
 {
-    if( _positionType != PositionType::WORLD ) {
+    if( _positionType != PositionType::WORLD || _paused ) {
         // works only for PositionType::WORLD mode
         // need more time for other modes that may not be relevant for us
         return;
@@ -922,7 +922,8 @@ void ParticleSystem::update(float dt)
 
         interpolateNewBornParticles(emitCount);
         
-        _emitCounter -= rate * emitCount;
+        if ( !_paused )
+            _emitCounter -= rate * emitCount;
         
         _elapsed += dt;
         if (_elapsed < 0.f)
