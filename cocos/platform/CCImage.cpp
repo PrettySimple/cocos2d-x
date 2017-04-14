@@ -1451,7 +1451,7 @@ bool Image::initWithPVRv2Data(const unsigned char * data, ssize_t dataLen)
                     _unpack = true;
                     _mipmaps[_numberOfMipmaps].len = width*height*4;
                     _mipmaps[_numberOfMipmaps].address = new (std::nothrow) unsigned char[width*height*4];
-                    PVRTDecompressPVRTC(_data+dataOffset,width,height,_mipmaps[_numberOfMipmaps].address, true);
+                    PVRTDecompressPVRTC(_data+dataOffset,1,width,height,_mipmaps[_numberOfMipmaps].address);
                     bpp = 2;
                 }
                 blockSize = 8 * 4; // Pixel by pixel block size for 2bpp
@@ -1465,7 +1465,7 @@ bool Image::initWithPVRv2Data(const unsigned char * data, ssize_t dataLen)
                     _unpack = true;
                     _mipmaps[_numberOfMipmaps].len = width*height*4;
                     _mipmaps[_numberOfMipmaps].address = new (std::nothrow) unsigned char[width*height*4];
-                    PVRTDecompressPVRTC(_data+dataOffset,width,height,_mipmaps[_numberOfMipmaps].address, false);
+                    PVRTDecompressPVRTC(_data+dataOffset,0,width,height,_mipmaps[_numberOfMipmaps].address);
                     bpp = 4;
                 }
                 blockSize = 4 * 4; // Pixel by pixel block size for 4bpp
@@ -1605,7 +1605,7 @@ bool Image::initWithPVRv3Data(const unsigned char * data, ssize_t dataLen)
                     _unpack = true;
                     _mipmaps[i].len = width*height*4;
                     _mipmaps[i].address = new (std::nothrow) unsigned char[width*height*4];
-                    PVRTDecompressPVRTC(_data+dataOffset,width,height,_mipmaps[i].address, true);
+                    PVRTDecompressPVRTC(_data+dataOffset,1,width,height,_mipmaps[i].address);
                     bpp = 2;
                 }
                 blockSize = 8 * 4; // Pixel by pixel block size for 2bpp
@@ -1620,7 +1620,7 @@ bool Image::initWithPVRv3Data(const unsigned char * data, ssize_t dataLen)
                     _unpack = true;
                     _mipmaps[i].len = width*height*4;
                     _mipmaps[i].address = new (std::nothrow) unsigned char[width*height*4];
-                    PVRTDecompressPVRTC(_data+dataOffset,width,height,_mipmaps[i].address, false);
+                    PVRTDecompressPVRTC(_data+dataOffset,0,width,height,_mipmaps[i].address);
                     bpp = 4;
                 }
                 blockSize = 4 * 4; // Pixel by pixel block size for 4bpp
