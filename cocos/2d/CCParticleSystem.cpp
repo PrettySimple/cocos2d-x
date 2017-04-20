@@ -960,7 +960,8 @@ void ParticleSystem::update(float dt)
                     _particleData.atlasIndex[_particleCount - 1] = currentIndex;
                 }
                 --_particleCount;
-                if( _particleCount == 0 && _isAutoRemoveOnFinish )
+                if((_particleCount == 0 && _isAutoRemoveOnFinish && _duration != DURATION_INFINITY) ||
+                   (_particleCount == 0 && _isAutoRemoveOnFinish && _duration == DURATION_INFINITY && !_isActive))
                 {
                     this->unscheduleUpdate();
                     _parent->removeChild(this, true);
