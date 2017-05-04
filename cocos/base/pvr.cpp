@@ -1,8 +1,12 @@
 
 #include "pvr.h"
 
+#include <cstdlib>
 #include <cstdint>
 #include <cassert>
+#include <algorithm>
+
+using namespace std;
 
 using uint8 = std::uint8_t;
 using uint32 = std::uint32_t;

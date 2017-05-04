@@ -10,6 +10,12 @@
 
 */
 
+#include "platform/CCPlatformMacros.h"
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    // this hacks the fopen seek and write function to reroute them to equivalent Aasset functions on android
+    // (asset files are embedded and stay in the APK so they can't be accessed with standard stdio functions)
+    #include "android_fopen.h"
+#endif
 #include "ioapi.h"
 
 namespace cocos2d {

@@ -95,6 +95,11 @@ set_target_properties(cocos2dxandroid_static
   VERSION "${COCOS2D_X_VERSION}"
 )
 
+add_custom_command(TARGET cocos2dxandroid_static POST_BUILD
+                   COMMAND "${CMAKE_COMMAND}" -E
+                   copy "${CMAKE_BINARY_DIR}/lib/libcocos2dxandroid_static.a"
+                   "${LIB_PUBLISH_DIRECTORY}/libcocos2dxandroid_static.a")
+
 endif()
 
 #leave andatory external stuff here also

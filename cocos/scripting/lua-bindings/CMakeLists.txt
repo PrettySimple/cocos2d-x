@@ -134,3 +134,10 @@ set_target_properties(luacocos2d
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
 )
+
+if (ANDROID)
+add_custom_command(TARGET luacocos2d POST_BUILD
+                   COMMAND "${CMAKE_COMMAND}" -E
+                   copy "${CMAKE_BINARY_DIR}/lib/libluacocos2d.a"
+                   "${LIB_PUBLISH_DIRECTORY}/libluacocos2d.a")
+endif()

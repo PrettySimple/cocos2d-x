@@ -10,3 +10,9 @@ set_target_properties(cocostiff
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
 )
 
+if (ANDROID)
+add_custom_command(TARGET cocostiff POST_BUILD
+                   COMMAND "${CMAKE_COMMAND}" -E
+                   copy "${CMAKE_BINARY_DIR}/lib/libcocostiff.a"
+                   "${LIB_PUBLISH_DIRECTORY}/libcocostiff.a")
+endif()

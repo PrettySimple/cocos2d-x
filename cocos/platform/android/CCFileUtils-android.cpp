@@ -217,9 +217,12 @@ bool FileUtilsAndroid::isDirectoryExistInternal(const std::string& dirPath) cons
     }
     else
     {
+        /*
+         * // This was extremely slow, so we are now assuming this method will only be used for
+         * // assets that are not in the APK
         // find it in apk's assets dir
         // Found "assets/" at the beginning of the path and we don't want it
-        CCLOG("find in apk dirPath(%s)", s);
+        CCLOG("looking in apk dirPath(%s)", s);
         if (dirPath.find(ASSETS_FOLDER_NAME) == 0)
         {
             s += ASSETS_FOLDER_NAME_LENGTH;
@@ -233,6 +236,9 @@ bool FileUtilsAndroid::isDirectoryExistInternal(const std::string& dirPath) cons
                 return true;
             }
         }
+        CCLOG("    -> not found in apk dirPath(%s)", s);
+         */
+        return false;
     }
     
     return false;

@@ -77,7 +77,9 @@ set(COCOS_SRC cocos2d.cpp
     ${COCOS_VR_SRC}
     ${COCOS_BASE_SRC}
     ${COCOS_AUDIO_SRC}
-    ${COCOS_UI_SRC}
+    #${COCOS_UI_SRC}
+    ui/UIScale9Sprite.cpp
+
     ${COCOS_DEPRECATED_SRC}
     ${COCOS_NETWORK_SRC}
     ${COCOS_EDITOR_SUPPORT_SRC}
@@ -139,8 +141,9 @@ elseif(MACOSX OR APPLE)
 
 elseif(ANDROID)
   set(PLATFORM_SPECIFIC_LIBS GLESv1_CM GLESv2 EGL log android OpenSLES)
-  get_filename_component(__module_path "${CMAKE_TOOLCHAIN_FILE}" DIRECTORY)
-  include(${__module_path}/AndroidNdkModules.cmake)
+  #get_filename_component(__module_path "${CMAKE_TOOLCHAIN_FILE}" DIRECTORY)
+  #include(${__module_path}/AndroidNdkModules.cmake)
+  include (../cmake/AndroidNdkModules.cmake)
   android_ndk_import_module_cpufeatures()
 else()
   message( FATAL_ERROR "Unsupported platform, CMake will exit" )
@@ -155,6 +158,12 @@ if(LINUX)
 endif(LINUX)
 
 target_link_libraries(cocos2dInternal ${PLATFORM_SPECIFIC_LIBS} ${glfw_other_linker_flags})
+if (ANDROID)
+add_custom_command(TARGET cocos2dInternal POST_BUILD
+                   COMMAND "${CMAKE_COMMAND}" -E
+                   copy "${CMAKE_BINARY_DIR}/lib/libcocos2dInternal.a"
+                   "${LIB_PUBLISH_DIRECTORY}/libcocos2dInternal.a")
+endif()
 
 if(USE_WEBP)
   add_definitions(-DCC_USE_WEBP=1)
@@ -194,3 +203,10 @@ set_target_properties(cocos2d
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     VERSION "${COCOS2D_X_VERSION}"
 )
+
+if (ANDROID)
+add_custom_command(TARGET cocos2d POST_BUILD
+                   COMMAND "${CMAKE_COMMAND}" -E
+                   copy "${CMAKE_BINARY_DIR}/lib/libcocos2d.a"
+                   "${LIB_PUBLISH_DIRECTORY}/libcocos2d.a")
+endif()

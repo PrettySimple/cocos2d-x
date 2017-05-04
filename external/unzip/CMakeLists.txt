@@ -5,6 +5,7 @@ set(UNZIP_SRC
 )
 
 add_library(unzip STATIC
+  android_fopen.cpp
   ${UNZIP_SRC}
 )
 
@@ -14,3 +15,9 @@ set_target_properties(unzip
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
 )
 
+if (ANDROID)
+add_custom_command(TARGET unzip POST_BUILD
+                   COMMAND "${CMAKE_COMMAND}" -E
+                   copy "${CMAKE_BINARY_DIR}/lib/libunzip.a"
+                   "${LIB_PUBLISH_DIRECTORY}/libunzip.a")
+endif()
