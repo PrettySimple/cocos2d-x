@@ -5,7 +5,6 @@ set(UNZIP_SRC
 )
 
 add_library(unzip STATIC
-  android_fopen.cpp
   ${UNZIP_SRC}
 )
 
