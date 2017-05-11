@@ -351,6 +351,27 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
     return ret;
 }
 
+/**
+ *
+ * PRETTY SIMPLE CHANGE !!!
+ *
+ * Flags the Render Texture as PMA
+ *
+ * cocos hard codes RenderTexture as PMA = false
+ * this is wrong (should be at least accessible to allow a choice) in our case as all assets rendered in RTs are pma and we want the Texture2D of the RenderTexture to be PMA
+ */
+void RenderTexture::forcePMATrue()
+{
+    _texture->_hasPremultipliedAlpha = true;
+    
+    // update blend func accordingly (might be redondant)
+    // (u should note that althought cocos flags the RT as PMA false, it sets blending modes for PMA texture line 334 in the function above)
+    
+    _sprite->setBlendFunc( BlendFunc::ALPHA_PREMULTIPLIED );
+    _sprite->setOpacityModifyRGB(true);
+}
+
+
 void RenderTexture::setSprite(Sprite* sprite)
 {
 #if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
