@@ -66,6 +66,8 @@ class GLProgram;
 */
 class CC_DLL Texture2D : public Ref
 {
+    friend class RenderTexture;
+    
 public:
     /** @typedef Texture2D::PixelFormat
      Possible texture pixel formats
