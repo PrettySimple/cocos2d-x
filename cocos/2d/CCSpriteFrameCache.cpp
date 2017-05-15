@@ -548,6 +548,11 @@ void SpriteFrameCache::removeSpriteFramesFromDictionary(ValueMap& dictionary)
     {
         if (_spriteFrames.at(iter->first))
         {
+#ifdef DEBUG
+            if (_spriteFrames.at(iter->first)->getReferenceCount() > 1)
+                CCLOG("cocos2d: SpriteFrameCache: Sprite frame: \"%s\" is leaking: it is removed from cache but reference count is %d",
+                      iter->first.c_str(), _spriteFrames.at(iter->first)->getReferenceCount());
+#endif
             keysToRemove.push_back(iter->first);
         }
     }
@@ -565,6 +570,11 @@ void SpriteFrameCache::removeSpriteFramesFromTexture(Texture2D* texture)
         SpriteFrame* frame = _spriteFrames.at(key);
         if (frame && (frame->getTexture() == texture))
         {
+#ifdef DEBUG
+            if (_spriteFrames.at(key)->getReferenceCount() > 1)
+                CCLOG("cocos2d: SpriteFrameCache: Sprite frame: \"%s\" is leaking: it is removed from cache but reference count is %d",
+                      key.c_str(), _spriteFrames.at(key)->getReferenceCount());
+#endif
             keysToRemove.push_back(key);
         }
     }
