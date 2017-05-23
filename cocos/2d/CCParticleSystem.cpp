@@ -922,8 +922,7 @@ void ParticleSystem::update(float dt)
 
         interpolateNewBornParticles(emitCount);
         
-        if ( !_paused )
-            _emitCounter -= rate * emitCount;
+        _emitCounter -= rate * emitCount;
         
         _elapsed += dt;
         if (_elapsed < 0.f)
