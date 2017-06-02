@@ -64,6 +64,9 @@ set(COCOS_BASE_SRC
   base/ccUTF8.cpp
   base/ccUtils.cpp
   base/etc1.cpp
+  base/etc2.cpp
+  base/etc2unpack.cpp
+  base/etcdec.cxx
   base/pvr.cpp
   base/s3tc.cpp
   ${COCOS_BASE_SPECIFIC_SRC}
