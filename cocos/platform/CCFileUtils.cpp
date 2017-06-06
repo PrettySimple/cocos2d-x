@@ -40,6 +40,7 @@ THE SOFTWARE.
 #include "unzip.h"
 #endif
 #include <sys/stat.h>
+#include <spawn.h>
 
 NS_CC_BEGIN
 
@@ -1154,10 +1155,14 @@ bool FileUtils::createDirectory(const std::string& path)
 
 bool FileUtils::removeDirectory(const std::string& path)
 {
-    std::string command = "rm -r ";
-    // Path may include space.
-    command += "\"" + path + "\"";
-    if (system(command.c_str()) >= 0)
+    char **environ;
+    pid_t pid;
+    const std::string cmd = "\""+path+"\"";
+    char* argv[] = {
+        "rm -r",
+        const_cast<char*>(cmd.c_str())
+    };
+    if (posix_spawn(&pid, argv[0], NULL, NULL, argv, environ) == 0 && waitpid(pid, NULL, 0) >= 0)
         return true;
     else
         return false;
