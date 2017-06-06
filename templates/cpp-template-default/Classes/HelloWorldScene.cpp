@@ -90,6 +90,13 @@ bool HelloWorld::init()
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
 
+    std::uniform_int_distribution<GLubyte> disInt(10, 245);
+    auto spriteSize = sprite->getContentSize();
+    CCLOG("spriteSize w=%f h=%f", spriteSize.width, spriteSize.height);
+    auto layer = LayerColor::create({disInt(gen), disInt(gen), disInt(gen), 128}, spriteSize.width, spriteSize.height);
+    layer->setPosition({visibleSize.width/2 + origin.x - (spriteSize.width / 2.f), visibleSize.height/2 + origin.y - (spriteSize.height / 2.f)});
+    addChild(layer, 0);
+
     return true;
 }
 
