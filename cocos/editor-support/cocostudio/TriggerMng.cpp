@@ -23,7 +23,6 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "TriggerMng.h"
-#include "json/filestream.h"
 #include "json/prettywriter.h"
 #include "json/stringbuffer.h"
 
