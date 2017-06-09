@@ -31,6 +31,7 @@ THE SOFTWARE.
 #include "base/utlist.h"
 #include "base/ccCArray.h"
 #include "base/CCScriptSupport.h"
+#include <atomic>
 
 NS_CC_BEGIN
 
@@ -64,7 +65,7 @@ typedef struct _hashSelectorEntry
     int                 timerIndex;
     Timer               *currentTimer;
     bool                currentTimerSalvaged;
-    bool                paused;
+    std::atomic<bool>   paused;
     UT_hash_handle      hh;
 } tHashTimerEntry;
 
