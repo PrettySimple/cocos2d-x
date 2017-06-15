@@ -536,8 +536,11 @@ void Repeat::update(float dt)
     }
     else
     {
-        if (!(sendUpdateEventToScript(fmodf(dt * _times,1.0f), _innerAction)))
-            _innerAction->update(fmodf(dt * _times,1.0f));
+        if (_total < _times)
+        {
+            if (!(sendUpdateEventToScript(fmodf(dt * _times,1.0f), _innerAction)))
+                _innerAction->update(fmodf(dt * _times,1.0f));
+        }
     }
 }
 
