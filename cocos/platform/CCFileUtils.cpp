@@ -40,7 +40,11 @@ THE SOFTWARE.
 #include "unzip.h"
 #endif
 #include <sys/stat.h>
+
+#include "CCPlatformConfig.h"
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) && (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 #include <spawn.h>
+#endif
 
 NS_CC_BEGIN
 
@@ -1155,6 +1159,7 @@ bool FileUtils::createDirectory(const std::string& path)
 
 bool FileUtils::removeDirectory(const std::string& path)
 {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) && (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
     char **environ;
     pid_t pid;
     const std::string cmd = "\""+path+"\"";
@@ -1166,6 +1171,15 @@ bool FileUtils::removeDirectory(const std::string& path)
         return true;
     else
         return false;
+#else
+    std::string command = "rm -r ";
+    // Path may include space.
+    command += "\"" + path + "\"";
+    if (system(command.c_str()) >= 0)
+        return true;
+    else
+        return false;
+#endif
 }
 
 bool FileUtils::removeFile(const std::string &path)
