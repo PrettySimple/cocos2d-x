@@ -96,6 +96,10 @@ enum class MATRIX_STACK_TYPE
  */
 class CC_DLL Director : public Ref
 {
+    // This friend is a hack to allow the Wizards Headless Bot work, without having to patch actual code in cocos.
+    // Please ensure it stays here when cocos is updated etc.
+    friend class HeadlessAppDelegate;
+    
 public:
     /** Director will trigger an event when projection type is changed. */
     static const char* EVENT_PROJECTION_CHANGED;
