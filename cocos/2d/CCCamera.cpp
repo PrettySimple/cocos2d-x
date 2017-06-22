@@ -114,6 +114,7 @@ Camera::Camera()
 , _viewProjectionUpdated(false)
 , _depth(-1)
 , _fbo(nullptr)
+, _viewport(-1.0f, 0.0f, 0.0f, 0.0f)
 {
     _frustum.setClipZ(true);
     _clearBrush = CameraBackgroundBrush::createDepthBrush(1.f);
@@ -465,11 +466,14 @@ void Camera::applyViewport()
 {
     glGetIntegerv(GL_VIEWPORT, _oldViewport);
 
-    if(nullptr == _fbo)
-    {
+    if (nullptr == _fbo) {
+        if (_viewport._left != -1.0f) {
+            glViewport(_viewport._left, _viewport._bottom,
+                       _viewport._width, _viewport._height);
+        } else {
         glViewport(getDefaultViewport()._left, getDefaultViewport()._bottom, getDefaultViewport()._width, getDefaultViewport()._height);
     }
-    else
+    } else
     {
         glViewport(_viewport._left * _fbo->getWidth(), _viewport._bottom * _fbo->getHeight(),
                    _viewport._width * _fbo->getWidth(), _viewport._height * _fbo->getHeight());
