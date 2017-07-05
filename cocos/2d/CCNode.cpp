@@ -269,7 +269,7 @@ void Node::setLocalZOrder(int z)
 /// used internally to alter the zOrder variable. DON'T call this method manually
 void Node::_setLocalZOrder(int z)
 {
-    _localZOrderAndArrival = (static_cast<std::int64_t>(z) << 32) | (_localZOrderAndArrival & 0xffffffff);
+    _localZOrderAndArrival = (static_cast<std::uint64_t>(z) << 32) | (_localZOrderAndArrival & 0xffffffff);
     _localZOrder = z;
 }
 
