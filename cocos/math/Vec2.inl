@@ -27,11 +27,6 @@ inline Vec2::Vec2()
 {
 }
 
-inline Vec2::Vec2(float xx, float yy)
-: x(xx), y(yy)
-{
-}
-
 inline Vec2::Vec2(const float* array)
 {
     set(array);
@@ -45,10 +40,6 @@ inline Vec2::Vec2(const Vec2& p1, const Vec2& p2)
 inline Vec2::Vec2(const Vec2& copy)
 {
     set(copy);
-}
-
-inline Vec2::~Vec2()
-{
 }
 
 inline bool Vec2::isZero() const

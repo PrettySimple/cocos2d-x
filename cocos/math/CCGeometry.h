@@ -61,7 +61,9 @@ public:
     @param point Conversion from a point.
      */
     Size();
-    Size(float width, float height);
+    constexpr Size(float w, float h) : width(w), height(h)
+    {
+    }
     Size(const Size& other);
     explicit Size(const Vec2& point);
     /**@}*/
@@ -130,7 +132,9 @@ public:
     Constructor a rect.
      * @js NA
      */
-    Rect(float x, float y, float width, float height);
+    constexpr Rect(float x, float y, float width, float height) : origin(x, y), size(width, height)
+    {
+    }
     /**
      Constructor a rect.
      * @js NA
