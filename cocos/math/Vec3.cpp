@@ -29,11 +29,6 @@ Vec3::Vec3()
 {
 }
 
-Vec3::Vec3(float xx, float yy, float zz)
-    : x(xx), y(yy), z(zz)
-{
-}
-
 Vec3::Vec3(const float* array)
 {
     set(array);
@@ -42,11 +37,6 @@ Vec3::Vec3(const float* array)
 Vec3::Vec3(const Vec3& p1, const Vec3& p2)
 {
     set(p1, p2);
-}
-
-Vec3::Vec3(const Vec3& copy)
-{
-    set(copy);
 }
 
 Vec3 Vec3::fromColor(unsigned int color)
@@ -62,10 +52,6 @@ Vec3 Vec3::fromColor(unsigned int color)
 
     Vec3 value(components);
     return value;
-}
-
-Vec3::~Vec3()
-{
 }
 
 float Vec3::angle(const Vec3& v1, const Vec3& v2)

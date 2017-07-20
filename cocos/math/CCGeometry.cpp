@@ -38,10 +38,6 @@ Size::Size(void) : width(0), height(0)
 {
 }
 
-Size::Size(const Size& other) : width(other.width), height(other.height)
-{
-}
-
 Size::Size(const Vec2& point) : width(point.x), height(point.y)
 {
 }

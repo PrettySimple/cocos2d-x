@@ -64,7 +64,9 @@ public:
     constexpr Size(float w, float h) : width(w), height(h)
     {
     }
-    Size(const Size& other);
+    constexpr Size(const Size& other) : width(other.width), height(other.height)
+    {
+    }
     explicit Size(const Vec2& point);
     /**@}*/
 

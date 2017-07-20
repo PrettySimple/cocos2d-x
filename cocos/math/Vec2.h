@@ -79,6 +79,10 @@ public:
     {
     }
 
+    constexpr Vec2(const Vec2& v) : x(v.x), y(v.y)
+    {
+    }
+
     /**
      * Constructs a new vector from the values in the specified array.
      *
