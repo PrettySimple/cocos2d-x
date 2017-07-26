@@ -42,7 +42,7 @@
 #define QUOTEME_(x) #x
 #define QUOTEME(x) QUOTEME_(x)
 
-#if defined(COCOS2D_DEBUG) && COCOS2D_DEBUG > 0
+#if defined(COCOS2D_AUDIO_DEBUG) && COCOS2D_AUDIO_DEBUG > 0
 #define ALOGV(fmt, ...) printf("V/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
 #else
 #define ALOGV(fmt, ...) do {} while(false)
@@ -52,7 +52,7 @@
 #define ALOGW(fmt, ...) printf("W/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
 #define ALOGE(fmt, ...) printf("E/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
 
-#if defined(COCOS2D_DEBUG) && COCOS2D_DEBUG > 0
+#if defined(COCOS2D_AUDIO_DEBUG) && COCOS2D_AUDIO_DEBUG > 0
 #define CHECK_AL_ERROR_DEBUG() \
 do { \
     GLenum __error = alGetError(); \
