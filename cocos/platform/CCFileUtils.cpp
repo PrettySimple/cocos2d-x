@@ -40,6 +40,7 @@ THE SOFTWARE.
 #include "unzip.h"
 #endif
 #include <sys/stat.h>
+#include <stdexcept>
 
 #include "CCPlatformConfig.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
@@ -90,7 +91,7 @@ public:
 
 public:
     DictMaker()
-        : _resultType(SAX_RESULT_NONE)
+        : _resultType(SAX_RESULT_NONE), _curArray(nullptr), _curDict(nullptr)
     {
     }
 
@@ -141,6 +142,10 @@ public:
         const std::string sName(name);
         if( sName == "dict" )
         {
+            // Check to gracefully throw an exception if the wrong method was called.
+            if (_resultType == SAX_RESULT_ARRAY && _curArray == nullptr)
+                throw std::invalid_argument(" The top-level of the XML should be an array. ");
+
             if(_resultType == SAX_RESULT_DICT && _rootDict.empty())
             {
                 _curDict = &_rootDict;
@@ -192,6 +197,10 @@ public:
         else if (sName == "array")
         {
             _state = SAX_ARRAY;
+            
+            // Check to gracefully throw an exception if the wrong method was called.
+            if(_resultType == SAX_RESULT_DICT && _curDict == nullptr)
+                throw std::invalid_argument(" The top-level of the XML should be a dict. ");
 
             if (_resultType == SAX_RESULT_ARRAY && _rootArray.empty())
             {
