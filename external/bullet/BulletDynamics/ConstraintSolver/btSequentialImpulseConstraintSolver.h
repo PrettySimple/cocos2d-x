@@ -24,7 +24,7 @@ class btCollisionObject;
 #include "bullet/BulletDynamics/ConstraintSolver/btContactSolverInfo.h"
 #include "bullet/BulletDynamics/ConstraintSolver/btSolverBody.h"
 #include "bullet/BulletDynamics/ConstraintSolver/btSolverConstraint.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btManifoldPoint.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btManifoldPoint.h"
 #include "bullet/BulletDynamics/ConstraintSolver/btConstraintSolver.h"
 
 ///The btSequentialImpulseConstraintSolver is a fast SIMD implementation of the Projected Gauss Seidel (iterative LCP) method.

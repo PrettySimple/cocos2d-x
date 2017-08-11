@@ -17,7 +17,7 @@ subject to the following restrictions:
 #define BT_CONVEX_HULL_SHAPE_H
 
 #include "btPolyhedralConvexShape.h"
-#include "bullet/BulletCollision//BroadphaseCollision/btBroadphaseProxy.h" // for the types
+#include "bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h" // for the types
 #include "bullet/LinearMath/btAlignedObjectArray.h"
 
 

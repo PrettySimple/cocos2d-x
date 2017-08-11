@@ -15,11 +15,11 @@ subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "bullet/BulletCollision//CollisionShapes/btConvexShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btConvexShape.h"
 #include "btGjkEpaPenetrationDepthSolver.h"
 
 
-#include "bullet/BulletCollision//NarrowPhaseCollision/btGjkEpa2.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btGjkEpa2.h"
 
 bool btGjkEpaPenetrationDepthSolver::calcPenDepth( btSimplexSolverInterface& simplexSolver,
 											  const btConvexShape* pConvexA, const btConvexShape* pConvexB,

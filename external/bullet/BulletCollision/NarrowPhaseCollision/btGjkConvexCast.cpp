@@ -16,7 +16,7 @@ subject to the following restrictions:
 
 
 #include "btGjkConvexCast.h"
-#include "bullet/BulletCollision//CollisionShapes/btSphereShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btSphereShape.h"
 #include "btGjkPairDetector.h"
 #include "btPointCollector.h"
 #include "bullet/LinearMath/btTransformUtil.h"

@@ -14,7 +14,7 @@ subject to the following restrictions:
 */
 
 #include "btMultiBodyConstraintSolver.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btPersistentManifold.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
 #include "btMultiBodyLinkCollider.h"
 
 #include "bullet/BulletDynamics/ConstraintSolver/btSolverBody.h"

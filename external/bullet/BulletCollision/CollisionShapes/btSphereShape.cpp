@@ -14,7 +14,7 @@ subject to the following restrictions:
 */
 
 #include "btSphereShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btCollisionMargin.h"
+#include "bullet/BulletCollision/CollisionShapes/btCollisionMargin.h"
 
 #include "bullet/LinearMath/btQuaternion.h"
 

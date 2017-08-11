@@ -15,7 +15,7 @@ subject to the following restrictions:
 
 #include "btCompoundShape.h"
 #include "btCollisionShape.h"
-#include "bullet/BulletCollision//BroadphaseCollision/btDbvt.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btDbvt.h"
 #include "bullet/LinearMath/btSerializer.h"
 
 btCompoundShape::btCompoundShape(bool enableDynamicAabbTree)

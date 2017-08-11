@@ -21,7 +21,7 @@ subject to the following restrictions:
 
 #include "btCharacterControllerInterface.h"
 
-#include "bullet/BulletCollision//BroadphaseCollision/btCollisionAlgorithm.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h"
 
 
 class btCollisionShape;

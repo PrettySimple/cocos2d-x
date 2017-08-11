@@ -17,9 +17,9 @@ subject to the following restrictions:
 
 #include "btParallelConstraintSolver.h"
 #include "bullet/BulletDynamics/ConstraintSolver/btContactSolverInfo.h"
-#include "bullet/BulletCollision//BroadphaseCollision/btDispatcher.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btDispatcher.h"
 #include "bullet/LinearMath/btPoolAllocator.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btPersistentManifold.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
 #include "bullet/BulletMultiThreaded/vectormath2bullet.h"
 
 #include "bullet/LinearMath/btQuickprof.h"
@@ -597,7 +597,7 @@ void	SolverThreadFunc(void* userPtr,void* lsMemory)
 
 				//PFX_PRINTF("taskId %d start %d num %d\n",arg->taskId,start,batch);
 
-				// ŽŸ‚Ìƒoƒbƒtƒ@‚ðƒZƒbƒg
+				// ï¿½ï¿½ï¿½Ìƒoï¿½bï¿½tï¿½@ï¿½ï¿½Zï¿½bï¿½g
 				int nextStart = start + batch;
 				int rest = btMax((int)io->setupContactConstraints.numContactPairs1 - nextStart,0);
 				int nextBatch = (rest > batch)?batch:rest;
@@ -639,7 +639,7 @@ void	SolverThreadFunc(void* userPtr,void* lsMemory)
 
 				//PFX_PRINTF("taskId %d start %d num %d\n",arg->taskId,start,batch);
 
-				// ŽŸ‚Ìƒoƒbƒtƒ@‚ðƒZƒbƒg
+				// ï¿½ï¿½ï¿½Ìƒoï¿½bï¿½tï¿½@ï¿½ï¿½Zï¿½bï¿½g
 				int nextStart = start + batch;
 				int rest = btMax((int)io->setupContactConstraints.numContactPairs1 - nextStart,0);
 				int nextBatch = (rest > batch)?batch:rest;
@@ -760,18 +760,18 @@ void CustomSplitConstraints(
 {
 	HeapManager pool((unsigned char*)poolBuff,poolBytes);
 
-	// ƒXƒe[ƒgƒ`ƒFƒbƒN—pƒrƒbƒgƒtƒ‰ƒOƒe[ƒuƒ‹
+	// ï¿½Xï¿½eï¿½[ï¿½gï¿½`ï¿½Fï¿½bï¿½Nï¿½pï¿½rï¿½bï¿½gï¿½tï¿½ï¿½ï¿½Oï¿½eï¿½[ï¿½uï¿½ï¿½
 	int bufSize = sizeof(uint8_t)*numRigidBodies;
 	bufSize = ((bufSize+127)>>7)<<7; // 128 bytes alignment
 	uint8_t *bodyTable = (uint8_t*)pool.allocate(bufSize,HeapManager::ALIGN128);
 
-	// ƒyƒAƒ`ƒFƒbƒN—pƒrƒbƒgƒtƒ‰ƒOƒe[ƒuƒ‹
+	// ï¿½yï¿½Aï¿½`ï¿½Fï¿½bï¿½Nï¿½pï¿½rï¿½bï¿½gï¿½tï¿½ï¿½ï¿½Oï¿½eï¿½[ï¿½uï¿½ï¿½
 	uint32_t *pairTable;
 	size_t allocSize = sizeof(uint32_t)*((numPairs+31)/32);
 	pairTable = (uint32_t*)pool.allocate(allocSize);
 	memset(pairTable,0,allocSize);
 
-	// –Ú•W‚Æ‚·‚é•ªŠ„”
+	// ï¿½Ú•Wï¿½Æ‚ï¿½ï¿½é•ªï¿½ï¿½ï¿½ï¿½
 	uint32_t targetCount = btMax(uint32_t(PFX_MIN_SOLVER_PAIRS),btMin(numPairs / (numTasks*2),uint32_t(PFX_MAX_SOLVER_PAIRS)));
 	uint32_t startIndex = 0;
 	
@@ -788,7 +788,7 @@ void CustomSplitConstraints(
 		
 		uint32_t i = startIndex;
 		
-        // ƒ`ƒFƒbƒN—pƒrƒbƒgƒtƒ‰ƒOƒe[ƒuƒ‹‚ðƒNƒŠƒA
+        // ï¿½`ï¿½Fï¿½bï¿½Nï¿½pï¿½rï¿½bï¿½gï¿½tï¿½ï¿½ï¿½Oï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½A
 		memset(bodyTable,0xff,bufSize);
 		
 		for(batchId=0;i<numPairs&&totalCount<numPairs&&batchId<maxBatches;batchId++) {
@@ -809,7 +809,7 @@ void CustomSplitConstraints(
 				uint32_t idxA = pfxGetRigidBodyIdA(pairs[i]);
 				uint32_t idxB = pfxGetRigidBodyIdB(pairs[i]);
 
-				// —¼•û‚Æ‚àƒAƒNƒeƒBƒu‚Å‚È‚¢A‚Ü‚½‚ÍÕ“Ë“_‚ª‚O‚ÌƒyƒA‚Í“o˜^‘ÎÛ‚©‚ç‚Í‚¸‚·
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½Aï¿½Nï¿½eï¿½Bï¿½uï¿½Å‚È‚ï¿½ï¿½Aï¿½Ü‚ï¿½ï¿½ÍÕ“Ë“_ï¿½ï¿½ï¿½Oï¿½Ìƒyï¿½Aï¿½Í“oï¿½^ï¿½ÎÛ‚ï¿½ï¿½ï¿½Í‚ï¿½ï¿½ï¿½
 				if(!pfxGetActive(pairs[i]) || pfxGetNumConstraints(pairs[i]) == 0 ||
 					((pfxGetMotionMaskA(pairs[i])&PFX_MOTION_MASK_STATIC) && (pfxGetMotionMaskB(pairs[i])&PFX_MOTION_MASK_STATIC)) ) {
 					if(startIndexCheck) 
@@ -820,7 +820,7 @@ void CustomSplitConstraints(
 					continue;
 				}
 				
-				// ˆË‘¶«‚Ìƒ`ƒFƒbƒN
+				// ï¿½Ë‘ï¿½ï¿½ï¿½ï¿½Ìƒ`ï¿½Fï¿½bï¿½N
 				if( (bodyTable[idxA] != batchId && bodyTable[idxA] != 0xff) || 
 					(bodyTable[idxB] != batchId && bodyTable[idxB] != 0xff) ) {
 					startIndexCheck = false;
@@ -828,7 +828,7 @@ void CustomSplitConstraints(
 					continue;
 				}
 				
-				// ˆË‘¶«”»’èƒe[ƒuƒ‹‚É“o˜^
+				// ï¿½Ë‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½É“oï¿½^
 				if(pfxGetMotionMaskA(pairs[i])&PFX_MOTION_MASK_DYNAMIC) 
 						bodyTable[idxA] = batchId;
 				if(pfxGetMotionMaskB(pairs[i])&PFX_MOTION_MASK_DYNAMIC) 
@@ -1019,7 +1019,7 @@ void BPE_customConstraintSolverSequentialNew(unsigned int new_num, PfxBroadphase
 		BT_PROFILE("pfxSetupConstraints");
 
 		for(uint32_t i=0;i<numJoints;i++) {
-			// î•ñ‚ÌXV
+			// ï¿½ï¿½ï¿½ÌXï¿½V
 			PfxConstraintPair &pair = jointPairs[i];
 			int idA = pfxGetRigidBodyIdA(pair);
 

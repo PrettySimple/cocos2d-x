@@ -21,33 +21,33 @@ subject to the following restrictions:
 #include "../SpuCollisionTaskProcess.h"
 #include "../SpuGatheringCollisionDispatcher.h" //for SPU_BATCHSIZE_BROADPHASE_PAIRS
 
-#include "bullet/BulletCollision//BroadphaseCollision/btBroadphaseProxy.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
 #include "../SpuContactManifoldCollisionAlgorithm.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionObject.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObject.h"
 #include "SpuContactResult.h"
-#include "bullet/BulletCollision//CollisionShapes/btOptimizedBvh.h"
-#include "bullet/BulletCollision//CollisionShapes/btTriangleIndexVertexArray.h"
-#include "bullet/BulletCollision//CollisionShapes/btSphereShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btConvexPointCloudShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btOptimizedBvh.h"
+#include "bullet/BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h"
+#include "bullet/BulletCollision/CollisionShapes/btSphereShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btConvexPointCloudShape.h"
 
-#include "bullet/BulletCollision//CollisionShapes/btCapsuleShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btCapsuleShape.h"
 
-#include "bullet/BulletCollision//CollisionShapes/btConvexShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btBvhTriangleMeshShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btConvexHullShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btCompoundShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btConvexShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btConvexHullShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btCompoundShape.h"
 
 #include "SpuMinkowskiPenetrationDepthSolver.h"
 //#include "SpuEpaPenetrationDepthSolver.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btGjkPairDetector.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btGjkPairDetector.h"
 
 
 #include "boxBoxDistance.h"
 #include "bullet/BulletMultiThreaded/vectormath2bullet.h"
 #include "SpuCollisionShapes.h" //definition of SpuConvexPolyhedronVertexData
-#include "bullet/BulletCollision//CollisionDispatch/btBoxBoxDetector.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btGjkEpaPenetrationDepthSolver.h"
-#include "bullet/BulletCollision//CollisionShapes/btTriangleShape.h"
+#include "bullet/BulletCollision/CollisionDispatch/btBoxBoxDetector.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btGjkEpaPenetrationDepthSolver.h"
+#include "bullet/BulletCollision/CollisionShapes/btTriangleShape.h"
 
 #ifdef __SPU__
 ///Software caching from the IBM Cell SDK, it reduces 25% SPU time for our test cases

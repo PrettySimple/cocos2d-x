@@ -18,7 +18,7 @@ subject to the following restrictions:
 #include "bullet/LinearMath/btQuaternion.h"
 #include "btStridingMeshInterface.h"
 #include "bullet/LinearMath/btAabbUtil2.h"
-#include "bullet/BulletCollision//CollisionShapes/btCollisionMargin.h"
+#include "bullet/BulletCollision/CollisionShapes/btCollisionMargin.h"
 
 
 btTriangleMeshShape::btTriangleMeshShape(btStridingMeshInterface* meshInterface)

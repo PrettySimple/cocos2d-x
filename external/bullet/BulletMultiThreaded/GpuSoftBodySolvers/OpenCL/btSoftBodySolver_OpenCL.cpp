@@ -14,18 +14,18 @@ subject to the following restrictions:
 */
 
 
-#include "BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h"
-#include "vectormath/vmInclude.h"
+#include "bullet/BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h"
+#include "bullet/vectormath/vmInclude.h"
 #include <stdio.h> //@todo: remove the debugging printf at some stage
 #include "btSoftBodySolver_OpenCL.h"
-#include "BulletSoftBody/btSoftBodySolverVertexBuffer.h"
-#include "BulletSoftBody/btSoftBody.h"
-#include "BulletSoftBody/btSoftBodyInternals.h"
-#include "BulletCollision/CollisionShapes/btCapsuleShape.h"
-#include "BulletCollision/CollisionShapes/btSphereShape.h"
-#include "LinearMath/btQuickprof.h"
+#include "bullet/BulletSoftBody/btSoftBodySolverVertexBuffer.h"
+#include "bullet/BulletSoftBody/btSoftBody.h"
+#include "bullet/BulletSoftBody/btSoftBodyInternals.h"
+#include "bullet/BulletCollision/CollisionShapes/btCapsuleShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btSphereShape.h"
+#include "bullet/LinearMath/btQuickprof.h"
 #include <limits.h>
-#include "BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h"
 
 #define BT_SUPPRESS_OPENCL_ASSERTS
 

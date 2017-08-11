@@ -17,11 +17,11 @@ subject to the following restrictions:
 #include "btDiscreteDynamicsWorld.h"
 
 //collision detection
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionDispatcher.h"
-#include "bullet/BulletCollision//BroadphaseCollision/btSimpleBroadphase.h"
-#include "bullet/BulletCollision//BroadphaseCollision/btCollisionAlgorithm.h"
-#include "bullet/BulletCollision//CollisionShapes/btCollisionShape.h"
-#include "bullet/BulletCollision//CollisionDispatch/btSimulationIslandManager.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btSimpleBroadphase.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h"
+#include "bullet/BulletCollision/CollisionShapes/btCollisionShape.h"
+#include "bullet/BulletCollision/CollisionDispatch/btSimulationIslandManager.h"
 #include "bullet/LinearMath/btTransformUtil.h"
 #include "bullet/LinearMath/btQuickprof.h"
 
@@ -39,7 +39,7 @@ subject to the following restrictions:
 
 
 #include "bullet/LinearMath/btIDebugDraw.h"
-#include "bullet/BulletCollision//CollisionShapes/btSphereShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btSphereShape.h"
 
 
 #include "bullet/BulletDynamics/Dynamics/btActionInterface.h"

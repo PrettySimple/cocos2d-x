@@ -14,8 +14,8 @@ subject to the following restrictions:
 */
 
 #include "btSimpleBroadphase.h"
-#include "bullet/BulletCollision//BroadphaseCollision/btDispatcher.h"
-#include "bullet/BulletCollision//BroadphaseCollision/btCollisionAlgorithm.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btDispatcher.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h"
 
 #include "bullet/LinearMath/btVector3.h"
 #include "bullet/LinearMath/btTransform.h"

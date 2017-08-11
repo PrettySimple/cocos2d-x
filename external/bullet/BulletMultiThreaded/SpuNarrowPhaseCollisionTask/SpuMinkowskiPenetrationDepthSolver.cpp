@@ -16,8 +16,8 @@ subject to the following restrictions:
 #include "SpuMinkowskiPenetrationDepthSolver.h"
 #include "SpuContactResult.h"
 #include "SpuPreferredPenetrationDirections.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btVoronoiSimplexSolver.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btGjkPairDetector.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btVoronoiSimplexSolver.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btGjkPairDetector.h"
 #include "SpuCollisionShapes.h"
 
 #define NUM_UNITSPHERE_POINTS 42

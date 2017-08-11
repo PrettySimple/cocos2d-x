@@ -15,7 +15,7 @@ subject to the following restrictions:
 
 #include "btGhostObject.h"
 #include "btCollisionWorld.h"
-#include "bullet/BulletCollision//CollisionShapes/btConvexShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btConvexShape.h"
 #include "bullet/LinearMath/btAabbUtil2.h"
 
 btGhostObject::btGhostObject()

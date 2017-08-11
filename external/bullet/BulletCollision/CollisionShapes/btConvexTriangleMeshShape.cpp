@@ -14,10 +14,10 @@ subject to the following restrictions:
 */
 
 #include "btConvexTriangleMeshShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btCollisionMargin.h"
+#include "bullet/BulletCollision/CollisionShapes/btCollisionMargin.h"
 
 #include "bullet/LinearMath/btQuaternion.h"
-#include "bullet/BulletCollision//CollisionShapes/btStridingMeshInterface.h"
+#include "bullet/BulletCollision/CollisionShapes/btStridingMeshInterface.h"
 
 
 btConvexTriangleMeshShape ::btConvexTriangleMeshShape (btStridingMeshInterface* meshInterface, bool calcAabb)

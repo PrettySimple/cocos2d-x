@@ -17,12 +17,12 @@ subject to the following restrictions:
 ///The modifications include: switching from b2Vec to btVector3, redefinition of b2Dot, b2Cross
 
 #include "btBox2dBox2dCollisionAlgorithm.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionDispatcher.h"
-#include "bullet/BulletCollision//CollisionShapes/btBoxShape.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionObject.h"
-#include "bullet/BulletCollision//CollisionDispatch/btBoxBoxDetector.h"
-#include "bullet/BulletCollision//CollisionShapes/btBox2dShape.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionObjectWrapper.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
+#include "bullet/BulletCollision/CollisionShapes/btBoxShape.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObject.h"
+#include "bullet/BulletCollision/CollisionDispatch/btBoxBoxDetector.h"
+#include "bullet/BulletCollision/CollisionShapes/btBox2dShape.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h"
 
 #define USE_PERSISTENT_CONTACTS 1
 

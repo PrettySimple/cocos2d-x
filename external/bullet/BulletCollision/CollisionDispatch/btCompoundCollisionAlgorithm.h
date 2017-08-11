@@ -18,12 +18,12 @@ subject to the following restrictions:
 #define BT_COMPOUND_COLLISION_ALGORITHM_H
 
 #include "btActivatingCollisionAlgorithm.h"
-#include "bullet/BulletCollision//BroadphaseCollision/btDispatcher.h"
-#include "bullet/BulletCollision//BroadphaseCollision/btBroadphaseInterface.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btDispatcher.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btBroadphaseInterface.h"
 
-#include "bullet/BulletCollision//NarrowPhaseCollision/btPersistentManifold.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
 class btDispatcher;
-#include "bullet/BulletCollision//BroadphaseCollision/btBroadphaseProxy.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
 #include "btCollisionCreateFunc.h"
 #include "bullet/LinearMath/btAlignedObjectArray.h"
 class btDispatcher;

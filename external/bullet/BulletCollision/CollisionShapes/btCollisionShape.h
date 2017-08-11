@@ -19,7 +19,7 @@ subject to the following restrictions:
 #include "bullet/LinearMath/btTransform.h"
 #include "bullet/LinearMath/btVector3.h"
 #include "bullet/LinearMath/btMatrix3x3.h"
-#include "bullet/BulletCollision//BroadphaseCollision/btBroadphaseProxy.h" //for the shape types
+#include "bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h" //for the shape types
 class btSerializer;
 
 

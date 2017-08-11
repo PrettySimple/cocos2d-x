@@ -17,7 +17,7 @@ subject to the following restrictions:
 #define BT_SOFT_BODY_SOLVER_OPENCL_SIMDAWARE_H
 
 #include "stddef.h" //for size_t
-#include "vectormath/vmInclude.h"
+#include "bullet/vectormath/vmInclude.h"
 
 #include "btSoftBodySolver_OpenCL.h"
 #include "btSoftBodySolverBuffer_OpenCL.h"

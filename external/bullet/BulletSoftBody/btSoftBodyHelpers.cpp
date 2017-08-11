@@ -18,8 +18,8 @@ subject to the following restrictions:
 #include <stdio.h>
 #include <string.h>
 #include "btSoftBodyHelpers.h"
-#include "LinearMath/btConvexHull.h"
-#include "LinearMath/btConvexHullComputer.h"
+#include "bullet/LinearMath/btConvexHull.h"
+#include "bullet/LinearMath/btConvexHullComputer.h"
 
 
 //

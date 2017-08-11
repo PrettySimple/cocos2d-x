@@ -15,14 +15,14 @@ subject to the following restrictions:
 
 
 #include "btSoftRigidDynamicsWorld.h"
-#include "LinearMath/btQuickprof.h"
+#include "bullet/LinearMath/btQuickprof.h"
 
 //softbody & helpers
 #include "btSoftBody.h"
 #include "btSoftBodyHelpers.h"
 #include "btSoftBodySolvers.h"
 #include "btDefaultSoftBodySolver.h"
-#include "LinearMath/btSerializer.h"
+#include "bullet/LinearMath/btSerializer.h"
 
 
 btSoftRigidDynamicsWorld::btSoftRigidDynamicsWorld(

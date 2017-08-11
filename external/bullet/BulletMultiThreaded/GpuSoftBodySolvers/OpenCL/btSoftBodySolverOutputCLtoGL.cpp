@@ -1,7 +1,7 @@
 #include "btSoftBodySolverOutputCLtoGL.h"
 #include <stdio.h> //@todo: remove the debugging printf at some stage
 #include "btSoftBodySolver_OpenCL.h"
-#include "BulletSoftBody/btSoftBodySolverVertexBuffer.h"
+#include "bullet/BulletSoftBody/btSoftBodySolverVertexBuffer.h"
 #include "btSoftBodySolverVertexBuffer_OpenGL.h"
 #include "BulletSoftBody/btSoftBody.h"
 

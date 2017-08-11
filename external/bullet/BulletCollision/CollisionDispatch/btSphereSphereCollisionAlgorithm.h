@@ -17,8 +17,8 @@ subject to the following restrictions:
 #define BT_SPHERE_SPHERE_COLLISION_ALGORITHM_H
 
 #include "btActivatingCollisionAlgorithm.h"
-#include "bullet/BulletCollision//BroadphaseCollision/btBroadphaseProxy.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionCreateFunc.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionCreateFunc.h"
 #include "btCollisionDispatcher.h"
 
 class btPersistentManifold;

@@ -20,7 +20,7 @@ subject to the following restrictions:
 
 
 #include "btPolyhedralContactClipping.h"
-#include "bullet/BulletCollision//CollisionShapes/btConvexPolyhedron.h"
+#include "bullet/BulletCollision/CollisionShapes/btConvexPolyhedron.h"
 
 #include <float.h> //for FLT_MAX
 

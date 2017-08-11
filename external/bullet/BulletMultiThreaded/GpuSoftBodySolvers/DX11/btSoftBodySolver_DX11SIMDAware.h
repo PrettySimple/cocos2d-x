@@ -13,7 +13,7 @@ subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "vectormath/vmInclude.h"
+#include "bullet/vectormath/vmInclude.h"
 #include "btSoftBodySolver_DX11.h"
 #include "btSoftBodySolverVertexBuffer_DX11.h"
 #include "btSoftBodySolverLinkData_DX11SIMDAware.h"

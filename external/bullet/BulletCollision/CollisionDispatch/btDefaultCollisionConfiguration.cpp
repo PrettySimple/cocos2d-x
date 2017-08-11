@@ -15,22 +15,22 @@ subject to the following restrictions:
 
 #include "btDefaultCollisionConfiguration.h"
 
-#include "bullet/BulletCollision//CollisionDispatch/btConvexConvexAlgorithm.h"
-#include "bullet/BulletCollision//CollisionDispatch/btEmptyCollisionAlgorithm.h"
-#include "bullet/BulletCollision//CollisionDispatch/btConvexConcaveCollisionAlgorithm.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCompoundCollisionAlgorithm.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCompoundCompoundCollisionAlgorithm.h"
+#include "bullet/BulletCollision/CollisionDispatch/btConvexConvexAlgorithm.h"
+#include "bullet/BulletCollision/CollisionDispatch/btEmptyCollisionAlgorithm.h"
+#include "bullet/BulletCollision/CollisionDispatch/btConvexConcaveCollisionAlgorithm.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCompoundCollisionAlgorithm.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCompoundCompoundCollisionAlgorithm.h"
 
-#include "bullet/BulletCollision//CollisionDispatch/btConvexPlaneCollisionAlgorithm.h"
-#include "bullet/BulletCollision//CollisionDispatch/btBoxBoxCollisionAlgorithm.h"
-#include "bullet/BulletCollision//CollisionDispatch/btSphereSphereCollisionAlgorithm.h"
+#include "bullet/BulletCollision/CollisionDispatch/btConvexPlaneCollisionAlgorithm.h"
+#include "bullet/BulletCollision/CollisionDispatch/btBoxBoxCollisionAlgorithm.h"
+#include "bullet/BulletCollision/CollisionDispatch/btSphereSphereCollisionAlgorithm.h"
 #ifdef USE_BUGGY_SPHERE_BOX_ALGORITHM
-#include "bullet/BulletCollision//CollisionDispatch/btSphereBoxCollisionAlgorithm.h"
+#include "bullet/BulletCollision/CollisionDispatch/btSphereBoxCollisionAlgorithm.h"
 #endif //USE_BUGGY_SPHERE_BOX_ALGORITHM
-#include "bullet/BulletCollision//CollisionDispatch/btSphereTriangleCollisionAlgorithm.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btGjkEpaPenetrationDepthSolver.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btMinkowskiPenetrationDepthSolver.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btVoronoiSimplexSolver.h"
+#include "bullet/BulletCollision/CollisionDispatch/btSphereTriangleCollisionAlgorithm.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btGjkEpaPenetrationDepthSolver.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btMinkowskiPenetrationDepthSolver.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btVoronoiSimplexSolver.h"
 
 
 

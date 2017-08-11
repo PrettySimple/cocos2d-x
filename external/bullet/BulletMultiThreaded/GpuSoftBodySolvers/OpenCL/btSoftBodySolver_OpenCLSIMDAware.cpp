@@ -14,13 +14,13 @@ subject to the following restrictions:
 */
 
 
-#include "BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h"
-#include "vectormath/vmInclude.h"
+#include "bullet/BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h"
+#include "bullet/vectormath/vmInclude.h"
 #include <stdio.h> //@todo: remove the debugging printf at some stage
 #include "btSoftBodySolver_OpenCLSIMDAware.h"
-#include "BulletSoftBody/btSoftBodySolverVertexBuffer.h"
-#include "BulletSoftBody/btSoftBody.h"
-#include "BulletCollision/CollisionShapes/btCapsuleShape.h"
+#include "bullet/BulletSoftBody/btSoftBodySolverVertexBuffer.h"
+#include "bullet/BulletSoftBody/btSoftBody.h"
+#include "bullet/BulletCollision/CollisionShapes/btCapsuleShape.h"
 #include <limits.h>
 
 #define WAVEFRONT_SIZE 32

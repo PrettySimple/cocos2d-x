@@ -1,5 +1,5 @@
 /*! \file btGImpactShape.h
-\author Francisco Len Nßjera
+\author Francisco Len Nï¿½jera
 */
 /*
 This source file is part of GIMPACT Library.
@@ -25,13 +25,13 @@ subject to the following restrictions:
 #ifndef GIMPACT_SHAPE_H
 #define GIMPACT_SHAPE_H
 
-#include "bullet/BulletCollision//CollisionShapes/btCollisionShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btTriangleShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btStridingMeshInterface.h"
-#include "bullet/BulletCollision//CollisionShapes/btCollisionMargin.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionWorld.h"
-#include "bullet/BulletCollision//CollisionShapes/btConcaveShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btTetrahedronShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btCollisionShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btTriangleShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btStridingMeshInterface.h"
+#include "bullet/BulletCollision/CollisionShapes/btCollisionMargin.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h"
+#include "bullet/BulletCollision/CollisionShapes/btConcaveShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btTetrahedronShape.h"
 #include "bullet/LinearMath/btVector3.h"
 #include "bullet/LinearMath/btTransform.h"
 #include "bullet/LinearMath/btMatrix3x3.h"

@@ -21,7 +21,7 @@ subject to the following restrictions:
 
 
 class btIDebugDraw;
-#include "bullet/BulletCollision//NarrowphaseCollision/btConvexPenetrationDepthSolver.h"
+#include "bullet/BulletCollision/NarrowphaseCollision/btConvexPenetrationDepthSolver.h"
 
 #include "bullet/LinearMath/btTransform.h"
 

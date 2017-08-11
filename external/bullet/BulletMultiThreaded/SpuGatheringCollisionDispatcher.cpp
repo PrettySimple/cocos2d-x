@@ -17,14 +17,14 @@ subject to the following restrictions:
 #include "SpuCollisionTaskProcess.h"
 
 
-#include "bullet/BulletCollision//BroadphaseCollision/btOverlappingPairCache.h"
-#include "bullet/BulletCollision//CollisionDispatch/btEmptyCollisionAlgorithm.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h"
+#include "bullet/BulletCollision/CollisionDispatch/btEmptyCollisionAlgorithm.h"
 #include "SpuContactManifoldCollisionAlgorithm.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionObject.h"
-#include "bullet/BulletCollision//CollisionShapes/btCollisionShape.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObject.h"
+#include "bullet/BulletCollision/CollisionShapes/btCollisionShape.h"
 #include "bullet/LinearMath/btQuickprof.h"
 #include "bullet/BulletMultiThreaded/SpuNarrowPhaseCollisionTask/SpuCollisionShapes.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionObjectWrapper.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h"
 
 
 

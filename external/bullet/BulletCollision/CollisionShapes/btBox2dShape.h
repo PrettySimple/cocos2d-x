@@ -16,9 +16,9 @@ subject to the following restrictions:
 #ifndef BT_OBB_BOX_2D_SHAPE_H
 #define BT_OBB_BOX_2D_SHAPE_H
 
-#include "bullet/BulletCollision//CollisionShapes/btPolyhedralConvexShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btCollisionMargin.h"
-#include "bullet/BulletCollision//BroadphaseCollision/btBroadphaseProxy.h"
+#include "bullet/BulletCollision/CollisionShapes/btPolyhedralConvexShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btCollisionMargin.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
 #include "bullet/LinearMath/btVector3.h"
 #include "bullet/LinearMath/btMinMax.h"
 

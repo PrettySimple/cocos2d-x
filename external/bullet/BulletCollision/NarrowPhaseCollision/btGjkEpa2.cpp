@@ -22,8 +22,8 @@ misrepresented as being the original software.
 /*
 GJK-EPA collision solver by Nathanael Presson, 2008
 */
-#include "bullet/BulletCollision//CollisionShapes/btConvexInternalShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btSphereShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btConvexInternalShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btSphereShape.h"
 #include "btGjkEpa2.h"
 
 #if defined(DEBUG) || defined (_DEBUG)

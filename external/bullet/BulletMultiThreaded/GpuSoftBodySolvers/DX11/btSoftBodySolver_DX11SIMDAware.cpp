@@ -24,14 +24,14 @@ subject to the following restrictions:
 #define STRINGIFY( S ) STRINGIFY2( S )
 #define STRINGIFY2( S ) #S
 
-#include "BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h"
-#include "vectormath/vmInclude.h"
+#include "bullet/BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h"
+#include "bullet/vectormath/vmInclude.h"
 
 #include "btSoftBodySolverLinkData_DX11SIMDAware.h"
 #include "btSoftBodySolver_DX11SIMDAware.h"
 #include "btSoftBodySolverVertexBuffer_DX11.h"
-#include "BulletSoftBody/btSoftBody.h"
-#include "BulletCollision/CollisionShapes/btCapsuleShape.h"
+#include "bullet/BulletSoftBody/btSoftBody.h"
+#include "bullet/BulletCollision/CollisionShapes/btCapsuleShape.h"
 
 #define MSTRINGIFY(A) #A
 static char* UpdatePositionsFromVelocitiesHLSLString = 
