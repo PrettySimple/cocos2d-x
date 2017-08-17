@@ -458,6 +458,14 @@ cxx_library(
       'cocos/ui/*.mm',
     ])),
   ],
+  platform_compiler_flags = [
+    ('^iphone.*', [
+      '-fmodules',
+    ]),
+    ('^macosx.*', [
+      '-fmodules',
+    ]),
+  ],
   exported_platform_linker_flags = [
     ('^iphone.*', glob([
       '-ObjC',
