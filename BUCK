@@ -293,12 +293,13 @@ cxx_library(
     'cocos/base/base64.cpp',
     'cocos/base/CCAsyncTaskPool.cpp',
     'cocos/base/CCAutoreleasePool.cpp',
-    'cocos/base/ccArray.cpp',
-    'cocos/base/CConfiguration.cpp',
+    'cocos/base/ccCArray.cpp',
+    'cocos/base/CCConfiguration.cpp',
     'cocos/base/CCConsole.cpp',
     'cocos/base/CCController.cpp',
     'cocos/base/CCData.cpp',
     'cocos/base/CCDataVisitor.cpp',
+    'cocos/base/CCDirector.cpp',
     'cocos/base/CCEvent.cpp',
     'cocos/base/CCEventAcceleration.cpp',
     'cocos/base/CCEventController.cpp',
@@ -417,7 +418,7 @@ cxx_library(
       'cocos/audio/mac/*.m',
       # base
       'cocos/base/CCController-apple.mm',
-      'cocos/base/CCUserDefault-apple.cpp',
+      'cocos/base/CCUserDefault-apple.mm',
       # network
       'cocos/network/CCDownloader-apple.mm',
       'cocos/network/HttpAsyncConnection-apple.mm',
@@ -440,7 +441,7 @@ cxx_library(
       'cocos/audio/ios/*.m',
       # base
       'cocos/base/CCController-apple.mm',
-      'cocos/base/CCUserDefault-apple.cpp',
+      'cocos/base/CCUserDefault-apple.mm',
       # network
       'cocos/network/CCDownloader-apple.mm',
       'cocos/network/HttpAsyncConnection-apple.mm',
@@ -449,11 +450,17 @@ cxx_library(
       'cocos/platform/apple/*.cpp',
       'cocos/platform/apple/*.mm',
       'cocos/platform/ios/*.mm',
+      'cocos/platform/ios/*.m',
       # ui
       'cocos/ui/UIEditBox/UIEditBoxImpl-ios.mm',
       'cocos/ui/UIEditBox/iOS/*.mm',
       'cocos/ui/UIEditBox/iOS/*.m',
       'cocos/ui/*.mm',
+    ])),
+  ],
+  exported_platform_linker_flags = [
+    ('^iphone.*', glob([
+      '-ObjC',
     ])),
   ],
   exported_deps = [
