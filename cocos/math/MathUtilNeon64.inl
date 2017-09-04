@@ -214,33 +214,31 @@ inline void MathUtilNeon64::transformVec4(const float* m, float xx, float yy, fl
      );
 }
 
-inline void MathUtilNeon64::transformVec4(const float* a, const float* b, float* out)
+inline void MathUtilNeon64::transformVec4(const float* m, const float* v, float* dest)
 {
-    asm volatile
-    (
-     "ld1    {v0.4s}, [%1]     \n\t"   // V[x, y, z, w]
-     "ld1    {v9.4s, v10.4s, v11.4s, v12.4s}, [%2] \n\t"   // M[m0-m7] M[m8-m15]
+    const float32x4_t vec = vld1q_f32(v);
+    const float32x4_t* t = (const float32x4_t*)m;
 
-     "fmul   v13.4s, v9.4s, v0.s[0]     \n\t"   // DST->V = M[m0-m3] * V[x]
-     "fmla   v13.4s, v10.4s, v0.s[1]    \n\t"   // DST->V = M[m4-m7] * V[y]
-     "fmla   v13.4s, v11.4s, v0.s[2]    \n\t"   // DST->V = M[m8-m11] * V[z]
-     "fmla   v13.4s, v12.4s, v0.s[3]    \n\t"   // DST->V = M[m12-m15] * V[w]
-
-     "st1    {v13.4s}, [%0]       \n\t"   // DST->V
-     :
-     : "r"(out), "r"(b), "r"(a)
-     : "v0", "v9", "v10","v11", "v12", "v13", "memory"
-     );
+    float32x4_t ret = vmulq_lane_f32(t[0], vget_low_f32(vec), 0);
+    ret = vmlaq_lane_f32(ret, t[1], vget_low_f32(vec), 1);
+    ret = vmlaq_lane_f32(ret, t[2], vget_high_f32(vec), 0);
+    ret = vmlaq_lane_f32(ret, t[3], vget_high_f32(vec), 1);
+    vst1q_f32(dest, ret);
 }
 
 inline void MathUtilNeon64::crossVec3(const float* l, const float* r, float* dest)
 {
-    const float32x4_t x {l[0], l[1], l[2], 0.f};
-    const float32x4_t y {r[0], r[1], r[2], 0.f};
-    const float32x4_t out = (float32x4_t){ x[1], x[2], x[0], x[3] } * (float32x4_t){ y[2], y[0], y[1], y[3] } - (float32x4_t){ x[2], x[0], x[1], x[3] } * (float32x4_t){ y[1], y[2], y[0], y[3] };
-    dest[0] = out[0];
-    dest[1] = out[1];
-    dest[2] = out[2];
+    const float32x4_t lhs {l[0], l[1], l[2], 0.f};
+    const float32x4_t rhs {r[0], r[1], r[2], 0.f};
+    const float32x2_t lhs_low = vget_low_f32(lhs);
+    const float32x2_t rhs_low = vget_low_f32(rhs);
+    const float32x4_t lhs_yzx = vcombine_f32(vext_f32(lhs_low, vget_high_f32(lhs), 1), lhs_low);
+    const float32x4_t rhs_yzx = vcombine_f32(vext_f32(rhs_low, vget_high_f32(rhs), 1), rhs_low);
+    // Compute cross in order zxy
+    const float32x4_t t = vsubq_f32(vmulq_f32(rhs_yzx, lhs), vmulq_f32(lhs_yzx, rhs));
+    dest[0] = t[1];
+    dest[1] = t[2];
+    dest[2] = t[0];
 }
 
 NS_CC_MATH_END
