@@ -191,27 +191,17 @@ inline void MathUtilNeon64::transposeMatrix(const float* m, float* dst)
 
 inline void MathUtilNeon64::transformVec4(const float* m, float xx, float yy, float zz, float ww, float* out)
 {
-    asm volatile
-    (
-     "ld1    {v0.s}[0],        [%1]    \n\t"    // V[x]
-     "ld1    {v0.s}[1],        [%2]    \n\t"    // V[y]
-     "ld1    {v0.s}[2],        [%3]    \n\t"    // V[z]
-     "ld1    {v0.s}[3],        [%4]    \n\t"    // V[w]
-     "ld1    {v9.4s, v10.4s, v11.4s, v12.4s}, [%5]   \n\t"    // M[m0-m7] M[m8-m15]
+    const float32x4_t vec {xx, yy, zz, ww};
+    const float32x4_t* t = (const float32x4_t*)m;
+    
+    float32x4_t ret = vmulq_lane_f32(t[0], vget_low_f32(vec), 0);
+    ret = vmlaq_lane_f32(ret, t[1], vget_low_f32(vec), 1);
+    ret = vmlaq_lane_f32(ret, t[2], vget_high_f32(vec), 0);
+    ret = vmlaq_lane_f32(ret, t[3], vget_high_f32(vec), 1);
 
-
-     "fmul v13.4s, v9.4s, v0.s[0]           \n\t"      // DST->V = M[m0-m3] * V[x]
-     "fmla v13.4s, v10.4s, v0.s[1]           \n\t"    // DST->V += M[m4-m7] * V[y]
-     "fmla v13.4s, v11.4s, v0.s[2]           \n\t"    // DST->V += M[m8-m11] * V[z]
-     "fmla v13.4s, v12.4s, v0.s[3]           \n\t"    // DST->V += M[m12-m15] * V[w]
-
-     //"st1 {v13.4s}, [%0]               \n\t"    // DST->V[x, y] // DST->V[z]
-     "st1 {v13.2s}, [%0], 8               \n\t"
-     "st1 {v13.s}[2], [%0]                \n\t"
-     :
-     : "r"(out), "r"(&xx), "r"(&yy), "r"(&zz), "r"(&ww), "r"(m)
-     : "v0", "v9", "v10","v11", "v12", "v13", "memory"
-     );
+    out[0] = ret[0];
+    out[1] = ret[1];
+    out[2] = ret[2];
 }
 
 inline void MathUtilNeon64::transformVec4(const float* m, const float* v, float* dest)
