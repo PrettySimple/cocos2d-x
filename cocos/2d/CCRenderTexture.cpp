@@ -647,14 +647,11 @@ void RenderTexture::onBegin()
         director->setProjection(director->getProjection());
         const Size& texSize = _texture->getContentSizeInPixels();
         
-        // Calculate the adjustment ratios based on the old and new projections
+        // Calculate the texture ortho matrix
         Size size = director->getWinSizeInPixels();
-        float widthRatio = size.width / texSize.width;
-        float heightRatio = size.height / texSize.height;
-        
         Mat4 orthoMatrix;
-        Mat4::createOrthographicOffCenter((float)-1.0 / widthRatio, (float)1.0 / widthRatio, (float)-1.0 / heightRatio, (float)1.0 / heightRatio, 1, -1, &orthoMatrix);
-        director->multiplyMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, orthoMatrix);
+        Mat4::createOrthographicOffCenter(0, texSize.width, 0, texSize.height, -1, 1, &orthoMatrix);
+        director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, orthoMatrix);
     }
     
     //calculate viewport
@@ -808,13 +805,9 @@ void RenderTexture::begin()
         
         // Calculate the adjustment ratios based on the old and new projections
         Size size = director->getWinSizeInPixels();
-        
-        float widthRatio = size.width / texSize.width;
-        float heightRatio = size.height / texSize.height;
-        
         Mat4 orthoMatrix;
-        Mat4::createOrthographicOffCenter((float)-1.0 / widthRatio, (float)1.0 / widthRatio, (float)-1.0 / heightRatio, (float)1.0 / heightRatio, -1, 1, &orthoMatrix);
-        director->multiplyMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, orthoMatrix);
+        Mat4::createOrthographicOffCenter(0, texSize.width, 0, texSize.height, -1, 1, &orthoMatrix);
+        director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, orthoMatrix);
     }
     
     _groupCommand.init(_globalZOrder);
