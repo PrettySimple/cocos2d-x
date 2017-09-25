@@ -96,7 +96,7 @@ set(COCOS_SRC cocos2d.cpp
   include_directories(../external/clipper)
 
 add_library(cocos2dInternal ${COCOS_SRC} platform/ios/cocos2d-prefix.pch)
-add_precompiled_header(cocos2dInternal platform/ios/cocos2d-prefix.pch FORCEINCLUDE)
+#add_precompiled_header(cocos2dInternal platform/ios/cocos2d-prefix.pch FORCEINCLUDE)
 
 set_target_properties(cocos2dInternal
     PROPERTIES
