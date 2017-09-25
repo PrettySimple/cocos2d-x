@@ -28,6 +28,10 @@
 
 cmake_minimum_required(VERSION 3.1)
 
+if(ANDROID)
+    include(../cmake/Modules/android/PrecompiledHeader.cmake)
+endif()
+
 if(WINDOWS)
   ADD_DEFINITIONS(-DUNICODE -D_UNICODE)
 endif()
@@ -66,6 +70,7 @@ endif(BUILD_EDITOR_SPINE)
 include(../extensions/CMakeLists.txt)
 
 set(COCOS_SRC cocos2d.cpp
+    cocos2dpch.cpp
     ${COCOS_2D_SRC}
     ${COCOS_3D_SRC}
     ${COCOS_PLATFORM_SRC}
@@ -90,7 +95,8 @@ set(COCOS_SRC cocos2d.cpp
   include_directories(../external/xxtea)
   include_directories(../external/clipper)
 
-add_library(cocos2dInternal ${COCOS_SRC})
+add_library(cocos2dInternal ${COCOS_SRC} platform/ios/cocos2d-prefix.pch)
+#add_precompiled_header(cocos2dInternal platform/ios/cocos2d-prefix.pch FORCEINCLUDE)
 
 set_target_properties(cocos2dInternal
     PROPERTIES
@@ -209,4 +215,6 @@ add_custom_command(TARGET cocos2d POST_BUILD
                    COMMAND "${CMAKE_COMMAND}" -E
                    copy "${CMAKE_BINARY_DIR}/lib/libcocos2d.a"
                    "${LIB_PUBLISH_DIRECTORY}/libcocos2d.a")
+
+
 endif()

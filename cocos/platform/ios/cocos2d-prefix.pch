@@ -2,6 +2,8 @@
 // Prefix header for all source files of the 'cocos2dx' target in the 'cocos2dx' project
 //
 
+#pragma once
+
 #include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
