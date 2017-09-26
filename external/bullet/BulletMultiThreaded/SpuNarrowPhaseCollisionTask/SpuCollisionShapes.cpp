@@ -106,8 +106,8 @@ void computeAabb (btVector3& aabbMin, btVector3& aabbMax, btConvexInternalShape*
 
 void dmaBvhShapeData (bvhMeshShape_LocalStoreMemory* bvhMeshShape, btBvhTriangleMeshShape* triMeshShape)
 {
-	register int dmaSize;
-	register ppu_address_t	dmaPpuAddress2;
+	int dmaSize;
+	ppu_address_t	dmaPpuAddress2;
 
 	dmaSize = sizeof(btTriangleIndexVertexArray);
 	dmaPpuAddress2 = reinterpret_cast<ppu_address_t>(triMeshShape->getMeshInterface());
@@ -222,14 +222,14 @@ void dmaConvexVertexData (SpuConvexPolyhedronVertexData* convexVertexData, btCon
 		return;
 	}
 			
-	register int dmaSize = convexVertexData->gNumConvexPoints*sizeof(btVector3);
+	int dmaSize = convexVertexData->gNumConvexPoints*sizeof(btVector3);
 	ppu_address_t pointsPPU = (ppu_address_t) convexShapeSPU->getUnscaledPoints();
 	cellDmaGet(&convexVertexData->g_convexPointBuffer[0], pointsPPU  , dmaSize, DMA_TAG(2), 0, 0);
 }
 
 void dmaCollisionShape (void* collisionShapeLocation, ppu_address_t collisionShapePtr, uint32_t dmaTag, int shapeType)
 {
-	register int dmaSize = getShapeTypeSize(shapeType);
+	int dmaSize = getShapeTypeSize(shapeType);
 	cellDmaGet(collisionShapeLocation, collisionShapePtr  , dmaSize, DMA_TAG(dmaTag), 0, 0);
 	//cellDmaGetReadOnly(collisionShapeLocation, collisionShapePtr  , dmaSize, DMA_TAG(dmaTag), 0, 0);
 	//cellDmaWaitTagStatusAll(DMA_MASK(dmaTag));
@@ -237,8 +237,8 @@ void dmaCollisionShape (void* collisionShapeLocation, ppu_address_t collisionSha
 
 void dmaCompoundShapeInfo (CompoundShape_LocalStoreMemory* compoundShapeLocation, btCompoundShape* spuCompoundShape, uint32_t dmaTag)
 {
-	register int dmaSize;
-	register	ppu_address_t	dmaPpuAddress2;
+	int dmaSize;
+	ppu_address_t	dmaPpuAddress2;
 	int childShapeCount = spuCompoundShape->getNumChildShapes();
 	dmaSize = childShapeCount * sizeof(btCompoundShapeChild);
 	dmaPpuAddress2 = (ppu_address_t)spuCompoundShape->getChildList();
