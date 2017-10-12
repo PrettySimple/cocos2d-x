@@ -22,37 +22,37 @@ subject to the following restrictions:
 #include "btConvexConvexAlgorithm.h"
 
 //#include <stdio.h>
-#include "bullet/BulletCollision//NarrowPhaseCollision/btDiscreteCollisionDetectorInterface.h"
-#include "bullet/BulletCollision//BroadphaseCollision/btBroadphaseInterface.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionObject.h"
-#include "bullet/BulletCollision//CollisionShapes/btConvexShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btCapsuleShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btTriangleShape.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btDiscreteCollisionDetectorInterface.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btBroadphaseInterface.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObject.h"
+#include "bullet/BulletCollision/CollisionShapes/btConvexShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btCapsuleShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btTriangleShape.h"
 
 
 
-#include "bullet/BulletCollision//NarrowPhaseCollision/btGjkPairDetector.h"
-#include "bullet/BulletCollision//BroadphaseCollision/btBroadphaseProxy.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionDispatcher.h"
-#include "bullet/BulletCollision//CollisionShapes/btBoxShape.h"
-#include "bullet/BulletCollision//CollisionDispatch/btManifoldResult.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btGjkPairDetector.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
+#include "bullet/BulletCollision/CollisionShapes/btBoxShape.h"
+#include "bullet/BulletCollision/CollisionDispatch/btManifoldResult.h"
 
-#include "bullet/BulletCollision//NarrowPhaseCollision/btConvexPenetrationDepthSolver.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btContinuousConvexCollision.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btSubSimplexConvexCast.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btGjkConvexCast.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btConvexPenetrationDepthSolver.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btContinuousConvexCollision.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btSubSimplexConvexCast.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btGjkConvexCast.h"
 
 
 
-#include "bullet/BulletCollision//NarrowPhaseCollision/btVoronoiSimplexSolver.h"
-#include "bullet/BulletCollision//CollisionShapes/btSphereShape.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btVoronoiSimplexSolver.h"
+#include "bullet/BulletCollision/CollisionShapes/btSphereShape.h"
 
-#include "bullet/BulletCollision//NarrowPhaseCollision/btMinkowskiPenetrationDepthSolver.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btMinkowskiPenetrationDepthSolver.h"
 
-#include "bullet/BulletCollision//NarrowPhaseCollision/btGjkEpa2.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btGjkEpaPenetrationDepthSolver.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btPolyhedralContactClipping.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionObjectWrapper.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btGjkEpa2.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btGjkEpaPenetrationDepthSolver.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btPolyhedralContactClipping.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h"
 
 ///////////
 

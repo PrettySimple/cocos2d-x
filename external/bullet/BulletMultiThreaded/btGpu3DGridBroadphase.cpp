@@ -22,7 +22,7 @@ subject to the following restrictions:
 
 #include "bullet/LinearMath/btAlignedAllocator.h"
 #include "bullet/LinearMath/btQuickprof.h"
-#include "bullet/BulletCollision//BroadphaseCollision/btOverlappingPairCache.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h"
 
 
 

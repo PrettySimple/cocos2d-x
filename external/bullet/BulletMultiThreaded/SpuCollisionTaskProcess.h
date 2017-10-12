@@ -31,9 +31,9 @@ subject to the following restrictions:
 #include <string.h>
 
 
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionObject.h"
-#include "bullet/BulletCollision//CollisionShapes/btCollisionShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btConvexShape.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObject.h"
+#include "bullet/BulletCollision/CollisionShapes/btCollisionShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btConvexShape.h"
 
 #include "bullet/LinearMath/btAlignedAllocator.h"
 

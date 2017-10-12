@@ -15,17 +15,17 @@ subject to the following restrictions:
 
 
 #include "btConvexConcaveCollisionAlgorithm.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionObject.h"
-#include "bullet/BulletCollision//CollisionShapes/btMultiSphereShape.h"
-#include "bullet/BulletCollision//BroadphaseCollision/btBroadphaseProxy.h"
-#include "bullet/BulletCollision//CollisionShapes/btConcaveShape.h"
-#include "bullet/BulletCollision//CollisionDispatch/btManifoldResult.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btRaycastCallback.h"
-#include "bullet/BulletCollision//CollisionShapes/btTriangleShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btSphereShape.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObject.h"
+#include "bullet/BulletCollision/CollisionShapes/btMultiSphereShape.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+#include "bullet/BulletCollision/CollisionShapes/btConcaveShape.h"
+#include "bullet/BulletCollision/CollisionDispatch/btManifoldResult.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btRaycastCallback.h"
+#include "bullet/BulletCollision/CollisionShapes/btTriangleShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btSphereShape.h"
 #include "bullet/LinearMath/btIDebugDraw.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btSubSimplexConvexCast.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionObjectWrapper.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btSubSimplexConvexCast.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h"
 
 btConvexConcaveCollisionAlgorithm::btConvexConcaveCollisionAlgorithm( const btCollisionAlgorithmConstructionInfo& ci, const btCollisionObjectWrapper* body0Wrap,const btCollisionObjectWrapper* body1Wrap,bool isSwapped)
 : btActivatingCollisionAlgorithm(ci,body0Wrap,body1Wrap),

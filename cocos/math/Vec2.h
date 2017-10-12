@@ -75,7 +75,13 @@ public:
      * @param xx The x coordinate.
      * @param yy The y coordinate.
      */
-    Vec2(float xx, float yy);
+    constexpr Vec2(float xx, float yy) : x(xx), y(yy)
+    {
+    }
+
+    constexpr Vec2(const Vec2& v) : x(v.x), y(v.y)
+    {
+    }
 
     /**
      * Constructs a new vector from the values in the specified array.
@@ -91,18 +97,6 @@ public:
      * @param p2 The second point.
      */
     Vec2(const Vec2& p1, const Vec2& p2);
-
-    /**
-     * Constructs a new vector that is a copy of the specified vector.
-     *
-     * @param copy The vector to copy.
-     */
-    Vec2(const Vec2& copy);
-
-    /**
-     * Destructor.
-     */
-    ~Vec2();
 
     /**
      * Indicates whether this vector contains all zeros.

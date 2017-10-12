@@ -38,6 +38,13 @@ endif()
 
 project (Cocos2d-X)
 
+# this sets up copy directory for libs, static libs are copied because of gradle bug/feature : static libs are not exported in the aar when building libs,
+# and are erased between projects see this: https://github.com/googlesamples/android-ndk/issues/261
+get_filename_component(LIB_PUBLISH_DIRECTORY
+                       "../../build/built_libs/android/${CMAKE_BUILD_TYPE}/${ANDROID_ABI}"
+                       ABSOLUTE)
+file(MAKE_DIRECTORY ${LIB_PUBLISH_DIRECTORY})
+
 # The version number
 set(COCOS2D_X_VERSION 3.13)
 

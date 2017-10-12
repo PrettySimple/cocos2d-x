@@ -10,3 +10,9 @@ set_target_properties(cocosjpeg
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
 )
 
+if (ANDROID)
+add_custom_command(TARGET cocosjpeg POST_BUILD
+                   COMMAND "${CMAKE_COMMAND}" -E
+                   copy "${CMAKE_BINARY_DIR}/lib/libcocosjpeg.a"
+                   "${LIB_PUBLISH_DIRECTORY}/libcocosjpeg.a")
+endif()

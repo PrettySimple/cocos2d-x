@@ -13,12 +13,30 @@ if(WINDOWS)
         audio/win32/AudioPlayer.cpp
     )
 
-ELSEIF(ANDROID)
+elseif(ANDROID)
     set(COCOS_AUDIO_PLATFORM_SRC
+        audio/android/AssetFd.cpp
+        audio/android/audio_utils/minifloat.cpp
+        audio/android/AudioDecoder.cpp
         audio/android/AudioEngine-inl.cpp
+        audio/android/AudioMixer.cpp
+        audio/android/AudioMixerController.cpp
+        audio/android/AudioPlayerProvider.cpp
+        audio/android/AudioResampler.cpp
+        audio/android/AudioResamplerCubic.cpp
         audio/android/ccdandroidUtils.cpp
+        audio/android/CCThreadPool.cpp
         audio/android/cddSimpleAudioEngine.cpp
         audio/android/jni/cddandroidAndroidJavaEngine.cpp
+        audio/android/PcmAudioPlayer.cpp
+        audio/android/PcmAudioService.cpp
+        audio/android/PcmBufferProvider.cpp
+        audio/android/PcmData.cpp
+        audio/android/Track.cpp
+        audio/android/UrlAudioPlayer.cpp
+        audio/android/utils/Utils.cpp
+        audio/android/audio_utils/format.c
+        audio/android/audio_utils/primitives.c
     )
 
 elseif(LINUX)

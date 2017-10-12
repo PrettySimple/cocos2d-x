@@ -66,6 +66,8 @@ class GLProgram;
 */
 class CC_DLL Texture2D : public Ref
 {
+    friend class RenderTexture;
+    
 public:
     /** @typedef Texture2D::PixelFormat
      Possible texture pixel formats
@@ -102,6 +104,10 @@ public:
         PVRTC2A,
         //! ETC-compressed texture: ETC
         ETC,
+        //! ETC2-compressed texture: ETC2
+        ETC2,
+        ETC2A,
+        ETC2A1,
         //! S3TC-compressed texture: S3TC_Dxt1
         S3TC_DXT1,
         //! S3TC-compressed texture: S3TC_Dxt3

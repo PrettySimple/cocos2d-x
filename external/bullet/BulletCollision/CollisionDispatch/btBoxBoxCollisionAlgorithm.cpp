@@ -14,11 +14,11 @@ subject to the following restrictions:
 */
 
 #include "btBoxBoxCollisionAlgorithm.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionDispatcher.h"
-#include "bullet/BulletCollision//CollisionShapes/btBoxShape.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionObject.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
+#include "bullet/BulletCollision/CollisionShapes/btBoxShape.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObject.h"
 #include "btBoxBoxDetector.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionObjectWrapper.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h"
 #define USE_PERSISTENT_CONTACTS 1
 
 btBoxBoxCollisionAlgorithm::btBoxBoxCollisionAlgorithm(btPersistentManifold* mf,const btCollisionAlgorithmConstructionInfo& ci,const btCollisionObjectWrapper* body0Wrap,const btCollisionObjectWrapper* body1Wrap)

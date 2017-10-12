@@ -52,7 +52,11 @@ struct Color4F;
 struct CC_DLL Color3B
 {
     Color3B();
-    Color3B(GLubyte _r, GLubyte _g, GLubyte _b);
+    constexpr Color3B(GLubyte _r, GLubyte _g, GLubyte _b): r(_r)
+    , g(_g)
+    , b(_b)
+    {
+    }
     explicit Color3B(const Color4B& color);
     explicit Color3B(const Color4F& color);
 

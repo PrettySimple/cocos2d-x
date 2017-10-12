@@ -204,7 +204,9 @@ void ControlButton::setHighlighted(bool enabled)
     needsLayout();
     if( _zoomOnTouchDown )
     {
-        float scaleValue = (isHighlighted() && isEnabled() && !isSelected()) ? _scaleRatio : 1.0f;
+        if (enabled)
+            _initialScale = getScale();
+        float scaleValue = (isHighlighted() && isEnabled() && !isSelected()) ? _scaleRatio * _initialScale : _initialScale;
         Action *zoomAction = ScaleTo::create(0.05f, scaleValue);
         zoomAction->setTag(kZoomActionTag);
         runAction(zoomAction);

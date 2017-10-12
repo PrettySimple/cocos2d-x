@@ -18,7 +18,7 @@ subject to the following restrictions:
 #endif
 
 #include "btMultiSphereShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btCollisionMargin.h"
+#include "bullet/BulletCollision/CollisionShapes/btCollisionMargin.h"
 #include "bullet/LinearMath/btQuaternion.h"
 #include "bullet/LinearMath/btSerializer.h"
 

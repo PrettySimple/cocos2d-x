@@ -30,6 +30,7 @@ THE SOFTWARE.
 #include "audio/android/OpenSLHelper.h"
 
 #include <algorithm>
+#include <malloc.h>
 
 namespace cocos2d { namespace experimental {
 

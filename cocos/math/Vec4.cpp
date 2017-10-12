@@ -31,10 +31,6 @@ Vec4::Vec4()
 {
 }
 
-Vec4::Vec4(float xx, float yy, float zz, float ww)
-    : x(xx), y(yy), z(zz), w(ww)
-{
-}
 
 Vec4::Vec4(const float* src)
 {
@@ -64,10 +60,6 @@ Vec4 Vec4::fromColor(unsigned int color)
 
     Vec4 value(components);
     return value;
-}
-
-Vec4::~Vec4()
-{
 }
 
 bool Vec4::isZero() const

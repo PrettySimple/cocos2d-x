@@ -14,9 +14,9 @@ subject to the following restrictions:
 */
 
 #include "btSimpleDynamicsWorld.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionDispatcher.h"
-#include "bullet/BulletCollision//BroadphaseCollision/btSimpleBroadphase.h"
-#include "bullet/BulletCollision//CollisionShapes/btCollisionShape.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btSimpleBroadphase.h"
+#include "bullet/BulletCollision/CollisionShapes/btCollisionShape.h"
 #include "bullet/BulletDynamics/Dynamics/btRigidBody.h"
 #include "bullet/BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h"
 #include "bullet/BulletDynamics/ConstraintSolver/btContactSolverInfo.h"

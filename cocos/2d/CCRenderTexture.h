@@ -362,7 +362,9 @@ protected:
     void onClearDepth();
 
     void onSaveToFile(const std::string& fileName, bool isRGBA = true);
-    
+
+    void forcePMATrue();
+
     Mat4 _oldTransMatrix, _oldProjMatrix;
     Mat4 _transformMatrix, _projectionMatrix;
 private:

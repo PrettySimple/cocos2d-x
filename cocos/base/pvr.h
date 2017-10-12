@@ -16,7 +16,11 @@
 #define __PVR_H__
 
 
-int PVRTDecompressPVRTC(const void * const pCompressedData,const int XDim,const int YDim,void *pDestData,const bool Do2bitMode);
+int PVRTDecompressPVRTC(const void* pCompressedData,
+                        int Do2bitMode,
+                        int XDim,
+                        int YDim,
+                        unsigned char* pResultImage);
 
 
 #endif //__PVR_H__

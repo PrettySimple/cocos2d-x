@@ -32,6 +32,10 @@ macro(android_ndk_import_module_cpufeatures)
         include_directories(${ANDROID_NDK}/sources/android/cpufeatures)      
         add_library(cpufeatures ${ANDROID_NDK}/sources/android/cpufeatures/cpu-features.c)
         target_link_libraries(cpufeatures dl)
+        add_custom_command(TARGET cpufeatures POST_BUILD
+                   COMMAND "${CMAKE_COMMAND}" -E
+                   copy "${CMAKE_BINARY_DIR}/cocos/libcpufeatures.a"
+                   "${LIB_PUBLISH_DIRECTORY}/libcpufeatures.a")
     endif()
 endmacro()
 
@@ -52,7 +56,6 @@ macro(android_ndk_import_module_ndk_helper)
         file(GLOB _NDK_HELPER_SRCS ${ANDROID_NDK}/sources/android/ndk_helper/*.cpp ${ANDROID_NDK}/sources/android/ndk_helper/gl3stub.c)
         add_library(ndk_helper ${_NDK_HELPER_SRCS})
         target_link_libraries(ndk_helper log android EGL GLESv2 cpufeatures native_app_glue)
-        
         unset(_NDK_HELPER_SRCS)
     endif()
 endmacro()

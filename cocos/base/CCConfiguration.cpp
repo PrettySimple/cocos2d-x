@@ -29,6 +29,7 @@ THE SOFTWARE.
 #include "base/CCEventCustom.h"
 #include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
+#include "base/etc2types.h"
 
 NS_CC_BEGIN
 
@@ -43,6 +44,7 @@ Configuration::Configuration()
 , _maxModelviewStackDepth(0)
 , _supportsPVRTC(false)
 , _supportsETC1(false)
+, _supportsETC2(false)
 , _supportsS3TC(false)
 , _supportsATITC(false)
 , _supportsNPOT(false)
@@ -131,6 +133,10 @@ void Configuration::gatherGPUInfo()
 
     _supportsETC1 = checkForGLExtension("GL_OES_compressed_ETC1_RGB8_texture");
     _valueDict["gl.supports_ETC1"] = Value(_supportsETC1);
+
+    int glMajorVersion = 0;
+    glGetIntegerv(GL_MAJOR_VERSION, &glMajorVersion);
+    _supportsETC2 = glMajorVersion >= 3;
 
     _supportsS3TC = checkForGLExtension("GL_EXT_texture_compression_s3tc");
     _valueDict["gl.supports_S3TC"] = Value(_supportsS3TC);
@@ -239,6 +245,12 @@ bool Configuration::supportsETC() const
     return false;
 #endif
 }
+
+bool Configuration::supportsETC2() const
+{
+    return _supportsETC2;
+}
+
 
 bool Configuration::supportsS3TC() const
 {

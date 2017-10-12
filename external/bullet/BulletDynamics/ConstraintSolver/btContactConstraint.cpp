@@ -20,7 +20,7 @@ subject to the following restrictions:
 #include "btJacobianEntry.h"
 #include "btContactSolverInfo.h"
 #include "bullet/LinearMath/btMinMax.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btManifoldPoint.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btManifoldPoint.h"
 
 
 
@@ -66,7 +66,7 @@ void	btContactConstraint::buildJacobian()
 #include "btJacobianEntry.h"
 #include "btContactSolverInfo.h"
 #include "bullet/LinearMath/btMinMax.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btManifoldPoint.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btManifoldPoint.h"
 
 
 

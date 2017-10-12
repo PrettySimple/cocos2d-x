@@ -14,7 +14,7 @@ subject to the following restrictions:
 */
 
 
-#include "BulletMultiThreaded/GpuSoftBodySolvers/Shared/btSoftBodySolverData.h"
+#include "bullet/BulletMultiThreaded/GpuSoftBodySolvers/Shared/btSoftBodySolverData.h"
 #include "btSoftBodySolverBuffer_OpenCL.h"
 
 

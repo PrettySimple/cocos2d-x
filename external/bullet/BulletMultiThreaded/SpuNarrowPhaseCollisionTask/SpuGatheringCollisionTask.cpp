@@ -21,33 +21,33 @@ subject to the following restrictions:
 #include "../SpuCollisionTaskProcess.h"
 #include "../SpuGatheringCollisionDispatcher.h" //for SPU_BATCHSIZE_BROADPHASE_PAIRS
 
-#include "bullet/BulletCollision//BroadphaseCollision/btBroadphaseProxy.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
 #include "../SpuContactManifoldCollisionAlgorithm.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionObject.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObject.h"
 #include "SpuContactResult.h"
-#include "bullet/BulletCollision//CollisionShapes/btOptimizedBvh.h"
-#include "bullet/BulletCollision//CollisionShapes/btTriangleIndexVertexArray.h"
-#include "bullet/BulletCollision//CollisionShapes/btSphereShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btConvexPointCloudShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btOptimizedBvh.h"
+#include "bullet/BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h"
+#include "bullet/BulletCollision/CollisionShapes/btSphereShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btConvexPointCloudShape.h"
 
-#include "bullet/BulletCollision//CollisionShapes/btCapsuleShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btCapsuleShape.h"
 
-#include "bullet/BulletCollision//CollisionShapes/btConvexShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btBvhTriangleMeshShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btConvexHullShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btCompoundShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btConvexShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btConvexHullShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btCompoundShape.h"
 
 #include "SpuMinkowskiPenetrationDepthSolver.h"
 //#include "SpuEpaPenetrationDepthSolver.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btGjkPairDetector.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btGjkPairDetector.h"
 
 
 #include "boxBoxDistance.h"
 #include "bullet/BulletMultiThreaded/vectormath2bullet.h"
 #include "SpuCollisionShapes.h" //definition of SpuConvexPolyhedronVertexData
-#include "bullet/BulletCollision//CollisionDispatch/btBoxBoxDetector.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btGjkEpaPenetrationDepthSolver.h"
-#include "bullet/BulletCollision//CollisionShapes/btTriangleShape.h"
+#include "bullet/BulletCollision/CollisionDispatch/btBoxBoxDetector.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btGjkEpaPenetrationDepthSolver.h"
+#include "bullet/BulletCollision/CollisionShapes/btTriangleShape.h"
 
 #ifdef __SPU__
 ///Software caching from the IBM Cell SDK, it reduces 25% SPU time for our test cases
@@ -430,8 +430,8 @@ void btConvexPlaneCollideSingleContact (SpuCollisionPairInput* wuInput,Collision
 void	ProcessConvexPlaneSpuCollision(SpuCollisionPairInput* wuInput, CollisionTask_LocalStoreMemory* lsMemPtr, SpuContactResult& spuContacts)
 {
 
-		register	int dmaSize = 0;
-		register ppu_address_t	dmaPpuAddress2;
+		int dmaSize = 0;
+		ppu_address_t	dmaPpuAddress2;
 		btPersistentManifold* manifold = (btPersistentManifold*)wuInput->m_persistentManifoldPtr;
 
 		///DMA in the vertices for convex shapes
@@ -648,8 +648,8 @@ int degenerateStats[MAX_DEGENERATE_STATS]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 ///////////////////
 void	ProcessSpuConvexConvexCollision(SpuCollisionPairInput* wuInput, CollisionTask_LocalStoreMemory* lsMemPtr, SpuContactResult& spuContacts)
 {
-	register int dmaSize;
-	register ppu_address_t	dmaPpuAddress2;
+	int dmaSize;
+	ppu_address_t	dmaPpuAddress2;
 	
 #ifdef DEBUG_SPU_COLLISION_DETECTION
 	//spu_printf("SPU: ProcessSpuConvexConvexCollision\n");
@@ -806,8 +806,8 @@ template<typename T> void DoSwap(T& a, T& b)
 
 SIMD_FORCE_INLINE void	dmaAndSetupCollisionObjects(SpuCollisionPairInput& collisionPairInput, CollisionTask_LocalStoreMemory& lsMem)
 {
-	register int dmaSize;
-	register ppu_address_t	dmaPpuAddress2;
+	int dmaSize;
+	ppu_address_t	dmaPpuAddress2;
 		
 	dmaSize = sizeof(btCollisionObject);//btTransform);
 	dmaPpuAddress2 = /*collisionPairInput.m_isSwapped ? (ppu_address_t)lsMem.gProxyPtr1->m_clientObject :*/ (ppu_address_t)lsMem.getlocalCollisionAlgorithm()->getCollisionObject0();
@@ -1084,16 +1084,16 @@ void	processCollisionTask(void* userPtr, void* lsMemPtr)
 	dmaInPtr += MIDPHASE_WORKUNIT_PAGE_SIZE;
 
 	
-	register unsigned char *inputPtr;
-	register unsigned int numOnPage;
-	register unsigned int j;
+	unsigned char *inputPtr;
+	unsigned int numOnPage;
+	unsigned int j;
 	SpuGatherAndProcessWorkUnitInput* wuInputs;	
-	register int dmaSize;
-	register ppu_address_t	dmaPpuAddress;
-	register ppu_address_t	dmaPpuAddress2;
+	int dmaSize;
+	ppu_address_t	dmaPpuAddress;
+	ppu_address_t	dmaPpuAddress2;
 
 	int numPairs;
-	register int p;
+	int p;
 	SpuCollisionPairInput collisionPairInput;
 	
 	for (unsigned int i = 0; btLikely(i < numPages); i++)

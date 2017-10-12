@@ -110,3 +110,10 @@ set_target_properties(jscocos2d
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
 )
+
+if (ANDROID)
+add_custom_command(TARGET jscocos2d POST_BUILD
+                   COMMAND "${CMAKE_COMMAND}" -E
+                   copy "${CMAKE_BINARY_DIR}/lib/libjscocos2d.a"
+                   "${LIB_PUBLISH_DIRECTORY}/libjscocos2d.a")
+endif()

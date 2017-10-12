@@ -13,13 +13,13 @@ subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h"
-#include "vectormath/vmInclude.h"
+#include "bullet/BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h"
+#include "bullet/vectormath/vmInclude.h"
 
 #include "btSoftBodySolver_DX11.h"
 #include "btSoftBodySolverVertexBuffer_DX11.h"
-#include "BulletSoftBody/btSoftBody.h"
-#include "BulletCollision/CollisionShapes/btCapsuleShape.h"
+#include "bullet/BulletSoftBody/btSoftBody.h"
+#include "bullet/BulletCollision/CollisionShapes/btCapsuleShape.h"
 #include <stdio.h> //printf
 #define MSTRINGIFY(A) #A
 static char* PrepareLinksHLSLString = 

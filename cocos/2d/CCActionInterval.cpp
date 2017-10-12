@@ -119,7 +119,10 @@ bool ActionInterval::sendUpdateEventToScript(float dt, Action *actionObject)
 
 bool ActionInterval::isDone() const
 {
-    return _elapsed >= _duration;
+    // return _elapsed >= _duration;
+    // fix #14936 _duration is not 0, but _elapsed is 0.  (https://github.com/cocos2d/cocos2d-x/pull/17190/files)
+    // this caused some 0 time actions to be called twice
+    return (_elapsed + FLT_EPSILON) >= _duration;
 }
 
 void ActionInterval::step(float dt)
@@ -329,8 +332,10 @@ void Sequence::startWithTarget(Node *target)
         return;
     }
     if (_duration > FLT_EPSILON)
-        _split = _actions[0]->getDuration() / _duration;
-    
+         //_split = _actions[0]->getDuration() / _duration;
+         // fix #14936 - FLT_EPSILON (instant action) / very fast duration (0.001) leads to worng split, that leads to call instant action few times https://github.com/cocos2d/cocos2d-x/pull/17190/files
+         _split = _actions[0]->getDuration() > FLT_EPSILON ? _actions[0]->getDuration() / _duration : 0;
+ 
     ActionInterval::startWithTarget(target);
     _last = -1;
 }
@@ -536,8 +541,11 @@ void Repeat::update(float dt)
     }
     else
     {
-        if (!(sendUpdateEventToScript(fmodf(dt * _times,1.0f), _innerAction)))
-            _innerAction->update(fmodf(dt * _times,1.0f));
+        if (_total < _times)
+        {
+            if (!(sendUpdateEventToScript(fmodf(dt * _times,1.0f), _innerAction)))
+                _innerAction->update(fmodf(dt * _times,1.0f));
+        }
     }
 }
 

@@ -35,6 +35,8 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #import <CoreMotion/CoreMotion.h>
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include <jni.h>
 #include "platform/android/jni/JniHelper.h"

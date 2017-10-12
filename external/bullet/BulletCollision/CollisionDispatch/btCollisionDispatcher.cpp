@@ -18,14 +18,14 @@ subject to the following restrictions:
 #include "btCollisionDispatcher.h"
 
 
-#include "bullet/BulletCollision//BroadphaseCollision/btCollisionAlgorithm.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h"
 
-#include "bullet/BulletCollision//CollisionShapes/btCollisionShape.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionObject.h"
-#include "bullet/BulletCollision//BroadphaseCollision/btOverlappingPairCache.h"
+#include "bullet/BulletCollision/CollisionShapes/btCollisionShape.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObject.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h"
 #include "bullet/LinearMath/btPoolAllocator.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionConfiguration.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionObjectWrapper.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionConfiguration.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h"
 
 int gNumManifold = 0;
 

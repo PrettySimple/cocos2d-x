@@ -15,14 +15,14 @@ subject to the following restrictions:
 
 
 #include "btContinuousConvexCollision.h"
-#include "bullet/BulletCollision//CollisionShapes/btConvexShape.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btSimplexSolverInterface.h"
+#include "bullet/BulletCollision/CollisionShapes/btConvexShape.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btSimplexSolverInterface.h"
 #include "bullet/LinearMath/btTransformUtil.h"
-#include "bullet/BulletCollision//CollisionShapes/btSphereShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btSphereShape.h"
 
 #include "btGjkPairDetector.h"
 #include "btPointCollector.h"
-#include "bullet/BulletCollision//CollisionShapes/btStaticPlaneShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btStaticPlaneShape.h"
 
 
 

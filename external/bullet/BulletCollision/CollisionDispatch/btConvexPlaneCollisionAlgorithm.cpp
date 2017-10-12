@@ -15,11 +15,11 @@ subject to the following restrictions:
 
 #include "btConvexPlaneCollisionAlgorithm.h"
 
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionDispatcher.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionObject.h"
-#include "bullet/BulletCollision//CollisionShapes/btConvexShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btStaticPlaneShape.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionObjectWrapper.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObject.h"
+#include "bullet/BulletCollision/CollisionShapes/btConvexShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btStaticPlaneShape.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h"
 
 //#include <stdio.h>
 

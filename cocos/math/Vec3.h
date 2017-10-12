@@ -75,7 +75,9 @@ public:
      * @param yy The y coordinate.
      * @param zz The z coordinate.
      */
-    Vec3(float xx, float yy, float zz);
+    constexpr Vec3(float xx, float yy, float zz) : x(xx), y(yy), z(zz)
+    {
+    }
 
     /**
      * Constructs a new vector from the values in the specified array.
@@ -93,13 +95,6 @@ public:
     Vec3(const Vec3& p1, const Vec3& p2);
 
     /**
-     * Constructs a new vector that is a copy of the specified vector.
-     *
-     * @param copy The vector to copy.
-     */
-    Vec3(const Vec3& copy);
-
-    /**
      * Creates a new vector from an integer interpreted as an RGB value.
      * E.g. 0xff0000 represents red or the vector (1, 0, 0).
      *
@@ -108,11 +103,6 @@ public:
      * @return A vector corresponding to the interpreted RGB color.
      */
     static Vec3 fromColor(unsigned int color);
-
-    /**
-     * Destructor.
-     */
-    ~Vec3();
 
     /**
      * Indicates whether this vector contains all zeros.

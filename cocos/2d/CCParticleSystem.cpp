@@ -786,7 +786,7 @@ dc[i] = (dc[i] - c[i]) / _particleData.timeToLive[i];\
 
 void ParticleSystem::interpolateNewBornParticles( int emitCount )
 {
-    if( _positionType != PositionType::WORLD ) {
+    if( _positionType != PositionType::WORLD || _paused ) {
         // works only for PositionType::WORLD mode
         // need more time for other modes that may not be relevant for us
         return;
@@ -959,7 +959,8 @@ void ParticleSystem::update(float dt)
                     _particleData.atlasIndex[_particleCount - 1] = currentIndex;
                 }
                 --_particleCount;
-                if( _particleCount == 0 && _isAutoRemoveOnFinish )
+                if((_particleCount == 0 && _isAutoRemoveOnFinish && _duration != DURATION_INFINITY) ||
+                   (_particleCount == 0 && _isAutoRemoveOnFinish && _duration == DURATION_INFINITY && !_isActive))
                 {
                     this->unscheduleUpdate();
                     _parent->removeChild(this, true);

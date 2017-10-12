@@ -40,6 +40,12 @@ THE SOFTWARE.
 #include "unzip.h"
 #endif
 #include <sys/stat.h>
+#include <stdexcept>
+
+#include "CCPlatformConfig.h"
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+#include <spawn.h>
+#endif
 
 NS_CC_BEGIN
 
@@ -85,7 +91,7 @@ public:
 
 public:
     DictMaker()
-        : _resultType(SAX_RESULT_NONE)
+        : _resultType(SAX_RESULT_NONE), _curArray(nullptr), _curDict(nullptr)
     {
     }
 
@@ -136,6 +142,10 @@ public:
         const std::string sName(name);
         if( sName == "dict" )
         {
+            // Check to gracefully throw an exception if the wrong method was called.
+            if (_resultType == SAX_RESULT_ARRAY && _curArray == nullptr)
+                throw std::invalid_argument(" The top-level of the XML should be an array. ");
+
             if(_resultType == SAX_RESULT_DICT && _rootDict.empty())
             {
                 _curDict = &_rootDict;
@@ -187,6 +197,10 @@ public:
         else if (sName == "array")
         {
             _state = SAX_ARRAY;
+            
+            // Check to gracefully throw an exception if the wrong method was called.
+            if(_resultType == SAX_RESULT_DICT && _curDict == nullptr)
+                throw std::invalid_argument(" The top-level of the XML should be a dict. ");
 
             if (_resultType == SAX_RESULT_ARRAY && _rootArray.empty())
             {
@@ -1154,6 +1168,19 @@ bool FileUtils::createDirectory(const std::string& path)
 
 bool FileUtils::removeDirectory(const std::string& path)
 {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+    char **environ;
+    pid_t pid;
+    const std::string cmd = "\""+path+"\"";
+    char* argv[] = {
+        "rm -r",
+        const_cast<char*>(cmd.c_str())
+    };
+    if (posix_spawn(&pid, argv[0], NULL, NULL, argv, environ) == 0 && waitpid(pid, NULL, 0) >= 0)
+        return true;
+    else
+        return false;
+#else
     std::string command = "rm -r ";
     // Path may include space.
     command += "\"" + path + "\"";
@@ -1161,6 +1188,7 @@ bool FileUtils::removeDirectory(const std::string& path)
         return true;
     else
         return false;
+#endif
 }
 
 bool FileUtils::removeFile(const std::string &path)

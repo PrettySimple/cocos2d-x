@@ -14,11 +14,11 @@ subject to the following restrictions:
 */
 
 #include "btSphereBoxCollisionAlgorithm.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionDispatcher.h"
-#include "bullet/BulletCollision//CollisionShapes/btSphereShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btBoxShape.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionObject.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionObjectWrapper.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
+#include "bullet/BulletCollision/CollisionShapes/btSphereShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btBoxShape.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObject.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h"
 //#include <stdio.h>
 
 btSphereBoxCollisionAlgorithm::btSphereBoxCollisionAlgorithm(btPersistentManifold* mf,const btCollisionAlgorithmConstructionInfo& ci,const btCollisionObjectWrapper* col0Wrap,const btCollisionObjectWrapper* col1Wrap, bool isSwapped)

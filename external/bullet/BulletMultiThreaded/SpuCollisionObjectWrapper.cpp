@@ -14,7 +14,7 @@ subject to the following restrictions:
 */
 
 #include "SpuCollisionObjectWrapper.h"
-#include "bullet/BulletCollision//CollisionShapes/btCollisionShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btCollisionShape.h"
 
 SpuCollisionObjectWrapper::SpuCollisionObjectWrapper ()
 {

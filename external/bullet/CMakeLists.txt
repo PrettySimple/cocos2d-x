@@ -167,3 +167,10 @@ set_target_properties(bullet
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
 )
+
+if (ANDROID)
+add_custom_command(TARGET bullet POST_BUILD
+                   COMMAND "${CMAKE_COMMAND}" -E
+                   copy "${CMAKE_BINARY_DIR}/lib/libbullet.a"
+                   "${LIB_PUBLISH_DIRECTORY}/libbullet.a")
+endif()

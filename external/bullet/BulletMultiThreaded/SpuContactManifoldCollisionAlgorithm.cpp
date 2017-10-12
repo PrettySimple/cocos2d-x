@@ -14,10 +14,10 @@ subject to the following restrictions:
 */
 
 #include "SpuContactManifoldCollisionAlgorithm.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionDispatcher.h"
-#include "bullet/BulletCollision//CollisionDispatch/btCollisionObject.h"
-#include "bullet/BulletCollision//CollisionShapes/btCollisionShape.h"
-#include "bullet/BulletCollision//CollisionShapes/btPolyhedralConvexShape.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
+#include "bullet/BulletCollision/CollisionDispatch/btCollisionObject.h"
+#include "bullet/BulletCollision/CollisionShapes/btCollisionShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btPolyhedralConvexShape.h"
 
 
 

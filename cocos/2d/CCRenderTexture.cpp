@@ -219,10 +219,13 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
         }
 
         auto dataLen = powW * powH * 4;
-        data = malloc(dataLen);
-        CC_BREAK_IF(! data);
 
-        memset(data, 0, dataLen);
+        // we shouldn't have to allocate system memory for a render texture
+        // first patch test before spending little more time on it (we keep a dataLen for initWithData() not to triger an exeption)
+        /*    data = malloc(dataLen);
+            CC_BREAK_IF(! data);
+            memset(data, 0, dataLen); */
+        
         _pixelFormat = format;
 
         _texture = new (std::nothrow) Texture2D();
@@ -347,6 +350,27 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
     
     return ret;
 }
+
+/**
+ *
+ * PRETTY SIMPLE CHANGE !!!
+ *
+ * Flags the Render Texture as PMA
+ *
+ * cocos hard codes RenderTexture as PMA = false
+ * this is wrong (should be at least accessible to allow a choice) in our case as all assets rendered in RTs are pma and we want the Texture2D of the RenderTexture to be PMA
+ */
+void RenderTexture::forcePMATrue()
+{
+    _texture->_hasPremultipliedAlpha = true;
+    
+    // update blend func accordingly (might be redondant)
+    // (u should note that althought cocos flags the RT as PMA false, it sets blending modes for PMA texture line 334 in the function above)
+    
+    _sprite->setBlendFunc( BlendFunc::ALPHA_PREMULTIPLIED );
+    _sprite->setOpacityModifyRGB(true);
+}
+
 
 void RenderTexture::setSprite(Sprite* sprite)
 {
@@ -623,14 +647,11 @@ void RenderTexture::onBegin()
         director->setProjection(director->getProjection());
         const Size& texSize = _texture->getContentSizeInPixels();
         
-        // Calculate the adjustment ratios based on the old and new projections
+        // Calculate the texture ortho matrix
         Size size = director->getWinSizeInPixels();
-        float widthRatio = size.width / texSize.width;
-        float heightRatio = size.height / texSize.height;
-        
         Mat4 orthoMatrix;
-        Mat4::createOrthographicOffCenter((float)-1.0 / widthRatio, (float)1.0 / widthRatio, (float)-1.0 / heightRatio, (float)1.0 / heightRatio, 1, -1, &orthoMatrix);
-        director->multiplyMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, orthoMatrix);
+        Mat4::createOrthographicOffCenter(0, texSize.width, 0, texSize.height, -1, 1, &orthoMatrix);
+        director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, orthoMatrix);
     }
     
     //calculate viewport
@@ -784,13 +805,9 @@ void RenderTexture::begin()
         
         // Calculate the adjustment ratios based on the old and new projections
         Size size = director->getWinSizeInPixels();
-        
-        float widthRatio = size.width / texSize.width;
-        float heightRatio = size.height / texSize.height;
-        
         Mat4 orthoMatrix;
-        Mat4::createOrthographicOffCenter((float)-1.0 / widthRatio, (float)1.0 / widthRatio, (float)-1.0 / heightRatio, (float)1.0 / heightRatio, -1, 1, &orthoMatrix);
-        director->multiplyMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, orthoMatrix);
+        Mat4::createOrthographicOffCenter(0, texSize.width, 0, texSize.height, -1, 1, &orthoMatrix);
+        director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, orthoMatrix);
     }
     
     _groupCommand.init(_globalZOrder);

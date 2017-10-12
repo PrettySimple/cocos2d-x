@@ -14,7 +14,7 @@ subject to the following restrictions:
 */
 
 #include "btRigidBody.h"
-#include "bullet/BulletCollision//CollisionShapes/btConvexShape.h"
+#include "bullet/BulletCollision/CollisionShapes/btConvexShape.h"
 #include "bullet/LinearMath/btMinMax.h"
 #include "bullet/LinearMath/btTransformUtil.h"
 #include "bullet/LinearMath/btMotionState.h"

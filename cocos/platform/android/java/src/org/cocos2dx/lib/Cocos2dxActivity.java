@@ -456,6 +456,23 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
       return isEmulator;
    }
 
+    public static void forceContextLoss(){
+        ((Cocos2dxActivity)getContext()).rebuildContext();
+    }
+
+    public void rebuildContext(){
+        final FrameLayout lLayout = mFrameLayout;
+        final Cocos2dxGLSurfaceView lEGLView = mGLSurfaceView;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                lLayout.removeView(lEGLView);
+                lLayout.addView(lEGLView);
+            }
+        });
+
+    }
+
     // ===========================================================
     // Inner and Anonymous Classes
     // ===========================================================

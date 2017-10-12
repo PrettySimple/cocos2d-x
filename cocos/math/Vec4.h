@@ -87,7 +87,9 @@ public:
      * @param zz The z coordinate.
      * @param ww The w coordinate.
      */
-    Vec4(float xx, float yy, float zz, float ww);
+    constexpr Vec4(float xx, float yy, float zz, float ww) : x(xx), y(yy), z(zz), w(ww)
+    {
+    }
 
     /**
      * Constructs a new vector from the values in the specified array.
@@ -122,11 +124,6 @@ public:
      * @return A vector corresponding to the interpreted RGBA color.
      */
     static Vec4 fromColor(unsigned int color);
-
-    /**
-     * Destructor.
-     */
-    ~Vec4();
 
     /**
      * Indicates whether this vector contains all zeros.

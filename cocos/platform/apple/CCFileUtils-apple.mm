@@ -343,18 +343,24 @@ ValueMap FileUtilsApple::getValueMapFromData(const char* filedata, int filesize)
     NSData* file = [NSData dataWithBytes:filedata length:filesize];
     NSPropertyListFormat format;
     NSError* error;
-    NSDictionary* dict = [NSPropertyListSerialization propertyListWithData:file options:NSPropertyListImmutable format:&format error:&error];
+    id plist = [NSPropertyListSerialization propertyListWithData:file options:NSPropertyListImmutable format:&format error:&error];
 
     ValueMap ret;
 
-    if (dict != nil)
-    {
-        for (id key in [dict allKeys])
-        {
-            id value = [dict objectForKey:key];
+    if (plist != nil && [plist isKindOfClass:[NSDictionary class]]) {
+        for (id key in [plist allKeys]) {
+            id value = [plist objectForKey:key];
             addNSObjectToCCMap(key, value, ret);
         }
     }
+    else
+    {
+        NSException* e = [NSException exceptionWithName:@"Not a Disctionary"
+                                                 reason:@"Filedata is not a dictionary"
+                                               userInfo:nil];
+        @throw e;
+    }
+
     return ret;
 }
 

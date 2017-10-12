@@ -16,12 +16,12 @@ subject to the following restrictions:
 #ifndef BT_COLLISION__DISPATCHER_H
 #define BT_COLLISION__DISPATCHER_H
 
-#include "bullet/BulletCollision//BroadphaseCollision/btDispatcher.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btPersistentManifold.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btDispatcher.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
 
-#include "bullet/BulletCollision//CollisionDispatch/btManifoldResult.h"
+#include "bullet/BulletCollision/CollisionDispatch/btManifoldResult.h"
 
-#include "bullet/BulletCollision//BroadphaseCollision/btBroadphaseProxy.h"
+#include "bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
 #include "bullet/LinearMath/btAlignedObjectArray.h"
 
 class btIDebugDraw;

@@ -23,7 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#import "CCApplication.h"
+#import "platform/CCApplication.h"
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 

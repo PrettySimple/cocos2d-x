@@ -27,6 +27,7 @@
 /// @cond DO_NOT_SHOW
 
 #include <iosfwd>
+#include <cstdint>
 
 @class UIWebViewWrapper;
 
@@ -76,7 +77,7 @@ public:
 
     void setScalesPageToFit(const bool scalesPageToFit);
 
-    virtual void draw(cocos2d::Renderer *renderer, cocos2d::Mat4 const &transform, uint32_t flags);
+    virtual void draw(cocos2d::Renderer *renderer, cocos2d::Mat4 const &transform, std::uint32_t flags);
 
     virtual void setVisible(bool visible);
 

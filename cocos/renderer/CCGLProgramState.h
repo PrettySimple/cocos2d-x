@@ -89,6 +89,7 @@ public:
     void setVec4(const Vec4& value);
     void setVec4v(ssize_t size, const Vec4* pointer);
     void setMat4(const Mat4& value);
+    
     /**
      @}
      */
@@ -166,6 +167,9 @@ protected:
     /**
      @}
      */
+    
+public:
+    const U& getValue() const { return _value; }
 };
 
 /**
@@ -446,10 +450,12 @@ protected:
     void resetGLProgram();
     void updateUniformsAndAttributes();
     VertexAttribValue* getVertexAttribValue(const std::string& attributeName);
+
+public:
     UniformValue* getUniformValue(const std::string& uniformName);
     UniformValue* getUniformValue(GLint uniformLocation);
 
-
+protected:
     bool _uniformAttributeValueDirty;
     std::unordered_map<std::string, GLint> _uniformsByName;
     std::unordered_map<GLint, UniformValue> _uniforms;

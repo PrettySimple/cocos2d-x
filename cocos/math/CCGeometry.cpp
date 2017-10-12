@@ -38,14 +38,6 @@ Size::Size(void) : width(0), height(0)
 {
 }
 
-Size::Size(float w, float h) : width(w), height(h)
-{
-}
-
-Size::Size(const Size& other) : width(other.width), height(other.height)
-{
-}
-
 Size::Size(const Vec2& point) : width(point.x), height(point.y)
 {
 }
@@ -104,10 +96,7 @@ Rect::Rect(void)
     setRect(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
-Rect::Rect(float x, float y, float width, float height)
-{
-    setRect(x, y, width, height);
-}
+
 Rect::Rect(const Vec2& pos, const Size& dimension)
 {
     setRect(pos.x, pos.y, dimension.width, dimension.height);

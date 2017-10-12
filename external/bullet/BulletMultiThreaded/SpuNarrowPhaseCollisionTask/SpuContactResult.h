@@ -29,8 +29,8 @@ subject to the following restrictions:
 #include "bullet/LinearMath/btTransform.h"
 
 
-#include "bullet/BulletCollision//NarrowPhaseCollision/btPersistentManifold.h"
-#include "bullet/BulletCollision//NarrowPhaseCollision/btDiscreteCollisionDetectorInterface.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
+#include "bullet/BulletCollision/NarrowPhaseCollision/btDiscreteCollisionDetectorInterface.h"
 
 class btCollisionShape;
 
