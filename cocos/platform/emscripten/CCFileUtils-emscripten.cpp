@@ -19,7 +19,7 @@ FileUtils* FileUtils::getInstance()
         {
           delete s_sharedFileUtils;
           s_sharedFileUtils = nullptr;
-          CCLOG("ERROR: Could not init CCFileUtilsLinux");
+          CCLOG("ERROR: Could not init CCFileUtilsEmscripten");
         }
     }
     return s_sharedFileUtils;
@@ -35,7 +35,7 @@ FileUtilsEmscripten::~FileUtilsEmscripten()
 
 bool FileUtilsEmscripten::init()
 {
-    _defaultResRootPath = "/bin/Resources/";
+    _defaultResRootPath = "/";
     char temp[PATH_MAX];
     temp[PATH_MAX-1] = '\0';
     _writablePath = (getcwd(temp, PATH_MAX) ? std::string(temp) : std::string(""));
@@ -63,4 +63,4 @@ bool FileUtilsEmscripten::isFileExistInternal(const std::string& strFilePath) co
 
 NS_CC_END
 
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
