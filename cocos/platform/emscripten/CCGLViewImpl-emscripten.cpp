@@ -272,21 +272,18 @@ extern "C" EM_BOOL keyCb(int eventType, const EmscriptenKeyboardEvent* e, void* 
     auto key = findKeyFromHTML5Key(e->key);
     if (key == EventKeyboard::KeyCode::KEY_NONE)
         key = findKeyFromHTML5Code(e->code);
-    EventKeyboard event(g_keyCodeMap[key], GLFW_PRESS == action);
+    EventKeyboard event(key, EMSCRIPTEN_EVENT_KEYPRESS == eventType);
     switch(eventType)
     {
         case EMSCRIPTEN_EVENT_KEYPRESS:
-        {
-
             CCLOG("[EMSCRIPTEN_EVENT_KEYPRESS] key=%s code=%s charCode=%d => key_enum=%d", e->key, e->code, e->charCode, key);
             break;
-        }
         case EMSCRIPTEN_EVENT_KEYUP:
             CCLOG("[EMSCRIPTEN_EVENT_KEYUP] key=%s code=%s", e->key, e->code);
-        break;
+            break;
         case EMSCRIPTEN_EVENT_KEYDOWN:
             CCLOG("[EMSCRIPTEN_EVENT_KEYDOWN] key=%s code=%s", e->key, e->code);
-        break;
+            break;
     }
     return EM_TRUE;
 }
