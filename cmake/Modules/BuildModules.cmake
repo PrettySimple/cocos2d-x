@@ -128,8 +128,13 @@ macro (BuildModules)
 
 	cocos_find_package(PNG PNG REQUIRED)
 	cocos_find_package(TIFF TIFF REQUIRED)
-	cocos_find_package(WEBSOCKETS WEBSOCKETS REQUIRED)
-	cocos_find_package(CURL CURL REQUIRED)
+	if(EMSCRIPTEN)
+		cocos_find_package(BZ2 BZ2 REQUIRED)
+		cocos_find_package(XZ XZ REQUIRED)
+	else()
+		cocos_find_package(WEBSOCKETS WEBSOCKETS REQUIRED)
+		cocos_find_package(CURL CURL REQUIRED)
+	endif()
 
 	# flatbuffers
 	if(USE_PREBUILT_LIBS OR USE_SOURCES_EXTERNAL)

@@ -34,6 +34,7 @@
 #include "network/CCDownloader.h"
 #include "platform/CCFileUtils.h"
 
+#include "json/rapidjson.h"
 #include "json/document.h"
 
 NS_CC_EXT_BEGIN

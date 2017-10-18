@@ -68,6 +68,13 @@ elseif(MACOSX)
         ${COCOS_AUDIO_PLATFORM_SRC_C}
         PROPERTIES LANGUAGE C
     )
+
+elseif(EMSCRIPTEN)
+
+    set(COCOS_AUDIO_PLATFORM_SRC
+        audio/emscripten/AudioEngine-emscripten.cpp   
+    )
+
 endif()
 
 list(APPEND COCOS_AUDIO_SRC ${COCOS_AUDIO_PLATFORM_SRC})

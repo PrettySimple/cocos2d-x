@@ -249,6 +249,13 @@ THE SOFTWARE.
 	#include "platform/tizen/CCStdC-tizen.h"
 #endif
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+    #include "platform/emscripten/CCApplication-emscripten.h"
+    #include "platform/emscripten/CCGL-emscripten.h"
+    #include "platform/emscripten/CCGLViewImpl-emscripten.h"
+	#include "platform/emscripten/CCStdC-emscripten.h"
+#endif
+
 // script_support
 #include "base/CCScriptSupport.h"
 

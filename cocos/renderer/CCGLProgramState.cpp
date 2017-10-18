@@ -6,7 +6,7 @@ Copyright 2012 cocos2d-x.org
 Copyright 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
- 
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -379,13 +379,13 @@ GLProgramState::GLProgramState()
 , _glprogram(nullptr)
 , _nodeBinding(nullptr)
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     /** listen the event that renderer was recreated on Android/WP8 */
     CCLOG("create rendererRecreatedListener for GLProgramState");
-    _backToForegroundlistener = EventListenerCustom::create(EVENT_RENDERER_RECREATED, 
-        [this](EventCustom*) 
+    _backToForegroundlistener = EventListenerCustom::create(EVENT_RENDERER_RECREATED,
+        [this](EventCustom*)
         {
-            CCLOG("Dirty Uniform and Attributes of GLProgramState"); 
+            CCLOG("Dirty Uniform and Attributes of GLProgramState");
             _uniformAttributeValueDirty = true;
         });
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_backToForegroundlistener, -1);
@@ -394,10 +394,10 @@ GLProgramState::GLProgramState()
 
 GLProgramState::~GLProgramState()
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     Director::getInstance()->getEventDispatcher()->removeEventListener(_backToForegroundlistener);
 #endif
-    
+
     CC_SAFE_RELEASE(_glprogram);
 }
 
@@ -483,7 +483,7 @@ void GLProgramState::updateUniformsAndAttributes()
         {
             _uniforms[uniformLocation.second]._uniform = _glprogram->getUniform(uniformLocation.first);
         }
-        
+
         _vertexAttribsFlags = 0;
         for(auto& attributeValue : _attributes)
         {
@@ -491,9 +491,9 @@ void GLProgramState::updateUniformsAndAttributes()
             if(attributeValue.second._enabled)
                 _vertexAttribsFlags |= 1 << attributeValue.second._vertexAttrib->index;
         }
-        
+
         _uniformAttributeValueDirty = false;
-        
+
     }
 }
 

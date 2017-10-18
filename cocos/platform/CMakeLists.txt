@@ -100,6 +100,17 @@ add_custom_command(TARGET cocos2dxandroid_static POST_BUILD
                    copy "${CMAKE_BINARY_DIR}/lib/libcocos2dxandroid_static.a"
                    "${LIB_PUBLISH_DIRECTORY}/libcocos2dxandroid_static.a")
 
+elseif(EMSCRIPTEN)
+
+set(COCOS_PLATFORM_SPECIFIC_SRC
+  platform/emscripten/CCApplication-emscripten.cpp
+  platform/emscripten/CCCommon-emscripten.cpp
+  platform/emscripten/CCDevice-emscripten.cpp
+  platform/emscripten/CCFileUtils-emscripten.cpp
+  platform/emscripten/CCGLViewImpl-emscripten.cpp
+  platform/emscripten/CCStdC-emscripten.cpp
+)
+
 endif()
 
 #leave andatory external stuff here also

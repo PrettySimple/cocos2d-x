@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2013 cocos2d-x.org
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -45,7 +45,7 @@ class Sprite3DTestDemo : public TestCase
 public:
     // overrides
     virtual std::string title() const override;
-    
+
     virtual ~Sprite3DTestDemo();
 };
 
@@ -74,7 +74,7 @@ public:
     Sprite3DBasicTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
-    
+
     void addNewSpriteWithCoords(cocos2d::Vec2 p);
     void onTouchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event);
 };
@@ -87,15 +87,15 @@ public:
     virtual ~Sprite3DUVAnimationTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
-    
+
 protected:
     void cylinderUpdate(float dt);
-    
+
     float _cylinder_texture_offset;
     float _shining_duraion;
     cocos2d::GLProgramState * _state;
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     cocos2d::EventListenerCustom* _backToForegroundListener;
 #endif
 };
@@ -130,8 +130,8 @@ private:
     cocos2d::Sprite3D * _plane;
     cocos2d::Sprite3D * _orc;
     cocos2d::GLProgramState * _state;
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     cocos2d::EventListenerCustom* _backToForegroundListener;
 #endif
 };
@@ -157,11 +157,11 @@ public:
     virtual ~Sprite3DBasicToonShaderTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
-    
+
 protected:
     cocos2d::GLProgramState * _state;
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     cocos2d::EventListenerCustom* _backToForegroundListener;
 #endif
 
@@ -184,15 +184,15 @@ public:
     virtual ~Sprite3DEffectTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
-    
+
     void addNewSpriteWithCoords(cocos2d::Vec2 p);
-    
+
     void onTouchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event);
-    
+
 protected:
     std::vector<cocos2d::Sprite3D*> _sprites;
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     cocos2d::EventListenerCustom* _backToForegroundListener;
 #endif
 };
@@ -205,11 +205,11 @@ public:
     virtual ~AsyncLoadSprite3DTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
-    
+
     void menuCallback_asyncLoadSprite(cocos2d::Ref* sender);
-    
+
     void asyncLoad_Callback(cocos2d::Sprite3D* sprite, void* param);
-    
+
 protected:
     std::vector<std::string> _paths; //model paths to be loaded
 };
@@ -221,12 +221,12 @@ public:
     Sprite3DWithSkinTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
-    
+
     void addNewSpriteWithCoords(cocos2d::Vec2 p);
-    
+
     void switchAnimationQualityCallback(cocos2d::Ref* sender);
     void onTouchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event);
-    
+
     std::string getAnimationQualityMessage() const;
 private:
     std::vector<cocos2d::Sprite3D*> _sprits;
@@ -242,15 +242,15 @@ public:
     virtual ~Sprite3DWithSkinOutlineTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
-    
+
     void addNewSpriteWithCoords(cocos2d::Vec2 p);
-    
+
     void onTouchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event);
-    
+
 protected:
     std::vector<cocos2d::Sprite3D*> _sprites;
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     cocos2d::EventListenerCustom* _backToForegroundListener;
 #endif
 };
@@ -263,14 +263,14 @@ public:
     ~Animate3DTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
-    
+
     void onTouchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event);
-    
+
     virtual void update(float dt) override;
-    
+
 protected:
     void addSprite3D();
-    
+
     enum class State
     {
         SWIMMING,
@@ -278,20 +278,20 @@ protected:
         HURT,
         HURT_TO_SWIMMING,
     };
-    
+
     void reachEndCallBack();
-    
+
     void renewCallBack();
-    
+
     cocos2d::Sprite3D* _sprite;
-    
+
     cocos2d::Action* _swim;
     cocos2d::Animate3D* _hurt;
 
     float _elapseTransTime;
-    
+
     State   _state;
-    
+
     cocos2d::MoveTo* _moveAction;
 };
 
@@ -302,11 +302,11 @@ public:
     AttachmentTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
-    
+
     void onTouchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event);
-    
+
     void addNewSpriteWithCoords(cocos2d::Vec2 p);
-    
+
 protected:
     bool _hasWeapon;
     cocos2d::Sprite3D* _sprite;
@@ -321,11 +321,11 @@ public:
     virtual std::string subtitle() const override;
     void onTouchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event);
     void addNewSpriteWithCoords(cocos2d::Vec2 p);
-    
+
     void menuCallback_reSkin(cocos2d::Ref* sender);
 protected:
     void applyCurSkin();
-    
+
     enum class SkinType
     {
         UPPER_BODY = 0,
@@ -337,7 +337,7 @@ protected:
         GLASSES,
         MAX_TYPE,
     };
-    
+
     std::vector<std::string> _skins[(int)SkinType::MAX_TYPE]; //all skins
     int                      _curSkin[(int)SkinType::MAX_TYPE]; //current skin index
     cocos2d::Sprite3D* _sprite;
@@ -372,7 +372,7 @@ protected:
     std::set<int>             _intersetList;
     void initDrawBox();
     void reachEndCallBack();
-    
+
     void unproject(const cocos2d::Mat4& viewProjection, const cocos2d::Size* viewport, cocos2d::Vec3* src, cocos2d::Vec3* dst);
     void calculateRayByLocationInView(cocos2d::Ray* ray, const cocos2d::Vec2& location);
 };
@@ -384,9 +384,9 @@ public:
     Sprite3DMirrorTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
-    
+
     void addNewSpriteWithCoords(cocos2d::Vec2 p);
-    
+
 protected:
     bool _hasWeapon;
     cocos2d::Sprite3D* _sprite;
@@ -400,10 +400,10 @@ public:
     QuaternionTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
-    
+
     void addNewSpriteWithCoords(cocos2d::Vec2 p);
     virtual void update(float delta) override;
-    
+
 protected:
     cocos2d::Sprite3D* _sprite;
     float              _arcSpeed;
@@ -419,15 +419,15 @@ public:
     UseCaseSprite3D();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
-    
+
     virtual void update(float delta) override;
-    
+
     void menuCallback_Message(cocos2d::Ref* sender);
-    
+
 protected:
-    
+
     void switchCase();
-    
+
     enum class USECASE{
         _3D_WITH_2D,
         _UI_3D_UI,
@@ -446,7 +446,7 @@ public:
     NodeAnimationTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
-    
+
     void addNewSpriteWithCoords(cocos2d::Vec2 p);
 protected:
     std::vector<cocos2d::Sprite3D*> _sprites;
@@ -477,7 +477,7 @@ protected:
     cocos2d::Sprite3D* _teapot;
     cocos2d::Camera *_camera;
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     cocos2d::EventListenerCustom* _backToForegroundListener;
 #endif
 };
@@ -496,9 +496,9 @@ public:
     ~Issue9767();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
-    
+
     void menuCallback_SwitchShader(cocos2d::Ref* sender);
-    
+
 protected:
     ShaderType          _shaderType;
     cocos2d::Sprite3D*  _sprite;
@@ -523,7 +523,7 @@ public:
     ~Animate3DCallbackTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
-    
+
 protected:
     cocos2d::Sprite3D* _sprite3d;
 };
@@ -547,7 +547,7 @@ public:
     CameraBackgroundClearTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
-    
+
     void switch_CameraClearMode(cocos2d::Ref* sender);
 protected:
     cocos2d::Camera* _camera;
@@ -561,11 +561,11 @@ public:
     Sprite3DVertexColorTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
-    
+
     virtual ~Sprite3DVertexColorTest();
 protected:
     cocos2d::Sprite3D* _sprite;
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     cocos2d::EventListenerCustom* _backToForegroundListener;
 #endif
 };
@@ -578,7 +578,7 @@ public:
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
     virtual void update(float delta) override;
-    
+
 protected:
     cocos2d::Sprite3D* _sprite;
     cocos2d::MotionStreak3D* _streak;

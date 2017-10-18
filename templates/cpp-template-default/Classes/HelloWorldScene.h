@@ -9,10 +9,12 @@ public:
     static cocos2d::Scene* createScene();
 
     virtual bool init();
-    
+
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
-    
+
+    bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
+
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 };

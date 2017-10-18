@@ -57,7 +57,7 @@ MeshCommand::MeshCommand()
 {
     _type = RenderCommand::Type::MESH_COMMAND;
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     // listen the event that renderer was recreated on Android/WP8
     _rendererRecreatedListener = EventListenerCustom::create(EVENT_RENDERER_RECREATED, CC_CALLBACK_1(MeshCommand::listenRendererRecreated, this));
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_rendererRecreatedListener, -1);
@@ -80,7 +80,7 @@ void MeshCommand::init(float globalZOrder,
 
     _globalOrder = globalZOrder;
     _material = material;
-    
+
     _vertexBuffer = vertexBuffer;
     _indexBuffer = indexBuffer;
     _primitive = primitive;
@@ -108,21 +108,21 @@ void MeshCommand::init(float globalZOrder,
     CCASSERT(!_material, "cannot init with GLProgramState if previously inited without GLProgramState");
 
     RenderCommand::init(globalZOrder, mv, flags);
-    
+
     _globalOrder = globalZOrder;
     _textureID = textureID;
 
     // weak ref
     _glProgramState = glProgramState;
     _stateBlock = stateBlock;
-    
+
     _vertexBuffer = vertexBuffer;
     _indexBuffer = indexBuffer;
     _primitive = primitive;
     _indexFormat = indexFormat;
     _indexCount = indexCount;
     _mv.set(mv);
-    
+
     _is3D = true;
 
 }
@@ -152,7 +152,7 @@ void MeshCommand::setMatrixPaletteSize(int size)
 MeshCommand::~MeshCommand()
 {
     releaseVAO();
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     Director::getInstance()->getEventDispatcher()->removeEventListener(_rendererRecreatedListener);
 #endif
 }
@@ -284,7 +284,7 @@ void MeshCommand::execute()
 
         // Draw
         glDrawElements(_primitive, (GLsizei)_indexCount, _indexFormat, 0);
-        
+
         CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, _indexCount);
     }
 
@@ -311,9 +311,9 @@ void MeshCommand::buildVAO()
         flags &= ~flag;
     }
     programState->applyAttributes(false);
-    
+
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
-    
+
     GL::bindVAO(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -328,7 +328,7 @@ void MeshCommand::releaseVAO()
     }
 }
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
 void MeshCommand::listenRendererRecreated(EventCustom* event)
 {
     _vao = 0;

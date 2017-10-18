@@ -25,6 +25,7 @@ THE SOFTWARE.
 #include "Runtime.h"
 #include "ConfigParser.h"
 #include "ConsoleCommand.h"
+#include "json/rapidjson.h"
 #include "json/document.h"
 #include "json/filestream.h"
 #include "json/stringbuffer.h"
@@ -34,7 +35,7 @@ THE SOFTWARE.
 using namespace cocos2d;
 
 ConsoleCommand* ConsoleCommand::s_sharedConsoleCommand = nullptr;
-ConsoleCommand* ConsoleCommand::getShareInstance() 
+ConsoleCommand* ConsoleCommand::getShareInstance()
 {
 	if (s_sharedConsoleCommand == nullptr)
 	{

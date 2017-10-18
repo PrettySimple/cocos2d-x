@@ -101,37 +101,45 @@ set(_OpenalSoft_libs OpenAL32)
 set(_zlib_inc zlib.h)
 set(_zlib_libs z libzlib libz)
 
+set(_xz_inc lzma.h)
+set(_xz_libs lzma)
+
+set(_bz2_inc bzlib.h)
+set(_bz2_libs bz2)
+
 set(_fmod_prefix FMOD)
 set(_fmod_inc fmod.hpp)
 set(_fmod_libs fmod fmod64 fmod fmod64)
 
 set(all_prebuilt_libs
   chipmunk
-  curl
   freetype2
   jpeg
   png
   tiff
   webp
-  websockets
 )
 
 
 if(MACOSX)
-  list(APPEND all_prebuilt_libs glfw3 zlib)
+  list(APPEND all_prebuilt_libs glfw3 curl websockets zlib)
 endif()
 
 # We use MSVC instead of WINDOWS because it can be mingw that can't use our prebuilt libs
 if(MSVC)
-  list(APPEND all_prebuilt_libs glfw3 sqlite3 gles icon MP3Decoder OggDecoder OpenalSoft zlib)
+  list(APPEND all_prebuilt_libs glfw3 sqlite3 gles icon MP3Decoder OggDecoder OpenalSoft curl websockets zlib)
 endif()
 
 if(LINUX)
-  list(APPEND all_prebuilt_libs fmod)
+  list(APPEND all_prebuilt_libs fmod curl websockets)
 endif()
 
 if(ANDROID)
-  list(APPEND all_prebuilt_libs zlib)
+  list(APPEND all_prebuilt_libs curl websockets zlib)
+endif()
+
+if(EMSCRIPTEN)
+  list(APPEND all_prebuilt_libs zlib xz bz2)
 endif()
 
 
@@ -210,7 +218,7 @@ foreach(_lib ${all_prebuilt_libs})
       if(${_prefix}_LIBRARIES AND ${_prefix}_INCLUDE_DIRS)
         set(${_prefix}_FOUND YES)
       endif()
-      
+
     endif(EXISTS ${_root})
   endforeach()
 endforeach()

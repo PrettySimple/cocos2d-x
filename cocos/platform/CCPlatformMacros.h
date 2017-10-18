@@ -1,19 +1,19 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2015 Chukong Technologies
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -82,16 +82,16 @@ CC_DEPRECATED_ATTRIBUTE static __TYPE__* node() \
  * Enable it if you want to cache the texture data.
  * Not enabling for Emscripten any more -- doesn't seem necessary and don't want
  * to be different from other platforms unless there's a good reason.
- * 
+ *
  * @since v0.99.5
  */
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT) 
+#if ((CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT) || (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN))
     #define CC_ENABLE_CACHE_TEXTURE_DATA       1
 #else
     #define CC_ENABLE_CACHE_TEXTURE_DATA       0
 #endif
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+#if ((CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN))
     /** Application will crash in glDrawElements function on some win32 computers and some android devices.
      *  Indices should be bound again while drawing to avoid this bug.
      */
@@ -110,17 +110,17 @@ CC_DEPRECATED_ATTRIBUTE static __TYPE__* node() \
     #define USING_NS_CC                     using namespace cocos2d
     #define NS_CC                           ::cocos2d
 #else
-    #define NS_CC_BEGIN 
-    #define NS_CC_END 
-    #define USING_NS_CC 
+    #define NS_CC_BEGIN
+    #define NS_CC_END
+    #define USING_NS_CC
     #define NS_CC
-#endif 
+#endif
 //  end of namespace group
 /// @}
 
-/** @def CC_PROPERTY_READONLY 
+/** @def CC_PROPERTY_READONLY
  * It is used to declare a protected variable. We can use getter to read the variable.
- * 
+ *
  * @param varType     the type of variable.
  * @param varName     variable name.
  * @param funName     "get + funName" will be the name of the getter.
@@ -136,7 +136,7 @@ public: virtual varType get##funName(void) const;
 protected: varType varName;\
 public: virtual const varType& get##funName(void) const;
 
-/** @def CC_PROPERTY 
+/** @def CC_PROPERTY
  * It is used to declare a protected variable.
  * We can use getter to read the variable, and use the setter to change the variable.
  *
@@ -158,7 +158,7 @@ protected: varType varName;\
 public: virtual const varType& get##funName(void) const;\
 public: virtual void set##funName(const varType& var);
 
-/** @def CC_SYNTHESIZE_READONLY 
+/** @def CC_SYNTHESIZE_READONLY
  * It is used to declare a protected variable. We can use getter to read the variable.
  *
  * @param varType     The type of variable.
@@ -176,7 +176,7 @@ public: virtual varType get##funName(void) const { return varName; }
 protected: varType varName;\
 public: virtual const varType& get##funName(void) const { return varName; }
 
-/** @def CC_SYNTHESIZE 
+/** @def CC_SYNTHESIZE
  * It is used to declare a protected variable.
  * We can use getter to read the variable, and use the setter to change the variable.
  *
@@ -209,7 +209,7 @@ public: virtual void set##funName(varType var)   \
         CC_SAFE_RELEASE(varName); \
         varName = var; \
     } \
-} 
+}
 
 #define CC_SAFE_DELETE(p)           do { delete (p); (p) = nullptr; } while(0)
 #define CC_SAFE_DELETE_ARRAY(p)     do { if(p) { delete[] (p); (p) = nullptr; } } while(0)
@@ -274,7 +274,7 @@ public: virtual void set##funName(varType var)   \
  *
  * This should be used in the private: declarations for a class
  * that wants to prevent anyone from instantiating it. This is
- * especially useful for classes containing only static methods. 
+ * especially useful for classes containing only static methods.
  */
 #define CC_DISALLOW_IMPLICIT_CONSTRUCTORS(TypeName)    \
     TypeName();                                        \
@@ -286,10 +286,10 @@ public: virtual void set##funName(varType var)   \
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
     #define CC_DEPRECATED_ATTRIBUTE __attribute__((deprecated))
 #elif _MSC_VER >= 1400 //vs 2005 or higher
-    #define CC_DEPRECATED_ATTRIBUTE __declspec(deprecated) 
+    #define CC_DEPRECATED_ATTRIBUTE __declspec(deprecated)
 #else
     #define CC_DEPRECATED_ATTRIBUTE
-#endif 
+#endif
 
 /** @def CC_DEPRECATED(...)
  * Macro to mark things deprecated as of a particular version
@@ -327,7 +327,7 @@ public: virtual void set##funName(varType var)   \
 #endif
 
 /** @def CC_REQUIRES_NULL_TERMINATION
- * 
+ *
  */
 #if !defined(CC_REQUIRES_NULL_TERMINATION)
     #if defined(__APPLE_CC__) && (__APPLE_CC__ >= 5549)

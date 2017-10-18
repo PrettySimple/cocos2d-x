@@ -35,6 +35,7 @@ THE SOFTWARE.
 #include "3d/CCRay.h"
 #include "base/CCEventListenerCustom.h"
 #include "base/CCEventDispatcher.h"
+#include "platform/CCPlatformConfig.h"
 
 NS_CC_BEGIN
 
@@ -55,32 +56,32 @@ NS_CC_BEGIN
     *  1. RGB888
     *  2. RGBA8888
     *  3. Luminance(gray-scale)8
-    *  
-    *  Terrain use TerrainData struct to initialize.the TerrainData struct warp 
+    *
+    *  Terrain use TerrainData struct to initialize.the TerrainData struct warp
     *  all parameters that Terrain initialization need.
     *  TerrainData provide several handy constructor for users
-    *  
+    *
     * Surface detail is provided via texture splatting, where multiple Detail texture layers can be added
     * along with alpha map to define how different Detail texture blend with each other. These DetailTexture
     * can be defined in TerrainData. The number of supported Detail texture is Four. although typically 2-3 levels is
     * sufficient. For simple usage ,surface detail also is provided via simple Texture.
-    * 
+    *
     * Internally, Terrain is divide into smaller, more manageable chunks, which can be culled
     * separately for more efficient rendering. The size of the terrain chunks can be controlled
     * via the chunkSize property in TerrainData.
-    * 
+    *
     * Chunks are managed under the QuadTree.As DE FACTO terminal Node of the QuadTree;
     * let us cull chunks efficiently to reduce drawCall amount And reduce the VBOs'Size that pass to the GPU.
-    * 
+    *
     * Level of detail (LOD) is supported using a technique that is similar to texture mipmapping -- called GeoMapping.
     * A distance-to-camera based test used to decide
     * the appropriate LOD for a terrain chunk. The number of LOD levels is 0 by default (which
     * means only the base level is used),the maximum number of LOD levels is 4. Of course ,you can hack the value individually.
-    * 
+    *
     * Finally, when LOD is enabled, cracks can begin to appear between terrain Chunks of
     * different LOD levels. An acceptable solution might be to simply reduce the lower LOD(high detail,smooth) chunks border,
     * And let the higher LOD(rough) chunks to seamlessly connect it.
-    * 
+    *
     * We can use ray-terrain intersection to pick a point of the terrain;
     * Also we can get an arbitrary point of the terrain's height and normal vector for convenience .
     **/
@@ -209,7 +210,7 @@ private:
             std::vector<GLushort> _indices;
         };
         GLuint _vbo;
-        ChunkIndices _chunkIndices; 
+        ChunkIndices _chunkIndices;
         /**we now support four levels of detail*/
         LOD _lod[4];
         /**AABB in local space*/
@@ -354,7 +355,7 @@ public:
     void setLODDistance(float lod1, float lod2, float lod3);
 
     /**Switch frustum Culling Flag
-     * @Note frustum culling will remarkable improve your terrain rendering performance. 
+     * @Note frustum culling will remarkable improve your terrain rendering performance.
      */
     void setIsEnableFrustumCull(bool boolValue);
 
@@ -420,12 +421,12 @@ public:
     QuadTree * getQuadTree();
 
     void reload();
-    
+
     /**
      * get the terrain's size
      */
     Size getTerrainSize() const { return Size(_imageWidth, _imageHeight); }
-    
+
     /**
      * get the terrain's height data
      */
@@ -470,7 +471,7 @@ protected:
     ChunkIndices insertIndicesLOD(int neighborLod[4], int selfLod, GLushort * indices, int size);
 
     ChunkIndices insertIndicesLODSkirt(int selfLod, GLushort * indices, int size);
-    
+
     Chunk * getChunkByIndex(int x,int y) const;
 
 protected:
@@ -516,7 +517,7 @@ protected:
     GLint _lightDirLocation;
     RenderState::StateBlock* _stateBlock;
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     EventListenerCustom* _backToForegroundListener;
 #endif
 };

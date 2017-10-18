@@ -37,6 +37,7 @@ THE SOFTWARE.
 #include "base/uthash.h"
 #include "renderer/ccGLStateCache.h"
 #include "platform/CCFileUtils.h"
+#include "platform/CCPlatformConfig.h"
 
 // helper functions
 
@@ -457,10 +458,10 @@ bool GLProgram::compileShader(GLuint* shader, GLenum type, const GLchar* source,
     }
 
     const GLchar *sources[] = {
-#if CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
-        (type == GL_VERTEX_SHADER ? "precision mediump float;\n precision mediump int;\n" : "precision mediump float;\n precision mediump int;\n"),
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+        (type == GL_VERTEX_SHADER ? "precision mediump float;\nprecision mediump int;\n" : "precision mediump float;\nprecision mediump int;\n"),
 #elif (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32 && CC_TARGET_PLATFORM != CC_PLATFORM_LINUX && CC_TARGET_PLATFORM != CC_PLATFORM_MAC)
-        (type == GL_VERTEX_SHADER ? "precision highp float;\n precision highp int;\n" : "precision mediump float;\n precision mediump int;\n"),
+        (type == GL_VERTEX_SHADER ? "precision highp float;\nprecision highp int;\n" : "precision mediump float;\nprecision mediump int;\n"),
 #endif
         COCOS2D_SHADER_UNIFORMS,
         convertedDefines.c_str(),
@@ -574,7 +575,15 @@ bool GLProgram::link()
 
     if (status == GL_FALSE)
     {
-        CCLOG("cocos2d: ERROR: Failed to link program: %i", _program);
+        GLint maxLength = 0;
+        glGetProgramiv(_program, GL_INFO_LOG_LENGTH, &maxLength);
+        if (maxLength > 1)
+        {
+            char* buf = new char[maxLength];
+            glGetProgramInfoLog(_program, maxLength, &maxLength, buf);
+            CCLOG("cocos2d: ERROR: Failed to link program: %i - %s", _program, buf);
+            delete[] buf;
+        }
         GL::deleteProgram(_program);
         _program = 0;
     }
