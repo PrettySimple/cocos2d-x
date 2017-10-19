@@ -1,5 +1,5 @@
 /****************************************************************************
- Copyright (c) 2015 Chukong Technologies Inc.
+ Copyright (c) 2015-2017 Chukong Technologies Inc.
 
  http://www.cocos2d-x.org
 
@@ -28,6 +28,7 @@
 #include "base/ccTypes.h"
 #include "base/CCRef.h"
 #include "3d/CCFrustum.h"
+#include "platform/CCPlatformConfig.h"
 #include "renderer/CCQuadCommand.h"
 #include "renderer/CCCustomCommand.h"
 #include "renderer/CCFrameBuffer.h"
@@ -102,7 +103,7 @@ public:
     /**
      * draw the background
      */
-    virtual void drawBackground(Camera* camera) {}
+    virtual void drawBackground(Camera* /*camera*/) {}
 
     virtual bool isValid() { return true; }
 
@@ -158,6 +159,9 @@ protected:
     GLboolean _clearColor;
 
     V3F_C4B_T2F_Quad _quad;
+    GLuint      _vao;
+    GLuint      _vertexBuffer;
+    GLuint      _indexBuffer;
 };
 
 /**
@@ -262,7 +266,7 @@ protected:
 
     TextureCube*  _texture;
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     EventListenerCustom* _backToForegroundListener;
 #endif
 
