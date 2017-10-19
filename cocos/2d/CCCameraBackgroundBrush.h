@@ -31,9 +31,6 @@
 #include "renderer/CCQuadCommand.h"
 #include "renderer/CCCustomCommand.h"
 #include "renderer/CCFrameBuffer.h"
-#include "platform/CCPlatformConfig.h"
-
-#include <array>
 
 NS_CC_BEGIN
 
@@ -109,7 +106,7 @@ public:
 
     virtual bool isValid() { return true; }
 
-CC_CONSTRUCTOR_ACCESS :
+    CC_CONSTRUCTOR_ACCESS :
     CameraBackgroundBrush();
     virtual ~CameraBackgroundBrush();
 
@@ -156,21 +153,11 @@ CC_CONSTRUCTOR_ACCESS:
     virtual bool init() override;
 
 protected:
-    void initBuffer();
-
-    GLuint _vao;
-    GLuint _vertexBuffer;
-    GLuint _indexBuffer;
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
-    EventListenerCustom* _backToForegroundListener;
-#endif
-
     float _depth;
 
     GLboolean _clearColor;
 
-    std::array<V3F_C4B_T2F,4> _quad;
+    V3F_C4B_T2F_Quad _quad;
 };
 
 /**
@@ -235,8 +222,8 @@ public:
      @return  A new brush inited with given parameters.
      */
     static CameraBackgroundSkyBoxBrush* create(const std::string& positive_x, const std::string& negative_x,
-                                        const std::string& positive_y, const std::string& negative_y,
-                                        const std::string& positive_z, const std::string& negative_z);
+                                               const std::string& positive_y, const std::string& negative_y,
+                                               const std::string& positive_z, const std::string& negative_z);
 
     /** Creates a Skybox brush with 6 textures.
      */
@@ -257,7 +244,7 @@ public:
     virtual void setTextureValid(bool valid);
     virtual bool isValid()override;
 
-CC_CONSTRUCTOR_ACCESS :
+    CC_CONSTRUCTOR_ACCESS :
     CameraBackgroundSkyBoxBrush();
     virtual ~CameraBackgroundSkyBoxBrush();
 
@@ -275,7 +262,7 @@ protected:
 
     TextureCube*  _texture;
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
     EventListenerCustom* _backToForegroundListener;
 #endif
 
