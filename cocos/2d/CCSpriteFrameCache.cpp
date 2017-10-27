@@ -550,7 +550,7 @@ void SpriteFrameCache::removeSpriteFramesFromDictionary(ValueMap& dictionary)
         {
 #ifdef DEBUG
             if (_spriteFrames.at(iter->first)->getReferenceCount() > 1)
-                CCLOG("cocos2d: SpriteFrameCache: Sprite frame: \"%s\" is leaking: it is removed from cache but reference count is %d",
+                CCLOG("cocos2d: SpriteFrameCache: Sprite frame: \"%s\" may be leaking: it is removed from cache but reference count is %d. Note that this situation can legally happen depending on the order of destructors (eg: when you are inheriting ILazyLoaded).",
                       iter->first.c_str(), _spriteFrames.at(iter->first)->getReferenceCount());
 #endif
             keysToRemove.push_back(iter->first);
@@ -572,7 +572,7 @@ void SpriteFrameCache::removeSpriteFramesFromTexture(Texture2D* texture)
         {
 #ifdef DEBUG
             if (_spriteFrames.at(key)->getReferenceCount() > 1)
-                CCLOG("cocos2d: SpriteFrameCache: Sprite frame: \"%s\" is leaking: it is removed from cache but reference count is %d",
+                CCLOG("cocos2d: SpriteFrameCache: Sprite frame: \"%s\" may be leaking: it is removed from cache but reference count is %d. Note that this situation can legally happen depending on the order of destructors (eg: when you are inheriting ILazyLoaded).",
                       key.c_str(), _spriteFrames.at(key)->getReferenceCount());
 #endif
             keysToRemove.push_back(key);
