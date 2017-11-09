@@ -192,12 +192,12 @@ inline void MathUtilNeon64::transposeMatrix(const float* m, float* dst)
 inline void MathUtilNeon64::transformVec4(const float* m, float xx, float yy, float zz, float ww, float* out)
 {
     const float32x4_t vec {xx, yy, zz, ww};
-    const float32x4_t* t = (const float32x4_t*)m;
+    const float32x4x4_t t = vld1q_f32_x4(m);
     
-    float32x4_t ret = vmulq_lane_f32(t[0], vget_low_f32(vec), 0);
-    ret = vmlaq_lane_f32(ret, t[1], vget_low_f32(vec), 1);
-    ret = vmlaq_lane_f32(ret, t[2], vget_high_f32(vec), 0);
-    ret = vmlaq_lane_f32(ret, t[3], vget_high_f32(vec), 1);
+    float32x4_t ret = vmulq_lane_f32(t.val[0], vget_low_f32(vec), 0);
+    ret = vmlaq_lane_f32(ret, t.val[1], vget_low_f32(vec), 1);
+    ret = vmlaq_lane_f32(ret, t.val[2], vget_high_f32(vec), 0);
+    ret = vmlaq_lane_f32(ret, t.val[3], vget_high_f32(vec), 1);
 
     out[0] = ret[0];
     out[1] = ret[1];
@@ -207,12 +207,12 @@ inline void MathUtilNeon64::transformVec4(const float* m, float xx, float yy, fl
 inline void MathUtilNeon64::transformVec4(const float* m, const float* v, float* dest)
 {
     const float32x4_t vec = vld1q_f32(v);
-    const float32x4_t* t = (const float32x4_t*)m;
+    const float32x4x4_t t = vld1q_f32_x4(m);
 
-    float32x4_t ret = vmulq_lane_f32(t[0], vget_low_f32(vec), 0);
-    ret = vmlaq_lane_f32(ret, t[1], vget_low_f32(vec), 1);
-    ret = vmlaq_lane_f32(ret, t[2], vget_high_f32(vec), 0);
-    ret = vmlaq_lane_f32(ret, t[3], vget_high_f32(vec), 1);
+    float32x4_t ret = vmulq_lane_f32(t.val[0], vget_low_f32(vec), 0);
+    ret = vmlaq_lane_f32(ret, t.val[1], vget_low_f32(vec), 1);
+    ret = vmlaq_lane_f32(ret, t.val[2], vget_high_f32(vec), 0);
+    ret = vmlaq_lane_f32(ret, t.val[3], vget_high_f32(vec), 1);
     vst1q_f32(dest, ret);
 }
 
