@@ -47,6 +47,14 @@ THE SOFTWARE.
 #include <spawn.h>
 #endif
 
+
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32) && (CC_TARGET_PLATFORM != CC_PLATFORM_WINRT)
+// default implements for unix like os
+#include <sys/types.h>
+#include <errno.h>
+#include <dirent.h>
+#endif
+
 NS_CC_BEGIN
 
 // Implement DictMaker
@@ -1088,10 +1096,6 @@ long FileUtils::getFileSize(const std::string &filepath)
 }
 
 #else
-// default implements for unix like os
-#include <sys/types.h>
-#include <errno.h>
-#include <dirent.h>
 
 bool FileUtils::isDirectoryExistInternal(const std::string& dirPath) const
 {

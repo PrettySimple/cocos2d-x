@@ -16621,6 +16621,8 @@
 					"-Wno-padded",
 					"-Wno-documentation-unknown-command",
 					"-Wno-documentation",
+					"-Wno-auto-import",
+					"-Wno-over-aligned",
 				);
 			};
 			name = Debug;
@@ -16708,6 +16710,8 @@
 					"-Wno-padded",
 					"-Wno-documentation-unknown-command",
 					"-Wno-documentation",
+					"-Wno-auto-import",
+					"-Wno-over-aligned",
 				);
 			};
 			name = Release;
