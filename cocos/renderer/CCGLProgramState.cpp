@@ -381,7 +381,6 @@ GLProgramState::GLProgramState()
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     /** listen the event that renderer was recreated on Android/WP8 */
-    CCLOG("create rendererRecreatedListener for GLProgramState");
     _backToForegroundlistener = EventListenerCustom::create(EVENT_RENDERER_RECREATED,
         [this](EventCustom*)
         {
