@@ -780,63 +780,6 @@ dc[i] = (dc[i] - c[i]) / _particleData.timeToLive[i];\
     }
 }
 
-/**
- * Evenly distribute position of new born particles between two frames and the two emitter positions (takes into account rotation)
- */
-
-void ParticleSystem::interpolateNewBornParticles( int emitCount )
-{
-    if( _positionType != PositionType::WORLD || _paused ) {
-        // works only for PositionType::WORLD mode
-        // need more time for other modes that may not be relevant for us
-        return;
-    }
-    Mat4 tmp;
-
-    // get world position and delta position
-    Vec3 oldPosition, position;
-    _currentTransforms.getTranslation(&position);
-    _previousTransforms.getTranslation(&oldPosition);
-    Vec3 dtPos = position - oldPosition;
-    
-    // compute delta rotation between two frames
-    Quaternion oldQuat, quat, dstQuat;
-    _currentTransforms.getRotation(&quat);
-    _previousTransforms.getRotation(&oldQuat);
-    quat.normalize();
-    oldQuat.normalize();
-
-    int start = _particleCount - emitCount;
-    float emitterX = _bUseSrcPosOnly ? 0.0f : position.x;
-    float emitterY = _bUseSrcPosOnly ? 0.0f : position.y;
-    
-    for (int i = start; i < _particleCount; ++i)
-    {
-        float Q = (_particleCount - i - 1) / (float)emitCount;
-        Quaternion::slerp(quat, oldQuat, Q, &dstQuat);
-        Mat4::createRotation(dstQuat, &tmp);
-
-        if(_posVar.x > 0 || _posVar.y > 0) {
-            Vec4 startPosVary = Vec4(_particleData.posx[i] - _sourcePosition.x, (_particleData.posy[i] - _sourcePosition.y), 0.0f, 1.0f);
-            tmp.transformVector(&startPosVary);
-            _particleData.posx[i] = _sourcePosition.x + startPosVary.x + emitterX - (dtPos.x * Q);
-            _particleData.posy[i] = _sourcePosition.y + startPosVary.y + emitterY - (dtPos.y * Q);
-        }
-        else {
-            _particleData.posx[i] += emitterX - (dtPos.x * Q);
-            _particleData.posy[i] += emitterY - (dtPos.y * Q);
-        }
-        _particleData.startPosX[i] = _particleData.posx[i];
-        _particleData.startPosY[i] = _particleData.posy[i];
-
-        Vec4 dirTest = Vec4(_particleData.modeA.dirX[i], _particleData.modeA.dirY[i], 0.0f, 0.0f);
-        tmp.transformVector(&dirTest);
-        _particleData.modeA.dirX[i] = dirTest.x;
-        _particleData.modeA.dirY[i] = dirTest.y;
-            
-        _particleData.rotation[i] = -CC_RADIANS_TO_DEGREES(Vec2(dirTest.x, dirTest.y).getAngle());
-    }
-}
 
 void ParticleSystem::onEnter()
 {
@@ -919,8 +862,6 @@ void ParticleSystem::update(float dt)
        
         int emitCount = MIN(_totalParticles - _particleCount, _emitCounter / rate);
         addParticles(emitCount);
-
-        interpolateNewBornParticles(emitCount);
         
         _emitCounter -= rate * emitCount;
         

@@ -252,12 +252,10 @@ public:
      */
     static ParticleSystem* createWithTotalParticles(int numberOfParticles);
     
-    void addParticles(int count);
-
     /**
-     * PS: for emition interpolation in WORLD mode only !!!
+     * PS: PrettySimple modification: we had to switch to a virtual function
      */
-    void interpolateNewBornParticles(int emitCount);
+    virtual void addParticles(int count);
     
     void stopSystem();
     /** Kill all living particles.
