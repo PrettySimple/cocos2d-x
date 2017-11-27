@@ -109,6 +109,7 @@ set(COCOS_PLATFORM_SPECIFIC_SRC
   platform/emscripten/CCFileUtils-emscripten.cpp
   platform/emscripten/CCGLViewImpl-emscripten.cpp
   platform/emscripten/CCStdC-emscripten.cpp
+  platform/emscripten/CCUserDefault-emscripten.cpp
 )
 
 endif()
