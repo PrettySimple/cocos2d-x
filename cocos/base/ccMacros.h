@@ -244,13 +244,37 @@ It should work same as apples CFSwapInt32LittleToHost(..)
 #if !defined(COCOS2D_DEBUG) || COCOS2D_DEBUG == 0
 #define CHECK_GL_ERROR_DEBUG()
 #else
-#define CHECK_GL_ERROR_DEBUG() \
-    do { \
-        GLenum __error = glGetError(); \
-        if(__error) { \
-            cocos2d::log("OpenGL error 0x%04X in %s %s %d\n", __error, __FILE__, __FUNCTION__, __LINE__); \
-        } \
-    } while (false)
+
+// https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetError.xhtml
+// " Thus, glGetError should always be called in a loop, until it returns GL_NO_ERROR, if all error flags are to be reset. "
+
+// GL_STACK_UNDERFLOW and GL_STACK_OVERFLOW are undefined on some platforms (I guess it depends on OpenGL version).
+
+#ifndef GL_STACK_OVERFLOW
+#define GL_STACK_OVERFLOW 0x0503
+#endif
+
+#ifndef GL_STACK_UNDERFLOW
+#define GL_STACK_UNDERFLOW 0x0504
+#endif
+
+#define CHECK_GL_ERROR_DEBUG()\
+	for(auto __error = glGetError(); __error != GL_NO_ERROR; __error = glGetError())									\
+	{																													\
+		const char *__errstr = nullptr;																					\
+		switch(__error)																									\
+		{																												\
+			case GL_INVALID_ENUM:					__errstr = "GL_INVALID_ENUM";					break;				\
+			case GL_INVALID_VALUE:					__errstr = "GL_INVALID_VALUE";					break;				\
+			case GL_INVALID_OPERATION:				__errstr = "GL_INVALID_OPERATION";				break;				\
+			case GL_INVALID_FRAMEBUFFER_OPERATION:	__errstr = "GL_INVALID_FRAMEBUFFER_OPERATION";	break;				\
+			case GL_OUT_OF_MEMORY:					__errstr = "GL_OUT_OF_MEMORY";					break;				\
+			case GL_STACK_OVERFLOW:					__errstr = "GL_STACK_OVERFLOW";					break;				\
+			case GL_STACK_UNDERFLOW:				__errstr = "GL_STACK_UNDERFLOW";				break;				\
+			default:								__errstr = "UNKNOWN";												\
+		}																												\
+		cocos2d::log("OpenGL error [%s] (0x%04X) in %s %s %d", __errstr, __error, __FILE__, __FUNCTION__, __LINE__);	\
+	}
 #endif
 
 /**

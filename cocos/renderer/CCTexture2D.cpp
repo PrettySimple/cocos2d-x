@@ -678,9 +678,9 @@ bool Texture2D::initWithMipmaps(MipmapInfo* mipmaps, int mipmapsNum, PixelFormat
 #endif
 
     // clean possible GL error
-    GLenum err = glGetError();
-    if (err != GL_NO_ERROR)
-    {
+	// One needs to loop until all errors are cleared, see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetError.xhtml
+	for(auto err = glGetError(); err != GL_NO_ERROR; err = glGetError())
+	{
         cocos2d::log("OpenGL error 0x%04X in %s %s %d\n", err, __FILE__, __FUNCTION__, __LINE__);
     }
     
@@ -707,7 +707,7 @@ bool Texture2D::initWithMipmaps(MipmapInfo* mipmaps, int mipmapsNum, PixelFormat
             CCLOG("cocos2d: Texture2D. WARNING. Mipmap level %u is not squared. Texture won't render correctly. width=%d != height=%d", i, width, height);
         }
 
-        err = glGetError();
+        auto err = glGetError();
         if (err != GL_NO_ERROR)
         {
             CCLOG("cocos2d: Texture2D: Error uploading compressed texture level: %u . glError: 0x%04X", i, err);

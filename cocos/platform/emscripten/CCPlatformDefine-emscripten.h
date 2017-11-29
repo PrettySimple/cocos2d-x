@@ -35,7 +35,7 @@ THE SOFTWARE.
 #define CC_ASSERT(cond) assert(cond)
 
 
-#define CC_UNUSED_PARAM(unusedparam) 
+#define CC_UNUSED_PARAM(unusedparam) (void)unusedparam
 
 /* Define NULL pointer value */
 #ifndef NULL
