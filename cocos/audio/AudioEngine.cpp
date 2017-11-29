@@ -176,7 +176,7 @@ bool AudioEngine::lazyInit()
     {
         s_threadPool = new (std::nothrow) AudioEngineThreadPool(true);
     }
-#elif CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID
+#elif (CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID) && (CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN)
     if (_audioEngineImpl && s_threadPool == nullptr)
     {
         s_threadPool = new (std::nothrow) AudioEngineThreadPool(false);

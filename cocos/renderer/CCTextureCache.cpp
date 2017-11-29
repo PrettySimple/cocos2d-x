@@ -25,6 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
+#include "platform/CCPlatformConfig.h"
+
 #include "renderer/CCTextureCache.h"
 
 #include <errno.h>
@@ -75,7 +77,13 @@ TextureCache::~TextureCache()
     for (auto it = _textures.begin(); it != _textures.end(); ++it)
         (it->second)->release();
 
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN)
+
+	// It was already deleted in Emscripten implementation, even if non-null
+
     CC_SAFE_DELETE(_loadingThread);
+
+#endif
 }
 
 void TextureCache::destroyInstance()
@@ -157,13 +165,28 @@ void TextureCache::addImageAsync(const std::string &path, const std::function<vo
         return;
     }
 
+
     // lazy init
     if (_loadingThread == nullptr)
     {
         // create a new thread to load images
         _loadingThread = new (std::nothrow) std::thread(&TextureCache::loadImage, this);
         _needQuit = false;
-    }
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+
+		// In Emscripten, we need to launch the "thread" every time it is necessary, as it exits as soon as it processed the queue.
+		// Yet, we need to cleanup (not to leak) the _loadingThread object, and we wanted to do so without radically changing the existing code.
+		// In order to do so safely:
+		// 1) We're detaching the thread straight away so that we don't have to join it. Once detached, it's no longer linked to std::thread that launched it.
+		// 2) We're deleting _loadingThread so that we don't leak memory (std::thread object).
+		// 3) BUT we keep _loadingThread non-null (it will get null'd by the thread itself)
+
+		_loadingThread->detach();
+		delete _loadingThread;
+#endif
+	}
+
 
     if (0 == _asyncRefCount)
     {
@@ -177,7 +200,8 @@ void TextureCache::addImageAsync(const std::string &path, const std::function<vo
 
     // add async struct into queue
     _asyncStructQueue.push_back(data);
-    _requestMutex.lock();
+
+	_requestMutex.lock();
     _requestQueue.push_back(data);
     _requestMutex.unlock();
 
@@ -215,6 +239,36 @@ void TextureCache::unbindAllImageAsync()
 
 void TextureCache::loadImage()
 {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+
+	// Reset _loadingThread to nullptr so that it gets launched again upon new requests. The actual delete was done in the calling code,
+	// after we got detached.
+	_loadingThread = nullptr;
+
+	if(_needQuit)
+		return;
+
+	// Dequeue all
+	for(auto asyncStruct : _requestQueue)
+	{
+		// load image
+		asyncStruct->loadSuccess = asyncStruct->image.initWithImageFileThreadSafe(asyncStruct->filename);
+
+		// ETC1 ALPHA supports.
+		if (asyncStruct->loadSuccess && asyncStruct->image.getFileType() == Image::Format::ETC && !s_etc1AlphaFileSuffix.empty())
+		{ // check whether alpha texture exists & load it
+			auto alphaFile = asyncStruct->filename + s_etc1AlphaFileSuffix;
+			if (FileUtils::getInstance()->isFileExist(alphaFile))
+				asyncStruct->imageAlpha.initWithImageFileThreadSafe(alphaFile);
+		}
+		// push the asyncStruct to response queue
+		_responseQueue.push_back(asyncStruct);
+	}
+
+	_requestQueue.clear();
+
+#else
+
     AsyncStruct *asyncStruct = nullptr;
     std::mutex signalMutex;
     std::unique_lock<std::mutex> signal(signalMutex);
@@ -253,6 +307,8 @@ void TextureCache::loadImage()
         _responseQueue.push_back(asyncStruct);
         _responseMutex.unlock();
     }
+
+#endif
 }
 
 void TextureCache::addImageAsyncCallBack(float dt)
@@ -607,8 +663,11 @@ void TextureCache::waitForQuit()
 {
     // notify sub thread to quick
     _needQuit = true;
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN)
+	// The image load thread is detached in emscripten implementation, _needQuit is enough to stop it.
     _sleepCondition.notify_one();
     if (_loadingThread) _loadingThread->join();
+#endif
 }
 
 std::string TextureCache::getCachedTextureInfo() const

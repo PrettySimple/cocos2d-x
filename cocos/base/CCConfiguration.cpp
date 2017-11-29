@@ -297,6 +297,10 @@ bool Configuration::supportsMapBuffer() const
     // XXX: Warning. On iOS this is always `true`. Avoiding the comparison.
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     return _supportsOESMapBuffer;
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+	// (although _supportsOESMapBuffer does report false)
+	// See: https://github.com/kripken/emscripten/issues/4408
+	return false;
 #else
     return true;
 #endif

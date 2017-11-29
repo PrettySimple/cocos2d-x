@@ -303,6 +303,7 @@ extern "C" EM_BOOL mouseCb(int eventType, const EmscriptenMouseEvent* mouseEvent
     {
         case EMSCRIPTEN_EVENT_MOUSEDOWN:
         {
+			//CCLOG("[EMSCRIPTEN_EVENT_MOUSEDOWN] ...");
             if (mouseEvent->button == 0 /*LEFT*/)
             {
                 glview->_captured = true;
@@ -318,6 +319,7 @@ extern "C" EM_BOOL mouseCb(int eventType, const EmscriptenMouseEvent* mouseEvent
         break;
         case EMSCRIPTEN_EVENT_MOUSEUP:
         {
+			//CCLOG("[EMSCRIPTEN_EVENT_MOUSEUP] ...");
             if (mouseEvent->button == 0 /*LEFT*/ && glview->_captured)
             {
                 glview->_captured = false;
@@ -333,6 +335,8 @@ extern "C" EM_BOOL mouseCb(int eventType, const EmscriptenMouseEvent* mouseEvent
         break;
         case EMSCRIPTEN_EVENT_MOUSEMOVE:
         {
+			//CCLOG("[EMSCRIPTEN_EVENT_MOUSEMOVE] ...");
+
             if (glview->_captured)
             {
                 intptr_t id = 0;
@@ -550,7 +554,7 @@ void GLViewImpl::createEGLContext() noexcept
         eglQuerySurface(_display, _surface, EGL_HEIGHT, &height);
 
         updateCanvasSize(width, height);
-    }
+	}
 }
 
 void GLViewImpl::deleteEGLContext() noexcept
@@ -577,6 +581,9 @@ void GLViewImpl::deleteEGLContext() noexcept
 
 void GLViewImpl::updateCanvasSize(int width, int height) noexcept
 {
+	printf("*** GLViewImpl::updateCanvasSize(%d, %d)\n", width, height);
+	printf("*** _retinaFactor=%f\n", _retinaFactor);
+
     const bool sendEnvent = _screenSize.width > 0 && _screenSize.height > 0 && (_screenSize.width != width || _screenSize.height != height);
     setFrameSize(std::ceil(width / _retinaFactor), std::ceil(height / _retinaFactor));
     if (_resolutionPolicy != ResolutionPolicy::UNKNOWN)

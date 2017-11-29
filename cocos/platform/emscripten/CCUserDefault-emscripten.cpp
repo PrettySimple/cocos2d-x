@@ -62,7 +62,7 @@
 
 			Addendum: there is: https://github.com/emscripten-ports/Cocos2d/blob/master/cocos2dx/support/user_default/CCUserDefaultEmscripten.cpp
 			but it doesn't fallback to sessionStorage which IMHO is a must. Also, it assumes std::string is utf8 (hence DOMString-serializable) which
-			it might not be.
+			it might not be (since the API allows storing binary cocos2d::Data).
 
 		3) In-memory only non-persistent storage
 
@@ -73,7 +73,7 @@
 
 	* const char *key
 
-		Neither the Cocos documentation nor source code specify anything regarding the "const char *key" argument. According to the code, it is 
+		Neither the Cocos documentation nor source code specify anything regarding the "const char *key" argument. According to the code, it is
 		expected to be a zero-terminated string.
 
 		For sake of simplicity, we'll *assume* that it always holds a string that forms valid utf8 sequences. Passing a non-utf8 string will break this
@@ -106,69 +106,71 @@ NS_CC_BEGIN
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Static functions
 
-
-static void	setValueForKey(const char *key, const char *value, size_t size)
+namespace
 {
-	if(key && value)
+
+	static void	setValueForKey(const char *key, const char *value, size_t size)
 	{
-		// Okay, we're unconditionally base64-encoding so that the data provided to JS is always DOMString-compatible.
-		// We're using cocos' base64 functions (which is what the default CCUserDefault.cpp implementation does, yet only
-		// when storing cocos2d::Data)
+		if(key && value)
+		{
+			// Okay, we're unconditionally base64-encoding so that the data provided to JS is always DOMString-compatible.
+			// We're using cocos' base64 functions (which is what the default CCUserDefault.cpp implementation does, yet only
+			// when storing cocos2d::Data)
 
-		char *encodedData = nullptr;
-		
-		base64Encode(reinterpret_cast<unsigned char *>(const_cast<char *>(value)), size, &encodedData);
+			char *encodedData = nullptr;
 
-		if(!encodedData)
-			return;
+			base64Encode(reinterpret_cast<unsigned char *>(const_cast<char *>(value)), size, &encodedData);
 
-		EM_ASM_({
-			Module.cocos_UserDefault.setValue($0, $1, $2, $3);
-		}, key, strlen(key), encodedData, strlen(encodedData));
+			if(!encodedData)
+				return;
 
-		free(encodedData);
+			EM_ASM_({
+				Module.cocos_UserDefault.setValue($0, $1, $2, $3);
+			}, key, strlen(key), encodedData, strlen(encodedData));
+
+			free(encodedData);
+		}
 	}
-}
 
-static std::pair<bool, std::string>	// <found, value>
-			getValueForKey(const char *key)
-{
-	uintptr_t	ptr = EM_ASM_INT({
-		return Module.cocos_UserDefault.getValue($0, $1);
-	}, key, strlen(key));
-
-	if(!ptr)
-		return std::make_pair(false, "");
-
-	char	*value = reinterpret_cast<char *>(ptr);
-
-	// Skip useless base64Decode() call if we got an empty string
-	if(*value == 0x00)
+	static std::pair<bool, std::string>	// <found, value>
+				getValueForKey(const char *key)
 	{
+		uintptr_t	ptr = EM_ASM_INT({
+			return Module.cocos_UserDefault.getValue($0, $1);
+		}, key, strlen(key));
+
+		if(!ptr)
+			return std::make_pair(false, "");
+
+		char	*value = reinterpret_cast<char *>(ptr);
+
+		// Skip useless base64Decode() call if we got an empty string
+		if(*value == 0x00)
+		{
+			free(value);
+			return std::make_pair(true, "");
+		}
+
+		char	*decodedData = nullptr;
+		auto	decodedDataLen = base64Decode(reinterpret_cast<unsigned char *>(value), static_cast<unsigned int>(strlen(value)), reinterpret_cast<unsigned char **>(&decodedData));
+
 		free(value);
-		return std::make_pair(true, "");
+
+		if(decodedData)
+		{
+			auto	ret = std::make_pair(true, std::string(decodedData, decodedDataLen));
+
+			free(decodedData);
+
+			return ret;
+		}
+
+		// This is an allocation failure. The default implementation acts as the key wasn't found, so we're doing the same
+
+		return std::make_pair(false, "");
 	}
 
-	char	*decodedData = nullptr;
-	auto	decodedDataLen = base64Decode(reinterpret_cast<unsigned char *>(value), static_cast<unsigned int>(strlen(value)), reinterpret_cast<unsigned char **>(&decodedData));
-
-	free(value);
-
-	if(decodedData)
-	{
-		auto	ret = std::make_pair(true, std::string(decodedData, decodedDataLen));
-
-		free(decodedData);
-		
-		return ret;
-	}
-
-	// This is an allocation failure. The default implementation acts as the key wasn't found, so we're doing the same
-
-	return std::make_pair(false, "");
 }
-
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Constructor/destructor and JS implementation (in UserDefault::UserDefault())
@@ -257,7 +259,7 @@ int		UserDefault::getIntegerForKey(const char *key, int defaultValue)
 
 	if(value.first)
 		return atoi(value.second.c_str());
-	
+
 	return defaultValue;
 }
 
@@ -275,7 +277,7 @@ double	UserDefault::getDoubleForKey(const char *key, double defaultValue)
 
 	if(value.first)
 		return utils::atof(value.second.c_str());
-	
+
 	return defaultValue;
 }
 
@@ -422,7 +424,7 @@ void	UserDefault::purgeSharedUserDefault()
 
 
 
-const std::string&	
+const std::string&
 		UserDefault::getXMLFilePath()
 {
 	return _filePath;	// always ""

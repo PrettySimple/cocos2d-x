@@ -105,14 +105,14 @@ Module.cocos_UserDefault = {
 
 	setValue		:	function(key_ptr, key_len, value_ptr, value_len)
 	{
-		this._set(Pointer_stringify(key_ptr, key_len), Pointer_stringify(value_ptr, value_len));
+		this._set(Module.Pointer_stringify(key_ptr, key_len), Module.Pointer_stringify(value_ptr, value_len));
 	},
 
 	getValue		:	function(key_ptr, key_len)
 	{
 		// We return 0 if the key was not found, a pointer to a null-terminated string otherwise
 		// (since we assume we're storing null-terminated base64-encoded data)
-		var	value = this._get(Pointer_stringify(key_ptr, key_len));
+		var	value = this._get(Module.Pointer_stringify(key_ptr, key_len));
 
 		if(value === null)
 			return 0;
@@ -123,14 +123,14 @@ Module.cocos_UserDefault = {
 		var	size = lengthBytesUTF8(value) + 1;
 		var	ptr = Module._malloc(size);
 
-		stringToUTF8(value, ptr, size);
+		Module.stringToUTF8(value, ptr, size);
 
 		return ptr;
 	},
 
 	removeValue		:	function(key_ptr, key_len)
 	{
-		this._remove(Pointer_stringify(key_ptr, key_len));
+		this._remove(Module.Pointer_stringify(key_ptr, key_len));
 	}
 
 };
