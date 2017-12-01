@@ -76,7 +76,7 @@ RenderTexture::~RenderTexture()
 {
     CC_SAFE_RELEASE(_sprite);
     CC_SAFE_RELEASE(_textureCopy);
-    
+
     glDeleteFramebuffers(1, &_FBO);
     if (_depthRenderBufffer)
     {
@@ -97,7 +97,7 @@ void RenderTexture::listenToBackground(EventCustom *event)
     // So we disable this pair of message handler at present.
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     CC_SAFE_DELETE(_UITextureImage);
-    
+
     // to get the rendered texture data
     _UITextureImage = newImage(false);
 
@@ -105,7 +105,7 @@ void RenderTexture::listenToBackground(EventCustom *event)
     {
         const Size& s = _texture->getContentSizeInPixels();
         VolatileTextureMgr::addDataTexture(_texture, _UITextureImage->getData(), s.width * s.height * 4, Texture2D::PixelFormat::RGBA8888, s);
-        
+
         if ( _textureCopy )
         {
             VolatileTextureMgr::addDataTexture(_textureCopy, _UITextureImage->getData(), s.width * s.height * 4, Texture2D::PixelFormat::RGBA8888, s);
@@ -115,7 +115,7 @@ void RenderTexture::listenToBackground(EventCustom *event)
     {
         CCLOG("Cache rendertexture failed!");
     }
-    
+
     glDeleteFramebuffers(1, &_FBO);
     _FBO = 0;
 #endif
@@ -126,17 +126,17 @@ void RenderTexture::listenToForeground(EventCustom *event)
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     // -- regenerate frame buffer object and attach the texture
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_oldFBO);
-    
+
     glGenFramebuffers(1, &_FBO);
     glBindFramebuffer(GL_FRAMEBUFFER, _FBO);
-    
+
     _texture->setAliasTexParameters();
-    
+
     if ( _textureCopy )
     {
         _textureCopy->setAliasTexParameters();
     }
-    
+
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texture->getName(), 0);
     glBindFramebuffer(GL_FRAMEBUFFER, _oldFBO);
 #endif
@@ -192,7 +192,7 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
 
     bool ret = false;
     void *data = nullptr;
-    do 
+    do
     {
         _fullRect = _rtTextureRect = Rect(0,0,w,h);
         //Size size = Director::getInstance()->getWinSizeInPixels();
@@ -200,7 +200,7 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
         w = (int)(w * CC_CONTENT_SCALE_FACTOR());
         h = (int)(h * CC_CONTENT_SCALE_FACTOR());
         _fullviewPort = Rect(0,0,w,h);
-        
+
         glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_oldFBO);
 
         // textures must be power of two squared
@@ -225,7 +225,7 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
         /*    data = malloc(dataLen);
             CC_BREAK_IF(! data);
             memset(data, 0, dataLen); */
-        
+
         _pixelFormat = format;
 
         _texture = new (std::nothrow) Texture2D();
@@ -239,7 +239,7 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
         }
         GLint oldRBO;
         glGetIntegerv(GL_RENDERBUFFER_BINDING, &oldRBO);
-        
+
         if (Configuration::getInstance()->checkForGLExtension("GL_QCOM"))
         {
             _textureCopy = new (std::nothrow) Texture2D();
@@ -262,9 +262,7 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
 
         if (depthStencilFormat != 0)
         {
-            
-                        
-#if(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
             if(Configuration::getInstance()->supportsOESPackedDepthStencil())
             {
                 //create and attach depth buffer
@@ -285,7 +283,7 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
                 glGenRenderbuffers(1, &_depthRenderBufffer);
                 glGenRenderbuffers(1, &_stencilRenderBufffer);
                 glBindRenderbuffer(GL_RENDERBUFFER, _depthRenderBufffer);
-                
+
                 if(Configuration::getInstance()->supportsOESDepth24())
                 {
                     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24_OES, (GLsizei)powW, (GLsizei)powH);
@@ -294,30 +292,43 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
                 {
                     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, (GLsizei)powW, (GLsizei)powH);
                 }
-                
+
                 glBindRenderbuffer(GL_RENDERBUFFER, _stencilRenderBufffer);
                 glRenderbufferStorage(GL_RENDERBUFFER, GL_STENCIL_INDEX8,  (GLsizei)powW, (GLsizei)powH);
-                
+
                 glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthRenderBufffer);
-                glFramebufferRenderbuffer(GL_FRAMEBUFFER,
-                                          GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _stencilRenderBufffer);
+                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _stencilRenderBufffer);
+            }
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+            //create and attach depth buffer
+            glGenRenderbuffers(1, &_depthRenderBufffer);
+            glBindRenderbuffer(GL_RENDERBUFFER, _depthRenderBufffer);
+
+            // if depth format is the one with stencil part, bind same render buffer as stencil attachment
+            if (depthStencilFormat == GL_DEPTH24_STENCIL8)
+            {
+                glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_STENCIL, (GLsizei)powW, (GLsizei)powH);
+                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _depthRenderBufffer);
+            }
+            else
+            {
+                glRenderbufferStorage(GL_RENDERBUFFER, depthStencilFormat, (GLsizei)powW, (GLsizei)powH);
+                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthRenderBufffer);
             }
 #else
-            
             //create and attach depth buffer
             glGenRenderbuffers(1, &_depthRenderBufffer);
             glBindRenderbuffer(GL_RENDERBUFFER, _depthRenderBufffer);
             glRenderbufferStorage(GL_RENDERBUFFER, depthStencilFormat, (GLsizei)powW, (GLsizei)powH);
             glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthRenderBufffer);
-            
+
             // if depth format is the one with stencil part, bind same render buffer as stencil attachment
             if (depthStencilFormat == GL_DEPTH24_STENCIL8)
             {
                 glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _depthRenderBufffer);
             }
-
 #endif
-            
+
         }
 
         // check if it worked (probably worth doing :) )
@@ -336,18 +347,18 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
 
         glBindRenderbuffer(GL_RENDERBUFFER, oldRBO);
         glBindFramebuffer(GL_FRAMEBUFFER, _oldFBO);
-        
+
         // Disabled by default.
         _autoDraw = false;
-        
+
         // add sprite for backward compatibility
         addChild(_sprite);
-        
+
         ret = true;
     } while (0);
-    
+
     CC_SAFE_FREE(data);
-    
+
     return ret;
 }
 
@@ -363,10 +374,10 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
 void RenderTexture::forcePMATrue()
 {
     _texture->_hasPremultipliedAlpha = true;
-    
+
     // update blend func accordingly (might be redondant)
     // (u should note that althought cocos flags the RT as PMA false, it sets blending modes for PMA texture line 334 in the function above)
-    
+
     _sprite->setBlendFunc( BlendFunc::ALPHA_PREMULTIPLIED );
     _sprite->setOpacityModifyRGB(true);
 }
@@ -479,7 +490,7 @@ void RenderTexture::visit(Renderer *renderer, const Mat4 &parentTransform, uint3
     {
         return;
     }
-    
+
     uint32_t flags = processParentFlags(parentTransform, parentFlags);
 
     Director* director = Director::getInstance();
@@ -494,7 +505,7 @@ void RenderTexture::visit(Renderer *renderer, const Mat4 &parentTransform, uint3
     {
         draw(renderer, _modelViewTransform, flags);
     }
-    
+
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 
     // FIX ME: Why need to set _orderOfArrival to 0??
@@ -506,7 +517,7 @@ bool RenderTexture::saveToFile(const std::string& filename, bool isRGBA, std::fu
 {
     std::string basename(filename);
     std::transform(basename.begin(), basename.end(), basename.begin(), ::tolower);
-    
+
     if (basename.find(".png") != std::string::npos)
     {
         return saveToFile(filename, Image::Format::PNG, isRGBA, callback);
@@ -520,7 +531,7 @@ bool RenderTexture::saveToFile(const std::string& filename, bool isRGBA, std::fu
     {
         CCLOG("Only PNG and JPG format are supported now!");
     }
-    
+
     return saveToFile(filename, Image::Format::JPG, false, callback);
 }
 
@@ -529,13 +540,13 @@ bool RenderTexture::saveToFile(const std::string& fileName, Image::Format format
     CCASSERT(format == Image::Format::JPG || format == Image::Format::PNG,
              "the image can only be saved as JPG or PNG format");
     if (isRGBA && format == Image::Format::JPG) CCLOG("RGBA is not supported for JPG format");
-    
+
     _saveFileCallback = callback;
-    
+
     std::string fullpath = FileUtils::getInstance()->getWritablePath() + fileName;
     _saveToFileCommand.init(_globalZOrder);
     _saveToFileCommand.func = CC_CALLBACK_0(RenderTexture::onSaveToFile, this, fullpath, isRGBA);
-    
+
     Director::getInstance()->getRenderer()->addCommand(&_saveToFileCommand);
     return true;
 }
@@ -622,7 +633,7 @@ Image* RenderTexture::newImage(bool fliimage)
         {
             image->initWithRawData(tempData, savedBufferWidth * savedBufferHeight * 4, savedBufferWidth, savedBufferHeight, 8);
         }
-        
+
     } while (0);
 
     CC_SAFE_DELETE_ARRAY(buffer);
@@ -635,25 +646,25 @@ void RenderTexture::onBegin()
 {
     //
     Director *director = Director::getInstance();
-    
+
     _oldProjMatrix = director->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
     director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, _projectionMatrix);
-    
+
     _oldTransMatrix = director->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
     director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _transformMatrix);
-    
+
     if(!_keepMatrix)
     {
         director->setProjection(director->getProjection());
         const Size& texSize = _texture->getContentSizeInPixels();
-        
+
         // Calculate the texture ortho matrix
         Size size = director->getWinSizeInPixels();
         Mat4 orthoMatrix;
         Mat4::createOrthographicOffCenter(0, texSize.width, 0, texSize.height, -1, 1, &orthoMatrix);
         director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, orthoMatrix);
     }
-    
+
     //calculate viewport
     {
         Rect viewport;
@@ -668,7 +679,7 @@ void RenderTexture::onBegin()
     }
 
     // Adjust the orthographic projection and viewport
-    
+
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_oldFBO);
     glBindFramebuffer(GL_FRAMEBUFFER, _FBO);
 
@@ -790,26 +801,26 @@ void RenderTexture::begin()
 {
     Director* director = Director::getInstance();
     CCASSERT(nullptr != director, "Director is null when setting matrix stack");
-    
+
     director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
     _projectionMatrix = director->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
-    
+
     director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
     _transformMatrix = director->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
-    
+
     if(!_keepMatrix)
     {
         director->setProjection(director->getProjection());
-        
+
         const Size& texSize = _texture->getContentSizeInPixels();
-        
+
         // Calculate the adjustment ratios based on the old and new projections
         Size size = director->getWinSizeInPixels();
         Mat4 orthoMatrix;
         Mat4::createOrthographicOffCenter(0, texSize.width, 0, texSize.height, -1, 1, &orthoMatrix);
         director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, orthoMatrix);
     }
-    
+
     _groupCommand.init(_globalZOrder);
 
     Renderer *renderer =  Director::getInstance()->getRenderer();
@@ -829,11 +840,11 @@ void RenderTexture::end()
 
     Director* director = Director::getInstance();
     CCASSERT(nullptr != director, "Director is null when setting matrix stack");
-    
+
     Renderer *renderer = director->getRenderer();
     renderer->addCommand(&_endCommand);
     renderer->popGroup();
-    
+
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 }

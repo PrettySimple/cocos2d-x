@@ -49,9 +49,8 @@ THE SOFTWARE.
 #define glMapBuffer                     glMapBufferOES
 #define glUnmapBuffer                   glUnmapBufferOES;
 
-
-
-
+#define GL_DEPTH_STENCIL				0x84F9
+#define GL_DEPTH_STENCIL_ATTACHMENT		0x821A
 
 
 #if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
@@ -861,4 +860,3 @@ EGLint	wrappedEGLErrorGet();
 #endif // (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
 
 #endif // __PLATFORM_EMSCRIPTEN_CCGL_H__
-
