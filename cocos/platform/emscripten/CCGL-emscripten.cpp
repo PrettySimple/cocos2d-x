@@ -54,7 +54,9 @@ GLenum	wrappedGLErrorGetBit()
 {
 	// What the spec calls bits are not actually single bits. Hence, we first need to process the known bits,
 	// then we'll fallback to individual bits tests...
-	static GLenum	known_bits[] = { GL_INVALID_ENUM, GL_INVALID_VALUE, GL_INVALID_OPERATION, GL_INVALID_FRAMEBUFFER_OPERATION, GL_OUT_OF_MEMORY, GL_STACK_OVERFLOW, GL_STACK_UNDERFLOW };
+	// These must be sorted from highest to lowest!
+	static GLenum	known_bits[] = { GL_STACK_UNDERFLOW, GL_STACK_OVERFLOW,GL_INVALID_FRAMEBUFFER_OPERATION, GL_OUT_OF_MEMORY, GL_INVALID_OPERATION, GL_INVALID_VALUE, GL_INVALID_ENUM };
+
 
 	for(unsigned int i = 0; i < sizeof(known_bits) / sizeof(GLenum); ++i)
 	{

@@ -279,7 +279,6 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
             }
             else
             {
-
                 glGenRenderbuffers(1, &_depthRenderBufffer);
                 glGenRenderbuffers(1, &_stencilRenderBufffer);
                 glBindRenderbuffer(GL_RENDERBUFFER, _depthRenderBufffer);
