@@ -1,5 +1,5 @@
 /****************************************************************************
-Copyright (c) 2016 Chukong Technologies Inc.
+Copyright (c) 2016-2017 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
 
@@ -30,7 +30,6 @@ THE SOFTWARE.
 #include "audio/android/OpenSLHelper.h"
 
 #include <algorithm>
-#include <malloc.h>
 
 namespace cocos2d { namespace experimental {
 
