@@ -440,11 +440,13 @@ public:
      */
     Renderer* getRenderer() const { return _renderer; }
 
+#if(CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN)
     /** Returns the Console associated with this director.
      * @since v3.0
      * @js NA
      */
     Console* getConsole() const { return _console; }
+#endif
 
     /* Gets delta time since last tick to main loop. */
 	float getDeltaTime() const;
@@ -619,8 +621,10 @@ protected:
     /* Default FrameBufferObject*/
     experimental::FrameBuffer* _defaultFBO;
 
+#if(CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN)
     /* Console for the director */
     Console *_console;
+#endif
 
     bool _isStatusLabelUpdated;
 

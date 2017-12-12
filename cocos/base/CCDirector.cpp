@@ -147,7 +147,9 @@ bool Director::init(void)
 
     _contentScaleFactor = 1.0f;
 
+#if(CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN)
     _console = new (std::nothrow) Console;
+#endif
 
     // scheduler
     _scheduler = new (std::nothrow) Scheduler();
@@ -200,8 +202,9 @@ Director::~Director(void)
 
     delete _renderer;
 
+#if(CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN)
     delete _console;
-
+#endif
 
     CC_SAFE_RELEASE(_eventDispatcher);
 
