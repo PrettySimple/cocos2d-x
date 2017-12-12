@@ -180,8 +180,10 @@ namespace {
         fprintf(stdout, "%s", buf);
         fflush(stdout);
 #endif
-        
+
+#if(CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN)
         Director::getInstance()->getConsole()->log(buf);
+#endif
         delete [] buf;
     }
 }

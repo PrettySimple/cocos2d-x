@@ -681,7 +681,7 @@ bool Texture2D::initWithMipmaps(MipmapInfo* mipmaps, int mipmapsNum, PixelFormat
 	// One needs to loop until all errors are cleared, see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetError.xhtml
 	for(auto err = glGetError(); err != GL_NO_ERROR; err = glGetError())
 	{
-        cocos2d::log("OpenGL error 0x%04X in %s %s %d\n", err, __FILE__, __FUNCTION__, __LINE__);
+        CCLOG("OpenGL error 0x%04X in %s %s %d\n", err, __FILE__, __FUNCTION__, __LINE__);
     }
     
     // Specify OpenGL texture image
