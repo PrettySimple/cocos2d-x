@@ -122,7 +122,7 @@ function	build_cpp_js(input_file, output_file, opts)
 		minimize:			false
 	};
 
-	var	arg, opt;
+	var	arg;
 
 	args.shift();
 	args.shift();
