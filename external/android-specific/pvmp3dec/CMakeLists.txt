@@ -26,7 +26,7 @@ set(PVMP3DEC_SRC
   src/pvmp3_reorder.cpp
 )
 
-if(${ANDROID_ABI} strequal "arm")
+if(${ANDROID_ABI} STREQUAL "arm")
 set(ARCH_SRC
   src/asm/pvmp3_polyphase_filter_window_gcc.s
   src/asm/pvmp3_mdct_18_gcc.s
@@ -40,7 +40,9 @@ set(ARCH_SRC
   src/pvmp3_dct_9.cpp
   src/pvmp3_dct_16.cpp
   )
-endif
+endif()
+
+MESSAGE( STATUS "CMAKE_CURRENT_SOURCE_DIR:         " ${CMAKE_CURRENT_SOURCE_DIR} )
 
 add_library(pvmp3dec STATIC
   ${PVMP3DEC_SRC}
