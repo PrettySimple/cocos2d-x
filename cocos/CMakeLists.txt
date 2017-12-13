@@ -94,9 +94,11 @@ set(COCOS_SRC cocos2d.cpp
   #todo: provide prebuild versions of the xx libs for all platforms
   include_directories(../external/xxtea)
   include_directories(../external/clipper)
+if(ANDROID)
   include_directories(../external/android-specific/pvmp3dec/include)
   include_directories(../external/android-specific/pvmp3dec/src)
   include_directories(../external/android-specific/tremolo)
+endif(ANDROID)
 
 add_library(cocos2dInternal ${COCOS_SRC} platform/ios/cocos2d-prefix.pch)
 #add_precompiled_header(cocos2dInternal platform/ios/cocos2d-prefix.pch FORCEINCLUDE)
@@ -225,6 +227,8 @@ add_custom_command(TARGET cocos2d POST_BUILD
                    COMMAND "${CMAKE_COMMAND}" -E
                    copy "${CMAKE_BINARY_DIR}/lib/libcocos2d.a"
                    "${LIB_PUBLISH_DIRECTORY}/libcocos2d.a")
+
+
 
 
 endif()
