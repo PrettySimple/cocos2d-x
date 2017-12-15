@@ -42,6 +42,9 @@ BundleArtifacts
 .vs/
 *.VC.db
 
+# Ignore files built by build-cpp-js
+*.cpp.js
+
 # Ignore files build by ndk and eclipse
 libs/
 bin/

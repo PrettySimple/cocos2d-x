@@ -228,5 +228,29 @@ add_custom_command(TARGET cocos2d POST_BUILD
                    COMMAND "${CMAKE_COMMAND}" -E
                    copy "${CMAKE_BINARY_DIR}/lib/libcocos2d.a"
                    "${LIB_PUBLISH_DIRECTORY}/libcocos2d.a")
+
+
 endif()
 
+if(EMSCRIPTEN)
+
+	if(CMAKE_BUILD_TYPE STREQUAL "Release")
+		set(BUILD_CPP_JS_OPTS "--minimize")
+	else()
+		set(BUILD_CPP_JS_OPTS "--no-minimize")
+	endif()
+
+	add_custom_command(
+		OUTPUT platform/emscripten/CCUserDefault-emscripten.cpp.js
+		COMMAND ../tools/emscripten/build-cpp-js.js --source platform/emscripten/CCUserDefault-emscripten.src.js ${BUILD_CPP_JS_OPTS}
+		WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+	)
+
+	add_custom_target(
+		build_cpp_js_cocos
+		DEPENDS platform/emscripten/CCUserDefault-emscripten.cpp.js
+	)
+
+	add_dependencies(cocos2d build_cpp_js_cocos)
+
+endif(EMSCRIPTEN)
