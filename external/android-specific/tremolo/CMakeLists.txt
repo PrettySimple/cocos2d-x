@@ -1,18 +1,22 @@
 set(VORBISIDEC_SRC
-  Tremolo/bitwise.c
-  Tremolo/codebook.c
-  Tremolo/dsp.c
-  Tremolo/floor0.c
-  Tremolo/floor1.c
-  Tremolo/floor_lookup.c
-  Tremolo/framing.c
-  Tremolo/mapping0.c
-  Tremolo/mdct.c
-  Tremolo/misc.c
-  Tremolo/res012.c
-  Tremolo/treminfo.c
-  Tremolo/vorbisfile.c
+    Tremolo/bitwise.c
+    Tremolo/codebook.c
+    Tremolo/dsp.c
+    Tremolo/floor0.c
+    Tremolo/floor1.c
+    Tremolo/floor_lookup.c
+    Tremolo/framing.c
+    Tremolo/mapping0.c
+    Tremolo/mdct.c
+    Tremolo/misc.c
+    Tremolo/res012.c
+    Tremolo/treminfo.c
+    Tremolo/vorbisfile.c
 )
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Tremolo)
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DONLY_C -O2")
 
 add_library(vorbisidec STATIC
   ${VORBISIDEC_SRC}

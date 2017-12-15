@@ -42,6 +42,9 @@ set(ARCH_SRC
   )
 endif()
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+
 add_library(pvmp3dec STATIC
   ${PVMP3DEC_SRC}
   ${ARCH_SRC}
@@ -52,6 +55,8 @@ set_target_properties(pvmp3dec
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
 )
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D\"OSCL_UNUSED_ARG(x)=(void)(x)\"")
 
 if (ANDROID)
 add_custom_command(TARGET pvmp3dec POST_BUILD

@@ -95,9 +95,10 @@ set(COCOS_SRC cocos2d.cpp
   include_directories(../external/xxtea)
   include_directories(../external/clipper)
 if(ANDROID)
-  include_directories(../external/android-specific/pvmp3dec/include)
   include_directories(../external/android-specific/pvmp3dec/src)
+  include_directories(../external/android-specific/pvmp3dec/include)
   include_directories(../external/android-specific/tremolo)
+  include_directories(../external/android-specific/tremolo/Tremolo)
 endif(ANDROID)
 
 add_library(cocos2dInternal ${COCOS_SRC} platform/ios/cocos2d-prefix.pch)
@@ -210,7 +211,7 @@ ADD_LIBRARY(cocos2d cc_dummy.c)
 
 if(ANDROID)
   target_link_libraries(cocos2d -Wl,-whole-archive cocos2dxandroid_static -Wl,-no-whole-archive)
-  target_link_libraries(cocos2d cocos2dInternal cpufeatures)
+  target_link_libraries(cocos2d cocos2dInternal cpufeatures pvmp3dec vorbisidec)
 else()
   target_link_libraries(cocos2d cocos2dInternal)
 endif()
@@ -227,8 +228,5 @@ add_custom_command(TARGET cocos2d POST_BUILD
                    COMMAND "${CMAKE_COMMAND}" -E
                    copy "${CMAKE_BINARY_DIR}/lib/libcocos2d.a"
                    "${LIB_PUBLISH_DIRECTORY}/libcocos2d.a")
-
-
-
-
 endif()
+
