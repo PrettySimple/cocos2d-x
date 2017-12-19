@@ -398,6 +398,26 @@ ssize_t ActionManager::getNumberOfRunningActionsInTarget(const Node *target) con
     return 0;
 }
 
+std::vector<Action*> ActionManager::getRunningActionsInTarget(const Node *target) const
+{
+    std::vector<Action*> actions;
+    
+    tHashElement *element = nullptr;
+    HASH_FIND_PTR(_targets, &target, element);
+    if (element)
+    {
+        auto limit = element->actions->num;
+        for (int i = 0; i < limit; i++)
+        {
+            Action *action = (Action*)element->actions->arr[i];
+            actions.push_back(action);
+        }
+    }
+    
+    return actions;
+}
+
+
 // main loop
 void ActionManager::update(float dt)
 {

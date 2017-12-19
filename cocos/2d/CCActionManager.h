@@ -141,6 +141,15 @@ public:
      */
     ssize_t getNumberOfRunningActionsInTarget(const Node *target) const;
 
+    /**
+     * Added by Seb.Flory & Pierre.Marxen
+     * Returns all actions currently running in a certain target.
+     *
+     * @param target    A certain target.
+     * @return  A vector of actions that are running in a certain target.
+     */
+    std::vector<Action*> getRunningActionsInTarget(const Node *target) const;
+    
     /** @deprecated Use getNumberOfRunningActionsInTarget() instead.
      */
     CC_DEPRECATED_ATTRIBUTE ssize_t numberOfRunningActionsInTarget(Node *target) const { return getNumberOfRunningActionsInTarget(target); }
