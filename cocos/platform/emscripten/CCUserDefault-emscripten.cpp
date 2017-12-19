@@ -191,10 +191,9 @@ UserDefault::UserDefault()
 		[]()
 		{
 			// I had trouble inlining this code with EM_ASM() (it confuses the compiler), same problem as in HTTPManager_emscripten.cpp...
-			const char *code =
+			emscripten_run_script(
 				#include "CCUserDefault-emscripten.cpp.js"
-			;
-			emscripten_run_script(code);
+			);
 		}
 	);
 }
