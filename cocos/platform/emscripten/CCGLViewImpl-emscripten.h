@@ -69,7 +69,8 @@ private:
     EGLConfig _config;
 
     float _retinaFactor;
-    bool _captured;
+	bool _mouseCaptured;
+	bool _mouseBtnDown;
 
     cocos2d::Size _screenSizeBeforeFullscreen;
 };

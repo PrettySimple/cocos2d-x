@@ -299,57 +299,139 @@ extern "C" EM_BOOL mouseCb(int eventType, const EmscriptenMouseEvent* mouseEvent
     evtCursorX /= glview->getFrameZoomFactor();
     evtCursorY /= glview->getFrameZoomFactor();
 
-    switch (eventType)
-    {
-        case EMSCRIPTEN_EVENT_MOUSEDOWN:
-        {
-			//CCLOG("[EMSCRIPTEN_EVENT_MOUSEDOWN] ...");
-            if (mouseEvent->button == 0 /*LEFT*/)
-            {
-                glview->_captured = true;
-                intptr_t id = 0;
-                glview->handleTouchesBegin(1, &id, &cursorX, &cursorY);
-            }
 
-            EventMouse event(EventMouse::MouseEventType::MOUSE_DOWN);
-            event.setCursorPosition(evtCursorX, evtCursorY);
-            event.setMouseButton(mouseEvent->button);
-            Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
-        }
-        break;
-        case EMSCRIPTEN_EVENT_MOUSEUP:
-        {
-			//CCLOG("[EMSCRIPTEN_EVENT_MOUSEUP] ...");
-            if (mouseEvent->button == 0 /*LEFT*/ && glview->_captured)
-            {
-                glview->_captured = false;
-                intptr_t id = 0;
-                glview->handleTouchesEnd(1, &id, &cursorX, &cursorY);
-            }
+	/*
+		This is quite rudimentary for now, in that that we currently only handle the left mouse button.
+		Also, I doubt all the browsers behave in identical way in all situations (eg. when loosing focus), hence there might be glitches.
 
-            EventMouse event(EventMouse::MouseEventType::MOUSE_UP);
-            event.setCursorPosition(evtCursorX, evtCursorY);
-            event.setMouseButton(mouseEvent->button);
-            Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
-        }
-        break;
-        case EMSCRIPTEN_EVENT_MOUSEMOVE:
-        {
+		Should the implementation be extended to other buttons, please be aware that:
+
+			* Cocos' MOUSE_BUTTON_* values do NOT match EmscriptenMouseEvent::button values, except for the left button.
+
+			* According to docs & source, EmscriptenMouseEvent::buttons is a bitmask of the pressed buttons.
+
+				I couldn't find documentation nor enum/constants actually defining the buttons, but it appears from tests
+				that 1 (one) matches the left button (perhaps it's in DOM specs?).
+
+				This contrasts with EmscriptenMouseEvent::button (without the 's') which is set to 0 in UP/DOWN events
+				when the left mouse button is [un]pressed.
+
+			* MOUSELEAVE/MOUSEENTER implementation would need to be much more complex, tracking the state of each of the
+				buttons individually
+
+	*/
+
+
+	switch (eventType)
+	{
+		case EMSCRIPTEN_EVENT_MOUSEMOVE:
+		{
 			//CCLOG("[EMSCRIPTEN_EVENT_MOUSEMOVE] ...");
 
-            if (glview->_captured)
-            {
-                intptr_t id = 0;
-                glview->handleTouchesMove(1, &id, &cursorX, &cursorY);
-            }
+			if(glview->_mouseCaptured)
+			{
+				intptr_t id = 0;
+				glview->handleTouchesMove(1, &id, &cursorX, &cursorY);
+			}
 
-            EventMouse event(EventMouse::MouseEventType::MOUSE_MOVE);
-            event.setCursorPosition(evtCursorX, evtCursorY);
-            event.setMouseButton(mouseEvent->button);
-            Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
-        }
-        break;
-    }
+			EventMouse event(EventMouse::MouseEventType::MOUSE_MOVE);
+			event.setCursorPosition(evtCursorX, evtCursorY);
+			//event.setMouseButton((mouseEvent->buttons & 1) ? MOUSE_BUTTON_LEFT : -1);
+			event.setMouseButton(glview->_mouseCaptured ? MOUSE_BUTTON_LEFT : -1);
+			Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+			}
+		break;
+
+		case EMSCRIPTEN_EVENT_MOUSEDOWN:
+		{
+			//CCLOG("[EMSCRIPTEN_EVENT_MOUSEDOWN] ...");
+
+			if(mouseEvent->button == 0 /*LEFT*/)
+			{
+				glview->_mouseCaptured = true;
+				glview->_mouseBtnDown = true;
+
+				intptr_t id = 0;
+				glview->handleTouchesBegin(1, &id, &cursorX, &cursorY);
+
+				EventMouse event(EventMouse::MouseEventType::MOUSE_DOWN);
+				event.setCursorPosition(evtCursorX, evtCursorY);
+				event.setMouseButton(MOUSE_BUTTON_LEFT);
+				Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+			}
+		}
+		break;
+
+		case EMSCRIPTEN_EVENT_MOUSEUP:
+		{
+			//CCLOG("[EMSCRIPTEN_EVENT_MOUSEUP] ...");
+
+			if(mouseEvent->button == 0 /*LEFT*/)
+			{
+				if(glview->_mouseCaptured)
+				{
+					glview->_mouseCaptured = false;
+					intptr_t id = 0;
+					glview->handleTouchesEnd(1, &id, &cursorX, &cursorY);
+				}
+
+				if(glview->_mouseBtnDown)
+				{
+					EventMouse event(EventMouse::MouseEventType::MOUSE_UP);
+					event.setCursorPosition(evtCursorX, evtCursorY);
+					event.setMouseButton(MOUSE_BUTTON_LEFT);
+					Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+
+					glview->_mouseBtnDown = false;
+				}
+			}
+		}
+		break;
+
+
+		/*
+		We're now also dealing with EMSCRIPTEN_EVENT_MOUSELEAVE & EMSCRIPTEN_EVENT_MOUSEENTER in order to end the touch event,
+		as not doing so results in unwanted behavior when the mouse leaves the canvas while the left button is pressed and
+		returns with the left button no longer being pressed (the drag continues while it shouldn't).
+
+		For that reason, we're ending the touch event when the mouse leaves the canvas, and also faking a MOUSEUP event if the
+		left button was actually down (above we make sure it won't be triggered again).
+		*/
+
+
+		case EMSCRIPTEN_EVENT_MOUSELEAVE:
+		{
+			//CCLOG("[EMSCRIPTEN_EVENT_MOUSELEAVE] ...");
+			printf("EMSCRIPTEN_EVENT_MOUSELEAVE, buttons=%u\n", mouseEvent->buttons);
+
+			if(glview->_mouseCaptured)
+			{
+				glview->_mouseCaptured = false;
+				intptr_t id = 0;
+				glview->handleTouchesEnd(1, &id, &cursorX, &cursorY);
+			}
+
+			if(glview->_mouseBtnDown)
+			{
+				EventMouse event(EventMouse::MouseEventType::MOUSE_UP);
+				event.setCursorPosition(evtCursorX, evtCursorY);
+				event.setMouseButton(MOUSE_BUTTON_LEFT);
+				Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+
+				glview->_mouseBtnDown = false;
+			}
+		}
+		break;
+
+		/*
+		case EMSCRIPTEN_EVENT_MOUSEENTER:
+		{
+			//CCLOG("[EMSCRIPTEN_EVENT_MOUSEENTER] ...");
+			printf("EMSCRIPTEN_EVENT_MOUSEENTER, buttons=%u\n", mouseEvent->buttons);
+		}
+		break;
+		*/
+	}
 
     return EM_TRUE;
 }
@@ -359,7 +441,8 @@ GLViewImpl::GLViewImpl() : _display(EGL_NO_DISPLAY)
 , _surface(EGL_NO_SURFACE)
 , _config(nullptr)
 , _retinaFactor(emscripten_get_device_pixel_ratio())
-, _captured(false)
+, _mouseCaptured(false)
+, _mouseBtnDown(false)
 , _screenSizeBeforeFullscreen(Size::ZERO)
 {
     registerEvents();
@@ -379,6 +462,8 @@ void GLViewImpl::registerEvents() noexcept
     emscripten_set_mousedown_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, &mouseCb);
     emscripten_set_mouseup_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, &mouseCb);
     emscripten_set_mousemove_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, &mouseCb);
+    emscripten_set_mouseleave_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, &mouseCb);
+    //emscripten_set_mouseenter_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, &mouseCb);
 
     emscripten_set_fullscreenchange_callback("#document", reinterpret_cast<void*>(this), EM_TRUE, &webglFullscreenChangeCb);
 
@@ -394,6 +479,8 @@ void GLViewImpl::unregisterEvents() noexcept
     emscripten_set_mousedown_callback("canvas", nullptr, EM_TRUE, nullptr);
     emscripten_set_mouseup_callback("canvas", nullptr, EM_TRUE, nullptr);
     emscripten_set_mousemove_callback("canvas", nullptr, EM_TRUE, nullptr);
+    emscripten_set_mouseleave_callback("canvas", nullptr, EM_TRUE, nullptr);
+    //emscripten_set_mouseenter_callback("canvas", nullptr, EM_TRUE, nullptr);
 
     emscripten_set_fullscreenchange_callback("#document", nullptr, EM_TRUE, nullptr);
 
