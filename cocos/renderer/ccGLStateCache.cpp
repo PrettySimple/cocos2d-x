@@ -40,18 +40,18 @@ static const int MAX_ACTIVE_TEXTURE = 16;
 
 namespace
 {
-    static GLuint s_currentProjectionMatrix = -1;
-    static uint32_t s_attributeFlags = 0;  // 32 attributes max
+    static thread_local GLuint s_currentProjectionMatrix = -1;
+    static thread_local uint32_t s_attributeFlags = 0;  // 32 attributes max
 
 #if CC_ENABLE_GL_STATE_CACHE
 
-    static GLuint    s_currentShaderProgram = -1;
-    static GLuint    s_currentBoundTexture[MAX_ACTIVE_TEXTURE] =  {(GLuint)-1,(GLuint)-1,(GLuint)-1,(GLuint)-1, (GLuint)-1,(GLuint)-1,(GLuint)-1,(GLuint)-1, (GLuint)-1,(GLuint)-1,(GLuint)-1,(GLuint)-1, (GLuint)-1,(GLuint)-1,(GLuint)-1,(GLuint)-1, };
-    static GLenum    s_blendingSource = -1;
-    static GLenum    s_blendingDest = -1;
-    static int       s_GLServerState = 0;
-    static GLuint    s_VAO = 0;
-    static GLenum    s_activeTexture = -1;
+    static thread_local GLuint    s_currentShaderProgram = -1;
+    static thread_local GLuint s_currentBoundTexture[MAX_ACTIVE_TEXTURE] =  {(GLuint)-1,(GLuint)-1,(GLuint)-1,(GLuint)-1, (GLuint)-1,(GLuint)-1,(GLuint)-1,(GLuint)-1, (GLuint)-1,(GLuint)-1,(GLuint)-1,(GLuint)-1, (GLuint)-1,(GLuint)-1,(GLuint)-1,(GLuint)-1, };
+    static thread_local GLenum    s_blendingSource = -1;
+    static thread_local GLenum    s_blendingDest = -1;
+    static thread_local int       s_GLServerState = 0;
+    static thread_local GLuint    s_VAO = 0;
+    static thread_local GLenum    s_activeTexture = -1;
 
 #endif // CC_ENABLE_GL_STATE_CACHE
 }
