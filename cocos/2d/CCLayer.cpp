@@ -594,11 +594,9 @@ void LayerColor::onDraw(const Mat4& transform, uint32_t flags)
     // Attributes
     //
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
-    CCLOG("gl buffer data position");
     setGLBufferData(_noMVPVertices, 4 * sizeof(Vec3), 0);
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    CCLOG("gl buffer data color");
     setGLBufferData(_squareColors, 4 * sizeof(Color4F), 1);
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_FLOAT, GL_FALSE, 0, 0);
 #else
