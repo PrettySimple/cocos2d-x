@@ -23,17 +23,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
+#include "cocos2d.h"
 #include "2d/CCGLBufferedNode.h"
+#include "platform/CCPlatformMacros.h"
+#include "base/CCEventListenerCustom.h"
+
+
+using namespace cocos2d;
 
 GLBufferedNode::GLBufferedNode()
 {
-    for(int i = 0; i < BUFFER_SLOTS; i++)
-    {
-        _bufferObject[i] = 0;
-        _bufferSize[i] = 0;
-        _indexBufferObject[i] = 0;
-        _indexBufferSize[i] = 0;
-    }
+    _clearBuffers();
+
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+
+    _onContextRecovered = cocos2d::EventListenerCustom::create(EVENT_RENDERER_RECREATED,[this](EventCustom* event){
+        this->onContextRecovered();
+    });
+    cocos2d::Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_onContextRecovered, -1);
+#endif
 }
 
 GLBufferedNode::~GLBufferedNode()
@@ -49,6 +57,10 @@ GLBufferedNode::~GLBufferedNode()
             glDeleteBuffers(1, &(_indexBufferObject[i]));
         }
     }
+
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+    cocos2d::Director::getInstance()->getEventDispatcher()->removeEventListener(_onContextRecovered);
+#endif
 }
 
 void GLBufferedNode::setGLBufferData(void *buf, GLuint bufSize, int slot)
@@ -95,3 +107,18 @@ void GLBufferedNode::setGLIndexData(void *buf, GLuint bufSize, int slot)
     }
 }
 
+
+void GLBufferedNode::onContextRecovered() noexcept {
+    _clearBuffers();
+}
+
+
+void GLBufferedNode::_clearBuffers() {
+    for(int i = 0; i < BUFFER_SLOTS; i++)
+    {
+        _bufferObject[i] = 0;
+        _bufferSize[i] = 0;
+        _indexBufferObject[i] = 0;
+        _indexBufferSize[i] = 0;
+    }
+}
