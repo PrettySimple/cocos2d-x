@@ -103,7 +103,7 @@ void StencilStateManager::drawFullScreenQuadClearStencil()
 
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
-    if (_stencilClearBuffer == 0)
+    if (_stencilClearBuffer == ~0)
         glGenBuffers(1, &_stencilClearBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, _stencilClearBuffer);
     glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(Vec2), vertices, GL_DYNAMIC_DRAW);
