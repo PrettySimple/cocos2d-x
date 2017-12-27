@@ -123,7 +123,7 @@ void StencilStateManager::drawFullScreenQuadClearStencil()
 }
 
 void StencilStateManager::onContextRecovered() noexcept {
-    _stencilClearBuffer = 0;
+    _stencilClearBuffer = ~0;
 }
 
 
