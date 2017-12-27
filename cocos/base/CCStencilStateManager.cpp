@@ -86,10 +86,22 @@ void StencilStateManager::drawFullScreenQuadClearStencil()
     glProgram->use();
     glProgram->setUniformsForBuiltins();
     glProgram->setUniformLocationWith4fv(colorLocation, (GLfloat*) &color.r, 1);
-    
+
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    //setGLBufferData(vertices, 4 * sizeof(Vec2), 0);
+
+    GLuint buffer;
+    glGenBuffers(1, &buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(Vec2), vertices, GL_DYNAMIC_DRAW);
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, 0, 0);
+#else
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+
     GL::enableVertexAttribs( GL::VERTEX_ATTRIB_FLAG_POSITION );
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, 0, vertices);
+#endif
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
     
     CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, 4);
