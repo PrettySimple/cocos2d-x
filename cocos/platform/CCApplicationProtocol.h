@@ -29,6 +29,7 @@ THE SOFTWARE.
 #include "platform/CCPlatformMacros.h"
 #include "base/CCScriptSupport.h"
 #include "base/CCAutoreleasePool.h"
+#include "renderer/ccGLStateCache.h"
 
 NS_CC_BEGIN
 
@@ -59,6 +60,11 @@ public:
         OS_WINRT,       /**< Windows Runtime Applications */
         OS_WP8          /**< Windows Phone 8 Applications */
     };
+
+    ApplicationProtocol()
+    {
+        GL::initialize(); // Make sure that static cache variables are created first to be deleted last.
+    }
 
     /**
      * @js NA
