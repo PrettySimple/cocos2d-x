@@ -32,6 +32,9 @@ THE SOFTWARE.
 #include "base/CCProtocols.h"
 #include "renderer/CCCustomCommand.h"
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+#include "2d/CCGLBufferedNode.h"
+#endif
 
 NS_CC_BEGIN
 
@@ -60,6 +63,9 @@ All features from Node are valid, plus the following new features:
 - It can receive Accelerometer input
 */
 class CC_DLL Layer : public Node
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+, public GLBufferedNode
+#endif
 {
 public:    
     /** Creates a fullscreen black layer.

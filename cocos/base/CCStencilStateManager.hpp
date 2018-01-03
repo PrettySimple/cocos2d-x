@@ -28,6 +28,11 @@
 #include "platform/CCPlatformMacros.h"
 #include "platform/CCGL.h"
 
+namespace cocos2d
+{
+    class EventListenerCustom;
+}
+
 /**
  * @addtogroup base
  * @{
@@ -51,8 +56,9 @@ private:
     /**draw fullscreen quad to clear stencil bits
      */
     void drawFullScreenQuadClearStencil();
-    
-    
+    void onContextRecovered() noexcept;
+
+
     GLfloat _alphaThreshold;
     bool    _inverted;
     
@@ -65,12 +71,18 @@ private:
     GLenum _currentStencilPassDepthFail;
     GLenum _currentStencilPassDepthPass;
     GLboolean _currentDepthWriteMask;
-    
+
+    GLuint _stencilClearBuffer;
+
     GLboolean _currentAlphaTestEnabled;
     GLenum _currentAlphaTestFunc;
     GLclampf _currentAlphaTestRef;
     
     GLint _mask_layer_le;
+
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+    cocos2d::EventListenerCustom* _onContextRecovered;
+#endif
 };
 
 NS_CC_END

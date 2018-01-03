@@ -33,6 +33,11 @@ THE SOFTWARE.
 #include "base/ccConfig.h"
 #include "base/CCConfiguration.h"
 
+#include <thread>
+#include <unordered_map>
+#include <limits>
+#include <array>
+
 NS_CC_BEGIN
 
 static const int MAX_ATTRIBUTES = 16;
@@ -40,18 +45,144 @@ static const int MAX_ACTIVE_TEXTURE = 16;
 
 namespace
 {
-    static GLuint s_currentProjectionMatrix = -1;
-    static uint32_t s_attributeFlags = 0;  // 32 attributes max
+    static GLuint& s_currentProjectionMatrix()
+    {
+        static std::unordered_map<std::thread::id, GLuint> currentProjectionMatrix;
+
+        const auto tId = std::this_thread::get_id();
+        auto search = currentProjectionMatrix.find(tId);
+        if (search != currentProjectionMatrix.end())
+        {
+            return search->second;
+        }
+
+        auto it = currentProjectionMatrix.emplace(tId, -1);
+        return it.first->second;
+    }
+
+    static uint32_t& s_attributeFlags()
+    {
+        static std::unordered_map<std::thread::id, uint32_t> attributeFlags;
+
+        const auto tId = std::this_thread::get_id();
+        auto search = attributeFlags.find(tId);
+        if (search != attributeFlags.end())
+        {
+            return search->second;
+        }
+
+        auto it = attributeFlags.emplace(tId, 0);
+        return it.first->second;
+    }
 
 #if CC_ENABLE_GL_STATE_CACHE
 
-    static GLuint    s_currentShaderProgram = -1;
-    static GLuint    s_currentBoundTexture[MAX_ACTIVE_TEXTURE] =  {(GLuint)-1,(GLuint)-1,(GLuint)-1,(GLuint)-1, (GLuint)-1,(GLuint)-1,(GLuint)-1,(GLuint)-1, (GLuint)-1,(GLuint)-1,(GLuint)-1,(GLuint)-1, (GLuint)-1,(GLuint)-1,(GLuint)-1,(GLuint)-1, };
-    static GLenum    s_blendingSource = -1;
-    static GLenum    s_blendingDest = -1;
-    static int       s_GLServerState = 0;
-    static GLuint    s_VAO = 0;
-    static GLenum    s_activeTexture = -1;
+    static GLuint& s_currentShaderProgram()
+    {
+        static std::unordered_map<std::thread::id, GLuint> currentShaderProgram;
+
+        const auto tId = std::this_thread::get_id();
+        auto search = currentShaderProgram.find(tId);
+        if (search != currentShaderProgram.end())
+        {
+            return search->second;
+        }
+
+        auto it = currentShaderProgram.emplace(tId, -1);
+        return it.first->second;
+    }
+
+    static std::array<GLuint, MAX_ACTIVE_TEXTURE>& s_currentBoundTexture()
+    {
+        static std::unordered_map<std::thread::id, std::array<GLuint, MAX_ACTIVE_TEXTURE>> currentBoundTexture;
+
+        const auto tId = std::this_thread::get_id();
+        auto search = currentBoundTexture.find(tId);
+        if (search != currentBoundTexture.end())
+        {
+            return search->second;
+        }
+
+        std::array<GLuint, MAX_ACTIVE_TEXTURE> tmp;
+        tmp.fill(std::numeric_limits<GLuint>::max());
+        auto it = currentBoundTexture.emplace(tId, tmp);
+        return it.first->second;
+    }
+
+    static GLenum& s_blendingSource()
+    {
+        static std::unordered_map<std::thread::id, GLenum> blendingSource;
+
+        const auto tId = std::this_thread::get_id();
+        auto search = blendingSource.find(tId);
+        if (search != blendingSource.end())
+        {
+            return search->second;
+        }
+
+        auto it = blendingSource.emplace(tId, -1);
+        return it.first->second;
+    }
+
+    static GLenum& s_blendingDest()
+    {
+        static std::unordered_map<std::thread::id, GLenum> blendingDest;
+
+        const auto tId = std::this_thread::get_id();
+        auto search = blendingDest.find(tId);
+        if (search != blendingDest.end())
+        {
+            return search->second;
+        }
+
+        auto it = blendingDest.emplace(tId, -1);
+        return it.first->second;
+    }
+
+    static int& s_GLServerState()
+    {
+        static std::unordered_map<std::thread::id, int> GLServerState;
+
+        const auto tId = std::this_thread::get_id();
+        auto search = GLServerState.find(tId);
+        if (search != GLServerState.end())
+        {
+            return search->second;
+        }
+
+        auto it = GLServerState.emplace(tId, 0);
+        return it.first->second;
+    }
+
+    static GLuint& s_VAO()
+    {
+        static std::unordered_map<std::thread::id, GLuint> VAO;
+
+        const auto tId = std::this_thread::get_id();
+        auto search = VAO.find(tId);
+        if (search != VAO.end())
+        {
+            return search->second;
+        }
+
+        auto it = VAO.emplace(tId, 0);
+        return it.first->second;
+    }
+
+    static GLenum& s_activeTexture()
+    {
+        static std::unordered_map<std::thread::id, GLenum> activeTexture;
+
+        const auto tId = std::this_thread::get_id();
+        auto search = activeTexture.find(tId);
+        if (search != activeTexture.end())
+        {
+            return search->second;
+        }
+
+        auto it = activeTexture.emplace(tId, -1);
+        return it.first->second;
+    }
 
 #endif // CC_ENABLE_GL_STATE_CACHE
 }
@@ -60,23 +191,35 @@ namespace
 
 namespace GL {
 
-void invalidateStateCache( void )
+void initialize()
+{
+    s_currentProjectionMatrix();
+    s_attributeFlags();
+#if CC_ENABLE_GL_STATE_CACHE
+    s_currentShaderProgram();
+    s_currentBoundTexture();
+    s_blendingSource();
+    s_blendingDest();
+    s_GLServerState();
+    s_VAO();
+    s_activeTexture();
+#endif
+}
+
+void invalidateStateCache()
 {
     Director::getInstance()->resetMatrixStack();
-    s_currentProjectionMatrix = -1;
-    s_attributeFlags = 0;
+    s_currentProjectionMatrix() = -1;
+    s_attributeFlags() = 0;
 
 #if CC_ENABLE_GL_STATE_CACHE
-    s_currentShaderProgram = -1;
-    for( int i=0; i < MAX_ACTIVE_TEXTURE; i++ )
-    {
-        s_currentBoundTexture[i] = -1;
-    }
+    s_currentShaderProgram() = -1;
+    s_currentBoundTexture().fill(std::numeric_limits<GLuint>::max());
 
-    s_blendingSource = -1;
-    s_blendingDest = -1;
-    s_GLServerState = 0;
-    s_VAO = 0;
+    s_blendingSource() = -1;
+    s_blendingDest() = -1;
+    s_GLServerState() = 0;
+    s_VAO() = 0;
     
 #endif // CC_ENABLE_GL_STATE_CACHE
 }
@@ -84,9 +227,9 @@ void invalidateStateCache( void )
 void deleteProgram( GLuint program )
 {
 #if CC_ENABLE_GL_STATE_CACHE
-    if(program == s_currentShaderProgram)
+    if (program == s_currentShaderProgram())
     {
-        s_currentShaderProgram = -1;
+        s_currentShaderProgram() = -1;
     }
 #endif // CC_ENABLE_GL_STATE_CACHE
 
@@ -96,8 +239,8 @@ void deleteProgram( GLuint program )
 void useProgram( GLuint program )
 {
 #if CC_ENABLE_GL_STATE_CACHE
-    if( program != s_currentShaderProgram ) {
-        s_currentShaderProgram = program;
+    if (program != s_currentShaderProgram()) {
+        s_currentShaderProgram() = program;
         glUseProgram(program);
     }
 #else
@@ -126,10 +269,10 @@ static void SetBlending(GLenum sfactor, GLenum dfactor)
 void blendFunc(GLenum sfactor, GLenum dfactor)
 {
 #if CC_ENABLE_GL_STATE_CACHE
-    if (sfactor != s_blendingSource || dfactor != s_blendingDest)
+    if (sfactor != s_blendingSource() || dfactor != s_blendingDest())
     {
-        s_blendingSource = sfactor;
-        s_blendingDest = dfactor;
+        s_blendingSource() = sfactor;
+        s_blendingDest() = dfactor;
         SetBlending(sfactor, dfactor);
     }
 #else
@@ -141,7 +284,7 @@ void blendResetToCache(void)
 {
 	glBlendEquation(GL_FUNC_ADD);
 #if CC_ENABLE_GL_STATE_CACHE
-	SetBlending(s_blendingSource, s_blendingDest);
+	SetBlending(s_blendingSource(), s_blendingDest());
 #else
 	SetBlending(CC_BLEND_SRC, CC_BLEND_DST);
 #endif // CC_ENABLE_GL_STATE_CACHE
@@ -165,9 +308,9 @@ void bindTexture2DN(GLuint textureUnit, GLuint textureId)
 {
 #if CC_ENABLE_GL_STATE_CACHE
 	CCASSERT(textureUnit < MAX_ACTIVE_TEXTURE, "textureUnit is too big");
-	if (s_currentBoundTexture[textureUnit] != textureId)
+	if (s_currentBoundTexture()[textureUnit] != textureId)
 	{
-		s_currentBoundTexture[textureUnit] = textureId;
+		s_currentBoundTexture()[textureUnit] = textureId;
 		activeTexture(GL_TEXTURE0 + textureUnit);
 		glBindTexture(GL_TEXTURE_2D, textureId);
 	}
@@ -181,9 +324,9 @@ void bindTextureN(GLuint textureUnit, GLuint textureId, GLuint textureType/* = G
 {
 #if CC_ENABLE_GL_STATE_CACHE
     CCASSERT(textureUnit < MAX_ACTIVE_TEXTURE, "textureUnit is too big");
-    if (s_currentBoundTexture[textureUnit] != textureId)
+    if (s_currentBoundTexture()[textureUnit] != textureId)
     {
-        s_currentBoundTexture[textureUnit] = textureId;
+        s_currentBoundTexture()[textureUnit] = textureId;
         activeTexture(GL_TEXTURE0 + textureUnit);
         glBindTexture(textureType, textureId);
     }
@@ -199,9 +342,9 @@ void deleteTexture(GLuint textureId)
 #if CC_ENABLE_GL_STATE_CACHE
     for (size_t i = 0; i < MAX_ACTIVE_TEXTURE; ++i)
     {
-        if (s_currentBoundTexture[i] == textureId)
+        if (s_currentBoundTexture()[i] == textureId)
         {
-            s_currentBoundTexture[i] = -1;
+            s_currentBoundTexture()[i] = -1;
         }
     }
 #endif // CC_ENABLE_GL_STATE_CACHE
@@ -217,9 +360,9 @@ void deleteTextureN(GLuint textureUnit, GLuint textureId)
 void activeTexture(GLenum texture)
 {
 #if CC_ENABLE_GL_STATE_CACHE
-    if(s_activeTexture != texture) {
-        s_activeTexture = texture;
-        glActiveTexture(s_activeTexture);
+    if(s_activeTexture() != texture) {
+        s_activeTexture() = texture;
+        glActiveTexture(s_activeTexture());
     }
 #else
     glActiveTexture(texture);
@@ -232,9 +375,9 @@ void bindVAO(GLuint vaoId)
     {
     
 #if CC_ENABLE_GL_STATE_CACHE
-        if (s_VAO != vaoId)
+        if (s_VAO() != vaoId)
         {
-            s_VAO = vaoId;
+            s_VAO() = vaoId;
             glBindVertexArray(vaoId);
         }
 #else
@@ -255,7 +398,7 @@ void enableVertexAttribs(uint32_t flags)
         unsigned int bit = 1 << i;
         //FIXME:Cache is disabled, try to enable cache as before
         bool enabled = (flags & bit) != 0;
-        bool enabledBefore = (s_attributeFlags & bit) != 0;
+        bool enabledBefore = (s_attributeFlags() & bit) != 0;
         if(enabled != enabledBefore) 
         {
             if( enabled )
@@ -264,14 +407,14 @@ void enableVertexAttribs(uint32_t flags)
                 glDisableVertexAttribArray(i);
         }
     }
-    s_attributeFlags = flags;
+    s_attributeFlags() = flags;
 }
 
 // GL Uniforms functions
 
 void setProjectionMatrixDirty( void )
 {
-    s_currentProjectionMatrix = -1;
+    s_currentProjectionMatrix() = -1;
 }
 
 } // Namespace GL

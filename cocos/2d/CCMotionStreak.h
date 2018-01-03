@@ -30,6 +30,11 @@ THE SOFTWARE.
 #include "2d/CCNode.h"
 #include "renderer/CCCustomCommand.h"
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+#include "2d/CCGLBufferedNode.h"
+#endif
+
+
 NS_CC_BEGIN
 
 class Texture2D;
@@ -43,6 +48,9 @@ class Texture2D;
  * @brief Creates a trailing path.
  */
 class CC_DLL MotionStreak : public Node, public TextureProtocol
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+, public GLBufferedNode
+#endif
 {
 public:
     /** Creates and initializes a motion streak with fade in seconds, minimum segments, stroke's width, color, texture filename.

@@ -30,6 +30,12 @@ THE SOFTWARE.
 /**
 * @js NA
 */
+
+namespace cocos2d
+{
+    class EventListenerCustom;
+}
+
 class GLBufferedNode
 {
 public:
@@ -48,6 +54,7 @@ public:
      */
     void setGLBufferData(void *buf, GLuint bufSize, int slot);
     void setGLIndexData(void *buf, GLuint bufSize, int slot);
+    void onContextRecovered() noexcept;
     /**@}*/
     /** Allocate 4 buffer objs per node, and index into them as slots.*/
     #define BUFFER_SLOTS 4
@@ -59,5 +66,12 @@ public:
     GLuint _indexBufferObject[BUFFER_SLOTS];
     /**Size in bytes for index buffers.*/
     GLuint _indexBufferSize[BUFFER_SLOTS];
+
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+    cocos2d::EventListenerCustom* _onContextRecovered;
+#endif
+
+private:
+    void _clearBuffers();
 };
 #endif // __CC_GL_BUFFERED_NODE__

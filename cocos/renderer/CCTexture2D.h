@@ -35,9 +35,9 @@ THE SOFTWARE.
 #include "math/CCGeometry.h"
 #include "base/ccTypes.h"
 
-//#if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
-//#include "2d/CCGLBufferedNode.h"
-//#endif
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+#include "2d/CCGLBufferedNode.h"
+#endif
 
 NS_CC_BEGIN
 
@@ -69,9 +69,9 @@ class GLProgram;
 * Be aware that the content of the generated textures will be upside-down!
 */
 class CC_DLL Texture2D : public Ref
-//#if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
-//, public GLBufferedNode
-//#endif
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+, public GLBufferedNode
+#endif
 {
     friend class RenderTexture;
     

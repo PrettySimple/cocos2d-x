@@ -1214,22 +1214,20 @@ void Texture2D::drawAtPoint(const Vec2& point)
 
     GL::bindTexture2D( _name );
 
-//// From cocos2d v2: https://github.com/cocos2d/cocos2d-x/blob/v2/cocos2dx/textures/CCTexture2D.cpp
-//#if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
-//
-//	printf("*** Texture2D::drawAtPoint()\n");
-//
-//	setGLBufferData(vertices, 8 * sizeof(GLfloat), 0);
-//	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, 0, 0);
-//
-//	setGLBufferData(coordinates, 8 * sizeof(GLfloat), 1);
-//	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, 0, 0);
-//
-//#else
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+
+	printf("*** Texture2D::drawAtPoint()\n");
+
+	setGLBufferData(vertices, 8 * sizeof(GLfloat), 0);
+	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+	setGLBufferData(coordinates, 8 * sizeof(GLfloat), 1);
+	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+#else
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, 0, vertices);
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, 0, coordinates);
-//#endif
-
+#endif
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
@@ -1252,21 +1250,20 @@ void Texture2D::drawInRect(const Rect& rect)
 
     GL::bindTexture2D( _name );
 
-// From cocos2d v2: https://github.com/cocos2d/cocos2d-x/blob/v2/cocos2dx/textures/CCTexture2D.cpp
-//#if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
-//
-//	printf("*** Texture2D::drawInRect()\n");
-//
-//	setGLBufferData(vertices, 8 * sizeof(GLfloat), 0);
-//	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, 0, 0);
-//
-//	setGLBufferData(coordinates, 8 * sizeof(GLfloat), 1);
-//	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORDS, 2, GL_FLOAT, GL_FALSE, 0, 0);
-//
-//#else
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+
+	printf("*** Texture2D::drawInRect()\n");
+
+	setGLBufferData(vertices, 8 * sizeof(GLfloat), 0);
+	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+	setGLBufferData(coordinates, 8 * sizeof(GLfloat), 1);
+	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORDS, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+#else
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, 0, vertices);
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, 0, coordinates);
-//#endif
+#endif
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 

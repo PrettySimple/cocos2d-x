@@ -35,6 +35,12 @@
 #define CC_CLIPPING_NODE_OPENGLES 1
 #endif
 
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+#include "base/CCEventType.h"
+#include "base/CCEventDispatcher.h"
+#include "base/CCEventListenerCustom.h"
+#endif
+
 NS_CC_BEGIN
 
 GLint StencilStateManager::s_layer = -1;
@@ -54,8 +60,16 @@ StencilStateManager::StencilStateManager()
 ,  _currentAlphaTestEnabled(GL_FALSE)
 , _currentAlphaTestFunc(GL_ALWAYS)
 , _currentAlphaTestRef(1)
-
+, _stencilClearBuffer(~0)
 {
+
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+
+    _onContextRecovered = cocos2d::EventListenerCustom::create(EVENT_RENDERER_RECREATED,[this](EventCustom* event){
+        this->onContextRecovered();
+    });
+    cocos2d::Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_onContextRecovered, -1);
+#endif
 }
 
 void StencilStateManager::drawFullScreenQuadClearStencil()
@@ -86,10 +100,20 @@ void StencilStateManager::drawFullScreenQuadClearStencil()
     glProgram->use();
     glProgram->setUniformsForBuiltins();
     glProgram->setUniformLocationWith4fv(colorLocation, (GLfloat*) &color.r, 1);
-    
+
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    if (_stencilClearBuffer == ~0)
+        glGenBuffers(1, &_stencilClearBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _stencilClearBuffer);
+    glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(Vec2), vertices, GL_DYNAMIC_DRAW);
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, 0, 0);
+#else
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+
     GL::enableVertexAttribs( GL::VERTEX_ATTRIB_FLAG_POSITION );
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, 0, vertices);
+#endif
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
     
     CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, 4);
@@ -98,8 +122,12 @@ void StencilStateManager::drawFullScreenQuadClearStencil()
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 }
 
+void StencilStateManager::onContextRecovered() noexcept {
+    _stencilClearBuffer = ~0;
+}
 
-void StencilStateManager::setAlphaThreshold(GLfloat alphaThreshold)
+
+    void StencilStateManager::setAlphaThreshold(GLfloat alphaThreshold)
 {
     _alphaThreshold = alphaThreshold;
 }
