@@ -402,7 +402,7 @@ extern "C" EM_BOOL mouseCb(int eventType, const EmscriptenMouseEvent* mouseEvent
 		case EMSCRIPTEN_EVENT_MOUSELEAVE:
 		{
 			//CCLOG("[EMSCRIPTEN_EVENT_MOUSELEAVE] ...");
-			printf("EMSCRIPTEN_EVENT_MOUSELEAVE, buttons=%u\n", mouseEvent->buttons);
+			//printf("EMSCRIPTEN_EVENT_MOUSELEAVE, buttons=%u\n", mouseEvent->buttons);
 
 			if(glview->_mouseCaptured)
 			{
@@ -427,7 +427,7 @@ extern "C" EM_BOOL mouseCb(int eventType, const EmscriptenMouseEvent* mouseEvent
 		case EMSCRIPTEN_EVENT_MOUSEENTER:
 		{
 			//CCLOG("[EMSCRIPTEN_EVENT_MOUSEENTER] ...");
-			printf("EMSCRIPTEN_EVENT_MOUSEENTER, buttons=%u\n", mouseEvent->buttons);
+			//printf("EMSCRIPTEN_EVENT_MOUSEENTER, buttons=%u\n", mouseEvent->buttons);
 		}
 		break;
 		*/
