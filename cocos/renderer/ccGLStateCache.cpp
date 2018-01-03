@@ -191,6 +191,21 @@ namespace
 
 namespace GL {
 
+void initialize()
+{
+    s_currentProjectionMatrix();
+    s_attributeFlags();
+#if CC_ENABLE_GL_STATE_CACHE
+    s_currentShaderProgram();
+    s_currentBoundTexture();
+    s_blendingSource();
+    s_blendingDest();
+    s_GLServerState();
+    s_VAO();
+    s_activeTexture();
+#endif
+}
+
 void invalidateStateCache()
 {
     Director::getInstance()->resetMatrixStack();

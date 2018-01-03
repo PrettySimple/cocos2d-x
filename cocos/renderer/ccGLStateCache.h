@@ -58,6 +58,8 @@ enum {
     VERTEX_ATTRIB_FLAG_POS_COLOR_TEX = (VERTEX_ATTRIB_FLAG_POSITION | VERTEX_ATTRIB_FLAG_COLOR | VERTEX_ATTRIB_FLAG_TEX_COORD),
 };
 
+void initialize();
+
 /** 
  * Invalidates the GL state cache.
  *
