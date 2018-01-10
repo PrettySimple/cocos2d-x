@@ -77,35 +77,47 @@ namespace
 
 #if CC_ENABLE_GL_STATE_CACHE
 
-    static GLuint& s_currentShaderProgram()
+    static std::unordered_map<std::thread::id, GLuint>& currentShaderProgram()
     {
         static std::unordered_map<std::thread::id, GLuint> currentShaderProgram;
+         return currentShaderProgram;
+    }
+    
+    static GLuint& s_currentShaderProgram()
+    {
+        auto& shaderProgram = currentShaderProgram();
 
         const auto tId = std::this_thread::get_id();
-        auto search = currentShaderProgram.find(tId);
-        if (search != currentShaderProgram.end())
+        auto search = shaderProgram.find(tId);
+        if (search != shaderProgram.end())
         {
             return search->second;
         }
 
-        auto it = currentShaderProgram.emplace(tId, -1);
+        auto it = shaderProgram.emplace(tId, -1);
         return it.first->second;
+    }
+    
+    static std::unordered_map<std::thread::id, std::array<GLuint, MAX_ACTIVE_TEXTURE>>& currentBoundTexture()
+    {
+    	static std::unordered_map<std::thread::id, std::array<GLuint, MAX_ACTIVE_TEXTURE>> currentBoundTexture;
+     	return currentBoundTexture;
     }
 
     static std::array<GLuint, MAX_ACTIVE_TEXTURE>& s_currentBoundTexture()
     {
-        static std::unordered_map<std::thread::id, std::array<GLuint, MAX_ACTIVE_TEXTURE>> currentBoundTexture;
-
+    	auto& boundTexture = currentBoundTexture();
+        
         const auto tId = std::this_thread::get_id();
-        auto search = currentBoundTexture.find(tId);
-        if (search != currentBoundTexture.end())
+        auto search = boundTexture.find(tId);
+        if (search != boundTexture.end())
         {
             return search->second;
         }
 
         std::array<GLuint, MAX_ACTIVE_TEXTURE> tmp;
         tmp.fill(std::numeric_limits<GLuint>::max());
-        auto it = currentBoundTexture.emplace(tId, tmp);
+        auto it = boundTexture.emplace(tId, tmp);
         return it.first->second;
     }
 
@@ -227,9 +239,12 @@ void invalidateStateCache()
 void deleteProgram( GLuint program )
 {
 #if CC_ENABLE_GL_STATE_CACHE
-    if (program == s_currentShaderProgram())
+    for (auto& shaderProgram : currentShaderProgram())
     {
-        s_currentShaderProgram() = -1;
+        if (shaderProgram.second == program)
+        {
+            shaderProgram.second = -1;
+        }
     }
 #endif // CC_ENABLE_GL_STATE_CACHE
 
@@ -340,13 +355,16 @@ void bindTextureN(GLuint textureUnit, GLuint textureId, GLuint textureType/* = G
 void deleteTexture(GLuint textureId)
 {
 #if CC_ENABLE_GL_STATE_CACHE
-    for (size_t i = 0; i < MAX_ACTIVE_TEXTURE; ++i)
-    {
-        if (s_currentBoundTexture()[i] == textureId)
-        {
-            s_currentBoundTexture()[i] = -1;
-        }
-    }
+	for (auto& boundTexture : currentBoundTexture())
+	{
+	    for (size_t i = 0; i < MAX_ACTIVE_TEXTURE; ++i)
+    	{
+        	if (boundTexture.second[i] == textureId)
+        	{
+            	boundTexture.second[i] = -1;
+        	}
+    	}
+	}
 #endif // CC_ENABLE_GL_STATE_CACHE
     
 	glDeleteTextures(1, &textureId);
