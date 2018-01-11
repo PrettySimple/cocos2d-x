@@ -16696,7 +16696,6 @@
 					"$(SRCROOT)/../external/poly2tri/common",
 					"$(SRCROOT)/../external/poly2tri/sweep",
 				);
-				LLVM_LTO = YES_THIN;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				VALIDATE_PRODUCT = YES;
 				WARNING_CFLAGS = (
