@@ -47,7 +47,7 @@ THE SOFTWARE.
 #define glBindVertexArray               glBindVertexArrayOES
 
 #define glMapBuffer                     glMapBufferOES
-#define glUnmapBuffer                   glUnmapBufferOES;
+#define glUnmapBuffer                   glUnmapBufferOES
 
 #define GL_DEPTH_STENCIL				0x84F9
 #define GL_DEPTH_STENCIL_ATTACHMENT		0x821A

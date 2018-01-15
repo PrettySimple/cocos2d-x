@@ -46,6 +46,7 @@
 #include "base/CCEventType.h"
 #include "2d/CCCamera.h"
 #include "2d/CCScene.h"
+#include "platform/CCPlatformMacros.h"
 
 NS_CC_BEGIN
 
@@ -797,6 +798,11 @@ void Renderer::drawBatchedTriangles()
     batchesTotal++;
 
     /************** 2: Copy vertices/indices to GL objects *************/
+
+// The emscripten dead code elimination fails to eliminate the below (supportsMapBuffer() is hardcoded to return false),
+// resuling in link-time warning: warning: unresolved symbol: glMapBufferOES
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN)
+
     auto conf = Configuration::getInstance();
     if (conf->supportsShareableVAO() && conf->supportsMapBuffer())
     {
@@ -826,6 +832,7 @@ void Renderer::drawBatchedTriangles()
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(_indices[0]) * _filledIndex, _indices, GL_STATIC_DRAW);
     }
     else
+#endif // (CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN)
     {
         // Client Side Arrays
 #define kQuadSize sizeof(_verts[0])
