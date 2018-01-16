@@ -96,6 +96,12 @@ int AudioEngineImpl::preload(const std::string& filePath, std::function<void(boo
     return -1;
 }
 
+int AudioEngineImpl::cancelPreload(const std::string& filePath)
+{
+    //TODO EMSCRIPTEN: Implement
+    return -1;
+}
+
 void AudioEngineImpl::update(float dt)
 {
     //TODO EMSCRIPTEN: Implement

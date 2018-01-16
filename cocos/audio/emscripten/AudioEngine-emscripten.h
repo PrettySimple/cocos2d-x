@@ -38,6 +38,7 @@ namespace experimental
         void uncacheAll();
 
         int preload(const std::string& filePath, std::function<void(bool isSuccess)> callback);
+        int cancelPreload(const std::string& filePath);
         
         void update(float dt);
     };

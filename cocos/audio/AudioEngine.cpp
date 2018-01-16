@@ -555,6 +555,16 @@ void AudioEngine::preload(const std::string& filePath, std::function<void(bool i
     }
 }
 
+void AudioEngine::cancelPreload(const std::string& filePath)
+{
+    lazyInit();
+
+    if (_audioEngineImpl) {
+        _audioEngineImpl->cancelPreload(filePath);
+    }
+}
+
+
 void AudioEngine::addTask(const std::function<void()>& task)
 {
     lazyInit();

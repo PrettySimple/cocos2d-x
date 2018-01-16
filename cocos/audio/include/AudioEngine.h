@@ -293,6 +293,12 @@ public:
     static void preload(const std::string& filePath, std::function<void(bool isSuccess)> callback);
 
     /**
+     * Cancel Preload audio file (in case the sound is destroye before preloading has finished for example)
+     * @param filePath The file path of an audio.
+     */
+    static void cancelPreload(const std::string& filePath);
+
+    /**
      * Gets playing audio count.
      */
     static int getPlayingAudioCount();

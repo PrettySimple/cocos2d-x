@@ -419,4 +419,9 @@ void AudioCache::invokingLoadCallbacks()
     });
 }
 
+void AudioCache::clearLoadCallbacks()
+{
+    _loadCallbacks.clear();
+}
+
 #endif
