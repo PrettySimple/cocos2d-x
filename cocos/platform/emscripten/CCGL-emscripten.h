@@ -84,6 +84,13 @@ THE SOFTWARE.
 #endif
 
 
+// 16/01/2018 - Now providing an API to enable/disable the wrappers, as since a recent Chrome update
+// this because awfully slow (and profiling points to glGetError() as culprit)
+
+void	glErrorWrapperEnable(bool);
+bool	glErrorWrapperEnabled();
+
+
 /***********************************************************************************************************************/
 /* GL2/GL2EXT wrappers */
 
@@ -92,41 +99,47 @@ GLenum	wrappedGLErrorGetBit();
 
 // This should never happen - it'd mean we missed wrapping functions
 #define	GLCALL_WRAPPER_BEFORE(method)\
-	for(auto __error = (glGetError)(); __error != GL_NO_ERROR; __error = (glGetError)())					\
-	{																										\
-		const char *__errstr = nullptr;																		\
-		switch(__error)																						\
-		{																									\
-			case GL_INVALID_ENUM:					__errstr = "GL_INVALID_ENUM";					break;	\
-			case GL_INVALID_VALUE:					__errstr = "GL_INVALID_VALUE";					break;	\
-			case GL_INVALID_OPERATION:				__errstr = "GL_INVALID_OPERATION";				break;	\
-			case GL_INVALID_FRAMEBUFFER_OPERATION:	__errstr = "GL_INVALID_FRAMEBUFFER_OPERATION";	break;	\
-			case GL_OUT_OF_MEMORY:					__errstr = "GL_OUT_OF_MEMORY";					break;	\
-			case GL_STACK_OVERFLOW:					__errstr = "GL_STACK_OVERFLOW";					break;	\
-			case GL_STACK_UNDERFLOW:				__errstr = "GL_STACK_UNDERFLOW";				break;	\
-			default:								__errstr = "UNKNOWN";									\
-		}																									\
-		wrappedGLErrorSetBit(__error);																		\
-		printf("*** Previously unreported OpenGL error [%s] (0x%04X) before the call to %s() from %s in %s:%d\n", __errstr, __error, method, __PRETTY_FUNCTION__, __FILE__, __LINE__);	\
+	if(glErrorWrapperEnabled())																					\
+	{																											\
+		for(auto __error = (glGetError)(); __error != GL_NO_ERROR; __error = (glGetError)())					\
+		{																										\
+			const char *__errstr = nullptr;																		\
+			switch(__error)																						\
+			{																									\
+				case GL_INVALID_ENUM:					__errstr = "GL_INVALID_ENUM";					break;	\
+				case GL_INVALID_VALUE:					__errstr = "GL_INVALID_VALUE";					break;	\
+				case GL_INVALID_OPERATION:				__errstr = "GL_INVALID_OPERATION";				break;	\
+				case GL_INVALID_FRAMEBUFFER_OPERATION:	__errstr = "GL_INVALID_FRAMEBUFFER_OPERATION";	break;	\
+				case GL_OUT_OF_MEMORY:					__errstr = "GL_OUT_OF_MEMORY";					break;	\
+				case GL_STACK_OVERFLOW:					__errstr = "GL_STACK_OVERFLOW";					break;	\
+				case GL_STACK_UNDERFLOW:				__errstr = "GL_STACK_UNDERFLOW";				break;	\
+				default:								__errstr = "UNKNOWN";									\
+			}																									\
+			wrappedGLErrorSetBit(__error);																		\
+			printf("*** Previously unreported OpenGL error [%s] (0x%04X) before the call to %s() from %s in %s:%d\n", __errstr, __error, method, __PRETTY_FUNCTION__, __FILE__, __LINE__);	\
+		}																										\
 	}
 
 #define	GLCALL_WRAPPER_AFTER(method)\
-	for(auto __error = (glGetError)(); __error != GL_NO_ERROR; __error = (glGetError)())					\
-	{																										\
-		const char *__errstr = nullptr;																		\
-		switch(__error)																						\
-		{																									\
-			case GL_INVALID_ENUM:					__errstr = "GL_INVALID_ENUM";					break;	\
-			case GL_INVALID_VALUE:					__errstr = "GL_INVALID_VALUE";					break;	\
-			case GL_INVALID_OPERATION:				__errstr = "GL_INVALID_OPERATION";				break;	\
-			case GL_INVALID_FRAMEBUFFER_OPERATION:	__errstr = "GL_INVALID_FRAMEBUFFER_OPERATION";	break;	\
-			case GL_OUT_OF_MEMORY:					__errstr = "GL_OUT_OF_MEMORY";					break;	\
-			case GL_STACK_OVERFLOW:					__errstr = "GL_STACK_OVERFLOW";					break;	\
-			case GL_STACK_UNDERFLOW:				__errstr = "GL_STACK_UNDERFLOW";				break;	\
-			default:								__errstr = "UNKNOWN";									\
-		}																									\
-		wrappedGLErrorSetBit(__error);																		\
-		printf("*** Caught OpenGL error [%s] (0x%04X) in the call to %s() from %s in %s:%d\n", __errstr, __error, method, __PRETTY_FUNCTION__, __FILE__, __LINE__);	\
+	if(glErrorWrapperEnabled())																					\
+	{																											\
+		for(auto __error = (glGetError)(); __error != GL_NO_ERROR; __error = (glGetError)())					\
+		{																										\
+			const char *__errstr = nullptr;																		\
+			switch(__error)																						\
+			{																									\
+				case GL_INVALID_ENUM:					__errstr = "GL_INVALID_ENUM";					break;	\
+				case GL_INVALID_VALUE:					__errstr = "GL_INVALID_VALUE";					break;	\
+				case GL_INVALID_OPERATION:				__errstr = "GL_INVALID_OPERATION";				break;	\
+				case GL_INVALID_FRAMEBUFFER_OPERATION:	__errstr = "GL_INVALID_FRAMEBUFFER_OPERATION";	break;	\
+				case GL_OUT_OF_MEMORY:					__errstr = "GL_OUT_OF_MEMORY";					break;	\
+				case GL_STACK_OVERFLOW:					__errstr = "GL_STACK_OVERFLOW";					break;	\
+				case GL_STACK_UNDERFLOW:				__errstr = "GL_STACK_UNDERFLOW";				break;	\
+				default:								__errstr = "UNKNOWN";									\
+			}																									\
+			wrappedGLErrorSetBit(__error);																		\
+			printf("*** Caught OpenGL error [%s] (0x%04X) in the call to %s() from %s in %s:%d\n", __errstr, __error, method, __PRETTY_FUNCTION__, __FILE__, __LINE__);	\
+		}																										\
 	}
 
 #define	WRAP_GLCALL_RET(method, ...) ([&]() mutable { GLCALL_WRAPPER_BEFORE(#method); auto ret = (method)(__VA_ARGS__); GLCALL_WRAPPER_AFTER(#method); return ret; })()
@@ -750,54 +763,60 @@ EGLint	wrappedEGLErrorGet();
 
 // This should never happen - it'd mean we missed wrapping functions
 #define	EGLCALL_WRAPPER_BEFORE(method)\
-	for(auto __error = (eglGetError)(); __error != EGL_SUCCESS; __error = (eglGetError)())			\
-	{																								\
-		const char *__errstr = nullptr;																\
-		switch(__error)																				\
-		{																							\
-			case EGL_NOT_INITIALIZED:				__errstr = "EGL_NOT_INITIALIZED"; break;		\
-			case EGL_BAD_ACCESS:					__errstr = "EGL_BAD_ACCESS"; break;				\
-			case EGL_BAD_ALLOC:						__errstr = "EGL_BAD_ALLOC"; break;				\
-			case EGL_BAD_ATTRIBUTE:					__errstr = "EGL_BAD_ATTRIBUTE"; break;			\
-			case EGL_BAD_CONFIG:					__errstr = "EGL_BAD_CONFIG"; break;				\
-			case EGL_BAD_CONTEXT:					__errstr = "EGL_BAD_CONTEXT"; break;			\
-			case EGL_BAD_CURRENT_SURFACE:			__errstr = "EGL_BAD_CURRENT_SURFACE"; break;	\
-			case EGL_BAD_DISPLAY:					__errstr = "EGL_BAD_DISPLAY"; break;			\
-			case EGL_BAD_MATCH:						__errstr = "EGL_BAD_MATCH"; break;				\
-			case EGL_BAD_NATIVE_PIXMAP:				__errstr = "EGL_BAD_NATIVE_PIXMAP"; break;		\
-			case EGL_BAD_NATIVE_WINDOW:				__errstr = "EGL_BAD_NATIVE_WINDOW"; break;		\
-			case EGL_BAD_PARAMETER:					__errstr = "EGL_BAD_PARAMETER"; break;			\
-			case EGL_BAD_SURFACE:					__errstr = "EGL_BAD_SURFACE"; break;			\
-			case EGL_CONTEXT_LOST:					__errstr = "EGL_CONTEXT_LOST"; break;			\
-			default:								__errstr = "UNKNOWN";							\
-		}																							\
-		printf("*** Previously unreported EGL error [%s] (0x%04X) before the call to %s() from %s in %s:%d\n", __errstr, __error, method, __PRETTY_FUNCTION__, __FILE__, __LINE__);	\
+	if(glErrorWrapperEnabled())																			\
+	{																									\
+		for(auto __error = (eglGetError)(); __error != EGL_SUCCESS; __error = (eglGetError)())			\
+		{																								\
+			const char *__errstr = nullptr;																\
+			switch(__error)																				\
+			{																							\
+				case EGL_NOT_INITIALIZED:				__errstr = "EGL_NOT_INITIALIZED"; break;		\
+				case EGL_BAD_ACCESS:					__errstr = "EGL_BAD_ACCESS"; break;				\
+				case EGL_BAD_ALLOC:						__errstr = "EGL_BAD_ALLOC"; break;				\
+				case EGL_BAD_ATTRIBUTE:					__errstr = "EGL_BAD_ATTRIBUTE"; break;			\
+				case EGL_BAD_CONFIG:					__errstr = "EGL_BAD_CONFIG"; break;				\
+				case EGL_BAD_CONTEXT:					__errstr = "EGL_BAD_CONTEXT"; break;			\
+				case EGL_BAD_CURRENT_SURFACE:			__errstr = "EGL_BAD_CURRENT_SURFACE"; break;	\
+				case EGL_BAD_DISPLAY:					__errstr = "EGL_BAD_DISPLAY"; break;			\
+				case EGL_BAD_MATCH:						__errstr = "EGL_BAD_MATCH"; break;				\
+				case EGL_BAD_NATIVE_PIXMAP:				__errstr = "EGL_BAD_NATIVE_PIXMAP"; break;		\
+				case EGL_BAD_NATIVE_WINDOW:				__errstr = "EGL_BAD_NATIVE_WINDOW"; break;		\
+				case EGL_BAD_PARAMETER:					__errstr = "EGL_BAD_PARAMETER"; break;			\
+				case EGL_BAD_SURFACE:					__errstr = "EGL_BAD_SURFACE"; break;			\
+				case EGL_CONTEXT_LOST:					__errstr = "EGL_CONTEXT_LOST"; break;			\
+				default:								__errstr = "UNKNOWN";							\
+			}																							\
+			printf("*** Previously unreported EGL error [%s] (0x%04X) before the call to %s() from %s in %s:%d\n", __errstr, __error, method, __PRETTY_FUNCTION__, __FILE__, __LINE__);	\
+		}																								\
 	}
 
 #define	EGLCALL_WRAPPER_AFTER(method)\
-	for(auto __error = (eglGetError)(); __error != EGL_SUCCESS; __error = (eglGetError)())			\
-	{																								\
-		const char *__errstr = nullptr;																\
-		switch(__error)																				\
-		{																							\
-			case EGL_NOT_INITIALIZED:				__errstr = "EGL_NOT_INITIALIZED"; break;		\
-			case EGL_BAD_ACCESS:					__errstr = "EGL_BAD_ACCESS"; break;				\
-			case EGL_BAD_ALLOC:						__errstr = "EGL_BAD_ALLOC"; break;				\
-			case EGL_BAD_ATTRIBUTE:					__errstr = "EGL_BAD_ATTRIBUTE"; break;			\
-			case EGL_BAD_CONFIG:					__errstr = "EGL_BAD_CONFIG"; break;				\
-			case EGL_BAD_CONTEXT:					__errstr = "EGL_BAD_CONTEXT"; break;			\
-			case EGL_BAD_CURRENT_SURFACE:			__errstr = "EGL_BAD_CURRENT_SURFACE"; break;	\
-			case EGL_BAD_DISPLAY:					__errstr = "EGL_BAD_DISPLAY"; break;			\
-			case EGL_BAD_MATCH:						__errstr = "EGL_BAD_MATCH"; break;				\
-			case EGL_BAD_NATIVE_PIXMAP:				__errstr = "EGL_BAD_NATIVE_PIXMAP"; break;		\
-			case EGL_BAD_NATIVE_WINDOW:				__errstr = "EGL_BAD_NATIVE_WINDOW"; break;		\
-			case EGL_BAD_PARAMETER:					__errstr = "EGL_BAD_PARAMETER"; break;			\
-			case EGL_BAD_SURFACE:					__errstr = "EGL_BAD_SURFACE"; break;			\
-			case EGL_CONTEXT_LOST:					__errstr = "EGL_CONTEXT_LOST"; break;			\
-			default:								__errstr = "UNKNOWN";							\
-		}																							\
-		wrappedEGLErrorSet(__error);																\
-		printf("*** Caught EGL error [%s] (0x%04X) in the call to %s() from %s in %s:%d\n", __errstr, __error, method, __PRETTY_FUNCTION__, __FILE__, __LINE__);	\
+	if(glErrorWrapperEnabled())																			\
+	{																									\
+		for(auto __error = (eglGetError)(); __error != EGL_SUCCESS; __error = (eglGetError)())			\
+		{																								\
+			const char *__errstr = nullptr;																\
+			switch(__error)																				\
+			{																							\
+				case EGL_NOT_INITIALIZED:				__errstr = "EGL_NOT_INITIALIZED"; break;		\
+				case EGL_BAD_ACCESS:					__errstr = "EGL_BAD_ACCESS"; break;				\
+				case EGL_BAD_ALLOC:						__errstr = "EGL_BAD_ALLOC"; break;				\
+				case EGL_BAD_ATTRIBUTE:					__errstr = "EGL_BAD_ATTRIBUTE"; break;			\
+				case EGL_BAD_CONFIG:					__errstr = "EGL_BAD_CONFIG"; break;				\
+				case EGL_BAD_CONTEXT:					__errstr = "EGL_BAD_CONTEXT"; break;			\
+				case EGL_BAD_CURRENT_SURFACE:			__errstr = "EGL_BAD_CURRENT_SURFACE"; break;	\
+				case EGL_BAD_DISPLAY:					__errstr = "EGL_BAD_DISPLAY"; break;			\
+				case EGL_BAD_MATCH:						__errstr = "EGL_BAD_MATCH"; break;				\
+				case EGL_BAD_NATIVE_PIXMAP:				__errstr = "EGL_BAD_NATIVE_PIXMAP"; break;		\
+				case EGL_BAD_NATIVE_WINDOW:				__errstr = "EGL_BAD_NATIVE_WINDOW"; break;		\
+				case EGL_BAD_PARAMETER:					__errstr = "EGL_BAD_PARAMETER"; break;			\
+				case EGL_BAD_SURFACE:					__errstr = "EGL_BAD_SURFACE"; break;			\
+				case EGL_CONTEXT_LOST:					__errstr = "EGL_CONTEXT_LOST"; break;			\
+				default:								__errstr = "UNKNOWN";							\
+			}																							\
+			wrappedEGLErrorSet(__error);																\
+			printf("*** Caught EGL error [%s] (0x%04X) in the call to %s() from %s in %s:%d\n", __errstr, __error, method, __PRETTY_FUNCTION__, __FILE__, __LINE__);	\
+		}																								\
 	}
 
 // All EGL functions happen to return (non-void)

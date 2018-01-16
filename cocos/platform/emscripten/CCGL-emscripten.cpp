@@ -1,5 +1,6 @@
 
 #include "platform/CCPlatformConfig.h"
+#include "base/CCUserDefault.h"
 
 // Support for redefined glGetError() and eglGetError(), only in debug builds
 
@@ -32,7 +33,8 @@ The below functions achieve this.
 
 
 namespace {
-
+	static bool		glErrorWrapperToggle = false;
+	static bool		glErrorUserSaveSync = false;
 	static GLenum	gl_error_bits = GL_NO_ERROR;	// 0 as per spec
 	static EGLint	egl_error = EGL_SUCCESS;
 }
@@ -42,6 +44,28 @@ void	wrappedGLErrorSetBit(GLenum bit);
 GLenum	wrappedGLErrorGetBit();
 void	wrappedEGLErrorSet(EGLint error);
 EGLint	wrappedEGLErrorGet();
+
+
+
+void	glErrorWrapperEnable(bool toggle)
+{
+	glErrorWrapperToggle = toggle;
+	glErrorUserSaveSync = true;
+	cocos2d::UserDefault::getInstance()->setBoolForKey("glErrorWrapperToggle", toggle);
+}
+
+
+bool	glErrorWrapperEnabled()
+{
+	if(!glErrorUserSaveSync)
+	{
+		glErrorWrapperToggle = cocos2d::UserDefault::getInstance()->getBoolForKey("glErrorWrapperToggle", false);
+		glErrorUserSaveSync = true;
+	}
+
+	return glErrorWrapperToggle;
+}
+
 
 
 void	wrappedGLErrorSetBit(GLenum bit)
