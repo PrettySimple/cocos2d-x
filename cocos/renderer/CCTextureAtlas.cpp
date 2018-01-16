@@ -614,6 +614,10 @@ void TextureAtlas::drawNumberOfQuads(ssize_t numberOfQuads, ssize_t start)
     
     GL::bindTexture2D(_texture->getName());
 
+// The emscripten dead code elimination fails to eliminate the below (supportsMapBuffer() is hardcoded to return false),
+// resuling in link-time warning: warning: unresolved symbol: glMapBufferOES
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN)
+
     auto conf = Configuration::getInstance();
     if (conf->supportsShareableVAO() && conf->supportsMapBuffer())
     {
@@ -659,6 +663,7 @@ void TextureAtlas::drawNumberOfQuads(ssize_t numberOfQuads, ssize_t start)
 //    glBindVertexArray(0);
     }
     else
+#endif // (CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN)
     {
         //
         // Using VBO without VAO
