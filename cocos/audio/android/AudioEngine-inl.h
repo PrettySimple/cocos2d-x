@@ -97,7 +97,7 @@ private:
     EventListener* _onResumeListener;
 
     int _audioIDIndex;
-    
+
     bool _lazyInitLoop;
 };
 
