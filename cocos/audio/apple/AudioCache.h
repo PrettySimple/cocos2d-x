@@ -94,6 +94,8 @@ public:
 
     void addLoadCallback(const std::function<void(bool)>& callback);
     
+    void clearLoadCallbacks();
+    
 protected:
     void setSkipReadDataTask(bool isSkip) { _isSkipReadDataTask = isSkip; };
     void readDataTask(unsigned int selfId);

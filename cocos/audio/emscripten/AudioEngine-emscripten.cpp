@@ -181,6 +181,12 @@ void AudioEngineImpl::preload(const std::string& filePath, const preload_callbac
 	);
 }
 
+int AudioEngineImpl::cancelPreload(const std::string& filePath)
+{
+    //TODO EMSCRIPTEN: Implement
+    return -1;
+}
+
 void AudioEngineImpl::update(float dt)
 {
 	printf("*** AudioEngineImpl::update(%f)\n", dt);

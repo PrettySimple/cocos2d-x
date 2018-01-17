@@ -32,7 +32,7 @@ namespace experimental
 		~AudioEngineImpl();
 
 		bool init();
-		int play2d(const std::string &fileFullPath, bool loop, float volume);
+		int play2d(const std::string& fileFullPath, bool loop, float volume);
 		void setVolume(int audioID,float volume);
 		void setLoop(int audioID, bool loop);
 		bool pause(int audioID);
@@ -48,6 +48,7 @@ namespace experimental
 		void uncacheAll();
 
 		void preload(const std::string& filePath, const preload_callback& callback);
+        void cancelPreload(const std::string& filePath);
 
 		void update(float dt);
 
