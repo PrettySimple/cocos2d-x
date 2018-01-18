@@ -246,9 +246,16 @@ if(EMSCRIPTEN)
 		WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
 	)
 
+	add_custom_command(
+		OUTPUT audio/emscripten/AudioEngine-emscripten.cpp.js
+		COMMAND ../tools/emscripten/build-cpp-js.js --source audio/emscripten/AudioEngine-emscripten.src.js ${BUILD_CPP_JS_OPTS}
+		WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+	)
+
 	add_custom_target(
 		build_cpp_js_cocos
 		DEPENDS platform/emscripten/CCUserDefault-emscripten.cpp.js
+		DEPENDS audio/emscripten/AudioEngine-emscripten.cpp.js
 	)
 
 	add_dependencies(cocos2d build_cpp_js_cocos)

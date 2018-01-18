@@ -431,10 +431,14 @@ void AudioEngineImpl::preload(const std::string& filePath, const std::function<v
     if (_audioPlayerProvider != nullptr)
     {
         std::string fullPath = FileUtils::getInstance()->fullPathForFilename(filePath);
-        _audioPlayerProvider->preloadEffect(fullPath, [callback](bool succeed, PcmData data){
-            if (callback != nullptr)
+        // we wil never have two preloading of the same sound file, as each PSAsset only ever exists in one copy
+        _preloadCallbackMap[filePath] = callback;
+
+        _audioPlayerProvider->preloadEffect(fullPath, [this, fullPath](bool succeed, PcmData data){
+            if (_preloadCallbackMap.find(fullPath) != _preloadCallbackMap.end())
             {
-                callback(succeed);
+                _preloadCallbackMap[fullPath](succeed);
+                _preloadCallbackMap.erase(_preloadCallbackMap.find(fullPath));
             }
         });
     }
@@ -445,6 +449,13 @@ void AudioEngineImpl::preload(const std::string& filePath, const std::function<v
             callback(false);
         }
     }
+}
+
+void AudioEngineImpl::cancelPreload(const std::string& filePath)
+{
+    auto callbackIterator = _preloadCallbackMap.find(filePath);
+    if (callbackIterator != _preloadCallbackMap.end())
+        _preloadCallbackMap.erase(callbackIterator);
 }
 
 void AudioEngineImpl::uncache(const std::string& filePath)

@@ -71,6 +71,8 @@ public:
     void uncache(const std::string& filePath);
     void uncacheAll();
     void preload(const std::string& filePath, const std::function<void(bool)>& callback);
+    void cancelPreload(const std::string& filePath);
+
 
     void setAudioFocusForAllPlayers(bool isFocus);
 private:
@@ -88,6 +90,8 @@ private:
     //audioID,AudioInfo
     std::unordered_map<int, IAudioPlayer*>  _audioPlayers;
     std::unordered_map<int, std::function<void (int, const std::string &)>> _callbackMap;
+    std::unordered_map<std::string , std::function<void (bool)>> _preloadCallbackMap;
+
 
     // UrlAudioPlayers which need to resumed while entering foreground
     std::unordered_map<int, IAudioPlayer*> _urlAudioPlayersNeedResume;
@@ -97,7 +101,7 @@ private:
     EventListener* _onResumeListener;
 
     int _audioIDIndex;
-    
+
     bool _lazyInitLoop;
 };
 
