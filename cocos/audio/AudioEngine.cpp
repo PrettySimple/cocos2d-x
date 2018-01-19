@@ -190,6 +190,8 @@ bool AudioEngine::lazyInit()
 
 int AudioEngine::play2d(const std::string& filePath, bool loop, float volume, const AudioProfile *profile)
 {
+	printf("*** AudioEngine::play2d(%s)\n", filePath.c_str());
+
     int ret = AudioEngine::INVALID_AUDIO_ID;
 
     do {
@@ -202,9 +204,14 @@ int AudioEngine::play2d(const std::string& filePath, bool loop, float volume, co
             break;
         }
 
+printf("*** AudioEngine::play2d(): BP1\n");
+
+
         if ( !FileUtils::getInstance()->isFileExist(filePath)){
             break;
         }
+
+printf("*** AudioEngine::play2d(): BP2\n");
 
         auto profileHelper = _defaultProfileHelper;
         if (profile && profile != &profileHelper->profile){
@@ -213,10 +220,15 @@ int AudioEngine::play2d(const std::string& filePath, bool loop, float volume, co
             profileHelper->profile = *profile;
         }
 
+printf("*** AudioEngine::play2d(): BP3\n");
+
         if (_audioIDInfoMap.size() >= _maxInstances) {
             log("Fail to play %s cause by limited max instance of AudioEngine",filePath.c_str());
             break;
         }
+
+printf("*** AudioEngine::play2d(): BP4\n");
+
         if (profileHelper)
         {
              if(profileHelper->profile.maxInstances != 0 && profileHelper->audioIDs.size() >= profileHelper->profile.maxInstances){
@@ -231,6 +243,8 @@ int AudioEngine::play2d(const std::string& filePath, bool loop, float volume, co
                  }
              }
         }
+
+printf("*** AudioEngine::play2d(): BP5\n");
 
         if (volume < 0.0f) {
             volume = 0.0f;
@@ -256,7 +270,12 @@ int AudioEngine::play2d(const std::string& filePath, bool loop, float volume, co
             }
             audioRef.profileHelper = profileHelper;
         }
+
+printf("*** AudioEngine::play2d(): BP6\n");
+
     } while (0);
+
+printf("*** AudioEngine::play2d(): BP7\n");
 
     return ret;
 }
@@ -553,8 +572,14 @@ void AudioEngine::preload(const std::string& filePath, std::function<void(bool i
 
         _audioEngineImpl->preload(filePath, callback);
     }
+	else
+	{
+		if(callback)
+			callback(false);
+	}
 }
 
+/*
 void AudioEngine::cancelPreload(const std::string& filePath)
 {
     lazyInit();
@@ -563,7 +588,7 @@ void AudioEngine::cancelPreload(const std::string& filePath)
         _audioEngineImpl->cancelPreload(filePath);
     }
 }
-
+*/
 
 void AudioEngine::addTask(const std::function<void()>& task)
 {

@@ -20,19 +20,30 @@ namespace experimental
 	class CC_DLL AudioEngineImpl : public cocos2d::Ref
 	{
 	public:
-		using preload_callback = std::function<void(bool)>;
+		using preload_callback_t = std::function<void(bool)>;
 
 	private:
 
+		/*
 		// Required as JS calls us back using the path (I prefered that over passing the callback ptr to JS)
-		std::unordered_map<std::string, std::vector<preload_callback>>	_preloadCallbacks;
+		// We're supporting multiple preload requests per path (hence the std::vector) although it is unlikely
+		// to be used (if the application is using the PSAssetManager)
+		std::unordered_map<std::string, std::vector<preload_callback_t>>	_preloadCallbacks;
+		*/
+
+		// Finally only supporting one callback per filePath. We'll dumbly override the callback should
+		// we receive a subsequent request on a same pending filePath.
+
+		std::unordered_map<std::string, preload_callback_t>	_pendingPreloads;
 
 	public:
 		AudioEngineImpl();
 		~AudioEngineImpl();
 
-		bool init();
-		int play2d(const std::string& fileFullPath, bool loop, float volume);
+		bool	init();
+		int		play2d(const std::string& fileFullPath, bool loop, float volume);
+
+
 		void setVolume(int audioID,float volume);
 		void setLoop(int audioID, bool loop);
 		bool pause(int audioID);
@@ -47,8 +58,8 @@ namespace experimental
 		void uncache(const std::string& filePath);
 		void uncacheAll();
 
-		void preload(const std::string& filePath, const preload_callback& callback);
-        void cancelPreload(const std::string& filePath);
+		void preload(const std::string& filePath, const preload_callback_t& callback);
+//        void cancelPreload(const std::string& filePath);
 
 		void update(float dt);
 

@@ -8,7 +8,7 @@
 using namespace cocos2d::experimental;
 
 AudioEngineImpl::AudioEngineImpl()
-:	_preloadCallbacks()
+:	_pendingPreloads()
 {
 	printf("*** AudioEngineImpl::AudioEngineImpl()\n");
 
@@ -40,6 +40,7 @@ AudioEngineImpl::~AudioEngineImpl()
 
 	EM_ASM({Module.cocos_AudioEngine._destruct();});
 
+/*
 	// Fire remaining _preloadCallbacks
 	for(const auto& it : _preloadCallbacks)
 	{
@@ -48,6 +49,9 @@ AudioEngineImpl::~AudioEngineImpl()
 			cb(false);
 		}
 	}
+*/
+	// TODO: should we do anything here?
+
 }
 
 bool AudioEngineImpl::init()
@@ -60,12 +64,18 @@ bool AudioEngineImpl::init()
 	return true;
 }
 
-int AudioEngineImpl::play2d(const std::string& filePath ,bool loop ,float volume)
+int AudioEngineImpl::play2d(const std::string& filePath, bool loop, float volume)
 {
 	printf("*** AudioEngineImpl::play2d(%s, %s, %f)\n", filePath.c_str(), loop ? "true" : "false", volume);
 
-	//TODO EMSCRIPTEN: Implement
-	return -1;
+	return EM_ASM_INT(
+		{
+			return Module.cocos_AudioEngine.play($0, $1, $2, 3);
+		},
+		filePath.c_str(), filePath.size(),
+		loop,
+		volume
+	);
 }
 
 void AudioEngineImpl::setVolume(int audioID, float volume)
@@ -162,29 +172,28 @@ void AudioEngineImpl::uncacheAll()
 }
 
 //void AudioEngineImpl::preload(const std::string& filePath, std::function<void(bool isSuccess)> callback)
-void AudioEngineImpl::preload(const std::string& filePath, const preload_callback& callback)
+void AudioEngineImpl::preload(const std::string& filePath, const preload_callback_t& callback)
 {
 	printf("*** AudioEngineImpl::preload(%s)\n", filePath.c_str());
 
-	auto search = _preloadCallbacks.find(filePath);
+	// Finally only supporting one callback per filePath. We'll dumbly override the callback should
+	// we receive a subsequent request on a same pending filePath.
 
-	if(search != _preloadCallbacks.end())
-		search->second.push_back(callback);
+	auto search = _pendingPreloads.find(filePath);
+
+	if(search == _pendingPreloads.end())
+	{
+		_pendingPreloads.insert({ filePath, callback });
+
+		EM_ASM(
+			{
+				Module.cocos_AudioEngine.preload($0, $1);
+			},
+			filePath.c_str(), filePath.size()
+		);
+	}
 	else
-		_preloadCallbacks.insert( { filePath, { callback } } );
-
-	EM_ASM(
-		{
-			Module.cocos_AudioEngine.preload($0, $1);
-		},
-		filePath.c_str(), filePath.size()
-	);
-}
-
-int AudioEngineImpl::cancelPreload(const std::string& filePath)
-{
-    //TODO EMSCRIPTEN: Implement
-    return -1;
+		search->second = callback;
 }
 
 void AudioEngineImpl::update(float dt)
@@ -209,14 +218,16 @@ void	AudioEngineImpl::js2cpp_preloadCallback(uintptr_t class_ptr, const std::str
 
 	printf("*** js2cpp_preloadCallback(%s, %s)\n", filePath.c_str(), success ? "true" : "false");
 
-	auto search = self->_preloadCallbacks.find(filePath);
+	const auto& search = self->_pendingPreloads.find(filePath);
 
-	if(search != self->_preloadCallbacks.end())
+	if(search != self->_pendingPreloads.end())
 	{
-		for(const auto& cb : search->second)
-			cb(success);
+		const auto	callback = search->second;
 
-		self->_preloadCallbacks.erase(search->first);
+		self->_pendingPreloads.erase(search);
+
+		if(callback)
+			callback(success);
 	}
 }
 

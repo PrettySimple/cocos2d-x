@@ -60,7 +60,7 @@ Module.cocos_AudioEngine = (function()
 
 		var	contextClass = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
 
-		// TODO: is createBufferSource necessary?
+		// TODO: is createBufferSource necessary? Remove requirement if no longer present upon final implementation
 		if(!contextClass || !contextClass.prototype.decodeAudioData || !contextClass.prototype.createBufferSource)
 			return null;
 
@@ -93,55 +93,23 @@ Module.cocos_AudioEngine = (function()
 	// Pointer to the AudioEngineImpl singleton
 	var	cpp_ptr = null;
 
-	// path-indexed cache of <AudioBuffer> (mp3 ArrayBuffer decoded by browser)
+	// Path-indexed cache of <AudioBuffer> (mp3 ArrayBuffer decoded by browser)
 	var	preloadCache = {};
 
-
-	// TODO: consider NOT honouring the uncache() requests for sounds that are frequently requested?
-	// (that requires implementing a tiny LRU)
 
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// HELPERS
 
-	/*
-	function	string2ptr(str)
+
+	function	preloadCallback(path, success)
 	{
-		var	size_cpp = lengthBytesUTF8(str);
-		var	ptr = _malloc(size_cpp + 1);	// null terminator. Free'd by CPP.
+		console.log('*** preloadCallback('+path+', '+(success ? 'true' : 'false')+')');
 
-		return stringToUTF8(str, ptr, size_cpp + 1);
-	}
-	*/
-
-	function	preloadCallback(path, success, sync)
-	{
-		console.log('*** preloadCallback('+path+', '+(success ? 'true' : 'false')+', '+(sync ? 'true' : 'false')+')');
-
-		if(cpp_ptr === null)
-			return;
-
-		if(sync === true)
-		{
-			//binding.preloadCallback(cpp_ptr, string2ptr(path), success ? 1 : 0);
+		if(cpp_ptr !== null)
 			binding.preloadCallback(cpp_ptr, path, success);
-			return;
-		}
-
-		setTimeout(
-			function()
-			{
-				if(cpp_ptr === null)
-					return;
-				//binding.preloadCallback(cpp_ptr, string2ptr(path), success ? 1 : 0);
-				binding.preloadCallback(cpp_ptr, path, success);
-			},
-			1
-		);
 	}
-
-
 
 
 	return {
@@ -157,8 +125,9 @@ Module.cocos_AudioEngine = (function()
 			console.log('*** _destruct()');
 			// Reinitialize all static storage... (if any?)
 			cpp_ptr = null;
-			preloadCache = {};
 
+			// uncacheAll() will keep track of cancelation requests, so that the result of AudioContext::decodeAudioData() is promptly ignored.
+			this.uncacheAll();
 		},
 
 
@@ -167,69 +136,66 @@ Module.cocos_AudioEngine = (function()
 
 		preload:	function(path_ptr, path_len)
 		{
-			console.log('*** preload('+path_ptr+', '+path_len+')');
-
-			// Don't fire the callback synchronously if the file is already preloaded.
-			// On the other hand, make sure cpp_ptr is still valid when the callback is actually fired.
-
 			var	filePath = Pointer_stringify(path_ptr, path_len);
 
-			console.log('*** preload(): resolved filePath: '+filePath);
+			console.log('*** preload('+filePath+')');
 
 			if(preloadCache.hasOwnProperty(filePath))
-				preloadCallback(filePath, true, false);	// false => async
+			{
+				// This is not supposed to happen, the caller is breaking the paradigm...
+				preloadCallback(filePath, true);
+				return;
+			}
+
+			if(context !== null)
+			{
+				// We no longer try to deduplicate nor to detect whether there already is a pending request.
+				// It's up to the caller to do so.
+
+				var	mp3;
+
+				try
+				{
+					mp3 = FS.readFile(filePath, { encoding: 'binary' });
+				}
+				catch(e)
+				{
+					console.log('*** preload() failed reading from disk: '+filePath);
+					preloadCallback(filePath, false);
+					return;
+				}
+
+				// The MDN doc: https://developer.mozilla.org/en-US/docs/Web/API/BaseAudioContext/decodeAudioData
+				// says there is an "older callback syntax" and a "newer promise-based syntax". I have no idea (I didn't look) how to detect which one
+				// is supported, so going for the "older callback syntax" here...
+
+				context.decodeAudioData(
+					mp3.buffer,				// <ArrayBuffer>
+					// DecodeSuccessCallback
+					function(buffer)		// <AudioBuffer>
+					{
+						preloadCache[filePath] = buffer;
+						preloadCallback(filePath, true);
+					},
+					// DecodeErrorCallback
+					function()
+					{
+						// Assume this is because we don't support mp3 (not because mp3 is corrupt)...
+						// Setting context to null, which will effectively prevent all further action regarding the sound
+						context = null;
+
+						// This is not strictly required...
+						if(preloadCache.hasOwnProperty(filePath))
+							delete preloadCache[filePath];
+
+						preloadCallback(filePath, false);
+					}
+				);
+			}
 			else
 			{
-				if(context !== null)
-				{
-					// Isn't cached yet (yet, there might be a pending cache... if the preload requests aren't dedoubled by Cocos, we might
-					// be preloading a same file more than once...).
-
-					var	mp3;
-
-					try
-					{
-						mp3 = FS.readFile(filePath, { encoding: 'binary' });
-					}
-					catch(e)
-					{
-						console.log('*** preload() failed reading from disk: '+filePath);
-						preloadCallback(filePath, false, false);	// false => async
-						return;
-					}
-
-					// The MDN doc: https://developer.mozilla.org/en-US/docs/Web/API/BaseAudioContext/decodeAudioData
-					// says there is an "older callback syntax" and a "newer promise-based syntax". I have no idea (I didn't look) how to detect which one
-					// is supported, so going for the "older callback syntax" here...
-
-					context.decodeAudioData(
-						mp3.buffer,				// <ArrayBuffer>
-						// DecodeSuccessCallback
-						function(buffer)		// <AudioBuffer>
-						{
-							//console.log('*** DecodeSuccessCallback');
-							
-							preloadCache[path_ptr] = buffer;
-							preloadCallback(filePath, true, true);	// true => ssync
-						},
-						// DecodeErrorCallback
-						function()
-						{
-							//console.log('*** DecodeErrorCallback');
-
-							// Assume this is because we don't support mp3...
-							// Setting context to null, which will effectively prevent all further action regarding the sound
-							context = null;
-
-							preloadCallback(filePath, false, true);	// true => ssync
-						}
-					);
-				}
-				else
-				{
-					console.log('*** context is null');
-					preloadCallback(filePath, false, false);	// false => async
-				}
+				console.log('*** context is null');
+				preloadCallback(filePath, false);
 			}
 		},
 
@@ -237,17 +203,25 @@ Module.cocos_AudioEngine = (function()
 		{
 			var	filePath = Pointer_stringify(path_ptr, path_len);
 
+			console.log('*** uncache('+filePath+')');
+
 			if(preloadCache.hasOwnProperty(filePath))
 				delete preloadCache[filePath];
-
-			// Same comment as in uncacheAll() applies here.
 		},
 
-		uncacheAll:	function()
+
+		/********************************************************************************************************************************************/
+		/* PLAYING */
+
+		play:	function(path_ptr, path_len, loop, volume)
 		{
-			preloadCache = {};
-			// Yet it might get filled by pending preloads... TBH, we don't care, as Cocos should have provided a preload cancel mechanism...
+			var	filePath = Pointer_stringify(path_ptr, path_len);
+
+			console.log('*** play('+filePath+', '+(loop?'true':'false')+', '+volume+')');
+
+			return -1;
 		}
+
 
 	};
 
