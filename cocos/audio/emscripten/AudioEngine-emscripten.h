@@ -21,6 +21,7 @@ namespace experimental
 	{
 	public:
 		using preload_callback_t = std::function<void(bool)>;
+		using finish_callback_t = std::function<void(int, const std::string&)>;
 
 	private:
 
@@ -36,35 +37,46 @@ namespace experimental
 
 		std::unordered_map<std::string, preload_callback_t>	_pendingPreloads;
 
+		std::unordered_map<int, finish_callback_t>			_finishCallbacks;
+
 	public:
 		AudioEngineImpl();
 		~AudioEngineImpl();
 
 		bool	init();
+
+
+		////////////////////////////////////////////
+		// PRELOADING
+
+		void	preload(const std::string& filePath, const preload_callback_t& callback);
+		void	uncache(const std::string& filePath);
+		void	uncacheAll();								// /!\ MUST NOT BE INVOKED. SHALL ABORT. /!\ //
+
+
+		////////////////////////////////////////////
+		// PLAYING
+
 		int		play2d(const std::string& fileFullPath, bool loop, float volume);
+		void	setVolume(int audioID,float volume);
+		void	setLoop(int audioID, bool loop);
+		void	pause(int audioID);
+		void	resume(int audioID);
+		void	stop(int audioID);
+		void	stopAll();									// /!\ MUST NOT BE INVOKED. SHALL ABORT. /!\ //
+
+		float	getDuration(int audioID);
+		float	getCurrentTime(int audioID);
+		bool	setCurrentTime(int audioID, float time);
+
+		void	setFinishCallback(int audioID, const finish_callback_t& callback);
 
 
-		void setVolume(int audioID,float volume);
-		void setLoop(int audioID, bool loop);
-		bool pause(int audioID);
-		bool resume(int audioID);
-		bool stop(int audioID);
-		void stopAll();
-		float getDuration(int audioID);
-		float getCurrentTime(int audioID);
-		bool setCurrentTime(int audioID, float time);
-		void setFinishCallback(int audioID, const std::function<void (int, const std::string &)>& callback);
-
-		void uncache(const std::string& filePath);
-		void uncacheAll();
-
-		void preload(const std::string& filePath, const preload_callback_t& callback);
-//        void cancelPreload(const std::string& filePath);
-
-		void update(float dt);
-
+	public:
 		// Must be public, by design...
 		static void		js2cpp_preloadCallback(uintptr_t class_ptr, const std::string& filePath, bool success);
+		static void		js2cpp_finishCallback(uintptr_t class_ptr, int audioID, const std::string& filePath);
+
 
 	};
 }
