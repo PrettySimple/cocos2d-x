@@ -5,44 +5,15 @@
 
 /*
 
-Sample console test
-
-var	ctx = new AudioContext();
-var	source;
-
-download('djurdjevdan.mp3').then(
-	function(mp3)
-	{
-		ctx.decodeAudioData(mp3).then(
-			function(buffer)
-			{
-				source = ctx.createBufferSource();
-				source.buffer = buffer;
-				source.connect(ctx.destination);
-				source.start(0);
-			}
-		);
-	}
-);
-
-
---sound-format mp3
-
-
-References:
-
-	https://github.com/cocos2d/cocos2d-html5/blob/15704c33421bbd236299b6b965e63eb2a6b7172c/cocos2d/audio/CCAudio.js
-
-
-*/
-
-
-/*
-
 NOTES
 
 	* The implementation assumes/expects that AudioEngine (and therefore AudioEngineImpl) is a singleton. It maintains a single pointer to a single CPP instance.
 
+
+TODO:
+
+	[+] VM2811:174 [Deprecation] GainNode.gain.value setter smoothing is deprecated and will be removed in M64, around January 2018. Please use setTargetAtTime() instead if smoothing is needed. See https://www.chromestatus.com/features/5287995770929152 for more details.
+		=> Nothing to be done.
 */
 
 
@@ -62,7 +33,6 @@ Module.cocos_AudioEngine = (function()
 
 		var	contextClass = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
 
-		// TODO: is createBufferSource necessary? Remove requirement if no longer present upon final implementation
 		if(!contextClass || !contextClass.prototype.decodeAudioData || !contextClass.prototype.createBufferSource)
 			return null;
 
@@ -243,18 +213,6 @@ Module.cocos_AudioEngine = (function()
 
 	playingSound.prototype.pause = function()
 	{
-		/*
-			pause() and resume() are actually tricky to implement due to lack of straightforward way of obtaining the current play time.
-
-			Attempt using ideas from:
-				https://github.com/WebAudio/web-audio-api/issues/296
-			Specifically arround (both above and below): jakearchibald commented on Oct 29, 2016
-
-			Actually see: https://github.com/cocos2d/cocos2d-html5/blob/15704c33421bbd236299b6b965e63eb2a6b7172c/cocos2d/audio/CCAudio.js
-			They use context's methods to figure-out the time... should be okay!
-
-		*/
-
 		if(this.pauseOffset !== null)	// already paused?
 			return;
 
@@ -322,8 +280,20 @@ Module.cocos_AudioEngine = (function()
 
 	playingSound.prototype.getCurrentTime = function()
 	{
-		// Somehow implemented but not wired. Cocos doesn't specify what to return for a looping sound...
-		return this.pauseOffset !== null ? this.pauseOffset : this.context.currentTime - this.baseTime;
+		// Cocos doesn't specify what to return for a looping sound...
+		// => We're now "rounding"... That being said, PSAudioEngine::getCurrentTime() is still to be implemented.
+		//return this.pauseOffset !== null ? this.pauseOffset : this.context.currentTime - this.baseTime;
+
+		if(this.pauseOffset !== null)
+			return this.pauseOffset;
+
+		var	currentTime = this.context.currentTime - this.baseTime;
+
+		// Using ms precision for the computation should be more than enough...
+		if(this.loop && currentTime > this.buffer.duration)
+			currentTime = (Math.round(currentTime * 1000) % Math.min(1, Math.round(this.buffer.duration * 1000))) / 1000;
+
+		return currentTime;
 	};
 
 
@@ -335,7 +305,7 @@ Module.cocos_AudioEngine = (function()
 
 	function	preloadCallback(path, success)
 	{
-		console.log('*** preloadCallback('+path+', '+(success ? 'true' : 'false')+')');
+		//console.log('*** preloadCallback('+path+', '+(success ? 'true' : 'false')+')');
 
 		if(cpp_ptr !== null)
 			binding.preloadCallback(cpp_ptr, path, success);
@@ -343,7 +313,7 @@ Module.cocos_AudioEngine = (function()
 
 	function	finishCallback(id)
 	{
-		console.log('*** finishCallback('+id+')');
+		//console.log('*** finishCallback('+id+')');
 
 		if(playingSounds.hasOwnProperty('s_'+id))
 		{
@@ -351,7 +321,7 @@ Module.cocos_AudioEngine = (function()
 			delete playingSounds['s_'+id];
 
 			if(cpp_ptr !== null)
-				binding.finishCallback(id, path);
+				binding.finishCallback(cpp_ptr, id, path);
 		}
 	}
 
@@ -361,20 +331,19 @@ Module.cocos_AudioEngine = (function()
 
 		_construct:	function(ptr)
 		{
-			console.log('*** _construct('+ptr+')');
+			//console.log('*** _construct('+ptr+')');
 			cpp_ptr = ptr;
 		},
 
 		_destruct:	function()
 		{
-			console.log('*** _destruct()');
+			//console.log('*** _destruct()');
 			// Reinitialize all static storage... (if any?)
 			cpp_ptr = null;
 
-			/* WTF?
-			// uncacheAll() will keep track of cancelation requests, so that the result of AudioContext::decodeAudioData() is promptly ignored.
-			this.uncacheAll();
-			*/
+			// Reinit cache and sounds while NOT altering nextPlayingSoundId
+			preloadCache = {};
+			playingSounds = {};
 		},
 
 		/********************************************************************************************************************************************/
@@ -384,7 +353,7 @@ Module.cocos_AudioEngine = (function()
 		{
 			var	filePath = Pointer_stringify(path_ptr, path_len);
 
-			console.log('*** preload('+filePath+')');
+			//console.log('*** preload('+filePath+')');
 
 			if(preloadCache.hasOwnProperty(filePath))
 			{
@@ -402,11 +371,12 @@ Module.cocos_AudioEngine = (function()
 
 				try
 				{
+					// TODO (perf): check if we can access the file data without copy (eg. mmap()'ing in CPP and providing a pointer here).
 					mp3 = FS.readFile(filePath, { encoding: 'binary' });
 				}
 				catch(e)
 				{
-					console.log('*** preload() failed reading from disk: '+filePath);
+					//console.log('*** preload() failed reading from disk: '+filePath);
 					preloadCallback(filePath, false);
 					return;
 				}
@@ -440,7 +410,7 @@ Module.cocos_AudioEngine = (function()
 			}
 			else
 			{
-				console.log('*** context is null');
+				//console.log('*** context is null');
 				preloadCallback(filePath, false);
 			}
 		},
@@ -449,11 +419,74 @@ Module.cocos_AudioEngine = (function()
 		{
 			var	filePath = Pointer_stringify(path_ptr, path_len);
 
-			console.log('*** uncache('+filePath+')');
+			//console.log('*** uncache('+filePath+')');
 
 			if(preloadCache.hasOwnProperty(filePath))
 				delete preloadCache[filePath];
 		},
+
+
+
+		/********************************************************************************************************************************************/
+		/*<DEBUG>*/
+
+		// Invoke from console as: Module.cocos_AudioEngine.dbg_...(...)
+
+		dbg_dump:	function()
+		{
+			var	ret = { preloaded: [], playing: {} };
+
+			for(var filePath in preloadCache)
+			{
+				if(preloadCache.hasOwnProperty(filePath))
+					ret.preloaded.push(filePath);
+			}
+
+			for(var playing in playingSounds)
+			{
+				if(playingSounds.hasOwnProperty(playing))
+				{
+					ret.playing[playingSounds[playing].id] = {
+						path: playingSounds[playing].path,
+						loop: playingSounds[playing].loop,
+						volume: playingSounds[playing].volume,
+						duration: playingSounds[playing].buffer.duration
+					};
+				}
+			}
+
+			return ret;
+		},
+
+		dbg_preload:	function(path)
+		{
+			var	path_ptr = this.dbg_str2ptr(path);
+
+			this.preload(path_ptr.ptr, path_ptr.len);
+
+			_free(path_ptr.ptr);
+		},
+
+		dbg_play:		function(path, loop, volume)
+		{
+			var	path_ptr = this.dbg_str2ptr(path);
+
+			this.play(path_ptr.ptr, path_ptr.len, loop, volume);
+
+			_free(path_ptr.ptr);
+		},
+
+		dbg_str2ptr:	function(str)
+		{
+			var	size_cpp = lengthBytesUTF8(str);
+			var	ptr = _malloc(size_cpp + 1);	// null terminator. Free'd by CPP.
+
+			stringToUTF8(str, ptr, size_cpp + 1);
+
+			return { ptr: ptr, len: size_cpp };
+		},
+
+		/*</DEBUG>*/
 
 
 		/********************************************************************************************************************************************/
@@ -463,7 +496,7 @@ Module.cocos_AudioEngine = (function()
 		{
 			var	filePath = Pointer_stringify(path_ptr, path_len);
 
-			console.log('*** play('+filePath+', '+(loop?'true':'false')+', '+volume+')');
+			//console.log('*** play('+filePath+', '+(loop?'true':'false')+', '+volume+')');
 
 			var	id = ++nextPlayingSoundId;
 
@@ -529,15 +562,10 @@ Module.cocos_AudioEngine = (function()
 
 		getCurrentTime:	function(id)
 		{
-			void(id);
-			throw 'getCurrentTime() not implemented yet!';
-
-			/*
 			if(playingSounds.hasOwnProperty('s_'+id))
 				return playingSounds['s_'+id].getCurrentTime();
 
 			return 0.;
-			*/
 		},
 
 		setCurrentTime:	function(id, time)
@@ -546,13 +574,6 @@ Module.cocos_AudioEngine = (function()
 			void(time);
 			throw 'setCurrentTime() not implemented yet!';
 		}
-
-		/*
-		We don't receive setFinishCallback() - we always fire it, and CPP needs to figure out whether there is one...
-		setFinishCallback:	function(id)
-		{
-		}
-		*/
 
 	};
 

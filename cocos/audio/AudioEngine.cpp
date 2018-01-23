@@ -204,14 +204,10 @@ int AudioEngine::play2d(const std::string& filePath, bool loop, float volume, co
             break;
         }
 
-printf("*** AudioEngine::play2d(): BP1\n");
-
 
         if ( !FileUtils::getInstance()->isFileExist(filePath)){
             break;
         }
-
-printf("*** AudioEngine::play2d(): BP2\n");
 
         auto profileHelper = _defaultProfileHelper;
         if (profile && profile != &profileHelper->profile){
@@ -220,14 +216,10 @@ printf("*** AudioEngine::play2d(): BP2\n");
             profileHelper->profile = *profile;
         }
 
-printf("*** AudioEngine::play2d(): BP3\n");
-
         if (_audioIDInfoMap.size() >= _maxInstances) {
             log("Fail to play %s cause by limited max instance of AudioEngine",filePath.c_str());
             break;
         }
-
-printf("*** AudioEngine::play2d(): BP4\n");
 
         if (profileHelper)
         {
@@ -243,8 +235,6 @@ printf("*** AudioEngine::play2d(): BP4\n");
                  }
              }
         }
-
-printf("*** AudioEngine::play2d(): BP5\n");
 
         if (volume < 0.0f) {
             volume = 0.0f;
@@ -271,11 +261,7 @@ printf("*** AudioEngine::play2d(): BP5\n");
             audioRef.profileHelper = profileHelper;
         }
 
-printf("*** AudioEngine::play2d(): BP6\n");
-
     } while (0);
-
-printf("*** AudioEngine::play2d(): BP7\n");
 
     return ret;
 }
@@ -578,17 +564,6 @@ void AudioEngine::preload(const std::string& filePath, std::function<void(bool i
 			callback(false);
 	}
 }
-
-/*
-void AudioEngine::cancelPreload(const std::string& filePath)
-{
-    lazyInit();
-
-    if (_audioEngineImpl) {
-        _audioEngineImpl->cancelPreload(filePath);
-    }
-}
-*/
 
 void AudioEngine::addTask(const std::function<void()>& task)
 {

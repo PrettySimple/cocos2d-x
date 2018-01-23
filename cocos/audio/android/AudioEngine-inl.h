@@ -71,7 +71,6 @@ public:
     void uncache(const std::string& filePath);
     void uncacheAll();
     void preload(const std::string& filePath, const std::function<void(bool)>& callback);
-    void cancelPreload(const std::string& filePath);
 
 
     void setAudioFocusForAllPlayers(bool isFocus);

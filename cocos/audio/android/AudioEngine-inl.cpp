@@ -451,13 +451,6 @@ void AudioEngineImpl::preload(const std::string& filePath, const std::function<v
     }
 }
 
-void AudioEngineImpl::cancelPreload(const std::string& filePath)
-{
-    auto callbackIterator = _preloadCallbackMap.find(filePath);
-    if (callbackIterator != _preloadCallbackMap.end())
-        _preloadCallbackMap.erase(callbackIterator);
-}
-
 void AudioEngineImpl::uncache(const std::string& filePath)
 {
     if (_audioPlayerProvider != nullptr)
