@@ -565,7 +565,7 @@ Module.cocos_AudioEngine = (function()
 			if(playingSounds.hasOwnProperty('s_'+id))
 				return playingSounds['s_'+id].getCurrentTime();
 
-			return 0.;
+			return 0;
 		},
 
 		setCurrentTime:	function(id, time)
