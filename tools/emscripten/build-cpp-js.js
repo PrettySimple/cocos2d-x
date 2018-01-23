@@ -13,7 +13,7 @@ function	usage()
 {
 	console.log('');
 	console.log('build-cpp-js.js --source <source file (.src.js)>');
-	console.log('                [--[no-]lint] [--[no-]minimize]');
+	console.log('                [--[no-]debug] [--[no-]lint] [--[no-]minimize]');
 	console.log('                (--lint-define-ro <object>)* (--lint-define-rw <object>)*');
 	console.log('');
 	console.log('The --[no-]options may be provided multiple times, the last one wins. They all default to \'no\'.');
@@ -87,6 +87,27 @@ function	minifyJS(content, name)
 }
 
 
+function	stripDebug(content)
+{
+	var	start_tag = '/*<DEBUG>*/', end_tag = '/*</DEBUG>*/';
+	var	pos_start, pos_end = 0;
+
+	while((pos_start = content.indexOf(start_tag, pos_end)) !== -1)
+	{
+		if((pos_end = content.indexOf(end_tag, pos_start + start_tag.length)) === -1)
+			throw new Error('Syntax error while parsing '+start_tag+' blocks (could not match closing '+end_tag+')');
+
+		content = concatBuffers(
+			content.slice(0, pos_start),
+			content.slice(pos_end += end_tag.length)
+		);
+	}
+
+	return content;
+}
+
+
+
 function	build_cpp_js(input_file, output_file, opts, lint_define_ro, lint_define_rw)
 {
 	// C++ raw string literals: http://www.stroustrup.com/C++11FAQ.html#raw-strings
@@ -95,6 +116,9 @@ function	build_cpp_js(input_file, output_file, opts, lint_define_ro, lint_define
 
 	var	input_content = fs.readFileSync(input_file);
 	var	output_content;
+
+	if(!opts.debug)
+		input_content = stripDebug(input_content);
 
 	if(opts.lint)
 	{
@@ -179,6 +203,7 @@ function	build_cpp_js(input_file, output_file, opts, lint_define_ro, lint_define
 	var	input_suffix = '.src.js', output_suffix = '.cpp.js';
 	var	lint_define_ro = [], lint_define_rw = [];
 	var	opts = {
+		debug:				false,
 		lint:				false,
 		minimize:			false
 	};
