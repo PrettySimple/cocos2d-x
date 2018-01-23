@@ -261,6 +261,7 @@ public:
      *
      * @warning All audio will be stopped first.
      */
+	[[deprecated("Do not use")]]
     static void uncacheAll();
     
     /**  
@@ -281,22 +282,28 @@ public:
 
     /**
      * Preload audio file.
+	 *
+	 * PSG: The caller is responsible for deduplicating calls for a given filePath.
+	 * PSG: Invoking preload() on a filePath while there is a pending or effective
+	 * PSG: preload on the same filePath will result in undefined (possibly implementation-dependant)
+	 * PSG: behavior.
+	 *
      * @param filePath The file path of an audio.
      */
     static void preload(const std::string& filePath) { preload(filePath, nullptr); }
 
     /**
      * Preload audio file.
+	 *
+	 * PSG: The caller is responsible for deduplicating calls for a given filePath.
+	 * PSG: Invoking preload() on a filePath while there is a pending or effective
+	 * PSG: preload on the same filePath will result in undefined (possibly implementation-dependant)
+	 * PSG: behavior.
+	 *
      * @param filePath The file path of an audio.
      * @param callback A callback which will be called after loading is finished.
      */
     static void preload(const std::string& filePath, std::function<void(bool isSuccess)> callback);
-
-    /**
-     * Cancel Preload audio file (in case the sound is destroye before preloading has finished for example)
-     * @param filePath The file path of an audio.
-     */
-    static void cancelPreload(const std::string& filePath);
 
     /**
      * Gets playing audio count.

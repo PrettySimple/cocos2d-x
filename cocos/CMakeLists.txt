@@ -235,9 +235,9 @@ endif()
 if(EMSCRIPTEN)
 
 	if(CMAKE_BUILD_TYPE STREQUAL "Release")
-		set(BUILD_CPP_JS_OPTS "--minimize")
+		set(BUILD_CPP_JS_OPTS --lint --minimize)
 	else()
-		set(BUILD_CPP_JS_OPTS "--no-minimize")
+		set(BUILD_CPP_JS_OPTS --debug --lint --lint-define-ro console --no-minimize)
 	endif()
 
 	add_custom_command(

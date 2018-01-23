@@ -302,13 +302,6 @@ AudioCache* AudioEngineImpl::preload(const std::string& filePath, std::function<
     return audioCache;
 }
 
-void AudioEngineImpl::cancelPreload(const std::string& filePath)
-{
-    auto it = _audioCaches.find(filePath);
-    if (it != _audioCaches.end()) {
-        (*it).second.clearLoadCallbacks();
-    }
-}
 
 int AudioEngineImpl::play2d(const std::string &filePath ,bool loop ,float volume)
 {
