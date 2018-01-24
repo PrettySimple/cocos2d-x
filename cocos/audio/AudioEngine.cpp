@@ -190,7 +190,7 @@ bool AudioEngine::lazyInit()
 
 int AudioEngine::play2d(const std::string& filePath, bool loop, float volume, const AudioProfile *profile)
 {
-	printf("*** AudioEngine::play2d(%s)\n", filePath.c_str());
+	//printf("*** AudioEngine::play2d(%s)\n", filePath.c_str());
 
     int ret = AudioEngine::INVALID_AUDIO_ID;
 
