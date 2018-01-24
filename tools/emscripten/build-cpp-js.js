@@ -145,6 +145,7 @@ function	build_cpp_js(input_file, output_file, opts, lint_define_ro, lint_define
 			Pointer_stringify: false,
 			lengthBytesUTF8: false,
 			stringToUTF8: false,
+			stringToUTF8Array: false,
 			_malloc: false,
 			_free: false
 		};
