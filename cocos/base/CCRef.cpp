@@ -37,6 +37,10 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
+#if CC_ENABLE_SCRIPT_BINDING
+static unsigned int uObjectCount = 0;
+#endif
+
 #if CC_REF_LEAK_DETECTION
 static void trackRef(Ref* ref);
 static void untrackRef(Ref* ref);
@@ -51,7 +55,6 @@ Ref::Ref()
 #endif
 {
 #if CC_ENABLE_SCRIPT_BINDING
-    static unsigned int uObjectCount = 0;
     _ID = ++uObjectCount;
 #endif
     
@@ -85,6 +88,28 @@ Ref::~Ref()
     if (_referenceCount != 0)
         untrackRef(this);
 #endif
+}
+
+Ref::Ref(const Ref& other)
+{
+    _referenceCount = 1;
+#if CC_ENABLE_SCRIPT_BINDING
+    _ID = ++uObjectCount;
+    _luaID = 0;
+    _scriptObject = nullptr;
+    _rooted = false;
+#endif
+}
+Ref& Ref::operator=(const Ref& other)
+{
+    _referenceCount = 1;
+#if CC_ENABLE_SCRIPT_BINDING
+    _ID = ++uObjectCount;
+    _luaID = 0;
+    _scriptObject = nullptr;
+    _rooted = false;
+#endif
+    return *this;
 }
 
 void Ref::retain()

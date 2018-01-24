@@ -134,6 +134,10 @@ protected:
     Ref();
 
 public:
+    Ref(const Ref& other);
+    Ref& operator=(const Ref& other);
+    Ref(Ref&& other) noexcept =default;
+    Ref& operator=(Ref&& other) noexcept =default;
     /**
      * Destructor
      *
