@@ -2731,8 +2731,16 @@ TargetedAction::TargetedAction()
 
 TargetedAction::~TargetedAction()
 {
-    CC_SAFE_RELEASE(_forcedTarget);
+    // COCOS
+//    CC_SAFE_RELEASE(_forcedTarget);
+//    CC_SAFE_RELEASE(_action);
+
+    // PRETTY SIMPLE
+    // Reverse order for Newyork compatibility
+    // when _action is a GameSpriteFilterAction
+    // if _forcedTarget is released before the action (ref=0), then the gameSpriteFilterAction will brake as it still requires the _forcedTarget to be valide when destroyed
     CC_SAFE_RELEASE(_action);
+    CC_SAFE_RELEASE(_forcedTarget);
 }
 
 TargetedAction* TargetedAction::create(Node* target, FiniteTimeAction* action)
