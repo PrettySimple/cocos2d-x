@@ -58,6 +58,7 @@ EventListenerMouse* EventListenerMouse::clone()
         ret->onMouseDown = onMouseDown;
         ret->onMouseMove = onMouseMove;
         ret->onMouseScroll = onMouseScroll;
+        ret->onMouseOut = onMouseOut;
     }
     else
     {
@@ -71,6 +72,7 @@ EventListenerMouse::EventListenerMouse()
 , onMouseUp(nullptr)
 , onMouseMove(nullptr)
 , onMouseScroll(nullptr)
+, onMouseOut(nullptr)
 {
 }
 
@@ -95,6 +97,10 @@ bool EventListenerMouse::init()
             case EventMouse::MouseEventType::MOUSE_SCROLL:
                 if(onMouseScroll != nullptr)
                     onMouseScroll(mouseEvent);
+                break;
+            case EventMouse::MouseEventType::MOUSE_OUT:
+                if(onMouseOut != nullptr)
+                    onMouseOut(mouseEvent);
                 break;
             default:
                 break;
