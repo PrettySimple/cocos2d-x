@@ -211,7 +211,6 @@ protected:
     bool _isPushed;
     bool _parentInited;
     bool _doesAdjustBackgroundImage;
-    float _initialScale;
 
     /** The current title that is displayed on the button. */
     std::string _currentTitle;
