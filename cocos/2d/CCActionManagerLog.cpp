@@ -224,8 +224,7 @@ void ActionManagerLog::update(float dt)
     if (!_data.empty())
     {
         _mode = Mode::UPDATE;
-        _dry_run.clear();
-        _scan_insert_ind = 0;
+
         for (auto const& ele : _data)
         {
             if (!ele.paused)
@@ -303,6 +302,9 @@ void ActionManagerLog::update(float dt)
                 }
             }
         }
+
+        _dry_run.clear();
+        _scan_insert_ind = 0;
 
         _mode = Mode::DEFAULT;
     }

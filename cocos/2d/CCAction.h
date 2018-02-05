@@ -165,18 +165,18 @@ CC_CONSTRUCTOR_ACCESS:
     virtual ~Action();
 
 protected:
-    Node    *_originalTarget;
+    Node* _originalTarget = nullptr;
     /** 
      * The "target".
      * The target will be set with the 'startWithTarget' method.
      * When the 'stop' method is called, target will be set to nil.
      * The target is 'assigned', it is not 'retained'.
      */
-    Node    *_target;
+    Node* _target = nullptr;
     /** The action tag. An identifier of the action. */
-    int     _tag;
+    int _tag = -1;
     /** The action flag field. To categorize action into certain groups.*/
-    unsigned int _flags;
+    unsigned int _flags = 0;
 
 #if CC_ENABLE_SCRIPT_BINDING
     ccScriptType _scriptType;         ///< type of script binding, lua or javascript

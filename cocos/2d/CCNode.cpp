@@ -32,18 +32,19 @@ THE SOFTWARE.
 #include <string>
 #include <regex>
 
-#include "base/CCDirector.h"
-#include "base/CCScheduler.h"
-#include "base/CCEventDispatcher.h"
-#include "base/ccUTF8.h"
-#include "2d/CCCamera.h"
+#include "2d/CCAction.h"
 #include "2d/CCActionManager.h"
-#include "2d/CCScene.h"
+#include "2d/CCCamera.h"
 #include "2d/CCComponent.h"
+#include "2d/CCScene.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+#include "base/CCScheduler.h"
+#include "base/ccUTF8.h"
+#include "math/TransformUtils.h"
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCMaterial.h"
-#include "math/TransformUtils.h"
 
 
 #if CC_NODE_RENDER_SUBPIXEL
@@ -1454,12 +1455,12 @@ void Node::stopActionsByFlags(unsigned int flags)
 Action * Node::getActionByTag(int tag) const
 {
     CCASSERT( tag != Action::INVALID_TAG, "Invalid tag");
-    return _actionManager->getActionByTag(tag, this);
+    return _actionManager->getActionByTag(tag, const_cast<Node*>(this));
 }
 
 ssize_t Node::getNumberOfRunningActions() const
 {
-    return _actionManager->getNumberOfRunningActionsInTarget(this);
+    return _actionManager->getNumberOfRunningActionsInTarget(const_cast<Node*>(this));
 }
 
 // MARK: Callbacks

@@ -48,11 +48,6 @@ inline iterator_pair<PairIter> make_iterator_pair(PairIter&& p)
     return iterator_pair<PairIter>(std::forward<PairIter>(p));
 }
 
-bool ActionManagerData::element_cmp::operator()(Element const& a, Element const& b)
-{
-    return a.index < b.index;
-}
-
 ActionManagerData::Element::Element(Node * t, Action * a, bool p, std::size_t i, ActionManagerData* m) : manager(m)
 , target(t)
 , action(a)
@@ -214,7 +209,7 @@ void ActionManagerData::remove_all_actions_from_target_by_tag(Node* target, int 
         tmp.reserve(size);
         for (auto const& ele : make_iterator_pair(search_target))
         {
-            if (ele.second.action->getTag() == tag)
+            if (ele.first->getTag() == tag)
             {
                 tmp.emplace_back(std::cref(ele.second));
             }
@@ -254,7 +249,7 @@ Action* ActionManagerData::get_action_from_target_by_tag(Node* target, int tag) 
 {
     auto search_target = _targets.equal_range(target);
     auto search_action = std::find_if(search_target.first, search_target.second, [tag](target_t::value_type const& ele) {
-        return ele.second.action->getTag() == tag;
+        return ele.first->getTag() == tag;
     });
     if (search_action != _targets.end())
     {
@@ -265,17 +260,20 @@ Action* ActionManagerData::get_action_from_target_by_tag(Node* target, int tag) 
 
 std::size_t ActionManagerData::get_number_of_running_action_from_target(Node* target) const noexcept
 {
-    return _actions.size();
+    auto search_target = _targets.equal_range(target);
+    return std::distance(search_target.first, search_target.second);
 }
 
 std::vector<Action*> ActionManagerData::get_all_actions_from_target(Node* target) const
 {
     std::vector<Action*> ret;
 
-    ret.reserve(_actions.size());
-    for (auto& ele : _actions)
+    auto search_target = _targets.equal_range(target);
+    auto const size = std::distance(search_target.first, search_target.second);
+    if (size > 0)
     {
-        if (ele.second.target == target)
+        ret.reserve(size);
+        for (auto& ele : make_iterator_pair(search_target))
         {
             ret.emplace_back(ele.second.action);
         }

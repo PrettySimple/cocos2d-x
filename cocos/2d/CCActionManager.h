@@ -29,15 +29,15 @@ THE SOFTWARE.
 #ifndef __ACTION_CCACTION_MANAGER_H__
 #define __ACTION_CCACTION_MANAGER_H__
 
-#include "2d/CCAction.h"
-#include "base/CCVector.h"
+#include "CCActionManagerLog.h"
 #include "base/CCRef.h"
+#include "base/CCVector.h"
+#include <vector>
 
 NS_CC_BEGIN
 
 class Action;
-
-struct _hashElement;
+class Node;
 
 /**
  * @addtogroup actions
@@ -57,17 +57,15 @@ struct _hashElement;
  */
 class CC_DLL ActionManager : public Ref
 {
-public:
-    /**
-     * @js ctor
-     */
-    ActionManager(void);
+    ActionManagerLog _log;
 
-    /**
-     * @js NA
-     * @lua NA
-     */
-    ~ActionManager(void);
+public:
+    ActionManager() =default;
+    ActionManager(const ActionManager&) =delete;
+    ActionManager& operator=(const ActionManager&) =delete;
+    ActionManager(ActionManager&&) noexcept =delete;
+    ActionManager& operator=(ActionManager&&) noexcept =delete;
+    ~ActionManager();
 
     // actions
     
@@ -128,7 +126,7 @@ public:
      * @param target    A certain target.
      * @return  The Action the with the given tag.
      */
-    Action* getActionByTag(int tag, const Node *target) const;
+    Action* getActionByTag(int tag, Node *target) const;
 
     /** Returns the numbers of actions that are running in a certain target. 
      * Composable actions are counted as 1 action. Example:
@@ -139,7 +137,7 @@ public:
      * @return  The numbers of actions that are running in a certain target.
      * @js NA
      */
-    ssize_t getNumberOfRunningActionsInTarget(const Node *target) const;
+    ssize_t getNumberOfRunningActionsInTarget(Node *target) const;
 
     /**
      * Added by Seb.Flory & Pierre.Marxen
@@ -148,7 +146,7 @@ public:
      * @param target    A certain target.
      * @return  A vector of actions that are running in a certain target.
      */
-    std::vector<Action*> getRunningActionsInTarget(const Node *target) const;
+    std::vector<Action*> getRunningActionsInTarget(Node *target) const;
     
     /** @deprecated Use getNumberOfRunningActionsInTarget() instead.
      */
@@ -182,18 +180,6 @@ public:
      * @param dt    In seconds.
      */
     void update(float dt);
-    
-protected:
-    // declared in ActionManager.m
-
-    void removeActionAtIndex(ssize_t index, struct _hashElement *element);
-    void deleteHashElement(struct _hashElement *element);
-    void actionAllocWithHashElement(struct _hashElement *element);
-
-protected:
-    struct _hashElement    *_targets;
-    struct _hashElement    *_currentTarget;
-    bool            _currentTargetSalvaged;
 };
 
 // end of actions group

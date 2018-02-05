@@ -40,7 +40,10 @@ class ActionManagerData
 
     struct element_cmp
     {
-        bool operator()(Element const& a, Element const& b);
+        constexpr bool operator()(Element const& a, Element const& b) const
+        {
+            return a.index < b.index;
+        }
     };
     
     using data_t = std::set<Element, element_cmp>;
