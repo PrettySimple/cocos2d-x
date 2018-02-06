@@ -98,6 +98,12 @@ public:
      */
     virtual void stop();
 
+    /**
+     * Called before the action and target are released.
+     * IMPORTANT: You should never call "Action::onRemove()" manually. Instead, use: "target->stopAction(action);".
+     */
+    virtual void onRemove();
+
     /** Called every frame with it's delta time, dt in seconds. DON'T override unless you know what you are doing. 
      *
      * @param dt In seconds.

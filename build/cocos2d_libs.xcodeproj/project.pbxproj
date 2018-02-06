@@ -1166,9 +1166,6 @@
 		1ABA68B11888D700007D1BB4 /* CCFontCharMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 1ABA68AD1888D700007D1BB4 /* CCFontCharMap.h */; };
 		1AC0269C1914068200FA920D /* ConvertUTF.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AC026991914068200FA920D /* ConvertUTF.h */; };
 		1AC0269D1914068200FA920D /* ConvertUTF.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AC026991914068200FA920D /* ConvertUTF.h */; };
-		226F994420246FD500673BF6 /* CCActionManagerData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 226F994220246FD500673BF6 /* CCActionManagerData.cpp */; };
-		226F994520246FD500673BF6 /* CCActionManagerData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 226F994220246FD500673BF6 /* CCActionManagerData.cpp */; };
-		226F994620246FD500673BF6 /* CCActionManagerData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 226F994220246FD500673BF6 /* CCActionManagerData.cpp */; };
 		226F994720246FD500673BF6 /* CCActionManagerData.h in Headers */ = {isa = PBXBuildFile; fileRef = 226F994320246FD500673BF6 /* CCActionManagerData.h */; };
 		226F994820246FD500673BF6 /* CCActionManagerData.h in Headers */ = {isa = PBXBuildFile; fileRef = 226F994320246FD500673BF6 /* CCActionManagerData.h */; };
 		226F994920246FD500673BF6 /* CCActionManagerData.h in Headers */ = {isa = PBXBuildFile; fileRef = 226F994320246FD500673BF6 /* CCActionManagerData.h */; };
@@ -1187,6 +1184,10 @@
 		226F9967202478BB00673BF6 /* CCActionManagerOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 226F9963202478BB00673BF6 /* CCActionManagerOperation.h */; };
 		226F9968202478BB00673BF6 /* CCActionManagerOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 226F9963202478BB00673BF6 /* CCActionManagerOperation.h */; };
 		226F9969202478BB00673BF6 /* CCActionManagerOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 226F9963202478BB00673BF6 /* CCActionManagerOperation.h */; };
+		227778AB202A04BD0073C8BD /* iterator_pair.h in Headers */ = {isa = PBXBuildFile; fileRef = 227778A9202A04BD0073C8BD /* iterator_pair.h */; };
+		227778AD202A09060073C8BD /* CCActionManagerData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 227778AC202A09060073C8BD /* CCActionManagerData.cpp */; };
+		227778AE202A09060073C8BD /* CCActionManagerData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 227778AC202A09060073C8BD /* CCActionManagerData.cpp */; };
+		227778AF202A09060073C8BD /* CCActionManagerData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 227778AC202A09060073C8BD /* CCActionManagerData.cpp */; };
 		291901431B05895600F8B4BA /* CCNinePatchImageParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 291901411B05895600F8B4BA /* CCNinePatchImageParser.h */; };
 		291901441B05895600F8B4BA /* CCNinePatchImageParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 291901411B05895600F8B4BA /* CCNinePatchImageParser.h */; };
 		291901451B05895600F8B4BA /* CCNinePatchImageParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 291901421B05895600F8B4BA /* CCNinePatchImageParser.cpp */; };
@@ -5900,13 +5901,14 @@
 		1AD71EED180E27CF00808F54 /* CCPhysicsDebugNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCPhysicsDebugNode.h; sourceTree = "<group>"; };
 		1AD71EEE180E27CF00808F54 /* CCPhysicsSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCPhysicsSprite.cpp; sourceTree = "<group>"; };
 		1AD71EEF180E27CF00808F54 /* CCPhysicsSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCPhysicsSprite.h; sourceTree = "<group>"; };
-		226F994220246FD500673BF6 /* CCActionManagerData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CCActionManagerData.cpp; sourceTree = "<group>"; };
 		226F994320246FD500673BF6 /* CCActionManagerData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCActionManagerData.h; sourceTree = "<group>"; };
 		226F994A2024731500673BF6 /* CCActionManagerLog.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CCActionManagerLog.cpp; sourceTree = "<group>"; };
 		226F994B2024731500673BF6 /* CCActionManagerLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCActionManagerLog.h; sourceTree = "<group>"; };
 		226F995A2024755800673BF6 /* CCActionManagerRecord.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CCActionManagerRecord.cpp; sourceTree = "<group>"; };
 		226F995B2024755800673BF6 /* CCActionManagerRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCActionManagerRecord.h; sourceTree = "<group>"; };
 		226F9963202478BB00673BF6 /* CCActionManagerOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCActionManagerOperation.h; sourceTree = "<group>"; };
+		227778A9202A04BD0073C8BD /* iterator_pair.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iterator_pair.h; sourceTree = "<group>"; };
+		227778AC202A09060073C8BD /* CCActionManagerData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CCActionManagerData.cpp; sourceTree = "<group>"; };
 		29031E0619BFE8D400EFA1DF /* libchipmunk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libchipmunk.a; path = prebuilt/mac/libchipmunk.a; sourceTree = "<group>"; };
 		29031E0819BFE8DE00EFA1DF /* libchipmunk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libchipmunk.a; path = prebuilt/ios/libchipmunk.a; sourceTree = "<group>"; };
 		2905E9CC1ACD3D8C00092DD2 /* libz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libz.a; path = ../external/zlib/prebuilt/mac/libz.a; sourceTree = "<group>"; };
@@ -7742,7 +7744,7 @@
 				1A570056180BC5A10088DEC7 /* CCActionInterval.h */,
 				1A570057180BC5A10088DEC7 /* CCActionManager.cpp */,
 				1A570058180BC5A10088DEC7 /* CCActionManager.h */,
-				226F994220246FD500673BF6 /* CCActionManagerData.cpp */,
+				227778AC202A09060073C8BD /* CCActionManagerData.cpp */,
 				226F994320246FD500673BF6 /* CCActionManagerData.h */,
 				226F994A2024731500673BF6 /* CCActionManagerLog.cpp */,
 				226F994B2024731500673BF6 /* CCActionManagerLog.h */,
@@ -7759,6 +7761,7 @@
 				1A570060180BC5A10088DEC7 /* CCActionTween.h */,
 				2986667818B1B079000E39CA /* CCTweenFunction.cpp */,
 				2986667918B1B079000E39CA /* CCTweenFunction.h */,
+				227778A9202A04BD0073C8BD /* iterator_pair.h */,
 			);
 			name = actions;
 			sourceTree = "<group>";
@@ -11611,6 +11614,7 @@
 				B6CAB2EF1AF9AA1A00B9B856 /* btStridingMeshInterface.h in Headers */,
 				B6CAB23F1AF9AA1A00B9B856 /* btConvex2dConvex2dAlgorithm.h in Headers */,
 				382384381A259126002C4610 /* ProjectNodeReader.h in Headers */,
+				227778AB202A04BD0073C8BD /* iterator_pair.h in Headers */,
 				15FB20991AE7C57D00C31518 /* sweep.h in Headers */,
 				A045F6F11BA81821005076C7 /* GameNode3DReader.h in Headers */,
 				B665E3C41AA80A6600DDB1C5 /* CCPUScaleAffectorTranslator.h in Headers */,
@@ -14907,7 +14911,6 @@
 				B665E23E1AA80A6500DDB1C5 /* CCPUCircleEmitterTranslator.cpp in Sources */,
 				15AE1BB719AADFEF00C27E9E /* WebSocket.cpp in Sources */,
 				B6CAB21F1AF9AA1A00B9B856 /* btBoxBoxDetector.cpp in Sources */,
-				226F994420246FD500673BF6 /* CCActionManagerData.cpp in Sources */,
 				B665E20A1AA80A6500DDB1C5 /* CCPUBaseColliderTranslator.cpp in Sources */,
 				B665E3E61AA80A6600DDB1C5 /* CCPUSineForceAffectorTranslator.cpp in Sources */,
 				B6CAB32F1AF9AA1A00B9B856 /* btGImpactQuantizedBvh.cpp in Sources */,
@@ -14922,6 +14925,7 @@
 				226F995C2024755800673BF6 /* CCActionManagerRecord.cpp in Sources */,
 				46C02E0718E91123004B7456 /* xxhash.c in Sources */,
 				15AE1B6B19AADA9900C27E9E /* UIWidget.cpp in Sources */,
+				227778AD202A09060073C8BD /* CCActionManagerData.cpp in Sources */,
 				50ABBE931925AB6F00A911A9 /* CCProfiling.cpp in Sources */,
 				15AE188819AAD33D00C27E9E /* CCControlButtonLoader.cpp in Sources */,
 				B665E2561AA80A6500DDB1C5 /* CCPUDoAffectorEventHandlerTranslator.cpp in Sources */,
@@ -15223,7 +15227,6 @@
 				507B3ADD1C31BDD30067B53E /* CCAnimation3D.cpp in Sources */,
 				507B3ADE1C31BDD30067B53E /* btBoxBoxDetector.cpp in Sources */,
 				507B3ADF1C31BDD30067B53E /* CCPlane.cpp in Sources */,
-				226F994620246FD500673BF6 /* CCActionManagerData.cpp in Sources */,
 				507B3AE01C31BDD30067B53E /* CCFont.cpp in Sources */,
 				507B3AE11C31BDD30067B53E /* b2PrismaticJoint.cpp in Sources */,
 				507B3AE21C31BDD30067B53E /* CCSpriteFrameCacheHelper.cpp in Sources */,
@@ -15490,6 +15493,7 @@
 				507B3BF11C31BDD30067B53E /* btConvexTriangleMeshShape.cpp in Sources */,
 				507B3BF21C31BDD30067B53E /* SphereTriangleDetector.cpp in Sources */,
 				507B3BF31C31BDD30067B53E /* CCTMXTiledMap.cpp in Sources */,
+				227778AF202A09060073C8BD /* CCActionManagerData.cpp in Sources */,
 				507B3BF41C31BDD30067B53E /* etc1.cpp in Sources */,
 				507B3BF51C31BDD30067B53E /* CCNS.cpp in Sources */,
 				507B3BF61C31BDD30067B53E /* DetourDebugDraw.cpp in Sources */,
@@ -16050,7 +16054,6 @@
 				1A57019E180BCB590088DEC7 /* CCFont.cpp in Sources */,
 				15AE1ACC19AAD40300C27E9E /* b2PrismaticJoint.cpp in Sources */,
 				15AE195F19AAD35100C27E9E /* CCSpriteFrameCacheHelper.cpp in Sources */,
-				226F994520246FD500673BF6 /* CCActionManagerData.cpp in Sources */,
 				15AE193019AAD35100C27E9E /* CCActionManagerEx.cpp in Sources */,
 				15B3708119EE414C00ABE682 /* CCEventListenerAssetsManagerEx.cpp in Sources */,
 				B6CAB3F81AF9AA1A00B9B856 /* btMultiBody.cpp in Sources */,
@@ -16129,6 +16132,7 @@
 				B6CAB2C01AF9AA1A00B9B856 /* btEmptyShape.cpp in Sources */,
 				15AE1BAD19AADFDF00C27E9E /* UILayoutParameter.cpp in Sources */,
 				3823843E1A259140002C4610 /* SingleNodeReader.cpp in Sources */,
+				227778AE202A09060073C8BD /* CCActionManagerData.cpp in Sources */,
 				B6CAB2721AF9AA1A00B9B856 /* btSphereTriangleCollisionAlgorithm.cpp in Sources */,
 				B665E28B1AA80A6500DDB1C5 /* CCPUDynamicAttribute.cpp in Sources */,
 				B6CAB5481AF9AA1A00B9B856 /* MiniCLTaskScheduler.cpp in Sources */,

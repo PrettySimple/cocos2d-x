@@ -19,6 +19,42 @@ ActionManagerRecord::ActionManagerRecord(ActionManagerOperation o, Node* n /*= n
 , tag(t)
 , flags(f)
 {
+    CC_SAFE_RETAIN(target);
+    CC_SAFE_RETAIN(action);
+}
+
+ActionManagerRecord::ActionManagerRecord(ActionManagerRecord&& other) noexcept
+{
+    operation = other.operation;
+    target = other.target;
+    action = other.action;
+    paused = other.paused;
+    tag = other.tag;
+    flags = other.flags;
+
+    other.target = nullptr;
+    other.action = nullptr;
+}
+
+ActionManagerRecord& ActionManagerRecord::operator=(ActionManagerRecord&& other) noexcept
+{
+    operation = other.operation;
+    target = other.target;
+    action = other.action;
+    paused = other.paused;
+    tag = other.tag;
+    flags = other.flags;
+
+    other.target = nullptr;
+    other.action = nullptr;
+
+    return *this;
+}
+
+ActionManagerRecord::~ActionManagerRecord()
+{
+    CC_SAFE_RELEASE(target);
+    CC_SAFE_RELEASE(action);
 }
 
 NS_CC_END

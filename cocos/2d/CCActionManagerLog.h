@@ -11,8 +11,8 @@
 #include "CCActionManagerData.h"
 #include "CCActionManagerRecord.h"
 #include "platform/CCPlatformMacros.h"
-#include <deque>
 #include <cstddef>
+#include <deque>
 #include <vector>
 
 NS_CC_BEGIN
@@ -31,8 +31,8 @@ class ActionManagerLog
     log_t _log;
     Mode _mode = Mode::DEFAULT;
     log_t::size_type _scan_insert_ind = 0;
-    ActionManagerData _data;
-    ActionManagerData _dry_run;
+    ActionManagerData<false> _data;
+    ActionManagerData<true> _dry_run;
 
 public:
     void pause_target(Node* target);

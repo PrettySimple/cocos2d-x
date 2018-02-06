@@ -18,8 +18,11 @@ void ActionManagerLog::pause_target(Node* target)
     switch (_mode)
     {
         case Mode::UPDATE:
-            _log.emplace(_log.cbegin() + _scan_insert_ind++, ActionManagerOperation::PAUSE_TARGET, target);
-            _dry_run.pause_target(target);
+            if (_data.count(target) > 0 || _dry_run.count(target) > 0)
+            {
+                _log.emplace(_log.cbegin() + _scan_insert_ind++, ActionManagerOperation::PAUSE_TARGET, target);
+                _dry_run.pause_target(target);
+            }
             break;
         case Mode::DEFAULT:
             _data.pause_target(target);
@@ -32,8 +35,11 @@ void ActionManagerLog::resume_target(Node* target)
     switch (_mode)
     {
         case Mode::UPDATE:
-            _log.emplace(_log.cbegin() + _scan_insert_ind++, ActionManagerOperation::RESUME_TARGET, target);
-            _dry_run.resume_target(target);
+            if (_data.count(target) > 0 || _dry_run.count(target) > 0)
+            {
+                _log.emplace(_log.cbegin() + _scan_insert_ind++, ActionManagerOperation::RESUME_TARGET, target);
+                _dry_run.resume_target(target);
+            }
             break;
         case Mode::DEFAULT:
             _data.resume_target(target);
@@ -61,7 +67,7 @@ void ActionManagerLog::add_action(Node* target, Action* action, bool paused)
     {
         case Mode::UPDATE:
             _log.emplace(_log.cbegin() + _scan_insert_ind++, ActionManagerOperation::ADD_ACTION, target, action, paused);
-            _log.emplace(_log.cbegin() + _scan_insert_ind++, ActionManagerOperation::STEP_ACTION, target, action);
+            _log.emplace(_log.cbegin() + _scan_insert_ind++,ActionManagerOperation::STEP_ACTION, target, action);
             _dry_run.add_action(target, action, paused);
             break;
         case Mode::DEFAULT:
@@ -75,8 +81,11 @@ void ActionManagerLog::remove_all_actions_from_target(Node* target)
     switch (_mode)
     {
         case Mode::UPDATE:
-            _log.emplace(_log.cbegin() + _scan_insert_ind++, ActionManagerOperation::REMOVE_ALL_ACTIONS_FROM_TARGET, target);
-            _dry_run.remove_all_actions_from_target(target);
+            if (_data.count(target) > 0 || _dry_run.count(target) > 0)
+            {
+                _log.emplace(_log.cbegin() + _scan_insert_ind++, ActionManagerOperation::REMOVE_ALL_ACTIONS_FROM_TARGET, target);
+                _dry_run.remove_all_actions_from_target(target);
+            }
             break;
         case Mode::DEFAULT:
             _data.remove_all_actions_from_target(target);
@@ -103,8 +112,11 @@ void ActionManagerLog::remove_action(Action* action)
     switch (_mode)
     {
         case Mode::UPDATE:
-            _log.emplace(_log.cbegin() + _scan_insert_ind++,ActionManagerOperation::REMOVE_ACTION, nullptr, action);
-            _dry_run.remove_action(action);
+            if (_data.count(action) > 0 || _dry_run.count(action) > 0)
+            {
+                _log.emplace(_log.cbegin() + _scan_insert_ind++, ActionManagerOperation::REMOVE_ACTION, nullptr, action);
+                _dry_run.remove_action(action);
+            }
             break;
         case Mode::DEFAULT:
             _data.remove_action(action);
@@ -117,8 +129,11 @@ void ActionManagerLog::remove_action_from_target_by_tag(Node* target, int tag)
     switch (_mode)
     {
         case Mode::UPDATE:
-            _log.emplace(_log.cbegin() + _scan_insert_ind++,ActionManagerOperation::REMOVE_ACTION_BY_TAG, target, nullptr, false, tag);
-            _dry_run.remove_action_from_target_by_tag(target, tag);
+            if (_data.count(target) > 0 || _dry_run.count(target) > 0)
+            {
+                _log.emplace(_log.cbegin() + _scan_insert_ind++, ActionManagerOperation::REMOVE_ACTION_BY_TAG, target, nullptr, false, tag);
+                _dry_run.remove_action_from_target_by_tag(target, tag);
+            }
             break;
         case Mode::DEFAULT:
             _data.remove_action_from_target_by_tag(target, tag);
@@ -131,8 +146,11 @@ void ActionManagerLog::remove_all_actions_from_target_by_tag(Node* target, int t
     switch (_mode)
     {
         case Mode::UPDATE:
-            _log.emplace(_log.cbegin() + _scan_insert_ind++,ActionManagerOperation::REMOVE_ALL_ACTIONS_BY_TAG, target, nullptr, false, tag);
-            _dry_run.remove_all_actions_from_target_by_tag(target, tag);
+            if (_data.count(target) > 0 || _dry_run.count(target) > 0)
+            {
+                _log.emplace(_log.cbegin() + _scan_insert_ind++, ActionManagerOperation::REMOVE_ALL_ACTIONS_BY_TAG, target, nullptr, false, tag);
+                _dry_run.remove_all_actions_from_target_by_tag(target, tag);
+            }
             break;
         case Mode::DEFAULT:
             _data.remove_all_actions_from_target_by_tag(target, tag);
@@ -145,8 +163,11 @@ void ActionManagerLog::remove_all_actions_from_target_by_flag(Node* target, unsi
     switch (_mode)
     {
         case Mode::UPDATE:
-            _log.emplace(_log.cbegin() + _scan_insert_ind++,ActionManagerOperation::REMOVE_ALL_ACTIONS_BY_FLAG, target, nullptr, false, -1, flag);
-            _dry_run.remove_all_actions_from_target_by_flag(target, flag);
+            if (_data.count(target) > 0 || _dry_run.count(target) > 0)
+            {
+                _log.emplace(_log.cbegin() + _scan_insert_ind++, ActionManagerOperation::REMOVE_ALL_ACTIONS_BY_FLAG, target, nullptr, false, -1, flag);
+                _dry_run.remove_all_actions_from_target_by_flag(target, flag);
+            }
             break;
         case Mode::DEFAULT:
             _data.remove_all_actions_from_target_by_flag(target, flag);
@@ -289,7 +310,7 @@ void ActionManagerLog::update(float dt)
                                 if (ele.action->isDone())
                                 {
                                     ele.action->stop();
-                                    _data.remove_action(ele.action);
+                                    _data.remove_element(ele);
                                 }
                             }
                             else

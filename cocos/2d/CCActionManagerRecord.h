@@ -29,9 +29,9 @@ struct ActionManagerRecord
     explicit ActionManagerRecord(ActionManagerOperation op, Node* t = nullptr, Action* a = nullptr, bool p = false, int tag = -1, unsigned int flags = 0);
     ActionManagerRecord(ActionManagerRecord const&) = delete;
     ActionManagerRecord& operator=(ActionManagerRecord const&) = delete;
-    ActionManagerRecord(ActionManagerRecord&& other) noexcept = default;
-    ActionManagerRecord& operator=(ActionManagerRecord&& other) noexcept = default;
-    ~ActionManagerRecord() = default;
+    ActionManagerRecord(ActionManagerRecord&& other) noexcept;
+    ActionManagerRecord& operator=(ActionManagerRecord&& other) noexcept;
+    ~ActionManagerRecord();
 };
 
 NS_CC_END

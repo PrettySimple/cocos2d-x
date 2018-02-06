@@ -68,20 +68,22 @@ void Action::stop()
     _target = nullptr;
 }
 
+void Action::onRemove()
+{
+}
+
 bool Action::isDone() const
 {
     return true;
 }
 
-void Action::step(float dt)
+void Action::step(float)
 {
-    CC_UNUSED_PARAM(dt);
     CCLOG("[Action step]. override me");
 }
 
-void Action::update(float time)
+void Action::update(float)
 {
-    CC_UNUSED_PARAM(time);
     CCLOG("[Action update]. override me");
 }
 
