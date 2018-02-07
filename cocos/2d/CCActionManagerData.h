@@ -34,6 +34,7 @@ class ActionManagerData
         Node* target = nullptr; // weak ref
         Action* action = nullptr; // weak ref
         bool paused = false;
+        mutable bool on_remove_once = true;
         std::size_t index = 0;
 
         Element() = default;
@@ -77,7 +78,42 @@ class ActionManagerData
 
             return *this;
         }
-        ~Element();
+        ~Element()
+        {
+            if (manager != nullptr)
+            {
+                manager->_actions.erase(action);
+
+                auto search_target = manager->_targets.equal_range(target);
+                auto search_action = std::find_if(search_target.first, search_target.second, [this](typename target_t::value_type const& element) {
+                    return std::addressof(element.second) == std::addressof(*this);
+                });
+                if (search_action != search_target.second)
+                {
+                    manager->_targets.erase(search_action);
+                }
+
+                on_remove();
+
+                if (manager->_targets.count(target) == 0)
+                {
+                    CC_SAFE_RELEASE(target);
+                }
+                CC_SAFE_RELEASE(action);
+            }
+        }
+
+        inline void on_remove() const
+        {
+            if constexpr(!DryRun)
+            {
+                if (on_remove_once)
+                {
+                    on_remove_once = false;
+                    action->stop();
+                }
+            }
+        }
     };
 
     struct element_less
@@ -308,12 +344,6 @@ public:
     inline typename target_t::size_type count(Node* target) const noexcept { return _targets.count(target); }
     inline typename action_t::size_type count(Action* action) const noexcept { return _actions.count(action); }
 };
-
-template <>
-ActionManagerData<false>::Element::~Element();
-
-template <>
-ActionManagerData<true>::Element::~Element();
 
 NS_CC_END
 

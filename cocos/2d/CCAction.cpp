@@ -68,10 +68,6 @@ void Action::stop()
     _target = nullptr;
 }
 
-void Action::onRemove()
-{
-}
-
 bool Action::isDone() const
 {
     return true;
