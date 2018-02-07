@@ -16,7 +16,7 @@ NS_CC_BEGIN
 
 template <typename T>
 struct remove_cvref {
-    using type = std::remove_cv_t<std::remove_reference_t<T>>;
+    using type = typename std::remove_cv<typename std::remove_reference<T>::type>::type;
 };
 
 template <typename T>

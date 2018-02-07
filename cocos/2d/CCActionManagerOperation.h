@@ -9,6 +9,7 @@
 #define ACTION_CCACTION_MANAGEROPERATION_H
 
 #include "platform/CCPlatformMacros.h"
+#include <cstdint>
 
 NS_CC_BEGIN
 
