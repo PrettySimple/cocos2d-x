@@ -44,11 +44,14 @@ class ActionManagerData
         , paused(p)
         , index(i)
         {
-            if (manager->_targets.count(target) == 0)
+            if constexpr(!DryRun)
             {
-                CC_SAFE_RETAIN(target);
+                if (manager->_targets.count(target) == 0)
+                {
+                    CC_SAFE_RETAIN(target);
+                }
+                CC_SAFE_RETAIN(action);
             }
-            CC_SAFE_RETAIN(action);
         }
         Element(Element const&) = delete;
         Element& operator=(Element const&) = delete;
@@ -95,11 +98,14 @@ class ActionManagerData
 
                 on_remove();
 
-                if (manager->_targets.count(target) == 0)
+                if constexpr(!DryRun)
                 {
-                    CC_SAFE_RELEASE(target);
+                    if (manager->_targets.count(target) == 0)
+                    {
+                        CC_SAFE_RELEASE(target);
+                    }
+                    CC_SAFE_RELEASE(action);
                 }
-                CC_SAFE_RELEASE(action);
             }
         }
 

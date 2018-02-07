@@ -245,7 +245,7 @@ void ActionManagerLog::update(float dt)
     if (!_data.empty())
     {
         _mode = Mode::UPDATE;
-
+        
         for (auto const& ele : _data)
         {
             if (!ele.paused)
@@ -253,80 +253,77 @@ void ActionManagerLog::update(float dt)
                 _log.emplace_back(ActionManagerOperation::STEP_ACTION, nullptr, ele.action);
             }
         }
-
-        if (!_log.empty())
+        
+        while (!_log.empty())
         {
-            while (!_log.empty())
+            auto record = std::move(_log.front());
+            if (_scan_insert_ind > 0)
             {
-                auto record = std::move(_log.front());
-                if (_scan_insert_ind > 0)
+                _scan_insert_ind--;
+            }
+            _log.pop_front();
+            switch (record.operation)
+            {
+                case ActionManagerOperation::UNKNOWN:
+                    break;
+                case ActionManagerOperation::PAUSE_TARGET:
+                    _data.pause_target(record.target);
+                    break;
+                case ActionManagerOperation::RESUME_TARGET:
+                    _data.resume_target(record.target);
+                    break;
+                case ActionManagerOperation::PAUSE_ALL_TARGETS:
+                    _data.pause_all_targets();
+                    break;
+                case ActionManagerOperation::ADD_ACTION:
+                    _data.add_action(record.target, record.action, record.paused);
+                    break;
+                case ActionManagerOperation::REMOVE_ALL_ACTIONS:
+                    _data.remove_all_actions();
+                    break;
+                case ActionManagerOperation::REMOVE_ALL_ACTIONS_FROM_TARGET:
+                    _data.remove_all_actions_from_target(record.target);
+                    break;
+                case ActionManagerOperation::REMOVE_ACTION:
+                    _data.remove_action(record.action);
+                    break;
+                case ActionManagerOperation::REMOVE_ACTION_BY_TAG:
+                    _data.remove_action_from_target_by_tag(record.target, record.tag);
+                    break;
+                case ActionManagerOperation::REMOVE_ALL_ACTIONS_BY_TAG:
+                    _data.remove_all_actions_from_target_by_tag(record.target, record.tag);
+                    break;
+                case ActionManagerOperation::REMOVE_ALL_ACTIONS_BY_FLAG:
+                    _data.remove_all_actions_from_target_by_flag(record.target, record.flags);
+                    break;
+                case ActionManagerOperation::STEP_ACTION:
                 {
-                    _scan_insert_ind--;
-                }
-                _log.pop_front();
-                switch (record.operation)
-                {
-                    case ActionManagerOperation::UNKNOWN:
-                        break;
-                    case ActionManagerOperation::PAUSE_TARGET:
-                        _data.pause_target(record.target);
-                        break;
-                    case ActionManagerOperation::RESUME_TARGET:
-                        _data.resume_target(record.target);
-                        break;
-                    case ActionManagerOperation::PAUSE_ALL_TARGETS:
-                        _data.pause_all_targets();
-                        break;
-                    case ActionManagerOperation::ADD_ACTION:
-                        _data.add_action(record.target, record.action, record.paused);
-                        break;
-                    case ActionManagerOperation::REMOVE_ALL_ACTIONS:
-                        _data.remove_all_actions();
-                        break;
-                    case ActionManagerOperation::REMOVE_ALL_ACTIONS_FROM_TARGET:
-                        _data.remove_all_actions_from_target(record.target);
-                        break;
-                    case ActionManagerOperation::REMOVE_ACTION:
-                        _data.remove_action(record.action);
-                        break;
-                    case ActionManagerOperation::REMOVE_ACTION_BY_TAG:
-                        _data.remove_action_from_target_by_tag(record.target, record.tag);
-                        break;
-                    case ActionManagerOperation::REMOVE_ALL_ACTIONS_BY_TAG:
-                        _data.remove_all_actions_from_target_by_tag(record.target, record.tag);
-                        break;
-                    case ActionManagerOperation::REMOVE_ALL_ACTIONS_BY_FLAG:
-                        _data.remove_all_actions_from_target_by_flag(record.target, record.flags);
-                        break;
-                    case ActionManagerOperation::STEP_ACTION:
+                    auto const& ele = _data.get_element_from_action(record.action);
+                    if (ele.target != nullptr && ele.action != nullptr && !ele.paused)
                     {
-                        auto const& ele = _data.get_element_from_action(record.action);
-                        if (ele.target != nullptr && ele.action != nullptr && !ele.paused)
+                        if (ele.target->getReferenceCount() > 1)
                         {
-                            if (ele.target->getReferenceCount() > 1)
+                            ele.action->step(dt);
+                            
+                            if (ele.action->isDone())
                             {
-                                ele.action->step(dt);
-
-                                if (ele.action->isDone())
-                                {
-                                    ele.on_remove();
-                                    _data.remove_element(ele);
-                                }
-                            }
-                            else
-                            {
+                                ele.on_remove();
                                 _data.remove_element(ele);
                             }
                         }
+                        else
+                        {
+                            _data.remove_element(ele);
+                        }
                     }
-                        break;
                 }
+                    break;
             }
         }
-
+        
         _dry_run.clear();
         _scan_insert_ind = 0;
-
+        
         _mode = Mode::DEFAULT;
     }
 }
