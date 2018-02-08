@@ -307,7 +307,6 @@ void ActionManagerLog::update(float dt)
                             
                             if (ele.action->isDone())
                             {
-                                ele.on_remove();
                                 _data.remove_element(ele);
                             }
                         }
