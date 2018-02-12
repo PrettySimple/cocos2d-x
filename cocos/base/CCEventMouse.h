@@ -62,6 +62,7 @@ public:
         MOUSE_UP,
         MOUSE_MOVE,
         MOUSE_SCROLL,
+        MOUSE_OUT
     };
 
     /** Constructor.

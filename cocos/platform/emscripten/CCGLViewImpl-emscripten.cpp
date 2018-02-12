@@ -26,8 +26,10 @@
 
 NS_CC_BEGIN
 
-extern "C" EM_BOOL webglContextCb(int eventType, const void*, void* userData)
+extern "C" EM_BOOL webglContextCb(int eventType, const void *reserved, void *userData)
 {
+	(void)reserved;
+
     GLViewImpl* glview = reinterpret_cast<GLViewImpl*>(userData);
     auto director = Director::getInstance();
     if (eventType == EMSCRIPTEN_EVENT_WEBGLCONTEXTLOST)
@@ -56,6 +58,8 @@ extern "C" EM_BOOL webglContextCb(int eventType, const void*, void* userData)
 
 extern "C" EM_BOOL webglFullscreenChangeCb(int eventType, const EmscriptenFullscreenChangeEvent* e, void* userData)
 {
+	(void)eventType;
+
     GLViewImpl* glview = reinterpret_cast<GLViewImpl*>(userData);
     if (e->isFullscreen == EM_TRUE)
     {
@@ -74,6 +78,10 @@ extern "C" EM_BOOL webglFullscreenChangeCb(int eventType, const EmscriptenFullsc
 
 extern "C" EM_BOOL wheelCb(int eventType, const EmscriptenWheelEvent* e, void* userData)
 {
+	(void)eventType;
+	(void)e;
+	(void)userData;
+
     return EM_TRUE;
 }
 
@@ -269,6 +277,8 @@ static EventKeyboard::KeyCode findKeyFromHTML5Key(const char* key) noexcept
 
 extern "C" EM_BOOL keyCb(int eventType, const EmscriptenKeyboardEvent* e, void* userData)
 {
+	(void)userData;	// Unused for now
+
     auto key = findKeyFromHTML5Key(e->key);
     if (key == EventKeyboard::KeyCode::KEY_NONE)
         key = findKeyFromHTML5Code(e->code);
@@ -276,13 +286,13 @@ extern "C" EM_BOOL keyCb(int eventType, const EmscriptenKeyboardEvent* e, void* 
     switch(eventType)
     {
         case EMSCRIPTEN_EVENT_KEYPRESS:
-            CCLOG("[EMSCRIPTEN_EVENT_KEYPRESS] key=%s code=%s charCode=%d => key_enum=%d", e->key, e->code, e->charCode, key);
+            //CCLOG("[EMSCRIPTEN_EVENT_KEYPRESS] key=%s code=%s charCode=%d => key_enum=%d", e->key, e->code, e->charCode, key);
             break;
         case EMSCRIPTEN_EVENT_KEYUP:
-            CCLOG("[EMSCRIPTEN_EVENT_KEYUP] key=%s code=%s", e->key, e->code);
+            //CCLOG("[EMSCRIPTEN_EVENT_KEYUP] key=%s code=%s", e->key, e->code);
             break;
         case EMSCRIPTEN_EVENT_KEYDOWN:
-            CCLOG("[EMSCRIPTEN_EVENT_KEYDOWN] key=%s code=%s", e->key, e->code);
+            //CCLOG("[EMSCRIPTEN_EVENT_KEYDOWN] key=%s code=%s", e->key, e->code);
             break;
     }
     return EM_TRUE;
@@ -293,11 +303,6 @@ extern "C" EM_BOOL mouseCb(int eventType, const EmscriptenMouseEvent* mouseEvent
     GLViewImpl* glview = reinterpret_cast<GLViewImpl*>(userData);
     float cursorX = (mouseEvent->targetX / glview->_retinaFactor);
     float cursorY = (mouseEvent->targetY / glview->_retinaFactor);
-
-    float evtCursorX = ((mouseEvent->targetX / glview->_retinaFactor) - glview->_viewPortRect.origin.x) / glview->_scaleX;
-    float evtCursorY = (glview->_viewPortRect.origin.y + glview->_viewPortRect.size.height - (mouseEvent->targetY / glview->_retinaFactor)) / glview->_scaleY;
-    evtCursorX /= glview->getFrameZoomFactor();
-    evtCursorY /= glview->getFrameZoomFactor();
 
 
 	/*
@@ -319,118 +324,114 @@ extern "C" EM_BOOL mouseCb(int eventType, const EmscriptenMouseEvent* mouseEvent
 			* MOUSELEAVE/MOUSEENTER implementation would need to be much more complex, tracking the state of each of the
 				buttons individually
 
+
+		Update 25/01/2018.
+
+			Dispatching MOUSE_UP and MOUSE_DOWN events was useless. The whole implementation was solely based on transforming
+			the browser mouse events into touch events.
+
+			However, we now need/want to dispatch the MOUSE_MOVE events - which we already did. However, we now only want to do
+			so when not in a touch event, as handling the two at a time would be a mess (<-- this is a design decision that
+			restricts possibilities but makes things easier).
+
+		Update 26/01/2018
+
+			Adding a MOUSE_OUT event (so that we may un-highlight a highlighted element)
+
+		Update 26/01/2018
+
+			In order to correctly handle the fullscreen mode which eventually adds black borders, we need to ignore all mouse events
+			(that is, treat them as a MOUSELEAVE) that happen outside the rendered area.
+
+			Otherwise, events get processed for elements that are actually invisible (in the black bands) - including touchdown events.
 	*/
 
+	bool	mouseOutside;
+	float	designX, designY;
 
-	switch (eventType)
+	if(eventType == EMSCRIPTEN_EVENT_MOUSELEAVE)
+		mouseOutside = true;
+	else
 	{
-		case EMSCRIPTEN_EVENT_MOUSEMOVE:
+		/*
+			We need to figure out whether the mouse is actually over the rendered area.
+			If not, set mouseOutside to true, so that the event is treated the same as EMSCRIPTEN_EVENT_MOUSELEAVE.
+		*/
+
+		const auto	viewPortRect = glview->getViewPortRect();
+		const auto	scaleX = glview->getScaleX(), scaleY = glview->getScaleY();
+
+		// Same coordinates computations as in GLView::handleTouchesMove()
+
+		if((designX = (cursorX - viewPortRect.origin.x) / scaleX) < 0.0f || (designY = (cursorY - viewPortRect.origin.y) / scaleY) < 0.0f)
+			mouseOutside = true;
+		else
 		{
-			//CCLOG("[EMSCRIPTEN_EVENT_MOUSEMOVE] ...");
-
-			if(glview->_mouseCaptured)
-			{
-				intptr_t id = 0;
-				glview->handleTouchesMove(1, &id, &cursorX, &cursorY);
-			}
-
-			EventMouse event(EventMouse::MouseEventType::MOUSE_MOVE);
-			event.setCursorPosition(evtCursorX, evtCursorY);
-			//event.setMouseButton((mouseEvent->buttons & 1) ? MOUSE_BUTTON_LEFT : -1);
-			event.setMouseButton(glview->_mouseCaptured ? MOUSE_BUTTON_LEFT : -1);
-			Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
-			}
-		break;
-
-		case EMSCRIPTEN_EVENT_MOUSEDOWN:
-		{
-			//CCLOG("[EMSCRIPTEN_EVENT_MOUSEDOWN] ...");
-
-			if(mouseEvent->button == 0 /*LEFT*/)
-			{
-				glview->_mouseCaptured = true;
-				glview->_mouseBtnDown = true;
-
-				intptr_t id = 0;
-				glview->handleTouchesBegin(1, &id, &cursorX, &cursorY);
-
-				EventMouse event(EventMouse::MouseEventType::MOUSE_DOWN);
-				event.setCursorPosition(evtCursorX, evtCursorY);
-				event.setMouseButton(MOUSE_BUTTON_LEFT);
-				Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
-			}
+			const auto	designResolutionSize = glview->getDesignResolutionSize();
+			mouseOutside = (designX > designResolutionSize.width || designY > designResolutionSize.height);
 		}
-		break;
+	}
 
-		case EMSCRIPTEN_EVENT_MOUSEUP:
+	if(mouseOutside)
+	{
+		if(glview->_mouseCaptured)
 		{
-			//CCLOG("[EMSCRIPTEN_EVENT_MOUSEUP] ...");
+			glview->_mouseCaptured = false;
+			intptr_t id = 0;
+			//glview->handleTouchesEnd(1, &id, &cursorX, &cursorY);
+			glview->handleTouchesCancel(1, &id, &cursorX, &cursorY);
+		}
 
-			if(mouseEvent->button == 0 /*LEFT*/)
+		glview->handleMouseOut();
+	}
+	else
+	{
+		switch(eventType)
+		{
+			case EMSCRIPTEN_EVENT_MOUSEMOVE:
 			{
 				if(glview->_mouseCaptured)
 				{
-					glview->_mouseCaptured = false;
 					intptr_t id = 0;
-					glview->handleTouchesEnd(1, &id, &cursorX, &cursorY);
+					glview->handleTouchesMove(1, &id, &cursorX, &cursorY);
 				}
+				else
+					glview->handleMouseMove(designX, designY);
+			}
+			break;
 
-				if(glview->_mouseBtnDown)
+			case EMSCRIPTEN_EVENT_MOUSEDOWN:
+			{
+				if(mouseEvent->button == 0 /*LEFT*/)
 				{
-					EventMouse event(EventMouse::MouseEventType::MOUSE_UP);
-					event.setCursorPosition(evtCursorX, evtCursorY);
-					event.setMouseButton(MOUSE_BUTTON_LEFT);
-					Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+					glview->_mouseCaptured = true;
 
-					glview->_mouseBtnDown = false;
+					intptr_t id = 0;
+					glview->handleTouchesBegin(1, &id, &cursorX, &cursorY);
 				}
 			}
-		}
-		break;
+			break;
 
 
-		/*
-		We're now also dealing with EMSCRIPTEN_EVENT_MOUSELEAVE & EMSCRIPTEN_EVENT_MOUSEENTER in order to end the touch event,
-		as not doing so results in unwanted behavior when the mouse leaves the canvas while the left button is pressed and
-		returns with the left button no longer being pressed (the drag continues while it shouldn't).
-
-		For that reason, we're ending the touch event when the mouse leaves the canvas, and also faking a MOUSEUP event if the
-		left button was actually down (above we make sure it won't be triggered again).
-		*/
-
-
-		case EMSCRIPTEN_EVENT_MOUSELEAVE:
-		{
-			//CCLOG("[EMSCRIPTEN_EVENT_MOUSELEAVE] ...");
-			//printf("EMSCRIPTEN_EVENT_MOUSELEAVE, buttons=%u\n", mouseEvent->buttons);
-
-			if(glview->_mouseCaptured)
+			case EMSCRIPTEN_EVENT_MOUSEUP:
 			{
-				glview->_mouseCaptured = false;
-				intptr_t id = 0;
-				glview->handleTouchesEnd(1, &id, &cursorX, &cursorY);
+				if(mouseEvent->button == 0 /*LEFT*/)
+				{
+					if(glview->_mouseCaptured)
+					{
+						glview->_mouseCaptured = false;
+						intptr_t id = 0;
+						glview->handleTouchesEnd(1, &id, &cursorX, &cursorY);
+
+						// Also firing a single mousemove here, so that if the drag ended over a control,
+						// it gets notified.
+						glview->handleMouseMove(designX, designY);
+					}
+				}
 			}
+			break;
 
-			if(glview->_mouseBtnDown)
-			{
-				EventMouse event(EventMouse::MouseEventType::MOUSE_UP);
-				event.setCursorPosition(evtCursorX, evtCursorY);
-				event.setMouseButton(MOUSE_BUTTON_LEFT);
-				Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
-
-				glview->_mouseBtnDown = false;
-			}
 		}
-		break;
-
-		/*
-		case EMSCRIPTEN_EVENT_MOUSEENTER:
-		{
-			//CCLOG("[EMSCRIPTEN_EVENT_MOUSEENTER] ...");
-			//printf("EMSCRIPTEN_EVENT_MOUSEENTER, buttons=%u\n", mouseEvent->buttons);
-		}
-		break;
-		*/
 	}
 
     return EM_TRUE;
@@ -442,7 +443,6 @@ GLViewImpl::GLViewImpl() : _display(EGL_NO_DISPLAY)
 , _config(nullptr)
 , _retinaFactor(emscripten_get_device_pixel_ratio())
 , _mouseCaptured(false)
-, _mouseBtnDown(false)
 , _screenSizeBeforeFullscreen(Size::ZERO)
 {
     registerEvents();
@@ -521,6 +521,7 @@ void GLViewImpl::swapBuffers()
 
 void GLViewImpl::setIMEKeyboardState(bool bOpen)
 {
+	(void)bOpen;
     //TODO EMSCRIPTEN: Implement
 }
 
@@ -540,6 +541,7 @@ void GLViewImpl::pollEvents()
 
 void GLViewImpl::setCursorVisible(bool isVisible)
 {
+	(void)isVisible;
     //TODO EMSCRIPTEN: Implement
 }
 
@@ -668,8 +670,8 @@ void GLViewImpl::deleteEGLContext() noexcept
 
 void GLViewImpl::updateCanvasSize(int width, int height) noexcept
 {
-	printf("*** GLViewImpl::updateCanvasSize(%d, %d)\n", width, height);
-	printf("*** _retinaFactor=%f\n", _retinaFactor);
+//	printf("*** GLViewImpl::updateCanvasSize(%d, %d)\n", width, height);
+//	printf("*** _retinaFactor=%f\n", _retinaFactor);
 
     const bool sendEnvent = _screenSize.width > 0 && _screenSize.height > 0 && (_screenSize.width != width || _screenSize.height != height);
     setFrameSize(std::ceil(width / _retinaFactor), std::ceil(height / _retinaFactor));
@@ -684,6 +686,22 @@ void GLViewImpl::updateCanvasSize(int width, int height) noexcept
     if (sendEnvent)
         Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(GLViewImpl::EVENT_WINDOW_RESIZED, nullptr);
 }
+
+
+void GLViewImpl::handleMouseMove(float designX, float designY) noexcept
+{
+	EventMouse	event(EventMouse::MouseEventType::MOUSE_MOVE);
+
+	event.setCursorPosition(designX, designY);
+	Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+}
+
+void GLViewImpl::handleMouseOut() noexcept
+{
+	EventMouse	event(EventMouse::MouseEventType::MOUSE_OUT);
+	Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+}
+
 
 NS_CC_END
 

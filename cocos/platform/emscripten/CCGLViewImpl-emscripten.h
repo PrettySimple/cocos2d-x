@@ -60,6 +60,9 @@ private:
     void unregisterEvents() noexcept;
     void updateCanvasSize(int width, int height) noexcept;
 
+	void handleMouseMove(float x, float y) noexcept;
+	void handleMouseOut() noexcept;
+
 public:
     static constexpr const char* EVENT_WINDOW_RESIZED = "glview_window_resized";
 private:
@@ -70,7 +73,6 @@ private:
 
     float _retinaFactor;
 	bool _mouseCaptured;
-	bool _mouseBtnDown;
 
     cocos2d::Size _screenSizeBeforeFullscreen;
 };
