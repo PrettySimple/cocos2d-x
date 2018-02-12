@@ -175,7 +175,10 @@ public:
             _index = 0;
         }
 
-        action->startWithTarget(target);
+        if constexpr(!DryRun)
+        {
+            action->startWithTarget(target);
+        }
         auto const data = _data.emplace_hint(_data.end(), target, action, paused, _index++, this);
         _actions.emplace(action, *data);
         _targets.emplace(target, *data);
