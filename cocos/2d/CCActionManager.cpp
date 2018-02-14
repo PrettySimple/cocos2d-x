@@ -258,34 +258,6 @@ void ActionManager::removeAction(Action *action)
     }
 }
 
-void ActionManager::removeActionByTag(int tag, Node *target)
-{
-    CCASSERT(tag != Action::INVALID_TAG, "Invalid tag value!");
-    CCASSERT(target != nullptr, "target can't be nullptr!");
-    if (target == nullptr)
-    {
-        return;
-    }
-
-    tHashElement *element = nullptr;
-    HASH_FIND_PTR(_targets, &target, element);
-
-    if (element)
-    {
-        auto limit = element->actions->num;
-        for (int i = 0; i < limit; ++i)
-        {
-            Action *action = (Action*)element->actions->arr[i];
-
-            if (action->getTag() == (int)tag && action->getOriginalTarget() == target)
-            {
-                removeActionAtIndex(i, element);
-                break;
-            }
-        }
-    }
-}
-
 void ActionManager::removeAllActionsByTag(int tag, Node *target)
 {
     CCASSERT(tag != Action::INVALID_TAG, "Invalid tag value!");
