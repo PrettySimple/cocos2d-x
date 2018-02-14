@@ -1239,13 +1239,6 @@ public:
      * @param action    The action object to be removed.
      */
     void stopAction(Action* action);
-
-    /**
-     * Removes an action from the running action list by its tag.
-     *
-     * @param tag   A tag that indicates the action to be removed.
-     */
-    void stopActionByTag(int tag);
     
     /**
      * Removes all actions from the running action list by its tag.

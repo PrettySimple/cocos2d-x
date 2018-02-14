@@ -120,16 +120,6 @@ void ActionManager::removeAction(Action *action)
     _journal.remove_action(action);
 }
 
-void ActionManager::removeActionByTag(int tag, Node *target)
-{
-    CCASSERT(tag != Action::INVALID_TAG, "Invalid tag value!");
-    CCASSERT(target != nullptr, "target can't be nullptr!");
-    if (target == nullptr || tag == Action::INVALID_TAG)
-        return;
-
-    _journal.remove_action_from_target_by_tag(target, tag);
-}
-
 void ActionManager::removeAllActionsByTag(int tag, Node *target)
 {
     CCASSERT(tag != Action::INVALID_TAG, "Invalid tag value!");
