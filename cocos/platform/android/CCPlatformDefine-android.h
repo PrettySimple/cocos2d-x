@@ -50,9 +50,10 @@ THE SOFTWARE.
                             __FILE__, __FUNCTION__, __LINE__, msg); \
     }
 
-#define CC_ASSERT(cond)                     \
-    CC_NO_MESSAGE_PSEUDOASSERT(cond)        \
-    assert(cond)
+#define CC_ASSERT(cond) {                                           \
+                            CC_NO_MESSAGE_PSEUDOASSERT(cond);       \
+                            assert(cond);                           \
+                        }
 
 #define CC_UNUSED_PARAM(unusedparam) (void)unusedparam
 
