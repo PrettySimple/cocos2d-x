@@ -54,9 +54,6 @@ THE SOFTWARE.
 #endif
 
 #define GP_ASSERT(cond) CCASSERT(cond, "")
-
-// FIXME:: Backward compatible
-#define CCAssert CCASSERT
 #endif  // CCASSERT
 
 #include "base/ccConfig.h"

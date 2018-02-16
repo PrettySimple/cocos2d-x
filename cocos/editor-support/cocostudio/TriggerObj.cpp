@@ -271,7 +271,7 @@ void TriggerObj::serialize(cocostudio::CocoLoader *pCocoLoader, cocostudio::stEx
                     continue;
                 }
                 BaseTriggerCondition *con = dynamic_cast<BaseTriggerCondition*>(ObjectFactory::getInstance()->createObject(classname));
-                CCAssert(con != nullptr, "class named classname can not implement!");
+                CCASSERT(con != nullptr, "class named classname can not implement!");
                 con->serialize(pCocoLoader, &pConditionArray[1]);
                 con->init();
                 _cons.pushBack(con);
@@ -291,7 +291,7 @@ void TriggerObj::serialize(cocostudio::CocoLoader *pCocoLoader, cocostudio::stEx
                     continue;
                 }
                 BaseTriggerAction *act = dynamic_cast<BaseTriggerAction*>(ObjectFactory::getInstance()->createObject(classname));
-                CCAssert(act != nullptr, "class named classname can not implement!");
+                CCASSERT(act != nullptr, "class named classname can not implement!");
                 act->serialize(pCocoLoader, &pActionArray[1]);
                 act->init();
                 _acts.pushBack(act);

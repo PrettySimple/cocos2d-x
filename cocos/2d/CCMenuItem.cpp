@@ -275,7 +275,7 @@ void MenuItemLabel::unselected()
     if(_enabled)
     {
         MenuItem::unselected();
-        this->stopActionByTag(kZoomActionTag);
+        this->stopAllActionsByTag(kZoomActionTag);
         Action *zoomAction = ScaleTo::create(0.1f, _originalScale);
         zoomAction->setTag(kZoomActionTag);
         this->runAction(zoomAction);

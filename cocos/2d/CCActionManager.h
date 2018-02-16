@@ -96,13 +96,6 @@ public:
      * @param action    A certain target.
      */
     void removeAction(Action *action);
-
-    /** Removes an action given its tag and the target.
-     *
-     * @param tag       The action's tag.
-     * @param target    A certain target.
-     */
-    void removeActionByTag(int tag, Node *target);
     
     /** Removes all actions given its tag and the target.
      *
