@@ -56,7 +56,6 @@ Configuration::Configuration()
 , _supportsOESMapBuffer(false)
 , _maxSamplesAllowed(0)
 , _maxTextureUnits(0)
-, _glExtensions(nullptr)
 , _maxDirLightInShader(1)
 , _maxPointLightInShader(1)
 , _maxSpotLightInShader(1)
@@ -118,7 +117,7 @@ void Configuration::gatherGPUInfo()
 	_valueDict["gl.renderer"] = Value((const char*)glGetString(GL_RENDERER));
 	_valueDict["gl.version"] = Value((const char*)glGetString(GL_VERSION));
 
-    _glExtensions = (char *)glGetString(GL_EXTENSIONS);
+    _glExtensions = (const char *)glGetString(GL_EXTENSIONS);
 
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &_maxTextureSize);
 	_valueDict["gl.max_texture_size"] = Value((int)_maxTextureSize);
@@ -206,7 +205,7 @@ void Configuration::purgeConfiguration()
 
 bool Configuration::checkForGLExtension(const std::string &searchName) const
 {
-   return  (_glExtensions && strstr(_glExtensions, searchName.c_str() ) ) ? true : false;
+   return !_glExtensions.empty() && _glExtensions.find(searchName) != std::string::npos;
 }
 
 //

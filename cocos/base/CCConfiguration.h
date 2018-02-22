@@ -271,7 +271,7 @@ protected:
     
     GLint           _maxSamplesAllowed;
     GLint           _maxTextureUnits;
-    char *          _glExtensions;
+    std::string     _glExtensions;
     int             _maxDirLightInShader; //max support directional light in shader
     int             _maxPointLightInShader; // max support point light in shader
     int             _maxSpotLightInShader; // max support spot light in shader
