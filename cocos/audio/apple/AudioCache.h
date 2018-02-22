@@ -43,7 +43,7 @@ namespace experimental{
 class AudioEngineImpl;
 class AudioPlayer;
 
-class AudioCachede
+class AudioCache
 {
 public:
 
