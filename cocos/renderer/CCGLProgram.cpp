@@ -939,7 +939,7 @@ void GLProgram::reset()
     memset(_builtInUniforms, 0, sizeof(_builtInUniforms));
 
 
-    // it is already deallocated by android
+    // it is already deallocated by android when context is lost
     //GL::deleteProgram(_program);
     _program = 0;
 
