@@ -56,7 +56,6 @@ private:
     /**draw fullscreen quad to clear stencil bits
      */
     void drawFullScreenQuadClearStencil();
-    void onContextRecovered() noexcept;
 
 
     GLfloat _alphaThreshold;
@@ -82,6 +81,9 @@ private:
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     cocos2d::EventListenerCustom* _onContextRecovered;
+    void onContextRecovered() noexcept;
+public:
+    virtual ~StencilStateManager();
 #endif
 };
 

@@ -62,15 +62,20 @@ StencilStateManager::StencilStateManager()
 , _currentAlphaTestRef(1)
 , _stencilClearBuffer(~0)
 {
-
 #if CC_ENABLE_CACHE_TEXTURE_DATA
-
     _onContextRecovered = cocos2d::EventListenerCustom::create(EVENT_RENDERER_RECREATED,[this](EventCustom* event){
         this->onContextRecovered();
     });
     cocos2d::Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_onContextRecovered, -1);
 #endif
 }
+
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+StencilStateManager::~StencilStateManager() {
+    cocos2d::Director::getInstance()->getEventDispatcher()->removeEventListener(_onContextRecovered);
+    _onContextRecovered = nullptr;
+}
+#endif
 
 void StencilStateManager::drawFullScreenQuadClearStencil()
 {
@@ -122,10 +127,11 @@ void StencilStateManager::drawFullScreenQuadClearStencil()
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 }
 
+#if CC_ENABLE_CACHE_TEXTURE_DATA
 void StencilStateManager::onContextRecovered() noexcept {
     _stencilClearBuffer = ~0;
 }
-
+#endif
 
     void StencilStateManager::setAlphaThreshold(GLfloat alphaThreshold)
 {
