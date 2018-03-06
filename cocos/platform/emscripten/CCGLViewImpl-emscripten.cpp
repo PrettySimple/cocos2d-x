@@ -61,6 +61,7 @@ extern "C" EM_BOOL webglFullscreenChangeCb(int eventType, const EmscriptenFullsc
 	(void)eventType;
 
     GLViewImpl* glview = reinterpret_cast<GLViewImpl*>(userData);
+
     if (e->isFullscreen == EM_TRUE)
     {
         glview->_screenSizeBeforeFullscreen = glview->_screenSize * glview->_retinaFactor;
@@ -72,6 +73,14 @@ extern "C" EM_BOOL webglFullscreenChangeCb(int eventType, const EmscriptenFullsc
         emscripten_set_canvas_size(glview->_screenSizeBeforeFullscreen.width, glview->_screenSizeBeforeFullscreen.height);
         glview->updateCanvasSize(glview->_screenSizeBeforeFullscreen.width, glview->_screenSizeBeforeFullscreen.height);
     }
+
+	// Pause mouse move injections until the next move
+	glview->_mouseMoveInjector.pauseInject();
+
+	// Note that some browsers fire the MOUSEENTER/MOUSELEAVE events when switching the fullscreen mode, while others don't
+	// Also, our attempts to handle it here (by faking a mouseleave event) were not successful on all browsers - some ignored
+	// the css cursor switch, which became effective only after the next mouse move. This is a known issue, but solving it
+	// might require a huge effort (if at all possible), hence we're postponing it...
 
     return EM_TRUE;
 }
@@ -344,10 +353,17 @@ extern "C" EM_BOOL mouseCb(int eventType, const EmscriptenMouseEvent* mouseEvent
 			(that is, treat them as a MOUSELEAVE) that happen outside the rendered area.
 
 			Otherwise, events get processed for elements that are actually invisible (in the black bands) - including touchdown events.
+
+		Update 06/03/2018
+
+			We're now setting up a mechanism to periodically inject dummy mouse-move events, even when the mouse is actually not moving.
+			This allows us to handle scene updates (eg. a button/sprite that ended being under/off the cursor, or got enabled/disabled) in a fairly easy way.
+
 	*/
 
 	bool	mouseOutside;
 	float	designX, designY;
+
 
 	if(eventType == EMSCRIPTEN_EVENT_MOUSELEAVE)
 		mouseOutside = true;
@@ -367,7 +383,7 @@ extern "C" EM_BOOL mouseCb(int eventType, const EmscriptenMouseEvent* mouseEvent
 			mouseOutside = true;
 		else
 		{
-			const auto	designResolutionSize = glview->getDesignResolutionSize();
+			const auto&	designResolutionSize = glview->getDesignResolutionSize();
 			mouseOutside = (designX > designResolutionSize.width || designY > designResolutionSize.height);
 		}
 	}
@@ -378,7 +394,6 @@ extern "C" EM_BOOL mouseCb(int eventType, const EmscriptenMouseEvent* mouseEvent
 		{
 			glview->_mouseCaptured = false;
 			intptr_t id = 0;
-			//glview->handleTouchesEnd(1, &id, &cursorX, &cursorY);
 			glview->handleTouchesCancel(1, &id, &cursorX, &cursorY);
 		}
 
@@ -442,6 +457,7 @@ GLViewImpl::GLViewImpl() : _display(EGL_NO_DISPLAY)
 , _surface(EGL_NO_SURFACE)
 , _config(nullptr)
 , _retinaFactor(emscripten_get_device_pixel_ratio())
+, _mouseMoveInjector()
 , _mouseCaptured(false)
 , _screenSizeBeforeFullscreen(Size::ZERO)
 {
@@ -462,8 +478,9 @@ void GLViewImpl::registerEvents() noexcept
     emscripten_set_mousedown_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, &mouseCb);
     emscripten_set_mouseup_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, &mouseCb);
     emscripten_set_mousemove_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, &mouseCb);
+    // It is important to track both mouseleave and mouseenter, as they're being fired (on some browsers...) when switching to/from fullscreen!
     emscripten_set_mouseleave_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, &mouseCb);
-    //emscripten_set_mouseenter_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, &mouseCb);
+    emscripten_set_mouseenter_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, &mouseCb);
 
     emscripten_set_fullscreenchange_callback("#document", reinterpret_cast<void*>(this), EM_TRUE, &webglFullscreenChangeCb);
 
@@ -480,7 +497,7 @@ void GLViewImpl::unregisterEvents() noexcept
     emscripten_set_mouseup_callback("canvas", nullptr, EM_TRUE, nullptr);
     emscripten_set_mousemove_callback("canvas", nullptr, EM_TRUE, nullptr);
     emscripten_set_mouseleave_callback("canvas", nullptr, EM_TRUE, nullptr);
-    //emscripten_set_mouseenter_callback("canvas", nullptr, EM_TRUE, nullptr);
+    emscripten_set_mouseenter_callback("canvas", nullptr, EM_TRUE, nullptr);
 
     emscripten_set_fullscreenchange_callback("#document", nullptr, EM_TRUE, nullptr);
 
@@ -694,12 +711,16 @@ void GLViewImpl::handleMouseMove(float designX, float designY) noexcept
 
 	event.setCursorPosition(designX, designY);
 	Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+
+	_mouseMoveInjector.updatePosition(designX, designY);
 }
 
 void GLViewImpl::handleMouseOut() noexcept
 {
 	EventMouse	event(EventMouse::MouseEventType::MOUSE_OUT);
 	Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+
+	_mouseMoveInjector.pauseInject();
 }
 
 

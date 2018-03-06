@@ -6,6 +6,7 @@
 #include "platform/CCGLView.h"
 #include "platform/CCGL.h"
 #include "math/CCGeometry.h"
+#include "CCInjectMouseMove-emscripten.h"
 
 #include <string>
 #include <emscripten/html5.h>
@@ -72,6 +73,8 @@ private:
     EGLConfig _config;
 
     float _retinaFactor;
+
+	InjectMouseMove _mouseMoveInjector;
 	bool _mouseCaptured;
 
     cocos2d::Size _screenSizeBeforeFullscreen;
