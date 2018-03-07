@@ -196,6 +196,17 @@ public:
      */
     virtual void setCursorVisible(bool isVisible) {}
 
+
+	/* Extending Cocos to support setting cursor shape */
+	enum class CursorShape
+	{
+		NONE,
+		DEFAULT,
+		POINTER
+	};
+
+	virtual void	setCursorShape(CursorShape) {}
+
     /** Get retina factor.
      *
      * @return The retina factor.

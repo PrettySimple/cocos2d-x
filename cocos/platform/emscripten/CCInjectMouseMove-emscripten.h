@@ -22,7 +22,11 @@ class CC_DLL InjectMouseMove : public Node
 
 	private:
 
-		EventMouse	_event;
+		// Oops, reusing the event didn't work out well - it seems Cocos internally uses EventMouse::_startPoint/EventMouse::_prevPoint...
+		//EventMouse	_event;
+		// Instead, we're now recreating an EventMouse on every inject
+		float	_designX;
+		float	_designY;
 
 	private:
 

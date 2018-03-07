@@ -74,10 +74,11 @@ extern "C" EM_BOOL webglFullscreenChangeCb(int eventType, const EmscriptenFullsc
         glview->updateCanvasSize(glview->_screenSizeBeforeFullscreen.width, glview->_screenSizeBeforeFullscreen.height);
     }
 
-	// Pause mouse move injections until the next move
+	// Pause mouse move injections until the next move, as the coordinates we previously computed are no longer accurate.
 	glview->_mouseMoveInjector.pauseInject();
 
-	// Note that some browsers fire the MOUSEENTER/MOUSELEAVE events when switching the fullscreen mode, while others don't
+	// Note that some browsers fire the MOUSELEAVE events when switching the fullscreen mode (and MOUSEENTER when the mouse moves again),
+	// while others don't.
 	// Also, our attempts to handle it here (by faking a mouseleave event) were not successful on all browsers - some ignored
 	// the css cursor switch, which became effective only after the next mouse move. This is a known issue, but solving it
 	// might require a huge effort (if at all possible), hence we're postponing it...
@@ -423,6 +424,10 @@ extern "C" EM_BOOL mouseCb(int eventType, const EmscriptenMouseEvent* mouseEvent
 
 					intptr_t id = 0;
 					glview->handleTouchesBegin(1, &id, &cursorX, &cursorY);
+
+					// Pause injecting mouse move - since we already stop forwarding the actual moves as long as _mouseCaptured == true ...
+					// (and the injected coordinates would be wrong anyway)
+					glview->_mouseMoveInjector.pauseInject();
 				}
 			}
 			break;
@@ -551,16 +556,39 @@ bool GLViewImpl::windowShouldClose()
     return true;
 }
 
-void GLViewImpl::pollEvents()
-{
-    //TODO EMSCRIPTEN: Implement
-}
-
 void GLViewImpl::setCursorVisible(bool isVisible)
 {
-	(void)isVisible;
-    //TODO EMSCRIPTEN: Implement
+	// This function is deprecated.
+	// For this to behave correctly, we would need to store the shape the cursor had before going invisible.
+
+	// Anyway, the current cursor behavior/shape implementation is simplistic (eg. we don't mess up with the pointer lock...)
+	// Also note that the built-in emscripten_hide_mouse() (which, BTW, doesn't have a show counterpart) is (or will be) deprecated.
+
+	setCursorShape(isVisible ? CursorShape::DEFAULT : CursorShape::NONE);
 }
+
+void GLViewImpl::setCursorShape(CursorShape shape)
+{
+	const char	*cssName;
+
+	switch(shape)
+	{
+		case CursorShape::NONE:
+			cssName = "none";
+			break;
+
+		case CursorShape::DEFAULT:
+			cssName = "default";
+			break;
+
+		case CursorShape::POINTER:
+			cssName = "pointer";
+			break;
+	}
+
+	EM_ASM_({document.getElementById('canvas').style.cursor = Pointer_stringify($0);}, cssName);
+}
+
 
 int GLViewImpl::getRetinaFactor() const
 {
@@ -570,11 +598,6 @@ int GLViewImpl::getRetinaFactor() const
 bool GLViewImpl::isRetinaDisplay() const
 {
     return _retinaFactor > 1.f;
-}
-
-void GLViewImpl::setFrameZoomFactor(float zoomFactor)
-{
-    CCLOG("setFrameZoomFactor %f", zoomFactor);
 }
 
 void GLViewImpl::setViewPortInPoints(float x , float y , float w , float h)
@@ -687,9 +710,6 @@ void GLViewImpl::deleteEGLContext() noexcept
 
 void GLViewImpl::updateCanvasSize(int width, int height) noexcept
 {
-//	printf("*** GLViewImpl::updateCanvasSize(%d, %d)\n", width, height);
-//	printf("*** _retinaFactor=%f\n", _retinaFactor);
-
     const bool sendEnvent = _screenSize.width > 0 && _screenSize.height > 0 && (_screenSize.width != width || _screenSize.height != height);
     setFrameSize(std::ceil(width / _retinaFactor), std::ceil(height / _retinaFactor));
     if (_resolutionPolicy != ResolutionPolicy::UNKNOWN)

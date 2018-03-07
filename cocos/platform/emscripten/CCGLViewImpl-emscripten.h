@@ -37,12 +37,12 @@ public:
     void swapBuffers() override;
     void setIMEKeyboardState(bool bOpen) override; //TODO
     bool windowShouldClose() override;
-    void pollEvents() override; //TODO
-    void setCursorVisible(bool isVisible) override; //TODO
+	[[deprecated("Use setCursorPointer() instead!")]]
+    void setCursorVisible(bool isVisible) override;
+    void setCursorShape(CursorShape shape) override;
     int getRetinaFactor() const override;
     bool isRetinaDisplay() const override;
 
-    void setFrameZoomFactor(float zoomFactor) override;
     void setViewPortInPoints(float x , float y , float w , float h) override;
     void setScissorInPoints(float x , float y , float w , float h) override;
     Rect getScissorRect() const override;
