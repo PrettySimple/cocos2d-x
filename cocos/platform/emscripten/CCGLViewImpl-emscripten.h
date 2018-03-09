@@ -37,7 +37,7 @@ public:
     void swapBuffers() override;
     void setIMEKeyboardState(bool bOpen) override; //TODO
     bool windowShouldClose() override;
-	[[deprecated("Use setCursorPointer() instead!")]]
+	[[deprecated("Use setCursorShape() instead!")]]
     void setCursorVisible(bool isVisible) override;
     void setCursorShape(CursorShape shape) override;
     int getRetinaFactor() const override;
