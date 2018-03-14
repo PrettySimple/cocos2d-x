@@ -462,6 +462,7 @@ GLViewImpl::GLViewImpl() : _display(EGL_NO_DISPLAY)
 , _surface(EGL_NO_SURFACE)
 , _config(nullptr)
 , _retinaFactor(emscripten_get_device_pixel_ratio())
+, _currentCursorShape(CursorShape::DEFAULT)
 , _mouseMoveInjector()
 , _mouseCaptured(false)
 , _screenSizeBeforeFullscreen(Size::ZERO)
@@ -569,24 +570,29 @@ void GLViewImpl::setCursorVisible(bool isVisible)
 
 void GLViewImpl::setCursorShape(CursorShape shape)
 {
-	const char	*cssName;
-
-	switch(shape)
+	if(shape != _currentCursorShape)
 	{
-		case CursorShape::NONE:
-			cssName = "none";
-			break;
+		const char	*cssName;
 
-		case CursorShape::DEFAULT:
-			cssName = "default";
-			break;
+		switch(shape)
+		{
+			case CursorShape::DEFAULT:
+				cssName = "default";
+				break;
 
-		case CursorShape::POINTER:
-			cssName = "pointer";
-			break;
+			case CursorShape::POINTER:
+				cssName = "pointer";
+				break;
+
+			case CursorShape::NONE:
+				cssName = "none";
+				break;
+		}
+
+		EM_ASM_({document.getElementById('canvas').style.cursor = Pointer_stringify($0);}, cssName);
+
+		_currentCursorShape = shape;
 	}
-
-	EM_ASM_({document.getElementById('canvas').style.cursor = Pointer_stringify($0);}, cssName);
 }
 
 
