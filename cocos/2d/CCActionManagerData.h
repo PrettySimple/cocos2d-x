@@ -341,14 +341,7 @@ public:
         }
     }
 
-    inline void clear()
-    {
-        if constexpr(!DryRun)
-        {
-            remove_all_actions();
-        }
-        _data.clear(); _actions.clear(); _targets.clear(); _index = 0;
-    }
+    inline void clear() { remove_all_actions(); }
     inline bool empty() const noexcept { return _data.empty(); }
     inline typename data_t::iterator begin() { return _data.begin(); }
     inline typename data_t::iterator end() { return _data.end(); }
