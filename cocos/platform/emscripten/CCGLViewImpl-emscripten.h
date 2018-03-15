@@ -74,8 +74,9 @@ private:
 
     float _retinaFactor;
 
-	InjectMouseMove _mouseMoveInjector;
-	bool _mouseCaptured;
+	CursorShape		_currentCursorShape;
+	InjectMouseMove	_mouseMoveInjector;
+	bool			_mouseCaptured;
 
     cocos2d::Size _screenSizeBeforeFullscreen;
 };
