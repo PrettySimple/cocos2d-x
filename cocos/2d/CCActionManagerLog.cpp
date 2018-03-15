@@ -299,15 +299,18 @@ void ActionManagerLog::update(float dt)
                 case ActionManagerOperation::STEP_ACTION:
                 {
                     auto const& ele = _data.get_element_from_action(record.action);
-                    if (ele.target != nullptr && ele.action != nullptr && !ele.paused)
+                    if (ele.target != nullptr)
                     {
                         if (ele.target->getReferenceCount() > 1)
                         {
-                            ele.action->step(dt);
-                            
-                            if (ele.action->isDone())
+                            if (ele.action != nullptr && !ele.paused)
                             {
-                                _data.remove_element(ele);
+                                ele.action->step(dt);
+                                
+                                if (ele.action->isDone())
+                                {
+                                    _data.remove_element(ele);
+                                }
                             }
                         }
                         else

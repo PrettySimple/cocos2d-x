@@ -45,10 +45,7 @@ class ActionManagerData
         {
             if constexpr(!DryRun)
             {
-                if (manager->_targets.count(target) == 0)
-                {
-                    CC_SAFE_RETAIN(target);
-                }
+                CC_SAFE_RETAIN(target);
                 CC_SAFE_RETAIN(action);
             }
         }
@@ -82,7 +79,7 @@ class ActionManagerData
         }
         ~Element() = default;
 
-        void on_remove() const
+        void destroy() const
         {
             CCASSERT(manager != nullptr, "manager can't be nullptr!");
             manager->_actions.erase(action);
@@ -99,11 +96,8 @@ class ActionManagerData
             if constexpr(!DryRun)
             {
                 action->stop();
-                
-                if (manager->_targets.count(target) == 0)
-                {
-                    CC_SAFE_RELEASE(target);
-                }
+
+                CC_SAFE_RELEASE(target);
                 CC_SAFE_RELEASE(action);
             }
         }
@@ -338,15 +332,23 @@ public:
         }
         return empty;
     }
-    inline void remove_element(typename data_t::key_type const& key) {
+    inline void remove_element(typename data_t::key_type const& key)
+    {
         if (_data.count(key) > 0)
         {
-            key.on_remove();
+            key.destroy();
+            _data.erase(key);
         }
-        _data.erase(key);
     }
 
-    inline void clear() { _data.clear(); _actions.clear(); _targets.clear(); _index = 0;  }
+    inline void clear()
+    {
+        if constexpr(!DryRun)
+        {
+            remove_all_actions();
+        }
+        _data.clear(); _actions.clear(); _targets.clear(); _index = 0;
+    }
     inline bool empty() const noexcept { return _data.empty(); }
     inline typename data_t::iterator begin() { return _data.begin(); }
     inline typename data_t::iterator end() { return _data.end(); }
