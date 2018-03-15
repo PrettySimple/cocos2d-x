@@ -1337,7 +1337,7 @@ namespace ui {
                                                                 const std::vector<Vec2>& vertices)
     {
         const unsigned short slicedTotalVertexCount = powf(uv.size(),2);
-        const unsigned short slicedTotalIndices = 6 * powf(uv.size() -1, 2);
+        const unsigned short slicedTotalIndices = _renderingType == RenderingType::NOCENTER ? 48 : 6*powf(uv.size()-1,2);
         CC_SAFE_DELETE_ARRAY(_sliceVertices);
         CC_SAFE_DELETE_ARRAY(_sliceIndices);
 
@@ -1385,7 +1385,7 @@ namespace ui {
                 vertextData.colors = color4;
                 
                 //if slice mode
-                if (_renderingType == RenderingType::SLICE)
+                if (_renderingType == RenderingType::SLICE || _renderingType == RenderingType::NOCENTER)
                 {
                     memcpy(_sliceVertices + i + j * 4, &vertextData, sizeof(V3F_C4B_T2F));
                 }
@@ -1398,24 +1398,26 @@ namespace ui {
         
         if (_renderingType == RenderingType::SLICE)
         {
-            for (int j = 0; j <= vertexCount; ++j)
+            for (int j = 0; j < vertexCount; ++j)
             {
-                for (int i = 0; i <= vertexCount; ++i)
+                for (int i = 0; i < vertexCount; ++i)
                 {
-                    if (i < 3 && j < 3)
+                    memcpy(_sliceIndices + indicesStart, sliceQuadIndices, indicesOffset * sizeof(unsigned short));
+
+                    for (int k = 0; k  < indicesOffset; ++k)
                     {
-                        memcpy(_sliceIndices + indicesStart, sliceQuadIndices, indicesOffset * sizeof(unsigned short));
-                        
-                        for (int k = 0; k  < indicesOffset; ++k)
-                        {
-                            unsigned short actualIndex = (i  + j * 3) * indicesOffset;
-                            _sliceIndices[k + actualIndex] = _sliceIndices[k + actualIndex] + j * 4 + i;
-                        }
-                        indicesStart = indicesStart + indicesOffset;
+                        unsigned short actualIndex = (i  + j * 3) * indicesOffset;
+                        _sliceIndices[k + actualIndex] = _sliceIndices[k + actualIndex] + j * 4 + i;
                     }
-                    
+                    indicesStart = indicesStart + indicesOffset;
                 }
             }
+        }
+        
+        if (_renderingType == RenderingType::NOCENTER)
+        {
+            const unsigned short indices[] = {4,0,5, 1,5,0, 5,1,6, 2,6,1, 6,2,7, 3,7,2, 8,4,9, 5,9,4, 10,6,11, 7,11,6, 12,8,13, 9,13,8, 13,9,14, 10,14,9, 14,10,15, 11,15,10};
+            memcpy(_sliceIndices, indices, 48 * sizeof(unsigned short));
         }
         
         if (_renderingType == RenderingType::SIMPLE)
