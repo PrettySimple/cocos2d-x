@@ -49,17 +49,24 @@ public:
     AudioPlayer();
     ~AudioPlayer();
 
-    void destroy();
+    virtual void destroy();
 
     //queue buffer related stuff
-    bool setTime(float time);
-    float getTime() { return _currTime;}
-    bool setLoop(bool loop);
+    virtual bool setTime(float time);
+    virtual float getTime() { return _currTime;}
+    virtual bool setLoop(bool loop);
+    virtual void setVolume(float volume) {_volume = volume;}
 
+    virtual void stop() {destroy();}
+    virtual void pause() {}
+    virtual void resume() {}
+    
+    virtual float getDuration();
+    
 protected:
+    virtual bool play2d();
     void setCache(AudioCache* cache);
     void rotateBufferThread(int offsetFrame);
-    bool play2d();
     void wakeupRotateThread();
 
     AudioCache* _audioCache;

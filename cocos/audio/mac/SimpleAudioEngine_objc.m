@@ -96,6 +96,11 @@ static CDBufferManager *bufferManager = nil;
     [am playBackgroundMusic:filePath loop:loop];
 }
 
+-(double) getBackgroundMusicDuration
+{
+    return [am getBackgroundMusicDuration];
+}
+
 -(void) stopBackgroundMusic
 {
     [am stopBackgroundMusic];

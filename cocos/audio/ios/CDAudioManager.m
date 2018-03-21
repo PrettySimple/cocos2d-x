@@ -110,6 +110,10 @@ NSString * const kCDN_AudioManagerInitialised = @"kCDN_AudioManagerInitialised";
     [audioSourcePlayer stop];
 }    
 
+-(double) duration {
+    return (double) [audioSourcePlayer duration];
+}
+
 -(void) pause {
     paused = YES;
     [audioSourcePlayer pause];
@@ -560,6 +564,8 @@ static BOOL configured = FALSE;
 
 -(void) playBackgroundMusic:(NSString*) filePath loop:(BOOL) loop
 {
+    NSDate *methodStart = [NSDate date];
+
     [self.backgroundMusic load:filePath];
 
 	if (loop) {
@@ -574,11 +580,19 @@ static BOOL configured = FALSE;
 	}
 
 	[self.backgroundMusic play];
+    NSDate *methodFinish = [NSDate date];
+    NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
+    NSLog(@"%@, %f", filePath, executionTime);
 }
 
 -(void) stopBackgroundMusic
 {
     [self.backgroundMusic stop];
+}
+
+-(double) getBackgroundMusicDuration
+{
+    return self.backgroundMusic.duration;
 }
 
 -(void) pauseBackgroundMusic

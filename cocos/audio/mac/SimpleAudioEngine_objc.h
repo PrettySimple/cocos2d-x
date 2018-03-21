@@ -62,6 +62,8 @@
 -(void) playBackgroundMusic:(NSString*) filePath loop:(BOOL) loop;
 /** stops playing background music */
 -(void) stopBackgroundMusic;
+/** background music duration */
+-(double) getBackgroundMusicDuration;
 /** pauses the background music */
 -(void) pauseBackgroundMusic;
 /** resume background music that has been paused */

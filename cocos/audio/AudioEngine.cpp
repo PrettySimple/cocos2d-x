@@ -188,7 +188,7 @@ bool AudioEngine::lazyInit()
     return true;
 }
 
-int AudioEngine::play2d(const std::string& filePath, bool loop, float volume, const AudioProfile *profile)
+int AudioEngine::play2d(const std::string& filePath, bool loop, float volume, bool isMusic, const AudioProfile *profile)
 {
 	//printf("*** AudioEngine::play2d(%s)\n", filePath.c_str());
 
@@ -243,7 +243,7 @@ int AudioEngine::play2d(const std::string& filePath, bool loop, float volume, co
             volume = 1.0f;
         }
 
-        ret = _audioEngineImpl->play2d(filePath, loop, volume);
+        ret = _audioEngineImpl->play2d(filePath, loop, volume, isMusic);
         if (ret != INVALID_AUDIO_ID)
         {
             _audioPathIDMap[filePath].push_back(ret);
