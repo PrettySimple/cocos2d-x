@@ -347,4 +347,11 @@ bool AudioPlayer::setTime(float time)
     return false;
 }
 
+float AudioPlayer::getDuration()
+{
+    if (_audioCache)
+        return _audioCache->_duration;
+    return 0.f;
+}
+
 #endif
