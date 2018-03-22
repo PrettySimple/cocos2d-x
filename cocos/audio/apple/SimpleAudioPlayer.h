@@ -32,6 +32,7 @@ public:
     float getTime() override;
     bool setTime(float time) override;
     float getDuration() override;
+    bool isStopped() override;
     
 };
 }

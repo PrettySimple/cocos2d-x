@@ -89,7 +89,6 @@ private:
 
     int _currentAudioID;
     Scheduler* _scheduler;
-    std::chrono::high_resolution_clock::time_point _start;
 };
 }
 NS_CC_END

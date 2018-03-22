@@ -347,6 +347,14 @@ bool AudioPlayer::setTime(float time)
     return false;
 }
 
+bool AudioPlayer::isStopped()
+{
+    ALint sourceState;
+    alGetSourcei(_alSource, AL_SOURCE_STATE, &sourceState);
+    
+    return _ready && (sourceState == AL_STOPPED);
+}
+
 float AudioPlayer::getDuration()
 {
     if (_audioCache)

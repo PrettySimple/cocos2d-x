@@ -61,6 +61,7 @@ public:
     virtual void pause() {}
     virtual void resume() {}
     
+    virtual bool isStopped();
     virtual float getDuration();
     
 protected:

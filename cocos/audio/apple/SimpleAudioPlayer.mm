@@ -26,8 +26,8 @@ SimpleAudioPlayer::~SimpleAudioPlayer()
 
 void SimpleAudioPlayer::destroy()
 {
-    AudioPlayer::destroy();
     CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+    AudioPlayer::destroy();
 }
 
 bool SimpleAudioPlayer::play2d()
@@ -75,4 +75,9 @@ bool SimpleAudioPlayer::setTime(float time)
 float SimpleAudioPlayer::getDuration()
 {
     return CocosDenshion::SimpleAudioEngine::getInstance()->getBackgroundMusicDuration();
+}
+
+bool SimpleAudioPlayer::isStopped()
+{
+    return !CocosDenshion::SimpleAudioEngine::getInstance()->isBackgroundMusicPlaying();
 }
