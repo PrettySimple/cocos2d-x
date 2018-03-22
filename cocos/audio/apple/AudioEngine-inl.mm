@@ -427,8 +427,6 @@ int AudioEngineImpl::play2d(const std::string &filePath ,bool loop ,float volume
     player->_alSource = alSource;
     player->setLoop(loop);
     player->setVolume(volume);
-
-    _start = std::chrono::high_resolution_clock::now();
     
     AudioCache* audioCache = nullptr;
     if (!isMusic)
@@ -675,10 +673,10 @@ void AudioEngineImpl::setFinishCallback(int audioID, const std::function<void (i
 
 void AudioEngineImpl::update(float dt)
 {
-    ALint sourceState;
     int audioID;
     AudioPlayer* player;
     ALuint alSource;
+
 
 //    ALOGV("AudioPlayer count: %d", (int)_audioPlayers.size());
 
@@ -686,7 +684,6 @@ void AudioEngineImpl::update(float dt)
         audioID = it->first;
         player = it->second;
         alSource = player->_alSource;
-        alGetSourcei(alSource, AL_SOURCE_STATE, &sourceState);
 
         if (player->_removeByAudioEngine)
         {
@@ -697,7 +694,7 @@ void AudioEngineImpl::update(float dt)
             delete player;
             _unusedSourcesPool.push_back(alSource);
         }
-        else if (player->_ready && sourceState == AL_STOPPED) {
+        else if (player->isStopped()) {
 
             std::string filePath;
             if (player->_finishCallbak) {
@@ -719,16 +716,6 @@ void AudioEngineImpl::update(float dt)
         }
         else{
             ++it;
-            if (player->_currTime == 0 && player->_ready && sourceState == AL_PLAYING)
-            {
-                std::string filePath;
-
-                auto& audioInfo = AudioEngine::_audioIDInfoMap[audioID];
-                filePath = *audioInfo.filePath;
-                auto path = filePath.substr(filePath.find_last_of('/') + 1);
-                auto duration = std::chrono::duration_cast<std::chrono::microseconds>( std::chrono::high_resolution_clock::now() - _start ).count() / 1000000.f;
-                CCLOG("%s, %f", path.c_str(), duration);
-            }
         }
     }
 
