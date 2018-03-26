@@ -108,7 +108,7 @@ NSString * const kCDN_AudioManagerInitialised = @"kCDN_AudioManagerInitialised";
 }    
 
 -(double) duration {
-    (double) [audioSourcePlayer duration];
+    return (double) [audioSourcePlayer duration];
 }
 
 -(void) pause {
