@@ -104,14 +104,6 @@ public:
      * @lua stopMusic
      */
     virtual void stopBackgroundMusic(bool releaseData = false);
-    
-    /**
-     * get background music duration.
-     *
-     * @js musicDuration
-     * @lua musicDuration
-     */
-    virtual double getBackgroundMusicDuration();
 
     /**
      * Pause playing background music.
@@ -162,6 +154,14 @@ public:
      * @lua getMusicVolume
      */
     virtual float getBackgroundMusicVolume();
+    
+    /**
+     * get background music duration.
+     *
+     * @js musicDuration
+     * @lua musicDuration
+     */
+    virtual double getBackgroundMusicDuration();
 
     /**
      * Set the volume of background music.

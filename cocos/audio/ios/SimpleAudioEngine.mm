@@ -61,11 +61,6 @@ static void static_stopBackgroundMusic()
     [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
 }
 
-static double static_getBackgroundMusicDuration()
-{
-    return [[SimpleAudioEngine sharedEngine] getBackgroundMusicDuration];
-}
-
 static void static_pauseBackgroundMusic()
 {
     if (!__isAudioPreloadOrPlayed)
@@ -112,6 +107,11 @@ static float static_getBackgroundMusicVolume()
         return 0.0f;
 
     return [[SimpleAudioEngine sharedEngine] backgroundMusicVolume];
+}
+
+static double static_getBackgroundMusicDuration()
+{
+    return [[SimpleAudioEngine sharedEngine] getBackgroundMusicDuration];
 }
 
 static void static_setBackgroundMusicVolume(float volume)

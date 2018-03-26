@@ -79,6 +79,11 @@ static float static_getBackgroundMusicVolume()
     return [[SimpleAudioEngine sharedEngine] backgroundMusicVolume];
 }
 
+static double static_getBackgroundMusicDuration()
+{
+    return [[SimpleAudioEngine sharedEngine] getBackgroundMusicDuration];
+}
+
 static void static_setBackgroundMusicVolume(float volume)
 {
     volume = MAX( MIN(volume, 1.0), 0 );
@@ -223,6 +228,11 @@ bool SimpleAudioEngine::isBackgroundMusicPlaying()
 float SimpleAudioEngine::getBackgroundMusicVolume()
 {
     return static_getBackgroundMusicVolume();
+}
+    
+double SimpleAudioEngine::getBackgroundMusicDuration()
+{
+    return static_getBackgroundMusicDuration();
 }
 
 void SimpleAudioEngine::setBackgroundMusicVolume(float volume)
