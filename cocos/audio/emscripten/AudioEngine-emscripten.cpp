@@ -103,7 +103,7 @@ void	AudioEngineImpl::uncacheAll()
 
 
 
-int	AudioEngineImpl::play2d(const std::string& filePath, bool loop, float volume)
+int	AudioEngineImpl::play2d(const std::string& filePath, bool loop, float volume, bool isMusic)
 {
 	//printf("*** AudioEngineImpl::play2d(%s, %s, %f)\n", filePath.c_str(), loop ? "true" : "false", volume);
 
@@ -280,4 +280,3 @@ EMSCRIPTEN_BINDINGS(cocos_AudioEngineImpl_emscripten_binding)
 }
 
 #pragma clang diagnostic pop
-
