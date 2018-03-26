@@ -3,6 +3,7 @@
 
 #include "platform/CCGL.h"
 #include "platform/emscripten/CCGLViewImpl-emscripten.h"
+#include "platform/emscripten/EMDebug.h"
 #include "base/ccMacros.h"
 #include "renderer/CCFrameBuffer.h"
 #include "2d/CCCamera.h"
@@ -17,6 +18,7 @@
 #include "base/CCEventCustom.h"
 #include "base/CCEventMouse.h"
 #include "base/CCEventKeyboard.h"
+
 
 #include <emscripten/emscripten.h>
 #include <cassert>
@@ -395,9 +397,15 @@ extern "C" EM_BOOL mouseCb(int eventType, const EmscriptenMouseEvent* mouseEvent
 		{
 			glview->_mouseCaptured = false;
 			intptr_t id = 0;
+
+			EM_STICKY(TOUCH);
+			EM_STICKY_PRINT("glview->handleTouchesCancel(1, %d, %f, %f)\n", id, cursorX, cursorY);
+
 			glview->handleTouchesCancel(1, &id, &cursorX, &cursorY);
 		}
 
+		EM_STICKY(MOUSE);
+		EM_STICKY_PRINT("glview->handleMouseOut()\n");
 		glview->handleMouseOut();
 	}
 	else
@@ -409,10 +417,19 @@ extern "C" EM_BOOL mouseCb(int eventType, const EmscriptenMouseEvent* mouseEvent
 				if(glview->_mouseCaptured)
 				{
 					intptr_t id = 0;
+
+					EM_STICKY(TOUCH);
+					EM_STICKY_PRINT("glview->handleTouchesMove(1, %d, %f, %f)\n", id, cursorX, cursorY);
+
 					glview->handleTouchesMove(1, &id, &cursorX, &cursorY);
 				}
 				else
+				{
+					EM_STICKY(MOUSE);
+					EM_STICKY_PRINT("glview->handleMouseMove(%f, %f)\n", designX, designY);
+
 					glview->handleMouseMove(designX, designY);
+				}
 			}
 			break;
 
@@ -423,6 +440,10 @@ extern "C" EM_BOOL mouseCb(int eventType, const EmscriptenMouseEvent* mouseEvent
 					glview->_mouseCaptured = true;
 
 					intptr_t id = 0;
+
+					EM_STICKY(TOUCH);
+					EM_STICKY_PRINT("glview->handleTouchesBegin(1, %d, %f, %f)\n", id, cursorX, cursorY);
+
 					glview->handleTouchesBegin(1, &id, &cursorX, &cursorY);
 
 					// Pause injecting mouse move - since we already stop forwarding the actual moves as long as _mouseCaptured == true ...
@@ -441,10 +462,17 @@ extern "C" EM_BOOL mouseCb(int eventType, const EmscriptenMouseEvent* mouseEvent
 					{
 						glview->_mouseCaptured = false;
 						intptr_t id = 0;
+
+						EM_STICKY(TOUCH);
+						EM_STICKY_PRINT("glview->handleTouchesEnd(1, %d, %f, %f)\n", id, cursorX, cursorY);
+
 						glview->handleTouchesEnd(1, &id, &cursorX, &cursorY);
 
 						// Also firing a single mousemove here, so that if the drag ended over a control,
 						// it gets notified.
+						EM_STICKY(MOUSE);
+						EM_STICKY_PRINT("glview->handleMouseMove(%f, %f)\n", designX, designY);
+
 						glview->handleMouseMove(designX, designY);
 					}
 				}

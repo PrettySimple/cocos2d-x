@@ -112,6 +112,7 @@ set(COCOS_PLATFORM_SPECIFIC_SRC
   platform/emscripten/CCStdC-emscripten.cpp
   platform/emscripten/CCUserDefault-emscripten.cpp
   platform/emscripten/CCGL-emscripten.cpp
+  platform/emscripten/EMDebug.cpp
 )
 
 endif()
