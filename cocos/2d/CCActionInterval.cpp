@@ -243,7 +243,6 @@ Sequence* Sequence::clone() const
 void Sequence::startWithTarget(Node* target)
 {
     CC_ASSERT(target != nullptr);
-    CC_ASSERT(!_actions.empty());
 
     ActionInterval::startWithTarget(target);
 }
@@ -256,6 +255,7 @@ void Sequence::stop()
         CC_SAFE_RELEASE(data->action);
     }
     _actions.clear();
+    _duration_ns = 0;
 
     ActionInterval::stop();
 }
@@ -603,7 +603,6 @@ Spawn* Spawn::clone() const
 void Spawn::startWithTarget(Node* target)
 {
     CC_ASSERT(target != nullptr);
-    CC_ASSERT(!_actions.empty());
 
     ActionInterval::startWithTarget(target);
 }
@@ -616,6 +615,7 @@ void Spawn::stop()
         CC_SAFE_RELEASE(data->action);
     }
     _actions.clear();
+    _duration_ns = 0;
 
     ActionInterval::stop();
 }
