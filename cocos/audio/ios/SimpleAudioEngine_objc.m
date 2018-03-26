@@ -101,6 +101,11 @@ static CDBufferManager *bufferManager = nil;
     [am stopBackgroundMusic];
 }
 
+-(double) getBackgroundMusicDuration
+{
+    return [am getBackgroundMusicDuration];
+}
+
 -(void) pauseBackgroundMusic {
     [am pauseBackgroundMusic];
 }    

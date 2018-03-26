@@ -61,6 +61,11 @@ static void static_stopBackgroundMusic()
     [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
 }
 
+static double static_getBackgroundMusicDuration()
+{
+    return [[SimpleAudioEngine sharedEngine] getBackgroundMusicDuration];
+}
+
 static void static_pauseBackgroundMusic()
 {
     if (!__isAudioPreloadOrPlayed)
@@ -255,6 +260,11 @@ void SimpleAudioEngine::playBackgroundMusic(const char* pszFilePath, bool bLoop)
 void SimpleAudioEngine::stopBackgroundMusic(bool bReleaseData)
 {
     static_stopBackgroundMusic();
+}
+    
+double SimpleAudioEngine::getBackgroundMusicDuration()
+{
+    return static_getBackgroundMusicDuration();
 }
 
 void SimpleAudioEngine::pauseBackgroundMusic()
