@@ -3796,6 +3796,10 @@
 		5A0F3E302028CAB2007242E1 /* AudioMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A0F3E2F2028CAB1007242E1 /* AudioMacros.h */; };
 		5A0F3E312028CAB2007242E1 /* AudioMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A0F3E2F2028CAB1007242E1 /* AudioMacros.h */; };
 		5A0F3E322028CAB2007242E1 /* AudioMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A0F3E2F2028CAB1007242E1 /* AudioMacros.h */; };
+		5AA6DF772061548B00617A51 /* SimpleAudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5AA6DF752061548B00617A51 /* SimpleAudioPlayer.mm */; };
+		5AA6DF782061548B00617A51 /* SimpleAudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5AA6DF752061548B00617A51 /* SimpleAudioPlayer.mm */; };
+		5AA6DF7C2061568100617A51 /* SimpleAudioPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA6DF7B2061568000617A51 /* SimpleAudioPlayer.h */; };
+		5AA6DF7D2061568100617A51 /* SimpleAudioPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA6DF7B2061568000617A51 /* SimpleAudioPlayer.h */; };
 		5E9F61261A3FFE3D0038DE01 /* CCFrustum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E9F61221A3FFE3D0038DE01 /* CCFrustum.cpp */; };
 		5E9F61271A3FFE3D0038DE01 /* CCFrustum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E9F61221A3FFE3D0038DE01 /* CCFrustum.cpp */; };
 		5E9F61281A3FFE3D0038DE01 /* CCFrustum.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E9F61231A3FFE3D0038DE01 /* CCFrustum.h */; };
@@ -6607,6 +6611,8 @@
 		5A0F3E272028CAAA007242E1 /* AudioDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioDecoder.h; sourceTree = "<group>"; };
 		5A0F3E282028CAAB007242E1 /* AudioDecoder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioDecoder.mm; sourceTree = "<group>"; };
 		5A0F3E2F2028CAB1007242E1 /* AudioMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMacros.h; sourceTree = "<group>"; };
+		5AA6DF752061548B00617A51 /* SimpleAudioPlayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SimpleAudioPlayer.mm; sourceTree = "<group>"; };
+		5AA6DF7B2061568000617A51 /* SimpleAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAudioPlayer.h; sourceTree = "<group>"; };
 		5E9F61221A3FFE3D0038DE01 /* CCFrustum.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCFrustum.cpp; sourceTree = "<group>"; };
 		5E9F61231A3FFE3D0038DE01 /* CCFrustum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCFrustum.h; sourceTree = "<group>"; };
 		5E9F61241A3FFE3D0038DE01 /* CCPlane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCPlane.cpp; sourceTree = "<group>"; };
@@ -9645,6 +9651,8 @@
 				50CB247219D9C5A100687767 /* AudioEngine-inl.mm */,
 				50CB247319D9C5A100687767 /* AudioPlayer.h */,
 				50CB247419D9C5A100687767 /* AudioPlayer.mm */,
+				5AA6DF752061548B00617A51 /* SimpleAudioPlayer.mm */,
+				5AA6DF7B2061568000617A51 /* SimpleAudioPlayer.h */,
 			);
 			path = apple;
 			sourceTree = "<group>";
@@ -11918,6 +11926,7 @@
 				15AE188019AAD33D00C27E9E /* CCBMemberVariableAssigner.h in Headers */,
 				1AAF5851180E40B9000584C8 /* LocalStorage.h in Headers */,
 				A0E749F91BA8FD7F001A8332 /* UIEditBoxImpl-common.h in Headers */,
+				5AA6DF7C2061568100617A51 /* SimpleAudioPlayer.h in Headers */,
 				1A01C69018F57BE800EFE3A6 /* CCDictionary.h in Headers */,
 				B6CAB4ED1AF9AA1A00B9B856 /* vectormath2bullet.h in Headers */,
 				1A9DCA29180E6955007A3AD4 /* CCGLBufferedNode.h in Headers */,
@@ -13963,6 +13972,7 @@
 				B665E2511AA80A6500DDB1C5 /* CCPUColorAffectorTranslator.h in Headers */,
 				15AE184B19AAD30500C27E9E /* Export.h in Headers */,
 				B6CAB2D01AF9AA1A00B9B856 /* btMultimaterialTriangleMeshShape.h in Headers */,
+				5AA6DF7D2061568100617A51 /* SimpleAudioPlayer.h in Headers */,
 				B6CAB3541AF9AA1A00B9B856 /* gim_hash_table.h in Headers */,
 				B6CAB2961AF9AA1A00B9B856 /* btCompoundShape.h in Headers */,
 				15AE196019AAD35100C27E9E /* CCSpriteFrameCacheHelper.h in Headers */,
@@ -14181,6 +14191,7 @@
 				15AE186319AAD31D00C27E9E /* CDAudioManager.m in Sources */,
 				B6CAB2411AF9AA1A00B9B856 /* btConvexConcaveCollisionAlgorithm.cpp in Sources */,
 				ED9C6A9418599AD8000A5232 /* CCNodeGrid.cpp in Sources */,
+				5AA6DF772061548B00617A51 /* SimpleAudioPlayer.mm in Sources */,
 				15AE1A2C19AAD3D500C27E9E /* b2DynamicTree.cpp in Sources */,
 				B665E36A1AA80A6500DDB1C5 /* CCPUOnVelocityObserver.cpp in Sources */,
 				B5A738961BB0051F00BAAEF8 /* UIPageViewIndicator.cpp in Sources */,
@@ -16224,6 +16235,7 @@
 				15AE185F19AAD31200C27E9E /* SimpleAudioEngine.mm in Sources */,
 				15AE1BE819AAE01E00C27E9E /* CCControl.cpp in Sources */,
 				B6CAB4081AF9AA1A00B9B856 /* btMultiBodyJointLimitConstraint.cpp in Sources */,
+				5AA6DF782061548B00617A51 /* SimpleAudioPlayer.mm in Sources */,
 				1A570226180BCC1A0088DEC7 /* CCParticleExamples.cpp in Sources */,
 				B6CAB24A1AF9AA1A00B9B856 /* btConvexPlaneCollisionAlgorithm.cpp in Sources */,
 				15AE194919AAD35100C27E9E /* CCComController.cpp in Sources */,

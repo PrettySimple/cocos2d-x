@@ -107,6 +107,10 @@ NSString * const kCDN_AudioManagerInitialised = @"kCDN_AudioManagerInitialised";
     [audioSourcePlayer stop];
 }    
 
+-(double) duration {
+    (double) [audioSourcePlayer duration];
+}
+
 -(void) pause {
     paused = YES;
     [audioSourcePlayer pause];
@@ -566,6 +570,11 @@ static BOOL configured = FALSE;
 -(void) stopBackgroundMusic
 {
     [self.backgroundMusic stop];
+}
+
+-(double) getBackgroundMusicDuration
+{
+    return self.backgroundMusic.duration;
 }
 
 -(void) pauseBackgroundMusic

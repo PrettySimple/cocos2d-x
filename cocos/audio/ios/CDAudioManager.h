@@ -122,6 +122,8 @@ typedef enum {
 -(void) play;
 /** Stops playing the audio source */
 -(void) stop;
+/** Stops playing the audio source */
+-(double) duration;
 /** Pauses the audio source */
 -(void) pause;
 /** Rewinds the audio source */
@@ -212,6 +214,8 @@ typedef enum {
 -(void) preloadBackgroundMusic:(NSString*) filePath;
 /** Stops playing the background music */
 -(void) stopBackgroundMusic;
+/** background music duration */
+-(double) getBackgroundMusicDuration;
 /** Pauses the background music */
 -(void) pauseBackgroundMusic;
 /** Rewinds the background music */

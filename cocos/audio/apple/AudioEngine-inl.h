@@ -35,6 +35,7 @@
 #include "base/CCRef.h"
 #include "audio/apple/AudioCache.h"
 #include "audio/apple/AudioPlayer.h"
+#include "audio/apple/SimpleAudioPlayer.h"
 
 NS_CC_BEGIN
 class Scheduler;
@@ -49,7 +50,7 @@ public:
     ~AudioEngineImpl();
 
     bool init();
-    int play2d(const std::string &fileFullPath ,bool loop ,float volume);
+    int play2d(const std::string &fileFullPath ,bool loop ,float volume, bool isMusic);
     void setVolume(int audioID,float volume);
     void setLoop(int audioID, bool loop);
     bool pause(int audioID);

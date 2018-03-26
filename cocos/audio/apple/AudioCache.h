@@ -108,6 +108,7 @@ protected:
 
     friend class AudioEngineImpl;
     friend class AudioPlayer;
+    friend class SimpleAudioPlayer;
 };
 
 }
