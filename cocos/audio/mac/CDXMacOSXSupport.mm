@@ -102,12 +102,7 @@ OSStatus AudioSessionGetProperty(UInt32 inID, UInt32 *ioDataSize, void *outData)
 
 -(void) stop {
 	[_player stop];
-}	
-
--(double) stop {
-    [_player duration];
 }
-
 
 -(BOOL) isPlaying {
 	return [_player isPlaying];
