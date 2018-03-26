@@ -503,7 +503,7 @@ void ActionNode::playAction()
         _action->release();
     }
 
-    _action = Sequence::create(_actionSpawn, nullptr);
+    _action = Sequence::create({_actionSpawn});
     _action->retain();
 
     this->runAction();

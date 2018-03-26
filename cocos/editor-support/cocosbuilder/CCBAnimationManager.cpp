@@ -353,17 +353,17 @@ ActionInterval* CCBAnimationManager::getAction(CCBKeyframe *pKeyframe0, CCBKeyfr
     {
         if (pKeyframe1->getValue().asBool())
         {
-            return Sequence::createWithTwoActions(DelayTime::create(duration), Show::create());
+            return Sequence::create({DelayTime::create(duration), Show::create()});
         }
         else 
         {
-            return Sequence::createWithTwoActions(DelayTime::create(duration), Hide::create());
+            return Sequence::create({DelayTime::create(duration), Hide::create()});
         }
     }
     else if (propName == "displayFrame")
     {
-        return Sequence::createWithTwoActions(DelayTime::create(duration),
-                    CCBSetSpriteFrame::create(static_cast<SpriteFrame*>(pKeyframe1->getObject())));
+        return Sequence::create({DelayTime::create(duration),
+            CCBSetSpriteFrame::create(static_cast<SpriteFrame*>(pKeyframe1->getObject()))});
     }
     else if (propName == "position")
     {
@@ -861,8 +861,8 @@ void CCBAnimationManager::runAnimationsForSequenceIdTweenDuration(int nSeqId, fl
     
     // Make callback at end of sequence
     CCBSequence *seq = getSequence(nSeqId);
-    Action *completeAction = Sequence::createWithTwoActions(DelayTime::create(seq->getDuration() + fTweenDuration),
-                                                                CallFunc::create( CC_CALLBACK_0(CCBAnimationManager::sequenceCompleted,this)));
+    Action *completeAction = Sequence::create({DelayTime::create(seq->getDuration() + fTweenDuration)
+        , CallFunc::create( CC_CALLBACK_0(CCBAnimationManager::sequenceCompleted,this))});
     _rootNode->runAction(completeAction);
     
     // Set the running scene

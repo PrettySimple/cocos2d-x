@@ -118,12 +118,11 @@ void TransitionPageTurn::onEnter()
         _outSceneProxy->runAction
         (
             Sequence::create
-            (
+         ({
                 action,
                 CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
-                StopGrid::create(),
-                nullptr
-            )
+                StopGrid::create()
+        })
         );
     }
     else
@@ -133,13 +132,12 @@ void TransitionPageTurn::onEnter()
         _inSceneProxy->runAction
         (
             Sequence::create
-            (
+         ({
                 Show::create(),
                 action,
                 CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
-                StopGrid::create(),
-                nullptr
-            )
+                StopGrid::create()
+        })
         );
     }
 }

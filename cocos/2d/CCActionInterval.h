@@ -28,6 +28,10 @@ THE SOFTWARE.
 #ifndef __ACTION_CCINTERVAL_ACTION_H__
 #define __ACTION_CCINTERVAL_ACTION_H__
 
+#include <cstdint>
+#include <initializer_list>
+#include <memory>
+#include <unordered_set>
 #include <vector>
 
 #include "2d/CCAction.h"
@@ -90,7 +94,7 @@ public:
     //
     // Overrides
     //
-    virtual bool isDone(void) const override;
+    virtual bool isDone() const override;
     /**
      * @param dt in seconds
      */
@@ -123,87 +127,44 @@ protected:
 /** @class Sequence
  * @brief Runs actions sequentially, one after another.
  */
-class CC_DLL Sequence : public ActionInterval
+class Sequence : public ActionInterval
 {
+    enum struct Status : std::uint8_t
+    {
+        UNKNOWN = 0,
+        RUNNING,
+        DONE
+    };
+    struct FiniteTimeActionStatus
+    {
+        Status status = Status::UNKNOWN;
+        FiniteTimeAction* action = nullptr;
+
+        inline explicit FiniteTimeActionStatus(Status s, FiniteTimeAction* a) : status(s), action(a)
+        {
+        }
+    };
+    std::vector<std::shared_ptr<FiniteTimeActionStatus>> _actions;
+    std::int64_t _duration_ns = 0;
 public:
-    /** Helper constructor to create an array of sequenceable actions.
-     *
-     * @return An autoreleased Sequence object.
-     */
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-    // VS2013 does not support nullptr in variable args lists and variadic templates are also not supported
-    typedef FiniteTimeAction* M;
-    static Sequence* create(M m1, std::nullptr_t listEnd) { return variadicCreate(m1, NULL); }
-    static Sequence* create(M m1, M m2, std::nullptr_t listEnd) { return variadicCreate(m1, m2, NULL); }
-    static Sequence* create(M m1, M m2, M m3, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, NULL); }
-    static Sequence* create(M m1, M m2, M m3, M m4, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, NULL); }
-    static Sequence* create(M m1, M m2, M m3, M m4, M m5, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, NULL); }
-    static Sequence* create(M m1, M m2, M m3, M m4, M m5, M m6, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, m6, NULL); }
-    static Sequence* create(M m1, M m2, M m3, M m4, M m5, M m6, M m7, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, m6, m7, NULL); }
-    static Sequence* create(M m1, M m2, M m3, M m4, M m5, M m6, M m7, M m8, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, m6, m7, m8, NULL); }
-    static Sequence* create(M m1, M m2, M m3, M m4, M m5, M m6, M m7, M m8, M m9, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, m6, m7, m8, m9, NULL); }
-    static Sequence* create(M m1, M m2, M m3, M m4, M m5, M m6, M m7, M m8, M m9, M m10, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10,  NULL); }
+    Sequence() =default;
+    Sequence(std::initializer_list<FiniteTimeAction*> actions);
+    Sequence(Vector<FiniteTimeAction*> const& actions);
+    Sequence(Sequence const&) =delete;
+    Sequence& operator=(Sequence const&) =delete;
+    Sequence(Sequence&&) noexcept =delete;
+    Sequence& operator=(Sequence&&) noexcept =delete;
+    ~Sequence() override;
 
-    // On WP8 for variable argument lists longer than 10 items, use the other create functions or variadicCreate with NULL as the last argument
-    static Sequence* variadicCreate(FiniteTimeAction* item, ...);
-#else
-    static Sequence* create(FiniteTimeAction *action1, ...) CC_REQUIRES_NULL_TERMINATION;
-#endif
+    static Sequence* create(std::initializer_list<FiniteTimeAction*> actions);
+    static Sequence* create(Vector<FiniteTimeAction*> const& actions);
 
-    /** Helper constructor to create an array of sequenceable actions given an array.
-     * @code
-     * When this function bound to the js or lua,the input params changed
-     * in js  :var   create(var   object1,var   object2, ...)
-     * in lua :local create(local object1,local object2, ...)
-     * @endcode
-     *
-     * @param arrayOfActions An array of sequenceable actions.
-     * @return An autoreleased Sequence object.
-     */
-    static Sequence* create(const Vector<FiniteTimeAction*>& arrayOfActions);
-    /** Helper constructor to create an array of sequence-able actions.
-     *
-     * @param action1 The first sequenceable action.
-     * @param args The va_list variable.
-     * @return An autoreleased Sequence object.
-     * @js NA
-     */
-    static Sequence* createWithVariableList(FiniteTimeAction *action1, va_list args);
-    /** Creates the action.
-     * @param actionOne The first sequenceable action.
-     * @param actionTwo The second sequenceable action.
-     * @return An autoreleased Sequence object.
-     * @js NA
-     */
-    static Sequence* createWithTwoActions(FiniteTimeAction *actionOne, FiniteTimeAction *actionTwo);
-
-    //
-    // Overrides
-    //
-    virtual Sequence* clone() const override;
-    virtual Sequence* reverse() const override;
-    virtual void startWithTarget(Node *target) override;
-    virtual void stop(void) override;
-    /**
-     * @param t In seconds.
-     */
-    virtual void update(float t) override;
-    
-CC_CONSTRUCTOR_ACCESS:
-    Sequence();
-    virtual ~Sequence();
-
-    /** initializes the action */
-    bool initWithTwoActions(FiniteTimeAction *pActionOne, FiniteTimeAction *pActionTwo);
-    bool init(const Vector<FiniteTimeAction*>& arrayOfActions);
-
-protected:
-    FiniteTimeAction *_actions[2];
-    float _split;
-    int _last;
-
-private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Sequence);
+    Sequence* clone() const final;
+    Sequence* reverse() const final;
+    void startWithTarget(Node* target) final;
+    void stop() final;
+    bool isDone() const final;
+    void update(float p) final;
 };
 
 /** @class Repeat
@@ -343,92 +304,43 @@ private:
     CC_DISALLOW_COPY_AND_ASSIGN(RepeatForever);
 };
 
-/** @class Spawn
- * @brief Spawn a new action immediately
- */
-class CC_DLL Spawn : public ActionInterval
+class Spawn : public ActionInterval
 {
+    enum struct Status : std::uint8_t
+    {
+        UNKNOWN = 0,
+        RUNNING,
+        DONE
+    };
+    struct FiniteTimeActionStatus
+    {
+        Status status = Status::UNKNOWN;
+        FiniteTimeAction* action = nullptr;
+        inline explicit FiniteTimeActionStatus(Status s, FiniteTimeAction* a) : status(s), action(a)
+        {
+        }
+    };
+    std::vector<std::shared_ptr<FiniteTimeActionStatus>> _actions;
+    std::int64_t _duration_ns = 0;
 public:
-    /** Helper constructor to create an array of spawned actions.
-     * @code
-     * When this function bound to the js or lua, the input params changed.
-     * in js  :var   create(var   object1,var   object2, ...)
-     * in lua :local create(local object1,local object2, ...)
-     * @endcode
-     *
-     * @return An autoreleased Spawn object.
-     */
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-    // VS2013 does not support nullptr in variable args lists and variadic templates are also not supported.
-    typedef FiniteTimeAction* M;
-    static Spawn* create(M m1, std::nullptr_t listEnd) { return variadicCreate(m1, NULL); }
-    static Spawn* create(M m1, M m2, std::nullptr_t listEnd) { return variadicCreate(m1, m2, NULL); }
-    static Spawn* create(M m1, M m2, M m3, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, NULL); }
-    static Spawn* create(M m1, M m2, M m3, M m4, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, NULL); }
-    static Spawn* create(M m1, M m2, M m3, M m4, M m5, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, NULL); }
-    static Spawn* create(M m1, M m2, M m3, M m4, M m5, M m6, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, m6, NULL); }
-    static Spawn* create(M m1, M m2, M m3, M m4, M m5, M m6, M m7, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, m6, m7, NULL); }
-    static Spawn* create(M m1, M m2, M m3, M m4, M m5, M m6, M m7, M m8, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, m6, m7, m8, NULL); }
-    static Spawn* create(M m1, M m2, M m3, M m4, M m5, M m6, M m7, M m8, M m9, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, m6, m7, m8, m9, NULL); }
-    static Spawn* create(M m1, M m2, M m3, M m4, M m5, M m6, M m7, M m8, M m9, M m10, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10,  NULL); }
+    Spawn() =default;
+    Spawn(std::initializer_list<FiniteTimeAction*> actions);
+    Spawn(Vector<FiniteTimeAction*> const& actions);
+    Spawn(Spawn const&) =delete;
+    Spawn& operator=(Spawn const&) =delete;
+    Spawn(Spawn&&) noexcept =delete;
+    Spawn& operator=(Spawn&&) noexcept =delete;
+    ~Spawn() override;
 
-    // On WP8 for variable argument lists longer than 10 items, use the other create functions or createSpawn with NULL as the last argument.
-    static Spawn* variadicCreate(FiniteTimeAction* item, ...);
-#else
-    static Spawn* create(FiniteTimeAction *action1, ...) CC_REQUIRES_NULL_TERMINATION;
-#endif
+    static Spawn* create(std::initializer_list<FiniteTimeAction*> actions);
+    static Spawn* create(Vector<FiniteTimeAction*> const& actions);
 
-    /** Helper constructor to create an array of spawned actions. 
-     *
-     * @param action1   The first sequenceable action.
-     * @param args  The va_list variable.
-     * @return  An autoreleased Spawn object.
-     * @js NA
-     */
-    static Spawn* createWithVariableList(FiniteTimeAction *action1, va_list args);
-
-    /** Helper constructor to create an array of spawned actions given an array.
-     *
-     * @param arrayOfActions    An array of spawned actions.
-     * @return  An autoreleased Spawn object.
-     */
-    static Spawn* create(const Vector<FiniteTimeAction*>& arrayOfActions);
-
-    /** Creates the Spawn action.
-     *
-     * @param action1   The first spawned action.
-     * @param action2   The second spawned action.
-     * @return An autoreleased Spawn object.
-     * @js NA
-     */
-    static Spawn* createWithTwoActions(FiniteTimeAction *action1, FiniteTimeAction *action2);
-
-    //
-    // Overrides
-    //
-    virtual Spawn* clone() const override;
-    virtual Spawn* reverse(void) const override;
-    virtual void startWithTarget(Node *target) override;
-    virtual void stop(void) override;
-    /**
-     * @param time In seconds.
-     */
-    virtual void update(float time) override;
-    
-CC_CONSTRUCTOR_ACCESS:
-    Spawn();
-    virtual ~Spawn();
-
-    /** initializes the Spawn action with the 2 actions to spawn */
-    bool initWithTwoActions(FiniteTimeAction *action1, FiniteTimeAction *action2);
-    bool init(const Vector<FiniteTimeAction*>& arrayOfActions);
-
-protected:
-    FiniteTimeAction *_one;
-    FiniteTimeAction *_two;
-
-private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Spawn);
+    Spawn* clone() const final;
+    Spawn* reverse() const final;
+    void startWithTarget(Node* target) final;
+    void stop() final;
+    bool isDone() const final;
+    void update(float p) final;
 };
 
 /** @class RotateTo
