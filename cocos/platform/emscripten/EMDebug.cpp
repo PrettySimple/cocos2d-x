@@ -151,7 +151,7 @@ public:
 #define ALLOCATED_PATTERN 0xee
 #define DELETE_PATTERN 0xff
 // Beware, this will consume RETAIN_CAPACITY * sizeof(retain_t) bytes
-#define	RETAIN_CAPACITY 1000000
+#define	RETAIN_CAPACITY 5000000
 
 
 
@@ -193,6 +193,7 @@ struct	retain_t
 
 
 // A bit of stats. We're mostly interested by the peak usage
+static uint64_t	__alloc_entries_peak = 0;
 static uint64_t	__alloc_bytes_total = 0;
 static uint64_t	__alloc_bytes_peak = 0;
 
@@ -229,89 +230,74 @@ Meanwhile, we:
 
 struct	retain_list_type
 {
-	private:
+	std::array<retain_t, RETAIN_CAPACITY>	array;
+	size_t									count;
+	size_t									peak;
+	uint64_t								oos_counter;	// out-of-space counter
 
-		// http://en.cppreference.com/w/cpp/numeric/random/uniform_int_distribution
+	retain_list_type()
+	:	count(0)
+	,	peak(0)
+	,	oos_counter(0)
+	{}
 
-		size_t	randomBound(size_t min, size_t max)
+	struct entry_t
+	{
+		size_t		index;
+		retain_t&	entry;
+
+		retain_t*	operator->() { return &entry; }
+	};
+
+	bool		insert(const alloc_t& entry)
+	{
+		if(count == RETAIN_CAPACITY)
 		{
-			__assert(max >= min);
-
-			static std::random_device	rd;
-			static std::mt19937			gen(rd());
-
-			if(min == max)
-				return min;
-
-			std::uniform_int_distribution<size_t>	dis(min, max);
-			return dis(gen);
+			++oos_counter;
+			return false;
 		}
 
-	public:
+		array[count] = { entry.ptr, entry.size };
 
-		std::array<retain_t, RETAIN_CAPACITY>	array;
-		size_t									count;
-		uint64_t								oos_counter;	// out-of-space counter
+		if(++count > peak)
+			peak = count;
 
-		retain_list_type()
-		:	count(0)
-		,	oos_counter(0)
-		{}
+		return true;
+	}
 
-		struct entry_t
+	retain_t	*lookup(uintptr_t ptr)
+	{
+		for(size_t i = 0; i < count; ++i)
 		{
-			size_t		index;
-			retain_t&	entry;
-
-			retain_t*	operator->() { return &entry; }
-			retain_t&	operator*() { return entry; }
-		};
-
-		bool		insert(const alloc_t& entry)
-		{
-			if(count == RETAIN_CAPACITY)
-			{
-				++oos_counter;
-				return false;
-			}
-
-			array[count++] = { entry.ptr, entry.size };
-			return true;
+			if(array[i].ptr == ptr)
+				return &array[i];
 		}
 
-		retain_t	*lookup(uintptr_t ptr)
-		{
-			for(size_t i = 0; i < count; ++i)
-			{
-				if(array[i].ptr == ptr)
-					return &array[i];
-			}
+		return nullptr;
+	}
 
-			return nullptr;
-		}
+	entry_t		random()
+	{
+		__assert(count);
 
-		entry_t		random()
-		{
-			__assert(count);
+		auto	index = static_cast<size_t>(count != 1 ? (rand() % count) : 0);
 
-			size_t	index = static_cast<size_t>(randomBound(0, count-1));
+		return { index, array[index] };
+	}
 
-			return { index, array[index] };
-		}
+	void		remove(const entry_t& random)
+	{
+		remove(random.index);
+	}
 
-		void		remove(const entry_t& random)
-		{
-			remove(random.index);
-		}
+	void		remove(size_t index)
+	{
+		__assert(count);
+		__assert(index < count);
 
-		void		remove(size_t index)
-		{
-			__assert(count);
-			__assert(index < count);
-
-			if(index != --count)
-				array[index] = array[count];
-		}
+		if(index != --count)
+			array[index] = array[count];
+	}
 };
 
 
@@ -490,6 +476,7 @@ static inline void	__unretain_all()
 	}
 
 	__retain_list().count = 0;
+	__retain_list().peak = 0;
 	__retain_list().oos_counter = 0;
 }
 
@@ -513,16 +500,16 @@ static inline bool	__unretain_some(size_t number)
 		auto	random = __retain_list().random();
 
 		if(
-			!random.entry.write_after_free_reported &&
+			!random->write_after_free_reported &&
 			__check_retained(random.entry)
 		)
-			__error("*** [EMS] (%p): memory was written to after free()\n", reinterpret_cast<void *>(random.entry.ptr));
+			__error("*** [EMS] (%p): memory was written to after free()\n", reinterpret_cast<void *>(random->ptr));
 
-		__watermark_freed(random.entry.ptr, random.entry.size);
-		__untracked_free(reinterpret_cast<void *>(random.entry.ptr - (sizeof(uintptr_t) * SANITIZE_SIZE)));
+		__watermark_freed(random->ptr, random->size);
+		__untracked_free(reinterpret_cast<void *>(random->ptr - (sizeof(uintptr_t) * SANITIZE_SIZE)));
 
-		__assert(__retain_bytes_total >= random.entry.size);
-		__retain_bytes_total -= random.entry.size;
+		__assert(__retain_bytes_total >= random->size);
+		__retain_bytes_total -= random->size;
 
 		// Remove from __retain_list()
 		__retain_list().remove(random);
@@ -590,7 +577,7 @@ void * __attribute__((noinline)) malloc(size_t size)
 
 		// Read the persistent settings (only the retain setting for now...)
 		{
-			__alloc_retain = EM_ASM_INT({ try { return window.localStorage.getItem('__EMS_retain'); } catch(e) { return 0; } });
+			__alloc_retain = EM_ASM_INT({ try { return window.localStorage.getItem('__EMS_retain') === '1'; } catch(e) { return 0; } });
 
 			if(__alloc_retain)
 				__info("*** [EMS] Using retain (persisted)\n");
@@ -635,6 +622,9 @@ void * __attribute__((noinline)) malloc(size_t size)
 		__error("*** [EMS] failed tracking allocation entry!\n");
 		return nullptr;
 	}
+
+	if(__alloc_list().size() > __alloc_entries_peak)
+		__alloc_entries_peak = __alloc_list().size();
 
 	__alloc_bytes_total += size;
 
@@ -850,7 +840,7 @@ void	EmscriptenMemorySanitizer::js2cpp_stats()
 
 	assert(bytes_allocated == __alloc_bytes_total);
 
-	__info("*** [EMS] Allocated entries: %zu\n", __alloc_list().size());
+	__info("*** [EMS] Allocated entries/peak: %zu / %llu\n", __alloc_list().size(), __alloc_entries_peak);
 	__info("*** [EMS] Allocated memory total/peak: %llu / %llu\n", __alloc_bytes_total, __alloc_bytes_peak);
 
 
@@ -863,7 +853,7 @@ void	EmscriptenMemorySanitizer::js2cpp_stats()
 
 		assert(bytes_retained == __retain_bytes_total);
 
-		__info("*** [EMS] Retained entries: %zu\n", __retain_list().count);
+		__info("*** [EMS] Retained entries/peak: %zu / %zu\n", __retain_list().count, __retain_list().peak);
 		__info("*** [EMS] Retained memory: %llu\n", __retain_bytes_total);
 	}
 
@@ -975,7 +965,7 @@ bool	EmscriptenMemorySanitizer::js2cpp_retain(bool retain)
 
 	++__in_safe_mode;
 	{
-		EM_ASM({ try { window.localStorage.setItem('__EMS_retain', $0 ? true : false); } catch(e) {} }, __alloc_retain ? 1 : 0);
+		EM_ASM({ try { window.localStorage.setItem('__EMS_retain', $0); } catch(e) {} }, __alloc_retain ? 1 : 0);
 	}
 	--__in_safe_mode;
 

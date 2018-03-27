@@ -88,15 +88,6 @@ extern "C" EM_BOOL webglFullscreenChangeCb(int eventType, const EmscriptenFullsc
     return EM_TRUE;
 }
 
-extern "C" EM_BOOL wheelCb(int eventType, const EmscriptenWheelEvent* e, void* userData)
-{
-	(void)eventType;
-	(void)e;
-	(void)userData;
-
-    return EM_TRUE;
-}
-
 static EventKeyboard::KeyCode findKeyFromHTML5Code(const char* code) noexcept
 {
     static const std::unordered_map<std::string, EventKeyboard::KeyCode> keyboardCode({
@@ -313,6 +304,9 @@ extern "C" EM_BOOL keyCb(int eventType, const EmscriptenKeyboardEvent* e, void* 
 extern "C" EM_BOOL mouseCb(int eventType, const EmscriptenMouseEvent* mouseEvent, void* userData)
 {
     GLViewImpl* glview = reinterpret_cast<GLViewImpl*>(userData);
+
+	EMS_ASSERT_PTR(glview);
+
     float cursorX = (mouseEvent->targetX / glview->_retinaFactor);
     float cursorY = (mouseEvent->targetY / glview->_retinaFactor);
 
@@ -485,6 +479,64 @@ extern "C" EM_BOOL mouseCb(int eventType, const EmscriptenMouseEvent* mouseEvent
     return EM_TRUE;
 }
 
+
+extern "C" EM_BOOL wheelCb(int eventType, const EmscriptenWheelEvent *wheelEvent, void *userData)
+{
+	GLViewImpl* glview = reinterpret_cast<GLViewImpl*>(userData);
+
+	EMS_ASSERT_PTR(glview);
+
+	// For now, ignore scrolls when the mouse is captured (touch events in progress)
+	if(!glview->_mouseCaptured)
+	{
+		EM_STICKY(WHEEL);
+
+		// All browsers tested so far provide delta in pixels, yet support all the delta modes
+
+		float		pxDeltaX, pxDeltaY;
+		const char	*deltaMode;
+
+		switch(wheelEvent->deltaMode)
+		{
+			case DOM_DELTA_PIXEL:
+				pxDeltaX = wheelEvent->deltaX;
+				pxDeltaY = wheelEvent->deltaY;
+				deltaMode = "DOM_DELTA_PIXEL";
+				break;
+
+			case DOM_DELTA_LINE:
+				// Using a somehow arbitrary multiplier...
+				pxDeltaX = wheelEvent->deltaX * 12.f;
+				pxDeltaY = wheelEvent->deltaY * 12.f;
+				deltaMode = "DOM_DELTA_LINE";
+				break;
+
+			case DOM_DELTA_PAGE:
+				// Using a somehow arbitrary multiplier...
+				pxDeltaX = wheelEvent->deltaX * 120.f;
+				pxDeltaY = wheelEvent->deltaY * 120.f;
+				deltaMode = "DOM_DELTA_PAGE";
+				break;
+
+			default:
+				pxDeltaX = wheelEvent->deltaX;
+				pxDeltaY = wheelEvent->deltaY;
+				deltaMode = "DOM_DELTA_UNKNOWN";
+		}
+
+		const float	designDeltaX = pxDeltaX / glview->getScaleX(), designDeltaY = pxDeltaY / glview->getScaleY();
+
+		EM_STICKY_PRINT("wheelCb(): INPUT:  deltaX: %f, deltaY: %f, deltaZ: %f, deltaMode: %s\n", wheelEvent->deltaX, wheelEvent->deltaY, wheelEvent->deltaZ, deltaMode);
+		EM_STICKY_PRINT("wheelCb(): PIXELS: deltaX: %f, deltaY: %f\n", pxDeltaX, pxDeltaY);
+		EM_STICKY_PRINT("wheelCb(): COCOS:  deltaX: %f, deltaY: %f\n", designDeltaX, designDeltaY);
+
+		glview->handleMouseScroll(designDeltaX, designDeltaY);
+	}
+}
+
+
+
+
 GLViewImpl::GLViewImpl() : _display(EGL_NO_DISPLAY)
 , _context(EGL_NO_CONTEXT)
 , _surface(EGL_NO_SURFACE)
@@ -516,6 +568,8 @@ void GLViewImpl::registerEvents() noexcept
     emscripten_set_mouseleave_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, &mouseCb);
     emscripten_set_mouseenter_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, &mouseCb);
 
+	emscripten_set_wheel_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, &wheelCb);
+
     emscripten_set_fullscreenchange_callback("#document", reinterpret_cast<void*>(this), EM_TRUE, &webglFullscreenChangeCb);
 
     emscripten_set_keypress_callback("#document", reinterpret_cast<void*>(this), EM_TRUE, &keyCb);
@@ -532,6 +586,8 @@ void GLViewImpl::unregisterEvents() noexcept
     emscripten_set_mousemove_callback("canvas", nullptr, EM_TRUE, nullptr);
     emscripten_set_mouseleave_callback("canvas", nullptr, EM_TRUE, nullptr);
     emscripten_set_mouseenter_callback("canvas", nullptr, EM_TRUE, nullptr);
+
+	emscripten_set_wheel_callback("canvas", nullptr, EM_TRUE, nullptr);
 
     emscripten_set_fullscreenchange_callback("#document", nullptr, EM_TRUE, nullptr);
 
@@ -775,6 +831,14 @@ void GLViewImpl::handleMouseOut() noexcept
 	Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 
 	_mouseMoveInjector.pauseInject();
+}
+
+void GLViewImpl::handleMouseScroll(float deltaX, float deltaY) noexcept
+{
+	EventMouse	event(EventMouse::MouseEventType::MOUSE_SCROLL);
+
+	event.setScrollData(deltaX, deltaY);
+	Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 }
 
 

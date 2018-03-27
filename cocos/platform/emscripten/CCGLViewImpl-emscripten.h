@@ -61,8 +61,9 @@ private:
     void unregisterEvents() noexcept;
     void updateCanvasSize(int width, int height) noexcept;
 
-	void handleMouseMove(float x, float y) noexcept;
+	void handleMouseMove(float, float) noexcept;
 	void handleMouseOut() noexcept;
+	void handleMouseScroll(float, float) noexcept;
 
 public:
     static constexpr const char* EVENT_WINDOW_RESIZED = "glview_window_resized";
