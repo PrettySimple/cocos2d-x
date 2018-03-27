@@ -29,7 +29,54 @@ SimpleAudioPlayer::~SimpleAudioPlayer()
 void SimpleAudioPlayer::destroy()
 {
     CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-    AudioPlayer::destroy();
+    
+    if (_isDestroyed)
+        return;
+    
+    _isDestroyed = true;
+    
+    do
+    {
+        if (_audioCache != nullptr)
+        {
+            if (_audioCache->_state == AudioCache::State::INITIAL)
+            {
+                ALOGV("AudioPlayer::destroy, id=%u, cache isn't ready!", _id);
+                break;
+            }
+            
+            while (!_audioCache->_isLoadingFinished)
+            {
+                std::this_thread::sleep_for(std::chrono::milliseconds(5));
+            }
+        }
+        
+        // Wait for play2d to be finished.
+        _play2dMutex.lock();
+        _play2dMutex.unlock();
+        
+        if (_streamingSource)
+        {
+            if (_rotateBufferThread != nullptr)
+            {
+                while (!_isRotateThreadExited)
+                {
+                    _sleepCondition.notify_one();
+                    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+                }
+                
+                if (_rotateBufferThread->joinable()) {
+                    _rotateBufferThread->join();
+                }
+                
+                delete _rotateBufferThread;
+                _rotateBufferThread = nullptr;
+            }
+        }
+    } while(false);
+    
+    _removeByAudioEngine = true;
+    _ready = false;
 }
 
 bool SimpleAudioPlayer::play2d()
