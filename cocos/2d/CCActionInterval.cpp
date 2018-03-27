@@ -539,14 +539,31 @@ Spawn::Spawn(std::initializer_list<FiniteTimeAction*> actions)
 {
     _actions.reserve(actions.size());
     float d = 0.f;
+
     for (auto action : actions)
     {
         auto const duration = action->getDuration();
         d = std::max(d, duration);
         _duration_ns = std::max(_duration_ns, static_cast<std::int64_t>(duration * 10e9));
-        _actions.emplace_back(std::make_shared<FiniteTimeActionStatus>(Status::UNKNOWN, action));
-        CC_SAFE_RETAIN(action);
     }
+
+    for (auto action : actions)
+    {
+        auto const duration = action->getDuration();
+        if (std::abs(duration-d) < std::numeric_limits<float>::epsilon()) // in the case of the max value no need to add extra DelayTime
+        {
+            _actions.emplace_back(std::make_shared<FiniteTimeActionStatus>(Status::UNKNOWN, action));
+            CC_SAFE_RETAIN(action);
+        }
+        else
+        {
+            // We create a sequence with a DelayTime to make sure that the action will be played backwards if they are reversed
+            auto tmp = Sequence::create({action, DelayTime::create(d - duration)});
+            _actions.emplace_back(std::make_shared<FiniteTimeActionStatus>(Status::UNKNOWN, tmp));
+            CC_SAFE_RETAIN(tmp);
+        }
+    }
+
     initWithDuration(d);
 }
 
@@ -554,14 +571,31 @@ Spawn::Spawn(Vector<FiniteTimeAction*> const& actions)
 {
     _actions.reserve(actions.size());
     float d = 0.f;
+
     for (auto action : actions)
     {
         auto const duration = action->getDuration();
         d = std::max(d, duration);
         _duration_ns = std::max(_duration_ns, static_cast<std::int64_t>(duration * 10e9));
-        _actions.emplace_back(std::make_shared<FiniteTimeActionStatus>(Status::UNKNOWN, action));
-        CC_SAFE_RETAIN(action);
     }
+
+    for (auto action : actions)
+    {
+        auto const duration = action->getDuration();
+        if (std::abs(duration-d) < std::numeric_limits<float>::epsilon()) // in the case of the max value no need to add extra DelayTime
+        {
+            _actions.emplace_back(std::make_shared<FiniteTimeActionStatus>(Status::UNKNOWN, action));
+            CC_SAFE_RETAIN(action);
+        }
+        else
+        {
+            // We create a sequence with a DelayTime to make sure that the action will be played backwards if they are reversed
+            auto tmp = Sequence::create({action, DelayTime::create(d - duration)});
+            _actions.emplace_back(std::make_shared<FiniteTimeActionStatus>(Status::UNKNOWN, tmp));
+            CC_SAFE_RETAIN(tmp);
+        }
+    }
+
     initWithDuration(d);
 }
 
