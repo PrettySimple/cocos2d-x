@@ -5,6 +5,8 @@
 //  Created by Guilhem Vors on 20/03/2018.
 //
 
+#define LOG_TAG "SimpleAudioPlayer.mm"
+
 #include "SimpleAudioPlayer.h"
 #include "AudioCache.h"
 #include "audio/include/SimpleAudioEngine.h"
