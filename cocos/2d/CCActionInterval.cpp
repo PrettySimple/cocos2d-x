@@ -207,7 +207,10 @@ Sequence::Sequence(Vector<FiniteTimeAction*> const& actions)
 
 Sequence::~Sequence()
 {
-    stop();
+    for (auto const& data : _actions)
+    {
+        CC_SAFE_RELEASE(data->action);
+    }
 }
 
 Sequence* Sequence::create(std::initializer_list<FiniteTimeAction*> actions)
@@ -244,6 +247,11 @@ void Sequence::startWithTarget(Node* target)
 {
     CC_ASSERT(target != nullptr);
 
+    for (auto const& data : _actions)
+    {
+        data->status = Status::UNKNOWN;
+    }
+
     ActionInterval::startWithTarget(target);
 }
 
@@ -252,10 +260,8 @@ void Sequence::stop()
     for (auto const& data : _actions)
     {
         data->action->stop();
-        CC_SAFE_RELEASE(data->action);
+        data->status = Status::DONE;
     }
-    _actions.clear();
-    _duration_ns = 0;
 
     ActionInterval::stop();
 }
@@ -601,7 +607,10 @@ Spawn::Spawn(Vector<FiniteTimeAction*> const& actions)
 
 Spawn::~Spawn()
 {
-    stop();
+    for (auto const& data : _actions)
+    {
+        CC_SAFE_RELEASE(data->action);
+    }
 }
 
 Spawn* Spawn::create(std::initializer_list<FiniteTimeAction*> actions)
@@ -638,6 +647,11 @@ void Spawn::startWithTarget(Node* target)
 {
     CC_ASSERT(target != nullptr);
 
+    for (auto const& data : _actions)
+    {
+        data->status = Status::UNKNOWN;
+    }
+
     ActionInterval::startWithTarget(target);
 }
 
@@ -646,10 +660,8 @@ void Spawn::stop()
     for (auto const& data : _actions)
     {
         data->action->stop();
-        CC_SAFE_RELEASE(data->action);
+        data->status = Status::DONE;
     }
-    _actions.clear();
-    _duration_ns = 0;
 
     ActionInterval::stop();
 }
