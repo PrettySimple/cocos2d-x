@@ -36,6 +36,7 @@
 #include "audio/apple/AudioCache.h"
 #include "audio/apple/AudioPlayer.h"
 #include "audio/apple/SimpleAudioPlayer.h"
+#include "audio/apple/ALAudioPlayer.h"
 
 NS_CC_BEGIN
 class Scheduler;
