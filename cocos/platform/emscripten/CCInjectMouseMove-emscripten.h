@@ -5,7 +5,11 @@
 
 /*
 
-See comments in CCGLViewImpl-emscripten.cpp
+This class serves two purposes:
+
+	1) Record the latest mouse position, which is required in couple of places (eg. the mouse wheel events don't hold the current position)
+	2) Re-inject the latest mouse position every once a while, thus providing a quick (& dirty) solution to the updates happening in the scene.
+		This allows us to handle scene updates (eg. a button/sprite that ended being under/off the cursor, or got enabled/disabled) in a fairly easy way.
 
 */
 
@@ -22,11 +26,9 @@ class CC_DLL InjectMouseMove : public Node
 
 	private:
 
-		// Oops, reusing the event didn't work out well - it seems Cocos internally uses EventMouse::_startPoint/EventMouse::_prevPoint...
-		//EventMouse	_event;
-		// Instead, we're now recreating an EventMouse on every inject
 		float	_designX;
 		float	_designY;
+		bool	_injecting;
 
 	private:
 
@@ -41,6 +43,8 @@ class CC_DLL InjectMouseMove : public Node
 	public:
 
 		void	updatePosition(float designX, float designY);
+		bool	getLastKnownPosition(float& designX, float& designY) const noexcept;
+
 		void	pauseInject();
 
 	private:

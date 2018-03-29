@@ -799,7 +799,7 @@ void * __attribute__((noinline)) calloc(size_t n_elements, size_t elem_size)
 ///////////////////////////////////////////////////////////////////////
 // CPP API
 
-void	EmscriptenMemorySanitizer::assert_ptr(void *void_ptr, const char *file, int line)
+void	EmscriptenMemorySanitizer::assert_ptr(void *void_ptr, const char *file, int line) noexcept
 {
 	const auto	ptr = reinterpret_cast<uintptr_t>(void_ptr);
 	const auto&	entry = __alloc_list().find(ptr);

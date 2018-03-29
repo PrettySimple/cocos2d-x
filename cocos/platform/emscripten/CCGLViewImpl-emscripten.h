@@ -13,11 +13,6 @@
 
 NS_CC_BEGIN
 
-extern "C" EM_BOOL webglContextCb(int eventType, const void*, void* userData);
-extern "C" EM_BOOL mouseCb(int eventType, const EmscriptenMouseEvent* mouseEvent, void* userData);
-extern "C" EM_BOOL webglFullscreenChangeCb(int eventType, const EmscriptenFullscreenChangeEvent* fullscreenChangeEvent, void* userData);
-extern "C" EM_BOOL wheelCb(int eventType, const EmscriptenWheelEvent* e, void* userData);
-extern "C" EM_BOOL keyCb(int eventType, const EmscriptenKeyboardEvent* e, void* userData);
 
 class CC_DLL GLViewImpl : public GLView
 {
@@ -47,12 +42,20 @@ public:
     void setScissorInPoints(float x , float y , float w , float h) override;
     Rect getScissorRect() const override;
 
+
 private:
-    friend EM_BOOL webglContextCb(int eventType, const void*, void* userData);
-    friend EM_BOOL mouseCb(int eventType, const EmscriptenMouseEvent* mouseEvent, void* userData);
-    friend EM_BOOL webglFullscreenChangeCb(int eventType, const EmscriptenFullscreenChangeEvent* fullscreenChangeEvent, void* userData);
-    friend EM_BOOL wheelCb(int eventType, const EmscriptenWheelEvent* e, void* userData);
-    friend EM_BOOL keyCb(int eventType, const EmscriptenKeyboardEvent* e, void* userData);
+
+	void	em_webglContextLostEvent() noexcept;
+	void	em_webglContextRestoredEvent() noexcept;
+	void	em_fullscreenEvent(const EmscriptenFullscreenChangeEvent *) noexcept;
+	void	em_mouseEvent(int eventType, const EmscriptenMouseEvent *e) noexcept;
+	void	em_wheelEvent(const EmscriptenWheelEvent *) noexcept;
+
+	void	handleMouseMove(float, float) noexcept;
+	void	handleMouseOut() noexcept;
+	void	handleMouseScroll(float, float, float, float) noexcept;
+
+
 
     void createEGLContext() noexcept;
     void deleteEGLContext() noexcept;
@@ -60,10 +63,6 @@ private:
     void registerEvents() noexcept;
     void unregisterEvents() noexcept;
     void updateCanvasSize(int width, int height) noexcept;
-
-	void handleMouseMove(float, float) noexcept;
-	void handleMouseOut() noexcept;
-	void handleMouseScroll(float, float) noexcept;
 
 public:
     static constexpr const char* EVENT_WINDOW_RESIZED = "glview_window_resized";

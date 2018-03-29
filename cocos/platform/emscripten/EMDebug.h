@@ -66,15 +66,15 @@ class	EmscriptenMemorySanitizer
 		// CPP API
 
 
-		static void		assert_ptr(void *, const char *file, int line);
+		static void		assert_ptr(void *, const char *file, int line) noexcept;
 
-		static void		assert_ptr(uintptr_t ptr, const char *file, int line)
+		static void		assert_ptr(uintptr_t ptr, const char *file, int line) noexcept
 		{
 			assert_ptr(reinterpret_cast<void *>(ptr), file, line);
 		}
 
 		template<class T>
-		static void		assert_ptr(T *ptr, const char *file, int line)
+		static void		assert_ptr(T *ptr, const char *file, int line) noexcept
 		{
 			if constexpr (std::is_polymorphic<T>::value)
 			{
@@ -87,7 +87,7 @@ class	EmscriptenMemorySanitizer
 		}
 
 		template<class T>
-		static void		assert_ptr(const T *ptr, const char *file, int line)
+		static void		assert_ptr(const T *ptr, const char *file, int line) noexcept
 		{
 			assert_ptr(const_cast<T *>(ptr), file, line);
 		}
@@ -107,12 +107,12 @@ class	EmscriptenMemorySanitizer
 class	EmscriptenSticky
 {
 	public:
-		EmscriptenSticky(const char *name)
+		EmscriptenSticky(const char *name) noexcept
 		{
 			printf("\n[STICKY]:%s\n", name);
 		}
 
-		~EmscriptenSticky()
+		~EmscriptenSticky() noexcept
 		{
 			printf("\n[/STICKY]\n");
 		}
