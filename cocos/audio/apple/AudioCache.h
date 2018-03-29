@@ -107,7 +107,7 @@ protected:
     bool _isSkipReadDataTask;
 
     friend class AudioEngineImpl;
-    friend class AudioPlayer;
+    friend class ALAudioPlayer;
     friend class SimpleAudioPlayer;
 };
 
