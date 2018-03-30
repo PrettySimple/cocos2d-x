@@ -207,6 +207,12 @@ public:
 
 	virtual void	setCursorShape(CursorShape) {}
 
+
+	/* Extending Cocos to support fullscreen mode */
+	virtual bool	getFullscreen() const { return true; }
+	virtual bool	setFullscreen(bool) { return false; }
+
+
     /** Get retina factor.
      *
      * @return The retina factor.

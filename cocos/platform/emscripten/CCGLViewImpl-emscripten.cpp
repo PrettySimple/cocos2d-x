@@ -252,15 +252,17 @@ extern "C" EM_BOOL keyCb(int eventType, const EmscriptenKeyboardEvent* e, void* 
 
 
 
-GLViewImpl::GLViewImpl() : _display(EGL_NO_DISPLAY)
-, _context(EGL_NO_CONTEXT)
-, _surface(EGL_NO_SURFACE)
-, _config(nullptr)
-, _retinaFactor(emscripten_get_device_pixel_ratio())
-, _currentCursorShape(CursorShape::DEFAULT)
-, _mouseMoveInjector()
-, _mouseCaptured(false)
-, _screenSizeBeforeFullscreen(Size::ZERO)
+GLViewImpl::GLViewImpl()
+:	_display(EGL_NO_DISPLAY)
+,	_context(EGL_NO_CONTEXT)
+,	_surface(EGL_NO_SURFACE)
+,	_config(nullptr)
+,	_retinaFactor(emscripten_get_device_pixel_ratio())
+,	_currentCursorShape(CursorShape::DEFAULT)
+,	_mouseMoveInjector()
+,	_mouseCaptured(false)
+,	_fullscreen(false)
+,	_screenSizeBeforeFullscreen(Size::ZERO)
 {
     registerEvents();
     createEGLContext();
@@ -483,6 +485,57 @@ Rect GLViewImpl::getScissorRect() const
 }
 
 
+
+/************************************************************************************************************************************/
+/*
+	Fullscreen management
+*/
+
+bool	GLViewImpl::setFullscreen(bool fullscreen) noexcept
+{
+	static EmscriptenFullscreenStrategy	strategy{
+		// scaleMode									//		Result				Changes to the canvas element		Changed to the body element
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		//EMSCRIPTEN_FULLSCREEN_SCALE_DEFAULT,			//		OK					+"background-color: black;"						+"background-color: black;"
+		EMSCRIPTEN_FULLSCREEN_SCALE_STRETCH,			//		OK					+"background-color: black;"						+"background-color: black;"
+		//EMSCRIPTEN_FULLSCREEN_SCALE_ASPECT,			//		NOK					+"padding: 0px 160px;background-color: black;"	+"background-color: black;"
+														//							Removing the padding gives the same results as the other modes
+
+		// canvasResolutionScaleMode					//		Result
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		//EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE,		//		OK
+		//EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_STDDEF,	//		OK
+		EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_HIDEF,		//		OK
+
+		// filteringMode
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		EMSCRIPTEN_FULLSCREEN_FILTERING_DEFAULT,
+		// EMSCRIPTEN_FULLSCREEN_FILTERING_NEAREST,
+		// EMSCRIPTEN_FULLSCREEN_FILTERING_BILINEAR,
+
+		// canvasResizedCallback						// Doesn't receive any information, invoked only when returning to windowed mode
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		nullptr,
+		//[](int, const void*, void*) { printf("*** canvasResizedCallback()\n"); return EM_TRUE; },
+
+		// canvasResizedCallbackUserData
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		nullptr
+	};
+
+	if(fullscreen == _fullscreen)
+		return false;
+
+	// We don't change the _fullscreen flag here, it is only done in the callback
+
+	if(fullscreen)
+		return emscripten_request_fullscreen_strategy("canvas", EM_FALSE, &strategy) == EMSCRIPTEN_RESULT_SUCCESS;
+
+	return emscripten_exit_fullscreen() == EMSCRIPTEN_RESULT_SUCCESS;
+}
+
+
+
 /************************************************************************************************************************************/
 /*
 	em_*Event() callbacks
@@ -517,14 +570,28 @@ void	GLViewImpl::em_webglContextRestoredEvent() noexcept
 
 void	GLViewImpl::em_fullscreenEvent(const EmscriptenFullscreenChangeEvent *e) noexcept
 {
-	if(e->isFullscreen == EM_TRUE)
+	_fullscreen = (e->isFullscreen == EM_TRUE);
+
+	if(_fullscreen)
 	{
+		/*
+		printf("*** _screenSize(%f, %f)\n", _screenSize.width, _screenSize.height);
+		printf("*** e->screen*(%d, %d)\n", e->screenWidth, e->screenHeight);
+		printf("*** e->element*(%d, %d)\n", e->elementWidth, e->elementHeight);
+
+		printf("*** (fullscreen) emscripten_get_device_pixel_ratio(): %f\n", emscripten_get_device_pixel_ratio());
+		*/
+
 		_screenSizeBeforeFullscreen = _screenSize * _retinaFactor;
 		emscripten_set_canvas_size(e->screenWidth, e->screenHeight);
 		updateCanvasSize(e->screenWidth, e->screenHeight);
 	}
 	else
 	{
+		/*
+		printf("*** (canvas) emscripten_get_device_pixel_ratio(): %f\n", emscripten_get_device_pixel_ratio());
+		*/
+
 		emscripten_set_canvas_size(_screenSizeBeforeFullscreen.width, _screenSizeBeforeFullscreen.height);
 		updateCanvasSize(_screenSizeBeforeFullscreen.width, _screenSizeBeforeFullscreen.height);
 	}
@@ -537,6 +604,10 @@ void	GLViewImpl::em_fullscreenEvent(const EmscriptenFullscreenChangeEvent *e) no
 	// Also, our attempts to handle it here (by faking a mouseleave event) were not successful on all browsers - some ignored
 	// the css cursor switch, which became effective only after the next mouse move. This is a known issue, but solving it
 	// might require a huge effort (if at all possible), hence we're postponing it...
+
+
+	// => Notify the application
+	Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(GLViewImpl::EVENT_FULLSCREEN_CHANGED, reinterpret_cast<void *>(_fullscreen));
 }
 
 

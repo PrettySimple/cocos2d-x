@@ -66,9 +66,10 @@ THE SOFTWARE.
 	Since glGetError() and eglGetError() are being actually used in a couple of
 	places, we're also redefining them so that they keep reporting the error(s).
 
-	Note that we're using printf() instead of cocos2d::log(), as some of the
+	Note that we're using fprintf(stderr) instead of cocos2d::log(), as some of the
 	places where the below functions are invoked are not in cocos2d namespace
-	(despite being part of the original cocos2d implementation...)
+	(despite being part of the original cocos2d implementation...).
+	Using stderr allow us to get backtrace for free in bootstrap_debug mode.
 
 */
 
@@ -116,7 +117,7 @@ GLenum	wrappedGLErrorGetBit();
 				default:								__errstr = "UNKNOWN";									\
 			}																									\
 			wrappedGLErrorSetBit(__error);																		\
-			printf("*** Previously unreported OpenGL error [%s] (0x%04X) before the call to %s() from %s in %s:%d\n", __errstr, __error, method, __PRETTY_FUNCTION__, __FILE__, __LINE__);	\
+			fprintf(stderr, "*** Previously unreported OpenGL error [%s] (0x%04X) before the call to %s() from %s in %s:%d\n", __errstr, __error, method, __PRETTY_FUNCTION__, __FILE__, __LINE__);	\
 		}																										\
 	}
 
@@ -138,7 +139,7 @@ GLenum	wrappedGLErrorGetBit();
 				default:								__errstr = "UNKNOWN";									\
 			}																									\
 			wrappedGLErrorSetBit(__error);																		\
-			printf("*** Caught OpenGL error [%s] (0x%04X) in the call to %s() from %s in %s:%d\n", __errstr, __error, method, __PRETTY_FUNCTION__, __FILE__, __LINE__);	\
+			fprintf(stderr, "*** Caught OpenGL error [%s] (0x%04X) in the call to %s() from %s in %s:%d\n", __errstr, __error, method, __PRETTY_FUNCTION__, __FILE__, __LINE__);	\
 		}																										\
 	}
 
@@ -786,7 +787,7 @@ EGLint	wrappedEGLErrorGet();
 				case EGL_CONTEXT_LOST:					__errstr = "EGL_CONTEXT_LOST"; break;			\
 				default:								__errstr = "UNKNOWN";							\
 			}																							\
-			printf("*** Previously unreported EGL error [%s] (0x%04X) before the call to %s() from %s in %s:%d\n", __errstr, __error, method, __PRETTY_FUNCTION__, __FILE__, __LINE__);	\
+			fprintf(stderr, "*** Previously unreported EGL error [%s] (0x%04X) before the call to %s() from %s in %s:%d\n", __errstr, __error, method, __PRETTY_FUNCTION__, __FILE__, __LINE__);	\
 		}																								\
 	}
 
@@ -815,7 +816,7 @@ EGLint	wrappedEGLErrorGet();
 				default:								__errstr = "UNKNOWN";							\
 			}																							\
 			wrappedEGLErrorSet(__error);																\
-			printf("*** Caught EGL error [%s] (0x%04X) in the call to %s() from %s in %s:%d\n", __errstr, __error, method, __PRETTY_FUNCTION__, __FILE__, __LINE__);	\
+			fprintf(stderr, "*** Caught EGL error [%s] (0x%04X) in the call to %s() from %s in %s:%d\n", __errstr, __error, method, __PRETTY_FUNCTION__, __FILE__, __LINE__);	\
 		}																								\
 	}
 

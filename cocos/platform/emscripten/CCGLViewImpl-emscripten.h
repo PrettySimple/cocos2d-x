@@ -43,6 +43,18 @@ public:
     Rect getScissorRect() const override;
 
 
+	// See important setFullscreen() comments below!
+	bool	getFullscreen() const noexcept override { return _fullscreen; }
+
+	// Returns true if the requested state doesn't match the current state, and the request was queued.
+	// Request is asynchronous by nature. A getFullScreen() call immediately following the setFullscreen() call
+	// shall not report the new state correctly - until the fullscreen change event was received (or not) from the browser.
+	// If you need quick feedback, subscribe to the EVENT_FULLSCREEN_CHANGED event.
+	// Beware that the request may silently fail if this is not invoked from a direct touch action, due
+	// to browser security model!
+	bool	setFullscreen(bool) noexcept override;
+
+
 private:
 
 	void	em_webglContextLostEvent() noexcept;
@@ -65,7 +77,9 @@ private:
     void updateCanvasSize(int width, int height) noexcept;
 
 public:
-    static constexpr const char* EVENT_WINDOW_RESIZED = "glview_window_resized";
+	static constexpr const char *EVENT_WINDOW_RESIZED = "glview_window_resized";
+	static constexpr const char *EVENT_FULLSCREEN_CHANGED = "glview_fullscreen_changed";
+
 private:
     EGLDisplay _display;
     EGLContext _context;
@@ -78,7 +92,9 @@ private:
 	InjectMouseMove	_mouseMoveInjector;
 	bool			_mouseCaptured;
 
-    cocos2d::Size _screenSizeBeforeFullscreen;
+	bool			_fullscreen;
+
+    cocos2d::Size	_screenSizeBeforeFullscreen;
 };
 
 NS_CC_END // end of namespace cocos2d
