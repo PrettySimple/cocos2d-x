@@ -125,6 +125,7 @@ AudioCache::AudioCache()
 , _id(++__idIndex)
 , _isLoadingFinished(false)
 , _isSkipReadDataTask(false)
+, _askedAsPreload(false)
 {
     ALOGVV("AudioCache() %p, id=%u", this, _id);
     for (int i = 0; i < QUEUEBUFFER_NUM; ++i)

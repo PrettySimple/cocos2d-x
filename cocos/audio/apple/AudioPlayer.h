@@ -1,105 +1,64 @@
-/****************************************************************************
- Copyright (c) 2014-2016 Chukong Technologies Inc.
- Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
- http://www.cocos2d-x.org
-
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
-
- The above copyright notice and this permission notice shall be included in
- all copies or substantial portions of the Software.
-
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- THE SOFTWARE.
- ****************************************************************************/
 
 #pragma once
 
-#include "platform/CCPlatformConfig.h"
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+#include "CCPlatformMacros.h"
 
-#include "platform/CCPlatformMacros.h"
-#include "audio/apple/AudioMacros.h"
-
-#include <condition_variable>
-#include <mutex>
-#include <string>
-#include <thread>
 #include <OpenAL/al.h>
 
 NS_CC_BEGIN
 namespace experimental{
-
-class AudioCache;
-class AudioEngineImpl;
-
-class AudioPlayer
-{
-public:
-    AudioPlayer();
-    ~AudioPlayer();
-
-    virtual void destroy();
-
-    //queue buffer related stuff
-    virtual bool setTime(float time);
-    virtual float getTime() { return _currTime;}
-    virtual bool setLoop(bool loop);
-    virtual void setVolume(float volume) {_volume = volume;}
-
-    virtual void stop() {destroy();}
-    virtual void pause() {}
-    virtual void resume() {}
     
-    virtual bool isStopped();
-    virtual float getDuration();
+    class AudioCache;
+    class AudioEngineImpl;
     
-protected:
-    virtual bool play2d();
-    void setCache(AudioCache* cache);
-    void rotateBufferThread(int offsetFrame);
-    void wakeupRotateThread();
-
-    AudioCache* _audioCache;
-
-    float _volume;
-    bool _loop;
-    std::function<void (int, const std::string &)> _finishCallbak;
-
-    bool _isDestroyed;
-    bool _removeByAudioEngine;
-    bool _ready;
-    ALuint _alSource;
-
-    //play by circular buffer
-    float _currTime;
-    bool _streamingSource;
-    ALuint _bufferIds[QUEUEBUFFER_NUM];
-    std::thread* _rotateBufferThread;
-    std::condition_variable _sleepCondition;
-    std::mutex _sleepMutex;
-    bool _timeDirty;
-    bool _isRotateThreadExited;
-    std::atomic_bool _needWakeupRotateThread;
-
-    std::mutex _play2dMutex;
-
-    unsigned int _id;
-
-    friend class AudioEngineImpl;
-};
-
+    class AudioPlayer
+    {
+    public:
+        AudioPlayer();
+        virtual ~AudioPlayer();
+        
+        virtual void destroy() {};
+        
+        //queue buffer related stuff
+        virtual bool setTime(float time) = 0;
+        virtual float getTime() = 0;
+        virtual bool setLoop(bool loop) = 0;
+        virtual void setVolume(float volume) = 0;
+        
+        virtual void stop() {destroy();}
+        virtual bool pause() = 0;
+        virtual bool resume() = 0;
+        
+        virtual bool isStopped() = 0;
+        virtual float getDuration() = 0;
+        
+        virtual bool play2d() = 0;
+        
+        virtual ALuint getAlSource() {return AL_INVALID;}
+        virtual void setAlSource(ALuint p_source) {}
+        bool isStreamingSource();
+        bool isRemovedByEngine();
+        virtual void wakeupRotateThread() {}
+        
+        virtual void setCache(AudioCache* audioCache) {}
+        void setRemovedByEngine(bool p_removed) {_removeByAudioEngine = p_removed;}
+        bool isReady() {return _ready;}
+        
+        virtual const std::function<void (int, const std::string &)> getFinishCallback() {return nullptr;}
+        virtual void setFinishCallback(const std::function<void (int, const std::string &)> &callback) {}
+        
+    protected:
+        bool _isDestroyed;
+        bool _removeByAudioEngine;
+        bool _ready;
+        
+        float _volume;
+        bool _loop;
+        
+        float _currTime;
+        bool _streamingSource;
+    };
 }
-NS_CC_END
 
-#endif
+NS_CC_END

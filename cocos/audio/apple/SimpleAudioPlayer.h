@@ -18,13 +18,13 @@ private:
     std::string _filePath;
 public:
     SimpleAudioPlayer(std::string filePath);
-    ~SimpleAudioPlayer();
+    virtual ~SimpleAudioPlayer();
     
     void destroy() override;
     bool play2d() override;
     
-    void pause() override;
-    void resume() override;
+    bool pause() override;
+    bool resume() override;
     
     bool setLoop(bool loop) override;
     void setVolume(float volume) override;
