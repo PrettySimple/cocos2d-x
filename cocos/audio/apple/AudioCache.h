@@ -105,6 +105,7 @@ protected:
     unsigned int _id;
     bool _isLoadingFinished;
     bool _isSkipReadDataTask;
+    bool _askedAsPreload;
 
     friend class AudioEngineImpl;
     friend class ALAudioPlayer;

@@ -394,6 +394,7 @@ AudioCache* AudioEngineImpl::preload(const std::string& filePath, std::function<
     else {
         audioCache = &it->second;
     }
+    audioCache->_askedAsPreload = true;
 
     if (audioCache && callback)
     {
@@ -411,8 +412,11 @@ int AudioEngineImpl::play2d(const std::string &filePath ,bool loop ,float volume
     AudioPlayer* player = nullptr;
     AudioCache* audioCache = nullptr;
 
-    // sound is a music and was not preloaded
-    if (isMusic && _audioCaches.find(filePath) == _audioCaches.end())
+    // sound is a music and was not preloaded, we use the hardware accelerated
+    // player, otherwise just use openAL
+    if (isMusic && (_audioCaches.find(filePath) == _audioCaches.end()
+                    || !(*_audioCaches.find(filePath)).second._askedAsPreload)
+        )
     {
         player = new (std::nothrow) SimpleAudioPlayer(filePath);
         
@@ -424,7 +428,6 @@ int AudioEngineImpl::play2d(const std::string &filePath ,bool loop ,float volume
         else {
             audioCache = &it->second;
         }
-        *audioCache->_isDestroyed = false;
         audioCache->_state = AudioCache::State::READY;
     }
     else
