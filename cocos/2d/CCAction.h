@@ -29,8 +29,9 @@ THE SOFTWARE.
 #define __ACTIONS_CCACTION_H__
 
 #include "base/CCRef.h"
-#include "math/CCGeometry.h"
 #include "base/CCScriptSupport.h"
+#include "math/CCGeometry.h"
+#include <cstdint>
 
 NS_CC_BEGIN
 
@@ -48,11 +49,47 @@ enum {
 /** 
  * @brief Base class for Action objects.
  */
-class CC_DLL Action : public Ref, public Clonable
+class Action : public Ref, public Clonable
 {
 public:
     /** Default tag used for all the actions. */
-    static const int INVALID_TAG = -1;
+    static constexpr int const INVALID_TAG = -1;
+
+    enum struct Status : std::uint8_t
+    {
+        UNKNOWN = 0
+        , START = 1
+        , RUNNING = 2
+        , DONE = 3
+    };
+
+protected:
+    Node* _originalTarget = nullptr;
+    /**
+     * The "target".
+     * The target will be set with the 'startWithTarget' method.
+     * When the 'stop' method is called, target will be set to nil.
+     * The target is 'assigned', it is not 'retained'.
+     */
+    Node* _target = nullptr;
+    /** The action tag. An identifier of the action. */
+    int _tag = -1;
+    /** The action flag field. To categorize action into certain groups.*/
+    unsigned int _flags = 0;
+    Status _status = Status::UNKNOWN;
+
+#if CC_ENABLE_SCRIPT_BINDING
+    ccScriptType _scriptType;         ///< type of script binding, lua or javascript
+#endif
+
+public:
+    Action();
+    Action(Action const&) =delete;
+    Action& operator=(Action const&) =delete;
+    Action(Action &&) noexcept =delete;
+    Action& operator=(Action &&) noexcept =delete;
+    ~Action() override;
+
     /**
      * @js NA
      * @lua NA
@@ -63,22 +100,14 @@ public:
      *
      * @return A clone action.
      */
-    virtual Action* clone() const
-    {
-        CC_ASSERT(0);
-        return nullptr;
-    }
+    virtual Action* clone() const override;
 
     /** Returns a new action that performs the exact reverse of the action. 
      *
      * @return A new action that performs the exact reverse of the action.
      * @js NA
      */
-    virtual Action* reverse() const
-    {
-        CC_ASSERT(0);
-        return nullptr;
-    }
+    virtual Action* reverse() const;
 
     /** Return true if the action has finished. 
      * 
@@ -90,7 +119,7 @@ public:
      *
      * @param target A certain target.
      */
-    virtual void startWithTarget(Node *target);
+    virtual void startWithTarget(Node* target);
 
     /** 
      * Called after the action has finished. It will set the 'target' to nil.
@@ -114,22 +143,22 @@ public:
      *
      * @param time A value between 0 and 1.
      */
-    virtual void update(float time);
+    virtual void update(float p);
     /** Return certain target.
      *
      * @return A certain target.
      */
-    Node* getTarget() const { return _target; }
+    inline Node* getTarget() const noexcept { return _target; }
     /** The action will modify the target properties. 
      *
      * @param target A certain target.
      */
-    void setTarget(Node *target) { _target = target; }
+    inline void setTarget(Node* target) noexcept { _target = target; }
     /** Return a original Target. 
      *
      * @return A original Target.
      */
-    Node* getOriginalTarget() const { return _originalTarget; }
+    inline Node* getOriginalTarget() const noexcept { return _originalTarget; }
     /** 
      * Set the original target, since target can be nil.
      * Is the target that were used to run the action. Unless you are doing something complex, like ActionManager, you should NOT call this method.
@@ -138,51 +167,30 @@ public:
      *
      * @param originalTarget Is 'assigned', it is not 'retained'.
      */
-    void setOriginalTarget(Node *originalTarget) { _originalTarget = originalTarget; }
+    inline void setOriginalTarget(Node *originalTarget) noexcept { _originalTarget = originalTarget; }
     /** Returns a tag that is used to identify the action easily. 
      *
      * @return A tag.
      */
-    int getTag() const { return _tag; }
+    inline int getTag() const noexcept { return _tag; }
     /** Changes the tag that is used to identify the action easily. 
      *
      * @param tag Used to identify the action easily.
      */
-    void setTag(int tag) { _tag = tag; }
+    inline void setTag(int tag) noexcept { _tag = tag; }
     /** Returns a flag field that is used to group the actions easily.
      *
      * @return A tag.
      */
-    unsigned int getFlags() const { return _flags; }
+    inline unsigned int getFlags() const noexcept { return _flags; }
     /** Changes the flag field that is used to group the actions easily.
      *
      * @param flags Used to group the actions easily.
      */
-    void setFlags(unsigned int flags) { _flags = flags; }
+    inline void setFlags(unsigned int flags) noexcept { _flags = flags; }
 
-CC_CONSTRUCTOR_ACCESS:
-    Action();
-    virtual ~Action();
-
-protected:
-    Node* _originalTarget = nullptr;
-    /** 
-     * The "target".
-     * The target will be set with the 'startWithTarget' method.
-     * When the 'stop' method is called, target will be set to nil.
-     * The target is 'assigned', it is not 'retained'.
-     */
-    Node* _target = nullptr;
-    /** The action tag. An identifier of the action. */
-    int _tag = -1;
-    /** The action flag field. To categorize action into certain groups.*/
-    unsigned int _flags = 0;
-
-#if CC_ENABLE_SCRIPT_BINDING
-    ccScriptType _scriptType;         ///< type of script binding, lua or javascript
-#endif
-private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Action);
+    inline Action::Status getStatus() const noexcept { return _status; }
+    inline void setStatus(Action::Status status) noexcept { _status = status; }
 };
 
 /** @class FiniteTimeAction
@@ -193,45 +201,31 @@ private:
  * - An action with a duration of 35.5 seconds.
  * Infinite time actions are valid.
  */
-class CC_DLL FiniteTimeAction : public Action
+class FiniteTimeAction : public Action
 {
+protected:
+    float _duration = 0.f;
 public:
+    FiniteTimeAction() =default;
+    FiniteTimeAction(FiniteTimeAction const&) =delete;
+    FiniteTimeAction& operator=(FiniteTimeAction const&) =delete;
+    FiniteTimeAction(FiniteTimeAction &&) noexcept =delete;
+    FiniteTimeAction& operator=(FiniteTimeAction &&) noexcept =delete;
+    ~FiniteTimeAction() override;
+
     /** Get duration in seconds of the action. 
      *
      * @return The duration in seconds of the action.
      */
-    float getDuration() const { return _duration; }
+    inline float getDuration() const noexcept { return _duration; }
     /** Set duration in seconds of the action. 
      *
      * @param duration In seconds of the action.
      */
-    void setDuration(float duration) { _duration = duration; }
+    inline void setDuration(float duration) noexcept { _duration = duration; }
 
-    //
-    // Overrides
-    //
-    virtual FiniteTimeAction* reverse() const override
-    {
-        CC_ASSERT(0);
-        return nullptr;
-    }
-    virtual FiniteTimeAction* clone() const override
-    {
-        CC_ASSERT(0);
-        return nullptr;
-    }
-
-CC_CONSTRUCTOR_ACCESS:
-    FiniteTimeAction()
-    : _duration(0)
-    {}
-    virtual ~FiniteTimeAction(){}
-
-protected:
-    //! Duration in seconds.
-    float _duration;
-private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FiniteTimeAction);
+    FiniteTimeAction* clone() const override;
+    FiniteTimeAction* reverse() const override;
 };
 
 class ActionInterval;
@@ -245,7 +239,19 @@ class RepeatForever;
  */
 class CC_DLL Speed : public Action
 {
+private:
+    float _speed = 0.f;
+    ActionInterval* _innerAction = nullptr;
 public:
+    Speed() =default;
+    Speed(Speed const&) =delete;
+    Speed& operator=(Speed const&) =delete;
+    Speed(Speed &&) noexcept =delete;
+    Speed& operator=(Speed &&) noexcept =delete;
+    ~Speed() override;
+
+    bool initWithAction(ActionInterval* action, float speed);
+
     /** Create the action and set the speed.
      *
      * @param action An action.
@@ -256,12 +262,12 @@ public:
      *
      * @return The action speed.
      */
-    float getSpeed() const { return _speed; }
+    inline float getSpeed() const noexcept { return _speed; }
     /** Alter the speed of the inner function in runtime. 
      *
      * @param speed Alter the speed of the inner function in runtime.
      */
-    void setSpeed(float speed) { _speed = speed; }
+    inline void setSpeed(float speed) noexcept { _speed = speed; }
 
     /** Replace the interior action.
      *
@@ -272,37 +278,17 @@ public:
      *
      * @return The interior action.
      */
-    ActionInterval* getInnerAction() const { return _innerAction; }
+    inline ActionInterval* getInnerAction() const noexcept { return _innerAction; }
 
     //
     // Override
     //
-    virtual Speed* clone() const override;
-    virtual Speed* reverse() const override;
-    virtual void startWithTarget(Node* target) override;
-    virtual void stop() override;
-    /**
-     * @param dt in seconds.
-     */
-    virtual void step(float dt) override;
-    /** Return true if the action has finished.
-     *
-     * @return Is true if the action has finished.
-     */
-    virtual bool isDone() const  override;
-    
-CC_CONSTRUCTOR_ACCESS:
-    Speed();
-    virtual ~Speed(void);
-    /** Initializes the action. */
-    bool initWithAction(ActionInterval *action, float speed);
-
-protected:
-    float _speed;
-    ActionInterval *_innerAction;
-
-private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Speed);
+    Speed* clone() const override;
+    Speed* reverse() const override;
+    void startWithTarget(Node* target) override;
+    void stop() override;
+    void step(float dt) override;
+    bool isDone() const override;
 };
 
 /** @class Follow
@@ -314,98 +300,51 @@ private:
  * Instead of using Camera as a "follower", use this action instead.
  * @since v0.99.2
  */
-class CC_DLL Follow : public Action
+class Follow : public Action
 {
+protected:
+    /** Node to follow. */
+    Node* _followedNode = nullptr;
+
+    /** Whether camera should be limited to certain area. */
+    bool _boundarySet = false;
+
+    /** If screen size is bigger than the boundary - update not needed. */
+    bool _boundaryFullyCovered = false;
+
+    /** Fast access to the screen dimensions. */
+    Vec2 _halfScreenSize = Vec2::ZERO;
+    Vec2 _fullScreenSize = Vec2::ZERO;
+
+    /** World boundaries. */
+    float _leftBoundary = 0.f;
+    float _rightBoundary = 0.f;
+    float _topBoundary = 0.f;
+    float _bottomBoundary = 0.f;
+
+    /** Horizontal (x) and vertical (y) offset values. */
+    float _offsetX = 0.f;
+    float _offsetY = 0.f;
+
+    Rect _worldRect = Rect::ZERO;
 public:
-    /**
-     * Creates the action with a set boundary or with no boundary.
-     *
-     * @param followedNode  The node to be followed.
-     * @param rect  The boundary. If \p rect is equal to Rect::ZERO, it'll work
-     *              with no boundary.
-    */
-    
-    static Follow* create(Node *followedNode, const Rect& rect = Rect::ZERO);
-    
-    /**
-     * Creates the action with a set boundary or with no boundary with offsets.
-     *
-     * @param followedNode  The node to be followed.
-     * @param rect  The boundary. If \p rect is equal to Rect::ZERO, it'll work
-     *              with no boundary.
-     * @param xOffset The horizontal offset from the center of the screen from which the
-     *               node  is to be followed.It can be positive,negative or zero.If
-     *               set to zero the node will be horizontally centered followed.
-     *  @param yOffset The vertical offset from the center of the screen from which the
-     *                 node is to be followed.It can be positive,negative or zero.
-     *                 If set to zero the node will be vertically centered followed.
-     *   If both xOffset and yOffset are set to zero,then the node will be horizontally and vertically centered followed.
-     */
+    Follow() =default;
+    Follow(Follow const&) =delete;
+    Follow& operator=(Follow const&) =delete;
+    Follow(Follow &&) noexcept =delete;
+    Follow& operator=(Follow &&) noexcept =delete;
+    ~Follow() override;
 
-    static Follow* createWithOffset(Node* followedNode,float xOffset,float yOffset,const Rect& rect = Rect::ZERO);
-    
-    /** Return boundarySet.
-     *
-     * @return Return boundarySet.
-     */
-    bool isBoundarySet() const { return _boundarySet; }
-    /** Alter behavior - turn on/off boundary. 
-     *
-     * @param value Turn on/off boundary.
-     */
-    void setBoundarySet(bool value) { _boundarySet = value; }
-    
-    /** @deprecated Alter behavior - turn on/off boundary. 
-     *
-     * @param value Turn on/off boundary.
-     */
-    CC_DEPRECATED_ATTRIBUTE void setBoudarySet(bool value) { setBoundarySet(value); }
-
-    //
-    // Override
-    //
-    virtual Follow* clone() const override;
-    virtual Follow* reverse() const override;
-    /**
-     * @param dt in seconds.
-     * @js NA
-     */
-    virtual void step(float dt) override;
-    virtual bool isDone() const override;
-    virtual void stop() override;
-
-CC_CONSTRUCTOR_ACCESS:
-    /**
-     * @js ctor
-     */
-    Follow()
-    : _followedNode(nullptr)
-    , _boundarySet(false)
-    , _boundaryFullyCovered(false)
-    , _leftBoundary(0.0)
-    , _rightBoundary(0.0)
-    , _topBoundary(0.0)
-    , _bottomBoundary(0.0)
-    , _offsetX(0.0)
-    , _offsetY(0.0)
-    , _worldRect(Rect::ZERO)
-    {}
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~Follow();
-    
     /**
      * Initializes the action with a set boundary or with no boundary.
      *
      * @param followedNode  The node to be followed.
      * @param rect  The boundary. If \p rect is equal to Rect::ZERO, it'll work
      *              with no boundary.
-    */
-    bool initWithTarget(Node *followedNode, const Rect& rect = Rect::ZERO);
-    
-    
+     */
+    bool initWithTarget(Node* followedNode, Rect const& rect = Rect::ZERO);
+
+
     /**
      * Initializes the action with a set boundary or with no boundary with offsets.
      *
@@ -421,36 +360,57 @@ CC_CONSTRUCTOR_ACCESS:
      *   If both xOffset and yOffset are set to zero,then the node will be horizontally and vertically centered followed.
 
      */
-    bool initWithTargetAndOffset(Node *followedNode,float xOffset,float yOffset,const Rect& rect = Rect::ZERO);
+    bool initWithTargetAndOffset(Node* followedNode, float xOffset, float yOffset, Rect const& rect = Rect::ZERO);
 
-protected:
-    /** Node to follow. */
-    Node *_followedNode;
-
-    /** Whether camera should be limited to certain area. */
-    bool _boundarySet;
-
-    /** If screen size is bigger than the boundary - update not needed. */
-    bool _boundaryFullyCovered;
-
-    /** Fast access to the screen dimensions. */
-    Vec2 _halfScreenSize;
-    Vec2 _fullScreenSize;
-
-    /** World boundaries. */
-    float _leftBoundary;
-    float _rightBoundary;
-    float _topBoundary;
-    float _bottomBoundary;
+    /**
+     * Creates the action with a set boundary or with no boundary.
+     *
+     * @param followedNode  The node to be followed.
+     * @param rect  The boundary. If \p rect is equal to Rect::ZERO, it'll work
+     *              with no boundary.
+    */
+    static Follow* create(Node* followedNode, Rect const& rect = Rect::ZERO);
     
-    /** Horizontal (x) and vertical (y) offset values. */
-    float _offsetX;
-    float _offsetY;
+    /**
+     * Creates the action with a set boundary or with no boundary with offsets.
+     *
+     * @param followedNode  The node to be followed.
+     * @param rect  The boundary. If \p rect is equal to Rect::ZERO, it'll work
+     *              with no boundary.
+     * @param xOffset The horizontal offset from the center of the screen from which the
+     *               node  is to be followed.It can be positive,negative or zero.If
+     *               set to zero the node will be horizontally centered followed.
+     *  @param yOffset The vertical offset from the center of the screen from which the
+     *                 node is to be followed.It can be positive,negative or zero.
+     *                 If set to zero the node will be vertically centered followed.
+     *   If both xOffset and yOffset are set to zero,then the node will be horizontally and vertically centered followed.
+     */
+    static Follow* createWithOffset(Node* followedNode, float xOffset, float yOffset, Rect const& rect = Rect::ZERO);
     
-    Rect _worldRect;
+    /** Return boundarySet.
+     *
+     * @return Return boundarySet.
+     */
+    inline bool isBoundarySet() const noexcept { return _boundarySet; }
+    /** Alter behavior - turn on/off boundary. 
+     *
+     * @param value Turn on/off boundary.
+     */
+    inline void setBoundarySet(bool value) noexcept { _boundarySet = value; }
+    
+    /** @deprecated Alter behavior - turn on/off boundary. 
+     *
+     * @param value Turn on/off boundary.
+     */
+    CC_DEPRECATED_ATTRIBUTE inline void setBoudarySet(bool value) noexcept { setBoundarySet(value); }
 
-private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Follow);
+    //
+    // Override
+    //
+    Follow* clone() const override;
+    Follow* reverse() const override;
+    void step(float dt) override;
+    bool isDone() const override;
 };
 
 // end of actions group

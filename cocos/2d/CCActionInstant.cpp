@@ -26,8 +26,10 @@
  ****************************************************************************/
 
 #include "2d/CCActionInstant.h"
+
 #include "2d/CCNode.h"
 #include "2d/CCSprite.h"
+#include "base/ccMacros.h"
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
@@ -40,6 +42,11 @@ NS_CC_BEGIN
 //
 // InstantAction
 //
+
+ActionInstant::~ActionInstant()
+{
+}
+
 bool ActionInstant::isDone() const
 {
     return true;
@@ -47,22 +54,33 @@ bool ActionInstant::isDone() const
 
 void ActionInstant::step(float dt)
 {
-    CC_UNUSED_PARAM(dt);
-    float updateDt = 1;
 #if CC_ENABLE_SCRIPT_BINDING
+    float const updateDt = 1.f;
     if (_scriptType == kScriptTypeJavascript)
     {
         if (ScriptEngineManager::sendActionEventToJS(this, kActionUpdate, (void *)&updateDt))
             return;
     }
 #endif
-    update(updateDt);
+
+    update(1.f);
 }
 
-void ActionInstant::update(float time)
+void ActionInstant::update(float)
 {
-    CC_UNUSED_PARAM(time);
-    // nothing
+    _status = Action::Status::DONE;
+}
+
+ActionInstant* ActionInstant::clone() const
+{
+    CCASSERT(false, "must be implemented");
+    return nullptr;
+}
+
+ActionInstant* ActionInstant::reverse() const
+{
+    CCASSERT(false, "must be implemented");
+    return nullptr;
 }
 
 //
@@ -83,7 +101,7 @@ Show* Show::create()
 
 void Show::update(float time)
 {
-    CC_UNUSED_PARAM(time);
+    ActionInstant::update(time);
     _target->setVisible(true);
 }
 
@@ -115,7 +133,7 @@ Hide * Hide::create()
 
 void Hide::update(float time)
 {
-    CC_UNUSED_PARAM(time);
+    ActionInstant::update(time);
     _target->setVisible(false);
 }
 
@@ -147,7 +165,7 @@ ToggleVisibility * ToggleVisibility::create()
 
 void ToggleVisibility::update(float time) 
 {
-    CC_UNUSED_PARAM(time);
+    ActionInstant::update(time);
     _target->setVisible(!_target->isVisible());
 }
 
@@ -185,7 +203,7 @@ bool RemoveSelf::init(bool isNeedCleanUp)
 
 void RemoveSelf::update(float time)
 {
-    CC_UNUSED_PARAM(time);
+    ActionInstant::update(time);
     _target->removeFromParentAndCleanup(_isNeedCleanUp);
 }
 
@@ -226,7 +244,7 @@ bool FlipX::initWithFlipX(bool x)
 
 void FlipX::update(float time)
 {
-    CC_UNUSED_PARAM(time);
+    ActionInstant::update(time);
     static_cast<Sprite*>(_target)->setFlippedX(_flipX);
 }
 
@@ -266,7 +284,7 @@ bool FlipY::initWithFlipY(bool y)
 
 void FlipY::update(float time)
 {
-    CC_UNUSED_PARAM(time);
+    ActionInstant::update(time);
     static_cast<Sprite*>(_target)->setFlippedY(_flipY);
 }
 
@@ -319,7 +337,7 @@ Place * Place::reverse() const
 
 void Place::update(float time)
 {
-    CC_UNUSED_PARAM(time);
+    ActionInstant::update(time);
     _target->setPosition(_position);
 }
 
@@ -409,7 +427,7 @@ CallFunc * CallFunc::reverse() const
 
 void CallFunc::update(float time)
 {
-    CC_UNUSED_PARAM(time);
+    ActionInstant::update(time);
     this->execute();
 }
 

@@ -41,33 +41,21 @@ NS_CC_BEGIN
 /** @class ActionInstant
 * @brief Instant actions are immediate actions. They don't have a duration like the IntervalAction actions.
 **/
-class CC_DLL ActionInstant : public FiniteTimeAction //<NSCopying>
+class ActionInstant : public FiniteTimeAction //<NSCopying>
 {
 public:
-    //
-    // Overrides
-    //
-    virtual ActionInstant* clone() const override
-    {
-        CC_ASSERT(0);
-        return nullptr;
-    }
-    
-    virtual ActionInstant * reverse() const override
-    {
-        CC_ASSERT(0);
-        return nullptr;
-    }
+    ActionInstant() =default;
+    ActionInstant(ActionInstant const&) =delete;
+    ActionInstant& operator=(ActionInstant const&) =delete;
+    ActionInstant(ActionInstant &&) noexcept =delete;
+    ActionInstant& operator=(ActionInstant &&) noexcept =delete;
+    ~ActionInstant() override;
 
-    virtual bool isDone() const override;
-    /**
-     * @param dt In seconds.
-     */
-    virtual void step(float dt) override;
-    /**
-     * @param time In seconds.
-     */
-    virtual void update(float time) override;
+    bool isDone() const override;
+    void step(float) override;
+    void update(float) override;
+    ActionInstant* clone() const override;
+    ActionInstant* reverse() const override;
 };
 
 /** @class Show

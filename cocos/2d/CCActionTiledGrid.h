@@ -415,12 +415,12 @@ public:
     @brief Get the amplitude rate of the effect.
     @return Return the amplitude rate of the effect.
     */
-    float getAmplitudeRate() const { return _amplitudeRate; }
+    inline float getAmplitudeRate() const noexcept override { return _amplitudeRate; }
     /**
     @brief Set the amplitude rate of the effect.
     @param amplitudeRate The value of amplitude rate will be set.
     */
-    void setAmplitudeRate(float amplitudeRate) { _amplitudeRate = amplitudeRate; }
+    inline void setAmplitudeRate(float amplitudeRate) noexcept override { _amplitudeRate = amplitudeRate; }
 
     // Override
     virtual WavesTiles3D* clone() const override;
@@ -481,12 +481,12 @@ public:
     @brief Get the amplitude rate of the effect.
     @return Return the amplitude rate of the effect.
     */
-    float getAmplitudeRate() const { return _amplitudeRate; }
+    inline float getAmplitudeRate() const noexcept override { return _amplitudeRate; }
     /**
     @brief Set the amplitude rate of the effect.
     @param amplitudeRate The value of amplitude rate will be set.
     */
-    void setAmplitudeRate(float amplitudeRate) { _amplitudeRate = amplitudeRate; }
+    inline void setAmplitudeRate(float amplitudeRate) noexcept override { _amplitudeRate = amplitudeRate; }
 
     // Override
     virtual JumpTiles3D* clone() const override;

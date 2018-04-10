@@ -29,6 +29,7 @@ THE SOFTWARE.
 #include "2d/CCActionInterval.h"
 #include "2d/CCNode.h"
 #include "base/CCDirector.h"
+#include "base/ccMacros.h"
 #include "base/ccUTF8.h"
 
 NS_CC_BEGIN
@@ -37,10 +38,6 @@ NS_CC_BEGIN
 //
 
 Action::Action()
-:_originalTarget(nullptr)
-,_target(nullptr)
-,_tag(Action::INVALID_TAG)
-,_flags(0)
 {
 #if CC_ENABLE_SCRIPT_BINDING
     ScriptEngineProtocol* engine = ScriptEngineManager::getInstance()->getScriptEngine();
@@ -58,39 +55,68 @@ std::string Action::description() const
     return StringUtils::format("<Action | Tag = %d", _tag);
 }
 
-void Action::startWithTarget(Node *aTarget)
+Action* Action::clone() const
 {
-    _originalTarget = _target = aTarget;
+    CCASSERT(false, "must be implemented");
+    return nullptr;
+}
+
+Action* Action::reverse() const
+{
+    CCASSERT(false, "must be implemented");
+    return nullptr;
+}
+
+bool Action::isDone() const
+{
+    CCASSERT(false, "must be implemented");
+    return true;
+}
+
+void Action::startWithTarget(Node* aTarget)
+{
+    _originalTarget = aTarget;
+    _status = Action::Status::START;
+    _target = aTarget;
 }
 
 void Action::stop()
 {
     _target = nullptr;
-}
-
-bool Action::isDone() const
-{
-    return true;
+    _status = Action::Status::DONE;
 }
 
 void Action::step(float)
 {
-    CCLOG("[Action step]. override me");
+    CCASSERT(false, "must be implemented");
 }
 
 void Action::update(float)
 {
-    CCLOG("[Action update]. override me");
+    CCASSERT(false, "must be implemented");
+}
+
+// FiniteTimeAction
+
+FiniteTimeAction::~FiniteTimeAction()
+{
+}
+
+FiniteTimeAction* FiniteTimeAction::clone() const
+{
+    CCASSERT(false, "must be implemented");
+    return nullptr;
+}
+
+FiniteTimeAction* FiniteTimeAction::reverse() const
+{
+    CCASSERT(false, "must be implemented");
+    return nullptr;
 }
 
 //
 // Speed
 //
-Speed::Speed()
-: _speed(0.0)
-, _innerAction(nullptr)
-{
-}
 
 Speed::~Speed()
 {
@@ -109,7 +135,7 @@ Speed* Speed::create(ActionInterval* action, float speed)
     return nullptr;
 }
 
-bool Speed::initWithAction(ActionInterval *action, float speed)
+bool Speed::initWithAction(ActionInterval* action, float speed)
 {
     CCASSERT(action != nullptr, "action must not be NULL");
     if (action == nullptr)
@@ -124,7 +150,7 @@ bool Speed::initWithAction(ActionInterval *action, float speed)
     return true;
 }
 
-Speed *Speed::clone() const
+Speed* Speed::clone() const
 {
     // no copy constructor
     if (_innerAction)
@@ -212,6 +238,7 @@ Follow* Follow::createWithOffset(Node* followedNode,float xOffset,float yOffset,
     return nullptr;
     
 }
+
 Follow* Follow::clone() const
 {
     // no copy constructor
@@ -224,7 +251,7 @@ Follow* Follow::reverse() const
     return clone();
 }
 
-bool Follow::initWithTargetAndOffset(Node *followedNode, float xOffset,float yOffset,const Rect& rect)
+bool Follow::initWithTargetAndOffset(Node* followedNode, float xOffset, float yOffset, Rect const& rect /*= Rect::ZERO*/)
 {
     CCASSERT(followedNode != nullptr, "FollowedNode can't be NULL");
     if(followedNode == nullptr)
@@ -276,15 +303,13 @@ bool Follow::initWithTargetAndOffset(Node *followedNode, float xOffset,float yOf
     return true;
 }
 
-bool Follow::initWithTarget(Node *followedNode, const Rect& rect /*= Rect::ZERO*/){
-    
-    return initWithTargetAndOffset(followedNode, 0.0, 0.0,rect);
-    
-}
-void Follow::step(float dt)
+bool Follow::initWithTarget(Node* followedNode, Rect const& rect /*= Rect::ZERO*/)
 {
-    CC_UNUSED_PARAM(dt);
+    return initWithTargetAndOffset(followedNode, 0.0, 0.0,rect);
+}
 
+void Follow::step(float)
+{
     if(_boundarySet)
     {
         // whole map fits inside a single screen, no need to modify the position - unless map boundaries are increased
@@ -306,13 +331,7 @@ void Follow::step(float dt)
 
 bool Follow::isDone() const
 {
-    return ( !_followedNode->isRunning() );
-}
-
-void Follow::stop()
-{
-    _target = nullptr;
-    Action::stop();
+    return !_followedNode->isRunning();
 }
 
 NS_CC_END

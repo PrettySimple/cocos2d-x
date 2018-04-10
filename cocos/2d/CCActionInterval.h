@@ -30,7 +30,6 @@ THE SOFTWARE.
 
 #include <cstdint>
 #include <initializer_list>
-#include <memory>
 #include <unordered_set>
 #include <vector>
 
@@ -38,6 +37,7 @@ THE SOFTWARE.
 #include "2d/CCAnimation.h"
 #include "base/CCProtocols.h"
 #include "base/CCVector.h"
+#include "base/ccMacros.h"
 
 NS_CC_BEGIN
 
@@ -72,79 +72,57 @@ auto pingPongAction = Sequence::create(action, action->reverse(), nullptr);
 */
 class CC_DLL ActionInterval : public FiniteTimeAction
 {
+protected:
+    float _elapsed = 0.f;
+    std::int64_t _elapsed_ns = 0;
 public:
+    ActionInterval() = default;
+    ActionInterval(ActionInterval const&) =delete;
+    ActionInterval& operator=(ActionInterval const&) =delete;
+    ActionInterval(ActionInterval &&) noexcept =delete;
+    ActionInterval& operator=(ActionInterval &&) noexcept =delete;
+    ~ActionInterval() override;
+
+    bool initWithDuration(float d);
+
+
     /** How many seconds had elapsed since the actions started to run.
      *
      * @return The seconds had elapsed since the actions started to run.
      */
-    float getElapsed() { return _elapsed; }
+    inline float getElapsed() const noexcept { return _elapsed; }
 
     /** Sets the amplitude rate, extension in GridAction
      *
      * @param amp   The amplitude rate.
      */
-    void setAmplitudeRate(float amp);
+    virtual inline void setAmplitudeRate(float) noexcept { CCASSERT(false, "must be implemented"); }
     
     /** Gets the amplitude rate, extension in GridAction
      *
      * @return  The amplitude rate.
      */
-    float getAmplitudeRate(void);
+    virtual inline float getAmplitudeRate() const noexcept { CCASSERT(false, "must be implemented"); return 0.f; }
 
-    //
-    // Overrides
-    //
-    virtual bool isDone() const override;
+    bool isDone() const override;
+
     /**
      * @param dt in seconds
      */
-    virtual void step(float dt) override;
-    virtual void startWithTarget(Node *target) override;
-    virtual ActionInterval* reverse() const override
-    {
-        CC_ASSERT(0);
-        return nullptr;
-    }
+    void step(float dt) override;
 
-    virtual ActionInterval *clone() const override
-    {
-        CC_ASSERT(0);
-        return nullptr;
-    }
-
-CC_CONSTRUCTOR_ACCESS:
-    /** initializes the action */
-    bool initWithDuration(float d);
-
+    ActionInterval* reverse() const override;
+    ActionInterval* clone() const override;
 protected:
-    float _elapsed;
-    bool   _firstTick;
-
-protected:
-    bool sendUpdateEventToScript(float dt, Action *actionObject);
+    bool sendUpdateEventToScript(float dt, Action* actionObject);
 };
 
 /** @class Sequence
  * @brief Runs actions sequentially, one after another.
  */
-class Sequence : public ActionInterval
+class CC_DLL Sequence : public ActionInterval
 {
-    enum struct Status : std::uint8_t
-    {
-        UNKNOWN = 0,
-        RUNNING,
-        DONE
-    };
-    struct FiniteTimeActionStatus
-    {
-        Status status = Status::UNKNOWN;
-        FiniteTimeAction* action = nullptr;
-
-        inline explicit FiniteTimeActionStatus(Status s, FiniteTimeAction* a) : status(s), action(a)
-        {
-        }
-    };
-    std::vector<std::shared_ptr<FiniteTimeActionStatus>> _actions;
+    std::vector<FiniteTimeAction*> _actions;
     std::int64_t _duration_ns = 0;
 public:
     Sequence() =default;
@@ -242,85 +220,44 @@ private:
  To repeat the an action for a limited number of times use the Repeat action.
  * @warning This action can't be Sequenceable because it is not an IntervalAction.
  */
-class CC_DLL RepeatForever : public ActionInterval
+class RepeatForever : public ActionInterval
 {
+protected:
+    ActionInterval* _innerAction = nullptr;
 public:
-    /** Creates the action.
-     *
-     * @param action The action need to repeat forever.
-     * @return An autoreleased RepeatForever object.
-     */
-    static RepeatForever* create(ActionInterval *action);
+    RepeatForever() =default;
+    RepeatForever(RepeatForever const&) =delete;
+    RepeatForever& operator=(RepeatForever const&) =delete;
+    RepeatForever(RepeatForever&&) noexcept =delete;
+    RepeatForever& operator=(RepeatForever&&) noexcept =delete;
+    ~RepeatForever() override;
+
+    bool initWithAction(ActionInterval *action);
+    static RepeatForever* create(ActionInterval* action);
 
     /** Sets the inner action.
      *
      * @param action The inner action.
      */
-    void setInnerAction(ActionInterval *action)
-    {
-        if (_innerAction != action)
-        {
-            CC_SAFE_RELEASE(_innerAction);
-            _innerAction = action;
-            CC_SAFE_RETAIN(_innerAction);
-        }
-    }
+    void setInnerAction(ActionInterval* action);
 
     /** Gets the inner action.
      *
      * @return The inner action.
      */
-    ActionInterval* getInnerAction()
-    {
-        return _innerAction;
-    }
+    inline ActionInterval* getInnerAction() const noexcept { return _innerAction; }
 
-    //
-    // Overrides
-    //
-    virtual RepeatForever* clone() const override;
-    virtual RepeatForever* reverse(void) const override;
-    virtual void startWithTarget(Node* target) override;
-    /**
-     * @param dt In seconds.
-     */
-    virtual void step(float dt) override;
-    virtual bool isDone(void) const override;
-    
-CC_CONSTRUCTOR_ACCESS:
-    RepeatForever()
-    : _innerAction(nullptr)
-    {}
-    virtual ~RepeatForever();
-
-    /** initializes the action */
-    bool initWithAction(ActionInterval *action);
-
-protected:
-    /** Inner action */
-    ActionInterval *_innerAction;
-
-private:
-    CC_DISALLOW_COPY_AND_ASSIGN(RepeatForever);
+    RepeatForever* clone() const override;
+    RepeatForever* reverse(void) const override;
+    void startWithTarget(Node* target) override;
+    void step(float dt) override;
+    bool isDone(void) const override;
+    void update(float) override;
 };
 
-class Spawn : public ActionInterval
+class CC_DLL Spawn : public ActionInterval
 {
-    enum struct Status : std::uint8_t
-    {
-        UNKNOWN = 0,
-        RUNNING,
-        DONE
-    };
-    struct FiniteTimeActionStatus
-    {
-        Status status = Status::UNKNOWN;
-        FiniteTimeAction* action = nullptr;
-        inline explicit FiniteTimeActionStatus(Status s, FiniteTimeAction* a) : status(s), action(a)
-        {
-        }
-    };
-    std::vector<std::shared_ptr<FiniteTimeActionStatus>> _actions;
+    std::vector<FiniteTimeAction*> _actions;
     std::int64_t _duration_ns = 0;
 public:
     Spawn() =default;
@@ -496,7 +433,23 @@ private:
  */
 class CC_DLL MoveBy : public ActionInterval
 {
+    bool _is3D = false;
+    Vec3 _startPosition = Vec3::ZERO;
+    Vec3 _previousPosition = Vec3::ZERO;
+protected:
+    Vec3 _positionDelta = Vec3::ZERO;
 public:
+    MoveBy() =default;
+    MoveBy(MoveBy const&) =delete;
+    MoveBy& operator=(MoveBy const&) =delete;
+    MoveBy(MoveBy &&) noexcept =delete;
+    MoveBy& operator=(MoveBy &&) noexcept =delete;
+    ~MoveBy() override;
+
+    /** initializes the action */
+    bool initWithDuration(float duration, Vec2 const& deltaPosition);
+    bool initWithDuration(float duration, Vec3 const& deltaPosition);
+
     /** 
      * Creates the action.
      *
@@ -504,7 +457,7 @@ public:
      * @param deltaPosition The delta distance in 2d, it's a Vec2 type.
      * @return An autoreleased MoveBy object.
      */
-    static MoveBy* create(float duration, const Vec2& deltaPosition);
+    static MoveBy* create(float duration, Vec2 const& deltaPosition);
     /**
      * Creates the action.
      *
@@ -512,35 +465,12 @@ public:
      * @param deltaPosition The delta distance in 3d, it's a Vec3 type.
      * @return An autoreleased MoveBy object.
      */
-    static MoveBy* create(float duration, const Vec3& deltaPosition);
+    static MoveBy* create(float duration, Vec3 const& deltaPosition);
 
-    //
-    // Overrides
-    //
-    virtual MoveBy* clone() const override;
-    virtual MoveBy* reverse(void) const  override;
-    virtual void startWithTarget(Node *target) override;
-    /**
-     * @param time in seconds
-     */
-    virtual void update(float time) override;
-    
-CC_CONSTRUCTOR_ACCESS:
-    MoveBy():_is3D(false) {}
-    virtual ~MoveBy() {}
-
-    /** initializes the action */
-    bool initWithDuration(float duration, const Vec2& deltaPosition);
-    bool initWithDuration(float duration, const Vec3& deltaPosition);
-
-protected:
-    bool _is3D;
-    Vec3 _positionDelta;
-    Vec3 _startPosition;
-    Vec3 _previousPosition;
-
-private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MoveBy);
+    MoveBy* clone() const override;
+    MoveBy* reverse() const override;
+    void startWithTarget(Node* target) override;
+    void update(float progress) override;
 };
 
 /** @class MoveTo
@@ -549,51 +479,46 @@ private:
  movement will be the sum of individual movements.
  @since v2.1beta2-custom
  */
-class CC_DLL MoveTo : public MoveBy
+class CC_DLL MoveTo final : public MoveBy
 {
+    Vec3 _endPosition = Vec3::ZERO;
 public:
+    MoveTo() =default;
+    MoveTo(MoveTo const&) =delete;
+    MoveTo& operator=(MoveTo const&) =delete;
+    MoveTo(MoveTo &&) noexcept =delete;
+    MoveTo& operator=(MoveTo &&) noexcept =delete;
+    ~MoveTo() final;
+
+    /**
+     * initializes the action
+     * @param duration in seconds
+     */
+    bool initWithDuration(float duration, Vec2 const& position);
+    /**
+     * initializes the action
+     * @param duration in seconds
+     */
+    bool initWithDuration(float duration, Vec3 const& position);
+
     /** 
      * Creates the action.
      * @param duration Duration time, in seconds.
      * @param position The destination position in 2d.
      * @return An autoreleased MoveTo object.
      */
-    static MoveTo* create(float duration, const Vec2& position);
+    static MoveTo* create(float duration, Vec2 const& position);
     /**
      * Creates the action.
      * @param duration Duration time, in seconds.
      * @param position The destination position in 3d.
      * @return An autoreleased MoveTo object.
      */
-    static MoveTo* create(float duration, const Vec3& position);
+    static MoveTo* create(float duration, Vec3 const& position);
 
-    //
-    // Overrides
-    //
-    virtual MoveTo* clone() const override;
-    virtual MoveTo* reverse() const  override;
-    virtual void startWithTarget(Node *target) override;
-    
-CC_CONSTRUCTOR_ACCESS:
-    MoveTo() {}
-    virtual ~MoveTo() {}
-
-    /** 
-     * initializes the action
-     * @param duration in seconds
-     */
-    bool initWithDuration(float duration, const Vec2& position);
-    /**
-     * initializes the action
-     * @param duration in seconds
-     */
-    bool initWithDuration(float duration, const Vec3& position);
-
-protected:
-    Vec3 _endPosition;
-
-private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MoveTo);
+    MoveTo* clone() const final;
+    MoveTo* reverse() const final;
+    void startWithTarget(Node* target) final;
 };
 
 /** @class SkewTo

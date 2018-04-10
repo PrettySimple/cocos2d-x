@@ -1001,6 +1001,7 @@ CCBSetSpriteFrame* CCBSetSpriteFrame::reverse() const
 
 void CCBSetSpriteFrame::update(float time)
 {
+    ActionInstant::update(time);
     static_cast<Sprite*>(_target)->setSpriteFrame(_spriteFrame);
 }
 
@@ -1052,6 +1053,7 @@ CCBSoundEffect* CCBSoundEffect::reverse() const
 
 void CCBSoundEffect::update(float time)
 {
+    ActionInstant::update(time);
     CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(_soundFile.c_str());
 }
 
@@ -1167,7 +1169,7 @@ void CCBRotateXTo::startWithTarget(Node *pNode)
     _originalTarget = pNode;
     _target = pNode;
     _elapsed = 0.0f;
-    _firstTick = true;
+    _status = Action::Status::START;
     _startAngle = _target->getRotationSkewX();
     _diffAngle = _dstAngle - _startAngle;
 }
@@ -1254,7 +1256,7 @@ void CCBRotateYTo::startWithTarget(Node *pNode)
     _originalTarget = pNode;
     _target = pNode;
     _elapsed = 0.0f;
-    _firstTick = true;
+    _status = Action::Status::START;
     _startAngle = _target->getRotationSkewY();
     _diffAngle = _dstAngle - _startAngle;
 }

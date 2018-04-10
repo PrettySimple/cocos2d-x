@@ -43,67 +43,17 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-// Extra action for making a Sequence or Spawn when only adding one action to it.
-class ExtraAction : public FiniteTimeAction
-{
-public:
-    static ExtraAction* create();
-    virtual ExtraAction* clone() const;
-    virtual ExtraAction* reverse(void) const;
-    virtual void update(float time);
-    virtual void step(float dt);
-};
-
-ExtraAction* ExtraAction::create()
-{
-    ExtraAction* ret = new (std::nothrow) ExtraAction();
-    if (ret)
-    {
-        ret->autorelease();
-    }
-    return ret;
-}
-
-ExtraAction* ExtraAction::clone() const
-{
-    // no copy constructor
-    return ExtraAction::create();
-}
-
-ExtraAction* ExtraAction::reverse() const
-{
-    return ExtraAction::create();
-}
-
-void ExtraAction::update(float time)
-{
-    CC_UNUSED_PARAM(time);
-}
-
-void ExtraAction::step(float dt)
-{
-    CC_UNUSED_PARAM(dt);
-}
-
 //
 // IntervalAction
 //
 
+ActionInterval::~ActionInterval()
+{
+}
+
 bool ActionInterval::initWithDuration(float d)
 {
     _duration = d;
-
-    // prevent division by 0
-    // This comparison could be in step:, but it might decrease the performance
-    // by 3% in heavy based action games.
-    if (_duration <= FLT_EPSILON)
-    {
-        _duration = FLT_EPSILON;
-    }
-
-    _elapsed = 0;
-    _firstTick = true;
-
     return true;
 }
 
@@ -121,54 +71,51 @@ bool ActionInterval::sendUpdateEventToScript(float dt, Action *actionObject)
 
 bool ActionInterval::isDone() const
 {
-    // return _elapsed >= _duration;
-    // fix #14936 _duration is not 0, but _elapsed is 0.  (https://github.com/cocos2d/cocos2d-x/pull/17190/files)
-    // this caused some 0 time actions to be called twice
-    return (_elapsed + FLT_EPSILON) >= _duration;
+    return _status == Action::Status::DONE;
 }
 
 void ActionInterval::step(float dt)
 {
-    if (_firstTick)
+    auto const duration_ns = static_cast<std::int64_t>(_duration * 10e9f);
+    switch (_status)
     {
-        _firstTick = false;
-        _elapsed = 0;
+        case Action::Status::START:
+            _status = Action::Status::RUNNING;
+            _elapsed = 0.0f;
+            _elapsed_ns = 0;
+            update(0.f);
+            break;
+        case Action::Status::RUNNING:
+            _elapsed += dt;
+            _elapsed_ns += static_cast<std::int64_t>(dt * 10e9f);
+            if (duration_ns == 0 || (_elapsed_ns > 0 && (duration_ns - _elapsed_ns) <= 0))
+            {
+                update(1.f);
+                _status = Action::Status::DONE;
+            }
+            else
+            {
+                update(static_cast<float>(_elapsed_ns)/duration_ns);
+            }
+            break;
+        case Action::Status::UNKNOWN:
+            CC_ASSERT(false);
+        case Action::Status::DONE:
+            CC_ASSERT(isDone());
+            break;
     }
-    else
-    {
-        _elapsed += dt;
-    }
-    
-    
-    float updateDt = MAX (0,                                  // needed for rewind. elapsed could be negative
-                           MIN(1, _elapsed / _duration)
-                           );
-
-    if (sendUpdateEventToScript(updateDt, this)) return;
-    
-    this->update(updateDt);
 }
 
-void ActionInterval::setAmplitudeRate(float amp)
+ActionInterval* ActionInterval::reverse() const
 {
-    CC_UNUSED_PARAM(amp);
-    // Abstract class needs implementation
-    CCASSERT(0, "Subclass should implement this method!");
+    CCASSERT(false, "must be implemented");
+    return nullptr;
 }
 
-float ActionInterval::getAmplitudeRate()
+ActionInterval* ActionInterval::clone() const
 {
-    // Abstract class needs implementation
-    CCASSERT(0, "Subclass should implement this method!");
-
-    return 0;
-}
-
-void ActionInterval::startWithTarget(Node *target)
-{
-    FiniteTimeAction::startWithTarget(target);
-    _elapsed = 0.0f;
-    _firstTick = true;
+    CCASSERT(false, "must be implemented");
+    return nullptr;
 }
 
 //
@@ -183,8 +130,8 @@ Sequence::Sequence(std::initializer_list<FiniteTimeAction*> actions)
     {
         auto const duration = action->getDuration();
         d += duration;
-        _duration_ns += static_cast<std::int64_t>(duration * 10e9);
-        _actions.emplace_back(std::make_shared<Sequence::FiniteTimeActionStatus>(Status::UNKNOWN, action));
+        _duration_ns += static_cast<std::int64_t>(duration * 10e9f);
+        _actions.emplace_back(action);
         CC_SAFE_RETAIN(action);
     }
     initWithDuration(d);
@@ -194,12 +141,13 @@ Sequence::Sequence(Vector<FiniteTimeAction*> const& actions)
 {
     _actions.reserve(actions.size());
     float d = 0.f;
+    _duration_ns = 0;
     for (auto action : actions)
     {
         auto const duration = action->getDuration();
-        d += action->getDuration();
-        _duration_ns += static_cast<std::int64_t>(duration * 10e9);
-        _actions.emplace_back(std::make_shared<Sequence::FiniteTimeActionStatus>(Status::UNKNOWN, action));
+        d += duration;
+        _duration_ns += static_cast<std::int64_t>(duration * 10e9f);
+        _actions.emplace_back(action);
         CC_SAFE_RETAIN(action);
     }
     initWithDuration(d);
@@ -207,9 +155,9 @@ Sequence::Sequence(Vector<FiniteTimeAction*> const& actions)
 
 Sequence::~Sequence()
 {
-    for (auto const& data : _actions)
+    for (auto action : _actions)
     {
-        CC_SAFE_RELEASE(data->action);
+        CC_SAFE_RELEASE(action);
     }
 }
 
@@ -234,10 +182,10 @@ Sequence* Sequence::clone() const
     ret->_actions.reserve(_actions.size());
     ret->initWithDuration(_duration);
     ret->_duration_ns = _duration_ns;
-    for (auto const& data : _actions)
+    for (auto action : _actions)
     {
-        auto tmp = data->action->clone();
-        ret->_actions.emplace_back(std::make_shared<Sequence::FiniteTimeActionStatus>(Status::UNKNOWN, tmp));
+        auto tmp = action->clone();
+        ret->_actions.emplace_back(tmp);
         CC_SAFE_RETAIN(tmp);
     }
     return ret;
@@ -247,9 +195,9 @@ void Sequence::startWithTarget(Node* target)
 {
     CC_ASSERT(target != nullptr);
 
-    for (auto const& data : _actions)
+    for (auto action : _actions)
     {
-        data->status = Status::UNKNOWN;
+        action->setStatus(Action::Status::START);
     }
 
     ActionInterval::startWithTarget(target);
@@ -257,10 +205,10 @@ void Sequence::startWithTarget(Node* target)
 
 void Sequence::stop()
 {
-    for (auto const& data : _actions)
+    for (auto& action : _actions)
     {
-        data->action->stop();
-        data->status = Status::DONE;
+        action->stop();
+        action->setStatus(Action::Status::DONE);
     }
 
     ActionInterval::stop();
@@ -268,53 +216,47 @@ void Sequence::stop()
 
 void Sequence::update(float p)
 {
-    auto cpy = _actions; // copy _actions to avoid a problem while updaing (ex: update -> stop)
-    for (auto const& data : cpy)
+    auto duration = std::abs(p - 1.f) < std::numeric_limits<float>::epsilon() ? _duration_ns : static_cast<std::int64_t>(p * _duration_ns); // avoid an approximation error when reaching 1.0
+    for (auto action : _actions)
     {
-        CC_SAFE_RETAIN(data->action);
-    }
-
-    // avoid an approximation error when reaching 1.0
-    auto duration = std::abs(p - 1.f) < std::numeric_limits<float>::epsilon() ? _duration_ns : static_cast<std::int64_t>(p * _duration_ns);
-    for (auto const& data : cpy)
-    {
-        auto const d = static_cast<std::int64_t>(data->action->getDuration() * 10e9); // use ns value to decrease error related to float manipulation
-        switch(data->status)
+        auto const d = static_cast<std::int64_t>(action->getDuration() * 10e9f); // use ns value to decrease error related to float manipulation
+        switch(action->getStatus())
         {
-            case Status::UNKNOWN:
-                data->action->startWithTarget(_target);
-                data->status = Status::RUNNING;
-            case Status::RUNNING:
+            case Action::Status::START:
+                action->startWithTarget(_target);
+                action->setStatus(Action::Status::RUNNING);
+                if (d != 0)
+                {
+                    action->update(0.f);
+                }
+            case Action::Status::RUNNING:
                 if (d == 0 || (duration > 0 && (duration - d) >= 0))
                 {
-                    data->action->update(1.f);
-                    data->status = Status::DONE;
+                    action->update(1.f);
+                    action->setStatus(Status::DONE);
                 }
                 else
                 {
-                     data->action->update(static_cast<float>(duration)/d);
+                     action->update(static_cast<float>(duration)/d);
                 }
                 break;
-            case Status::DONE:
+            case Action::Status::UNKNOWN:
+                CC_ASSERT(false);
+            case Action::Status::DONE:
                 break;
         }
 
         duration -= d;
-        if (duration < 0.f) // optimization to decrease loop round at the begining of the action
+        if (duration < 0) // optimization to decrease loop iteration at the begining of the action
         {
             break;
         }
-    }
-
-    for (auto const& data : cpy)
-    {
-        CC_SAFE_RELEASE(data->action);
     }
 }
 
 bool Sequence::isDone() const
 {
-    return _actions.empty() ? true : (_actions.back()->status == Status::DONE);
+    return _actions.empty() ? true : (_actions.back()->getStatus() == Status::DONE);
 }
 
 Sequence* Sequence::reverse() const
@@ -326,8 +268,8 @@ Sequence* Sequence::reverse() const
     ret->_duration_ns = _duration_ns;
     for (auto it = _actions.rbegin(); it != _actions.rend(); ++it)
     {
-        auto tmp = (*it)->action->reverse();
-        ret->_actions.emplace_back(std::make_shared<Sequence::FiniteTimeActionStatus>(Status::UNKNOWN, tmp));
+        auto tmp = (*it)->reverse();
+        ret->_actions.emplace_back(tmp);
         CC_SAFE_RETAIN(tmp);
     }
     return ret;
@@ -472,6 +414,21 @@ RepeatForever::~RepeatForever()
     CC_SAFE_RELEASE(_innerAction);
 }
 
+bool RepeatForever::initWithAction(ActionInterval *action)
+{
+    CCASSERT(action != nullptr, "action can't be nullptr!");
+    if (action == nullptr)
+    {
+        log("RepeatForever::initWithAction error:action is nullptr!");
+        return false;
+    }
+
+    action->retain();
+    _innerAction = action;
+
+    return true;
+}
+
 RepeatForever *RepeatForever::create(ActionInterval *action)
 {
     RepeatForever *ret = new (std::nothrow) RepeatForever();
@@ -485,19 +442,14 @@ RepeatForever *RepeatForever::create(ActionInterval *action)
     return nullptr;
 }
 
-bool RepeatForever::initWithAction(ActionInterval *action)
+void RepeatForever::setInnerAction(ActionInterval* action)
 {
-    CCASSERT(action != nullptr, "action can't be nullptr!");
-    if (action == nullptr)
+    if (_innerAction != action)
     {
-        log("RepeatForever::initWithAction error:action is nullptr!");
-        return false;
+        CC_SAFE_RELEASE(_innerAction);
+        _innerAction = action;
+        CC_SAFE_RETAIN(_innerAction);
     }
-    
-    action->retain();
-    _innerAction = action;
-    
-    return true;
 }
 
 RepeatForever *RepeatForever::clone() const
@@ -532,6 +484,10 @@ bool RepeatForever::isDone() const
     return false;
 }
 
+void RepeatForever::update(float)
+{
+}
+
 RepeatForever *RepeatForever::reverse() const
 {
     return RepeatForever::create(_innerAction->reverse());
@@ -545,27 +501,28 @@ Spawn::Spawn(std::initializer_list<FiniteTimeAction*> actions)
 {
     _actions.reserve(actions.size());
     float d = 0.f;
+    _duration_ns = 0;
 
     for (auto action : actions)
     {
         auto const duration = action->getDuration();
         d = std::max(d, duration);
-        _duration_ns = std::max(_duration_ns, static_cast<std::int64_t>(duration * 10e9));
+        _duration_ns = std::max(_duration_ns, static_cast<std::int64_t>(duration * 10e9f));
     }
 
     for (auto action : actions)
     {
         auto const duration = action->getDuration();
-        if (std::abs(duration-d) < std::numeric_limits<float>::epsilon()) // in the case of the max value no need to add extra DelayTime
+        if (_duration_ns == static_cast<std::int64_t>(duration * 10e9f)) // in the case of the max value no need to add extra DelayTime
         {
-            _actions.emplace_back(std::make_shared<FiniteTimeActionStatus>(Status::UNKNOWN, action));
+            _actions.emplace_back(action);
             CC_SAFE_RETAIN(action);
         }
         else
         {
             // We create a sequence with a DelayTime to make sure that the action will be played backwards if they are reversed
             auto tmp = Sequence::create({action, DelayTime::create(d - duration)});
-            _actions.emplace_back(std::make_shared<FiniteTimeActionStatus>(Status::UNKNOWN, tmp));
+            _actions.emplace_back(tmp);
             CC_SAFE_RETAIN(tmp);
         }
     }
@@ -577,27 +534,28 @@ Spawn::Spawn(Vector<FiniteTimeAction*> const& actions)
 {
     _actions.reserve(actions.size());
     float d = 0.f;
+    _duration_ns = 0;
 
     for (auto action : actions)
     {
         auto const duration = action->getDuration();
         d = std::max(d, duration);
-        _duration_ns = std::max(_duration_ns, static_cast<std::int64_t>(duration * 10e9));
+        _duration_ns = std::max(_duration_ns, static_cast<std::int64_t>(duration * 10e9f));
     }
 
     for (auto action : actions)
     {
         auto const duration = action->getDuration();
-        if (std::abs(duration-d) < std::numeric_limits<float>::epsilon()) // in the case of the max value no need to add extra DelayTime
+        if (_duration_ns == static_cast<std::int64_t>(duration * 10e9f)) // in the case of the max value no need to add extra DelayTime
         {
-            _actions.emplace_back(std::make_shared<FiniteTimeActionStatus>(Status::UNKNOWN, action));
+            _actions.emplace_back(action);
             CC_SAFE_RETAIN(action);
         }
         else
         {
             // We create a sequence with a DelayTime to make sure that the action will be played backwards if they are reversed
             auto tmp = Sequence::create({action, DelayTime::create(d - duration)});
-            _actions.emplace_back(std::make_shared<FiniteTimeActionStatus>(Status::UNKNOWN, tmp));
+            _actions.emplace_back(tmp);
             CC_SAFE_RETAIN(tmp);
         }
     }
@@ -607,9 +565,9 @@ Spawn::Spawn(Vector<FiniteTimeAction*> const& actions)
 
 Spawn::~Spawn()
 {
-    for (auto const& data : _actions)
+    for (auto action : _actions)
     {
-        CC_SAFE_RELEASE(data->action);
+        CC_SAFE_RELEASE(action);
     }
 }
 
@@ -634,10 +592,10 @@ Spawn* Spawn::clone() const
     ret->_actions.reserve(_actions.size());
     ret->initWithDuration(_duration);
     ret->_duration_ns = _duration_ns;
-    for (auto const& data : _actions)
+    for (auto action : _actions)
     {
-        auto tmp = data->action->clone();
-        ret->_actions.emplace_back(std::make_shared<FiniteTimeActionStatus>(Status::UNKNOWN, tmp));
+        auto tmp = action->clone();
+        ret->_actions.emplace_back(tmp);
         CC_SAFE_RETAIN(tmp);
     }
     return ret;
@@ -647,9 +605,9 @@ void Spawn::startWithTarget(Node* target)
 {
     CC_ASSERT(target != nullptr);
 
-    for (auto const& data : _actions)
+    for (auto action : _actions)
     {
-        data->status = Status::UNKNOWN;
+        action->setStatus(Action::Status::START);
     }
 
     ActionInterval::startWithTarget(target);
@@ -657,10 +615,10 @@ void Spawn::startWithTarget(Node* target)
 
 void Spawn::stop()
 {
-    for (auto const& data : _actions)
+    for (auto action : _actions)
     {
-        data->action->stop();
-        data->status = Status::DONE;
+        action->stop();
+        action->setStatus(Action::Status::DONE);
     }
 
     ActionInterval::stop();
@@ -668,49 +626,44 @@ void Spawn::stop()
 
 void Spawn::update(float p)
 {
-    auto cpy = _actions;  // copy _actions to avoid a problem while updaing (ex: update -> stop)
-    for (auto const& data : cpy)
-    {
-        CC_SAFE_RETAIN(data->action);
-    }
-
     // Avoid an approximation error when reaching 1.0
     auto const duration = std::abs(p - 1.f) < std::numeric_limits<float>::epsilon() ? _duration_ns : static_cast<std::int64_t>(p * _duration_ns);
-    for (auto const& data : cpy)
+    for (auto action : _actions)
     {
-        auto const d = static_cast<std::int64_t>(data->action->getDuration() * 10e9);
-        switch(data->status)
+        auto const d = static_cast<std::int64_t>(action->getDuration() * 10e9f);
+        switch(action->getStatus())
         {
-            case Status::UNKNOWN:
-                data->action->startWithTarget(_target);
-                data->status = Status::RUNNING;
-            case Status::RUNNING:
+            case Action::Status::START:
+                action->startWithTarget(_target);
+                action->setStatus(Action::Status::RUNNING);
+                if (d != 0)
+                {
+                    action->update(0.f);
+                }
+            case Action::Status::RUNNING:
                 if (d == 0 || (duration > 0 && (duration - d) >= 0))
                 {
-                    data->action->update(1.f);
-                    data->status = Status::DONE;
+                    action->update(1.f);
+                    action->setStatus(Status::DONE);
                 }
                 else
                 {
-                    data->action->update(static_cast<float>(duration)/d);
+                    action->update(static_cast<float>(duration)/d);
                 }
                 break;
-            case Status::DONE:
+            case Action::Status::UNKNOWN:
+                CC_ASSERT(false);
+            case Action::Status::DONE:
                 break;
         }
-    }
-
-    for (auto const& data : cpy)
-    {
-        CC_SAFE_RELEASE(data->action);
     }
 }
 
 bool Spawn::isDone() const
 {
-    for (auto const& data : _actions)
+    for (auto action : _actions)
     {
-        if (data->status != Status::DONE)
+        if (action->getStatus() != Action::Status::DONE)
         {
             return false;
         }
@@ -727,8 +680,8 @@ Spawn* Spawn::reverse() const
     ret->_duration_ns = _duration_ns;
     for (auto it = _actions.rbegin(); it != _actions.rend(); ++it)
     {
-        auto tmp = (*it)->action->reverse();
-        ret->_actions.emplace_back(std::make_shared<FiniteTimeActionStatus>(Status::UNKNOWN, tmp));
+        auto tmp = (*it)->reverse();
+        ret->_actions.emplace_back(tmp);
         CC_SAFE_RETAIN(tmp);
     }
     return ret;
@@ -1062,12 +1015,16 @@ RotateBy* RotateBy::reverse() const
 // MoveBy
 //
 
-MoveBy* MoveBy::create(float duration, const Vec2& deltaPosition)
+MoveBy::~MoveBy()
+{
+}
+
+MoveBy* MoveBy::create(float duration, Vec2 const& deltaPosition)
 {
     return MoveBy::create(duration, Vec3(deltaPosition.x, deltaPosition.y, 0));
 }
 
-MoveBy* MoveBy::create(float duration, const Vec3 &deltaPosition)
+MoveBy* MoveBy::create(float duration, Vec3 const& deltaPosition)
 {
     MoveBy *ret = new (std::nothrow) MoveBy();
     
@@ -1081,12 +1038,12 @@ MoveBy* MoveBy::create(float duration, const Vec3 &deltaPosition)
     return nullptr;
 }
 
-bool MoveBy::initWithDuration(float duration, const Vec2& deltaPosition)
+bool MoveBy::initWithDuration(float duration, Vec2 const& deltaPosition)
 {
     return MoveBy::initWithDuration(duration, Vec3(deltaPosition.x, deltaPosition.y, 0));
 }
 
-bool MoveBy::initWithDuration(float duration, const Vec3& deltaPosition)
+bool MoveBy::initWithDuration(float duration, Vec3 const& deltaPosition)
 {
     bool ret = false;
     
@@ -1106,7 +1063,7 @@ MoveBy* MoveBy::clone() const
     return MoveBy::create(_duration, _positionDelta);
 }
 
-void MoveBy::startWithTarget(Node *target)
+void MoveBy::startWithTarget(Node* target)
 {
     ActionInterval::startWithTarget(target);
     _previousPosition = _startPosition = target->getPosition3D();
@@ -1119,13 +1076,13 @@ MoveBy* MoveBy::reverse() const
 
 void MoveBy::update(float t)
 {
-    if (_target)
+    if (_target != nullptr)
     {
 #if CC_ENABLE_STACKABLE_ACTIONS
-        Vec3 currentPos = _target->getPosition3D();
-        Vec3 diff = currentPos - _previousPosition;
+        Vec3 const currentPos = _target->getPosition3D();
+        Vec3 const diff = currentPos - _previousPosition;
         _startPosition = _startPosition + diff;
-        Vec3 newPos =  _startPosition + (_positionDelta * t);
+        Vec3 const newPos =  _startPosition + (_positionDelta * t);
         _target->setPosition3D(newPos);
         _previousPosition = newPos;
 #else
@@ -1138,12 +1095,16 @@ void MoveBy::update(float t)
 // MoveTo
 //
 
-MoveTo* MoveTo::create(float duration, const Vec2& position)
+MoveTo::~MoveTo()
+{
+}
+
+MoveTo* MoveTo::create(float duration, Vec2 const& position)
 {
     return MoveTo::create(duration, Vec3(position.x, position.y, 0));
 }
 
-MoveTo* MoveTo::create(float duration, const Vec3& position)
+MoveTo* MoveTo::create(float duration, Vec3 const& position)
 {
     MoveTo *ret = new (std::nothrow) MoveTo();
     
@@ -1157,12 +1118,12 @@ MoveTo* MoveTo::create(float duration, const Vec3& position)
     return nullptr;
 }
 
-bool MoveTo::initWithDuration(float duration, const Vec2& position)
+bool MoveTo::initWithDuration(float duration, Vec2 const& position)
 {
     return initWithDuration(duration, Vec3(position.x, position.y, 0));
 }
 
-bool MoveTo::initWithDuration(float duration, const Vec3& position)
+bool MoveTo::initWithDuration(float duration, Vec3 const& position)
 {
     bool ret = false;
     
