@@ -100,6 +100,7 @@ void ActionInterval::step(float dt)
             break;
         case Action::Status::UNKNOWN:
             CC_ASSERT(false);
+            break;
         case Action::Status::DONE:
             CC_ASSERT(isDone());
             break;
@@ -242,6 +243,7 @@ void Sequence::update(float p)
                 break;
             case Action::Status::UNKNOWN:
                 CC_ASSERT(false);
+                break;
             case Action::Status::DONE:
                 break;
         }
@@ -653,6 +655,7 @@ void Spawn::update(float p)
                 break;
             case Action::Status::UNKNOWN:
                 CC_ASSERT(false);
+                break;
             case Action::Status::DONE:
                 break;
         }
