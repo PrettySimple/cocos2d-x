@@ -87,6 +87,11 @@ public:
      * @return interpolated float value
      */
     static float lerp(float from, float to, float alpha);
+    
+    /**
+     * Float equality check
+     */
+    static bool almostEqualRelative(float A, float B, float maxRelDiff = FLT_EPSILON);
 private:
     //Indicates that if neon is enabled
     static bool isNeon32Enabled();
@@ -128,7 +133,6 @@ private:
     static void transformVec4(const float* m, const float* v, float* dst);
 
     static void crossVec3(const float* v1, const float* v2, float* dst);
-
 };
 
 NS_CC_MATH_END

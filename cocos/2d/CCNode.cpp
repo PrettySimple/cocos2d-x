@@ -42,6 +42,7 @@ THE SOFTWARE.
 #include "base/CCScheduler.h"
 #include "base/ccUTF8.h"
 #include "math/TransformUtils.h"
+#include "math/MathUtil.h"
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCMaterial.h"
@@ -406,7 +407,7 @@ void Node::setRotationSkewY(float rotationY)
 /// scale getter
 float Node::getScale(void) const
 {
-    CCASSERT( _scaleX == _scaleY, "CCNode#scale. ScaleX != ScaleY. Don't know which one to return");
+    CCASSERT(MathUtil::almostEqualRelative(_scaleX, _scaleY), "CCNode#scale. ScaleX != ScaleY. Don't know which one to return");
     return _scaleX;
 }
 

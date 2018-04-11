@@ -275,4 +275,18 @@ void MathUtil::crossVec3(const float* v1, const float* v2, float* dst)
 #endif
 }
 
+bool MathUtil::almostEqualRelative(float A, float B, float maxRelDiff)
+{
+    // Calculate the difference.
+    float diff = fabs(A - B);
+    A = fabs(A);
+    B = fabs(B);
+    // Find the largest
+    float largest = (B > A) ? B : A;
+    
+    if (diff <= largest * maxRelDiff)
+        return true;
+    return false;
+}
+
 NS_CC_MATH_END
