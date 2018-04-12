@@ -8,7 +8,6 @@
 #ifndef ACTION_CCACTION_MANAGERRECORD_H
 #define ACTION_CCACTION_MANAGERRECORD_H
 
-#include "CCActionManagerOperation.h"
 #include "platform/CCPlatformMacros.h"
 
 NS_CC_BEGIN
@@ -18,15 +17,11 @@ class Action;
 
 struct ActionManagerRecord
 {
-    ActionManagerOperation operation = ActionManagerOperation::UNKNOWN;
-    Node* target = nullptr; // weak ref
-    Action* action = nullptr; // weak ref
-    bool paused = false;
-    int tag = -1;
-    unsigned int flags = 0;
+    Node* target = nullptr;
+    Action* action = nullptr;
 
     ActionManagerRecord() = delete;
-    explicit ActionManagerRecord(ActionManagerOperation op, Node* t = nullptr, Action* a = nullptr, bool p = false, int tag = -1, unsigned int flags = 0);
+    explicit ActionManagerRecord(Node* t = nullptr, Action* a = nullptr);
     ActionManagerRecord(ActionManagerRecord const&) = delete;
     ActionManagerRecord& operator=(ActionManagerRecord const&) = delete;
     ActionManagerRecord(ActionManagerRecord&& other) noexcept;

@@ -22,36 +22,28 @@ class Action;
 
 class ActionManagerLog
 {
-    enum struct Mode : std::uint8_t
-    {
-        DEFAULT = 0,
-        UPDATE
-    };
     using log_t = std::deque<ActionManagerRecord>;
     log_t _log;
-    Mode _mode = Mode::DEFAULT;
-    log_t::size_type _scan_insert_ind = 0;
-    ActionManagerData<false> _data;
-    ActionManagerData<true> _dry_run;
+    ActionManagerData _data;
 
 public:
-    void pause_target(Node* target);
-    void resume_target(Node* target);
-    void pause_all_targets();
+    inline void pause_target(Node* target) { _data.pause_target(target); }
+    inline void resume_target(Node* target) { _data.resume_target(target); }
+    inline void pause_all_targets() { _data.pause_all_targets(); }
 
     void add_action(Node* target, Action* action, bool paused);
     
-    void remove_all_actions_from_target(Node* target);
-    void remove_all_actions();
-    void remove_action(Action* action);
-    void remove_action_from_target_by_tag(Node* target, int tag);
-    void remove_all_actions_from_target_by_tag(Node* target, int tag);
-    void remove_all_actions_from_target_by_flag(Node* target, unsigned int flag);
+    inline void remove_all_actions_from_target(Node* target) { _data.remove_all_actions_from_target(target); }
+    inline void remove_all_actions() { _data.remove_all_actions(); }
+    inline void remove_action(Action* action) { _data.remove_action(action); }
+    inline void remove_action_from_target_by_tag(Node* target, int tag) { _data.remove_action_from_target_by_tag(target, tag); }
+    inline void remove_all_actions_from_target_by_tag(Node* target, int tag) { _data.remove_all_actions_from_target_by_tag(target, tag); }
+    inline void remove_all_actions_from_target_by_flag(Node* target, unsigned int flag) { _data.remove_all_actions_from_target_by_flag(target, flag); }
 
-    Action* get_action_from_target_by_tag(Node* target, int tag) const noexcept;
-    std::size_t get_number_of_running_action_from_target(Node* target) const noexcept;
-    std::vector<Action*> get_all_actions_from_target(Node* target) const;
-    std::vector<Node*> get_all_targets() const;
+    inline Action* get_action_from_target_by_tag(Node* target, int tag) const noexcept { return _data.get_action_from_target_by_tag(target, tag); }
+    inline std::size_t get_number_of_running_action_from_target(Node* target) const noexcept { return _data.get_number_of_running_action_from_target(target); }
+    inline std::vector<Action*> get_all_actions_from_target(Node* target) const { return _data.get_all_actions_from_target(target); }
+    inline std::vector<Node*> get_all_targets() const { return _data.get_all_targets(); }
 
     void update(float dt);
 };
