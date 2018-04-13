@@ -27,6 +27,7 @@
 #endif
 
 #include "math/CCMathBase.h"
+#include "base/ccMacros.h"
 
 /**
  * @addtogroup base

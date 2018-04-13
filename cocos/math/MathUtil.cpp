@@ -19,7 +19,6 @@ This file was modified to fit the cocos2d-x project
 */
 
 #include "math/MathUtil.h"
-#include "base/ccMacros.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include <cpu-features.h>
