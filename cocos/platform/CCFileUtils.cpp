@@ -142,6 +142,18 @@ public:
         parser.parse(fileName);
         return _rootArray;
     }
+    
+    ValueVector arrayWithDataOfFile(const  char* filedata, int filesiz)
+    {
+        _resultType = SAX_RESULT_ARRAY;
+        SAXParser parser;
+        
+        CCASSERT(parser.init("UTF-8"), "The file format isn't UTF-8");
+        parser.setDelegator(this);
+        
+        parser.parse(filedata, filesize);
+        return _rootArray;
+    }
 
     void startElement(void *ctx, const char *name, const char **atts)
     {
@@ -368,6 +380,12 @@ ValueVector FileUtils::getValueVectorFromFile(const std::string& filename)
     return tMaker.arrayWithContentsOfFile(fullPath);
 }
 
+ValueVector FileUtils::getValueVectorFromData(const char* filedata, int filesize)
+{
+    DictMaker tMaker;
+    return tMaker.arrayWithDataOfFile(filedata, filesize);
+}
+
 
 /*
  * forward statement
@@ -555,6 +573,7 @@ static tinyxml2::XMLElement* generateElementForArray(const ValueVector& array, t
 ValueMap FileUtils::getValueMapFromFile(const std::string& filename) {return ValueMap();}
 ValueMap FileUtils::getValueMapFromData(const char* filedata, int filesize) {return ValueMap();}
 ValueVector FileUtils::getValueVectorFromFile(const std::string& filename) {return ValueVector();}
+ValueVector FileUtils::getValueVectorFromData(const char* filedata, int filesize) {return ValueVector();}
 bool FileUtils::writeToFile(const ValueMap& dict, const std::string &fullPath) {return false;}
 
 #endif /* (CC_TARGET_PLATFORM != CC_PLATFORM_IOS) && (CC_TARGET_PLATFORM != CC_PLATFORM_MAC) */

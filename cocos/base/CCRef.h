@@ -75,6 +75,13 @@ public:
  */
 class CC_DLL Ref
 {
+#if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
+protected:
+    bool _trackRetainRelease = false;
+private:
+    std::vector<std::vector<std::string>> _retainList;
+    std::vector<std::vector<std::string>> _releaseList;
+#endif
 public:
     /**
      * Retains the ownership.

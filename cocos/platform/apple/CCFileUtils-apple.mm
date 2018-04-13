@@ -355,7 +355,7 @@ ValueMap FileUtilsApple::getValueMapFromData(const char* filedata, int filesize)
     }
     else
     {
-        NSException* e = [NSException exceptionWithName:@"Not a Disctionary"
+        NSException* e = [NSException exceptionWithName:@"Not a Dictionary"
                                                  reason:@"Filedata is not a dictionary"
                                                userInfo:nil];
         @throw e;
@@ -451,24 +451,35 @@ bool FileUtils::writeValueVectorToFile(const ValueVector& vecData, const std::st
 
     return true;
 }
+
 ValueVector FileUtilsApple::getValueVectorFromFile(const std::string& filename)
 {
-    //    NSString* pPath = [NSString stringWithUTF8String:pFileName];
-    //    NSString* pathExtension= [pPath pathExtension];
-    //    pPath = [pPath stringByDeletingPathExtension];
-    //    pPath = [[NSBundle mainBundle] pathForResource:pPath ofType:pathExtension];
-    //    fixing cannot read data using Array::createWithContentsOfFile
-    std::string fullPath = fullPathForFilename(filename);
-    NSString* path = [NSString stringWithUTF8String:fullPath.c_str()];
-    NSArray* array = [NSArray arrayWithContentsOfFile:path];
+    auto d(FileUtils::getInstance()->getDataFromFile(filename));
+    return getValueVectorFromData(reinterpret_cast<char*>(d.getBytes()), static_cast<int>(d.getSize()));
+}
 
+ValueVector FileUtilsApple::getValueVectorFromData(const char* filedata, int filesize)
+{
+    NSData* file = [NSData dataWithBytes:filedata length:filesize];
+    NSPropertyListFormat format;
+    NSError* error;
+    id plist = [NSPropertyListSerialization propertyListWithData:file options:NSPropertyListImmutable format:&format error:&error];
+    
     ValueVector ret;
-
-    for (id value in array)
-    {
-        addNSObjectToCCVector(value, ret);
+    
+    if (plist != nil && [plist isKindOfClass:[NSArray class]]) {
+        for (id value in plist) {
+            addNSObjectToCCVector(value, ret);
+        }
     }
-
+    else
+    {
+        NSException* e = [NSException exceptionWithName:@"Not an Array"
+                                                 reason:@"Filedata is not an array"
+                                               userInfo:nil];
+        @throw e;
+    }
+    
     return ret;
 }
 
