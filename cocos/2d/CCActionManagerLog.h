@@ -22,8 +22,7 @@ class Action;
 
 class ActionManagerLog
 {
-    using log_t = std::deque<ActionManagerRecord>;
-    log_t _log;
+    std::deque<ActionManagerRecord> _log;
     ActionManagerData _data;
 
 public:

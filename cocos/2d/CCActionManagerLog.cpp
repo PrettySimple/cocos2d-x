@@ -22,6 +22,7 @@ void ActionManagerLog::update(float dt)
 {
     if (!_data.empty())
     {
+        _log.clear();
         for (auto const& ele : _data)
         {
             if (!ele.paused)
