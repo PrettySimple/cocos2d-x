@@ -143,7 +143,7 @@ public:
         return _rootArray;
     }
     
-    ValueVector arrayWithDataOfFile(const  char* filedata, int filesiz)
+    ValueVector arrayWithDataOfFile(const  char* filedata, int filesize)
     {
         _resultType = SAX_RESULT_ARRAY;
         SAXParser parser;

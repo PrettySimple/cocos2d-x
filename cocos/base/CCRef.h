@@ -26,6 +26,11 @@ THE SOFTWARE.
 #ifndef __BASE_CCREF_H__
 #define __BASE_CCREF_H__
 
+#if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
+#include <string>
+#include <vector>
+#endif
+
 #include "platform/CCPlatformMacros.h"
 #include "base/ccConfig.h"
 
