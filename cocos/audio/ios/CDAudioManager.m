@@ -580,9 +580,6 @@ static BOOL configured = FALSE;
 	}
 
 	[self.backgroundMusic play];
-    NSDate *methodFinish = [NSDate date];
-    NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
-    NSLog(@"%@, %f", filePath, executionTime);
 }
 
 -(void) stopBackgroundMusic

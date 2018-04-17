@@ -422,19 +422,22 @@ void AudioCache::invokingLoadCallbacks()
 
     auto isDestroyed = _isDestroyed;
     auto scheduler = Director::getInstance()->getScheduler();
-    scheduler->performFunctionInCocosThread([&, isDestroyed](){
-        if (*isDestroyed)
+    scheduler->performFunctionInCocosThread([this](){
+        if (*_isDestroyed)
         {
             ALOGV("invokingLoadCallbacks perform in cocos thread, AudioCache (%p) was destroyed!", this);
             return;
         }
 
-        for (auto&& cb : _loadCallbacks)
+        // audioCache might be destroyed during callback execution (if callback does an sound uncache for example),
+        // so we copy them before iterating over
+        auto copyLoadCallbacks = _loadCallbacks;
+        _loadCallbacks.clear();
+        
+        for (auto&& cb : copyLoadCallbacks)
         {
             cb(_state == State::READY);
         }
-
-        _loadCallbacks.clear();
     });
 }
 
