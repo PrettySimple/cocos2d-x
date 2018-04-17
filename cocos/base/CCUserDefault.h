@@ -219,49 +219,13 @@ public:
      */
     static void destroyInstance();
 
-    /**
-    * You can inherit from platform dependent implementation of UserDefault, such as UserDefaultAndroid,
-    * and use this function to set delegate, then UserDefault will invoke delegate's implementation.
-    * For example, your store native data base or other format store.
-    *
-    * If you don't want to system default implementation after setting delegate, you can just pass nullptr
-    * to this function.
-    *
-    * @warning It will delete previous delegate
-    */
-    static void setDelegate(UserDefault *delegate);
-
-    /** @deprecated Use getInstace() instead.
-     * @js NA
-     * @lua NA
-     */
-    CC_DEPRECATED_ATTRIBUTE static UserDefault* sharedUserDefault();
-    /**@deprecated Use destroyInstance() instead.
-     * @js NA
-     */
-    CC_DEPRECATED_ATTRIBUTE static void purgeSharedUserDefault();
-    /** All supported platforms other iOS & Android use xml file to save values. This function is return the file path of the xml path.
-     * @js NA
-     */
-    static const std::string& getXMLFilePath();
-    /** All supported platforms other iOS & Android and CC_PLATFORM_WINRT use xml file to save values. This function checks whether the xml file exists or not.
-     * @return True if the xml file exists, false if not.
-     * @js NA
-     */
-    static bool isXMLFileExist();
-
 protected:
     UserDefault();
     virtual ~UserDefault();
     
 private:
     
-    static bool createXMLFile();
-    static void initXMLFilePath();
-    
     static UserDefault* _userDefault;
-    static std::string _filePath;
-    static bool _isFilePathInitialized;
 };
 
 

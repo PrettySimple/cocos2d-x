@@ -29,6 +29,7 @@
 
 	Since we don't have any compatibility to maintain, all xml-related methods shall unconditionally be NOOPs.
 
+	Update 16/04/2018 - Removed code under KEEP_COMPATABILITY that was doing insane stuff (deleting keys in set*() methods)
 
 * Implementing this is annoying as we cannot add functions to the class.
 
@@ -177,8 +178,6 @@ namespace
 
 
 UserDefault	*UserDefault::_userDefault = nullptr;
-std::string	UserDefault::_filePath = std::string("");
-bool		UserDefault::_isFilePathInitialized = false;
 
 
 UserDefault::UserDefault()
@@ -399,48 +398,6 @@ UserDefault
 void	UserDefault::destroyInstance()
 {
     CC_SAFE_DELETE(_userDefault);
-}
-
-// I couldn't find any implementation (nor call) of this function for other platforms (except winrt...)
-void	UserDefault::setDelegate(UserDefault *delegate)
-{
-	if(_userDefault)
-		delete _userDefault;
-
-	_userDefault = delegate;
-}
-
-UserDefault
-		*UserDefault::sharedUserDefault()
-{
-    return UserDefault::getInstance();
-}
-
-void	UserDefault::purgeSharedUserDefault()
-{
-    UserDefault::destroyInstance();
-}
-
-
-
-const std::string&
-		UserDefault::getXMLFilePath()
-{
-	return _filePath;	// always ""
-}
-
-bool	UserDefault::isXMLFileExist()
-{
-	return false;
-}
-
-bool	UserDefault::createXMLFile()
-{
-    return false;
-}
-
-void	UserDefault::initXMLFilePath()
-{
 }
 
 
