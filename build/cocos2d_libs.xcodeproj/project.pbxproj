@@ -1178,12 +1178,6 @@
 		226F994F2024731500673BF6 /* CCActionManagerLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 226F994B2024731500673BF6 /* CCActionManagerLog.h */; };
 		226F99502024731500673BF6 /* CCActionManagerLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 226F994B2024731500673BF6 /* CCActionManagerLog.h */; };
 		226F99512024731500673BF6 /* CCActionManagerLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 226F994B2024731500673BF6 /* CCActionManagerLog.h */; };
-		226F995C2024755800673BF6 /* CCActionManagerRecord.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 226F995A2024755800673BF6 /* CCActionManagerRecord.cpp */; };
-		226F995D2024755800673BF6 /* CCActionManagerRecord.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 226F995A2024755800673BF6 /* CCActionManagerRecord.cpp */; };
-		226F995E2024755800673BF6 /* CCActionManagerRecord.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 226F995A2024755800673BF6 /* CCActionManagerRecord.cpp */; };
-		226F995F2024755800673BF6 /* CCActionManagerRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 226F995B2024755800673BF6 /* CCActionManagerRecord.h */; };
-		226F99602024755800673BF6 /* CCActionManagerRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 226F995B2024755800673BF6 /* CCActionManagerRecord.h */; };
-		226F99612024755800673BF6 /* CCActionManagerRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 226F995B2024755800673BF6 /* CCActionManagerRecord.h */; };
 		227778AB202A04BD0073C8BD /* iterator_pair.h in Headers */ = {isa = PBXBuildFile; fileRef = 227778A9202A04BD0073C8BD /* iterator_pair.h */; };
 		291901431B05895600F8B4BA /* CCNinePatchImageParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 291901411B05895600F8B4BA /* CCNinePatchImageParser.h */; };
 		291901441B05895600F8B4BA /* CCNinePatchImageParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 291901411B05895600F8B4BA /* CCNinePatchImageParser.h */; };
@@ -5921,8 +5915,6 @@
 		226F994320246FD500673BF6 /* CCActionManagerData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCActionManagerData.h; sourceTree = "<group>"; };
 		226F994A2024731500673BF6 /* CCActionManagerLog.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CCActionManagerLog.cpp; sourceTree = "<group>"; };
 		226F994B2024731500673BF6 /* CCActionManagerLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCActionManagerLog.h; sourceTree = "<group>"; };
-		226F995A2024755800673BF6 /* CCActionManagerRecord.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CCActionManagerRecord.cpp; sourceTree = "<group>"; };
-		226F995B2024755800673BF6 /* CCActionManagerRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCActionManagerRecord.h; sourceTree = "<group>"; };
 		227778A9202A04BD0073C8BD /* iterator_pair.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iterator_pair.h; sourceTree = "<group>"; };
 		29031E0619BFE8D400EFA1DF /* libchipmunk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libchipmunk.a; path = prebuilt/mac/libchipmunk.a; sourceTree = "<group>"; };
 		29031E0819BFE8DE00EFA1DF /* libchipmunk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libchipmunk.a; path = prebuilt/ios/libchipmunk.a; sourceTree = "<group>"; };
@@ -7770,8 +7762,6 @@
 				226F994320246FD500673BF6 /* CCActionManagerData.h */,
 				226F994A2024731500673BF6 /* CCActionManagerLog.cpp */,
 				226F994B2024731500673BF6 /* CCActionManagerLog.h */,
-				226F995A2024755800673BF6 /* CCActionManagerRecord.cpp */,
-				226F995B2024755800673BF6 /* CCActionManagerRecord.h */,
 				1A570059180BC5A10088DEC7 /* CCActionPageTurn3D.cpp */,
 				1A57005A180BC5A10088DEC7 /* CCActionPageTurn3D.h */,
 				1A57005B180BC5A10088DEC7 /* CCActionProgressTimer.cpp */,
@@ -11084,7 +11074,6 @@
 				B6DD2FE71B04825B00E47F5F /* DetourPathQueue.h in Headers */,
 				B6DD2FBB1B04825B00E47F5F /* DetourAssert.h in Headers */,
 				46A170EE1807CECA005B8026 /* CCPhysicsShape.h in Headers */,
-				226F995F2024755800673BF6 /* CCActionManagerRecord.h in Headers */,
 				B6CAB3D91AF9AA1A00B9B856 /* btSolverBody.h in Headers */,
 				15AE1A5C19AAD40300C27E9E /* b2Timer.h in Headers */,
 				B665E1FC1AA80A6500DDB1C5 /* CCPUAffectorTranslator.h in Headers */,
@@ -12124,7 +12113,6 @@
 				507B3D741C31BDD30067B53E /* CCSprite3DMaterial.h in Headers */,
 				50864CD21C7BC1B100B3BAB1 /* cpShape.h in Headers */,
 				507B3D751C31BDD30067B53E /* DetourMath.h in Headers */,
-				226F99612024755800673BF6 /* CCActionManagerRecord.h in Headers */,
 				507B3D761C31BDD30067B53E /* btList.h in Headers */,
 				507B3D771C31BDD30067B53E /* CCControlUtils.h in Headers */,
 				507B3D781C31BDD30067B53E /* CCActionObject.h in Headers */,
@@ -13951,7 +13939,6 @@
 				B6CAB50C1AF9AA1A00B9B856 /* btHashMap.h in Headers */,
 				15AE185819AAD31200C27E9E /* CDAudioManager.h in Headers */,
 				B6CAB3841AF9AA1A00B9B856 /* btMinkowskiPenetrationDepthSolver.h in Headers */,
-				226F99602024755800673BF6 /* CCActionManagerRecord.h in Headers */,
 				0C261F2B1BE7528900707478 /* Light3DReader.h in Headers */,
 				50864C981C7BC1B000B3BAB1 /* chipmunk_unsafe.h in Headers */,
 				B665E38D1AA80A6500DDB1C5 /* CCPUPlane.h in Headers */,
@@ -14962,7 +14949,6 @@
 				50ABBD381925AB0000A911A9 /* CCAffineTransform.cpp in Sources */,
 				B665E2AA1AA80A6500DDB1C5 /* CCPUFlockCenteringAffector.cpp in Sources */,
 				B6CAB2CD1AF9AA1A00B9B856 /* btMultimaterialTriangleMeshShape.cpp in Sources */,
-				226F995C2024755800673BF6 /* CCActionManagerRecord.cpp in Sources */,
 				46C02E0718E91123004B7456 /* xxhash.c in Sources */,
 				15AE1B6B19AADA9900C27E9E /* UIWidget.cpp in Sources */,
 				50ABBE931925AB6F00A911A9 /* CCProfiling.cpp in Sources */,
@@ -15577,7 +15563,6 @@
 				507B3C1C1C31BDD30067B53E /* Sprite3DReader.cpp in Sources */,
 				507B3C1D1C31BDD30067B53E /* CCThread-apple.mm in Sources */,
 				507B3C1E1C31BDD30067B53E /* UIAbstractCheckButton.cpp in Sources */,
-				226F995E2024755800673BF6 /* CCActionManagerRecord.cpp in Sources */,
 				507B3C1F1C31BDD30067B53E /* SpuFakeDma.cpp in Sources */,
 				507B3C201C31BDD30067B53E /* CCUserDefault-android.cpp in Sources */,
 				507B3C211C31BDD30067B53E /* btThreadSupportInterface.cpp in Sources */,
@@ -16292,7 +16277,6 @@
 				B665E24F1AA80A6500DDB1C5 /* CCPUColorAffectorTranslator.cpp in Sources */,
 				15AE194719AAD35100C27E9E /* CCComAudio.cpp in Sources */,
 				15AE192719AAD35100C27E9E /* TriggerBase.cpp in Sources */,
-				226F995D2024755800673BF6 /* CCActionManagerRecord.cpp in Sources */,
 				15AE1B8819AADA9A00C27E9E /* UICheckBox.cpp in Sources */,
 				15AE1A4B19AAD3D500C27E9E /* b2EdgeShape.cpp in Sources */,
 				B6CAB3DE1AF9AA1A00B9B856 /* btTypedConstraint.cpp in Sources */,

@@ -14,7 +14,7 @@ NS_CC_BEGIN
 
 void ActionManagerLog::add_action(Node* target, Action* action, bool paused)
 {
-    _log.emplace_back(target, action);
+    _log.emplace_back(action);
     _data.add_action(target, action, paused);
 }
 
@@ -27,31 +27,30 @@ void ActionManagerLog::update(float dt)
         {
             if (!ele.paused)
             {
-                _log.emplace_back(nullptr, ele.action);
+                _log.emplace_back(ele.action);
             }
         }
         
         while (!_log.empty())
         {
-            auto record = std::move(_log.front());
+            auto action = _log.front();
             _log.pop_front();
 
-            auto const& ele = _data.get_element_from_action(record.action);
+            auto const& ele = _data.get_element_from_action(action);
             if (ele.target != nullptr)
             {
                 if (ele.target->getReferenceCount() > 1)
                 {
-                    if (ele.action != nullptr && !ele.paused)
+                    if (!ele.paused)
                     {
-                        ele.action->step(dt);
+                        action->retain();
+                        action->step(dt);
 
-                        if (_data.count(record.action) > 0) // Need to be sure that the action hasn't been removed by some code executed during step previous line
+                        if (_data.count(action) > 0 && action->isDone()) // Need to be sure that the action hasn't been removed by some code executed during step previous line
                         {
-                            if (ele.action->isDone())
-                            {
-                                _data.remove_element(ele);
-                            }
+                            _data.remove_element(ele);
                         }
+                        action->release();
                     }
                 }
                 else

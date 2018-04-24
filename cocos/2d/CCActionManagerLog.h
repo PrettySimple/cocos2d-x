@@ -9,7 +9,6 @@
 #define ACTION_CCACTION_MANAGERLOG_H
 
 #include "CCActionManagerData.h"
-#include "CCActionManagerRecord.h"
 #include "platform/CCPlatformMacros.h"
 #include <cstddef>
 #include <deque>
@@ -22,7 +21,7 @@ class Action;
 
 class ActionManagerLog
 {
-    std::deque<ActionManagerRecord> _log;
+    std::deque<Action*> _log;
     ActionManagerData _data;
 
 public:
