@@ -260,6 +260,16 @@ public:
      * @param sprite A Sprite.
      */
     void setSprite(Sprite* sprite);
+
+    /**
+     * We need this method when destroying texture because in case of a context recovering on android or EMScripten,
+     * we don't want to destroy the associated openGL buffers, as they already have been destroyed
+     *
+     * @param p_contextRecovered Do we came from a context recovering
+     */
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+    void setDestroyedFromContextRecovering(bool p_contextRecovered);
+#endif
     
     // Overrides
     virtual void visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags) override;
@@ -313,40 +323,43 @@ protected:
     virtual void beginWithClear(float r, float g, float b, float a, float depthValue, int stencilValue, GLbitfield flags);
     
     //flags: whether generate new modelView and projection matrix or not
-    bool         _keepMatrix;
-    Rect         _rtTextureRect;
-    Rect         _fullRect;
-    Rect         _fullviewPort;
+    bool                    _keepMatrix;
+    Rect                    _rtTextureRect;
+    Rect                    _fullRect;
+    Rect                    _fullviewPort;
     
-    GLuint       _FBO;
-    GLuint       _depthRenderBufffer;
-    GLuint       _stencilRenderBufffer;
-    GLint        _oldFBO;
-    Texture2D* _texture;
-    Texture2D* _textureCopy;    // a copy of _texture
-    Image*     _UITextureImage;
-    Texture2D::PixelFormat _pixelFormat;
-    
+    GLuint                  _FBO;
+    GLuint                  _depthRenderBufffer;
+    GLuint                  _stencilRenderBufffer;
+    GLint                   _oldFBO;
+    Texture2D*              _texture;
+    Texture2D*              _textureCopy;    // a copy of _texture
+    Image*                  _UITextureImage;
+    Texture2D::PixelFormat  _pixelFormat;
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+    bool 					_destroyedFromContextRecovering;
+#endif
+
     // code for "auto" update
-    GLbitfield   _clearFlags;
-    Color4F    _clearColor;
-    GLclampf     _clearDepth;
-    GLint        _clearStencil;
-    bool         _autoDraw;
+    GLbitfield              _clearFlags;
+    Color4F                 _clearColor;
+    GLclampf                _clearDepth;
+    GLint                   _clearStencil;
+    bool                    _autoDraw;
 
     /** The Sprite being used.
      The sprite, by default, will use the following blending function: GL_ONE, GL_ONE_MINUS_SRC_ALPHA.
      The blending function can be changed in runtime by calling:
      - renderTexture->getSprite()->setBlendFunc((BlendFunc){GL_ONE, GL_ONE_MINUS_SRC_ALPHA});
      */
-    Sprite* _sprite;
+    Sprite*                 _sprite;
     
-    GroupCommand  _groupCommand;
-    CustomCommand _beginWithClearCommand;
-    CustomCommand _clearDepthCommand;
-    CustomCommand _clearCommand;
-    CustomCommand _beginCommand;
-    CustomCommand _endCommand;
+    GroupCommand            _groupCommand;
+    CustomCommand           _beginWithClearCommand;
+    CustomCommand           _clearDepthCommand;
+    CustomCommand           _clearCommand;
+    CustomCommand           _beginCommand;
+    CustomCommand           _endCommand;
     /*this command is used to encapsulate saveToFile,
      call saveToFile twice will overwrite this command and callback
      and the command and callback will be executed twice.

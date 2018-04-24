@@ -53,6 +53,9 @@ RenderTexture::RenderTexture()
 , _textureCopy(0)
 , _UITextureImage(nullptr)
 , _pixelFormat(Texture2D::PixelFormat::RGBA8888)
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+, _destroyedFromContextRecovering(false)
+#endif
 , _clearFlags(0)
 , _clearColor(Color4F(0,0,0,0))
 , _clearDepth(0.0f)
@@ -77,16 +80,23 @@ RenderTexture::~RenderTexture()
     CC_SAFE_RELEASE(_sprite);
     CC_SAFE_RELEASE(_textureCopy);
 
-    glDeleteFramebuffers(1, &_FBO);
-    if (_depthRenderBufffer)
-    {
-        glDeleteRenderbuffers(1, &_depthRenderBufffer);
-    }
 
-    if (_stencilRenderBufffer)
+    // don't delete frameBuffers as they are already invalidated from the context lost
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+    if (!_destroyedFromContextRecovering)
+#endif
     {
-        glDeleteRenderbuffers(1, &_stencilRenderBufffer);
+        glDeleteFramebuffers(1, &_FBO);
+        if (_depthRenderBufffer) {
+            glDeleteRenderbuffers(1, &_depthRenderBufffer);
+        }
+
+        if (_stencilRenderBufffer) {
+            glDeleteRenderbuffers(1, &_stencilRenderBufffer);
+        }
     }
+    _depthRenderBufffer = 0;
+    _stencilRenderBufffer = 0;
 
     CC_SAFE_DELETE(_UITextureImage);
 }
@@ -398,6 +408,13 @@ void RenderTexture::setSprite(Sprite* sprite)
     CC_SAFE_RELEASE(_sprite);
     _sprite = sprite;
 }
+
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+void RenderTexture::setDestroyedFromContextRecovering(bool p_contextRecovered)
+{
+    _destroyedFromContextRecovering = p_contextRecovered;
+}
+#endif
 
 void RenderTexture::setKeepMatrix(bool keepMatrix)
 {
