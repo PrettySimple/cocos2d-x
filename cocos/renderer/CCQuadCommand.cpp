@@ -25,24 +25,21 @@
 
 #include "renderer/CCQuadCommand.h"
 
-#include "renderer/ccGLStateCache.h"
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCMaterial.h"
-#include "renderer/CCTechnique.h"
-#include "renderer/CCRenderer.h"
 #include "renderer/CCPass.h"
+#include "renderer/CCRenderer.h"
+#include "renderer/CCTechnique.h"
 #include "renderer/CCTexture2D.h"
+#include "renderer/ccGLStateCache.h"
+
+#include <algorithm>
+#include <limits>
 
 NS_CC_BEGIN
 
 int QuadCommand::__indexCapacity = -1;
 GLushort* QuadCommand::__indices = nullptr;
-
-QuadCommand::QuadCommand():
-_indexSize(-1),
-_ownedIndices()
-{
-}
 
 QuadCommand::~QuadCommand()
 {
@@ -81,7 +78,7 @@ void QuadCommand::reIndex(int indicesCount)
     {
         // if resizing is needed, get needed size plus 25%, but not bigger that max size
         indicesCount *= 1.25;
-        indicesCount = std::min(indicesCount, 65536);
+        indicesCount = std::min(indicesCount, static_cast<int>(std::numeric_limits<GLushort>::max()));
 
         CCLOG("cocos2d: QuadCommand: resizing index size from [%d] to [%d]", __indexCapacity, indicesCount);
 
@@ -112,6 +109,10 @@ void QuadCommand::init(float globalOrder, Texture2D* texture, GLProgramState* gl
     const Mat4& mv, uint32_t flags)
 {
     init(globalOrder, texture->getName(), glProgramState, blendType, quads, quadCount, mv, flags);
+#ifdef DEBUG_TEXTURE_SIZE
+    CC_ASSERT(texture != nullptr);
+    _texSize = { static_cast<float>(texture->getPixelsWide()), static_cast<float>(texture->getPixelsHigh()) };
+#endif
     _alphaTextureID = texture->getAlphaTextureName();
 }
 

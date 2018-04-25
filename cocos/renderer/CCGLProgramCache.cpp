@@ -126,18 +126,21 @@ GLProgramCache::~GLProgramCache()
 bool GLProgramCache::init()
 {
     loadDefaultGLPrograms();
-    
+
     auto listener = EventListenerCustom::create(Configuration::CONFIG_FILE_LOADED, [this](EventCustom* event){
         reloadDefaultGLProgramsRelativeToLights();
     });
-    
+
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(listener, -1);
-    
+
     return true;
 }
 
 void GLProgramCache::loadDefaultGLPrograms()
 {
+#ifdef DEBUG_TEXTURE_SIZE
+    GLProgram::createMipmapDebug();
+#endif
     // Position Texture Color shader
     GLProgram *p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_PositionTextureColor);
@@ -278,7 +281,7 @@ void GLProgramCache::loadDefaultGLPrograms()
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_3DTerrain);
     _programs.insert(std::make_pair(GLProgram::SHADER_3D_TERRAIN, p));
-    
+
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_CameraClear);
     _programs.insert(std::make_pair(GLProgram::SHADER_CAMERA_CLEAR, p));
@@ -304,6 +307,9 @@ void GLProgramCache::loadDefaultGLPrograms()
 
 void GLProgramCache::reloadDefaultGLPrograms()
 {
+#ifdef DEBUG_TEXTURE_SIZE
+    GLProgram::onContextRecovered();
+#endif
     // reset all programs and reload them
 
     // Position Texture Color shader
@@ -445,7 +451,7 @@ void GLProgramCache::reloadDefaultGLPrograms()
     p = getGLProgram(GLProgram::SHADER_3D_TERRAIN);
     p->reset();
     loadDefaultGLProgram(p, kShaderType_3DTerrain);
-    
+
     p = getGLProgram(GLProgram::SHADER_CAMERA_CLEAR);
     p->reset();
     loadDefaultGLProgram(p, kShaderType_CameraClear);
@@ -456,11 +462,11 @@ void GLProgramCache::reloadDefaultGLProgramsRelativeToLights()
     GLProgram *p = getGLProgram(GLProgram::SHADER_3D_POSITION_NORMAL);
     p->reset();
     loadDefaultGLProgram(p, kShaderType_3DPositionNormal);
-    
+
     p = getGLProgram(GLProgram::SHADER_3D_POSITION_NORMAL_TEXTURE);
     p->reset();
     loadDefaultGLProgram(p, kShaderType_3DPositionNormalTex);
-    
+
     p = getGLProgram(GLProgram::SHADER_3D_SKINPOSITION_NORMAL_TEXTURE);
     p->reset();
     loadDefaultGLProgram(p, kShaderType_3DSkinPositionNormalTex);
@@ -649,5 +655,15 @@ std::string GLProgramCache::getShaderMacrosForLight() const
              conf->getMaxSupportSpotLightInShader());
     return std::string(def);
 }
+
+#ifdef DEBUG_TEXTURE_SIZE
+void GLProgramCache::setDebug(DebugFlag debug) noexcept
+{
+    for(auto [_, prog] : _programs)
+    {
+        prog->setDebug(debug);
+    }
+}
+#endif
 
 NS_CC_END

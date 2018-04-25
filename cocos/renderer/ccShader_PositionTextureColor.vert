@@ -23,24 +23,33 @@
  * THE SOFTWARE.
  */
 
-const char* ccPositionTextureColor_vert = STRINGIFY(
+const char* ccPositionTextureColor_vert = R"(
+#ifdef GL_ES
+attribute mediump vec4 a_position;
+attribute lowp vec2 a_texCoord;
+attribute lowp vec4 a_color;
+
+varying lowp vec4 v_fragmentColor;
+varying lowp vec2 v_texCoord;
+varying mediump vec2 v_mipTexCoord; // DEBUG_TEXTURE_SIZE
+#else
 attribute vec4 a_position;
 attribute vec2 a_texCoord;
 attribute vec4 a_color;
 
-\n#ifdef GL_ES\n
-varying lowp vec4 v_fragmentColor;
-varying mediump vec2 v_texCoord;
-\n#else\n
 varying vec4 v_fragmentColor;
 varying vec2 v_texCoord;
-\n#endif\n
+varying vec2 v_mipTexCoord; // DEBUG_TEXTURE_SIZE
+#endif
 
 void main()
 {
     gl_Position = CC_MVPMatrix * a_position;
     v_fragmentColor = a_color;
     v_texCoord = a_texCoord;
+#ifdef DEBUG_TEXTURE_SIZE
+    v_mipTexCoord = a_texCoord * (u_TexSize / 8.0);
+#endif
 }
-);
 
+)";

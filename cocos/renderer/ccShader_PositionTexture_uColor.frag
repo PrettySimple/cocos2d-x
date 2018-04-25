@@ -23,18 +23,36 @@
  * THE SOFTWARE.
  */
 
-const char* ccPositionTexture_uColor_frag = STRINGIFY(
+const char* ccPositionTexture_uColor_frag = R"(
 
-\n#ifdef GL_ES\n
+#ifdef GL_ES
 precision lowp float;
-\n#endif\n
 
+uniform lowp vec4 u_color;
+
+varying lowp vec2 v_texCoord;
+varying mediump vec2 v_mipTexCoord; // DEBUG_TEXTURE_SIZE
+#else
 uniform vec4 u_color;
 
 varying vec2 v_texCoord;
+varying vec2 v_mipTexCoord; // DEBUG_TEXTURE_SIZE
+#endif
 
 void main()
 {
-    gl_FragColor =  texture2D(CC_Texture0, v_texCoord) * u_color;
+#ifdef DEBUG_TEXTURE_SIZE
+    if (CC_Debug == 1)
+    {
+        vec4 col = u_color * texture2D(CC_Texture0, v_texCoord);
+        vec4 mip = texture2D(CC_Texture3, v_mipTexCoord);
+        gl_FragColor = vec4(mix(col.rgb, mip.rgb, mip.a).rgb, col.a);
+    }
+    else
+#endif
+    {
+        gl_FragColor = texture2D(CC_Texture0, v_texCoord) * u_color;
+    }
 }
-);
+
+)";

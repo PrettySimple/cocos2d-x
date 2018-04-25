@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2013-2016 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,13 +28,17 @@
 #include "renderer/CCRenderCommand.h"
 #include "renderer/CCGLProgramState.h"
 
+#ifdef DEBUG_TEXTURE_SIZE
+#include "math/Vec2.h"
+#endif
+
 /**
  * @addtogroup renderer
  * @{
  */
 
 NS_CC_BEGIN
-/** 
+/**
  Command used to render one or more Triangles, which is similar to QuadCommand.
  Every TrianglesCommand will have generate material ID by give textureID, glProgramState, Blend function
  if the material id is the same, these TrianglesCommands could be batched to save draw call.
@@ -46,19 +50,23 @@ public:
     struct Triangles
     {
         /**Vertex data pointer.*/
-        V3F_C4B_T2F* verts;
+        V3F_C4B_T2F* verts = nullptr;
         /**Index data pointer.*/
-        unsigned short* indices;
+        unsigned short* indices = nullptr;
         /**The number of vertices.*/
-        int vertCount;
+        int vertCount = 0;
         /**The number of indices.*/
-        int indexCount;
+        int indexCount = 0;
     };
     /**Constructor.*/
     TrianglesCommand();
+    TrianglesCommand(TrianglesCommand const&) =delete;
+    TrianglesCommand& operator=(TrianglesCommand const&) =delete;
+    TrianglesCommand(TrianglesCommand &&) noexcept =delete;
+    TrianglesCommand& operator=(TrianglesCommand &&) noexcept =delete;
     /**Destructor.*/
-    ~TrianglesCommand();
-    
+    ~TrianglesCommand() override;
+
     /** Initializes the command.
      @param globalOrder GlobalZOrder of the command.
      @param textureID The openGL handle of the used texture.
@@ -94,11 +102,15 @@ public:
     BlendFunc getBlendType() const { return _blendType; }
     /**Get the model view matrix.*/
     const Mat4& getModelView() const { return _mv; }
-    
+
+#ifdef DEBUG_TEXTURE_SIZE
+    void setTextureSize(Vec2 const& texSize);
+#endif
+
 protected:
     /**Generate the material ID by textureID, glProgramState, and blend function.*/
     void generateMaterialID();
-    
+
     /**Generated material id.*/
     uint32_t _materialID;
     /**OpenGL handle for texture.*/
@@ -111,6 +123,9 @@ protected:
     Triangles _triangles;
     /**Model view matrix when rendering the triangles.*/
     Mat4 _mv;
+#ifdef DEBUG_TEXTURE_SIZE
+    Vec2 _texSize = Vec2::ZERO;
+#endif
 
     GLuint _alphaTextureID; // ANDROID ETC1 ALPHA supports.
 };

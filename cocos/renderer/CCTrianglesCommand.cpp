@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2013-2016 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,12 +23,13 @@
  ****************************************************************************/
 
 #include "renderer/CCTrianglesCommand.h"
-#include "renderer/ccGLStateCache.h"
+
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramState.h"
-#include "xxhash.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/CCTexture2D.h"
+#include "renderer/ccGLStateCache.h"
+#include "xxhash.h"
 
 NS_CC_BEGIN
 
@@ -57,7 +58,7 @@ void TrianglesCommand::init(float globalOrder, GLuint textureID, GLProgramState*
         CCLOGERROR("Resize indexCount from %zd to %zd, size must be multiple times of 3", count, _triangles.indexCount);
     }
     _mv = mv;
-    
+
     if( _textureID != textureID || _blendType.src != blendType.src || _blendType.dst != blendType.dst ||
        _glProgramState != glProgramState)
     {
@@ -77,12 +78,24 @@ void TrianglesCommand::init(float globalOrder, GLuint textureID, GLProgramState*
 void TrianglesCommand::init(float globalOrder, Texture2D* texture, GLProgramState* glProgramState, BlendFunc blendType, const Triangles& triangles, const Mat4& mv, uint32_t flags)
 {
     init(globalOrder, texture->getName(), glProgramState, blendType, triangles, mv, flags);
+#ifdef DEBUG_TEXTURE_SIZE
+    CC_ASSERT(texture != nullptr);
+    _texSize = { static_cast<float>(texture->getPixelsWide()), static_cast<float>(texture->getPixelsHigh()) };
+#endif
     _alphaTextureID = texture->getAlphaTextureName();
 }
 
 TrianglesCommand::~TrianglesCommand()
 {
 }
+
+#ifdef DEBUG_TEXTURE_SIZE
+void TrianglesCommand::setTextureSize(Vec2 const& texSize)
+{
+    CC_ASSERT(texSize != Vec2::ZERO);
+    _texSize = texSize;
+}
+#endif
 
 void TrianglesCommand::generateMaterialID()
 {
@@ -111,14 +124,20 @@ void TrianglesCommand::useMaterial() const
 {
     //Set texture
     GL::bindTexture2D(_textureID);
-    
+
     if (_alphaTextureID > 0)
     { // ANDROID ETC1 ALPHA supports.
         GL::bindTexture2DN(1, _alphaTextureID);
     }
     //set blend mode
     GL::blendFunc(_blendType.src, _blendType.dst);
-    
+
+#ifdef DEBUG_TEXTURE_SIZE
+    CC_ASSERT(_texSize != Vec2::ZERO);
+    CC_ASSERT(_glProgramState != nullptr);
+    _glProgramState->setUniformVec2(GLProgram::UNIFORM_NAME_TEX_SIZE, _texSize);
+#endif
+
     _glProgramState->apply(_mv);
 }
 

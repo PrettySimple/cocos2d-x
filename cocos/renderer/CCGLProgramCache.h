@@ -28,10 +28,10 @@ THE SOFTWARE.
 #ifndef __CCGLPROGRAMCACHE_H__
 #define __CCGLPROGRAMCACHE_H__
 
+#include "base/CCRef.h"
+
 #include <string>
 #include <unordered_map>
-
-#include "base/CCRef.h"
 
 /**
  * @addtogroup renderer
@@ -40,6 +40,7 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
+enum struct DebugFlag : std::uint8_t;
 class GLProgram;
 
 /** GLProgramCache
@@ -81,7 +82,7 @@ public:
     void reloadDefaultGLPrograms();
     CC_DEPRECATED_ATTRIBUTE void reloadDefaultShaders() { reloadDefaultGLPrograms(); }
 
-    /** returns a GL program for a given key 
+    /** returns a GL program for a given key
      */
     GLProgram * getGLProgram(const std::string &key);
     CC_DEPRECATED_ATTRIBUTE GLProgram * getProgram(const std::string &key) { return getGLProgram(key); }
@@ -90,9 +91,14 @@ public:
     /** adds a GLProgram to the cache for a given name */
     void addGLProgram(GLProgram* program, const std::string &key);
     CC_DEPRECATED_ATTRIBUTE void addProgram(GLProgram* program, const std::string &key) { addGLProgram(program, key); }
-    
+
     /** reload default programs these are relative to light */
     void reloadDefaultGLProgramsRelativeToLights();
+
+#ifdef DEBUG_TEXTURE_SIZE
+    void setDebug(DebugFlag debug) noexcept;
+#endif
+
 
 private:
     /**

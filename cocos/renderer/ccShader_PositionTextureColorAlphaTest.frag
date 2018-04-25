@@ -22,26 +22,53 @@
  * THE SOFTWARE.
  */
 
-const char* ccPositionTextureColorAlphaTest_frag = STRINGIFY(
-
-\n#ifdef GL_ES\n
+const char* ccPositionTextureColorAlphaTest_frag = R"(
+#ifdef GL_ES
 precision lowp float;
-\n#endif\n
+
+uniform lowp float CC_alpha_value;
+
+varying lowp vec4 v_fragmentColor;
+varying lowp vec2 v_texCoord;
+varying mediump vec2 v_mipTexCoord; // DEBUG_TEXTURE_SIZE
+#else
+uniform float CC_alpha_value;
 
 varying vec4 v_fragmentColor;
 varying vec2 v_texCoord;
-uniform float CC_alpha_value;
+varying vec2 v_mipTexCoord; // DEBUG_TEXTURE_SIZE
+#endif
 
 void main()
 {
-    vec4 texColor = texture2D(CC_Texture0, v_texCoord);
+#ifdef DEBUG_TEXTURE_SIZE
+    if (CC_Debug == 1)
+    {
+        vec4 col = texture2D(CC_Texture0, v_texCoord);
 
-\n// mimic: glAlphaFunc(GL_GREATER)
-\n// pass if ( incoming_pixel >= CC_alpha_value ) => fail if incoming_pixel < CC_alpha_value\n
+        // mimic: glAlphaFunc(GL_GREATER)
+        // pass if ( incoming_pixel > CC_alpha_value ) => fail if incoming_pixel <= CC_alpha_value
 
-    if ( texColor.a <= CC_alpha_value )
-        discard;
+        if (col.a <= CC_alpha_value)
+            discard;
 
-    gl_FragColor = texColor * v_fragmentColor;
+        col *= v_fragmentColor;
+        vec4 mip = texture2D(CC_Texture3, v_mipTexCoord);
+        gl_FragColor = vec4(mix(col.rgb, mip.rgb, mip.a).rgb, col.a);
+    }
+    else
+#endif
+    {
+        vec4 texColor = texture2D(CC_Texture0, v_texCoord);
+
+        // mimic: glAlphaFunc(GL_GREATER)
+        // pass if ( incoming_pixel > CC_alpha_value ) => fail if incoming_pixel <= CC_alpha_value
+
+        if ( texColor.a <= CC_alpha_value )
+            discard;
+
+        gl_FragColor = texColor * v_fragmentColor;
+    }
 }
-);
+
+)";

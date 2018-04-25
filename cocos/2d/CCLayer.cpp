@@ -25,22 +25,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include <stdarg.h>
 #include "2d/CCLayer.h"
-#include "base/CCScriptSupport.h"
-#include "platform/CCDevice.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccGLStateCache.h"
-#include "renderer/CCGLProgramState.h"
+
 #include "base/CCDirector.h"
+#include "base/CCEventAcceleration.h"
 #include "base/CCEventDispatcher.h"
+#include "base/CCEventKeyboard.h"
+#include "base/CCEventListenerAcceleration.h"
+#include "base/CCEventListenerKeyboard.h"
 #include "base/CCEventListenerTouch.h"
 #include "base/CCEventTouch.h"
-#include "base/CCEventKeyboard.h"
-#include "base/CCEventListenerKeyboard.h"
-#include "base/CCEventAcceleration.h"
-#include "base/CCEventListenerAcceleration.h"
+#include "base/CCScriptSupport.h"
 #include "base/ccUTF8.h"
+#include "platform/CCDevice.h"
+#include "renderer/CCGLProgramState.h"
+#include "renderer/CCRenderer.h"
+#include "renderer/ccGLStateCache.h"
+
+#include <stdarg.h>
 
 NS_CC_BEGIN
 
@@ -142,10 +144,10 @@ void Layer::setTouchEnabled(bool enabled)
                 // Register Touch Event
                 auto listener = EventListenerTouchAllAtOnce::create();
 
-                listener->onTouchesBegan = CC_CALLBACK_2(Layer::onTouchesBegan, this);
-                listener->onTouchesMoved = CC_CALLBACK_2(Layer::onTouchesMoved, this);
-                listener->onTouchesEnded = CC_CALLBACK_2(Layer::onTouchesEnded, this);
-                listener->onTouchesCancelled = CC_CALLBACK_2(Layer::onTouchesCancelled, this);
+                listener->onTouchesBegan = [this](std::vector<Touch*> const& touches, Event* event) { onTouchesBegan(touches, event); };
+                listener->onTouchesMoved = [this](std::vector<Touch*> const& touches, Event* event) { onTouchesMoved(touches, event); };
+                listener->onTouchesEnded = [this](std::vector<Touch*> const& touches, Event* event) { onTouchesEnded(touches, event); };
+                listener->onTouchesCancelled = [this](std::vector<Touch*> const& touches, Event* event) { onTouchesCancelled(touches, event); };
 
                 _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
                 _touchListener = listener;
@@ -156,10 +158,10 @@ void Layer::setTouchEnabled(bool enabled)
                 auto listener = EventListenerTouchOneByOne::create();
                 listener->setSwallowTouches(_swallowsTouches);
 
-                listener->onTouchBegan = CC_CALLBACK_2(Layer::onTouchBegan, this);
-                listener->onTouchMoved = CC_CALLBACK_2(Layer::onTouchMoved, this);
-                listener->onTouchEnded = CC_CALLBACK_2(Layer::onTouchEnded, this);
-                listener->onTouchCancelled = CC_CALLBACK_2(Layer::onTouchCancelled, this);
+                listener->onTouchBegan = [this](Touch* touch, Event* event) -> bool { return onTouchBegan(touch, event); };
+                listener->onTouchMoved = [this](Touch* touch, Event* event) { onTouchMoved(touch, event); };
+                listener->onTouchEnded = [this](Touch* touch, Event* event) { onTouchEnded(touch, event); };
+                listener->onTouchCancelled = [this](Touch* touch, Event* event) { onTouchCancelled(touch, event); };
 
                 _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
                 _touchListener = listener;
@@ -230,7 +232,7 @@ void Layer::setAccelerometerEnabled(bool enabled)
 
         if (enabled)
         {
-            _accelerationListener = EventListenerAcceleration::create(CC_CALLBACK_2(Layer::onAcceleration, this));
+            _accelerationListener = EventListenerAcceleration::create([this](Acceleration* acc, Event* event) { onAcceleration(acc, event); });
             _eventDispatcher->addEventListenerWithSceneGraphPriority(_accelerationListener, this);
         }
     }
@@ -246,10 +248,8 @@ void Layer::setAccelerometerInterval(double interval) {
     }
 }
 
-void Layer::onAcceleration(Acceleration* acc, Event* unused_event)
+void Layer::onAcceleration(Acceleration* acc, Event*)
 {
-    CC_UNUSED_PARAM(acc);
-    CC_UNUSED_PARAM(unused_event);
 #if CC_ENABLE_SCRIPT_BINDING
     if(kScriptTypeNone != _scriptType)
     {
@@ -260,15 +260,12 @@ void Layer::onAcceleration(Acceleration* acc, Event* unused_event)
 #endif
 }
 
-void Layer::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* unused_event)
+void Layer::onKeyPressed(EventKeyboard::KeyCode, Event*)
 {
-    CC_UNUSED_PARAM(keyCode);
-    CC_UNUSED_PARAM(unused_event);
 }
 
-void Layer::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* unused_event)
+void Layer::onKeyReleased(EventKeyboard::KeyCode keyCode, Event*)
 {
-    CC_UNUSED_PARAM(unused_event);
 #if CC_ENABLE_SCRIPT_BINDING
     if(kScriptTypeNone != _scriptType)
     {
@@ -297,8 +294,8 @@ void Layer::setKeyboardEnabled(bool enabled)
         if (enabled)
         {
             auto listener = EventListenerKeyboard::create();
-            listener->onKeyPressed = CC_CALLBACK_2(Layer::onKeyPressed, this);
-            listener->onKeyReleased = CC_CALLBACK_2(Layer::onKeyReleased, this);
+            listener->onKeyPressed = [this](EventKeyboard::KeyCode keyCode, Event* event) { onKeyPressed(keyCode, event); };
+            listener->onKeyReleased = [this](EventKeyboard::KeyCode keyCode, Event* event) { onKeyReleased(keyCode, event); };
 
             _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
             _keyboardListener = listener;
@@ -567,10 +564,12 @@ void LayerColor::updateColor()
     }
 }
 
-void LayerColor::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
+void LayerColor::draw(Renderer* renderer, Mat4 const& transform, uint32_t flags)
 {
     _customCommand.init(_globalZOrder, transform, flags);
-    _customCommand.func = CC_CALLBACK_0(LayerColor::onDraw, this, transform, flags);
+    _customCommand.func = [this, transform, flags]() {
+        onDraw(transform, flags);
+    };
     renderer->addCommand(&_customCommand);
     
     for(int i = 0; i < 4; ++i)
@@ -583,12 +582,12 @@ void LayerColor::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
     }
 }
 
-void LayerColor::onDraw(const Mat4& transform, uint32_t flags)
+void LayerColor::onDraw(Mat4 const& transform, uint32_t flags)
 {
     getGLProgram()->use();
     getGLProgram()->setUniformsForBuiltins(transform);
     
-    GL::enableVertexAttribs( GL::VERTEX_ATTRIB_FLAG_POSITION | GL::VERTEX_ATTRIB_FLAG_COLOR );
+    GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POSITION | GL::VERTEX_ATTRIB_FLAG_COLOR);
     
     //
     // Attributes

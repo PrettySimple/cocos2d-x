@@ -30,14 +30,18 @@ THE SOFTWARE.
 #ifndef __CCGLPROGRAM_H__
 #define __CCGLPROGRAM_H__
 
-#include <unordered_map>
-#include <string>
-
-#include "base/ccMacros.h"
 #include "base/CCRef.h"
+#include "base/ccMacros.h"
 #include "base/ccTypes.h"
-#include "platform/CCGL.h"
 #include "math/CCMath.h"
+#include "platform/CCGL.h"
+
+#include <array>
+#include <limits>
+#include <string>
+#include <type_traits>
+#include <unordered_map>
+#include <vector>
 
 /**
  * @addtogroup renderer
@@ -76,6 +80,14 @@ struct Uniform
     /**String of the uniform name.*/
     std::string name;
 };
+
+#ifdef DEBUG_TEXTURE_SIZE
+enum struct DebugFlag : std::uint8_t
+{
+    None = 0
+    , Mipmap = 1
+    };
+#endif
 
 /** GLProgram
  Class that implements a glProgram
@@ -148,20 +160,24 @@ public:
         UNIFORM_SAMPLER1,
         UNIFORM_SAMPLER2,
         UNIFORM_SAMPLER3,
+#ifdef DEBUG_TEXTURE_SIZE
+        UNIFORM_DEBUG,
+#endif
         /**@}*/
         UNIFORM_MAX,
     };
 
     /** Flags used by the uniforms */
-    struct UniformFlags {
-        unsigned int usesTime:1;
-        unsigned int usesNormal:1;
-        unsigned int usesMVP:1;
-        unsigned int usesMV:1;
-        unsigned int usesP:1;
-        unsigned int usesRandom:1;
-        // handy way to initialize the bitfield
-        UniformFlags() { memset(this, 0, sizeof(*this)); }
+    enum struct UniformFlags : std::uint8_t
+    {
+        None = 0
+        , Time = 1
+        , Normal = 2
+        , MVP = 4
+        , MV = 8
+        , P = 16
+        , Random = 32
+        , Debug = 64
     };
 
     /**
@@ -259,7 +275,7 @@ public:
      Built in shader for terrain
      */
     static const char* SHADER_3D_TERRAIN;
-    
+
     /**
      Built in shader for camera clear
      */
@@ -303,6 +319,11 @@ public:
     */
     /**Alpha test value uniform.*/
     static const char* UNIFORM_NAME_ALPHA_TEST_VALUE;
+
+#ifdef DEBUG_TEXTURE_SIZE
+    static const char* UNIFORM_NAME_DEBUG;
+    static const char* UNIFORM_NAME_TEX_SIZE;
+#endif
     /**
     end of Built uniform names
     @}
@@ -337,10 +358,12 @@ public:
     @}
     */
 
-    /**Constructor.*/
     GLProgram();
-    /**Destructor.*/
-    virtual ~GLProgram();
+    GLProgram(GLProgram const&) =delete;
+    GLProgram& operator=(GLProgram const&) =delete;
+    GLProgram(GLProgram &&) noexcept =delete;
+    GLProgram& operator=(GLProgram &&) noexcept =delete;
+    ~GLProgram() override;
 
     /** @{
     Create or Initializes the GLProgram with a vertex and fragment with bytes array.
@@ -417,14 +440,14 @@ public:
     void setUniformLocationWith4i(GLint location, GLint i1, GLint i2, GLint i3, GLint i4);
 
     /** calls glUniform2iv only if the values are different than the previous call for this same shader program. */
-    void setUniformLocationWith2iv(GLint location, GLint* ints, unsigned int numberOfArrays);
+    void setUniformLocationWith2iv(GLint location, GLint const* ints, unsigned int numberOfArrays);
 
     /** calls glUniform3iv only if the values are different than the previous call for this same shader program. */
-    void setUniformLocationWith3iv(GLint location, GLint* ints, unsigned int numberOfArrays);
+    void setUniformLocationWith3iv(GLint location, GLint const* ints, unsigned int numberOfArrays);
 
     /** calls glUniform4iv only if the values are different than the previous call for this same shader program. */
 
-    void setUniformLocationWith4iv(GLint location, GLint* ints, unsigned int numberOfArrays);
+    void setUniformLocationWith4iv(GLint location, GLint const* ints, unsigned int numberOfArrays);
 
     /** calls glUniform1f only if the values are different than the previous call for this same shader program.
      * In js or lua,please use setUniformLocationF32
@@ -451,25 +474,25 @@ public:
     void setUniformLocationWith4f(GLint location, GLfloat f1, GLfloat f2, GLfloat f3, GLfloat f4);
 
     /** calls glUniformfv only if the values are different than the previous call for this same shader program. */
-    void setUniformLocationWith1fv(GLint location, const GLfloat* floats, unsigned int numberOfArrays);
+    void setUniformLocationWith1fv(GLint location, GLfloat const* floats, unsigned int numberOfArrays);
 
     /** calls glUniform2fv only if the values are different than the previous call for this same shader program. */
-    void setUniformLocationWith2fv(GLint location, const GLfloat* floats, unsigned int numberOfArrays);
+    void setUniformLocationWith2fv(GLint location, GLfloat const* floats, unsigned int numberOfArrays);
 
     /** calls glUniform3fv only if the values are different than the previous call for this same shader program. */
-    void setUniformLocationWith3fv(GLint location, const GLfloat* floats, unsigned int numberOfArrays);
+    void setUniformLocationWith3fv(GLint location, GLfloat const* floats, unsigned int numberOfArrays);
 
     /** calls glUniform4fv only if the values are different than the previous call for this same shader program. */
-    void setUniformLocationWith4fv(GLint location, const GLfloat* floats, unsigned int numberOfArrays);
+    void setUniformLocationWith4fv(GLint location, GLfloat const* floats, unsigned int numberOfArrays);
 
     /** calls glUniformMatrix2fv only if the values are different than the previous call for this same shader program. */
-    void setUniformLocationWithMatrix2fv(GLint location, const GLfloat* matrixArray, unsigned int numberOfMatrices);
+    void setUniformLocationWithMatrix2fv(GLint location, GLfloat const* matrixArray, unsigned int numberOfMatrices);
 
     /** calls glUniformMatrix3fv only if the values are different than the previous call for this same shader program. */
-    void setUniformLocationWithMatrix3fv(GLint location, const GLfloat* matrixArray, unsigned int numberOfMatrices);
+    void setUniformLocationWithMatrix3fv(GLint location, GLfloat const* matrixArray, unsigned int numberOfMatrices);
 
     /** calls glUniformMatrix4fv only if the values are different than the previous call for this same shader program. */
-    void setUniformLocationWithMatrix4fv(GLint location, const GLfloat* matrixArray, unsigned int numberOfMatrices);
+    void setUniformLocationWithMatrix4fv(GLint location, GLfloat const* matrixArray, unsigned int numberOfMatrices);
 
     /**
      Update the builtin uniforms if they are different than the previous call for this same shader program.
@@ -495,10 +518,10 @@ public:
     */
     void reset();
     /** returns the OpenGL Program object */
-    GLuint getProgram() const { return _program; }
+    GLuint getProgram() const noexcept { return _program; }
 
     /** returns the Uniform flags */
-    const UniformFlags& getUniformFlags() const { return _flags; }
+    UniformFlags const& getUniformFlags() const noexcept { return _flags; }
 
     //DEPRECATED
     CC_DEPRECATED_ATTRIBUTE bool initWithVertexShaderByteArray(const GLchar* vertexByteArray, const GLchar* fragByteArray)
@@ -507,6 +530,11 @@ public:
     { return initWithFilenames(vertexFilename, fragFilename); }
     CC_DEPRECATED_ATTRIBUTE void addAttribute(const std::string &attributeName, GLuint index) const { return bindAttribLocation(attributeName, index); }
 
+#ifdef DEBUG_TEXTURE_SIZE
+    inline void setDebug(DebugFlag debug) noexcept { _debug = debug; }
+    static void onContextRecovered();
+    static void createMipmapDebug();
+#endif
 
 protected:
     /**
@@ -531,28 +559,65 @@ protected:
     void clearShader();
 
     /**OpenGL handle for program.*/
-    GLuint            _program;
+    GLuint            _program = 0;
     /**OpenGL handle for vertex shader.*/
-    GLuint            _vertShader;
+    GLuint            _vertShader = 0;
     /**OpenGL handle for fragment shader.*/
-    GLuint            _fragShader;
+    GLuint            _fragShader = 0;
     /**Built in uniforms.*/
-    GLint             _builtInUniforms[UNIFORM_MAX];
+    std::array<GLint, UNIFORM_MAX> _builtInUniforms;
     /**Indicate whether it has a offline shader compiler or not.*/
-    bool              _hasShaderCompiler;
+    bool              _hasShaderCompiler = false;
+#ifdef DEBUG_TEXTURE_SIZE
+    DebugFlag _debug = DebugFlag::None;
+    static GLuint _mipmapId;
+#endif
 
     /**User defined Uniforms.*/
     std::unordered_map<std::string, Uniform> _userUniforms;
     /**User defined vertex attributes.*/
     std::unordered_map<std::string, VertexAttrib> _vertexAttribs;
     /**Hash value of uniforms for quick access.*/
-    std::unordered_map<GLint, std::pair<GLvoid*, unsigned int>> _hashForUniforms;
+    std::unordered_map<GLint, std::vector<std::uint8_t>> _hashForUniforms;
     //cached director pointer for calling
-    Director* _director;
+    Director* _director = nullptr;
 
     /*needed uniforms*/
-    UniformFlags _flags;
+    UniformFlags _flags = UniformFlags::None;
 };
+
+using UniformFlagsUnderlyingType = std::underlying_type<GLProgram::UniformFlags>::type;
+inline constexpr GLProgram::UniformFlags operator&(GLProgram::UniformFlags x, GLProgram::UniformFlags y)
+{
+    return static_cast<GLProgram::UniformFlags>(static_cast<UniformFlagsUnderlyingType>(x) & static_cast<UniformFlagsUnderlyingType>(y));
+}
+inline constexpr GLProgram::UniformFlags operator|(GLProgram::UniformFlags x, GLProgram::UniformFlags y)
+{
+    return static_cast<GLProgram::UniformFlags>(static_cast<UniformFlagsUnderlyingType>(x) | static_cast<UniformFlagsUnderlyingType>(y));
+}
+inline constexpr GLProgram::UniformFlags operator^(GLProgram::UniformFlags x, GLProgram::UniformFlags y)
+{
+    return static_cast<GLProgram::UniformFlags>(static_cast<UniformFlagsUnderlyingType>(x) ^ static_cast<UniformFlagsUnderlyingType>(y));
+}
+inline constexpr GLProgram::UniformFlags operator~(GLProgram::UniformFlags x)
+{
+    return static_cast<GLProgram::UniformFlags>(~static_cast<UniformFlagsUnderlyingType>(x) & std::numeric_limits<UniformFlagsUnderlyingType>::max());
+}
+inline constexpr GLProgram::UniformFlags& operator&=(GLProgram::UniformFlags& x, GLProgram::UniformFlags y)
+{
+    x = x & y;
+    return x;
+}
+inline constexpr GLProgram::UniformFlags& operator|=(GLProgram::UniformFlags& x, GLProgram::UniformFlags y)
+{
+    x = x | y;
+    return x;
+}
+inline constexpr GLProgram::UniformFlags& operator^=(GLProgram::UniformFlags& x, GLProgram::UniformFlags y)
+{
+    x = x ^ y;
+    return x;
+}
 
 NS_CC_END
 /**

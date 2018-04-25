@@ -42,14 +42,20 @@ NS_CC_BEGIN
  Every QuadCommand will have generate material ID by give textureID, glProgramState, Blend function
  if the material id is the same, these QuadCommands could be batched to save draw call.
  */
-class CC_DLL QuadCommand : public TrianglesCommand
+class CC_DLL QuadCommand final : public TrianglesCommand
 {
 public:
-    /**Constructor.*/
-    QuadCommand();
-    /**Destructor.*/
-    ~QuadCommand();
-    
+    QuadCommand() =default;
+    QuadCommand(QuadCommand const&) =delete;
+    QuadCommand& operator=(QuadCommand const&) =delete;
+    QuadCommand(QuadCommand &&) noexcept =delete;
+    QuadCommand& operator=(QuadCommand &&) noexcept =delete;
+    ~QuadCommand() override;
+
+    void init(float globalOrder, Texture2D* textureID, GLProgramState* glProgramState, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, ssize_t quadCount,
+        const Mat4& mv, uint32_t flags);
+
+private:
     /** Initializes the command.
      @param globalOrder GlobalZOrder of the command.
      @param textureID The openGL handle of the used texture.
@@ -65,15 +71,11 @@ public:
 
     /**Deprecated function, the params is similar as the upper init function, with flags equals 0.*/
     CC_DEPRECATED_ATTRIBUTE void init(float globalOrder, GLuint textureID, GLProgramState* shader, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, ssize_t quadCount,
-              const Mat4& mv);
+                                      const Mat4& mv);
 
-    void init(float globalOrder, Texture2D* textureID, GLProgramState* glProgramState, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, ssize_t quadCount,
-        const Mat4& mv, uint32_t flags);
-
-protected:
     void reIndex(int indices);
 
-    int _indexSize;
+    int _indexSize = -1;
     std::vector<GLushort*> _ownedIndices;
 
     // shared across all instances
