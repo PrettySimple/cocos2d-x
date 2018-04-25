@@ -29,9 +29,11 @@
 #ifndef __ACTION_CCACTION_MANAGER_H__
 #define __ACTION_CCACTION_MANAGER_H__
 
-#include "CCActionManagerLog.h"
+#include "CCActionManagerData.h"
 #include "base/CCRef.h"
 #include "base/CCVector.h"
+
+#include <deque>
 #include <vector>
 
 NS_CC_BEGIN
@@ -57,7 +59,8 @@ class Node;
  */
 class CC_DLL ActionManager : public Ref
 {
-    ActionManagerLog _journal;
+    std::deque<Action*> _actions_to_process;
+    ActionManagerData _actions;
 
 public:
     ActionManager() =default;

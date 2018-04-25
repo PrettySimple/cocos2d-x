@@ -51,26 +51,26 @@ ActionManager::~ActionManager()
 
 void ActionManager::pauseTarget(Node *target)
 {
-    _journal.pause_target(target);
+    _actions.pause_target(target);
 }
 
 void ActionManager::resumeTarget(Node *target)
 {
-    _journal.resume_target(target);
+    _actions.resume_target(target);
 }
 
 Vector<Node*> ActionManager::pauseAllRunningActions()
 {
     Vector<Node*> ret;
 
-    auto const tmp { _journal.get_all_targets() };
+    auto const tmp { _actions.get_all_targets() };
     ret.reserve(tmp.size());
     for (auto const action : tmp)
     {
         ret.pushBack(action);
     }
 
-    _journal.pause_all_targets();
+    _actions.pause_all_targets();
 
     return ret;
 }
@@ -92,14 +92,15 @@ void ActionManager::addAction(Action *action, Node *target, bool paused)
     if(action == nullptr || target == nullptr)
         return;
 
-    _journal.add_action(target, action, paused);
+    _actions_to_process.emplace_back(action);
+    _actions.add_action(target, action, paused);
 }
 
 // remove
 
 void ActionManager::removeAllActions()
 {
-    _journal.remove_all_actions();
+    _actions.remove_all_actions();
 }
 
 void ActionManager::removeAllActionsFromTarget(Node * target)
@@ -108,7 +109,7 @@ void ActionManager::removeAllActionsFromTarget(Node * target)
     if (target == nullptr)
         return;
 
-    _journal.remove_all_actions_from_target(target);
+    _actions.remove_all_actions_from_target(target);
 }
 
 void ActionManager::removeAction(Action *action)
@@ -117,7 +118,7 @@ void ActionManager::removeAction(Action *action)
     if (action == nullptr)
         return;
 
-    _journal.remove_action(action);
+    _actions.remove_action(action);
 }
 
 void ActionManager::removeAllActionsByTag(int tag, Node *target)
@@ -127,7 +128,7 @@ void ActionManager::removeAllActionsByTag(int tag, Node *target)
     if (target == nullptr || tag == Action::INVALID_TAG)
         return;
 
-    _journal.remove_all_actions_from_target_by_tag(target, tag);
+    _actions.remove_all_actions_from_target_by_tag(target, tag);
 }
 
 void ActionManager::removeActionsByFlags(unsigned int flags, Node *target)
@@ -137,7 +138,7 @@ void ActionManager::removeActionsByFlags(unsigned int flags, Node *target)
     if (target == nullptr || flags == 0)
         return;
 
-    _journal.remove_all_actions_from_target_by_flag(target, flags);
+    _actions.remove_all_actions_from_target_by_flag(target, flags);
 }
 
 // get
@@ -149,23 +150,62 @@ Action* ActionManager::getActionByTag(int tag, Node *target) const
     if (tag == Action::INVALID_TAG || target == nullptr)
         return nullptr;
 
-    return _journal.get_action_from_target_by_tag(target, tag);
+    return _actions.get_action_from_target_by_tag(target, tag);
 }
 
 ssize_t ActionManager::getNumberOfRunningActionsInTarget(Node *target) const
 {
-    return _journal.get_number_of_running_action_from_target(target);
+    return _actions.get_number_of_running_action_from_target(target);
 }
 
 std::vector<Action*> ActionManager::getRunningActionsInTarget(Node *target) const
 {
-    return _journal.get_all_actions_from_target(target);
+    return _actions.get_all_actions_from_target(target);
 }
 
 // main loop
 void ActionManager::update(float dt)
 {
-    _journal.update(dt);
+    if (!_actions.empty())
+    {
+        _actions_to_process.clear();
+        for (auto const& ele : _actions)
+        {
+            if (!ele.paused)
+            {
+                _actions_to_process.emplace_back(ele.action);
+            }
+        }
+
+        while (!_actions_to_process.empty())
+        {
+            auto action = _actions_to_process.front();
+            _actions_to_process.pop_front();
+
+            auto const& ele = _actions.get_element_from_action(action);
+            if (ele.target != nullptr)
+            {
+                if (ele.target->getReferenceCount() > 1)
+                {
+                    if (!ele.paused)
+                    {
+                        action->retain(); // Need to make sure that the action won't be deleted during the execution of step()
+                        action->step(dt);
+
+                        if (_actions.count(action) > 0 && action->isDone()) // Need to be sure that the action hasn't been removed during the execution of step()
+                        {
+                            _actions.remove_element(ele);
+                        }
+                        action->release();
+                    }
+                }
+                else
+                {
+                    _actions.remove_element(ele);
+                }
+            }
+        }
+    }
 }
 
 NS_CC_END
