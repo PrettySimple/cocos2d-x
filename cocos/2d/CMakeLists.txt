@@ -17,7 +17,6 @@ set(COCOS_2D_SRC
   2d/CCActionInterval.cpp
   2d/CCActionManager.cpp
   2d/CCActionManagerData.cpp
-  2d/CCActionManagerLog.cpp
   2d/CCActionPageTurn3D.cpp
   2d/CCActionProgressTimer.cpp
   2d/CCActionTiledGrid.cpp
