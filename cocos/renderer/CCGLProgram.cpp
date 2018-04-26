@@ -164,10 +164,10 @@ uniform highp vec4 CC_Time;
 uniform highp vec4 CC_SinTime;
 uniform highp vec4 CC_CosTime;
 uniform lowp vec4 CC_Random01;
-uniform lowp sampler2D CC_Texture0;
-uniform lowp sampler2D CC_Texture1;
-uniform lowp sampler2D CC_Texture2;
-uniform lowp sampler2D CC_Texture3;
+uniform mediump sampler2D CC_Texture0;
+uniform mediump sampler2D CC_Texture1;
+uniform mediump sampler2D CC_Texture2;
+uniform mediump sampler2D CC_Texture3;
     #ifdef DEBUG_TEXTURE_SIZE
 uniform lowp int CC_Debug;
 uniform mediump vec2 u_TexSize;
