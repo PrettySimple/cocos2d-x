@@ -32,8 +32,8 @@ class ActionManagerData
         explicit Element(Node* t, Action* a, bool p, std::size_t i, ActionManagerData* m);
         Element(Element const&) = delete;
         Element& operator=(Element const&) = delete;
-        Element(Element&& other) noexcept;
-        Element& operator=(Element&& other) noexcept;
+        Element(Element&& other) noexcept = delete;
+        Element& operator=(Element&& other) noexcept = delete;
         ~Element() = default;
 
         void destroy() const;

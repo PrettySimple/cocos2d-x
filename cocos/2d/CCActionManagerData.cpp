@@ -29,34 +29,6 @@ ActionManagerData::Element::Element(Node* t, Action* a, bool p, std::size_t i, A
     CC_SAFE_RETAIN(action);
 }
 
-ActionManagerData::Element::Element(ActionManagerData::Element&& other) noexcept
-{
-    manager = other.manager;
-    target = other.target;
-    action = other.action;
-    paused = other.paused;
-    index = other.index;
-
-    other.manager = nullptr;
-    other.target = nullptr;
-    other.action = nullptr;
-}
-
-ActionManagerData::Element& ActionManagerData::Element::operator=(ActionManagerData::Element&& other) noexcept
-{
-    manager = other.manager;
-    target = other.target;
-    action = other.action;
-    paused = other.paused;
-    index = other.index;
-
-    other.manager = nullptr;
-    other.target = nullptr;
-    other.action = nullptr;
-
-    return *this;
-}
-
 void ActionManagerData::Element::destroy() const
 {
     CCASSERT(manager != nullptr, "manager can't be nullptr!");
