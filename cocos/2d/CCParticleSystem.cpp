@@ -102,7 +102,7 @@ inline void nomalize_point(float x, float y, particle_point* out)
  A more effect random number getter function, get from ejoy2d.
  */
 inline static float RANDOM_M11(unsigned int *seed) {
-    *seed = *seed * 134775813 + 1;
+    *seed = static_cast<std::uint32_t>(static_cast<std::uint64_t>(*seed) * 134775813 + 1);
     union {
         uint32_t d;                                     
         float f;
