@@ -25,13 +25,14 @@
 #ifndef __CCANIMATE3D_H__
 #define __CCANIMATE3D_H__
 
+#include <chrono>
 #include <map>
 #include <unordered_map>
 
-#include "3d/CCAnimation3D.h"
-#include "base/ccMacros.h"
-#include "base/CCRef.h"
 #include "2d/CCActionInterval.h"
+#include "3d/CCAnimation3D.h"
+#include "base/CCRef.h"
+#include "base/ccMacros.h"
 
 NS_CC_BEGIN
 
@@ -68,7 +69,7 @@ public:
      * @param duration Time the Animate3D lasts
      * @return Animate3D created using animate
      */
-    static Animate3D* create(Animation3D* animation, float fromTime, float duration);
+    static Animate3D* create(Animation3D* animation, std::chrono::milliseconds fromTime, std::chrono::milliseconds duration);
     
     /**
      * create Animate3D by frame section, [startFrame, endFrame)
@@ -100,14 +101,14 @@ public:
     void setWeight(float weight);
     
     /**get & set origin interval*/
-    void setOriginInterval(float interval);
-    float getOriginInterval() const {return _originInterval; }
+    void setOriginInterval(std::chrono::milliseconds interval);
+    inline std::chrono::milliseconds getOriginInterval() const noexcept {return _originInterval; }
     
     /** get animate transition time between 3d animations */
-    static float getTransitionTime() { return _transTime; }
+    inline static std::chrono::milliseconds getTransitionTime() { return _transTime; }
     
     /** set animate transition time between 3d animations */
-    static void setTransitionTime(float transTime) { if (transTime >= 0.f) _transTime = transTime; }
+    inline static void setTransitionTime(std::chrono::milliseconds transTime) { if (transTime >= std::chrono::milliseconds::zero()) _transTime = transTime; }
     
     /**get & set play reverse, these are deprecated, use set negative speed instead*/
     CC_DEPRECATED_ATTRIBUTE bool getPlayBack() const { return _playReverse; }
@@ -141,7 +142,7 @@ CC_CONSTRUCTOR_ACCESS:
     
     /** init method */
     bool init(Animation3D* animation);
-    bool init(Animation3D* animation, float fromTime, float duration);
+    bool init(Animation3D* animation, std::chrono::milliseconds fromTime, std::chrono::milliseconds duration);
     bool initWithFrames(Animation3D* animation, int startFrame, int endFrame, float frameRate);
     
 protected:
@@ -160,10 +161,10 @@ protected:
     float      _start; //start time 0 - 1, used to generate sub Animate3D
     float      _last; //last time 0 - 1, used to generate sub Animate3D
     bool       _playReverse; // is playing reverse
-    static float      _transTime; //transition time from one animate3d to another
-    float      _accTransTime; // accumulate transition time
+    static std::chrono::milliseconds _transTime; //transition time from one animate3d to another
+    std::chrono::milliseconds _accTransTime; // accumulate transition time
     float      _lastTime;     // last t (0 - 1)
-    float      _originInterval;// save origin interval time
+    std::chrono::milliseconds _originInterval;// save origin interval time
     float      _frameRate;
     
     // animation quality

@@ -32,7 +32,7 @@ NS_CC_BEGIN
 
 // implementation of ProgressTo
 
-ProgressTo* ProgressTo::create(float duration, float percent)
+ProgressTo* ProgressTo::create(std::chrono::milliseconds duration, float percent)
 {
     ProgressTo *progressTo = new (std::nothrow) ProgressTo();
     if (progressTo && progressTo->initWithDuration(duration, percent))
@@ -45,7 +45,7 @@ ProgressTo* ProgressTo::create(float duration, float percent)
     return nullptr;
 }
 
-bool ProgressTo::initWithDuration(float duration, float percent)
+bool ProgressTo::initWithDuration(std::chrono::milliseconds duration, float percent)
 {
     if (ActionInterval::initWithDuration(duration))
     {
@@ -82,7 +82,7 @@ void ProgressTo::update(float time)
 
 // implementation of ProgressFromTo
 
-ProgressFromTo* ProgressFromTo::create(float duration, float fromPercentage, float toPercentage)
+ProgressFromTo* ProgressFromTo::create(std::chrono::milliseconds duration, float fromPercentage, float toPercentage)
 {
     ProgressFromTo *progressFromTo = new (std::nothrow) ProgressFromTo();
     if (progressFromTo && progressFromTo->initWithDuration(duration, fromPercentage, toPercentage)) {
@@ -94,7 +94,7 @@ ProgressFromTo* ProgressFromTo::create(float duration, float fromPercentage, flo
     return nullptr;
 }
 
-bool ProgressFromTo::initWithDuration(float duration, float fromPercentage, float toPercentage)
+bool ProgressFromTo::initWithDuration(std::chrono::milliseconds duration, float fromPercentage, float toPercentage)
 {
     if (ActionInterval::initWithDuration(duration))
     {

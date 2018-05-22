@@ -23,6 +23,7 @@
  ****************************************************************************/
 
 #include "3d/CCAnimation3D.h"
+
 #include "3d/CCBundle3D.h"
 #include "platform/CCFileUtils.h"
 

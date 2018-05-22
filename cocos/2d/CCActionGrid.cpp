@@ -33,7 +33,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 // implementation of GridAction
 
-bool GridAction::initWithDuration(float duration, const Size& gridSize)
+bool GridAction::initWithDuration(std::chrono::milliseconds duration, const Size& gridSize)
 {
     if (ActionInterval::initWithDuration(duration))
     {
@@ -155,10 +155,10 @@ void TiledGrid3DAction::setTile(const Vec2& pos, const Quad3& coords)
 
 // implementation AccelDeccelAmplitude
 
-AccelDeccelAmplitude* AccelDeccelAmplitude::create(Action *action, float duration)
+AccelDeccelAmplitude* AccelDeccelAmplitude::create(Action* action, std::chrono::milliseconds duration)
 {
-    AccelDeccelAmplitude *ret = new (std::nothrow) AccelDeccelAmplitude();
-    if (ret && ret->initWithAction(action, duration))
+    AccelDeccelAmplitude* ret = new (std::nothrow) AccelDeccelAmplitude();
+    if (ret != nullptr && ret->initWithAction(action, duration))
     {
         ret->autorelease();
         return ret;
@@ -168,12 +168,12 @@ AccelDeccelAmplitude* AccelDeccelAmplitude::create(Action *action, float duratio
     return nullptr;
 }
 
-bool AccelDeccelAmplitude::initWithAction(Action *action, float duration)
+bool AccelDeccelAmplitude::initWithAction(Action* action, std::chrono::milliseconds duration)
 {
     if (ActionInterval::initWithDuration(duration))
     {
         _rate = 1.0f;
-        _other = (ActionInterval*)(action);
+        _other = static_cast<ActionInterval*>(action);
         action->retain();
 
         return true;
@@ -185,8 +185,10 @@ bool AccelDeccelAmplitude::initWithAction(Action *action, float duration)
 AccelDeccelAmplitude* AccelDeccelAmplitude::clone() const
 {
     // no copy constructor
-    if (_other)
-        return AccelDeccelAmplitude::create(_other->clone(), _rate);
+    if (_other != nullptr)
+    {
+        return AccelDeccelAmplitude::create(_other->clone(), std::chrono::milliseconds(static_cast<std::size_t>(1000.f * _rate)));
+    }
     
     return nullptr;
 }
@@ -196,7 +198,7 @@ AccelDeccelAmplitude::~AccelDeccelAmplitude()
     CC_SAFE_RELEASE(_other);
 }
 
-void AccelDeccelAmplitude::startWithTarget(Node *target)
+void AccelDeccelAmplitude::startWithTarget(Node* target)
 {
     ActionInterval::startWithTarget(target);
     _other->startWithTarget(target);
@@ -204,28 +206,30 @@ void AccelDeccelAmplitude::startWithTarget(Node *target)
 
 void AccelDeccelAmplitude::update(float time)
 {
-    float f = time * 2;
+    float f = time * 2.f;
 
-    if (f > 1)
+    if (f > 1.f)
     {
-        f -= 1;
-        f = 1 - f;
+        f -= 1.f;
+        f = 1.f - f;
     }
 
-    ((AccelDeccelAmplitude*)(_other))->setAmplitudeRate(powf(f, _rate));
+    static_cast<AccelDeccelAmplitude*>(_other)->setAmplitudeRate(std::pow(f, _rate));
 }
 
 AccelDeccelAmplitude* AccelDeccelAmplitude::reverse() const
 {
-    if (_other)
+    if (_other != nullptr)
+    {
         return AccelDeccelAmplitude::create(_other->reverse(), _duration);
+    }
     
     return nullptr;
 }
 
 // implementation of AccelAmplitude
 
-AccelAmplitude* AccelAmplitude::create(Action *action, float duration)
+AccelAmplitude* AccelAmplitude::create(Action* action, std::chrono::milliseconds duration)
 {
     AccelAmplitude *ret = new (std::nothrow) AccelAmplitude();
     if (ret && ret->initWithAction(action, duration))
@@ -238,7 +242,7 @@ AccelAmplitude* AccelAmplitude::create(Action *action, float duration)
     return nullptr;
 }
 
-bool AccelAmplitude::initWithAction(Action *action, float duration)
+bool AccelAmplitude::initWithAction(Action *action, std::chrono::milliseconds duration)
 {
     if (ActionInterval::initWithDuration(duration))
     {
@@ -288,7 +292,7 @@ AccelAmplitude* AccelAmplitude::reverse() const
 
 // DeccelAmplitude
 
-DeccelAmplitude* DeccelAmplitude::create(Action *action, float duration)
+DeccelAmplitude* DeccelAmplitude::create(Action *action, std::chrono::milliseconds duration)
 {
     DeccelAmplitude *ret = new (std::nothrow) DeccelAmplitude();
     if (ret && ret->initWithAction(action, duration))
@@ -301,7 +305,7 @@ DeccelAmplitude* DeccelAmplitude::create(Action *action, float duration)
     return nullptr;
 }
 
-bool DeccelAmplitude::initWithAction(Action *action, float duration)
+bool DeccelAmplitude::initWithAction(Action *action, std::chrono::milliseconds duration)
 {
     if (ActionInterval::initWithDuration(duration))
     {

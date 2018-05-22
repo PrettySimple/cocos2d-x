@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-ActionTween* ActionTween::create(float duration, const std::string& key, float from, float to)
+ActionTween* ActionTween::create(std::chrono::milliseconds duration, const std::string& key, float from, float to)
 {
     ActionTween* ret = new (std::nothrow) ActionTween();
     if (ret && ret->initWithDuration(duration, key, from, to))
@@ -41,7 +41,7 @@ ActionTween* ActionTween::create(float duration, const std::string& key, float f
     return nullptr;
 }
 
-bool ActionTween::initWithDuration(float duration, const std::string& key, float from, float to)
+bool ActionTween::initWithDuration(std::chrono::milliseconds duration, const std::string& key, float from, float to)
 {
     if (ActionInterval::initWithDuration(duration))
     {

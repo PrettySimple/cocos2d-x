@@ -28,6 +28,8 @@ THE SOFTWARE.
 
 #include "2d/CCActionGrid.h"
 
+#include <chrono>
+
 NS_CC_BEGIN
 
 /**
@@ -52,18 +54,18 @@ public:
     @param amplitude Specify the amplitude of the Waves3D action.
     @return If the creation success, return a pointer of Waves3D action; otherwise, return nil.
     */
-    static Waves3D* create(float duration, const Size& gridSize, unsigned int waves, float amplitude);
+    static Waves3D* create(std::chrono::milliseconds duration, const Size& gridSize, unsigned int waves, float amplitude);
 
     /**
     @brief Get the amplitude of the effect.
     @return Return the amplitude of the effect.
     */
-    float getAmplitude() const { return _amplitude; }
+    inline float getAmplitude() const noexcept { return _amplitude; }
     /**
     @brief Set the amplitude to the effect.
     @param amplitude The value of amplitude will be set.
     */
-    void setAmplitude(float amplitude) { _amplitude = amplitude; }
+    inline void setAmplitude(float amplitude) noexcept { _amplitude = amplitude; }
 
     /**
     @brief Get the amplitude rate of the effect.
@@ -92,7 +94,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param amplitude Specify the amplitude of the Waves3D action.
     @return If the initialization success, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, unsigned int waves, float amplitude);
+    bool initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, unsigned int waves, float amplitude);
 
 protected:
     unsigned int _waves;
@@ -115,7 +117,7 @@ public:
     @param duration Specify the duration of the FilpX3D action. It's a value in seconds.
     @return If the creation success, return a pointer of FilpX3D action; otherwise, return nil.
     */
-    static FlipX3D* create(float duration);
+    static FlipX3D* create(std::chrono::milliseconds duration);
 
     // Override
     virtual FlipX3D* clone() const override;
@@ -130,7 +132,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param duration Specify the duration of the FlipX3D action. It's a value in seconds.
     @return If the initialization success, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration);
+    bool initWithDuration(std::chrono::milliseconds duration);
 
     /** 
     @brief Initializes an action with duration and grid size.
@@ -138,7 +140,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param duration Specify the duration of the FlipX3D action. It's a value in seconds.
     @return If the initialization success, return true; otherwise, return false.
     */
-    virtual bool initWithSize(const Size& gridSize, float duration);
+    virtual bool initWithSize(const Size& gridSize, std::chrono::milliseconds duration);
 
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(FlipX3D);
@@ -156,7 +158,7 @@ public:
     @param duration Specify the duration of the FlipY3D action. It's a value in seconds.
     @return If the creation success, return a pointer of FlipY3D action; otherwise, return nil.
     */
-    static FlipY3D* create(float duration);
+    static FlipY3D* create(std::chrono::milliseconds duration);
 
     // Overrides
     virtual void update(float time) override;
@@ -187,31 +189,31 @@ public:
     @param radius Specify the radius of the lens.
     @return If the creation success, return a pointer of Lens3D action; otherwise, return nil.
     */
-    static Lens3D* create(float duration, const Size& gridSize, const Vec2& position, float radius);
+    static Lens3D* create(std::chrono::milliseconds duration, const Size& gridSize, const Vec2& position, float radius);
 
     /**
     @brief Get the value of lens effect. Default value is 0.7.
     @return The value of lens effect.
     */
-    float getLensEffect() const { return _lensEffect; }
+    inline float getLensEffect() const noexcept { return _lensEffect; }
 
     /**
     @brief Set the value of lens effect.
     @param lensEffect The value of lens effect will be set.
     */
-    void setLensEffect(float lensEffect) { _lensEffect = lensEffect; }
+    inline void setLensEffect(float lensEffect) noexcept { _lensEffect = lensEffect; }
 
     /**
     @brief Set whether lens is concave.
     @param concave Whether lens is concave.
     */
-    void setConcave(bool concave) { _concave = concave; }
+    inline void setConcave(bool concave) noexcept { _concave = concave; }
 
     /**
     @brief Get the center position of lens effect.
     @return The center position of lens effect.
     */
-    const Vec2& getPosition() const { return _position; }
+    inline Vec2 const& getPosition() const noexcept { return _position; }
 
     /**
     @brief Set the center position of lens effect.
@@ -235,7 +237,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param radius Specify the radius of the lens effect.
     @return If the initialization success, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, const Vec2& position, float radius);
+    bool initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, const Vec2& position, float radius);
 
 protected:
     /* lens center position */
@@ -272,13 +274,13 @@ public:
     @param amplitude Specify the amplitude of the ripple effect.
     @return If the creation success, return a pointer of Ripple3D action; otherwise, return nil.
     */
-    static Ripple3D* create(float duration, const Size& gridSize, const Vec2& position, float radius, unsigned int waves, float amplitude);
+    static Ripple3D* create(std::chrono::milliseconds duration, const Size& gridSize, const Vec2& position, float radius, unsigned int waves, float amplitude);
 
     /**
     @brief Get the center position of ripple effect.
     @return The center position of ripple effect.
     */
-    const Vec2& getPosition() const { return _position; }
+    inline Vec2 const& getPosition() const noexcept { return _position; }
     /**
     @brief Set the center position of ripple effect.
     @param position The center position of ripple effect will be set.
@@ -289,12 +291,12 @@ public:
     @brief Get the amplitude of ripple effect.
     @return The amplitude of ripple effect.
     */
-    float getAmplitude() const { return _amplitude; }
+    inline float getAmplitude() const noexcept { return _amplitude; }
     /**
     @brief Set the amplitude of ripple effect.
     @param fAmplitude The amplitude of ripple effect.
     */
-    void setAmplitude(float fAmplitude) { _amplitude = fAmplitude; }
+    inline void setAmplitude(float fAmplitude) noexcept { _amplitude = fAmplitude; }
 
     /**
     @brief Get the amplitude rate of ripple effect.
@@ -325,7 +327,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param amplitude Specify the amplitude of the ripple effect.
     @return If the initialization success, return true; otherwise, return false.
      */
-    bool initWithDuration(float duration, const Size& gridSize, const Vec2& position, float radius, unsigned int waves, float amplitude);
+    bool initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, const Vec2& position, float radius, unsigned int waves, float amplitude);
 
 protected:
     /* center position */
@@ -356,7 +358,7 @@ public:
     @param shakeZ Specify whether shake on the z axis.
     @return If the creation success, return a pointer of Shaky3D action; otherwise, return nil.
     */
-    static Shaky3D* create(float initWithDuration, const Size& gridSize, int range, bool shakeZ);
+    static Shaky3D* create(std::chrono::milliseconds initWithDuration, const Size& gridSize, int range, bool shakeZ);
 
     // Overrides
     virtual Shaky3D* clone() const override;
@@ -374,7 +376,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param shakeZ Specify whether shake on the z axis.
     @return If the Initialization success, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, int range, bool shakeZ);
+    bool initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, int range, bool shakeZ);
 
 protected:
     int _randrange;
@@ -401,18 +403,18 @@ public:
     @param amplitude Specify the amplitude of the Liquid action.
     @return If the creation success, return a pointer of Liquid action; otherwise, return nil.
     */
-    static Liquid* create(float duration, const Size& gridSize, unsigned int waves, float amplitude);
+    static Liquid* create(std::chrono::milliseconds duration, const Size& gridSize, unsigned int waves, float amplitude);
 
     /**
     @brief Get the amplitude of the effect.
     @return Return the amplitude of the effect.
     */
-    float getAmplitude() const { return _amplitude; }
+    inline float getAmplitude() const noexcept { return _amplitude; }
     /**
     @brief Set the amplitude to the effect.
     @param amplitude The value of amplitude will be set.
     */
-    void setAmplitude(float amplitude) { _amplitude = amplitude; }
+    inline void setAmplitude(float amplitude) noexcept { _amplitude = amplitude; }
 
     /**
     @brief Get the amplitude rate of the effect.
@@ -441,7 +443,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param amplitude Specify the amplitude of the Liquid action.
     @return If the initialization success, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, unsigned int waves, float amplitude);
+    bool initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, unsigned int waves, float amplitude);
 
 protected:
     unsigned int _waves;
@@ -472,18 +474,18 @@ public:
     @param vertical Specify whether waves on vertical.
     @return If the creation success, return a pointer of Waves action; otherwise, return nil.
     */
-    static Waves* create(float duration, const Size& gridSize, unsigned int waves, float amplitude, bool horizontal, bool vertical);
+    static Waves* create(std::chrono::milliseconds duration, const Size& gridSize, unsigned int waves, float amplitude, bool horizontal, bool vertical);
 
     /**
     @brief Get the amplitude of the effect.
     @return Return the amplitude of the effect.
     */
-    float getAmplitude() const { return _amplitude; }
+    inline float getAmplitude() const noexcept { return _amplitude; }
     /**
     @brief Set the amplitude to the effect.
     @param amplitude The value of amplitude will be set.
     */
-    void setAmplitude(float amplitude) { _amplitude = amplitude; }
+    inline void setAmplitude(float amplitude) noexcept { _amplitude = amplitude; }
 
     /**
     @brief Get the amplitude rate of the effect.
@@ -514,7 +516,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param vertical Specify whether waves on vertical.
     @return If the initialization success, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, unsigned int waves, float amplitude, bool horizontal, bool vertical);
+    bool initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, unsigned int waves, float amplitude, bool horizontal, bool vertical);
 
 protected:
     unsigned int _waves;
@@ -545,13 +547,13 @@ public:
     @param amplitude Specify the amplitude of the Twirl action.
     @return If the creation success, return a pointer of Twirl action; otherwise, return nil.
     */
-    static Twirl* create(float duration, const Size& gridSize, const Vec2& position, unsigned int twirls, float amplitude);
+    static Twirl* create(std::chrono::milliseconds duration, const Size& gridSize, const Vec2& position, unsigned int twirls, float amplitude);
 
     /**
     @brief Get the center position of twirl action.
     @return The center position of twirl action.
     */
-    const Vec2& getPosition() const { return _position; }
+    inline Vec2 const& getPosition() const noexcept { return _position; }
     /**
     @brief Set the center position of twirl action.
     @param position The center position of twirl action will be set.
@@ -562,12 +564,12 @@ public:
     @brief Get the amplitude of the effect.
     @return Return the amplitude of the effect.
     */
-    float getAmplitude() const { return _amplitude; }
+    inline float getAmplitude() const noexcept { return _amplitude; }
     /**
     @brief Set the amplitude to the effect.
     @param amplitude The value of amplitude will be set.
     */
-    void setAmplitude(float amplitude) { _amplitude = amplitude; }
+    inline void setAmplitude(float amplitude) noexcept { _amplitude = amplitude; }
 
     /**
     @brief Get the amplitude rate of the effect.
@@ -598,7 +600,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param amplitude Specify the amplitude of the Twirl action.
     @return If the initialization success, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, const Vec2& position, unsigned int twirls, float amplitude);
+    bool initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, const Vec2& position, unsigned int twirls, float amplitude);
 
 protected:
     /* twirl center */

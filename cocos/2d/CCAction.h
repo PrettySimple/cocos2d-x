@@ -31,6 +31,8 @@ THE SOFTWARE.
 #include "base/CCRef.h"
 #include "base/CCScriptSupport.h"
 #include "math/CCGeometry.h"
+
+#include <chrono>
 #include <cstdint>
 
 NS_CC_BEGIN
@@ -204,7 +206,7 @@ public:
 class FiniteTimeAction : public Action
 {
 protected:
-    float _duration = 0.f;
+    std::chrono::milliseconds _duration = std::chrono::milliseconds::zero();
 public:
     FiniteTimeAction() =default;
     FiniteTimeAction(FiniteTimeAction const&) =delete;
@@ -217,12 +219,12 @@ public:
      *
      * @return The duration in seconds of the action.
      */
-    inline float getDuration() const noexcept { return _duration; }
+    inline std::chrono::milliseconds getDuration() const noexcept { return _duration; }
     /** Set duration in seconds of the action. 
      *
      * @param duration In seconds of the action.
      */
-    inline void setDuration(float duration) noexcept { _duration = duration; }
+    inline void setDuration(std::chrono::milliseconds duration) noexcept { _duration = duration; }
 
     FiniteTimeAction* clone() const override;
     FiniteTimeAction* reverse() const override;

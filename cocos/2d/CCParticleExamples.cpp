@@ -26,9 +26,12 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "2d/CCParticleExamples.h"
+
 #include "base/CCDirector.h"
 #include "base/firePngData.h"
 #include "renderer/CCTextureCache.h"
+
+using namespace std::chrono_literals;
 
 NS_CC_BEGIN
 //
@@ -92,7 +95,7 @@ bool ParticleFire::initWithTotalParticles(int numberOfParticles)
     if( ParticleSystemQuad::initWithTotalParticles(numberOfParticles) )
     {
         // duration
-        _duration = DURATION_INFINITY;
+        _duration = std::chrono::milliseconds::max();
 
         // Gravity Mode
         this->_emitterMode = Mode::GRAVITY;
@@ -197,7 +200,7 @@ bool ParticleFireworks::initWithTotalParticles(int numberOfParticles)
     if( ParticleSystemQuad::initWithTotalParticles(numberOfParticles) )
     {
         // duration
-        _duration= DURATION_INFINITY;
+        _duration= std::chrono::milliseconds::max();
 
         // Gravity Mode
         this->_emitterMode = Mode::GRAVITY;
@@ -301,7 +304,7 @@ bool ParticleSun::initWithTotalParticles(int numberOfParticles)
         this->setBlendAdditive(true);
 
         // duration
-        _duration = DURATION_INFINITY;
+        _duration = std::chrono::milliseconds::max();
 
         // Gravity Mode
         setEmitterMode(Mode::GRAVITY);
@@ -405,7 +408,7 @@ bool ParticleGalaxy::initWithTotalParticles(int numberOfParticles)
     if( ParticleSystemQuad::initWithTotalParticles(numberOfParticles) )
     {
         // duration
-        _duration = DURATION_INFINITY;
+        _duration = std::chrono::milliseconds::max();
 
         // Gravity Mode
         setEmitterMode(Mode::GRAVITY);
@@ -514,7 +517,7 @@ bool ParticleFlower::initWithTotalParticles(int numberOfParticles)
     if( ParticleSystemQuad::initWithTotalParticles(numberOfParticles) )
     {
         // duration
-        _duration = DURATION_INFINITY;
+        _duration = std::chrono::milliseconds::max();
 
         // Gravity Mode
         setEmitterMode(Mode::GRAVITY);
@@ -622,7 +625,7 @@ bool ParticleMeteor::initWithTotalParticles(int numberOfParticles)
     if( ParticleSystemQuad::initWithTotalParticles(numberOfParticles) )
     {
         // duration
-        _duration = DURATION_INFINITY;
+        _duration = std::chrono::milliseconds::max();
 
         // Gravity Mode
         setEmitterMode(Mode::GRAVITY);
@@ -731,7 +734,7 @@ bool ParticleSpiral::initWithTotalParticles(int numberOfParticles)
     if( ParticleSystemQuad::initWithTotalParticles(numberOfParticles) ) 
     {
         // duration
-        _duration = DURATION_INFINITY;
+        _duration = std::chrono::milliseconds::max();
 
         // Gravity Mode
         setEmitterMode(Mode::GRAVITY);
@@ -840,7 +843,7 @@ bool ParticleExplosion::initWithTotalParticles(int numberOfParticles)
     if( ParticleSystemQuad::initWithTotalParticles(numberOfParticles) ) 
     {
         // duration
-        _duration = 0.1f;
+        _duration = 100ms;
 
         setEmitterMode(Mode::GRAVITY);
 
@@ -878,7 +881,7 @@ bool ParticleExplosion::initWithTotalParticles(int numberOfParticles)
         _endSize = START_SIZE_EQUAL_TO_END_SIZE;
 
         // emits per second
-        _emissionRate = _totalParticles/_duration;
+        _emissionRate = static_cast<float>(_totalParticles) / (static_cast<float>(_duration.count()) / 1000.f);
 
         // color of particles
         _startColor.r = 0.7f;
@@ -948,7 +951,7 @@ bool ParticleSmoke::initWithTotalParticles(int numberOfParticles)
     if( ParticleSystemQuad::initWithTotalParticles(numberOfParticles) )
     {
         // duration
-        _duration = DURATION_INFINITY;
+        _duration = std::chrono::milliseconds::max();
 
         // Emitter mode: Gravity Mode
         setEmitterMode(Mode::GRAVITY);
@@ -1053,7 +1056,7 @@ bool ParticleSnow::initWithTotalParticles(int numberOfParticles)
     if( ParticleSystemQuad::initWithTotalParticles(numberOfParticles) ) 
     {
         // duration
-        _duration = DURATION_INFINITY;
+        _duration = std::chrono::milliseconds::max();
 
         // set gravity mode.
         setEmitterMode(Mode::GRAVITY);
@@ -1161,7 +1164,7 @@ bool ParticleRain::initWithTotalParticles(int numberOfParticles)
     if( ParticleSystemQuad::initWithTotalParticles(numberOfParticles) )
     {
         // duration
-        _duration = DURATION_INFINITY;
+        _duration = std::chrono::milliseconds::max();
 
         setEmitterMode(Mode::GRAVITY);
 

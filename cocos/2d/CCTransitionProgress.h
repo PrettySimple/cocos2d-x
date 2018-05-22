@@ -30,6 +30,8 @@ THE SOFTWARE.
 
 #include "2d/CCTransition.h"
 
+#include <chrono>
+
 NS_CC_BEGIN
 
 class ProgressTimer;
@@ -51,7 +53,7 @@ public:
      * @param scene A given scene.
      * @return An autoreleased TransitionProgress object.
      */
-    static TransitionProgress* create(float t, Scene* scene);
+    static TransitionProgress* create(std::chrono::milliseconds t, Scene* scene);
 
     //
     // Overrides
@@ -90,7 +92,7 @@ public:
      * @param scene A given scene.
      * @return An autoreleased TransitionProgressRadialCCW object.
      */
-    static TransitionProgressRadialCCW* create(float t, Scene* scene);
+    static TransitionProgressRadialCCW* create(std::chrono::milliseconds t, Scene* scene);
 
 CC_CONSTRUCTOR_ACCESS:
     /**
@@ -121,7 +123,7 @@ public:
      * @param scene A given scene.
      * @return An autoreleased TransitionProgressRadialCW object.
      */
-    static TransitionProgressRadialCW* create(float t, Scene* scene);
+    static TransitionProgressRadialCW* create(std::chrono::milliseconds t, Scene* scene);
 
 CC_CONSTRUCTOR_ACCESS:
     /**
@@ -151,7 +153,7 @@ public:
      * @param scene A given scene.
      * @return An autoreleased TransitionProgressHorizontal object.
      */
-    static TransitionProgressHorizontal* create(float t, Scene* scene);
+    static TransitionProgressHorizontal* create(std::chrono::milliseconds t, Scene* scene);
 
 CC_CONSTRUCTOR_ACCESS:
     /**
@@ -179,7 +181,7 @@ public:
      * @param scene A given scene.
      * @return An autoreleased TransitionProgressVertical object.
      */
-    static TransitionProgressVertical* create(float t, Scene* scene);
+    static TransitionProgressVertical* create(std::chrono::milliseconds t, Scene* scene);
 
 CC_CONSTRUCTOR_ACCESS:
     /**
@@ -207,7 +209,7 @@ public:
      * @param scene A given scene.
      * @return An autoreleased TransitionProgressInOut object.
      */
-    static TransitionProgressInOut* create(float t, Scene* scene);
+    static TransitionProgressInOut* create(std::chrono::milliseconds t, Scene* scene);
 
 CC_CONSTRUCTOR_ACCESS:
     /**
@@ -237,7 +239,7 @@ public:
      * @param scene A given scene.
      * @return An autoreleased TransitionProgressOutIn object.
      */
-    static TransitionProgressOutIn* create(float t, Scene* scene);
+    static TransitionProgressOutIn* create(std::chrono::milliseconds t, Scene* scene);
 
 CC_CONSTRUCTOR_ACCESS:
     /**

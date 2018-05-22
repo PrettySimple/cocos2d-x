@@ -25,9 +25,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 #include "2d/CCAnimationCache.h"
+
 #include "2d/CCSpriteFrameCache.h"
 #include "platform/CCFileUtils.h"
 
+using namespace std::chrono_literals;
 using namespace std;
 
 NS_CC_BEGIN
@@ -90,7 +92,7 @@ void AnimationCache::parseVersion1(const ValueMap& animations)
     {
         const ValueMap& animationDict = iter->second.asValueMap();
         const ValueVector& frameNames = animationDict.at("frames").asValueVector();
-        float delay = animationDict.at("delay").asFloat();
+        auto delay = std::chrono::milliseconds(static_cast<std::size_t>(1000.f * animationDict.at("delay").asFloat()));
         Animation* animation = nullptr;
 
         if ( frameNames.empty() )
@@ -112,7 +114,7 @@ void AnimationCache::parseVersion1(const ValueMap& animations)
                 continue;
             }
 
-            AnimationFrame* animFrame = AnimationFrame::create(spriteFrame, 1, ValueMap());
+            AnimationFrame* animFrame = AnimationFrame::create(spriteFrame, 1000ms, ValueMap());
             frames.pushBack(animFrame);
         }
 
@@ -167,7 +169,7 @@ void AnimationCache::parseVersion2(const ValueMap& animations)
                 continue;
             }
 
-            float delayUnits = entry["delayUnits"].asFloat();
+            auto delayUnits = std::chrono::milliseconds(static_cast<std::size_t>(1000.f * entry["delayUnits"].asFloat()));
             Value& userInfo = entry["notification"];
 
             AnimationFrame *animFrame = AnimationFrame::create(spriteFrame, delayUnits, userInfo.getType() == Value::Type::MAP ? userInfo.asValueMap() : ValueMapNull);
@@ -175,7 +177,7 @@ void AnimationCache::parseVersion2(const ValueMap& animations)
             array.pushBack(animFrame);
         }
 
-        float delayPerUnit = animationDict["delayPerUnit"].asFloat();
+        auto delayPerUnit = std::chrono::milliseconds(static_cast<std::size_t>(1000.f * animationDict["delayPerUnit"].asFloat()));
         Animation *animation = Animation::create(array, delayPerUnit, loops.getType() != Value::Type::NONE ? loops.asInt() : 1);
 
         animation->setRestoreOriginalFrame(restoreOriginalFrame);

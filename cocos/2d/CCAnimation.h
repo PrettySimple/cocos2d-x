@@ -27,12 +27,13 @@ THE SOFTWARE.
 #ifndef __CC_ANIMATION_H__
 #define __CC_ANIMATION_H__
 
-#include "platform/CCPlatformConfig.h"
+#include "2d/CCSpriteFrame.h"
 #include "base/CCRef.h"
 #include "base/CCValue.h"
 #include "base/CCVector.h"
-#include "2d/CCSpriteFrame.h"
+#include "platform/CCPlatformConfig.h"
 
+#include <chrono>
 #include <string>
 
 NS_CC_BEGIN
@@ -74,17 +75,17 @@ public:
      * @param userInfo A notification user info.
      * @since 3.0
      */
-    static AnimationFrame* create(SpriteFrame* spriteFrame, float delayUnits, const ValueMap& userInfo);
+    static AnimationFrame* create(SpriteFrame* spriteFrame, std::chrono::milliseconds delayUnits, const ValueMap& userInfo);
     /** Return a SpriteFrameName to be used.
      *
      * @return a SpriteFrameName to be used.
      */
-    SpriteFrame* getSpriteFrame() const { return _spriteFrame; };
+    inline SpriteFrame* getSpriteFrame() const noexcept { return _spriteFrame; };
     /** Set the SpriteFrame.
      *
      * @param frame A SpriteFrame will be used.
      */
-    void setSpriteFrame(SpriteFrame* frame)
+    inline void setSpriteFrame(SpriteFrame* frame)
     {
         CC_SAFE_RETAIN(frame);
         CC_SAFE_RELEASE(_spriteFrame);
@@ -95,13 +96,13 @@ public:
      *
      * @return The units of time the frame takes.
      */
-    float getDelayUnits() const { return _delayUnits; };
+    inline std::chrono::milliseconds getDelayUnits() const noexcept { return _delayUnits; };
     
     /** Sets the units of time the frame takes.
      *
      * @param delayUnits The units of time the frame takes.
      */
-    void setDelayUnits(float delayUnits) { _delayUnits = delayUnits; };
+    inline void setDelayUnits(std::chrono::milliseconds delayUnits) noexcept { _delayUnits = delayUnits; };
     
     /** @brief Gets user information
      * A AnimationFrameDisplayedNotification notification will be broadcast when the frame is displayed with this dictionary as UserInfo. 
@@ -109,13 +110,13 @@ public:
      *
      * @return A dictionary as UserInfo
      */
-    const ValueMap& getUserInfo() const { return _userInfo; };
-    ValueMap& getUserInfo() { return _userInfo; };
+    inline ValueMap const& getUserInfo() const noexcept { return _userInfo; };
+    inline ValueMap& getUserInfo() noexcept { return _userInfo; };
     
     /** Sets user information.
      * @param userInfo A dictionary as UserInfo.
      */
-    void setUserInfo(const ValueMap& userInfo)
+    inline void setUserInfo(const ValueMap& userInfo) noexcept
     {
         _userInfo = userInfo;
     }
@@ -135,7 +136,7 @@ CC_CONSTRUCTOR_ACCESS:
     virtual ~AnimationFrame();
     
     /** initializes the animation frame with a spriteframe, number of delay units and a notification user info */
-    bool initWithSpriteFrame(SpriteFrame* spriteFrame, float delayUnits, const ValueMap& userInfo);
+    bool initWithSpriteFrame(SpriteFrame* spriteFrame, std::chrono::milliseconds delayUnits, const ValueMap& userInfo);
 
 protected:
     
@@ -143,7 +144,7 @@ protected:
     SpriteFrame* _spriteFrame;
 
     /**  how many units of time the frame takes */
-    float _delayUnits;
+    std::chrono::milliseconds _delayUnits;
 
     /**  A AnimationFrameDisplayedNotification notification will be broadcast when the frame is displayed with this dictionary as UserInfo. If UserInfo is nil, then no notification will be broadcast. */
     ValueMap _userInfo;
@@ -169,7 +170,7 @@ public:
     /** Creates an animation.
      * @since v0.99.5
      */
-    static Animation* create(void);
+    static Animation* create();
 
     /* Creates an animation with an array of SpriteFrame and a delay between frames in seconds.
      * The frames will be added with one "delay unit".
@@ -178,7 +179,7 @@ public:
      * @param delay A delay between frames in seconds.
      * @param loops The times the animation is going to loop.
      */
-    static Animation* createWithSpriteFrames(const Vector<SpriteFrame*>& arrayOfSpriteFrameNames, float delay = 0.0f, unsigned int loops = 1);
+    static Animation* createWithSpriteFrames(const Vector<SpriteFrame*>& arrayOfSpriteFrameNames, std::chrono::milliseconds delay = std::chrono::milliseconds::zero(), unsigned int loops = 1);
 
     /* Creates an animation with an array of AnimationFrame, the delay per units in seconds and how many times it should be executed.
      * @since v2.0
@@ -186,7 +187,7 @@ public:
      * @param delayPerUnit The delay per units in seconds and how many times it should be executed.
      * @param loops The times the animation is going to loop.
      */
-    static Animation* create(const Vector<AnimationFrame*>& arrayOfAnimationFrameNames, float delayPerUnit, unsigned int loops = 1);
+    static Animation* create(const Vector<AnimationFrame*>& arrayOfAnimationFrameNames, std::chrono::milliseconds delayPerUnit, unsigned int loops = 1);
 
     /** Adds a SpriteFrame to a Animation.
      *
@@ -218,38 +219,38 @@ public:
      *
      * @return The total Delay units of the Animation.
      */
-    float getTotalDelayUnits() const { return _totalDelayUnits; };
+    inline std::chrono::milliseconds getTotalDelayUnits() const noexcept { return _totalDelayUnits; };
     
     /** Sets the delay in seconds of the "delay unit".
      *
      * @param delayPerUnit The delay in seconds of the "delay unit".
      */
-    void setDelayPerUnit(float delayPerUnit) { _delayPerUnit = delayPerUnit; };
+    inline void setDelayPerUnit(std::chrono::milliseconds delayPerUnit) noexcept { _delayPerUnit = delayPerUnit; };
     
     /** Gets the delay in seconds of the "delay unit".
      * 
      * @return The delay in seconds of the "delay unit".
      */
-    float getDelayPerUnit() const { return _delayPerUnit; };
+    inline std::chrono::milliseconds getDelayPerUnit() const noexcept { return _delayPerUnit; };
 
     
     /** Gets the duration in seconds of the whole animation. It is the result of totalDelayUnits * delayPerUnit.
      *
      * @return Result of totalDelayUnits * delayPerUnit.
      */
-    float getDuration() const;
+    std::chrono::milliseconds getDuration() const noexcept;
     
     /** Gets the array of AnimationFrames.
      * 
      * @return The array of AnimationFrames.
      */
-    const Vector<AnimationFrame*>& getFrames() const { return _frames; };
+    inline Vector<AnimationFrame*> const& getFrames() const noexcept { return _frames; };
     
     /** Sets the array of AnimationFrames. 
      *
      * @param frames The array of AnimationFrames.
      */
-    void setFrames(const Vector<AnimationFrame*>& frames)
+    inline void setFrames(const Vector<AnimationFrame*>& frames) noexcept
     {
         _frames = frames;
     }
@@ -258,25 +259,25 @@ public:
      *
      * @return Restore the original frame when animation finishes.
      */
-    bool getRestoreOriginalFrame() const { return _restoreOriginalFrame; };
+    inline bool getRestoreOriginalFrame() const noexcept { return _restoreOriginalFrame; };
     
     /** Sets whether to restore the original frame when animation finishes. 
      *
      * @param restoreOriginalFrame Whether to restore the original frame when animation finishes.
      */
-    void setRestoreOriginalFrame(bool restoreOriginalFrame) { _restoreOriginalFrame = restoreOriginalFrame; };
+    inline void setRestoreOriginalFrame(bool restoreOriginalFrame) noexcept { _restoreOriginalFrame = restoreOriginalFrame; };
     
     /** Gets the times the animation is going to loop. 0 means animation is not animated. 1, animation is executed one time, ... 
      *
      * @return The times the animation is going to loop.
      */
-    unsigned int getLoops() const { return _loops; };
+    inline unsigned int getLoops() const noexcept { return _loops; };
     
     /** Sets the times the animation is going to loop. 0 means animation is not animated. 1, animation is executed one time, ... 
      *
      * @param loops The times the animation is going to loop.
      */
-    void setLoops(unsigned int loops) { _loops = loops; };
+    inline void setLoops(unsigned int loops) noexcept { _loops = loops; };
     
     // overrides
     virtual Animation *clone() const override;
@@ -291,22 +292,22 @@ CC_CONSTRUCTOR_ACCESS:
     /** Initializes a Animation with frames and a delay between frames.
      * @since v0.99.5
      */
-    bool initWithSpriteFrames(const Vector<SpriteFrame*>& arrayOfSpriteFrameNames, float delay = 0.0f, unsigned int loops = 1);
+    bool initWithSpriteFrames(const Vector<SpriteFrame*>& arrayOfSpriteFrameNames, std::chrono::milliseconds delay = std::chrono::milliseconds::zero(), unsigned int loops = 1);
     
     /** Initializes a Animation with AnimationFrame.
      * @since v2.0
      */
-    bool initWithAnimationFrames(const Vector<AnimationFrame*>& arrayOfAnimationFrameNames, float delayPerUnit, unsigned int loops);
+    bool initWithAnimationFrames(const Vector<AnimationFrame*>& arrayOfAnimationFrameNames, std::chrono::milliseconds delayPerUnit, unsigned int loops);
 
 protected:
     /** total Delay units of the Animation. */
-    float _totalDelayUnits;
+    std::chrono::milliseconds _totalDelayUnits;
 
     /** Delay in seconds of the "delay unit". */
-    float _delayPerUnit;
+    std::chrono::milliseconds _delayPerUnit;
 
     /** duration in seconds of the whole animation. It is the result of totalDelayUnits * delayPerUnit. */
-    float _duration;
+    std::chrono::milliseconds _duration;
 
     /** array of AnimationFrames. */
     Vector<AnimationFrame*> _frames;

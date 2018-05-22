@@ -29,7 +29,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 // implementation of Waves3D
 
-Waves3D* Waves3D::create(float duration, const Size& gridSize, unsigned int waves, float amplitude)
+Waves3D* Waves3D::create(std::chrono::milliseconds duration, const Size& gridSize, unsigned int waves, float amplitude)
 {
     Waves3D *action = new (std::nothrow) Waves3D();
 
@@ -43,7 +43,7 @@ Waves3D* Waves3D::create(float duration, const Size& gridSize, unsigned int wave
     return nullptr;
 }
 
-bool Waves3D::initWithDuration(float duration, const Size& gridSize, unsigned int waves, float amplitude)
+bool Waves3D::initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, unsigned int waves, float amplitude)
 {
     if (Grid3DAction::initWithDuration(duration, gridSize))
     {
@@ -80,7 +80,7 @@ void Waves3D::update(float time)
 
 // implementation of FlipX3D
 
-FlipX3D* FlipX3D::create(float duration)
+FlipX3D* FlipX3D::create(std::chrono::milliseconds duration)
 {
     FlipX3D *action = new (std::nothrow) FlipX3D();
 
@@ -94,12 +94,12 @@ FlipX3D* FlipX3D::create(float duration)
     return nullptr;
 }
 
-bool FlipX3D::initWithDuration(float duration)
+bool FlipX3D::initWithDuration(std::chrono::milliseconds duration)
 {
     return Grid3DAction::initWithDuration(duration, Size(1, 1));
 }
 
-bool FlipX3D::initWithSize(const Size& gridSize, float duration)
+bool FlipX3D::initWithSize(const Size& gridSize, std::chrono::milliseconds duration)
 {
     if (gridSize.width != 1 || gridSize.height != 1)
     {
@@ -196,7 +196,7 @@ FlipY3D* FlipY3D::clone() const
     return a;
 }
 
-FlipY3D* FlipY3D::create(float duration)
+FlipY3D* FlipY3D::create(std::chrono::milliseconds duration)
 {
     FlipY3D *action = new (std::nothrow) FlipY3D();
 
@@ -282,7 +282,7 @@ void FlipY3D::update(float time)
 
 // implementation of Lens3D
 
-Lens3D* Lens3D::create(float duration, const Size& gridSize, const Vec2& position, float radius)
+Lens3D* Lens3D::create(std::chrono::milliseconds duration, const Size& gridSize, const Vec2& position, float radius)
 {
     Lens3D *action = new (std::nothrow) Lens3D();
 
@@ -301,7 +301,7 @@ Lens3D* Lens3D::create(float duration, const Size& gridSize, const Vec2& positio
     return action;
 }
 
-bool Lens3D::initWithDuration(float duration, const Size& gridSize, const Vec2& position, float radius)
+bool Lens3D::initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, const Vec2& position, float radius)
 {
     if (Grid3DAction::initWithDuration(duration, gridSize))
     {
@@ -381,7 +381,7 @@ void Lens3D::update(float time)
 
 // implementation of Ripple3D
 
-Ripple3D* Ripple3D::create(float duration, const Size& gridSize, const Vec2& position, float radius, unsigned int waves, float amplitude)
+Ripple3D* Ripple3D::create(std::chrono::milliseconds duration, const Size& gridSize, const Vec2& position, float radius, unsigned int waves, float amplitude)
 {
     Ripple3D *action = new (std::nothrow) Ripple3D();
 
@@ -400,7 +400,7 @@ Ripple3D* Ripple3D::create(float duration, const Size& gridSize, const Vec2& pos
     return action;
 }
 
-bool Ripple3D::initWithDuration(float duration, const Size& gridSize, const Vec2& position, float radius, unsigned int waves, float amplitude)
+bool Ripple3D::initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, const Vec2& position, float radius, unsigned int waves, float amplitude)
 {
     if (Grid3DAction::initWithDuration(duration, gridSize))
     {
@@ -457,7 +457,7 @@ void Ripple3D::update(float time)
 
 // implementation of Shaky3D
 
-Shaky3D* Shaky3D::create(float duration, const Size& gridSize, int range, bool shakeZ)
+Shaky3D* Shaky3D::create(std::chrono::milliseconds duration, const Size& gridSize, int range, bool shakeZ)
 {
     Shaky3D *action = new (std::nothrow) Shaky3D();
 
@@ -476,7 +476,7 @@ Shaky3D* Shaky3D::create(float duration, const Size& gridSize, int range, bool s
     return action;
 }
 
-bool Shaky3D::initWithDuration(float duration, const Size& gridSize, int range, bool shakeZ)
+bool Shaky3D::initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, int range, bool shakeZ)
 {
     if (Grid3DAction::initWithDuration(duration, gridSize))
     {
@@ -522,7 +522,7 @@ void Shaky3D::update(float time)
 
 // implementation of Liquid
 
-Liquid* Liquid::create(float duration, const Size& gridSize, unsigned int waves, float amplitude)
+Liquid* Liquid::create(std::chrono::milliseconds duration, const Size& gridSize, unsigned int waves, float amplitude)
 {
     Liquid *action = new (std::nothrow) Liquid();
 
@@ -541,7 +541,7 @@ Liquid* Liquid::create(float duration, const Size& gridSize, unsigned int waves,
     return action;
 }
 
-bool Liquid::initWithDuration(float duration, const Size& gridSize, unsigned int waves, float amplitude)
+bool Liquid::initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, unsigned int waves, float amplitude)
 {
     if (Grid3DAction::initWithDuration(duration, gridSize))
     {
@@ -582,7 +582,7 @@ void Liquid::update(float time)
 
 // implementation of Waves
 
-Waves* Waves::create(float duration, const Size& gridSize, unsigned int waves, float amplitude, bool horizontal, bool vertical)
+Waves* Waves::create(std::chrono::milliseconds duration, const Size& gridSize, unsigned int waves, float amplitude, bool horizontal, bool vertical)
 {
     Waves *action = new (std::nothrow) Waves();
 
@@ -601,7 +601,7 @@ Waves* Waves::create(float duration, const Size& gridSize, unsigned int waves, f
     return action;
 }
 
-bool Waves::initWithDuration(float duration, const Size& gridSize, unsigned int waves, float amplitude, bool horizontal, bool vertical)
+bool Waves::initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, unsigned int waves, float amplitude, bool horizontal, bool vertical)
 {
     if (Grid3DAction::initWithDuration(duration, gridSize))
     {
@@ -653,7 +653,7 @@ void Waves::update(float time)
 
 // implementation of Twirl
 
-Twirl* Twirl::create(float duration, const Size& gridSize, const Vec2& position, unsigned int twirls, float amplitude)
+Twirl* Twirl::create(std::chrono::milliseconds duration, const Size& gridSize, const Vec2& position, unsigned int twirls, float amplitude)
 {
     Twirl *action = new (std::nothrow) Twirl();
 
@@ -672,7 +672,7 @@ Twirl* Twirl::create(float duration, const Size& gridSize, const Vec2& position,
     return action;
 }
 
-bool Twirl::initWithDuration(float duration, const Size& gridSize, const Vec2& position, unsigned int twirls, float amplitude)
+bool Twirl::initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, const Vec2& position, unsigned int twirls, float amplitude)
 {
     if (Grid3DAction::initWithDuration(duration, gridSize))
     {

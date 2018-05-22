@@ -1451,7 +1451,7 @@ bool Bundle3D::loadAnimationDataJson(const std::string& id, Animation3DData* ani
 
     const rapidjson::Value& animation_data_array_val_0 = animation_data_array[(rapidjson::SizeType)the_index];
 
-    animationdata->_totalTime = animation_data_array_val_0[LENGTH].GetDouble();
+    animationdata->_totalTime = std::chrono::milliseconds(static_cast<std::size_t>(animation_data_array_val_0[LENGTH].GetDouble() * 1000.0));
 
     const rapidjson::Value&  bones =  animation_data_array_val_0[BONES];
     for (rapidjson::SizeType i = 0; i <  bones.Size(); i++)

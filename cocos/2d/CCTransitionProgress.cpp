@@ -47,7 +47,7 @@ TransitionProgress::TransitionProgress()
 
 }
 
-TransitionProgress* TransitionProgress::create(float t, Scene* scene)
+TransitionProgress* TransitionProgress::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionProgress* newScene = new (std::nothrow) TransitionProgress();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -149,7 +149,7 @@ ProgressTimer* TransitionProgressRadialCCW::progressTimerNodeWithRenderTexture(R
     return node;
 }
 
-TransitionProgressRadialCCW* TransitionProgressRadialCCW::create(float t, Scene* scene)
+TransitionProgressRadialCCW* TransitionProgressRadialCCW::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionProgressRadialCCW* newScene = new (std::nothrow) TransitionProgressRadialCCW();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -162,7 +162,7 @@ TransitionProgressRadialCCW* TransitionProgressRadialCCW::create(float t, Scene*
 }
 
 // TransitionProgressRadialCW
-TransitionProgressRadialCW* TransitionProgressRadialCW::create(float t, Scene* scene)
+TransitionProgressRadialCW* TransitionProgressRadialCW::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionProgressRadialCW* newScene = new (std::nothrow) TransitionProgressRadialCW();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -194,7 +194,7 @@ ProgressTimer* TransitionProgressRadialCW::progressTimerNodeWithRenderTexture(Re
 }
 
 // TransitionProgressHorizontal
-TransitionProgressHorizontal* TransitionProgressHorizontal::create(float t, Scene* scene)
+TransitionProgressHorizontal* TransitionProgressHorizontal::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionProgressHorizontal* newScene = new (std::nothrow) TransitionProgressHorizontal();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -227,7 +227,7 @@ ProgressTimer* TransitionProgressHorizontal::progressTimerNodeWithRenderTexture(
 }
 
 // TransitionProgressVertical
-TransitionProgressVertical* TransitionProgressVertical::create(float t, Scene* scene)
+TransitionProgressVertical* TransitionProgressVertical::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionProgressVertical* newScene = new (std::nothrow) TransitionProgressVertical();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -261,7 +261,7 @@ ProgressTimer* TransitionProgressVertical::progressTimerNodeWithRenderTexture(Re
 
 
 // TransitionProgressInOut
-TransitionProgressInOut* TransitionProgressInOut::create(float t, Scene* scene)
+TransitionProgressInOut* TransitionProgressInOut::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionProgressInOut* newScene = new (std::nothrow) TransitionProgressInOut();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -307,7 +307,7 @@ ProgressTimer* TransitionProgressInOut::progressTimerNodeWithRenderTexture(Rende
 
 
 // TransitionProgressOutIn
-TransitionProgressOutIn* TransitionProgressOutIn::create(float t, Scene* scene)
+TransitionProgressOutIn* TransitionProgressOutIn::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionProgressOutIn* newScene = new (std::nothrow) TransitionProgressOutIn();
     if(newScene && newScene->initWithDuration(t, scene))

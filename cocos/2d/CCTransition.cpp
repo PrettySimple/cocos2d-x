@@ -26,17 +26,20 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "2d/CCTransition.h"
-#include "2d/CCActionInterval.h"
-#include "2d/CCActionInstant.h"
-#include "2d/CCActionEase.h"
+
 #include "2d/CCActionCamera.h"
-#include "2d/CCActionTiledGrid.h"
+#include "2d/CCActionEase.h"
 #include "2d/CCActionGrid.h"
+#include "2d/CCActionInstant.h"
+#include "2d/CCActionInterval.h"
+#include "2d/CCActionTiledGrid.h"
 #include "2d/CCLayer.h"
-#include "2d/CCRenderTexture.h"
 #include "2d/CCNodeGrid.h"
+#include "2d/CCRenderTexture.h"
 #include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
+
+using namespace std::chrono_literals;
 
 NS_CC_BEGIN
 
@@ -45,7 +48,7 @@ const unsigned int kSceneFade = 0xFADEFADE;
 TransitionScene::TransitionScene()
 : _inScene(nullptr)
 , _outScene(nullptr)
-, _duration(0.0f)
+, _duration(0ms)
 , _isInSceneOnTop(false)
 , _isSendCleanupToScene(false)
 {
@@ -57,7 +60,7 @@ TransitionScene::~TransitionScene()
     CC_SAFE_RELEASE(_outScene);
 }
 
-TransitionScene * TransitionScene::create(float t, Scene *scene)
+TransitionScene * TransitionScene::create(std::chrono::milliseconds t, Scene *scene)
 {
     TransitionScene * pScene = new (std::nothrow) TransitionScene();
     if(pScene && pScene->initWithDuration(t,scene))
@@ -69,7 +72,7 @@ TransitionScene * TransitionScene::create(float t, Scene *scene)
     return nullptr;
 }
 
-bool TransitionScene::initWithDuration(float t, Scene *scene)
+bool TransitionScene::initWithDuration(std::chrono::milliseconds t, Scene *scene)
 {
     CCASSERT(scene != nullptr, "Argument scene must be non-nil");
 
@@ -140,7 +143,7 @@ void TransitionScene::finish()
     _outScene->setAdditionalTransform(nullptr);
 
     //[self schedule:@selector(setNewScene:) interval:0];
-    this->schedule(CC_SCHEDULE_SELECTOR(TransitionScene::setNewScene), 0);
+    this->schedule(CC_SCHEDULE_SELECTOR(TransitionScene::setNewScene), 0ms);
 }
 
 void TransitionScene::setNewScene(float dt)
@@ -252,7 +255,7 @@ TransitionSceneOriented::~TransitionSceneOriented()
 {
 }
 
-TransitionSceneOriented * TransitionSceneOriented::create(float t, Scene *scene, Orientation orientation)
+TransitionSceneOriented * TransitionSceneOriented::create(std::chrono::milliseconds t, Scene *scene, Orientation orientation)
 {
     TransitionSceneOriented * newScene = new (std::nothrow) TransitionSceneOriented();
     newScene->initWithDuration(t,scene,orientation);
@@ -260,7 +263,7 @@ TransitionSceneOriented * TransitionSceneOriented::create(float t, Scene *scene,
     return newScene;
 }
 
-bool TransitionSceneOriented::initWithDuration(float t, Scene *scene, Orientation orientation)
+bool TransitionSceneOriented::initWithDuration(std::chrono::milliseconds t, Scene *scene, Orientation orientation)
 {
     if ( TransitionScene::initWithDuration(t, scene) )
     {
@@ -276,7 +279,7 @@ TransitionRotoZoom::TransitionRotoZoom()
 {
 }
 
-TransitionRotoZoom* TransitionRotoZoom::create(float t, Scene* scene)                   
+TransitionRotoZoom* TransitionRotoZoom::create(std::chrono::milliseconds t, Scene* scene)
 {                                                               
     TransitionRotoZoom* newScene = new (std::nothrow) TransitionRotoZoom();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -302,14 +305,12 @@ void TransitionRotoZoom:: onEnter()
     _inScene->setAnchorPoint(Vec2(0.5f, 0.5f));
     _outScene->setAnchorPoint(Vec2(0.5f, 0.5f));
 
-    auto rotozoom = Sequence::create
-    ({
-        Spawn::create
-        ({
-         ScaleBy::create(_duration/2, 0.001f),
-         RotateBy::create(_duration/2, 360 * 2)
+    auto rotozoom = Sequence::create({
+        Spawn::create({
+            ScaleBy::create(_duration / 2, 0.001f),
+            RotateBy::create(_duration / 2, 360.f * 2.f)
         }),
-        DelayTime::create(_duration/2)
+        DelayTime::create(_duration / 2)
     });
 
     _outScene->runAction(rotozoom);
@@ -333,7 +334,7 @@ TransitionJumpZoom::~TransitionJumpZoom()
 {
 }
 
-TransitionJumpZoom* TransitionJumpZoom::create(float t, Scene* scene)
+TransitionJumpZoom* TransitionJumpZoom::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionJumpZoom* newScene = new (std::nothrow) TransitionJumpZoom();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -379,7 +380,7 @@ TransitionMoveInL::~TransitionMoveInL()
 {
 }
 
-TransitionMoveInL* TransitionMoveInL::create(float t, Scene* scene)
+TransitionMoveInL* TransitionMoveInL::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionMoveInL* newScene = new (std::nothrow) TransitionMoveInL();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -435,7 +436,7 @@ TransitionMoveInR::~TransitionMoveInR()
 {
 }
 
-TransitionMoveInR* TransitionMoveInR::create(float t, Scene* scene)
+TransitionMoveInR* TransitionMoveInR::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionMoveInR* newScene = new (std::nothrow) TransitionMoveInR();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -463,7 +464,7 @@ TransitionMoveInT::~TransitionMoveInT()
 {
 }
 
-TransitionMoveInT* TransitionMoveInT::create(float t, Scene* scene)
+TransitionMoveInT* TransitionMoveInT::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionMoveInT* newScene = new (std::nothrow) TransitionMoveInT();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -491,7 +492,7 @@ TransitionMoveInB::~TransitionMoveInB()
 {
 }
 
-TransitionMoveInB* TransitionMoveInB::create(float t, Scene* scene)
+TransitionMoveInB* TransitionMoveInB::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionMoveInB* newScene = new (std::nothrow) TransitionMoveInB();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -567,7 +568,7 @@ ActionInterval* TransitionSlideInL::easeActionWithAction(ActionInterval* action)
     return EaseOut::create(action, 2.0f);
 }
 
-TransitionSlideInL* TransitionSlideInL::create(float t, Scene* scene)
+TransitionSlideInL* TransitionSlideInL::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionSlideInL* newScene = new (std::nothrow) TransitionSlideInL();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -589,7 +590,7 @@ TransitionSlideInR::~TransitionSlideInR()
 {
 }
 
-TransitionSlideInR* TransitionSlideInR::create(float t, Scene* scene)
+TransitionSlideInR* TransitionSlideInR::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionSlideInR* newScene = new (std::nothrow) TransitionSlideInR();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -630,7 +631,7 @@ TransitionSlideInT::~TransitionSlideInT()
 {
 }
 
-TransitionSlideInT* TransitionSlideInT::create(float t, Scene* scene)
+TransitionSlideInT* TransitionSlideInT::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionSlideInT* newScene = new (std::nothrow) TransitionSlideInT();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -670,7 +671,7 @@ TransitionSlideInB::~TransitionSlideInB()
 {
 }
 
-TransitionSlideInB* TransitionSlideInB::create(float t, Scene* scene)
+TransitionSlideInB* TransitionSlideInB::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionSlideInB* newScene = new (std::nothrow) TransitionSlideInB();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -710,7 +711,7 @@ TransitionShrinkGrow::~TransitionShrinkGrow()
 {
 }
 
-TransitionShrinkGrow* TransitionShrinkGrow::create(float t, Scene* scene)
+TransitionShrinkGrow* TransitionShrinkGrow::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionShrinkGrow* newScene = new (std::nothrow) TransitionShrinkGrow();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -804,7 +805,7 @@ void TransitionFlipX::onEnter()
     _outScene->runAction(outA);
 }
 
-TransitionFlipX* TransitionFlipX::create(float t, Scene* s, Orientation o)
+TransitionFlipX* TransitionFlipX::create(std::chrono::milliseconds t, Scene* s, Orientation o)
 {
     TransitionFlipX* newScene = new (std::nothrow) TransitionFlipX();
     newScene->initWithDuration(t, s, o);
@@ -813,7 +814,7 @@ TransitionFlipX* TransitionFlipX::create(float t, Scene* s, Orientation o)
     return newScene;
 }
 
-TransitionFlipX* TransitionFlipX::create(float t, Scene* s)
+TransitionFlipX* TransitionFlipX::create(std::chrono::milliseconds t, Scene* s)
 {
     return TransitionFlipX::create(t, s, TransitionScene::Orientation::RIGHT_OVER);
 }
@@ -871,7 +872,7 @@ void TransitionFlipY::onEnter()
 
 }
 
-TransitionFlipY* TransitionFlipY::create(float t, Scene* s, Orientation o)
+TransitionFlipY* TransitionFlipY::create(std::chrono::milliseconds t, Scene* s, Orientation o)
 {
     TransitionFlipY* newScene = new (std::nothrow) TransitionFlipY();
     newScene->initWithDuration(t, s, o);
@@ -880,7 +881,7 @@ TransitionFlipY* TransitionFlipY::create(float t, Scene* s, Orientation o)
     return newScene;
 }
 
-TransitionFlipY* TransitionFlipY::create(float t, Scene* s)
+TransitionFlipY* TransitionFlipY::create(std::chrono::milliseconds t, Scene* s)
 {
     return TransitionFlipY::create(t, s, TransitionScene::Orientation::UP_OVER);
 }
@@ -938,7 +939,7 @@ void TransitionFlipAngular::onEnter()
     _outScene->runAction(outA);
 }
 
-TransitionFlipAngular* TransitionFlipAngular::create(float t, Scene* s, Orientation o)
+TransitionFlipAngular* TransitionFlipAngular::create(std::chrono::milliseconds t, Scene* s, Orientation o)
 {
     TransitionFlipAngular* newScene = new (std::nothrow) TransitionFlipAngular();
     newScene->initWithDuration(t, s, o);
@@ -947,7 +948,7 @@ TransitionFlipAngular* TransitionFlipAngular::create(float t, Scene* s, Orientat
     return newScene;
 }
 
-TransitionFlipAngular* TransitionFlipAngular::create(float t, Scene* s)
+TransitionFlipAngular* TransitionFlipAngular::create(std::chrono::milliseconds t, Scene* s)
 {
     return TransitionFlipAngular::create(t, s, TransitionScene::Orientation::RIGHT_OVER);
 }
@@ -1011,7 +1012,7 @@ void TransitionZoomFlipX::onEnter()
     _outScene->runAction(outA);
 }
 
-TransitionZoomFlipX* TransitionZoomFlipX::create(float t, Scene* s, Orientation o)
+TransitionZoomFlipX* TransitionZoomFlipX::create(std::chrono::milliseconds t, Scene* s, Orientation o)
 {
     TransitionZoomFlipX* newScene = new (std::nothrow) TransitionZoomFlipX();
     newScene->initWithDuration(t, s, o);
@@ -1020,7 +1021,7 @@ TransitionZoomFlipX* TransitionZoomFlipX::create(float t, Scene* s, Orientation 
     return newScene;
 }
 
-TransitionZoomFlipX* TransitionZoomFlipX::create(float t, Scene* s)
+TransitionZoomFlipX* TransitionZoomFlipX::create(std::chrono::milliseconds t, Scene* s)
 {
     return TransitionZoomFlipX::create(t, s, TransitionScene::Orientation::RIGHT_OVER);
 }
@@ -1085,7 +1086,7 @@ void TransitionZoomFlipY::onEnter()
     _outScene->runAction(outA);
 }
 
-TransitionZoomFlipY* TransitionZoomFlipY::create(float t, Scene* s, Orientation o)
+TransitionZoomFlipY* TransitionZoomFlipY::create(std::chrono::milliseconds t, Scene* s, Orientation o)
 {
     TransitionZoomFlipY* newScene = new (std::nothrow) TransitionZoomFlipY();
     newScene->initWithDuration(t, s, o);
@@ -1094,7 +1095,7 @@ TransitionZoomFlipY* TransitionZoomFlipY::create(float t, Scene* s, Orientation 
     return newScene;
 }
 
-TransitionZoomFlipY* TransitionZoomFlipY::create(float t, Scene* s)
+TransitionZoomFlipY* TransitionZoomFlipY::create(std::chrono::milliseconds t, Scene* s)
 {
     return TransitionZoomFlipY::create(t, s, TransitionScene::Orientation::UP_OVER);
 }
@@ -1161,7 +1162,7 @@ void TransitionZoomFlipAngular::onEnter()
     _outScene->runAction(outA);
 }
 
-TransitionZoomFlipAngular* TransitionZoomFlipAngular::create(float t, Scene* s, Orientation o)
+TransitionZoomFlipAngular* TransitionZoomFlipAngular::create(std::chrono::milliseconds t, Scene* s, Orientation o)
 {
     TransitionZoomFlipAngular* newScene = new (std::nothrow) TransitionZoomFlipAngular();
     newScene->initWithDuration(t, s, o);
@@ -1170,7 +1171,7 @@ TransitionZoomFlipAngular* TransitionZoomFlipAngular::create(float t, Scene* s, 
     return newScene;
 }
 
-TransitionZoomFlipAngular* TransitionZoomFlipAngular::create(float t, Scene* s)
+TransitionZoomFlipAngular* TransitionZoomFlipAngular::create(std::chrono::milliseconds t, Scene* s)
 {
     return TransitionZoomFlipAngular::create(t, s, TransitionScene::Orientation::RIGHT_OVER);
 }
@@ -1185,7 +1186,7 @@ TransitionFade::~TransitionFade()
 {
 }
 
-TransitionFade * TransitionFade::create(float duration, Scene *scene, const Color3B& color)
+TransitionFade * TransitionFade::create(std::chrono::milliseconds duration, Scene *scene, const Color3B& color)
 {
     TransitionFade * transition = new (std::nothrow) TransitionFade();
     transition->initWithDuration(duration, scene, color);
@@ -1193,12 +1194,12 @@ TransitionFade * TransitionFade::create(float duration, Scene *scene, const Colo
     return transition;
 }
 
-TransitionFade* TransitionFade::create(float duration,Scene* scene)
+TransitionFade* TransitionFade::create(std::chrono::milliseconds duration,Scene* scene)
 {
     return TransitionFade::create(duration, scene, Color3B::BLACK);
 }
 
-bool TransitionFade::initWithDuration(float duration, Scene *scene, const Color3B& color)
+bool TransitionFade::initWithDuration(std::chrono::milliseconds duration, Scene *scene, const Color3B& color)
 {
     if (TransitionScene::initWithDuration(duration, scene))
     {
@@ -1210,7 +1211,7 @@ bool TransitionFade::initWithDuration(float duration, Scene *scene, const Color3
     return true;
 }
 
-bool TransitionFade::initWithDuration(float t, Scene *scene)
+bool TransitionFade::initWithDuration(std::chrono::milliseconds t, Scene *scene)
 {
     this->initWithDuration(t, scene, Color3B::BLACK);
     return true;
@@ -1252,7 +1253,7 @@ TransitionCrossFade::~TransitionCrossFade()
 {
 }
 
-TransitionCrossFade* TransitionCrossFade::create(float t, Scene* scene)
+TransitionCrossFade* TransitionCrossFade::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionCrossFade* newScene = new (std::nothrow) TransitionCrossFade();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -1362,7 +1363,7 @@ TransitionTurnOffTiles::~TransitionTurnOffTiles()
     CC_SAFE_RELEASE(_outSceneProxy);
 }
 
-TransitionTurnOffTiles* TransitionTurnOffTiles::create(float t, Scene* scene)
+TransitionTurnOffTiles* TransitionTurnOffTiles::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionTurnOffTiles* newScene = new (std::nothrow) TransitionTurnOffTiles();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -1446,7 +1447,7 @@ TransitionSplitCols::~TransitionSplitCols()
     CC_SAFE_RELEASE(_gridProxy);
 }
 
-TransitionSplitCols* TransitionSplitCols::create(float t, Scene* scene)
+TransitionSplitCols* TransitionSplitCols::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionSplitCols* newScene = new (std::nothrow) TransitionSplitCols();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -1504,7 +1505,7 @@ void TransitionSplitCols::onExit()
 
 ActionInterval* TransitionSplitCols:: action()
 {
-    return SplitCols::create(_duration/2.0f, 3);
+    return SplitCols::create(_duration / 2, 3);
 }
 
 
@@ -1527,10 +1528,10 @@ TransitionSplitRows::~TransitionSplitRows()
 
 ActionInterval* TransitionSplitRows::action()
 {
-    return SplitRows::create(_duration/2.0f, 3);
+    return SplitRows::create(_duration/2, 3);
 }
 
-TransitionSplitRows* TransitionSplitRows::create(float t, Scene* scene)
+TransitionSplitRows* TransitionSplitRows::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionSplitRows* newScene = new (std::nothrow) TransitionSplitRows();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -1555,7 +1556,7 @@ TransitionFadeTR::~TransitionFadeTR()
     CC_SAFE_RELEASE(_outSceneProxy);
 }
 
-TransitionFadeTR* TransitionFadeTR::create(float t, Scene* scene)
+TransitionFadeTR* TransitionFadeTR::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionFadeTR* newScene = new (std::nothrow) TransitionFadeTR();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -1642,7 +1643,7 @@ TransitionFadeBL::~TransitionFadeBL()
 {
 }
 
-TransitionFadeBL* TransitionFadeBL::create(float t, Scene* scene)
+TransitionFadeBL* TransitionFadeBL::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionFadeBL* newScene = new (std::nothrow) TransitionFadeBL();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -1670,7 +1671,7 @@ TransitionFadeUp::~TransitionFadeUp()
 {
 }
 
-TransitionFadeUp* TransitionFadeUp::create(float t, Scene* scene)
+TransitionFadeUp* TransitionFadeUp::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionFadeUp* newScene = new (std::nothrow) TransitionFadeUp();
     if(newScene && newScene->initWithDuration(t, scene))
@@ -1697,7 +1698,7 @@ TransitionFadeDown::~TransitionFadeDown()
 {
 }
 
-TransitionFadeDown* TransitionFadeDown::create(float t, Scene* scene)
+TransitionFadeDown* TransitionFadeDown::create(std::chrono::milliseconds t, Scene* scene)
 {
     TransitionFadeDown* newScene = new (std::nothrow) TransitionFadeDown();
     if(newScene && newScene->initWithDuration(t, scene))

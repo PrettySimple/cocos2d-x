@@ -40,7 +40,7 @@ struct Tile
 
 // implementation of ShakyTiles3D
 
-ShakyTiles3D* ShakyTiles3D::create(float duration, const Size& gridSize, int range, bool shakeZ)
+ShakyTiles3D* ShakyTiles3D::create(std::chrono::milliseconds duration, const Size& gridSize, int range, bool shakeZ)
 {
     ShakyTiles3D *action = new (std::nothrow) ShakyTiles3D();
 
@@ -54,7 +54,7 @@ ShakyTiles3D* ShakyTiles3D::create(float duration, const Size& gridSize, int ran
     return nullptr;
 }
 
-bool ShakyTiles3D::initWithDuration(float duration, const Size& gridSize, int range, bool shakeZ)
+bool ShakyTiles3D::initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, int range, bool shakeZ)
 {
     if (TiledGrid3DAction::initWithDuration(duration, gridSize))
     {
@@ -111,7 +111,7 @@ void ShakyTiles3D::update(float time)
 
 // implementation of ShatteredTiles3D
 
-ShatteredTiles3D* ShatteredTiles3D::create(float duration, const Size& gridSize, int range, bool shatterZ)
+ShatteredTiles3D* ShatteredTiles3D::create(std::chrono::milliseconds duration, const Size& gridSize, int range, bool shatterZ)
 {
     ShatteredTiles3D *action = new (std::nothrow) ShatteredTiles3D();
 
@@ -125,7 +125,7 @@ ShatteredTiles3D* ShatteredTiles3D::create(float duration, const Size& gridSize,
     return nullptr;
 }
 
-bool ShatteredTiles3D::initWithDuration(float duration, const Size& gridSize, int range, bool shatterZ)
+bool ShatteredTiles3D::initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, int range, bool shatterZ)
 {
     if (TiledGrid3DAction::initWithDuration(duration, gridSize))
     {
@@ -188,7 +188,7 @@ void ShatteredTiles3D::update(float time)
 
 // implementation of ShuffleTiles
 
-ShuffleTiles* ShuffleTiles::create(float duration, const Size& gridSize, unsigned int seed)
+ShuffleTiles* ShuffleTiles::create(std::chrono::milliseconds duration, const Size& gridSize, unsigned int seed)
 {
     ShuffleTiles *action = new (std::nothrow) ShuffleTiles();
 
@@ -202,7 +202,7 @@ ShuffleTiles* ShuffleTiles::create(float duration, const Size& gridSize, unsigne
     return nullptr;
 }
 
-bool ShuffleTiles::initWithDuration(float duration, const Size& gridSize, unsigned int seed)
+bool ShuffleTiles::initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, unsigned int seed)
 {
     if (TiledGrid3DAction::initWithDuration(duration, gridSize))
     {
@@ -326,7 +326,7 @@ void ShuffleTiles::update(float time)
 
 // implementation of FadeOutTRTiles
 
-FadeOutTRTiles* FadeOutTRTiles::create(float duration, const Size& gridSize)
+FadeOutTRTiles* FadeOutTRTiles::create(std::chrono::milliseconds duration, const Size& gridSize)
 {
     FadeOutTRTiles *action = new (std::nothrow) FadeOutTRTiles();
 
@@ -414,7 +414,7 @@ void FadeOutTRTiles::update(float time)
 
 // implementation of FadeOutBLTiles
 
-FadeOutBLTiles* FadeOutBLTiles::create(float duration, const Size& gridSize)
+FadeOutBLTiles* FadeOutBLTiles::create(std::chrono::milliseconds duration, const Size& gridSize)
 {
     FadeOutBLTiles *action = new (std::nothrow) FadeOutBLTiles();
 
@@ -447,7 +447,7 @@ float FadeOutBLTiles::testFunc(const Size& pos, float time)
 
 // implementation of FadeOutUpTiles
 
-FadeOutUpTiles* FadeOutUpTiles::create(float duration, const Size& gridSize)
+FadeOutUpTiles* FadeOutUpTiles::create(std::chrono::milliseconds duration, const Size& gridSize)
 {
     FadeOutUpTiles *action = new (std::nothrow) FadeOutUpTiles();
 
@@ -493,7 +493,7 @@ void FadeOutUpTiles::transformTile(const Vec2& pos, float distance)
 
 // implementation of FadeOutDownTiles
 
-FadeOutDownTiles* FadeOutDownTiles::create(float duration, const Size& gridSize)
+FadeOutDownTiles* FadeOutDownTiles::create(std::chrono::milliseconds duration, const Size& gridSize)
 {
     FadeOutDownTiles *action = new (std::nothrow) FadeOutDownTiles();
 
@@ -521,7 +521,7 @@ float FadeOutDownTiles::testFunc(const Size& pos, float time)
 
 // implementation of TurnOffTiles
 
-TurnOffTiles* TurnOffTiles::create(float duration, const Size& gridSize)
+TurnOffTiles* TurnOffTiles::create(std::chrono::milliseconds duration, const Size& gridSize)
 {
     TurnOffTiles* action = new (std::nothrow) TurnOffTiles();
     if (action && action->initWithDuration(duration, gridSize, 0))
@@ -534,7 +534,7 @@ TurnOffTiles* TurnOffTiles::create(float duration, const Size& gridSize)
     return nullptr;
 }
 
-TurnOffTiles* TurnOffTiles::create(float duration, const Size& gridSize, unsigned int seed)
+TurnOffTiles* TurnOffTiles::create(std::chrono::milliseconds duration, const Size& gridSize, unsigned int seed)
 {
     TurnOffTiles *action = new (std::nothrow) TurnOffTiles();
 
@@ -548,7 +548,7 @@ TurnOffTiles* TurnOffTiles::create(float duration, const Size& gridSize, unsigne
     return nullptr;
 }
 
-bool TurnOffTiles::initWithDuration(float duration, const Size& gridSize, unsigned int seed)
+bool TurnOffTiles::initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, unsigned int seed)
 {
     if (TiledGrid3DAction::initWithDuration(duration, gridSize))
     {
@@ -639,7 +639,7 @@ void TurnOffTiles::update(float time)
 
 // implementation of WavesTiles3D
 
-WavesTiles3D* WavesTiles3D::create(float duration, const Size& gridSize, unsigned int waves, float amplitude)
+WavesTiles3D* WavesTiles3D::create(std::chrono::milliseconds duration, const Size& gridSize, unsigned int waves, float amplitude)
 {
     WavesTiles3D *action = new (std::nothrow) WavesTiles3D();
 
@@ -653,7 +653,7 @@ WavesTiles3D* WavesTiles3D::create(float duration, const Size& gridSize, unsigne
     return nullptr;
 }
 
-bool WavesTiles3D::initWithDuration(float duration, const Size& gridSize, unsigned int waves, float amplitude)
+bool WavesTiles3D::initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, unsigned int waves, float amplitude)
 {
     if (TiledGrid3DAction::initWithDuration(duration, gridSize))
     {
@@ -694,7 +694,7 @@ void WavesTiles3D::update(float time)
 
 // implementation of JumpTiles3D
 
-JumpTiles3D* JumpTiles3D::create(float duration, const Size& gridSize, unsigned int numberOfJumps, float amplitude)
+JumpTiles3D* JumpTiles3D::create(std::chrono::milliseconds duration, const Size& gridSize, unsigned int numberOfJumps, float amplitude)
 {
     JumpTiles3D *action = new (std::nothrow) JumpTiles3D();
 
@@ -708,7 +708,7 @@ JumpTiles3D* JumpTiles3D::create(float duration, const Size& gridSize, unsigned 
     return nullptr;
 }
 
-bool JumpTiles3D::initWithDuration(float duration, const Size& gridSize, unsigned int numberOfJumps, float amplitude)
+bool JumpTiles3D::initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, unsigned int numberOfJumps, float amplitude)
 {
     if (TiledGrid3DAction::initWithDuration(duration, gridSize))
     {
@@ -761,7 +761,7 @@ void JumpTiles3D::update(float time)
 
 // implementation of SplitRows
 
-SplitRows* SplitRows::create(float duration, unsigned int nRows)
+SplitRows* SplitRows::create(std::chrono::milliseconds duration, unsigned int nRows)
 {
     SplitRows *action = new (std::nothrow) SplitRows();
 
@@ -775,7 +775,7 @@ SplitRows* SplitRows::create(float duration, unsigned int nRows)
     return nullptr;
 }
 
-bool SplitRows::initWithDuration(float duration, unsigned int rows)
+bool SplitRows::initWithDuration(std::chrono::milliseconds duration, unsigned int rows)
 {
     _rows = rows;
 
@@ -817,7 +817,7 @@ void SplitRows::update(float time)
 
 // implementation of SplitCols
 
-SplitCols* SplitCols::create(float duration, unsigned int cols)
+SplitCols* SplitCols::create(std::chrono::milliseconds duration, unsigned int cols)
 {
     SplitCols *action = new (std::nothrow) SplitCols();
 
@@ -831,7 +831,7 @@ SplitCols* SplitCols::create(float duration, unsigned int cols)
     return nullptr;
 }
 
-bool SplitCols::initWithDuration(float duration, unsigned int cols)
+bool SplitCols::initWithDuration(std::chrono::milliseconds duration, unsigned int cols)
 {
     _cols = cols;
     return TiledGrid3DAction::initWithDuration(duration, Size(cols, 1));

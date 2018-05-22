@@ -30,6 +30,8 @@ THE SOFTWARE.
 #include "2d/CCTransition.h"
 #include "renderer/CCCustomCommand.h"
 
+#include <chrono>
+
 NS_CC_BEGIN
 
 class NodeGrid;
@@ -63,7 +65,7 @@ public:
      * @param backwards If back is true then the effect is reversed to appear as if the incoming scene is being turned from left over the outgoing scene.
      * @return An autoreleased TransitionPageTurn object.
      */
-    static TransitionPageTurn* create(float t,Scene* scene,bool backwards);
+    static TransitionPageTurn* create(std::chrono::milliseconds t, Scene* scene,bool backwards);
     
     //
     // Overrides
@@ -81,7 +83,7 @@ public:
      * @param backwards If back is true then the effect is reversed to appear as if the incoming scene is being turned from left over the outgoing scene.
      * @return True if initialize success.
      */
-    bool initWithDuration(float t,Scene* scene,bool backwards);
+    bool initWithDuration(std::chrono::milliseconds t, Scene* scene,bool backwards);
 
     /** Returns the action that will be performed with size.
      *

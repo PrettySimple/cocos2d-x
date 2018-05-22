@@ -28,10 +28,6 @@ THE SOFTWARE.
 
 #include "2d/CCNode.h"
 
-#include <algorithm>
-#include <string>
-#include <regex>
-
 #include "2d/CCAction.h"
 #include "2d/CCActionManager.h"
 #include "2d/CCCamera.h"
@@ -41,11 +37,15 @@ THE SOFTWARE.
 #include "base/CCEventDispatcher.h"
 #include "base/CCScheduler.h"
 #include "base/ccUTF8.h"
-#include "math/TransformUtils.h"
 #include "math/MathUtil.h"
+#include "math/TransformUtils.h"
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCMaterial.h"
+
+#include <algorithm>
+#include <regex>
+#include <string>
 
 
 #if CC_NODE_RENDER_SUBPIXEL
@@ -54,6 +54,7 @@ THE SOFTWARE.
 #define RENDER_IN_SUBPIXEL(__ARGS__) (ceil(__ARGS__))
 #endif
 
+using namespace std::chrono_literals;
 
 NS_CC_BEGIN
 
@@ -1515,45 +1516,45 @@ void Node::unscheduleUpdate()
 
 void Node::schedule(SEL_SCHEDULE selector)
 {
-    this->schedule(selector, 0.0f, CC_REPEAT_FOREVER, 0.0f);
+    this->schedule(selector, 0ms, CC_REPEAT_FOREVER, 0ms);
 }
 
-void Node::schedule(SEL_SCHEDULE selector, float interval)
+void Node::schedule(SEL_SCHEDULE selector, std::chrono::milliseconds interval)
 {
-    this->schedule(selector, interval, CC_REPEAT_FOREVER, 0.0f);
+    this->schedule(selector, interval, CC_REPEAT_FOREVER, 0ms);
 }
 
-void Node::schedule(SEL_SCHEDULE selector, float interval, unsigned int repeat, float delay)
+void Node::schedule(SEL_SCHEDULE selector, std::chrono::milliseconds interval, unsigned int repeat, std::chrono::milliseconds delay)
 {
-    CCASSERT( selector, "Argument must be non-nil");
-    CCASSERT( interval >=0, "Argument must be positive");
+    CCASSERT(selector, "Argument must be non-nil");
+    CCASSERT(interval >= 0ms, "Argument must be positive");
 
     _scheduler->schedule(selector, this, interval , repeat, delay, !_running);
 }
 
 void Node::schedule(const std::function<void(float)> &callback, const std::string &key)
 {
-    _scheduler->schedule(callback, this, 0, !_running, key);
+    _scheduler->schedule(callback, this, 0ms, !_running, key);
 }
 
-void Node::schedule(const std::function<void(float)> &callback, float interval, const std::string &key)
+void Node::schedule(const std::function<void(float)> &callback, std::chrono::milliseconds interval, const std::string &key)
 {
     _scheduler->schedule(callback, this, interval, !_running, key);
 }
 
-void Node::schedule(const std::function<void(float)>& callback, float interval, unsigned int repeat, float delay, const std::string &key)
+void Node::schedule(const std::function<void(float)>& callback, std::chrono::milliseconds interval, unsigned int repeat, std::chrono::milliseconds delay, const std::string &key)
 {
     _scheduler->schedule(callback, this, interval, repeat, delay, !_running, key);
 }
 
-void Node::scheduleOnce(SEL_SCHEDULE selector, float delay)
+void Node::scheduleOnce(SEL_SCHEDULE selector, std::chrono::milliseconds delay)
 {
-    this->schedule(selector, 0.0f, 0, delay);
+    this->schedule(selector, 0ms, 0, delay);
 }
 
-void Node::scheduleOnce(const std::function<void(float)> &callback, float delay, const std::string &key)
+void Node::scheduleOnce(const std::function<void(float)> &callback, std::chrono::milliseconds delay, const std::string &key)
 {
-    _scheduler->schedule(callback, this, 0, 0, delay, !_running, key);
+    _scheduler->schedule(callback, this, 0ms, 0, delay, !_running, key);
 }
 
 void Node::unschedule(SEL_SCHEDULE selector)

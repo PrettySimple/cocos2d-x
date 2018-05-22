@@ -151,7 +151,7 @@ OrbitCamera::~OrbitCamera()
 {
 }
 
-OrbitCamera * OrbitCamera::create(float t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX)
+OrbitCamera * OrbitCamera::create(std::chrono::milliseconds t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX)
 {
     OrbitCamera * obitCamera = new (std::nothrow) OrbitCamera();
     if(obitCamera && obitCamera->initWithDuration(t, radius, deltaRadius, angleZ, deltaAngleZ, angleX, deltaAngleX))
@@ -170,7 +170,7 @@ OrbitCamera* OrbitCamera::clone() const
     return OrbitCamera::create(_duration, _radius, _deltaRadius, _angleZ, _deltaAngleZ, _angleX, _deltaAngleX);
 }
 
-bool OrbitCamera::initWithDuration(float t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX)
+bool OrbitCamera::initWithDuration(std::chrono::milliseconds t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX)
 {
     if ( ActionInterval::initWithDuration(t) )
     {

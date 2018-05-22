@@ -25,13 +25,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 #include "2d/CCAnimation.h"
-#include "renderer/CCTextureCache.h"
-#include "renderer/CCTexture2D.h"
+
 #include "base/CCDirector.h"
+#include "renderer/CCTexture2D.h"
+#include "renderer/CCTextureCache.h"
+
+using namespace std::chrono_literals;
 
 NS_CC_BEGIN
 
-AnimationFrame* AnimationFrame::create(SpriteFrame* spriteFrame, float delayUnits, const ValueMap& userInfo)
+AnimationFrame* AnimationFrame::create(SpriteFrame* spriteFrame, std::chrono::milliseconds delayUnits, const ValueMap& userInfo)
 {
     auto ret = new (std::nothrow) AnimationFrame();
     if (ret && ret->initWithSpriteFrame(spriteFrame, delayUnits, userInfo))
@@ -47,12 +50,12 @@ AnimationFrame* AnimationFrame::create(SpriteFrame* spriteFrame, float delayUnit
 
 AnimationFrame::AnimationFrame()
 : _spriteFrame(nullptr)
-, _delayUnits(0.0f)
+, _delayUnits(0ms)
 {
 
 }
 
-bool AnimationFrame::initWithSpriteFrame(SpriteFrame* spriteFrame, float delayUnits, const ValueMap& userInfo)
+bool AnimationFrame::initWithSpriteFrame(SpriteFrame* spriteFrame, std::chrono::milliseconds delayUnits, const ValueMap& userInfo)
 {
     setSpriteFrame(spriteFrame);
     setDelayUnits(delayUnits);
@@ -91,7 +94,7 @@ Animation* Animation::create()
     return animation;
 } 
 
-Animation* Animation::createWithSpriteFrames(const Vector<SpriteFrame*>& frames, float delay/* = 0.0f*/, unsigned int loops/* = 1*/)
+Animation* Animation::createWithSpriteFrames(const Vector<SpriteFrame*>& frames, std::chrono::milliseconds delay/* = 0ms*/, unsigned int loops/* = 1*/)
 {
     Animation *animation = new (std::nothrow) Animation();
     animation->initWithSpriteFrames(frames, delay, loops);
@@ -100,7 +103,7 @@ Animation* Animation::createWithSpriteFrames(const Vector<SpriteFrame*>& frames,
     return animation;
 }
 
-Animation* Animation::create(const Vector<AnimationFrame*>& arrayOfAnimationFrameNames, float delayPerUnit, unsigned int loops /* = 1 */)
+Animation* Animation::create(const Vector<AnimationFrame*>& arrayOfAnimationFrameNames, std::chrono::milliseconds delayPerUnit, unsigned int loops /* = 1 */)
 {
     Animation *animation = new (std::nothrow) Animation();
     animation->initWithAnimationFrames(arrayOfAnimationFrameNames, delayPerUnit, loops);
@@ -111,27 +114,27 @@ Animation* Animation::create(const Vector<AnimationFrame*>& arrayOfAnimationFram
 bool Animation::init()
 {
     _loops = 1;
-    _delayPerUnit = 0.0f;
+    _delayPerUnit = 0ms;
     
     return true;
 }
 
-bool Animation::initWithSpriteFrames(const Vector<SpriteFrame*>& frames, float delay/* = 0.0f*/, unsigned int loops/* = 1*/)
+bool Animation::initWithSpriteFrames(const Vector<SpriteFrame*>& frames, std::chrono::milliseconds delay/* = 0ms*/, unsigned int loops/* = 1*/)
 {
     _delayPerUnit = delay;
     _loops = loops;
 
     for (auto& spriteFrame : frames)
     {
-        auto animFrame = AnimationFrame::create(spriteFrame, 1, ValueMap());
+        auto animFrame = AnimationFrame::create(spriteFrame, 1000ms, ValueMap());
         _frames.pushBack(animFrame);
-        _totalDelayUnits++;
+        _totalDelayUnits += 1000ms;
     }
 
     return true;
 }
 
-bool Animation::initWithAnimationFrames(const Vector<AnimationFrame*>& arrayOfAnimationFrames, float delayPerUnit, unsigned int loops)
+bool Animation::initWithAnimationFrames(const Vector<AnimationFrame*>& arrayOfAnimationFrames, std::chrono::milliseconds delayPerUnit, unsigned int loops)
 {
     _delayPerUnit = delayPerUnit;
     _loops = loops;
@@ -146,9 +149,9 @@ bool Animation::initWithAnimationFrames(const Vector<AnimationFrame*>& arrayOfAn
 }
 
 Animation::Animation()
-: _totalDelayUnits(0.0f)
-, _delayPerUnit(0.0f)
-, _duration(0.0f)
+: _totalDelayUnits(0ms)
+, _delayPerUnit(0ms)
+, _duration(0ms)
 , _restoreOriginalFrame(false)
 , _loops(0)
 {
@@ -162,11 +165,11 @@ Animation::~Animation(void)
 
 void Animation::addSpriteFrame(SpriteFrame* spriteFrame)
 {
-    AnimationFrame *animFrame = AnimationFrame::create(spriteFrame, 1.0f, ValueMap());
+    AnimationFrame *animFrame = AnimationFrame::create(spriteFrame, 1000ms, ValueMap());
     _frames.pushBack(animFrame);
 
     // update duration
-    _totalDelayUnits++;
+    _totalDelayUnits += 1000ms;
 }
 
 void Animation::addSpriteFrameWithFile(const std::string& filename)
@@ -184,9 +187,9 @@ void Animation::addSpriteFrameWithTexture(Texture2D *pobTexture, const Rect& rec
     addSpriteFrame(frame);
 }
 
-float Animation::getDuration(void) const
+std::chrono::milliseconds Animation::getDuration() const noexcept
 {
-    return _totalDelayUnits * _delayPerUnit;
+    return _totalDelayUnits;
 }
 
 Animation* Animation::clone() const

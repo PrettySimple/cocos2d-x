@@ -28,16 +28,17 @@ THE SOFTWARE.
 #ifndef __ACTION_CCINTERVAL_ACTION_H__
 #define __ACTION_CCINTERVAL_ACTION_H__
 
-#include <cstdint>
-#include <initializer_list>
-#include <unordered_set>
-#include <vector>
-
 #include "2d/CCAction.h"
 #include "2d/CCAnimation.h"
 #include "base/CCProtocols.h"
 #include "base/CCVector.h"
 #include "base/ccMacros.h"
+
+#include <chrono>
+#include <cstdint>
+#include <initializer_list>
+#include <unordered_set>
+#include <vector>
 
 NS_CC_BEGIN
 
@@ -73,8 +74,7 @@ auto pingPongAction = Sequence::create(action, action->reverse(), nullptr);
 class CC_DLL ActionInterval : public FiniteTimeAction
 {
 protected:
-    float _elapsed = 0.f;
-    std::int64_t _elapsed_ns = 0;
+    std::chrono::milliseconds _elapsed = std::chrono::milliseconds::zero();
 public:
     ActionInterval() = default;
     ActionInterval(ActionInterval const&) =delete;
@@ -83,14 +83,14 @@ public:
     ActionInterval& operator=(ActionInterval &&) noexcept =delete;
     ~ActionInterval() override;
 
-    bool initWithDuration(float d);
+    bool initWithDuration(std::chrono::milliseconds d);
 
 
     /** How many seconds had elapsed since the actions started to run.
      *
      * @return The seconds had elapsed since the actions started to run.
      */
-    inline float getElapsed() const noexcept { return _elapsed; }
+    inline std::chrono::milliseconds getElapsed() const noexcept { return _elapsed; }
 
     /** Sets the amplitude rate, extension in GridAction
      *
@@ -113,8 +113,6 @@ public:
 
     ActionInterval* reverse() const override;
     ActionInterval* clone() const override;
-protected:
-    bool sendUpdateEventToScript(float dt, Action* actionObject);
 };
 
 /** @class Sequence
@@ -123,7 +121,6 @@ protected:
 class CC_DLL Sequence : public ActionInterval
 {
     std::vector<FiniteTimeAction*> _actions;
-    std::int64_t _duration_ns = 0;
 public:
     Sequence() =default;
     Sequence(std::initializer_list<FiniteTimeAction*> actions);
@@ -164,7 +161,7 @@ public:
      *
      * @param action The inner action.
      */
-    void setInnerAction(FiniteTimeAction *action)
+    inline void setInnerAction(FiniteTimeAction *action) noexcept
     {
         if (_innerAction != action)
         {
@@ -178,10 +175,7 @@ public:
      *
      * @return The inner action.
      */
-    FiniteTimeAction* getInnerAction()
-    {
-        return _innerAction;
-    }
+    inline FiniteTimeAction* getInnerAction() const noexcept { return _innerAction; }
 
     //
     // Overrides
@@ -201,7 +195,7 @@ CC_CONSTRUCTOR_ACCESS:
     virtual ~Repeat();
 
     /** initializes a Repeat action. Times is an unsigned integer between 1 and pow(2,30) */
-    bool initWithAction(FiniteTimeAction *pAction, unsigned int times);
+    bool initWithAction(FiniteTimeAction* pAction, unsigned int times);
 
 protected:
     unsigned int _times;
@@ -232,7 +226,7 @@ public:
     RepeatForever& operator=(RepeatForever&&) noexcept =delete;
     ~RepeatForever() override;
 
-    bool initWithAction(ActionInterval *action);
+    bool initWithAction(ActionInterval* action);
     static RepeatForever* create(ActionInterval* action);
 
     /** Sets the inner action.
@@ -258,7 +252,6 @@ public:
 class CC_DLL Spawn : public ActionInterval
 {
     std::vector<FiniteTimeAction*> _actions;
-    std::int64_t _duration_ns = 0;
 public:
     Spawn() =default;
     Spawn(std::initializer_list<FiniteTimeAction*> actions);
@@ -295,7 +288,7 @@ public:
      * @param dstAngleY In degreesCW.
      * @return An autoreleased RotateTo object.
      */
-    static RotateTo* create(float duration, float dstAngleX, float dstAngleY);
+    static RotateTo* create(std::chrono::milliseconds duration, float dstAngleX, float dstAngleY);
 
     /** 
      * Creates the action.
@@ -304,7 +297,7 @@ public:
      * @param dstAngle In degreesCW.
      * @return An autoreleased RotateTo object.
      */
-    static RotateTo* create(float duration, float dstAngle);
+    static RotateTo* create(std::chrono::milliseconds duration, float dstAngle);
 
     /** 
      * Creates the action with 3D rotation angles.
@@ -312,7 +305,7 @@ public:
      * @param dstAngle3D A Vec3 angle.
      * @return An autoreleased RotateTo object.
      */
-    static RotateTo* create(float duration, const Vec3& dstAngle3D);
+    static RotateTo* create(std::chrono::milliseconds duration, const Vec3& dstAngle3D);
 
     //
     // Overrides
@@ -335,18 +328,18 @@ CC_CONSTRUCTOR_ACCESS:
      * @param dstAngleX in degreesCW
      * @param dstAngleY in degreesCW
      */
-    bool initWithDuration(float duration, float dstAngleX, float dstAngleY);
+    bool initWithDuration(std::chrono::milliseconds duration, float dstAngleX, float dstAngleY);
     /**
      * initializes the action
      * @param duration in seconds
      */
-    bool initWithDuration(float duration, const Vec3& dstAngle3D);
+    bool initWithDuration(std::chrono::milliseconds duration, const Vec3& dstAngle3D);
 
     /** 
      * calculates the start and diff angles
      * @param dstAngle in degreesCW
      */
-    void calculateAngles(float &startAngle, float &diffAngle, float dstAngle);
+    void calculateAngles(float& startAngle, float& diffAngle, float dstAngle);
     
 protected:
     bool _is3D;
@@ -371,7 +364,7 @@ public:
      * @param deltaAngle In degreesCW.
      * @return An autoreleased RotateBy object.
      */
-    static RotateBy* create(float duration, float deltaAngle);
+    static RotateBy* create(std::chrono::milliseconds duration, float deltaAngle);
     /**
      * Creates the action with separate rotation angles.
      *
@@ -381,21 +374,21 @@ public:
      * @return An autoreleased RotateBy object.
      * @warning The physics body contained in Node doesn't support rotate with different x and y angle.
      */
-    static RotateBy* create(float duration, float deltaAngleZ_X, float deltaAngleZ_Y);
+    static RotateBy* create(std::chrono::milliseconds duration, float deltaAngleZ_X, float deltaAngleZ_Y);
     /** Creates the action with 3D rotation angles.
      *
      * @param duration Duration time, in seconds.
      * @param deltaAngle3D A Vec3 angle.
      * @return An autoreleased RotateBy object.
      */
-    static RotateBy* create(float duration, const Vec3& deltaAngle3D);
+    static RotateBy* create(std::chrono::milliseconds duration, const Vec3& deltaAngle3D);
 
     //
     // Override
     //
     virtual RotateBy* clone() const override;
     virtual RotateBy* reverse(void) const override;
-    virtual void startWithTarget(Node *target) override;
+    virtual void startWithTarget(Node* target) override;
     /**
      * @param time In seconds.
      */
@@ -406,14 +399,14 @@ CC_CONSTRUCTOR_ACCESS:
     virtual ~RotateBy() {}
 
     /** initializes the action */
-    bool initWithDuration(float duration, float deltaAngle);
+    bool initWithDuration(std::chrono::milliseconds duration, float deltaAngle);
     /** 
      * @warning The physics body contained in Node doesn't support rotate with different x and y angle.
      * @param deltaAngleZ_X in degreesCW
      * @param deltaAngleZ_Y in degreesCW
      */
-    bool initWithDuration(float duration, float deltaAngleZ_X, float deltaAngleZ_Y);
-    bool initWithDuration(float duration, const Vec3& deltaAngle3D);
+    bool initWithDuration(std::chrono::milliseconds duration, float deltaAngleZ_X, float deltaAngleZ_Y);
+    bool initWithDuration(std::chrono::milliseconds duration, Vec3 const& deltaAngle3D);
     
 protected:
     bool _is3D;
@@ -447,8 +440,8 @@ public:
     ~MoveBy() override;
 
     /** initializes the action */
-    bool initWithDuration(float duration, Vec2 const& deltaPosition);
-    bool initWithDuration(float duration, Vec3 const& deltaPosition);
+    bool initWithDuration(std::chrono::milliseconds duration, Vec2 const& deltaPosition);
+    bool initWithDuration(std::chrono::milliseconds duration, Vec3 const& deltaPosition);
 
     /** 
      * Creates the action.
@@ -457,7 +450,7 @@ public:
      * @param deltaPosition The delta distance in 2d, it's a Vec2 type.
      * @return An autoreleased MoveBy object.
      */
-    static MoveBy* create(float duration, Vec2 const& deltaPosition);
+    static MoveBy* create(std::chrono::milliseconds duration, Vec2 const& deltaPosition);
     /**
      * Creates the action.
      *
@@ -465,7 +458,7 @@ public:
      * @param deltaPosition The delta distance in 3d, it's a Vec3 type.
      * @return An autoreleased MoveBy object.
      */
-    static MoveBy* create(float duration, Vec3 const& deltaPosition);
+    static MoveBy* create(std::chrono::milliseconds duration, Vec3 const& deltaPosition);
 
     MoveBy* clone() const override;
     MoveBy* reverse() const override;
@@ -494,12 +487,12 @@ public:
      * initializes the action
      * @param duration in seconds
      */
-    bool initWithDuration(float duration, Vec2 const& position);
+    bool initWithDuration(std::chrono::milliseconds duration, Vec2 const& position);
     /**
      * initializes the action
      * @param duration in seconds
      */
-    bool initWithDuration(float duration, Vec3 const& position);
+    bool initWithDuration(std::chrono::milliseconds duration, Vec3 const& position);
 
     /** 
      * Creates the action.
@@ -507,14 +500,14 @@ public:
      * @param position The destination position in 2d.
      * @return An autoreleased MoveTo object.
      */
-    static MoveTo* create(float duration, Vec2 const& position);
+    static MoveTo* create(std::chrono::milliseconds duration, Vec2 const& position);
     /**
      * Creates the action.
      * @param duration Duration time, in seconds.
      * @param position The destination position in 3d.
      * @return An autoreleased MoveTo object.
      */
-    static MoveTo* create(float duration, Vec3 const& position);
+    static MoveTo* create(std::chrono::milliseconds duration, Vec3 const& position);
 
     MoveTo* clone() const final;
     MoveTo* reverse() const final;
@@ -535,7 +528,7 @@ public:
      * @param sy Skew y angle.
      * @return An autoreleased SkewTo object.
      */
-    static SkewTo* create(float t, float sx, float sy);
+    static SkewTo* create(std::chrono::milliseconds t, float sx, float sy);
 
     //
     // Overrides
@@ -554,7 +547,7 @@ CC_CONSTRUCTOR_ACCESS:
     /**
      * @param t In seconds.
      */
-    bool initWithDuration(float t, float sx, float sy);
+    bool initWithDuration(std::chrono::milliseconds t, float sx, float sy);
 
 protected:
     float _skewX;
@@ -584,7 +577,7 @@ public:
      * @param deltaSkewY Skew y delta angle.
      * @return An autoreleased SkewBy object.
      */
-    static SkewBy* create(float t, float deltaSkewX, float deltaSkewY);
+    static SkewBy* create(std::chrono::milliseconds t, float deltaSkewX, float deltaSkewY);
 
     //
     // Overrides
@@ -599,7 +592,7 @@ CC_CONSTRUCTOR_ACCESS:
     /**
      * @param t In seconds.
      */
-    bool initWithDuration(float t, float sx, float sy);
+    bool initWithDuration(std::chrono::milliseconds t, float sx, float sy);
 
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(SkewBy);
@@ -618,7 +611,7 @@ public:
     * @param final_size The target size to reach
     * @return An autoreleased RotateTo object.
     */
-    static ResizeTo* create(float duration, const cocos2d::Size& final_size);
+    static ResizeTo* create(std::chrono::milliseconds duration, const cocos2d::Size& final_size);
 
     //
     // Overrides
@@ -636,7 +629,7 @@ CC_CONSTRUCTOR_ACCESS:
     * @param duration in seconds
     * @param final_size in Size type
     */
-    bool initWithDuration(float duration, const cocos2d::Size& final_size);
+    bool initWithDuration(std::chrono::milliseconds duration, const cocos2d::Size& final_size);
 
 protected:
     cocos2d::Size _initialSize;
@@ -661,7 +654,7 @@ public:
     * @param deltaSize The delta size.
     * @return An autoreleased ResizeBy object.
     */
-    static ResizeBy* create(float duration, const cocos2d::Size& deltaSize);
+    static ResizeBy* create(std::chrono::milliseconds duration, const cocos2d::Size& deltaSize);
     
     //
     // Overrides
@@ -679,7 +672,7 @@ CC_CONSTRUCTOR_ACCESS:
     virtual ~ResizeBy() {}
     
     /** initializes the action */
-    bool initWithDuration(float duration, const cocos2d::Size& deltaSize);
+    bool initWithDuration(std::chrono::milliseconds duration, const cocos2d::Size& deltaSize);
 
 protected:
     cocos2d::Size _sizeDelta;
@@ -705,7 +698,7 @@ public:
      * @param jumps The jumping times.
      * @return An autoreleased JumpBy object.
      */
-    static JumpBy* create(float duration, const Vec2& position, float height, int jumps);
+    static JumpBy* create(std::chrono::milliseconds duration, const Vec2& position, float height, int jumps);
 
     //
     // Overrides
@@ -726,7 +719,7 @@ CC_CONSTRUCTOR_ACCESS:
      * initializes the action
      * @param duration in seconds
      */
-    bool initWithDuration(float duration, const Vec2& position, float height, int jumps);
+    bool initWithDuration(std::chrono::milliseconds duration, const Vec2& position, float height, int jumps);
 
 protected:
     Vec2           _startPosition;
@@ -753,7 +746,7 @@ public:
      * @param jumps The jumping times.
      * @return An autoreleased JumpTo object.
      */
-    static JumpTo* create(float duration, const Vec2& position, float height, int jumps);
+    static JumpTo* create(std::chrono::milliseconds duration, const Vec2& position, float height, int jumps);
 
     //
     // Override
@@ -770,7 +763,7 @@ CC_CONSTRUCTOR_ACCESS:
      * initializes the action
      * @param duration In seconds.
      */
-    bool initWithDuration(float duration, const Vec2& position, float height, int jumps);
+    bool initWithDuration(std::chrono::milliseconds duration, const Vec2& position, float height, int jumps);
 
 protected:
     Vec2 _endPosition;
@@ -806,7 +799,7 @@ public:
      * in lua: local create(local t, local table)
      * @endcode
      */
-    static BezierBy* create(float t, const ccBezierConfig& c);
+    static BezierBy* create(std::chrono::milliseconds t, const ccBezierConfig& c);
 
     //
     // Overrides
@@ -827,7 +820,7 @@ CC_CONSTRUCTOR_ACCESS:
      * initializes the action with a duration and a bezier configuration
      * @param t in seconds
      */
-    bool initWithDuration(float t, const ccBezierConfig& c);
+    bool initWithDuration(std::chrono::milliseconds t, const ccBezierConfig& c);
 
 protected:
     ccBezierConfig _config;
@@ -855,7 +848,7 @@ public:
      * in lua: local create(local t, local table)
      * @endcode
      */
-    static BezierTo* create(float t, const ccBezierConfig& c);
+    static BezierTo* create(std::chrono::milliseconds t, const ccBezierConfig& c);
 
     //
     // Overrides
@@ -870,7 +863,7 @@ CC_CONSTRUCTOR_ACCESS:
     /**
      * @param t In seconds.
      */
-    bool initWithDuration(float t, const ccBezierConfig &c);
+    bool initWithDuration(std::chrono::milliseconds t, const ccBezierConfig &c);
 
 protected:
     ccBezierConfig _toConfig;
@@ -893,7 +886,7 @@ public:
      * @param s Scale factor of x and y.
      * @return An autoreleased ScaleTo object.
      */
-    static ScaleTo* create(float duration, float s);
+    static ScaleTo* create(std::chrono::milliseconds duration, float s);
 
     /** 
      * Creates the action with and X factor and a Y factor.
@@ -902,7 +895,7 @@ public:
      * @param sy Scale factor of y.
      * @return An autoreleased ScaleTo object.
      */
-    static ScaleTo* create(float duration, float sx, float sy);
+    static ScaleTo* create(std::chrono::milliseconds duration, float sx, float sy);
 
     /** 
      * Creates the action with X Y Z factor.
@@ -912,7 +905,7 @@ public:
      * @param sz Scale factor of z.
      * @return An autoreleased ScaleTo object.
      */
-    static ScaleTo* create(float duration, float sx, float sy, float sz);
+    static ScaleTo* create(std::chrono::milliseconds duration, float sx, float sy, float sz);
 
     //
     // Overrides
@@ -933,17 +926,17 @@ CC_CONSTRUCTOR_ACCESS:
      * initializes the action with the same scale factor for X and Y
      * @param duration in seconds
      */
-    bool initWithDuration(float duration, float s);
+    bool initWithDuration(std::chrono::milliseconds duration, float s);
     /** 
      * initializes the action with and X factor and a Y factor 
      * @param duration in seconds
      */
-    bool initWithDuration(float duration, float sx, float sy);
+    bool initWithDuration(std::chrono::milliseconds duration, float sx, float sy);
     /** 
      * initializes the action with X Y Z factor 
      * @param duration in seconds
      */
-    bool initWithDuration(float duration, float sx, float sy, float sz);
+    bool initWithDuration(std::chrono::milliseconds duration, float sx, float sy, float sz);
 
 protected:
     float _scaleX;
@@ -976,7 +969,7 @@ public:
      * @param s Scale factor of x and y.
      * @return An autoreleased ScaleBy object.
      */
-    static ScaleBy* create(float duration, float s);
+    static ScaleBy* create(std::chrono::milliseconds duration, float s);
 
     /** 
      * Creates the action with and X factor and a Y factor.
@@ -985,7 +978,7 @@ public:
      * @param sy Scale factor of y.
      * @return An autoreleased ScaleBy object.
      */
-    static ScaleBy* create(float duration, float sx, float sy);
+    static ScaleBy* create(std::chrono::milliseconds duration, float sx, float sy);
 
     /** 
      * Creates the action with X Y Z factor.
@@ -995,7 +988,7 @@ public:
      * @param sz Scale factor of z.
      * @return An autoreleased ScaleBy object.
      */
-    static ScaleBy* create(float duration, float sx, float sy, float sz);
+    static ScaleBy* create(std::chrono::milliseconds duration, float sx, float sy, float sz);
 
     //
     // Overrides
@@ -1024,7 +1017,7 @@ public:
      * @param blinks Blink times.
      * @return An autoreleased Blink object.
      */
-    static Blink* create(float duration, int blinks);
+    static Blink* create(std::chrono::milliseconds duration, int blinks);
 
     //
     // Overrides
@@ -1046,7 +1039,7 @@ CC_CONSTRUCTOR_ACCESS:
      * initializes the action 
      * @param duration in seconds
      */
-    bool initWithDuration(float duration, int blinks);
+    bool initWithDuration(std::chrono::milliseconds duration, int blinks);
     
 protected:
     int _times;
@@ -1070,7 +1063,7 @@ public:
      * @param opacity A certain opacity, the range is from 0 to 255.
      * @return An autoreleased FadeTo object.
      */
-    static FadeTo* create(float duration, GLubyte opacity);
+    static FadeTo* create(std::chrono::milliseconds duration, GLubyte opacity);
 
     //
     // Overrides
@@ -1091,7 +1084,7 @@ CC_CONSTRUCTOR_ACCESS:
      * initializes the action with duration and opacity 
      * @param duration in seconds
      */
-    bool initWithDuration(float duration, GLubyte opacity);
+    bool initWithDuration(std::chrono::milliseconds duration, GLubyte opacity);
 
 protected:
     GLubyte _toOpacity;
@@ -1114,7 +1107,7 @@ public:
      * @param d Duration time, in seconds.
      * @return An autoreleased FadeIn object.
      */
-    static FadeIn* create(float d);
+    static FadeIn* create(std::chrono::milliseconds d);
 
     //
     // Overrides
@@ -1129,7 +1122,7 @@ public:
     void setReverseAction(FadeTo* ac);
 
 CC_CONSTRUCTOR_ACCESS:
-    FadeIn():_reverseAction(nullptr) {}
+    FadeIn():_reverseAction() {}
     virtual ~FadeIn() {}
 
 private:
@@ -1148,7 +1141,7 @@ public:
      * Creates the action.
      * @param d Duration time, in seconds.
      */
-    static FadeOut* create(float d);
+    static FadeOut* create(std::chrono::milliseconds d);
 
     //
     // Overrides
@@ -1163,7 +1156,7 @@ public:
     void setReverseAction(FadeTo* ac);
 
 CC_CONSTRUCTOR_ACCESS:
-    FadeOut():_reverseAction(nullptr) {}
+    FadeOut():_reverseAction() {}
     virtual ~FadeOut() {}
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(FadeOut);
@@ -1186,14 +1179,14 @@ public:
      * @param blue Blue Color, from 0 to 255.
      * @return An autoreleased TintTo object.
      */
-    static TintTo* create(float duration, GLubyte red, GLubyte green, GLubyte blue);
+    static TintTo* create(std::chrono::milliseconds duration, GLubyte red, GLubyte green, GLubyte blue);
     /**
      * Creates an action with duration and color.
      * @param duration Duration time, in seconds.
      * @param color It's a Color3B type.
      * @return An autoreleased TintTo object.
      */
-    static TintTo* create(float duration, const Color3B& color);
+    static TintTo* create(std::chrono::milliseconds duration, const Color3B& color);
 
     //
     // Overrides
@@ -1211,7 +1204,7 @@ CC_CONSTRUCTOR_ACCESS:
     virtual ~TintTo() {}
 
     /** initializes the action with duration and color */
-    bool initWithDuration(float duration, GLubyte red, GLubyte green, GLubyte blue);
+    bool initWithDuration(std::chrono::milliseconds duration, GLubyte red, GLubyte green, GLubyte blue);
 
 protected:
     Color3B _to;
@@ -1236,7 +1229,7 @@ public:
      * @param deltaBlue Delta blue color.
      * @return An autoreleased TintBy object.
      */
-    static TintBy* create(float duration, GLshort deltaRed, GLshort deltaGreen, GLshort deltaBlue);
+    static TintBy* create(std::chrono::milliseconds duration, GLshort deltaRed, GLshort deltaGreen, GLshort deltaBlue);
 
     //
     // Overrides
@@ -1254,7 +1247,7 @@ CC_CONSTRUCTOR_ACCESS:
     virtual ~TintBy() {}
 
     /** initializes the action with duration and color */
-    bool initWithDuration(float duration, GLshort deltaRed, GLshort deltaGreen, GLshort deltaBlue);
+    bool initWithDuration(std::chrono::milliseconds duration, GLshort deltaRed, GLshort deltaGreen, GLshort deltaBlue);
 
 protected:
     GLshort _deltaR;
@@ -1280,7 +1273,7 @@ public:
      * @param d Duration time, in seconds.
      * @return An autoreleased DelayTime object.
      */
-    static DelayTime* create(float d);
+    static DelayTime* create(std::chrono::milliseconds d);
 
     //
     // Overrides
@@ -1332,7 +1325,7 @@ public:
     
 CC_CONSTRUCTOR_ACCESS:
     ReverseTime();
-    virtual ~ReverseTime(void);
+    virtual ~ReverseTime();
 
     /** initializes the action */
     bool initWithAction(FiniteTimeAction *action);
@@ -1362,25 +1355,24 @@ public:
      * 
      * @param animation certain animation.
      */
-    void setAnimation( Animation* animation );
+    void setAnimation(Animation* animation);
     /** returns the Animation object that is being animated 
      *
      * @return Gets the animation object that is being animated.
      */
-    Animation* getAnimation() { return _animation; }
-    const Animation* getAnimation() const { return _animation; }
+    inline Animation* getAnimation() const noexcept { return _animation; }
 
     /**
      * Gets the index of sprite frame currently displayed.
      * @return int  the index of sprite frame currently displayed.
      */
-    int getCurrentFrameIndex() { return _currFrameIndex; }
+    inline int getCurrentFrameIndex() const noexcept { return _currFrameIndex; }
     //
     // Overrides
     //
     virtual Animate* clone() const override;
     virtual Animate* reverse() const override;
-    virtual void startWithTarget(Node *target) override;
+    virtual void startWithTarget(Node* target) override;
     virtual void stop(void) override;
     /**
      * @param t In seconds.
@@ -1392,7 +1384,7 @@ CC_CONSTRUCTOR_ACCESS:
     virtual ~Animate();
 
     /** initializes the action with an Animation and will restore the original frame when the animation is over */
-    bool initWithAnimation(Animation *animation);
+    bool initWithAnimation(Animation* animation);
 
 protected:
     std::vector<float>* _splitTimes;
@@ -1432,8 +1424,7 @@ public:
      *
      * @return The target that the action is forced to run with.
      */
-    Node* getForcedTarget() { return _forcedTarget; }
-    const Node* getForcedTarget() const { return _forcedTarget; }
+    inline Node* getForcedTarget() const noexcept { return _forcedTarget; }
 
     //
     // Overrides
@@ -1484,7 +1475,7 @@ public:
      *
      * @return An autoreleased ActionFloat object
      */
-    static ActionFloat* create(float duration, float from, float to, ActionFloatCallback callback);
+    static ActionFloat* create(std::chrono::milliseconds duration, float from, float to, ActionFloatCallback callback);
 
     /**
      * Overridden ActionInterval methods
@@ -1498,7 +1489,7 @@ CC_CONSTRUCTOR_ACCESS:
     ActionFloat() {};
     virtual ~ActionFloat() {};
 
-    bool initWithDuration(float duration, float from, float to, ActionFloatCallback callback);
+    bool initWithDuration(std::chrono::milliseconds duration, float from, float to, ActionFloatCallback callback);
 
 protected:
     /* From value */

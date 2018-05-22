@@ -176,7 +176,7 @@ public:
      * In lua: local create(local t, local table)
      * @endcode
      */
-    static CardinalSplineTo* create(float duration, PointArray* points, float tension);
+    static CardinalSplineTo* create(std::chrono::milliseconds duration, PointArray* points, float tension);
     /**
      * @js NA
      * @lua NA
@@ -195,7 +195,7 @@ public:
      * @param points An PointArray.
      * @param tension Goodness of fit.
      */
-    bool initWithDuration(float duration, PointArray* points, float tension);
+    bool initWithDuration(std::chrono::milliseconds duration, PointArray* points, float tension);
     /** It will update the target position and change the _previousPosition to newPos
      *
      * @param newPos The new position.
@@ -205,12 +205,12 @@ public:
      *
      * @return A PointArray.
      */
-    PointArray* getPoints() { return _points; }
+    inline PointArray* getPoints() const noexcept { return _points; }
     /**
      * @js NA
      * @lua NA
      */
-    void setPoints(PointArray* points)
+    inline void setPoints(PointArray* points)
     {
         CC_SAFE_RETAIN(points);
         CC_SAFE_RELEASE(_points);
@@ -255,14 +255,14 @@ public:
      * @param tension Goodness of fit.
      * @endcode
      */
-    static CardinalSplineBy* create(float duration, PointArray* points, float tension);
+    static CardinalSplineBy* create(std::chrono::milliseconds duration, PointArray* points, float tension);
 
     CardinalSplineBy();
 
     // Overrides
     virtual void startWithTarget(Node *target) override;
     virtual void updatePosition(Vec2 &newPos) override;
-    virtual CardinalSplineBy *clone() const override;
+    virtual CardinalSplineBy* clone() const override;
     virtual CardinalSplineBy* reverse() const override;
 
 protected:
@@ -288,7 +288,7 @@ public:
      * In lua: local create(local dt, local table).
      * @endcode
      */
-    static CatmullRomTo* create(float dt, PointArray* points);
+    static CatmullRomTo* create(std::chrono::milliseconds dt, PointArray* points);
 
     /** 
      * Initializes the action with a duration and an array of points.
@@ -296,7 +296,7 @@ public:
      * @param dt In seconds.
      * @param points An PointArray.
      */
-    bool initWithDuration(float dt, PointArray* points);
+    bool initWithDuration(std::chrono::milliseconds dt, PointArray* points);
 
     // Override
     virtual CatmullRomTo *clone() const override;
@@ -321,14 +321,14 @@ public:
      * In lua: local create(local dt, local table).
      * @endcode
      */
-    static CatmullRomBy* create(float dt, PointArray* points);
+    static CatmullRomBy* create(std::chrono::milliseconds dt, PointArray* points);
 
     /** Initializes the action with a duration and an array of points.
      *
      * @param dt In seconds.
      * @param points An PointArray.
      */
-    bool initWithDuration(float dt, PointArray* points);
+    bool initWithDuration(std::chrono::milliseconds dt, PointArray* points);
 
     // Override
     virtual CatmullRomBy *clone() const override;

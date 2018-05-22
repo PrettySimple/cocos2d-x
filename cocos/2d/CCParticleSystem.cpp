@@ -44,19 +44,22 @@ THE SOFTWARE.
 
 #include "2d/CCParticleSystem.h"
 
-#include <string>
-
 #include "2d/CCParticleBatchNode.h"
-#include "renderer/CCTextureAtlas.h"
-#include "base/base64.h"
-#include "base/ZipUtils.h"
 #include "base/CCDirector.h"
 #include "base/CCProfiling.h"
+#include "base/ZipUtils.h"
+#include "base/base64.h"
 #include "base/ccUTF8.h"
-#include "renderer/CCTextureCache.h"
 #include "platform/CCFileUtils.h"
+#include "renderer/CCTextureAtlas.h"
+#include "renderer/CCTextureCache.h"
+
+#include <cmath>
+#include <limits>
+#include <string>
 
 using namespace std;
+using namespace std::chrono_literals;
 
 NS_CC_BEGIN
 
@@ -198,7 +201,7 @@ ParticleSystem::ParticleSystem()
 , _allocatedParticles(0)
 , _isActive(true)
 , _particleCount(0)
-, _duration(0)
+, _duration(0ms)
 , _life(0)
 , _lifeVar(0)
 , _angle(0)
@@ -316,7 +319,16 @@ bool ParticleSystem::initWithDictionary(ValueMap& dictionary, const std::string&
             _angleVar = dictionary["angleVariance"].asFloat();
 
             // duration
-            _duration = dictionary["duration"].asFloat();
+            auto const duration = dictionary["duration"].asFloat();
+            if (std::abs(duration + 1.f) < std::numeric_limits<float>::epsilon())
+            {
+                _duration = std::chrono::milliseconds::max();
+            }
+            else
+            {
+                _duration = std::chrono::milliseconds(static_cast<std::size_t>(1000.f * duration));
+            }
+
 
             // blend function 
             if (!_configName.empty())
@@ -821,7 +833,7 @@ void ParticleSystem::stopSystem()
 void ParticleSystem::resetSystem()
 {
     _isActive = true;
-    _elapsed = 0;
+    _elapsed = 0ms;
     for (int i = 0; i < _particleCount; ++i)
     {
         _particleData.timeToLive[i] = 0.0f;
@@ -865,10 +877,8 @@ void ParticleSystem::update(float dt)
         
         _emitCounter -= rate * emitCount;
         
-        _elapsed += dt;
-        if (_elapsed < 0.f)
-            _elapsed = 0.f;
-        if (_duration != DURATION_INFINITY && _duration < _elapsed)
+        _elapsed += std::chrono::milliseconds(static_cast<std::size_t>(1000.f * dt));
+        if (_duration != std::chrono::milliseconds::max() && _duration < _elapsed)
         {
             this->stopSystem();
         }
@@ -900,8 +910,8 @@ void ParticleSystem::update(float dt)
                     _particleData.atlasIndex[_particleCount - 1] = currentIndex;
                 }
                 --_particleCount;
-                if((_particleCount == 0 && _isAutoRemoveOnFinish && _duration != DURATION_INFINITY) ||
-                   (_particleCount == 0 && _isAutoRemoveOnFinish && _duration == DURATION_INFINITY && !_isActive))
+                if((_particleCount == 0 && _isAutoRemoveOnFinish && _duration != std::chrono::milliseconds::max()) ||
+                   (_particleCount == 0 && _isAutoRemoveOnFinish && _duration == std::chrono::milliseconds::max() && !_isActive))
                 {
                     this->unscheduleUpdate();
                     _parent->removeChild(this, true);

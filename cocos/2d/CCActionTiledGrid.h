@@ -28,6 +28,8 @@ THE SOFTWARE.
 
 #include "2d/CCActionGrid.h"
 
+#include <chrono>
+
 NS_CC_BEGIN
 
 /**
@@ -52,7 +54,7 @@ public:
     @param shakeZ Specify whether shake on the z axis.
     @return If the creation success, return a pointer of ShakyTiles3D action; otherwise, return nil.
     */
-    static ShakyTiles3D* create(float duration, const Size& gridSize, int range, bool shakeZ);
+    static ShakyTiles3D* create(std::chrono::milliseconds duration, const Size& gridSize, int range, bool shakeZ);
 
     // Override
     virtual ShakyTiles3D* clone() const override;
@@ -70,7 +72,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param shakeZ Specify whether shake on the z axis.
     @return If the Initialization success, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, int range, bool shakeZ);
+    bool initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, int range, bool shakeZ);
 
 protected:
     int _randrange;
@@ -97,7 +99,7 @@ public:
      * @param shatterZ Specify whether shatter on the z axis.
      * @return If the creation success, return a pointer of ShatteredTiles3D action; otherwise, return nil.
      */
-    static ShatteredTiles3D* create(float duration, const Size& gridSize, int range, bool shatterZ);
+    static ShatteredTiles3D* create(std::chrono::milliseconds duration, const Size& gridSize, int range, bool shatterZ);
 
     // Override
     virtual ShatteredTiles3D* clone() const override;
@@ -115,7 +117,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param shatterZ Specify whether shake on the z axis.
     @return If the Initialization success, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, int range, bool shatterZ);
+    bool initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, int range, bool shatterZ);
 
 protected:
     int _randrange;
@@ -143,7 +145,7 @@ public:
     * @param seed Specify the random seed.
     * @return If the creation success, return a pointer of ShuffleTiles action; otherwise, return nil.
     */
-    static ShuffleTiles* create(float duration, const Size& gridSize, unsigned int seed);
+    static ShuffleTiles* create(std::chrono::milliseconds duration, const Size& gridSize, unsigned int seed);
 
     void shuffle(unsigned int *array, unsigned int len);
     Size getDelta(const Size& pos) const;
@@ -165,7 +167,7 @@ CC_CONSTRUCTOR_ACCESS:
     * @param seed Specify the random seed.
     * @return If the Initialization success, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, unsigned int seed);
+    bool initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, unsigned int seed);
 
 protected:
     unsigned int _seed;
@@ -190,7 +192,7 @@ public:
     * @param gridSize Specify the size of the grid.
     * @return If the creation success, return a pointer of FadeOutTRTiles action; otherwise, return nil.
     */
-    static FadeOutTRTiles* create(float duration, const Size& gridSize);
+    static FadeOutTRTiles* create(std::chrono::milliseconds duration, const Size& gridSize);
 
     /**
     @brief Calculate the percentage a tile should be shown.
@@ -244,7 +246,7 @@ public:
     * @param gridSize Specify the size of the grid.
     * @return If the creation success, return a pointer of FadeOutBLTiles action; otherwise, return nil.
     */
-    static FadeOutBLTiles* create(float duration, const Size& gridSize);
+    static FadeOutBLTiles* create(std::chrono::milliseconds duration, const Size& gridSize);
 
     // Overrides
     virtual float testFunc(const Size& pos, float time) override;
@@ -271,7 +273,7 @@ public:
     * @param gridSize Specify the size of the grid.
     * @return If the creation success, return a pointer of FadeOutUpTiles action; otherwise, return nil.
     */
-    static FadeOutUpTiles* create(float duration, const Size& gridSize);
+    static FadeOutUpTiles* create(std::chrono::milliseconds duration, const Size& gridSize);
 
     virtual void transformTile(const Vec2& pos, float distance) override;
 
@@ -300,7 +302,7 @@ public:
     * @param gridSize Specify the size of the grid.
     * @return If the creation success, return a pointer of FadeOutDownTiles action; otherwise, return nil.
     */
-    static FadeOutDownTiles* create(float duration, const Size& gridSize);
+    static FadeOutDownTiles* create(std::chrono::milliseconds duration, const Size& gridSize);
 
     // Overrides
     virtual FadeOutDownTiles* clone() const override;
@@ -327,7 +329,7 @@ public:
     * @param gridSize Specify the size of the grid.
     * @return If the creation success, return a pointer of TurnOffTiles action; otherwise, return nil.
     */
-    static TurnOffTiles* create(float duration, const Size& gridSize);
+    static TurnOffTiles* create(std::chrono::milliseconds duration, const Size& gridSize);
     /** 
     * @brief Create the action with the grid size and the duration.
     * @param duration Specify the duration of the TurnOffTiles action. It's a value in seconds.
@@ -335,7 +337,7 @@ public:
     * @param seed Specify the random seed.
     * @return If the creation success, return a pointer of TurnOffTiles action; otherwise, return nil.
     */
-    static TurnOffTiles* create(float duration, const Size& gridSize, unsigned int seed);
+    static TurnOffTiles* create(std::chrono::milliseconds duration, const Size& gridSize, unsigned int seed);
 
     /**
     @brief Shuffle the array specified.
@@ -372,7 +374,7 @@ CC_CONSTRUCTOR_ACCESS:
     * @param seed Specify the random seed.
     * @return If the Initialization success, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, unsigned int seed);
+    bool initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, unsigned int seed);
 
 protected:
     unsigned int    _seed;
@@ -398,18 +400,18 @@ public:
      * @param amplitude Specify the amplitude of the WavesTiles3D action.
      * @return If the creation success, return a pointer of WavesTiles3D action; otherwise, return nil.
      */
-    static WavesTiles3D* create(float duration, const Size& gridSize, unsigned int waves, float amplitude);
+    static WavesTiles3D* create(std::chrono::milliseconds duration, const Size& gridSize, unsigned int waves, float amplitude);
 
     /**
     @brief Get the amplitude of the effect.
     @return Return the amplitude of the effect.
     */
-    float getAmplitude() const { return _amplitude; }
+    inline float getAmplitude() const noexcept { return _amplitude; }
     /**
     @brief Set the amplitude to the effect.
     @param amplitude The value of amplitude will be set.
     */
-    void setAmplitude(float amplitude) { _amplitude = amplitude; }
+    inline void setAmplitude(float amplitude) noexcept { _amplitude = amplitude; }
 
     /**
     @brief Get the amplitude rate of the effect.
@@ -438,7 +440,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param amplitude Specify the amplitude of the WavesTiles3D action.
     @return If the initialization success, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, unsigned int waves, float amplitude);
+    bool initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, unsigned int waves, float amplitude);
 
 protected:
     unsigned int _waves;
@@ -464,18 +466,18 @@ public:
      * @param amplitude Specify the amplitude of the JumpTiles3D action.
      * @return If the creation success, return a pointer of JumpTiles3D action; otherwise, return nil.
      */
-    static JumpTiles3D* create(float duration, const Size& gridSize, unsigned int numberOfJumps, float amplitude);
+    static JumpTiles3D* create(std::chrono::milliseconds duration, const Size& gridSize, unsigned int numberOfJumps, float amplitude);
 
     /**
     @brief Get the amplitude of the effect.
     @return Return the amplitude of the effect.
     */
-    float getAmplitude() const { return _amplitude; }
+    inline float getAmplitude() const noexcept { return _amplitude; }
     /**
     @brief Set the amplitude to the effect.
     @param amplitude The value of amplitude will be set.
     */
-    void setAmplitude(float amplitude) { _amplitude = amplitude; }
+    inline void setAmplitude(float amplitude) noexcept { _amplitude = amplitude; }
 
     /**
     @brief Get the amplitude rate of the effect.
@@ -504,7 +506,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @param amplitude Specify the amplitude of the JumpTiles3D action.
      * @return If the initialization success, return true; otherwise, return false.
      */
-    bool initWithDuration(float duration, const Size& gridSize, unsigned int numberOfJumps, float amplitude);
+    bool initWithDuration(std::chrono::milliseconds duration, const Size& gridSize, unsigned int numberOfJumps, float amplitude);
 
 protected:
     unsigned int _jumps;
@@ -529,7 +531,7 @@ public :
      * @param rows Specify the rows count should be split.
      * @return If the creation success, return a pointer of SplitRows action; otherwise, return nil.
      */
-    static SplitRows* create(float duration, unsigned int rows);
+    static SplitRows* create(std::chrono::milliseconds duration, unsigned int rows);
 
     // Overrides
     virtual SplitRows* clone() const override;
@@ -546,7 +548,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @param rows Specify the rows count should be split.
      * @return If the creation success, return true; otherwise, return false.
      */
-    bool initWithDuration(float duration, unsigned int rows);
+    bool initWithDuration(std::chrono::milliseconds duration, unsigned int rows);
 
 protected:
     unsigned int _rows;
@@ -571,7 +573,7 @@ public:
      * @param cols Specify the columns count should be split.
      * @return If the creation success, return a pointer of SplitCols action; otherwise, return nil.
      */
-    static SplitCols* create(float duration, unsigned int cols);
+    static SplitCols* create(std::chrono::milliseconds duration, unsigned int cols);
 
     // Overrides
     virtual SplitCols* clone() const override;
@@ -591,7 +593,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @param cols Specify the columns count should be split.
      * @return If the creation success, return true; otherwise, return false.
      */
-    bool initWithDuration(float duration, unsigned int cols);
+    bool initWithDuration(std::chrono::milliseconds duration, unsigned int cols);
 
 protected:
     unsigned int _cols;

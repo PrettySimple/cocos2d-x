@@ -29,6 +29,8 @@ THE SOFTWARE.
 #include "2d/CCActionInterval.h"
 #include "2d/CCActionInstant.h"
 
+#include <chrono>
+
 NS_CC_BEGIN
 
 class GridBase;
@@ -72,7 +74,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @param gridSize The size of the GridAction should be.
      * @return Return true when the initialization success, otherwise return false.
      */
-    bool initWithDuration(float duration, const Size& gridSize);
+    bool initWithDuration(std::chrono::milliseconds duration, const Size& gridSize);
 
 protected:
     Size _gridSize;
@@ -161,7 +163,7 @@ public:
      * @return A pointer of TiledGrid3DAction. If creation failed, return nil.
      * @lua NA
      */
-    static TiledGrid3DAction* create(float duration, const Size& gridSize);
+    static TiledGrid3DAction* create(std::chrono::milliseconds duration, const Size& gridSize);
 
     /** 
      * @brief Get the tile that belongs to a certain position of the grid.
@@ -225,21 +227,21 @@ public:
     @param duration Specify the duration of the AccelDeccelAmplitude action.
     @return Return a pointer of AccelDeccelAmplitude action. When the creation failed, return nil.
     */
-    static AccelDeccelAmplitude* create(Action *action, float duration);
+    static AccelDeccelAmplitude* create(Action* action, std::chrono::milliseconds duration);
 
     /** 
     @brief Get the value of amplitude rate.
     @return the value of amplitude rate.
     */
-    float getRate() const { return _rate; }
+    inline float getRate() const noexcept { return _rate; }
     /**
     @brief Set the value of amplitude rate.
     @param rate Specify the value of amplitude rate.
     */
-    void setRate(float rate) { _rate = rate; }
+    inline void setRate(float rate) noexcept { _rate = rate; }
 
     // Overrides
-    virtual void startWithTarget(Node *target) override;
+    virtual void startWithTarget(Node* target) override;
     virtual void update(float time) override;
     virtual AccelDeccelAmplitude* clone() const override;
     virtual AccelDeccelAmplitude* reverse() const override;
@@ -254,11 +256,11 @@ CC_CONSTRUCTOR_ACCESS:
     @param duration Specify the duration of the AccelDeccelAmplitude action.
     @return If the initialization success, return true; otherwise, return false.
     */
-    bool initWithAction(Action *action, float duration);
+    bool initWithAction(Action* action, std::chrono::milliseconds duration);
 
 protected:
     float _rate;
-    ActionInterval *_other;
+    ActionInterval* _other = nullptr;
 
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(AccelDeccelAmplitude);
@@ -277,7 +279,7 @@ public:
     @param duration Specify the duration of the AccelAmplitude action.
     @return Return a pointer of AccelAmplitude action. When the creation failed, return nil.
      */
-    static AccelAmplitude* create(Action *action, float duration);
+    static AccelAmplitude* create(Action *action, std::chrono::milliseconds duration);
 
     /** 
     @brief Get the value of amplitude rate.
@@ -300,7 +302,7 @@ CC_CONSTRUCTOR_ACCESS:
     AccelAmplitude() {}
     virtual ~AccelAmplitude();
 
-    bool initWithAction(Action *action, float duration);
+    bool initWithAction(Action *action, std::chrono::milliseconds duration);
 
 protected:
     float _rate;
@@ -323,7 +325,7 @@ public:
     @param duration Specify the duration of the DeccelAmplitude action.
     @return Return a pointer of DeccelAmplitude. When the creation failed, return nil.
     */
-    static DeccelAmplitude* create(Action *action, float duration);
+    static DeccelAmplitude* create(Action *action, std::chrono::milliseconds duration);
 
     /** 
     @brief Get the value of amplitude rate.
@@ -352,7 +354,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param duration The duration of the DeccelAmplitude action.
     @return If the initialization success, return true; otherwise, return false.
     */
-    bool initWithAction(Action *action, float duration);
+    bool initWithAction(Action *action, std::chrono::milliseconds duration);
 
 protected:
     float _rate;

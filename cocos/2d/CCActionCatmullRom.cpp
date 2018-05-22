@@ -215,7 +215,7 @@ Vec2 ccCardinalSplineAt(Vec2 &p0, Vec2 &p1, Vec2 &p2, Vec2 &p3, float tension, f
 /* Implementation of CardinalSplineTo
  */
 
-CardinalSplineTo* CardinalSplineTo::create(float duration, cocos2d::PointArray *points, float tension)
+CardinalSplineTo* CardinalSplineTo::create(std::chrono::milliseconds duration, cocos2d::PointArray *points, float tension)
 {
     CardinalSplineTo *ret = new (std::nothrow) CardinalSplineTo();
     if (ret)
@@ -233,7 +233,7 @@ CardinalSplineTo* CardinalSplineTo::create(float duration, cocos2d::PointArray *
     return ret;
 }
 
-bool CardinalSplineTo::initWithDuration(float duration, cocos2d::PointArray *points, float tension)
+bool CardinalSplineTo::initWithDuration(std::chrono::milliseconds duration, cocos2d::PointArray *points, float tension)
 {
     CCASSERT(points->count() > 0, "Invalid configuration. It must at least have one control point");
 
@@ -340,7 +340,7 @@ CardinalSplineTo* CardinalSplineTo::reverse() const
 /* CardinalSplineBy
  */
 
-CardinalSplineBy* CardinalSplineBy::create(float duration, cocos2d::PointArray *points, float tension)
+CardinalSplineBy* CardinalSplineBy::create(std::chrono::milliseconds duration, cocos2d::PointArray *points, float tension)
 {
     CardinalSplineBy *ret = new (std::nothrow) CardinalSplineBy();
     if (ret)
@@ -429,7 +429,7 @@ CardinalSplineBy* CardinalSplineBy::clone() const
 /* CatmullRomTo
  */
 
-CatmullRomTo* CatmullRomTo::create(float dt, cocos2d::PointArray *points)
+CatmullRomTo* CatmullRomTo::create(std::chrono::milliseconds dt, cocos2d::PointArray *points)
 {
     CatmullRomTo *ret = new (std::nothrow) CatmullRomTo();
     if (ret)
@@ -447,7 +447,7 @@ CatmullRomTo* CatmullRomTo::create(float dt, cocos2d::PointArray *points)
     return ret;
 }
 
-bool CatmullRomTo::initWithDuration(float dt, cocos2d::PointArray *points)
+bool CatmullRomTo::initWithDuration(std::chrono::milliseconds dt, cocos2d::PointArray *points)
 {
     if (CardinalSplineTo::initWithDuration(dt, points, 0.5f))
     {
@@ -476,7 +476,7 @@ CatmullRomTo* CatmullRomTo::reverse() const
 /* CatmullRomBy
  */
 
-CatmullRomBy* CatmullRomBy::create(float dt, cocos2d::PointArray *points)
+CatmullRomBy* CatmullRomBy::create(std::chrono::milliseconds dt, cocos2d::PointArray *points)
 {
     CatmullRomBy *ret = new (std::nothrow) CatmullRomBy();
     if (ret)
@@ -494,7 +494,7 @@ CatmullRomBy* CatmullRomBy::create(float dt, cocos2d::PointArray *points)
     return ret;
 }
 
-bool CatmullRomBy::initWithDuration(float dt, cocos2d::PointArray *points)
+bool CatmullRomBy::initWithDuration(std::chrono::milliseconds dt, cocos2d::PointArray *points)
 {
     if (CardinalSplineTo::initWithDuration(dt, points, 0.5f))
     {

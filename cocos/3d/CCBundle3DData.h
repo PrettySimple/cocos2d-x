@@ -25,13 +25,14 @@
 #ifndef __CC_BUNDLE_3D_DATA_H__
 #define __CC_BUNDLE_3D_DATA_H__
 
+#include "3d/CCAABB.h"
 #include "base/CCRef.h"
 #include "base/ccTypes.h"
 #include "math/CCMath.h"
-#include "3d/CCAABB.h"
 
-#include <vector>
+#include <chrono>
 #include <map>
+#include <vector>
  
 NS_CC_BEGIN
 
@@ -408,7 +409,7 @@ public:
     std::map<std::string, std::vector<QuatKey>> _rotationKeys;
     std::map<std::string, std::vector<Vec3Key>> _scaleKeys;
     
-    float _totalTime;
+    std::chrono::milliseconds _totalTime;
 
 public:
     Animation3DData()
@@ -426,7 +427,7 @@ public:
     
     void resetData()
     {
-        _totalTime = 0;
+        _totalTime = std::chrono::milliseconds::zero();
         _translationKeys.clear();
         _rotationKeys.clear();
         _scaleKeys.clear();

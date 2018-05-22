@@ -28,12 +28,12 @@ THE SOFTWARE.
 #ifndef __CCMENU_ITEM_H__
 #define __CCMENU_ITEM_H__
 
-// C++ includes
-#include <functional>
-
 // cocos2d includes
 #include "2d/CCNode.h"
 #include "base/CCProtocols.h"
+
+// C++ includes
+#include <functional>
 
 NS_CC_BEGIN
 

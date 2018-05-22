@@ -48,7 +48,7 @@ TransitionPageTurn::~TransitionPageTurn()
 }
 
 /** creates a base transition with duration and incoming scene */
-TransitionPageTurn * TransitionPageTurn::create(float t, Scene *scene, bool backwards)
+TransitionPageTurn * TransitionPageTurn::create(std::chrono::milliseconds t, Scene *scene, bool backwards)
 {
     TransitionPageTurn * transition = new (std::nothrow) TransitionPageTurn();
     transition->initWithDuration(t,scene,backwards);
@@ -57,7 +57,7 @@ TransitionPageTurn * TransitionPageTurn::create(float t, Scene *scene, bool back
 }
 
 /** initializes a transition with duration and incoming scene */
-bool TransitionPageTurn::initWithDuration(float t, Scene *scene, bool backwards)
+bool TransitionPageTurn::initWithDuration(std::chrono::milliseconds t, Scene *scene, bool backwards)
 {
     // FIXME:: needed before [super init]
     _back = backwards;

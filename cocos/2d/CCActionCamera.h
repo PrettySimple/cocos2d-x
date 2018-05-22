@@ -31,6 +31,8 @@ THE SOFTWARE.
 #include "2d/CCActionInterval.h"
 #include "math/CCMath.h"
 
+#include <chrono>
+
 NS_CC_BEGIN
 
 class Camera;
@@ -131,7 +133,7 @@ public:
      * @param deltaAngleX The delta angle in X.
      * @return An OrbitCamera.
      */
-    static OrbitCamera* create(float t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX);
+    static OrbitCamera* create(std::chrono::milliseconds t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX);
     
     /** Positions the camera according to spherical coordinates. 
      *
@@ -158,7 +160,7 @@ CC_CONSTRUCTOR_ACCESS:
     virtual ~OrbitCamera();
     
     /** Initializes a OrbitCamera action with radius, delta-radius,  z, deltaZ, x, deltaX. */
-    bool initWithDuration(float t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX);
+    bool initWithDuration(std::chrono::milliseconds t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX);
 
 protected:
     float _radius;

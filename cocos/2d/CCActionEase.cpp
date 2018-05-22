@@ -37,7 +37,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 #ifndef M_PI_X_2
-#define M_PI_X_2 (float)M_PI * 2.0f
+#define M_PI_X_2 static_cast<float>(M_PI) * 2.0f
 #endif
 
 //
@@ -118,7 +118,7 @@ EaseRateAction* EaseRateAction::create(ActionInterval* action, float rate)
     return nullptr;
 }
 
-bool EaseRateAction::initWithAction(ActionInterval *action, float rate)
+bool EaseRateAction::initWithAction(ActionInterval* action, float rate)
 {
     if (ActionEase::initWithAction(action))
     {
@@ -191,9 +191,9 @@ EASE_TEMPLATE_IMPL(EaseCubicActionInOut, tweenfunc::cubicEaseInOut, EaseCubicAct
 // issue #16159 [https://github.com/cocos2d/cocos2d-x/pull/16159] for further info
 //
 #define EASERATE_TEMPLATE_IMPL(CLASSNAME, TWEEN_FUNC) \
-CLASSNAME* CLASSNAME::create(cocos2d::ActionInterval *action, float rate) \
+CLASSNAME* CLASSNAME::create(cocos2d::ActionInterval* action, float rate) \
 { \
-    CLASSNAME *ease = new (std::nothrow) CLASSNAME(); \
+    CLASSNAME* ease = new (std::nothrow) CLASSNAME(); \
     if (ease) \
     { \
         if (ease->initWithAction(action, rate)) \
@@ -212,7 +212,7 @@ void CLASSNAME::update(float time) { \
     _inner->update(TWEEN_FUNC(time, _rate)); \
 } \
 EaseRateAction* CLASSNAME::reverse() const { \
-    return CLASSNAME::create(_inner->reverse(), 1.f / _rate); \
+return CLASSNAME::create(_inner->reverse(), 1.f / _rate); \
 }
 
 // NOTE: the original code used the same class for the `reverse()` method
@@ -224,7 +224,7 @@ EASERATE_TEMPLATE_IMPL(EaseInOut, tweenfunc::easeInOut);
 // EaseElastic
 //
 
-bool EaseElastic::initWithAction(ActionInterval *action, float period /* = 0.3f*/)
+bool EaseElastic::initWithAction(ActionInterval *action, float period /* = .3f*/)
 {
     if (ActionEase::initWithAction(action))
     {

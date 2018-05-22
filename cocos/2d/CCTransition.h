@@ -30,6 +30,8 @@ THE SOFTWARE.
 
 #include "2d/CCScene.h"
 
+#include <chrono>
+
 NS_CC_BEGIN
 
 /**
@@ -92,7 +94,7 @@ public:
      * @param scene A given scene.
      * @return A autoreleased TransitionScene object.
      */
-    static TransitionScene * create(float t, Scene *scene);
+    static TransitionScene * create(std::chrono::milliseconds t, Scene *scene);
 
     /** Called after the transition finishes.
      */
@@ -102,8 +104,8 @@ public:
      */
     void hideOutShowIn(void);
 
-    Scene* getInScene() const{ return _inScene; }
-    float getDuration() const { return _duration; }
+    inline Scene* getInScene() const noexcept { return _inScene; }
+    inline std::chrono::milliseconds getDuration() const noexcept { return _duration; }
     //
     // Overrides
     //
@@ -117,7 +119,7 @@ CC_CONSTRUCTOR_ACCESS:
     virtual ~TransitionScene();
 
     /** initializes a transition with duration and incoming scene */
-    bool initWithDuration(float t,Scene* scene);
+    bool initWithDuration(std::chrono::milliseconds t, Scene* scene);
     
 protected:
     virtual void sceneOrder();
@@ -125,7 +127,7 @@ protected:
 
     Scene *_inScene;
     Scene *_outScene;
-    float _duration;
+    std::chrono::milliseconds _duration;
     bool _isInSceneOnTop;
     bool _isSendCleanupToScene;
 
@@ -147,14 +149,14 @@ public:
      * @param orientation A given orientation: LeftOver, RightOver, UpOver, DownOver.
      * @return A autoreleased TransitionSceneOriented object.
      */
-    static TransitionSceneOriented * create(float t,Scene* scene, Orientation orientation);
+    static TransitionSceneOriented * create(std::chrono::milliseconds t,Scene* scene, Orientation orientation);
     
 CC_CONSTRUCTOR_ACCESS:
     TransitionSceneOriented();
     virtual ~TransitionSceneOriented();
 
     /** initializes a transition with duration and incoming scene */
-    bool initWithDuration(float t,Scene* scene,Orientation orientation);
+    bool initWithDuration(std::chrono::milliseconds t,Scene* scene,Orientation orientation);
 
 protected:
     Orientation _orientation;
@@ -176,7 +178,7 @@ public:
      * @param scene A given scene.
      * @return A autoreleased TransitionRotoZoom object.
      */
-    static TransitionRotoZoom* create(float t, Scene* scene);
+    static TransitionRotoZoom* create(std::chrono::milliseconds t, Scene* scene);
 
     //
     // Overrides
@@ -205,7 +207,7 @@ public:
      * @param scene A given scene.
      * @return A autoreleased TransitionJumpZoom object.
      */
-    static TransitionJumpZoom* create(float t, Scene* scene);
+    static TransitionJumpZoom* create(std::chrono::milliseconds t, Scene* scene);
 
     //
     // Overrides
@@ -233,7 +235,7 @@ public:
      * @param scene A given scene.
      * @return A autoreleased TransitionMoveInL object.
      */
-    static TransitionMoveInL* create(float t, Scene* scene);
+    static TransitionMoveInL* create(std::chrono::milliseconds t, Scene* scene);
 
     /** Returns the action that will be performed. 
      * 
@@ -273,7 +275,7 @@ public:
      * @param scene A given scene.
      * @return A autoreleased TransitionMoveInR object.
      */
-    static TransitionMoveInR* create(float t, Scene* scene);
+    static TransitionMoveInR* create(std::chrono::milliseconds t, Scene* scene);
 
 CC_CONSTRUCTOR_ACCESS:
     TransitionMoveInR();
@@ -299,7 +301,7 @@ public:
      * @param scene A given scene.
      * @return A autoreleased TransitionMoveInT object.
      */
-    static TransitionMoveInT* create(float t, Scene* scene);
+    static TransitionMoveInT* create(std::chrono::milliseconds t, Scene* scene);
 
 CC_CONSTRUCTOR_ACCESS:
     TransitionMoveInT();
@@ -325,7 +327,7 @@ public:
      * @param scene A given scene.
      * @return A autoreleased TransitionMoveInB object.
      */
-    static TransitionMoveInB* create(float t, Scene* scene);
+    static TransitionMoveInB* create(std::chrono::milliseconds t, Scene* scene);
 
 CC_CONSTRUCTOR_ACCESS:
     TransitionMoveInB();
@@ -351,7 +353,7 @@ public:
      * @param scene A given scene.
      * @return A autoreleased TransitionSlideInL object.
      */
-    static TransitionSlideInL* create(float t, Scene* scene);
+    static TransitionSlideInL* create(std::chrono::milliseconds t, Scene* scene);
 
     virtual ActionInterval* easeActionWithAction(ActionInterval * action) override;
 
@@ -393,7 +395,7 @@ public:
      * @param scene A given scene.
      * @return A autoreleased TransitionSlideInR object.
      */
-    static TransitionSlideInR* create(float t, Scene* scene);
+    static TransitionSlideInR* create(std::chrono::milliseconds t, Scene* scene);
 
     /** Returns the action that will be performed by the incoming and outgoing scene. */
     virtual ActionInterval* action(void) override;
@@ -425,7 +427,7 @@ public:
      * @param scene A given scene.
      * @return A autoreleased TransitionSlideInB object.
      */
-    static TransitionSlideInB* create(float t, Scene* scene);
+    static TransitionSlideInB* create(std::chrono::milliseconds t, Scene* scene);
 
     /** returns the action that will be performed by the incoming and outgoing scene */
     virtual ActionInterval* action(void) override;
@@ -457,7 +459,7 @@ public:
      * @param scene A given scene.
      * @return A autoreleased TransitionSlideInT object.
      */
-    static TransitionSlideInT* create(float t, Scene* scene);
+    static TransitionSlideInT* create(std::chrono::milliseconds t, Scene* scene);
 
     /** returns the action that will be performed by the incoming and outgoing scene */
     virtual ActionInterval* action(void) override;
@@ -488,7 +490,7 @@ public:
      * @param scene A given scene.
      * @return A autoreleased TransitionShrinkGrow object.
      */
-    static TransitionShrinkGrow* create(float t, Scene* scene);
+    static TransitionShrinkGrow* create(std::chrono::milliseconds t, Scene* scene);
 
     //
     // Overrides
@@ -522,14 +524,14 @@ public:
      * @param o A given orientation.
      * @return A autoreleased TransitionFlipX object.
      */
-    static TransitionFlipX* create(float t, Scene* s, Orientation o);
+    static TransitionFlipX* create(std::chrono::milliseconds t, Scene* s, Orientation o);
     /** Creates a transition with duration and incoming scene.
      *
      * @param t Duration time, in seconds.
      * @param s A given scene.
      * @return A autoreleased TransitionFlipX object.
      */
-    static TransitionFlipX* create(float t, Scene* s);
+    static TransitionFlipX* create(std::chrono::milliseconds t, Scene* s);
 
     //
     // Overrides
@@ -562,14 +564,14 @@ public:
      * @param o A given orientation.
      * @return A autoreleased TransitionFlipY object.
      */
-    static TransitionFlipY* create(float t, Scene* s, Orientation o);
+    static TransitionFlipY* create(std::chrono::milliseconds t, Scene* s, Orientation o);
     /** Creates a transition with duration and incoming scene.
      *
      * @param t Duration time, in seconds.
      * @param s A given scene.
      * @return A autoreleased TransitionFlipY object.
      */
-    static TransitionFlipY* create(float t, Scene* s);
+    static TransitionFlipY* create(std::chrono::milliseconds t, Scene* s);
 
     //
     // Overrides
@@ -602,14 +604,14 @@ public:
      * @param o A given orientation.
      * @return A autoreleased TransitionFlipAngular object.
      */
-    static TransitionFlipAngular* create(float t, Scene* s, Orientation o);
+    static TransitionFlipAngular* create(std::chrono::milliseconds t, Scene* s, Orientation o);
     /** Creates a transition with duration and incoming scene.
      *
      * @param t Duration time, in seconds.
      * @param s A given scene.
      * @return A autoreleased TransitionFlipAngular object.
      */
-    static TransitionFlipAngular* create(float t, Scene* s);
+    static TransitionFlipAngular* create(std::chrono::milliseconds t, Scene* s);
 
     //
     // Overrides
@@ -642,14 +644,14 @@ public:
      * @param o A given orientation.
      * @return A autoreleased TransitionZoomFlipX object.
      */
-    static TransitionZoomFlipX* create(float t, Scene* s, Orientation o);
+    static TransitionZoomFlipX* create(std::chrono::milliseconds t, Scene* s, Orientation o);
     /** Creates a transition with duration and incoming scene.
      *
      * @param t Duration time, in seconds.
      * @param s A given scene.
      * @return A autoreleased TransitionZoomFlipX object.
      */
-    static TransitionZoomFlipX* create(float t, Scene* s);
+    static TransitionZoomFlipX* create(std::chrono::milliseconds t, Scene* s);
 
     //
     // Overrides
@@ -682,14 +684,14 @@ public:
      * @param o A given orientation.
      * @return A autoreleased TransitionZoomFlipY object.
      */
-    static TransitionZoomFlipY* create(float t, Scene* s, Orientation o);
+    static TransitionZoomFlipY* create(std::chrono::milliseconds t, Scene* s, Orientation o);
     /** Creates a transition with duration and incoming scene.
      *
      * @param t Duration time, in seconds.
      * @param s A given scene.
      * @return A autoreleased TransitionZoomFlipY object.
      */
-    static TransitionZoomFlipY* create(float t, Scene* s);
+    static TransitionZoomFlipY* create(std::chrono::milliseconds t, Scene* s);
 
     //
     // Overrides
@@ -722,14 +724,14 @@ public:
      * @param o A given orientation.
      * @return A autoreleased TransitionZoomFlipAngular object.
      */
-    static TransitionZoomFlipAngular* create(float t, Scene* s, Orientation o);
+    static TransitionZoomFlipAngular* create(std::chrono::milliseconds t, Scene* s, Orientation o);
     /** Creates a transition with duration and incoming scene.
      *
      * @param t Duration time, in seconds.
      * @param s A given scene.
      * @return A autoreleased TransitionZoomFlipAngular object.
      */
-    static TransitionZoomFlipAngular* create(float t, Scene* s);
+    static TransitionZoomFlipAngular* create(std::chrono::milliseconds t, Scene* s);
 
     //
     // Overrides
@@ -762,14 +764,14 @@ public:
      * @param color A given transition color.
      * @return A autoreleased TransitionFade object.
      */
-    static TransitionFade* create(float duration, Scene* scene, const Color3B& color);
+    static TransitionFade* create(std::chrono::milliseconds duration, Scene* scene, const Color3B& color);
     /** Creates the transition with a duration.
      *
      * @param duration Duration time, in seconds.
      * @param scene A given scene.
      * @return A autoreleased TransitionFade object.
      */
-    static TransitionFade* create(float duration, Scene* scene);
+    static TransitionFade* create(std::chrono::milliseconds duration, Scene* scene);
 
     /**
      * @lua NA
@@ -785,8 +787,8 @@ CC_CONSTRUCTOR_ACCESS:
     virtual ~TransitionFade();
 
     /** initializes the transition with a duration and with an RGB color */
-    bool initWithDuration(float t, Scene*scene, const Color3B& color);
-    bool initWithDuration(float t, Scene* scene);
+    bool initWithDuration(std::chrono::milliseconds t, Scene*scene, const Color3B& color);
+    bool initWithDuration(std::chrono::milliseconds t, Scene* scene);
 
 protected:
     Color4B _color;
@@ -810,7 +812,7 @@ public :
      * @param scene A given scene.
      * @return A autoreleased TransitionCrossFade object.
      */
-    static TransitionCrossFade* create(float t, Scene* scene);
+    static TransitionCrossFade* create(std::chrono::milliseconds t, Scene* scene);
 
     //
     // Overrides
@@ -849,7 +851,7 @@ public :
      * @param scene A given scene.
      * @return A autoreleased TransitionTurnOffTiles object.
      */
-    static TransitionTurnOffTiles* create(float t, Scene* scene);
+    static TransitionTurnOffTiles* create(std::chrono::milliseconds t, Scene* scene);
 
     //
     // Overrides
@@ -893,7 +895,7 @@ public:
      * @param scene A given scene.
      * @return A autoreleased TransitionSplitCols object.
      */
-    static TransitionSplitCols* create(float t, Scene* scene);
+    static TransitionSplitCols* create(std::chrono::milliseconds t, Scene* scene);
 
     /** Returns the action that will be performed.
      *
@@ -936,7 +938,7 @@ public:
      * @param scene A given scene.
      * @return A autoreleased TransitionSplitRows object.
      */
-    static TransitionSplitRows* create(float t, Scene* scene);
+    static TransitionSplitRows* create(std::chrono::milliseconds t, Scene* scene);
 
     //
     // Overrides
@@ -964,7 +966,7 @@ public:
      * @param scene A given scene.
      * @return A autoreleased TransitionFadeTR object.
      */
-    static TransitionFadeTR* create(float t, Scene* scene);
+    static TransitionFadeTR* create(std::chrono::milliseconds t, Scene* scene);
 
     /** Returns the action that will be performed with size.
      *
@@ -1011,7 +1013,7 @@ public:
      * @param scene A given scene.
      * @return A autoreleased TransitionFadeBL object.
      */
-    static TransitionFadeBL* create(float t, Scene* scene);
+    static TransitionFadeBL* create(std::chrono::milliseconds t, Scene* scene);
 
     //
     // Overrides
@@ -1039,7 +1041,7 @@ public:
      * @param scene A given scene.
      * @return A autoreleased TransitionFadeUp object.
      */
-    static TransitionFadeUp* create(float t, Scene* scene);
+    static TransitionFadeUp* create(std::chrono::milliseconds t, Scene* scene);
 
     //
     // Overrides
@@ -1067,7 +1069,7 @@ public:
      * @param scene A given scene.
      * @return A autoreleased TransitionFadeDown object.
      */
-    static TransitionFadeDown* create(float t, Scene* scene);
+    static TransitionFadeDown* create(std::chrono::milliseconds t, Scene* scene);
 
     //
     // Overrides

@@ -28,6 +28,8 @@ THE SOFTWARE.
 
 #include "2d/CCActionInterval.h"
 
+#include <chrono>
+
 NS_CC_BEGIN
 
 /**
@@ -92,7 +94,7 @@ public:
      * @param to The value of the specified property when the action end.
      * @return If the creation success, return a pointer of ActionTween; otherwise, return nil.
      */
-    static ActionTween* create(float duration, const std::string& key, float from, float to);
+    static ActionTween* create(std::chrono::milliseconds duration, const std::string& key, float from, float to);
 
     // Overrides
     void startWithTarget(Node *target) override;
@@ -109,7 +111,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @param to The value of the specified property when the action end.
      * @return If the initialization success, return true; otherwise, return false.
      */
-    bool initWithDuration(float duration, const std::string& key, float from, float to);
+    bool initWithDuration(std::chrono::milliseconds duration, const std::string& key, float from, float to);
 
 protected:
     std::string       _key;

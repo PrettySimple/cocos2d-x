@@ -74,7 +74,7 @@ CC_CONSTRUCTOR_ACCESS:
 
 protected:
     /** The inner action */
-    ActionInterval *_inner;
+    ActionInterval* _inner;
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(ActionEase);
 };
@@ -93,12 +93,12 @@ public:
     @brief Set the rate value for the ease rate action.
     @param rate The value will be set.
     */
-    void setRate(float rate) { _rate = rate; }
+    inline void setRate(float rate) noexcept { _rate = rate; }
     /**
     @brief Get the rate value of the ease rate action.
     @return Return the rate value of the ease rate action.
     */
-    float getRate() const { return _rate; }
+    inline float getRate() const noexcept { return _rate; }
 
 CC_CONSTRUCTOR_ACCESS:
     EaseRateAction() {}
@@ -109,7 +109,7 @@ CC_CONSTRUCTOR_ACCESS:
      @param fRate The value of the rate parameter.
      @return Return true when the initialization success, otherwise return false.
     */
-    bool initWithAction(ActionInterval *pAction, float fRate);
+    bool initWithAction(ActionInterval* pAction, float fRate);
 
 protected:
     float _rate;
@@ -429,12 +429,12 @@ public:
      @brief Get period of the wave in radians. Default value is 0.3.
      @return Return the period of the wave in radians.
     */
-    float getPeriod() const { return _period; }
+    inline float getPeriod() const noexcept { return _period; }
     /**
      @brief Set period of the wave in radians.
      @param fPeriod The value will be set.
     */
-    void setPeriod(float fPeriod) { _period = fPeriod; }
+    inline void setPeriod(float fPeriod) noexcept { _period = fPeriod; }
 
 CC_CONSTRUCTOR_ACCESS:
     EaseElastic() {}
@@ -533,7 +533,7 @@ public:
     /**
      @brief Set the bezier parameters.
     */
-    virtual void setBezierParamer( float p0, float p1, float p2, float p3);
+    virtual void setBezierParamer(float p0, float p1, float p2, float p3);
 
 CC_CONSTRUCTOR_ACCESS:
     EaseBezierAction() {}

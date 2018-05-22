@@ -28,6 +28,8 @@ THE SOFTWARE.
 
 #include "2d/CCActionInterval.h"
 
+#include <chrono>
+
 NS_CC_BEGIN
 
 /**
@@ -50,7 +52,7 @@ public:
      * @param percent Specify the destination percentage.
      * @return If the creation success, return a pointer of ProgressTo action; otherwise, return nil.
      */
-    static ProgressTo* create(float duration, float percent);
+    static ProgressTo* create(std::chrono::milliseconds duration, float percent);
 
     //
     // Overrides
@@ -70,7 +72,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @param percent Specify the destination percentage.
      * @return If the creation success, return true; otherwise, return false.
      */
-    bool initWithDuration(float duration, float percent);
+    bool initWithDuration(std::chrono::milliseconds duration, float percent);
 
 protected:
     float _to;
@@ -94,7 +96,7 @@ public:
      * @param toPercentage Specify the destination percentage.
      * @return If the creation success, return a pointer of ProgressFromTo action; otherwise, return nil.
      */
-    static ProgressFromTo* create(float duration, float fromPercentage, float toPercentage);
+    static ProgressFromTo* create(std::chrono::milliseconds duration, float fromPercentage, float toPercentage);
 
     //
     // Overrides
@@ -115,7 +117,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @param toPercentage Specify the destination percentage.
      * @return If the creation success, return true; otherwise, return false.
      */
-    bool initWithDuration(float duration, float fromPercentage, float toPercentage);
+    bool initWithDuration(std::chrono::milliseconds duration, float fromPercentage, float toPercentage);
 
 protected:
     float _to;

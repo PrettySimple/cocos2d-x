@@ -28,6 +28,8 @@ THE SOFTWARE.
 
 #include "2d/CCActionGrid3D.h"
 
+#include <chrono>
+
 NS_CC_BEGIN
 
 /**
@@ -58,7 +60,7 @@ public:
     @param gridSize Specify the size of the grid.
     @return If the creation success, return a pointer of PageTurn3D action; otherwise, return nil.
     */
-    static PageTurn3D* create(float duration, const Size& gridSize);
+    static PageTurn3D* create(std::chrono::milliseconds duration, const Size& gridSize);
 
     // Overrides
     virtual PageTurn3D* clone() const override;

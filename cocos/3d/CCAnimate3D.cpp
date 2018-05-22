@@ -23,20 +23,23 @@
  ****************************************************************************/
 
 #include "3d/CCAnimate3D.h"
-#include "3d/CCSprite3D.h"
+
 #include "3d/CCSkeleton3D.h"
-#include "platform/CCFileUtils.h"
+#include "3d/CCSprite3D.h"
 #include "base/CCConfiguration.h"
-#include "base/CCEventCustom.h"
 #include "base/CCDirector.h"
+#include "base/CCEventCustom.h"
 #include "base/CCEventDispatcher.h"
+#include "platform/CCFileUtils.h"
+
+using namespace std::chrono_literals;
 
 NS_CC_BEGIN
 
 std::unordered_map<Node*, Animate3D*> Animate3D::s_fadeInAnimates;
 std::unordered_map<Node*, Animate3D*> Animate3D::s_fadeOutAnimates;
 std::unordered_map<Node*, Animate3D*> Animate3D::s_runningAnimates;
-float      Animate3D::_transTime = 0.1f;
+std::chrono::milliseconds Animate3D::_transTime = 100ms;
 
 //create Animate3D using Animation.
 Animate3D* Animate3D::create(Animation3D* animation)
@@ -48,7 +51,7 @@ Animate3D* Animate3D::create(Animation3D* animation)
     return animate;
 }
 
-Animate3D* Animate3D::create(Animation3D* animation, float fromTime, float duration)
+Animate3D* Animate3D::create(Animation3D* animation, std::chrono::milliseconds fromTime, std::chrono::milliseconds duration)
 {
     auto animate = new (std::nothrow) Animate3D();
     animate->init(animation, fromTime, duration);
@@ -76,9 +79,9 @@ bool Animate3D::init(Animation3D* animation)
     return true;
 }
 
-bool Animate3D::init(Animation3D* animation, float fromTime, float duration)
+bool Animate3D::init(Animation3D* animation, std::chrono::milliseconds fromTime, std::chrono::milliseconds duration)
 {
-    float fullDuration = animation->getDuration();
+    auto fullDuration = animation->getDuration();
     if (duration > fullDuration - fromTime)
         duration = fullDuration - fromTime;
     
@@ -95,8 +98,8 @@ bool Animate3D::init(Animation3D* animation, float fromTime, float duration)
 bool Animate3D::initWithFrames(Animation3D* animation, int startFrame, int endFrame, float frameRate)
 {
     float perFrameTime = 1.f / frameRate;
-    float fromTime = startFrame * perFrameTime;
-    float duration = (endFrame - startFrame) * perFrameTime;
+    auto fromTime = std::chrono::milliseconds(static_cast<std::size_t>(startFrame * perFrameTime * 1000.f));
+    auto duration = std::chrono::milliseconds(static_cast<std::size_t>((endFrame - startFrame) * perFrameTime * 1000.f));
     _frameRate = frameRate;
     init(animation, fromTime, duration);
     return true;
@@ -235,7 +238,7 @@ void Animate3D::startWithTarget(Node *target)
         auto action = (*runningAction).second;
         if (action != this)
         {
-            if (_transTime < 0.001f)
+            if (_transTime < 1ms)
             {
                 s_runningAnimates[target] = this;
                 _state = Animate3D::Animate3DState::Running;
@@ -245,12 +248,12 @@ void Animate3D::startWithTarget(Node *target)
             {
                 s_fadeOutAnimates[target] = action;
                 action->_state = Animate3D::Animate3DState::FadeOut;
-                action->_accTransTime = 0.0f;
+                action->_accTransTime = 0ms;
                 action->_weight = 1.0f;
                 action->_lastTime = 0.f;
                 s_runningAnimates.erase(target);
                 s_fadeInAnimates[target] = this;
-                _accTransTime = 0.0f;
+                _accTransTime = 0ms;
                 _state = Animate3D::Animate3DState::FadeIn;
                 _weight = 0.f;
                 _lastTime = 0.f;
@@ -299,7 +302,7 @@ void Animate3D::update(float t)
     {
         if (_state == Animate3D::Animate3DState::FadeIn && _lastTime > 0.f)
         {
-            _accTransTime += (t - _lastTime) * getDuration();
+            _accTransTime += std::chrono::milliseconds(static_cast<std::size_t>((t - _lastTime) * getDuration().count()));
             
             _weight = _accTransTime / _transTime;
             if (_weight >= 1.0f)
@@ -313,7 +316,7 @@ void Animate3D::update(float t)
         }
         else if (_state == Animate3D::Animate3DState::FadeOut && _lastTime > 0.f)
         {
-            _accTransTime += (t - _lastTime) * getDuration();
+            _accTransTime += std::chrono::milliseconds(static_cast<std::size_t>((t - _lastTime) * getDuration().count()));
             
             _weight = 1 - _accTransTime / _transTime;
             if (_weight <= 0.0f)
@@ -388,13 +391,14 @@ void Animate3D::update(float t)
                     node->setAdditionalTransform(&transform);
                 }
                 if (!_keyFrameUserInfos.empty()){
-                    float prekeyTime = lastTime * getDuration() * _frameRate;
-                    float keyTime = t * getDuration() * _frameRate;
+                    auto prekeyTime = std::chrono::milliseconds(static_cast<std::size_t>(lastTime * getDuration().count() * _frameRate));
+                    auto keyTime = std::chrono::milliseconds(static_cast<std::size_t>(t * getDuration().count() * _frameRate));
                     std::vector<Animate3DDisplayedEventInfo*> eventInfos;
                     for (auto keyFrame : _keyFrameUserInfos)
                     {
-                        if ((!_playReverse && keyFrame.first >= prekeyTime && keyFrame.first < keyTime)
-                            || (_playReverse && keyFrame.first >= keyTime && keyFrame.first < prekeyTime))
+                        auto const tmp = std::chrono::milliseconds(static_cast<std::size_t>(1000.f * keyFrame.first));
+                        if ((!_playReverse && tmp >= prekeyTime && tmp < keyTime)
+                            || (_playReverse && tmp >= keyTime && tmp < prekeyTime))
                             {
                                 auto& frameEvent = _keyFrameEvent[keyFrame.first];
                                 if (frameEvent == nullptr)
@@ -423,9 +427,9 @@ float Animate3D::getSpeed() const
 }
 void Animate3D::setSpeed(float speed)
 {
-    _absSpeed = fabsf(speed);
+    _absSpeed = std::abs(speed);
     _playReverse = speed < 0;
-    _duration = _originInterval / _absSpeed;
+    _duration = std::chrono::milliseconds(static_cast<std::size_t>(static_cast<float>(_originInterval.count()) / _absSpeed));
 }
 
 void Animate3D::setWeight(float weight)
@@ -434,7 +438,7 @@ void Animate3D::setWeight(float weight)
     _weight = fabsf(weight);
 }
 
-void Animate3D::setOriginInterval(float interval)
+void Animate3D::setOriginInterval(std::chrono::milliseconds interval)
 {
     _originInterval = interval;
 }
@@ -492,9 +496,9 @@ Animate3D::Animate3D()
 , _start(0.f)
 , _last(1.f)
 , _playReverse(false)
-, _accTransTime(0.0f)
+, _accTransTime(0ms)
 , _lastTime(0.0f)
-, _originInterval(0.0f)
+, _originInterval(0ms)
 , _frameRate(30.0f)
 {
     setQuality(Animate3DQuality::QUALITY_HIGH);

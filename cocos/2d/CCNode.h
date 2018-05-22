@@ -43,6 +43,8 @@
 #include "physics/CCPhysicsBody.h"
 #endif
 
+#include <chrono>
+
 NS_CC_BEGIN
 
 class GridBase;
@@ -1365,7 +1367,7 @@ public:
      * @param delay     The amount of time that the first tick will wait before execution.
      * @lua NA
      */
-    void schedule(SEL_SCHEDULE selector, float interval, unsigned int repeat, float delay);
+    void schedule(SEL_SCHEDULE selector, std::chrono::milliseconds interval, unsigned int repeat, std::chrono::milliseconds delay);
 
     /**
      * Schedules a custom selector with an interval time in seconds.
@@ -1375,7 +1377,7 @@ public:
      * @param interval      Callback interval time in seconds. 0 means tick every frame,
      * @lua NA
      */
-    void schedule(SEL_SCHEDULE selector, float interval);
+    void schedule(SEL_SCHEDULE selector, std::chrono::milliseconds interval);
 
     /**
      * Schedules a selector that runs only once, with a delay of 0 or larger
@@ -1385,7 +1387,7 @@ public:
      * @param delay         The amount of time that the first tick will wait before execution.
      * @lua NA
      */
-    void scheduleOnce(SEL_SCHEDULE selector, float delay);
+    void scheduleOnce(SEL_SCHEDULE selector, std::chrono::milliseconds delay);
 
     /**
      * Schedules a lambda function that runs only once, with a delay of 0 or larger
@@ -1395,7 +1397,7 @@ public:
      * @param key           The key of the lambda function. To be used if you want to unschedule it.
      * @lua NA
      */
-    void scheduleOnce(const std::function<void(float)>& callback, float delay, const std::string &key);
+    void scheduleOnce(const std::function<void(float)>& callback, std::chrono::milliseconds delay, const std::string &key);
 
     /**
      * Schedules a custom selector, the scheduled selector will be ticked every frame.
@@ -1423,7 +1425,7 @@ public:
      * @param key           The key of the lambda function. To be used if you want to unschedule it
      * @lua NA
      */
-    void schedule(const std::function<void(float)>& callback, float interval, const std::string &key);
+    void schedule(const std::function<void(float)>& callback, std::chrono::milliseconds interval, const std::string &key);
 
     /**
      * Schedules a lambda function.
@@ -1435,7 +1437,7 @@ public:
      * @param key       The key of the lambda function. To be used if you want to unschedule it.
      * @lua NA
      */
-    void schedule(const std::function<void(float)>& callback, float interval, unsigned int repeat, float delay, const std::string &key);
+    void schedule(const std::function<void(float)>& callback, std::chrono::milliseconds interval, unsigned int repeat, std::chrono::milliseconds delay, const std::string &key);
 
     /**
      * Unschedules a custom selector.

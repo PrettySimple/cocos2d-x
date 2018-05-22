@@ -25,13 +25,13 @@
 #ifndef __CCANIMATION3D_H__
 #define __CCANIMATION3D_H__
 
-#include <unordered_map>
-
 #include "3d/CCAnimationCurve.h"
-
-#include "base/ccMacros.h"
-#include "base/CCRef.h"
 #include "3d/CCBundle3DData.h"
+#include "base/CCRef.h"
+#include "base/ccMacros.h"
+
+#include <chrono>
+#include <unordered_map>
 
 NS_CC_BEGIN
 /**
@@ -73,7 +73,7 @@ public:
     CC_DEPRECATED_ATTRIBUTE static Animation3D* getOrCreate(const std::string& filename, const std::string& animationName = ""){ return create(filename, animationName); }
        
     /**get duration*/
-    float getDuration() const { return _duration; }
+    inline std::chrono::milliseconds getDuration() const noexcept { return _duration; }
     
     /**
      * get bone curve
@@ -84,7 +84,7 @@ public:
     
 
     /**get the bone Curves set*/
-    const std::unordered_map<std::string, Curve*>& getBoneCurves() const {return _boneCurves;}
+    inline std::unordered_map<std::string, Curve*> const& getBoneCurves() const { return _boneCurves; }
     
 CC_CONSTRUCTOR_ACCESS:
     Animation3D();
@@ -98,7 +98,7 @@ CC_CONSTRUCTOR_ACCESS:
 protected:
     std::unordered_map<std::string, Curve*> _boneCurves;//bone curves map, key bone name, value AnimationCurve
 
-    float _duration; //animation duration
+    std::chrono::milliseconds _duration; //animation duration
 };
 
 /**

@@ -30,6 +30,7 @@ THE SOFTWARE.
 #include "base/CCProtocols.h"
 #include "2d/CCNode.h"
 #include "base/CCValue.h"
+#include <chrono>
 
 NS_CC_BEGIN
 
@@ -470,95 +471,95 @@ public:
      *
      * @return The index of system in batch node array.
      */
-    int getAtlasIndex() const { return _atlasIndex; }
+    inline int getAtlasIndex() const noexcept { return _atlasIndex; }
     /** Sets the index of system in batch node array.
      *
      * @param index The index of system in batch node array.
      */
-    void setAtlasIndex(int index) { _atlasIndex = index; }
+    inline void setAtlasIndex(int index) noexcept { _atlasIndex = index; }
 
     /** Gets the Quantity of particles that are being simulated at the moment.
      *
      * @return The Quantity of particles that are being simulated at the moment.
      */
-    unsigned int getParticleCount() const { return _particleCount; }
+    inline unsigned int getParticleCount() const noexcept { return _particleCount; }
     
     /** Gets how many seconds the emitter will run. -1 means 'forever'.
      *
      * @return The seconds that the emitter will run. -1 means 'forever'.
      */
-    float getDuration() const { return _duration; }
+    inline std::chrono::milliseconds getDuration() const noexcept { return _duration; }
     /** Sets how many seconds the emitter will run. -1 means 'forever'.
      *
      * @param duration The seconds that the emitter will run. -1 means 'forever'.
      */
-    void setDuration(float duration) { _duration = duration; }
+    inline void setDuration(std::chrono::milliseconds duration) noexcept { _duration = duration; }
     
     /** Gets the source position of the emitter.
      *
      * @return The source position of the emitter.
      */
-    const Vec2& getSourcePosition() const { return _sourcePosition; }
+    inline const Vec2& getSourcePosition() const noexcept { return _sourcePosition; }
     /** Sets the source position of the emitter.
      *
      * @param pos The source position of the emitter.
      */
-    void setSourcePosition(const Vec2& pos) { _sourcePosition = pos; }
+    inline void setSourcePosition(const Vec2& pos) noexcept { _sourcePosition = pos; }
     
     /** Gets the position variance of the emitter.
      *
      * @return The position variance of the emitter.
      */
-    const Vec2& getPosVar() const { return _posVar; }
+    inline const Vec2& getPosVar() const noexcept { return _posVar; }
     /** Sets the position variance of the emitter.
      *
      * @param pos The position variance of the emitter.
      */
-    void setPosVar(const Vec2& pos) { _posVar = pos; }
+    inline void setPosVar(const Vec2& pos) noexcept { _posVar = pos; }
 
     /** Gets the life of each particle.
      *
      * @return The life of each particle.
      */
-    float getLife() const { return _life; }
+    inline float getLife() const noexcept { return _life; }
     /** Sets the life of each particle.
      *
      * @param life The life of each particle.
      */
-    void setLife(float life) { _life = life; }
+    inline void setLife(float life) noexcept { _life = life; }
 
     /** Gets the life variance of each particle.
      *
      * @return The life variance of each particle.
      */
-    float getLifeVar() const { return _lifeVar; }
+    inline float getLifeVar() const noexcept { return _lifeVar; }
     /** Sets the life variance of each particle.
      *
      * @param lifeVar The life variance of each particle.
      */
-    void setLifeVar(float lifeVar) { _lifeVar = lifeVar; }
+    inline void setLifeVar(float lifeVar) noexcept { _lifeVar = lifeVar; }
 
     /** Gets the angle of each particle. 
      *
      * @return The angle of each particle.
      */
-    float getAngle() const { return _angle; }
+    inline float getAngle() const noexcept { return _angle; }
     /** Sets the angle of each particle.
      *
      * @param angle The angle of each particle.
      */
-    void setAngle(float angle) { _angle = angle; }
+    inline void setAngle(float angle) noexcept { _angle = angle; }
 
     /** Gets the angle variance of each particle.
      *
      * @return The angle variance of each particle.
      */
-    float getAngleVar() const { return _angleVar; }
+    inline float getAngleVar() const noexcept { return _angleVar; }
     /** Sets the angle variance of each particle.
      *
      * @param angleVar The angle variance of each particle.
      */
-    void setAngleVar(float angleVar) { _angleVar = angleVar; }
+    inline void setAngleVar(float angleVar) noexcept { _angleVar = angleVar; }
     
     /** Switch between different kind of emitter modes:
      - kParticleModeGravity: uses gravity, speed, radial and tangential acceleration.
@@ -566,155 +567,155 @@ public:
      *
      * @return The mode of the emitter.
      */
-    Mode getEmitterMode() const { return _emitterMode; }
+    inline Mode getEmitterMode() const noexcept { return _emitterMode; }
     /** Sets the mode of the emitter.
      *
      * @param mode The mode of the emitter.
      */
-    void setEmitterMode(Mode mode) { _emitterMode = mode; }
+    inline void setEmitterMode(Mode mode) noexcept { _emitterMode = mode; }
     
     /** Gets the start size in pixels of each particle.
      *
      * @return The start size in pixels of each particle.
      */
-    float getStartSize() const { return _startSize; }
+    inline float getStartSize() const noexcept { return _startSize; }
     /** Sets the start size in pixels of each particle.
      *
      * @param startSize The start size in pixels of each particle.
      */
-    void setStartSize(float startSize) { _startSize = startSize; }
+    inline void setStartSize(float startSize) noexcept { _startSize = startSize; }
 
     /** Gets the start size variance in pixels of each particle.
      *
      * @return The start size variance in pixels of each particle.
      */
-    float getStartSizeVar() const { return _startSizeVar; }
+    inline float getStartSizeVar() const noexcept { return _startSizeVar; }
     /** Sets the start size variance in pixels of each particle.
      *
      * @param sizeVar The start size variance in pixels of each particle.
      */
-    void setStartSizeVar(float sizeVar) { _startSizeVar = sizeVar; }
+    inline void setStartSizeVar(float sizeVar) noexcept { _startSizeVar = sizeVar; }
 
     /** Gets the end size in pixels of each particle.
      *
      * @return The end size in pixels of each particle.
      */
-    float getEndSize() const { return _endSize; }
+    inline float getEndSize() const noexcept { return _endSize; }
     /** Sets the end size in pixels of each particle.
      *
      * @param endSize The end size in pixels of each particle.
      */
-    void setEndSize(float endSize) { _endSize = endSize; }
+    inline void setEndSize(float endSize) noexcept { _endSize = endSize; }
 
     /** Gets the end size variance in pixels of each particle.
      *
      * @return The end size variance in pixels of each particle.
      */
-    float getEndSizeVar() const { return _endSizeVar; }
+    inline float getEndSizeVar() const noexcept { return _endSizeVar; }
     /** Sets the end size variance in pixels of each particle.
      *
      * @param sizeVar The end size variance in pixels of each particle.
      */
-    void setEndSizeVar(float sizeVar) { _endSizeVar = sizeVar; }
+    inline void setEndSizeVar(float sizeVar) noexcept { _endSizeVar = sizeVar; }
 
     /** Gets the start color of each particle.
      *
      * @return The start color of each particle.
      */
-    const Color4F& getStartColor() const { return _startColor; }
+    inline const Color4F& getStartColor() const noexcept { return _startColor; }
     /** Sets the start color of each particle.
      *
      * @param color The start color of each particle.
      */
-    void setStartColor(const Color4F& color) { _startColor = color; }
+    inline void setStartColor(const Color4F& color) noexcept { _startColor = color; }
 
     /** Gets the start color variance of each particle.
      *
      * @return The start color variance of each particle.
      */
-    const Color4F& getStartColorVar() const { return _startColorVar; }
+    inline const Color4F& getStartColorVar() const { return _startColorVar; }
     /** Sets the start color variance of each particle.
      *
      * @param color The start color variance of each particle.
      */
-    void setStartColorVar(const Color4F& color) { _startColorVar = color; }
+    void setStartColorVar(const Color4F& color) noexcept { _startColorVar = color; }
 
     /** Gets the end color and end color variation of each particle.
      *
      * @return The end color and end color variation of each particle.
      */
-    const Color4F& getEndColor() const { return _endColor; }
+    inline const Color4F& getEndColor() const noexcept { return _endColor; }
     /** Sets the end color and end color variation of each particle.
      *
      * @param color The end color and end color variation of each particle.
      */
-    void setEndColor(const Color4F& color) { _endColor = color; }
+    inline void setEndColor(const Color4F& color) noexcept { _endColor = color; }
 
     /** Gets the end color variance of each particle.
      *
      * @return The end color variance of each particle.
      */
-    const Color4F& getEndColorVar() const { return _endColorVar; }
+    inline const Color4F& getEndColorVar() const noexcept { return _endColorVar; }
     /** Sets the end color variance of each particle.
      *
      * @param color The end color variance of each particle.
      */
-    void setEndColorVar(const Color4F& color) { _endColorVar = color; }
+    inline void setEndColorVar(const Color4F& color) noexcept { _endColorVar = color; }
 
     /** Gets the start spin of each particle.
      *
      * @return The start spin of each particle.
      */
-    float getStartSpin() const { return _startSpin; }
+    inline float getStartSpin() const noexcept { return _startSpin; }
     /** Sets the start spin of each particle.
      *
      * @param spin The start spin of each particle.
      */
-    void setStartSpin(float spin) { _startSpin = spin; }
+    inline void setStartSpin(float spin) noexcept { _startSpin = spin; }
 
     /** Gets the start spin variance of each particle.
      *
      * @return The start spin variance of each particle.
      */
-    float getStartSpinVar() const { return _startSpinVar; }
+    inline float getStartSpinVar() const noexcept { return _startSpinVar; }
     /** Sets the start spin variance of each particle.
      *
      * @param pinVar The start spin variance of each particle.
      */
-    void setStartSpinVar(float pinVar) { _startSpinVar = pinVar; }
+    inline void setStartSpinVar(float pinVar) noexcept { _startSpinVar = pinVar; }
 
     /** Gets the end spin of each particle.
      *
      * @return The end spin of each particle.
      */
-    float getEndSpin() const { return _endSpin; }
+    inline float getEndSpin() const noexcept { return _endSpin; }
     /** Sets the end spin of each particle.
      *
      * @param endSpin The end spin of each particle.
      */
-    void setEndSpin(float endSpin) { _endSpin = endSpin; }
+    inline void setEndSpin(float endSpin) noexcept { _endSpin = endSpin; }
 
     /** Gets the end spin variance of each particle.
      *
      * @return The end spin variance of each particle.
      */
-    float getEndSpinVar() const { return _endSpinVar; }
+    inline float getEndSpinVar() const noexcept { return _endSpinVar; }
     /** Sets the end spin variance of each particle.
      *
      * @param endSpinVar The end spin variance of each particle.
      */
-    void setEndSpinVar(float endSpinVar) { _endSpinVar = endSpinVar; }
+    inline void setEndSpinVar(float endSpinVar) noexcept { _endSpinVar = endSpinVar; }
 
     /** Gets the emission rate of the particles.
      *
      * @return The emission rate of the particles.
      */
-    float getEmissionRate() const { return _emissionRate; }
+    inline float getEmissionRate() const noexcept { return _emissionRate; }
     /** Sets the emission rate of the particles.
      *
      * @param rate The emission rate of the particles.
      */
-    void setEmissionRate(float rate) { _emissionRate = rate; }
+    inline void setEmissionRate(float rate) noexcept { _emissionRate = rate; }
 
     /** Gets the maximum particles of the system.
      *
@@ -737,13 +738,13 @@ public:
      *
      * @return The particles movement type.
      */
-    PositionType getPositionType() const { return _positionType; }
+    inline PositionType getPositionType() const noexcept { return _positionType; }
     /** Sets the particles movement type: Free or Grouped.
     @since v0.8
      *
      * @param type The particles movement type.
      */
-    void setPositionType(PositionType type) { _positionType = type; }
+    inline void setPositionType(PositionType type) noexcept { _positionType = type; }
 
     /**
      * In PositionType::WORLD only
@@ -755,7 +756,7 @@ public:
      * like this you can set the source Emission directly without worying about the emitter transforms and still keep the emitter in the Node hierarchy.
      * if true, then you will have to use setSourcePosition() and compute the emission position manually (each time a transform changes in the hierarchy)
      */
-    void setUseSourcePosOnly( bool bUseSrcPosOnly ) { _bUseSrcPosOnly = bUseSrcPosOnly; }
+    inline void setUseSourcePosOnly(bool bUseSrcPosOnly) noexcept { _bUseSrcPosOnly = bUseSrcPosOnly; }
     
     // Overrides
     virtual void onEnter() override;
@@ -777,7 +778,7 @@ public:
     */
     virtual const BlendFunc &getBlendFunc() const override;
 
-    const std::string& getResourceFile() const { return _plistFile; }
+    inline const std::string& getResourceFile() const noexcept { return _plistFile; }
 
     /// @{
     /// @name implement Playable Protocol
@@ -849,7 +850,7 @@ protected:
 
     std::string _plistFile;
     //! time elapsed since the start of the system (in seconds)
-    float _elapsed;
+    std::chrono::milliseconds _elapsed;
 
     // Different modes
     //! Mode A:Gravity + Tangential Accel + Radial Accel
@@ -925,7 +926,7 @@ protected:
     /** Quantity of particles that are being simulated at the moment */
     int _particleCount;
     /** How many seconds the emitter will run. -1 means 'forever' */
-    float _duration;
+    std::chrono::milliseconds _duration;
     /** sourcePosition of the emitter */
     Vec2 _sourcePosition;
     /** Position variance of the emitter */

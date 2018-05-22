@@ -26,12 +26,16 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "2d/CCMenuItem.h"
+
 #include "2d/CCActionInterval.h"
-#include "2d/CCSprite.h"
-#include "2d/CCLabelAtlas.h"
 #include "2d/CCLabel.h"
+#include "2d/CCLabelAtlas.h"
+#include "2d/CCSprite.h"
 #include "base/ccUTF8.h"
-#include <stdarg.h>
+
+#include <cstdarg>
+
+using namespace std::chrono_literals;
 
 NS_CC_BEGIN
     
@@ -263,7 +267,7 @@ void MenuItemLabel::selected()
             _originalScale = this->getScale();
         }
         
-        Action *zoomAction = ScaleTo::create(0.1f, _originalScale * 1.2f);
+        Action *zoomAction = ScaleTo::create(100ms, _originalScale * 1.2f);
         zoomAction->setTag(kZoomActionTag);
         this->runAction(zoomAction);
     }
@@ -276,7 +280,7 @@ void MenuItemLabel::unselected()
     {
         MenuItem::unselected();
         this->stopAllActionsByTag(kZoomActionTag);
-        Action *zoomAction = ScaleTo::create(0.1f, _originalScale);
+        Action *zoomAction = ScaleTo::create(100ms, _originalScale);
         zoomAction->setTag(kZoomActionTag);
         this->runAction(zoomAction);
     }
