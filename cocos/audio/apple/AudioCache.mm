@@ -22,27 +22,29 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-
 #define LOG_TAG "AudioCache"
 
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#include "audio/apple/AudioCache.h"
+#include "AudioCache.h"
 
 #import <Foundation/Foundation.h>
-#import <OpenAL/alc.h>
-#include <thread>
+
+#include "AudioDecoder.h"
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
 
-#include "audio/apple/AudioDecoder.h"
+#import <OpenAL/alc.h>
+#include <thread>
 
 #ifdef VERY_VERY_VERBOSE_LOGGING
 #define ALOGVV ALOGV
 #else
 #define ALOGVV(...) do{} while(false)
 #endif
+
+using namespace std::chrono_literals;
 
 namespace {
 unsigned int __idIndex = 0;
@@ -114,7 +116,7 @@ using namespace cocos2d::experimental;
 
 AudioCache::AudioCache()
 : _format(-1)
-, _duration(0.0f)
+, _duration(0ms)
 , _totalFrames(0)
 , _framesRead(0)
 , _alBufferId(INVALID_AL_BUFFER_ID)
@@ -147,7 +149,7 @@ AudioCache::~AudioCache()
             break;
         }
         ALOGVV("id=%u, waiting readData thread to finish ...", _id);
-        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+        std::this_thread::sleep_for(5ms);
     }
     //wait for the 'readDataTask' task to exit
     _readDataTaskMutex.lock();
@@ -218,7 +220,7 @@ void AudioCache::readDataTask(unsigned int selfId)
 
         _format = channelCount > 1 ? AL_FORMAT_STEREO16 : AL_FORMAT_MONO16;
         _sampleRate = (ALsizei)sampleRate;
-        _duration = 1.0f * totalFrames / sampleRate;
+        _duration = std::chrono::milliseconds(static_cast<std::size_t>(1000.0f * static_cast<float>(totalFrames) / sampleRate));
         _totalFrames = totalFrames;
 
         if (dataSize <= PCMDATA_CACHEMAXSIZE)

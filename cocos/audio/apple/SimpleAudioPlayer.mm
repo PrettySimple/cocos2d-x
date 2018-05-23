@@ -7,8 +7,8 @@
 
 #define LOG_TAG "SimpleAudioPlayer.mm"
 
-#include "SimpleAudioPlayer.h"
 #include "AudioCache.h"
+#include "SimpleAudioPlayer.h"
 #include "audio/include/SimpleAudioEngine.h"
 
 
@@ -75,9 +75,9 @@ bool SimpleAudioPlayer::setTime(float time)
     return false;
 }
 
-float SimpleAudioPlayer::getDuration()
+std::chrono::milliseconds SimpleAudioPlayer::getDuration()
 {
-    return CocosDenshion::SimpleAudioEngine::getInstance()->getBackgroundMusicDuration();
+    return std::chrono::milliseconds(static_cast<std::size_t>(CocosDenshion::SimpleAudioEngine::getInstance()->getBackgroundMusicDuration() * 1000.f));
 }
 
 bool SimpleAudioPlayer::isStopped()

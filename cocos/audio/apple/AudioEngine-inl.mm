@@ -46,6 +46,8 @@
 #include "base/CCScheduler.h"
 #include "base/ccUtils.h"
 
+#include <utility>
+
 using namespace cocos2d;
 using namespace cocos2d::experimental;
 
@@ -371,110 +373,127 @@ bool AudioEngineImpl::init()
     return ret;
 }
 
-AudioCache* AudioEngineImpl::preload(const std::string& filePath, std::function<void(bool)> callback)
+AudioCache& AudioEngineImpl::preload(std::string const& filePath, std::function<void(bool)> const& callback)
 {
-    AudioCache* audioCache = nullptr;
-
     auto it = _audioCaches.find(filePath);
-    if (it == _audioCaches.end()) {
-        audioCache = &_audioCaches[filePath];
-        audioCache->_fileFullPath = FileUtils::getInstance()->fullPathForFilename(filePath);
-        unsigned int cacheId = audioCache->_id;
-        auto isCacheDestroyed = audioCache->_isDestroyed;
-        AudioEngine::addTask([audioCache, cacheId, isCacheDestroyed](){
+    if (it == _audioCaches.end())
+    {
+        auto& audioCache = _audioCaches[filePath];
+        audioCache._askedAsPreload = true;
+        if (callback != nullptr)
+        {
+            audioCache.addLoadCallback(callback);
+        }
+        audioCache._fileFullPath = FileUtils::getInstance()->fullPathForFilename(filePath);
+
+        AudioEngine::addTask([&audioCache, cacheId = audioCache._id, isCacheDestroyed = audioCache._isDestroyed]() {
             if (*isCacheDestroyed)
             {
                 ALOGV("AudioCache (id=%u) was destroyed, no need to launch readDataTask.", cacheId);
-                audioCache->setSkipReadDataTask(true);
-                return;
+                audioCache.setSkipReadDataTask(true);
             }
-            audioCache->readDataTask(cacheId);
+            else
+            {
+                audioCache.readDataTask(cacheId);
+            }
         });
-    }
-    else {
-        audioCache = &it->second;
-    }
-    audioCache->_askedAsPreload = true;
-
-    if (audioCache && callback)
-    {
-        audioCache->addLoadCallback(callback);
-    }
-    return audioCache;
-}
-
-int AudioEngineImpl::play2d(const std::string &filePath ,bool loop ,float volume, bool isMusic)
-{
-    if (s_ALDevice == nullptr) {
-        return AudioEngine::INVALID_AUDIO_ID;
-    }
-
-    AudioPlayer* player = nullptr;
-    AudioCache* audioCache = nullptr;
-
-    // sound is a music and was not preloaded, we use the hardware accelerated
-    // player, otherwise just use openAL
-    if (isMusic && (_audioCaches.find(filePath) == _audioCaches.end()
-                    || !(*_audioCaches.find(filePath)).second._askedAsPreload)
-        )
-    {
-        player = new (std::nothrow) SimpleAudioPlayer(filePath);
-        
-        auto it = _audioCaches.find(filePath);
-        if (it == _audioCaches.end()) {
-            audioCache = &_audioCaches[filePath];
-            audioCache->_fileFullPath = FileUtils::getInstance()->fullPathForFilename(filePath);
-        }
-        else {
-            audioCache = &it->second;
-        }
-        audioCache->_state = AudioCache::State::READY;
+        return audioCache;
     }
     else
     {
-        ALuint alSource = findValidSource();
-        
-        if (alSource == AL_INVALID)
+        it->second._askedAsPreload = true;
+        if (callback != nullptr)
         {
-            return AudioEngine::INVALID_AUDIO_ID;
+            it->second.addLoadCallback(callback);
         }
-        player = new (std::nothrow) ALAudioPlayer;
-        player->setAlSource(alSource);
-        
-        audioCache = preload(filePath, nullptr);
-        if (audioCache == nullptr) {
-            delete player;
-            return AudioEngine::INVALID_AUDIO_ID;
-        }
-        player->setCache(audioCache);
-    }
-    
-    if (player == nullptr) {
-        return AudioEngine::INVALID_AUDIO_ID;
+
+        return it->second;
     }
 
+    CC_ASSERT(false);
+    static AudioCache empty;
+    return empty;
+}
+
+void AudioEngineImpl::_play2d(AudioPlayer* player, AudioCache& audioCache, bool loop, float volume)
+{
     player->setLoop(loop);
     player->setVolume(volume);
-
 
     _threadMutex.lock();
     _audioPlayers[_currentAudioID] = player;
     _threadMutex.unlock();
 
-    audioCache->addPlayCallback(std::bind(&AudioEngineImpl::_play2d,this,audioCache,_currentAudioID));
-    
-    if (_lazyInitLoop) {
+    audioCache.addPlayCallback([this, &audioCache, isCacheDestroyed = audioCache._isDestroyed]() {
+        _play2d(audioCache, _currentAudioID, *isCacheDestroyed);
+    });
+
+    if (_lazyInitLoop)
+    {
         _lazyInitLoop = false;
-        _scheduler->schedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this, 0.05f, false);
+        _scheduler->schedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this, std::chrono::milliseconds(5), false);
     }
-    
+}
+
+int AudioEngineImpl::play2d(std::string const& filePath, bool loop ,float volume, bool isMusic)
+{
+    if (s_ALDevice == nullptr) {
+        return AudioEngine::INVALID_AUDIO_ID;
+    }
+
+    // sound is a music and was not preloaded, we use the hardware accelerated
+    // player, otherwise just use openAL
+    if (isMusic && (_audioCaches.count(filePath) == 0 || !(_audioCaches.find(filePath)->second._askedAsPreload)))
+    {
+        AudioPlayer* player = new (std::nothrow) SimpleAudioPlayer(filePath);
+        
+        auto it = _audioCaches.find(filePath);
+        if (it == _audioCaches.end())
+        {
+            auto& audioCache = _audioCaches[filePath];
+            audioCache._fileFullPath = FileUtils::getInstance()->fullPathForFilename(filePath);
+            audioCache._state = AudioCache::State::READY;
+            audioCache._isLoadingFinished = true;
+
+            _play2d(player, audioCache, loop, volume);
+        }
+        else
+        {
+            auto& audioCache = it->second;
+            audioCache._state = AudioCache::State::READY;
+            audioCache._isLoadingFinished = true;
+
+            _play2d(player, audioCache, loop, volume);
+        }
+
+    }
+    else
+    {
+        ALuint alSource = findValidSource();
+        if (alSource == AL_INVALID)
+        {
+            return AudioEngine::INVALID_AUDIO_ID;
+        }
+
+        auto& audioCache = preload(filePath, nullptr);
+
+        AudioPlayer* player = new (std::nothrow) ALAudioPlayer(audioCache);
+        player->setAlSource(alSource);
+        if (player == nullptr)
+        {
+            return AudioEngine::INVALID_AUDIO_ID;
+        }
+
+        _play2d(player, audioCache, loop, volume);
+    }
+
     return _currentAudioID++;
 }
 
-void AudioEngineImpl::_play2d(AudioCache *cache, int audioID)
+void AudioEngineImpl::_play2d(AudioCache& cache, int audioID, bool isCacheDestroyed)
 {
     //Note: It may bn in sub thread or main thread :(
-    if (!*cache->_isDestroyed && cache->_state == AudioCache::State::READY)
+    if (!isCacheDestroyed && cache._state == AudioCache::State::READY)
     {
         _threadMutex.lock();
         auto playerIt = _audioPlayers.find(audioID);
@@ -555,7 +574,7 @@ void AudioEngineImpl::stopAll()
     update(0.0f);
 }
 
-float AudioEngineImpl::getDuration(int audioID)
+std::chrono::milliseconds AudioEngineImpl::getDuration(int audioID)
 {
     auto player = _audioPlayers[audioID];
     if(player->isReady()){
@@ -611,7 +630,7 @@ void AudioEngineImpl::update(float dt)
             std::string filePath;
             if (player->getFinishCallback()) {
                 auto& audioInfo = AudioEngine::_audioIDInfoMap[audioID];
-                filePath = *audioInfo.filePath;
+                filePath = audioInfo.filePath;
             }
 
             AudioEngine::remove(audioID);

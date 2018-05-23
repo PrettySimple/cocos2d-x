@@ -29,14 +29,15 @@
 #ifndef __AUDIO_ENGINE_INL_H_
 #define __AUDIO_ENGINE_INL_H_
 
-#include <unordered_map>
+#include <chrono>
 #include <list>
+#include <unordered_map>
 
-#include "base/CCRef.h"
+#include "audio/apple/ALAudioPlayer.h"
 #include "audio/apple/AudioCache.h"
 #include "audio/apple/AudioPlayer.h"
 #include "audio/apple/SimpleAudioPlayer.h"
-#include "audio/apple/ALAudioPlayer.h"
+#include "base/CCRef.h"
 
 NS_CC_BEGIN
 class Scheduler;
@@ -58,18 +59,19 @@ public:
     bool resume(int audioID);
     void stop(int audioID);
     void stopAll();
-    float getDuration(int audioID);
+    std::chrono::milliseconds getDuration(int audioID);
     float getCurrentTime(int audioID);
     bool setCurrentTime(int audioID, float time);
     void setFinishCallback(int audioID, const std::function<void (int, const std::string &)> &callback);
 
     void uncache(const std::string& filePath);
     void uncacheAll();
-    AudioCache* preload(const std::string& filePath, std::function<void(bool)> callback);
+    AudioCache& preload(const std::string& filePath, std::function<void(bool)> const& callback);
     void update(float dt);
 
 private:
-    void _play2d(AudioCache *cache, int audioID);
+    void _play2d(AudioPlayer* player, AudioCache& audioCache, bool loop, float volume);
+    void _play2d(AudioCache& cache, int audioID, bool isCacheDestroyed);
     ALuint findValidSource();
 
     static ALvoid myAlSourceNotificationCallback(ALuint sid, ALuint notificationID, ALvoid* userData);

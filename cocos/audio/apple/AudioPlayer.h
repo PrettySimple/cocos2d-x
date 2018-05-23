@@ -5,11 +5,11 @@
 #include "CCPlatformMacros.h"
 
 #include <OpenAL/al.h>
+#include <chrono>
 
 NS_CC_BEGIN
-namespace experimental{
-    
-    class AudioCache;
+namespace experimental
+{
     class AudioEngineImpl;
     
     class AudioPlayer
@@ -31,7 +31,7 @@ namespace experimental{
         virtual bool resume() = 0;
         
         virtual bool isStopped() = 0;
-        virtual float getDuration() = 0;
+        virtual std::chrono::milliseconds getDuration() = 0;
         
         virtual bool play2d() = 0;
         
@@ -40,8 +40,7 @@ namespace experimental{
         bool isStreamingSource();
         bool isRemovedByEngine();
         virtual void wakeupRotateThread() {}
-        
-        virtual void setCache(AudioCache* audioCache) {}
+
         void setRemovedByEngine(bool p_removed) {_removeByAudioEngine = p_removed;}
         bool isReady() {return _ready;}
         

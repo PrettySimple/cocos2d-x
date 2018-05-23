@@ -10,6 +10,8 @@
 
 #include "AudioPlayer.h"
 
+#include <chrono>
+
 NS_CC_BEGIN
 namespace experimental{
 class SimpleAudioPlayer : public cocos2d::experimental::AudioPlayer
@@ -31,7 +33,7 @@ public:
     
     float getTime() override;
     bool setTime(float time) override;
-    float getDuration() override;
+    std::chrono::milliseconds getDuration() override;
     bool isStopped() override;
     
 };

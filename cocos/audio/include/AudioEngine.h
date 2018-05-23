@@ -28,6 +28,7 @@
 #include "platform/CCPlatformMacros.h"
 #include "audio/include/Export.h"
 
+#include <chrono>
 #include <functional>
 #include <list>
 #include <string>
@@ -100,7 +101,7 @@ public:
     
     static const int INVALID_AUDIO_ID;
 
-    static const float TIME_UNKNOWN;
+    static const std::chrono::milliseconds TIME_UNKNOWN;
 
     static bool lazyInit();
 
@@ -217,7 +218,7 @@ public:
      * @param audioID An audioID returned by the play2d function.
      * @return The duration of an audio instance.
      */
-    static float getDuration(int audioID);
+    static std::chrono::milliseconds getDuration(int audioID);
 
     /** 
      * Returns the state of an audio instance.
@@ -324,45 +325,43 @@ protected:
     static void addTask(const std::function<void()>& task);
     static void remove(int audioID);
     
-    struct ProfileHelper
+    struct ProfileHelper final
     {
         AudioProfile profile;
-
         std::list<int> audioIDs;
+        double lastPlayTime = 0.0;
 
-        double lastPlayTime;
-
-        ProfileHelper()
-            : lastPlayTime(0.0)
-        {
-
-        }
+        ProfileHelper() = default;
+        ProfileHelper(ProfileHelper const&) = delete;
+        ProfileHelper& operator=(ProfileHelper const&) = delete;
+        ProfileHelper(ProfileHelper &&) noexcept = delete;
+        ProfileHelper& operator=(ProfileHelper &&) noexcept = delete;
+        ~ProfileHelper() = default;
     };
     
-    struct AudioInfo
+    struct AudioInfo final
     {
-        const std::string* filePath;
-        ProfileHelper* profileHelper;
+        std::string filePath;
+        ProfileHelper* profileHelper = nullptr;
         
-        float volume;
-        bool loop;
-        float duration;
-        AudioState state;
+        float volume = 1.f;
+        bool loop = false;
+        std::chrono::milliseconds duration = TIME_UNKNOWN;
+        AudioState state = AudioState::INITIALIZING;
 
-        AudioInfo();
-        ~AudioInfo();
-    private:
-        AudioInfo(const AudioInfo& info);
-        AudioInfo(AudioInfo&& info);
-        AudioInfo& operator=(const AudioInfo& info);
-        AudioInfo& operator=(AudioInfo&& info);
+        AudioInfo() = default;
+        AudioInfo(AudioInfo const&) = delete;
+        AudioInfo& operator=(AudioInfo const&) = delete;
+        AudioInfo(AudioInfo &&) noexcept = delete;
+        AudioInfo& operator=(AudioInfo &&) noexcept = delete;
+        ~AudioInfo() = default;
     };
 
     //audioID,audioAttribute
     static std::unordered_map<int, AudioInfo> _audioIDInfoMap;
     
     //audio file path,audio IDs
-    static std::unordered_map<std::string,std::list<int>> _audioPathIDMap;
+    static std::unordered_multimap<std::string, int> _audioPathIDMap;
     
     //profileName,ProfileHelper
     static std::unordered_map<std::string, ProfileHelper> _audioPathProfileHelperMap;

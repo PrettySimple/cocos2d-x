@@ -30,8 +30,9 @@
 
 #import <OpenAL/al.h>
 
-#include <string>
+#include <chrono>
 #include <mutex>
+#include <string>
 #include <vector>
 
 #include "platform/CCPlatformMacros.h"
@@ -43,7 +44,7 @@ namespace experimental{
 class AudioEngineImpl;
 class AudioPlayer;
 
-class AudioCache
+class AudioCache final
 {
 public:
 
@@ -56,6 +57,10 @@ public:
     };
 
     AudioCache();
+    AudioCache(AudioCache const&) = delete;
+    AudioCache& operator=(AudioCache const&) = delete;
+    AudioCache(AudioCache && other) noexcept = delete;
+    AudioCache& operator=(AudioCache &&) noexcept = delete;
     ~AudioCache();
 
     void addPlayCallback(const std::function<void()>& callback);
@@ -76,7 +81,7 @@ protected:
     //pcm data related stuff
     ALenum _format;
     ALsizei _sampleRate;
-    float _duration;
+    std::chrono::milliseconds _duration;
     uint32_t _totalFrames;
     uint32_t _framesRead;
 

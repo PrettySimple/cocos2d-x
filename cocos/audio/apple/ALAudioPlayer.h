@@ -28,26 +28,27 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#include "platform/CCPlatformMacros.h"
+#include "AudioCache.h"
 #include "audio/apple/AudioMacros.h"
 #include "audio/apple/AudioPlayer.h"
+#include "platform/CCPlatformMacros.h"
 
+#include <OpenAL/al.h>
+#include <chrono>
 #include <condition_variable>
 #include <mutex>
 #include <string>
 #include <thread>
-#include <OpenAL/al.h>
 
 NS_CC_BEGIN
 namespace experimental{
-    
-    class AudioCache;
+
     class AudioEngineImpl;
     
     class ALAudioPlayer : public cocos2d::experimental::AudioPlayer
     {
     public:
-        ALAudioPlayer();
+        ALAudioPlayer(AudioCache& audioCache);
         virtual ~ALAudioPlayer();
         
         void destroy() override;
@@ -63,20 +64,19 @@ namespace experimental{
         bool resume() override;
         
         bool isStopped() override;
-        float getDuration() override;
+        std::chrono::milliseconds getDuration() override;
         
         ALuint getAlSource() override ;
         void setAlSource(ALuint p_source) override;
         
     protected:
         bool play2d() override;
-        void setCache(AudioCache* cache) override;
         void rotateBufferThread(int offsetFrame);
         void wakeupRotateThread() override;
         const std::function<void (int, const std::string &)> getFinishCallback() override;
         void setFinishCallback(const std::function<void (int, const std::string &)> &callback) override;
         
-        AudioCache* _audioCache;
+        AudioCache& _audioCache;
         
         std::function<void (int, const std::string &)> _finishCallbak;
 
