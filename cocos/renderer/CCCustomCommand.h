@@ -40,20 +40,26 @@ such as stencil function, depth functions etc. The render command is executed by
 */
 class CC_DLL CustomCommand : public RenderCommand
 {
+    /**Callback function.*/
+    std::function<void()> _func = nullptr;
+
 public:
-	/**Constructor.*/
     CustomCommand();
-    /**Destructor.*/
-    ~CustomCommand();
+    CustomCommand(std::function<void()> const& func);
+    CustomCommand(CustomCommand const&) = delete;
+    CustomCommand& operator=(CustomCommand const&) = delete;
+    CustomCommand(CustomCommand &&) noexcept = default;
+    CustomCommand& operator=(CustomCommand &&) noexcept = delete;
+    ~CustomCommand() override = default;
     
 public:
-	/**
-	Init function.
-	@param globalZOrder GlobalZOrder of the render command.
-	@param modelViewTransform When in 3D mode, depth sorting needs modelViewTransform.
-	@param flags Use to identify that the render command is 3D mode or not.
-	*/
-    void init(float globalZOrder, const Mat4& modelViewTransform, uint32_t flags);
+    /**
+     Init function.
+     @param globalZOrder GlobalZOrder of the render command.
+     @param modelViewTransform When in 3D mode, depth sorting needs modelViewTransform.
+     @param flags Use to identify that the render command is 3D mode or not.
+     */
+    void init(float globalZOrder, const Mat4& modelViewTransform, uint32_t flags) final;
     /**
     Init function. The render command will be in 2D mode.
     @param globalZOrder GlobalZOrder of the render command.
@@ -64,12 +70,8 @@ public:
     Execute the render command and call callback functions.
     */
     void execute();
-    //TODO: This function is not used, it should be removed.
-    bool isTranslucent() { return true; }
-    /**Callback function.*/
-    std::function<void()> func;
 
-protected:
+    inline void setFunc(std::function<void()> const& func) noexcept { _func = func; }
 };
 
 NS_CC_END

@@ -71,13 +71,17 @@ void ClippingRectangleNode::onAfterVisitScissor()
 void ClippingRectangleNode::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags)
 {
     _beforeVisitCmdScissor.init(_globalZOrder);
-    _beforeVisitCmdScissor.func = CC_CALLBACK_0(ClippingRectangleNode::onBeforeVisitScissor, this);
+    _beforeVisitCmdScissor.setFunc([this]() {
+        onBeforeVisitScissor();
+    });
     renderer->addCommand(&_beforeVisitCmdScissor);
     
     Node::visit(renderer, parentTransform, parentFlags);
     
     _afterVisitCmdScissor.init(_globalZOrder);
-    _afterVisitCmdScissor.func = CC_CALLBACK_0(ClippingRectangleNode::onAfterVisitScissor, this);
+    _afterVisitCmdScissor.setFunc([this]() {
+        onAfterVisitScissor();
+    });
     renderer->addCommand(&_afterVisitCmdScissor);
 }
 

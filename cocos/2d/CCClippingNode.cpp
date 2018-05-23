@@ -211,7 +211,9 @@ void ClippingNode::visit(Renderer *renderer, const Mat4 &parentTransform, uint32
     renderer->pushGroup(_groupCommand.getRenderQueueID());
 
     _beforeVisitCmd.init(_globalZOrder);
-    _beforeVisitCmd.func = CC_CALLBACK_0(StencilStateManager::onBeforeVisit, _stencilStateManager);
+    _beforeVisitCmd.setFunc([this]() {
+        _stencilStateManager->onBeforeVisit();
+    });
     renderer->addCommand(&_beforeVisitCmd);
     
     auto alphaThreshold = this->getAlphaThreshold();
@@ -235,7 +237,9 @@ void ClippingNode::visit(Renderer *renderer, const Mat4 &parentTransform, uint32
     _stencil->visit(renderer, _modelViewTransform, flags);
 
     _afterDrawStencilCmd.init(_globalZOrder);
-    _afterDrawStencilCmd.func = CC_CALLBACK_0(StencilStateManager::onAfterDrawStencil, _stencilStateManager);
+    _afterDrawStencilCmd.setFunc([this]() {
+        _stencilStateManager->onAfterDrawStencil();
+    });
     renderer->addCommand(&_afterDrawStencilCmd);
 
     int i = 0;
@@ -267,7 +271,9 @@ void ClippingNode::visit(Renderer *renderer, const Mat4 &parentTransform, uint32
     }
 
     _afterVisitCmd.init(_globalZOrder);
-    _afterVisitCmd.func = CC_CALLBACK_0(StencilStateManager::onAfterVisit, _stencilStateManager);
+    _afterVisitCmd.setFunc([this]() {
+        _stencilStateManager->onAfterVisit();
+    });
     renderer->addCommand(&_afterVisitCmd);
 
     renderer->popGroup();

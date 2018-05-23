@@ -1604,7 +1604,9 @@ void Label::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
         else
         {
             _customCommand.init(_globalZOrder, transform, flags);
-            _customCommand.func = CC_CALLBACK_0(Label::onDraw, this, transform, transformUpdated);
+            _customCommand.setFunc([this, transform, transformUpdated]() {
+                onDraw(transform, transformUpdated);
+            });
 
             renderer->addCommand(&_customCommand);
         }

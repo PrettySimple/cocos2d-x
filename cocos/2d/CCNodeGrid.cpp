@@ -132,7 +132,9 @@ void NodeGrid::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t p
     }
 
     _gridBeginCommand.init(_globalZOrder);
-    _gridBeginCommand.func = CC_CALLBACK_0(NodeGrid::onGridBeginDraw, this);
+    _gridBeginCommand.setFunc([this]() {
+        onGridBeginDraw();
+    });
     renderer->addCommand(&_gridBeginCommand);
 
 
@@ -181,7 +183,9 @@ void NodeGrid::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t p
     }
 
     _gridEndCommand.init(_globalZOrder);
-    _gridEndCommand.func = CC_CALLBACK_0(NodeGrid::onGridEndDraw, this);
+    _gridEndCommand.setFunc([this]() {
+        onGridEndDraw();
+    });
     renderer->addCommand(&_gridEndCommand);
 
     renderer->popGroup();

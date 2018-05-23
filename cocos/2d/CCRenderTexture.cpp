@@ -460,7 +460,9 @@ void RenderTexture::beginWithClear(float r, float g, float b, float a, float dep
 
     //clear screen
     _beginWithClearCommand.init(_globalZOrder);
-    _beginWithClearCommand.func = CC_CALLBACK_0(RenderTexture::onClear, this);
+    _beginWithClearCommand.setFunc([this]() {
+        onClear();
+    });
     Director::getInstance()->getRenderer()->addCommand(&_beginWithClearCommand);
 }
 
@@ -478,7 +480,9 @@ void RenderTexture::clearDepth(float depthValue)
     this->begin();
 
     _clearDepthCommand.init(_globalZOrder);
-    _clearDepthCommand.func = CC_CALLBACK_0(RenderTexture::onClearDepth, this);
+    _clearDepthCommand.setFunc([this]() {
+        onClearDepth();
+    });
 
     Director::getInstance()->getRenderer()->addCommand(&_clearDepthCommand);
 
@@ -561,7 +565,9 @@ bool RenderTexture::saveToFile(const std::string& fileName, Image::Format format
 
     std::string fullpath = FileUtils::getInstance()->getWritablePath() + fileName;
     _saveToFileCommand.init(_globalZOrder);
-    _saveToFileCommand.func = CC_CALLBACK_0(RenderTexture::onSaveToFile, this, fullpath, isRGBA);
+    _saveToFileCommand.setFunc([this, fullpath, isRGBA]() {
+        onSaveToFile(fullpath, isRGBA);
+    });
 
     Director::getInstance()->getRenderer()->addCommand(&_saveToFileCommand);
     return true;
@@ -795,7 +801,9 @@ void RenderTexture::draw(Renderer *renderer, const Mat4 &transform, uint32_t fla
         //clear screen
         if(getClearFlags() != 0x0) {
             _clearCommand.init(_globalZOrder);
-            _clearCommand.func = CC_CALLBACK_0(RenderTexture::onClear, this);
+            _clearCommand.setFunc([this]() {
+                onClear();
+            });
             renderer->addCommand(&_clearCommand);
         }
 
@@ -844,7 +852,9 @@ void RenderTexture::begin()
     renderer->pushGroup(_groupCommand.getRenderQueueID());
 
     _beginCommand.init(_globalZOrder);
-    _beginCommand.func = CC_CALLBACK_0(RenderTexture::onBegin, this);
+    _beginCommand.setFunc([this]() {
+        onBegin();
+    });
 
     Director::getInstance()->getRenderer()->addCommand(&_beginCommand);
 }
@@ -852,7 +862,9 @@ void RenderTexture::begin()
 void RenderTexture::end()
 {
     _endCommand.init(_globalZOrder);
-    _endCommand.func = CC_CALLBACK_0(RenderTexture::onEnd, this);
+    _endCommand.setFunc([this]() {
+        onEnd();
+    });
 
     Director* director = Director::getInstance();
     CCASSERT(nullptr != director, "Director is null when setting matrix stack");

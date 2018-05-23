@@ -254,13 +254,17 @@ void Layout::stencilClippingVisit(Renderer *renderer, const Mat4& parentTransfor
     renderer->pushGroup(_groupCommand.getRenderQueueID());
     
     _beforeVisitCmdStencil.init(_globalZOrder);
-    _beforeVisitCmdStencil.func = CC_CALLBACK_0(StencilStateManager::onBeforeVisit, _stencileStateManager);
+    _beforeVisitCmdStencil.setFunc([this]() {
+        _stencileStateManager->onBeforeVisit();
+    });
     renderer->addCommand(&_beforeVisitCmdStencil);
     
     _clippingStencil->visit(renderer, _modelViewTransform, flags);
     
     _afterDrawStencilCmd.init(_globalZOrder);
-    _afterDrawStencilCmd.func = CC_CALLBACK_0(StencilStateManager::onAfterDrawStencil, _stencileStateManager);
+    _afterDrawStencilCmd.setFunc([this]() {
+        _stencileStateManager->onAfterDrawStencil();
+    });
     renderer->addCommand(&_afterDrawStencilCmd);
     
     int i = 0;      // used by _children
@@ -308,7 +312,9 @@ void Layout::stencilClippingVisit(Renderer *renderer, const Mat4& parentTransfor
 
     
     _afterVisitCmdStencil.init(_globalZOrder);
-    _afterVisitCmdStencil.func = CC_CALLBACK_0(StencilStateManager::onAfterVisit, _stencileStateManager);
+    _afterVisitCmdStencil.setFunc([this]() {
+        _stencileStateManager->onAfterVisit();
+    });
     renderer->addCommand(&_afterVisitCmdStencil);
     
     renderer->popGroup();
@@ -366,13 +372,17 @@ void Layout::scissorClippingVisit(Renderer *renderer, const Mat4& parentTransfor
         _clippingRectDirty = true;
     }
     _beforeVisitCmdScissor.init(_globalZOrder);
-    _beforeVisitCmdScissor.func = CC_CALLBACK_0(Layout::onBeforeVisitScissor, this);
+    _beforeVisitCmdScissor.setFunc([this]() {
+        onBeforeVisitScissor();
+    });
     renderer->addCommand(&_beforeVisitCmdScissor);
 
     ProtectedNode::visit(renderer, parentTransform, parentFlags);
     
     _afterVisitCmdScissor.init(_globalZOrder);
-    _afterVisitCmdScissor.func = CC_CALLBACK_0(Layout::onAfterVisitScissor, this);
+    _afterVisitCmdScissor.setFunc([this]() {
+        onAfterVisitScissor();
+    });
     renderer->addCommand(&_afterVisitCmdScissor);
 }
 

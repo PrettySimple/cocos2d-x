@@ -558,7 +558,9 @@ void ScrollView::beforeDraw()
 {
     //ScrollView don't support drawing in 3D space
     _beforeDrawCommand.init(_globalZOrder);
-    _beforeDrawCommand.func = CC_CALLBACK_0(ScrollView::onBeforeDraw, this);
+    _beforeDrawCommand.setFunc([this]() {
+        onBeforeDraw();
+    });
     Director::getInstance()->getRenderer()->addCommand(&_beforeDrawCommand);
 }
 
@@ -597,7 +599,9 @@ void ScrollView::onBeforeDraw()
 void ScrollView::afterDraw()
 {
     _afterDrawCommand.init(_globalZOrder);
-    _afterDrawCommand.func = CC_CALLBACK_0(ScrollView::onAfterDraw, this);
+    _afterDrawCommand.setFunc([this]() {
+        onAfterDraw();
+    });
     Director::getInstance()->getRenderer()->addCommand(&_afterDrawCommand);
 }
 

@@ -26,10 +26,13 @@
 
 NS_CC_BEGIN
 
-CustomCommand::CustomCommand()
-: func(nullptr)
+CustomCommand::CustomCommand() : RenderCommand(RenderCommand::Type::CUSTOM_COMMAND)
 {
-    _type = RenderCommand::Type::CUSTOM_COMMAND;
+}
+
+CustomCommand::CustomCommand(std::function<void()> const& func) : RenderCommand(RenderCommand::Type::CUSTOM_COMMAND)
+, _func(func)
+{
 }
 
 void CustomCommand::init(float depth, const cocos2d::Mat4 &modelViewTransform, uint32_t flags)
@@ -42,16 +45,11 @@ void CustomCommand::init(float globalOrder)
     _globalOrder = globalOrder;
 }
 
-CustomCommand::~CustomCommand()
-{
-
-}
-
 void CustomCommand::execute()
 {
-    if(func)
+    if(_func != nullptr)
     {
-        func();
+        _func();
     }
 }
 

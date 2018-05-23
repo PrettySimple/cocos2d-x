@@ -122,7 +122,9 @@ bool Terrain::initProperties()
 
 void Terrain::draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags)
 {
-    _customCommand.func = CC_CALLBACK_0(Terrain::onDraw, this, transform, flags);
+    _customCommand.setFunc([this, transform, flags]() {
+        onDraw(transform, flags);
+    });
     renderer->addCommand(&_customCommand);
 }
 

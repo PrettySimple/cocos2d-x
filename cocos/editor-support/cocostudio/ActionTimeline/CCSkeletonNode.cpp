@@ -195,7 +195,9 @@ void SkeletonNode::visit(cocos2d::Renderer *renderer, const cocos2d::Mat4& paren
         this->draw(renderer, _modelViewTransform, flags);
         // batch draw all sub bones
         _batchBoneCommand.init(_globalZOrder, _modelViewTransform, parentFlags);
-        _batchBoneCommand.func = CC_CALLBACK_0(SkeletonNode::batchDrawAllSubBones, this, _modelViewTransform);
+        _batchBoneCommand.setFunc([this]() {
+            batchDrawAllSubBones(_modelViewTransform);
+        });
         renderer->addCommand(&_batchBoneCommand);
     }
     _director->popMatrix(cocos2d::MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
@@ -208,7 +210,9 @@ void SkeletonNode::visit(cocos2d::Renderer *renderer, const cocos2d::Mat4& paren
 void SkeletonNode::draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags)
 {
     _customCommand.init(_globalZOrder, transform, flags);
-    _customCommand.func = CC_CALLBACK_0(SkeletonNode::onDraw, this, transform, flags);
+    _customCommand.setFunc([this, transform, flags]() {
+        onDraw(transform, flags);
+    });
     renderer->addCommand(&_customCommand);
     for (int i = 0; i < 8; ++i)
     {

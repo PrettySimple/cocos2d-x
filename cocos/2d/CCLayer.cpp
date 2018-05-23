@@ -567,9 +567,9 @@ void LayerColor::updateColor()
 void LayerColor::draw(Renderer* renderer, Mat4 const& transform, uint32_t flags)
 {
     _customCommand.init(_globalZOrder, transform, flags);
-    _customCommand.func = [this, transform, flags]() {
+    _customCommand.setFunc([this, transform, flags]() {
         onDraw(transform, flags);
-    };
+    });
     renderer->addCommand(&_customCommand);
     
     for(int i = 0; i < 4; ++i)
