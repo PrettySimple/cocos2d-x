@@ -1,210 +1,347 @@
 /****************************************************************************
-Copyright (c) 2008-2010 Ricardo Quesada
-Copyright (c) 2010-2012 cocos2d-x.org
-Copyright (c) 2011      Zynga Inc.
-Copyright (c) 2013-2016 Chukong Technologies Inc.
+ Copyright (c) 2008-2010 Ricardo Quesada
+ Copyright (c) 2010-2012 cocos2d-x.org
+ Copyright (c) 2011      Zynga Inc.
+ Copyright (c) 2013-2016 Chukong Technologies Inc.
 
-http://www.cocos2d-x.org
+ http://www.cocos2d-x.org
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-****************************************************************************/
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ ****************************************************************************/
 
-#ifndef __CCSCHEDULER_H__
-#define __CCSCHEDULER_H__
-
-#include <functional>
-#include <mutex>
-#include <set>
+#ifndef COCOS2D_BASE_SCHEDULER_H
+#define COCOS2D_BASE_SCHEDULER_H
 
 #include "base/CCRef.h"
 #include "base/CCVector.h"
-#include "base/uthash.h"
+#include "platform/CCPlatformMacros.h"
+
+#include <chrono>
+#include <cstddef>
+#include <cstdint>
+#include <functional>
+#include <limits>
+#include <mutex>
+#include <set>
+#include <string>
+#include <string_view>
+#include <unordered_map>
+#include <unordered_set>
 
 NS_CC_BEGIN
 
 class Scheduler;
 
-typedef std::function<void(float)> ccSchedulerFunc;
+using ccSchedulerFunc = std::function<void(float)>;
 
-/**
- * @cond
- */
 class CC_DLL Timer : public Ref
 {
+public:
+    enum struct Type : std::uint8_t
+    {
+        UNKNOWN = 0,
+        DEFAULT,
+        SELECTOR,
+        CALLBACK
+    };
+private:
+    Type _type = Type::DEFAULT;
+
 protected:
-    Timer();
+    Scheduler* _scheduler = nullptr; // weak ref
+    std::chrono::milliseconds _elapsed = std::chrono::milliseconds::max();
+    bool _runForever = false;
+    bool _useDelay = false;
+    unsigned int _timesExecuted = 0;
+    unsigned int _repeat = 0; //0 = once, 1 is 2 x executed
+    std::chrono::milliseconds _delay = std::chrono::milliseconds::zero();
+    std::chrono::milliseconds _interval = std::chrono::milliseconds::zero();
+
+protected:
+    Timer() = default;
+    inline explicit Timer(Type type) : _type(type) {}
+    Timer(Timer const&) = delete;
+    Timer& operator=(Timer const&) = delete;
+    Timer(Timer &&) noexcept = delete;
+    Timer& operator=(Timer &&) noexcept = delete;
+    ~Timer() override = default;
+
 public:
     /** get interval in seconds */
-    float getInterval() const { return _interval; }
+    inline std::chrono::milliseconds getInterval() const noexcept { return _interval; }
     /** set interval in seconds */
-    void setInterval(float interval) { _interval = interval; }
+    inline void setInterval(std::chrono::milliseconds interval) noexcept { _interval = interval; }
+
+    inline Type getType() const noexcept { return _type; }
     
-    void setupTimerWithInterval(float seconds, unsigned int repeat, float delay);
+    void setupTimerWithInterval(std::chrono::milliseconds seconds, unsigned int repeat, std::chrono::milliseconds delay);
     
     virtual void trigger(float dt) = 0;
     virtual void cancel() = 0;
     
     /** triggers the timer */
     void update(float dt);
-    
-protected:
-    
-    Scheduler* _scheduler; // weak ref
-    float _elapsed;
-    bool _runForever;
-    bool _useDelay;
-    unsigned int _timesExecuted;
-    unsigned int _repeat; //0 = once, 1 is 2 x executed
-    float _delay;
-    float _interval;
 };
 
 
-class CC_DLL TimerTargetSelector : public Timer
+class CC_DLL TimerTargetSelector final : public Timer
 {
+    Ref* _target = nullptr;
+    SEL_SCHEDULE _selector = nullptr;
+
 public:
     TimerTargetSelector();
+    TimerTargetSelector(TimerTargetSelector const&) = delete;
+    TimerTargetSelector& operator=(TimerTargetSelector const&) = delete;
+    TimerTargetSelector(TimerTargetSelector &&) noexcept = delete;
+    TimerTargetSelector& operator=(TimerTargetSelector &&) noexcept = delete;
+    ~TimerTargetSelector() final = default;
 
     /** Initializes a timer with a target, a selector and an interval in seconds, repeat in number of times to repeat, delay in seconds. */
-    bool initWithSelector(Scheduler* scheduler, SEL_SCHEDULE selector, Ref* target, float seconds, unsigned int repeat, float delay);
+    bool initWithSelector(Scheduler* scheduler, SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds seconds, unsigned int repeat, std::chrono::milliseconds delay);
     
-    SEL_SCHEDULE getSelector() const { return _selector; }
+    inline SEL_SCHEDULE getSelector() const noexcept { return _selector; }
     
-    virtual void trigger(float dt) override;
-    virtual void cancel() override;
-    
-protected:
-    Ref* _target;
-    SEL_SCHEDULE _selector;
+    void trigger(float dt) final;
+    void cancel() final;
 };
 
 
-class CC_DLL TimerTargetCallback : public Timer
+class CC_DLL TimerTargetCallback final : public Timer
 {
+    void* _target = nullptr;
+    ccSchedulerFunc _callback = nullptr;
+    std::string _key;
+
 public:
     TimerTargetCallback();
+    TimerTargetCallback(TimerTargetCallback const&) = delete;
+    TimerTargetCallback& operator=(TimerTargetCallback const&) = delete;
+    TimerTargetCallback(TimerTargetCallback &&) noexcept = delete;
+    TimerTargetCallback& operator=(TimerTargetCallback &&) noexcept = delete;
+    ~TimerTargetCallback() final = default;
     
     // Initializes a timer with a target, a lambda and an interval in seconds, repeat in number of times to repeat, delay in seconds.
-    bool initWithCallback(Scheduler* scheduler, const ccSchedulerFunc& callback, void *target, const std::string& key, float seconds, unsigned int repeat, float delay);
+    bool initWithCallback(Scheduler* scheduler, ccSchedulerFunc const& callback, void* target, std::string const& key, std::chrono::milliseconds seconds, unsigned int repeat, std::chrono::milliseconds delay);
     
-    const ccSchedulerFunc& getCallback() const { return _callback; }
-    const std::string& getKey() const { return _key; }
+    inline ccSchedulerFunc getCallback() const noexcept { return _callback; }
+    inline std::string getKey() const noexcept { return _key; }
     
-    virtual void trigger(float dt) override;
-    virtual void cancel() override;
-    
-protected:
-    void* _target;
-    ccSchedulerFunc _callback;
-    std::string _key;
+    void trigger(float dt) final;
+    void cancel() final;
 };
 
-#if CC_ENABLE_SCRIPT_BINDING
+class Scheduler;
 
-class CC_DLL TimerScriptHandler : public Timer
+class UpdateData
 {
 public:
-    bool initWithScriptHandler(int handler, float seconds);
-    int getScriptHandler() const { return _scriptHandler; }
-    
-    virtual void trigger(float dt) override;
-    virtual void cancel() override;
-    
+    struct element final
+    {
+        ccSchedulerFunc callback = nullptr;
+        void* target = nullptr;
+        int priority = 0;
+        bool paused = false;
+        std::uint64_t index = 0;
+
+        element() = default;
+        explicit element(ccSchedulerFunc const& c, void* t, int pr, bool pa, std::uint64_t i);
+        element(element const&) = delete;
+        element& operator=(element const&) = delete;
+        element(element &&) noexcept = delete;
+        element& operator=(element &&) noexcept = delete;
+        ~element() = default;
+    };
 private:
-    int _scriptHandler;
+    struct element_less final
+    {
+        constexpr bool operator()(element const& a, element const& b) const
+        {
+            if (a.priority < b.priority)
+            {
+                return true;
+            }
+            return a.priority == b.priority && a.index < b.index;
+        }
+    };
+
+    std::set<element, element_less> _data;
+    std::unordered_map<void*, decltype(_data)::key_type const&> _targets;
+    std::uint64_t _index = 0;
+
+public:
+    void pause_target(void* target);
+    void resume_target(void* target);
+    bool is_pause_target(void* target) const noexcept;
+    void pause_all_targets();
+    std::unordered_set<void*> pause_all_updates_with_min_priority(int min_priority);
+
+    void add_update(ccSchedulerFunc const& c, void* t, int pr, bool pa);
+
+    void remove_update(void* t);
+    void remove_all_updates_with_min_priority(int min_priority);
+
+    inline std::size_t count(void* t) const noexcept { return _targets.count(t); }
+    inline decltype(_data)::iterator begin() { return _data.begin(); }
+    inline decltype(_data)::iterator end() { return _data.end(); }
+    inline decltype(_data)::const_iterator begin() const noexcept { return _data.begin(); }
+    inline decltype(_data)::const_iterator end() const noexcept { return _data.end(); }
+
+    decltype(_data)::key_type const& get_element_from_target(void* t) const noexcept;
+    void remove_element(decltype(_data)::key_type const& key);
 };
 
-#endif
+class TimerData
+{
+public:
+    struct Key final
+    {
+        std::string_view name;
+        void* target = nullptr;
 
-/**
- * @endcond
- */
+        Key() = default;
+        constexpr explicit Key(std::string_view n, void* t) : target(t), name(n) {}
+        Key(Key const&) = delete;
+        Key& operator=(Key const&) = delete;
+        Key(Key &&) noexcept = default;
+        Key& operator=(Key &&) noexcept = delete;
+        ~Key() = default;
+    };
 
-/**
- * @addtogroup base
- * @{
- */
+private:
+    struct element final
+    {
+        Timer* timer = nullptr;
+        void* target = nullptr;
+        std::uint64_t index = 0;
+        bool paused = false;
+        std::string name;
 
-struct _listEntry;
-struct _hashSelectorEntry;
-struct _hashUpdateEntry;
+        element() = default;
+        explicit element(Timer* ti, void* ta, std::uint64_t i, bool p, std::string const& n);
+        element(element const&) = delete;
+        element& operator=(element const&) = delete;
+        element(element &&) noexcept = delete;
+        element& operator=(element &&) noexcept = delete;
+        ~element();
+    };
 
-#if CC_ENABLE_SCRIPT_BINDING
-class SchedulerScriptHandlerEntry;
-#endif
+    struct element_less final
+    {
+        constexpr bool operator()(element const& a, element const& b) const
+        {
+            return a.index < b.index;
+        }
+    };
+
+    struct key_hasher final
+    {
+        std::size_t operator()(Key const& k) const noexcept;
+    };
+
+    struct key_equal_to final
+    {
+        constexpr bool operator()(Key const& lhs, Key const& rhs ) const noexcept
+        {
+            return lhs.name == rhs.name && lhs.target == rhs.target;
+        }
+    };
+
+    std::set<element, element_less> _data;
+    std::unordered_multimap<void*, decltype(_data)::key_type const&> _targets;
+    std::unordered_map<Key, decltype(_data)::key_type const&, key_hasher, key_equal_to> _timers;
+    std::size_t _index = 0;
+
+public:
+    void pause_target(void* target);
+    void resume_target(void* target);
+    bool is_pause_target(void* target) const noexcept;
+    std::unordered_set<void*> pause_all_targets();
+
+    void add_timer(Key const& k, Timer* timer, bool paused);
+
+    void remove_timer(Key const& k);
+    void remove_timer(SEL_SCHEDULE selector, Ref* target);
+    void remove_all_timers();
+    void remove_all_timers_from_target(void* target);
+
+    inline std::size_t count(Key const& k) const noexcept { return _timers.count(k); }
+    inline std::size_t count(void* target) const noexcept { return _targets.count(target); }
+    inline decltype(_data)::iterator begin() { return _data.begin(); }
+    inline decltype(_data)::iterator end() { return _data.end(); }
+    inline decltype(_data)::const_iterator begin() const noexcept { return _data.begin(); }
+    inline decltype(_data)::const_iterator end() const noexcept { return _data.end(); }
+
+    decltype(_data)::key_type const& get_element_from_target(Key const& k) const noexcept;
+    void remove_element(decltype(_data)::key_type const& key);
+};
 
 /** @brief Scheduler is responsible for triggering the scheduled callbacks.
-You should not use system timer for your game logic. Instead, use this class.
+ You should not use system timer for your game logic. Instead, use this class.
 
-There are 2 different types of callbacks (selectors):
+ There are 2 different types of callbacks (selectors):
 
-- update selector: the 'update' selector will be called every frame. You can customize the priority.
-- custom selector: A custom selector will be called every frame, or with a custom interval of time
+ - update selector: the 'update' selector will be called every frame. You can customize the priority.
+ - custom selector: A custom selector will be called every frame, or with a custom interval of time
 
-The 'custom selectors' should be avoided when possible. It is faster, and consumes less memory to use the 'update selector'.
+ The 'custom selectors' should be avoided when possible. It is faster, and consumes less memory to use the 'update selector'.
 
-*/
-class CC_DLL Scheduler : public Ref
+ */
+class CC_DLL Scheduler final : public Ref
 {
+    float _timeScale = 1.f;
+
+    UpdateData _updates;
+    TimerData _timers;
+
+    std::vector<std::function<void()>> _functionsToPerform;
+    std::mutex _performMutex;
 public:
-    /** Priority level reserved for system services. 
-     * @lua NA
-     * @js NA
+    /** Priority level reserved for system services.
      */
-    static const int PRIORITY_SYSTEM;
+    static constexpr int const PRIORITY_SYSTEM = std::numeric_limits<int>::min();
     
-    /** Minimum priority level for user scheduling. 
+    /** Minimum priority level for user scheduling.
      * Priority level of user scheduling should bigger then this value.
-     *
-     * @lua NA
-     * @js NA
      */
-    static const int PRIORITY_NON_SYSTEM_MIN;
-    
-    /**
-     * Constructor
-     *
-     * @js ctor
-     */
-    Scheduler();
-    
-    /**
-     * Destructor
-     *
-     * @js NA
-     * @lua NA
-     */
-    virtual ~Scheduler();
+    static constexpr int const PRIORITY_NON_SYSTEM_MIN = PRIORITY_SYSTEM + 1;
+
+    Scheduler() = default;
+    Scheduler(Scheduler const&) = delete;
+    Scheduler& operator=(Scheduler const&) = delete;
+    Scheduler(Scheduler &&) noexcept = delete;
+    Scheduler& operator=(Scheduler &&) noexcept = delete;
+    ~Scheduler() final;
 
     /**
      * Gets the time scale of schedule callbacks.
      * @see Scheduler::setTimeScale()
      */
-    float getTimeScale() { return _timeScale; }
+    inline float getTimeScale() const noexcept { return _timeScale; }
     /** Modifies the time of all scheduled callbacks.
-    You can use this property to create a 'slow motion' or 'fast forward' effect.
-    Default is 1.0. To create a 'slow motion' effect, use values below 1.0.
-    To create a 'fast forward' effect, use values higher than 1.0.
-    @since v0.8
-    @warning It will affect EVERY scheduled selector / action.
-    */
-    void setTimeScale(float timeScale) { _timeScale = timeScale; }
+     You can use this property to create a 'slow motion' or 'fast forward' effect.
+     Default is 1.0. To create a 'slow motion' effect, use values below 1.0.
+     To create a 'fast forward' effect, use values higher than 1.0.
+     @since v0.8
+     @warning It will affect EVERY scheduled selector / action.
+     */
+    inline void setTimeScale(float timeScale) noexcept { _timeScale = timeScale; }
 
     /** 'update' the scheduler.
      * You should NEVER call this method, unless you know what you are doing.
@@ -227,12 +364,12 @@ public:
      @param interval The interval to schedule the callback. If the value is 0, then the callback will be scheduled every frame.
      @param repeat repeat+1 times to schedule the callback.
      @param delay Schedule call back after `delay` seconds. If the value is not 0, the first schedule will happen after `delay` seconds.
-            But it will only affect first schedule. After first schedule, the delay time is determined by `interval`.
+     But it will only affect first schedule. After first schedule, the delay time is determined by `interval`.
      @param paused Whether or not to pause the schedule.
      @param key The key to identify the callback function, because there is not way to identify a std::function<>.
      @since v3.0
      */
-    void schedule(const ccSchedulerFunc& callback, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& key);
+    void schedule(ccSchedulerFunc const& callback, void* target, std::chrono::milliseconds interval, unsigned int repeat, std::chrono::milliseconds delay, bool paused, std::string const& key);
 
     /** The scheduled method will be called every 'interval' seconds for ever.
      @param callback The callback function.
@@ -242,7 +379,7 @@ public:
      @param key The key to identify the callback function, because there is not way to identify a std::function<>.
      @since v3.0
      */
-    void schedule(const ccSchedulerFunc& callback, void *target, float interval, bool paused, const std::string& key);
+    void schedule(ccSchedulerFunc const& callback, void* target, std::chrono::milliseconds interval, bool paused, std::string const& key);
     
     
     /** The scheduled method will be called every `interval` seconds.
@@ -261,7 +398,7 @@ public:
      @param paused Whether or not to pause the schedule.
      @since v3.0
      */
-    void schedule(SEL_SCHEDULE selector, Ref *target, float interval, unsigned int repeat, float delay, bool paused);
+    void schedule(SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds interval, unsigned int repeat, std::chrono::milliseconds delay, bool paused);
     
     /** The scheduled method will be called every `interval` seconds for ever.
      @param selector The callback function.
@@ -269,7 +406,7 @@ public:
      @param interval The interval to schedule the callback. If the value is 0, then the callback will be scheduled every frame.
      @param paused Whether or not to pause the schedule.
      */
-    void schedule(SEL_SCHEDULE selector, Ref *target, float interval, bool paused);
+    void schedule(SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds interval, bool paused);
     
     /** Schedules the 'update' selector for a given target with a given priority.
      The 'update' selector will be called every frame.
@@ -277,27 +414,14 @@ public:
      @since v3.0
      @lua NA
      */
-    template <class T>
-    void scheduleUpdate(T *target, int priority, bool paused)
+    template <typename T>
+    void scheduleUpdate(T* target, int priority, bool paused)
     {
-        this->schedulePerFrame([target](float dt){
+        schedulePerFrame([target](float dt) {
             target->update(dt);
         }, target, priority, paused);
     }
 
-#if CC_ENABLE_SCRIPT_BINDING
-    // Schedule for script bindings.
-    /** The scheduled script callback will be called every 'interval' seconds.
-     If paused is true, then it won't be called until it is resumed.
-     If 'interval' is 0, it will be called every frame.
-     return schedule script entry ID, used for unscheduleScriptFunc().
-     
-     @warn Don't invoke this function unless you know what you are doing.
-     @js NA
-     @lua NA
-     */
-    unsigned int scheduleScriptFunc(unsigned int handler, float interval, bool paused);
-#endif
     /////////////////////////////////////
     
     // unschedule
@@ -308,7 +432,7 @@ public:
      @param target The target to be unscheduled.
      @since v3.0
      */
-    void unschedule(const std::string& key, void *target);
+    void unschedule(std::string const& key, void* target);
 
     /** Unschedules a selector for a given target.
      If you want to unschedule the "update", use `unscheudleUpdate()`.
@@ -316,13 +440,13 @@ public:
      @param target The target of the unscheduled selector.
      @since v3.0
      */
-    void unschedule(SEL_SCHEDULE selector, Ref *target);
+    void unschedule(SEL_SCHEDULE selector, Ref* target);
     
     /** Unschedules the update selector for a given target
      @param target The target to be unscheduled.
      @since v0.99.3
      */
-    void unscheduleUpdate(void *target);
+    void unscheduleUpdate(void* target);
     
     /** Unschedules all selectors for a given target.
      This also includes the "update" selector.
@@ -330,7 +454,7 @@ public:
      @since v0.99.3
      @lua NA
      */
-    void unscheduleAllForTarget(void *target);
+    void unscheduleAllForTarget(void* target);
     
     /** Unschedules all selectors from all targets.
      You should NEVER call this method, unless you know what you are doing.
@@ -341,19 +465,10 @@ public:
     /** Unschedules all selectors from all targets with a minimum priority.
      You should only call this with `PRIORITY_NON_SYSTEM_MIN` or higher.
      @param minPriority The minimum priority of selector to be unscheduled. Which means, all selectors which
-            priority is higher than minPriority will be unscheduled.
+     priority is higher than minPriority will be unscheduled.
      @since v2.0.0
      */
     void unscheduleAllWithMinPriority(int minPriority);
-    
-#if CC_ENABLE_SCRIPT_BINDING
-    /** Unschedule a script entry. 
-     * @warning Don't invoke this function unless you know what you are doing.
-     * @js NA
-     * @lua NA
-     */
-    void unscheduleScriptEntry(unsigned int scheduleScriptEntryID);
-#endif
     
     /////////////////////////////////////
     
@@ -365,7 +480,7 @@ public:
      @return True if the specified callback is invoked, false if not.
      @since v3.0.0
      */
-    bool isScheduled(const std::string& key, void *target);
+    bool isScheduled(std::string const& key, void* target) const noexcept;
     
     /** Checks whether a selector for a given target is scheduled.
      @param selector The selector to be checked.
@@ -373,7 +488,7 @@ public:
      @return True if the specified selector is invoked, false if not.
      @since v3.0
      */
-    bool isScheduled(SEL_SCHEDULE selector, Ref *target);
+    bool isScheduled(SEL_SCHEDULE selector, Ref* target) const noexcept;
     
     /////////////////////////////////////
     
@@ -383,7 +498,7 @@ public:
      @param target The target to be paused.
      @since v0.99.3
      */
-    void pauseTarget(void *target);
+    void pauseTarget(void* target);
 
     /** Resumes the target.
      The 'target' will be unpaused, so all schedule selectors/update will be 'ticked' again.
@@ -391,7 +506,7 @@ public:
      @param target The target to be resumed.
      @since v0.99.3
      */
-    void resumeTarget(void *target);
+    void resumeTarget(void* target);
 
     /** Returns whether or not the target is paused.
      * @param target The target to be checked.
@@ -399,28 +514,28 @@ public:
      * @since v1.0.0
      * @lua NA
      */
-    bool isTargetPaused(void *target);
+    bool isTargetPaused(void* target);
 
     /** Pause all selectors from all targets.
-      You should NEVER call this method, unless you know what you are doing.
+     You should NEVER call this method, unless you know what you are doing.
      @since v2.0.0
-      */
-    std::set<void*> pauseAllTargets();
+     */
+    std::unordered_set<void*> pauseAllTargets();
 
     /** Pause all selectors from all targets with a minimum priority.
-      You should only call this with PRIORITY_NON_SYSTEM_MIN or higher.
-      @param minPriority The minimum priority of selector to be paused. Which means, all selectors which
-            priority is higher than minPriority will be paused.
-      @since v2.0.0
-      */
-    std::set<void*> pauseAllTargetsWithMinPriority(int minPriority);
+     You should only call this with PRIORITY_NON_SYSTEM_MIN or higher.
+     @param minPriority The minimum priority of selector to be paused. Which means, all selectors which
+     priority is higher than minPriority will be paused.
+     @since v2.0.0
+     */
+    std::unordered_set<void*> pauseAllTargetsWithMinPriority(int minPriority);
 
     /** Resume selectors on a set of targets.
      This can be useful for undoing a call to pauseAllSelectors.
      @param targetsToResume The set of targets to be resumed.
      @since v2.0.0
-      */
-    void resumeTargets(const std::set<void*>& targetsToResume);
+     */
+    void resumeTargets(std::unordered_set<void*> const& targetsToResume);
 
     /** Calls a function on the cocos2d thread. Useful when you need to call a cocos2d function from another thread.
      This function is thread safe.
@@ -428,65 +543,7 @@ public:
      @since v3.0
      @js NA
      */
-    void performFunctionInCocosThread( const std::function<void()> &function);
-    
-    /////////////////////////////////////
-    
-    // Deprecated methods:
-    
-    /** The scheduled method will be called every 'interval' seconds.
-     If paused is true, then it won't be called until it is resumed.
-     If 'interval' is 0, it will be called every frame, but if so, it's recommended to use 'scheduleUpdateForTarget:' instead.
-     If the selector is already scheduled, then only the interval parameter will be updated without re-scheduling it again.
-     repeat let the action be repeated repeat + 1 times, use CC_REPEAT_FOREVER to let the action run continuously
-     delay is the amount of time the action will wait before it'll start
-     @deprecated Please use `Scheduler::schedule` instead.
-     @since v0.99.3, repeat and delay added in v1.1
-     @js NA
-     */
-    CC_DEPRECATED_ATTRIBUTE void scheduleSelector(SEL_SCHEDULE selector, Ref *target, float interval, unsigned int repeat, float delay, bool paused)
-    {
-        schedule(selector, target, interval, repeat, delay, paused);
-    }
-    
-    /** Calls scheduleSelector with CC_REPEAT_FOREVER and a 0 delay.
-     *  @deprecated Please use `Scheduler::schedule` instead.
-     *  @js NA
-     */
-    CC_DEPRECATED_ATTRIBUTE void scheduleSelector(SEL_SCHEDULE selector, Ref *target, float interval, bool paused)
-    {
-        schedule(selector, target, interval, paused);
-    }
-    
-    /** Schedules the 'update' selector for a given target with a given priority.
-     The 'update' selector will be called every frame.
-     The lower the priority, the earlier it is called.
-     @deprecated Please use 'Scheduler::scheduleUpdate' instead.
-     @since v0.99.3
-     */
-    template <class T>
-    CC_DEPRECATED_ATTRIBUTE void scheduleUpdateForTarget(T* target, int priority, bool paused) { scheduleUpdate(target, priority, paused); };
-    
-    /** Unschedule a selector for a given target.
-     If you want to unschedule the "update", use unscheudleUpdateForTarget.
-     @deprecated Please use 'Scheduler::unschedule' instead.
-     @since v0.99.3
-     @js NA
-     */
-    CC_DEPRECATED_ATTRIBUTE void unscheduleSelector(SEL_SCHEDULE selector, Ref *target) { unschedule(selector, target); };
-    
-    /** Checks whether a selector for a given target is scheduled.
-     @deprecated Please use 'Scheduler::isScheduled' instead.
-     @since v0.99.3
-     @js NA
-     */
-    CC_DEPRECATED_ATTRIBUTE bool isScheduledForTarget(Ref *target, SEL_SCHEDULE selector) { return isScheduled(selector, target); };
-    
-    /** Unschedules the update selector for a given target
-     @deprecated Please use 'Scheduler::unscheduleUpdate' instead.
-     @since v0.99.3
-     */
-    CC_DEPRECATED_ATTRIBUTE void unscheduleUpdateForTarget(Ref *target) { return unscheduleUpdate(target); };
+    void performFunctionInCocosThread(std::function<void()> const& function);
     
 protected:
     
@@ -497,46 +554,9 @@ protected:
      @since v3.0
      @js _schedulePerFrame
      */
-    void schedulePerFrame(const ccSchedulerFunc& callback, void *target, int priority, bool paused);
-    
-    void removeHashElement(struct _hashSelectorEntry *element);
-    void removeUpdateFromHash(struct _listEntry *entry);
-
-    // update specific
-
-    void priorityIn(struct _listEntry **list, const ccSchedulerFunc& callback, void *target, int priority, bool paused);
-    void appendIn(struct _listEntry **list, const ccSchedulerFunc& callback, void *target, bool paused);
-
-
-    float _timeScale;
-
-    //
-    // "updates with priority" stuff
-    //
-    struct _listEntry *_updatesNegList;        // list of priority < 0
-    struct _listEntry *_updates0List;            // list priority == 0
-    struct _listEntry *_updatesPosList;        // list priority > 0
-    struct _hashUpdateEntry *_hashForUpdates; // hash used to fetch quickly the list entries for pause,delete,etc
-
-    // Used for "selectors with interval"
-    struct _hashSelectorEntry *_hashForTimers;
-    struct _hashSelectorEntry *_currentTarget;
-    bool _currentTargetSalvaged;
-    // If true unschedule will not remove anything from a hash. Elements will only be marked for deletion.
-    bool _updateHashLocked;
-    
-#if CC_ENABLE_SCRIPT_BINDING
-    Vector<SchedulerScriptHandlerEntry*> _scriptHandlerEntries;
-#endif
-    
-    // Used for "perform Function"
-    std::vector<std::function<void()>> _functionsToPerform;
-    std::mutex _performMutex;
+    void schedulePerFrame(ccSchedulerFunc const& callback, void* target, int priority, bool paused);
 };
-
-// end of base group
-/** @} */
 
 NS_CC_END
 
-#endif // __CCSCHEDULER_H__
+#endif // COCOS2D_BASE_SCHEDULER_H
