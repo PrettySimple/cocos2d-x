@@ -22,16 +22,15 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _CC_PRIMITIVE_COMMAND_H__
-#define _CC_PRIMITIVE_COMMAND_H__
+#ifndef COCOS2D_RENDERER_PRIMITIVE_COMMAND_H
+#define COCOS2D_RENDERER_PRIMITIVE_COMMAND_H
 
+#include "base/ccTypes.h"
 #include "renderer/CCPrimitive.h"
 #include "renderer/CCRenderCommand.h"
 
-/**
- * @addtogroup renderer
- * @{
- */
+#include <cstddef>
+#include <limits>
 
 NS_CC_BEGIN
 class GLProgramState;
@@ -40,16 +39,15 @@ class GLProgramState;
  Every QuadCommand will have generate material ID by give textureID, glProgramState, Blend function. 
  However, primitive command could not be batched.
  */
-class CC_DLL PrimitiveCommand : public RenderCommand
+class CC_DLL PrimitiveCommand final : public RenderCommand
 {
 public:
-    /**@{
-     Constructor and Destructor.
-     */
     PrimitiveCommand();
-    ~PrimitiveCommand();
-    
-    /**@}*/
+    PrimitiveCommand(PrimitiveCommand const&) = delete;
+    PrimitiveCommand& operator=(PrimitiveCommand const&) = delete;
+    PrimitiveCommand(PrimitiveCommand &&) noexcept = default;
+    PrimitiveCommand& operator=(PrimitiveCommand &&) noexcept = delete;
+    ~PrimitiveCommand() final;
     
     /** Initializes the command.
      @param globalOrder GlobalZOrder of the command.
@@ -64,31 +62,27 @@ public:
     CC_DEPRECATED_ATTRIBUTE void init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, BlendFunc blendType, Primitive* primitive,const Mat4& mv);
     
     /**Get the generated material ID.*/
-    uint32_t getMaterialID() const { return _materialID; }
+    inline std::size_t getMaterialID() const noexcept { return _materialID; }
     /**Get the texture ID used for drawing.*/
-    GLuint getTextureID() const { return _textureID; }
+    inline GLuint getTextureID() const noexcept { return _textureID; }
     /**Get the glprogramstate used for drawing.*/
-    GLProgramState* getGLProgramState() const { return _glProgramState; }
+    inline GLProgramState* getGLProgramState() const noexcept { return _glProgramState; }
     /**Get the blend function for drawing.*/
-    BlendFunc getBlendType() const { return _blendType; }
+    inline BlendFunc getBlendType() const noexcept { return _blendType; }
     /**Get the modelview matrix when draw the primitive.*/
-    const Mat4& getModelView() const { return _mv; }
+    inline Mat4 const& getModelView() const noexcept { return _mv; }
     /**Execute and draw the command, called by renderer.*/
     void execute() const;
-protected:
-    
-    uint32_t _materialID;
-    GLuint _textureID;
-    GLProgramState* _glProgramState;
-    BlendFunc _blendType;
-    Primitive* _primitive;
+
+private:
+    std::size_t _materialID = std::numeric_limits<std::size_t>::max();
+    GLuint _textureID = 0;
+    GLProgramState* _glProgramState = nullptr;
+    BlendFunc _blendType = BlendFunc::DISABLE;
+    Primitive* _primitive = nullptr;
     Mat4 _mv;
 };
 
 NS_CC_END
 
-/**
- end of support group
- @}
- */
-#endif //_CC_PRIMITIVE_COMMAND_H__
+#endif // COCOS2D_RENDERER_PRIMITIVE_COMMAND_H

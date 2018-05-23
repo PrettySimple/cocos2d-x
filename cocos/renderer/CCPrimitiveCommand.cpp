@@ -24,23 +24,16 @@
 
 #include "renderer/CCPrimitiveCommand.h"
 
-#include "renderer/ccGLStateCache.h"
+#include "base/CCDirector.h"
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCRenderer.h"
-
-#include "base/CCDirector.h"
+#include "renderer/ccGLStateCache.h"
 
 NS_CC_BEGIN
 
-PrimitiveCommand::PrimitiveCommand()
-: _materialID(0)
-, _textureID(0)
-, _glProgramState(nullptr)
-, _blendType(BlendFunc::DISABLE)
-, _primitive(nullptr)
+PrimitiveCommand::PrimitiveCommand() : RenderCommand(RenderCommand::Type::PRIMITIVE_COMMAND)
 {
-    _type = RenderCommand::Type::PRIMITIVE_COMMAND;
 }
 
 PrimitiveCommand::~PrimitiveCommand()

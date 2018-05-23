@@ -25,12 +25,14 @@
 #ifndef _CC_MESHCOMMAND_H_
 #define _CC_MESHCOMMAND_H_
 
-#include <unordered_map>
-#include "renderer/CCRenderCommand.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCRenderState.h"
 #include "math/CCMath.h"
 #include "platform/CCPlatformConfig.h"
+#include "renderer/CCGLProgram.h"
+#include "renderer/CCRenderCommand.h"
+#include "renderer/CCRenderState.h"
+
+#include <unordered_map>
+#include <limits>
 
 NS_CC_BEGIN
 
@@ -40,12 +42,16 @@ class EventCustom;
 class Material;
 
 //it is a common mesh
-class CC_DLL MeshCommand : public RenderCommand
+class CC_DLL MeshCommand final : public RenderCommand
 {
 public:
 
     MeshCommand();
-    virtual ~MeshCommand();
+    MeshCommand(MeshCommand const&) = delete;
+    MeshCommand& operator=(MeshCommand const&) = delete;
+    MeshCommand(MeshCommand &&) noexcept = delete;
+    MeshCommand& operator=(MeshCommand &&) noexcept = delete;
+    ~MeshCommand() final;
 
     void init(float globalZOrder, Material* material, GLuint vertexBuffer, GLuint indexBuffer, GLenum primitive, GLenum indexFormat, ssize_t indexCount, const Mat4 &mv, uint32_t flags);
 
@@ -65,13 +71,13 @@ public:
 
     void genMaterialID(GLuint texID, void* glProgramState, GLuint vertexBuffer, GLuint indexBuffer, BlendFunc blend);
 
-    uint32_t getMaterialID() const;
+    inline std::size_t getMaterialID() const noexcept { return _materialID; }
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     void listenRendererRecreated(EventCustom* event);
 #endif
 
-protected:
+private:
     //build & release vao
     void buildVAO();
     void releaseVAO();
@@ -80,21 +86,21 @@ protected:
     void applyRenderState();
 
 
-    Vec4 _displayColor; // in order to support tint and fade in fade out
+    Vec4 _displayColor = Vec4(1.0f, 1.0f, 1.0f, 1.0f); // in order to support tint and fade in fade out
 
     // used for skin
-    const Vec4* _matrixPalette;
-    int   _matrixPaletteSize;
+    Vec4 const* _matrixPalette = nullptr;
+    int _matrixPaletteSize = 0;
 
-    uint32_t _materialID; //material ID
+    std::size_t _materialID = std::numeric_limits<std::size_t>::max(); //material ID
 
-    GLuint   _vao; //use vao if possible
+    GLuint _vao = 0; //use vao if possible
 
-    GLuint _vertexBuffer;
-    GLuint _indexBuffer;
+    GLuint _vertexBuffer = 0;
+    GLuint _indexBuffer = 0;
     GLenum _primitive;
     GLenum _indexFormat;
-    ssize_t _indexCount;
+    std::size_t _indexCount = 0;
 
     // States, default value all false
 
@@ -104,17 +110,17 @@ protected:
 
     // Mode A: Material
     // weak ref
-    Material* _material;
+    Material* _material = nullptr;
 
     // Mode B: StateBlock
     // weak ref
-    GLProgramState* _glProgramState;
-    RenderState::StateBlock* _stateBlock;
-    GLuint _textureID;
+    GLProgramState* _glProgramState = nullptr;
+    RenderState::StateBlock* _stateBlock = nullptr;
+    GLuint _textureID = 0;
 
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
-    EventListenerCustom* _rendererRecreatedListener;
+    EventListenerCustom* _rendererRecreatedListener = nullptr;
 #endif
 };
 

@@ -22,30 +22,29 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _CC_BATCHCOMMAND_H_
-#define _CC_BATCHCOMMAND_H_
+#ifndef COCOS2D_RENDERER_BATCHCOMMAND_H
+#define COCOS2D_RENDERER_BATCHCOMMAND_H
 
+#include "base/ccTypes.h"
 #include "renderer/CCRenderCommand.h"
-
-/**
- * @addtogroup renderer
- * @{
- */
 
 NS_CC_BEGIN
 
 class TextureAtlas;
 class GLProgram;
+
 /**
 Command used to draw batches in one TextureAtlas.
 */
-class CC_DLL BatchCommand : public RenderCommand
+class CC_DLL BatchCommand final : public RenderCommand
 {
 public:
-    /**Constructor.*/
     BatchCommand();
-    /**Destructor.*/
-    ~BatchCommand();
+    BatchCommand(BatchCommand const&) = delete;
+    BatchCommand& operator=(BatchCommand const&) = delete;
+    BatchCommand(BatchCommand &&) noexcept = delete;
+    BatchCommand& operator=(BatchCommand &&) noexcept = delete;
+    ~BatchCommand() final = default;
     /**Init the batch command.
     @param globalZOrder GlobalZOrder of the render command.
     @param shader Shader used for draw the texture atlas.
@@ -55,31 +54,24 @@ public:
     @param flags Indicate the render command should be rendered in 3D mode or not.
     */
     void init(float globalZOrder, GLProgram* shader, BlendFunc blendType, TextureAtlas *textureAtlas, const Mat4& modelViewTransform, uint32_t flags);
-    /*Deprecated function, you should call upper init function instead.*/
-    CC_DEPRECATED_ATTRIBUTE void init(float depth, GLProgram* shader, BlendFunc blendType, TextureAtlas *textureAtlas, const Mat4& modelViewTransform);
 
     /**Execute the command, which will call openGL function to draw the texture atlas.*/
     void execute();
 
 protected:
-    //TODO: This member variable is not used. It should be removed.
-    int32_t _materialID;
     /**Texture ID used for texture atlas rendering.*/
-    GLuint _textureID;
+    GLuint _textureID = 0;
     /**Shaders used for rendering.*/
-    GLProgram* _shader;
+    GLProgram* _shader = nullptr;
     /**Blend function for rendering.*/
-    BlendFunc _blendType;
+    BlendFunc _blendType = BlendFunc::DISABLE;
     /**Texture atlas for rendering.*/
-    TextureAtlas *_textureAtlas;
+    TextureAtlas* _textureAtlas = nullptr;
 
     /**ModelView transform.*/
     Mat4 _mv;
 };
+
 NS_CC_END
 
-/**
- end of support group
- @}
- */
-#endif //_CC_BATCHCOMMAND_H_
+#endif //COCOS2D_RENDERER_BATCHCOMMAND_H

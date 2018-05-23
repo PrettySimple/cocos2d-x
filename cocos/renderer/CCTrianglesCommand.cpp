@@ -29,18 +29,13 @@
 #include "renderer/CCRenderer.h"
 #include "renderer/CCTexture2D.h"
 #include "renderer/ccGLStateCache.h"
-#include "xxhash.h"
+
+#include <utility>
 
 NS_CC_BEGIN
 
-TrianglesCommand::TrianglesCommand()
-:_materialID(0)
-,_textureID(0)
-,_glProgramState(nullptr)
-,_blendType(BlendFunc::DISABLE)
-,_alphaTextureID(0)
+TrianglesCommand::TrianglesCommand() : cocos2d::RenderCommand(RenderCommand::Type::TRIANGLES_COMMAND)
 {
-    _type = RenderCommand::Type::TRIANGLES_COMMAND;
 }
 
 void TrianglesCommand::init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, BlendFunc blendType, const Triangles& triangles,const Mat4& mv, uint32_t flags)
@@ -97,8 +92,20 @@ void TrianglesCommand::setTextureSize(Vec2 const& texSize)
 }
 #endif
 
+template <class T>
+inline constexpr void hash_combine(std::size_t& seed, T const& v)
+{
+    std::hash<T> hasher;
+    seed ^= hasher(v) + 0x9e3779b9 + (seed<<6) + (seed>>2);
+}
+
 void TrianglesCommand::generateMaterialID()
 {
+    std::size_t seed = 0;
+
+    hash_combine(seed, _textureID);
+    hash_combine(seed, _blendType.src);
+    hash_combine(seed, _blendType.dst);
     // glProgramState is hashed because it contains:
     //  *  uniforms/values
     //  *  glProgram
@@ -106,18 +113,9 @@ void TrianglesCommand::generateMaterialID()
     // we safely can when the same glProgramState is being used then they share those states
     // if they don't have the same glProgramState, they might still have the same
     // uniforms/values and glProgram, but it would be too expensive to check the uniforms.
-    struct {
-        GLuint textureId;
-        GLenum blendSrc;
-        GLenum blendDst;
-        void* glProgramState;
-    } hashMe;
+    hash_combine(seed, reinterpret_cast<std::uintptr_t>(_glProgramState));
 
-    hashMe.textureId = _textureID;
-    hashMe.blendSrc = _blendType.src;
-    hashMe.blendDst = _blendType.dst;
-    hashMe.glProgramState = _glProgramState;
-    _materialID = XXH32((const void*)&hashMe, sizeof(hashMe), 0);
+    _materialID = seed;
 }
 
 void TrianglesCommand::useMaterial() const

@@ -23,40 +23,31 @@
  ****************************************************************************/
 
 #include "renderer/CCMeshCommand.h"
-#include "base/ccMacros.h"
+
+#include "2d/CCLight.h"
 #include "base/CCConfiguration.h"
 #include "base/CCDirector.h"
 #include "base/CCEventCustom.h"
-#include "base/CCEventListenerCustom.h"
 #include "base/CCEventDispatcher.h"
+#include "base/CCEventListenerCustom.h"
 #include "base/CCEventType.h"
-#include "2d/CCLight.h"
-#include "renderer/ccGLStateCache.h"
+#include "base/ccMacros.h"
 #include "renderer/CCGLProgramState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTextureAtlas.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCTechnique.h"
 #include "renderer/CCMaterial.h"
 #include "renderer/CCPass.h"
-#include "xxhash.h"
+#include "renderer/CCRenderer.h"
+#include "renderer/CCTechnique.h"
+#include "renderer/CCTexture2D.h"
+#include "renderer/CCTextureAtlas.h"
+#include "renderer/ccGLStateCache.h"
+
+#include <utility>
 
 NS_CC_BEGIN
 
 
-MeshCommand::MeshCommand()
-: _textureID(0)
-, _glProgramState(nullptr)
-, _displayColor(1.0f, 1.0f, 1.0f, 1.0f)
-, _matrixPalette(nullptr)
-, _matrixPaletteSize(0)
-, _materialID(0)
-, _vao(0)
-, _material(nullptr)
-, _stateBlock(nullptr)
+MeshCommand::MeshCommand() : RenderCommand(RenderCommand::Type::MESH_COMMAND)
 {
-    _type = RenderCommand::Type::MESH_COMMAND;
-
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     // listen the event that renderer was recreated on Android/WP8
     _rendererRecreatedListener = EventListenerCustom::create(EVENT_RENDERER_RECREATED, CC_CALLBACK_1(MeshCommand::listenRendererRecreated, this));
@@ -168,21 +159,32 @@ void MeshCommand::applyRenderState()
     _stateBlock->bind();
 }
 
-void MeshCommand::genMaterialID(GLuint texID, void* glProgramState, GLuint vertexBuffer, GLuint indexBuffer, BlendFunc blend)
+template <class T>
+inline constexpr void hash_combine(std::size_t& seed, T const& v)
 {
-    int intArray[7] = {0};
-    intArray[0] = (int)texID;
-    *(int**)&intArray[1] = (int*) glProgramState;
-    intArray[3] = (int) vertexBuffer;
-    intArray[4] = (int) indexBuffer;
-    intArray[5] = (int) blend.src;
-    intArray[6] = (int) blend.dst;
-    _materialID = XXH32((const void*)intArray, sizeof(intArray), 0);
+    std::hash<T> hasher;
+    seed ^= hasher(v) + 0x9e3779b9 + (seed<<6) + (seed>>2);
 }
 
-uint32_t MeshCommand::getMaterialID() const
+void MeshCommand::genMaterialID(GLuint texID, void* glProgramState, GLuint vertexBuffer, GLuint indexBuffer, BlendFunc blend)
 {
-    return _materialID;
+    std::size_t seed = 0;
+
+    hash_combine(seed, texID);
+    hash_combine(seed, vertexBuffer);
+    hash_combine(seed, indexBuffer);
+    hash_combine(seed, blend.src);
+    hash_combine(seed, blend.dst);
+    // glProgramState is hashed because it contains:
+    //  *  uniforms/values
+    //  *  glProgram
+    //
+    // we safely can when the same glProgramState is being used then they share those states
+    // if they don't have the same glProgramState, they might still have the same
+    // uniforms/values and glProgram, but it would be too expensive to check the uniforms.
+    hash_combine(seed, reinterpret_cast<std::uintptr_t>(glProgramState));
+
+    _materialID = seed;
 }
 
 void MeshCommand::preBatchDraw()

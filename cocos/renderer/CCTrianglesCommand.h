@@ -28,6 +28,9 @@
 #include "renderer/CCRenderCommand.h"
 #include "renderer/CCGLProgramState.h"
 
+#include <cstddef>
+#include <limits>
+
 #ifdef DEBUG_TEXTURE_SIZE
 #include "math/Vec2.h"
 #endif
@@ -83,25 +86,25 @@ public:
     /**Apply the texture, shaders, programs, blend functions to GPU pipeline.*/
     void useMaterial() const;
     /**Get the material id of command.*/
-    uint32_t getMaterialID() const { return _materialID; }
+    inline std::size_t getMaterialID() const noexcept { return _materialID; }
     /**Get the openGL texture handle.*/
-    GLuint getTextureID() const { return _textureID; }
+    inline GLuint getTextureID() const noexcept { return _textureID; }
     /**Get a const reference of triangles.*/
-    const Triangles& getTriangles() const { return _triangles; }
+    inline Triangles const& getTriangles() const noexcept { return _triangles; }
     /**Get the vertex count in the triangles.*/
-    ssize_t getVertexCount() const { return _triangles.vertCount; }
+    inline std::size_t getVertexCount() const noexcept { return _triangles.vertCount; }
     /**Get the index count of the triangles.*/
-    ssize_t getIndexCount() const { return _triangles.indexCount; }
+    inline std::size_t getIndexCount() const noexcept { return _triangles.indexCount; }
     /**Get the vertex data pointer.*/
-    const V3F_C4B_T2F* getVertices() const { return _triangles.verts; }
+    inline V3F_C4B_T2F const* getVertices() const noexcept { return _triangles.verts; }
     /**Get the index data pointer.*/
-    const unsigned short* getIndices() const { return _triangles.indices; }
+    inline unsigned short const* getIndices() const noexcept { return _triangles.indices; }
     /**Get the glprogramstate.*/
-    GLProgramState* getGLProgramState() const { return _glProgramState; }
+    inline GLProgramState* getGLProgramState() const noexcept { return _glProgramState; }
     /**Get the blend function.*/
-    BlendFunc getBlendType() const { return _blendType; }
+    inline BlendFunc getBlendType() const noexcept { return _blendType; }
     /**Get the model view matrix.*/
-    const Mat4& getModelView() const { return _mv; }
+    inline Mat4 const& getModelView() const noexcept { return _mv; }
 
 #ifdef DEBUG_TEXTURE_SIZE
     void setTextureSize(Vec2 const& texSize);
@@ -112,13 +115,13 @@ protected:
     void generateMaterialID();
 
     /**Generated material id.*/
-    uint32_t _materialID;
+    std::size_t _materialID = std::numeric_limits<std::size_t>::max();;
     /**OpenGL handle for texture.*/
-    GLuint _textureID;
+    GLuint _textureID = 0;
     /**GLprogramstate for the command. encapsulate shaders and uniforms.*/
-    GLProgramState* _glProgramState;
+    GLProgramState* _glProgramState = nullptr;
     /**Blend function when rendering the triangles.*/
-    BlendFunc _blendType;
+    BlendFunc _blendType = BlendFunc::DISABLE;
     /**Rendered triangles.*/
     Triangles _triangles;
     /**Model view matrix when rendering the triangles.*/
@@ -127,7 +130,7 @@ protected:
     Vec2 _texSize = Vec2::ZERO;
 #endif
 
-    GLuint _alphaTextureID; // ANDROID ETC1 ALPHA supports.
+    GLuint _alphaTextureID = 0; // ANDROID ETC1 ALPHA supports.
 };
 
 NS_CC_END

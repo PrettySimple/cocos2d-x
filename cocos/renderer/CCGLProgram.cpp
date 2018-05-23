@@ -34,10 +34,9 @@ THE SOFTWARE.
 
 #include "base/CCDirector.h"
 #include "base/ccUTF8.h"
-#include "base/uthash.h"
-#include "renderer/ccGLStateCache.h"
 #include "platform/CCFileUtils.h"
 #include "platform/CCPlatformConfig.h"
+#include "renderer/ccGLStateCache.h"
 
 #include <cstring>
 #include <utility>

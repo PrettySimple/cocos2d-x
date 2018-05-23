@@ -31,13 +31,8 @@
 
 NS_CC_BEGIN
 
-BatchCommand::BatchCommand()
-: _textureID(0)
-, _blendType(BlendFunc::DISABLE)
-, _textureAtlas(nullptr)
+BatchCommand::BatchCommand() : RenderCommand(RenderCommand::Type::BATCH_COMMAND)
 {
-    _type = RenderCommand::Type::BATCH_COMMAND;
-    _shader = nullptr;
 }
 
 void BatchCommand::init(float globalOrder, GLProgram* shader, BlendFunc blendType, TextureAtlas *textureAtlas, const Mat4& modelViewTransform, uint32_t flags)
@@ -53,15 +48,6 @@ void BatchCommand::init(float globalOrder, GLProgram* shader, BlendFunc blendTyp
     _textureAtlas = textureAtlas;
     
     _mv = modelViewTransform;
-}
-
-void BatchCommand::init(float globalOrder, GLProgram* shader, BlendFunc blendType, TextureAtlas *textureAtlas, const Mat4& modelViewTransform)
-{
-    init(globalOrder, shader, blendType, textureAtlas, modelViewTransform, 0);
-}
-
-BatchCommand::~BatchCommand()
-{
 }
 
 void BatchCommand::execute()
