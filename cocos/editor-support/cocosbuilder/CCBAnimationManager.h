@@ -1,16 +1,17 @@
 #ifndef __CCB_CCBANIMATION_MANAGER_H__
 #define __CCB_CCBANIMATION_MANAGER_H__
 
-#include "base/CCMap.h"
-#include "2d/CCActionInterval.h"
-#include "2d/CCActionInstant.h"
 #include "2d/CCActionEase.h"
-
-#include "extensions/ExtensionMacros.h"
-#include "CCBSequence.h"
+#include "2d/CCActionInstant.h"
+#include "2d/CCActionInterval.h"
 #include "CCBKeyframe.h"
+#include "CCBSequence.h"
 #include "CCBSequenceProperty.h"
+#include "base/CCMap.h"
+#include "extensions/ExtensionMacros.h"
 #include "extensions/GUI/CCControlExtension/CCControl.h"
+
+#include <chrono>
 
 namespace cocosbuilder {
 
@@ -88,15 +89,15 @@ public:
     void moveAnimationsFromNode(cocos2d::Node* fromNode, cocos2d::Node* toNode);
 
     /** @deprecated This interface will be deprecated sooner or later.*/
-    CC_DEPRECATED_ATTRIBUTE void runAnimations(const char *pName, float fTweenDuration);
+    CC_DEPRECATED_ATTRIBUTE void runAnimations(const char *pName, std::chrono::milliseconds fTweenDuration);
     /** @deprecated This interface will be deprecated sooner or later.*/
     CC_DEPRECATED_ATTRIBUTE void runAnimations(const char *pName);
     /** @deprecated This interface will be deprecated sooner or later.*/
-    CC_DEPRECATED_ATTRIBUTE void runAnimations(int nSeqId, float fTweenDuraiton);
+    CC_DEPRECATED_ATTRIBUTE void runAnimations(int nSeqId, std::chrono::milliseconds fTweenDuraiton);
 
-    void runAnimationsForSequenceNamedTweenDuration(const char *pName, float fTweenDuration);
+    void runAnimationsForSequenceNamedTweenDuration(const char *pName, std::chrono::milliseconds fTweenDuration);
     void runAnimationsForSequenceNamed(const char *pName);
-    void runAnimationsForSequenceIdTweenDuration(int nSeqId, float fTweenDuraiton);
+    void runAnimationsForSequenceIdTweenDuration(int nSeqId, std::chrono::milliseconds fTweenDuraiton);
     /**
      * when this function bound to js ,the second param are callfunc_selector
      * @lua NA
@@ -116,7 +117,7 @@ public:
     int getSequenceId(const char* pSequenceName);
     
     // get timeline duration
-    float getSequenceDuration(const char* pSequenceName);
+    std::chrono::milliseconds getSequenceDuration(const char* pSequenceName);
     
 private:
     const cocos2d::Value& getBaseValue(cocos2d::Node *pNode, const std::string& propName);
@@ -124,10 +125,10 @@ private:
     
     CCBSequence* getSequence(int nSequenceId);
     cocos2d::ActionInterval* getAction(CCBKeyframe *pKeyframe0, CCBKeyframe *pKeyframe1, const std::string& propName, cocos2d::Node *pNode);
-    void setAnimatedProperty(const std::string& propName,cocos2d::Node *pNode, const cocos2d::Value& value, Ref* obj, float fTweenDuraion);
-    void setFirstFrame(cocos2d::Node *pNode, CCBSequenceProperty *pSeqProp, float fTweenDuration);
+    void setAnimatedProperty(const std::string& propName,cocos2d::Node *pNode, const cocos2d::Value& value, Ref* obj, std::chrono::milliseconds fTweenDuraion);
+    void setFirstFrame(cocos2d::Node *pNode, CCBSequenceProperty *pSeqProp, std::chrono::milliseconds fTweenDuration);
     cocos2d::ActionInterval* getEaseAction(cocos2d::ActionInterval *pAction, CCBKeyframe::EasingType easingType, float fEasingOpt);
-    void runAction(cocos2d::Node *pNode, CCBSequenceProperty *pSeqProp, float fTweenDuration);
+    void runAction(cocos2d::Node *pNode, CCBSequenceProperty *pSeqProp, std::chrono::milliseconds fTweenDuration);
     void sequenceCompleted();
     
 private:
@@ -209,8 +210,8 @@ private:
 class CC_DLL CCBRotateTo : public cocos2d::ActionInterval
 {
 public:
-    static CCBRotateTo* create(float fDuration, float fAngle);
-    bool initWithDuration(float fDuration, float fAngle);
+    static CCBRotateTo* create(std::chrono::milliseconds fDuration, float fAngle);
+    bool initWithDuration(std::chrono::milliseconds fDuration, float fAngle);
 
     // Override
     virtual void update(float time) override;
@@ -228,8 +229,8 @@ private:
 class CC_DLL CCBRotateXTo: public cocos2d::ActionInterval
 {
 public:
-    static CCBRotateXTo* create(float fDuration, float fAngle);
-    bool initWithDuration(float fDuration, float fAngle);
+    static CCBRotateXTo* create(std::chrono::milliseconds fDuration, float fAngle);
+    bool initWithDuration(std::chrono::milliseconds fDuration, float fAngle);
 
     // Overrides
     virtual void startWithTarget(cocos2d::Node *pNode) override;
@@ -247,8 +248,8 @@ private:
 class CC_DLL CCBRotateYTo: public cocos2d::ActionInterval
 {
 public:
-    static CCBRotateYTo* create(float fDuration, float fAngle);
-    bool initWithDuration(float fDuration, float fAngle);
+    static CCBRotateYTo* create(std::chrono::milliseconds fDuration, float fAngle);
+    bool initWithDuration(std::chrono::milliseconds fDuration, float fAngle);
 
     // Override
     virtual void startWithTarget(cocos2d::Node *pNode) override;

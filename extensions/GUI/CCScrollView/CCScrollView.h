@@ -26,11 +26,13 @@
 #ifndef __CCSCROLLVIEW_H__
 #define __CCSCROLLVIEW_H__
 
+#include "2d/CCActionTween.h"
 #include "2d/CCLayer.h"
 #include "base/CCEventListenerTouch.h"
-#include "2d/CCActionTween.h"
-#include "extensions/ExtensionMacros.h"
 #include "extensions/ExtensionExport.h"
+#include "extensions/ExtensionMacros.h"
+
+#include <chrono>
 
 /**
  * @addtogroup ui
@@ -127,7 +129,7 @@ public:
      * @param offset    The new offset.
      * @param dt        The animation duration.
      */
-    void setContentOffsetInDuration(Vec2 offset, float dt); 
+    void setContentOffsetInDuration(Vec2 offset, std::chrono::milliseconds dt);
     /**
      * Halts the movement animation of the inner content started with setContentOffset() or setContentOffsetInDuration()
      */
@@ -150,7 +152,7 @@ public:
      * @param s     The new scale value
      * @param dt    The animation duration
      */
-    void setZoomScaleInDuration(float s, float dt);
+    void setZoomScaleInDuration(float s, std::chrono::milliseconds dt);
 
     /**
      * Set min scale

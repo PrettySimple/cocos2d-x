@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
@@ -26,8 +26,10 @@ THE SOFTWARE.
 #define __ActionNODE_H__
 
 #include "cocostudio/CCActionFrame.h"
-#include "cocostudio/DictionaryHelper.h"
 #include "cocostudio/CocosStudioExport.h"
+#include "cocostudio/DictionaryHelper.h"
+
+#include <chrono>
 
 namespace cocostudio {
     
@@ -55,14 +57,14 @@ public:
     *
     * @param fTime   the time interval of frame
     */
-    void setUnitTime(float fTime);
+    void setUnitTime(std::chrono::milliseconds fTime);
 
     /**
     * Gets the time interval of frame.
     *
     * @return fTime   the time interval of frame
     */
-    float getUnitTime();
+    std::chrono::milliseconds getUnitTime();
     /**
     * Sets tag for ActionNode
     *
@@ -168,7 +170,7 @@ protected:
     int _currentFrameIndex;
     int _destFrameIndex;
 
-    float _fUnitTime;
+    std::chrono::milliseconds _fUnitTime;
 
     int _actionTag;
     cocos2d::Spawn * _actionSpawn;
@@ -183,7 +185,7 @@ protected:
     virtual cocos2d::Spawn * refreshActionProperty();
     virtual void runAction();
     virtual void initActionNodeFromRoot(cocos2d::Ref* root);
-    virtual void easingToFrame(float duration,float delayTime,ActionFrame* srcFrame,ActionFrame* destFrame);
+    virtual void easingToFrame(std::chrono::milliseconds duration, std::chrono::milliseconds delayTime, ActionFrame* srcFrame, ActionFrame* destFrame);
 };
 
 }

@@ -23,14 +23,19 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "ui/UIButton.h"
-#include "ui/UIScale9Sprite.h"
+
+#include "2d/CCActionInterval.h"
 #include "2d/CCLabel.h"
 #include "2d/CCSprite.h"
-#include "2d/CCActionInterval.h"
+#include "editor-support/cocostudio/CocosStudioExtension.h"
 #include "platform/CCFileUtils.h"
 #include "ui/UIHelper.h"
+#include "ui/UIScale9Sprite.h"
+
 #include <algorithm>
-#include "editor-support/cocostudio/CocosStudioExtension.h"
+#include <chrono>
+
+using namespace std::chrono_literals;
 
 NS_CC_BEGIN
 
@@ -40,7 +45,7 @@ static const int NORMAL_RENDERER_Z = (-2);
 static const int PRESSED_RENDERER_Z = (-2);
 static const int DISABLED_RENDERER_Z = (-2);
 static const int TITLE_RENDERER_Z = (-1);
-static const float ZOOM_ACTION_TIME_STEP = 0.05f;
+static constexpr auto const ZOOM_ACTION_TIME_STEP = 50ms;
 
 IMPLEMENT_CLASS_GUI_INFO(Button)
 

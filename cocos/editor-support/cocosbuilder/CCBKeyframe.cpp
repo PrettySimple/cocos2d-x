@@ -1,14 +1,14 @@
 #include "CCBKeyframe.h"
 
 using namespace cocos2d;
+using namespace std::chrono_literals;
 
 namespace cocosbuilder {
 
-CCBKeyframe::CCBKeyframe()
-: _object(nullptr)
-, _time(0.0f)
+CCBKeyframe::CCBKeyframe() : _object(nullptr)
+, _time(0ms)
 , _easingType(EasingType::INSTANT)
-, _easingOpt(0.0f)
+, _easingOpt(0.f)
 {}
 
 CCBKeyframe::~CCBKeyframe()
@@ -38,12 +38,12 @@ void CCBKeyframe::setObject(Ref* obj)
     _object = obj;
 }
 
-float CCBKeyframe::getTime()
+std::chrono::milliseconds CCBKeyframe::getTime()
 {
     return _time;
 }
 
-void CCBKeyframe::setTime(float fTime)
+void CCBKeyframe::setTime(std::chrono::milliseconds fTime)
 {
     _time = fTime;
 }

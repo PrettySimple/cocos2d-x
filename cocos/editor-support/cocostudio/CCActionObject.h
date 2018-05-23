@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
@@ -25,10 +25,12 @@ THE SOFTWARE.
 #ifndef __ActionObject_H__
 #define __ActionObject_H__
 
-#include "cocostudio/CCActionNode.h"
 #include "2d/CCActionInstant.h"
-#include "cocostudio/DictionaryHelper.h"
+#include "cocostudio/CCActionNode.h"
 #include "cocostudio/CocosStudioExport.h"
+#include "cocostudio/DictionaryHelper.h"
+
+#include <chrono>
 
 namespace cocostudio {
 
@@ -86,14 +88,14 @@ public:
     *
     * @param fTime   the time interval of frame
     */
-    void setUnitTime(float fTime);
+    void setUnitTime(std::chrono::milliseconds fTime);
 
     /**
     * Gets the time interval of frame.
     *
     * @return the time interval of frame
     */
-    float getUnitTime();
+    std::chrono::milliseconds getUnitTime();
 
     /**
     * Sets the current time of frame.
@@ -114,7 +116,7 @@ public:
     *
     * @return the total time of frame
     */
-    float getTotalTime();
+    std::chrono::milliseconds getTotalTime();
 
     /**
     * Return if the action is playing.
@@ -180,11 +182,11 @@ protected:
     bool _loop;
     bool _bPause;
     bool _bPlaying;
-    float _fUnitTime;
+    std::chrono::milliseconds _fUnitTime;
     float _currentTime;
     cocos2d::Scheduler *_pScheduler;
     cocos2d::CallFunc *_CallBack;
-    float _fTotalTime;
+    std::chrono::milliseconds _fTotalTime;
 };
 
 }

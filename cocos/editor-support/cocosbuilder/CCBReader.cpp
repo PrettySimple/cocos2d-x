@@ -1,25 +1,26 @@
-#include <ctype.h>
-#include <algorithm>
+#include "CCBReader.h"
 
-#include "base/CCDirector.h"
-#include "platform/CCFileUtils.h"
 #include "2d/CCScene.h"
 #include "2d/CCSpriteFrameCache.h"
-#include "renderer/CCTextureCache.h"
-
-#include "CCBReader.h"
+#include "CCBAnimationManager.h"
+#include "CCBKeyframe.h"
+#include "CCBMemberVariableAssigner.h"
+#include "CCBSelectorResolver.h"
+#include "CCBSequenceProperty.h"
 #include "CCNodeLoader.h"
 #include "CCNodeLoaderLibrary.h"
 #include "CCNodeLoaderListener.h"
-#include "CCBMemberVariableAssigner.h"
-#include "CCBSelectorResolver.h"
-#include "CCBAnimationManager.h"
-#include "CCBSequenceProperty.h"
-#include "CCBKeyframe.h"
+#include "base/CCDirector.h"
+#include "platform/CCFileUtils.h"
+#include "renderer/CCTextureCache.h"
+
+#include <algorithm>
+#include <ctype.h>
 #include <sstream>
 
-using namespace cocos2d;
 using namespace cocos2d::extension;
+using namespace cocos2d;
+using namespace std::chrono_literals;
 
 namespace cocosbuilder {
 
@@ -246,7 +247,7 @@ Node* CCBReader::readNodeGraphFromData(std::shared_ptr<cocos2d::Data> data, Ref 
     if (pNodeGraph && _animationManager->getAutoPlaySequenceId() != -1)
     {
         // Auto play animations
-        _animationManager->runAnimationsForSequenceIdTweenDuration(_animationManager->getAutoPlaySequenceId(), 0);
+        _animationManager->runAnimationsForSequenceIdTweenDuration(_animationManager->getAutoPlaySequenceId(), 0ms);
     }
     
     // Assign actionManagers to userObject
@@ -734,10 +735,10 @@ CCBKeyframe* CCBReader::readKeyframe(PropertyType type)
     CCBKeyframe *keyframe = new (std::nothrow) CCBKeyframe();
     keyframe->autorelease();
     
-    keyframe->setTime(readFloat());
+    keyframe->setTime(std::chrono::milliseconds(static_cast<std::size_t>(readFloat() * 1000.f)));
     
     CCBKeyframe::EasingType easingType = static_cast<CCBKeyframe::EasingType>(readInt(false));
-    float easingOpt = 0;
+    auto easingOpt = 0.f;
     Value value;
     
     if (easingType == CCBKeyframe::EasingType::CUBIC_IN
@@ -840,7 +841,7 @@ bool CCBReader::readCallbackKeyframesForSeq(CCBSequence* seq)
 
     for(int i = 0; i < numKeyframes; ++i) {
       
-        float time = readFloat();
+        auto const time = std::chrono::milliseconds(static_cast<std::size_t>(readFloat() * 1000.f));
         std::string callbackName = readCachedString();
       
         int callbackType = readInt(false);
@@ -879,7 +880,7 @@ bool CCBReader::readSoundKeyframesForSeq(CCBSequence* seq) {
 
     for(int i = 0; i < numKeyframes; ++i) {
         
-        float time = readFloat();
+        auto const time = std::chrono::milliseconds(static_cast<std::size_t>(readFloat() * 1000.f));
         std::string soundFile = readCachedString();
         float pitch = readFloat();
         float pan = readFloat();
@@ -919,7 +920,7 @@ bool CCBReader::readSequences()
         CCBSequence *seq = new (std::nothrow) CCBSequence();
         seq->autorelease();
         
-        seq->setDuration(readFloat());
+        seq->setDuration(std::chrono::milliseconds(static_cast<std::size_t>(readFloat() * 1000.f)));
         seq->setName(readCachedString().c_str());
         seq->setSequenceId(readInt(false));
         seq->setChainedSequenceId(readInt(true));

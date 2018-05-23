@@ -1,15 +1,16 @@
 #ifndef _CCB_CCBREADER_H_
 #define _CCB_CCBREADER_H_
 
+#include "2d/CCNode.h"
+#include "CCBSequence.h"
+#include "base/CCData.h"
+#include "base/CCMap.h"
+#include "cocosbuilder/CCBAnimationManager.h"
+#include "extensions/GUI/CCControlExtension/CCControl.h"
+
 #include <set>
 #include <string>
 #include <vector>
-#include "2d/CCNode.h"
-#include "base/CCData.h"
-#include "base/CCMap.h"
-#include "CCBSequence.h"
-#include "extensions/GUI/CCControlExtension/CCControl.h"
-#include "cocosbuilder/CCBAnimationManager.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 #ifdef ABSOLUTE

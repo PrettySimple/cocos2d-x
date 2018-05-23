@@ -25,26 +25,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
-
 #include "renderer/CCTextureCache.h"
 
-#include <errno.h>
-#include <stack>
-#include <cctype>
-#include <list>
-
-#include "renderer/CCTexture2D.h"
+#include "base/CCDirector.h"
+#include "base/CCNinePatchImageParser.h"
+#include "base/CCScheduler.h"
 #include "base/ccMacros.h"
 #include "base/ccUTF8.h"
-#include "base/CCDirector.h"
-#include "base/CCScheduler.h"
-#include "platform/CCFileUtils.h"
 #include "base/ccUtils.h"
-#include "base/CCNinePatchImageParser.h"
+#include "platform/CCFileUtils.h"
+#include "platform/CCPlatformConfig.h"
+#include "renderer/CCTexture2D.h"
 
+#include <cctype>
+#include <chrono>
+#include <errno.h>
+#include <list>
+#include <stack>
 
-
+using namespace std::chrono_literals;
 using namespace std;
 
 NS_CC_BEGIN
@@ -190,7 +189,7 @@ void TextureCache::addImageAsync(const std::string &path, const std::function<vo
 
     if (0 == _asyncRefCount)
     {
-        Director::getInstance()->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(TextureCache::addImageAsyncCallBack), this, 0, false);
+        Director::getInstance()->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(TextureCache::addImageAsyncCallBack), this, 0ms, false);
     }
 
     ++_asyncRefCount;

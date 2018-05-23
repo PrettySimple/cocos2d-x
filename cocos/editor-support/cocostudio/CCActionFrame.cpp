@@ -78,12 +78,12 @@ int ActionFrame::getEasingType()
 	return (int)_easingType;
 }
 
-ActionInterval* ActionFrame::getAction(float fDuration)
+ActionInterval* ActionFrame::getAction(std::chrono::milliseconds fDuration)
 {
 	log("Need a definition of <getAction> for ActionFrame");
 	return nullptr;
 }
-ActionInterval* ActionFrame::getAction(float fDuration,ActionFrame* srcFrame)
+ActionInterval* ActionFrame::getAction(std::chrono::milliseconds fDuration, ActionFrame* srcFrame)
 {
 	return this->getAction(fDuration);
 }
@@ -237,7 +237,7 @@ Vec2 ActionMoveFrame::getPosition()
 {
 	return _position;
 }
-ActionInterval* ActionMoveFrame::getAction(float fDuration)
+ActionInterval* ActionMoveFrame::getAction(std::chrono::milliseconds fDuration)
 {
 	return this->getEasingAction(MoveTo::create(fDuration,_position));
 }
@@ -275,7 +275,7 @@ float ActionScaleFrame::getScaleY()
 	return _scaleY;
 }
 
-ActionInterval* ActionScaleFrame::getAction(float fDuration)
+ActionInterval* ActionScaleFrame::getAction(std::chrono::milliseconds fDuration)
 {
 	return this->getEasingAction(ScaleTo::create(fDuration,_scaleX,_scaleY));
 }
@@ -301,11 +301,11 @@ float ActionRotationFrame::getRotation()
 	return _rotation;
 }
 
-ActionInterval* ActionRotationFrame::getAction(float fDuration)
+ActionInterval* ActionRotationFrame::getAction(std::chrono::milliseconds fDuration)
 {
 	return this->getEasingAction(RotateTo::create(fDuration,_rotation));
 }
-ActionInterval* ActionRotationFrame::getAction(float fDuration,ActionFrame* srcFrame)
+ActionInterval* ActionRotationFrame::getAction(std::chrono::milliseconds fDuration, ActionFrame* srcFrame)
 {
 	ActionRotationFrame* srcRotationFrame = static_cast<ActionRotationFrame*>(srcFrame);
 	if (srcRotationFrame == nullptr)
@@ -340,7 +340,7 @@ int ActionFadeFrame::getOpacity()
 	return _opacity;
 }
 
-ActionInterval* ActionFadeFrame::getAction(float fDuration)
+ActionInterval* ActionFadeFrame::getAction(std::chrono::milliseconds fDuration)
 {
 	return this->getEasingAction(FadeTo::create(fDuration,_opacity));
 }
@@ -367,7 +367,7 @@ Color3B ActionTintFrame::getColor()
 	return _color;
 }
 
-ActionInterval* ActionTintFrame::getAction(float fDuration)
+ActionInterval* ActionTintFrame::getAction(std::chrono::milliseconds fDuration)
 {
 	return this->getEasingAction(TintTo::create(fDuration,_color.r,_color.g,_color.b));
 }

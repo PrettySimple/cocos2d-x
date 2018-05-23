@@ -24,21 +24,24 @@
  ****************************************************************************/
 
 #include "CCScrollView.h"
-#include "platform/CCDevice.h"
+
 #include "2d/CCActionInstant.h"
 #include "2d/CCActionInterval.h"
 #include "2d/CCActionTween.h"
 #include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
+#include "platform/CCDevice.h"
 #include "renderer/CCRenderer.h"
 
 #include <algorithm>
+
+using namespace std::chrono_literals;
 
 NS_CC_EXT_BEGIN
 
 #define SCROLL_DEACCEL_RATE  0.95f
 #define SCROLL_DEACCEL_DIST  1.0f
-#define BOUNCE_DURATION      0.15f
+static constexpr auto const BOUNCE_DURATION = 150ms;
 #define INSET_RATIO          0.2f
 #define MOVE_INCH            7.0f/160.0f
 #define BOUNCE_BACK_FACTOR   0.35f
@@ -232,7 +235,7 @@ void ScrollView::setContentOffset(Vec2 offset, bool animated/* = false*/)
     }
 }
 
-void ScrollView::setContentOffsetInDuration(Vec2 offset, float dt)
+void ScrollView::setContentOffsetInDuration(Vec2 offset, std::chrono::milliseconds dt)
 {
     FiniteTimeAction *scroll, *expire;
     
@@ -303,9 +306,9 @@ void ScrollView::setZoomScale(float s, bool animated)
     }
 }
 
-void ScrollView::setZoomScaleInDuration(float s, float dt)
+void ScrollView::setZoomScaleInDuration(float s, std::chrono::milliseconds dt)
 {
-    if (dt > 0)
+    if (dt > 0ms)
     {
         if (_container->getScale() != s)
         {

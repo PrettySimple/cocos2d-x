@@ -28,18 +28,23 @@
  ****************************************************************************/
 
 #include "network/SocketIO.h"
-#include <algorithm>
-#include <sstream>
-#include <iterator>
+
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
-#include "network/WebSocket.h"
 #include "network/HttpClient.h"
+#include "network/WebSocket.h"
 
-#include "json/rapidjson.h"
 #include "json/document.h"
+#include "json/rapidjson.h"
 #include "json/stringbuffer.h"
 #include "json/writer.h"
+
+#include <algorithm>
+#include <chrono>
+#include <iterator>
+#include <sstream>
+
+using namespace std::chrono_literals;
 
 NS_CC_BEGIN
 
@@ -731,7 +736,7 @@ void SIOClientImpl::onOpen(WebSocket* ws)
         _ws->send(s.data());
     }
 
-    Director::getInstance()->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(SIOClientImpl::heartbeat), this, (_heartbeat * .9f), false);
+    Director::getInstance()->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(SIOClientImpl::heartbeat), this, std::chrono::milliseconds(static_cast<std::size_t>(1000.f * _heartbeat * .9f)), false);
 
     for (auto iter = _clients.begin(); iter != _clients.end(); ++iter)
     {

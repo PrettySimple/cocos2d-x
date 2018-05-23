@@ -1,13 +1,13 @@
 #include "CCBSequence.h"
 
 using namespace cocos2d;
+using namespace std::chrono_literals;
 using namespace std;
 
 
 namespace cocosbuilder {
 
-CCBSequence::CCBSequence()
-: _duration(0.0f)
+CCBSequence::CCBSequence() : _duration(0ms)
 , _name("")
 , mSequenceId(0)
 , mChainedSequenceId(0)
@@ -20,12 +20,12 @@ CCBSequence::~CCBSequence() {
     CC_SAFE_RELEASE(mSoundChannel);
 }
 
-float CCBSequence::getDuration()
+std::chrono::milliseconds CCBSequence::getDuration()
 {
     return _duration;
 }
 
-void CCBSequence::setDuration(float fDuration)
+void CCBSequence::setDuration(std::chrono::milliseconds fDuration)
 {
     _duration = fDuration;
 }

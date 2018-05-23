@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
@@ -25,9 +25,11 @@ THE SOFTWARE.
 #ifndef __ActionFRAME_H__
 #define __ActionFRAME_H__
 
-#include "math/CCGeometry.h"
 #include "2d/CCActionInterval.h"
 #include "cocostudio/CocosStudioExport.h"
+#include "math/CCGeometry.h"
+
+#include <chrono>
 
 namespace cocostudio {
     
@@ -171,7 +173,7 @@ public:
     *
     * @return ActionInterval
     */
-    virtual cocos2d::ActionInterval* getAction(float duration);
+    virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration);
     /**
     * Gets the ActionInterval of ActionFrame.
     *
@@ -181,7 +183,7 @@ public:
     *
     * @return ActionInterval
     */
-    virtual cocos2d::ActionInterval* getAction(float duration,ActionFrame* srcFrame);
+    virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration, ActionFrame* srcFrame);
 
     /**
     *Set the ActionInterval easing parameter.
@@ -246,7 +248,7 @@ public:
     *
     * @return ActionInterval
     */
-    virtual cocos2d::ActionInterval* getAction(float duration);
+    virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration);
 protected:
     cocos2d::Vec2 _position;
 };
@@ -304,7 +306,7 @@ public:
     *
     * @return ActionInterval
     */
-    virtual cocos2d::ActionInterval* getAction(float duration);
+    virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration);
 protected:
     float _scaleX;
     float _scaleY;
@@ -348,7 +350,7 @@ public:
     *
     * @return ActionInterval
     */
-    virtual cocos2d::ActionInterval* getAction(float duration);
+    virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration);
     /**
     * Gets the ActionInterval of ActionFrame.
     *
@@ -358,7 +360,7 @@ public:
     *
     * @return ActionInterval
     */
-    virtual cocos2d::ActionInterval* getAction(float duration,ActionFrame* srcFrame);
+    virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration, ActionFrame* srcFrame);
 public:
     float _rotation;
 };
@@ -401,7 +403,7 @@ public:
     *
     * @return ActionInterval
     */
-    virtual cocos2d::ActionInterval* getAction(float duration);
+    virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration);
 protected:
     float _opacity;
 };
@@ -445,7 +447,7 @@ public:
     *
     * @return ActionInterval
     */
-    virtual cocos2d::ActionInterval* getAction(float duration);
+    virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration);
 protected:
     cocos2d::Color3B _color;
 };

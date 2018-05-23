@@ -26,10 +26,14 @@
  */
 
 #include "CCControlButton.h"
-#include "2d/CCLabel.h"
+
 #include "2d/CCAction.h"
 #include "2d/CCActionInterval.h"
+#include "2d/CCLabel.h"
 
+#include <chrono>
+
+using namespace std::chrono_literals;
 using namespace std;
 
 NS_CC_EXT_BEGIN
@@ -207,7 +211,7 @@ void ControlButton::setHighlighted(bool enabled)
         if (enabled)
             _initialScale = getScale();
         float scaleValue = (isHighlighted() && isEnabled() && !isSelected()) ? _scaleRatio * _initialScale : _initialScale;
-        Action *zoomAction = ScaleTo::create(0.05f, scaleValue);
+        Action* zoomAction = ScaleTo::create(50ms, scaleValue);
         zoomAction->setTag(kZoomActionTag);
         runAction(zoomAction);
     }

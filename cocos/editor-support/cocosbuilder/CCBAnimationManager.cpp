@@ -1,17 +1,18 @@
 #include "CCBAnimationManager.h"
 
 #include "CCBReader.h"
+#include "CCBSelectorResolver.h"
 #include "CCNode+CCBRelativePositioning.h"
 #include "audio/include/SimpleAudioEngine.h"
-#include "CCBSelectorResolver.h"
 
-#include <string>
-#include <sstream>
 #include <set>
+#include <sstream>
+#include <string>
 
-using namespace cocos2d;
-using namespace std;
 using namespace cocos2d::extension;
+using namespace cocos2d;
+using namespace std::chrono_literals;
+using namespace std;
 
 namespace cocosbuilder {
 
@@ -280,12 +281,12 @@ CCBSequence* CCBAnimationManager::getSequence(int nSequenceId)
     return nullptr;
 }
 
-float CCBAnimationManager::getSequenceDuration(const char *pSequenceName)
+std::chrono::milliseconds CCBAnimationManager::getSequenceDuration(const char *pSequenceName)
 {
     int id = getSequenceId(pSequenceName);
     if (id != -1)
         return getSequence(id)->getDuration();
-    return 0;
+    return 0ms;
 }
 
 
@@ -323,7 +324,7 @@ void CCBAnimationManager::moveAnimationsFromNode(Node* fromNode, Node* toNode)
 // Refer to CCBReader::readKeyframe() for the real type of value
 ActionInterval* CCBAnimationManager::getAction(CCBKeyframe *pKeyframe0, CCBKeyframe *pKeyframe1, const std::string& propName, Node *pNode)
 {
-    float duration = pKeyframe1->getTime() - (pKeyframe0 ? pKeyframe0->getTime() : 0);
+    auto const duration = pKeyframe1->getTime() - (pKeyframe0 ? pKeyframe0->getTime() : 0ms);
     
     if (propName == "rotationX")
     {
@@ -419,9 +420,9 @@ ActionInterval* CCBAnimationManager::getAction(CCBKeyframe *pKeyframe0, CCBKeyfr
     return nullptr;
 }
 
-void CCBAnimationManager::setAnimatedProperty(const std::string& propName, Node *pNode, const Value& value, Ref* obj, float fTweenDuration)
+void CCBAnimationManager::setAnimatedProperty(const std::string& propName, Node *pNode, const Value& value, Ref* obj, std::chrono::milliseconds fTweenDuration)
 {
-    if (fTweenDuration > 0)
+    if (fTweenDuration > 0ms)
     {
         // Create a fake keyframe to generate the action from
         CCBKeyframe *kf1 = new (std::nothrow) CCBKeyframe();
@@ -524,7 +525,7 @@ void CCBAnimationManager::setAnimatedProperty(const std::string& propName, Node 
     }
 }
 
-void CCBAnimationManager::setFirstFrame(Node *pNode, CCBSequenceProperty *pSeqProp, float fTweenDuration)
+void CCBAnimationManager::setFirstFrame(Node *pNode, CCBSequenceProperty *pSeqProp, std::chrono::milliseconds fTweenDuration)
 {
     auto& keyframes = pSeqProp->getKeyframes();
     
@@ -616,7 +617,7 @@ ActionInterval* CCBAnimationManager::getEaseAction(ActionInterval *pAction, CCBK
 
 Sequence*  CCBAnimationManager::actionForCallbackChannel(CCBSequenceProperty* channel) {
   
-    float lastKeyframeTime = 0;
+    auto lastKeyframeTime = 0ms;
     
     Vector<FiniteTimeAction*> actions;
     auto& keyframes = channel->getKeyframes();
@@ -626,9 +627,9 @@ Sequence*  CCBAnimationManager::actionForCallbackChannel(CCBSequenceProperty* ch
     {
 
         CCBKeyframe *keyframe = keyframes.at(i);
-        float timeSinceLastKeyframe = keyframe->getTime() - lastKeyframeTime;
+        auto timeSinceLastKeyframe = keyframe->getTime() - lastKeyframeTime;
         lastKeyframeTime = keyframe->getTime();
-        if(timeSinceLastKeyframe > 0) {
+        if(timeSinceLastKeyframe > 0ms) {
             actions.pushBack(DelayTime::create(timeSinceLastKeyframe));
         }
 	
@@ -705,7 +706,7 @@ Sequence*  CCBAnimationManager::actionForCallbackChannel(CCBSequenceProperty* ch
 
 Sequence*  CCBAnimationManager::actionForSoundChannel(CCBSequenceProperty* channel) {
     
-    float lastKeyframeTime = 0;
+    auto lastKeyframeTime = 0ms;
     
     Vector<FiniteTimeAction*> actions;
     auto& keyframes = channel->getKeyframes();
@@ -714,9 +715,9 @@ Sequence*  CCBAnimationManager::actionForSoundChannel(CCBSequenceProperty* chann
     for (int i = 0; i < numKeyframes; ++i)
     {
         CCBKeyframe *keyframe = keyframes.at(i);
-        float timeSinceLastKeyframe = keyframe->getTime() - lastKeyframeTime;
+        auto timeSinceLastKeyframe = keyframe->getTime() - lastKeyframeTime;
         lastKeyframeTime = keyframe->getTime();
-        if(timeSinceLastKeyframe > 0) {
+        if(timeSinceLastKeyframe > 0ms) {
             actions.pushBack(DelayTime::create(timeSinceLastKeyframe));
         }
 	
@@ -747,7 +748,7 @@ Sequence*  CCBAnimationManager::actionForSoundChannel(CCBSequenceProperty* chann
 
 
 
-void CCBAnimationManager::runAction(Node *pNode, CCBSequenceProperty *pSeqProp, float fTweenDuration)
+void CCBAnimationManager::runAction(Node *pNode, CCBSequenceProperty *pSeqProp, std::chrono::milliseconds fTweenDuration)
 {
     auto& keyframes = pSeqProp->getKeyframes();
     ssize_t numKeyframes = keyframes.size();
@@ -758,9 +759,9 @@ void CCBAnimationManager::runAction(Node *pNode, CCBSequenceProperty *pSeqProp, 
         Vector<FiniteTimeAction*> actions;
         
         CCBKeyframe *keyframeFirst = keyframes.at(0);
-        float timeFirst = keyframeFirst->getTime() + fTweenDuration;
+        auto timeFirst = keyframeFirst->getTime() + fTweenDuration;
         
-        if (timeFirst > 0)
+        if (timeFirst > 0ms)
         {
             actions.pushBack(DelayTime::create(timeFirst));
         }
@@ -785,7 +786,7 @@ void CCBAnimationManager::runAction(Node *pNode, CCBSequenceProperty *pSeqProp, 
     }
 }
 
-void CCBAnimationManager::runAnimations(const char *pName, float fTweenDuration)
+void CCBAnimationManager::runAnimations(const char *pName, std::chrono::milliseconds fTweenDuration)
 {
     runAnimationsForSequenceNamedTweenDuration(pName, fTweenDuration);
 }
@@ -795,12 +796,12 @@ void CCBAnimationManager::runAnimations(const char *pName)
     runAnimationsForSequenceNamed(pName);
 }
     
-void CCBAnimationManager::runAnimations(int nSeqId, float fTweenDuraiton)
+void CCBAnimationManager::runAnimations(int nSeqId, std::chrono::milliseconds fTweenDuraiton)
 {
     runAnimationsForSequenceIdTweenDuration(nSeqId, fTweenDuraiton);
 }
 
-void CCBAnimationManager::runAnimationsForSequenceIdTweenDuration(int nSeqId, float fTweenDuration)
+void CCBAnimationManager::runAnimationsForSequenceIdTweenDuration(int nSeqId, std::chrono::milliseconds fTweenDuration)
 {
     CCASSERT(nSeqId != -1, "Sequence id couldn't be found");
     
@@ -884,7 +885,7 @@ void CCBAnimationManager::runAnimationsForSequenceIdTweenDuration(int nSeqId, fl
     _runningSequence = getSequence(nSeqId);
 }
 
-void CCBAnimationManager::runAnimationsForSequenceNamedTweenDuration(const char *pName, float fTweenDuration)
+void CCBAnimationManager::runAnimationsForSequenceNamedTweenDuration(const char *pName, std::chrono::milliseconds fTweenDuration)
 {
     int seqId = getSequenceId(pName);
     runAnimationsForSequenceIdTweenDuration(seqId, fTweenDuration);
@@ -892,7 +893,7 @@ void CCBAnimationManager::runAnimationsForSequenceNamedTweenDuration(const char 
 
 void CCBAnimationManager::runAnimationsForSequenceNamed(const char *pName)
 {
-    runAnimationsForSequenceNamedTweenDuration(pName, 0);
+    runAnimationsForSequenceNamedTweenDuration(pName, 0ms);
 }
 
 void CCBAnimationManager::debug()
@@ -932,7 +933,7 @@ void CCBAnimationManager::sequenceCompleted()
     
     if (nextSeqId != -1)
     {
-        runAnimationsForSequenceIdTweenDuration(nextSeqId, 0);
+        runAnimationsForSequenceIdTweenDuration(nextSeqId, 0ms);
     }
     
     if (_delegate)
@@ -1062,7 +1063,7 @@ void CCBSoundEffect::update(float time)
  CCBRotateTo
  ************************************************************/
 
-CCBRotateTo* CCBRotateTo::create(float fDuration, float fAngle)
+CCBRotateTo* CCBRotateTo::create(std::chrono::milliseconds fDuration, float fAngle)
 {
     CCBRotateTo *ret = new (std::nothrow) CCBRotateTo();
     if (ret)
@@ -1080,7 +1081,7 @@ CCBRotateTo* CCBRotateTo::create(float fDuration, float fAngle)
     return ret;
 }
 
-bool CCBRotateTo::initWithDuration(float fDuration, float fAngle)
+bool CCBRotateTo::initWithDuration(std::chrono::milliseconds fDuration, float fAngle)
 {
     if (ActionInterval::initWithDuration(fDuration))
     {
@@ -1130,7 +1131,7 @@ void CCBRotateTo::update(float time)
  ************************************************************/
 
 
-CCBRotateXTo* CCBRotateXTo::create(float fDuration, float fAngle)
+CCBRotateXTo* CCBRotateXTo::create(std::chrono::milliseconds fDuration, float fAngle)
 {
     CCBRotateXTo *ret = new (std::nothrow) CCBRotateXTo();
     if (ret)
@@ -1148,7 +1149,7 @@ CCBRotateXTo* CCBRotateXTo::create(float fDuration, float fAngle)
     return ret;
 }
 
-bool CCBRotateXTo::initWithDuration(float fDuration, float fAngle)
+bool CCBRotateXTo::initWithDuration(std::chrono::milliseconds fDuration, float fAngle)
 {
     if (ActionInterval::initWithDuration(fDuration))
     {
@@ -1168,7 +1169,7 @@ void CCBRotateXTo::startWithTarget(Node *pNode)
     //CCActionInterval::startWithTarget(pNode);
     _originalTarget = pNode;
     _target = pNode;
-    _elapsed = 0.0f;
+    _elapsed = 0ms;
     _status = Action::Status::START;
     _startAngle = _target->getRotationSkewX();
     _diffAngle = _dstAngle - _startAngle;
@@ -1202,7 +1203,7 @@ void CCBRotateXTo::update(float time)
 
 
 
-CCBRotateYTo* CCBRotateYTo::create(float fDuration, float fAngle)
+CCBRotateYTo* CCBRotateYTo::create(std::chrono::milliseconds fDuration, float fAngle)
 {
     CCBRotateYTo *ret = new (std::nothrow) CCBRotateYTo();
     if (ret)
@@ -1220,7 +1221,7 @@ CCBRotateYTo* CCBRotateYTo::create(float fDuration, float fAngle)
     return ret;
 }
 
-bool CCBRotateYTo::initWithDuration(float fDuration, float fAngle)
+bool CCBRotateYTo::initWithDuration(std::chrono::milliseconds fDuration, float fAngle)
 {
     if (ActionInterval::initWithDuration(fDuration))
     {
@@ -1255,7 +1256,7 @@ void CCBRotateYTo::startWithTarget(Node *pNode)
  //   ActionInterval::startWithTarget(pNode);
     _originalTarget = pNode;
     _target = pNode;
-    _elapsed = 0.0f;
+    _elapsed = 0ms;
     _status = Action::Status::START;
     _startAngle = _target->getRotationSkewY();
     _diffAngle = _dstAngle - _startAngle;

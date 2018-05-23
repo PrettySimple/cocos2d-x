@@ -27,6 +27,10 @@
 
 #include "CCControlStepper.h"
 
+#include <chrono>
+
+using namespace std::chrono_literals;
+
 NS_CC_EXT_BEGIN
 
 #define ControlStepperLabelColorEnabled   Color3B(55, 55, 55)
@@ -35,7 +39,7 @@ NS_CC_EXT_BEGIN
 #define ControlStepperLabelFont           "CourierNewPSMT"
 
 
-#define kAutorepeatDeltaTime                0.15f
+static constexpr auto const kAutorepeatDeltaTime = 150ms;
 #define kAutorepeatIncreaseTimeIncrement    12
 
 ControlStepper::ControlStepper()

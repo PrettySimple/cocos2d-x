@@ -23,14 +23,15 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "cocostudio/CCActionObject.h"
-#include "cocostudio/CocoLoader.h"
 
+#include "2d/CCActionInstant.h"
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
-#include "2d/CCActionInstant.h"
 #include "base/ccUtils.h"
+#include "cocostudio/CocoLoader.h"
 
 using namespace cocos2d;
+using namespace std::chrono_literals;
 
 namespace cocostudio {
 
@@ -39,11 +40,11 @@ ActionObject::ActionObject()
 , _loop(false)
 , _bPause(false)
 , _bPlaying(false)
-, _fUnitTime(0.1f)
+, _fUnitTime(100ms)
 , _currentTime(0.0f)
 , _pScheduler(nullptr)
 , _CallBack(nullptr)
-, _fTotalTime(0.0f)
+, _fTotalTime(0ms)
 {
     _pScheduler = Director::getInstance()->getScheduler();
     CC_SAFE_RETAIN(_pScheduler);
@@ -76,7 +77,7 @@ bool ActionObject::getLoop()
     return _loop;
 }
 
-void ActionObject::setUnitTime(float fTime)
+void ActionObject::setUnitTime(std::chrono::milliseconds fTime)
 {
     _fUnitTime = fTime;
     for(const auto &e : _actionNodeList)
@@ -84,7 +85,7 @@ void ActionObject::setUnitTime(float fTime)
         e->setUnitTime(_fUnitTime);
     }
 }
-float ActionObject::getUnitTime()
+std::chrono::milliseconds ActionObject::getUnitTime()
 {
     return _fUnitTime;
 }
@@ -99,7 +100,7 @@ void ActionObject::setCurrentTime(float fTime)
     _currentTime = fTime;
 }
 
-float ActionObject::getTotalTime()
+std::chrono::milliseconds ActionObject::getTotalTime()
 {
     return _fTotalTime;
 }
@@ -112,7 +113,7 @@ void ActionObject::initWithDictionary(const rapidjson::Value& dic, Ref* root)
 {
     setName(DICTOOL->getStringValue_json(dic, "name"));
     setLoop(DICTOOL->getBooleanValue_json(dic, "loop"));
-    setUnitTime(DICTOOL->getFloatValue_json(dic, "unittime"));
+    setUnitTime(std::chrono::milliseconds(static_cast<std::size_t>(1000.f * DICTOOL->getFloatValue_json(dic, "unittime"))));
     int actionNodeCount = DICTOOL->getArrayCount_json(dic, "actionnodelist");
     int maxLength = 0;
     for (int i=0; i<actionNodeCount; i++) {
@@ -145,7 +146,7 @@ void ActionObject::initWithBinary(CocoLoader *cocoLoader,
         }else if (key == "loop"){
             setLoop(valueToBool(value));
         }else if(key == "unittime"){
-            setUnitTime(valueToFloat(value));
+            setUnitTime(std::chrono::milliseconds(static_cast<std::size_t>(1000.f * valueToFloat(value))));
         }else if (key == "actionnodelist"){
             actionNodeList = &stChildNode[i];
         }
@@ -222,11 +223,11 @@ void ActionObject::play()
     }
     if (_loop)
     {
-        _pScheduler->schedule(CC_SCHEDULE_SELECTOR(ActionObject::simulationActionUpdate), this, 0.0f , CC_REPEAT_FOREVER, 0.0f, false);
+        _pScheduler->schedule(CC_SCHEDULE_SELECTOR(ActionObject::simulationActionUpdate), this, 0ms, CC_REPEAT_FOREVER, 0ms, false);
     }
     else
     {
-        _pScheduler->schedule(CC_SCHEDULE_SELECTOR(ActionObject::simulationActionUpdate), this, 0.0f, false);
+        _pScheduler->schedule(CC_SCHEDULE_SELECTOR(ActionObject::simulationActionUpdate), this, 0ms, false);
     }
 }
 

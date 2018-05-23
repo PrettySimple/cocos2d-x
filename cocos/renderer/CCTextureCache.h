@@ -28,21 +28,21 @@ THE SOFTWARE.
 #ifndef __CCTEXTURE_CACHE_H__
 #define __CCTEXTURE_CACHE_H__
 
-#include <mutex>
-#include <thread>
+#include "base/CCRef.h"
+#include "platform/CCImage.h"
+#include "renderer/CCTexture2D.h"
+
 #include <condition_variable>
+#include <functional>
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+#include <list>
+#endif
+#include <mutex>
 #include <queue>
 #include <string>
+#include <thread>
 #include <unordered_map>
-#include <functional>
 
-#include "base/CCRef.h"
-#include "renderer/CCTexture2D.h"
-#include "platform/CCImage.h"
-
-#if CC_ENABLE_CACHE_TEXTURE_DATA
-    #include <list>
-#endif
 
 NS_CC_BEGIN
 

@@ -49,7 +49,7 @@ void ParticleSystemQuadLoader::onHandlePropTypeFloat(Node * pNode, Node * pParen
     if(strcmp(pPropertyName, PROPERTY_EMISSIONRATE) == 0) {
         ((ParticleSystemQuad *)pNode)->setEmissionRate(pFloat);
     } else if(strcmp(pPropertyName, PROPERTY_DURATION) == 0) {
-        ((ParticleSystemQuad *)pNode)->setDuration(pFloat);
+        ((ParticleSystemQuad *)pNode)->setDuration(std::chrono::milliseconds(static_cast<std::size_t>(1000.f * pFloat)));
     } else {
         NodeLoader::onHandlePropTypeFloat(pNode, pParent, pPropertyName, pFloat, ccbReader);
     }

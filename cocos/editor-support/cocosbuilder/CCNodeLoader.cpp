@@ -1,15 +1,16 @@
+#include "CCNodeLoader.h"
+
+#include "CCBAnimationManager.h"
+#include "CCBMemberVariableAssigner.h"
+#include "CCBSelectorResolver.h"
+#include "CCNode+CCBRelativePositioning.h"
 #include "cocos2d.h"
 
-#include "CCNodeLoader.h"
-#include "CCBSelectorResolver.h"
-#include "CCBMemberVariableAssigner.h"
-#include "CCBAnimationManager.h"
-#include "CCNode+CCBRelativePositioning.h"
 
-
-using namespace std;
-using namespace cocos2d;
 using namespace cocos2d::extension;
+using namespace cocos2d;
+using namespace std::chrono_literals;
+using namespace std;
 
 namespace cocosbuilder {
 
@@ -957,7 +958,7 @@ Node * NodeLoader::parsePropTypeCCBFile(Node * pNode, Node * pParent, CCBReader 
     if (ccbFileNode && reader->getAnimationManager()->getAutoPlaySequenceId() != -1)
     {
         // Auto play animations
-        reader->getAnimationManager()->runAnimationsForSequenceIdTweenDuration(reader->getAnimationManager()->getAutoPlaySequenceId(), 0);
+        reader->getAnimationManager()->runAnimationsForSequenceIdTweenDuration(reader->getAnimationManager()->getAutoPlaySequenceId(), 0ms);
     }
     
     if (reader->isJSControlled() && pCCBReader->isJSControlled() && nullptr == reader->_owner)

@@ -1,10 +1,11 @@
 #ifndef __CCB_CCSEQUENCE_H__
 #define __CCB_CCSEQUENCE_H__
 
-#include <string>
-
-#include "base/CCRef.h"
 #include "CCBSequenceProperty.h"
+#include "base/CCRef.h"
+
+#include <chrono>
+#include <string>
 
 namespace cocosbuilder {
 
@@ -17,8 +18,8 @@ public:
      * @lua NA
      */
     ~CCBSequence();
-    float getDuration();
-    void setDuration(float fDuration);
+    std::chrono::milliseconds getDuration();
+    void setDuration(std::chrono::milliseconds fDuration);
     
     CCBSequenceProperty* getCallbackChannel();
     void setCallbackChannel(CCBSequenceProperty* callbackChannel);
@@ -36,7 +37,7 @@ public:
     void setChainedSequenceId(int nChainedSequenceId);
     
 private:
-    float _duration;
+    std::chrono::milliseconds _duration;
     std::string _name;
     int mSequenceId;
     int mChainedSequenceId;

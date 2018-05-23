@@ -22,24 +22,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "platform/CCFileUtils.h"
+#include "editor-support/cocostudio/CCDataReaderHelper.h"
+
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
 #include "base/ccUtils.h"
-
-#include "tinyxml2.h"
-
-#include "editor-support/cocostudio/CCDataReaderHelper.h"
 #include "editor-support/cocostudio/CCArmatureDataManager.h"
-#include "editor-support/cocostudio/CCTransformHelp.h"
-#include "editor-support/cocostudio/CCUtilMath.h"
 #include "editor-support/cocostudio/CCArmatureDefine.h"
 #include "editor-support/cocostudio/CCDatas.h"
-
+#include "editor-support/cocostudio/CCTransformHelp.h"
+#include "editor-support/cocostudio/CCUtilMath.h"
 #include "editor-support/cocostudio/CocoLoader.h"
+#include "platform/CCFileUtils.h"
+#include "tinyxml2.h"
 
+#include <chrono>
 
 using namespace cocos2d;
+using namespace std::chrono_literals;
 
 
 static const char *VERSION = "version";
@@ -387,7 +387,7 @@ void DataReaderHelper::addDataFromFileAsync(const std::string& imagePath, const 
 
     if (0 == _asyncRefCount)
     {
-        Director::getInstance()->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(DataReaderHelper::addDataAsyncCallBack), this, 0, false);
+        Director::getInstance()->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(DataReaderHelper::addDataAsyncCallBack), this, 0ms, false);
     }
 
     ++_asyncRefCount;

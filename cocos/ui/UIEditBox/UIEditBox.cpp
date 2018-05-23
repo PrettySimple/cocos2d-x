@@ -24,13 +24,18 @@
  ****************************************************************************/
 
 #include "ui/UIEditBox/UIEditBox.h"
+
 #include "ui/UIEditBox/UIEditBoxImpl.h"
+
+#include <chrono>
+
+using namespace std::chrono_literals;
 
 NS_CC_BEGIN
 
 namespace ui {
 
-static const float CHECK_EDITBOX_POSITION_INTERVAL = 0.1f;
+static constexpr auto const CHECK_EDITBOX_POSITION_INTERVAL = 100ms;
 
 EditBox::EditBox(void)
 : _editBoxImpl(nullptr)

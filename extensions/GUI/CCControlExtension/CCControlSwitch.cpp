@@ -26,12 +26,17 @@
  */
 
 #include "CCControlSwitch.h"
-#include "2d/CCSprite.h"
+
 #include "2d/CCActionTween.h"
-#include "2d/CCLabel.h"
 #include "2d/CCClippingNode.h"
-#include "renderer/ccShaders.h"
+#include "2d/CCLabel.h"
 #include "2d/CCRenderTexture.h"
+#include "2d/CCSprite.h"
+#include "renderer/ccShaders.h"
+
+#include <chrono>
+
+using namespace std::chrono_literals;
 
 NS_CC_EXT_BEGIN
 // ControlSwitchSprite
@@ -365,7 +370,7 @@ void ControlSwitch::setOn(bool isOn, bool animated)
         (
             ActionTween::create
                 (
-                    0.2f,
+                    200ms,
                     "sliderXPosition",
                     _switchSprite->getSliderXPosition(),
                     (_on) ? _switchSprite->getOnPosition() : _switchSprite->getOffPosition()

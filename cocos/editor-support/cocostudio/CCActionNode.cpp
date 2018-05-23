@@ -23,14 +23,16 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "cocostudio/CCActionNode.h"
+
+#include "base/ccUtils.h"
 #include "cocostudio/CCActionFrameEasing.h"
-#include "ui/UIWidget.h"
+#include "cocostudio/CocoLoader.h"
 #include "ui/UIHelper.h"
 #include "ui/UILayout.h"
-#include "cocostudio/CocoLoader.h"
-#include "base/ccUtils.h"
+#include "ui/UIWidget.h"
 
 using namespace cocos2d;
+using namespace std::chrono_literals;
 using namespace ui;
 
 namespace cocostudio {
@@ -38,7 +40,7 @@ namespace cocostudio {
 ActionNode::ActionNode()
 : _currentFrameIndex(0)
 , _destFrameIndex(0)
-, _fUnitTime(0.1f)
+, _fUnitTime(100ms)
 , _actionTag(0)
 , _actionSpawn(nullptr)
 , _action(nullptr)
@@ -342,13 +344,13 @@ void ActionNode::initActionNodeFromRoot(Ref* root)
     }
 }
 
-void ActionNode::setUnitTime(float fTime)
+void ActionNode::setUnitTime(std::chrono::milliseconds fTime)
 {
     _fUnitTime = fTime;
     this->refreshActionProperty();
 }
 
-float ActionNode::getUnitTime()
+std::chrono::milliseconds ActionNode::getUnitTime()
 {
     return _fUnitTime;
 }
@@ -463,7 +465,7 @@ Spawn * ActionNode::refreshActionProperty()
             else
             {
                 auto srcFrame = cArray->at(i-1);
-                float duration = (frame->getFrameIndex() - srcFrame->getFrameIndex()) * getUnitTime();
+                auto duration = (frame->getFrameIndex() - srcFrame->getFrameIndex()) * getUnitTime();
                 Action* cAction = frame->getAction(duration);
                 if(cAction != nullptr)
                 cSequenceArray.pushBack(static_cast<FiniteTimeAction*>(cAction));
@@ -599,28 +601,29 @@ bool ActionNode::updateActionToTimeLine(float fTime)
         for (int i = 0; i < frameCount; i++)
         {
             auto frame = cArray->at(i);
+            auto const ftime_ms = std::chrono::milliseconds(static_cast<std::size_t>(1000.f * fTime));
 
-            if (frame->getFrameIndex()*getUnitTime() == fTime)
+            if (frame->getFrameIndex() * getUnitTime() == ftime_ms)
             {
-                this->easingToFrame(1.0f,1.0f,nullptr,frame);
+                this->easingToFrame(1000ms, 1000ms, nullptr, frame);
                 bFindFrame = true;
                 break;
             }
-            else if (frame->getFrameIndex()*getUnitTime() > fTime)
+            else if (frame->getFrameIndex() * getUnitTime() > ftime_ms)
             {
                 if (i == 0)
                 {
-                    this->easingToFrame(1.0f,1.0f,nullptr,frame);
+                    this->easingToFrame(1000ms, 1000ms, nullptr, frame);
                     bFindFrame = false;
                 }
                 else
                 {
                     srcFrame = cArray->at(i-1);
-                    float duration = (frame->getFrameIndex() - srcFrame->getFrameIndex())*getUnitTime();
-                    float delaytime = fTime - srcFrame->getFrameIndex()*getUnitTime();
-                    this->easingToFrame(duration,1.0f,nullptr,srcFrame);
+                    auto duration = (frame->getFrameIndex() - srcFrame->getFrameIndex()) * getUnitTime();
+                    auto delaytime = ftime_ms - srcFrame->getFrameIndex()*getUnitTime();
+                    this->easingToFrame(duration, 1000ms, nullptr, srcFrame);
                     //float easingTime = ActionFrameEasing::bounceTime(delaytime);
-                    this->easingToFrame(duration,delaytime/duration,srcFrame,frame);
+                    this->easingToFrame(duration, std::chrono::milliseconds(static_cast<std::size_t>(1000.f * static_cast<float>(delaytime.count()) / duration.count())), srcFrame, frame);
                     bFindFrame = true;
                 }
                 break;
@@ -630,7 +633,7 @@ bool ActionNode::updateActionToTimeLine(float fTime)
     return bFindFrame;
 }
 
-void ActionNode::easingToFrame(float duration,float delayTime,ActionFrame* srcFrame,ActionFrame* destFrame)
+void ActionNode::easingToFrame(std::chrono::milliseconds duration, std::chrono::milliseconds delayTime, ActionFrame* srcFrame, ActionFrame* destFrame)
 {
     Action* cAction = destFrame->getAction(duration,srcFrame);
     Node* cNode = this->getActionNode();
@@ -639,7 +642,7 @@ void ActionNode::easingToFrame(float duration,float delayTime,ActionFrame* srcFr
         return;
     }	
     cAction->startWithTarget(cNode);
-    cAction->update(delayTime);
+    cAction->update(static_cast<float>(delayTime.count()) / 1000.f);
 }
 
 

@@ -4,6 +4,7 @@
 #include "base/CCRef.h"
 #include "base/CCValue.h"
 
+#include <chrono>
 
 namespace cocosbuilder {
 
@@ -48,8 +49,8 @@ public:
     cocos2d::Ref* getObject() const;
     void setObject(cocos2d::Ref* obj);
     
-    float getTime();
-    void setTime(float fTime);
+    std::chrono::milliseconds getTime();
+    void setTime(std::chrono::milliseconds fTime);
     
     EasingType getEasingType();
     void setEasingType(EasingType easingType);
@@ -60,7 +61,7 @@ public:
 private:
     cocos2d::Value _value;
     cocos2d::Ref* _object;
-    float _time;
+    std::chrono::milliseconds _time;
     EasingType _easingType;
     float _easingOpt;
 };
