@@ -25,24 +25,23 @@ THE SOFTWARE.
 #include "2d/CCTweenFunction.h"
 
 #define _USE_MATH_DEFINES // needed for M_PI and M_PI2
-#include <math.h> // M_PI
+#include <cmath> // M_PI
 #undef _USE_MATH_DEFINES
+
+#include <limits>
 
 NS_CC_BEGIN
 
-namespace tweenfunc {
-    
+namespace tweenfunc
+{    
 
 #ifndef M_PI_X_2
-#define M_PI_X_2 (float)M_PI * 2.0f
+#define M_PI_X_2 static_cast<float>(M_PI) * 2.0f
 #endif
 
-
-
-
-float tweenTo(float time, TweenType type, float *easingParam)
+float tweenTo(float time, TweenType type, float* easingParam)
 {
-    float delta = 0;
+    float delta = 0.0f;
 
     switch (type)
     {
@@ -127,7 +126,7 @@ float tweenTo(float time, TweenType type, float *easingParam)
         case Elastic_EaseIn:
         {
             float period = 0.3f;
-            if (nullptr != easingParam) {
+            if (easingParam != nullptr) {
                 period = easingParam[0];
             }
             delta = elasticEaseIn(time, period);
@@ -136,7 +135,7 @@ float tweenTo(float time, TweenType type, float *easingParam)
         case Elastic_EaseOut:
         {
             float period = 0.3f;
-            if (nullptr != easingParam) {
+            if (easingParam != nullptr) {
                 period = easingParam[0];
             }
             delta = elasticEaseOut(time, period);
@@ -145,7 +144,7 @@ float tweenTo(float time, TweenType type, float *easingParam)
         case Elastic_EaseInOut:
         {
             float period = 0.3f;
-            if (nullptr != easingParam) {
+            if (easingParam != nullptr) {
                 period = easingParam[0];
             }
             delta = elasticEaseInOut(time, period);
@@ -191,17 +190,17 @@ float linear(float time)
 // Sine Ease
 float sineEaseIn(float time)
 {
-    return -1 * cosf(time * (float)M_PI_2) + 1;
+    return -1.0f * std::cos(time * static_cast<float>(M_PI_2)) + 1.0f;
 }
     
 float sineEaseOut(float time)
 {
-    return sinf(time * (float)M_PI_2);
+    return std::sin(time * static_cast<float>(M_PI_2));
 }
     
 float sineEaseInOut(float time)
 {
-    return -0.5f * (cosf((float)M_PI * time) - 1);
+    return -0.5f * (std::cos(static_cast<float>(M_PI) * time) - 1.0f);
 }
 
 
@@ -213,16 +212,16 @@ float quadEaseIn(float time)
     
 float quadEaseOut(float time)
 {
-    return -1 * time * (time - 2);
+    return -1.0f * time * (time - 2.0f);
 }
     
 float quadEaseInOut(float time)
 {
-    time = time*2;
-    if (time < 1)
+    time = time * 2.0f;
+    if (time < 1.0f)
         return 0.5f * time * time;
-    --time;
-    return -0.5f * (time * (time - 2) - 1);
+    time -= 1.0f;
+    return -0.5f * (time * (time - 2.0f) - 1.0f);
 }
 
 
@@ -234,16 +233,16 @@ float cubicEaseIn(float time)
 }
 float cubicEaseOut(float time)
 {
-    time -= 1;
-    return (time * time * time + 1);
+    time -= 1.0f;
+    return (time * time * time) + 1.0f;
 }
 float cubicEaseInOut(float time)
 {
-    time = time*2;
-    if (time < 1)
+    time = time * 2.0f;
+    if (time < 1.0f)
         return 0.5f * time * time * time;
-    time -= 2;
-    return 0.5f * (time * time * time + 2);
+    time -= 2.0f;
+    return 0.5f * (time * time * time + 2.0f);
 }
 
 
@@ -255,17 +254,17 @@ float quartEaseIn(float time)
     
 float quartEaseOut(float time)
 {
-    time -= 1;
-    return -(time * time * time * time - 1);
+    time -= 1.0f;
+    return -(time * time * time * time - 1.0f);
 }
     
 float quartEaseInOut(float time)
 {
-    time = time*2;
-    if (time < 1)
+    time = time * 2.0f;
+    if (time < 1.0f)
         return 0.5f * time * time * time * time;
-    time -= 2;
-    return -0.5f * (time * time * time * time - 2);
+    time -= 2.0f;
+    return -0.5f * (time * time * time * time - 2.0f);
 }
 
 
@@ -277,39 +276,39 @@ float quintEaseIn(float time)
     
 float quintEaseOut(float time)
 {
-    time -=1;
-    return (time * time * time * time * time + 1);
+    time -= 1.0f;
+    return (time * time * time * time * time + 1.0f);
 }
     
 float quintEaseInOut(float time)
 {
-    time = time*2;
-    if (time < 1)
+    time = time * 2.0f;
+    if (time < 1.0f)
         return 0.5f * time * time * time * time * time;
-    time -= 2;
-    return 0.5f * (time * time * time * time * time + 2);
+    time -= 2.0f;
+    return 0.5f * (time * time * time * time * time + 2.0f);
 }
 
 
 // Expo Ease
 float expoEaseIn(float time)
 {
-    return time == 0 ? 0 : powf(2, 10 * (time/1 - 1)) - 1 * 0.001f;
+    return std::abs(time) < std::numeric_limits<float>::epsilon() ? 0.0f : pow(2.0f, 10.0f * (time - 1.0f)) - 1.0f * 0.001f;
 }
 float expoEaseOut(float time)
 {
-    return time == 1 ? 1 : (-powf(2, -10 * time / 1) + 1);
+    return std::abs(time - 1.f) < std::numeric_limits<float>::epsilon() ? 1.0f : (-std::pow(2.0f, -10.0f * time) + 1.0f);
 }
 float expoEaseInOut(float time)
 {
     time /= 0.5f;
-    if (time < 1)
+    if (time < 1.0f)
     {
-        time = 0.5f * powf(2, 10 * (time - 1));
+        time = 0.5f * std::pow(2.0f, 10.0f * (time - 1.0f));
     }
     else
     {
-        time = 0.5f * (-powf(2, -10 * (time - 1)) + 2);
+        time = 0.5f * (-std::pow(2.0f, -10.0f * (time - 1.0f)) + 2.0f);
     }
 
     return time;
@@ -319,53 +318,51 @@ float expoEaseInOut(float time)
 // Circ Ease
 float circEaseIn(float time)
 {
-    return -1 * (sqrt(1 - time * time) - 1);
+    return -1.0f * (std::sqrt(1.0f - time * time) - 1.0f);
 }
 float circEaseOut(float time)
 {
-    time = time - 1;
-    return sqrt(1 - time * time);
+    time = time - 1.0f;
+    return std::sqrt(1.0f - time * time);
 }
 float circEaseInOut(float time)
 {
-    time = time * 2;
-    if (time < 1)
-        return -0.5f * (sqrt(1 - time * time) - 1);
-    time -= 2;
-    return 0.5f * (sqrt(1 - time * time) + 1);
+    time = time * 2.0f;
+    if (time < 1.0f)
+        return -0.5f * (std::sqrt(1.0f - time * time) - 1.0f);
+    time -= 2.0f;
+    return 0.5f * (std::sqrt(1.0f - time * time) + 1.0f);
 }
 
 
 // Elastic Ease
 float elasticEaseIn(float time, float period)
 {
-
-    float newT = 0;
-    if (time == 0 || time == 1)
+    float newT = 0.0f;
+    if (std::abs(time) < std::numeric_limits<float>::epsilon() || std::abs(time - 1.0f) < std::numeric_limits<float>::epsilon())
     {
         newT = time;
     }
     else
     {
-        float s = period / 4;
-        time = time - 1;
-        newT = -powf(2, 10 * time) * sinf((time - s) * M_PI_X_2 / period);
+        float s = period * 0.25f;
+        time = time - 1.0f;
+        newT = -std::pow(2.0f, 10.0f * time) * std::sin((time - s) * M_PI_X_2 / period);
     }
-
     return newT;
 }
 float elasticEaseOut(float time, float period)
 {
 
-    float newT = 0;
-    if (time == 0 || time == 1)
+    float newT = 0.0f;
+    if (std::abs(time) < std::numeric_limits<float>::epsilon() || std::abs(time - 1.0f) < std::numeric_limits<float>::epsilon())
     {
         newT = time;
     }
     else
     {
-        float s = period / 4;
-        newT = powf(2, -10 * time) * sinf((time - s) * M_PI_X_2 / period) + 1;
+        float s = period * 0.25f;
+        newT = std::pow(2.0f, -10.0f * time) * std::sin((time - s) * M_PI_X_2 / period) + 1.0f;
     }
 
     return newT;
@@ -373,29 +370,29 @@ float elasticEaseOut(float time, float period)
 float elasticEaseInOut(float time, float period)
 {
 
-    float newT = 0;
-    if (time == 0 || time == 1)
+    float newT = 0.0f;
+    if (std::abs(time) < std::numeric_limits<float>::epsilon() || std::abs(time - 1.f) < std::numeric_limits<float>::epsilon())
     {
         newT = time;
     }
     else
     {
-        time = time * 2;
-        if (! period)
+        time = time * 2.0f;
+        if (std::abs(period) < std::numeric_limits<float>::epsilon())
         {
             period = 0.3f * 1.5f;
         }
 
-        float s = period / 4;
+        float s = period * 0.25f;
 
-        time = time - 1;
-        if (time < 0)
+        time = time - 1.0f;
+        if (time < 0.0f)
         {
-            newT = -0.5f * powf(2, 10 * time) * sinf((time -s) * M_PI_X_2 / period);
+            newT = -0.5f * std::pow(2.0f, 10.0f * time) * std::sin((time - s) * M_PI_X_2 / period);
         }
         else
         {
-            newT = powf(2, -10 * time) * sinf((time - s) * M_PI_X_2 / period) * 0.5f + 1;
+            newT = std::pow(2.0f, -10.0f * time) * std::sin((time - s) * M_PI_X_2 / period) * 0.5f + 1.0f;
         }
     }
     return newT;
@@ -406,28 +403,28 @@ float elasticEaseInOut(float time, float period)
 float backEaseIn(float time)
 {
     float overshoot = 1.70158f;
-    return time * time * ((overshoot + 1) * time - overshoot);
+    return time * time * ((overshoot + 1.0f) * time - overshoot);
 }
 float backEaseOut(float time)
 {
     float overshoot = 1.70158f;
 
-    time = time - 1;
-    return time * time * ((overshoot + 1) * time + overshoot) + 1;
+    time = time - 1.0f;
+    return time * time * ((overshoot + 1.0f) * time + overshoot) + 1.0f;
 }
 float backEaseInOut(float time)
 {
     float overshoot = 1.70158f * 1.525f;
 
-    time = time * 2;
-    if (time < 1)
+    time = time * 2.0f;
+    if (time < 1.0f)
     {
-        return (time * time * ((overshoot + 1) * time - overshoot)) / 2;
+        return (time * time * ((overshoot + 1.0f) * time - overshoot)) * 0.5f;
     }
     else
     {
-        time = time - 2;
-        return (time * time * ((overshoot + 1) * time + overshoot)) / 2 + 1;
+        time = time - 2.0f;
+        return (time * time * ((overshoot + 1.0f) * time + overshoot)) * 0.5f + 1.0f;
     }
 }
 
@@ -436,11 +433,11 @@ float backEaseInOut(float time)
 // Bounce Ease
 float bounceTime(float time)
 {
-    if (time < 1 / 2.75f)
+    if (time < 1.0f / 2.75f)
     {
         return 7.5625f * time * time;
     }
-    else if (time < 2 / 2.75f)
+    else if (time < 2.0f / 2.75f)
     {
         time -= 1.5f / 2.75f;
         return 7.5625f * time * time + 0.75f;
@@ -456,7 +453,7 @@ float bounceTime(float time)
 }
 float bounceEaseIn(float time)
 {
-    return 1 - bounceTime(1 - time);
+    return 1.0f - bounceTime(1.0f - time);
 }
 
 float bounceEaseOut(float time)
@@ -466,15 +463,15 @@ float bounceEaseOut(float time)
 
 float bounceEaseInOut(float time)
 {
-    float newT = 0;
+    float newT = 0.0f;
     if (time < 0.5f)
     {
-        time = time * 2;
-        newT = (1 - bounceTime(1 - time)) * 0.5f;
+        time = time * 2.0f;
+        newT = (1.0f - bounceTime(1.0f - time)) * 0.5f;
     }
     else
     {
-        newT = bounceTime(time * 2 - 1) * 0.5f + 0.5f;
+        newT = bounceTime(time * 2.0f - 1.0f) * 0.5f + 0.5f;
     }
 
     return newT;
@@ -484,67 +481,67 @@ float bounceEaseInOut(float time)
 // Custom Ease
 float customEase(float time, float *easingParam)
 {
-    if (easingParam)
+    if (easingParam != nullptr)
     {
-        float tt = 1-time;
-        return easingParam[1]*tt*tt*tt + 3*easingParam[3]*time*tt*tt + 3*easingParam[5]*time*time*tt + easingParam[7]*time*time*time;
+        float tt = 1.0f - time;
+        return easingParam[1] * tt * tt * tt + 3.0f * easingParam[3] * time * tt * tt + 3.0f * easingParam[5] * time * time * tt + easingParam[7] * time * time * time;
     }
     return time;
 }
 
 float easeIn(float time, float rate)
 {
-    return powf(time, rate);
+    return std::pow(time, rate);
 }
 
 float easeOut(float time, float rate)
 {
-    return powf(time, 1 / rate);
+    return std::pow(time, 1.0f / rate);
 }
     
 float easeInOut(float time, float rate)
 {
-    time *= 2;
-    if (time < 1)
+    time *= 2.0f;
+    if (time < 1.0f)
     {
-        return 0.5f * powf(time, rate);
+        return 0.5f * std::pow(time, rate);
     }
     else
     {
-        return (1.0f - 0.5f * powf(2 - time, rate));
+        return (1.0f - 0.5f * std::pow(2.f - time, rate));
     }
 }
     
 float quadraticIn(float time)
 {
-    return   powf(time,2);
+    return std::pow(time, 2.0f);
 }
     
 float quadraticOut(float time)
 {
-    return -time*(time-2);
+    return -time * (time - 2.0f);
 }
     
 float quadraticInOut(float time)
 {
     
     float resultTime = time;
-    time = time*2;
-    if (time < 1)
+    time = time * 2.0f;
+    if (time < 1.0f)
     {
         resultTime = time * time * 0.5f;
     }
     else
     {
         --time;
-        resultTime = -0.5f * (time * (time - 2) - 1);
+        resultTime = -0.5f * (time * (time - 2.0f) - 1.0f);
     }
     return resultTime;
 }
     
-float bezieratFunction( float a, float b, float c, float d, float t )
+float bezieratFunction(float a, float b, float c, float d, float t)
 {
-    return (powf(1-t,3) * a + 3*t*(powf(1-t,2))*b + 3*powf(t,2)*(1-t)*c + powf(t,3)*d );
+    return (std::pow(1.0f - t, 3.0f) * a + 3.0f * t * (std::pow(1.0f - t, 2.0f)) * b + 3.0f * std::pow(t, 2.0f) * (1.0f - t) * c + std::pow(t, 3.0f) * d);
 }
     
 }

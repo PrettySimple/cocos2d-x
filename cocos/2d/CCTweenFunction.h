@@ -102,7 +102,7 @@ namespace tweenfunc {
     /**
      * @param time in seconds.
      */
-    float CC_DLL bezieratFunction( float a, float b, float c, float d, float t );
+    float CC_DLL bezieratFunction(float a, float b, float c, float d, float t);
     
     /**
      * @param time in seconds.
@@ -127,7 +127,7 @@ namespace tweenfunc {
     /**
      * @param time in seconds.
      */
-    float CC_DLL tweenTo(float time, TweenType type, float *easingParam);
+    float CC_DLL tweenTo(float time, TweenType type, float* easingParam);
     
     /**
      * @param time in seconds.
@@ -290,7 +290,7 @@ namespace tweenfunc {
     /**
      * @param time in seconds.
      */
-    float CC_DLL customEase(float time, float *easingParam);
+    float CC_DLL customEase(float time, float* easingParam);
 }
 
 NS_CC_END
