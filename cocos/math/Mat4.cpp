@@ -43,15 +43,6 @@ Mat4::Mat4(const float* mat)
     set(mat);
 }
 
-Mat4::Mat4(const Mat4& copy)
-{
-    memcpy(m, copy.m, MATRIX_SIZE);
-}
-
-Mat4::~Mat4()
-{
-}
-
 void Mat4::createLookAt(const Vec3& eyePosition, const Vec3& targetPosition, const Vec3& up, Mat4* dst)
 {
     createLookAt(eyePosition.x, eyePosition.y, eyePosition.z, targetPosition.x, targetPosition.y, targetPosition.z,

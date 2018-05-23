@@ -71,7 +71,7 @@ NS_CC_MATH_BEGIN
  *
  * @see Transform
  */
-class CC_DLL Mat4
+class CC_DLL Mat4 final
 {
 public:
     // //temp add conversion
@@ -151,12 +151,15 @@ public:
      *
      * @param copy The matrix to copy.
      */
-    Mat4(const Mat4& copy);
+    Mat4(Mat4 const&) = default;
+    Mat4& operator=(Mat4 const&) = default;
+    Mat4(Mat4 &&) noexcept = default;
+    Mat4& operator=(Mat4 &&) noexcept = default;
 
     /**
      * Destructor.
      */
-    ~Mat4();
+    ~Mat4() = default;
 
     /**
      * Creates a view matrix based on the specified input parameters.
