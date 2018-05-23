@@ -46,10 +46,14 @@ static inline void split(const std::string& src, const std::string& token, strAr
     {
         nend = src.find(token, nbegin);
         if(nend == std::string::npos)
-            vect.push_back(src.substr(nbegin, src.length()-nbegin));
+        {
+            vect.emplace_back(src.substr(nbegin, src.size() - nbegin));
+        }
         else
-            vect.push_back(src.substr(nbegin, nend-nbegin));
-        nbegin = nend + tokenSize;
+        {
+            vect.emplace_back(src.substr(nbegin, nend - nbegin));
+            nbegin = nend + tokenSize;
+        }
     }
 }
 
