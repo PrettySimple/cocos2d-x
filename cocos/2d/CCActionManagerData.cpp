@@ -8,7 +8,7 @@
 #include "CCActionManagerData.h"
 
 #include "base/ccMacros.h"
-#include "iterator_pair.h"
+#include "base/iterator_pair.h"
 
 #include <algorithm>
 #include <cstddef>
@@ -19,34 +19,13 @@
 
 NS_CC_BEGIN
 
-ActionManagerData::Element::Element(Node* t, Action* a, bool p, std::size_t i, ActionManagerData* m) : manager(m)
-, target(t)
+ActionManagerData::Element::Element(Node* t, Action* a, bool p, std::size_t i) : target(t)
 , action(a)
 , paused(p)
 , index(i)
 {
     CC_SAFE_RETAIN(target);
     CC_SAFE_RETAIN(action);
-}
-
-void ActionManagerData::Element::destroy() const
-{
-    CCASSERT(manager != nullptr, "manager can't be nullptr!");
-    manager->_actions.erase(action);
-
-    auto search_target = manager->_targets.equal_range(target);
-    auto search_action = std::find_if(search_target.first, search_target.second, [this](typename target_t::value_type const& element) {
-        return std::addressof(element.second) == std::addressof(*this);
-    });
-    if (search_action != search_target.second)
-    {
-        manager->_targets.erase(search_action);
-    }
-
-    action->stop();
-
-    CC_SAFE_RELEASE(target);
-    CC_SAFE_RELEASE(action);
 }
 
 void ActionManagerData::pause_target(Node* target)
@@ -85,7 +64,7 @@ void ActionManagerData::add_action(Node* target, Action* action, bool paused)
     }
 
     action->startWithTarget(target);
-    auto const data = _data.emplace_hint(_data.end(), target, action, paused, _index++, this);
+    auto const data = _data.emplace_hint(_data.end(), target, action, paused, _index++);
     _actions.emplace(action, *data);
     _targets.emplace(target, *data);
 }
@@ -257,7 +236,26 @@ void ActionManagerData::remove_element(typename data_t::key_type const& key)
 {
     if (_data.count(key) > 0)
     {
-        key.destroy();
+        _actions.erase(key.action);
+
+        auto search_target = _targets.equal_range(key.target);
+        for (auto it = search_target.first; it != search_target.second;)
+        {
+            if (std::addressof(it->second) == std::addressof(key))
+            {
+                it = _targets.erase(it);
+            }
+            else
+            {
+                ++it;
+            }
+        }
+
+        key.action->stop();
+
+        CC_SAFE_RELEASE(key.target);
+        CC_SAFE_RELEASE(key.action);
+
         _data.erase(key);
     }
 }

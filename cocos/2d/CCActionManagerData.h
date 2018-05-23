@@ -22,21 +22,18 @@ class ActionManagerData
 {
     struct Element
     {
-        ActionManagerData* manager = nullptr; // weak ref
         Node* target = nullptr;
         Action* action = nullptr;
         bool paused = false;
         std::size_t index = 0;
 
         Element() = default;
-        explicit Element(Node* t, Action* a, bool p, std::size_t i, ActionManagerData* m);
+        explicit Element(Node* t, Action* a, bool p, std::size_t i);
         Element(Element const&) = delete;
         Element& operator=(Element const&) = delete;
         Element(Element&& other) noexcept = delete;
         Element& operator=(Element&& other) noexcept = delete;
         ~Element() = default;
-
-        void destroy() const;
     };
 
     struct element_less
