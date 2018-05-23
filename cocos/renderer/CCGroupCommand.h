@@ -26,11 +26,10 @@
 #ifndef _CC_GROUPCOMMAND_H_
 #define _CC_GROUPCOMMAND_H_
 
-#include <vector>
-#include <unordered_map>
-
 #include "base/CCRef.h"
 #include "renderer/CCRenderCommand.h"
+#include <cstddef>
+#include <limits>
 
 /**
  * @addtogroup renderer
@@ -39,44 +38,26 @@
 
 NS_CC_BEGIN
 
-//Used for internal
-class GroupCommandManager : public Ref
-{
-public:
-    int getGroupID();
-    void releaseGroupID(int groupID);
-
-protected:
-    friend class Renderer;
-    GroupCommandManager();
-    ~GroupCommandManager();
-    bool init();
-    std::unordered_map<int, bool> _groupMapping;
-    std::vector<int> _unusedIDs;
-};
-
 /**
  GroupCommand is used to group several command together, and more, it can be nested.
  So it is used to generate the hierarchy for the rendcommands. Every group command will be assigned by a group ID.
  */
-class CC_DLL GroupCommand : public RenderCommand
+class CC_DLL GroupCommand final : public RenderCommand
 {
+    std::size_t _renderQueueID = std::numeric_limits<std::size_t>::max();
 public:
-    /**@{
-     Constructor and Destructor.
-     */
     GroupCommand();
-    ~GroupCommand();
-    /**@}*/
+    GroupCommand(GroupCommand const&) = delete;
+    GroupCommand& operator=(GroupCommand const&) = delete;
+    GroupCommand(GroupCommand &&) noexcept = delete;
+    GroupCommand& operator=(GroupCommand &&) noexcept = delete;
+    ~GroupCommand() final;
     
     /**Init function for group command*/
     void init(float globalOrder);
     
     /**called by renderer, get the group ID.*/
-    int getRenderQueueID() const { return _renderQueueID; }
-    
-protected:
-    int _renderQueueID;
+    inline std::size_t getRenderQueueID() const noexcept { return _renderQueueID; }
 };
 
 NS_CC_END

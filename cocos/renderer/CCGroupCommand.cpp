@@ -24,70 +24,62 @@
 
 
 #include "renderer/CCGroupCommand.h"
-#include "renderer/CCRenderer.h"
+
 #include "base/CCDirector.h"
+#include "renderer/CCRenderer.h"
+
+#include <unordered_set>
 
 NS_CC_BEGIN
 
-GroupCommandManager::GroupCommandManager()
+std::unordered_set<std::size_t>& get_unused_ids() noexcept
 {
-
+    static std::unordered_set<std::size_t> unusedIDs;
+    return unusedIDs;
 }
 
-GroupCommandManager::~GroupCommandManager()
+std::size_t get_group_id()
 {
-    
-}
+    auto& unused_ids = get_unused_ids();
 
-bool GroupCommandManager::init()
-{
-    //0 is the default render group
-    _groupMapping[0] = true;
-    return true;
-}
-
-int GroupCommandManager::getGroupID()
-{
     //Reuse old id
-    if (!_unusedIDs.empty())
+    if (!unused_ids.empty())
     {
-        int groupID = *_unusedIDs.rbegin();
-        _unusedIDs.pop_back();
-        _groupMapping[groupID] = true;
+        auto it = unused_ids.begin();
+        std::size_t groupID = *it;
+        unused_ids.erase(it);
         return groupID;
     }
 
     //Create new ID
-//    int newID = _groupMapping.size();
-    int newID = Director::getInstance()->getRenderer()->createRenderQueue();
-    _groupMapping[newID] = true;
-
-    return newID;
+    return Director::getInstance()->getRenderer()->createRenderQueue();
 }
 
-void GroupCommandManager::releaseGroupID(int groupID)
+void recycle_group_id(std::size_t group_id)
 {
-    _groupMapping[groupID] = false;
-    _unusedIDs.push_back(groupID);
+    if (group_id != std::numeric_limits<std::size_t>::max())
+    {
+        auto& unused_ids = get_unused_ids();
+        unused_ids.emplace(group_id);
+    }
 }
 
-GroupCommand::GroupCommand()
+GroupCommand::GroupCommand() : RenderCommand(RenderCommand::Type::GROUP_COMMAND)
 {
-    _type = RenderCommand::Type::GROUP_COMMAND;
-    _renderQueueID = Director::getInstance()->getRenderer()->getGroupCommandManager()->getGroupID();
+}
+
+GroupCommand::~GroupCommand()
+{
+    recycle_group_id(_renderQueueID);
 }
 
 void GroupCommand::init(float globalOrder)
 {
     _globalOrder = globalOrder;
-    auto manager = Director::getInstance()->getRenderer()->getGroupCommandManager();
-    manager->releaseGroupID(_renderQueueID);
-    _renderQueueID = manager->getGroupID();
+    recycle_group_id(_renderQueueID);
+    _renderQueueID = get_group_id();
 }
 
-GroupCommand::~GroupCommand()
-{
-    Director::getInstance()->getRenderer()->getGroupCommandManager()->releaseGroupID(_renderQueueID);
-}
+
 
 NS_CC_END
