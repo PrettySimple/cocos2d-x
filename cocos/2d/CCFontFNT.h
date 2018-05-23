@@ -23,55 +23,51 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _CCFontFNT_h_
-#define _CCFontFNT_h_
-
-/// @cond DO_NOT_SHOW
+#ifndef COCOS2D_2D_FONTFNT_H
+#define COCOS2D_2D_FONTFNT_H
 
 #include "2d/CCFont.h"
+#include "math/Vec2.h"
+
+#include <string>
 
 NS_CC_BEGIN
 
 class BMFontConfiguration;
 
-class CC_DLL FontFNT : public Font
+class CC_DLL FontFNT final : public Font
 {
+    BMFontConfiguration* _configuration = nullptr;
+    Vec2 _imageOffset = Vec2::ZERO;
+    //User defined font size
+    float _fontSize;
     
 public:
-    
-    static FontFNT * create(const std::string& fntFilePath, const Vec2& imageOffset = Vec2::ZERO);
+    static FontFNT* create(std::string const& fntFilePath, Vec2 const& imageOffset = Vec2::ZERO);
     /** Purges the cached data.
     Removes from memory the cached configurations and the atlas name dictionary.
     */
     static void purgeCachedData();
-    virtual int* getHorizontalKerningForTextUTF16(const std::u16string& text, int &outNumLetters) const override;
-    virtual FontAtlas *createFontAtlas() override;
-    void setFontSize(float fontSize);
-    int getOriginalFontSize()const;
+    int* getHorizontalKerningForTextUTF16(std::u16string const& text, int& outNumLetters) const final;
+    FontAtlas* createFontAtlas() final;
+    inline void setFontSize(float fontSize) noexcept { _fontSize = fontSize; }
+    int getOriginalFontSize() const noexcept;
 
-    static void reloadBMFontResource(const std::string& fntFilePath);
+    static void reloadBMFontResource(std::string const& fntFilePath);
 
-protected:
-    
-    FontFNT(BMFontConfiguration *theContfig, const Vec2& imageOffset = Vec2::ZERO);
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~FontFNT();
+private:
+    FontFNT() = default;
+    FontFNT(BMFontConfiguration* theContfig, Vec2 const& imageOffset = Vec2::ZERO);
+    FontFNT(FontFNT const&) = delete;
+    FontFNT& operator=(FontFNT const&) = delete;
+    FontFNT(FontFNT &&) noexcept = delete;
+    FontFNT& operator=(FontFNT &&) noexcept = delete;
+    ~FontFNT() final;
     
 private:
-    
-    int  getHorizontalKerningForChars(unsigned short firstChar, unsigned short secondChar) const;
-    
-    BMFontConfiguration * _configuration;
-    Vec2                   _imageOffset;
-    //User defined font size
-    float  _fontSize;
+    int getHorizontalKerningForChars(unsigned short firstChar, unsigned short secondChar) const noexcept;
 };
-
-/// @endcond
 
 NS_CC_END
 
-#endif /* defined(__cocos2d_libs__CCFontFNT__) */
+#endif // COCOS2D_2D_FONTFNT_H
