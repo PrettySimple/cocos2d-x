@@ -38,12 +38,15 @@ std::unordered_map<std::string, FontAtlas *> FontAtlasCache::_atlasMap;
 
 void FontAtlasCache::purgeCachedData()
 {
-    auto atlasMapCopy = _atlasMap;
-    for (auto&& atlas : atlasMapCopy)
+    if (!_atlasMap.empty())
     {
-        atlas.second->purgeTexturesAtlas();
+        auto atlasMapCopy = _atlasMap;
+        _atlasMap.clear();
+        for (auto& atlas : atlasMapCopy)
+        {
+            atlas.second->purgeTexturesAtlas();
+        }
     }
-    _atlasMap.clear();
 }
 
 FontAtlas* FontAtlasCache::getFontAtlasTTF(const _ttfConfig* config)
