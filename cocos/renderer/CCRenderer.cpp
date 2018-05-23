@@ -24,59 +24,54 @@
 
 #include "renderer/CCRenderer.h"
 
-#include <algorithm>
-
-#include "renderer/CCTrianglesCommand.h"
-#include "renderer/CCBatchCommand.h"
-#include "renderer/CCCustomCommand.h"
-#include "renderer/CCGroupCommand.h"
-#include "renderer/CCPrimitiveCommand.h"
-#include "renderer/CCMeshCommand.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCMaterial.h"
-#include "renderer/CCTechnique.h"
-#include "renderer/CCPass.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/ccGLStateCache.h"
-
+#include "2d/CCCamera.h"
+#include "2d/CCScene.h"
 #include "base/CCConfiguration.h"
 #include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
 #include "base/CCEventListenerCustom.h"
 #include "base/CCEventType.h"
-#include "2d/CCCamera.h"
-#include "2d/CCScene.h"
 #include "platform/CCPlatformMacros.h"
+#include "renderer/CCBatchCommand.h"
+#include "renderer/CCCustomCommand.h"
+#include "renderer/CCGLProgramCache.h"
+#include "renderer/CCMaterial.h"
+#include "renderer/CCMeshCommand.h"
+#include "renderer/CCPass.h"
+#include "renderer/CCPrimitiveCommand.h"
+#include "renderer/CCRenderState.h"
+#include "renderer/CCTechnique.h"
+#include "renderer/CCTrianglesCommand.h"
+#include "renderer/ccGLStateCache.h"
+
+#include <algorithm>
+#include <limits>
 
 NS_CC_BEGIN
 
 // helper
-static bool compareRenderCommand(RenderCommand* a, RenderCommand* b)
+static bool compareRenderCommand(RenderCommand const* a, RenderCommand const* b)
 {
     return a->getGlobalOrder() < b->getGlobalOrder();
 }
 
-static bool compare3DCommand(RenderCommand* a, RenderCommand* b)
+static bool compare3DCommand(RenderCommand const* a, RenderCommand const* b)
 {
     return  a->getDepth() > b->getDepth();
 }
 
 // queue
-RenderQueue::RenderQueue()
-{
-    
-}
 
 void RenderQueue::push_back(RenderCommand* command)
 {
-    float z = command->getGlobalOrder();
-    if(z < 0)
+    float const z = command->getGlobalOrder();
+    if(z < 0.f)
     {
-        _commands[QUEUE_GROUP::GLOBALZ_NEG].push_back(command);
+        _commands[static_cast<std::size_t>(QUEUE_GROUP::GLOBALZ_NEG)].emplace_back(command);
     }
-    else if(z > 0)
+    else if(z > 0.f)
     {
-        _commands[QUEUE_GROUP::GLOBALZ_POS].push_back(command);
+        _commands[static_cast<std::size_t>(QUEUE_GROUP::GLOBALZ_POS)].emplace_back(command);
     }
     else
     {
@@ -84,48 +79,49 @@ void RenderQueue::push_back(RenderCommand* command)
         {
             if(command->isTransparent())
             {
-                _commands[QUEUE_GROUP::TRANSPARENT_3D].push_back(command);
+                _commands[static_cast<std::size_t>(QUEUE_GROUP::TRANSPARENT_3D)].emplace_back(command);
             }
             else
             {
-                _commands[QUEUE_GROUP::OPAQUE_3D].push_back(command);
+                _commands[static_cast<std::size_t>(QUEUE_GROUP::OPAQUE_3D)].emplace_back(command);
             }
         }
         else
         {
-            _commands[QUEUE_GROUP::GLOBALZ_ZERO].push_back(command);
+            _commands[static_cast<std::size_t>(QUEUE_GROUP::GLOBALZ_ZERO)].emplace_back(command);
         }
     }
 }
 
-ssize_t RenderQueue::size() const
+std::size_t RenderQueue::size() const noexcept
 {
-    ssize_t result(0);
-    for(int index = 0; index < QUEUE_GROUP::QUEUE_COUNT; ++index)
+    std::size_t result = 0;
+    for (auto const& cmd : _commands)
     {
-        result += _commands[index].size();
+        result += cmd.size();
     }
-    
     return result;
 }
 
 void RenderQueue::sort()
 {
     // Don't sort _queue0, it already comes sorted
-    std::sort(std::begin(_commands[QUEUE_GROUP::TRANSPARENT_3D]), std::end(_commands[QUEUE_GROUP::TRANSPARENT_3D]), compare3DCommand);
-    std::sort(std::begin(_commands[QUEUE_GROUP::GLOBALZ_NEG]), std::end(_commands[QUEUE_GROUP::GLOBALZ_NEG]), compareRenderCommand);
-    std::sort(std::begin(_commands[QUEUE_GROUP::GLOBALZ_POS]), std::end(_commands[QUEUE_GROUP::GLOBALZ_POS]), compareRenderCommand);
+    std::sort(_commands[static_cast<std::size_t>(QUEUE_GROUP::TRANSPARENT_3D)].begin(), _commands[static_cast<std::size_t>(QUEUE_GROUP::TRANSPARENT_3D)].end(), compare3DCommand);
+    std::sort(_commands[static_cast<std::size_t>(QUEUE_GROUP::GLOBALZ_NEG)].begin(), _commands[static_cast<std::size_t>(QUEUE_GROUP::GLOBALZ_NEG)].end(), compareRenderCommand);
+    std::sort(_commands[static_cast<std::size_t>(QUEUE_GROUP::GLOBALZ_POS)].begin(), _commands[static_cast<std::size_t>(QUEUE_GROUP::GLOBALZ_POS)].end(), compareRenderCommand);
 }
 
-RenderCommand* RenderQueue::operator[](ssize_t index) const
+RenderCommand* RenderQueue::operator[](std::size_t index) const noexcept
 {
-    for(int queIndex = 0; queIndex < QUEUE_GROUP::QUEUE_COUNT; ++queIndex)
+    for (auto const& cmd : _commands)
     {
-        if(index < static_cast<ssize_t>(_commands[queIndex].size()))
-            return _commands[queIndex][index];
+        if(index < cmd.size())
+        {
+            return cmd[index];
+        }
         else
         {
-            index -= _commands[queIndex].size();
+            index -= cmd.size();
         }
     }
     
@@ -135,18 +131,19 @@ RenderCommand* RenderQueue::operator[](ssize_t index) const
 
 void RenderQueue::clear()
 {
-    for(int i = 0; i < QUEUE_COUNT; ++i)
+    for (auto& cmd : _commands)
     {
-        _commands[i].clear();
+        cmd.clear();
     }
 }
 
-void RenderQueue::realloc(size_t reserveSize)
+void RenderQueue::realloc(std::size_t reserveSize)
 {
-    for(int i = 0; i < QUEUE_COUNT; ++i)
+    for (auto& cmd : _commands)
     {
-        _commands[i] = std::vector<RenderCommand*>();
-        _commands[i].reserve(reserveSize);
+        std::vector<RenderCommand*> vec;
+        vec.reserve(reserveSize);
+        cmd = vec;
     }
 }
 
@@ -192,54 +189,30 @@ void RenderQueue::restoreRenderState()
 //
 //
 //
-static const int DEFAULT_RENDER_QUEUE = 0;
+static constexpr Renderer::render_queue_id_t const DEFAULT_RENDER_QUEUE = 0;
 
 //
 // constructors, destructor, init
 //
-Renderer::Renderer()
-:_lastBatchedMeshCommand(nullptr)
-,_filledVertex(0)
-,_filledIndex(0)
-,_glViewAssigned(false)
-,_isRendering(false)
-,_isDepthTestFor2D(false)
-,_triBatchesToDraw(nullptr)
-,_triBatchesToDrawCapacity(-1)
-#if CC_ENABLE_CACHE_TEXTURE_DATA
-,_cacheTextureListener(nullptr)
-#endif
+Renderer::Renderer() : _triBatchesToDraw(500)
 {
-    _groupCommandManager = new (std::nothrow) GroupCommandManager();
-    
     _commandGroupStack.push(DEFAULT_RENDER_QUEUE);
-    
-    RenderQueue defaultRenderQueue;
-    _renderGroups.push_back(defaultRenderQueue);
+    _renderGroups.emplace_back(RenderQueue{});
     _queuedTriangleCommands.reserve(BATCH_TRIAGCOMMAND_RESERVED_SIZE);
-
-    // default clear color
-    _clearColor = Color4F::BLACK;
-
-    // for the batched TriangleCommand
-    _triBatchesToDrawCapacity = 500;
-    _triBatchesToDraw = (TriBatchToDraw*) malloc(sizeof(_triBatchesToDraw[0]) * _triBatchesToDrawCapacity);
 }
 
 Renderer::~Renderer()
 {
     _renderGroups.clear();
-    _groupCommandManager->release();
     
-    glDeleteBuffers(2, _buffersVBO);
-
-    free(_triBatchesToDraw);
+    glDeleteBuffers(2, _buffersVBO.data());
 
     if (Configuration::getInstance()->supportsShareableVAO())
     {
         glDeleteVertexArrays(1, &_buffersVAO);
         GL::bindVAO(0);
     }
+
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     Director::getInstance()->getEventDispatcher()->removeEventListener(_cacheTextureListener);
 #endif
@@ -282,22 +255,22 @@ void Renderer::setupVBOAndVAO()
     glGenBuffers(2, &_buffersVBO[0]);
 
     glBindBuffer(GL_ARRAY_BUFFER, _buffersVBO[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(_verts[0]) * VBO_SIZE, _verts, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(sizeof(V3F_C4B_T2F) * VBO_SIZE), reinterpret_cast<GLvoid*>(_verts.data()), GL_DYNAMIC_DRAW);
 
     // vertices
     glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_POSITION);
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(V3F_C4B_T2F), (GLvoid*) offsetof( V3F_C4B_T2F, vertices));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizeiptr>(sizeof(V3F_C4B_T2F)), reinterpret_cast<GLvoid*>(offsetof( V3F_C4B_T2F, vertices)));
 
     // colors
     glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_COLOR);
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(V3F_C4B_T2F), (GLvoid*) offsetof( V3F_C4B_T2F, colors));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, static_cast<GLsizeiptr>(sizeof(V3F_C4B_T2F)), reinterpret_cast<GLvoid*>(offsetof( V3F_C4B_T2F, colors)));
 
     // tex coords
     glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_TEX_COORD);
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(V3F_C4B_T2F), (GLvoid*) offsetof( V3F_C4B_T2F, texCoords));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizeiptr>(sizeof(V3F_C4B_T2F)), reinterpret_cast<GLvoid*>(offsetof( V3F_C4B_T2F, texCoords)));
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffersVBO[1]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(_indices[0]) * INDEX_VBO_SIZE, _indices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(sizeof(GLushort) * INDEX_VBO_SIZE), reinterpret_cast<GLvoid*>(_indices.data()), GL_STATIC_DRAW);
 
     // Must unbind the VAO before changing the element buffer.
     GL::bindVAO(0);
@@ -309,7 +282,7 @@ void Renderer::setupVBOAndVAO()
 
 void Renderer::setupVBO()
 {
-    glGenBuffers(2, &_buffersVBO[0]);
+    glGenBuffers(2, _buffersVBO.data());
     // Issue #15652
     // Should not initialzie VBO with a large size (VBO_SIZE=65536),
     // it may cause low FPS on some Android devices like LG G4 & Nexus 5X.
@@ -326,13 +299,13 @@ void Renderer::mapBuffers()
     GL::bindVAO(0);
 
     glBindBuffer(GL_ARRAY_BUFFER, _buffersVBO[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(_verts[0]) * VBO_SIZE, _verts, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(sizeof(V3F_C4B_T2F) * VBO_SIZE), reinterpret_cast<GLvoid*>(_verts.data()), GL_DYNAMIC_DRAW);
     
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffersVBO[1]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(_indices[0]) * INDEX_VBO_SIZE, _indices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(sizeof(GLushort) * INDEX_VBO_SIZE), reinterpret_cast<GLvoid*>(_indices.data()), GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -341,11 +314,11 @@ void Renderer::mapBuffers()
 
 void Renderer::addCommand(RenderCommand* command)
 {
-    int renderQueue =_commandGroupStack.top();
+    render_queue_id_t renderQueue = _commandGroupStack.top();
     addCommand(command, renderQueue);
 }
 
-void Renderer::addCommand(RenderCommand* command, int renderQueue)
+void Renderer::addCommand(RenderCommand* command, render_queue_id_t renderQueue)
 {
     CCASSERT(!_isRendering, "Cannot add command while rendering");
     CCASSERT(renderQueue >=0, "Invalid render queue");
@@ -354,7 +327,7 @@ void Renderer::addCommand(RenderCommand* command, int renderQueue)
     _renderGroups[renderQueue].push_back(command);
 }
 
-void Renderer::pushGroup(int renderQueueID)
+void Renderer::pushGroup(render_queue_id_t renderQueueID)
 {
     CCASSERT(!_isRendering, "Cannot change render queue while rendering");
     _commandGroupStack.push(renderQueueID);
@@ -366,16 +339,15 @@ void Renderer::popGroup()
     _commandGroupStack.pop();
 }
 
-int Renderer::createRenderQueue()
+Renderer::render_queue_id_t Renderer::createRenderQueue()
 {
-    RenderQueue newRenderQueue;
-    _renderGroups.push_back(newRenderQueue);
-    return (int)_renderGroups.size() - 1;
+    _renderGroups.emplace_back(RenderQueue{});
+    return static_cast<render_queue_id_t>(_renderGroups.size() - 1);
 }
 
 void Renderer::processRenderCommand(RenderCommand* command)
 {
-    auto commandType = command->getType();
+    auto const commandType = command->getType();
     if( RenderCommand::Type::TRIANGLES_COMMAND == commandType)
     {
         // flush other queues
@@ -392,7 +364,7 @@ void Renderer::processRenderCommand(RenderCommand* command)
         }
         
         // queue it
-        _queuedTriangleCommands.push_back(cmd);
+        _queuedTriangleCommands.emplace_back(cmd);
         _filledIndex += cmd->getIndexCount();
         _filledVertex += cmd->getVertexCount();
     }
@@ -430,7 +402,7 @@ void Renderer::processRenderCommand(RenderCommand* command)
     else if(RenderCommand::Type::GROUP_COMMAND == commandType)
     {
         flush();
-        int renderQueueID = ((GroupCommand*) command)->getRenderQueueID();
+        auto renderQueueID = static_cast<GroupCommand*>(command)->getRenderQueueID();
         CCGL_DEBUG_PUSH_GROUP_MARKER("RENDERER_GROUP_COMMAND");
         visitRenderQueue(_renderGroups[renderQueueID]);
         CCGL_DEBUG_POP_GROUP_MARKER();
@@ -493,9 +465,9 @@ void Renderer::visitRenderQueue(RenderQueue& queue)
         glDisable(GL_CULL_FACE);
         RenderState::StateBlock::_defaultState->setCullFace(false);
         
-        for (auto it = zNegQueue.cbegin(); it != zNegQueue.cend(); ++it)
+        for (auto cmd : zNegQueue)
         {
-            processRenderCommand(*it);
+            processRenderCommand(cmd);
         }
         flush();
     }
@@ -517,9 +489,9 @@ void Renderer::visitRenderQueue(RenderQueue& queue)
         RenderState::StateBlock::_defaultState->setCullFace(true);
 
 
-        for (auto it = opaqueQueue.cbegin(); it != opaqueQueue.cend(); ++it)
+        for (auto cmd : opaqueQueue)
         {
-            processRenderCommand(*it);
+            processRenderCommand(cmd);
         }
         flush();
     }
@@ -527,7 +499,7 @@ void Renderer::visitRenderQueue(RenderQueue& queue)
     //
     //Process 3D Transparent object
     //
-    const auto& transQueue = queue.getSubQueue(RenderQueue::QUEUE_GROUP::TRANSPARENT_3D);
+    auto const& transQueue = queue.getSubQueue(RenderQueue::QUEUE_GROUP::TRANSPARENT_3D);
     if (transQueue.size() > 0)
     {
         glEnable(GL_DEPTH_TEST);
@@ -541,9 +513,9 @@ void Renderer::visitRenderQueue(RenderQueue& queue)
         RenderState::StateBlock::_defaultState->setCullFace(true);
 
 
-        for (auto it = transQueue.cbegin(); it != transQueue.cend(); ++it)
+        for (auto cmd : transQueue)
         {
-            processRenderCommand(*it);
+            processRenderCommand(cmd);
         }
         flush();
     }
@@ -576,10 +548,10 @@ void Renderer::visitRenderQueue(RenderQueue& queue)
         }
         glDisable(GL_CULL_FACE);
         RenderState::StateBlock::_defaultState->setCullFace(false);
-        
-        for (auto it = zZeroQueue.cbegin(); it != zZeroQueue.cend(); ++it)
+
+        for (auto cmd : zZeroQueue)
         {
-            processRenderCommand(*it);
+            processRenderCommand(cmd);
         }
         flush();
     }
@@ -613,9 +585,9 @@ void Renderer::visitRenderQueue(RenderQueue& queue)
         glDisable(GL_CULL_FACE);
         RenderState::StateBlock::_defaultState->setCullFace(false);
         
-        for (auto it = zPosQueue.cbegin(); it != zPosQueue.cend(); ++it)
+        for (auto cmd : zPosQueue)
         {
-            processRenderCommand(*it);
+            processRenderCommand(cmd);
         }
         flush();
     }
@@ -635,7 +607,7 @@ void Renderer::render()
     {
         //Process render commands
         //1. Sort render commands based on ID
-        for (auto &renderqueue : _renderGroups)
+        for (auto& renderqueue : _renderGroups)
         {
             renderqueue.sort();
         }
@@ -648,14 +620,14 @@ void Renderer::render()
 void Renderer::clean()
 {
     // Clear render group
-    for (size_t j = 0 ; j < _renderGroups.size(); j++)
+    for (auto& renderGroup : _renderGroups)
     {
         //commands are owned by nodes
         // for (const auto &cmd : _renderGroups[j])
         // {
         //     cmd->releaseToCommandPool();
         // }
-        _renderGroups[j].clear();
+        renderGroup.clear();
     }
 
     // Clear batch commands
@@ -700,39 +672,42 @@ void Renderer::setDepthTest(bool enable)
     CHECK_GL_ERROR_DEBUG();
 }
 
-void Renderer::fillVerticesAndIndices(const TrianglesCommand* cmd)
+void Renderer::fillVerticesAndIndices(TrianglesCommand const* cmd)
 {
-    memcpy(&_verts[_filledVertex], cmd->getVertices(), sizeof(V3F_C4B_T2F) * cmd->getVertexCount());
+    auto const vertices = cmd->getVertices();
+    auto const verticesCount = cmd->getVertexCount();
+    std::copy(vertices, vertices + verticesCount, _verts.begin() + _filledVertex);
 
     // fill vertex, and convert them to world coordinates
-    const Mat4& modelView = cmd->getModelView();
-    for(ssize_t i=0; i < cmd->getVertexCount(); ++i)
+    Mat4 const& modelView = cmd->getModelView();
+    for(std::size_t i=0; i < cmd->getVertexCount(); ++i)
     {
-		Vec3 *vec1 = &(_verts[i + _filledVertex].vertices);
-		if (abs(modelView.m[15] - 1.0f) > 0.00001f)
+		Vec3& vec1 = _verts[i + _filledVertex].vertices;
+        if (std::abs(modelView.m[15] - 1.0f) >= std::numeric_limits<float>::epsilon())
         {
-            Vec4 vec4 = Vec4((*vec1).x, (*vec1).y, (*vec1).z, 1.0f);
+            Vec4 vec4 = Vec4(vec1.x, vec1.y, vec1.z, 1.0f);
             modelView.transformVector(&vec4);
             vec4 = vec4 / vec4.w;
-            vec1->x = vec4.x;
-            vec1->y = vec4.y;
-            vec1->z = vec4.z;
+            vec1.x = vec4.x;
+            vec1.y = vec4.y;
+            vec1.z = vec4.z;
         }
         else
         {
-            modelView.transformPoint(vec1);
+            modelView.transformPoint(&vec1);
         }
     }
 
     // fill index
-    const unsigned short* indices = cmd->getIndices();
-    for(ssize_t i=0; i< cmd->getIndexCount(); ++i)
+    auto const indices = cmd->getIndices();
+    auto const indicesCount = cmd->getIndexCount();
+    for(std::size_t i = 0; i < indicesCount; ++i)
     {
         _indices[_filledIndex + i] = _filledVertex + indices[i];
     }
 
-    _filledVertex += cmd->getVertexCount();
-    _filledIndex += cmd->getIndexCount();
+    _filledVertex += verticesCount;
+    _filledIndex += indicesCount;
 }
 
 void Renderer::drawBatchedTriangles()
@@ -751,15 +726,14 @@ void Renderer::drawBatchedTriangles()
     _triBatchesToDraw[0].indicesToDraw = 0;
     _triBatchesToDraw[0].cmd = nullptr;
 
-    int batchesTotal = 0;
-    int prevMaterialID = -1;
+    std::size_t batchesTotal = 0;
+    std::size_t prevMaterialID = std::numeric_limits<std::size_t>::max();
     bool firstCommand = true;
 
-    for(auto it = std::begin(_queuedTriangleCommands); it != std::end(_queuedTriangleCommands); ++it)
+    for(auto const& cmd : _queuedTriangleCommands)
     {
-        const auto& cmd = *it;
-        auto currentMaterialID = cmd->getMaterialID();
-        const bool batchable = !cmd->isSkipBatching();
+        std::size_t currentMaterialID = cmd->getMaterialID();
+        bool const batchable = !cmd->isSkipBatching();
 
         fillVerticesAndIndices(cmd);
 
@@ -773,23 +747,26 @@ void Renderer::drawBatchedTriangles()
         else
         {
             // is this the first one?
-            if (!firstCommand) {
+            if (!firstCommand)
+            {
                 batchesTotal++;
                 _triBatchesToDraw[batchesTotal].offset = _triBatchesToDraw[batchesTotal-1].offset + _triBatchesToDraw[batchesTotal-1].indicesToDraw;
             }
 
             _triBatchesToDraw[batchesTotal].cmd = cmd;
-            _triBatchesToDraw[batchesTotal].indicesToDraw = (int) cmd->getIndexCount();
+            _triBatchesToDraw[batchesTotal].indicesToDraw = cmd->getIndexCount();
 
             // is this a single batch ? Prevent creating a batch group then
             if (!batchable)
-                currentMaterialID = -1;
+            {
+                currentMaterialID = std::numeric_limits<std::size_t>::max();
+            }
         }
 
         // capacity full ?
-        if (batchesTotal + 1 >= _triBatchesToDrawCapacity) {
-            _triBatchesToDrawCapacity *= 1.4;
-            _triBatchesToDraw = (TriBatchToDraw*) realloc(_triBatchesToDraw, sizeof(_triBatchesToDraw[0]) * _triBatchesToDrawCapacity);
+        if ((batchesTotal + 1) >= _triBatchesToDraw.size())
+        {
+            _triBatchesToDraw.resize(static_cast<std::size_t>(_triBatchesToDraw.size() * 1.4f));
         }
 
         prevMaterialID = currentMaterialID;
@@ -821,46 +798,45 @@ void Renderer::drawBatchedTriangles()
         // FIXME: in order to work as fast as possible, it must "and the exact same size and usage hints it had before."
         //  source: https://www.opengl.org/wiki/Buffer_Object_Streaming#Explicit_multiple_buffering
         // so most probably we won't have any benefit of using it
-        glBufferData(GL_ARRAY_BUFFER, sizeof(_verts[0]) * _filledVertex, nullptr, GL_STATIC_DRAW);
-        void *buf = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
-        memcpy(buf, _verts, sizeof(_verts[0]) * _filledVertex);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(V3F_C4B_T2F) * _filledVertex, nullptr, GL_STATIC_DRAW);
+        V3F_C4B_T2F* buf = reinterpret_cast<V3F_C4B_T2F*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
+        std::copy(_verts.begin(), _verts.begin() + _filledVertex, buf);
         glUnmapBuffer(GL_ARRAY_BUFFER);
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffersVBO[1]);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(_indices[0]) * _filledIndex, _indices, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * _filledIndex, reinterpret_cast<GLvoid*>(_indices.data()), GL_STATIC_DRAW);
     }
     else
 #endif // (CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN)
     {
         // Client Side Arrays
-#define kQuadSize sizeof(_verts[0])
         glBindBuffer(GL_ARRAY_BUFFER, _buffersVBO[0]);
 
-        glBufferData(GL_ARRAY_BUFFER, sizeof(_verts[0]) * _filledVertex , _verts, GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(V3F_C4B_T2F) * _filledVertex, reinterpret_cast<GLvoid*>(_verts.data()), GL_DYNAMIC_DRAW);
 
         GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POS_COLOR_TEX);
 
         // vertices
-        glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof(V3F_C4B_T2F, vertices));
+        glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(V3F_C4B_T2F), reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, vertices)));
 
         // colors
-        glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (GLvoid*) offsetof(V3F_C4B_T2F, colors));
+        glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(V3F_C4B_T2F), reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, colors)));
 
         // tex coords
-        glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof(V3F_C4B_T2F, texCoords));
+        glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(V3F_C4B_T2F), reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, texCoords)));
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffersVBO[1]);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(_indices[0]) * _filledIndex, _indices, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * _filledIndex, reinterpret_cast<GLvoid*>(_indices.data()), GL_STATIC_DRAW);
     }
 
     /************** 3: Draw *************/
-    for (int i=0; i<batchesTotal; ++i)
+    for (std::size_t i = 0; i < batchesTotal; ++i)
     {
         CC_ASSERT(_triBatchesToDraw[i].cmd && "Invalid batch");
         _triBatchesToDraw[i].cmd->useMaterial();
-        glDrawElements(GL_TRIANGLES, (GLsizei) _triBatchesToDraw[i].indicesToDraw, GL_UNSIGNED_SHORT, (GLvoid*) (_triBatchesToDraw[i].offset*sizeof(_indices[0])) );
+        glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(_triBatchesToDraw[i].indicesToDraw), GL_UNSIGNED_SHORT, reinterpret_cast<GLvoid*>(_triBatchesToDraw[i].offset * sizeof(GLushort)));
         _drawnBatches++;
         _drawnVertices += _triBatchesToDraw[i].indicesToDraw;
     }
@@ -930,8 +906,8 @@ bool Renderer::checkVisibility(const Mat4 &transform, const Size &size)
     Vec2 v2p = Camera::getVisitingCamera()->projectGL(v3p);
 
     // convert content size to world coordinates
-    float wshw = std::max(fabsf(hSizeX * transform.m[0] + hSizeY * transform.m[4]), fabsf(hSizeX * transform.m[0] - hSizeY * transform.m[4]));
-    float wshh = std::max(fabsf(hSizeX * transform.m[1] + hSizeY * transform.m[5]), fabsf(hSizeX * transform.m[1] - hSizeY * transform.m[5]));
+    float wshw = std::max(std::abs(hSizeX * transform.m[0] + hSizeY * transform.m[4]), std::abs(hSizeX * transform.m[0] - hSizeY * transform.m[4]));
+    float wshh = std::max(std::abs(hSizeX * transform.m[1] + hSizeY * transform.m[5]), std::abs(hSizeX * transform.m[1] - hSizeY * transform.m[5]));
     
     // enlarge visible rect half size in screen coord
     visiableRect.origin.x -= wshw;
@@ -940,12 +916,6 @@ bool Renderer::checkVisibility(const Mat4 &transform, const Size &size)
     visiableRect.size.height += wshh * 2;
     bool ret = visiableRect.containsPoint(v2p);
     return ret;
-}
-
-
-void Renderer::setClearColor(const Color4F &clearColor)
-{
-    _clearColor = clearColor;
 }
 
 NS_CC_END
