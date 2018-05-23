@@ -43,161 +43,158 @@ NS_CC_BEGIN
 static const int MAX_ATTRIBUTES = 16;
 static const int MAX_ACTIVE_TEXTURE = 16;
 
-namespace
+GLuint& s_currentProjectionMatrix()
 {
-    static GLuint& s_currentProjectionMatrix()
+    static std::unordered_map<std::thread::id, GLuint> currentProjectionMatrix;
+
+    const auto tId = std::this_thread::get_id();
+    auto search = currentProjectionMatrix.find(tId);
+    if (search != currentProjectionMatrix.end())
     {
-        static std::unordered_map<std::thread::id, GLuint> currentProjectionMatrix;
-
-        const auto tId = std::this_thread::get_id();
-        auto search = currentProjectionMatrix.find(tId);
-        if (search != currentProjectionMatrix.end())
-        {
-            return search->second;
-        }
-
-        auto it = currentProjectionMatrix.emplace(tId, -1);
-        return it.first->second;
+        return search->second;
     }
 
-    static uint32_t& s_attributeFlags()
+    auto it = currentProjectionMatrix.emplace(tId, -1);
+    return it.first->second;
+}
+
+uint32_t& s_attributeFlags()
+{
+    static std::unordered_map<std::thread::id, uint32_t> attributeFlags;
+
+    const auto tId = std::this_thread::get_id();
+    auto search = attributeFlags.find(tId);
+    if (search != attributeFlags.end())
     {
-        static std::unordered_map<std::thread::id, uint32_t> attributeFlags;
-
-        const auto tId = std::this_thread::get_id();
-        auto search = attributeFlags.find(tId);
-        if (search != attributeFlags.end())
-        {
-            return search->second;
-        }
-
-        auto it = attributeFlags.emplace(tId, 0);
-        return it.first->second;
+        return search->second;
     }
+
+    auto it = attributeFlags.emplace(tId, 0);
+    return it.first->second;
+}
 
 #if CC_ENABLE_GL_STATE_CACHE
 
-    static std::unordered_map<std::thread::id, GLuint>& currentShaderProgram()
-    {
-        static std::unordered_map<std::thread::id, GLuint> currentShaderProgram;
-         return currentShaderProgram;
-    }
-    
-    static GLuint& s_currentShaderProgram()
-    {
-        auto& shaderProgram = currentShaderProgram();
+std::unordered_map<std::thread::id, GLuint>& currentShaderProgram()
+{
+    static std::unordered_map<std::thread::id, GLuint> currentShaderProgram;
+    return currentShaderProgram;
+}
 
-        const auto tId = std::this_thread::get_id();
-        auto search = shaderProgram.find(tId);
-        if (search != shaderProgram.end())
-        {
-            return search->second;
-        }
+GLuint& s_currentShaderProgram()
+{
+    auto& shaderProgram = currentShaderProgram();
 
-        auto it = shaderProgram.emplace(tId, -1);
-        return it.first->second;
-    }
-    
-    static std::unordered_map<std::thread::id, std::array<GLuint, MAX_ACTIVE_TEXTURE>>& currentBoundTexture()
+    const auto tId = std::this_thread::get_id();
+    auto search = shaderProgram.find(tId);
+    if (search != shaderProgram.end())
     {
-    	static std::unordered_map<std::thread::id, std::array<GLuint, MAX_ACTIVE_TEXTURE>> currentBoundTexture;
-     	return currentBoundTexture;
+        return search->second;
     }
 
-    static std::array<GLuint, MAX_ACTIVE_TEXTURE>& s_currentBoundTexture()
-    {
-    	auto& boundTexture = currentBoundTexture();
-        
-        const auto tId = std::this_thread::get_id();
-        auto search = boundTexture.find(tId);
-        if (search != boundTexture.end())
-        {
-            return search->second;
-        }
+    auto it = shaderProgram.emplace(tId, -1);
+    return it.first->second;
+}
 
-        std::array<GLuint, MAX_ACTIVE_TEXTURE> tmp;
-        tmp.fill(std::numeric_limits<GLuint>::max());
-        auto it = boundTexture.emplace(tId, tmp);
-        return it.first->second;
+std::unordered_map<std::thread::id, std::array<GLuint, MAX_ACTIVE_TEXTURE>>& currentBoundTexture()
+{
+    static std::unordered_map<std::thread::id, std::array<GLuint, MAX_ACTIVE_TEXTURE>> currentBoundTexture;
+    return currentBoundTexture;
+}
+
+std::array<GLuint, MAX_ACTIVE_TEXTURE>& s_currentBoundTexture()
+{
+    auto& boundTexture = currentBoundTexture();
+
+    const auto tId = std::this_thread::get_id();
+    auto search = boundTexture.find(tId);
+    if (search != boundTexture.end())
+    {
+        return search->second;
     }
 
-    static GLenum& s_blendingSource()
+    std::array<GLuint, MAX_ACTIVE_TEXTURE> tmp;
+    tmp.fill(std::numeric_limits<GLuint>::max());
+    auto it = boundTexture.emplace(tId, tmp);
+    return it.first->second;
+}
+
+GLenum& s_blendingSource()
+{
+    static std::unordered_map<std::thread::id, GLenum> blendingSource;
+
+    const auto tId = std::this_thread::get_id();
+    auto search = blendingSource.find(tId);
+    if (search != blendingSource.end())
     {
-        static std::unordered_map<std::thread::id, GLenum> blendingSource;
-
-        const auto tId = std::this_thread::get_id();
-        auto search = blendingSource.find(tId);
-        if (search != blendingSource.end())
-        {
-            return search->second;
-        }
-
-        auto it = blendingSource.emplace(tId, -1);
-        return it.first->second;
+        return search->second;
     }
 
-    static GLenum& s_blendingDest()
+    auto it = blendingSource.emplace(tId, -1);
+    return it.first->second;
+}
+
+GLenum& s_blendingDest()
+{
+    static std::unordered_map<std::thread::id, GLenum> blendingDest;
+
+    const auto tId = std::this_thread::get_id();
+    auto search = blendingDest.find(tId);
+    if (search != blendingDest.end())
     {
-        static std::unordered_map<std::thread::id, GLenum> blendingDest;
-
-        const auto tId = std::this_thread::get_id();
-        auto search = blendingDest.find(tId);
-        if (search != blendingDest.end())
-        {
-            return search->second;
-        }
-
-        auto it = blendingDest.emplace(tId, -1);
-        return it.first->second;
+        return search->second;
     }
 
-    static int& s_GLServerState()
+    auto it = blendingDest.emplace(tId, -1);
+    return it.first->second;
+}
+
+int& s_GLServerState()
+{
+    static std::unordered_map<std::thread::id, int> GLServerState;
+
+    const auto tId = std::this_thread::get_id();
+    auto search = GLServerState.find(tId);
+    if (search != GLServerState.end())
     {
-        static std::unordered_map<std::thread::id, int> GLServerState;
-
-        const auto tId = std::this_thread::get_id();
-        auto search = GLServerState.find(tId);
-        if (search != GLServerState.end())
-        {
-            return search->second;
-        }
-
-        auto it = GLServerState.emplace(tId, 0);
-        return it.first->second;
+        return search->second;
     }
 
-    static GLuint& s_VAO()
+    auto it = GLServerState.emplace(tId, 0);
+    return it.first->second;
+}
+
+GLuint& s_VAO()
+{
+    static std::unordered_map<std::thread::id, GLuint> VAO;
+
+    const auto tId = std::this_thread::get_id();
+    auto search = VAO.find(tId);
+    if (search != VAO.end())
     {
-        static std::unordered_map<std::thread::id, GLuint> VAO;
-
-        const auto tId = std::this_thread::get_id();
-        auto search = VAO.find(tId);
-        if (search != VAO.end())
-        {
-            return search->second;
-        }
-
-        auto it = VAO.emplace(tId, 0);
-        return it.first->second;
+        return search->second;
     }
 
-    static GLenum& s_activeTexture()
+    auto it = VAO.emplace(tId, 0);
+    return it.first->second;
+}
+
+GLenum& s_activeTexture()
+{
+    static std::unordered_map<std::thread::id, GLenum> activeTexture;
+
+    const auto tId = std::this_thread::get_id();
+    auto search = activeTexture.find(tId);
+    if (search != activeTexture.end())
     {
-        static std::unordered_map<std::thread::id, GLenum> activeTexture;
-
-        const auto tId = std::this_thread::get_id();
-        auto search = activeTexture.find(tId);
-        if (search != activeTexture.end())
-        {
-            return search->second;
-        }
-
-        auto it = activeTexture.emplace(tId, -1);
-        return it.first->second;
+        return search->second;
     }
+
+    auto it = activeTexture.emplace(tId, -1);
+    return it.first->second;
+}
 
 #endif // CC_ENABLE_GL_STATE_CACHE
-}
 
 // GL State Cache functions
 
