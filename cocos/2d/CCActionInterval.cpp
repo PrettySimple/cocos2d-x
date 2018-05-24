@@ -361,7 +361,8 @@ void Repeat::update(float p)
             else
             {
                 // issue #390 prevent jerk, use right update
-                _innerAction->update(p - (_nextDt - static_cast<float>(_innerAction->getDuration().count()) / _duration.count()));
+                float const tmp = p - (_nextDt - static_cast<float>(_innerAction->getDuration().count()) / _duration.count());
+                _innerAction->update(tmp > 0.f ? tmp : 0.f);
             }
         }
     }
