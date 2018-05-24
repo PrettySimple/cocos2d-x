@@ -35,6 +35,7 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <deque>
 #include <functional>
 #include <limits>
 #include <mutex>
@@ -202,6 +203,8 @@ public:
     inline decltype(_data)::iterator end() { return _data.end(); }
     inline decltype(_data)::const_iterator begin() const noexcept { return _data.begin(); }
     inline decltype(_data)::const_iterator end() const noexcept { return _data.end(); }
+    inline bool empty() const noexcept { return _data.empty(); }
+    inline std::size_t size() const noexcept { return _data.size(); }
 
     decltype(_data)::key_type const& get_element_from_target(void* t) const noexcept;
     void remove_element(decltype(_data)::key_type const& key);
@@ -287,6 +290,8 @@ public:
     inline decltype(_data)::iterator end() { return _data.end(); }
     inline decltype(_data)::const_iterator begin() const noexcept { return _data.begin(); }
     inline decltype(_data)::const_iterator end() const noexcept { return _data.end(); }
+    inline bool empty() const noexcept { return _data.empty(); }
+    inline std::size_t size() const noexcept { return _data.size(); }
 
     decltype(_data)::key_type const& get_element_from_target(Key const& k) const noexcept;
     void remove_element(decltype(_data)::key_type const& key);
@@ -307,7 +312,10 @@ class CC_DLL Scheduler final : public Ref
 {
     float _timeScale = 1.f;
 
+    std::deque<void*> _updates_to_process;
+    int _updates_to_process_priority = std::numeric_limits<int>::min();
     UpdateData _updates;
+    std::deque<TimerData::Key> _timers_to_process;
     TimerData _timers;
 
     std::vector<std::function<void()>> _functionsToPerform;

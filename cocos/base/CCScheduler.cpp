@@ -35,7 +35,6 @@ THE SOFTWARE.
 #include "base/utlist.h"
 
 #include <memory>
-#include <deque>
 
 NS_CC_BEGIN
 
@@ -488,6 +487,7 @@ void Scheduler::schedule(ccSchedulerFunc const& callback, void* target, std::chr
         TimerTargetCallback* timer = new (std::nothrow) TimerTargetCallback();
         timer->initWithCallback(this, callback, target, key, interval, repeat, delay);
         _timers.add_timer(k, timer, paused);
+        _timers_to_process.emplace_back(key, target);
         timer->release();
     }
     else
@@ -521,6 +521,10 @@ void Scheduler::schedulePerFrame(ccSchedulerFunc const& callback, void* target, 
     if (element.target == nullptr)
     {
         _updates.add_update(callback, target, priority, paused);
+        if (priority >= _updates_to_process_priority)
+        {
+            _updates_to_process.emplace_back(target);
+        }
     }
     else
     {
@@ -647,44 +651,52 @@ void Scheduler::update(float dt)
     }
 
     // update selectors
-    std::deque<void*> updates_to_process;
-    for (auto const& ele : _updates)
+    if (!_updates.empty())
     {
-        if (!ele.paused)
+        _updates_to_process.clear();
+        for (auto const& ele : _updates)
         {
-            updates_to_process.emplace_back(ele.target);
+            if (!ele.paused)
+            {
+                _updates_to_process.emplace_back(ele.target);
+            }
         }
-    }
-    while (!updates_to_process.empty())
-    {
-        auto target = updates_to_process.front();
-        updates_to_process.pop_front();
+        while (!_updates_to_process.empty())
+        {
+            auto target = _updates_to_process.front();
+            _updates_to_process.pop_front();
 
-        auto const& ele = _updates.get_element_from_target(target);
-        if (ele.target != nullptr && !ele.paused)
-        {
-            ele.callback(dt);
+            auto const& ele = _updates.get_element_from_target(target);
+            if (ele.target != nullptr && !ele.paused)
+            {
+                _updates_to_process_priority = ele.priority;
+                ele.callback(dt);
+            }
         }
+        _updates_to_process_priority = std::numeric_limits<int>::min();
     }
 
     // custom selectors
-    std::deque<TimerData::Key> timers_to_process;
-    for (auto const& ele : _timers)
+    if (!_timers.empty())
     {
-        if (!ele.paused)
+        _timers_to_process.clear();
+        for (auto const& ele : _timers)
         {
-            timers_to_process.emplace_back(ele.name, ele.target);
+            if (!ele.paused)
+            {
+                _timers_to_process.emplace_back(ele.name, ele.target);
+            }
         }
-    }
-    while (!timers_to_process.empty())
-    {
-        auto& key = timers_to_process.front();
-        timers_to_process.pop_front();
-
-        auto const& ele = _timers.get_element_from_target(key);
-        if (ele.target != nullptr && !ele.paused)
+        while (!_timers_to_process.empty())
         {
-            ele.timer->update(dt);
+            auto const& key = _timers_to_process.front();
+            _timers_to_process.pop_front();
+
+            auto const& ele = _timers.get_element_from_target(key);
+            if (ele.target != nullptr && !ele.paused)
+            {
+                ele.timer->update(dt);
+            }
         }
     }
 
@@ -694,8 +706,11 @@ void Scheduler::update(float dt)
     decltype(_functionsToPerform) cpy;
     {
         std::lock_guard<std::mutex> lock(_performMutex);
-        cpy = _functionsToPerform;
-        _functionsToPerform.clear();
+        if (!_functionsToPerform.empty())
+        {
+            cpy = _functionsToPerform;
+            _functionsToPerform.clear();
+        }
     }
     for(auto const& function : cpy)
     {
@@ -714,6 +729,7 @@ void Scheduler::schedule(SEL_SCHEDULE selector, Ref* target, std::chrono::millis
         TimerTargetSelector *timer = new (std::nothrow) TimerTargetSelector();
         timer->initWithSelector(this, selector, target, interval, repeat, delay);
         _timers.add_timer(k, timer, paused);
+        _timers_to_process.emplace_back("", target);
         timer->release();
     }
     else
