@@ -34,6 +34,7 @@ THE SOFTWARE.
 #include "base/iterator_pair.h"
 #include "base/utlist.h"
 
+#include <algorithm>
 #include <memory>
 
 NS_CC_BEGIN
@@ -532,6 +533,12 @@ void Scheduler::schedulePerFrame(ccSchedulerFunc const& callback, void* target, 
         {
             _updates.remove_update(target);
             _updates.add_update(callback, target, priority, paused);
+
+            if (priority >= _updates_to_process_priority)
+            {
+                CC_ASSERT(std::find(_updates_to_process.begin(), _updates_to_process.end(), target) == _updates_to_process.end());
+                _updates_to_process.emplace_back(target);
+            }
         }
         else
         {
