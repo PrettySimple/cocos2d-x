@@ -44,11 +44,11 @@ NS_CC_BEGIN
 void Timer::setupTimerWithInterval(std::chrono::milliseconds seconds, unsigned int repeat, std::chrono::milliseconds delay)
 {
     _elapsed = std::chrono::milliseconds::max();
-	_interval = seconds;
-	_delay = delay;
+    _interval = seconds;
+    _delay = delay;
     _useDelay = (_delay > std::chrono::milliseconds::zero()) ? true : false;
-	_repeat = repeat;
-	_runForever = (_repeat == CC_REPEAT_FOREVER) ? true : false;
+    _repeat = repeat;
+    _runForever = (_repeat == CC_REPEAT_FOREVER) ? true : false;
 }
 
 void Timer::update(float dt)
@@ -62,7 +62,7 @@ void Timer::update(float dt)
 
     // accumulate elapsed time
     _elapsed += std::chrono::milliseconds(static_cast<std::size_t>(1000.f * dt));
-    
+
     // deal with delay
     if (_useDelay)
     {
@@ -76,12 +76,12 @@ void Timer::update(float dt)
         _useDelay = false;
         // after delay, the rest time should compare with interval
         if (!_runForever && _timesExecuted > _repeat)
-        {    //unschedule timer
+        { // unschedule timer
             cancel();
             return;
         }
     }
-    
+
     // if _interval == 0, should trigger once every frame
     auto interval = (_interval > std::chrono::milliseconds::zero()) ? _interval : _elapsed;
     while (_elapsed >= interval)
@@ -105,11 +105,13 @@ void Timer::update(float dt)
 
 // TimerTargetSelector
 
-TimerTargetSelector::TimerTargetSelector() : Timer(Timer::Type::SELECTOR)
+TimerTargetSelector::TimerTargetSelector()
+: Timer(Timer::Type::SELECTOR)
 {
 }
 
-bool TimerTargetSelector::initWithSelector(Scheduler* scheduler, SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds seconds, unsigned int repeat, std::chrono::milliseconds delay)
+bool TimerTargetSelector::initWithSelector(Scheduler* scheduler, SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds seconds, unsigned int repeat,
+                                           std::chrono::milliseconds delay)
 {
     _scheduler = scheduler;
     _target = target;
@@ -133,11 +135,13 @@ void TimerTargetSelector::cancel()
 
 // TimerTargetCallback
 
-TimerTargetCallback::TimerTargetCallback() : Timer(Timer::Type::CALLBACK)
+TimerTargetCallback::TimerTargetCallback()
+: Timer(Timer::Type::CALLBACK)
 {
 }
 
-bool TimerTargetCallback::initWithCallback(Scheduler* scheduler, ccSchedulerFunc const& callback, void* target, std::string const& key, std::chrono::milliseconds seconds, unsigned int repeat, std::chrono::milliseconds delay)
+bool TimerTargetCallback::initWithCallback(Scheduler* scheduler, ccSchedulerFunc const& callback, void* target, std::string const& key,
+                                           std::chrono::milliseconds seconds, unsigned int repeat, std::chrono::milliseconds delay)
 {
     _scheduler = scheduler;
     _target = target;
@@ -162,7 +166,8 @@ void TimerTargetCallback::cancel()
 
 // UpdateData
 
-UpdateData::element::element(ccSchedulerFunc const& c, void* t, int pr, bool pa, std::uint64_t i) : callback(c)
+UpdateData::element::element(ccSchedulerFunc const& c, void* t, int pr, bool pa, std::uint64_t i)
+: callback(c)
 , target(t)
 , priority(pr)
 , paused(pa)
@@ -252,7 +257,7 @@ void UpdateData::remove_all_updates_with_min_priority(int min_priority)
             tmp.emplace_back(std::cref(ele));
         }
     }
-    for (auto const& ele :tmp)
+    for (auto const& ele : tmp)
     {
         remove_element(ele);
     }
@@ -290,7 +295,7 @@ template <class T>
 inline constexpr void hash_combine(std::size_t& seed, T const& v)
 {
     std::hash<T> hasher;
-    seed ^= hasher(v) + 0x9e3779b9 + (seed<<6) + (seed>>2);
+    seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
 
 std::size_t TimerData::key_hasher::operator()(Key const& k) const noexcept
@@ -301,7 +306,8 @@ std::size_t TimerData::key_hasher::operator()(Key const& k) const noexcept
     return seed;
 }
 
-TimerData::element::element(Timer* ti, void* ta, std::uint64_t i, bool p, std::string const& n) : timer(ti)
+TimerData::element::element(Timer* ti, void* ta, std::uint64_t i, bool p, std::string const& n)
+: timer(ti)
 , target(ta)
 , index(i)
 , paused(p)
@@ -397,12 +403,12 @@ void TimerData::remove_all_timers()
 {
     std::vector<std::reference_wrapper<TimerData::element const>> tmp;
     tmp.reserve(_data.size());
-    for (auto const& ele :_data)
+    for (auto const& ele : _data)
     {
         tmp.emplace_back(std::cref(ele));
     }
 
-    for (auto const& ele :tmp)
+    for (auto const& ele : tmp)
     {
         remove_element(ele);
     }
@@ -421,7 +427,7 @@ void TimerData::remove_all_timers_from_target(void* target)
             tmp.emplace_back(std::cref(ele.second));
         }
     }
-    for (auto const& ele :tmp)
+    for (auto const& ele : tmp)
     {
         remove_element(ele);
     }
@@ -455,7 +461,7 @@ void TimerData::remove_element(decltype(_data)::key_type const& key)
             }
         }
 
-        if (auto search_timer = _timers.find(TimerData::Key{ key.name, key.target }); search_timer != _timers.end())
+        if (auto search_timer = _timers.find(TimerData::Key{key.name, key.target}); search_timer != _timers.end())
         {
             _timers.erase(search_timer);
         }
@@ -476,7 +482,8 @@ void Scheduler::schedule(ccSchedulerFunc const& callback, void* target, std::chr
     schedule(callback, target, interval, CC_REPEAT_FOREVER, std::chrono::milliseconds::zero(), paused, key);
 }
 
-void Scheduler::schedule(ccSchedulerFunc const& callback, void* target, std::chrono::milliseconds interval, unsigned int repeat, std::chrono::milliseconds delay, bool paused, std::string const& key)
+void Scheduler::schedule(ccSchedulerFunc const& callback, void* target, std::chrono::milliseconds interval, unsigned int repeat,
+                         std::chrono::milliseconds delay, bool paused, std::string const& key)
 {
     CCASSERT(target != nullptr, "Argument target must be non-nullptr");
     CCASSERT(!key.empty(), "key should not be empty!");
@@ -637,7 +644,7 @@ std::unordered_set<void*> Scheduler::pauseAllTargetsWithMinPriority(int minPrior
 
 void Scheduler::resumeTargets(std::unordered_set<void*> const& targetsToResume)
 {
-    for(auto const& obj : targetsToResume)
+    for (auto const& obj : targetsToResume)
     {
         resumeTarget(obj);
     }
@@ -719,7 +726,7 @@ void Scheduler::update(float dt)
             _functionsToPerform.clear();
         }
     }
-    for(auto const& function : cpy)
+    for (auto const& function : cpy)
     {
         function();
     }
@@ -733,7 +740,7 @@ void Scheduler::schedule(SEL_SCHEDULE selector, Ref* target, std::chrono::millis
     auto& element = _timers.get_element_from_target(k);
     if (element.target == nullptr)
     {
-        TimerTargetSelector *timer = new (std::nothrow) TimerTargetSelector();
+        TimerTargetSelector* timer = new (std::nothrow) TimerTargetSelector();
         timer->initWithSelector(this, selector, target, interval, repeat, delay);
         _timers.add_timer(k, timer, paused);
         _timers_to_process.emplace_back("", target);
@@ -761,7 +768,8 @@ bool Scheduler::isScheduled(SEL_SCHEDULE selector, Ref* target) const noexcept
     CCASSERT(target != nullptr, "Argument target must be non-nullptr");
 
     auto const& element = _timers.get_element_from_target(TimerData::Key{"", target});
-    if (element.target != nullptr && element.timer->getType() == Timer::Type::SELECTOR && selector == static_cast<TimerTargetSelector*>(element.timer)->getSelector())
+    if (element.target != nullptr && element.timer->getType() == Timer::Type::SELECTOR &&
+        selector == static_cast<TimerTargetSelector*>(element.timer)->getSelector())
     {
         return true;
     }
