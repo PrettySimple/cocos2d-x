@@ -541,9 +541,8 @@ void Scheduler::schedulePerFrame(ccSchedulerFunc const& callback, void* target, 
             _updates.remove_update(target);
             _updates.add_update(callback, target, priority, paused);
 
-            if (priority >= _updates_to_process_priority)
+            if (priority >= _updates_to_process_priority && std::find(_updates_to_process.begin(), _updates_to_process.end(), target) == _updates_to_process.end())
             {
-                CC_ASSERT(std::find(_updates_to_process.begin(), _updates_to_process.end(), target) == _updates_to_process.end());
                 _updates_to_process.emplace_back(target);
             }
         }
