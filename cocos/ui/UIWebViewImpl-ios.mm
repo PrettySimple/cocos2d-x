@@ -106,7 +106,7 @@ static std::string getFixedBaseUrl(const std::string& baseUrl)
 - (void)setScalesPageToFit:(const bool)scalesPageToFit;
 @end
 
-@interface UIWebViewWrapper ()<UIWebViewDelegate>
+@interface UIWebViewWrapper () <UIWebViewDelegate>
 @property (nonatomic, retain) UIWebView* uiWebView;
 @property (nonatomic, copy) NSString* jsScheme;
 @end
