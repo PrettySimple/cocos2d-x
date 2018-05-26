@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -71,28 +71,25 @@ Vec3 PUSimpleSpline::interpolate(float t) const
     // change where this is not the case
     // TODO: base on arclength?
 
-
     // Work out which segment this is in
     float fSeg = t * (_points.size() - 1);
     unsigned int segIdx = (unsigned int)fSeg;
-    // Apportion t 
+    // Apportion t
     t = fSeg - segIdx;
 
     return interpolate(segIdx, t);
-
 }
 //---------------------------------------------------------------------
 Vec3 PUSimpleSpline::interpolate(unsigned int fromIndex, float t) const
 {
     // Bounds check
-    CCASSERT (fromIndex < _points.size(), "fromIndex out of bounds");
+    CCASSERT(fromIndex < _points.size(), "fromIndex out of bounds");
 
     if ((fromIndex + 1) == _points.size())
     {
         // Duff request, cannot blend to nothing
         // Just return source
         return _points[fromIndex];
-
     }
 
     // Fast special cases
@@ -100,7 +97,7 @@ Vec3 PUSimpleSpline::interpolate(unsigned int fromIndex, float t) const
     {
         return _points[fromIndex];
     }
-    else if(t == 1.0f)
+    else if (t == 1.0f)
     {
         return _points[fromIndex + 1];
     }
@@ -112,12 +109,11 @@ Vec3 PUSimpleSpline::interpolate(unsigned int fromIndex, float t) const
     t3 = t2 * t;
     Vec4 powers(t3, t2, t, 1);
 
-
     // Algorithm is ret = powers * mCoeffs * Matrix4(point1, point2, tangent1, tangent2)
     const Vec3& point1 = _points[fromIndex];
-    const Vec3& point2 = _points[fromIndex+1];
+    const Vec3& point2 = _points[fromIndex + 1];
     const Vec3& tan1 = _tangents[fromIndex];
-    const Vec3& tan2 = _tangents[fromIndex+1];
+    const Vec3& tan2 = _tangents[fromIndex + 1];
     Mat4 pt;
 
     pt.m[0] = point1.x;
@@ -139,18 +135,13 @@ Vec3 PUSimpleSpline::interpolate(unsigned int fromIndex, float t) const
 
     Vec4 ret = pt * _coeffs * powers;
 
-
     return Vec3(ret.x, ret.y, ret.z);
-
-
-
-
 }
 //---------------------------------------------------------------------
 void PUSimpleSpline::recalcTangents(void)
 {
     // Catmull-Rom approach
-    // 
+    //
     // tangent[i] = 0.5 * (point[i+1] - point[i-1])
     //
     // Assume endpoint tangents are parallel with line with neighbour
@@ -166,7 +157,7 @@ void PUSimpleSpline::recalcTangents(void)
     }
 
     // Closed or open?
-    if (_points[0] == _points[numPoints-1])
+    if (_points[0] == _points[numPoints - 1])
     {
         isClosed = true;
     }
@@ -177,24 +168,22 @@ void PUSimpleSpline::recalcTangents(void)
 
     _tangents.resize(numPoints);
 
-
-
-    for(i = 0; i < numPoints; ++i)
+    for (i = 0; i < numPoints; ++i)
     {
-        if (i ==0)
+        if (i == 0)
         {
             // Special case start
             if (isClosed)
             {
                 // Use numPoints-2 since numPoints-1 is the last point and == [0]
-                _tangents[i] = 0.5 * (_points[1] - _points[numPoints-2]);
+                _tangents[i] = 0.5 * (_points[1] - _points[numPoints - 2]);
             }
             else
             {
                 _tangents[i] = 0.5 * (_points[1] - _points[0]);
             }
         }
-        else if (i == numPoints-1)
+        else if (i == numPoints - 1)
         {
             // Special case end
             if (isClosed)
@@ -204,23 +193,19 @@ void PUSimpleSpline::recalcTangents(void)
             }
             else
             {
-                _tangents[i] = 0.5 * (_points[i] - _points[i-1]);
+                _tangents[i] = 0.5 * (_points[i] - _points[i - 1]);
             }
         }
         else
         {
-            _tangents[i] = 0.5 * (_points[i+1] - _points[i-1]);
+            _tangents[i] = 0.5 * (_points[i + 1] - _points[i - 1]);
         }
-
     }
-
-
-
 }
 //---------------------------------------------------------------------
 const Vec3& PUSimpleSpline::getPoint(unsigned short index) const
 {
-    CCASSERT (index < _points.size(), "Point index is out of bounds!!");
+    CCASSERT(index < _points.size(), "Point index is out of bounds!!");
 
     return _points[index];
 }
@@ -238,7 +223,7 @@ void PUSimpleSpline::clear(void)
 //---------------------------------------------------------------------
 void PUSimpleSpline::updatePoint(unsigned short index, const Vec3& value)
 {
-    CCASSERT (index < _points.size(),  "Point index is out of bounds!!");
+    CCASSERT(index < _points.size(), "Point index is out of bounds!!");
 
     _points[index] = value;
     if (_autoCalc)

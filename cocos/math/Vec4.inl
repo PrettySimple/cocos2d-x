@@ -96,12 +96,12 @@ inline bool Vec4::operator<(const Vec4& v) const
 
 inline bool Vec4::operator==(const Vec4& v) const
 {
-    return x==v.x && y==v.y && z==v.z && w==v.w;
+    return x == v.x && y == v.y && z == v.z && w == v.w;
 }
 
 inline bool Vec4::operator!=(const Vec4& v) const
 {
-    return x!=v.x || y!=v.y || z!=v.z || w!=v.w;
+    return x != v.x || y != v.y || z != v.z || w != v.w;
 }
 
 inline const Vec4 operator*(float x, const Vec4& v)

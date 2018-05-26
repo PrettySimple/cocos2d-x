@@ -1,18 +1,18 @@
 ﻿/****************************************************************************
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,15 +25,15 @@
 #ifndef __PHYSICS_3D_OBJECT_H__
 #define __PHYSICS_3D_OBJECT_H__
 
-#include "math/CCMath.h"
 #include "base/CCRef.h"
 #include "base/ccConfig.h"
+#include "math/CCMath.h"
 
 #include <vector>
 
 #if CC_USE_3D_PHYSICS
 
-#if (CC_ENABLE_BULLET_INTEGRATION)
+#    if (CC_ENABLE_BULLET_INTEGRATION)
 
 class btCollisionShape;
 class btRigidBody;
@@ -64,8 +64,8 @@ struct CC_DLL Physics3DCollisionInfo
         Vec3 worldNormalOnB;
     };
 
-    Physics3DObject *objA;
-    Physics3DObject *objB;
+    Physics3DObject* objA;
+    Physics3DObject* objB;
     std::vector<CollisionPoint> collisionPointList;
 };
 /**
@@ -74,7 +74,7 @@ struct CC_DLL Physics3DCollisionInfo
 class CC_DLL Physics3DObject : public Ref
 {
 public:
-    typedef std::function<void(const Physics3DCollisionInfo &ci)> CollisionCallbackFunc;
+    typedef std::function<void(const Physics3DCollisionInfo& ci)> CollisionCallbackFunc;
 
     enum class PhysicsObjType
     {
@@ -82,27 +82,27 @@ public:
         RIGID_BODY,
         COLLIDER,
     };
-    
+
     /** Get the Physics3DObject Type. */
     virtual PhysicsObjType getObjType() const { return _type; }
-    
+
     /** Set the user data. */
-    void setUserData(void* userData)  { _userData = userData; }
-    
+    void setUserData(void* userData) { _userData = userData; }
+
     /** Get the user data. */
     void* getUserData() const { return _userData; }
-    
+
     /** Internal method. Set the pointer of Physics3DWorld. */
     void setPhysicsWorld(Physics3DWorld* world) { _physicsWorld = world; };
-    
+
     /** Get the pointer of Physics3DWorld. */
     Physics3DWorld* getPhysicsWorld() const { return _physicsWorld; }
-    
+
     /** Get the world matrix of Physics3DObject. */
     virtual cocos2d::Mat4 getWorldTransform() const = 0;
 
     /** Set the collision callback function. */
-    void setCollisionCallback(const CollisionCallbackFunc &func) { _collisionCallbackFunc = func; };
+    void setCollisionCallback(const CollisionCallbackFunc& func) { _collisionCallbackFunc = func; };
 
     /** Get the collision callback function. */
     const CollisionCallbackFunc& getCollisionCallback() const { return _collisionCallbackFunc; }
@@ -115,24 +115,21 @@ public:
 
     /** Get the mask of Physics3DObject. */
     unsigned int getMask() const { return _mask; };
-    
-CC_CONSTRUCTOR_ACCESS:
-    Physics3DObject()
+
+    CC_CONSTRUCTOR_ACCESS : Physics3DObject()
     : _type(PhysicsObjType::UNKNOWN)
     , _userData(nullptr)
     , _isEnabled(true)
     , _physicsWorld(nullptr)
     , _mask(-1)
     {
-        
     }
-    virtual ~Physics3DObject(){}
-    
+    virtual ~Physics3DObject() {}
 
 protected:
-    bool           _isEnabled;
+    bool _isEnabled;
     PhysicsObjType _type;
-    void*          _userData;
+    void* _userData;
     Physics3DWorld* _physicsWorld;
     CollisionCallbackFunc _collisionCallbackFunc;
     unsigned int _mask;
@@ -143,19 +140,18 @@ protected:
  */
 struct CC_DLL Physics3DRigidBodyDes
 {
-    float mass; //Note: mass equals zero means static, default 0
-    cocos2d::Vec3 localInertia; //default (0, 0, 0)
+    float mass; // Note: mass equals zero means static, default 0
+    cocos2d::Vec3 localInertia; // default (0, 0, 0)
     Physics3DShape* shape;
     cocos2d::Mat4 originalTransform;
-    bool          disableSleep; //it is always active if disabled
-    
+    bool disableSleep; // it is always active if disabled
+
     Physics3DRigidBodyDes()
     : mass(0.f)
     , localInertia(0.f, 0.f, 0.f)
     , shape(nullptr)
     , disableSleep(false)
     {
-        
     }
 };
 
@@ -165,18 +161,18 @@ struct CC_DLL Physics3DRigidBodyDes
 class CC_DLL Physics3DRigidBody : public Physics3DObject
 {
     friend class Physics3DWorld;
+
 public:
-    
     /**
-     * Creates a Physics3DRigidBody with Physics3DRigidBody. 
+     * Creates a Physics3DRigidBody with Physics3DRigidBody.
      *
      * @return An autoreleased Physics3DRigidBody object.
      */
     static Physics3DRigidBody* create(Physics3DRigidBodyDes* info);
-    
+
     /** Get the pointer of btRigidBody. */
     btRigidBody* getRigidBody() const { return _btRigidBody; }
-    
+
     /**
      * Apply a force.
      *
@@ -267,7 +263,7 @@ public:
     float getAngularDamping() const;
 
     /** Set the acceleration. */
-    void setGravity(const cocos2d::Vec3& acceleration); 
+    void setGravity(const cocos2d::Vec3& acceleration);
 
     /** Get the acceleration. */
     cocos2d::Vec3 getGravity() const;
@@ -325,39 +321,38 @@ public:
 
     /** Get swept sphere radius. */
     float getCcdSweptSphereRadius() const;
-    
+
     /** Set kinematic object. */
     void setKinematic(bool kinematic);
-    
+
     /** Check rigid body is kinematic object. */
     bool isKinematic() const;
-    
+
     /** override. */
     virtual cocos2d::Mat4 getWorldTransform() const override;
-    
+
     /** Get constraint by index. */
     Physics3DConstraint* getConstraint(unsigned int idx) const;
 
     /** Get the total number of constraints. */
     unsigned int getConstraintCount() const;
-    
+
     /** Active or inactive. */
     void setActive(bool active);
 
-CC_CONSTRUCTOR_ACCESS:
-    Physics3DRigidBody();
+    CC_CONSTRUCTOR_ACCESS : Physics3DRigidBody();
     virtual ~Physics3DRigidBody();
-    
+
     bool init(Physics3DRigidBodyDes* info);
-    
-    void addConstraint(Physics3DConstraint *constraint);
-    void removeConstraint(Physics3DConstraint *constraint);
+
+    void addConstraint(Physics3DConstraint* constraint);
+    void removeConstraint(Physics3DConstraint* constraint);
     void removeConstraint(unsigned int idx);
-    
+
 protected:
     btRigidBody* _btRigidBody;
-    Physics3DShape *_physics3DShape;
-    std::vector<Physics3DConstraint *> _constraintList;
+    Physics3DShape* _physics3DShape;
+    std::vector<Physics3DConstraint*> _constraintList;
 };
 
 /**
@@ -370,7 +365,7 @@ struct CC_DLL Physics3DColliderDes
     /**original world Transform*/
     cocos2d::Mat4 originalTransform;
     /**Is collider a trigger?*/
-    bool          isTrigger;
+    bool isTrigger;
     /**the friction*/
     float friction;
     /**the rolling friction*/
@@ -383,7 +378,7 @@ struct CC_DLL Physics3DColliderDes
     float ccdSweptSphereRadius;
     /**the motion threshold*/
     float ccdMotionThreshold;
-    
+
     Physics3DColliderDes()
     : shape(nullptr)
     , isTrigger(false)
@@ -394,118 +389,114 @@ struct CC_DLL Physics3DColliderDes
     , ccdSweptSphereRadius(0.0f)
     , ccdMotionThreshold(0.0f)
     {
-        
     }
 };
 
 /**
-* @brief Inherit from Physics3DObject, the main class for Colliders.
-*/
+ * @brief Inherit from Physics3DObject, the main class for Colliders.
+ */
 class CC_DLL Physics3DCollider : public Physics3DObject
 {
 public:
-
     /**
-    * Creates a Physics3DCollider with Physics3DColliderDes.
-    *
-    * @return An autoreleased Physics3DCollider object.
-    */
-    static Physics3DCollider* create(Physics3DColliderDes *info);
+     * Creates a Physics3DCollider with Physics3DColliderDes.
+     *
+     * @return An autoreleased Physics3DCollider object.
+     */
+    static Physics3DCollider* create(Physics3DColliderDes* info);
 
-    /** Get the pointer of btGhostObject. 
+    /** Get the pointer of btGhostObject.
      *  @return The pointer of btGhostObject.
-    */
+     */
     btGhostObject* getGhostObject() const { return _btGhostObject; }
 
-    /** Set trigger. 
+    /** Set trigger.
      *  @param isTrigger Is a trigger.
-    */
+     */
     void setTrigger(bool isTrigger);
 
-    /** Check is a trigger. 
+    /** Check is a trigger.
      *  @return Is a trigger.
-    */
+     */
     bool isTrigger() const;
 
-    /** Set restitution. 
+    /** Set restitution.
      *  @param rest The restitution.
-    */
+     */
     void setRestitution(float rest);
 
-    /** Get restitution. 
+    /** Get restitution.
      *  @return The restitution.
-    */
+     */
     float getRestitution() const;
 
-    /** Set friction. 
+    /** Set friction.
      *  @param frict The friction.
-    */
+     */
     void setFriction(float frict);
 
-    /** Get friction. 
+    /** Get friction.
      *  @return The friction.
-    */
+     */
     float getFriction() const;
 
-    /** Set rolling friction. 
+    /** Set rolling friction.
      *  @param frict The rolling friction.
-    */
+     */
     void setRollingFriction(float frict);
 
-    /** Get rolling friction. 
+    /** Get rolling friction.
      *  @return The rolling friction.
-    */
+     */
     float getRollingFriction() const;
 
-    /** Set hit friction. 
+    /** Set hit friction.
      *  @param hitFraction The hit friction.
-    */
+     */
     void setHitFraction(float hitFraction);
 
-    /** Get hit friction. 
+    /** Get hit friction.
      *  @return The hit friction.
-    */
+     */
     float getHitFraction() const;
 
     /** Set motion threshold, don't do continuous collision detection if the motion (in one step) is less then ccdMotionThreshold.
      *  @param ccdMotionThreshold The motion threshold.
-    */
+     */
     void setCcdMotionThreshold(float ccdMotionThreshold);
 
-    /** Get motion threshold. 
+    /** Get motion threshold.
      *  @return The motion threshold.
-    */
+     */
     float getCcdMotionThreshold() const;
 
-    /** Set swept sphere radius. 
+    /** Set swept sphere radius.
      *  @param radius The swept sphere radius.
-    */
+     */
     void setCcdSweptSphereRadius(float radius);
 
-    /** Get swept sphere radius. 
+    /** Get swept sphere radius.
      *  @return The swept sphere radius.
-    */
+     */
     float getCcdSweptSphereRadius() const;
 
     /** override. */
     virtual cocos2d::Mat4 getWorldTransform() const;
 
     /** Set a callback when trigger enter. */
-    std::function<void(Physics3DObject *otherObject)> onTriggerEnter;
+    std::function<void(Physics3DObject* otherObject)> onTriggerEnter;
 
     /** Set a callback when trigger exit. */
-    std::function<void(Physics3DObject *otherObject)> onTriggerExit;
+    std::function<void(Physics3DObject* otherObject)> onTriggerExit;
 
-CC_CONSTRUCTOR_ACCESS :
-    Physics3DCollider();
+    CC_CONSTRUCTOR_ACCESS : Physics3DCollider();
     virtual ~Physics3DCollider();
 
-    bool init(Physics3DColliderDes *info);
+    bool init(Physics3DColliderDes* info);
 
 protected:
-
-    btGhostObject *_btGhostObject;
-    Physics3DShape *_physics3DShape;
+    btGhostObject* _btGhostObject;
+    Physics3DShape* _physics3DShape;
 };
 
 // end of 3d group
@@ -513,8 +504,8 @@ protected:
 
 NS_CC_END
 
-#endif // CC_ENABLE_BULLET_INTEGRATION
+#    endif // CC_ENABLE_BULLET_INTEGRATION
 
-#endif //CC_USE_3D_PHYSICS
+#endif // CC_USE_3D_PHYSICS
 
 #endif // __PHYSICS_3D_OBJECT_H__

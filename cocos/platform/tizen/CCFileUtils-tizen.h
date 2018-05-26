@@ -25,13 +25,13 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
 
-#ifndef __CC_FILEUTILS_TIZEN_H__
-#define __CC_FILEUTILS_TIZEN_H__
+#    ifndef __CC_FILEUTILS_TIZEN_H__
+#        define __CC_FILEUTILS_TIZEN_H__
 
-#include "platform/CCFileUtils.h"
-#include "platform/CCPlatformMacros.h"
-#include "base/ccTypes.h"
-#include <string>
+#        include "base/ccTypes.h"
+#        include "platform/CCFileUtils.h"
+#        include "platform/CCPlatformMacros.h"
+#        include <string>
 
 NS_CC_BEGIN
 
@@ -45,7 +45,7 @@ class CC_DLL FileUtilsTizen : public FileUtils
 {
 public:
     /* override functions */
-	virtual bool init() override;
+    virtual bool init() override;
 
     virtual std::string getWritablePath() const override;
 
@@ -64,7 +64,6 @@ private:
 
 NS_CC_END
 
-#endif    // __CC_FILEUTILS_TIZEN_H__
+#    endif // __CC_FILEUTILS_TIZEN_H__
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
-

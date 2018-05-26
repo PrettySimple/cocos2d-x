@@ -26,154 +26,151 @@ THE SOFTWARE.
 #include "cocostudio/CCArmature.h"
 #include "cocostudio/CCSkin.h"
 
-#include "renderer/CCRenderer.h"
-#include "renderer/CCGroupCommand.h"
-#include "renderer/CCGLProgramState.h"
 #include "base/CCDirector.h"
+#include "renderer/CCGLProgramState.h"
+#include "renderer/CCGroupCommand.h"
+#include "renderer/CCRenderer.h"
 
 using namespace cocos2d;
 
-namespace cocostudio {
-
-BatchNode *BatchNode::create()
+namespace cocostudio
 {
-    BatchNode *batchNode = new (std::nothrow) BatchNode();
-    if (batchNode && batchNode->init())
+    BatchNode* BatchNode::create()
     {
-        batchNode->autorelease();
-        return batchNode;
-    }
-    CC_SAFE_DELETE(batchNode);
-    return nullptr;
-}
-
-BatchNode::BatchNode()
-: _groupCommand(nullptr)
-{
-}
-
-BatchNode::~BatchNode()
-{
-    CC_SAFE_DELETE(_groupCommand);
-}
-
-bool BatchNode::init()
-{
-    bool ret = Node::init();
-    setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR));
-
-    return ret;
-}
-
-void BatchNode::addChild(Node *child, int zOrder, int tag)
-{
-    Node::addChild(child, zOrder, tag);
-    Armature *armature = dynamic_cast<Armature *>(child);
-    if (armature != nullptr)
-    {
-        armature->setBatchNode(this);
-        if (_groupCommand == nullptr)
+        BatchNode* batchNode = new (std::nothrow) BatchNode();
+        if (batchNode && batchNode->init())
         {
-            _groupCommand = new (std::nothrow) GroupCommand();
+            batchNode->autorelease();
+            return batchNode;
         }
+        CC_SAFE_DELETE(batchNode);
+        return nullptr;
     }
-}
 
-void BatchNode::addChild(cocos2d::Node *child, int zOrder, const std::string &name)
-{
-    Node::addChild(child, zOrder, name);
-    Armature *armature = dynamic_cast<Armature *>(child);
-    if (armature != nullptr)
+    BatchNode::BatchNode()
+    : _groupCommand(nullptr)
     {
-        armature->setBatchNode(this);
-        if (_groupCommand == nullptr)
+    }
+
+    BatchNode::~BatchNode() { CC_SAFE_DELETE(_groupCommand); }
+
+    bool BatchNode::init()
+    {
+        bool ret = Node::init();
+        setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR));
+
+        return ret;
+    }
+
+    void BatchNode::addChild(Node* child, int zOrder, int tag)
+    {
+        Node::addChild(child, zOrder, tag);
+        Armature* armature = dynamic_cast<Armature*>(child);
+        if (armature != nullptr)
         {
-            _groupCommand = new (std::nothrow) GroupCommand();
-        }
-    }
-}
-
-void BatchNode::removeChild(Node* child, bool cleanup)
-{
-    Armature *armature = dynamic_cast<Armature *>(child);
-    if (armature != nullptr)
-    {
-        armature->setBatchNode(nullptr);
-    }
-
-    Node::removeChild(child, cleanup);
-}
-
-void BatchNode::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags)
-{
-    // quick return if not visible. children won't be drawn.
-    if (!_visible)
-    {
-        return;
-    }
-
-    uint32_t flags = processParentFlags(parentTransform, parentFlags);
-
-    if (isVisitableByVisitingCamera())
-    {
-        // IMPORTANT:
-        // To ease the migration to v3.0, we still support the Mat4 stack,
-        // but it is deprecated and your code should not rely on it
-        Director* director = Director::getInstance();
-        director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
-        director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
-        
-        sortAllChildren();
-        draw(renderer, _modelViewTransform, flags);
-        
-        // FIX ME: Why need to set _orderOfArrival to 0??
-        // Please refer to https://github.com/cocos2d/cocos2d-x/pull/6920
-        // setOrderOfArrival(0);
-        
-        director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
-    }
-}
-
-void BatchNode::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
-{
-    if (_children.empty())
-    {
-        return;
-    }
-
-//    CC_NODE_DRAW_SETUP();
-
-    bool pushed = false;
-    for(auto object : _children)
-    {
-        Armature *armature = dynamic_cast<Armature *>(object);
-        if (armature)
-        {
-            if (!pushed)
+            armature->setBatchNode(this);
+            if (_groupCommand == nullptr)
             {
-                generateGroupCommand();
-                pushed = true;
+                _groupCommand = new (std::nothrow) GroupCommand();
             }
-        
-            armature->visit(renderer, transform, flags);
-        }
-        else
-        {
-            renderer->popGroup();
-            pushed = false;
-            
-            ((Node *)object)->visit(renderer, transform, flags);
         }
     }
-}
 
-void BatchNode::generateGroupCommand()
-{
-    Renderer* renderer = Director::getInstance()->getRenderer();
-    _groupCommand->init(_globalZOrder);
-    renderer->addCommand(_groupCommand);
+    void BatchNode::addChild(cocos2d::Node* child, int zOrder, const std::string& name)
+    {
+        Node::addChild(child, zOrder, name);
+        Armature* armature = dynamic_cast<Armature*>(child);
+        if (armature != nullptr)
+        {
+            armature->setBatchNode(this);
+            if (_groupCommand == nullptr)
+            {
+                _groupCommand = new (std::nothrow) GroupCommand();
+            }
+        }
+    }
 
-    renderer->pushGroup(_groupCommand->getRenderQueueID());
-}
+    void BatchNode::removeChild(Node* child, bool cleanup)
+    {
+        Armature* armature = dynamic_cast<Armature*>(child);
+        if (armature != nullptr)
+        {
+            armature->setBatchNode(nullptr);
+        }
 
-}
+        Node::removeChild(child, cleanup);
+    }
+
+    void BatchNode::visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags)
+    {
+        // quick return if not visible. children won't be drawn.
+        if (!_visible)
+        {
+            return;
+        }
+
+        uint32_t flags = processParentFlags(parentTransform, parentFlags);
+
+        if (isVisitableByVisitingCamera())
+        {
+            // IMPORTANT:
+            // To ease the migration to v3.0, we still support the Mat4 stack,
+            // but it is deprecated and your code should not rely on it
+            Director* director = Director::getInstance();
+            director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+            director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
+
+            sortAllChildren();
+            draw(renderer, _modelViewTransform, flags);
+
+            // FIX ME: Why need to set _orderOfArrival to 0??
+            // Please refer to https://github.com/cocos2d/cocos2d-x/pull/6920
+            // setOrderOfArrival(0);
+
+            director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+        }
+    }
+
+    void BatchNode::draw(Renderer* renderer, const Mat4& transform, uint32_t flags)
+    {
+        if (_children.empty())
+        {
+            return;
+        }
+
+        //    CC_NODE_DRAW_SETUP();
+
+        bool pushed = false;
+        for (auto object : _children)
+        {
+            Armature* armature = dynamic_cast<Armature*>(object);
+            if (armature)
+            {
+                if (!pushed)
+                {
+                    generateGroupCommand();
+                    pushed = true;
+                }
+
+                armature->visit(renderer, transform, flags);
+            }
+            else
+            {
+                renderer->popGroup();
+                pushed = false;
+
+                ((Node*)object)->visit(renderer, transform, flags);
+            }
+        }
+    }
+
+    void BatchNode::generateGroupCommand()
+    {
+        Renderer* renderer = Director::getInstance()->getRenderer();
+        _groupCommand->init(_globalZOrder);
+        renderer->addCommand(_groupCommand);
+
+        renderer->pushGroup(_groupCommand->getRenderQueueID());
+    }
+
+} // namespace cocostudio

@@ -1,7 +1,7 @@
 /****************************************************************************
 Copyright (c) 2013      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
- 
+
 http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,11 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "cocos2d.h"
 #include "2d/CCGLBufferedNode.h"
-#include "platform/CCPlatformMacros.h"
-#include "base/CCEventListenerCustom.h"
 
+#include "base/CCEventListenerCustom.h"
+#include "cocos2d.h"
+#include "platform/CCPlatformMacros.h"
 
 using namespace cocos2d;
 
@@ -37,22 +37,20 @@ GLBufferedNode::GLBufferedNode()
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
 
-    _onContextRecovered = cocos2d::EventListenerCustom::create(EVENT_RENDERER_RECREATED,[this](EventCustom* event){
-        this->onContextRecovered();
-    });
+    _onContextRecovered = cocos2d::EventListenerCustom::create(EVENT_RENDERER_RECREATED, [this](EventCustom* event) { this->onContextRecovered(); });
     cocos2d::Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_onContextRecovered, -1);
 #endif
 }
 
 GLBufferedNode::~GLBufferedNode()
 {
-    for(int i = 0; i < BUFFER_SLOTS; i++)
+    for (int i = 0; i < BUFFER_SLOTS; i++)
     {
-        if(_bufferSize[i])
+        if (_bufferSize[i])
         {
             glDeleteBuffers(1, &(_bufferObject[i]));
         }
-        if(_indexBufferSize[i])
+        if (_indexBufferSize[i])
         {
             glDeleteBuffers(1, &(_indexBufferObject[i]));
         }
@@ -63,12 +61,12 @@ GLBufferedNode::~GLBufferedNode()
 #endif
 }
 
-void GLBufferedNode::setGLBufferData(void *buf, GLuint bufSize, int slot)
+void GLBufferedNode::setGLBufferData(void* buf, GLuint bufSize, int slot)
 {
     // WebGL doesn't support client-side arrays, so generate a buffer and load the data first.
-    if(_bufferSize[slot] < bufSize)
+    if (_bufferSize[slot] < bufSize)
     {
-        if(_bufferObject[slot])
+        if (_bufferObject[slot])
         {
             glDeleteBuffers(1, &(_bufferObject[slot]));
         }
@@ -85,12 +83,12 @@ void GLBufferedNode::setGLBufferData(void *buf, GLuint bufSize, int slot)
     }
 }
 
-void GLBufferedNode::setGLIndexData(void *buf, GLuint bufSize, int slot)
+void GLBufferedNode::setGLIndexData(void* buf, GLuint bufSize, int slot)
 {
     // WebGL doesn't support client-side arrays, so generate a buffer and load the data first.
-    if(_indexBufferSize[slot] < bufSize)
+    if (_indexBufferSize[slot] < bufSize)
     {
-        if(_indexBufferObject[slot])
+        if (_indexBufferObject[slot])
         {
             glDeleteBuffers(1, &(_indexBufferObject[slot]));
         }
@@ -107,14 +105,14 @@ void GLBufferedNode::setGLIndexData(void *buf, GLuint bufSize, int slot)
     }
 }
 
-
-void GLBufferedNode::onContextRecovered() noexcept {
+void GLBufferedNode::onContextRecovered() noexcept
+{
     _clearBuffers();
 }
 
-
-void GLBufferedNode::_clearBuffers() {
-    for(int i = 0; i < BUFFER_SLOTS; i++)
+void GLBufferedNode::_clearBuffers()
+{
+    for (int i = 0; i < BUFFER_SLOTS; i++)
     {
         _bufferObject[i] = 0;
         _bufferSize[i] = 0;

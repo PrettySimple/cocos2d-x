@@ -28,24 +28,22 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#include <assert.h>
+#    include <assert.h>
 
-#define CC_DLL 
+#    define CC_DLL
 
-#define CC_ASSERT(cond) assert(cond)
+#    define CC_ASSERT(cond) assert(cond)
 
-
-#define CC_UNUSED_PARAM(unusedparam) (void)unusedparam
+#    define CC_UNUSED_PARAM(unusedparam) (void)unusedparam
 
 /* Define NULL pointer value */
-#ifndef NULL
-#ifdef __cplusplus
-#define NULL    0
-#else
-#define NULL    ((void *)0)
-#endif
-#endif
-
+#    ifndef NULL
+#        ifdef __cplusplus
+#            define NULL 0
+#        else
+#            define NULL ((void*)0)
+#        endif
+#    endif
 
 #endif // CC_PLATFORM_IOS
 

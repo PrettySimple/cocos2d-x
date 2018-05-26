@@ -26,14 +26,13 @@ THE SOFTWARE.
 #ifndef __CCMOTION_STREAK_H__
 #define __CCMOTION_STREAK_H__
 
-#include "base/CCProtocols.h"
 #include "2d/CCNode.h"
+#include "base/CCProtocols.h"
 #include "renderer/CCCustomCommand.h"
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
-#include "2d/CCGLBufferedNode.h"
+#    include "2d/CCGLBufferedNode.h"
 #endif
-
 
 NS_CC_BEGIN
 
@@ -47,9 +46,11 @@ class Texture2D;
 /** @class MotionStreak.
  * @brief Creates a trailing path.
  */
-class CC_DLL MotionStreak : public Node, public TextureProtocol
+class CC_DLL MotionStreak : public Node,
+                            public TextureProtocol
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
-, public GLBufferedNode
+,
+                            public GLBufferedNode
 #endif
 {
 public:
@@ -64,7 +65,7 @@ public:
      */
     static MotionStreak* create(float timeToFade, float minSeg, float strokeWidth, const Color3B& strokeColor, const std::string& imagePath);
     /** Creates and initializes a motion streak with fade in seconds, minimum segments, stroke's width, color, texture.
-     * 
+     *
      * @param timeToFade The fade time, in seconds.
      * @param minSeg The minimum segments.
      * @param strokeWidth The width of stroke.
@@ -84,8 +85,8 @@ public:
      */
     void reset();
 
-    /** When fast mode is enabled, new points are added faster but with lower precision. 
-     * 
+    /** When fast mode is enabled, new points are added faster but with lower precision.
+     *
      * @return True if fast mode is enabled.
      */
     bool isFastMode() const { return _fastMode; }
@@ -114,10 +115,7 @@ public:
      *
      * @param bStartingPositionInitialized True if initialized the starting position.
      */
-    void setStartingPositionInitialized(bool bStartingPositionInitialized)
-    {
-        _startingPositionInitialized = bStartingPositionInitialized; 
-    }
+    void setStartingPositionInitialized(bool bStartingPositionInitialized) { _startingPositionInitialized = bStartingPositionInitialized; }
 
     // Overrides
     virtual void setPosition(const Vec2& position) override;
@@ -130,44 +128,43 @@ public:
     virtual float getPositionY(void) const override;
     virtual Vec3 getPosition3D() const override;
     /**
-    * @js NA
-    * @lua NA
-    */
-    virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
+     * @js NA
+     * @lua NA
+     */
+    virtual void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
     /**
-    * @lua NA
-    */
+     * @lua NA
+     */
     virtual void update(float delta) override;
     virtual Texture2D* getTexture() const override;
-    virtual void setTexture(Texture2D *texture) override;
+    virtual void setTexture(Texture2D* texture) override;
     /**
-    * @js NA
-    * @lua NA
-    */
-    virtual void setBlendFunc(const BlendFunc &blendFunc) override;
+     * @js NA
+     * @lua NA
+     */
+    virtual void setBlendFunc(const BlendFunc& blendFunc) override;
     /**
-    * @js NA
-    * @lua NA
-    */
+     * @js NA
+     * @lua NA
+     */
     virtual const BlendFunc& getBlendFunc() const override;
     virtual GLubyte getOpacity() const override;
     virtual void setOpacity(GLubyte opacity) override;
     virtual void setOpacityModifyRGB(bool value) override;
     virtual bool isOpacityModifyRGB() const override;
-    
-CC_CONSTRUCTOR_ACCESS:
-    MotionStreak();
+
+    CC_CONSTRUCTOR_ACCESS : MotionStreak();
     virtual ~MotionStreak();
-    
+
     /** initializes a motion streak with fade in seconds, minimum segments, stroke's width, color and texture filename */
     bool initWithFade(float fade, float minSeg, float stroke, const Color3B& color, const std::string& path);
-    
+
     /** initializes a motion streak with fade in seconds, minimum segments, stroke's width, color and texture  */
     bool initWithFade(float fade, float minSeg, float stroke, const Color3B& color, Texture2D* texture);
 
 protected:
-    //renderer callback
-    void onDraw(const Mat4 &transform, uint32_t flags);
+    // renderer callback
+    void onDraw(const Mat4& transform, uint32_t flags);
 
     bool _fastMode;
     bool _startingPositionInitialized;
@@ -193,7 +190,7 @@ protected:
     Vec2* _vertices;
     GLubyte* _colorPointer;
     Tex2F* _texCoords;
-    
+
     CustomCommand _customCommand;
 
 private:

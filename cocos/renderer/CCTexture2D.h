@@ -27,16 +27,16 @@ THE SOFTWARE.
 #ifndef __CCTEXTURE2D_H__
 #define __CCTEXTURE2D_H__
 
-#include <string>
 #include <map>
+#include <string>
 #include <unordered_map>
 
 #include "base/CCRef.h"
-#include "math/CCGeometry.h"
 #include "base/ccTypes.h"
+#include "math/CCGeometry.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
-#include "2d/CCGLBufferedNode.h"
+#    include "2d/CCGLBufferedNode.h"
 #endif
 
 NS_CC_BEGIN
@@ -56,25 +56,26 @@ namespace ui
  * @{
  */
 
-//CONSTANTS:
+// CONSTANTS:
 
 class GLProgram;
 
-//CLASS INTERFACES:
+// CLASS INTERFACES:
 
-/** 
-* @brief Texture2D class. This class allows to easily create OpenGL 2D textures from images, text or raw data.
-* The created Texture2D object will always have power-of-two dimensions.
-* Depending on how you create the Texture2D object, the actual image area of the texture might be smaller than the texture dimensions i.e. "contentSize" != (pixelsWide, pixelsHigh) and (maxS, maxT) != (1.0, 1.0).
-* Be aware that the content of the generated textures will be upside-down!
-*/
+/**
+ * @brief Texture2D class. This class allows to easily create OpenGL 2D textures from images, text or raw data.
+ * The created Texture2D object will always have power-of-two dimensions.
+ * Depending on how you create the Texture2D object, the actual image area of the texture might be smaller than the texture dimensions i.e. "contentSize" !=
+ * (pixelsWide, pixelsHigh) and (maxS, maxT) != (1.0, 1.0). Be aware that the content of the generated textures will be upside-down!
+ */
 class CC_DLL Texture2D : public Ref
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
-, public GLBufferedNode
+,
+                         public GLBufferedNode
 #endif
 {
     friend class RenderTexture;
-    
+
 public:
     /** @typedef Texture2D::PixelFormat
      Possible texture pixel formats
@@ -129,21 +130,21 @@ public:
         ATC_INTERPOLATED_ALPHA,
         //! Default texture format: AUTO
         DEFAULT = AUTO,
-        
+
         NONE = -1
     };
-    
-    
-    struct PixelFormatInfo {
 
+    struct PixelFormatInfo
+    {
         PixelFormatInfo(GLenum anInternalFormat, GLenum aFormat, GLenum aType, int aBpp, bool aCompressed, bool anAlpha)
-            : internalFormat(anInternalFormat)
-            , format(aFormat)
-            , type(aType)
-            , bpp(aBpp)
-            , compressed(aCompressed)
-            , alpha(anAlpha)
-        {}
+        : internalFormat(anInternalFormat)
+        , format(aFormat)
+        , type(aType)
+        , bpp(aBpp)
+        , compressed(aCompressed)
+        , alpha(anAlpha)
+        {
+        }
 
         GLenum internalFormat;
         GLenum format;
@@ -152,22 +153,23 @@ public:
         bool compressed;
         bool alpha;
     };
-    
+
     typedef std::map<Texture2D::PixelFormat, const PixelFormatInfo> PixelFormatInfoMap;
-    
+
     /**
      Extension to set the Min / Mag filter
      */
-    typedef struct _TexParams {
-        GLuint    minFilter;
-        GLuint    magFilter;
-        GLuint    wrapS;
-        GLuint    wrapT;
-    }TexParams;
-    
+    typedef struct _TexParams
+    {
+        GLuint minFilter;
+        GLuint magFilter;
+        GLuint wrapS;
+        GLuint wrapT;
+    } TexParams;
+
 public:
     /** sets the default pixel format for UIImagescontains alpha channel.
-     
+
      @param format
      If the UIImage contains alpha channel, then the options are:
      - generate 32-bit textures: Texture2D::PixelFormat::RGBA8888 (default one)
@@ -179,7 +181,8 @@ public:
 
      How does it work ?
      - If the image is an RGBA (with Alpha) then the default pixel format will be used (it can be a 8-bit, 16-bit or 32-bit texture)
-     - If the image is an RGB (without Alpha) then: If the default pixel format is RGBA8888 then a RGBA8888 (32-bit) will be used. Otherwise a RGB565 (16-bit texture) will be used.
+     - If the image is an RGB (without Alpha) then: If the default pixel format is RGBA8888 then a RGBA8888 (32-bit) will be used. Otherwise a RGB565 (16-bit
+     texture) will be used.
 
      This parameter is not valid for PVR / PVR.CCZ images.
 
@@ -194,19 +197,19 @@ public:
     CC_DEPRECATED_ATTRIBUTE static Texture2D::PixelFormat defaultAlphaPixelFormat() { return Texture2D::getDefaultAlphaPixelFormat(); };
 
     /** Treats (or not) PVR files as if they have alpha premultiplied.
-     
-     @param haveAlphaPremultiplied 
+
+     @param haveAlphaPremultiplied
      Since it is impossible to know at runtime if the PVR images have the alpha channel premultiplied, it is
      possible load them as if they have (or not) the alpha channel premultiplied.
 
      By default it is disabled.
-     
+
      deprecated, please use Image::setPVRImagesHavePremultipliedAlpha() instead.
 
      @since v0.99.5
      */
     CC_DEPRECATED_ATTRIBUTE static void PVRImagesHavePremultipliedAlpha(bool haveAlphaPremultiplied);
-    
+
 public:
     /**
      * @js ctor
@@ -234,10 +237,11 @@ public:
      * Pretty Fix!
      * update the texture without having to create a new CCTexture2D
      */
-    void updateData(const void *data, ssize_t dalaLen, Texture2D::PixelFormat pixelFormat, unsigned int pixelsWide, unsigned int pixelsHigh, const Size& contentSize);
-    
+    void
+    updateData(const void* data, ssize_t dalaLen, Texture2D::PixelFormat pixelFormat, unsigned int pixelsWide, unsigned int pixelsHigh, const Size& contentSize);
+
     /** Initializes with a texture2d with data.
-     
+
      @param data Specifies a pointer to the image data in memory.
      @param dataLen The image data length.
      @param pixelFormat The image pixelFormat.
@@ -247,10 +251,10 @@ public:
      * @js NA
      * @lua NA
      */
-    bool initWithData(const void *data, ssize_t dataLen, Texture2D::PixelFormat pixelFormat, int pixelsWide, int pixelsHigh, const Size& contentSize);
+    bool initWithData(const void* data, ssize_t dataLen, Texture2D::PixelFormat pixelFormat, int pixelsWide, int pixelsHigh, const Size& contentSize);
 
-    /** Initializes with mipmaps. 
-     
+    /** Initializes with mipmaps.
+
      @param mipmaps Specifies a pointer to the image data in memory.
      @param mipmapsNum The mipmaps number.
      @param pixelFormat The image pixelFormat.
@@ -260,14 +264,14 @@ public:
     bool initWithMipmaps(MipmapInfo* mipmaps, int mipmapsNum, Texture2D::PixelFormat pixelFormat, int pixelsWide, int pixelsHigh);
 
     /** Update with texture data.
-     
+
      @param data Specifies a pointer to the image data in memory.
      @param offsetX Specifies a texel offset in the x direction within the texture array.
      @param offsetY Specifies a texel offset in the y direction within the texture array.
      @param width Specifies the width of the texture subimage.
      @param height Specifies the height of the texture subimage.
      */
-    bool updateWithData(const void *data,int offsetX,int offsetY,int width,int height);
+    bool updateWithData(const void* data, int offsetX, int offsetY, int width, int height);
     /**
     Drawing extensions to make it easy to draw basic quads using a Texture2D object.
     These functions require GL_TEXTURE_2D and both GL_VERTEX_ARRAY and GL_TEXTURE_COORD_ARRAY client states to be enabled.
@@ -280,16 +284,16 @@ public:
     /**
     Extensions to make it easy to create a Texture2D object from an image file.
     */
-    /** 
+    /**
     Initializes a texture from a UIImage object.
 
     We will use the format you specified with setDefaultAlphaPixelFormat to convert the image for texture.
     NOTE: It will not convert the pvr image file.
     @param image An UIImage object.
     */
-    bool initWithImage(Image * image);
-    
-    /** 
+    bool initWithImage(Image* image);
+
+    /**
     Initializes a texture from a UIImage object.
 
     We will use the format you passed to the function to convert the image format to the texture format.
@@ -297,10 +301,10 @@ public:
     @param image An UIImage object.
     @param format Texture pixel formats.
     **/
-    bool initWithImage(Image * image, PixelFormat format);
+    bool initWithImage(Image* image, PixelFormat format);
 
-    /** Initializes a texture from a string with dimensions, alignment, font name and font size. 
-     
+    /** Initializes a texture from a string with dimensions, alignment, font name and font size.
+
      @param text A null terminated string.
      @param fontName The font name.
      @param fontSize The font size.
@@ -310,14 +314,16 @@ public:
      @param enableWrap Whether enable text wrap or not.
      @param overflow Whether shrink font size when content larger than the dimensions.
      */
-    bool initWithString(const char *text,  const std::string &fontName, float fontSize, const Size& dimensions = Size(0, 0), TextHAlignment hAlignment = TextHAlignment::CENTER, TextVAlignment vAlignment = TextVAlignment::TOP, bool enableWrap = true, int overflow = 0);
+    bool initWithString(const char* text, const std::string& fontName, float fontSize, const Size& dimensions = Size(0, 0),
+                        TextHAlignment hAlignment = TextHAlignment::CENTER, TextVAlignment vAlignment = TextVAlignment::TOP, bool enableWrap = true,
+                        int overflow = 0);
 
     /** Initializes a texture from a string using a text definition.
-     
+
      @param text A null terminated string.
      @param textDefinition A FontDefinition object contains font attributes.
      */
-    bool initWithString(const char *text, const FontDefinition& textDefinition);
+    bool initWithString(const char* text, const FontDefinition& textDefinition);
 
     /** Sets the min filter, mag filter, wrap s and wrap t texture parameters.
     If the texture size is NPOT (non power of 2), then in can only use GL_CLAMP_TO_EDGE in GL_TEXTURE_WRAP_{S,T}.
@@ -325,7 +331,7 @@ public:
     @warning Calling this method could allocate additional texture memory.
 
     @since v0.8
-    * @code 
+    * @code
     * When this function bound into js or lua,the input parameter will be changed
     * In js: var setBlendFunc(var arg1, var arg2, var arg3, var arg4)
     * In lua: local setBlendFunc(local arg1, local arg2, local arg3, local arg4)
@@ -359,7 +365,6 @@ public:
     */
     void setAliasTexParameters();
 
-
     /** Generates mipmap images for the texture.
     It only works if the texture size is POT (power of 2).
     @since v0.99.0
@@ -389,35 +394,35 @@ public:
 
     /** Whether or not the texture has their Alpha premultiplied. */
     bool hasPremultipliedAlpha() const;
-    
+
     /** Whether or not the texture has mip maps.*/
     bool hasMipmaps() const;
 
     /** Gets the pixel format of the texture. */
     Texture2D::PixelFormat getPixelFormat() const;
-    
+
     /** Gets the width of the texture in pixels. */
     int getPixelsWide() const;
-    
+
     /** Gets the height of the texture in pixels. */
     int getPixelsHigh() const;
-    
+
     /** Gets the texture name. */
     GLuint getName() const;
-    
+
     /** Gets max S. */
     GLfloat getMaxS() const;
     /** Sets max S. */
     void setMaxS(GLfloat maxS);
-    
+
     /** Gets max T. */
     GLfloat getMaxT() const;
     /** Sets max T. */
     void setMaxT(GLfloat maxT);
-    
+
     /** Get the texture content size.*/
     Size getContentSize() const;
-    
+
     /** Set a shader program to the texture.
 
      It's used by drawAtPoint and drawInRect
@@ -427,19 +432,20 @@ public:
     /** Get a shader program from the texture.*/
     GLProgram* getGLProgram() const;
 
-    std::string getPath()const { return _filePath; }
+    std::string getPath() const { return _filePath; }
 
     void setAlphaTexture(Texture2D* alphaTexture);
 
     GLuint getAlphaTextureName() const;
+
 public:
     /** Get pixel info map, the key-value pairs is PixelFormat and PixelFormatInfo.*/
     static const PixelFormatInfoMap& getPixelFormatInfoMap();
-    
+
 private:
     /**
-    * A struct for storing 9-patch image capInsets.
-    */
+     * A struct for storing 9-patch image capInsets.
+     */
 
     class NinePatchInfo
     {
@@ -453,7 +459,7 @@ private:
      *
      * @return True is Texture contains a 9-patch info, false otherwise.
      */
-    bool isContain9PatchInfo()const;
+    bool isContain9PatchInfo() const;
 
     /**
      * Get spriteFrame capInset, If spriteFrame can't be found in 9-patch info map,
@@ -464,7 +470,7 @@ private:
      *
      * @return The capInset of the SpriteFrame object.
      */
-    const Rect& getSpriteFrameCapInset(SpriteFrame* spriteFrame)const;
+    const Rect& getSpriteFrameCapInset(SpriteFrame* spriteFrame) const;
     /**
      * Remove the spriteFrame capInset info when the spriteFrame is removed.
      *
@@ -483,17 +489,18 @@ private:
     /**convert functions*/
 
     /**
-    Convert the format to the format param you specified, if the format is PixelFormat::Automatic, it will detect it automatically and convert to the closest format for you.
-    It will return the converted format to you. if the outData != data, you must delete it manually.
+    Convert the format to the format param you specified, if the format is PixelFormat::Automatic, it will detect it automatically and convert to the closest
+    format for you. It will return the converted format to you. if the outData != data, you must delete it manually.
     */
-    static PixelFormat convertDataToFormat(const unsigned char* data, ssize_t dataLen, PixelFormat originFormat, PixelFormat format, unsigned char** outData, ssize_t* outDataLen);
+    static PixelFormat
+    convertDataToFormat(const unsigned char* data, ssize_t dataLen, PixelFormat originFormat, PixelFormat format, unsigned char** outData, ssize_t* outDataLen);
 
     static PixelFormat convertI8ToFormat(const unsigned char* data, ssize_t dataLen, PixelFormat format, unsigned char** outData, ssize_t* outDataLen);
     static PixelFormat convertAI88ToFormat(const unsigned char* data, ssize_t dataLen, PixelFormat format, unsigned char** outData, ssize_t* outDataLen);
     static PixelFormat convertRGB888ToFormat(const unsigned char* data, ssize_t dataLen, PixelFormat format, unsigned char** outData, ssize_t* outDataLen);
     static PixelFormat convertRGBA8888ToFormat(const unsigned char* data, ssize_t dataLen, PixelFormat format, unsigned char** outData, ssize_t* outDataLen);
 
-    //I8 to XXX
+    // I8 to XXX
     static void convertI8ToRGB888(const unsigned char* data, ssize_t dataLen, unsigned char* outData);
     static void convertI8ToRGBA8888(const unsigned char* data, ssize_t dataLen, unsigned char* outData);
     static void convertI8ToRGB565(const unsigned char* data, ssize_t dataLen, unsigned char* outData);
@@ -501,7 +508,7 @@ private:
     static void convertI8ToRGB5A1(const unsigned char* data, ssize_t dataLen, unsigned char* outData);
     static void convertI8ToAI88(const unsigned char* data, ssize_t dataLen, unsigned char* outData);
 
-    //AI88 to XXX
+    // AI88 to XXX
     static void convertAI88ToRGB888(const unsigned char* data, ssize_t dataLen, unsigned char* outData);
     static void convertAI88ToRGBA8888(const unsigned char* data, ssize_t dataLen, unsigned char* outData);
     static void convertAI88ToRGB565(const unsigned char* data, ssize_t dataLen, unsigned char* outData);
@@ -510,7 +517,7 @@ private:
     static void convertAI88ToA8(const unsigned char* data, ssize_t dataLen, unsigned char* outData);
     static void convertAI88ToI8(const unsigned char* data, ssize_t dataLen, unsigned char* outData);
 
-    //RGB888 to XXX
+    // RGB888 to XXX
     static void convertRGB888ToRGBA8888(const unsigned char* data, ssize_t dataLen, unsigned char* outData);
     static void convertRGB888ToRGB565(const unsigned char* data, ssize_t dataLen, unsigned char* outData);
     static void convertRGB888ToA8(const unsigned char* data, ssize_t dataLen, unsigned char* outData);
@@ -519,7 +526,7 @@ private:
     static void convertRGB888ToRGBA4444(const unsigned char* data, ssize_t dataLen, unsigned char* outData);
     static void convertRGB888ToRGB5A1(const unsigned char* data, ssize_t dataLen, unsigned char* outData);
 
-    //RGBA8888 to XXX
+    // RGBA8888 to XXX
     static void convertRGBA8888ToRGB888(const unsigned char* data, ssize_t dataLen, unsigned char* outData);
     static void convertRGBA8888ToRGB565(const unsigned char* data, ssize_t dataLen, unsigned char* outData);
     static void convertRGBA8888ToI8(const unsigned char* data, ssize_t dataLen, unsigned char* outData);
@@ -543,7 +550,7 @@ protected:
 
     /** texture max S */
     GLfloat _maxS;
-    
+
     /** texture max T */
     GLfloat _maxT;
 
@@ -552,7 +559,7 @@ protected:
 
     /** whether or not the texture has their Alpha premultiplied */
     bool _hasPremultipliedAlpha;
-    
+
     /** whether or not the texture has mip maps*/
     bool _hasMipmaps;
 
@@ -573,11 +580,9 @@ protected:
     Texture2D* _alphaTexture;
 };
 
-
 // end of textures group
 /// @}
 
 NS_CC_END
 
 #endif //__CCTEXTURE2D_H__
-

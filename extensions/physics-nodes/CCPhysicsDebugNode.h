@@ -23,9 +23,9 @@
 #ifndef __PHYSICSNODES_DEBUGNODE_H__
 #define __PHYSICSNODES_DEBUGNODE_H__
 
-#include "extensions/ExtensionMacros.h"
 #include "2d/CCDrawNode.h"
 #include "extensions/ExtensionExport.h"
+#include "extensions/ExtensionMacros.h"
 
 struct cpSpace;
 
@@ -33,7 +33,7 @@ NS_CC_EXT_BEGIN
 
 /**
  * A BaseData that draws the components of a physics engine.
- 
+
  * Supported physics engines:
  * - Chipmunk
  * - Objective-Chipmunk
@@ -43,10 +43,9 @@ NS_CC_EXT_BEGIN
 
 class CC_EX_DLL PhysicsDebugNode : public DrawNode
 {
-
 public:
     /** Create a debug node for a regular Chipmunk space. */
-    static PhysicsDebugNode* create(cpSpace *space);
+    static PhysicsDebugNode* create(cpSpace* space);
     /**
      * @js ctor
      */
@@ -55,17 +54,15 @@ public:
      * @js NA
      */
     virtual ~PhysicsDebugNode();
-    
 
     cpSpace* getSpace() const;
-    void setSpace(cpSpace *space);
-    
+    void setSpace(cpSpace* space);
+
     // Overrides
-    virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
+    virtual void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
 
 protected:
-    cpSpace *_spacePtr;
-
+    cpSpace* _spacePtr;
 };
 
 NS_CC_EXT_END

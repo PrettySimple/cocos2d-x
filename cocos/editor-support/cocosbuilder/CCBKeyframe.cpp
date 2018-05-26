@@ -3,69 +3,41 @@
 using namespace cocos2d;
 using namespace std::chrono_literals;
 
-namespace cocosbuilder {
-
-CCBKeyframe::CCBKeyframe() : _object(nullptr)
-, _time(0ms)
-, _easingType(EasingType::INSTANT)
-, _easingOpt(0.f)
-{}
-
-CCBKeyframe::~CCBKeyframe()
+namespace cocosbuilder
 {
-    CC_SAFE_RELEASE(_object);
-}
+    CCBKeyframe::CCBKeyframe()
+    : _object(nullptr)
+    , _time(0ms)
+    , _easingType(EasingType::INSTANT)
+    , _easingOpt(0.f)
+    {
+    }
 
-const Value& CCBKeyframe::getValue() const
-{
-    return _value;
-}
+    CCBKeyframe::~CCBKeyframe() { CC_SAFE_RELEASE(_object); }
 
-void CCBKeyframe::setValue(const Value& value)
-{
-    _value = value;
-}
-    
-Ref* CCBKeyframe::getObject() const
-{
-    return _object;
-}
+    const Value& CCBKeyframe::getValue() const { return _value; }
 
-void CCBKeyframe::setObject(Ref* obj)
-{
-    CC_SAFE_RETAIN(obj);
-    CC_SAFE_RELEASE(_object);
-    _object = obj;
-}
+    void CCBKeyframe::setValue(const Value& value) { _value = value; }
 
-std::chrono::milliseconds CCBKeyframe::getTime()
-{
-    return _time;
-}
+    Ref* CCBKeyframe::getObject() const { return _object; }
 
-void CCBKeyframe::setTime(std::chrono::milliseconds fTime)
-{
-    _time = fTime;
-}
+    void CCBKeyframe::setObject(Ref* obj)
+    {
+        CC_SAFE_RETAIN(obj);
+        CC_SAFE_RELEASE(_object);
+        _object = obj;
+    }
 
-CCBKeyframe::EasingType CCBKeyframe::getEasingType()
-{
-    return _easingType;
-}
+    std::chrono::milliseconds CCBKeyframe::getTime() { return _time; }
 
-void CCBKeyframe::setEasingType(CCBKeyframe::EasingType easingType)
-{
-    _easingType = easingType;
-}
+    void CCBKeyframe::setTime(std::chrono::milliseconds fTime) { _time = fTime; }
 
-float CCBKeyframe::getEasingOpt()
-{
-    return _easingOpt;
-}
+    CCBKeyframe::EasingType CCBKeyframe::getEasingType() { return _easingType; }
 
-void CCBKeyframe::setEasingOpt(float fEasingOpt)
-{
-    _easingOpt = fEasingOpt;
-}
+    void CCBKeyframe::setEasingType(CCBKeyframe::EasingType easingType) { _easingType = easingType; }
 
-}
+    float CCBKeyframe::getEasingOpt() { return _easingOpt; }
+
+    void CCBKeyframe::setEasingOpt(float fEasingOpt) { _easingOpt = fEasingOpt; }
+
+} // namespace cocosbuilder

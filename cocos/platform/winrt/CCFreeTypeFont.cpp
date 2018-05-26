@@ -25,13 +25,13 @@
 #include "base/CCDirector.h"
 #include "platform/CCFileUtils.h"
 
+#include <algorithm>
 #include <dwrite.h>
 #include <map>
-#include <string>
-#include <sstream>
-#include <vector>
 #include <memory>
-#include <algorithm>
+#include <sstream>
+#include <string>
+#include <vector>
 
 using namespace std;
 
@@ -43,10 +43,9 @@ static FT_Library s_FreeTypeLibrary = nullptr;
 const std::string CCFreeTypeFont::DEFAULT_FONT = "arial";
 
 CCFreeTypeFont::CCFreeTypeFont()
-    :m_space(" ")
-    , m_face(nullptr)
+: m_space(" ")
+, m_face(nullptr)
 {
-
 }
 
 CCFreeTypeFont::~CCFreeTypeFont()
@@ -56,7 +55,7 @@ CCFreeTypeFont::~CCFreeTypeFont()
 
 void CCFreeTypeFont::reset()
 {
-    for(auto line:m_lines)
+    for (auto line : m_lines)
     {
         line->glyphs.clear();
         delete line;
@@ -64,17 +63,18 @@ void CCFreeTypeFont::reset()
 
     m_lines.clear();
 
-	if(m_face)
-	{
-		FT_Done_Face(m_face);
-	    m_face = nullptr;
-	}
+    if (m_face)
+    {
+        FT_Done_Face(m_face);
+        m_face = nullptr;
+    }
 }
 
-unsigned char* CCFreeTypeFont::initWithString(const char * text, const FontDefinition& textDefinition, Device::TextAlign align, int &width, int &height, ssize_t& dataLength)
+unsigned char*
+CCFreeTypeFont::initWithString(const char* text, const FontDefinition& textDefinition, Device::TextAlign align, int& width, int& height, ssize_t& dataLength)
 {
-	FT_Error error = 0;
-	ssize_t size = 0;
+    FT_Error error = 0;
+    ssize_t size = 0;
     unsigned char* pBuffer = nullptr;
     unsigned char* data = nullptr;
 
@@ -99,28 +99,27 @@ unsigned char* CCFreeTypeFont::initWithString(const char * text, const FontDefin
     }
 #endif // 0
 
-
-	if(!pBuffer)
+    if (!pBuffer)
     {
         // attempt to load font from Resources fonts folder
         pBuffer = loadFont(textDefinition._fontName.c_str(), &size);
-	    if(!pBuffer)
-	    {
-         // attempt to load font from System fonts folder
+        if (!pBuffer)
+        {
+            // attempt to load font from System fonts folder
             pBuffer = loadSystemFont(textDefinition._fontName.c_str(), &size);
-	    }
-        if(!pBuffer)
+        }
+        if (!pBuffer)
         {
             // attempt to load default font from Resources fonts folder
             pBuffer = loadFont(DEFAULT_FONT.c_str(), &size);
         }
-        if(!pBuffer)
+        if (!pBuffer)
         {
             // attempt to load default font from System fonts folder
             pBuffer = loadSystemFont(DEFAULT_FONT.c_str(), &size);
         }
 
-        if(!pBuffer) // font not found!
+        if (!pBuffer) // font not found!
         {
             return false;
         }
@@ -132,36 +131,34 @@ unsigned char* CCFreeTypeFont::initWithString(const char * text, const FontDefin
         info.size = size;
         s_fontsNames[textDefinition._fontName]=info;
 #endif // 0
-
     }
 
     m_fontName = textDefinition._fontName;
     m_text = text;
 
-	if(!s_FreeTypeLibrary)
-	{
-		error = FT_Init_FreeType(&s_FreeTypeLibrary);
-	}
+    if (!s_FreeTypeLibrary)
+    {
+        error = FT_Init_FreeType(&s_FreeTypeLibrary);
+    }
 
-	if(!error && !m_face)
-	{
-		error = FT_New_Memory_Face(s_FreeTypeLibrary, pBuffer, size, 0, &m_face);
-	}
+    if (!error && !m_face)
+    {
+        error = FT_New_Memory_Face(s_FreeTypeLibrary, pBuffer, size, 0, &m_face);
+    }
 
-    if(!error)
+    if (!error)
     {
         error = FT_Select_Charmap(m_face, FT_ENCODING_UNICODE);
     }
 
-
-    if(!error)
+    if (!error)
     {
         error = FT_Set_Char_Size(m_face, textDefinition._fontSize << 6, textDefinition._fontSize << 6, 72, 72);
     }
 
-    if(!error)
+    if (!error)
     {
-	    error = initGlyphs(text);
+        error = initGlyphs(text);
     }
 
     if (!error)
@@ -169,14 +166,14 @@ unsigned char* CCFreeTypeFont::initWithString(const char * text, const FontDefin
         data = getBitmap(align, width, height, dataLength);
     }
 
-    delete [] pBuffer;
+    delete[] pBuffer;
 
     reset();
 
-	return data;
+    return data;
 }
 
-unsigned char* CCFreeTypeFont::getBitmap(Device::TextAlign eAlignMask, int &width, int &height, ssize_t& dataLength)
+unsigned char* CCFreeTypeFont::getBitmap(Device::TextAlign eAlignMask, int& width, int& height, ssize_t& dataLength)
 {
     int lineNumber = 0;
     int totalLines = static_cast<int>(m_lines.size());
@@ -187,14 +184,14 @@ unsigned char* CCFreeTypeFont::getBitmap(Device::TextAlign eAlignMask, int &widt
     unsigned int size = m_width * m_height * 4;
     unsigned char* pBuffer = new unsigned char[size];
     dataLength = size;
-    if(!pBuffer)
+    if (!pBuffer)
     {
         dataLength = 0;
         return nullptr;
     }
     memset(pBuffer, 0, size);
 
-    for (auto line = m_lines.begin() ; line != m_lines.end(); ++line)
+    for (auto line = m_lines.begin(); line != m_lines.end(); ++line)
     {
         FT_Vector pen = getPenForAlignment(*line, eAlignMask, lineNumber, totalLines);
         drawText(*line, pBuffer, &pen);
@@ -206,125 +203,123 @@ unsigned char* CCFreeTypeFont::getBitmap(Device::TextAlign eAlignMask, int &widt
     return pBuffer;
 }
 
-FT_Vector CCFreeTypeFont::getPenForAlignment(FTLineInfo* pInfo, Device::TextAlign eAlignMask,int lineNumber, int totalLines)
+FT_Vector CCFreeTypeFont::getPenForAlignment(FTLineInfo* pInfo, Device::TextAlign eAlignMask, int lineNumber, int totalLines)
 {
     FT_Error error = 0;
     FT_Vector pen;
 
     int top;
-    int stringWidth  = pInfo->bbox.xMax - pInfo->bbox.xMin;
+    int stringWidth = pInfo->bbox.xMax - pInfo->bbox.xMin;
     int maxLineNumber = totalLines - 1;
     pen.x = 0;
     pen.y = 0;
 
-    switch(eAlignMask)
+    switch (eAlignMask)
     {
         case Device::TextAlign::TOP: // Horizontal center and vertical top.
-            pen.x = ((m_width  - stringWidth) / 2) - pInfo->bbox.xMin;
+            pen.x = ((m_width - stringWidth) / 2) - pInfo->bbox.xMin;
             pen.y = pInfo->bbox.yMax + (lineNumber * m_lineHeight);
- 		    break;
+            break;
 
         case Device::TextAlign::TOP_LEFT: // Horizontal left and vertical top.
-            pen.x -=pInfo->bbox.xMin;
+            pen.x -= pInfo->bbox.xMin;
             pen.y = pInfo->bbox.yMax + (lineNumber * m_lineHeight);
- 		    break;
+            break;
 
-	    case Device::TextAlign::TOP_RIGHT: // Horizontal right and vertical top.
+        case Device::TextAlign::TOP_RIGHT: // Horizontal right and vertical top.
             pen.x = m_width - stringWidth - pInfo->bbox.xMin;
             pen.y = pInfo->bbox.yMax + (lineNumber * m_lineHeight);
-		    break;
+            break;
 
-	    case Device::TextAlign::BOTTOM_RIGHT: // Horizontal right and vertical bottom.
+        case Device::TextAlign::BOTTOM_RIGHT: // Horizontal right and vertical bottom.
             pen.x = m_width - stringWidth - pInfo->bbox.xMin;
             pen.y = m_height + pInfo->bbox.yMin - ((maxLineNumber - lineNumber) * m_lineHeight);
-		    break;
+            break;
 
-	    case Device::TextAlign::BOTTOM: // Horizontal center and vertical bottom.
-            pen.x = ((m_width  - stringWidth) / 2) - pInfo->bbox.xMin;
+        case Device::TextAlign::BOTTOM: // Horizontal center and vertical bottom.
+            pen.x = ((m_width - stringWidth) / 2) - pInfo->bbox.xMin;
             pen.y = m_height + pInfo->bbox.yMin - ((maxLineNumber - lineNumber) * m_lineHeight);
-		    break;
+            break;
 
-	    case Device::TextAlign::BOTTOM_LEFT: // Horizontal left and vertical bottom.
-            pen.x -=pInfo->bbox.xMin;
+        case Device::TextAlign::BOTTOM_LEFT: // Horizontal left and vertical bottom.
+            pen.x -= pInfo->bbox.xMin;
             top = (m_height - m_textHeight) / 2;
             pen.y = m_height + pInfo->bbox.yMin - ((maxLineNumber - lineNumber) * m_lineHeight);
-  		    break;
+            break;
 
-	    case Device::TextAlign::CENTER: // Horizontal center and vertical center
-            pen.x = ((m_width  - stringWidth) / 2) - pInfo->bbox.xMin;
+        case Device::TextAlign::CENTER: // Horizontal center and vertical center
+            pen.x = ((m_width - stringWidth) / 2) - pInfo->bbox.xMin;
             top = (m_height - m_textHeight) / 2;
             pen.y = top + (lineNumber * m_lineHeight) + pInfo->bbox.yMax;
             break;
 
-	    case Device::TextAlign::RIGHT: // Horizontal right and vertical center.
+        case Device::TextAlign::RIGHT: // Horizontal right and vertical center.
             pen.x = m_width - stringWidth - pInfo->bbox.xMin;
             top = (m_height - m_textHeight) / 2;
             pen.y = top + (lineNumber * m_lineHeight) + pInfo->bbox.yMax;
-  		    break;
+            break;
 
-	    case Device::TextAlign::LEFT: // Horizontal left and vertical center.
-	    default:
-            pen.x -=pInfo->bbox.xMin;
+        case Device::TextAlign::LEFT: // Horizontal left and vertical center.
+        default:
+            pen.x -= pInfo->bbox.xMin;
             top = (m_height - m_textHeight) / 2;
             pen.y = top + (lineNumber * m_lineHeight) + pInfo->bbox.yMax;
-  		    break;
+            break;
     }
 
     return pen;
 }
 
-void  CCFreeTypeFont::drawText(FTLineInfo* pInfo, unsigned char* pBuffer, FT_Vector *pen)
+void CCFreeTypeFont::drawText(FTLineInfo* pInfo, unsigned char* pBuffer, FT_Vector* pen)
 {
-
     auto glyphs = pInfo->glyphs;
-    for (auto glyph = glyphs.begin() ; glyph != glyphs.end(); ++glyph)
+    for (auto glyph = glyphs.begin(); glyph != glyphs.end(); ++glyph)
     {
         FT_Glyph image = glyph->image;
         FT_Error error = FT_Glyph_To_Bitmap(&image, FT_RENDER_MODE_NORMAL, 0, 1);
         if (!error)
         {
-            FT_BitmapGlyph  bit = (FT_BitmapGlyph)image;
-            draw_bitmap(pBuffer, &bit->bitmap, pen->x + glyph->pos.x + bit->left,pen->y - bit->top);
+            FT_BitmapGlyph bit = (FT_BitmapGlyph)image;
+            draw_bitmap(pBuffer, &bit->bitmap, pen->x + glyph->pos.x + bit->left, pen->y - bit->top);
             FT_Done_Glyph(image);
         }
     }
 }
 
-
-void CCFreeTypeFont::draw_bitmap(unsigned char* pBuffer, FT_Bitmap*  bitmap, FT_Int x, FT_Int y)
+void CCFreeTypeFont::draw_bitmap(unsigned char* pBuffer, FT_Bitmap* bitmap, FT_Int x, FT_Int y)
 {
-    FT_Int  i, j, p, q;
-    FT_Int  x_max = x + bitmap->width;
-    FT_Int  y_max = y + bitmap->rows;
+    FT_Int i, j, p, q;
+    FT_Int x_max = x + bitmap->width;
+    FT_Int y_max = y + bitmap->rows;
     float fontAlpha = m_fontFillColorA / 255.0f;
 
     for (i = x, p = 0; i < x_max; i++, p++)
     {
-        for ( j = y, q = 0; j < y_max; j++, q++ )
+        for (j = y, q = 0; j < y_max; j++, q++)
         {
             if (i < 0 || j < 0 || i >= m_width || j >= m_height)
                 continue;
 
-            unsigned char value =  bitmap->buffer[q * bitmap->width + p];
+            unsigned char value = bitmap->buffer[q * bitmap->width + p];
 
-            if(value > 0)
+            if (value > 0)
             {
                 FT_Int index = (j * m_width * 4) + (i * 4);
                 pBuffer[index++] = m_fontFillColorR;
                 pBuffer[index++] = m_fontFillColorG;
                 pBuffer[index++] = m_fontFillColorB;
                 pBuffer[index++] = value * fontAlpha;
-           }
+            }
         }
     }
 }
 
 void CCFreeTypeFont::endLine()
 {
-    if(m_currentLine)
+    if (m_currentLine)
     {
         m_lines.push_back(m_currentLine);
-        m_textWidth = std::max((long)m_textWidth,m_currentLine->bbox.xMax - m_currentLine->bbox.xMin);
+        m_textWidth = std::max((long)m_textWidth, m_currentLine->bbox.xMax - m_currentLine->bbox.xMin);
         m_textHeight += m_lineHeight;
     }
 }
@@ -337,15 +332,14 @@ void CCFreeTypeFont::newLine()
     m_currentLine->pen.y = 0;
 }
 
-
 FT_Error CCFreeTypeFont::addWord(const std::string& word)
 {
-	std::vector<TGlyph> glyphs; // glyphs for the word
-	FT_BBox             bbox;   // bounding box containing all of the glyphs in the word
+    std::vector<TGlyph> glyphs; // glyphs for the word
+    FT_BBox bbox; // bounding box containing all of the glyphs in the word
     int maxWidth = m_inWidth ? m_inWidth : m_windowWidth;
     std::string newWord;
 
-    if(m_currentLine->width > 0)
+    if (m_currentLine->width > 0)
     {
         newWord = ' ' + word;
     }
@@ -355,13 +349,13 @@ FT_Error CCFreeTypeFont::addWord(const std::string& word)
     }
 
     FT_Error error = initWordGlyphs(glyphs, newWord, m_currentLine->pen);
-    if(!error)
+    if (!error)
     {
         compute_bbox(glyphs, &bbox);
-        if(m_currentLine->width == 0 || bbox.xMax <= maxWidth)
+        if (m_currentLine->width == 0 || bbox.xMax <= maxWidth)
         {
-            m_currentLine->glyphs.insert(m_currentLine->glyphs.end(),glyphs.begin(),glyphs.end());
-            if(m_currentLine->width == 0)
+            m_currentLine->glyphs.insert(m_currentLine->glyphs.end(), glyphs.begin(), glyphs.end());
+            if (m_currentLine->width == 0)
             {
                 m_currentLine->bbox = bbox;
             }
@@ -396,7 +390,7 @@ FT_Error CCFreeTypeFont::initGlyphs(const char* text)
 
     m_lines.clear();
 
-    while(std::getline(stringStream, line) && !error)
+    while (std::getline(stringStream, line) && !error)
     {
         newLine();
 
@@ -405,7 +399,7 @@ FT_Error CCFreeTypeFont::initGlyphs(const char* text)
         {
             if (pos > prev)
             {
-                addWord(line.substr(prev, pos-prev));
+                addWord(line.substr(prev, pos - prev));
             }
             prev = pos + 1;
         }
@@ -429,25 +423,25 @@ void CCFreeTypeFont::initWords(const char* text)
     vector<std::string> lines;
     vector<std::string> words;
 
-    while(std::getline(stringStream, line))
+    while (std::getline(stringStream, line))
     {
         lines.push_back(line);
     }
 
-    for (auto it = lines.begin() ; it != lines.end(); ++it)
+    for (auto it = lines.begin(); it != lines.end(); ++it)
     {
         std::size_t prev = 0, pos;
         while ((pos = it->find_first_of(" ';", prev)) != std::string::npos)
         {
             if (pos > prev)
-                words.push_back(it->substr(prev, pos-prev));
-            prev = pos+1;
+                words.push_back(it->substr(prev, pos - prev));
+            prev = pos + 1;
         }
         if (prev < it->length())
             words.push_back(it->substr(prev, std::string::npos));
     }
 
-    for (auto it = words.begin() ; it != words.end(); ++it)
+    for (auto it = words.begin(); it != words.end(); ++it)
     {
         std::string foo(*it);
     }
@@ -455,78 +449,77 @@ void CCFreeTypeFont::initWords(const char* text)
 
 FT_Error CCFreeTypeFont::initWordGlyphs(std::vector<TGlyph>& glyphs, const std::string& text, FT_Vector& pen)
 {
-	FT_GlyphSlot	slot = m_face->glyph;
-	FT_UInt			glyph_index;
-	FT_UInt			previous = 0;
-	FT_Error		error = 0;
-	PGlyph			glyph;
-    unsigned int    numGlyphs = 0;
-    wchar_t *       pwszBuffer = nullptr;
+    FT_GlyphSlot slot = m_face->glyph;
+    FT_UInt glyph_index;
+    FT_UInt previous = 0;
+    FT_Error error = 0;
+    PGlyph glyph;
+    unsigned int numGlyphs = 0;
+    wchar_t* pwszBuffer = nullptr;
 
-	int num_chars = static_cast<int>(text.size());
-	int nBufLen  = num_chars + 1;
-	pwszBuffer = new wchar_t[nBufLen];
-    if(!pwszBuffer)
+    int num_chars = static_cast<int>(text.size());
+    int nBufLen = num_chars + 1;
+    pwszBuffer = new wchar_t[nBufLen];
+    if (!pwszBuffer)
     {
         return -1;
     }
 
-    memset(pwszBuffer,0,nBufLen);
+    memset(pwszBuffer, 0, nBufLen);
     num_chars = MultiByteToWideChar(CP_UTF8, 0, text.c_str(), num_chars, pwszBuffer, nBufLen);
     pwszBuffer[num_chars] = '\0';
 
     glyphs.clear();
-	glyphs.resize(num_chars);
-	FT_Bool useKerning = FT_HAS_KERNING(m_face);
+    glyphs.resize(num_chars);
+    FT_Bool useKerning = FT_HAS_KERNING(m_face);
 
-	for (int n = 0; n < num_chars; n++)
-	{
-		glyph = &glyphs[numGlyphs];
+    for (int n = 0; n < num_chars; n++)
+    {
+        glyph = &glyphs[numGlyphs];
 
-		/* convert character code to glyph index */
+        /* convert character code to glyph index */
         FT_ULong c = pwszBuffer[n];
-		glyph_index = FT_Get_Char_Index(m_face, c);
+        glyph_index = FT_Get_Char_Index(m_face, c);
 
- 		if (useKerning && previous && glyph_index)
-		{
-			FT_Vector  delta;
-			FT_Get_Kerning(m_face, previous, glyph_index,
-							FT_KERNING_DEFAULT, &delta);
-			pen.x += delta.x >> 6;
-		}
+        if (useKerning && previous && glyph_index)
+        {
+            FT_Vector delta;
+            FT_Get_Kerning(m_face, previous, glyph_index, FT_KERNING_DEFAULT, &delta);
+            pen.x += delta.x >> 6;
+        }
 
-		/* store current pen position */
-		glyph->pos = pen;
-		glyph->index = glyph_index;
+        /* store current pen position */
+        glyph->pos = pen;
+        glyph->index = glyph_index;
 
-		/* load glyph image into the slot without rendering */
-		error = FT_Load_Glyph(m_face, glyph_index, FT_LOAD_DEFAULT);
-		if (error)
-			continue;  /* ignore errors, jump to next glyph */
+        /* load glyph image into the slot without rendering */
+        error = FT_Load_Glyph(m_face, glyph_index, FT_LOAD_DEFAULT);
+        if (error)
+            continue; /* ignore errors, jump to next glyph */
 
-		/* extract glyph image and store it in our table */
-		error = FT_Get_Glyph(m_face->glyph, &glyph->image);
-		if (error)
-			continue;  /* ignore errors, jump to next glyph */
+        /* extract glyph image and store it in our table */
+        error = FT_Get_Glyph(m_face->glyph, &glyph->image);
+        if (error)
+            continue; /* ignore errors, jump to next glyph */
 
-		 /* translate the glyph image now */
-		FT_Glyph_Transform(glyph->image, 0, &glyph->pos);
+        /* translate the glyph image now */
+        FT_Glyph_Transform(glyph->image, 0, &glyph->pos);
 
-		/* increment pen position */
-		pen.x += slot->advance.x >> 6;
+        /* increment pen position */
+        pen.x += slot->advance.x >> 6;
 
-		/* record current glyph index */
-		previous = glyph_index;
+        /* record current glyph index */
+        previous = glyph_index;
 
-		numGlyphs++;
-	}
+        numGlyphs++;
+    }
 
     CC_SAFE_DELETE_ARRAY(pwszBuffer);
 
-	return error;
+    return error;
 }
 
-void  CCFreeTypeFont::compute_bbox(std::vector<TGlyph>& glyphs, FT_BBox  *abbox)
+void CCFreeTypeFont::compute_bbox(std::vector<TGlyph>& glyphs, FT_BBox* abbox)
 {
     FT_BBox bbox;
     FT_BBox glyph_bbox;
@@ -541,7 +534,7 @@ void  CCFreeTypeFont::compute_bbox(std::vector<TGlyph>& glyphs, FT_BBox  *abbox)
 
     /* for each glyph image, compute its bounding box, */
     /* translate it, and grow the string bbox          */
-    for (auto glyph = glyphs.begin() ; glyph != glyphs.end(); ++glyph)
+    for (auto glyph = glyphs.begin(); glyph != glyphs.end(); ++glyph)
     {
         FT_Glyph_Get_CBox(glyph->image, ft_glyph_bbox_pixels, &glyph_bbox);
 
@@ -576,12 +569,10 @@ void  CCFreeTypeFont::compute_bbox(std::vector<TGlyph>& glyphs, FT_BBox  *abbox)
     *abbox = bbox;
 }
 
-unsigned char* CCFreeTypeFont::loadFont(const char *pFontName, ssize_t *size)
+unsigned char* CCFreeTypeFont::loadFont(const char* pFontName, ssize_t* size)
 {
-
-
-	std::string lowerCase(pFontName);
-	std::string path(pFontName);
+    std::string lowerCase(pFontName);
+    std::string path(pFontName);
 
     for (unsigned int i = 0; i < lowerCase.length(); ++i)
     {
@@ -604,7 +595,7 @@ unsigned char* CCFreeTypeFont::loadFont(const char *pFontName, ssize_t *size)
         path += ".ttf";
     }
 
-	std::string fullpath  = FileUtils::getInstance()->fullPathForFilename(path.c_str());
+    std::string fullpath = FileUtils::getInstance()->fullPathForFilename(path.c_str());
 
     if (fullpath == "")
     {
@@ -616,25 +607,25 @@ unsigned char* CCFreeTypeFont::loadFont(const char *pFontName, ssize_t *size)
     return d.takeBuffer(size);
 }
 
-unsigned char* CCFreeTypeFont::loadSystemFont(const char *pFontName, ssize_t *size)
+unsigned char* CCFreeTypeFont::loadSystemFont(const char* pFontName, ssize_t* size)
 {
     std::string aName(pFontName);
     unsigned char* pBuffer = nullptr;
     HRESULT hr = S_OK;
-	IDWriteFactory *writeFactory = nullptr;
-	IDWriteFontCollection *fontCollection = nullptr;
-	IDWriteFontFamily *fontFamily = nullptr;
-	IDWriteFont *matchingFont = nullptr;
-	IDWriteFontFace *fontFace = nullptr;
-	IDWriteFontFile *fontFile = nullptr;
-	IDWriteFontFileLoader *fontFileLoader = nullptr;
-	IDWriteFontFileStream *fontFileStream = nullptr;
-	UINT32 index;
-	BOOL exists;
-	std::wstring fontNameW;
-    const void *fontFileReferenceKey = nullptr;
+    IDWriteFactory* writeFactory = nullptr;
+    IDWriteFontCollection* fontCollection = nullptr;
+    IDWriteFontFamily* fontFamily = nullptr;
+    IDWriteFont* matchingFont = nullptr;
+    IDWriteFontFace* fontFace = nullptr;
+    IDWriteFontFile* fontFile = nullptr;
+    IDWriteFontFileLoader* fontFileLoader = nullptr;
+    IDWriteFontFileStream* fontFileStream = nullptr;
+    UINT32 index;
+    BOOL exists;
+    std::wstring fontNameW;
+    const void* fontFileReferenceKey = nullptr;
     UINT32 fontFileReferenceKeySize;
-    void *fragmentContext = nullptr;
+    void* fragmentContext = nullptr;
 
     for (unsigned int i = 0; i < aName.length(); ++i)
     {
@@ -642,110 +633,110 @@ unsigned char* CCFreeTypeFont::loadSystemFont(const char *pFontName, ssize_t *si
     }
     fontNameW.assign(aName.begin(), aName.end());
 
-	//create the factory
-	hr = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&writeFactory));
+    // create the factory
+    hr = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&writeFactory));
 
-    if(SUCCEEDED(hr))
+    if (SUCCEEDED(hr))
     {
-	    //obtain the fonts owned by the machine
-	    hr  = writeFactory->GetSystemFontCollection(&fontCollection, TRUE);
+        // obtain the fonts owned by the machine
+        hr = writeFactory->GetSystemFontCollection(&fontCollection, TRUE);
     }
 
-	//get the font
-    if(SUCCEEDED(hr))
+    // get the font
+    if (SUCCEEDED(hr))
     {
-	    hr = fontCollection->FindFamilyName(fontNameW.c_str(), &index, &exists);
-        if(SUCCEEDED(hr) && exists)
+        hr = fontCollection->FindFamilyName(fontNameW.c_str(), &index, &exists);
+        if (SUCCEEDED(hr) && exists)
         {
-	        hr = fontCollection->GetFontFamily(index, &fontFamily);
+            hr = fontCollection->GetFontFamily(index, &fontFamily);
 
-            if(SUCCEEDED(hr))
+            if (SUCCEEDED(hr))
             {
-	            hr = fontFamily->GetFirstMatchingFont(DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STRETCH_NORMAL, DWRITE_FONT_STYLE_NORMAL, &matchingFont);
+                hr = fontFamily->GetFirstMatchingFont(DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STRETCH_NORMAL, DWRITE_FONT_STYLE_NORMAL, &matchingFont);
             }
 
-            if(SUCCEEDED(hr))
+            if (SUCCEEDED(hr))
             {
-	            hr = matchingFont->CreateFontFace(&fontFace);
+                hr = matchingFont->CreateFontFace(&fontFace);
             }
 
-            if(SUCCEEDED(hr))
+            if (SUCCEEDED(hr))
             {
-	            UINT32 numberOfFiles = 1;
-	            hr = fontFace->GetFiles(&numberOfFiles, &fontFile);
+                UINT32 numberOfFiles = 1;
+                hr = fontFace->GetFiles(&numberOfFiles, &fontFile);
             }
 
-            if(SUCCEEDED(hr))
+            if (SUCCEEDED(hr))
             {
-	            //create the font file stream
-               hr = fontFile->GetReferenceKey(&fontFileReferenceKey, &fontFileReferenceKeySize);
+                // create the font file stream
+                hr = fontFile->GetReferenceKey(&fontFileReferenceKey, &fontFileReferenceKeySize);
             }
 
-            if(SUCCEEDED(hr))
+            if (SUCCEEDED(hr))
             {
                 hr = fontFile->GetLoader(&fontFileLoader);
             }
 
-            if(SUCCEEDED(hr))
+            if (SUCCEEDED(hr))
             {
                 hr = fontFileLoader->CreateStreamFromKey(fontFileReferenceKey, fontFileReferenceKeySize, &fontFileStream);
             }
 
-            if(SUCCEEDED(hr))
+            if (SUCCEEDED(hr))
             {
-	            //finally get the font file dat
-	            UINT64 fileSize;
-		        const void *fragmentStart = nullptr;
+                // finally get the font file dat
+                UINT64 fileSize;
+                const void* fragmentStart = nullptr;
                 hr = fontFileStream->GetFileSize(&fileSize);
 
-                if(SUCCEEDED(hr))
+                if (SUCCEEDED(hr))
                 {
-	                hr = fontFileStream->ReadFileFragment(&fragmentStart, 0, fileSize, &fragmentContext);
+                    hr = fontFileStream->ReadFileFragment(&fragmentStart, 0, fileSize, &fragmentContext);
                 }
 
-                if(SUCCEEDED(hr))
+                if (SUCCEEDED(hr))
                 {
-	                pBuffer = (unsigned char*)malloc((size_t)fileSize);
-	                memcpy(pBuffer, fragmentStart, (size_t)fileSize);
+                    pBuffer = (unsigned char*)malloc((size_t)fileSize);
+                    memcpy(pBuffer, fragmentStart, (size_t)fileSize);
                     *size = (unsigned long)fileSize;
                 }
             }
         }
     }
 
-	//clean up all the DWrite stuff
-    if(fontFileStream)
+    // clean up all the DWrite stuff
+    if (fontFileStream)
     {
-	    fontFileStream->ReleaseFileFragment(fragmentContext);
-	    fontFileStream->Release();
+        fontFileStream->ReleaseFileFragment(fragmentContext);
+        fontFileStream->Release();
     }
-    if(fontFileLoader)
+    if (fontFileLoader)
     {
-	    fontFileLoader->Release();
+        fontFileLoader->Release();
     }
-    if(fontFile)
+    if (fontFile)
     {
-	    fontFile->Release();
+        fontFile->Release();
     }
-    if(fontFace)
+    if (fontFace)
     {
-	    fontFace->Release();
+        fontFace->Release();
     }
-    if(matchingFont)
+    if (matchingFont)
     {
-	    matchingFont->Release();
+        matchingFont->Release();
     }
-    if(fontFamily)
+    if (fontFamily)
     {
-	    fontFamily->Release();
+        fontFamily->Release();
     }
-    if(fontCollection)
+    if (fontCollection)
     {
-	    fontCollection->Release();
+        fontCollection->Release();
     }
-    if(writeFactory)
+    if (writeFactory)
     {
-	    writeFactory->Release();
+        writeFactory->Release();
     }
 
     return pBuffer;

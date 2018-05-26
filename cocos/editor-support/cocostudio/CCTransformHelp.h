@@ -29,39 +29,40 @@ THE SOFTWARE.
 #include "cocostudio/CCDatas.h"
 #include "cocostudio/CocosStudioExport.h"
 
-namespace cocostudio {
-
-/*
- * use to calculate the matrix of node from parent node
- * @js NA
- * @lua NA
- */
-class CC_STUDIO_DLL TransformHelp
+namespace cocostudio
 {
-public:
-    TransformHelp();
+    /*
+     * use to calculate the matrix of node from parent node
+     * @js NA
+     * @lua NA
+     */
+    class CC_STUDIO_DLL TransformHelp
+    {
+    public:
+        TransformHelp();
 
-    static void transformFromParent(BaseData &node, const BaseData &parentNode);
-    static void transformToParent(BaseData &node, const BaseData &parentNode);
+        static void transformFromParent(BaseData& node, const BaseData& parentNode);
+        static void transformToParent(BaseData& node, const BaseData& parentNode);
 
-    static void transformFromParentWithoutScale(BaseData &node, const BaseData &parentNode);
-    static void transformToParentWithoutScale(BaseData &node, const BaseData &parentNode);
+        static void transformFromParentWithoutScale(BaseData& node, const BaseData& parentNode);
+        static void transformToParentWithoutScale(BaseData& node, const BaseData& parentNode);
 
-    static void nodeToMatrix(const BaseData &_node, cocos2d::AffineTransform &_matrix);
-    static void nodeToMatrix(const BaseData &node, cocos2d::Mat4 &matrix);
-    static void matrixToNode(const cocos2d::AffineTransform &_matrix, BaseData &_node);
-    static void matrixToNode(const cocos2d::Mat4 &_matrix, BaseData &_node);
+        static void nodeToMatrix(const BaseData& _node, cocos2d::AffineTransform& _matrix);
+        static void nodeToMatrix(const BaseData& node, cocos2d::Mat4& matrix);
+        static void matrixToNode(const cocos2d::AffineTransform& _matrix, BaseData& _node);
+        static void matrixToNode(const cocos2d::Mat4& _matrix, BaseData& _node);
 
-    static void nodeConcat(BaseData &target, BaseData &source);
-    static void nodeSub(BaseData &target, BaseData &source);
-public:
-    static cocos2d::AffineTransform helpMatrix1;
-    static cocos2d::AffineTransform helpMatrix2;
+        static void nodeConcat(BaseData& target, BaseData& source);
+        static void nodeSub(BaseData& target, BaseData& source);
 
-    static cocos2d::Vec2 helpPoint1;
-    static cocos2d::Vec2 helpPoint2;
-};
+    public:
+        static cocos2d::AffineTransform helpMatrix1;
+        static cocos2d::AffineTransform helpMatrix2;
 
-}
+        static cocos2d::Vec2 helpPoint1;
+        static cocos2d::Vec2 helpPoint2;
+    };
+
+} // namespace cocostudio
 
 #endif /*__CCTRANSFORMHELP_H__*/

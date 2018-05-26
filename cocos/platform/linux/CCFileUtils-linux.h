@@ -28,11 +28,11 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
 
-#include "platform/CCFileUtils.h"
-#include "platform/CCPlatformMacros.h"
-#include "base/ccTypes.h"
-#include <string>
-#include <vector>
+#    include "base/ccTypes.h"
+#    include "platform/CCFileUtils.h"
+#    include "platform/CCPlatformMacros.h"
+#    include <string>
+#    include <vector>
 
 NS_CC_BEGIN
 
@@ -45,14 +45,18 @@ NS_CC_BEGIN
 class CC_DLL FileUtilsLinux : public FileUtils
 {
     friend class FileUtils;
+
 protected:
     FileUtilsLinux();
+
 private:
     std::string _writablePath;
+
 public:
     /* override functions */
     bool init() override;
     virtual std::string getWritablePath() const override;
+
 private:
     virtual bool isFileExistInternal(const std::string& strFilePath) const override;
 };
@@ -64,4 +68,4 @@ NS_CC_END
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
 
-#endif    // __CC_FILEUTILS_LINUX_H__
+#endif // __CC_FILEUTILS_LINUX_H__

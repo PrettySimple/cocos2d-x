@@ -19,13 +19,15 @@
  */
 
 #include "math/Vec3.h"
-#include "math/MathUtil.h"
 #include "base/ccMacros.h"
+#include "math/MathUtil.h"
 
 NS_CC_MATH_BEGIN
 
 Vec3::Vec3()
-    : x(0.0f), y(0.0f), z(0.0f)
+: x(0.0f)
+, y(0.0f)
+, z(0.0f)
 {
 }
 
@@ -45,7 +47,7 @@ Vec3 Vec3::fromColor(unsigned int color)
     int componentIndex = 0;
     for (int i = 2; i >= 0; --i)
     {
-        int component = (color >> i*8) & 0x0000ff;
+        int component = (color >> i * 8) & 0x0000ff;
 
         components[componentIndex++] = static_cast<float>(component) / 255.0f;
     }
@@ -171,12 +173,12 @@ void Vec3::normalize()
     // Already normalized.
     if (n == 1.0f)
         return;
-    
+
     n = std::sqrt(n);
     // Too close to zero.
     if (n < MATH_TOLERANCE)
         return;
-    
+
     n = 1.0f / n;
     x *= n;
     y *= n;

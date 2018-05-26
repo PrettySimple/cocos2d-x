@@ -2,7 +2,7 @@
 Copyright (c) 2009      lhunath (Maarten Billemont)
 Copyright (c) 2010-2012 cocos2d-x.org
 CopyRight (c) 2013-2016 Chukong Technologies Inc.
- 
+
 http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -86,7 +86,7 @@ public:
 class CC_DLL ActionTween : public ActionInterval
 {
 public:
-    /** 
+    /**
      * @brief Create and initializes the action with the property name (key), and the from and to parameters.
      * @param duration The duration of the ActionTween. It's a value in seconds.
      * @param key The key of property which should be updated.
@@ -97,26 +97,27 @@ public:
     static ActionTween* create(std::chrono::milliseconds duration, const std::string& key, float from, float to);
 
     // Overrides
-    void startWithTarget(Node *target) override;
+    void startWithTarget(Node* target) override;
     void update(float dt) override;
     ActionTween* reverse() const override;
-    ActionTween *clone() const override;
-    
-CC_CONSTRUCTOR_ACCESS:
-    /** 
-     * @brief Initializes the action with the property name (key), and the from and to parameters.
-     * @param duration The duration of the ActionTween. It's a value in seconds.
-     * @param key The key of property which should be updated.
-     * @param from The value of the specified property when the action begin.
-     * @param to The value of the specified property when the action end.
-     * @return If the initialization success, return true; otherwise, return false.
-     */
-    bool initWithDuration(std::chrono::milliseconds duration, const std::string& key, float from, float to);
+    ActionTween* clone() const override;
+
+    CC_CONSTRUCTOR_ACCESS :
+        /**
+         * @brief Initializes the action with the property name (key), and the from and to parameters.
+         * @param duration The duration of the ActionTween. It's a value in seconds.
+         * @param key The key of property which should be updated.
+         * @param from The value of the specified property when the action begin.
+         * @param to The value of the specified property when the action end.
+         * @return If the initialization success, return true; otherwise, return false.
+         */
+        bool
+        initWithDuration(std::chrono::milliseconds duration, const std::string& key, float from, float to);
 
 protected:
-    std::string       _key;
-    float            _from, _to;
-    float            _delta;
+    std::string _key;
+    float _from, _to;
+    float _delta;
 };
 
 // end of actions group
@@ -125,5 +126,3 @@ protected:
 NS_CC_END
 
 #endif /* __CCACTIONTWEEN_H__ */
-
-

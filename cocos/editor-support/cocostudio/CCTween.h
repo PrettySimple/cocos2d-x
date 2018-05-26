@@ -22,132 +22,131 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-
 #ifndef __CCTWEEN_H__
 #define __CCTWEEN_H__
 
-#include "cocostudio/CCProcessBase.h"
 #include "2d/CCTweenFunction.h"
+#include "cocostudio/CCProcessBase.h"
 #include "cocostudio/CocosStudioExport.h"
 
-namespace cocostudio {
-
-class Bone;
-class ArmatureAnimation;
-using cocos2d::tweenfunc::TweenType;
-
-/**
- *  @js NA
- *  @lua NA
- */
-class CC_STUDIO_DLL Tween : public ProcessBase
+namespace cocostudio
 {
-public:
-    /**
-     * Create with a Bone
-     * @param bone the Bone Tween will bind to
-     */
-    static Tween *create(Bone *bone);
-public:
-    Tween(void);
-    virtual ~Tween(void);
+    class Bone;
+    class ArmatureAnimation;
+    using cocos2d::tweenfunc::TweenType;
 
     /**
-     * Init with a Bone
-     * @param bone the Bone Tween will bind to
+     *  @js NA
+     *  @lua NA
      */
-    virtual bool init(Bone *bone);
+    class CC_STUDIO_DLL Tween : public ProcessBase
+    {
+    public:
+        /**
+         * Create with a Bone
+         * @param bone the Bone Tween will bind to
+         */
+        static Tween* create(Bone* bone);
 
-    using ProcessBase::play;
-    /**
-     * Start the Process
-     *
-     * @param  movementBoneData  the MovementBoneData include all FrameData
-     * @param  durationTo the number of frames changing to this animation needs.
-     * @param  durationTween  the number of frames this animation actual last.
-     *
-     * @param  loop   whether the animation is loop
-     *
-     *         loop < 0 : use the value from MovementData get from Action Editor
-     *         loop = 0 : this animation is not loop
-     *         loop > 0 : this animation is loop
-     *
-     * @param  tweenEasing    tween easing is used for calculate easing effect
-     *
-     *         TWEEN_EASING_MAX : use the value from MovementData get from Action Editor
-     *         -1 : fade out
-     *         0  : line
-     *         1  : fade in
-     *         2  : fade in and out
-     *
-     */
-    virtual void play(MovementBoneData *movementBoneData, int durationTo, int durationTween,  int loop, int tweenEasing);
+    public:
+        Tween(void);
+        virtual ~Tween(void);
 
-    inline void setAnimation(ArmatureAnimation *animation) { _animation = animation; }
-    inline ArmatureAnimation *getAnimation() const { return _animation; }
+        /**
+         * Init with a Bone
+         * @param bone the Bone Tween will bind to
+         */
+        virtual bool init(Bone* bone);
 
-    virtual void gotoAndPlay(int frameIndex);
-    virtual void gotoAndPause(int frameIndex);
+        using ProcessBase::play;
+        /**
+         * Start the Process
+         *
+         * @param  movementBoneData  the MovementBoneData include all FrameData
+         * @param  durationTo the number of frames changing to this animation needs.
+         * @param  durationTween  the number of frames this animation actual last.
+         *
+         * @param  loop   whether the animation is loop
+         *
+         *         loop < 0 : use the value from MovementData get from Action Editor
+         *         loop = 0 : this animation is not loop
+         *         loop > 0 : this animation is loop
+         *
+         * @param  tweenEasing    tween easing is used for calculate easing effect
+         *
+         *         TWEEN_EASING_MAX : use the value from MovementData get from Action Editor
+         *         -1 : fade out
+         *         0  : line
+         *         1  : fade in
+         *         2  : fade in and out
+         *
+         */
+        virtual void play(MovementBoneData* movementBoneData, int durationTo, int durationTween, int loop, int tweenEasing);
 
-    virtual void setMovementBoneData(MovementBoneData *data) { _movementBoneData = data; }
-    virtual const MovementBoneData *getMovementBoneData() const { return _movementBoneData; }
-protected:
+        inline void setAnimation(ArmatureAnimation* animation) { _animation = animation; }
+        inline ArmatureAnimation* getAnimation() const { return _animation; }
 
-    /**
-     * Update(float dt) will call this handler, you can handle your logic here
-     */
-    virtual void updateHandler();
+        virtual void gotoAndPlay(int frameIndex);
+        virtual void gotoAndPause(int frameIndex);
 
-    /**
-     * Calculate which frame arrived, and if current frame have event, then call the event listener
-     */
-    virtual float updateFrameData(float currentPercent);
+        virtual void setMovementBoneData(MovementBoneData* data) { _movementBoneData = data; }
+        virtual const MovementBoneData* getMovementBoneData() const { return _movementBoneData; }
 
-    /**
-     * Calculate the between value of _from and _to, and give it to between frame data
-     */
-    virtual void setBetween(FrameData *from, FrameData *to, bool limit = true);
+    protected:
+        /**
+         * Update(float dt) will call this handler, you can handle your logic here
+         */
+        virtual void updateHandler();
 
-    /**
-     * According to the percent to calculate current FrameData with tween effect
-     */
-    virtual FrameData *tweenNodeTo(float percent, FrameData *node = nullptr);
+        /**
+         * Calculate which frame arrived, and if current frame have event, then call the event listener
+         */
+        virtual float updateFrameData(float currentPercent);
 
-    /**
-     * According to the percent to calculate current color with tween effect
-     */
-    virtual void tweenColorTo(float percent, FrameData *node);
+        /**
+         * Calculate the between value of _from and _to, and give it to between frame data
+         */
+        virtual void setBetween(FrameData* from, FrameData* to, bool limit = true);
 
-    /**
-     * Update display index and process the key frame event when arrived a key frame
-     */
-    virtual void arriveKeyFrame(FrameData *keyFrameData);
-protected:
-    //! A weak reference to the current MovementBoneData. The data is in the data pool
-    MovementBoneData *_movementBoneData;
+        /**
+         * According to the percent to calculate current FrameData with tween effect
+         */
+        virtual FrameData* tweenNodeTo(float percent, FrameData* node = nullptr);
 
-    FrameData *_tweenData;          //! The computational tween frame data, //! A weak reference to the Bone's tweenData
-    FrameData *_from;               //! From frame data, used for calculate between value
-    FrameData *_to;                 //! To frame data, used for calculate between value
-    FrameData *_between;            //! Between frame data, used for calculate current FrameData(m_pNode) value
+        /**
+         * According to the percent to calculate current color with tween effect
+         */
+        virtual void tweenColorTo(float percent, FrameData* node);
 
+        /**
+         * Update display index and process the key frame event when arrived a key frame
+         */
+        virtual void arriveKeyFrame(FrameData* keyFrameData);
 
-    Bone *_bone;                    //! A weak reference to the Bone
+    protected:
+        //! A weak reference to the current MovementBoneData. The data is in the data pool
+        MovementBoneData* _movementBoneData;
 
-    TweenType _frameTweenEasing;  //! Determine which tween effect current frame use
+        FrameData* _tweenData; //! The computational tween frame data, //! A weak reference to the Bone's tweenData
+        FrameData* _from; //! From frame data, used for calculate between value
+        FrameData* _to; //! To frame data, used for calculate between value
+        FrameData* _between; //! Between frame data, used for calculate current FrameData(m_pNode) value
 
-    int _betweenDuration;           //! Current key frame will last _betweenDuration frames
-    int _totalDuration;
+        Bone* _bone; //! A weak reference to the Bone
 
+        TweenType _frameTweenEasing; //! Determine which tween effect current frame use
 
-    int _fromIndex;                    //! The current frame index in FrameList of MovementBoneData, it's different from m_iFrameIndex
-    int _toIndex;                   //! The next frame index in FrameList of MovementBoneData, it's different from m_iFrameIndex
+        int _betweenDuration; //! Current key frame will last _betweenDuration frames
+        int _totalDuration;
 
-    ArmatureAnimation *_animation;
+        int _fromIndex; //! The current frame index in FrameList of MovementBoneData, it's different from m_iFrameIndex
+        int _toIndex; //! The next frame index in FrameList of MovementBoneData, it's different from m_iFrameIndex
 
-    bool _passLastFrame;            //! If current frame index is more than the last frame's index
-};
+        ArmatureAnimation* _animation;
 
-}
+        bool _passLastFrame; //! If current frame index is more than the last frame's index
+    };
+
+} // namespace cocostudio
 
 #endif /*__CCTWEEN_H__*/

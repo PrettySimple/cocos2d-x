@@ -26,14 +26,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 #include "2d/CCTMXObjectGroup.h"
+
 #include "base/ccMacros.h"
 
 NS_CC_BEGIN
 
-//implementation TMXObjectGroup
+// implementation TMXObjectGroup
 
 TMXObjectGroup::TMXObjectGroup()
-    : _groupName("")
+: _groupName("")
 {
 }
 
@@ -56,7 +57,7 @@ ValueMap TMXObjectGroup::getObject(const std::string& objectName) const
             }
         }
     }
-    
+
     // object not found
     return ValueMap();
 }

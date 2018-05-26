@@ -54,7 +54,7 @@ class Node;
  Examples:
  - When you want to run an action where the target is different from a Node.
  - When you want to pause / resume the actions.
- 
+
  @since v0.8
  */
 class CC_DLL ActionManager : public Ref
@@ -63,15 +63,15 @@ class CC_DLL ActionManager : public Ref
     ActionManagerData _actions;
 
 public:
-    ActionManager() =default;
-    ActionManager(const ActionManager&) =delete;
-    ActionManager& operator=(const ActionManager&) =delete;
-    ActionManager(ActionManager&&) noexcept =delete;
-    ActionManager& operator=(ActionManager&&) noexcept =delete;
+    ActionManager() = default;
+    ActionManager(const ActionManager&) = delete;
+    ActionManager& operator=(const ActionManager&) = delete;
+    ActionManager(ActionManager&&) noexcept = delete;
+    ActionManager& operator=(ActionManager&&) noexcept = delete;
     ~ActionManager();
 
     // actions
-    
+
     /** Adds an action with a target.
      If the target is already present, then the action will be added to the existing target.
      If the target is not present, a new instance of this target will be created either paused or not, and the action will be added to the newly created target.
@@ -81,7 +81,7 @@ public:
      * @param target    The target which need to be added an action.
      * @param paused    Is the target paused or not.
      */
-    void addAction(Action *action, Node *target, bool paused);
+    void addAction(Action* action, Node* target, bool paused);
 
     /** Removes all actions from all the targets.
      */
@@ -92,21 +92,21 @@ public:
      *
      * @param target    A certain target.
      */
-    void removeAllActionsFromTarget(Node *target);
+    void removeAllActionsFromTarget(Node* target);
 
     /** Removes an action given an action reference.
      *
      * @param action    A certain target.
      */
-    void removeAction(Action *action);
-    
+    void removeAction(Action* action);
+
     /** Removes all actions given its tag and the target.
      *
      * @param tag       The actions' tag.
      * @param target    A certain target.
      * @js NA
      */
-    void removeAllActionsByTag(int tag, Node *target);
+    void removeAllActionsByTag(int tag, Node* target);
 
     /** Removes all actions matching at least one bit in flags and the target.
      *
@@ -114,7 +114,7 @@ public:
      * @param target    A certain target.
      * @js NA
      */
-    void removeActionsByFlags(unsigned int flags, Node *target);
+    void removeActionsByFlags(unsigned int flags, Node* target);
 
     /** Gets an action given its tag an a target.
      *
@@ -122,7 +122,7 @@ public:
      * @param target    A certain target.
      * @return  The Action the with the given tag.
      */
-    Action* getActionByTag(int tag, Node *target) const;
+    Action* getActionByTag(int tag, Node* target) const;
 
     /** Returns the numbers of actions that are running in a certain target.
      * Composable actions are counted as 1 action. Example:
@@ -133,7 +133,7 @@ public:
      * @return  The numbers of actions that are running in a certain target.
      * @js NA
      */
-    ssize_t getNumberOfRunningActionsInTarget(Node *target) const;
+    ssize_t getNumberOfRunningActionsInTarget(Node* target) const;
 
     /**
      * Added by Seb.Flory & Pierre.Marxen
@@ -142,36 +142,36 @@ public:
      * @param target    A certain target.
      * @return  A vector of actions that are running in a certain target.
      */
-    std::vector<Action*> getRunningActionsInTarget(Node *target) const;
-    
+    std::vector<Action*> getRunningActionsInTarget(Node* target) const;
+
     /** @deprecated Use getNumberOfRunningActionsInTarget() instead.
      */
-    CC_DEPRECATED_ATTRIBUTE ssize_t numberOfRunningActionsInTarget(Node *target) const { return getNumberOfRunningActionsInTarget(target); }
+    CC_DEPRECATED_ATTRIBUTE ssize_t numberOfRunningActionsInTarget(Node* target) const { return getNumberOfRunningActionsInTarget(target); }
 
     /** Pauses the target: all running actions and newly added actions will be paused.
      *
      * @param target    A certain target.
      */
-    void pauseTarget(Node *target);
+    void pauseTarget(Node* target);
 
     /** Resumes the target. All queued actions will be resumed.
      *
      * @param target    A certain target.
      */
-    void resumeTarget(Node *target);
-    
+    void resumeTarget(Node* target);
+
     /** Pauses all running actions, returning a list of targets whose actions were paused.
      *
      * @return  A list of targets whose actions were paused.
      */
     Vector<Node*> pauseAllRunningActions();
-    
+
     /** Resume a set of targets (convenience function to reverse a pauseAllRunningActions call).
      *
      * @param targetsToResume   A set of targets need to be resumed.
      */
     void resumeTargets(const Vector<Node*>& targetsToResume);
-    
+
     /** Main loop of ActionManager.
      * @param dt    In seconds.
      */

@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2014-2016 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,71 +26,70 @@
 #define __COCOS2D_UI_WEBVIEWIMPL_IOS_H_
 /// @cond DO_NOT_SHOW
 
-#include <iosfwd>
 #include <cstdint>
+#include <iosfwd>
 
 @class UIWebViewWrapper;
 
-namespace cocos2d {
-    
-class Data;
-class Renderer;
-class Mat4;
-    
-namespace experimental {
-    namespace ui{
-    
-class WebView;
+namespace cocos2d
+{
+    class Data;
+    class Renderer;
+    class Mat4;
 
-class WebViewImpl {
-public:
-    WebViewImpl(WebView *webView);
+    namespace experimental
+    {
+        namespace ui
+        {
+            class WebView;
 
-    virtual ~WebViewImpl();
+            class WebViewImpl
+            {
+            public:
+                WebViewImpl(WebView* webView);
 
-    void setJavascriptInterfaceScheme(const std::string &scheme);
+                virtual ~WebViewImpl();
 
-    void loadData(const cocos2d::Data &data,
-                  const std::string &MIMEType,
-                  const std::string &encoding,
-                  const std::string &baseURL);
+                void setJavascriptInterfaceScheme(const std::string& scheme);
 
-    void loadHTMLString(const std::string &string, const std::string &baseURL);
+                void loadData(const cocos2d::Data& data, const std::string& MIMEType, const std::string& encoding, const std::string& baseURL);
 
-    void loadURL(const std::string &url);
+                void loadHTMLString(const std::string& string, const std::string& baseURL);
 
-    void loadFile(const std::string &fileName);
+                void loadURL(const std::string& url);
 
-    void stopLoading();
+                void loadFile(const std::string& fileName);
 
-    void reload();
+                void stopLoading();
 
-    bool canGoBack();
+                void reload();
 
-    bool canGoForward();
+                bool canGoBack();
 
-    void goBack();
+                bool canGoForward();
 
-    void goForward();
+                void goBack();
 
-    void evaluateJS(const std::string &js);
+                void goForward();
 
-    void setScalesPageToFit(const bool scalesPageToFit);
+                void evaluateJS(const std::string& js);
 
-    virtual void draw(cocos2d::Renderer *renderer, cocos2d::Mat4 const &transform, std::uint32_t flags);
+                void setScalesPageToFit(const bool scalesPageToFit);
 
-    virtual void setVisible(bool visible);
+                virtual void draw(cocos2d::Renderer* renderer, cocos2d::Mat4 const& transform, std::uint32_t flags);
 
-    void setBounces(bool bounces);
+                virtual void setVisible(bool visible);
 
-private:
-    UIWebViewWrapper *_uiWebViewWrapper;
-    WebView *_webView;
-};
+                void setBounces(bool bounces);
 
-    } // namespace ui
-  } // namespace experimental
-}//namespace cocos2d
+            private:
+                UIWebViewWrapper* _uiWebViewWrapper;
+                WebView* _webView;
+            };
+
+        } // namespace ui
+    } // namespace experimental
+} // namespace cocos2d
 
 /// @endcond
 #endif /* __COCOS2D_UI_WEBVIEWIMPL_IOS_H_ */

@@ -30,9 +30,9 @@ THE SOFTWARE.
 
 #include <string>
 
-#include "base/ccTypes.h"
 #include "base/CCRef.h"
 #include "base/ccConfig.h"
+#include "base/ccTypes.h"
 
 NS_CC_BEGIN
 
@@ -55,12 +55,12 @@ Supported features:
 * The TextureAtlas capacity can be increased or decreased in runtime
 * OpenGL component: V3F, C4B, T2F.
 The quads are rendered using an OpenGL ES VBO.
-To render the quads using an interleaved vertex array list, you should modify the ccConfig.h file 
+To render the quads using an interleaved vertex array list, you should modify the ccConfig.h file
 
 @warning If you want to use TextureAtlas, you'd better setup GL status before it's rendered.
          Otherwise, the effect of TextureAtlas will be affected by the GL status of other nodes.
 */
-class CC_DLL TextureAtlas : public Ref 
+class CC_DLL TextureAtlas : public Ref
 {
 public:
     /** Creates a TextureAtlas with an filename and with an initial capacity for Quads.
@@ -69,7 +69,7 @@ public:
      @param file A null terminated string contains the file path.
      @param capacity Capacity for Quads.
     */
-    static TextureAtlas* create(const std::string& file , ssize_t capacity);
+    static TextureAtlas* create(const std::string& file, ssize_t capacity);
 
     /** Creates a TextureAtlas with a previously initialized Texture2D object, and
      * with an initial capacity for n Quads.
@@ -78,7 +78,7 @@ public:
      @param texture A texture2D object pointer.
      @param capacity Capacity for Quads.
      */
-    static TextureAtlas* createWithTexture(Texture2D *texture, ssize_t capacity);
+    static TextureAtlas* createWithTexture(Texture2D* texture, ssize_t capacity);
     /**
      * @js ctor
      */
@@ -99,13 +99,13 @@ public:
     bool initWithFile(const std::string& file, ssize_t capacity);
 
     /** Initializes a TextureAtlas with a previously initialized Texture2D object, and
-    * with an initial capacity for Quads. 
+    * with an initial capacity for Quads.
     * The TextureAtlas capacity can be increased in runtime.
      @attention: Do not reinitialize the TextureAtlas because it will leak memory (issue #706).
      @param texture A texture2D object pointer.
      @param capacity Capacity for Quads.
     */
-    bool initWithTexture(Texture2D *texture, ssize_t capacity);
+    bool initWithTexture(Texture2D* texture, ssize_t capacity);
 
     /** Updates a Quad (texture, vertex and color) at a certain index.
     @param quad Quad that are going to be rendered.
@@ -157,7 +157,7 @@ public:
     * The new capacity can be lower or higher than the current one.
     * It returns true if the resize was successful.
     * If it fails to resize the capacity it will return false with a new capacity of 0.
-     
+
      @param capacity Capacity for Quads.
     */
     bool resizeCapacity(ssize_t capacity);
@@ -190,8 +190,8 @@ public:
     void fillWithEmptyQuadsFromIndex(ssize_t index, ssize_t amount);
 
     /** Draws n quads.
-    * N can't be greater than the capacity of the Atlas.
-    */
+     * N can't be greater than the capacity of the Atlas.
+     */
     void drawNumberOfQuads(ssize_t n);
 
     /** Draws n quads from an index (offset).
@@ -202,7 +202,7 @@ public:
     void drawNumberOfQuads(ssize_t numberOfQuads, ssize_t start);
 
     /** Draws all the Atlas's Quads.
-    */
+     */
     void drawQuads();
     /** Listen the event that renderer was recreated on Android.
      */
@@ -221,22 +221,22 @@ public:
 
     /** Gets the quantity of quads that are going to be drawn. */
     ssize_t getTotalQuads() const;
-    
+
     /** Gets the quantity of quads that can be stored with the current texture atlas size. */
     ssize_t getCapacity() const;
-    
+
     /** Gets the texture of the texture atlas. */
     Texture2D* getTexture() const;
-    
+
     /** Sets the texture for the texture atlas. */
     void setTexture(Texture2D* texture);
-    
+
     /** Gets the quads that are going to be rendered. */
     V3F_C4B_T2F_Quad* getQuads();
-    
+
     /** Sets the quads that are going to be rendered. */
     void setQuads(V3F_C4B_T2F_Quad* quads);
-    
+
 private:
     void renderCommand();
 
@@ -246,10 +246,10 @@ private:
     void setupVBO();
 
 protected:
-    GLushort*           _indices;
-    GLuint              _VAOname;
-    GLuint              _buffersVBO[2]; //0: vertex  1: indices
-    bool                _dirty; //indicates whether or not the array buffer of the VBO needs to be updated
+    GLushort* _indices;
+    GLuint _VAOname;
+    GLuint _buffersVBO[2]; // 0: vertex  1: indices
+    bool _dirty; // indicates whether or not the array buffer of the VBO needs to be updated
     /** quantity of quads that are going to be drawn */
     ssize_t _totalQuads;
     /** quantity of quads that can be stored with the current texture atlas size */
@@ -258,7 +258,7 @@ protected:
     Texture2D* _texture;
     /** Quads that are going to be rendered */
     V3F_C4B_T2F_Quad* _quads;
-    
+
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     EventListenerCustom* _rendererRecreatedListener;
 #endif
@@ -270,5 +270,3 @@ protected:
 NS_CC_END
 
 #endif //__CCTEXTURE_ATLAS_H__
-
-

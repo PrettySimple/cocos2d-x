@@ -27,12 +27,12 @@ public:
      * @js NA
      * @lua NA
      */
-    static void luaopen_luaoc(lua_State *L);
-    
+    static void luaopen_luaoc(lua_State* L);
+
 protected:
-    static int callObjcStaticMethod(lua_State *L);
-    
-    static void pushValue(lua_State *L, void *val);
+    static int callObjcStaticMethod(lua_State* L);
+
+    static void pushValue(lua_State* L, void* val);
 };
 NS_CC_END
 

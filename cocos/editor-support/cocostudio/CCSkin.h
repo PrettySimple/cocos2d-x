@@ -32,55 +32,57 @@ THE SOFTWARE.
 #include "cocostudio/CCBone.h"
 #include "cocostudio/CocosStudioExport.h"
 
-namespace cocostudio {
-
-class CC_STUDIO_DLL Skin : public cocos2d::Sprite
+namespace cocostudio
 {
-public:
-    static Skin *create();
-    static Skin *createWithSpriteFrameName(const std::string& pszSpriteFrameName);
-    static Skin *create(const std::string& pszFileName);
-public:
-    /**
-     *  @js ctor
-     */
-    Skin();
+    class CC_STUDIO_DLL Skin : public cocos2d::Sprite
+    {
+    public:
+        static Skin* create();
+        static Skin* createWithSpriteFrameName(const std::string& pszSpriteFrameName);
+        static Skin* create(const std::string& pszFileName);
 
-    virtual bool initWithSpriteFrameName(const std::string& spriteFrameName) override;
-    virtual bool initWithFile(const std::string& filename) override;
+    public:
+        /**
+         *  @js ctor
+         */
+        Skin();
 
-    void updateArmatureTransform();
-    void updateTransform() override;
+        virtual bool initWithSpriteFrameName(const std::string& spriteFrameName) override;
+        virtual bool initWithFile(const std::string& filename) override;
 
-    cocos2d::Mat4 getNodeToWorldTransform() const override;
-    cocos2d::Mat4 getNodeToWorldTransformAR() const;
-    
-    virtual void draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags) override;
-    
-    /**
-     *  @js NA
-     *  @lua NA
-     */
-    virtual void setSkinData(const BaseData &data);
-    /**
-     *  @js NA
-     *  @lua NA
-     */
-    virtual const BaseData &getSkinData() const;
+        void updateArmatureTransform();
+        void updateTransform() override;
 
-    virtual void setBone(Bone *bone);
-    virtual Bone *getBone() const;
+        cocos2d::Mat4 getNodeToWorldTransform() const override;
+        cocos2d::Mat4 getNodeToWorldTransformAR() const;
 
-    virtual const std::string &getDisplayName() const { return _displayName; }
-protected:
-    BaseData _skinData;
-    Bone *_bone;
-    Armature *_armature;
-    cocos2d::Mat4 _skinTransform;
-    std::string _displayName;
-    cocos2d::QuadCommand _quadCommand;     // quad command
-};
+        virtual void draw(cocos2d::Renderer* renderer, const cocos2d::Mat4& transform, uint32_t flags) override;
 
-}
+        /**
+         *  @js NA
+         *  @lua NA
+         */
+        virtual void setSkinData(const BaseData& data);
+        /**
+         *  @js NA
+         *  @lua NA
+         */
+        virtual const BaseData& getSkinData() const;
+
+        virtual void setBone(Bone* bone);
+        virtual Bone* getBone() const;
+
+        virtual const std::string& getDisplayName() const { return _displayName; }
+
+    protected:
+        BaseData _skinData;
+        Bone* _bone;
+        Armature* _armature;
+        cocos2d::Mat4 _skinTransform;
+        std::string _displayName;
+        cocos2d::QuadCommand _quadCommand; // quad command
+    };
+
+} // namespace cocostudio
 
 #endif /*__CCSKIN_H__*/

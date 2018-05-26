@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,26 +22,26 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/ccMacros.h"
+#include "3d/CCSkybox.h"
+#include "2d/CCCamera.h"
 #include "base/CCConfiguration.h"
 #include "base/CCDirector.h"
-#include "renderer/ccGLStateCache.h"
+#include "base/ccMacros.h"
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramCache.h"
 #include "renderer/CCGLProgramState.h"
-#include "renderer/CCRenderer.h"
 #include "renderer/CCRenderState.h"
+#include "renderer/CCRenderer.h"
 #include "renderer/CCTextureCube.h"
-#include "3d/CCSkybox.h"
-#include "2d/CCCamera.h"
+#include "renderer/ccGLStateCache.h"
 
 NS_CC_BEGIN
 
 Skybox::Skybox()
-    : _vao(0)
-    , _vertexBuffer(0)
-    , _indexBuffer(0)
-    ,_texture(nullptr)
+: _vao(0)
+, _vertexBuffer(0)
+, _indexBuffer(0)
+, _texture(nullptr)
 {
 }
 
@@ -63,13 +63,12 @@ Skybox::~Skybox()
     _texture->release();
 }
 
-Skybox* Skybox::create(const std::string& positive_x, const std::string& negative_x,
-               const std::string& positive_y, const std::string& negative_y,
-               const std::string& positive_z, const std::string& negative_z)
+Skybox* Skybox::create(const std::string& positive_x, const std::string& negative_x, const std::string& positive_y, const std::string& negative_y,
+                       const std::string& positive_z, const std::string& negative_z)
 {
     auto ret = new (std::nothrow) Skybox();
     ret->init(positive_x, negative_x, positive_y, negative_y, positive_z, negative_z);
-    
+
     ret->autorelease();
     return ret;
 }
@@ -89,14 +88,13 @@ bool Skybox::init()
     return true;
 }
 
-bool Skybox::init(const std::string& positive_x, const std::string& negative_x,
-          const std::string& positive_y, const std::string& negative_y,
-          const std::string& positive_z, const std::string& negative_z)
+bool Skybox::init(const std::string& positive_x, const std::string& negative_x, const std::string& positive_y, const std::string& negative_y,
+                  const std::string& positive_z, const std::string& negative_z)
 {
     auto texture = TextureCube::create(positive_x, negative_x, positive_y, negative_y, positive_z, negative_z);
     if (texture == nullptr)
         return false;
-    
+
     init();
     setTexture(texture);
     return true;
@@ -111,23 +109,20 @@ void Skybox::initBuffers()
     }
 
     // init vertex buffer object
-    Vec3 vexBuf[] =
-    {
-        Vec3(1, -1, 1),  Vec3(1, 1, 1),  Vec3(-1, 1, 1),  Vec3(-1, -1, 1),
-        Vec3(1, -1, -1), Vec3(1, 1, -1), Vec3(-1, 1, -1), Vec3(-1, -1, -1)
-    };
+    Vec3 vexBuf[] = {Vec3(1, -1, 1), Vec3(1, 1, 1), Vec3(-1, 1, 1), Vec3(-1, -1, 1), Vec3(1, -1, -1), Vec3(1, 1, -1), Vec3(-1, 1, -1), Vec3(-1, -1, -1)};
 
     glGenBuffers(1, &_vertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vexBuf), vexBuf, GL_STATIC_DRAW);
 
     // init index buffer object
-    const unsigned char idxBuf[] = {  2, 1, 0, 3, 2, 0, // font
+    const unsigned char idxBuf[] = {
+        2, 1, 0, 3, 2, 0, // font
         1, 5, 4, 1, 4, 0, // right
         4, 5, 6, 4, 6, 7, // back
         7, 6, 2, 7, 2, 3, // left
         2, 6, 5, 2, 5, 1, // up
-        3, 0, 4, 3, 4, 7  // down
+        3, 0, 4, 3, 4, 7 // down
     };
 
     glGenBuffers(1, &_indexBuffer);
@@ -146,9 +141,7 @@ void Skybox::initBuffers()
 void Skybox::draw(Renderer* renderer, const Mat4& transform, uint32_t flags)
 {
     _customCommand.init(_globalZOrder);
-    _customCommand.setFunc([this, transform, flags]() {
-        onDraw(transform, flags);
-    });
+    _customCommand.setFunc([this, transform, flags]() { onDraw(transform, flags); });
     _customCommand.setTransparent(false);
     _customCommand.set3D(true);
     renderer->addCommand(&_customCommand);
@@ -157,9 +150,9 @@ void Skybox::draw(Renderer* renderer, const Mat4& transform, uint32_t flags)
 void Skybox::onDraw(const Mat4& transform, uint32_t flags)
 {
     auto camera = Camera::getVisitingCamera();
-    
+
     Mat4 cameraModelMat = camera->getNodeToWorldTransform();
-    
+
     auto state = getGLProgramState();
     state->apply(transform);
 
@@ -179,7 +172,7 @@ void Skybox::onDraw(const Mat4& transform, uint32_t flags)
 
     glCullFace(GL_BACK);
     RenderState::StateBlock::_defaultState->setCullFaceSide(RenderState::CULL_FACE_SIDE_BACK);
-    
+
     glDisable(GL_BLEND);
     RenderState::StateBlock::_defaultState->setBlend(false);
 

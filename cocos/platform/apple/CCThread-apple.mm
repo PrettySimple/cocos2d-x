@@ -35,7 +35,7 @@ void* ThreadHelper::createAutoreleasePool()
     return pool;
 }
 
-void ThreadHelper::releaseAutoreleasePool(void *autoreleasePool)
+void ThreadHelper::releaseAutoreleasePool(void* autoreleasePool)
 {
     [(NSAutoreleasePool*)autoreleasePool release];
 }

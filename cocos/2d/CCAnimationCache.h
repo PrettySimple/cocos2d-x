@@ -36,7 +36,6 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-
 class Animation;
 
 /**
@@ -64,13 +63,13 @@ public:
      * @lua NA
      */
     ~AnimationCache();
-    /** Returns the shared instance of the Animation cache 
-	 @js NA
-	*/
+    /** Returns the shared instance of the Animation cache
+     @js NA
+    */
     static AnimationCache* getInstance();
 
     /** Purges the cache. It releases all the Animation objects and the shared instance.
-		@js NA
+        @js NA
      */
     static void destroyInstance();
 
@@ -87,7 +86,7 @@ public:
      * @param animation An animation.
      * @param name The name of animation.
      */
-    void addAnimation(Animation *animation, const std::string& name);
+    void addAnimation(Animation* animation, const std::string& name);
 
     /** Deletes a Animation from the cache.
      *
@@ -98,7 +97,7 @@ public:
      * @js NA
      * @lua NA
      */
-    CC_DEPRECATED_ATTRIBUTE void removeAnimationByName(const std::string& name){ removeAnimation(name);}
+    CC_DEPRECATED_ATTRIBUTE void removeAnimationByName(const std::string& name) { removeAnimation(name); }
 
     /** Returns a Animation that was previously added.
      * If the name is not found it will return nil.
@@ -112,16 +111,16 @@ public:
      * @js NA
      * @lua NA
      */
-    CC_DEPRECATED_ATTRIBUTE Animation* animationByName(const std::string& name){ return getAnimation(name); }
+    CC_DEPRECATED_ATTRIBUTE Animation* animationByName(const std::string& name) { return getAnimation(name); }
 
     /** Adds an animation from an NSDictionary.
      * Make sure that the frames were previously loaded in the SpriteFrameCache.
      * @param dictionary An NSDictionary.
      * @param plist The path of the relative file,it use to find the plist path for load SpriteFrames.
      * @since v1.1
-	 @js NA
+     @js NA
      */
-    void addAnimationsWithDictionary(const ValueMap& dictionary,const std::string& plist);
+    void addAnimationsWithDictionary(const ValueMap& dictionary, const std::string& plist);
 
     /** Adds an animation from a plist file.
      * Make sure that the frames were previously loaded in the SpriteFrameCache.

@@ -26,9 +26,9 @@
 #define __CCINTEGER_H__
 /// @cond DO_NOT_SHOW
 
-#include "base/CCRef.h"
 #include "base/CCConsole.h"
 #include "base/CCDataVisitor.h"
+#include "base/CCRef.h"
 #include "platform/CCCommon.h"
 
 NS_CC_BEGIN
@@ -51,25 +51,22 @@ public:
      * @js NA
      */
     __Integer(int v)
-        : _value(v) {}
-    int getValue() const {return _value;}
+    : _value(v)
+    {
+    }
+    int getValue() const { return _value; }
     /**
      * @js NA
      * @lua NA
      */
-    virtual ~__Integer() {
-        CCLOGINFO("deallocing ~__Integer: %p", this);
-    }
+    virtual ~__Integer() { CCLOGINFO("deallocing ~__Integer: %p", this); }
 
     /* override functions */
-    virtual void acceptVisitor(DataVisitor &visitor) { visitor.visit(this); }
+    virtual void acceptVisitor(DataVisitor& visitor) { visitor.visit(this); }
 
     // overrides
-    virtual __Integer* clone() const override
-    {
-        return __Integer::create(_value);
-    }
-    
+    virtual __Integer* clone() const override { return __Integer::create(_value); }
+
 private:
     int _value;
 };

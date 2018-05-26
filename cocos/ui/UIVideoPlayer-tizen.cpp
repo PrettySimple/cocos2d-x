@@ -24,25 +24,24 @@
 
 #include "ui/UIVideoPlayer.h"
 
-
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN)
 
-#include <stdlib.h>
-#include <string>
-#include "base/CCDirector.h"
-#include "base/CCEventListenerKeyboard.h"
+#    include "base/CCDirector.h"
+#    include "base/CCEventListenerKeyboard.h"
+#    include <stdlib.h>
+#    include <string>
 
-#include "player.h"
-#include "platform/tizen/CCApplication-tizen.h"
+#    include "platform/tizen/CCApplication-tizen.h"
+#    include "player.h"
 
-#include <app.h>
-#include <camera.h>
-#include <efl_extension.h>
+#    include <app.h>
+#    include <camera.h>
+#    include <efl_extension.h>
 
 //-----------------------------------------------------------------------------------------------------------
 USING_NS_CC;
 
-#define QUIT_FULLSCREEN 1000
+#    define QUIT_FULLSCREEN 1000
 
 using namespace cocos2d::experimental::ui;
 
@@ -55,7 +54,7 @@ public:
 
         Application* app = Application::getInstance();
         _layout = elm_layout_add(app->_win);
-        Evas *evas = evas_object_evas_get(_layout);
+        Evas* evas = evas_object_evas_get(_layout);
         _image = evas_object_image_filled_add(evas);
         evas_object_show(_image);
         player_create(&_player);
@@ -77,7 +76,7 @@ public:
         evas_object_del(_layout);
     }
 
-    static void mouse_up_cb(void *data, Evas *e, Evas_Object *obj, void *event_info)
+    static void mouse_up_cb(void* data, Evas* e, Evas_Object* obj, void* event_info)
     {
         _VideoPlayerTizen* videoPlayerTizen = (_VideoPlayerTizen*)data;
         if (videoPlayerTizen->_videoPlayer->isPlaying())
@@ -90,7 +89,8 @@ public:
         }
     }
 
-    static void win_back_cb(void *data, Evas_Object *obj, void *event_info) {
+    static void win_back_cb(void* data, Evas_Object* obj, void* event_info)
+    {
         _VideoPlayerTizen* videoPlayerTizen = (_VideoPlayerTizen*)data;
         videoPlayerTizen->_videoPlayer->onPlayEvent(QUIT_FULLSCREEN);
         evas_object_resize(videoPlayerTizen->_image, videoPlayerTizen->_width, videoPlayerTizen->_height);
@@ -122,12 +122,12 @@ VideoPlayer::VideoPlayer()
 , _fullScreenDirty(false)
 , _keepAspectRatioEnabled(false)
 {
-    _videoView = (void*) new (std::nothrow) _VideoPlayerTizen(this);
+    _videoView = (void*)new (std::nothrow) _VideoPlayerTizen(this);
 
-#if CC_VIDEOPLAYER_DEBUG_DRAW
+#    if CC_VIDEOPLAYER_DEBUG_DRAW
     _debugDrawNode = DrawNode::create();
     addchild(_debugDrawNode);
-#endif
+#    endif
 }
 
 VideoPlayer::~VideoPlayer()
@@ -158,9 +158,9 @@ void VideoPlayer::setURL(const std::string& videoUrl)
     player_set_uri(impl->_player, videoUrl.c_str());
 }
 
-void VideoPlayer::draw(Renderer* renderer, const Mat4 &transform, uint32_t flags)
+void VideoPlayer::draw(Renderer* renderer, const Mat4& transform, uint32_t flags)
 {
-    cocos2d::ui::Widget::draw(renderer,transform,flags);
+    cocos2d::ui::Widget::draw(renderer, transform, flags);
 
     if (flags & FLAGS_TRANSFORM_DIRTY)
     {
@@ -171,10 +171,10 @@ void VideoPlayer::draw(Renderer* renderer, const Mat4 &transform, uint32_t flags
         auto winSize = directorInstance->getWinSize();
 
         auto leftBottom = convertToWorldSpace(Point::ZERO);
-        auto rightTop = convertToWorldSpace(Point(_contentSize.width,_contentSize.height));
+        auto rightTop = convertToWorldSpace(Point(_contentSize.width, _contentSize.height));
 
-        auto uiLeft = frameSize.width / 2 + (leftBottom.x - winSize.width / 2 ) * glView->getScaleX();
-        auto uiTop = frameSize.height /2 - (rightTop.y - winSize.height / 2) * glView->getScaleY();
+        auto uiLeft = frameSize.width / 2 + (leftBottom.x - winSize.width / 2) * glView->getScaleX();
+        auto uiTop = frameSize.height / 2 - (rightTop.y - winSize.height / 2) * glView->getScaleY();
 
         _VideoPlayerTizen* impl = (_VideoPlayerTizen*)_videoView;
         Evas_Coord width = (rightTop.x - leftBottom.x) * glView->getScaleX();
@@ -187,18 +187,12 @@ void VideoPlayer::draw(Renderer* renderer, const Mat4 &transform, uint32_t flags
         evas_object_move(impl->_image, uiLeft, uiTop);
     }
 
-#if CC_VIDEOPLAYER_DEBUG_DRAW
+#    if CC_VIDEOPLAYER_DEBUG_DRAW
     _debugDrawNode->clear();
     auto size = getContentSize();
-    Point vertices[4]=
-    {
-        Point::ZERO,
-        Point(size.width, 0),
-        Point(size.width, size.height),
-        Point(0, size.height)
-    };
+    Point vertices[4] = {Point::ZERO, Point(size.width, 0), Point(size.width, size.height), Point(0, size.height)};
     _debugdrawNode->drawPoly(vertices, 4, true, Color4F(1.0, 1.0, 1.0, 1.0));
-#endif
+#    endif
 }
 
 void VideoPlayer::setFullScreenEnabled(bool enabled)
@@ -217,7 +211,7 @@ void VideoPlayer::setFullScreenEnabled(bool enabled)
     }
 }
 
-bool VideoPlayer::isFullScreenEnabled()const
+bool VideoPlayer::isFullScreenEnabled() const
 {
     return _fullScreenEnabled;
 }
@@ -230,16 +224,16 @@ void VideoPlayer::setKeepAspectRatioEnabled(bool enable)
         _VideoPlayerTizen* impl = (_VideoPlayerTizen*)_videoView;
         if (_keepAspectRatioEnabled == enable)
         {
-                player_set_display_mode(impl->_player, PLAYER_DISPLAY_MODE_LETTER_BOX);
+            player_set_display_mode(impl->_player, PLAYER_DISPLAY_MODE_LETTER_BOX);
         }
         else
         {
-                player_set_display_mode(impl->_player, PLAYER_DISPLAY_MODE_FULL_SCREEN);
+            player_set_display_mode(impl->_player, PLAYER_DISPLAY_MODE_FULL_SCREEN);
         }
     }
 }
 
-#if CC_VIDEOPLAYER_DEBUG_DRAW
+#    if CC_VIDEOPLAYER_DEBUG_DRAW
 void VideoPlayer::drawDebugData()
 {
     Director* director = Director::getInstance();
@@ -250,33 +244,27 @@ void VideoPlayer::drawDebugData()
 
     auto size = getContentSize();
 
-    Point vertices[4]=
-    {
-        Point::ZERO,
-        Point(size.width, 0),
-        Point(size.width, size.height),
-        Point(0, size.height)
-    };
+    Point vertices[4] = {Point::ZERO, Point(size.width, 0), Point(size.width, size.height), Point(0, size.height)};
 
     DrawPrimitives::drawPoly(vertices, 4, true);
 
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 }
-#endif
+#    endif
 
-static void _player_completed_cb(void *user_data)
+static void _player_completed_cb(void* user_data)
 {
     VideoPlayer* player = (VideoPlayer*)user_data;
     player->onPlayEvent((int)VideoPlayer::EventType::COMPLETED);
 }
 
-static void _player_interrupted_cb(player_interrupted_code_e code, void *user_data)
+static void _player_interrupted_cb(player_interrupted_code_e code, void* user_data)
 {
     VideoPlayer* player = (VideoPlayer*)user_data;
     player->onPlayEvent((int)VideoPlayer::EventType::PAUSED);
 }
 
-static void _player_video_frame_decoded_cb(unsigned char *data, int width, int height, unsigned int size, void *user_data)
+static void _player_video_frame_decoded_cb(unsigned char* data, int width, int height, unsigned int size, void* user_data)
 {
     VideoPlayer* player = (VideoPlayer*)user_data;
     player->onPlayEvent((int)VideoPlayer::EventType::PLAYING);
@@ -284,7 +272,7 @@ static void _player_video_frame_decoded_cb(unsigned char *data, int width, int h
 
 void VideoPlayer::play()
 {
-    if (! _videoURL.empty())
+    if (!_videoURL.empty())
     {
         _VideoPlayerTizen* impl = (_VideoPlayerTizen*)_videoView;
         player_set_sound_type(impl->_player, SOUND_TYPE_MEDIA);
@@ -314,7 +302,7 @@ void VideoPlayer::play()
 
 void VideoPlayer::pause()
 {
-    if (! _videoURL.empty())
+    if (!_videoURL.empty())
     {
         _VideoPlayerTizen* impl = (_VideoPlayerTizen*)_videoView;
         int ret = player_pause(impl->_player);
@@ -327,7 +315,7 @@ void VideoPlayer::pause()
 
 void VideoPlayer::resume()
 {
-    if (! _videoURL.empty())
+    if (!_videoURL.empty())
     {
         _VideoPlayerTizen* impl = (_VideoPlayerTizen*)_videoView;
         int ret = player_start(impl->_player);
@@ -340,7 +328,7 @@ void VideoPlayer::resume()
 
 void VideoPlayer::stop()
 {
-    if (! _videoURL.empty())
+    if (!_videoURL.empty())
     {
         _VideoPlayerTizen* impl = (_VideoPlayerTizen*)_videoView;
         int ret = player_stop(impl->_player);
@@ -353,7 +341,7 @@ void VideoPlayer::stop()
 
 void VideoPlayer::seekTo(float sec)
 {
-    if (! _videoURL.empty())
+    if (!_videoURL.empty())
     {
         _VideoPlayerTizen* impl = (_VideoPlayerTizen*)_videoView;
         player_set_play_position(impl->_player, sec, false, NULL, NULL);
@@ -391,7 +379,7 @@ void VideoPlayer::setVisible(bool visible)
     {
         player_set_display_visible(impl->_player, false);
     }
-    else if(isRunning())
+    else if (isRunning())
     {
         player_set_display_visible(impl->_player, true);
     }
@@ -407,19 +395,22 @@ void VideoPlayer::onPlayEvent(int event)
     if (event == QUIT_FULLSCREEN)
     {
         _fullScreenEnabled = false;
-    } 
+    }
     else
     {
         VideoPlayer::EventType videoEvent = (VideoPlayer::EventType)event;
-        if (videoEvent == VideoPlayer::EventType::PLAYING) {
+        if (videoEvent == VideoPlayer::EventType::PLAYING)
+        {
             _isPlaying = true;
-        } else {
+        }
+        else
+        {
             _isPlaying = false;
         }
 
         if (_eventCallback)
         {
-            _eventCallback(this,videoEvent);
+            _eventCallback(this, videoEvent);
         }
     }
 }
@@ -429,7 +420,7 @@ cocos2d::ui::Widget* VideoPlayer::createCloneInstance()
     return VideoPlayer::create();
 }
 
-void VideoPlayer::copySpecialProperties(Widget *widget)
+void VideoPlayer::copySpecialProperties(Widget* widget)
 {
     VideoPlayer* videoPlayer = dynamic_cast<VideoPlayer*>(widget);
     if (videoPlayer)

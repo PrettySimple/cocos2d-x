@@ -29,26 +29,26 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 
-#include "platform/CCPlatformMacros.h"
+#    include "platform/CCPlatformMacros.h"
 
-#include <float.h>
-#include <cmath>
-#include <string>
-#include <cstdarg>
-#include <cstdio>
-#include <cstdlib>
-#include <ctime>
-#include <cstdint>
-#include <limits>
+#    include <cmath>
+#    include <cstdarg>
+#    include <cstdint>
+#    include <cstdio>
+#    include <cstdlib>
+#    include <ctime>
+#    include <float.h>
+#    include <limits>
+#    include <string>
 
-#ifndef MIN
-#define MIN(x,y) (((x) > (y)) ? (y) : (x))
-#endif  // MIN
+#    ifndef MIN
+#        define MIN(x, y) (((x) > (y)) ? (y) : (x))
+#    endif // MIN
 
-#ifndef MAX
-#define MAX(x,y) (((x) < (y)) ? (y) : (x))
-#endif  // MAX
+#    ifndef MAX
+#        define MAX(x, y) (((x) < (y)) ? (y) : (x))
+#    endif // MAX
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
 
-#endif  // __CC_STD_C_H__
+#endif // __CC_STD_C_H__

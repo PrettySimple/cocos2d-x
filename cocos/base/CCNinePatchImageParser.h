@@ -21,14 +21,13 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 ****************************************************************************/
-#include "platform/CCPlatformMacros.h"
 #include "math/CCGeometry.h"
+#include "platform/CCPlatformMacros.h"
 
 NS_CC_BEGIN
 
 class Image;
 class SpriteFrame;
-
 
 /**
  * A class for paring Android .9 patch image.
@@ -97,18 +96,19 @@ public:
      * Parsing the image data and extract the capInsets info.
      * @return The capInsets Rect.
      */
-    Rect parseCapInset()const;
+    Rect parseCapInset() const;
+
 private:
     enum class Direction
     {
         HORIZONTAL,
         VERTICAL
     };
-    int getPixelOriginOffset(Direction direction)const;
-    Vec2 parseHorizontalMargin()const;
-    Vec2 parseVerticalMargin()const;
-    int getFrameWidth()const;
-    int getFrameHeight()const;
+    int getPixelOriginOffset(Direction direction) const;
+    Vec2 parseHorizontalMargin() const;
+    Vec2 parseVerticalMargin() const;
+    int getFrameWidth() const;
+    int getFrameHeight() const;
 
     Image* _image;
     Rect _imageFrame;

@@ -114,8 +114,7 @@ CC_DEPRECATED_ATTRIBUTE inline Vec2 ccp(float x, float y)
  @since v0.7.2
  @deprecated please use Vec2::-, for example: -v1
  */
-CC_DEPRECATED_ATTRIBUTE static inline Vec2
-ccpNeg(const Vec2& v)
+CC_DEPRECATED_ATTRIBUTE static inline Vec2 ccpNeg(const Vec2& v)
 {
     return -v;
 }
@@ -125,8 +124,7 @@ ccpNeg(const Vec2& v)
  @since v0.7.2
  @deprecated please use Vec2::+, for example: v1 + v2
  */
-CC_DEPRECATED_ATTRIBUTE static inline Vec2
-ccpAdd(const Vec2& v1, const Vec2& v2)
+CC_DEPRECATED_ATTRIBUTE static inline Vec2 ccpAdd(const Vec2& v1, const Vec2& v2)
 {
     return v1 + v2;
 }
@@ -136,8 +134,7 @@ ccpAdd(const Vec2& v1, const Vec2& v2)
  @since v0.7.2
  @deprecated please use Vec2::-, for example: v1 - v2
  */
-CC_DEPRECATED_ATTRIBUTE static inline Vec2
-ccpSub(const Vec2& v1, const Vec2& v2)
+CC_DEPRECATED_ATTRIBUTE static inline Vec2 ccpSub(const Vec2& v1, const Vec2& v2)
 {
     return v1 - v2;
 }
@@ -147,8 +144,7 @@ ccpSub(const Vec2& v1, const Vec2& v2)
  @since v0.7.2
  @deprecated please use Vec2::*, for example: v1 * v2
  */
-CC_DEPRECATED_ATTRIBUTE static inline Vec2
-ccpMult(const Vec2& v, const float s)
+CC_DEPRECATED_ATTRIBUTE static inline Vec2 ccpMult(const Vec2& v, const float s)
 {
     return v * s;
 }
@@ -158,8 +154,7 @@ ccpMult(const Vec2& v, const float s)
  @since v0.7.2
  @deprecated please use it like (v1 + v2) / 2.0f
  */
-CC_DEPRECATED_ATTRIBUTE static inline Vec2
-ccpMidpoint(const Vec2& v1, const Vec2& v2)
+CC_DEPRECATED_ATTRIBUTE static inline Vec2 ccpMidpoint(const Vec2& v1, const Vec2& v2)
 {
     return v1.getMidpoint(v2);
 }
@@ -168,8 +163,7 @@ ccpMidpoint(const Vec2& v1, const Vec2& v2)
  @return float
  @since v0.7.2
  */
-CC_DEPRECATED_ATTRIBUTE static inline float
-ccpDot(const Vec2& v1, const Vec2& v2)
+CC_DEPRECATED_ATTRIBUTE static inline float ccpDot(const Vec2& v1, const Vec2& v2)
 {
     return v1.dot(v2);
 }
@@ -178,8 +172,7 @@ ccpDot(const Vec2& v1, const Vec2& v2)
  @return float
  @since v0.7.2
  */
-CC_DEPRECATED_ATTRIBUTE static inline float
-ccpCross(const Vec2& v1, const Vec2& v2)
+CC_DEPRECATED_ATTRIBUTE static inline float ccpCross(const Vec2& v1, const Vec2& v2)
 {
     return v1.cross(v2);
 }
@@ -188,8 +181,7 @@ ccpCross(const Vec2& v1, const Vec2& v2)
  @return Vec2
  @since v0.7.2
  */
-CC_DEPRECATED_ATTRIBUTE static inline Vec2
-ccpPerp(const Vec2& v)
+CC_DEPRECATED_ATTRIBUTE static inline Vec2 ccpPerp(const Vec2& v)
 {
     return v.getPerp();
 }
@@ -198,8 +190,7 @@ ccpPerp(const Vec2& v)
  @return Vec2
  @since v0.7.2
  */
-CC_DEPRECATED_ATTRIBUTE static inline Vec2
-ccpRPerp(const Vec2& v)
+CC_DEPRECATED_ATTRIBUTE static inline Vec2 ccpRPerp(const Vec2& v)
 {
     return v.getRPerp();
 }
@@ -208,8 +199,7 @@ ccpRPerp(const Vec2& v)
  @return Vec2
  @since v0.7.2
  */
-CC_DEPRECATED_ATTRIBUTE static inline Vec2
-ccpProject(const Vec2& v1, const Vec2& v2)
+CC_DEPRECATED_ATTRIBUTE static inline Vec2 ccpProject(const Vec2& v1, const Vec2& v2)
 {
     return v1.project(v2);
 }
@@ -218,8 +208,7 @@ ccpProject(const Vec2& v1, const Vec2& v2)
  @return Vec2
  @since v0.7.2
  */
-CC_DEPRECATED_ATTRIBUTE static inline Vec2
-ccpRotate(const Vec2& v1, const Vec2& v2)
+CC_DEPRECATED_ATTRIBUTE static inline Vec2 ccpRotate(const Vec2& v1, const Vec2& v2)
 {
     return v1.rotate(v2);
 }
@@ -228,8 +217,7 @@ ccpRotate(const Vec2& v1, const Vec2& v2)
  @return Vec2
  @since v0.7.2
  */
-CC_DEPRECATED_ATTRIBUTE static inline Vec2
-ccpUnrotate(const Vec2& v1, const Vec2& v2)
+CC_DEPRECATED_ATTRIBUTE static inline Vec2 ccpUnrotate(const Vec2& v1, const Vec2& v2)
 {
     return v1.unrotate(v2);
 }
@@ -238,23 +226,19 @@ ccpUnrotate(const Vec2& v1, const Vec2& v2)
  @return float
  @since v0.7.2
  */
-CC_DEPRECATED_ATTRIBUTE static inline float
-ccpLengthSQ(const Vec2& v)
+CC_DEPRECATED_ATTRIBUTE static inline float ccpLengthSQ(const Vec2& v)
 {
     return v.getLengthSq();
 }
-
 
 /** Calculates the square distance between two points (not calling sqrt() )
  @return float
  @since v1.1
  */
-CC_DEPRECATED_ATTRIBUTE static inline float
-ccpDistanceSQ(const Vec2 p1, const Vec2 p2)
+CC_DEPRECATED_ATTRIBUTE static inline float ccpDistanceSQ(const Vec2 p1, const Vec2 p2)
 {
     return (p1 - p2).getLengthSq();
 }
-
 
 /** Calculates distance between point an origin
  @return float
@@ -301,7 +285,6 @@ CC_DEPRECATED_ATTRIBUTE static inline float ccpToAngle(const Vec2& v)
     return v.getAngle();
 }
 
-
 /** Clamp a point between from and to.
  @since v0.99.1
  */
@@ -342,7 +325,6 @@ CC_DEPRECATED_ATTRIBUTE static inline Vec2 ccpLerp(const Vec2& a, const Vec2& b,
     return a.lerp(b, alpha);
 }
 
-
 /** @returns if points have fuzzy equality which means equal with some degree of variance.
  @since v0.99.1
  */
@@ -350,7 +332,6 @@ CC_DEPRECATED_ATTRIBUTE static inline bool ccpFuzzyEqual(const Vec2& a, const Ve
 {
     return a.fuzzyEquals(b, variance);
 }
-
 
 /** Multiplies a and b components, a.x*b.x, a.y*b.y
  @returns a component-wise multiplication
@@ -410,9 +391,7 @@ CC_DEPRECATED_ATTRIBUTE static inline Vec2 ccpRotateByAngle(const Vec2& v, const
  the hit point also is    p1 + s * (p2 - p1);
  @since v0.99.1
  */
-CC_DEPRECATED_ATTRIBUTE static inline bool ccpLineIntersect(const Vec2& p1, const Vec2& p2,
-                                                     const Vec2& p3, const Vec2& p4,
-                                                     float *s, float *t)
+CC_DEPRECATED_ATTRIBUTE static inline bool ccpLineIntersect(const Vec2& p1, const Vec2& p2, const Vec2& p3, const Vec2& p4, float* s, float* t)
 {
     return Vec2::isLineIntersect(p1, p2, p3, p4, s, t);
 }
@@ -450,7 +429,6 @@ CC_DEPRECATED_ATTRIBUTE inline Rect CCRectMake(float x, float y, float width, fl
     return Rect(x, y, width, height);
 }
 
-
 CC_DEPRECATED_ATTRIBUTE extern const Vec2 CCPointZero;
 
 /* The "zero" size -- equivalent to Size(0, 0). */
@@ -458,7 +436,6 @@ CC_DEPRECATED_ATTRIBUTE extern const Size CCSizeZero;
 
 /* The "zero" rectangle -- equivalent to Rect(0, 0, 0, 0). */
 CC_DEPRECATED_ATTRIBUTE extern const Rect CCRectZero;
-
 
 CC_DEPRECATED_ATTRIBUTE extern const Color3B ccWHITE;
 CC_DEPRECATED_ATTRIBUTE extern const Color3B ccYELLOW;
@@ -477,36 +454,34 @@ CC_DEPRECATED_ATTRIBUTE static inline Color3B ccc3(GLubyte r, GLubyte g, GLubyte
     return Color3B(r, g, b);
 }
 
-CC_DEPRECATED_ATTRIBUTE static inline bool ccc3BEqual(const Color3B &col1, const Color3B &col2)
+CC_DEPRECATED_ATTRIBUTE static inline bool ccc3BEqual(const Color3B& col1, const Color3B& col2)
 {
     return col1.r == col2.r && col1.g == col2.g && col1.b == col2.b;
 }
 
-CC_DEPRECATED_ATTRIBUTE static inline Color4B
-ccc4(const GLubyte r, const GLubyte g, const GLubyte b, const GLubyte o)
+CC_DEPRECATED_ATTRIBUTE static inline Color4B ccc4(const GLubyte r, const GLubyte g, const GLubyte b, const GLubyte o)
 {
     return Color4B(r, g, b, o);
 }
 
 CC_DEPRECATED_ATTRIBUTE static inline Color4F ccc4FFromccc3B(Color3B c)
 {
-    return Color4F(c.r/255.f, c.g/255.f, c.b/255.f, 1.f);
+    return Color4F(c.r / 255.f, c.g / 255.f, c.b / 255.f, 1.f);
 }
 
-CC_DEPRECATED_ATTRIBUTE static inline Color4F
-ccc4f(const GLfloat r, const GLfloat g, const GLfloat b, const GLfloat a)
+CC_DEPRECATED_ATTRIBUTE static inline Color4F ccc4f(const GLfloat r, const GLfloat g, const GLfloat b, const GLfloat a)
 {
     return Color4F(r, g, b, a);
 }
 
 CC_DEPRECATED_ATTRIBUTE static inline Color4F ccc4FFromccc4B(Color4B c)
 {
-    return Color4F(c.r/255.f, c.g/255.f, c.b/255.f, c.a/255.f);
+    return Color4F(c.r / 255.f, c.g / 255.f, c.b / 255.f, c.a / 255.f);
 }
 
 CC_DEPRECATED_ATTRIBUTE static inline Color4B ccc4BFromccc4F(Color4F c)
 {
-        return Color4B((GLubyte)(c.r*255), (GLubyte)(c.g*255), (GLubyte)(c.b*255), (GLubyte)(c.a*255));
+    return Color4B((GLubyte)(c.r * 255), (GLubyte)(c.g * 255), (GLubyte)(c.b * 255), (GLubyte)(c.a * 255));
 }
 
 CC_DEPRECATED_ATTRIBUTE static inline bool ccc4FEqual(Color4F a, Color4F b)
@@ -528,7 +503,7 @@ CC_DEPRECATED_ATTRIBUTE static inline Vec3 vertex3(const float x, const float y,
 
 CC_DEPRECATED_ATTRIBUTE static inline Tex2F tex2(const float u, const float v)
 {
-    Tex2F t(u , v);
+    Tex2F t(u, v);
     return t;
 }
 
@@ -609,9 +584,9 @@ CC_DEPRECATED_ATTRIBUTE typedef TextFieldDelegate CCTextFieldDelegate;
 CC_DEPRECATED_ATTRIBUTE typedef TextFieldTTF CCTextFieldTTF;
 CC_DEPRECATED_ATTRIBUTE typedef __NotificationCenter CCNotificationCenter;
 CC_DEPRECATED_ATTRIBUTE typedef __NotificationCenter NotificationCenter;
-//CC_DEPRECATED_ATTRIBUTE typedef TargetedTouchDelegate CCTargetedTouchDelegate;
-//CC_DEPRECATED_ATTRIBUTE typedef StandardTouchDelegate CCStandardTouchDelegate;
-//CC_DEPRECATED_ATTRIBUTE typedef TouchDelegate CCTouchDelegate;
+// CC_DEPRECATED_ATTRIBUTE typedef TargetedTouchDelegate CCTargetedTouchDelegate;
+// CC_DEPRECATED_ATTRIBUTE typedef StandardTouchDelegate CCStandardTouchDelegate;
+// CC_DEPRECATED_ATTRIBUTE typedef TouchDelegate CCTouchDelegate;
 CC_DEPRECATED_ATTRIBUTE typedef Image CCImage;
 CC_DEPRECATED_ATTRIBUTE typedef UserDefault CCUserDefault;
 
@@ -740,7 +715,7 @@ CC_DEPRECATED_ATTRIBUTE typedef Sprite CCSprite;
 CC_DEPRECATED_ATTRIBUTE typedef SpriteBatchNode CCSpriteBatchNode;
 #define CCLabelBMFont LabelBMFont
 CC_DEPRECATED_ATTRIBUTE typedef Layer CCLayer;
-//CC_DEPRECATED_ATTRIBUTE typedef KeypadDelegate CCKeypadDelegate;
+// CC_DEPRECATED_ATTRIBUTE typedef KeypadDelegate CCKeypadDelegate;
 CC_DEPRECATED_ATTRIBUTE typedef Layer CCLayerRGBA;
 CC_DEPRECATED_ATTRIBUTE typedef LayerColor CCLayerColor;
 CC_DEPRECATED_ATTRIBUTE typedef LayerGradient CCLayerGradient;
@@ -900,9 +875,9 @@ CC_DEPRECATED_ATTRIBUTE extern const char* kCCUniformSampler_s;
 CC_DEPRECATED_ATTRIBUTE extern const char* kCCUniformAlphaTestValue;
 
 // Attribute names
-CC_DEPRECATED_ATTRIBUTE extern const char*    kCCAttributeNameColor;
-CC_DEPRECATED_ATTRIBUTE extern const char*    kCCAttributeNamePosition;
-CC_DEPRECATED_ATTRIBUTE extern const char*    kCCAttributeNameTexCoord;
+CC_DEPRECATED_ATTRIBUTE extern const char* kCCAttributeNameColor;
+CC_DEPRECATED_ATTRIBUTE extern const char* kCCAttributeNamePosition;
+CC_DEPRECATED_ATTRIBUTE extern const char* kCCAttributeNameTexCoord;
 
 CC_DEPRECATED_ATTRIBUTE const int kCCVertexAttribFlag_None = GL::VERTEX_ATTRIB_FLAG_NONE;
 CC_DEPRECATED_ATTRIBUTE const int kCCVertexAttribFlag_Position = GL::VERTEX_ATTRIB_FLAG_POSITION;
@@ -942,7 +917,6 @@ CC_DEPRECATED_ATTRIBUTE const Texture2D::PixelFormat kCCTexture2DPixelFormat_Def
 
 CC_DEPRECATED_ATTRIBUTE typedef Texture2D::PixelFormat CCTexture2DPixelFormat;
 
-
 CC_DEPRECATED_ATTRIBUTE const int kCCParticleDurationInfinity = ParticleSystem::DURATION_INFINITY;
 CC_DEPRECATED_ATTRIBUTE const int kCCParticleStartSizeEqualToEndSize = ParticleSystem::START_SIZE_EQUAL_TO_END_SIZE;
 CC_DEPRECATED_ATTRIBUTE const int kCCParticleStartRadiusEqualToEndRadius = ParticleSystem::START_RADIUS_EQUAL_TO_END_RADIUS;
@@ -955,14 +929,13 @@ CC_DEPRECATED_ATTRIBUTE const ParticleSystem::Mode kCCParticleModeGravity = Part
 CC_DEPRECATED_ATTRIBUTE const ParticleSystem::Mode kCCParticleModeRadius = ParticleSystem::Mode::RADIUS;
 CC_DEPRECATED_ATTRIBUTE const int kCCParticleDefaultCapacity = kParticleDefaultCapacity;
 
-CC_DEPRECATED_ATTRIBUTE const ParticleSystem::PositionType kCCPositionTypeFree =  ParticleSystem::PositionType::FREE;
-CC_DEPRECATED_ATTRIBUTE const ParticleSystem::PositionType kCCPositionTypeRelative =  ParticleSystem::PositionType::RELATIVE;
-CC_DEPRECATED_ATTRIBUTE const ParticleSystem::PositionType kCCPositionTypeGrouped =  ParticleSystem::PositionType::GROUPED;
+CC_DEPRECATED_ATTRIBUTE const ParticleSystem::PositionType kCCPositionTypeFree = ParticleSystem::PositionType::FREE;
+CC_DEPRECATED_ATTRIBUTE const ParticleSystem::PositionType kCCPositionTypeRelative = ParticleSystem::PositionType::RELATIVE;
+CC_DEPRECATED_ATTRIBUTE const ParticleSystem::PositionType kCCPositionTypeGrouped = ParticleSystem::PositionType::GROUPED;
 
 CC_DEPRECATED_ATTRIBUTE typedef ParticleSystem::PositionType tPositionType;
 
-#define kCCLabelAutomaticWidth  kLabelAutomaticWidth
-
+#define kCCLabelAutomaticWidth kLabelAutomaticWidth
 
 CC_DEPRECATED_ATTRIBUTE const Menu::State kCCMenuStateWaiting = Menu::State::WAITING;
 CC_DEPRECATED_ATTRIBUTE const Menu::State kCCMenuStateTrackingTouch = Menu::State::TRACKING_TOUCH;
@@ -998,91 +971,124 @@ CC_DEPRECATED_ATTRIBUTE const int kCCNodeOnEnterTransitionDidFinish = kNodeOnEnt
 CC_DEPRECATED_ATTRIBUTE const int kCCNodeOnExitTransitionDidStart = kNodeOnExitTransitionDidStart;
 CC_DEPRECATED_ATTRIBUTE const int kCCNodeOnCleanup = kNodeOnCleanup;
 
-
-CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageEnglish     = LanguageType::ENGLISH;
-CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageChinese     = LanguageType::CHINESE;
-CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageFrench      = LanguageType::FRENCH;
-CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageItalian     = LanguageType::ITALIAN;
-CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageGerman      = LanguageType::GERMAN;
-CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageSpanish     = LanguageType::SPANISH;
-CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageRussian     = LanguageType::RUSSIAN;
-CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageKorean      = LanguageType::KOREAN;
-CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageJapanese    = LanguageType::JAPANESE;
-CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageHungarian   = LanguageType::HUNGARIAN;
-CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguagePortuguese  = LanguageType::PORTUGUESE;
-CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageArabic      = LanguageType::ARABIC;
-CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageNorwegian   = LanguageType::NORWEGIAN;
-CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguagePolish      = LanguageType::POLISH;
+CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageEnglish = LanguageType::ENGLISH;
+CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageChinese = LanguageType::CHINESE;
+CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageFrench = LanguageType::FRENCH;
+CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageItalian = LanguageType::ITALIAN;
+CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageGerman = LanguageType::GERMAN;
+CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageSpanish = LanguageType::SPANISH;
+CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageRussian = LanguageType::RUSSIAN;
+CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageKorean = LanguageType::KOREAN;
+CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageJapanese = LanguageType::JAPANESE;
+CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageHungarian = LanguageType::HUNGARIAN;
+CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguagePortuguese = LanguageType::PORTUGUESE;
+CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageArabic = LanguageType::ARABIC;
+CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguageNorwegian = LanguageType::NORWEGIAN;
+CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguagePolish = LanguageType::POLISH;
 CC_DEPRECATED_ATTRIBUTE typedef LanguageType ccLanguageType;
 
-
-CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetWindows      = Application::Platform::OS_WINDOWS;
-CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetLinux        = Application::Platform::OS_LINUX;
-CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetMacOS        = Application::Platform::OS_MAC;
-CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetAndroid      = Application::Platform::OS_ANDROID;
-CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetIphone       = Application::Platform::OS_IPHONE;
-CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetIpad         = Application::Platform::OS_IPAD;
-CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetBlackBerry   = Application::Platform::OS_BLACKBERRY;
-CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetNaCl         = Application::Platform::OS_NACL;
-CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetEmscripten   = Application::Platform::OS_EMSCRIPTEN;
-CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetTizen        = Application::Platform::OS_TIZEN;
-CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetWinRT        = Application::Platform::OS_WINRT;
-CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetWP8          = Application::Platform::OS_WP8;
+CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetWindows = Application::Platform::OS_WINDOWS;
+CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetLinux = Application::Platform::OS_LINUX;
+CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetMacOS = Application::Platform::OS_MAC;
+CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetAndroid = Application::Platform::OS_ANDROID;
+CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetIphone = Application::Platform::OS_IPHONE;
+CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetIpad = Application::Platform::OS_IPAD;
+CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetBlackBerry = Application::Platform::OS_BLACKBERRY;
+CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetNaCl = Application::Platform::OS_NACL;
+CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetEmscripten = Application::Platform::OS_EMSCRIPTEN;
+CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetTizen = Application::Platform::OS_TIZEN;
+CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetWinRT = Application::Platform::OS_WINRT;
+CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetWP8 = Application::Platform::OS_WP8;
 CC_DEPRECATED_ATTRIBUTE typedef Application::Platform TargetPlatform;
 
-CC_DEPRECATED_ATTRIBUTE const ResolutionPolicy kResolutionExactFit      = ResolutionPolicy::EXACT_FIT;
-CC_DEPRECATED_ATTRIBUTE const ResolutionPolicy kResolutionNoBorder      = ResolutionPolicy::NO_BORDER;
-CC_DEPRECATED_ATTRIBUTE const ResolutionPolicy kResolutionShowAll       = ResolutionPolicy::SHOW_ALL;
-CC_DEPRECATED_ATTRIBUTE const ResolutionPolicy kResolutionFixedHeight   = ResolutionPolicy::FIXED_HEIGHT;
-CC_DEPRECATED_ATTRIBUTE const ResolutionPolicy kResolutionFixedWidth    = ResolutionPolicy::FIXED_WIDTH;
-CC_DEPRECATED_ATTRIBUTE const ResolutionPolicy kResolutionUnKnown       = ResolutionPolicy::UNKNOWN;
+CC_DEPRECATED_ATTRIBUTE const ResolutionPolicy kResolutionExactFit = ResolutionPolicy::EXACT_FIT;
+CC_DEPRECATED_ATTRIBUTE const ResolutionPolicy kResolutionNoBorder = ResolutionPolicy::NO_BORDER;
+CC_DEPRECATED_ATTRIBUTE const ResolutionPolicy kResolutionShowAll = ResolutionPolicy::SHOW_ALL;
+CC_DEPRECATED_ATTRIBUTE const ResolutionPolicy kResolutionFixedHeight = ResolutionPolicy::FIXED_HEIGHT;
+CC_DEPRECATED_ATTRIBUTE const ResolutionPolicy kResolutionFixedWidth = ResolutionPolicy::FIXED_WIDTH;
+CC_DEPRECATED_ATTRIBUTE const ResolutionPolicy kResolutionUnKnown = ResolutionPolicy::UNKNOWN;
 
-
-#define kCCTMXTileHorizontalFlag      kTMXTileHorizontalFlag
-#define kCCTMXTileVerticalFlag        kTMXTileVerticalFlag
-#define kCCTMXTileDiagonalFlag        kTMXTileDiagonalFlag
-#define kCCFlipedAll                  kFlipedAll
-#define kCCFlippedMask                kTMXFlippedMask
-
+#define kCCTMXTileHorizontalFlag kTMXTileHorizontalFlag
+#define kCCTMXTileVerticalFlag kTMXTileVerticalFlag
+#define kCCTMXTileDiagonalFlag kTMXTileDiagonalFlag
+#define kCCFlipedAll kFlipedAll
+#define kCCFlippedMask kTMXFlippedMask
 
 /** use log() instead */
-CC_DEPRECATED_ATTRIBUTE void CC_DLL CCLog(const char * pszFormat, ...) CC_FORMAT_PRINTF(1, 2);
+CC_DEPRECATED_ATTRIBUTE void CC_DLL CCLog(const char* pszFormat, ...) CC_FORMAT_PRINTF(1, 2);
 
 CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawInit();
 CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawFree();
-CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawPoint( const Vec2& point );
-CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawPoints( const Vec2 *points, unsigned int numberOfPoints );
-CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawLine( const Vec2& origin, const Vec2& destination );
-CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawRect( Vec2 origin, Vec2 destination );
-CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawSolidRect( Vec2 origin, Vec2 destination, Color4F color );
-CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawPoly( const Vec2 *vertices, unsigned int numOfVertices, bool closePolygon );
-CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawSolidPoly( const Vec2 *poli, unsigned int numberOfPoints, Color4F color );
-CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawCircle( const Vec2& center, float radius, float angle, unsigned int segments, bool drawLineToCenter, float scaleX, float scaleY);
-CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawCircle( const Vec2& center, float radius, float angle, unsigned int segments, bool drawLineToCenter);
-CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawSolidCircle( const Vec2& center, float radius, float angle, unsigned int segments, float scaleX, float scaleY);
-CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawSolidCircle( const Vec2& center, float radius, float angle, unsigned int segments);
+CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawPoint(const Vec2& point);
+CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawPoints(const Vec2* points, unsigned int numberOfPoints);
+CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawLine(const Vec2& origin, const Vec2& destination);
+CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawRect(Vec2 origin, Vec2 destination);
+CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawSolidRect(Vec2 origin, Vec2 destination, Color4F color);
+CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawPoly(const Vec2* vertices, unsigned int numOfVertices, bool closePolygon);
+CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawSolidPoly(const Vec2* poli, unsigned int numberOfPoints, Color4F color);
+CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawCircle(const Vec2& center, float radius, float angle, unsigned int segments, bool drawLineToCenter, float scaleX,
+                                                 float scaleY);
+CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawCircle(const Vec2& center, float radius, float angle, unsigned int segments, bool drawLineToCenter);
+CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawSolidCircle(const Vec2& center, float radius, float angle, unsigned int segments, float scaleX, float scaleY);
+CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawSolidCircle(const Vec2& center, float radius, float angle, unsigned int segments);
 CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawQuadBezier(const Vec2& origin, const Vec2& control, const Vec2& destination, unsigned int segments);
-CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawCubicBezier(const Vec2& origin, const Vec2& control1, const Vec2& control2, const Vec2& destination, unsigned int segments);
-CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawCatmullRom( PointArray *arrayOfControlPoints, unsigned int segments );
-CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawCardinalSpline( PointArray *config, float tension,  unsigned int segments );
-CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawColor4B( GLubyte r, GLubyte g, GLubyte b, GLubyte a );
-CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawColor4F( GLfloat r, GLfloat g, GLfloat b, GLfloat a );
-CC_DEPRECATED_ATTRIBUTE void CC_DLL ccPointSize( GLfloat pointSize );
+CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawCubicBezier(const Vec2& origin, const Vec2& control1, const Vec2& control2, const Vec2& destination,
+                                                      unsigned int segments);
+CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawCatmullRom(PointArray* arrayOfControlPoints, unsigned int segments);
+CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawCardinalSpline(PointArray* config, float tension, unsigned int segments);
+CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawColor4B(GLubyte r, GLubyte g, GLubyte b, GLubyte a);
+CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawColor4F(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
+CC_DEPRECATED_ATTRIBUTE void CC_DLL ccPointSize(GLfloat pointSize);
 
-
-CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLInvalidateStateCache() { GL::invalidateStateCache(); }
-CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLUseProgram(GLuint program) { GL::useProgram(program); }
-CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLDeleteProgram(GLuint program){ GL::deleteProgram(program); }
-CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLBlendFunc(GLenum sfactor, GLenum dfactor) { GL::blendFunc(sfactor, dfactor); }
-CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLBlendResetToCache() { GL::blendResetToCache(); }
-CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccSetProjectionMatrixDirty() { GL::setProjectionMatrixDirty(); }
-CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLEnableVertexAttribs(unsigned int flags) { GL::enableVertexAttribs(flags); }
-CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLBindTexture2D(GLuint textureId) { GL::bindTexture2D(textureId); }
-CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLBindTexture2DN(GLuint textureUnit, GLuint textureId) { GL::bindTexture2DN(textureUnit, textureId); }
-CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLDeleteTexture(GLuint textureId) { GL::deleteTexture(textureId); }
-CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLDeleteTextureN(GLuint textureUnit, GLuint textureId) { GL::deleteTexture(textureId); }
-CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLBindVAO(GLuint vaoId) { GL::bindVAO(vaoId); }
-CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLEnable( int flags ) { /* ignore */ };
+CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLInvalidateStateCache()
+{
+    GL::invalidateStateCache();
+}
+CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLUseProgram(GLuint program)
+{
+    GL::useProgram(program);
+}
+CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLDeleteProgram(GLuint program)
+{
+    GL::deleteProgram(program);
+}
+CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLBlendFunc(GLenum sfactor, GLenum dfactor)
+{
+    GL::blendFunc(sfactor, dfactor);
+}
+CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLBlendResetToCache()
+{
+    GL::blendResetToCache();
+}
+CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccSetProjectionMatrixDirty()
+{
+    GL::setProjectionMatrixDirty();
+}
+CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLEnableVertexAttribs(unsigned int flags)
+{
+    GL::enableVertexAttribs(flags);
+}
+CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLBindTexture2D(GLuint textureId)
+{
+    GL::bindTexture2D(textureId);
+}
+CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLBindTexture2DN(GLuint textureUnit, GLuint textureId)
+{
+    GL::bindTexture2DN(textureUnit, textureId);
+}
+CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLDeleteTexture(GLuint textureId)
+{
+    GL::deleteTexture(textureId);
+}
+CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLDeleteTextureN(GLuint textureUnit, GLuint textureId)
+{
+    GL::deleteTexture(textureId);
+}
+CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLBindVAO(GLuint vaoId)
+{
+    GL::bindVAO(vaoId);
+}
+CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLEnable(int flags){/* ignore */};
 CC_DEPRECATED_ATTRIBUTE typedef int ccGLServerState;
 
 CC_DEPRECATED_ATTRIBUTE typedef Data CCData;
@@ -1112,10 +1118,10 @@ CC_DEPRECATED_ATTRIBUTE typedef __RGBAProtocol RGBAProtocol;
 CC_DEPRECATED_ATTRIBUTE typedef __NodeRGBA NodeRGBA;
 CC_DEPRECATED_ATTRIBUTE typedef __LayerRGBA LayerRGBA;
 
-//deprecated attributes and methods for kazMath
+// deprecated attributes and methods for kazMath
 CC_DEPRECATED_ATTRIBUTE typedef float kmScalar;
 
-//kmMat4 and kmMat4 stack
+// kmMat4 and kmMat4 stack
 CC_DEPRECATED_ATTRIBUTE typedef Mat4 kmMat4;
 CC_DEPRECATED_ATTRIBUTE const unsigned int KM_GL_MODELVIEW = 0x1700;
 CC_DEPRECATED_ATTRIBUTE const unsigned int KM_GL_PROJECTION = 0x1701;
@@ -1150,7 +1156,7 @@ CC_DEPRECATED_ATTRIBUTE CC_DLL Mat4* kmMat4PerspectiveProjection(Mat4* pOut, flo
 CC_DEPRECATED_ATTRIBUTE CC_DLL Mat4* kmMat4OrthographicProjection(Mat4* pOut, float left, float right, float bottom, float top, float nearVal, float farVal);
 CC_DEPRECATED_ATTRIBUTE CC_DLL Mat4* kmMat4LookAt(Mat4* pOut, const Vec3* pEye, const Vec3* pCenter, const Vec3* pUp);
 
-//kmVec3
+// kmVec3
 CC_DEPRECATED_ATTRIBUTE typedef Vec3 kmVec3;
 CC_DEPRECATED_ATTRIBUTE CC_DLL Vec3* kmVec3Fill(Vec3* pOut, float x, float y, float z);
 CC_DEPRECATED_ATTRIBUTE CC_DLL float kmVec3Length(const Vec3* pIn);
@@ -1177,7 +1183,7 @@ CC_DEPRECATED_ATTRIBUTE extern const Vec3 KM_VEC3_NEG_X;
 CC_DEPRECATED_ATTRIBUTE extern const Vec3 KM_VEC3_POS_X;
 CC_DEPRECATED_ATTRIBUTE extern const Vec3 KM_VEC3_ZERO;
 
-//kmVec2
+// kmVec2
 CC_DEPRECATED_ATTRIBUTE typedef Vec2 kmVec2;
 CC_DEPRECATED_ATTRIBUTE CC_DLL Vec2* kmVec2Fill(Vec2* pOut, float x, float y);
 CC_DEPRECATED_ATTRIBUTE CC_DLL float kmVec2Length(const Vec2* pIn);
@@ -1196,7 +1202,7 @@ CC_DEPRECATED_ATTRIBUTE extern const Vec2 KM_VEC2_NEG_X;
 CC_DEPRECATED_ATTRIBUTE extern const Vec2 KM_VEC2_POS_X;
 CC_DEPRECATED_ATTRIBUTE extern const Vec2 KM_VEC2_ZERO;
 
-//kmVec4
+// kmVec4
 CC_DEPRECATED_ATTRIBUTE typedef Vec4 kmVec4;
 CC_DEPRECATED_ATTRIBUTE CC_DLL Vec4* kmVec4Fill(Vec4* pOut, float x, float y, float z, float w);
 CC_DEPRECATED_ATTRIBUTE CC_DLL Vec4* kmVec4Add(Vec4* pOut, const Vec4* pV1, const Vec4* pV2);
@@ -1211,7 +1217,7 @@ CC_DEPRECATED_ATTRIBUTE CC_DLL Vec4* kmVec4Assign(Vec4* pOut, const Vec4* pIn);
 CC_DEPRECATED_ATTRIBUTE CC_DLL Vec4* kmVec4MultiplyMat4(Vec4* pOut, const Vec4* pV, const Mat4* pM);
 CC_DEPRECATED_ATTRIBUTE CC_DLL Vec4* kmVec4Transform(Vec4* pOut, const Vec4* pV, const Mat4* pM);
 
-//end of deprecated attributes and methods for kazMath
+// end of deprecated attributes and methods for kazMath
 
 NS_CC_END
 

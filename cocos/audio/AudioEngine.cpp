@@ -33,25 +33,25 @@
 #include <unordered_set>
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-#include "audio/android/AudioEngine-inl.h"
+#    include "audio/android/AudioEngine-inl.h"
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
-#include "audio/apple/AudioEngine-inl.h"
+#    include "audio/apple/AudioEngine-inl.h"
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-#include "audio/win32/AudioEngine-win32.h"
+#    include "audio/win32/AudioEngine-win32.h"
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
-#include "audio/winrt/AudioEngine-winrt.h"
+#    include "audio/winrt/AudioEngine-winrt.h"
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
-#include "audio/linux/AudioEngine-linux.h"
+#    include "audio/linux/AudioEngine-linux.h"
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
-#include "audio/tizen/AudioEngine-tizen.h"
+#    include "audio/tizen/AudioEngine-tizen.h"
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
-#include "audio/emscripten/AudioEngine-emscripten.h"
+#    include "audio/emscripten/AudioEngine-emscripten.h"
 #endif
 
 #define TIME_DELAY_PRECISION 0.0001
 
 #ifdef ERROR
-#undef ERROR
+#    undef ERROR
 #endif // ERROR
 
 using namespace cocos2d;
@@ -60,9 +60,9 @@ using namespace cocos2d::experimental;
 const int AudioEngine::INVALID_AUDIO_ID = -1;
 const std::chrono::milliseconds AudioEngine::TIME_UNKNOWN = std::chrono::milliseconds::max();
 
-//audio file path,audio IDs
+// audio file path,audio IDs
 std::unordered_multimap<std::string, int> AudioEngine::_audioPathIDMap;
-//profileName,ProfileHelper
+// profileName,ProfileHelper
 std::unordered_map<std::string, AudioEngine::ProfileHelper> AudioEngine::_audioPathProfileHelperMap;
 unsigned int AudioEngine::_maxInstances = MAX_AUDIOINSTANCES;
 AudioEngine::ProfileHelper* AudioEngine::_defaultProfileHelper = nullptr;
@@ -76,7 +76,7 @@ class AudioEngine::AudioEngineThreadPool
 {
 public:
     AudioEngineThreadPool(int threads = 4)
-        : _stop(false)
+    : _stop(false)
     {
         for (int index = 0; index < threads; ++index)
         {
@@ -84,7 +84,8 @@ public:
         }
     }
 
-    void addTask(const std::function<void()> &task){
+    void addTask(const std::function<void()>& task)
+    {
         std::unique_lock<std::mutex> lk(_queueMutex);
         _taskQueue.emplace(task);
         _taskCondition.notify_one();
@@ -98,7 +99,8 @@ public:
             _taskCondition.notify_all();
         }
 
-        for (auto&& worker : _workers) {
+        for (auto&& worker : _workers)
+        {
             worker.join();
         }
     }
@@ -109,29 +111,28 @@ private:
         while (!_stop)
         {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-            @autoreleasepool {
+            @autoreleasepool
+            {
 #endif
-            std::unique_lock<std::mutex> lk(_queueMutex);
-            if (!_taskQueue.empty())
-            {
-                std::function<void()> task = _taskQueue.front();
-                _taskQueue.pop();
-                task();
-            }
-            else
-            {
-                _taskCondition.wait(lk, [this] {
-                    return _stop || !_taskQueue.empty();
-                });
-            }
+                std::unique_lock<std::mutex> lk(_queueMutex);
+                if (!_taskQueue.empty())
+                {
+                    std::function<void()> task = _taskQueue.front();
+                    _taskQueue.pop();
+                    task();
+                }
+                else
+                {
+                    _taskCondition.wait(lk, [this] { return _stop || !_taskQueue.empty(); });
+                }
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
             }
 #endif
         }
     }
 
-    std::vector<std::thread>  _workers;
-    std::queue< std::function<void()> > _taskQueue;
+    std::vector<std::thread> _workers;
+    std::queue<std::function<void()>> _taskQueue;
 
     std::mutex _queueMutex;
     std::condition_variable _taskCondition;
@@ -158,10 +159,11 @@ bool AudioEngine::lazyInit()
     if (_audioEngineImpl == nullptr)
     {
         _audioEngineImpl = new (std::nothrow) AudioEngineImpl();
-        if(!_audioEngineImpl ||  !_audioEngineImpl->init() ){
+        if (!_audioEngineImpl || !_audioEngineImpl->init())
+        {
             delete _audioEngineImpl;
             _audioEngineImpl = nullptr;
-           return false;
+            return false;
         }
     }
 
@@ -177,7 +179,7 @@ bool AudioEngine::lazyInit()
 
 int AudioEngine::play2d(std::string const& filePath, bool loop, float volume, bool isMusic, AudioProfile const* profile)
 {
-    //printf("*** AudioEngine::play2d(%s)\n", filePath.c_str());
+    // printf("*** AudioEngine::play2d(%s)\n", filePath.c_str());
 
     if (!isEnabled() || !lazyInit() || !FileUtils::getInstance()->isFileExist(filePath))
     {
@@ -194,7 +196,7 @@ int AudioEngine::play2d(std::string const& filePath, bool loop, float volume, bo
 
     if (_audioIDInfoMap.size() >= _maxInstances)
     {
-        log("Fail to play %s cause by limited max instance of AudioEngine",filePath.c_str());
+        log("Fail to play %s cause by limited max instance of AudioEngine", filePath.c_str());
         return AudioEngine::INVALID_AUDIO_ID;
     }
 
@@ -202,7 +204,7 @@ int AudioEngine::play2d(std::string const& filePath, bool loop, float volume, bo
     {
         if (profileHelper->profile.maxInstances != 0 && profileHelper->audioIDs.size() >= profileHelper->profile.maxInstances)
         {
-            log("Fail to play %s cause by limited max instance of AudioProfile",filePath.c_str());
+            log("Fail to play %s cause by limited max instance of AudioProfile", filePath.c_str());
             return AudioEngine::INVALID_AUDIO_ID;
         }
         if (profileHelper->profile.minDelay > TIME_DELAY_PRECISION)
@@ -210,7 +212,7 @@ int AudioEngine::play2d(std::string const& filePath, bool loop, float volume, bo
             auto currTime = utils::gettime();
             if (profileHelper->lastPlayTime > TIME_DELAY_PRECISION && currTime - profileHelper->lastPlayTime <= profileHelper->profile.minDelay)
             {
-                log("Fail to play %s cause by limited minimum delay",filePath.c_str());
+                log("Fail to play %s cause by limited minimum delay", filePath.c_str());
                 return AudioEngine::INVALID_AUDIO_ID;
             }
         }
@@ -249,7 +251,8 @@ int AudioEngine::play2d(std::string const& filePath, bool loop, float volume, bo
 void AudioEngine::setLoop(int audioID, bool loop)
 {
     auto it = _audioIDInfoMap.find(audioID);
-    if (it != _audioIDInfoMap.end() && it->second.loop != loop){
+    if (it != _audioIDInfoMap.end() && it->second.loop != loop)
+    {
         _audioEngineImpl->setLoop(audioID, loop);
         it->second.loop = loop;
     }
@@ -258,15 +261,19 @@ void AudioEngine::setLoop(int audioID, bool loop)
 void AudioEngine::setVolume(int audioID, float volume)
 {
     auto it = _audioIDInfoMap.find(audioID);
-    if (it != _audioIDInfoMap.end()){
-        if (volume < 0.0f) {
+    if (it != _audioIDInfoMap.end())
+    {
+        if (volume < 0.0f)
+        {
             volume = 0.0f;
         }
-        else if (volume > 1.0f){
+        else if (volume > 1.0f)
+        {
             volume = 1.0f;
         }
 
-        if (it->second.volume != volume){
+        if (it->second.volume != volume)
+        {
             _audioEngineImpl->setVolume(audioID, volume);
             it->second.volume = volume;
         }
@@ -276,7 +283,8 @@ void AudioEngine::setVolume(int audioID, float volume)
 void AudioEngine::pause(int audioID)
 {
     auto it = _audioIDInfoMap.find(audioID);
-    if (it != _audioIDInfoMap.end() && it->second.state == AudioState::PLAYING){
+    if (it != _audioIDInfoMap.end() && it->second.state == AudioState::PLAYING)
+    {
         _audioEngineImpl->pause(audioID);
         it->second.state = AudioState::PAUSED;
     }
@@ -298,7 +306,8 @@ void AudioEngine::pauseAll()
 void AudioEngine::resume(int audioID)
 {
     auto it = _audioIDInfoMap.find(audioID);
-    if (it != _audioIDInfoMap.end() && it->second.state == AudioState::PAUSED){
+    if (it != _audioIDInfoMap.end() && it->second.state == AudioState::PAUSED)
+    {
         _audioEngineImpl->resume(audioID);
         it->second.state = AudioState::PLAYING;
     }
@@ -320,7 +329,8 @@ void AudioEngine::resumeAll()
 void AudioEngine::stop(int audioID)
 {
     auto it = _audioIDInfoMap.find(audioID);
-    if (it != _audioIDInfoMap.end()){
+    if (it != _audioIDInfoMap.end())
+    {
         _audioEngineImpl->stop(audioID);
 
         remove(audioID);
@@ -356,14 +366,16 @@ void AudioEngine::remove(int audioID)
 
 void AudioEngine::stopAll()
 {
-    if(!_audioEngineImpl){
+    if (!_audioEngineImpl)
+    {
         return;
     }
     _audioEngineImpl->stopAll();
     auto itEnd = _audioIDInfoMap.end();
     for (auto it = _audioIDInfoMap.begin(); it != itEnd; ++it)
     {
-        if (it->second.profileHelper){
+        if (it->second.profileHelper)
+        {
             it->second.profileHelper->audioIDs.remove(it->first);
         }
     }
@@ -413,7 +425,8 @@ void AudioEngine::uncache(std::string const& filePath)
 
 void AudioEngine::uncacheAll()
 {
-    if(!_audioEngineImpl){
+    if (!_audioEngineImpl)
+    {
         return;
     }
     stopAll();
@@ -438,7 +451,8 @@ std::chrono::milliseconds AudioEngine::getDuration(int audioID)
 bool AudioEngine::setCurrentTime(int audioID, float time)
 {
     auto it = _audioIDInfoMap.find(audioID);
-    if (it != _audioIDInfoMap.end() && it->second.state != AudioState::INITIALIZING) {
+    if (it != _audioIDInfoMap.end() && it->second.state != AudioState::INITIALIZING)
+    {
         return _audioEngineImpl->setCurrentTime(audioID, time);
     }
 
@@ -448,23 +462,26 @@ bool AudioEngine::setCurrentTime(int audioID, float time)
 float AudioEngine::getCurrentTime(int audioID)
 {
     auto it = _audioIDInfoMap.find(audioID);
-    if (it != _audioIDInfoMap.end() && it->second.state != AudioState::INITIALIZING) {
+    if (it != _audioIDInfoMap.end() && it->second.state != AudioState::INITIALIZING)
+    {
         return _audioEngineImpl->getCurrentTime(audioID);
     }
     return 0.0f;
 }
 
-void AudioEngine::setFinishCallback(int audioID, const std::function<void (int, const std::string &)> &callback)
+void AudioEngine::setFinishCallback(int audioID, const std::function<void(int, const std::string&)>& callback)
 {
     auto it = _audioIDInfoMap.find(audioID);
-    if (it != _audioIDInfoMap.end()){
+    if (it != _audioIDInfoMap.end())
+    {
         _audioEngineImpl->setFinishCallback(audioID, callback);
     }
 }
 
 bool AudioEngine::setMaxAudioInstance(int maxInstances)
 {
-    if (maxInstances > 0 && maxInstances <= MAX_AUDIOINSTANCES) {
+    if (maxInstances > 0 && maxInstances <= MAX_AUDIOINSTANCES)
+    {
         _maxInstances = maxInstances;
         return true;
     }
@@ -528,12 +545,15 @@ AudioProfile* AudioEngine::getDefaultProfile()
     return &_defaultProfileHelper->profile;
 }
 
-AudioProfile* AudioEngine::getProfile(const std::string &name)
+AudioProfile* AudioEngine::getProfile(const std::string& name)
 {
     auto it = _audioPathProfileHelperMap.find(name);
-    if (it != _audioPathProfileHelperMap.end()) {
+    if (it != _audioPathProfileHelperMap.end())
+    {
         return &it->second.profile;
-    } else {
+    }
+    else
+    {
         return nullptr;
     }
 }
@@ -550,7 +570,8 @@ void AudioEngine::preload(const std::string& filePath, std::function<void(bool i
 
     if (_audioEngineImpl)
     {
-        if (!FileUtils::getInstance()->isFileExist(filePath)){
+        if (!FileUtils::getInstance()->isFileExist(filePath))
+        {
             if (callback)
             {
                 callback(false);
@@ -560,11 +581,11 @@ void AudioEngine::preload(const std::string& filePath, std::function<void(bool i
 
         _audioEngineImpl->preload(filePath, callback);
     }
-	else
-	{
-		if(callback)
-			callback(false);
-	}
+    else
+    {
+        if (callback)
+            callback(false);
+    }
 }
 
 void AudioEngine::addTask(const std::function<void()>& task)

@@ -23,20 +23,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 #include "scripting/lua-bindings/manual/Cocos2dxLuaLoader.h"
-#include <string>
 #include <algorithm>
+#include <string>
 
-#include "scripting/lua-bindings/manual/CCLuaStack.h"
-#include "scripting/lua-bindings/manual/CCLuaEngine.h"
 #include "platform/CCFileUtils.h"
+#include "scripting/lua-bindings/manual/CCLuaEngine.h"
+#include "scripting/lua-bindings/manual/CCLuaStack.h"
 
 using namespace cocos2d;
 
 extern "C"
 {
-    int cocos2dx_lua_loader(lua_State *L)
+    int cocos2dx_lua_loader(lua_State* L)
     {
-        static const std::string BYTECODE_FILE_EXT    = ".luac";
+        static const std::string BYTECODE_FILE_EXT = ".luac";
         static const std::string NOT_BYTECODE_FILE_EXT = ".lua";
 
         std::string filename(luaL_checkstring(L, 1));
@@ -107,8 +107,7 @@ extern "C"
         if (chunk.getSize() > 0)
         {
             LuaStack* stack = LuaEngine::getInstance()->getLuaStack();
-            stack->luaLoadBuffer(L, reinterpret_cast<const char*>(chunk.getBytes()),
-                                 static_cast<int>(chunk.getSize()), chunkName.c_str());
+            stack->luaLoadBuffer(L, reinterpret_cast<const char*>(chunk.getBytes()), static_cast<int>(chunk.getSize()), chunkName.c_str());
         }
         else
         {

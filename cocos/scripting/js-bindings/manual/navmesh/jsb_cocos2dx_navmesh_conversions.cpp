@@ -23,10 +23,10 @@
 
 #include "scripting/js-bindings/manual/navmesh/jsb_cocos2dx_navmesh_conversions.h"
 #if CC_USE_NAVMESH
-#include "scripting/js-bindings/manual/cocos2d_specifics.hpp"
-#include "scripting/js-bindings/manual/js_manual_conversions.h"
+#    include "scripting/js-bindings/manual/cocos2d_specifics.hpp"
+#    include "scripting/js-bindings/manual/js_manual_conversions.h"
 
-bool jsval_to_NavMeshAgentParam(JSContext *cx, JS::HandleValue v, cocos2d::NavMeshAgentParam* ret)
+bool jsval_to_NavMeshAgentParam(JSContext* cx, JS::HandleValue v, cocos2d::NavMeshAgentParam* ret)
 {
     JS::RootedObject tmp(cx);
     JS::RootedValue jsr(cx);
@@ -39,32 +39,19 @@ bool jsval_to_NavMeshAgentParam(JSContext *cx, JS::HandleValue v, cocos2d::NavMe
     JS::RootedValue jsuF(cx);
     JS::RootedValue jsoAT(cx);
     JS::RootedValue jsqFT(cx);
-    double radius, height, maxAcceleration, maxSpeed, collisionQueryRange, pathOptimizationRange, separationWeight, updateFlags, obstacleAvoidanceType, queryFilterType;
-    bool ok = v.isObject() &&
-    JS_ValueToObject(cx, v, &tmp) &&
-    JS_GetProperty(cx, tmp, "radius", &jsr) &&
-    JS_GetProperty(cx, tmp, "height", &jsh) &&
-    JS_GetProperty(cx, tmp, "maxAcceleration", &jsmaxA) &&
-    JS_GetProperty(cx, tmp, "maxSpeed", &jsmaxS) &&
-    JS_GetProperty(cx, tmp, "collisionQueryRange", &jscQR) &&
-    JS_GetProperty(cx, tmp, "pathOptimizationRange", &jspOR) &&
-    JS_GetProperty(cx, tmp, "separationWeight", &jssW) &&
-    JS_GetProperty(cx, tmp, "updateFlags", &jsuF) &&
-    JS_GetProperty(cx, tmp, "obstacleAvoidanceType", &jsoAT) &&
-    JS_GetProperty(cx, tmp, "queryFilterType", &jsqFT) &&
-    JS::ToNumber(cx, jsr, &radius) &&
-    JS::ToNumber(cx, jsh, &height) &&
-    JS::ToNumber(cx, jsmaxA, &maxAcceleration) &&
-    JS::ToNumber(cx, jsmaxS, &maxSpeed) &&
-    JS::ToNumber(cx, jscQR, &collisionQueryRange) &&
-    JS::ToNumber(cx, jspOR, &pathOptimizationRange) &&
-    JS::ToNumber(cx, jssW, &separationWeight) &&
-    JS::ToNumber(cx, jsuF, &updateFlags) &&
-    JS::ToNumber(cx, jsoAT, &obstacleAvoidanceType) &&
-    JS::ToNumber(cx, jsoAT, &queryFilterType);
-    
+    double radius, height, maxAcceleration, maxSpeed, collisionQueryRange, pathOptimizationRange, separationWeight, updateFlags, obstacleAvoidanceType,
+        queryFilterType;
+    bool ok = v.isObject() && JS_ValueToObject(cx, v, &tmp) && JS_GetProperty(cx, tmp, "radius", &jsr) && JS_GetProperty(cx, tmp, "height", &jsh) &&
+        JS_GetProperty(cx, tmp, "maxAcceleration", &jsmaxA) && JS_GetProperty(cx, tmp, "maxSpeed", &jsmaxS) &&
+        JS_GetProperty(cx, tmp, "collisionQueryRange", &jscQR) && JS_GetProperty(cx, tmp, "pathOptimizationRange", &jspOR) &&
+        JS_GetProperty(cx, tmp, "separationWeight", &jssW) && JS_GetProperty(cx, tmp, "updateFlags", &jsuF) &&
+        JS_GetProperty(cx, tmp, "obstacleAvoidanceType", &jsoAT) && JS_GetProperty(cx, tmp, "queryFilterType", &jsqFT) && JS::ToNumber(cx, jsr, &radius) &&
+        JS::ToNumber(cx, jsh, &height) && JS::ToNumber(cx, jsmaxA, &maxAcceleration) && JS::ToNumber(cx, jsmaxS, &maxSpeed) &&
+        JS::ToNumber(cx, jscQR, &collisionQueryRange) && JS::ToNumber(cx, jspOR, &pathOptimizationRange) && JS::ToNumber(cx, jssW, &separationWeight) &&
+        JS::ToNumber(cx, jsuF, &updateFlags) && JS::ToNumber(cx, jsoAT, &obstacleAvoidanceType) && JS::ToNumber(cx, jsoAT, &queryFilterType);
+
     JSB_PRECONDITION3(ok, cx, false, "Error processing arguments");
-    
+
     ret->radius = (float)radius;
     ret->height = (float)height;
     ret->maxAcceleration = (float)maxAcceleration;
@@ -83,12 +70,14 @@ jsval offMeshLinkData_to_jsval(JSContext* cx, const cocos2d::OffMeshLinkData& v)
     JS::RootedObject proto(cx);
     JS::RootedObject parent(cx);
     JS::RootedObject tmp(cx, JS_NewObject(cx, NULL, proto, parent));
-    if (!tmp) return JSVAL_NULL;
+    if (!tmp)
+        return JSVAL_NULL;
     JS::RootedValue jsstartPos(cx, vector3_to_jsval(cx, v.startPosition));
     JS::RootedValue jsendPos(cx, vector3_to_jsval(cx, v.endPosition));
     bool ok = JS_DefineProperty(cx, tmp, "startPosition", jsstartPos, JSPROP_ENUMERATE | JSPROP_PERMANENT) &&
-    JS_DefineProperty(cx, tmp, "endPosition", jsendPos, JSPROP_ENUMERATE | JSPROP_PERMANENT);
-    if (ok) {
+        JS_DefineProperty(cx, tmp, "endPosition", jsendPos, JSPROP_ENUMERATE | JSPROP_PERMANENT);
+    if (ok)
+    {
         return OBJECT_TO_JSVAL(tmp);
     }
     return JSVAL_NULL;

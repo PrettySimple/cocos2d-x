@@ -61,6 +61,7 @@ public:
         SELECTOR,
         CALLBACK
     };
+
 private:
     Type _type = Type::DEFAULT;
 
@@ -70,17 +71,20 @@ protected:
     bool _runForever = false;
     bool _useDelay = false;
     unsigned int _timesExecuted = 0;
-    unsigned int _repeat = 0; //0 = once, 1 is 2 x executed
+    unsigned int _repeat = 0; // 0 = once, 1 is 2 x executed
     std::chrono::milliseconds _delay = std::chrono::milliseconds::zero();
     std::chrono::milliseconds _interval = std::chrono::milliseconds::zero();
 
 protected:
     Timer() = default;
-    inline explicit Timer(Type type) : _type(type) {}
+    inline explicit Timer(Type type)
+    : _type(type)
+    {
+    }
     Timer(Timer const&) = delete;
     Timer& operator=(Timer const&) = delete;
-    Timer(Timer &&) noexcept = delete;
-    Timer& operator=(Timer &&) noexcept = delete;
+    Timer(Timer&&) noexcept = delete;
+    Timer& operator=(Timer&&) noexcept = delete;
     ~Timer() override = default;
 
 public:
@@ -90,16 +94,15 @@ public:
     inline void setInterval(std::chrono::milliseconds interval) noexcept { _interval = interval; }
 
     inline Type getType() const noexcept { return _type; }
-    
+
     void setupTimerWithInterval(std::chrono::milliseconds seconds, unsigned int repeat, std::chrono::milliseconds delay);
-    
+
     virtual void trigger(float dt) = 0;
     virtual void cancel() = 0;
-    
+
     /** triggers the timer */
     void update(float dt);
 };
-
 
 class CC_DLL TimerTargetSelector final : public Timer
 {
@@ -110,19 +113,19 @@ public:
     TimerTargetSelector();
     TimerTargetSelector(TimerTargetSelector const&) = delete;
     TimerTargetSelector& operator=(TimerTargetSelector const&) = delete;
-    TimerTargetSelector(TimerTargetSelector &&) noexcept = delete;
-    TimerTargetSelector& operator=(TimerTargetSelector &&) noexcept = delete;
+    TimerTargetSelector(TimerTargetSelector&&) noexcept = delete;
+    TimerTargetSelector& operator=(TimerTargetSelector&&) noexcept = delete;
     ~TimerTargetSelector() final = default;
 
     /** Initializes a timer with a target, a selector and an interval in seconds, repeat in number of times to repeat, delay in seconds. */
-    bool initWithSelector(Scheduler* scheduler, SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds seconds, unsigned int repeat, std::chrono::milliseconds delay);
-    
+    bool initWithSelector(Scheduler* scheduler, SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds seconds, unsigned int repeat,
+                          std::chrono::milliseconds delay);
+
     inline SEL_SCHEDULE getSelector() const noexcept { return _selector; }
-    
+
     void trigger(float dt) final;
     void cancel() final;
 };
-
 
 class CC_DLL TimerTargetCallback final : public Timer
 {
@@ -134,16 +137,17 @@ public:
     TimerTargetCallback();
     TimerTargetCallback(TimerTargetCallback const&) = delete;
     TimerTargetCallback& operator=(TimerTargetCallback const&) = delete;
-    TimerTargetCallback(TimerTargetCallback &&) noexcept = delete;
-    TimerTargetCallback& operator=(TimerTargetCallback &&) noexcept = delete;
+    TimerTargetCallback(TimerTargetCallback&&) noexcept = delete;
+    TimerTargetCallback& operator=(TimerTargetCallback&&) noexcept = delete;
     ~TimerTargetCallback() final = default;
-    
+
     // Initializes a timer with a target, a lambda and an interval in seconds, repeat in number of times to repeat, delay in seconds.
-    bool initWithCallback(Scheduler* scheduler, ccSchedulerFunc const& callback, void* target, std::string const& key, std::chrono::milliseconds seconds, unsigned int repeat, std::chrono::milliseconds delay);
-    
+    bool initWithCallback(Scheduler* scheduler, ccSchedulerFunc const& callback, void* target, std::string const& key, std::chrono::milliseconds seconds,
+                          unsigned int repeat, std::chrono::milliseconds delay);
+
     inline ccSchedulerFunc getCallback() const noexcept { return _callback; }
     inline std::string getKey() const noexcept { return _key; }
-    
+
     void trigger(float dt) final;
     void cancel() final;
 };
@@ -165,10 +169,11 @@ public:
         explicit element(ccSchedulerFunc const& c, void* t, int pr, bool pa, std::uint64_t i);
         element(element const&) = delete;
         element& operator=(element const&) = delete;
-        element(element &&) noexcept = delete;
-        element& operator=(element &&) noexcept = delete;
+        element(element&&) noexcept = delete;
+        element& operator=(element&&) noexcept = delete;
         ~element() = default;
     };
+
 private:
     struct element_less final
     {
@@ -219,11 +224,15 @@ public:
         void* target = nullptr;
 
         Key() = default;
-        constexpr explicit Key(std::string_view n, void* t) : target(t), name(n) {}
+        constexpr explicit Key(std::string_view n, void* t)
+        : target(t)
+        , name(n)
+        {
+        }
         Key(Key const&) = delete;
         Key& operator=(Key const&) = delete;
-        Key(Key &&) noexcept = default;
-        Key& operator=(Key &&) noexcept = delete;
+        Key(Key&&) noexcept = default;
+        Key& operator=(Key&&) noexcept = delete;
         ~Key() = default;
     };
 
@@ -240,17 +249,14 @@ private:
         explicit element(Timer* ti, void* ta, std::uint64_t i, bool p, std::string const& n);
         element(element const&) = delete;
         element& operator=(element const&) = delete;
-        element(element &&) noexcept = delete;
-        element& operator=(element &&) noexcept = delete;
+        element(element&&) noexcept = delete;
+        element& operator=(element&&) noexcept = delete;
         ~element();
     };
 
     struct element_less final
     {
-        constexpr bool operator()(element const& a, element const& b) const
-        {
-            return a.index < b.index;
-        }
+        constexpr bool operator()(element const& a, element const& b) const { return a.index < b.index; }
     };
 
     struct key_hasher final
@@ -260,10 +266,7 @@ private:
 
     struct key_equal_to final
     {
-        constexpr bool operator()(Key const& lhs, Key const& rhs ) const noexcept
-        {
-            return lhs.name == rhs.name && lhs.target == rhs.target;
-        }
+        constexpr bool operator()(Key const& lhs, Key const& rhs) const noexcept { return lhs.name == rhs.name && lhs.target == rhs.target; }
     };
 
     std::set<element, element_less> _data;
@@ -320,11 +323,12 @@ class CC_DLL Scheduler final : public Ref
 
     std::vector<std::function<void()>> _functionsToPerform;
     std::mutex _performMutex;
+
 public:
     /** Priority level reserved for system services.
      */
     static constexpr int const PRIORITY_SYSTEM = std::numeric_limits<int>::min();
-    
+
     /** Minimum priority level for user scheduling.
      * Priority level of user scheduling should bigger then this value.
      */
@@ -333,8 +337,8 @@ public:
     Scheduler() = default;
     Scheduler(Scheduler const&) = delete;
     Scheduler& operator=(Scheduler const&) = delete;
-    Scheduler(Scheduler &&) noexcept = delete;
-    Scheduler& operator=(Scheduler &&) noexcept = delete;
+    Scheduler(Scheduler&&) noexcept = delete;
+    Scheduler& operator=(Scheduler&&) noexcept = delete;
     ~Scheduler() final;
 
     /**
@@ -358,9 +362,9 @@ public:
     void update(float dt);
 
     /////////////////////////////////////
-    
+
     // schedule
-    
+
     /** The scheduled method will be called every 'interval' seconds.
      If paused is true, then it won't be called until it is resumed.
      If 'interval' is 0, it will be called every frame, but if so, it's recommended to use 'scheduleUpdate' instead.
@@ -377,7 +381,8 @@ public:
      @param key The key to identify the callback function, because there is not way to identify a std::function<>.
      @since v3.0
      */
-    void schedule(ccSchedulerFunc const& callback, void* target, std::chrono::milliseconds interval, unsigned int repeat, std::chrono::milliseconds delay, bool paused, std::string const& key);
+    void schedule(ccSchedulerFunc const& callback, void* target, std::chrono::milliseconds interval, unsigned int repeat, std::chrono::milliseconds delay,
+                  bool paused, std::string const& key);
 
     /** The scheduled method will be called every 'interval' seconds for ever.
      @param callback The callback function.
@@ -388,15 +393,14 @@ public:
      @since v3.0
      */
     void schedule(ccSchedulerFunc const& callback, void* target, std::chrono::milliseconds interval, bool paused, std::string const& key);
-    
-    
+
     /** The scheduled method will be called every `interval` seconds.
      If paused is true, then it won't be called until it is resumed.
      If 'interval' is 0, it will be called every frame, but if so, it's recommended to use 'scheduleUpdate' instead.
      If the selector is already scheduled, then only the interval parameter will be updated without re-scheduling it again.
      repeat let the action be repeated repeat + 1 times, use CC_REPEAT_FOREVER to let the action run continuously
      delay is the amount of time the action will wait before it'll start
-     
+
      @param selector The callback function.
      @param target The target of the callback function.
      @param interval The interval to schedule the callback. If the value is 0, then the callback will be scheduled every frame.
@@ -407,7 +411,7 @@ public:
      @since v3.0
      */
     void schedule(SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds interval, unsigned int repeat, std::chrono::milliseconds delay, bool paused);
-    
+
     /** The scheduled method will be called every `interval` seconds for ever.
      @param selector The callback function.
      @param target The target of the callback function.
@@ -415,7 +419,7 @@ public:
      @param paused Whether or not to pause the schedule.
      */
     void schedule(SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds interval, bool paused);
-    
+
     /** Schedules the 'update' selector for a given target with a given priority.
      The 'update' selector will be called every frame.
      The lower the priority, the earlier it is called.
@@ -425,13 +429,11 @@ public:
     template <typename T>
     void scheduleUpdate(T* target, int priority, bool paused)
     {
-        schedulePerFrame([target](float dt) {
-            target->update(dt);
-        }, target, priority, paused);
+        schedulePerFrame([target](float dt) { target->update(dt); }, target, priority, paused);
     }
 
     /////////////////////////////////////
-    
+
     // unschedule
 
     /** Unschedules a callback for a key and a given target.
@@ -449,13 +451,13 @@ public:
      @since v3.0
      */
     void unschedule(SEL_SCHEDULE selector, Ref* target);
-    
+
     /** Unschedules the update selector for a given target
      @param target The target to be unscheduled.
      @since v0.99.3
      */
     void unscheduleUpdate(void* target);
-    
+
     /** Unschedules all selectors for a given target.
      This also includes the "update" selector.
      @param target The target to be unscheduled.
@@ -463,13 +465,13 @@ public:
      @lua NA
      */
     void unscheduleAllForTarget(void* target);
-    
+
     /** Unschedules all selectors from all targets.
      You should NEVER call this method, unless you know what you are doing.
      @since v0.99.3
      */
     void unscheduleAll();
-    
+
     /** Unschedules all selectors from all targets with a minimum priority.
      You should only call this with `PRIORITY_NON_SYSTEM_MIN` or higher.
      @param minPriority The minimum priority of selector to be unscheduled. Which means, all selectors which
@@ -477,11 +479,11 @@ public:
      @since v2.0.0
      */
     void unscheduleAllWithMinPriority(int minPriority);
-    
+
     /////////////////////////////////////
-    
+
     // isScheduled
-    
+
     /** Checks whether a callback associated with 'key' and 'target' is scheduled.
      @param key The key to identify the callback function, because there is not way to identify a std::function<>.
      @param target The target of the callback.
@@ -489,7 +491,7 @@ public:
      @since v3.0.0
      */
     bool isScheduled(std::string const& key, void* target) const noexcept;
-    
+
     /** Checks whether a selector for a given target is scheduled.
      @param selector The selector to be checked.
      @param target The target of the callback.
@@ -497,9 +499,9 @@ public:
      @since v3.0
      */
     bool isScheduled(SEL_SCHEDULE selector, Ref* target) const noexcept;
-    
+
     /////////////////////////////////////
-    
+
     /** Pauses the target.
      All scheduled selectors/update for a given target won't be 'ticked' until the target is resumed.
      If the target is not present, nothing happens.
@@ -552,9 +554,8 @@ public:
      @js NA
      */
     void performFunctionInCocosThread(std::function<void()> const& function);
-    
+
 protected:
-    
     /** Schedules the 'callback' function for a given target with a given priority.
      The 'callback' selector will be called every frame.
      The lower the priority, the earlier it is called.

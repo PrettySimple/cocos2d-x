@@ -1,19 +1,20 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 
-#include "platform/emscripten/CCApplication-emscripten.h"
-#include "base/CCDirector.h"
-#include "platform/CCFileUtils.h"
-#include <emscripten/emscripten.h>
+#    include "base/CCDirector.h"
+#    include "platform/CCFileUtils.h"
+#    include "platform/emscripten/CCApplication-emscripten.h"
+#    include <emscripten/emscripten.h>
 
 NS_CC_BEGIN
 
 // sharedApplication pointer
 Application* Application::sm_pSharedApplication = nullptr;
 
-Application::Application() : _animationInterval(1.0f/60.0f*1000.0f)
+Application::Application()
+: _animationInterval(1.0f / 60.0f * 1000.0f)
 {
-    CC_ASSERT(! sm_pSharedApplication);
+    CC_ASSERT(!sm_pSharedApplication);
     sm_pSharedApplication = this;
 }
 
@@ -45,7 +46,7 @@ int Application::run()
 
 void Application::setAnimationInterval(float interval)
 {
-    _animationInterval = interval*1000.0f;
+    _animationInterval = interval * 1000.0f;
 }
 
 void Application::setResourceRootPath(const std::string& rootResDir)
@@ -76,9 +77,9 @@ std::string Application::getVersion()
     return "";
 }
 
-bool Application::openURL(const std::string &url)
+bool Application::openURL(const std::string& url)
 {
-    //TODO EMSCRIPTEN: Implement openURL
+    // TODO EMSCRIPTEN: Implement openURL
     return false;
 }
 
@@ -99,17 +100,16 @@ Application* Application::sharedApplication()
 
 const char* Application::getCurrentLanguageCode()
 {
-    //TODO EMSCRIPTEN: Implement language detection
+    // TODO EMSCRIPTEN: Implement language detection
     return "en";
 }
 
 LanguageType Application::getCurrentLanguage()
 {
-    //TODO EMSCRIPTEN: Implement language detection
+    // TODO EMSCRIPTEN: Implement language detection
     return LanguageType::ENGLISH;
 }
 
 NS_CC_END
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
-

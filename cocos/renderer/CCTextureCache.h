@@ -35,14 +35,13 @@ THE SOFTWARE.
 #include <condition_variable>
 #include <functional>
 #if CC_ENABLE_CACHE_TEXTURE_DATA
-#include <list>
+#    include <list>
 #endif
 #include <mutex>
 #include <queue>
 #include <string>
 #include <thread>
 #include <unordered_map>
-
 
 NS_CC_BEGIN
 
@@ -51,22 +50,22 @@ NS_CC_BEGIN
  * @{
  */
 /*
-* From version 3.0, TextureCache will never to treated as a singleton, it will be owned by director.
-* All call by TextureCache::getInstance() should be replaced by Director::getInstance()->getTextureCache().
-*/
+ * From version 3.0, TextureCache will never to treated as a singleton, it will be owned by director.
+ * All call by TextureCache::getInstance() should be replaced by Director::getInstance()->getTextureCache().
+ */
 
 /** @brief Singleton that handles the loading of textures.
-* Once the texture is loaded, the next time it will return.
-* A reference of the previously loaded texture reducing GPU & CPU memory.
-*/
+ * Once the texture is loaded, the next time it will return.
+ * A reference of the previously loaded texture reducing GPU & CPU memory.
+ */
 class CC_DLL TextureCache : public Ref
 {
 public:
     /** Returns the shared instance of the cache. */
-    CC_DEPRECATED_ATTRIBUTE static TextureCache * getInstance();
+    CC_DEPRECATED_ATTRIBUTE static TextureCache* getInstance();
 
     /** @deprecated Use getInstance() instead. */
-    CC_DEPRECATED_ATTRIBUTE static TextureCache * sharedTextureCache();
+    CC_DEPRECATED_ATTRIBUTE static TextureCache* sharedTextureCache();
 
     /** Purges the cache. It releases the retained instance.
      @since v0.99.0
@@ -110,7 +109,7 @@ public:
     * Supported image extensions: .png, .bmp, .tiff, .jpeg, .pvr.
      @param filepath A null terminated string.
     */
-    Texture2D* addImage(const std::string &filepath);
+    Texture2D* addImage(const std::string& filepath);
 
     /** Returns a Texture2D object given a file image.
     * If the file image was not previously loaded, it will create a new Texture2D object and it will return it.
@@ -121,29 +120,29 @@ public:
      @param callback A callback function would be invoked after the image is loaded.
      @since v0.8
     */
-    virtual void addImageAsync(const std::string &filepath, const std::function<void(Texture2D*)>& callback);
-    
+    virtual void addImageAsync(const std::string& filepath, const std::function<void(Texture2D*)>& callback);
+
     /** Unbind a specified bound image asynchronous callback.
      * In the case an object who was bound to an image asynchronous callback was destroyed before the callback is invoked,
      * the object always need to unbind this callback manually.
      * @param filename It's the related/absolute path of the file image.
      * @since v3.1
      */
-    virtual void unbindImageAsync(const std::string &filename);
-    
+    virtual void unbindImageAsync(const std::string& filename);
+
     /** Unbind all bound image asynchronous load callbacks.
      * @since v3.1
      */
     virtual void unbindAllImageAsync();
 
     /** Returns a Texture2D object given an Image.
-    * If the image was not previously loaded, it will create a new Texture2D object and it will return it.
-    * Otherwise it will return a reference of a previously loaded image.
-    * @param key The "key" parameter will be used as the "key" for the cache.
-    * If "key" is nil, then a new texture will be created each time.
-    */
-    Texture2D* addImage(Image *image, const std::string &key);
-    CC_DEPRECATED_ATTRIBUTE Texture2D* addUIImage(Image *image, const std::string& key) { return addImage(image,key); }
+     * If the image was not previously loaded, it will create a new Texture2D object and it will return it.
+     * Otherwise it will return a reference of a previously loaded image.
+     * @param key The "key" parameter will be used as the "key" for the cache.
+     * If "key" is nil, then a new texture will be created each time.
+     */
+    Texture2D* addImage(Image* image, const std::string& key);
+    CC_DEPRECATED_ATTRIBUTE Texture2D* addUIImage(Image* image, const std::string& key) { return addImage(image, key); }
 
     /** Returns an already created texture. Returns nil if the texture doesn't exist.
     @param key It's the related/absolute path of the file image.
@@ -153,46 +152,46 @@ public:
     CC_DEPRECATED_ATTRIBUTE Texture2D* textureForKey(const std::string& key) const { return getTextureForKey(key); }
 
     /** Reload texture from the image file.
-    * If the file image hasn't loaded before, load it.
-    * Otherwise the texture will be reloaded from the file image.
-    * @param fileName It's the related/absolute path of the file image.
-    * @return True if the reloading is succeed, otherwise return false.
-    */
+     * If the file image hasn't loaded before, load it.
+     * Otherwise the texture will be reloaded from the file image.
+     * @param fileName It's the related/absolute path of the file image.
+     * @return True if the reloading is succeed, otherwise return false.
+     */
     bool reloadTexture(const std::string& fileName);
 
     /** Purges the dictionary of loaded textures.
-    * Call this method if you receive the "Memory Warning".
-    * In the short term: it will free some resources preventing your app from being killed.
-    * In the medium term: it will allocate more resources.
-    * In the long term: it will be the same.
-    */
+     * Call this method if you receive the "Memory Warning".
+     * In the short term: it will free some resources preventing your app from being killed.
+     * In the medium term: it will allocate more resources.
+     * In the long term: it will be the same.
+     */
     void removeAllTextures();
 
     /** Removes unused textures.
-    * Textures that have a retain count of 1 will be deleted.
-    * It is convenient to call this method after when starting a new Scene.
-    * @since v0.8
-    */
+     * Textures that have a retain count of 1 will be deleted.
+     * It is convenient to call this method after when starting a new Scene.
+     * @since v0.8
+     */
     void removeUnusedTextures();
 
     /** Deletes a texture from the cache given a texture.
-    */
+     */
     void removeTexture(Texture2D* texture);
 
     /** Deletes a texture from the cache given a its key name.
     @param key It's the related/absolute path of the file image.
     @since v0.99.4
     */
-    void removeTextureForKey(const std::string &key);
+    void removeTextureForKey(const std::string& key);
 
     /** Output to CCLOG the current contents of this TextureCache.
-    * This will attempt to calculate the size of each texture, and the total texture memory in use.
-    *
-    * @since v1.0
-    */
+     * This will attempt to calculate the size of each texture, and the total texture memory in use.
+     *
+     * @since v1.0
+     */
     std::string getCachedTextureInfo() const;
 
-    //Wait for texture cache to quit before destroy instance.
+    // Wait for texture cache to quit before destroy instance.
     /**Called by director, please do not called outside.*/
     void waitForQuit();
 
@@ -206,27 +205,27 @@ public:
     std::string getTextureFilePath(Texture2D* texture) const;
 
     /** Reload texture from a new file.
-    * This function is mainly for editor, won't suggest use it in game for performance reason.
-    *
-    * @param srcName Original texture file name.
-    * @param dstName New texture file name.
-    *
-    * @since v3.10
-    */
+     * This function is mainly for editor, won't suggest use it in game for performance reason.
+     *
+     * @param srcName Original texture file name.
+     * @param dstName New texture file name.
+     *
+     * @since v3.10
+     */
     void renameTextureWithKey(const std::string& srcName, const std::string& dstName);
-    
+
     // Added by S.Flory (because I need to change the key for a texture and nothing let me do that easily, the function above is incorrectly named
     std::unordered_map<std::string, Texture2D*>& getTextures();
-
 
 private:
     void addImageAsyncCallBack(float dt);
     void loadImage();
     void parseNinePatchImage(Image* image, Texture2D* texture, const std::string& path);
+
 public:
 protected:
     struct AsyncStruct;
-    
+
     std::thread* _loadingThread;
 
     std::deque<AsyncStruct*> _asyncStructQueue;
@@ -235,7 +234,7 @@ protected:
 
     std::mutex _requestMutex;
     std::mutex _responseMutex;
-    
+
     std::condition_variable _sleepCondition;
 
     bool _needQuit;
@@ -251,16 +250,17 @@ protected:
 
 class VolatileTexture
 {
-    typedef enum {
+    typedef enum
+    {
         kInvalid = 0,
         kImageFile,
         kImageData,
         kString,
         kImage,
-    }ccCachedImageType;
+    } ccCachedImageType;
 
 private:
-    VolatileTexture(Texture2D *t);
+    VolatileTexture(Texture2D* t);
     /**
      * @js NA
      * @lua NA
@@ -268,45 +268,47 @@ private:
     ~VolatileTexture();
 
 protected:
-    friend class  VolatileTextureMgr;
-    Texture2D *_texture;
-    
-    Image *_uiImage;
+    friend class VolatileTextureMgr;
+    Texture2D* _texture;
+
+    Image* _uiImage;
 
     ccCachedImageType _cashedImageType;
 
-    void *_textureData;
-    int  _dataLen;
+    void* _textureData;
+    int _dataLen;
     Size _textureSize;
     Texture2D::PixelFormat _pixelFormat;
 
     std::string _fileName;
 
-    bool                      _hasMipmaps;
-    Texture2D::TexParams      _texParams;
-    std::string               _text;
-    FontDefinition            _fontDefinition;
+    bool _hasMipmaps;
+    Texture2D::TexParams _texParams;
+    std::string _text;
+    FontDefinition _fontDefinition;
 };
 
 class CC_DLL VolatileTextureMgr
 {
 public:
-    static void addImageTexture(Texture2D *tt, const std::string& imageFileName);
-    static void addStringTexture(Texture2D *tt, const char* text, const FontDefinition& fontDefinition);
-    static void addDataTexture(Texture2D *tt, void* data, int dataLen, Texture2D::PixelFormat pixelFormat, const Size& contentSize);
-    static void addImage(Texture2D *tt, Image *image);
+    static void addImageTexture(Texture2D* tt, const std::string& imageFileName);
+    static void addStringTexture(Texture2D* tt, const char* text, const FontDefinition& fontDefinition);
+    static void addDataTexture(Texture2D* tt, void* data, int dataLen, Texture2D::PixelFormat pixelFormat, const Size& contentSize);
+    static void addImage(Texture2D* tt, Image* image);
 
-    static void setHasMipmaps(Texture2D *t, bool hasMipmaps);
-    static void setTexParameters(Texture2D *t, const Texture2D::TexParams &texParams);
-    static void removeTexture(Texture2D *t);
+    static void setHasMipmaps(Texture2D* t, bool hasMipmaps);
+    static void setTexParameters(Texture2D* t, const Texture2D::TexParams& texParams);
+    static void removeTexture(Texture2D* t);
     static void reloadAllTextures();
+
 public:
     static std::list<VolatileTexture*> _textures;
     static bool _isReloading;
+
 private:
     // find VolatileTexture by Texture2D*
     // if not found, create a new one
-    static VolatileTexture* findVolotileTexture(Texture2D *tt);
+    static VolatileTexture* findVolotileTexture(Texture2D* tt);
 };
 
 #endif
@@ -317,4 +319,3 @@ private:
 NS_CC_END
 
 #endif //__CCTEXTURE_CACHE_H__
-

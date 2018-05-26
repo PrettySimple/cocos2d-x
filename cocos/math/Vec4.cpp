@@ -20,17 +20,19 @@
 
 #include "math/Vec4.h"
 
-#include <cmath>
-#include "math/MathUtil.h"
 #include "base/ccMacros.h"
+#include "math/MathUtil.h"
+#include <cmath>
 
 NS_CC_MATH_BEGIN
 
 Vec4::Vec4()
-    : x(0.0f), y(0.0f), z(0.0f), w(0.0f)
+: x(0.0f)
+, y(0.0f)
+, z(0.0f)
+, w(0.0f)
 {
 }
-
 
 Vec4::Vec4(const float* src)
 {
@@ -53,7 +55,7 @@ Vec4 Vec4::fromColor(unsigned int color)
     int componentIndex = 0;
     for (int i = 3; i >= 0; --i)
     {
-        int component = (color >> i*8) & 0x000000ff;
+        int component = (color >> i * 8) & 0x000000ff;
 
         components[componentIndex++] = static_cast<float>(component) / 255.0f;
     }
@@ -197,7 +199,6 @@ float Vec4::length() const
     return std::sqrt(x * x + y * y + z * z + w * w);
 }
 
-
 float Vec4::lengthSquared() const
 {
     return (x * x + y * y + z * z + w * w);
@@ -217,12 +218,12 @@ void Vec4::normalize()
     // Already normalized.
     if (n == 1.0f)
         return;
-    
+
     n = std::sqrt(n);
     // Too close to zero.
     if (n < MATH_TOLERANCE)
         return;
-    
+
     n = 1.0f / n;
     x *= n;
     y *= n;

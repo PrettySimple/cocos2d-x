@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2014 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,24 +28,24 @@
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 
-#include "audio/win32/AudioCache.h"
-#include <thread>
-#include <algorithm>
-#include "vorbis/codec.h"
-#include "vorbis/vorbisfile.h"
-#include "platform/CCFileUtils.h"
-#include "mpg123.h"
-#include "base/CCDirector.h"
-#include "base/CCScheduler.h"
+#    include "audio/win32/AudioCache.h"
+#    include "base/CCDirector.h"
+#    include "base/CCScheduler.h"
+#    include "mpg123.h"
+#    include "platform/CCFileUtils.h"
+#    include "vorbis/codec.h"
+#    include "vorbis/vorbisfile.h"
+#    include <algorithm>
+#    include <thread>
 
-#include <windows.h>
+#    include <windows.h>
 
-#define PCMDATA_CACHEMAXSIZE 2621440
+#    define PCMDATA_CACHEMAXSIZE 2621440
 
 using namespace cocos2d::experimental;
 
-//FIXME: Move _winLog, winLog to a separated file 
-static void _winLog(const char *format, va_list args)
+// FIXME: Move _winLog, winLog to a separated file
+static void _winLog(const char* format, va_list args)
 {
     static const int MAX_LOG_LENGTH = 16 * 1024;
     int bufferSize = MAX_LOG_LENGTH;
@@ -73,8 +73,8 @@ static void _winLog(const char *format, va_list args)
 
     int pos = 0;
     int len = strlen(buf);
-    char tempBuf[MAX_LOG_LENGTH + 1] = { 0 };
-    WCHAR wszBuf[MAX_LOG_LENGTH + 1] = { 0 };
+    char tempBuf[MAX_LOG_LENGTH + 1] = {0};
+    WCHAR wszBuf[MAX_LOG_LENGTH + 1] = {0};
 
     do
     {
@@ -92,7 +92,7 @@ static void _winLog(const char *format, va_list args)
     delete[] buf;
 }
 
-void audioLog(const char * format, ...)
+void audioLog(const char* format, ...)
 {
     va_list args;
     va_start(args, format);
@@ -111,7 +111,6 @@ AudioCache::AudioCache()
 , _queBufferBytes(0)
 , _mp3Encoding(0)
 {
-    
 }
 
 AudioCache::AudioCache(const AudioCache& cache)
@@ -128,19 +127,23 @@ AudioCache::AudioCache(const AudioCache& cache)
 
 AudioCache::~AudioCache()
 {
-    if(_pcmData){
-        if (_alBufferReady){
+    if (_pcmData)
+    {
+        if (_alBufferReady)
+        {
             alDeleteBuffers(1, &_alBufferId);
         }
-        //wait for the 'readDataTask' task to exit
+        // wait for the 'readDataTask' task to exit
         _readDataTaskMutex.lock();
         _readDataTaskMutex.unlock();
-        
+
         free(_pcmData);
     }
 
-    if (_queBufferFrames > 0) {
-        for (int index = 0; index < QUEUEBUFFER_NUM; ++index) {
+    if (_queBufferFrames > 0)
+    {
+        for (int index = 0; index < QUEUEBUFFER_NUM; ++index)
+        {
             free(_queBuffers[index]);
         }
     }
@@ -150,99 +153,106 @@ void AudioCache::readDataTask()
 {
     _readDataTaskMutex.lock();
 
-     OggVorbis_File* vf = nullptr;
-     mpg123_handle* mpg123handle = nullptr;
-     long totalFrames = 0;
+    OggVorbis_File* vf = nullptr;
+    mpg123_handle* mpg123handle = nullptr;
+    long totalFrames = 0;
 
-     switch (_fileFormat)
-     {
-     case FileFormat::OGG:
-         {
-             vf = new OggVorbis_File;
-             int openCode;
-             if (openCode = ov_fopen(FileUtils::getInstance()->getSuitableFOpen(_fileFullPath).c_str(), vf)){
-                 ALOGE("Input does not appear to be an Ogg bitstream: %s. Code: 0x%x\n", _fileFullPath.c_str(), openCode);
-                 goto ExitThread;
-             }
+    switch (_fileFormat)
+    {
+        case FileFormat::OGG:
+        {
+            vf = new OggVorbis_File;
+            int openCode;
+            if (openCode = ov_fopen(FileUtils::getInstance()->getSuitableFOpen(_fileFullPath).c_str(), vf))
+            {
+                ALOGE("Input does not appear to be an Ogg bitstream: %s. Code: 0x%x\n", _fileFullPath.c_str(), openCode);
+                goto ExitThread;
+            }
 
-             auto vi = ov_info(vf,-1);
-             totalFrames = (long)ov_pcm_total(vf,-1);
-             _bytesPerFrame =  vi->channels * 2;
-             _alBufferFormat = (vi->channels > 1) ? AL_FORMAT_STEREO16 : AL_FORMAT_MONO16;
-             _sampleRate = vi->rate;
-             _pcmDataSize = totalFrames * _bytesPerFrame;
-             _duration = 1.0f * totalFrames / _sampleRate;
-         }
-         break;
-     case FileFormat::MP3:
-         {
-             long rate = 0;
-             int error = MPG123_OK;
-             mpg123handle = mpg123_new(nullptr, &error);
-             if (!mpg123handle){
-                 ALOGE("Basic setup goes wrong: %s", mpg123_plain_strerror(error));
-                 goto ExitThread;
-             }
+            auto vi = ov_info(vf, -1);
+            totalFrames = (long)ov_pcm_total(vf, -1);
+            _bytesPerFrame = vi->channels * 2;
+            _alBufferFormat = (vi->channels > 1) ? AL_FORMAT_STEREO16 : AL_FORMAT_MONO16;
+            _sampleRate = vi->rate;
+            _pcmDataSize = totalFrames * _bytesPerFrame;
+            _duration = 1.0f * totalFrames / _sampleRate;
+        }
+        break;
+        case FileFormat::MP3:
+        {
+            long rate = 0;
+            int error = MPG123_OK;
+            mpg123handle = mpg123_new(nullptr, &error);
+            if (!mpg123handle)
+            {
+                ALOGE("Basic setup goes wrong: %s", mpg123_plain_strerror(error));
+                goto ExitThread;
+            }
 
-             if (mpg123_open(mpg123handle,_fileFullPath.c_str()) != MPG123_OK || 
-                 mpg123_getformat(mpg123handle, &rate, &_channels, &_mp3Encoding) != MPG123_OK) {
-                 ALOGE("Trouble with mpg123: %s\n", mpg123_strerror(mpg123handle) );
-                 goto ExitThread;
-             }
+            if (mpg123_open(mpg123handle, _fileFullPath.c_str()) != MPG123_OK || mpg123_getformat(mpg123handle, &rate, &_channels, &_mp3Encoding) != MPG123_OK)
+            {
+                ALOGE("Trouble with mpg123: %s\n", mpg123_strerror(mpg123handle));
+                goto ExitThread;
+            }
 
-             if (_mp3Encoding == MPG123_ENC_SIGNED_16){
-                 _bytesPerFrame = 2 * _channels;
-             }
-             else if (_mp3Encoding == MPG123_ENC_FLOAT_32){
-                 _bytesPerFrame = 4 * _channels;
-             }
-             else{
-                 log("Bad encoding: 0x%x!\n", _mp3Encoding);
-                 goto ExitThread;
-             }
-             
-             _alBufferFormat = (_channels > 1) ? AL_FORMAT_STEREO16 : AL_FORMAT_MONO16;
-             _sampleRate = rate;
-             
-             /* Ensure that this output format will not change (it could, when we allow it). */
-             mpg123_format_none(mpg123handle);
-             mpg123_format(mpg123handle, rate, _channels, _mp3Encoding);
-             /* Ensure that we can get accurate length by call mpg123_length */
-             mpg123_scan(mpg123handle);
+            if (_mp3Encoding == MPG123_ENC_SIGNED_16)
+            {
+                _bytesPerFrame = 2 * _channels;
+            }
+            else if (_mp3Encoding == MPG123_ENC_FLOAT_32)
+            {
+                _bytesPerFrame = 4 * _channels;
+            }
+            else
+            {
+                log("Bad encoding: 0x%x!\n", _mp3Encoding);
+                goto ExitThread;
+            }
 
-             auto framesLength = mpg123_length(mpg123handle);
-             totalFrames = framesLength;
-             _pcmDataSize = totalFrames * _bytesPerFrame;
-             _duration = 1.0f * totalFrames / _sampleRate;
-         }
-         break;
-     case FileFormat::UNKNOWN:
-     default:
-         break;
-     }
-    
+            _alBufferFormat = (_channels > 1) ? AL_FORMAT_STEREO16 : AL_FORMAT_MONO16;
+            _sampleRate = rate;
+
+            /* Ensure that this output format will not change (it could, when we allow it). */
+            mpg123_format_none(mpg123handle);
+            mpg123_format(mpg123handle, rate, _channels, _mp3Encoding);
+            /* Ensure that we can get accurate length by call mpg123_length */
+            mpg123_scan(mpg123handle);
+
+            auto framesLength = mpg123_length(mpg123handle);
+            totalFrames = framesLength;
+            _pcmDataSize = totalFrames * _bytesPerFrame;
+            _duration = 1.0f * totalFrames / _sampleRate;
+        }
+        break;
+        case FileFormat::UNKNOWN:
+        default:
+            break;
+    }
+
     if (_pcmDataSize <= PCMDATA_CACHEMAXSIZE)
     {
         _pcmData = malloc(_pcmDataSize);
         auto alError = alGetError();
         alGenBuffers(1, &_alBufferId);
         alError = alGetError();
-        if (alError != AL_NO_ERROR) {
+        if (alError != AL_NO_ERROR)
+        {
             log("%s: attaching audio to buffer fail: %x\n", __FUNCTION__, alError);
             goto ExitThread;
         }
 
         switch (_fileFormat)
         {
-        case FileFormat::OGG:
+            case FileFormat::OGG:
             {
                 int current_section;
                 unsigned int currPos = 0;
                 long readRet = 0;
-                do 
+                do
                 {
-                    readRet = ov_read(vf,(char*)_pcmData + _bytesOfRead,4096,0,2,1,&current_section);
-                    if (readRet > 0){
+                    readRet = ov_read(vf, (char*)_pcmData + _bytesOfRead, 4096, 0, 2, 1, &current_section);
+                    if (readRet > 0)
+                    {
                         _bytesOfRead += readRet;
                     }
                 } while (_bytesOfRead < _pcmDataSize);
@@ -251,80 +261,85 @@ void AudioCache::readDataTask()
                 _bytesOfRead = _pcmDataSize;
                 break;
             }
-        case FileFormat::MP3:
+            case FileFormat::MP3:
             {
                 size_t done = 0;
-                auto err = mpg123_read(mpg123handle,(unsigned char*)_pcmData, _pcmDataSize,&done);
-                if (err == MPG123_ERR){
-                    log("Trouble with mpg123: %s\n", mpg123_strerror(mpg123handle) );
+                auto err = mpg123_read(mpg123handle, (unsigned char*)_pcmData, _pcmDataSize, &done);
+                if (err == MPG123_ERR)
+                {
+                    log("Trouble with mpg123: %s\n", mpg123_strerror(mpg123handle));
                     goto ExitThread;
                 }
-                if (err == MPG123_DONE || err == MPG123_OK){
+                if (err == MPG123_DONE || err == MPG123_OK)
+                {
                     _alBufferReady = true;
                     _pcmDataSize = done;
                     _bytesOfRead = done;
                 }
             }
-            break;     
-        case FileFormat::UNKNOWN:
-        default:
             break;
+            case FileFormat::UNKNOWN:
+            default:
+                break;
         }
-        alBufferData(_alBufferId,_alBufferFormat,_pcmData,_pcmDataSize,_sampleRate);
-    } 
-    else{
+        alBufferData(_alBufferId, _alBufferFormat, _pcmData, _pcmDataSize, _sampleRate);
+    }
+    else
+    {
         _queBufferFrames = _sampleRate * QUEUEBUFFER_TIME_STEP;
         _queBufferBytes = _queBufferFrames * _bytesPerFrame;
 
-        for (int index = 0; index < QUEUEBUFFER_NUM; ++index) {
+        for (int index = 0; index < QUEUEBUFFER_NUM; ++index)
+        {
             _queBuffers[index] = (char*)malloc(_queBufferBytes);
-            
-            switch (_fileFormat){
-            case FileFormat::MP3:
+
+            switch (_fileFormat)
+            {
+                case FileFormat::MP3:
                 {
                     size_t done = 0;
-                    mpg123_read(mpg123handle,(unsigned char*)_queBuffers[index], _queBufferBytes,&done);
+                    mpg123_read(mpg123handle, (unsigned char*)_queBuffers[index], _queBufferBytes, &done);
                     _queBufferSize[index] = done;
                     _bytesOfRead += done;
                 }
                 break;
-            case FileFormat::OGG:
+                case FileFormat::OGG:
                 {
                     int current_section;
-                    auto readRet = ov_read(vf,_queBuffers[index],_queBufferBytes,0,2,1,&current_section);
+                    auto readRet = ov_read(vf, _queBuffers[index], _queBufferBytes, 0, 2, 1, &current_section);
                     _queBufferSize[index] = readRet;
                 }
                 break;
             }
         }
     }
-    
+
 ExitThread:
     switch (_fileFormat)
     {
-    case FileFormat::OGG:
-        ov_clear(vf);
-        delete vf;
-        break;
-    case FileFormat::MP3:
-        mpg123_close(mpg123handle);
-        mpg123_delete(mpg123handle);
-        break;
-    case FileFormat::UNKNOWN:
-    default:
-        break;
+        case FileFormat::OGG:
+            ov_clear(vf);
+            delete vf;
+            break;
+        case FileFormat::MP3:
+            mpg123_close(mpg123handle);
+            mpg123_delete(mpg123handle);
+            break;
+        case FileFormat::UNKNOWN:
+        default:
+            break;
     }
-    
+
     _readDataTaskMutex.unlock();
     if (_queBufferFrames > 0)
     {
         _alBufferReady = true;
-    } 
+    }
     else
     {
         _loadFail = true;
     }
-    
+
     invokingLoadCallbacks();
     invokingPlayCallbacks();
 }
@@ -333,7 +348,8 @@ void AudioCache::invokingPlayCallbacks()
 {
     _callbackMutex.lock();
     auto count = _callbacks.size();
-    for (size_t index = 0; index < count; ++index) {
+    for (size_t index = 0; index < count; ++index)
+    {
         _callbacks[index]();
     }
     _callbacks.clear();
@@ -343,9 +359,12 @@ void AudioCache::invokingPlayCallbacks()
 void AudioCache::addPlayCallback(const std::function<void()>& callback)
 {
     _callbackMutex.lock();
-    if (_alBufferReady) {
+    if (_alBufferReady)
+    {
         callback();
-    } else {
+    }
+    else
+    {
         _callbacks.push_back(callback);
     }
     _callbackMutex.unlock();
@@ -354,9 +373,10 @@ void AudioCache::addPlayCallback(const std::function<void()>& callback)
 void AudioCache::invokingLoadCallbacks()
 {
     auto scheduler = Director::getInstance()->getScheduler();
-    scheduler->performFunctionInCocosThread([&](){
+    scheduler->performFunctionInCocosThread([&]() {
         auto count = _loadCallbacks.size();
-        for (size_t index = 0; index < count; ++index) {
+        for (size_t index = 0; index < count; ++index)
+        {
             _loadCallbacks[index](_alBufferReady);
         }
         _loadCallbacks.clear();
@@ -365,13 +385,16 @@ void AudioCache::invokingLoadCallbacks()
 
 void AudioCache::addLoadCallback(const std::function<void(bool)>& callback)
 {
-    if (_alBufferReady) {
+    if (_alBufferReady)
+    {
         callback(true);
     }
-    else if (_loadFail){
+    else if (_loadFail)
+    {
         callback(false);
     }
-    else {
+    else
+    {
         _loadCallbacks.push_back(callback);
     }
 }

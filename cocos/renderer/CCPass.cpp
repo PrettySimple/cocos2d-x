@@ -28,21 +28,20 @@
  ****************************************************************************/
 
 #include "renderer/CCPass.h"
-#include "renderer/CCGLProgramState.h"
 #include "renderer/CCGLProgram.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/ccGLStateCache.h"
-#include "renderer/CCTechnique.h"
+#include "renderer/CCGLProgramState.h"
 #include "renderer/CCMaterial.h"
+#include "renderer/CCTechnique.h"
+#include "renderer/CCTexture2D.h"
 #include "renderer/CCVertexAttribBinding.h"
+#include "renderer/ccGLStateCache.h"
 
-#include "base/ccTypes.h"
 #include "2d/CCNode.h"
+#include "base/ccTypes.h"
 
 #include <xxhash.h>
 
 NS_CC_BEGIN
-
 
 Pass* Pass::create(Technique* technique)
 {
@@ -74,7 +73,7 @@ bool Pass::init(Technique* technique)
     return true;
 }
 
-bool Pass::initWithGLProgramState(Technique* technique, GLProgramState *glProgramState)
+bool Pass::initWithGLProgramState(Technique* technique, GLProgramState* glProgramState)
 {
     _parent = technique;
     _glProgramState = glProgramState;
@@ -118,7 +117,8 @@ GLProgramState* Pass::getGLProgramState() const
 
 void Pass::setGLProgramState(GLProgramState* glProgramState)
 {
-    if ( _glProgramState != glProgramState) {
+    if (_glProgramState != glProgramState)
+    {
         CC_SAFE_RELEASE(_glProgramState);
         _glProgramState = glProgramState;
         CC_SAFE_RETAIN(_glProgramState);
@@ -129,14 +129,15 @@ void Pass::setGLProgramState(GLProgramState* glProgramState)
 
 uint32_t Pass::getHash() const
 {
-    if (_hashDirty || _state->isDirty()) {
+    if (_hashDirty || _state->isDirty())
+    {
         uint32_t glProgram = (uint32_t)_glProgramState->getGLProgram()->getProgram();
         uint32_t textureid = _texture ? _texture->getName() : -1;
         uint32_t stateblockid = _state->getHash();
 
         _hash = glProgram ^ textureid ^ stateblockid;
 
-//        _hash = XXH32((const void*)intArray, sizeof(intArray), 0);
+        //        _hash = XXH32((const void*)intArray, sizeof(intArray), 0);
         _hashDirty = false;
     }
 
@@ -150,7 +151,6 @@ void Pass::bind(const Mat4& modelView)
 
 void Pass::bind(const Mat4& modelView, bool bindAttributes)
 {
-
     // vertex attribs
     if (bindAttributes && _vertexAttribBinding)
         _vertexAttribBinding->bind();
@@ -160,16 +160,15 @@ void Pass::bind(const Mat4& modelView, bool bindAttributes)
     glprogramstate->applyGLProgram(modelView);
     glprogramstate->applyUniforms();
 
-    //set render state
+    // set render state
     RenderState::bind(this);
-
 }
 
 Node* Pass::getTarget() const
 {
     CCASSERT(_parent && _parent->_parent, "Pass must have a Technique and Material");
 
-    Material *material = static_cast<Material*>(_parent->_parent);
+    Material* material = static_cast<Material*>(_parent->_parent);
     return material->_target;
 }
 
@@ -194,6 +193,5 @@ VertexAttribBinding* Pass::getVertexAttributeBinding() const
 {
     return _vertexAttribBinding;
 }
-
 
 NS_CC_END

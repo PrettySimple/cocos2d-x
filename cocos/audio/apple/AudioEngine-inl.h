@@ -26,74 +26,75 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#ifndef __AUDIO_ENGINE_INL_H_
-#define __AUDIO_ENGINE_INL_H_
+#    ifndef __AUDIO_ENGINE_INL_H_
+#        define __AUDIO_ENGINE_INL_H_
 
-#include <chrono>
-#include <list>
-#include <unordered_map>
+#        include <chrono>
+#        include <list>
+#        include <unordered_map>
 
-#include "audio/apple/ALAudioPlayer.h"
-#include "audio/apple/AudioCache.h"
-#include "audio/apple/AudioPlayer.h"
-#include "audio/apple/SimpleAudioPlayer.h"
-#include "base/CCRef.h"
+#        include "audio/apple/ALAudioPlayer.h"
+#        include "audio/apple/AudioCache.h"
+#        include "audio/apple/AudioPlayer.h"
+#        include "audio/apple/SimpleAudioPlayer.h"
+#        include "base/CCRef.h"
 
 NS_CC_BEGIN
 class Scheduler;
 
-namespace experimental{
-#define MAX_AUDIOINSTANCES 24
-
-class AudioEngineImpl : public cocos2d::Ref
+namespace experimental
 {
-public:
-    AudioEngineImpl();
-    ~AudioEngineImpl();
+#        define MAX_AUDIOINSTANCES 24
 
-    bool init();
-    int play2d(const std::string &fileFullPath ,bool loop ,float volume, bool isMusic);
-    void setVolume(int audioID,float volume);
-    void setLoop(int audioID, bool loop);
-    bool pause(int audioID);
-    bool resume(int audioID);
-    void stop(int audioID);
-    void stopAll();
-    std::chrono::milliseconds getDuration(int audioID);
-    float getCurrentTime(int audioID);
-    bool setCurrentTime(int audioID, float time);
-    void setFinishCallback(int audioID, const std::function<void (int, const std::string &)> &callback);
+    class AudioEngineImpl : public cocos2d::Ref
+    {
+    public:
+        AudioEngineImpl();
+        ~AudioEngineImpl();
 
-    void uncache(const std::string& filePath);
-    void uncacheAll();
-    AudioCache& preload(const std::string& filePath, std::function<void(bool)> const& callback);
-    void update(float dt);
+        bool init();
+        int play2d(const std::string& fileFullPath, bool loop, float volume, bool isMusic);
+        void setVolume(int audioID, float volume);
+        void setLoop(int audioID, bool loop);
+        bool pause(int audioID);
+        bool resume(int audioID);
+        void stop(int audioID);
+        void stopAll();
+        std::chrono::milliseconds getDuration(int audioID);
+        float getCurrentTime(int audioID);
+        bool setCurrentTime(int audioID, float time);
+        void setFinishCallback(int audioID, const std::function<void(int, const std::string&)>& callback);
 
-private:
-    void _play2d(AudioPlayer* player, AudioCache& audioCache, bool loop, float volume);
-    void _play2d(AudioCache& cache, int audioID, bool isCacheDestroyed);
-    ALuint findValidSource();
+        void uncache(const std::string& filePath);
+        void uncacheAll();
+        AudioCache& preload(const std::string& filePath, std::function<void(bool)> const& callback);
+        void update(float dt);
 
-    static ALvoid myAlSourceNotificationCallback(ALuint sid, ALuint notificationID, ALvoid* userData);
+    private:
+        void _play2d(AudioPlayer* player, AudioCache& audioCache, bool loop, float volume);
+        void _play2d(AudioCache& cache, int audioID, bool isCacheDestroyed);
+        ALuint findValidSource();
 
-    ALuint _alSources[MAX_AUDIOINSTANCES];
+        static ALvoid myAlSourceNotificationCallback(ALuint sid, ALuint notificationID, ALvoid* userData);
 
-    //source,used
-    std::list<ALuint> _unusedSourcesPool;
+        ALuint _alSources[MAX_AUDIOINSTANCES];
 
-    //filePath,bufferInfo
-    std::unordered_map<std::string, AudioCache> _audioCaches;
+        // source,used
+        std::list<ALuint> _unusedSourcesPool;
 
-    //audioID,AudioInfo
-    std::unordered_map<int, AudioPlayer*>  _audioPlayers;
-    std::mutex _threadMutex;
+        // filePath,bufferInfo
+        std::unordered_map<std::string, AudioCache> _audioCaches;
 
-    bool _lazyInitLoop;
+        // audioID,AudioInfo
+        std::unordered_map<int, AudioPlayer*> _audioPlayers;
+        std::mutex _threadMutex;
 
-    int _currentAudioID;
-    Scheduler* _scheduler;
-};
-}
+        bool _lazyInitLoop;
+
+        int _currentAudioID;
+        Scheduler* _scheduler;
+    };
+} // namespace experimental
 NS_CC_END
-#endif // __AUDIO_ENGINE_INL_H_
+#    endif // __AUDIO_ENGINE_INL_H_
 #endif

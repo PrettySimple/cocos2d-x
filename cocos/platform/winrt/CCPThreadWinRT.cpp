@@ -23,34 +23,35 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-
 #include "platform/CCPlatformConfig.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 
-#include "platform/winrt/CCPThreadWinRT.h"
+#    include "platform/winrt/CCPThreadWinRT.h"
 
 NS_CC_BEGIN
 
-void pthread_mutex_init(pthread_mutex_t* m, void* attributes) {
-	*m = CreateMutexEx(NULL,FALSE,0,NULL);
-}
-
-int pthread_mutex_lock(pthread_mutex_t* m) {
-	return WaitForSingleObjectEx(*m,INFINITE,FALSE);
-}
-
-int pthread_mutex_unlock(pthread_mutex_t* m) {
-	return ReleaseMutex(*m);
-}
-
-void pthread_mutex_destroy(pthread_mutex_t* m) 
+void pthread_mutex_init(pthread_mutex_t* m, void* attributes)
 {
-	if(m)
-	{
-		CloseHandle(*m);
-	}
+    *m = CreateMutexEx(NULL, FALSE, 0, NULL);
 }
 
+int pthread_mutex_lock(pthread_mutex_t* m)
+{
+    return WaitForSingleObjectEx(*m, INFINITE, FALSE);
+}
+
+int pthread_mutex_unlock(pthread_mutex_t* m)
+{
+    return ReleaseMutex(*m);
+}
+
+void pthread_mutex_destroy(pthread_mutex_t* m)
+{
+    if (m)
+    {
+        CloseHandle(*m);
+    }
+}
 
 NS_CC_END
 

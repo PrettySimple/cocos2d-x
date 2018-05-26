@@ -26,12 +26,12 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "base/ccConfig.h"
 #if CC_USE_NAVMESH
-#ifndef __jsb_cocos2dx_navmesh_manual__
-#define __jsb_cocos2dx_navmesh_manual__
+#    ifndef __jsb_cocos2dx_navmesh_manual__
+#        define __jsb_cocos2dx_navmesh_manual__
 
-#include "jsapi.h"
+#        include "jsapi.h"
 
-void register_all_cocos2dx_navmesh_manual(JSContext *cx, JS::HandleObject global);
+void register_all_cocos2dx_navmesh_manual(JSContext* cx, JS::HandleObject global);
 
-#endif // __jsb_cocos2dx_navmesh_manual__
+#    endif // __jsb_cocos2dx_navmesh_manual__
 #endif //#if CC_USE_NAVMESH

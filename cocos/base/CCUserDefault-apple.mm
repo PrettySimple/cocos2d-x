@@ -26,15 +26,15 @@
 #include "platform/CCPlatformConfig.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 
-#import <Foundation/Foundation.h>
+#    import <Foundation/Foundation.h>
 
-#include <string>
+#    include <string>
 
-#import "base/CCUserDefault.h"
-#import "platform/CCPlatformConfig.h"
-#import "platform/CCPlatformMacros.h"
-#import "base/base64.h"
-#import "platform/CCFileUtils.h"
+#    import "base/CCUserDefault.h"
+#    import "base/base64.h"
+#    import "platform/CCFileUtils.h"
+#    import "platform/CCPlatformConfig.h"
+#    import "platform/CCPlatformMacros.h"
 
 using namespace std;
 
@@ -45,8 +45,6 @@ NS_CC_BEGIN
  */
 
 UserDefault* UserDefault::_userDefault = nullptr;
-
-
 
 UserDefault::~UserDefault()
 {
@@ -65,7 +63,7 @@ bool UserDefault::getBoolForKey(const char* pKey, bool defaultValue)
 {
     bool ret = defaultValue;
 
-    NSNumber *value = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithUTF8String:pKey]];
+    NSNumber* value = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithUTF8String:pKey]];
     if (value)
     {
         ret = [value boolValue];
@@ -83,7 +81,7 @@ int UserDefault::getIntegerForKey(const char* pKey, int defaultValue)
 {
     int ret = defaultValue;
 
-    NSNumber *value = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithUTF8String:pKey]];
+    NSNumber* value = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithUTF8String:pKey]];
     if (value)
     {
         ret = [value intValue];
@@ -101,7 +99,7 @@ float UserDefault::getFloatForKey(const char* pKey, float defaultValue)
 {
     float ret = defaultValue;
 
-    NSNumber *value = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithUTF8String:pKey]];
+    NSNumber* value = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithUTF8String:pKey]];
     if (value)
     {
         ret = [value floatValue];
@@ -110,16 +108,16 @@ float UserDefault::getFloatForKey(const char* pKey, float defaultValue)
     return ret;
 }
 
-double  UserDefault::getDoubleForKey(const char* pKey)
+double UserDefault::getDoubleForKey(const char* pKey)
 {
     return getDoubleForKey(pKey, 0);
 }
 
 double UserDefault::getDoubleForKey(const char* pKey, double defaultValue)
 {
-	double ret = defaultValue;
+    double ret = defaultValue;
 
-    NSNumber *value = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithUTF8String:pKey]];
+    NSNumber* value = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithUTF8String:pKey]];
     if (value)
     {
         ret = [value doubleValue];
@@ -133,10 +131,10 @@ std::string UserDefault::getStringForKey(const char* pKey)
     return getStringForKey(pKey, "");
 }
 
-string UserDefault::getStringForKey(const char* pKey, const std::string & defaultValue)
+string UserDefault::getStringForKey(const char* pKey, const std::string& defaultValue)
 {
-    NSString *str = [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithUTF8String:pKey]];
-    if (! str)
+    NSString* str = [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithUTF8String:pKey]];
+    if (!str)
     {
         return defaultValue;
     }
@@ -153,8 +151,8 @@ Data UserDefault::getDataForKey(const char* pKey)
 
 Data UserDefault::getDataForKey(const char* pKey, const Data& defaultValue)
 {
-    NSData *data = [[NSUserDefaults standardUserDefaults] dataForKey:[NSString stringWithUTF8String:pKey]];
-    if (! data)
+    NSData* data = [[NSUserDefaults standardUserDefaults] dataForKey:[NSString stringWithUTF8String:pKey]];
+    if (!data)
     {
         return defaultValue;
     }
@@ -186,18 +184,20 @@ void UserDefault::setDoubleForKey(const char* pKey, double value)
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithDouble:value] forKey:[NSString stringWithUTF8String:pKey]];
 }
 
-void UserDefault::setStringForKey(const char* pKey, const std::string & value)
+void UserDefault::setStringForKey(const char* pKey, const std::string& value)
 {
     [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithUTF8String:value.c_str()] forKey:[NSString stringWithUTF8String:pKey]];
 }
 
-void UserDefault::setDataForKey(const char* pKey, const Data& value) {
-    [[NSUserDefaults standardUserDefaults] setObject:[NSData dataWithBytes: value.getBytes() length: value.getSize()] forKey:[NSString stringWithUTF8String:pKey]];
+void UserDefault::setDataForKey(const char* pKey, const Data& value)
+{
+    [[NSUserDefaults standardUserDefaults] setObject:[NSData dataWithBytes:value.getBytes() length:value.getSize()]
+                                              forKey:[NSString stringWithUTF8String:pKey]];
 }
 
 UserDefault* UserDefault::getInstance()
 {
-    if (! _userDefault)
+    if (!_userDefault)
     {
         _userDefault = new (std::nothrow) UserDefault();
     }

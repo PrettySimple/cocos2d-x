@@ -27,35 +27,35 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 
-#include "network/HttpRequest.h"
-#include "network/HttpClient.h"
+#    include "network/HttpClient.h"
+#    include "network/HttpRequest.h"
 
-#include <thread>
-#include <queue>
-#include <numeric>
-#include <condition_variable>
+#    include <condition_variable>
+#    include <numeric>
+#    include <queue>
+#    include <thread>
 
-#include <errno.h>
+#    include <errno.h>
 
-#include <wrl.h>
-#if defined(_XBOX_ONE)
-#include <ixmlhttprequest2.h>
-#else
-#include <Msxml6.h>
-#endif
+#    include <wrl.h>
+#    if defined(_XBOX_ONE)
+#        include <ixmlhttprequest2.h>
+#    else
+#        include <Msxml6.h>
+#    endif
 using namespace Microsoft::WRL;
 using namespace Microsoft::WRL::Details;
 
-#include "base/CCVector.h"
-#include "base/CCDirector.h"
-#include "base/CCScheduler.h"
+#    include "base/CCDirector.h"
+#    include "base/CCScheduler.h"
+#    include "base/CCVector.h"
 
-#include "platform/CCFileUtils.h"
+#    include "platform/CCFileUtils.h"
 
 NS_CC_BEGIN
 
-namespace network {
-
+namespace network
+{
     const int READ_BUFFER_MAX = 16 * 1024;
     const int REQUEST_BUFFER_MAX = 4 * 1024 * 1024;
 
@@ -77,11 +77,11 @@ namespace network {
 
         HRESULT RuntimeClassInitialize();
         HRESULT ReadStreamData(ISequentialStream* pResponseStream);
-        STDMETHODIMP OnRedirect(IXMLHTTPRequest2 *pXHR, const WCHAR *pwszRedirectUrl);
-        STDMETHODIMP OnHeadersAvailable(IXMLHTTPRequest2 *pXHR, DWORD dwStatus, const WCHAR *pwszStatus);
-        STDMETHODIMP OnDataAvailable(IXMLHTTPRequest2 *pXHR, ISequentialStream *pResponseStream);
-        STDMETHODIMP OnResponseReceived(IXMLHTTPRequest2 *pXHR, ISequentialStream *pResponseStream);
-        STDMETHODIMP OnError(IXMLHTTPRequest2 *pXHR, HRESULT hrError);
+        STDMETHODIMP OnRedirect(IXMLHTTPRequest2* pXHR, const WCHAR* pwszRedirectUrl);
+        STDMETHODIMP OnHeadersAvailable(IXMLHTTPRequest2* pXHR, DWORD dwStatus, const WCHAR* pwszStatus);
+        STDMETHODIMP OnDataAvailable(IXMLHTTPRequest2* pXHR, ISequentialStream* pResponseStream);
+        STDMETHODIMP OnResponseReceived(IXMLHTTPRequest2* pXHR, ISequentialStream* pResponseStream);
+        STDMETHODIMP OnError(IXMLHTTPRequest2* pXHR, HRESULT hrError);
         STDMETHODIMP WaitForComplete(PDWORD pdwStatus);
 
     protected:
@@ -104,25 +104,26 @@ namespace network {
         ~CXHR2DataStream();
 
         STDMETHODIMP_(ULONG) Length();
-        STDMETHODIMP Init(const void *psBuffer, ULONG cbBufferSize);
+        STDMETHODIMP Init(const void* psBuffer, ULONG cbBufferSize);
 
-        STDMETHODIMP Read(void *pv, ULONG cb, ULONG *pcbRead);
-        STDMETHODIMP Write(const void *pv,  ULONG cb, ULONG *pcbWritten);
+        STDMETHODIMP Read(void* pv, ULONG cb, ULONG* pcbRead);
+        STDMETHODIMP Write(const void* pv, ULONG cb, ULONG* pcbWritten);
 
         STDMETHODIMP_(ULONG) AddRef();
         STDMETHODIMP_(ULONG) Release();
-        STDMETHODIMP QueryInterface(REFIID riid, void **ppvObject);
+        STDMETHODIMP QueryInterface(REFIID riid, void** ppvObject);
 
-        STDMETHODIMP GetTypeInfoCount(unsigned int FAR*  pctinfo);
-        STDMETHODIMP GetTypeInfo(unsigned int  iTInfo, LCID  lcid, ITypeInfo FAR* FAR*  ppTInfo);
+        STDMETHODIMP GetTypeInfoCount(unsigned int FAR* pctinfo);
+        STDMETHODIMP GetTypeInfo(unsigned int iTInfo, LCID lcid, ITypeInfo FAR* FAR* ppTInfo);
         STDMETHODIMP GetIDsOfNames(REFIID riid, OLECHAR FAR* FAR* rgszNames, unsigned int cNames, LCID lcid, DISPID FAR* rgDispId);
-        STDMETHODIMP Invoke(DISPID dispIdMember, REFIID riid, LCID lcid, WORD wFlags, DISPPARAMS FAR* pDispParams, VARIANT FAR* pVarResult, EXCEPINFO FAR* pExcepInfo, unsigned int FAR* puArgErr);
+        STDMETHODIMP Invoke(DISPID dispIdMember, REFIID riid, LCID lcid, WORD wFlags, DISPPARAMS FAR* pDispParams, VARIANT FAR* pVarResult,
+                            EXCEPINFO FAR* pExcepInfo, unsigned int FAR* puArgErr);
 
     private:
-        ULONG    _refCnt;
-        BYTE*   _pData;
-        ULONG  _dataSize;
-        ULONG  _seekIndex;
+        ULONG _refCnt;
+        BYTE* _pData;
+        ULONG _dataSize;
+        ULONG _seekIndex;
     };
 
     class HttpConnection
@@ -131,7 +132,7 @@ namespace network {
         HttpConnection();
         ~HttpConnection();
 
-        bool init(HttpRequest *pRequest, DWORD timeOutInMs = 0);
+        bool init(HttpRequest* pRequest, DWORD timeOutInMs = 0);
         bool open(const std::string& verb);
         bool open(const std::string& verb, bool userAuthentication);
         bool open(const std::string& verb, const std::string& cookieFile);
@@ -155,7 +156,7 @@ namespace network {
         DWORD _timeOutInMs;
         cocos2d::network::HttpRequest* _pRequest;
     };
-}
+} // namespace network
 
 NS_CC_END
 

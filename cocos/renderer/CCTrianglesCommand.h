@@ -25,14 +25,14 @@
 #ifndef __CC_TRIANGLES_COMMAND__
 #define __CC_TRIANGLES_COMMAND__
 
-#include "renderer/CCRenderCommand.h"
 #include "renderer/CCGLProgramState.h"
+#include "renderer/CCRenderCommand.h"
 
 #include <cstddef>
 #include <limits>
 
 #ifdef DEBUG_TEXTURE_SIZE
-#include "math/Vec2.h"
+#    include "math/Vec2.h"
 #endif
 
 /**
@@ -63,10 +63,10 @@ public:
     };
     /**Constructor.*/
     TrianglesCommand();
-    TrianglesCommand(TrianglesCommand const&) =delete;
-    TrianglesCommand& operator=(TrianglesCommand const&) =delete;
-    TrianglesCommand(TrianglesCommand &&) noexcept =delete;
-    TrianglesCommand& operator=(TrianglesCommand &&) noexcept =delete;
+    TrianglesCommand(TrianglesCommand const&) = delete;
+    TrianglesCommand& operator=(TrianglesCommand const&) = delete;
+    TrianglesCommand(TrianglesCommand&&) noexcept = delete;
+    TrianglesCommand& operator=(TrianglesCommand&&) noexcept = delete;
     /**Destructor.*/
     ~TrianglesCommand() override;
 
@@ -79,10 +79,12 @@ public:
      @param mv ModelView matrix for the command.
      @param flags to indicate that the command is using 3D rendering or not.
      */
-    void init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, BlendFunc blendType, const Triangles& triangles,const Mat4& mv, uint32_t flags);
+    void init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, BlendFunc blendType, const Triangles& triangles, const Mat4& mv, uint32_t flags);
     /**Deprecated function, the params is similar as the upper init function, with flags equals 0.*/
-    CC_DEPRECATED_ATTRIBUTE void init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, BlendFunc blendType, const Triangles& triangles,const Mat4& mv);
-    void init(float globalOrder, Texture2D* textureID, GLProgramState* glProgramState, BlendFunc blendType, const Triangles& triangles, const Mat4& mv, uint32_t flags);
+    CC_DEPRECATED_ATTRIBUTE void
+    init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, BlendFunc blendType, const Triangles& triangles, const Mat4& mv);
+    void init(float globalOrder, Texture2D* textureID, GLProgramState* glProgramState, BlendFunc blendType, const Triangles& triangles, const Mat4& mv,
+              uint32_t flags);
     /**Apply the texture, shaders, programs, blend functions to GPU pipeline.*/
     void useMaterial() const;
     /**Get the material id of command.*/
@@ -115,7 +117,8 @@ protected:
     void generateMaterialID();
 
     /**Generated material id.*/
-    std::size_t _materialID = std::numeric_limits<std::size_t>::max();;
+    std::size_t _materialID = std::numeric_limits<std::size_t>::max();
+    ;
     /**OpenGL handle for texture.*/
     GLuint _textureID = 0;
     /**GLprogramstate for the command. encapsulate shaders and uniforms.*/

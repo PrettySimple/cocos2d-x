@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,7 +23,6 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-
 #ifndef __CC_PU_PARTICLE_3D_FORCE_FIELD_AFFECTOR_H__
 #define __CC_PU_PARTICLE_3D_FORCE_FIELD_AFFECTOR_H__
 
@@ -32,7 +31,7 @@
 
 NS_CC_BEGIN
 
-class  CC_DLL PUForceFieldAffector : public PUAffector
+class CC_DLL PUForceFieldAffector : public PUAffector
 {
 public:
     // Constants
@@ -52,56 +51,56 @@ public:
 
     virtual void notifyStart() override;
     virtual void preUpdateAffector(float deltaTime) override;
-    virtual void updatePUAffector(PUParticle3D *particle, float deltaTime) override;
+    virtual void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
     virtual void prepare() override;
 
     /** Get/Set Forcefield type
-    */
+     */
     PUForceField::ForceFieldType getForceFieldType() const;
     void setForceFieldType(const PUForceField::ForceFieldType forceFieldType);
 
     /** Get/Set Delta
-    */
+     */
     float getDelta(void) const;
     void setDelta(float delta);
 
     /** Get/Set scale Force
-    */
+     */
     float getScaleForce(void) const;
     void setScaleForce(float scaleForce);
 
     /** Get/Set scale Octaves
-    */
+     */
     unsigned short getOctaves(void) const;
     void setOctaves(unsigned short octaves);
 
     /** Get/Set scale Frequency
-    */
+     */
     double getFrequency(void) const;
     void setFrequency(double frequency);
 
     /** Get/Set scale Amplitude
-    */
+     */
     double getAmplitude(void) const;
     void setAmplitude(double amplitude);
 
     /** Get/Set scale Persistence
-    */
+     */
     double getPersistence(void) const;
     void setPersistence(double persistence);
 
     /** Get/Set scale ForceFieldSize
-    */
+     */
     unsigned int getForceFieldSize(void) const;
     void setForceFieldSize(unsigned int forceFieldSize);
 
     /** Get/Set scale worldSize
-    */
+     */
     Vec3 getWorldSize(void) const;
     void setWorldSize(const Vec3& worldSize);
 
     /** Get/Set scale flip attributes
-    */
+     */
     bool getIgnoreNegativeX(void) const;
     void setIgnoreNegativeX(bool ignoreNegativeX);
     bool getIgnoreNegativeY(void) const;
@@ -111,29 +110,27 @@ public:
 
     /** Get/Set Movement
     @remarks
-        The movement vector determines the position of the movement. This movement is a displacement of the particle position 
+        The movement vector determines the position of the movement. This movement is a displacement of the particle position
         mapped to the forcefield.
     */
     const Vec3& getMovement(void) const;
     void setMovement(const Vec3& movement);
 
     /** Get/Set Movement frequency
-    */
+     */
     float getMovementFrequency(void) const;
     void setMovementFrequency(float movementFrequency);
 
     /** Suppress (re)generation of the forcefield everytime an attribute is changed.
-    */
+     */
     void suppressGeneration(bool suppress);
 
-    virtual void copyAttributesTo (PUAffector* affector) override;
+    virtual void copyAttributesTo(PUAffector* affector) override;
 
-CC_CONSTRUCTOR_ACCESS:
-    PUForceFieldAffector();
+    CC_CONSTRUCTOR_ACCESS : PUForceFieldAffector();
     ~PUForceFieldAffector();
 
 protected:
-
     PUForceField _forceField; // Local force field
     PUForceField::ForceFieldType _forceFieldType; // Type of force field
     float _delta; // Radius of particle position

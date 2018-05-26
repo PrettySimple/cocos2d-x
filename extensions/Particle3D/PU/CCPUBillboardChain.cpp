@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,17 +24,17 @@
  ****************************************************************************/
 
 #include "extensions/Particle3D/PU/CCPUBillboardChain.h"
-#include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
+#include "2d/CCCamera.h"
+#include "3d/CCSprite3D.h"
 #include "base/CCDirector.h"
+#include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
+#include "renderer/CCGLProgramCache.h"
+#include "renderer/CCGLProgramState.h"
 #include "renderer/CCMeshCommand.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/CCTextureCache.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCVertexIndexBuffer.h"
 #include "renderer/CCVertexAttribBinding.h"
-#include "2d/CCCamera.h"
-#include "3d/CCSprite3D.h"
+#include "renderer/CCVertexIndexBuffer.h"
 
 NS_CC_BEGIN
 
@@ -44,42 +44,37 @@ PUBillboardChain::Element::Element()
 {
 }
 //-----------------------------------------------------------------------
-PUBillboardChain::Element::Element(const Vec3 &pos,
-                                   float w,
-                                   float tex,
-                                   const Vec4 &col,
-                                   const Quaternion &ori) :
-position(pos),
-width(w),
-texCoord(tex),
-color(col),
-orientation(ori)
+PUBillboardChain::Element::Element(const Vec3& pos, float w, float tex, const Vec4& col, const Quaternion& ori)
+: position(pos)
+, width(w)
+, texCoord(tex)
+, color(col)
+, orientation(ori)
 {
 }
 //-----------------------------------------------------------------------
-PUBillboardChain::PUBillboardChain(const std::string& name, const std::string &texFile, size_t maxElements,
-                               size_t numberOfChains, bool useTextureCoords, bool useColours, bool dynamic)
-                               :_maxElementsPerChain(maxElements),
-                               _chainCount(numberOfChains),
-                               _useTexCoords(useTextureCoords),
-                               _useVertexColour(useColours),
-                               _dynamic(dynamic),
-                               _vertexDeclDirty(true),
-                               _buffersNeedRecreating(true),
-                               _boundsDirty(true),
-                               _indexContentDirty(true),
-                               _vertexContentDirty(true),
-                               _texCoordDir(TCD_U),
-                               _faceCamera(true),
-                               _normalBase(Vec3::UNIT_X),
-                               _meshCommand(nullptr),
-                               _texture(nullptr),
-                               _glProgramState(nullptr),
-                               _indexBuffer(nullptr),
-                               _vertexBuffer(nullptr),
-                               _texFile(texFile)
+PUBillboardChain::PUBillboardChain(const std::string& name, const std::string& texFile, size_t maxElements, size_t numberOfChains, bool useTextureCoords,
+                                   bool useColours, bool dynamic)
+: _maxElementsPerChain(maxElements)
+, _chainCount(numberOfChains)
+, _useTexCoords(useTextureCoords)
+, _useVertexColour(useColours)
+, _dynamic(dynamic)
+, _vertexDeclDirty(true)
+, _buffersNeedRecreating(true)
+, _boundsDirty(true)
+, _indexContentDirty(true)
+, _vertexContentDirty(true)
+, _texCoordDir(TCD_U)
+, _faceCamera(true)
+, _normalBase(Vec3::UNIT_X)
+, _meshCommand(nullptr)
+, _texture(nullptr)
+, _glProgramState(nullptr)
+, _indexBuffer(nullptr)
+, _vertexBuffer(nullptr)
+, _texFile(texFile)
 {
-
     _stateBlock = RenderState::StateBlock::create();
     CC_SAFE_RETAIN(_stateBlock);
 
@@ -101,7 +96,7 @@ PUBillboardChain::~PUBillboardChain()
 {
     CC_SAFE_DELETE(_meshCommand);
     CC_SAFE_RELEASE(_stateBlock);
-    //CC_SAFE_RELEASE(_texture);
+    // CC_SAFE_RELEASE(_texture);
     CC_SAFE_RELEASE(_glProgramState);
     CC_SAFE_RELEASE(_vertexBuffer);
     CC_SAFE_RELEASE(_indexBuffer);
@@ -125,7 +120,7 @@ void PUBillboardChain::setupChainContainers(void)
 //-----------------------------------------------------------------------
 void PUBillboardChain::setupVertexDeclaration(void)
 {
-    //if (_vertexDeclDirty)
+    // if (_vertexDeclDirty)
     //{
     //	VertexDeclaration* decl = _vertexData->vertexDeclaration;
     //	decl->removeAllElements();
@@ -160,7 +155,7 @@ void PUBillboardChain::setupVertexDeclaration(void)
 //-----------------------------------------------------------------------
 void PUBillboardChain::setupBuffers(void)
 {
-    //setupVertexDeclaration();
+    // setupVertexDeclaration();
     if (_buffersNeedRecreating)
     {
         CC_SAFE_RELEASE(_vertexBuffer);
@@ -172,13 +167,12 @@ void PUBillboardChain::setupBuffers(void)
         VertexInfo vi = {Vec3(0.0f, 0.0f, 0.0f), Vec2(0.0f, 0.0f), Vec4::ONE};
         _vertices.resize(_chainElementList.size() * 2, vi);
 
-
         _indexBuffer = IndexBuffer::create(IndexBuffer::IndexType::INDEX_TYPE_SHORT_16, (int)(_chainCount * _maxElementsPerChain * 6));
         _indexBuffer->retain();
         _indices.resize(_chainCount * _maxElementsPerChain * 6, 0);
 
         //// Create the vertex buffer (always dynamic due to the camera adjust)
-        //HardwareVertexBufferSharedPtr pBuffer =
+        // HardwareVertexBufferSharedPtr pBuffer =
         //	HardwareBufferManager::getSingleton().createVertexBuffer(
         //	_vertexData->vertexDeclaration->getVertexSize(0),
         //	_vertexData->vertexCount,
@@ -247,8 +241,7 @@ void PUBillboardChain::setDynamic(bool dyn)
     _buffersNeedRecreating = _indexContentDirty = _vertexContentDirty = true;
 }
 //-----------------------------------------------------------------------
-void PUBillboardChain::addChainElement(size_t chainIndex,
-                                     const PUBillboardChain::Element& dtls)
+void PUBillboardChain::addChainElement(size_t chainIndex, const PUBillboardChain::Element& dtls)
 {
     CCASSERT(chainIndex < _chainCount, "chainIndex out of bounds");
     ChainSegment& seg = _chainSegmentList[chainIndex];
@@ -289,9 +282,8 @@ void PUBillboardChain::addChainElement(size_t chainIndex,
     _indexContentDirty = true;
     _boundsDirty = true;
     //// tell parent node to update bounds
-    //if (mParentNode)
+    // if (mParentNode)
     //	mParentNode->needUpdate();
-
 }
 //-----------------------------------------------------------------------
 void PUBillboardChain::removeChainElement(size_t chainIndex)
@@ -300,7 +292,6 @@ void PUBillboardChain::removeChainElement(size_t chainIndex)
     ChainSegment& seg = _chainSegmentList[chainIndex];
     if (seg.head == SEGMENT_EMPTY)
         return; // do nothing, nothing to remove
-
 
     if (seg.tail == seg.head)
     {
@@ -321,9 +312,8 @@ void PUBillboardChain::removeChainElement(size_t chainIndex)
     _indexContentDirty = true;
     _boundsDirty = true;
     //// tell parent node to update bounds
-    //if (mParentNode)
+    // if (mParentNode)
     //	mParentNode->needUpdate();
-
 }
 //-----------------------------------------------------------------------
 void PUBillboardChain::clearChain(size_t chainIndex)
@@ -339,9 +329,8 @@ void PUBillboardChain::clearChain(size_t chainIndex)
     _indexContentDirty = true;
     _boundsDirty = true;
     //// tell parent node to update bounds
-    //if (mParentNode)
+    // if (mParentNode)
     //	mParentNode->needUpdate();
-
 }
 //-----------------------------------------------------------------------
 void PUBillboardChain::clearAllChains(void)
@@ -350,10 +339,9 @@ void PUBillboardChain::clearAllChains(void)
     {
         clearChain(i);
     }
-
 }
 //-----------------------------------------------------------------------
-void PUBillboardChain::setFaceCamera( bool faceCamera, const Vec3 &normalVector )
+void PUBillboardChain::setFaceCamera(bool faceCamera, const Vec3& normalVector)
 {
     _faceCamera = faceCamera;
     _normalBase = normalVector;
@@ -361,8 +349,7 @@ void PUBillboardChain::setFaceCamera( bool faceCamera, const Vec3 &normalVector 
     _vertexContentDirty = true;
 }
 //-----------------------------------------------------------------------
-void PUBillboardChain::updateChainElement(size_t chainIndex, size_t elementIndex,
-                                        const PUBillboardChain::Element& dtls)
+void PUBillboardChain::updateChainElement(size_t chainIndex, size_t elementIndex, const PUBillboardChain::Element& dtls)
 {
     CCASSERT(chainIndex < _chainCount, "chainIndex out of bounds");
     ChainSegment& seg = _chainSegmentList[chainIndex];
@@ -378,12 +365,11 @@ void PUBillboardChain::updateChainElement(size_t chainIndex, size_t elementIndex
     _boundsDirty = true;
 
     //// tell parent node to update bounds
-    //if (mParentNode)
+    // if (mParentNode)
     //	mParentNode->needUpdate();
 }
 //-----------------------------------------------------------------------
-const PUBillboardChain::Element&
-    PUBillboardChain::getChainElement(size_t chainIndex, size_t elementIndex) const
+const PUBillboardChain::Element& PUBillboardChain::getChainElement(size_t chainIndex, size_t elementIndex) const
 {
     CCASSERT(chainIndex < _chainCount, "chainIndex out of bounds");
     const ChainSegment& seg = _chainSegmentList[chainIndex];
@@ -400,7 +386,7 @@ size_t PUBillboardChain::getNumChainElements(size_t chainIndex) const
     CCASSERT(chainIndex < _chainCount, "chainIndex out of bounds");
     const ChainSegment& seg = _chainSegmentList[chainIndex];
 
-    if( seg.tail < seg.head )
+    if (seg.tail < seg.head)
     {
         return seg.tail - seg.head + _maxElementsPerChain + 1;
     }
@@ -410,31 +396,30 @@ size_t PUBillboardChain::getNumChainElements(size_t chainIndex) const
     }
 }
 //-----------------------------------------------------------------------
-void PUBillboardChain::updateVertexBuffer(const Mat4 &camMat)
+void PUBillboardChain::updateVertexBuffer(const Mat4& camMat)
 {
     setupBuffers();
 
     // The contents of the vertex buffer are correct if they are not dirty
-    // and the camera used to build the vertex buffer is still the current 
+    // and the camera used to build the vertex buffer is still the current
     // camera.
     if (!_vertexContentDirty)
         return;
 
     VertexInfo vi = {Vec3(0.0f, 0.0f, 0.0f), Vec2(0.0f, 0.0f), Vec4::ONE};
     _vertices.assign(_vertices.size(), vi);
-    //HardwareVertexBufferSharedPtr pBuffer =
+    // HardwareVertexBufferSharedPtr pBuffer =
     //	_vertexData->vertexBufferBinding->getBuffer(0);
-    //void* pBufferStart = pBuffer->lock(HardwareBuffer::HBL_DISCARD);
+    // void* pBufferStart = pBuffer->lock(HardwareBuffer::HBL_DISCARD);
 
-    //const Vector3& camPos = cam->getDerivedPosition();
-    //Vector3 eyePos = mParentNode->_getDerivedOrientation().Inverse() *
+    // const Vector3& camPos = cam->getDerivedPosition();
+    // Vector3 eyePos = mParentNode->_getDerivedOrientation().Inverse() *
     //	(camPos - mParentNode->_getDerivedPosition()) / mParentNode->_getDerivedScale();
 
     Vec3 eyePos(camMat.m[12], camMat.m[13], camMat.m[14]);
 
     Vec3 chainTangent;
-    for (ChainSegmentList::iterator segi = _chainSegmentList.begin();
-        segi != _chainSegmentList.end(); ++segi)
+    for (ChainSegmentList::iterator segi = _chainSegmentList.begin(); segi != _chainSegmentList.end(); ++segi)
     {
         ChainSegment& seg = *segi;
 
@@ -442,17 +427,17 @@ void PUBillboardChain::updateVertexBuffer(const Mat4 &camMat)
         if (seg.head != SEGMENT_EMPTY && seg.head != seg.tail)
         {
             size_t laste = seg.head;
-            for (size_t e = seg.head; ; ++e) // until break
+            for (size_t e = seg.head;; ++e) // until break
             {
                 // Wrap forwards
                 if (e == _maxElementsPerChain)
                     e = 0;
 
                 Element& elem = _chainElementList[e + seg.start];
-                CCASSERT (((e + seg.start) * 2) < 65536, "Too many elements!");
+                CCASSERT(((e + seg.start) * 2) < 65536, "Too many elements!");
                 unsigned short vertexIndex = static_cast<unsigned short>((e + seg.start) * 2);
                 //// Determine base pointer to vertex #1
-                //void* pBase = static_cast<void*>(
+                // void* pBase = static_cast<void*>(
                 //	static_cast<char*>(pBufferStart) +
                 //	pBuffer->getVertexSize() * baseIdx);
 
@@ -475,14 +460,13 @@ void PUBillboardChain::updateVertexBuffer(const Mat4 &camMat)
                 {
                     // A mid position, use tangent across both prev and next
                     chainTangent = _chainElementList[nexte + seg.start].position - _chainElementList[laste + seg.start].position;
-
                 }
 
                 Vec3 vP1ToEye;
 
-                //if( _faceCamera )
-                    vP1ToEye = eyePos - elem.position;
-                //else
+                // if( _faceCamera )
+                vP1ToEye = eyePos - elem.position;
+                // else
                 //	vP1ToEye = elem.orientation * _normalBase;
 
                 Vec3 vPerpendicular;
@@ -493,28 +477,27 @@ void PUBillboardChain::updateVertexBuffer(const Mat4 &camMat)
                 Vec3 pos0 = elem.position - vPerpendicular;
                 Vec3 pos1 = elem.position + vPerpendicular;
 
-                //float* pFloat = static_cast<float*>(pBase);
+                // float* pFloat = static_cast<float*>(pBase);
                 //// pos1
                 //*pFloat++ = pos0.x;
                 //*pFloat++ = pos0.y;
                 //*pFloat++ = pos0.z;
                 _vertices[vertexIndex + 0].position = pos0;
 
-
-                //pBase = static_cast<void*>(pFloat);
+                // pBase = static_cast<void*>(pFloat);
 
                 if (_useVertexColour)
                 {
-                    //RGBA* pCol = static_cast<RGBA*>(pBase);
-                    //Root::getSingleton().convertColourValue(elem.colour, pCol);
-                    //pCol++;
-                    //pBase = static_cast<void*>(pCol);
+                    // RGBA* pCol = static_cast<RGBA*>(pBase);
+                    // Root::getSingleton().convertColourValue(elem.colour, pCol);
+                    // pCol++;
+                    // pBase = static_cast<void*>(pCol);
                     _vertices[vertexIndex + 0].color = elem.color;
                 }
 
                 if (_useTexCoords)
                 {
-                    //pFloat = static_cast<float*>(pBase);
+                    // pFloat = static_cast<float*>(pBase);
                     if (_texCoordDir == TCD_U)
                     {
                         //*pFloat++ = elem.texCoord;
@@ -529,29 +512,29 @@ void PUBillboardChain::updateVertexBuffer(const Mat4 &camMat)
                         _vertices[vertexIndex + 0].uv.x = _otherTexCoordRange[0];
                         _vertices[vertexIndex + 0].uv.y = elem.texCoord;
                     }
-                    //pBase = static_cast<void*>(pFloat);
+                    // pBase = static_cast<void*>(pFloat);
                 }
 
                 // pos2
-                //pFloat = static_cast<float*>(pBase);
+                // pFloat = static_cast<float*>(pBase);
                 //*pFloat++ = pos1.x;
                 //*pFloat++ = pos1.y;
                 //*pFloat++ = pos1.z;
-                //pBase = static_cast<void*>(pFloat);
+                // pBase = static_cast<void*>(pFloat);
                 _vertices[vertexIndex + 1].position = pos1;
 
                 if (_useVertexColour)
                 {
-                    //RGBA* pCol = static_cast<RGBA*>(pBase);
-                    //Root::getSingleton().convertColourValue(elem.colour, pCol);
-                    //pCol++;
-                    //pBase = static_cast<void*>(pCol);
+                    // RGBA* pCol = static_cast<RGBA*>(pBase);
+                    // Root::getSingleton().convertColourValue(elem.colour, pCol);
+                    // pCol++;
+                    // pBase = static_cast<void*>(pCol);
                     _vertices[vertexIndex + 1].color = elem.color;
                 }
 
                 if (_useTexCoords)
                 {
-                    //pFloat = static_cast<float*>(pBase);
+                    // pFloat = static_cast<float*>(pBase);
                     if (_texCoordDir == TCD_U)
                     {
                         //*pFloat++ = elem.texCoord;
@@ -572,34 +555,29 @@ void PUBillboardChain::updateVertexBuffer(const Mat4 &camMat)
                     break; // last one
 
                 laste = e;
-                //vertexIndex += 2;
+                // vertexIndex += 2;
             } // element
         } // segment valid?
 
     } // each segment
 
-
     _vertexBuffer->updateVertices(&_vertices[0], (int)_vertices.size(), 0);
-    //pBuffer->unlock();
+    // pBuffer->unlock();
     //_vertexCameraUsed = cam;
     _vertexContentDirty = false;
-
 }
 //-----------------------------------------------------------------------
 void PUBillboardChain::updateIndexBuffer(void)
 {
-
     setupBuffers();
     if (_indexContentDirty)
     {
-
-        //uint16* pShort = static_cast<uint16*>(
+        // uint16* pShort = static_cast<uint16*>(
         //	_indexData->indexBuffer->lock(HardwareBuffer::HBL_DISCARD));
         //_indexData->indexCount = 0;
         // indexes
         unsigned short index = 0;
-        for (ChainSegmentList::iterator segi = _chainSegmentList.begin();
-            segi != _chainSegmentList.end(); ++segi)
+        for (ChainSegmentList::iterator segi = _chainSegmentList.begin(); segi != _chainSegmentList.end(); ++segi)
         {
             ChainSegment& seg = *segi;
 
@@ -608,7 +586,7 @@ void PUBillboardChain::updateIndexBuffer(void)
             {
                 // Start from head + 1 since it's only useful in pairs
                 size_t laste = seg.head;
-                while(1) // until break
+                while (1) // until break
                 {
                     size_t e = laste + 1;
                     // Wrap forwards
@@ -616,10 +594,9 @@ void PUBillboardChain::updateIndexBuffer(void)
                         e = 0;
                     // indexes of this element are (e * 2) and (e * 2) + 1
                     // indexes of the last element are the same, -2
-                    CCASSERT (((e + seg.start) * 2) < 65536, "Too many elements!");
+                    CCASSERT(((e + seg.start) * 2) < 65536, "Too many elements!");
                     unsigned short baseIdx = static_cast<unsigned short>((e + seg.start) * 2);
                     unsigned short lastBaseIdx = static_cast<unsigned short>((laste + seg.start) * 2);
-
 
                     //*pShort++ = lastBaseIdx;
                     //*pShort++ = lastBaseIdx + 1;
@@ -640,20 +617,17 @@ void PUBillboardChain::updateIndexBuffer(void)
                         break; // last one
 
                     laste = e;
-
                 }
             }
-
         }
 
         _indexBuffer->updateIndices(&_indices[0], (int)_indices.size(), 0);
         //_indexData->indexBuffer->unlock();
         _indexContentDirty = false;
     }
-
 }
 //-----------------------------------------------------------------------
-void PUBillboardChain::init( const std::string &texFile )
+void PUBillboardChain::init(const std::string& texFile)
 {
     GLProgram* glProgram = GLProgramCache::getInstance()->getGLProgram(GLProgram::SHADER_3D_PARTICLE_COLOR);
     if (!texFile.empty())
@@ -670,7 +644,8 @@ void PUBillboardChain::init( const std::string &texFile )
 
     GLsizei stride = sizeof(VertexInfo);
 
-    glProgramState->setVertexAttribPointer(s_attributeNames[GLProgram::VERTEX_ATTRIB_POSITION], 3, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offsetof(VertexInfo, position));
+    glProgramState->setVertexAttribPointer(s_attributeNames[GLProgram::VERTEX_ATTRIB_POSITION], 3, GL_FLOAT, GL_FALSE, stride,
+                                           (GLvoid*)offsetof(VertexInfo, position));
     glProgramState->setVertexAttribPointer(s_attributeNames[GLProgram::VERTEX_ATTRIB_TEX_COORD], 2, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offsetof(VertexInfo, uv));
     glProgramState->setVertexAttribPointer(s_attributeNames[GLProgram::VERTEX_ATTRIB_COLOR], 4, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offsetof(VertexInfo, color));
 
@@ -685,7 +660,7 @@ void PUBillboardChain::init( const std::string &texFile )
     _stateBlock->setCullFace(true);
 }
 
-void PUBillboardChain::render( Renderer* renderer, const Mat4 &transform, ParticleSystem3D* particleSystem )
+void PUBillboardChain::render(Renderer* renderer, const Mat4& transform, ParticleSystem3D* particleSystem)
 {
     auto camera = Camera::getVisitingCamera();
     auto cameraMat = camera->getNodeToWorldTransform();
@@ -698,31 +673,22 @@ void PUBillboardChain::render( Renderer* renderer, const Mat4 &transform, Partic
         {
             GLuint texId = this->getTextureName();
             _stateBlock->setBlendFunc(particleSystem->getBlendFunc());
-            _meshCommand->init(0,
-                               texId,
-                               _glProgramState,
-                               _stateBlock,
-                               _vertexBuffer->getVBO(),
-                               _indexBuffer->getVBO(),
-                               GL_TRIANGLES,
-                               GL_UNSIGNED_SHORT,
-                               _indices.size(),
-                               transform,
-                               Node::FLAGS_RENDER_AS_3D);
+            _meshCommand->init(0, texId, _glProgramState, _stateBlock, _vertexBuffer->getVBO(), _indexBuffer->getVBO(), GL_TRIANGLES, GL_UNSIGNED_SHORT,
+                               _indices.size(), transform, Node::FLAGS_RENDER_AS_3D);
             _meshCommand->setSkipBatching(true);
-            _meshCommand->setTransparent(true);            
-            _glProgramState->setUniformVec4("u_color", Vec4(1,1,1,1));
+            _meshCommand->setTransparent(true);
+            _glProgramState->setUniformVec4("u_color", Vec4(1, 1, 1, 1));
             renderer->addCommand(_meshCommand);
         }
     }
 }
 
-void PUBillboardChain::setDepthTest( bool isDepthTest )
+void PUBillboardChain::setDepthTest(bool isDepthTest)
 {
     _stateBlock->setDepthTest(isDepthTest);
 }
 
-void PUBillboardChain::setDepthWrite( bool isDepthWrite )
+void PUBillboardChain::setDepthWrite(bool isDepthWrite)
 {
     _stateBlock->setDepthWrite(isDepthWrite);
 }
@@ -751,7 +717,7 @@ GLuint PUBillboardChain::getTextureName()
 }
 
 //-----------------------------------------------------------------------
-//void PUBillboardChain::_updateRenderQueue(RenderQueue* queue)
+// void PUBillboardChain::_updateRenderQueue(RenderQueue* queue)
 //{
 //	updateIndexBuffer();
 //
@@ -767,7 +733,7 @@ GLuint PUBillboardChain::getTextureName()
 //
 //}
 //-----------------------------------------------------------------------
-//void PUBillboardChain::getRenderOperation(RenderOperation& op)
+// void PUBillboardChain::getRenderOperation(RenderOperation& op)
 //{
 //	op.indexData = mIndexData;
 //	op.operationType = RenderOperation::OT_TRIANGLE_LIST;
@@ -776,7 +742,7 @@ GLuint PUBillboardChain::getTextureName()
 //	op.vertexData = mVertexData;
 //}
 //-----------------------------------------------------------------------
-//bool PUBillboardChain::preRender(SceneManager* sm, RenderSystem* rsys)
+// bool PUBillboardChain::preRender(SceneManager* sm, RenderSystem* rsys)
 //{
 //	// Retrieve the current viewport from the scene manager.
 //	// The viewport is only valid during a viewport update.
@@ -788,7 +754,7 @@ GLuint PUBillboardChain::getTextureName()
 //	return true;
 //}
 //-----------------------------------------------------------------------
-//void PUBillboardChain::getWorldTransforms(Matrix4* xform) const
+// void PUBillboardChain::getWorldTransforms(Matrix4* xform) const
 //{
 //	*xform = _getParentNodeFullTransform();
 //}

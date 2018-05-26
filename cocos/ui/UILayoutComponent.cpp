@@ -21,46 +21,44 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "ui/UIPageView.h"
 #include "ui/UILayoutComponent.h"
 #include "2d/CCNode.h"
 #include "ui/GUIDefine.h"
 #include "ui/UIHelper.h"
+#include "ui/UIPageView.h"
 
 NS_CC_BEGIN
 
-namespace ui {
+namespace ui
+{
     LayoutComponent::LayoutComponent()
-        :_horizontalEdge(HorizontalEdge::None)
-        , _verticalEdge(VerticalEdge::None)
-        , _leftMargin(0)
-        , _rightMargin(0)
-        , _bottomMargin(0)
-        , _topMargin(0)
-        , _usingPositionPercentX(false)
-        , _positionPercentX(0)
-        , _usingPositionPercentY(false)
-        , _positionPercentY(0)
-        , _usingStretchWidth(false)
-        , _usingStretchHeight(false)
-        , _percentWidth(0)
-        , _usingPercentWidth(false)
-        , _percentHeight(0)
-        , _usingPercentHeight(false)
-        , _actived(true)
-        , _isPercentOnly(false)
+    : _horizontalEdge(HorizontalEdge::None)
+    , _verticalEdge(VerticalEdge::None)
+    , _leftMargin(0)
+    , _rightMargin(0)
+    , _bottomMargin(0)
+    , _topMargin(0)
+    , _usingPositionPercentX(false)
+    , _positionPercentX(0)
+    , _usingPositionPercentY(false)
+    , _positionPercentY(0)
+    , _usingStretchWidth(false)
+    , _usingStretchHeight(false)
+    , _percentWidth(0)
+    , _usingPercentWidth(false)
+    , _percentHeight(0)
+    , _usingPercentHeight(false)
+    , _actived(true)
+    , _isPercentOnly(false)
     {
         _name = __LAYOUT_COMPONENT_NAME;
     }
 
-    LayoutComponent::~LayoutComponent()
-    {
-
-    }
+    LayoutComponent::~LayoutComponent() {}
 
     LayoutComponent* LayoutComponent::bindLayoutComponent(Node* node)
     {
-        LayoutComponent * layout = (LayoutComponent*)node->getComponent(__LAYOUT_COMPONENT_NAME);
+        LayoutComponent* layout = (LayoutComponent*)node->getComponent(__LAYOUT_COMPONENT_NAME);
         if (layout != nullptr)
             return layout;
 
@@ -86,7 +84,7 @@ namespace ui {
                 break;
             }
 
-            //put layout component initialized code here
+            // put layout component initialized code here
 
         } while (0);
         return ret;
@@ -126,32 +124,23 @@ namespace ui {
         _topMargin = parentSize.height - (ownerPoint.y + (1 - ownerAnchor.y) * ownerSize.height);
     }
 
-    //OldVersion
-    void LayoutComponent::setUsingPercentContentSize(bool isUsed)
-    {
-        _usingPercentWidth = _usingPercentHeight = isUsed;
-    }
-    bool LayoutComponent::getUsingPercentContentSize()const
-    {
-        return _usingPercentWidth && _usingPercentHeight;
-    }
+    // OldVersion
+    void LayoutComponent::setUsingPercentContentSize(bool isUsed) { _usingPercentWidth = _usingPercentHeight = isUsed; }
+    bool LayoutComponent::getUsingPercentContentSize() const { return _usingPercentWidth && _usingPercentHeight; }
 
-    void LayoutComponent::setPercentContentSize(const Vec2 &percent)
+    void LayoutComponent::setPercentContentSize(const Vec2& percent)
     {
         this->setPercentWidth(percent.x);
         this->setPercentHeight(percent.y);
     }
-    Vec2 LayoutComponent::getPercentContentSize()const
+    Vec2 LayoutComponent::getPercentContentSize() const
     {
-        Vec2 vec2=Vec2(_percentWidth,_percentHeight);
+        Vec2 vec2 = Vec2(_percentWidth, _percentHeight);
         return vec2;
     }
 
-    //Position & Margin
-    const Point& LayoutComponent::getAnchorPosition()const
-    {
-        return _owner->getAnchorPoint();
-    }
+    // Position & Margin
+    const Point& LayoutComponent::getAnchorPosition() const { return _owner->getAnchorPoint(); }
     void LayoutComponent::setAnchorPosition(const Point& point)
     {
         Rect oldRect = _owner->getBoundingBox();
@@ -167,10 +156,7 @@ namespace ui {
         this->setPosition(ownerPosition);
     }
 
-    const Point& LayoutComponent::getPosition()const
-    {
-        return _owner->getPosition();
-    }
+    const Point& LayoutComponent::getPosition() const { return _owner->getPosition(); }
     void LayoutComponent::setPosition(const Point& position)
     {
         Node* parent = this->getOwnerParent();
@@ -206,10 +192,7 @@ namespace ui {
             _owner->setPosition(position);
     }
 
-    bool LayoutComponent::isPositionPercentXEnabled()const
-    {
-        return _usingPositionPercentX;
-    }
+    bool LayoutComponent::isPositionPercentXEnabled() const { return _usingPositionPercentX; }
     void LayoutComponent::setPositionPercentXEnabled(bool isUsed)
     {
         _usingPositionPercentX = isUsed;
@@ -219,10 +202,7 @@ namespace ui {
         }
     }
 
-    float LayoutComponent::getPositionPercentX()const
-    {
-        return _positionPercentX;
-    }
+    float LayoutComponent::getPositionPercentX() const { return _positionPercentX; }
     void LayoutComponent::setPositionPercentX(float percentMargin)
     {
         _positionPercentX = percentMargin;
@@ -238,10 +218,7 @@ namespace ui {
         }
     }
 
-    bool LayoutComponent::isPositionPercentYEnabled()const
-    {
-        return _usingPositionPercentY;
-    }
+    bool LayoutComponent::isPositionPercentYEnabled() const { return _usingPositionPercentY; }
     void LayoutComponent::setPositionPercentYEnabled(bool isUsed)
     {
         _usingPositionPercentY = isUsed;
@@ -251,10 +228,7 @@ namespace ui {
         }
     }
 
-    float LayoutComponent::getPositionPercentY()const
-    {
-        return _positionPercentY;
-    }
+    float LayoutComponent::getPositionPercentY() const { return _positionPercentY; }
     void LayoutComponent::setPositionPercentY(float percentMargin)
     {
         _positionPercentY = percentMargin;
@@ -270,10 +244,7 @@ namespace ui {
         }
     }
 
-    LayoutComponent::HorizontalEdge LayoutComponent::getHorizontalEdge()const
-    {
-        return _horizontalEdge;
-    }
+    LayoutComponent::HorizontalEdge LayoutComponent::getHorizontalEdge() const { return _horizontalEdge; }
     void LayoutComponent::setHorizontalEdge(HorizontalEdge hEage)
     {
         _horizontalEdge = hEage;
@@ -283,10 +254,7 @@ namespace ui {
         }
     }
 
-    LayoutComponent::VerticalEdge LayoutComponent::getVerticalEdge()const
-    {
-        return _verticalEdge;
-    }
+    LayoutComponent::VerticalEdge LayoutComponent::getVerticalEdge() const { return _verticalEdge; }
     void LayoutComponent::setVerticalEdge(VerticalEdge vEage)
     {
         _verticalEdge = vEage;
@@ -296,47 +264,20 @@ namespace ui {
         }
     }
 
-    float LayoutComponent::getLeftMargin()const
-    {
-        return _leftMargin;
-    }
-    void LayoutComponent::setLeftMargin(float margin)
-    {
-        _leftMargin = margin;
-    }
+    float LayoutComponent::getLeftMargin() const { return _leftMargin; }
+    void LayoutComponent::setLeftMargin(float margin) { _leftMargin = margin; }
 
-    float LayoutComponent::getRightMargin()const
-    {
-        return _rightMargin;
-    }
-    void LayoutComponent::setRightMargin(float margin)
-    {
-        _rightMargin = margin;
-    }
+    float LayoutComponent::getRightMargin() const { return _rightMargin; }
+    void LayoutComponent::setRightMargin(float margin) { _rightMargin = margin; }
 
-    float LayoutComponent::getTopMargin()const
-    {
-        return _topMargin;
-    }
-    void LayoutComponent::setTopMargin(float margin)
-    {
-        _topMargin = margin;
-    }
+    float LayoutComponent::getTopMargin() const { return _topMargin; }
+    void LayoutComponent::setTopMargin(float margin) { _topMargin = margin; }
 
-    float LayoutComponent::getBottomMargin()const
-    {
-        return _bottomMargin;
-    }
-    void LayoutComponent::setBottomMargin(float margin)
-    {
-        _bottomMargin = margin;
-    }
+    float LayoutComponent::getBottomMargin() const { return _bottomMargin; }
+    void LayoutComponent::setBottomMargin(float margin) { _bottomMargin = margin; }
 
-    //Size & Percent
-    const Size& LayoutComponent::getSize()const
-    {
-        return this->getOwner()->getContentSize();
-    }
+    // Size & Percent
+    const Size& LayoutComponent::getSize() const { return this->getOwner()->getContentSize(); }
     void LayoutComponent::setSize(const Size& size)
     {
         Node* parent = this->getOwnerParent();
@@ -372,10 +313,7 @@ namespace ui {
             _owner->setContentSize(size);
     }
 
-    bool LayoutComponent::isPercentWidthEnabled()const
-    {
-        return _usingPercentWidth;
-    }
+    bool LayoutComponent::isPercentWidthEnabled() const { return _usingPercentWidth; }
     void LayoutComponent::setPercentWidthEnabled(bool isUsed)
     {
         _usingPercentWidth = isUsed;
@@ -385,10 +323,7 @@ namespace ui {
         }
     }
 
-    float LayoutComponent::getSizeWidth()const
-    {
-        return _owner->getContentSize().width;
-    }
+    float LayoutComponent::getSizeWidth() const { return _owner->getContentSize().width; }
     void LayoutComponent::setSizeWidth(float width)
     {
         Size ownerSize = _owner->getContentSize();
@@ -413,10 +348,7 @@ namespace ui {
             _owner->setContentSize(ownerSize);
     }
 
-    float LayoutComponent::getPercentWidth()const
-    {
-        return _percentWidth;
-    }
+    float LayoutComponent::getPercentWidth() const { return _percentWidth; }
     void LayoutComponent::setPercentWidth(float percentWidth)
     {
         _percentWidth = percentWidth;
@@ -435,10 +367,7 @@ namespace ui {
         }
     }
 
-    bool LayoutComponent::isPercentHeightEnabled()const
-    {
-        return _usingPercentHeight;
-    }
+    bool LayoutComponent::isPercentHeightEnabled() const { return _usingPercentHeight; }
     void LayoutComponent::setPercentHeightEnabled(bool isUsed)
     {
         _usingPercentHeight = isUsed;
@@ -448,10 +377,7 @@ namespace ui {
         }
     }
 
-    float LayoutComponent::getSizeHeight()const
-    {
-        return _owner->getContentSize().height;
-    }
+    float LayoutComponent::getSizeHeight() const { return _owner->getContentSize().height; }
     void LayoutComponent::setSizeHeight(float height)
     {
         Size ownerSize = _owner->getContentSize();
@@ -476,10 +402,7 @@ namespace ui {
             _owner->setContentSize(ownerSize);
     }
 
-    float LayoutComponent::getPercentHeight()const
-    {
-        return _percentHeight;
-    }
+    float LayoutComponent::getPercentHeight() const { return _percentHeight; }
     void LayoutComponent::setPercentHeight(float percentHeight)
     {
         _percentHeight = percentHeight;
@@ -498,10 +421,7 @@ namespace ui {
         }
     }
 
-    bool LayoutComponent::isStretchWidthEnabled()const
-    {
-        return _usingStretchWidth;
-    }
+    bool LayoutComponent::isStretchWidthEnabled() const { return _usingStretchWidth; }
     void LayoutComponent::setStretchWidthEnabled(bool isUsed)
     {
         _usingStretchWidth = isUsed;
@@ -511,10 +431,7 @@ namespace ui {
         }
     }
 
-    bool LayoutComponent::isStretchHeightEnabled()const
-    {
-        return _usingStretchHeight;
-    }
+    bool LayoutComponent::isStretchHeightEnabled() const { return _usingStretchHeight; }
     void LayoutComponent::setStretchHeightEnabled(bool isUsed)
     {
         _usingStretchHeight = isUsed;
@@ -528,7 +445,7 @@ namespace ui {
     {
         if (!_actived)
             return;
-        
+
         Node* parent = this->getOwnerParent();
         if (parent == nullptr)
             return;
@@ -540,104 +457,104 @@ namespace ui {
 
         switch (this->_horizontalEdge)
         {
-        case HorizontalEdge::None:
-            if (_usingStretchWidth && !_isPercentOnly)
-            {
-                ownerSize.width = parentSize.width * _percentWidth;
+            case HorizontalEdge::None:
+                if (_usingStretchWidth && !_isPercentOnly)
+                {
+                    ownerSize.width = parentSize.width * _percentWidth;
+                    ownerPosition.x = _leftMargin + ownerAnchor.x * ownerSize.width;
+                }
+                else
+                {
+                    if (_usingPositionPercentX)
+                        ownerPosition.x = parentSize.width * _positionPercentX;
+                    if (_usingPercentWidth)
+                        ownerSize.width = parentSize.width * _percentWidth;
+                }
+                break;
+            case HorizontalEdge::Left:
+                if (_isPercentOnly)
+                    break;
+                if (_usingPercentWidth || _usingStretchWidth)
+                    ownerSize.width = parentSize.width * _percentWidth;
                 ownerPosition.x = _leftMargin + ownerAnchor.x * ownerSize.width;
-            }
-            else
-            {
-                if (_usingPositionPercentX)
+                break;
+            case HorizontalEdge::Right:
+                if (_isPercentOnly)
+                    break;
+                if (_usingPercentWidth || _usingStretchWidth)
+                    ownerSize.width = parentSize.width * _percentWidth;
+                ownerPosition.x = parentSize.width - (_rightMargin + (1 - ownerAnchor.x) * ownerSize.width);
+                break;
+            case HorizontalEdge::Center:
+                if (_isPercentOnly)
+                    break;
+                if (_usingStretchWidth)
+                {
+                    ownerSize.width = parentSize.width - _leftMargin - _rightMargin;
+                    if (ownerSize.width < 0)
+                        ownerSize.width = 0;
+                    ownerPosition.x = _leftMargin + ownerAnchor.x * ownerSize.width;
+                }
+                else
+                {
+                    if (_usingPercentWidth)
+                        ownerSize.width = parentSize.width * _percentWidth;
                     ownerPosition.x = parentSize.width * _positionPercentX;
-                if (_usingPercentWidth)
-                    ownerSize.width = parentSize.width * _percentWidth;
-            }
-            break;
-        case HorizontalEdge::Left:
-            if (_isPercentOnly)
+                }
                 break;
-            if (_usingPercentWidth || _usingStretchWidth)
-                ownerSize.width = parentSize.width * _percentWidth;
-            ownerPosition.x = _leftMargin + ownerAnchor.x * ownerSize.width;
-            break;
-        case HorizontalEdge::Right:
-            if (_isPercentOnly)
+            default:
                 break;
-            if (_usingPercentWidth || _usingStretchWidth)
-                ownerSize.width = parentSize.width * _percentWidth;
-            ownerPosition.x = parentSize.width - (_rightMargin + (1 - ownerAnchor.x) * ownerSize.width);
-            break;
-        case HorizontalEdge::Center:
-            if (_isPercentOnly)
-                break;
-            if (_usingStretchWidth)
-            {
-                ownerSize.width = parentSize.width - _leftMargin - _rightMargin;
-                if (ownerSize.width < 0)
-                    ownerSize.width = 0;
-                ownerPosition.x = _leftMargin + ownerAnchor.x * ownerSize.width;
-            }
-            else
-            {
-                if (_usingPercentWidth)
-                    ownerSize.width = parentSize.width * _percentWidth;
-                ownerPosition.x = parentSize.width * _positionPercentX;
-            }
-            break;
-        default:
-            break;
         }
 
         switch (this->_verticalEdge)
         {
-        case VerticalEdge::None:
-            if (_usingStretchHeight && !_isPercentOnly)
-            {
-                ownerSize.height = parentSize.height * _percentHeight;
+            case VerticalEdge::None:
+                if (_usingStretchHeight && !_isPercentOnly)
+                {
+                    ownerSize.height = parentSize.height * _percentHeight;
+                    ownerPosition.y = _bottomMargin + ownerAnchor.y * ownerSize.height;
+                }
+                else
+                {
+                    if (_usingPositionPercentY)
+                        ownerPosition.y = parentSize.height * _positionPercentY;
+                    if (_usingPercentHeight)
+                        ownerSize.height = parentSize.height * _percentHeight;
+                }
+                break;
+            case VerticalEdge::Bottom:
+                if (_isPercentOnly)
+                    break;
+                if (_usingPercentHeight || _usingStretchHeight)
+                    ownerSize.height = parentSize.height * _percentHeight;
                 ownerPosition.y = _bottomMargin + ownerAnchor.y * ownerSize.height;
-            }
-            else
-            {
-                if (_usingPositionPercentY)
+                break;
+            case VerticalEdge::Top:
+                if (_isPercentOnly)
+                    break;
+                if (_usingPercentHeight || _usingStretchHeight)
+                    ownerSize.height = parentSize.height * _percentHeight;
+                ownerPosition.y = parentSize.height - (_topMargin + (1 - ownerAnchor.y) * ownerSize.height);
+                break;
+            case VerticalEdge::Center:
+                if (_isPercentOnly)
+                    break;
+                if (_usingStretchHeight)
+                {
+                    ownerSize.height = parentSize.height - _topMargin - _bottomMargin;
+                    if (ownerSize.height < 0)
+                        ownerSize.height = 0;
+                    ownerPosition.y = _bottomMargin + ownerAnchor.y * ownerSize.height;
+                }
+                else
+                {
+                    if (_usingPercentHeight)
+                        ownerSize.height = parentSize.height * _percentHeight;
                     ownerPosition.y = parentSize.height * _positionPercentY;
-                if (_usingPercentHeight)
-                    ownerSize.height = parentSize.height * _percentHeight;
-            }
-            break;
-        case VerticalEdge::Bottom:
-            if (_isPercentOnly)
+                }
                 break;
-            if (_usingPercentHeight || _usingStretchHeight)
-                ownerSize.height = parentSize.height * _percentHeight;
-            ownerPosition.y = _bottomMargin + ownerAnchor.y * ownerSize.height;
-            break;
-        case VerticalEdge::Top:
-            if (_isPercentOnly)
+            default:
                 break;
-            if (_usingPercentHeight || _usingStretchHeight)
-                ownerSize.height = parentSize.height * _percentHeight;
-            ownerPosition.y = parentSize.height - (_topMargin + (1 - ownerAnchor.y) * ownerSize.height);
-            break;
-        case VerticalEdge::Center:
-            if (_isPercentOnly)
-                break;
-            if (_usingStretchHeight)
-            {
-                ownerSize.height = parentSize.height - _topMargin - _bottomMargin;
-                if (ownerSize.height < 0)
-                    ownerSize.height = 0;
-                ownerPosition.y = _bottomMargin + ownerAnchor.y * ownerSize.height;
-            }
-            else
-            {
-                if (_usingPercentHeight)
-                    ownerSize.height = parentSize.height * _percentHeight;
-                ownerPosition.y = parentSize.height* _positionPercentY;
-            }
-            break;
-        default:
-            break;
         }
 
         _owner->setPosition(ownerPosition);
@@ -649,7 +566,7 @@ namespace ui {
             page->forceDoLayout();
 
             Vector<Widget*> _widgetVector = page->getItems();
-            for(auto& item : _widgetVector)
+            for (auto& item : _widgetVector)
             {
                 ui::Helper::doLayout(item);
             }
@@ -660,15 +577,9 @@ namespace ui {
         }
     }
 
-    void LayoutComponent::setActiveEnabled(bool enable)
-    {
-        _actived = enable;
-    }
+    void LayoutComponent::setActiveEnabled(bool enable) { _actived = enable; }
 
-    void LayoutComponent::setPercentOnlyEnabled(bool enable)
-    {
-        _isPercentOnly = enable;
-    }
-}
+    void LayoutComponent::setPercentOnlyEnabled(bool enable) { _isPercentOnly = enable; }
+} // namespace ui
 
 NS_CC_END

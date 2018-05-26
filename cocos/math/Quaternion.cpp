@@ -20,20 +20,26 @@
 
 #include "math/Quaternion.h"
 
-#include <cmath>
 #include "base/ccMacros.h"
+#include <cmath>
 
 NS_CC_MATH_BEGIN
 
 const Quaternion Quaternion::ZERO(0.0f, 0.0f, 0.0f, 0.0f);
 
 Quaternion::Quaternion()
-    : x(0.0f), y(0.0f), z(0.0f), w(1.0f)
+: x(0.0f)
+, y(0.0f)
+, z(0.0f)
+, w(1.0f)
 {
 }
 
 Quaternion::Quaternion(float xx, float yy, float zz, float ww)
-    : x(xx), y(yy), z(zz), w(ww)
+: x(xx)
+, y(yy)
+, z(zz)
+, w(ww)
 {
 }
 
@@ -108,7 +114,7 @@ void Quaternion::conjugate()
     x = -x;
     y = -y;
     z = -z;
-    //w =  w;
+    // w =  w;
 }
 
 Quaternion Quaternion::getConjugated() const
@@ -126,7 +132,7 @@ bool Quaternion::inverse()
         x = -x;
         y = -y;
         z = -z;
-        //w = w;
+        // w = w;
 
         return true;
     }
@@ -174,16 +180,16 @@ void Quaternion::multiply(const Quaternion& q1, const Quaternion& q2, Quaternion
 void Quaternion::normalize()
 {
     float n = x * x + y * y + z * z + w * w;
-    
+
     // Already normalized.
     if (n == 1.0f)
         return;
-    
+
     n = std::sqrt(n);
     // Too close to zero.
     if (n < 0.000001f)
         return;
-    
+
     n = 1.0f / n;
     x *= n;
     y *= n;
@@ -298,7 +304,8 @@ void Quaternion::squad(const Quaternion& q1, const Quaternion& q2, const Quatern
     slerpForSquad(dstQ, dstS, 2.0f * t * (1.0f - t), dst);
 }
 
-void Quaternion::slerp(float q1x, float q1y, float q1z, float q1w, float q2x, float q2y, float q2z, float q2w, float t, float* dstx, float* dsty, float* dstz, float* dstw)
+void Quaternion::slerp(float q1x, float q1y, float q1z, float q1w, float q2x, float q2y, float q2z, float q2w, float t, float* dstx, float* dsty, float* dstz,
+                       float* dstw)
 {
     // Fast slerp implementation by kwhatmough:
     // It contains no division operations, no trig, no inverse trig

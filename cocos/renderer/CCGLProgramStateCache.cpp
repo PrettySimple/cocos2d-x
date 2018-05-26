@@ -2,7 +2,7 @@
 Copyright 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
- 
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -24,9 +24,8 @@ THE SOFTWARE.
 
 #include "renderer/CCGLProgramStateCache.h"
 
-#include "renderer/CCGLProgramState.h"
 #include "renderer/CCGLProgram.h"
-
+#include "renderer/CCGLProgramState.h"
 
 NS_CC_BEGIN
 
@@ -45,7 +44,7 @@ GLProgramStateCache* GLProgramStateCache::getInstance()
 {
     if (s_instance == nullptr)
         s_instance = new (std::nothrow) GLProgramStateCache();
-    
+
     return s_instance;
 }
 
@@ -61,28 +60,33 @@ GLProgramState* GLProgramStateCache::getGLProgramState(GLProgram* glprogram)
     {
         return itr->second;
     }
-    
+
     auto ret = new (std::nothrow) GLProgramState;
-    if(ret && ret->init(glprogram)) {
+    if (ret && ret->init(glprogram))
+    {
         _glProgramStates.insert(glprogram, ret);
         ret->release();
         return ret;
     }
-    
+
     CC_SAFE_RELEASE(ret);
     return ret;
 }
 
 void GLProgramStateCache::removeUnusedGLProgramState()
 {
-    for( auto it=_glProgramStates.cbegin(); it!=_glProgramStates.cend(); /* nothing */) {
+    for (auto it = _glProgramStates.cbegin(); it != _glProgramStates.cend(); /* nothing */)
+    {
         auto value = it->second;
-        if( value->getReferenceCount() == 1 ) {
+        if (value->getReferenceCount() == 1)
+        {
             CCLOG("cocos2d: GLProgramStateCache: removing unused GLProgramState");
 
-            //value->release();
+            // value->release();
             it = _glProgramStates.erase(it);
-        } else {
+        }
+        else
+        {
             ++it;
         }
     }

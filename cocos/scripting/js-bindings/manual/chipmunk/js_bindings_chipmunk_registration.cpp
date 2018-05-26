@@ -22,18 +22,16 @@
  */
 
 #ifndef JSB_INCLUDE_CHIPMUNK
-#define JSB_INCLUDE_CHIPMUNK
+#    define JSB_INCLUDE_CHIPMUNK
 #endif
 
-#include "scripting/js-bindings/manual/js_bindings_config.h"
 #include "scripting/js-bindings/manual/ScriptingCore.h"
-
+#include "scripting/js-bindings/manual/js_bindings_config.h"
 
 // chipmunk
 #include "scripting/js-bindings/auto/js_bindings_chipmunk_auto_classes.h"
 #include "scripting/js-bindings/auto/js_bindings_chipmunk_functions.h"
 #include "scripting/js-bindings/manual/chipmunk/js_bindings_chipmunk_manual.h"
-
 
 void jsb_register_chipmunk(JSContext* cx, JS::HandleObject object)
 {
@@ -42,26 +40,26 @@ void jsb_register_chipmunk(JSContext* cx, JS::HandleObject object)
     //
     JS::RootedObject chipmunk(cx, JS_NewObject(cx, NULL, JS::NullPtr(), JS::NullPtr()));
     JS::RootedValue chipmunkVal(cx);
-    
+
     chipmunkVal = OBJECT_TO_JSVAL(chipmunk);
     JS_SetProperty(cx, object, "cp", chipmunkVal);
-    
-    JSB_cpBase_createClass(cx, chipmunk, "Base");  // manual base class registration
+
+    JSB_cpBase_createClass(cx, chipmunk, "Base"); // manual base class registration
 #include "scripting/js-bindings/auto/js_bindings_chipmunk_auto_classes_registration.h"
 #include "scripting/js-bindings/auto/js_bindings_chipmunk_functions_registration.h"
 
     // manual
-    JS_DefineFunction(cx, chipmunk, "spaceAddCollisionHandler", JSB_cpSpaceAddCollisionHandler, 8, JSPROP_PERMANENT | JSPROP_ENUMERATE );
-    JS_DefineFunction(cx, chipmunk, "spaceRemoveCollisionHandler", JSB_cpSpaceRemoveCollisionHandler, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE );
-    JS_DefineFunction(cx, chipmunk, "arbiterGetBodies", JSB_cpArbiterGetBodies, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE );
-    JS_DefineFunction(cx, chipmunk, "arbiterGetShapes", JSB_cpArbiterGetShapes, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE );
-    JS_DefineFunction(cx, chipmunk, "bodyGetUserData", JSB_cpBodyGetUserData, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE );
-    JS_DefineFunction(cx, chipmunk, "bodySetUserData", JSB_cpBodySetUserData, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE );
+    JS_DefineFunction(cx, chipmunk, "spaceAddCollisionHandler", JSB_cpSpaceAddCollisionHandler, 8, JSPROP_PERMANENT | JSPROP_ENUMERATE);
+    JS_DefineFunction(cx, chipmunk, "spaceRemoveCollisionHandler", JSB_cpSpaceRemoveCollisionHandler, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE);
+    JS_DefineFunction(cx, chipmunk, "arbiterGetBodies", JSB_cpArbiterGetBodies, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE);
+    JS_DefineFunction(cx, chipmunk, "arbiterGetShapes", JSB_cpArbiterGetShapes, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE);
+    JS_DefineFunction(cx, chipmunk, "bodyGetUserData", JSB_cpBodyGetUserData, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE);
+    JS_DefineFunction(cx, chipmunk, "bodySetUserData", JSB_cpBodySetUserData, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE);
 
-    JS_DefineFunction(cx, chipmunk, "areaForPoly", JSB_cpAreaForPoly, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE );
-    JS_DefineFunction(cx, chipmunk, "momentForPoly", JSB_cpMomentForPoly, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE );
-    JS_DefineFunction(cx, chipmunk, "centroidForPoly", JSB_cpCentroidForPoly, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE );
-    JS_DefineFunction(cx, chipmunk, "recenterPoly", JSB_cpRecenterPoly, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE );
+    JS_DefineFunction(cx, chipmunk, "areaForPoly", JSB_cpAreaForPoly, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE);
+    JS_DefineFunction(cx, chipmunk, "momentForPoly", JSB_cpMomentForPoly, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE);
+    JS_DefineFunction(cx, chipmunk, "centroidForPoly", JSB_cpCentroidForPoly, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE);
+    JS_DefineFunction(cx, chipmunk, "recenterPoly", JSB_cpRecenterPoly, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE);
 
     // Compatibility with Chipmunk 6.2
     JS_DefineFunction(cx, chipmunk, "momentForSegment", JSB_cpMomentForSegment, 4, JSPROP_PERMANENT | JSPROP_ENUMERATE);
@@ -80,4 +78,3 @@ void jsb_register_chipmunk(JSContext* cx, JS::HandleObject object)
     register_CCPhysicsSprite(cx, object);
     register_CCPhysicsDebugNode(cx, object);
 }
-

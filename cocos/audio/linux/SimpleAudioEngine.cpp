@@ -1,24 +1,26 @@
 #include <iostream>
 
-#include "audio/include/SimpleAudioEngine.h"
 #include "audio/include/AudioEngine.h"
+#include "audio/include/SimpleAudioEngine.h"
 
 using namespace CocosDenshion;
 using namespace cocos2d;
 using namespace cocos2d::experimental;
 
-struct SimpleAudioEngineLinux {
-    SimpleAudioEngine * engine = nullptr;
+struct SimpleAudioEngineLinux
+{
+    SimpleAudioEngine* engine = nullptr;
     int musicid;
     float effectsvolume;
     std::string musicpath;
 };
 
-SimpleAudioEngineLinux * g_SimpleAudioEngineLinux = nullptr;
+SimpleAudioEngineLinux* g_SimpleAudioEngineLinux = nullptr;
 
 SimpleAudioEngine* SimpleAudioEngine::getInstance()
 {
-    if (!g_SimpleAudioEngineLinux) {
+    if (!g_SimpleAudioEngineLinux)
+    {
         g_SimpleAudioEngineLinux = new SimpleAudioEngineLinux();
         g_SimpleAudioEngineLinux->engine = new SimpleAudioEngine();
     }
@@ -27,7 +29,8 @@ SimpleAudioEngine* SimpleAudioEngine::getInstance()
 
 void SimpleAudioEngine::end()
 {
-    if (g_SimpleAudioEngineLinux) {
+    if (g_SimpleAudioEngineLinux)
+    {
         delete g_SimpleAudioEngineLinux->engine;
         delete g_SimpleAudioEngineLinux;
     }
@@ -59,7 +62,8 @@ void SimpleAudioEngine::playBackgroundMusic(const char* filePath, bool loop)
 void SimpleAudioEngine::stopBackgroundMusic(bool releaseData)
 {
     AudioEngine::stop(g_SimpleAudioEngineLinux->musicid);
-    if (releaseData) {
+    if (releaseData)
+    {
         AudioEngine::uncache(g_SimpleAudioEngineLinux->musicpath.c_str());
     }
 }

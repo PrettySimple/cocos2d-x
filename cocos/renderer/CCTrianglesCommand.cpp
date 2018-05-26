@@ -34,11 +34,13 @@
 
 NS_CC_BEGIN
 
-TrianglesCommand::TrianglesCommand() : cocos2d::RenderCommand(RenderCommand::Type::TRIANGLES_COMMAND)
+TrianglesCommand::TrianglesCommand()
+: cocos2d::RenderCommand(RenderCommand::Type::TRIANGLES_COMMAND)
 {
 }
 
-void TrianglesCommand::init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, BlendFunc blendType, const Triangles& triangles,const Mat4& mv, uint32_t flags)
+void TrianglesCommand::init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, BlendFunc blendType, const Triangles& triangles,
+                            const Mat4& mv, uint32_t flags)
 {
     CCASSERT(glProgramState, "Invalid GLProgramState");
     CCASSERT(glProgramState->getVertexAttribsFlags() == 0, "No custom attributes are supported in QuadCommand");
@@ -46,7 +48,7 @@ void TrianglesCommand::init(float globalOrder, GLuint textureID, GLProgramState*
     RenderCommand::init(globalOrder, mv, flags);
 
     _triangles = triangles;
-    if(_triangles.indexCount % 3 != 0)
+    if (_triangles.indexCount % 3 != 0)
     {
         int count = _triangles.indexCount;
         _triangles.indexCount = count / 3 * 3;
@@ -54,8 +56,7 @@ void TrianglesCommand::init(float globalOrder, GLuint textureID, GLProgramState*
     }
     _mv = mv;
 
-    if( _textureID != textureID || _blendType.src != blendType.src || _blendType.dst != blendType.dst ||
-       _glProgramState != glProgramState)
+    if (_textureID != textureID || _blendType.src != blendType.src || _blendType.dst != blendType.dst || _glProgramState != glProgramState)
     {
         _textureID = textureID;
         _blendType = blendType;
@@ -65,17 +66,18 @@ void TrianglesCommand::init(float globalOrder, GLuint textureID, GLProgramState*
     }
 }
 
-void TrianglesCommand::init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, BlendFunc blendType, const Triangles& triangles,const Mat4& mv)
+void TrianglesCommand::init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, BlendFunc blendType, const Triangles& triangles, const Mat4& mv)
 {
     init(globalOrder, textureID, glProgramState, blendType, triangles, mv, 0);
 }
 
-void TrianglesCommand::init(float globalOrder, Texture2D* texture, GLProgramState* glProgramState, BlendFunc blendType, const Triangles& triangles, const Mat4& mv, uint32_t flags)
+void TrianglesCommand::init(float globalOrder, Texture2D* texture, GLProgramState* glProgramState, BlendFunc blendType, const Triangles& triangles,
+                            const Mat4& mv, uint32_t flags)
 {
     init(globalOrder, texture->getName(), glProgramState, blendType, triangles, mv, flags);
 #ifdef DEBUG_TEXTURE_SIZE
     CC_ASSERT(texture != nullptr);
-    _texSize = { static_cast<float>(texture->getPixelsWide()), static_cast<float>(texture->getPixelsHigh()) };
+    _texSize = {static_cast<float>(texture->getPixelsWide()), static_cast<float>(texture->getPixelsHigh())};
 #endif
     _alphaTextureID = texture->getAlphaTextureName();
 }
@@ -96,7 +98,7 @@ template <class T>
 inline constexpr void hash_combine(std::size_t& seed, T const& v)
 {
     std::hash<T> hasher;
-    seed ^= hasher(v) + 0x9e3779b9 + (seed<<6) + (seed>>2);
+    seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
 
 void TrianglesCommand::generateMaterialID()
@@ -120,14 +122,14 @@ void TrianglesCommand::generateMaterialID()
 
 void TrianglesCommand::useMaterial() const
 {
-    //Set texture
+    // Set texture
     GL::bindTexture2D(_textureID);
 
     if (_alphaTextureID > 0)
     { // ANDROID ETC1 ALPHA supports.
         GL::bindTexture2DN(1, _alphaTextureID);
     }
-    //set blend mode
+    // set blend mode
     GL::blendFunc(_blendType.src, _blendType.dst);
 
 #ifdef DEBUG_TEXTURE_SIZE

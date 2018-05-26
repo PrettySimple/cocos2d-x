@@ -2,7 +2,7 @@
 Copyright (c) 2009      On-Core
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (C) 2013-2016 Chukong Technologies Inc.
- 
+
 http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,14 +24,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 #include "2d/CCGrabber.h"
+
 #include "base/ccMacros.h"
 #include "renderer/CCTexture2D.h"
 
 NS_CC_BEGIN
 
 Grabber::Grabber(void)
-    : _FBO(0)
-    , _oldFBO(0)
+: _FBO(0)
+, _oldFBO(0)
 {
     memset(_oldClearColor, 0, sizeof(_oldClearColor));
 
@@ -39,7 +40,7 @@ Grabber::Grabber(void)
     glGenFramebuffers(1, &_FBO);
 }
 
-void Grabber::grab(Texture2D *texture)
+void Grabber::grab(Texture2D* texture)
 {
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_oldFBO);
 
@@ -59,13 +60,13 @@ void Grabber::grab(Texture2D *texture)
     glBindFramebuffer(GL_FRAMEBUFFER, _oldFBO);
 }
 
-void Grabber::beforeRender(Texture2D *texture)
+void Grabber::beforeRender(Texture2D* texture)
 {
     CC_UNUSED_PARAM(texture);
 
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_oldFBO);
     glBindFramebuffer(GL_FRAMEBUFFER, _FBO);
-    
+
     // save clear color
     glGetFloatv(GL_COLOR_CLEAR_VALUE, _oldClearColor);
     // FIXME: doesn't work with RGB565.
@@ -74,20 +75,20 @@ void Grabber::beforeRender(Texture2D *texture)
 
     // BUG #631: To fix #631, uncomment the lines with #631
     // Warning: But it Grabber won't work with 2 effects at the same time
-//  glClearColor(0.0f,0.0f,0.0f,1.0f);    // #631
+    //  glClearColor(0.0f,0.0f,0.0f,1.0f);    // #631
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-//  glColorMask(true, true, true, false);    // #631
+    //  glColorMask(true, true, true, false);    // #631
 }
 
-void Grabber::afterRender(cocos2d::Texture2D *texture)
+void Grabber::afterRender(cocos2d::Texture2D* texture)
 {
     CC_UNUSED_PARAM(texture);
 
     glBindFramebuffer(GL_FRAMEBUFFER, _oldFBO);
-//  glColorMask(true, true, true, true);    // #631
-    
+    //  glColorMask(true, true, true, true);    // #631
+
     // Restore clear color
     glClearColor(_oldClearColor[0], _oldClearColor[1], _oldClearColor[2], _oldClearColor[3]);
 }

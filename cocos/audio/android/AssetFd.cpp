@@ -24,24 +24,27 @@ THE SOFTWARE.
 
 #define LOG_TAG "AssetFd"
 
-#include "audio/android/cutils/log.h"
 #include "audio/android/AssetFd.h"
+#include "audio/android/cutils/log.h"
 
-namespace cocos2d { namespace experimental {
-
-AssetFd::AssetFd(int assetFd)
-        : _assetFd(assetFd)
+namespace cocos2d
 {
-}
-
-AssetFd::~AssetFd()
-{
-    ALOGV("~AssetFd: %d", _assetFd);
-    if (_assetFd > 0)
+    namespace experimental
     {
-        ::close(_assetFd);
-        _assetFd = 0;
-    }
-};
+        AssetFd::AssetFd(int assetFd)
+        : _assetFd(assetFd)
+        {
+        }
 
-}} // namespace cocos2d { namespace experimental {
+        AssetFd::~AssetFd()
+        {
+            ALOGV("~AssetFd: %d", _assetFd);
+            if (_assetFd > 0)
+            {
+                ::close(_assetFd);
+                _assetFd = 0;
+            }
+        };
+
+    } // namespace experimental
+} // namespace cocos2d

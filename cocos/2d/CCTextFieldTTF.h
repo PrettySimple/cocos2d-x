@@ -37,7 +37,6 @@ NS_CC_BEGIN
 
 class TextFieldTTF;
 
-
 /**
  * A input protocol for TextField.
  */
@@ -53,7 +52,7 @@ public:
     /**
      *@brief    If the sender doesn't want to attach to the IME, return true.
      */
-    virtual bool onTextFieldAttachWithIME(TextFieldTTF * sender)
+    virtual bool onTextFieldAttachWithIME(TextFieldTTF* sender)
     {
         CC_UNUSED_PARAM(sender);
         return false;
@@ -62,7 +61,7 @@ public:
     /**
      *@brief    If the sender doesn't want to detach from the IME, return true.
      */
-    virtual bool onTextFieldDetachWithIME(TextFieldTTF * sender)
+    virtual bool onTextFieldDetachWithIME(TextFieldTTF* sender)
     {
         CC_UNUSED_PARAM(sender);
         return false;
@@ -71,7 +70,7 @@ public:
     /**
      *@brief    If the sender doesn't want to insert the text, return true.
      */
-    virtual bool onTextFieldInsertText(TextFieldTTF * sender, const char * text, size_t nLen)
+    virtual bool onTextFieldInsertText(TextFieldTTF* sender, const char* text, size_t nLen)
     {
         CC_UNUSED_PARAM(sender);
         CC_UNUSED_PARAM(text);
@@ -82,7 +81,7 @@ public:
     /**
      *@brief    If the sender doesn't want to delete the delText, return true.
      */
-    virtual bool onTextFieldDeleteBackward(TextFieldTTF * sender, const char * delText, size_t nLen)
+    virtual bool onTextFieldDeleteBackward(TextFieldTTF* sender, const char* delText, size_t nLen)
     {
         CC_UNUSED_PARAM(sender);
         CC_UNUSED_PARAM(delText);
@@ -94,7 +93,7 @@ public:
      *@brief    If the sender doesn't want to draw, return true.
      * @js NA
      */
-    virtual bool onVisit(TextFieldTTF * sender,Renderer *renderer, const Mat4 &transform, uint32_t flags)
+    virtual bool onVisit(TextFieldTTF* sender, Renderer* renderer, const Mat4& transform, uint32_t flags)
     {
         CC_UNUSED_PARAM(sender);
         return false;
@@ -112,7 +111,7 @@ public:
      * @js ctor
      */
     TextFieldTTF();
-    
+
     /**
      * Default destructor.
      * @js NA
@@ -121,18 +120,19 @@ public:
     virtual ~TextFieldTTF();
 
     /** Creates a TextFieldTTF from a fontname, alignment, dimension and font size.
-    * @js NA
-    */
-    static TextFieldTTF * textFieldWithPlaceHolder(const std::string& placeholder, const Size& dimensions, TextHAlignment alignment, const std::string& fontName, float fontSize);
-    
+     * @js NA
+     */
+    static TextFieldTTF*
+    textFieldWithPlaceHolder(const std::string& placeholder, const Size& dimensions, TextHAlignment alignment, const std::string& fontName, float fontSize);
+
     /** Creates a TextFieldTTF from a fontname and font size.
-    * @js NA
-    */
-    static TextFieldTTF * textFieldWithPlaceHolder(const std::string& placeholder, const std::string& fontName, float fontSize);
-    
+     * @js NA
+     */
+    static TextFieldTTF* textFieldWithPlaceHolder(const std::string& placeholder, const std::string& fontName, float fontSize);
+
     /** Initializes the TextFieldTTF with a font name, alignment, dimension and font size. */
     bool initWithPlaceHolder(const std::string& placeholder, const Size& dimensions, TextHAlignment alignment, const std::string& fontName, float fontSize);
-    
+
     /** Initializes the TextFieldTTF with a font name and font size. */
     bool initWithPlaceHolder(const std::string& placeholder, const std::string& fontName, float fontSize);
 
@@ -163,7 +163,7 @@ public:
      *@return The total input character count.
      */
     std::size_t getCharCount() const { return _charCount; }
-    
+
     /**
      * Query the color of place holder.
      *@return The place holder color.
@@ -195,9 +195,9 @@ public:
     virtual void setString(const std::string& text) override;
 
     /**
-    * Append to input text of TextField.
-    *@param text The append text of TextField.
-    */
+     * Append to input text of TextField.
+     *@param text The append text of TextField.
+     */
     virtual void appendString(const std::string& text);
 
     /**
@@ -234,35 +234,35 @@ public:
      *@return Whether current text is displayed as secure text entry.
      * @js NA
      */
-    virtual bool isSecureTextEntry()const;
+    virtual bool isSecureTextEntry() const;
 
-    virtual void visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags) override;
+    virtual void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
 
     virtual void update(float delta) override;
 
     /**
-    * Set enable cursor use.
-    * @js NA
-    */
+     * Set enable cursor use.
+     * @js NA
+     */
     void setCursorEnabled(bool enabled);
 
     /**
-    * Set char showing cursor.
-    * @js NA
-    */
+     * Set char showing cursor.
+     * @js NA
+     */
     void setCursorChar(char cursor);
 
     /**
-    * Set cursor position, if enabled
-    * @js NA
-    */
+     * Set cursor position, if enabled
+     * @js NA
+     */
     void setCursorPosition(std::size_t cursorPosition);
 
     /**
-    * Set cursor position to hit letter, if enabled
-    * @js NA
-    */
-    void setCursorFromPoint(const Vec2 &point, const Camera* camera);
+     * Set cursor position to hit letter, if enabled
+     * @js NA
+     */
+    void setCursorFromPoint(const Vec2& point, const Camera* camera);
 
 protected:
     //////////////////////////////////////////////////////////////////////////
@@ -273,12 +273,12 @@ protected:
     virtual bool canDetachWithIME() override;
     virtual void didAttachWithIME() override;
     virtual void didDetachWithIME() override;
-    virtual void insertText(const char * text, size_t len) override;
+    virtual void insertText(const char* text, size_t len) override;
     virtual void deleteBackward() override;
     virtual const std::string& getContentText() override;
     virtual void controlKey(EventKeyboard::KeyCode keyCode) override;
 
-    TextFieldDelegate * _delegate;
+    TextFieldDelegate* _delegate;
     std::size_t _charCount;
 
     std::string _inputText;
@@ -307,11 +307,11 @@ protected:
 
 private:
     class LengthStack;
-    LengthStack * _lens;
+    LengthStack* _lens;
 };
 
 NS_CC_END
 // end of ui group
 /// @}
 
-#endif    // __CC_TEXT_FIELD_H__
+#endif // __CC_TEXT_FIELD_H__

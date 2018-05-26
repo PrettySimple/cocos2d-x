@@ -94,7 +94,7 @@ protected:
     Pass();
     ~Pass();
     bool init(Technique* parent);
-    bool initWithGLProgramState(Technique* parent, GLProgramState *glProgramState);
+    bool initWithGLProgramState(Technique* parent, GLProgramState* glProgramState);
 
     void setGLProgramState(GLProgramState* glProgramState);
     Node* getTarget() const;
@@ -104,7 +104,5 @@ protected:
 };
 
 NS_CC_END
-
-
 
 #endif /* defined(__cocos2d_libs__CCPass__) */

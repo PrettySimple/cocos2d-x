@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -30,20 +30,19 @@ NS_CC_BEGIN
 
 // Constants
 const float PUParticle3DInterParticleCollider::DEFAULT_ADJUSTMENT = 1.0f;
-const PUParticle3DInterParticleCollider::InterParticleCollisionResponse PUParticle3DInterParticleCollider::DEFAULT_COLLISION_RESPONSE = 
-         PUParticle3DInterParticleCollider::IPCR_AVERAGE_VELOCITY;
+const PUParticle3DInterParticleCollider::InterParticleCollisionResponse PUParticle3DInterParticleCollider::DEFAULT_COLLISION_RESPONSE =
+    PUParticle3DInterParticleCollider::IPCR_AVERAGE_VELOCITY;
 
 //-----------------------------------------------------------------------
-PUParticle3DInterParticleCollider::PUParticle3DInterParticleCollider(void) : 
-    PUBaseCollider(),
-    _adjustment(DEFAULT_ADJUSTMENT),
-    _interParticleCollisionResponse(DEFAULT_COLLISION_RESPONSE)
+PUParticle3DInterParticleCollider::PUParticle3DInterParticleCollider(void)
+: PUBaseCollider()
+, _adjustment(DEFAULT_ADJUSTMENT)
+, _interParticleCollisionResponse(DEFAULT_COLLISION_RESPONSE)
 {
 }
 
-PUParticle3DInterParticleCollider::~PUParticle3DInterParticleCollider( void )
+PUParticle3DInterParticleCollider::~PUParticle3DInterParticleCollider(void)
 {
-
 }
 //-----------------------------------------------------------------------
 float PUParticle3DInterParticleCollider::getAdjustment(void) const
@@ -69,16 +68,16 @@ void PUParticle3DInterParticleCollider::setInterParticleCollisionResponse(PUPart
 void PUParticle3DInterParticleCollider::prepare()
 {
     // Activate spatial hashing
-    //particleTechnique->setSpatialHashingUsed(true);
+    // particleTechnique->setSpatialHashingUsed(true);
 }
 //-----------------------------------------------------------------------
 void PUParticle3DInterParticleCollider::unPrepare()
 {
     // Deactivate spatial hashing
-    //particleTechnique->setSpatialHashingUsed(false);
+    // particleTechnique->setSpatialHashingUsed(false);
 }
 //-----------------------------------------------------------------------
-bool PUParticle3DInterParticleCollider::validateAndExecuteSphereCollision (PUParticle3D* particle1, PUParticle3D* particle2, float timeElapsed)
+bool PUParticle3DInterParticleCollider::validateAndExecuteSphereCollision(PUParticle3D* particle1, PUParticle3D* particle2, float timeElapsed)
 {
     PUParticle3D* vp1 = static_cast<PUParticle3D*>(particle1);
     PUParticle3D* vp2 = static_cast<PUParticle3D*>(particle2);
@@ -90,7 +89,7 @@ bool PUParticle3DInterParticleCollider::validateAndExecuteSphereCollision (PUPar
         */
         Vec3 n = vp1->position - vp2->position;
         n.normalize();
-        switch(_interParticleCollisionResponse)
+        switch (_interParticleCollisionResponse)
         {
             case IPCR_AVERAGE_VELOCITY:
             {
@@ -126,16 +125,16 @@ bool PUParticle3DInterParticleCollider::validateAndExecuteSphereCollision (PUPar
 }
 //-----------------------------------------------------------------------
 
-void PUParticle3DInterParticleCollider::updatePUAffector( PUParticle3D *particle, float deltaTime )
+void PUParticle3DInterParticleCollider::updatePUAffector(PUParticle3D* particle, float deltaTime)
 {
-    //CCASSERT(0, "nonsupport yet");
-    //for (auto iter : _particleSystem->getParticles())
+    // CCASSERT(0, "nonsupport yet");
+    // for (auto iter : _particleSystem->getParticles())
     //{
     //    PUParticle3D *particle = iter;
     //     Fast rejection: only visible, moving particles are able to collide, unless they are colliding already
     //     Changed && into || in V1.3.1
-    //    if (//particle->particleType != Particle::PT_VISUAL || 
-    //        particle->hasEventFlags(PUParticle3D::PEF_COLLIDED) || 
+    //    if (//particle->particleType != Particle::PT_VISUAL ||
+    //        particle->hasEventFlags(PUParticle3D::PEF_COLLIDED) ||
     //        particle->direction == Vec3::ZERO)
     //    {
     //        return;
@@ -175,7 +174,7 @@ PUParticle3DInterParticleCollider* PUParticle3DInterParticleCollider::create()
     return pipc;
 }
 
-void PUParticle3DInterParticleCollider::copyAttributesTo( PUAffector* affector )
+void PUParticle3DInterParticleCollider::copyAttributesTo(PUAffector* affector)
 {
     PUBaseCollider::copyAttributesTo(affector);
     PUParticle3DInterParticleCollider* interParticleCollider = static_cast<PUParticle3DInterParticleCollider*>(affector);

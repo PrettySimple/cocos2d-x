@@ -22,13 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "tinyxml2.h"
-#include "flatbuffers/flatbuffers.h"
-#include "cocostudio/WidgetReader/SkeletonReader/CSBoneBinary_generated.h"
-#include "cocostudio/WidgetReader/NodeReader/NodeReader.h"
-#include "cocostudio/CSParseBinary_generated.h"
 #include "cocostudio/WidgetReader/SkeletonReader/SkeletonNodeReader.h"
 #include "cocostudio/ActionTimeline/CCSkeletonNode.h"
+#include "cocostudio/CSParseBinary_generated.h"
+#include "cocostudio/WidgetReader/NodeReader/NodeReader.h"
+#include "cocostudio/WidgetReader/SkeletonReader/CSBoneBinary_generated.h"
+#include "flatbuffers/flatbuffers.h"
+#include "tinyxml2.h"
 
 USING_NS_CC;
 USING_NS_TIMELINE;
@@ -39,12 +39,10 @@ IMPLEMENT_CLASS_NODE_READER_INFO(SkeletonNodeReader)
 
 SkeletonNodeReader::SkeletonNodeReader()
 {
-
 }
 
 SkeletonNodeReader::~SkeletonNodeReader()
 {
-
 }
 
 static SkeletonNodeReader* _instanceSkeletonNodeReader = nullptr;
@@ -63,7 +61,7 @@ void SkeletonNodeReader::destroyInstance()
     CC_SAFE_DELETE(_instanceSkeletonNodeReader);
 }
 
-cocos2d::Node*  SkeletonNodeReader::createNodeWithFlatBuffers(const flatbuffers::Table *nodeOptions)
+cocos2d::Node* SkeletonNodeReader::createNodeWithFlatBuffers(const flatbuffers::Table* nodeOptions)
 {
     auto bone = SkeletonNode::create();
 

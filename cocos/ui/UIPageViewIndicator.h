@@ -25,8 +25,8 @@ THE SOFTWARE.
 #ifndef __UIPAGEVIEWINDICATOR_H__
 #define __UIPAGEVIEWINDICATOR_H__
 
-#include "ui/UIPageView.h"
 #include "2d/CCSprite.h"
+#include "ui/UIPageView.h"
 
 NS_CC_BEGIN
 /**
@@ -34,61 +34,60 @@ NS_CC_BEGIN
  * @{
  */
 
-namespace ui {
-
-class PageViewIndicator : public ProtectedNode
+namespace ui
 {
+    class PageViewIndicator : public ProtectedNode
+    {
+    public:
+        /**
+         * Create a page view indicator with its parent page view.
+         * @return A page view indicator instance.
+         */
+        static PageViewIndicator* create();
 
-public:
-    /**
-     * Create a page view indicator with its parent page view.
-     * @return A page view indicator instance.
-     */
-    static PageViewIndicator* create();
+        PageViewIndicator();
+        virtual ~PageViewIndicator();
 
-    PageViewIndicator();
-    virtual ~PageViewIndicator();
+        void setDirection(PageView::Direction direction);
+        void reset(ssize_t numberOfTotalPages);
+        void indicate(ssize_t index);
+        void clear();
+        void setSpaceBetweenIndexNodes(float spaceBetweenIndexNodes);
+        float getSpaceBetweenIndexNodes() const { return _spaceBetweenIndexNodes; }
+        void setSelectedIndexColor(const Color3B& color) { _currentIndexNode->setColor(color); }
+        const Color3B& getSelectedIndexColor() const { return _currentIndexNode->getColor(); }
+        void setIndexNodesColor(const Color3B& indexNodesColor);
+        const Color3B& getIndexNodesColor() const { return _indexNodesColor; }
+        void setIndexNodesScale(float indexNodesScale);
+        float getIndexNodesScale() const { return _indexNodesScale; }
 
-    void setDirection(PageView::Direction direction);
-    void reset(ssize_t numberOfTotalPages);
-    void indicate(ssize_t index);
-    void clear();
-    void setSpaceBetweenIndexNodes(float spaceBetweenIndexNodes);
-    float getSpaceBetweenIndexNodes() const { return _spaceBetweenIndexNodes; }
-    void setSelectedIndexColor(const Color3B& color) { _currentIndexNode->setColor(color); }
-    const Color3B& getSelectedIndexColor() const { return _currentIndexNode->getColor(); }
-    void setIndexNodesColor(const Color3B& indexNodesColor);
-    const Color3B& getIndexNodesColor() const { return _indexNodesColor; }
-    void setIndexNodesScale(float indexNodesScale);
-    float getIndexNodesScale() const { return _indexNodesScale; }
-    
-    /**
-     * Sets texture for index nodes.
-     *
-     * @param fileName   File name of texture.
-     * @param resType    @see TextureResType .
-     */
-    void setIndexNodesTexture(const std::string& texName,Widget::TextureResType texType = Widget::TextureResType::LOCAL);
-    
-protected:
-    bool init() override;
-    void increaseNumberOfPages();
-    void decreaseNumberOfPages();
-    void rearrange();
+        /**
+         * Sets texture for index nodes.
+         *
+         * @param fileName   File name of texture.
+         * @param resType    @see TextureResType .
+         */
+        void setIndexNodesTexture(const std::string& texName, Widget::TextureResType texType = Widget::TextureResType::LOCAL);
 
-    PageView::Direction _direction;
-    Vector<Sprite*> _indexNodes;
-    Sprite* _currentIndexNode;
-    float _spaceBetweenIndexNodes;
-    float _indexNodesScale;
-    Color3B _indexNodesColor;
-    
-    bool _useDefaultTexture;
-    std::string _indexNodesTextureFile;
-    Widget::TextureResType _indexNodesTexType;
-};
+    protected:
+        bool init() override;
+        void increaseNumberOfPages();
+        void decreaseNumberOfPages();
+        void rearrange();
 
-}
+        PageView::Direction _direction;
+        Vector<Sprite*> _indexNodes;
+        Sprite* _currentIndexNode;
+        float _spaceBetweenIndexNodes;
+        float _indexNodesScale;
+        Color3B _indexNodesColor;
+
+        bool _useDefaultTexture;
+        std::string _indexNodesTextureFile;
+        Widget::TextureResType _indexNodesTexType;
+    };
+
+} // namespace ui
 // end of ui group
 /// @}
 NS_CC_END

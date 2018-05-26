@@ -25,8 +25,7 @@
  ***************************************************************************/
 
 #if (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
-int inet_pton(int af, const char *src, void *dst);
+int inet_pton(int af, const char* src, void* dst);
 #endif
 
 #endif /* HEADER_CURL_INET_PTON_WINIRT_H */
-

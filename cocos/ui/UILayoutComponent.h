@@ -33,7 +33,8 @@ NS_CC_BEGIN
  * @{
  */
 
-namespace ui {
+namespace ui
+{
     /**
      *@brief A component class used for layout.
      * The LayoutComponent holds all the data for layouting.
@@ -55,7 +56,7 @@ namespace ui {
          */
         ~LayoutComponent();
 
-        virtual bool init()override;
+        virtual bool init() override;
 
         /**
          * Create a LayoutComponent instance with default settings.
@@ -104,7 +105,7 @@ namespace ui {
          * Query whether use percent content size or not.
          *@return True if using percent content size, false otherwise.
          */
-        bool getUsingPercentContentSize()const;
+        bool getUsingPercentContentSize() const;
 
         /**
          * Set percent content size.
@@ -112,19 +113,19 @@ namespace ui {
          * and 1 means the child's content size is the same as its parents.
          *@param percent The percent (x,y) of the node in [0-1] scope.
          */
-        void setPercentContentSize(const Vec2 &percent);
+        void setPercentContentSize(const Vec2& percent);
 
         /**
          * Query the percent content size value.
          *@return Percent (x,y) in Vec2.
          */
-        Vec2 getPercentContentSize()const;
+        Vec2 getPercentContentSize() const;
 
         /**
          * Query the anchor position.
          *@return Anchor position to it's parent
          */
-        const Point& getAnchorPosition()const;
+        const Point& getAnchorPosition() const;
 
         /**
          * Change the anchor position to it's parent.
@@ -136,20 +137,20 @@ namespace ui {
          * Query the owner's position.
          *@return The owner's position.
          */
-        const Point& getPosition()const;
+        const Point& getPosition() const;
 
         /**
          * Change the position of component owner.
          * @param position A position in (x,y)
-         */ 
+         */
         void setPosition(const Point& position);
 
         /**
-         * Whether position percentX is enabled or not. 
+         * Whether position percentX is enabled or not.
          *@return True if position percentX is enable, false otherwise.
          */
-        bool isPositionPercentXEnabled()const;
-        
+        bool isPositionPercentXEnabled() const;
+
         /**
          * Toggle position percentX enabled.
          *@param isUsed  True if enable position percentX, false otherwise.
@@ -160,7 +161,7 @@ namespace ui {
          * Query the position percent X value.
          *@return Position percent X value in float.
          */
-        float getPositionPercentX()const;
+        float getPositionPercentX() const;
 
         /**
          * Change position percent X value.
@@ -173,7 +174,7 @@ namespace ui {
          *@see `setPositionPercentYEnabled`
          *@return True if position percentY is enabled, false otherwise.
          */
-        bool isPositionPercentYEnabled()const;
+        bool isPositionPercentYEnabled() const;
 
         /**
          * Toggle position percentY enabled.
@@ -185,7 +186,7 @@ namespace ui {
          * Query the position percentY Y value.
          *@return Position percent Y value in float.
          */
-        float getPositionPercentY()const;
+        float getPositionPercentY() const;
 
         /**
          * Change position percentY value.
@@ -197,7 +198,7 @@ namespace ui {
          * Query element horizontal dock type.
          *@return Horizontal dock type.
          */
-        HorizontalEdge getHorizontalEdge()const;
+        HorizontalEdge getHorizontalEdge() const;
 
         /**
          * Change element's horizontal dock type.
@@ -209,7 +210,7 @@ namespace ui {
          * Query element vertical dock type.
          *@return Vertical dock type.
          */
-        VerticalEdge getVerticalEdge()const;
+        VerticalEdge getVerticalEdge() const;
 
         /**
          * Change element's vertical dock type.
@@ -221,7 +222,7 @@ namespace ui {
          * Query left margin of owner relative to its parent.
          *@return Left margin in float.
          */
-        float getLeftMargin()const;
+        float getLeftMargin() const;
 
         /**
          * Change left margin of owner relative to its parent.
@@ -233,7 +234,7 @@ namespace ui {
          * Query the right margin of owner relative to its parent.
          *@return Right margin in float.
          */
-        float getRightMargin()const;
+        float getRightMargin() const;
 
         /**
          * Change right margin of owner relative to its parent.
@@ -245,7 +246,7 @@ namespace ui {
          * Query the top margin of owner relative to its parent.
          *@return Top margin in float.
          */
-        float getTopMargin()const;
+        float getTopMargin() const;
 
         /**
          * Change the top margin of owner relative to its parent.
@@ -257,7 +258,7 @@ namespace ui {
          * Query the bottom margin of owner relative to its parent.
          *@return Bottom margin in float.
          */
-        float getBottomMargin()const;
+        float getBottomMargin() const;
 
         /**
          * Change the bottom margin of owner relative to its parent.
@@ -269,7 +270,7 @@ namespace ui {
          * Query owner's content size.
          *@return Owner's content size.
          */
-        const Size& getSize()const;
+        const Size& getSize() const;
 
         /**
          * Change the content size of owner.
@@ -281,7 +282,7 @@ namespace ui {
          * Query whether percent width is enabled or not.
          *@return True if percent width is enabled, false, otherwise.
          */
-        bool isPercentWidthEnabled()const;
+        bool isPercentWidthEnabled() const;
 
         /**
          * Toggle enable percent width.
@@ -293,7 +294,7 @@ namespace ui {
          * Query content size width of owner.
          *@return Content size width in float.
          */
-        float getSizeWidth()const;
+        float getSizeWidth() const;
 
         /**
          * Change content size width of owner.
@@ -305,7 +306,7 @@ namespace ui {
          * Query percent width of owner.
          *@return percent width in float.
          */
-        float getPercentWidth()const;
+        float getPercentWidth() const;
 
         /**
          * Change percent width of owner.
@@ -317,7 +318,7 @@ namespace ui {
          * Query whether percent height is enabled or not.
          *@return True if percent height is enabled, false otherwise.
          */
-        bool isPercentHeightEnabled()const;
+        bool isPercentHeightEnabled() const;
 
         /**
          * Toggle enable percent height.
@@ -329,7 +330,7 @@ namespace ui {
          * Query size height of owner.
          *@return Size height in float.
          */
-        float getSizeHeight()const;
+        float getSizeHeight() const;
 
         /**
          * Change size height of owner.
@@ -338,10 +339,10 @@ namespace ui {
         void setSizeHeight(float height);
 
         /**
-         * Query percent height of owner.         
+         * Query percent height of owner.
          *@return Percent height in float.
          */
-        float getPercentHeight()const;
+        float getPercentHeight() const;
 
         /**
          * Change percent height value of owner.
@@ -353,7 +354,7 @@ namespace ui {
          * Query whether stretch width is enabled or not.
          *@return True if stretch width is enabled, false otherwise.
          */
-        bool isStretchWidthEnabled()const;
+        bool isStretchWidthEnabled() const;
 
         /**
          * Toggle enable stretch width.
@@ -365,14 +366,14 @@ namespace ui {
          * Query whether stretch height is enabled or not.
          *@return True if stretch height is enabled, false otherwise.
          */
-        bool isStretchHeightEnabled()const;
+        bool isStretchHeightEnabled() const;
 
         /**
          * Toggle enable stretch height.
          *@param isUsed True if stretch height is enabled, false otherwise.
          */
         void setStretchHeightEnabled(bool isUsed);
-        
+
         /**
          * Toggle enable percent only.
          *@param enable True if percent only is enabled, false otherwise.
@@ -394,33 +395,34 @@ namespace ui {
         Node* getOwnerParent();
         void refreshHorizontalMargin();
         void refreshVerticalMargin();
+
     protected:
-        HorizontalEdge  _horizontalEdge;
-        VerticalEdge    _verticalEdge;
+        HorizontalEdge _horizontalEdge;
+        VerticalEdge _verticalEdge;
 
-        float           _leftMargin;
-        float           _rightMargin;
-        float           _bottomMargin;
-        float           _topMargin;
+        float _leftMargin;
+        float _rightMargin;
+        float _bottomMargin;
+        float _topMargin;
 
-        bool            _usingPositionPercentX;
-        float           _positionPercentX;
-        bool            _usingPositionPercentY;
-        float           _positionPercentY;
+        bool _usingPositionPercentX;
+        float _positionPercentX;
+        bool _usingPositionPercentY;
+        float _positionPercentY;
 
-        bool            _usingStretchWidth;
-        bool            _usingStretchHeight;
+        bool _usingStretchWidth;
+        bool _usingStretchHeight;
 
-        float           _percentWidth;
-        bool            _usingPercentWidth;
-        
-        float           _percentHeight;
-        bool            _usingPercentHeight;
+        float _percentWidth;
+        bool _usingPercentWidth;
 
-        bool            _actived;
-        bool            _isPercentOnly;
+        float _percentHeight;
+        bool _usingPercentHeight;
+
+        bool _actived;
+        bool _isPercentOnly;
     };
-}
+} // namespace ui
 
 // end of ui group
 /// @}

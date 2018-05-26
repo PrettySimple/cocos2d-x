@@ -7,15 +7,14 @@
 //
 
 #include "platform/CCPlatformConfig.h"
-#if(CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
 
-#include "base/CCUserDefault.h"
-#include "base/base64.h"
-#include "base/ccUtils.h"
-#include <mutex>
-#include <stdlib.h>
-#include <emscripten.h>
-
+#    include "base/CCUserDefault.h"
+#    include "base/base64.h"
+#    include "base/ccUtils.h"
+#    include <emscripten.h>
+#    include <mutex>
+#    include <stdlib.h>
 
 /*
 
@@ -23,384 +22,354 @@
 
 * For some obscure reason, the comments in CCUserDefault.h state:
 
-	> All supported platforms other iOS & Android use xml file to save values.
+    > All supported platforms other iOS & Android use xml file to save values.
 
-	However, both ios and android still implement some xml-related code, under the KEEP_COMPATABILITY (sic) #ifdef
+    However, both ios and android still implement some xml-related code, under the KEEP_COMPATABILITY (sic) #ifdef
 
-	Since we don't have any compatibility to maintain, all xml-related methods shall unconditionally be NOOPs.
+    Since we don't have any compatibility to maintain, all xml-related methods shall unconditionally be NOOPs.
 
-	Update 16/04/2018 - Removed code under KEEP_COMPATABILITY that was doing insane stuff (deleting keys in set*() methods)
+    Update 16/04/2018 - Removed code under KEEP_COMPATABILITY that was doing insane stuff (deleting keys in set*() methods)
 
 * Implementing this is annoying as we cannot add functions to the class.
 
-	All the shared code had to be implemented as static functions (that's what the implementations for other platforms do)
+    All the shared code had to be implemented as static functions (that's what the implementations for other platforms do)
 
 
 * Choosing the backend
 
-	Candidates:
+    Candidates:
 
-		1) IndexedDB
+        1) IndexedDB
 
-			IndexedDB is not available at all on some browsers in private browsing mode:
+            IndexedDB is not available at all on some browsers in private browsing mode:
 
-				https://bugzilla.mozilla.org/show_bug.cgi?id=781982
-				(not "fixed" as of 15/11/2017)
+                https://bugzilla.mozilla.org/show_bug.cgi?id=781982
+                (not "fixed" as of 15/11/2017)
 
-			=> Discarded (which also discards emscripten's IDBFS)
+            => Discarded (which also discards emscripten's IDBFS)
 
-		2) localeStorage & sessionStorage
+        2) localeStorage & sessionStorage
 
-			While localStorage is also unavailable on some (all?) browsers in private browsing mode,
-			sessionStorage usually is, and has the advantage to expose the same API as localStorage, making the fallback easy.
+            While localStorage is also unavailable on some (all?) browsers in private browsing mode,
+            sessionStorage usually is, and has the advantage to expose the same API as localStorage, making the fallback easy.
 
-			Therefore we'll use sessionStorage as fallback, so that at least everything works in a session lifetime,
-			although the data won't persist.
+            Therefore we'll use sessionStorage as fallback, so that at least everything works in a session lifetime,
+            although the data won't persist.
 
-			Unfortunately, there is no native emscripten API for this, we need to code everything by ourselves.
+            Unfortunately, there is no native emscripten API for this, we need to code everything by ourselves.
 
-			=> Winner
+            => Winner
 
-			Addendum: there is: https://github.com/emscripten-ports/Cocos2d/blob/master/cocos2dx/support/user_default/CCUserDefaultEmscripten.cpp
-			but it doesn't fallback to sessionStorage which IMHO is a must. Also, it assumes std::string is utf8 (hence DOMString-serializable) which
-			it might not be (since the API allows storing binary cocos2d::Data).
+            Addendum: there is: https://github.com/emscripten-ports/Cocos2d/blob/master/cocos2dx/support/user_default/CCUserDefaultEmscripten.cpp
+            but it doesn't fallback to sessionStorage which IMHO is a must. Also, it assumes std::string is utf8 (hence DOMString-serializable) which
+            it might not be (since the API allows storing binary cocos2d::Data).
 
-		3) In-memory only non-persistent storage
+        3) In-memory only non-persistent storage
 
-			=> Discarded as requires nearly the same coding effort as the option #2, while providing no advantage.
+            => Discarded as requires nearly the same coding effort as the option #2, while providing no advantage.
 
 
 * Implementation notes
 
-	* const char *key
+    * const char *key
 
-		Neither the Cocos documentation nor source code specify anything regarding the "const char *key" argument. According to the code, it is
-		expected to be a zero-terminated string.
+        Neither the Cocos documentation nor source code specify anything regarding the "const char *key" argument. According to the code, it is
+        expected to be a zero-terminated string.
 
-		For sake of simplicity, we'll *assume* that it always holds a string that forms valid utf8 sequences. Passing a non-utf8 string will break this
-		implementation. It's probably safe, as the implementations using XML have the same constraints regarding utf8.
+        For sake of simplicity, we'll *assume* that it always holds a string that forms valid utf8 sequences. Passing a non-utf8 string will break this
+        implementation. It's probably safe, as the implementations using XML have the same constraints regarding utf8.
 
-	* Passing lengths to javascript
+    * Passing lengths to javascript
 
-		We keep passing length to javascript, despite all pointers being null-terminated string, and Pointer_stringify() knowing how to deal with them.
-		This allows us to change serializing format without breaking everything.
+        We keep passing length to javascript, despite all pointers being null-terminated string, and Pointer_stringify() knowing how to deal with them.
+        This allows us to change serializing format without breaking everything.
 
-	* JS implementation
+    * JS implementation
 
-		Because window.*storage implementations only support storing DOMString-s, and we need to store CPP native data types, including
-		binary data (cocos2d::Data), which might not be (unlikely is) valid UTF-16, we'll serialize all data before storing it.
+        Because window.*storage implementations only support storing DOMString-s, and we need to store CPP native data types, including
+        binary data (cocos2d::Data), which might not be (unlikely is) valid UTF-16, we'll serialize all data before storing it.
 
-		Therefore, CPP will always provide pre-encoded data that is valid DOMString. Specifically, CPP will always base64-encode/decode everything.
+        Therefore, CPP will always provide pre-encoded data that is valid DOMString. Specifically, CPP will always base64-encode/decode everything.
 
-		Also, for compatibility with implementations on other platforms, which serialize every data type into strings, we'll do the same
-		and always provide strings to the JS underlying storage.
+        Also, for compatibility with implementations on other platforms, which serialize every data type into strings, we'll do the same
+        and always provide strings to the JS underlying storage.
 
-		This implies a risk of data precision loss of float/double, and that's not the way I would have done it, but it's safer that we
-		mimic behavior of other platforms, then exhibit different behavior...
+        This implies a risk of data precision loss of float/double, and that's not the way I would have done it, but it's safer that we
+        mimic behavior of other platforms, then exhibit different behavior...
 
 
 */
 
 NS_CC_BEGIN
 
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Static functions
 
 namespace
 {
+    static void setValueForKey(const char* key, const char* value, size_t size)
+    {
+        if (key && value)
+        {
+            // Okay, we're unconditionally base64-encoding so that the data provided to JS is always DOMString-compatible.
+            // We're using cocos' base64 functions (which is what the default CCUserDefault.cpp implementation does, yet only
+            // when storing cocos2d::Data)
 
-	static void	setValueForKey(const char *key, const char *value, size_t size)
-	{
-		if(key && value)
-		{
-			// Okay, we're unconditionally base64-encoding so that the data provided to JS is always DOMString-compatible.
-			// We're using cocos' base64 functions (which is what the default CCUserDefault.cpp implementation does, yet only
-			// when storing cocos2d::Data)
+            char* encodedData = nullptr;
 
-			char *encodedData = nullptr;
+            base64Encode(reinterpret_cast<unsigned char*>(const_cast<char*>(value)), size, &encodedData);
 
-			base64Encode(reinterpret_cast<unsigned char *>(const_cast<char *>(value)), size, &encodedData);
+            if (!encodedData)
+                return;
 
-			if(!encodedData)
-				return;
+            EM_ASM_({ Module.cocos_UserDefault.setValue($0, $1, $2, $3); }, key, strlen(key), encodedData, strlen(encodedData));
 
-			EM_ASM_({
-				Module.cocos_UserDefault.setValue($0, $1, $2, $3);
-			}, key, strlen(key), encodedData, strlen(encodedData));
+            free(encodedData);
+        }
+    }
 
-			free(encodedData);
-		}
-	}
+    static std::pair<bool, std::string> // <found, value>
+    getValueForKey(const char* key)
+    {
+        uintptr_t ptr = EM_ASM_INT({ return Module.cocos_UserDefault.getValue($0, $1); }, key, strlen(key));
 
-	static std::pair<bool, std::string>	// <found, value>
-				getValueForKey(const char *key)
-	{
-		uintptr_t	ptr = EM_ASM_INT({
-			return Module.cocos_UserDefault.getValue($0, $1);
-		}, key, strlen(key));
+        if (!ptr)
+            return std::make_pair(false, "");
 
-		if(!ptr)
-			return std::make_pair(false, "");
+        char* value = reinterpret_cast<char*>(ptr);
 
-		char	*value = reinterpret_cast<char *>(ptr);
+        // Skip useless base64Decode() call if we got an empty string
+        if (*value == 0x00)
+        {
+            free(value);
+            return std::make_pair(true, "");
+        }
 
-		// Skip useless base64Decode() call if we got an empty string
-		if(*value == 0x00)
-		{
-			free(value);
-			return std::make_pair(true, "");
-		}
+        char* decodedData = nullptr;
+        auto decodedDataLen =
+            base64Decode(reinterpret_cast<unsigned char*>(value), static_cast<unsigned int>(strlen(value)), reinterpret_cast<unsigned char**>(&decodedData));
 
-		char	*decodedData = nullptr;
-		auto	decodedDataLen = base64Decode(reinterpret_cast<unsigned char *>(value), static_cast<unsigned int>(strlen(value)), reinterpret_cast<unsigned char **>(&decodedData));
+        free(value);
 
-		free(value);
+        if (decodedData)
+        {
+            auto ret = std::make_pair(true, std::string(decodedData, decodedDataLen));
 
-		if(decodedData)
-		{
-			auto	ret = std::make_pair(true, std::string(decodedData, decodedDataLen));
+            free(decodedData);
 
-			free(decodedData);
+            return ret;
+        }
 
-			return ret;
-		}
+        // This is an allocation failure. The default implementation acts as the key wasn't found, so we're doing the same
 
-		// This is an allocation failure. The default implementation acts as the key wasn't found, so we're doing the same
+        return std::make_pair(false, "");
+    }
 
-		return std::make_pair(false, "");
-	}
-
-}
+} // namespace
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Constructor/destructor and JS implementation (in UserDefault::UserDefault())
 
-
-UserDefault	*UserDefault::_userDefault = nullptr;
-
+UserDefault* UserDefault::_userDefault = nullptr;
 
 UserDefault::UserDefault()
 {
-	static std::once_flag	run_once;
+    static std::once_flag run_once;
 
-	// Dump the Javascript that actually does most of the job
-	std::call_once(
-		run_once,
-		[]()
-		{
-			// I had trouble inlining this code with EM_ASM() (it confuses the compiler), same problem as in HTTPManager_emscripten.cpp...
-			emscripten_run_script(
-				#include "CCUserDefault-emscripten.cpp.js"
-			);
-		}
-	);
+    // Dump the Javascript that actually does most of the job
+    std::call_once(run_once, []() {
+        // I had trouble inlining this code with EM_ASM() (it confuses the compiler), same problem as in HTTPManager_emscripten.cpp...
+        emscripten_run_script(
+#    include "CCUserDefault-emscripten.cpp.js"
+        );
+    });
 }
-
 
 UserDefault::~UserDefault()
 {
 }
 
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Dumb get*() wrappers with default values
 
-bool	UserDefault::getBoolForKey(const char *key)
+bool UserDefault::getBoolForKey(const char* key)
 {
-	return getBoolForKey(key, false);
+    return getBoolForKey(key, false);
 }
 
-int		UserDefault::getIntegerForKey(const char *key)
+int UserDefault::getIntegerForKey(const char* key)
 {
-	return getIntegerForKey(key, 0);
+    return getIntegerForKey(key, 0);
 }
 
-float	UserDefault::getFloatForKey(const char *key)
+float UserDefault::getFloatForKey(const char* key)
 {
-	return getFloatForKey(key, 0.0f);
+    return getFloatForKey(key, 0.0f);
 }
 
-double	UserDefault::getDoubleForKey(const char *key)
+double UserDefault::getDoubleForKey(const char* key)
 {
-	return getDoubleForKey(key, 0.0);
+    return getDoubleForKey(key, 0.0);
 }
 
-std::string	UserDefault::getStringForKey(const char *key)
+std::string UserDefault::getStringForKey(const char* key)
 {
-	return getStringForKey(key, "");
+    return getStringForKey(key, "");
 }
 
-Data	UserDefault::getDataForKey(const char *key)
+Data UserDefault::getDataForKey(const char* key)
 {
-	return getDataForKey(key, Data::Null);
+    return getDataForKey(key, Data::Null);
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // The actual get*() implementation
 
-bool	UserDefault::getBoolForKey(const char *key, bool defaultValue)
+bool UserDefault::getBoolForKey(const char* key, bool defaultValue)
 {
-	auto	value = getValueForKey(key);
+    auto value = getValueForKey(key);
 
-	if(value.first)
-		return value.second == "true";
+    if (value.first)
+        return value.second == "true";
 
-	return defaultValue;
+    return defaultValue;
 }
 
-
-int		UserDefault::getIntegerForKey(const char *key, int defaultValue)
+int UserDefault::getIntegerForKey(const char* key, int defaultValue)
 {
-	auto	value = getValueForKey(key);
+    auto value = getValueForKey(key);
 
-	if(value.first)
-		return atoi(value.second.c_str());
+    if (value.first)
+        return atoi(value.second.c_str());
 
-	return defaultValue;
+    return defaultValue;
 }
 
-
-
-float	UserDefault::getFloatForKey(const char *key, float defaultValue)
+float UserDefault::getFloatForKey(const char* key, float defaultValue)
 {
     return static_cast<float>(getDoubleForKey(key, static_cast<double>(defaultValue)));
 }
 
-
-double	UserDefault::getDoubleForKey(const char *key, double defaultValue)
+double UserDefault::getDoubleForKey(const char* key, double defaultValue)
 {
-	auto	value = getValueForKey(key);
+    auto value = getValueForKey(key);
 
-	if(value.first)
-		return utils::atof(value.second.c_str());
+    if (value.first)
+        return utils::atof(value.second.c_str());
 
-	return defaultValue;
+    return defaultValue;
 }
 
-
-
-
-std::string	UserDefault::getStringForKey(const char *key, const std::string& defaultValue)
+std::string UserDefault::getStringForKey(const char* key, const std::string& defaultValue)
 {
-	auto	value = getValueForKey(key);
+    auto value = getValueForKey(key);
 
-	if(value.first)
-		return value.second;
+    if (value.first)
+        return value.second;
 
-	return defaultValue;
+    return defaultValue;
 }
 
-
-
-Data	UserDefault::getDataForKey(const char *key, const Data& defaultValue)
+Data UserDefault::getDataForKey(const char* key, const Data& defaultValue)
 {
-	auto	value = getValueForKey(key);
+    auto value = getValueForKey(key);
 
-	if(!value.first)
-		return defaultValue;
+    if (!value.first)
+        return defaultValue;
 
-	if(!value.second.empty())
-	{
-		Data	ret;
+    if (!value.second.empty())
+    {
+        Data ret;
 
-		ret.copy(reinterpret_cast<const unsigned char *>(value.second.data()), value.second.size());
+        ret.copy(reinterpret_cast<const unsigned char*>(value.second.data()), value.second.size());
 
-		return ret;
-	}
-	else
-		return Data::Null;
+        return ret;
+    }
+    else
+        return Data::Null;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // The actual set*(), flush() and deleteValueForKey() implementation
 
-
-void	UserDefault::setBoolForKey(const char *key, bool value)
+void UserDefault::setBoolForKey(const char* key, bool value)
 {
-	if(key)
-		setStringForKey(key, value ? "true" : "false");
+    if (key)
+        setStringForKey(key, value ? "true" : "false");
 }
 
-void	UserDefault::setIntegerForKey(const char *key, int value)
+void UserDefault::setIntegerForKey(const char* key, int value)
 {
-	if(key)
-	{
-		// From base/CCUserDefault.cpp ...
-		char tmp[50];
-		memset(tmp, 0, 50);
-		sprintf(tmp, "%d", value);
+    if (key)
+    {
+        // From base/CCUserDefault.cpp ...
+        char tmp[50];
+        memset(tmp, 0, 50);
+        sprintf(tmp, "%d", value);
 
-		setValueForKey(key, tmp, strlen(tmp));
-	}
+        setValueForKey(key, tmp, strlen(tmp));
+    }
 }
 
-void	UserDefault::setFloatForKey(const char *key, float value)
+void UserDefault::setFloatForKey(const char* key, float value)
 {
-	// From CCUserDefault.cpp ...
-	setDoubleForKey(key, value);
+    // From CCUserDefault.cpp ...
+    setDoubleForKey(key, value);
 }
 
-void	UserDefault::setDoubleForKey(const char *key, double value)
+void UserDefault::setDoubleForKey(const char* key, double value)
 {
-	if(key)
-	{
-		// From base/CCUserDefault.cpp ...
-		char tmp[50];
-		memset(tmp, 0, 50);
-		sprintf(tmp, "%f", value);
+    if (key)
+    {
+        // From base/CCUserDefault.cpp ...
+        char tmp[50];
+        memset(tmp, 0, 50);
+        sprintf(tmp, "%f", value);
 
-		setValueForKey(key, tmp, strlen(tmp));
-	}
-
+        setValueForKey(key, tmp, strlen(tmp));
+    }
 }
 
-void	UserDefault::setStringForKey(const char *key, const std::string& value)
+void UserDefault::setStringForKey(const char* key, const std::string& value)
 {
-	if(key)
-		setValueForKey(key, value.data(), value.size());
+    if (key)
+        setValueForKey(key, value.data(), value.size());
 }
 
-void	UserDefault::setDataForKey(const char *key, const Data& value)
+void UserDefault::setDataForKey(const char* key, const Data& value)
 {
-	// Note that this will serialize Data::Null as a zero-length string. This is consistent with other implementations.
+    // Note that this will serialize Data::Null as a zero-length string. This is consistent with other implementations.
 
-	if(key)
-		setValueForKey(key, reinterpret_cast<const char *>(value.getBytes()), value.getSize());
+    if (key)
+        setValueForKey(key, reinterpret_cast<const char*>(value.getBytes()), value.getSize());
 }
 
-void	UserDefault::flush()
+void UserDefault::flush()
 {
-	// NOOP in emscripten, all operations are synchronous
+    // NOOP in emscripten, all operations are synchronous
 }
 
-void	UserDefault::deleteValueForKey(const char *key)
+void UserDefault::deleteValueForKey(const char* key)
 {
-	EM_ASM_({
-		Module.cocos_UserDefault.removeValue($0, $1);
-	}, key, strlen(key));
+    EM_ASM_({ Module.cocos_UserDefault.removeValue($0, $1); }, key, strlen(key));
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // The rest... most are NOOPs, copied from default or other platforms implementations
 
-UserDefault
-		*UserDefault::getInstance()
+UserDefault* UserDefault::getInstance()
 {
-	if(!_userDefault)
-		_userDefault = new (std::nothrow) UserDefault();
+    if (!_userDefault)
+        _userDefault = new (std::nothrow) UserDefault();
 
-	return _userDefault;
+    return _userDefault;
 }
 
-void	UserDefault::destroyInstance()
+void UserDefault::destroyInstance()
 {
     CC_SAFE_DELETE(_userDefault);
 }
 
-
 NS_CC_END
 
-#endif	// #if(CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+#endif // #if(CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)

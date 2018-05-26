@@ -15,7 +15,8 @@
 NS_CC_BEGIN
 
 template <typename T>
-struct remove_cvref {
+struct remove_cvref
+{
     using type = typename std::remove_cv<typename std::remove_reference<T>::type>::type;
 };
 
@@ -29,7 +30,10 @@ public:
     using first_type_t = typename remove_cvref_t<PairIter>::first_type;
     using second_type_t = typename remove_cvref_t<PairIter>::second_type;
 
-    inline explicit iterator_pair (PairIter&& p) : _p (std::forward<PairIter>(p)) {}
+    inline explicit iterator_pair(PairIter&& p)
+    : _p(std::forward<PairIter>(p))
+    {
+    }
     inline first_type_t begin() { return _p.first; }
     inline second_type_t end() { return _p.second; }
     inline first_type_t begin() const noexcept { return _p.first; }

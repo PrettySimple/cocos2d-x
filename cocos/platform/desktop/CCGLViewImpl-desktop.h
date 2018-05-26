@@ -27,28 +27,28 @@ THE SOFTWARE.
 #define __CC_EGLViewIMPL_DESKTOP_H__
 
 #include "base/CCRef.h"
+#include "glfw3.h"
 #include "platform/CCCommon.h"
 #include "platform/CCGLView.h"
-#include "glfw3.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
-#ifndef GLFW_EXPOSE_NATIVE_WIN32
-#define GLFW_EXPOSE_NATIVE_WIN32
-#endif
-#ifndef GLFW_EXPOSE_NATIVE_WGL
-#define GLFW_EXPOSE_NATIVE_WGL
-#endif
-#include "glfw3native.h"
+#    ifndef GLFW_EXPOSE_NATIVE_WIN32
+#        define GLFW_EXPOSE_NATIVE_WIN32
+#    endif
+#    ifndef GLFW_EXPOSE_NATIVE_WGL
+#        define GLFW_EXPOSE_NATIVE_WGL
+#    endif
+#    include "glfw3native.h"
 #endif /* (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) */
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
-#ifndef GLFW_EXPOSE_NATIVE_NSGL
-#define GLFW_EXPOSE_NATIVE_NSGL
-#endif
-#ifndef GLFW_EXPOSE_NATIVE_COCOA
-#define GLFW_EXPOSE_NATIVE_COCOA
-#endif
-#include "glfw3native.h"
+#    ifndef GLFW_EXPOSE_NATIVE_NSGL
+#        define GLFW_EXPOSE_NATIVE_NSGL
+#    endif
+#    ifndef GLFW_EXPOSE_NATIVE_COCOA
+#        define GLFW_EXPOSE_NATIVE_COCOA
+#    endif
+#    include "glfw3native.h"
 #endif // #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 
 NS_CC_BEGIN
@@ -60,19 +60,19 @@ public:
     static GLViewImpl* create(const std::string& viewName, bool resizable);
     static GLViewImpl* createWithRect(const std::string& viewName, Rect size, float frameZoomFactor = 1.0f, bool resizable = false);
     static GLViewImpl* createWithFullScreen(const std::string& viewName);
-    static GLViewImpl* createWithFullScreen(const std::string& viewName, const GLFWvidmode &videoMode, GLFWmonitor *monitor);
+    static GLViewImpl* createWithFullScreen(const std::string& viewName, const GLFWvidmode& videoMode, GLFWmonitor* monitor);
 
     /*
      *frameZoomFactor for frame. This method is for debugging big resolution (e.g.new ipad) app on desktop.
      */
 
-    //void resize(int width, int height);
+    // void resize(int width, int height);
 
     float getFrameZoomFactor() const override;
-    //void centerWindow();
+    // void centerWindow();
 
-    virtual void setViewPortInPoints(float x , float y , float w , float h) override;
-    virtual void setScissorInPoints(float x , float y , float w , float h) override;
+    virtual void setViewPortInPoints(float x, float y, float w, float h) override;
+    virtual void setScissorInPoints(float x, float y, float w, float h) override;
     virtual Rect getScissorRect() const override;
 
     bool windowShouldClose() override;
@@ -100,14 +100,14 @@ public:
     void enableRetina(bool enabled);
     /** Check whether retina display is enabled. */
     bool isRetinaEnabled() const { return _isRetinaEnabled; };
-    
+
     /** Get retina factor */
     int getRetinaFactor() const override { return _retinaFactor; }
-    
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
     HWND getWin32Window() { return glfwGetWin32Window(_mainWindow); }
 #endif /* (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) */
-    
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
     id getCocoaWindow() override { return glfwGetCocoaWindow(_mainWindow); }
 #endif // #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
@@ -118,7 +118,7 @@ protected:
 
     bool initWithRect(const std::string& viewName, Rect rect, float frameZoomFactor, bool resizable);
     bool initWithFullScreen(const std::string& viewName);
-    bool initWithFullscreen(const std::string& viewname, const GLFWvidmode &videoMode, GLFWmonitor *monitor);
+    bool initWithFullscreen(const std::string& viewname, const GLFWvidmode& videoMode, GLFWmonitor* monitor);
 
     bool initGlew();
 
@@ -133,7 +133,7 @@ protected:
     void onGLFWCharCallback(GLFWwindow* window, unsigned int character);
     void onGLFWWindowPosCallback(GLFWwindow* windows, int x, int y);
     void onGLFWframebuffersize(GLFWwindow* window, int w, int h);
-    void onGLFWWindowSizeFunCallback(GLFWwindow *window, int width, int height);
+    void onGLFWWindowSizeFunCallback(GLFWwindow* window, int width, int height);
     void onGLFWWindowIconifyCallback(GLFWwindow* window, int iconified);
     void onGLFWWindowFocusCallback(GLFWwindow* window, int focused);
 
@@ -141,7 +141,7 @@ protected:
     bool _supportTouch;
     bool _isInRetinaMonitor;
     bool _isRetinaEnabled;
-    int  _retinaFactor;  // Should be 1 or 2
+    int _retinaFactor; // Should be 1 or 2
 
     float _frameZoomFactor;
 
@@ -154,7 +154,7 @@ protected:
     float _mouseY;
 
     friend class GLFWEventHandler;
-    
+
 public:
     // View will trigger an event when window is resized, gains or loses focus
     static const std::string EVENT_WINDOW_RESIZED;
@@ -165,6 +165,6 @@ private:
     CC_DISALLOW_COPY_AND_ASSIGN(GLViewImpl);
 };
 
-NS_CC_END   // end of namespace   cocos2d
+NS_CC_END // end of namespace   cocos2d
 
-#endif  // end of __CC_EGLViewImpl_DESKTOP_H__
+#endif // end of __CC_EGLViewImpl_DESKTOP_H__

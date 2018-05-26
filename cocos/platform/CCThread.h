@@ -43,18 +43,17 @@ NS_CC_BEGIN
 class CC_DLL ThreadHelper
 {
 public:
-
     /** Create an autorelease pool for objective-c codes.
      * @js NA
      * @lua NA
      */
     static void* createAutoreleasePool();
-    
+
     /**
      * @js NA
      * @lua NA
-    */
-    static void releaseAutoreleasePool(void *autoreleasePool);
+     */
+    static void releaseAutoreleasePool(void* autoreleasePool);
 };
 
 // end of platform group
@@ -63,4 +62,4 @@ public:
 NS_CC_END
 
 /// @endcond
-#endif    // __CC_PLATFORM_THREAD_H__
+#endif // __CC_PLATFORM_THREAD_H__

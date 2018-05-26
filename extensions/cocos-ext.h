@@ -3,7 +3,6 @@
 
 #include "extensions/ExtensionMacros.h"
 
-
 #include "GUI/CCControlExtension/CCControlExtensions.h"
 #include "GUI/CCScrollView/CCScrollView.h"
 #include "GUI/CCScrollView/CCTableView.h"

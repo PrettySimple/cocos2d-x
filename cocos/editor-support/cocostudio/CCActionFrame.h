@@ -31,427 +31,426 @@ THE SOFTWARE.
 
 #include <chrono>
 
-namespace cocostudio {
-    
-enum FrameType
+namespace cocostudio
 {
-    kKeyframeMove = 0,
-    kKeyframeScale,
-    kKeyframeRotate,
-    kKeyframeTint,
-    kKeyframeFade,
-    kKeyframeMax
-};
+    enum FrameType
+    {
+        kKeyframeMove = 0,
+        kKeyframeScale,
+        kKeyframeRotate,
+        kKeyframeTint,
+        kKeyframeFade,
+        kKeyframeMax
+    };
 
-enum class FrameEaseType
-{
-    Custom = -1,
+    enum class FrameEaseType
+    {
+        Custom = -1,
 
-    LINERAR = 0,
+        LINERAR = 0,
 
-    SINE_EASEIN,
-    SINE_EASEOUT,
-    SINE_EASEINOUT,
+        SINE_EASEIN,
+        SINE_EASEOUT,
+        SINE_EASEINOUT,
 
-    QUAD_EASEIN,
-    QUAD_EASEOUT,
-    QUAD_EASEINOUT,
+        QUAD_EASEIN,
+        QUAD_EASEOUT,
+        QUAD_EASEINOUT,
 
-    CUBIC_EASEIN,
-    CUBIC_EASEOUT,
-    CUBIC_EASEINOUT,
+        CUBIC_EASEIN,
+        CUBIC_EASEOUT,
+        CUBIC_EASEINOUT,
 
-    QUART_EASEIN,
-    QUART_EASEOUT,
-    QUART_EASEINOUT,
+        QUART_EASEIN,
+        QUART_EASEOUT,
+        QUART_EASEINOUT,
 
-    QUINT_EASEIN,
-    QUINT_EASEOUT,
-    QUINT_EASEINOUT,
+        QUINT_EASEIN,
+        QUINT_EASEOUT,
+        QUINT_EASEINOUT,
 
-    EXPO_EASEIN,
-    EXPO_EASEOUT,
-    EXPO_EASEINOUT,
+        EXPO_EASEIN,
+        EXPO_EASEOUT,
+        EXPO_EASEINOUT,
 
-    CIRC_EASEIN,
-    CIRC_EASEOUT,
-    CIRC_EASEINOUT,
+        CIRC_EASEIN,
+        CIRC_EASEOUT,
+        CIRC_EASEINOUT,
 
-    ELASTIC_EASEIN,
-    ELASTIC_EASEOUT,
-    ELASTIC_EASEINOUT,
+        ELASTIC_EASEIN,
+        ELASTIC_EASEOUT,
+        ELASTIC_EASEINOUT,
 
-    BACK_EASEIN,
-    BACK_EASEOUT,
-    BACK_EASEINOUT,
+        BACK_EASEIN,
+        BACK_EASEOUT,
+        BACK_EASEINOUT,
 
-    BOUNCE_EASEIN,
-    BOUNCE_EASEOUT,
-    BOUNCE_EASEINOUT,
+        BOUNCE_EASEIN,
+        BOUNCE_EASEOUT,
+        BOUNCE_EASEINOUT,
 
-    TWEEN_EASING_MAX = 10000
-};
-/**
-*  @js NA
-*  @lua NA
-*/
-class CC_STUDIO_DLL ActionFrame: public cocos2d::Ref
-{
+        TWEEN_EASING_MAX = 10000
+    };
+    /**
+     *  @js NA
+     *  @lua NA
+     */
+    class CC_STUDIO_DLL ActionFrame : public cocos2d::Ref
+    {
+    public:
+        /**
+         * Default constructor
+         */
+        ActionFrame();
 
-public:
+        /**
+         * Default destructor
+         */
+        virtual ~ActionFrame();
+
+        /**
+         * Changes the index of action frame
+         *
+         * @param index   the index of action frame
+         */
+        void setFrameIndex(int index);
+
+        /**
+         * Gets the index of action frame
+         *
+         * @return the index of action frame
+         */
+        int getFrameIndex();
+
+        /**
+         * Changes the time of action frame
+         *
+         * @param fTime  the time of action frame
+         */
+        void setFrameTime(float fTime);
+
+        /**
+         * Gets the time of action frame
+         *
+         * @return fTime  the time of action frame
+         */
+        float getFrameTime();
+
+        /**
+         * Changes the type of action frame
+         *
+         * @param frameType   the type of action frame
+         */
+        void setFrameType(int frameType);
+
+        /**
+         * Gets the type of action frame
+         *
+         * @return the type of action frame
+         */
+        int getFrameType();
+
+        /**
+         * Changes the easing type.
+         *
+         * @param easingType the easing type.
+         */
+        void setEasingType(int easingType);
+
+        /**
+         * Gets the easing type.
+         *
+         * @return the easing type.
+         */
+        int getEasingType();
+
+        /**
+         * Gets the ActionInterval of ActionFrame.
+         *
+         * @param duration   the duration time of ActionFrame
+         *
+         * @return ActionInterval
+         */
+        virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration);
+        /**
+         * Gets the ActionInterval of ActionFrame.
+         *
+         * @param duration   the duration time of ActionFrame
+         *
+         * @param duration   the source ActionFrame
+         *
+         * @return ActionInterval
+         */
+        virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration, ActionFrame* srcFrame);
+
+        /**
+         *Set the ActionInterval easing parameter.
+         *
+         *@param parameter   the parameter for frame ease
+         *
+         */
+        virtual void setEasingParameter(std::vector<float>& parameter);
+
+    protected:
+        /**
+         * Gets the Easing Action of ActionFrame.
+         *
+         * @param action   the duration time of ActionFrame
+         *
+         * @return ActionInterval
+         */
+        virtual cocos2d::ActionInterval* getEasingAction(cocos2d::ActionInterval* action);
+
+    protected:
+        int _frameType;
+        int _frameIndex;
+        float _fTime;
+        FrameEaseType _easingType;
+        std::vector<float> _Parameter;
+    };
 
     /**
-    * Default constructor
-    */
-    ActionFrame();
+     *  @js NA
+     *  @lua NA
+     */
+    class CC_STUDIO_DLL ActionMoveFrame : public ActionFrame
+    {
+    public:
+        /**
+         * Default constructor
+         */
+        ActionMoveFrame();
+
+        /**
+         * Default destructor
+         */
+        virtual ~ActionMoveFrame();
+
+        /**
+         * Changes the move action position.
+         *
+         * @param the move action position.
+         */
+        void setPosition(cocos2d::Vec2 pos);
+
+        /**
+         * Gets the move action position.
+         *
+         * @return the move action position.
+         */
+        cocos2d::Vec2 getPosition();
+
+        /**
+         * Gets the ActionInterval of ActionFrame.
+         *
+         * @param duration   the duration time of ActionFrame
+         *
+         * @return ActionInterval
+         */
+        virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration);
+
+    protected:
+        cocos2d::Vec2 _position;
+    };
 
     /**
-    * Default destructor
-    */
-    virtual ~ActionFrame();
+     *  @js NA
+     *  @lua NA
+     */
+    class CC_STUDIO_DLL ActionScaleFrame : public ActionFrame
+    {
+    public:
+        /**
+         * Default constructor
+         */
+        ActionScaleFrame();
 
+        /**
+         * Default destructor
+         */
+        virtual ~ActionScaleFrame();
+
+        /**
+         * Changes the scale action scaleX.
+         *
+         * @param the scale action scaleX.
+         */
+        void setScaleX(float scaleX);
+
+        /**
+         * Gets the scale action scaleX.
+         *
+         * @return the scale action scaleX.
+         */
+        float getScaleX();
+
+        /**
+         * Changes the scale action scaleY.
+         *
+         * @param rotation the scale action scaleY.
+         */
+        void setScaleY(float scaleY);
+
+        /**
+         * Gets the scale action scaleY.
+         *
+         * @return the scale action scaleY.
+         */
+        float getScaleY();
+
+        /**
+         * Gets the ActionInterval of ActionFrame.
+         *
+         * @param duration   the duration time of ActionFrame
+         *
+         * @return ActionInterval
+         */
+        virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration);
+
+    protected:
+        float _scaleX;
+        float _scaleY;
+    };
     /**
-    * Changes the index of action frame
-    *
-    * @param index   the index of action frame
-    */
-    void setFrameIndex(int index);
+     *  @js NA
+     *  @lua NA
+     */
+    class CC_STUDIO_DLL ActionRotationFrame : public ActionFrame
+    {
+    public:
+        /**
+         * Default constructor
+         */
+        ActionRotationFrame();
 
+        /**
+         * Default destructor
+         */
+        virtual ~ActionRotationFrame();
+
+        /**
+         * Changes rotate action rotation.
+         *
+         * @param rotation rotate action rotation.
+         */
+        void setRotation(float rotation);
+
+        /**
+         * Gets the rotate action rotation.
+         *
+         * @return the rotate action rotation.
+         */
+        float getRotation();
+
+        /**
+         * Gets the ActionInterval of ActionFrame.
+         *
+         * @param duration   the duration time of ActionFrame
+         *
+         * @return ActionInterval
+         */
+        virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration);
+        /**
+         * Gets the ActionInterval of ActionFrame.
+         *
+         * @param duration   the duration time of ActionFrame
+         *
+         * @param duration   the source ActionFrame
+         *
+         * @return ActionInterval
+         */
+        virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration, ActionFrame* srcFrame);
+
+    public:
+        float _rotation;
+    };
     /**
-    * Gets the index of action frame
-    *
-    * @return the index of action frame
-    */
-    int getFrameIndex();
+     *  @js NA
+     *  @lua NA
+     */
+    class CC_STUDIO_DLL ActionFadeFrame : public ActionFrame
+    {
+    public:
+        /**
+         * Default constructor
+         */
+        ActionFadeFrame();
 
+        /**
+         * Default destructor
+         */
+        virtual ~ActionFadeFrame();
+
+        /**
+         * Changes the fade action opacity.
+         *
+         * @param opacity the fade action opacity
+         */
+        void setOpacity(int opacity);
+
+        /**
+         * Gets the fade action opacity.
+         *
+         * @return the fade action opacity.
+         */
+        int getOpacity();
+
+        /**
+         * Gets the ActionInterval of ActionFrame.
+         *
+         * @param duration   the duration time of ActionFrame
+         *
+         * @return ActionInterval
+         */
+        virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration);
+
+    protected:
+        float _opacity;
+    };
     /**
-    * Changes the time of action frame
-    *
-    * @param fTime  the time of action frame
-    */
-    void setFrameTime(float fTime);
+     *  @js NA
+     *  @lua NA
+     */
+    class CC_STUDIO_DLL ActionTintFrame : public ActionFrame
+    {
+    public:
+        /**
+         * Default constructor
+         */
+        ActionTintFrame();
 
-    /**
-    * Gets the time of action frame
-    *
-    * @return fTime  the time of action frame
-    */
-    float getFrameTime();
+        /**
+         * Default destructor
+         */
+        virtual ~ActionTintFrame();
 
-    /**
-    * Changes the type of action frame
-    *
-    * @param frameType   the type of action frame
-    */
-    void setFrameType(int frameType);
+        /**
+         * Changes the tint action color.
+         *
+         * @param ccolor the tint action color
+         */
+        void setColor(cocos2d::Color3B ccolor);
 
-    /**
-    * Gets the type of action frame
-    *
-    * @return the type of action frame
-    */
-    int getFrameType();
+        /**
+         * Gets the tint action color.
+         *
+         * @return the tint action color.
+         */
+        cocos2d::Color3B getColor();
 
-    /**
-    * Changes the easing type.
-    *
-    * @param easingType the easing type.
-    */
-    void setEasingType(int easingType);
+        /**
+         * Gets the ActionInterval of ActionFrame.
+         *
+         * @param duration   the duration time of ActionFrame
+         *
+         * @return ActionInterval
+         */
+        virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration);
 
-    /**
-    * Gets the easing type.
-    *
-    * @return the easing type.
-    */
-    int getEasingType();
+    protected:
+        cocos2d::Color3B _color;
+    };
 
-    /**
-    * Gets the ActionInterval of ActionFrame.
-    *
-    * @param duration   the duration time of ActionFrame
-    *
-    * @return ActionInterval
-    */
-    virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration);
-    /**
-    * Gets the ActionInterval of ActionFrame.
-    *
-    * @param duration   the duration time of ActionFrame
-    *
-    * @param duration   the source ActionFrame
-    *
-    * @return ActionInterval
-    */
-    virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration, ActionFrame* srcFrame);
-
-    /**
-    *Set the ActionInterval easing parameter.
-    *
-    *@param parameter   the parameter for frame ease
-    *
-    */
-    virtual void setEasingParameter(std::vector<float>& parameter);
-protected:
-    /**
-    * Gets the Easing Action of ActionFrame.
-    *
-    * @param action   the duration time of ActionFrame
-    *
-    * @return ActionInterval
-    */
-    virtual cocos2d::ActionInterval* getEasingAction(cocos2d::ActionInterval* action);
-protected:
-    int _frameType;    
-    int _frameIndex;
-    float _fTime;
-    FrameEaseType _easingType;
-    std::vector<float> _Parameter;
-};
-
-/**
-*  @js NA
-*  @lua NA
-*/
-class CC_STUDIO_DLL ActionMoveFrame:public ActionFrame
-{
-public:
-
-    /**
-    * Default constructor
-    */
-    ActionMoveFrame();
-
-    /**
-    * Default destructor
-    */
-    virtual ~ActionMoveFrame();
-
-    /**
-    * Changes the move action position.
-    *
-    * @param the move action position.
-    */
-    void setPosition(cocos2d::Vec2 pos);
-
-    /**
-    * Gets the move action position.
-    *
-    * @return the move action position.
-    */
-    cocos2d::Vec2 getPosition();
-
-    /**
-    * Gets the ActionInterval of ActionFrame.
-    *
-    * @param duration   the duration time of ActionFrame
-    *
-    * @return ActionInterval
-    */
-    virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration);
-protected:
-    cocos2d::Vec2 _position;
-};
-
-/**
-*  @js NA
-*  @lua NA
-*/
-class CC_STUDIO_DLL ActionScaleFrame:public ActionFrame
-{
-public:
-
-    /**
-    * Default constructor
-    */
-    ActionScaleFrame();
-
-    /**
-    * Default destructor
-    */
-    virtual ~ActionScaleFrame();
-
-    /**
-    * Changes the scale action scaleX.
-    *
-    * @param the scale action scaleX.
-    */
-    void setScaleX(float scaleX);
-
-    /**
-    * Gets the scale action scaleX.
-    *
-    * @return the scale action scaleX.
-    */
-    float getScaleX();
-
-    /**
-    * Changes the scale action scaleY.
-    *
-    * @param rotation the scale action scaleY.
-    */
-    void setScaleY(float scaleY);
-
-    /**
-    * Gets the scale action scaleY.
-    *
-    * @return the scale action scaleY.
-    */
-    float getScaleY();
-
-    /**
-    * Gets the ActionInterval of ActionFrame.
-    *
-    * @param duration   the duration time of ActionFrame
-    *
-    * @return ActionInterval
-    */
-    virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration);
-protected:
-    float _scaleX;
-    float _scaleY;
-};
-/**
-*  @js NA
-*  @lua NA
-*/
-class CC_STUDIO_DLL ActionRotationFrame:public ActionFrame
-{
-public:
-
-    /**
-    * Default constructor
-    */
-    ActionRotationFrame();
-
-    /**
-    * Default destructor
-    */
-    virtual ~ActionRotationFrame();
-
-    /**
-    * Changes rotate action rotation.
-    *
-    * @param rotation rotate action rotation.
-    */
-    void setRotation(float rotation);
-
-    /**
-    * Gets the rotate action rotation.
-    *
-    * @return the rotate action rotation.
-    */
-    float getRotation();
-
-    /**
-    * Gets the ActionInterval of ActionFrame.
-    *
-    * @param duration   the duration time of ActionFrame
-    *
-    * @return ActionInterval
-    */
-    virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration);
-    /**
-    * Gets the ActionInterval of ActionFrame.
-    *
-    * @param duration   the duration time of ActionFrame
-    *
-    * @param duration   the source ActionFrame
-    *
-    * @return ActionInterval
-    */
-    virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration, ActionFrame* srcFrame);
-public:
-    float _rotation;
-};
-/**
-*  @js NA
-*  @lua NA
-*/
-class CC_STUDIO_DLL ActionFadeFrame:public ActionFrame
-{
-public:
-
-    /**
-    * Default constructor
-    */
-    ActionFadeFrame();
-
-    /**
-    * Default destructor
-    */
-    virtual ~ActionFadeFrame();
-
-    /**
-    * Changes the fade action opacity.
-    *
-    * @param opacity the fade action opacity
-    */
-    void setOpacity(int opacity);
-
-    /**
-    * Gets the fade action opacity.
-    *
-    * @return the fade action opacity.
-    */
-    int getOpacity();
-
-    /**
-    * Gets the ActionInterval of ActionFrame.
-    *
-    * @param duration   the duration time of ActionFrame
-    *
-    * @return ActionInterval
-    */
-    virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration);
-protected:
-    float _opacity;
-};
-/**
-*  @js NA
-*  @lua NA
-*/
-class CC_STUDIO_DLL ActionTintFrame:public ActionFrame
-{
-
-public:
-
-    /**
-    * Default constructor
-    */
-    ActionTintFrame();
-
-    /**
-    * Default destructor
-    */
-    virtual ~ActionTintFrame();
-
-    /**
-    * Changes the tint action color.
-    *
-    * @param ccolor the tint action color
-    */
-    void setColor(cocos2d::Color3B ccolor);
-
-    /**
-    * Gets the tint action color.
-    *
-    * @return the tint action color.
-    */
-    cocos2d::Color3B getColor();
-
-    /**
-    * Gets the ActionInterval of ActionFrame.
-    *
-    * @param duration   the duration time of ActionFrame
-    *
-    * @return ActionInterval
-    */
-    virtual cocos2d::ActionInterval* getAction(std::chrono::milliseconds duration);
-protected:
-    cocos2d::Color3B _color;
-};
-
-}
+} // namespace cocostudio
 
 #endif

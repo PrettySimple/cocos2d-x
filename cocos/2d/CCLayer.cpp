@@ -3,7 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
- 
+
 http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -63,19 +63,18 @@ Layer::Layer()
 
 Layer::~Layer()
 {
-
 }
 
 bool Layer::init()
 {
-    Director * director = Director::getInstance();
+    Director* director = Director::getInstance();
     setContentSize(director->getWinSize());
     return true;
 }
 
-Layer *Layer::create()
+Layer* Layer::create()
 {
-    Layer *ret = new (std::nothrow) Layer();
+    Layer* ret = new (std::nothrow) Layer();
     if (ret && ret->init())
     {
         ret->autorelease();
@@ -98,7 +97,7 @@ int Layer::executeScriptTouchHandler(EventTouch::EventCode eventType, Touch* tou
         return ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&scriptEvent);
     }
 #endif
-    //can not reach it
+    // can not reach it
     return 0;
 }
 
@@ -116,10 +115,10 @@ int Layer::executeScriptTouchesHandler(EventTouch::EventCode eventType, const st
 }
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (push)
-#pragma warning (disable: 4996)
+#    pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#elif _MSC_VER >= 1400 // vs 2005 or higher
+#    pragma warning(push)
+#    pragma warning(disable : 4996)
 #endif
 
 /// isTouchEnabled getter
@@ -139,7 +138,7 @@ void Layer::setTouchEnabled(bool enabled)
             if (_touchListener != nullptr)
                 return;
 
-            if( _touchMode == Touch::DispatchMode::ALL_AT_ONCE )
+            if (_touchMode == Touch::DispatchMode::ALL_AT_ONCE)
             {
                 // Register Touch Event
                 auto listener = EventListenerTouchAllAtOnce::create();
@@ -177,11 +176,11 @@ void Layer::setTouchEnabled(bool enabled)
 
 void Layer::setTouchMode(Touch::DispatchMode mode)
 {
-    if(_touchMode != mode)
+    if (_touchMode != mode)
     {
         _touchMode = mode;
 
-        if( _touchEnabled)
+        if (_touchEnabled)
         {
             setTouchEnabled(false);
             setTouchEnabled(true);
@@ -195,7 +194,7 @@ void Layer::setSwallowsTouches(bool swallowsTouches)
     {
         _swallowsTouches = swallowsTouches;
 
-        if( _touchEnabled)
+        if (_touchEnabled)
         {
             setTouchEnabled(false);
             setTouchEnabled(true);
@@ -238,7 +237,8 @@ void Layer::setAccelerometerEnabled(bool enabled)
     }
 }
 
-void Layer::setAccelerometerInterval(double interval) {
+void Layer::setAccelerometerInterval(double interval)
+{
     if (_accelerometerEnabled)
     {
         if (_running)
@@ -251,10 +251,10 @@ void Layer::setAccelerometerInterval(double interval) {
 void Layer::onAcceleration(Acceleration* acc, Event*)
 {
 #if CC_ENABLE_SCRIPT_BINDING
-    if(kScriptTypeNone != _scriptType)
+    if (kScriptTypeNone != _scriptType)
     {
-        BasicScriptData data(this,(void*)acc);
-        ScriptEvent event(kAccelerometerEvent,&data);
+        BasicScriptData data(this, (void*)acc);
+        ScriptEvent event(kAccelerometerEvent, &data);
         ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
     }
 #endif
@@ -267,10 +267,10 @@ void Layer::onKeyPressed(EventKeyboard::KeyCode, Event*)
 void Layer::onKeyReleased(EventKeyboard::KeyCode keyCode, Event*)
 {
 #if CC_ENABLE_SCRIPT_BINDING
-    if(kScriptTypeNone != _scriptType)
+    if (kScriptTypeNone != _scriptType)
     {
         KeypadScriptData data(keyCode, this);
-        ScriptEvent event(kKeypadEvent,&data);
+        ScriptEvent event(kKeypadEvent, &data);
         ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
     }
 #endif
@@ -309,7 +309,7 @@ void Layer::setKeypadEnabled(bool enabled)
 }
 /// Callbacks
 
-bool Layer::onTouchBegan(Touch *touch, Event *event)
+bool Layer::onTouchBegan(Touch* touch, Event* event)
 {
 #if CC_ENABLE_SCRIPT_BINDING
     if (kScriptTypeLua == _scriptType)
@@ -322,7 +322,7 @@ bool Layer::onTouchBegan(Touch *touch, Event *event)
     return true;
 }
 
-void Layer::onTouchMoved(Touch *touch, Event *event)
+void Layer::onTouchMoved(Touch* touch, Event* event)
 {
 #if CC_ENABLE_SCRIPT_BINDING
     if (kScriptTypeLua == _scriptType)
@@ -331,11 +331,11 @@ void Layer::onTouchMoved(Touch *touch, Event *event)
         return;
     }
 #endif
-    
+
     CC_UNUSED_PARAM(event);
 }
 
-void Layer::onTouchEnded(Touch *touch, Event *event)
+void Layer::onTouchEnded(Touch* touch, Event* event)
 {
 #if CC_ENABLE_SCRIPT_BINDING
     if (kScriptTypeLua == _scriptType)
@@ -344,11 +344,11 @@ void Layer::onTouchEnded(Touch *touch, Event *event)
         return;
     }
 #endif
-    
+
     CC_UNUSED_PARAM(event);
 }
 
-void Layer::onTouchCancelled(Touch *touch, Event *event)
+void Layer::onTouchCancelled(Touch* touch, Event* event)
 {
 #if CC_ENABLE_SCRIPT_BINDING
     if (kScriptTypeLua == _scriptType)
@@ -357,11 +357,11 @@ void Layer::onTouchCancelled(Touch *touch, Event *event)
         return;
     }
 #endif
-    
-    CC_UNUSED_PARAM(event);
-}    
 
-void Layer::onTouchesBegan(const std::vector<Touch*>& touches, Event *event)
+    CC_UNUSED_PARAM(event);
+}
+
+void Layer::onTouchesBegan(const std::vector<Touch*>& touches, Event* event)
 {
 #if CC_ENABLE_SCRIPT_BINDING
     if (kScriptTypeLua == _scriptType)
@@ -373,7 +373,7 @@ void Layer::onTouchesBegan(const std::vector<Touch*>& touches, Event *event)
     CC_UNUSED_PARAM(event);
 }
 
-void Layer::onTouchesMoved(const std::vector<Touch*>& touches, Event *event)
+void Layer::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
 {
 #if CC_ENABLE_SCRIPT_BINDING
     if (kScriptTypeLua == _scriptType)
@@ -382,11 +382,11 @@ void Layer::onTouchesMoved(const std::vector<Touch*>& touches, Event *event)
         return;
     }
 #endif
-    
+
     CC_UNUSED_PARAM(event);
 }
 
-void Layer::onTouchesEnded(const std::vector<Touch*>& touches, Event *event)
+void Layer::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
 {
 #if CC_ENABLE_SCRIPT_BINDING
     if (kScriptTypeLua == _scriptType)
@@ -398,7 +398,7 @@ void Layer::onTouchesEnded(const std::vector<Touch*>& touches, Event *event)
     CC_UNUSED_PARAM(event);
 }
 
-void Layer::onTouchesCancelled(const std::vector<Touch*>& touches, Event *event)
+void Layer::onTouchesCancelled(const std::vector<Touch*>& touches, Event* event)
 {
 #if CC_ENABLE_SCRIPT_BINDING
     if (kScriptTypeLua == _scriptType)
@@ -420,11 +420,10 @@ __LayerRGBA::__LayerRGBA()
     CCLOG("LayerRGBA deprecated.");
 }
 
-
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic warning "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (pop)
+#    pragma GCC diagnostic warning "-Wdeprecated-declarations"
+#elif _MSC_VER >= 1400 // vs 2005 or higher
+#    pragma warning(pop)
 #endif
 /// LayerColor
 
@@ -433,18 +432,18 @@ LayerColor::LayerColor()
     // default blend function
     _blendFunc = BlendFunc::ALPHA_PREMULTIPLIED;
 }
-    
+
 LayerColor::~LayerColor()
 {
 }
 
 /// blendFunc getter
-const BlendFunc &LayerColor::getBlendFunc() const
+const BlendFunc& LayerColor::getBlendFunc() const
 {
     return _blendFunc;
 }
 /// blendFunc setter
-void LayerColor::setBlendFunc(const BlendFunc &var)
+void LayerColor::setBlendFunc(const BlendFunc& var)
 {
     _blendFunc = var;
 }
@@ -463,10 +462,10 @@ LayerColor* LayerColor::create()
     return ret;
 }
 
-LayerColor * LayerColor::create(const Color4B& color, GLfloat width, GLfloat height)
+LayerColor* LayerColor::create(const Color4B& color, GLfloat width, GLfloat height)
 {
-    LayerColor * layer = new (std::nothrow) LayerColor();
-    if( layer && layer->initWithColor(color,width,height))
+    LayerColor* layer = new (std::nothrow) LayerColor();
+    if (layer && layer->initWithColor(color, width, height))
     {
         layer->autorelease();
         return layer;
@@ -475,10 +474,10 @@ LayerColor * LayerColor::create(const Color4B& color, GLfloat width, GLfloat hei
     return nullptr;
 }
 
-LayerColor * LayerColor::create(const Color4B& color)
+LayerColor* LayerColor::create(const Color4B& color)
 {
-    LayerColor * layer = new (std::nothrow) LayerColor();
-    if(layer && layer->initWithColor(color))
+    LayerColor* layer = new (std::nothrow) LayerColor();
+    if (layer && layer->initWithColor(color))
     {
         layer->autorelease();
         return layer;
@@ -490,14 +489,13 @@ LayerColor * LayerColor::create(const Color4B& color)
 bool LayerColor::init()
 {
     Size s = Director::getInstance()->getWinSize();
-    return initWithColor(Color4B(0,0,0,0), s.width, s.height);
+    return initWithColor(Color4B(0, 0, 0, 0), s.width, s.height);
 }
 
 bool LayerColor::initWithColor(const Color4B& color, GLfloat w, GLfloat h)
 {
     if (Layer::init())
     {
-
         // default blend function
         _blendFunc = BlendFunc::ALPHA_NON_PREMULTIPLIED;
 
@@ -506,7 +504,7 @@ bool LayerColor::initWithColor(const Color4B& color, GLfloat w, GLfloat h)
         _displayedColor.b = _realColor.b = color.b;
         _displayedOpacity = _realOpacity = color.a;
 
-        for (size_t i = 0; i<sizeof(_squareVertices) / sizeof( _squareVertices[0]); i++ )
+        for (size_t i = 0; i < sizeof(_squareVertices) / sizeof(_squareVertices[0]); i++)
         {
             _squareVertices[i].x = 0.0f;
             _squareVertices[i].y = 0.0f;
@@ -528,7 +526,7 @@ bool LayerColor::initWithColor(const Color4B& color)
 }
 
 /// override contentSize
-void LayerColor::setContentSize(const Size & size)
+void LayerColor::setContentSize(const Size& size)
 {
     _squareVertices[1].x = size.width;
     _squareVertices[2].y = size.height;
@@ -538,7 +536,7 @@ void LayerColor::setContentSize(const Size & size)
     Layer::setContentSize(size);
 }
 
-void LayerColor::changeWidthAndHeight(GLfloat w ,GLfloat h)
+void LayerColor::changeWidthAndHeight(GLfloat w, GLfloat h)
 {
     this->setContentSize(Size(w, h));
 }
@@ -555,7 +553,7 @@ void LayerColor::changeHeight(GLfloat h)
 
 void LayerColor::updateColor()
 {
-    for( unsigned int i=0; i < 4; i++ )
+    for (unsigned int i = 0; i < 4; i++)
     {
         _squareColors[i].r = _displayedColor.r / 255.0f;
         _squareColors[i].g = _displayedColor.g / 255.0f;
@@ -567,18 +565,18 @@ void LayerColor::updateColor()
 void LayerColor::draw(Renderer* renderer, Mat4 const& transform, uint32_t flags)
 {
     _customCommand.init(_globalZOrder, transform, flags);
-    _customCommand.setFunc([this, transform, flags]() {
-        onDraw(transform, flags);
-    });
+    _customCommand.setFunc([this, transform, flags]() { onDraw(transform, flags); });
     renderer->addCommand(&_customCommand);
-    
-    for(int i = 0; i < 4; ++i)
+
+    for (int i = 0; i < 4; ++i)
     {
         Vec4 pos;
-        pos.x = _squareVertices[i].x; pos.y = _squareVertices[i].y; pos.z = _positionZ;
+        pos.x = _squareVertices[i].x;
+        pos.y = _squareVertices[i].y;
+        pos.z = _positionZ;
         pos.w = 1;
         _modelViewTransform.transformVector(&pos);
-        _noMVPVertices[i] = Vec3(pos.x,pos.y,pos.z)/pos.w;
+        _noMVPVertices[i] = Vec3(pos.x, pos.y, pos.z) / pos.w;
     }
 }
 
@@ -586,9 +584,9 @@ void LayerColor::onDraw(Mat4 const& transform, uint32_t flags)
 {
     getGLProgram()->use();
     getGLProgram()->setUniformsForBuiltins(transform);
-    
+
     GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POSITION | GL::VERTEX_ATTRIB_FLAG_COLOR);
-    
+
     //
     // Attributes
     //
@@ -603,12 +601,12 @@ void LayerColor::onDraw(Mat4 const& transform, uint32_t flags)
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, 0, _noMVPVertices);
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_FLOAT, GL_FALSE, 0, _squareColors);
 #endif
-    
-    GL::blendFunc( _blendFunc.src, _blendFunc.dst );
+
+    GL::blendFunc(_blendFunc.src, _blendFunc.dst);
 
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-    CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1,4);
+    CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, 4);
 }
 
 std::string LayerColor::getDescription() const
@@ -627,7 +625,6 @@ LayerGradient::LayerGradient()
 , _alongVector(Vec2(0, -1))
 , _compressedInterpolation(true)
 {
-    
 }
 
 LayerGradient::~LayerGradient()
@@ -636,8 +633,8 @@ LayerGradient::~LayerGradient()
 
 LayerGradient* LayerGradient::create(const Color4B& start, const Color4B& end)
 {
-    LayerGradient * layer = new (std::nothrow) LayerGradient();
-    if( layer && layer->initWithColor(start, end))
+    LayerGradient* layer = new (std::nothrow) LayerGradient();
+    if (layer && layer->initWithColor(start, end))
     {
         layer->autorelease();
         return layer;
@@ -648,8 +645,8 @@ LayerGradient* LayerGradient::create(const Color4B& start, const Color4B& end)
 
 LayerGradient* LayerGradient::create(const Color4B& start, const Color4B& end, const Vec2& v)
 {
-    LayerGradient * layer = new (std::nothrow) LayerGradient();
-    if( layer && layer->initWithColor(start, end, v))
+    LayerGradient* layer = new (std::nothrow) LayerGradient();
+    if (layer && layer->initWithColor(start, end, v))
     {
         layer->autorelease();
         return layer;
@@ -684,13 +681,13 @@ bool LayerGradient::initWithColor(const Color4B& start, const Color4B& end)
 
 bool LayerGradient::initWithColor(const Color4B& start, const Color4B& end, const Vec2& v)
 {
-    _endColor.r  = end.r;
-    _endColor.g  = end.g;
-    _endColor.b  = end.b;
+    _endColor.r = end.r;
+    _endColor.g = end.g;
+    _endColor.b = end.b;
 
-    _endOpacity     = end.a;
-    _startOpacity   = start.a;
-    _alongVector    = v;
+    _endOpacity = end.a;
+    _startOpacity = start.a;
+    _alongVector = v;
 
     _compressedInterpolation = true;
 
@@ -711,25 +708,15 @@ void LayerGradient::updateColor()
     // Compressed Interpolation mode
     if (_compressedInterpolation)
     {
-        float h2 = 1 / ( fabsf(u.x) + fabsf(u.y) );
+        float h2 = 1 / (fabsf(u.x) + fabsf(u.y));
         u = u * (h2 * (float)c);
     }
 
     float opacityf = (float)_displayedOpacity / 255.0f;
 
-    Color4F S(
-        _displayedColor.r / 255.0f,
-        _displayedColor.g / 255.0f,
-        _displayedColor.b / 255.0f,
-        _startOpacity * opacityf / 255.0f
-    );
+    Color4F S(_displayedColor.r / 255.0f, _displayedColor.g / 255.0f, _displayedColor.b / 255.0f, _startOpacity * opacityf / 255.0f);
 
-    Color4F E(
-        _endColor.r / 255.0f,
-        _endColor.g / 255.0f,
-        _endColor.b / 255.0f,
-        _endOpacity * opacityf / 255.0f
-    );
+    Color4F E(_endColor.r / 255.0f, _endColor.g / 255.0f, _endColor.b / 255.0f, _endOpacity * opacityf / 255.0f);
 
     // (-1, -1)
     _squareColors[0].r = E.r + (S.r - E.r) * ((c + u.x + u.y) / (2.0f * c));
@@ -832,19 +819,20 @@ LayerMultiplex::LayerMultiplex()
 
 LayerMultiplex::~LayerMultiplex()
 {
-    for(const auto &layer : _layers) {
+    for (const auto& layer : _layers)
+    {
         layer->cleanup();
     }
 }
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-LayerMultiplex * LayerMultiplex::createVariadic(Layer * layer, ...)
+LayerMultiplex* LayerMultiplex::createVariadic(Layer* layer, ...)
 {
     va_list args;
-    va_start(args,layer);
+    va_start(args, layer);
 
-    LayerMultiplex * multiplexLayer = new (std::nothrow) LayerMultiplex();
-    if(multiplexLayer && multiplexLayer->initWithLayers(layer, args))
+    LayerMultiplex* multiplexLayer = new (std::nothrow) LayerMultiplex();
+    if (multiplexLayer && multiplexLayer->initWithLayers(layer, args))
     {
         multiplexLayer->autorelease();
         va_end(args);
@@ -855,13 +843,13 @@ LayerMultiplex * LayerMultiplex::createVariadic(Layer * layer, ...)
     return nullptr;
 }
 #else
-LayerMultiplex * LayerMultiplex::create(Layer * layer, ...)
+LayerMultiplex* LayerMultiplex::create(Layer* layer, ...)
 {
     va_list args;
-    va_start(args,layer);
+    va_start(args, layer);
 
-    LayerMultiplex * multiplexLayer = new (std::nothrow) LayerMultiplex();
-    if(multiplexLayer && multiplexLayer->initWithLayers(layer, args))
+    LayerMultiplex* multiplexLayer = new (std::nothrow) LayerMultiplex();
+    if (multiplexLayer && multiplexLayer->initWithLayers(layer, args))
     {
         multiplexLayer->autorelease();
         va_end(args);
@@ -873,7 +861,7 @@ LayerMultiplex * LayerMultiplex::create(Layer * layer, ...)
 }
 #endif
 
-LayerMultiplex * LayerMultiplex::createWithLayer(Layer* layer)
+LayerMultiplex* LayerMultiplex::createWithLayer(Layer* layer)
 {
     return LayerMultiplex::create(layer, nullptr);
 }
@@ -928,7 +916,7 @@ bool LayerMultiplex::init()
     return false;
 }
 
-bool LayerMultiplex::initWithLayers(Layer *layer, va_list params)
+bool LayerMultiplex::initWithLayers(Layer* layer, va_list params)
 {
     if (Layer::init())
     {
@@ -942,8 +930,9 @@ bool LayerMultiplex::initWithLayers(Layer *layer, va_list params)
 #endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
         _layers.pushBack(layer);
 
-        Layer *l = va_arg(params,Layer*);
-        while( l ) {
+        Layer* l = va_arg(params, Layer*);
+        while (l)
+        {
 #if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
             if (sEngine)
             {
@@ -951,7 +940,7 @@ bool LayerMultiplex::initWithLayers(Layer *layer, va_list params)
             }
 #endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
             _layers.pushBack(l);
-            l = va_arg(params,Layer*);
+            l = va_arg(params, Layer*);
         }
 
         _enabledLayer = 0;
@@ -970,7 +959,7 @@ bool LayerMultiplex::initWithArray(const Vector<Layer*>& arrayOfLayers)
         auto sEngine = ScriptEngineManager::getInstance()->getScriptEngine();
         if (sEngine)
         {
-            for (const auto &layer : arrayOfLayers)
+            for (const auto& layer : arrayOfLayers)
             {
                 if (layer)
                 {
@@ -991,7 +980,7 @@ bool LayerMultiplex::initWithArray(const Vector<Layer*>& arrayOfLayers)
 
 void LayerMultiplex::switchTo(int n)
 {
-    CCASSERT( n < _layers.size(), "Invalid index in MultiplexLayer switchTo message" );
+    CCASSERT(n < _layers.size(), "Invalid index in MultiplexLayer switchTo message");
 
     this->removeChild(_layers.at(_enabledLayer), true);
 
@@ -1002,7 +991,7 @@ void LayerMultiplex::switchTo(int n)
 
 void LayerMultiplex::switchToAndReleaseMe(int n)
 {
-    CCASSERT( n < _layers.size(), "Invalid index in MultiplexLayer switchTo message" );
+    CCASSERT(n < _layers.size(), "Invalid index in MultiplexLayer switchTo message");
 
     this->removeChild(_layers.at(_enabledLayer), true);
 #if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
@@ -1012,7 +1001,7 @@ void LayerMultiplex::switchToAndReleaseMe(int n)
         sEngine->releaseScriptObject(this, _layers.at(_enabledLayer));
     }
 #endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
-    
+
     _layers.replace(_enabledLayer, nullptr);
 
     _enabledLayer = n;

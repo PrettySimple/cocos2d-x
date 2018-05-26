@@ -23,265 +23,253 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "cocostudio/CCDisplayFactory.h"
-#include "cocostudio/CCBone.h"
 #include "cocostudio/CCArmature.h"
-#include "cocostudio/CCSkin.h"
 #include "cocostudio/CCArmatureDataManager.h"
+#include "cocostudio/CCBone.h"
+#include "cocostudio/CCSkin.h"
 #include "cocostudio/CCTransformHelp.h"
 
 #include "2d/CCParticleSystemQuad.h"
 
 using namespace cocos2d;
 
-namespace cocostudio {
-
-void DisplayFactory::addDisplay(Bone *bone, DecorativeDisplay *decoDisplay, DisplayData *displayData)
+namespace cocostudio
 {
-    switch(displayData->displayType)
+    void DisplayFactory::addDisplay(Bone* bone, DecorativeDisplay* decoDisplay, DisplayData* displayData)
     {
-    case CS_DISPLAY_SPRITE:
-        addSpriteDisplay(bone, decoDisplay, displayData);
-        break;
-    case  CS_DISPLAY_PARTICLE:
-        addParticleDisplay(bone, decoDisplay, displayData);
-        break;
-    case  CS_DISPLAY_ARMATURE:
-        addArmatureDisplay(bone, decoDisplay, displayData);
-        break;
-    default:
-        break;
-    }
-}
-
-void DisplayFactory::createDisplay(Bone *bone, DecorativeDisplay *decoDisplay)
-{
-    switch(decoDisplay->getDisplayData()->displayType)
-    {
-    case CS_DISPLAY_SPRITE:
-        createSpriteDisplay(bone, decoDisplay);
-        break;
-    case CS_DISPLAY_PARTICLE:
-        createParticleDisplay(bone, decoDisplay);
-        break;
-    case CS_DISPLAY_ARMATURE:
-        createArmatureDisplay(bone, decoDisplay);
-        break;
-    default:
-        break;
-    }
-}
-
-void DisplayFactory::updateDisplay(Bone *bone, float dt, bool dirty)
-{
-    Node *display = bone->getDisplayRenderNode();
-    CS_RETURN_IF(!display);
-
-    switch(bone->getDisplayRenderNodeType())
-    {
-    case CS_DISPLAY_SPRITE:
-        if (dirty)
+        switch (displayData->displayType)
         {
-            static_cast<Skin*>(display)->updateArmatureTransform();
+            case CS_DISPLAY_SPRITE:
+                addSpriteDisplay(bone, decoDisplay, displayData);
+                break;
+            case CS_DISPLAY_PARTICLE:
+                addParticleDisplay(bone, decoDisplay, displayData);
+                break;
+            case CS_DISPLAY_ARMATURE:
+                addArmatureDisplay(bone, decoDisplay, displayData);
+                break;
+            default:
+                break;
         }
-        break;
-    case CS_DISPLAY_PARTICLE:
-        updateParticleDisplay(bone, display, dt);
-        break;
-    case CS_DISPLAY_ARMATURE:
-        updateArmatureDisplay(bone, display, dt);
-        break;
-    default:
-    {
-        Mat4 transform = bone->getNodeToArmatureTransform();
-        display->setAdditionalTransform(&transform);
-    }
-    break;
     }
 
+    void DisplayFactory::createDisplay(Bone* bone, DecorativeDisplay* decoDisplay)
+    {
+        switch (decoDisplay->getDisplayData()->displayType)
+        {
+            case CS_DISPLAY_SPRITE:
+                createSpriteDisplay(bone, decoDisplay);
+                break;
+            case CS_DISPLAY_PARTICLE:
+                createParticleDisplay(bone, decoDisplay);
+                break;
+            case CS_DISPLAY_ARMATURE:
+                createArmatureDisplay(bone, decoDisplay);
+                break;
+            default:
+                break;
+        }
+    }
+
+    void DisplayFactory::updateDisplay(Bone* bone, float dt, bool dirty)
+    {
+        Node* display = bone->getDisplayRenderNode();
+        CS_RETURN_IF(!display);
+
+        switch (bone->getDisplayRenderNodeType())
+        {
+            case CS_DISPLAY_SPRITE:
+                if (dirty)
+                {
+                    static_cast<Skin*>(display)->updateArmatureTransform();
+                }
+                break;
+            case CS_DISPLAY_PARTICLE:
+                updateParticleDisplay(bone, display, dt);
+                break;
+            case CS_DISPLAY_ARMATURE:
+                updateArmatureDisplay(bone, display, dt);
+                break;
+            default:
+            {
+                Mat4 transform = bone->getNodeToArmatureTransform();
+                display->setAdditionalTransform(&transform);
+            }
+            break;
+        }
 
 #if ENABLE_PHYSICS_BOX2D_DETECT || ENABLE_PHYSICS_CHIPMUNK_DETECT || ENABLE_PHYSICS_SAVE_CALCULATED_VERTEX
-    if (dirty)
-    {
-        DecorativeDisplay *decoDisplay = bone->getDisplayManager()->getCurrentDecorativeDisplay();
-        ColliderDetector *detector = decoDisplay->getColliderDetector();
-        if (detector)
+        if (dirty)
         {
-            do
+            DecorativeDisplay* decoDisplay = bone->getDisplayManager()->getCurrentDecorativeDisplay();
+            ColliderDetector* detector = decoDisplay->getColliderDetector();
+            if (detector)
             {
-#if ENABLE_PHYSICS_BOX2D_DETECT || ENABLE_PHYSICS_CHIPMUNK_DETECT
-                CC_BREAK_IF(!detector->getBody());
-#endif
+                do
+                {
+#    if ENABLE_PHYSICS_BOX2D_DETECT || ENABLE_PHYSICS_CHIPMUNK_DETECT
+                    CC_BREAK_IF(!detector->getBody());
+#    endif
 
-                Mat4 displayTransform = display->getNodeToParentTransform();
-                Vec2 anchorPoint =  display->getAnchorPointInPoints();
-                anchorPoint = PointApplyTransform(anchorPoint, displayTransform);
-                displayTransform.m[12] = anchorPoint.x;
-                displayTransform.m[13] = anchorPoint.y;
-                Mat4 t = TransformConcat( bone->getArmature()->getNodeToParentTransform(),displayTransform);
-                detector->updateTransform(t);
+                    Mat4 displayTransform = display->getNodeToParentTransform();
+                    Vec2 anchorPoint = display->getAnchorPointInPoints();
+                    anchorPoint = PointApplyTransform(anchorPoint, displayTransform);
+                    displayTransform.m[12] = anchorPoint.x;
+                    displayTransform.m[13] = anchorPoint.y;
+                    Mat4 t = TransformConcat(bone->getArmature()->getNodeToParentTransform(), displayTransform);
+                    detector->updateTransform(t);
+                } while (0);
             }
-            while (0);
         }
-    }
 #endif
-}
-
-
-
-void DisplayFactory::addSpriteDisplay(Bone *bone, DecorativeDisplay *decoDisplay, DisplayData *displayData)
-{
-    SpriteDisplayData *sdp = SpriteDisplayData::create();
-    sdp->copy((SpriteDisplayData *)displayData);
-    decoDisplay->setDisplayData(sdp);
-    createSpriteDisplay(bone, decoDisplay);
-}
-
-void DisplayFactory::createSpriteDisplay(Bone *bone, DecorativeDisplay *decoDisplay)
-{
-    Skin *skin = nullptr;
-
-    SpriteDisplayData *displayData = (SpriteDisplayData *)decoDisplay->getDisplayData();
-
-    std::string textureName = displayData->displayName;
-    size_t startPos = textureName.find_last_of(".");
-
-    if(startPos != std::string::npos)
-    {
-        textureName = textureName.erase(startPos);
     }
 
-    //! create display
-    if(textureName.empty())
+    void DisplayFactory::addSpriteDisplay(Bone* bone, DecorativeDisplay* decoDisplay, DisplayData* displayData)
     {
-        skin = Skin::create();
-    }
-    else
-    {
-        skin = Skin::createWithSpriteFrameName((textureName + ".png"));
+        SpriteDisplayData* sdp = SpriteDisplayData::create();
+        sdp->copy((SpriteDisplayData*)displayData);
+        decoDisplay->setDisplayData(sdp);
+        createSpriteDisplay(bone, decoDisplay);
     }
 
-    decoDisplay->setDisplay(skin);
-
-    if (skin == nullptr)
+    void DisplayFactory::createSpriteDisplay(Bone* bone, DecorativeDisplay* decoDisplay)
     {
-        return;
-    }
+        Skin* skin = nullptr;
 
-    skin->setBone(bone);
+        SpriteDisplayData* displayData = (SpriteDisplayData*)decoDisplay->getDisplayData();
 
-    initSpriteDisplay(bone, decoDisplay, displayData->displayName.c_str(), skin);
+        std::string textureName = displayData->displayName;
+        size_t startPos = textureName.find_last_of(".");
 
-    Armature *armature = bone->getArmature();
-    if (armature)
-    {
-        if (armature->getArmatureData()->dataVersion >= VERSION_COMBINED)
+        if (startPos != std::string::npos)
         {
-            skin->setSkinData(displayData->skinData);
+            textureName = textureName.erase(startPos);
+        }
+
+        //! create display
+        if (textureName.empty())
+        {
+            skin = Skin::create();
         }
         else
         {
-            skin->setSkinData(*bone->getBoneData());
+            skin = Skin::createWithSpriteFrameName((textureName + ".png"));
+        }
+
+        decoDisplay->setDisplay(skin);
+
+        if (skin == nullptr)
+        {
+            return;
+        }
+
+        skin->setBone(bone);
+
+        initSpriteDisplay(bone, decoDisplay, displayData->displayName.c_str(), skin);
+
+        Armature* armature = bone->getArmature();
+        if (armature)
+        {
+            if (armature->getArmatureData()->dataVersion >= VERSION_COMBINED)
+            {
+                skin->setSkinData(displayData->skinData);
+            }
+            else
+            {
+                skin->setSkinData(*bone->getBoneData());
+            }
         }
     }
 
-}
-
-void DisplayFactory::initSpriteDisplay(Bone *bone, DecorativeDisplay *decoDisplay, const char *displayName, Skin *skin)
-{
-    //! remove .xxx
-    std::string textureName = displayName;
-    size_t startPos = textureName.find_last_of(".");
-
-    if(startPos != std::string::npos)
+    void DisplayFactory::initSpriteDisplay(Bone* bone, DecorativeDisplay* decoDisplay, const char* displayName, Skin* skin)
     {
-        textureName = textureName.erase(startPos);
-    }
+        //! remove .xxx
+        std::string textureName = displayName;
+        size_t startPos = textureName.find_last_of(".");
 
-    TextureData *textureData = ArmatureDataManager::getInstance()->getTextureData(textureName);
-    if(textureData)
-    {
-        //! Init display anchorPoint, every Texture have a anchor point
-        skin->setAnchorPoint(Vec2( textureData->pivotX, textureData->pivotY));
-    }
+        if (startPos != std::string::npos)
+        {
+            textureName = textureName.erase(startPos);
+        }
 
+        TextureData* textureData = ArmatureDataManager::getInstance()->getTextureData(textureName);
+        if (textureData)
+        {
+            //! Init display anchorPoint, every Texture have a anchor point
+            skin->setAnchorPoint(Vec2(textureData->pivotX, textureData->pivotY));
+        }
 
 #if ENABLE_PHYSICS_BOX2D_DETECT || ENABLE_PHYSICS_CHIPMUNK_DETECT || ENABLE_PHYSICS_SAVE_CALCULATED_VERTEX
-    if (textureData && textureData->contourDataList.size() > 0)
-    {
+        if (textureData && textureData->contourDataList.size() > 0)
+        {
+            //! create ContourSprite
+            ColliderDetector* colliderDetector = ColliderDetector::create(bone);
+            colliderDetector->addContourDataList(textureData->contourDataList);
 
-        //! create ContourSprite
-        ColliderDetector *colliderDetector = ColliderDetector::create(bone);
-        colliderDetector->addContourDataList(textureData->contourDataList);
-
-        decoDisplay->setColliderDetector(colliderDetector);
-    }
+            decoDisplay->setColliderDetector(colliderDetector);
+        }
 #endif
-}
-
-
-
-void DisplayFactory::addArmatureDisplay(Bone *bone, DecorativeDisplay *decoDisplay, DisplayData *displayData)
-{
-    ArmatureDisplayData *adp = ArmatureDisplayData::create();
-    adp->copy((ArmatureDisplayData *)displayData);
-    decoDisplay->setDisplayData(adp);
-
-    createArmatureDisplay(bone, decoDisplay);
-}
-void DisplayFactory::createArmatureDisplay(Bone *bone, DecorativeDisplay *decoDisplay)
-{
-    ArmatureDisplayData *displayData = (ArmatureDisplayData *)decoDisplay->getDisplayData();
-
-    Armature *armature = Armature::create(displayData->displayName, bone);
-
-    decoDisplay->setDisplay(armature);
-}
-void DisplayFactory::updateArmatureDisplay(Bone *bone, Node *display, float dt)
-{
-    Armature *armature = (Armature *)display;
-    if(armature)
-    {
-        armature->sortAllChildren();
-        armature->update(dt);
-    }
-}
-
-
-
-void DisplayFactory::addParticleDisplay(Bone *bone, DecorativeDisplay *decoDisplay, DisplayData *displayData)
-{
-    ParticleDisplayData *adp = ParticleDisplayData::create();
-    adp->copy((ParticleDisplayData *)displayData);
-    decoDisplay->setDisplayData(adp);
-
-    createParticleDisplay(bone, decoDisplay);
-}
-void DisplayFactory::createParticleDisplay(Bone *bone, DecorativeDisplay *decoDisplay)
-{
-    ParticleDisplayData *displayData = (ParticleDisplayData *)decoDisplay->getDisplayData();
-    ParticleSystem *system = ParticleSystemQuad::create(displayData->displayName);
-
-    system->removeFromParent();
-    system->cleanup();
-    
-    Armature *armature = bone->getArmature();
-    if (armature)
-    {
-        system->setParent(armature);
     }
 
-    decoDisplay->setDisplay(system);
-}
-void DisplayFactory::updateParticleDisplay(Bone *bone, Node *display, float dt)
-{
-    ParticleSystem *system = (ParticleSystem *)display;
-    BaseData node;
-    TransformHelp::matrixToNode(bone->getNodeToArmatureTransform(), node);
-    system->setPosition(node.x, node.y);
-    system->setScaleX(node.scaleX);
-    system->setScaleY(node.scaleY);
-    system->update(dt);
-}
+    void DisplayFactory::addArmatureDisplay(Bone* bone, DecorativeDisplay* decoDisplay, DisplayData* displayData)
+    {
+        ArmatureDisplayData* adp = ArmatureDisplayData::create();
+        adp->copy((ArmatureDisplayData*)displayData);
+        decoDisplay->setDisplayData(adp);
 
+        createArmatureDisplay(bone, decoDisplay);
+    }
+    void DisplayFactory::createArmatureDisplay(Bone* bone, DecorativeDisplay* decoDisplay)
+    {
+        ArmatureDisplayData* displayData = (ArmatureDisplayData*)decoDisplay->getDisplayData();
 
-}
+        Armature* armature = Armature::create(displayData->displayName, bone);
+
+        decoDisplay->setDisplay(armature);
+    }
+    void DisplayFactory::updateArmatureDisplay(Bone* bone, Node* display, float dt)
+    {
+        Armature* armature = (Armature*)display;
+        if (armature)
+        {
+            armature->sortAllChildren();
+            armature->update(dt);
+        }
+    }
+
+    void DisplayFactory::addParticleDisplay(Bone* bone, DecorativeDisplay* decoDisplay, DisplayData* displayData)
+    {
+        ParticleDisplayData* adp = ParticleDisplayData::create();
+        adp->copy((ParticleDisplayData*)displayData);
+        decoDisplay->setDisplayData(adp);
+
+        createParticleDisplay(bone, decoDisplay);
+    }
+    void DisplayFactory::createParticleDisplay(Bone* bone, DecorativeDisplay* decoDisplay)
+    {
+        ParticleDisplayData* displayData = (ParticleDisplayData*)decoDisplay->getDisplayData();
+        ParticleSystem* system = ParticleSystemQuad::create(displayData->displayName);
+
+        system->removeFromParent();
+        system->cleanup();
+
+        Armature* armature = bone->getArmature();
+        if (armature)
+        {
+            system->setParent(armature);
+        }
+
+        decoDisplay->setDisplay(system);
+    }
+    void DisplayFactory::updateParticleDisplay(Bone* bone, Node* display, float dt)
+    {
+        ParticleSystem* system = (ParticleSystem*)display;
+        BaseData node;
+        TransformHelp::matrixToNode(bone->getNodeToArmatureTransform(), node);
+        system->setPosition(node.x, node.y);
+        system->setScaleX(node.scaleX);
+        system->setScaleY(node.scaleY);
+        system->update(dt);
+    }
+
+} // namespace cocostudio

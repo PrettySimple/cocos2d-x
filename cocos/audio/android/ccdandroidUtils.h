@@ -27,10 +27,12 @@ THE SOFTWARE.
 
 #include <string>
 
-namespace CocosDenshion {
-    namespace android {
+namespace CocosDenshion
+{
+    namespace android
+    {
         std::string getFullPathWithoutAssetsPrefix(const char* pszFilename);
     }
-}
+} // namespace CocosDenshion
 
 #endif //__CCDANDROIDUTILS_H__

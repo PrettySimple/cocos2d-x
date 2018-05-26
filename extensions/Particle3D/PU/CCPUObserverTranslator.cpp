@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,18 +24,18 @@
  ****************************************************************************/
 
 #include "CCPUObserverTranslator.h"
-#include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
-#include "extensions/Particle3D/PU/CCPUObserverManager.h"
 #include "extensions/Particle3D/PU/CCPUObserver.h"
+#include "extensions/Particle3D/PU/CCPUObserverManager.h"
+#include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
 NS_CC_BEGIN
 
 PUObserverTranslator::PUObserverTranslator()
-:_observer(nullptr)
+: _observer(nullptr)
 {
 }
 //-------------------------------------------------------------------------
-void PUObserverTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode *node)
+void PUObserverTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode* node)
 {
     PUObjectAbstractNode* obj = reinterpret_cast<PUObjectAbstractNode*>(node);
     PUObjectAbstractNode* parent = obj->parent ? reinterpret_cast<PUObjectAbstractNode*>(obj->parent) : 0;
@@ -43,51 +43,52 @@ void PUObserverTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode 
     // The name of the obj is the type of the Observer
     // Remark: This can be solved by using a listener, so that obj->values is filled with type + name. Something for later
     std::string type;
-    if(!obj->name.empty())
+    if (!obj->name.empty())
     {
         type = obj->name;
     }
     else
     {
-        //compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, obj->file, obj->line);
+        // compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, obj->file, obj->line);
         return;
     }
 
     // Get the factory
-    //ParticleObserverFactory* particleObserverFactory = ParticleSystemManager::getSingletonPtr()->getObserverFactory(type);
-    //if (!particleObserverFactory)
+    // ParticleObserverFactory* particleObserverFactory = ParticleSystemManager::getSingletonPtr()->getObserverFactory(type);
+    // if (!particleObserverFactory)
     //{
     //	//compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, obj->file, obj->line);
     //	return;
     //}
 
-    PUScriptTranslator *particleObserverTranlator = PUObserverManager::Instance()->getTranslator(type);
-    if (!particleObserverTranlator) return;
+    PUScriptTranslator* particleObserverTranlator = PUObserverManager::Instance()->getTranslator(type);
+    if (!particleObserverTranlator)
+        return;
 
     // Create the Observer
     _observer = PUObserverManager::Instance()->createObserver(type);
     if (!_observer)
     {
-        //compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, obj->file, obj->line);
+        // compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, obj->file, obj->line);
         return;
     }
     _observer->setObserverType(type);
 
     if (parent && parent->context)
     {
-        PUParticleSystem3D* system = static_cast<PUParticleSystem3D *>(parent->context);
+        PUParticleSystem3D* system = static_cast<PUParticleSystem3D*>(parent->context);
         system->addObserver(_observer);
     }
     else
     {
         //// It is an alias
-        //mObserver->setAliasName(parent->name);
-        //ParticleSystemManager::getSingletonPtr()->addAlias(mObserver);
+        // mObserver->setAliasName(parent->name);
+        // ParticleSystemManager::getSingletonPtr()->addAlias(mObserver);
     }
 
     // The first value is the (optional) name
     std::string name;
-    if(!obj->values.empty())
+    if (!obj->values.empty())
     {
         getString(*obj->values.front(), &name);
         _observer->setName(name);
@@ -97,9 +98,9 @@ void PUObserverTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode 
     obj->context = _observer;
 
     // Run through properties
-    for(PUAbstractNodeList::iterator i = obj->children.begin(); i != obj->children.end(); ++i)
+    for (PUAbstractNodeList::iterator i = obj->children.begin(); i != obj->children.end(); ++i)
     {
-        if((*i)->type == ANT_PROPERTY)
+        if ((*i)->type == ANT_PROPERTY)
         {
             PUPropertyAbstractNode* prop = reinterpret_cast<PUPropertyAbstractNode*>((*i));
             if (prop->name == token[TOKEN_ENABLED])
@@ -108,7 +109,7 @@ void PUObserverTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode 
                 if (passValidateProperty(compiler, prop, token[TOKEN_ENABLED], VAL_BOOL))
                 {
                     bool val;
-                    if(getBoolean(*prop->values.front(), &val))
+                    if (getBoolean(*prop->values.front(), &val))
                     {
                         _observer->setEnabled(val);
                     }
@@ -120,7 +121,7 @@ void PUObserverTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode 
                 if (passValidateProperty(compiler, prop, token[TOKEN_OBSERVE_PARTICLE_TYPE], VAL_STRING))
                 {
                     std::string val;
-                    if(getString(*prop->values.front(), &val))
+                    if (getString(*prop->values.front(), &val))
                     {
                         if (val == token[TOKEN_VISUAL_PARTICLE])
                         {
@@ -151,7 +152,7 @@ void PUObserverTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode 
                 if (passValidateProperty(compiler, prop, token[TOKEN_OBSERVE_INTERVAL], VAL_REAL))
                 {
                     float val;
-                    if(getFloat(*prop->values.front(), &val))
+                    if (getFloat(*prop->values.front(), &val))
                     {
                         _observer->setObserverInterval(val);
                     }
@@ -163,7 +164,7 @@ void PUObserverTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode 
                 if (passValidateProperty(compiler, prop, token[TOKEN_OBSERVE_UNTIL_EVENT], VAL_BOOL))
                 {
                     bool val;
-                    if(getBoolean(*prop->values.front(), &val))
+                    if (getBoolean(*prop->values.front(), &val))
                     {
                         _observer->setObserveUntilEvent(val);
                     }
@@ -178,7 +179,7 @@ void PUObserverTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode 
                 errorUnexpectedProperty(compiler, prop);
             }
         }
-        else if((*i)->type == ANT_OBJECT)
+        else if ((*i)->type == ANT_OBJECT)
         {
             if (particleObserverTranlator->translateChildObject(compiler, *i))
             {

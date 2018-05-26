@@ -26,9 +26,8 @@ THE SOFTWARE.
 #define __ARMATURENODEREADER_H_
 
 #include "cocos2d.h"
-#include "cocostudio/WidgetReader/NodeReaderProtocol.h"
 #include "cocostudio/WidgetReader/NodeReaderDefine.h"
-
+#include "cocostudio/WidgetReader/NodeReaderProtocol.h"
 
 /****************************************
 * reader of CSArmatureNode
@@ -41,26 +40,25 @@ instance->registReaderObject("ArmatureNodeReader", (ObjectFactory::Instance)Cust
 *****************************************/
 class ArmatureNodeReader : public cocos2d::Ref, public cocostudio::NodeReaderProtocol
 {
-	DECLARE_CLASS_NODE_READER_INFO
+    DECLARE_CLASS_NODE_READER_INFO
 
 public:
+    ArmatureNodeReader();
+    ~ArmatureNodeReader();
 
-	ArmatureNodeReader();
-	~ArmatureNodeReader();
-
-	static ArmatureNodeReader* getInstance();
+    static ArmatureNodeReader* getInstance();
     /** @deprecated Use method destroyInstance() instead */
     CC_DEPRECATED_ATTRIBUTE static void purge();
-	static void destroyInstance();
+    static void destroyInstance();
 
-	flatbuffers::Offset<flatbuffers::Table> createOptionsWithFlatBuffers(const tinyxml2::XMLElement* objectData,
-		flatbuffers::FlatBufferBuilder* builder) override;
-	void setPropsWithFlatBuffers(cocos2d::Node* node, const flatbuffers::Table* textBMFontOptions) override;
+    flatbuffers::Offset<flatbuffers::Table> createOptionsWithFlatBuffers(const tinyxml2::XMLElement* objectData, flatbuffers::FlatBufferBuilder* builder) override;
+    void setPropsWithFlatBuffers(cocos2d::Node* node, const flatbuffers::Table* textBMFontOptions) override;
 
-	//CSArmatureNode
-	cocos2d::Node* createNodeWithFlatBuffers(const flatbuffers::Table* nodeOptions) override;
+    // CSArmatureNode
+    cocos2d::Node* createNodeWithFlatBuffers(const flatbuffers::Table* nodeOptions) override;
+
 private:
-	std::string getArmatureName(const std::string& exporJsonPath);
+    std::string getArmatureName(const std::string& exporJsonPath);
 };
 
 #endif /* defined(__ARMATURENODEREADER_H_) */

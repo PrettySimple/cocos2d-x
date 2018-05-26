@@ -30,88 +30,86 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN)
 
-#include "ui/UIEditBox/UIEditBoxImpl.h"
-#include "platform/CCGLView.h"
+#    include "platform/CCGLView.h"
+#    include "ui/UIEditBox/UIEditBoxImpl.h"
 
 NS_CC_BEGIN
 
 class Label;
 
-namespace ui {
-
-class EditBox;
-
-class EditBoxImplTizen : public EditBoxImpl
+namespace ui
 {
-public:
-    /**
-     * @js NA
-     */
-    EditBoxImplTizen(EditBox* pEditText);
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~EditBoxImplTizen();
+    class EditBox;
 
-    virtual void draw(cocos2d::Renderer *renderer, cocos2d::Mat4 const &transform, uint32_t flags) {};
+    class EditBoxImplTizen : public EditBoxImpl
+    {
+    public:
+        /**
+         * @js NA
+         */
+        EditBoxImplTizen(EditBox* pEditText);
+        /**
+         * @js NA
+         * @lua NA
+         */
+        virtual ~EditBoxImplTizen();
 
-    virtual bool initWithSize(const Size& size);
-    virtual void setFont(const char* pFontName, int fontSize);
-    virtual void setFontColor(const Color4B& color);
-    virtual void setPlaceholderFont(const char* pFontName, int fontSize);
-    virtual void setPlaceholderFontColor(const Color4B& color);
-    virtual void setInputMode(EditBox::InputMode inputMode);
-    virtual void setInputFlag(EditBox::InputFlag inputFlag);
-    virtual void setMaxLength(int maxLength);
-    virtual int  getMaxLength();
-    virtual void setReturnType(EditBox::KeyboardReturnType returnType);
-    virtual bool isEditing();
+        virtual void draw(cocos2d::Renderer* renderer, cocos2d::Mat4 const& transform, uint32_t flags){};
 
-    virtual void setText(const char* pText);
-    virtual const char* getText(void);
-    virtual void setPlaceHolder(const char* pText);
-    virtual void setPosition(const Vec2& pos);
-    virtual void setVisible(bool visible);
-    virtual void setContentSize(const Size& size);
-    virtual void setAnchorPoint(const Vec2& anchorPoint);
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual void visit(void);
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual void onEnter(void);
-    virtual void doAnimationWhenKeyboardMove(float duration, float distance);
-    virtual void openKeyboard();
-    virtual void closeKeyboard();
+        virtual bool initWithSize(const Size& size);
+        virtual void setFont(const char* pFontName, int fontSize);
+        virtual void setFontColor(const Color4B& color);
+        virtual void setPlaceholderFont(const char* pFontName, int fontSize);
+        virtual void setPlaceholderFontColor(const Color4B& color);
+        virtual void setInputMode(EditBox::InputMode inputMode);
+        virtual void setInputFlag(EditBox::InputFlag inputFlag);
+        virtual void setMaxLength(int maxLength);
+        virtual int getMaxLength();
+        virtual void setReturnType(EditBox::KeyboardReturnType returnType);
+        virtual bool isEditing();
 
-private:
-    Label* _label;
-    Label* _labelPlaceHolder;
-    EditBox::InputMode    _editBoxInputMode;
-    EditBox::InputFlag    _editBoxInputFlag;
-    EditBox::KeyboardReturnType  _keyboardReturnType;
+        virtual void setText(const char* pText);
+        virtual const char* getText(void);
+        virtual void setPlaceHolder(const char* pText);
+        virtual void setPosition(const Vec2& pos);
+        virtual void setVisible(bool visible);
+        virtual void setContentSize(const Size& size);
+        virtual void setAnchorPoint(const Vec2& anchorPoint);
+        /**
+         * @js NA
+         * @lua NA
+         */
+        virtual void visit(void);
+        /**
+         * @js NA
+         * @lua NA
+         */
+        virtual void onEnter(void);
+        virtual void doAnimationWhenKeyboardMove(float duration, float distance);
+        virtual void openKeyboard();
+        virtual void closeKeyboard();
 
-    std::string _text;
-    std::string _placeHolder;
+    private:
+        Label* _label;
+        Label* _labelPlaceHolder;
+        EditBox::InputMode _editBoxInputMode;
+        EditBox::InputFlag _editBoxInputFlag;
+        EditBox::KeyboardReturnType _keyboardReturnType;
 
-    Color4B _colText;
-    Color4B _colPlaceHolder;
+        std::string _text;
+        std::string _placeHolder;
 
-    int   _maxLength;
-    Size _editSize;
-};
+        Color4B _colText;
+        Color4B _colPlaceHolder;
 
+        int _maxLength;
+        Size _editSize;
+    };
 
-}
+} // namespace ui
 
 NS_CC_END
 
 #endif /* #if (CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN) */
 
 #endif /* __UIEDITBOXIMPLTIZEN_H__ */
-

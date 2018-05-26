@@ -26,21 +26,20 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#import <Foundation/Foundation.h>
+#    import <Foundation/Foundation.h>
 
 @interface CCDirectorCaller : NSObject {
-        id displayLink;
-        int interval;
-        BOOL isAppActive;
+    id displayLink;
+    int interval;
+    BOOL isAppActive;
 }
 @property (readwrite) int interval;
--(void) startMainLoop;
--(void) stopMainLoop;
--(void) doCaller: (id) sender;
--(void) setAnimationInterval:(double)interval;
-+(id) sharedDirectorCaller;
-+(void) destroy;
+- (void)startMainLoop;
+- (void)stopMainLoop;
+- (void)doCaller:(id)sender;
+- (void)setAnimationInterval:(double)interval;
++ (id)sharedDirectorCaller;
++ (void)destroy;
 @end
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-

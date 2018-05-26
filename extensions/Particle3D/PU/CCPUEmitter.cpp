@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -37,7 +37,7 @@ const Vec3 PUEmitter::DEFAULT_DIRECTION(0, 1, 0);
 const Quaternion PUEmitter::DEFAULT_ORIENTATION(1, 0, 0, 0);
 const Quaternion PUEmitter::DEFAULT_ORIENTATION_RANGE_START(1, 0, 0, 0);
 const Quaternion PUEmitter::DEFAULT_ORIENTATION_RANGE_END(1, 0, 0, 0);
-//const Particle::ParticleType PUEmitter::DEFAULT_EMITS = VisualParticle::PT_VISUAL;
+// const Particle::ParticleType PUEmitter::DEFAULT_EMITS = VisualParticle::PT_VISUAL;
 const unsigned short PUEmitter::DEFAULT_START_TEXTURE_COORDS = 0;
 const unsigned short PUEmitter::DEFAULT_END_TEXTURE_COORDS = 0;
 const unsigned short PUEmitter::DEFAULT_TEXTURE_COORDS = 0;
@@ -59,47 +59,49 @@ const float PUEmitter::DEFAULT_HEIGHT = 0.0f;
 const float PUEmitter::DEFAULT_DEPTH = 0.0f;
 
 PUEmitter::PUEmitter()
-: //mEmitsType(DEFAULT_EMITS),
-//mEmitsName(StringUtil::BLANK),
-_emitterScale(Vec3::ONE),
-_particleDirection(DEFAULT_DIRECTION),
-_originalParticleDirection(DEFAULT_DIRECTION),
-//mParticleOrientation(Quaternion::IDENTITY),
-//mParticleOrientationRangeStart(Quaternion::IDENTITY),
-//mParticleOrientationRangeEnd(Quaternion::IDENTITY),
-_particleOrientationRangeSet(false),
-_dynParticleAllDimensionsSet(false),
-_dynParticleWidthSet(false),
-_dynParticleHeightSet(false),
-_dynParticleDepthSet(false),
-_remainder(0),
-_durationRemain(0),
-_dynDurationSet(false),
-_repeatDelayRemain(0),
-_dynRepeatDelaySet(false),
-_autoDirection(DEFAULT_AUTO_DIRECTION),
-_forceEmission(DEFAULT_FORCE_EMISSION),
-_originalForceEmission(false),
-_forceEmissionExecuted(false),
-_originalForceEmissionExecuted(false),
-//mName(StringUtil::BLANK),
-_particleColor(DEFAULT_COLOUR),
-_particleColorRangeStart(DEFAULT_START_COLOUR_RANGE),
-_particleColorRangeEnd(DEFAULT_END_COLOUR_RANGE),
-_particleColorRangeSet(false),
-_keepLocal(false),
-_particleTextureCoords(DEFAULT_TEXTURE_COORDS),
-_particleTextureCoordsRangeStart(DEFAULT_START_TEXTURE_COORDS),
-_particleTextureCoordsRangeEnd(DEFAULT_END_TEXTURE_COORDS),
-_particleTextureCoordsRangeSet(false),
-_originEnabled(true),
-_originEnabledSet(false),
-_emitsType(PUParticle3D::PT_VISUAL),
-_emitsEntity(nullptr),
-_isMarkedForEmission(false)
+: // mEmitsType(DEFAULT_EMITS),
+  // mEmitsName(StringUtil::BLANK),
+    _emitterScale(Vec3::ONE)
+, _particleDirection(DEFAULT_DIRECTION)
+, _originalParticleDirection(DEFAULT_DIRECTION)
+,
+    // mParticleOrientation(Quaternion::IDENTITY),
+    // mParticleOrientationRangeStart(Quaternion::IDENTITY),
+    // mParticleOrientationRangeEnd(Quaternion::IDENTITY),
+    _particleOrientationRangeSet(false)
+, _dynParticleAllDimensionsSet(false)
+, _dynParticleWidthSet(false)
+, _dynParticleHeightSet(false)
+, _dynParticleDepthSet(false)
+, _remainder(0)
+, _durationRemain(0)
+, _dynDurationSet(false)
+, _repeatDelayRemain(0)
+, _dynRepeatDelaySet(false)
+, _autoDirection(DEFAULT_AUTO_DIRECTION)
+, _forceEmission(DEFAULT_FORCE_EMISSION)
+, _originalForceEmission(false)
+, _forceEmissionExecuted(false)
+, _originalForceEmissionExecuted(false)
+,
+    // mName(StringUtil::BLANK),
+    _particleColor(DEFAULT_COLOUR)
+, _particleColorRangeStart(DEFAULT_START_COLOUR_RANGE)
+, _particleColorRangeEnd(DEFAULT_END_COLOUR_RANGE)
+, _particleColorRangeSet(false)
+, _keepLocal(false)
+, _particleTextureCoords(DEFAULT_TEXTURE_COORDS)
+, _particleTextureCoordsRangeStart(DEFAULT_START_TEXTURE_COORDS)
+, _particleTextureCoordsRangeEnd(DEFAULT_END_TEXTURE_COORDS)
+, _particleTextureCoordsRangeSet(false)
+, _originEnabled(true)
+, _originEnabledSet(false)
+, _emitsType(PUParticle3D::PT_VISUAL)
+, _emitsEntity(nullptr)
+, _isMarkedForEmission(false)
 {
-    //particleType = PT_EMITTER;
-    //mAliasType = AT_EMITTER;
+    // particleType = PT_EMITTER;
+    // mAliasType = AT_EMITTER;
     _dynEmissionRate = new (std::nothrow) PUDynamicAttributeFixed();
     (static_cast<PUDynamicAttributeFixed*>(_dynEmissionRate))->setValue(DEFAULT_EMISSION_RATE);
     _dynTotalTimeToLive = new (std::nothrow) PUDynamicAttributeFixed();
@@ -160,24 +162,22 @@ PUEmitter::~PUEmitter()
     if (_dynParticleDepth)
         delete _dynParticleDepth;
 
-    //if (mEmissionRateCameraDependency)
+    // if (mEmissionRateCameraDependency)
     //	mCameraDependencyFactory.destroy(mEmissionRateCameraDependency);
 
     if (_dynAngle)
         delete _dynAngle;
 }
 
-void PUEmitter::updateEmitter(Particle3D *particle, float deltaTime)
+void PUEmitter::updateEmitter(Particle3D* particle, float deltaTime)
 {
-    
 }
 
 void PUEmitter::emit(int count)
 {
-    
 }
 
-void PUEmitter::initParticlePosition( PUParticle3D* particle )
+void PUEmitter::initParticlePosition(PUParticle3D* particle)
 {
     particle->position = getDerivedPosition();
     particle->originalPosition = particle->position;
@@ -186,10 +186,13 @@ void PUEmitter::initParticlePosition( PUParticle3D* particle )
 
 const Vec3& PUEmitter::getDerivedPosition()
 {
-    if (_isMarkedForEmission){
+    if (_isMarkedForEmission)
+    {
         _derivedPosition = _position;
-    }else {
-        PUParticleSystem3D *ps = static_cast<PUParticleSystem3D *>(_particleSystem);
+    }
+    else
+    {
+        PUParticleSystem3D* ps = static_cast<PUParticleSystem3D*>(_particleSystem);
         Mat4 rotMat;
         Mat4::createRotation(ps->getDerivedOrientation(), &rotMat);
         _derivedPosition = ps->getDerivedPosition() + rotMat * Vec3(_position.x * _emitterScale.x, _position.y * _emitterScale.y, _position.z * _emitterScale.z);
@@ -198,7 +201,7 @@ const Vec3& PUEmitter::getDerivedPosition()
     return _derivedPosition;
 }
 
-void PUEmitter::initParticleOrientation( PUParticle3D* particle )
+void PUEmitter::initParticleOrientation(PUParticle3D* particle)
 {
     if (_particleOrientationRangeSet)
     {
@@ -214,7 +217,7 @@ void PUEmitter::initParticleOrientation( PUParticle3D* particle )
     particle->originalOrientation = particle->orientation;
 }
 
-void PUEmitter::initParticleDirection( PUParticle3D* particle )
+void PUEmitter::initParticleDirection(PUParticle3D* particle)
 {
     // Use the default way of initialising the particle direction
     float angle = 0.0f;
@@ -231,9 +234,9 @@ void PUEmitter::initParticleDirection( PUParticle3D* particle )
     particle->originalDirectionLength = particle->direction.length();
 }
 
-void PUEmitter::generateAngle( float &angle )
+void PUEmitter::generateAngle(float& angle)
 {
-    float a = CC_DEGREES_TO_RADIANS(_dynamicAttributeHelper.calculate(_dynAngle, (static_cast<PUParticleSystem3D *>(_particleSystem))->getTimeElapsedSinceStart()));
+    float a = CC_DEGREES_TO_RADIANS(_dynamicAttributeHelper.calculate(_dynAngle, (static_cast<PUParticleSystem3D*>(_particleSystem))->getTimeElapsedSinceStart()));
     angle = a;
     if (_dynAngle->getType() == PUDynamicAttribute::DAT_FIXED)
     {
@@ -242,17 +245,17 @@ void PUEmitter::generateAngle( float &angle )
     }
 }
 
-unsigned short PUEmitter::calculateRequestedParticles( float timeElapsed )
+unsigned short PUEmitter::calculateRequestedParticles(float timeElapsed)
 {
     unsigned short requestedParticles = 0;
 
-    //FIXME
+    // FIXME
     if (_isEnabled)
     {
         if (_dynEmissionRate)
         {
-            float rate = _dynEmissionRate->getValue((static_cast<PUParticleSystem3D *>(_particleSystem))->getTimeElapsedSinceStart());
-            //if (_emissionRateCameraDependency)
+            float rate = _dynEmissionRate->getValue((static_cast<PUParticleSystem3D*>(_particleSystem))->getTimeElapsedSinceStart());
+            // if (_emissionRateCameraDependency)
             //{
             //	// Affect the emission rate based on the camera distance
             //	mEmissionRateCameraDependency->affect(rate, mParentTechnique->getCameraSquareDistance());
@@ -298,14 +301,14 @@ unsigned short PUEmitter::calculateRequestedParticles( float timeElapsed )
         if (_repeatDelayRemain <= 0)
         {
             //// Initialise again (if stopfade isn't set)
-            //if (mParentTechnique)
+            // if (mParentTechnique)
             //{
             //	if (!mParentTechnique->isStopFade())
             //	{
             //		setEnabled(true);
             //	}
             //}
-            //else
+            // else
             //{
             //	setEnabled(true);
             //}
@@ -317,17 +320,18 @@ unsigned short PUEmitter::calculateRequestedParticles( float timeElapsed )
     return requestedParticles;
 }
 
-void PUEmitter::setEnabled( bool enabled )
+void PUEmitter::setEnabled(bool enabled)
 {
     _isEnabled = enabled;
-    if (!_originEnabledSet){
+    if (!_originEnabledSet)
+    {
         _originEnabled = enabled;
         _originEnabledSet = true;
     }
     initTimeBased();
 }
 
-bool PUEmitter::isEnabled( void ) const
+bool PUEmitter::isEnabled(void) const
 {
     return _isEnabled;
 }
@@ -342,44 +346,47 @@ void PUEmitter::notifyStart()
     setEnabled(_originEnabled); // Also calls _initTimeBased
 }
 
-void PUEmitter::notifyRescaled( const Vec3& scale )
+void PUEmitter::notifyRescaled(const Vec3& scale)
 {
     _emitterScale = scale;
 }
 
 void PUEmitter::notifyStop()
 {
-
 }
 
 void PUEmitter::notifyPause()
 {
-
 }
 
 void PUEmitter::notifyResume()
 {
-
 }
 
 void PUEmitter::prepare()
 {
-    if (!_emitsEntity){
-        if (_emitsType == PUParticle3D::PT_EMITTER){
-            auto emitter = static_cast<PUParticleSystem3D *>(_particleSystem)->getEmitter(_emitsName);
-            if (emitter){
+    if (!_emitsEntity)
+    {
+        if (_emitsType == PUParticle3D::PT_EMITTER)
+        {
+            auto emitter = static_cast<PUParticleSystem3D*>(_particleSystem)->getEmitter(_emitsName);
+            if (emitter)
+            {
                 emitter->setMarkedForEmission(true);
                 _emitsEntity = emitter;
             }
         }
-        else if (_emitsType == PUParticle3D::PT_TECHNIQUE){
-            PUParticleSystem3D *system = static_cast<PUParticleSystem3D *>(_particleSystem)->getParentParticleSystem();
-            if (system){
+        else if (_emitsType == PUParticle3D::PT_TECHNIQUE)
+        {
+            PUParticleSystem3D* system = static_cast<PUParticleSystem3D*>(_particleSystem)->getParentParticleSystem();
+            if (system)
+            {
                 auto children = system->getChildren();
-                for (auto it : children){
+                for (auto it : children)
+                {
                     if (it->getName() == _emitsName)
                     {
-                        static_cast<PUParticleSystem3D *>(it)->setMarkedForEmission(true);
+                        static_cast<PUParticleSystem3D*>(it)->setMarkedForEmission(true);
                         _emitsEntity = it;
                         break;
                     }
@@ -396,12 +403,11 @@ void PUEmitter::unPrepare()
     setForceEmission(_forceEmission);
 }
 
-void PUEmitter::preUpdateEmitter( float deltaTime )
+void PUEmitter::preUpdateEmitter(float deltaTime)
 {
-
 }
 
-void PUEmitter::postUpdateEmitter( float deltaTime )
+void PUEmitter::postUpdateEmitter(float deltaTime)
 {
     Vec3 currentPos = getDerivedPosition();
     _latestPositionDiff = currentPos - _latestPosition;
@@ -424,7 +430,7 @@ bool PUEmitter::makeParticleLocal(PUParticle3D* particle)
     if (!particle)
         return true;
 
-    if (!_keepLocal/* || hasEventFlags(PUParticle3D::PEF_EXPIRED)*/)
+    if (!_keepLocal /* || hasEventFlags(PUParticle3D::PEF_EXPIRED)*/)
         return false;
 
     particle->position += _latestPositionDiff;
@@ -501,7 +507,7 @@ void PUEmitter::setEmitsName(const std::string& emitsName)
 {
     _emitsName = emitsName;
     _emitsEntity = nullptr;
-    //if (!_emitsName.empty())
+    // if (!_emitsName.empty())
     //{
     //	markedForEmission = true;
     //	if (mParentTechnique)
@@ -714,18 +720,18 @@ void PUEmitter::setForceEmission(bool forceEmission)
     _originalForceEmissionExecuted = false;
 }
 
-void PUEmitter::initTimeBased( void )
+void PUEmitter::initTimeBased(void)
 {
     if (_isEnabled)
     {
         if (_dynDurationSet)
         {
-            _durationRemain = _dynamicAttributeHelper.calculate(_dynDuration, (static_cast<PUParticleSystem3D *>(_particleSystem))->getTimeElapsedSinceStart());
+            _durationRemain = _dynamicAttributeHelper.calculate(_dynDuration, (static_cast<PUParticleSystem3D*>(_particleSystem))->getTimeElapsedSinceStart());
         }
 
         /** Determine whether duration must be used. If it is used, the emitter should at least be enabled.
         @remarks
-            Note, that if the duration has been exceeded, the emitter is disabled. It makes perfect sense to enable 
+            Note, that if the duration has been exceeded, the emitter is disabled. It makes perfect sense to enable
             the emitter again when the duration is initialised with a valid value (> 0).
         */
         if (_durationRemain > 0)
@@ -738,12 +744,13 @@ void PUEmitter::initTimeBased( void )
     {
         if (_dynRepeatDelaySet)
         {
-            _repeatDelayRemain = _dynamicAttributeHelper.calculate(_dynRepeatDelay, (static_cast<PUParticleSystem3D *>(_particleSystem))->getTimeElapsedSinceStart());
+            _repeatDelayRemain =
+                _dynamicAttributeHelper.calculate(_dynRepeatDelay, (static_cast<PUParticleSystem3D*>(_particleSystem))->getTimeElapsedSinceStart());
         }
     }
 }
 
-void PUEmitter::initParticleForEmission( PUParticle3D* particle )
+void PUEmitter::initParticleForEmission(PUParticle3D* particle)
 {
     // Initialise the particle position (localspace)
     particle->parentEmitter = this;
@@ -761,21 +768,22 @@ void PUEmitter::initParticleForEmission( PUParticle3D* particle )
     initParticleDimensions(particle);
 }
 
-void PUEmitter::initParticleVelocity( PUParticle3D* particle )
+void PUEmitter::initParticleVelocity(PUParticle3D* particle)
 {
-    float scalar = _dynamicAttributeHelper.calculate(_dynVelocity, (static_cast<PUParticleSystem3D *>(_particleSystem))->getTimeElapsedSinceStart(), 1.0f);
+    float scalar = _dynamicAttributeHelper.calculate(_dynVelocity, (static_cast<PUParticleSystem3D*>(_particleSystem))->getTimeElapsedSinceStart(), 1.0f);
     particle->direction *= scalar;
     particle->originalVelocity = scalar;
     particle->originalScaledDirectionLength = particle->direction.length();
 }
 
-void PUEmitter::initParticleMass( PUParticle3D* particle )
+void PUEmitter::initParticleMass(PUParticle3D* particle)
 {
-    float mass = _dynamicAttributeHelper.calculate(_dynParticleMass, (static_cast<PUParticleSystem3D *>(_particleSystem))->getTimeElapsedSinceStart(), PUParticle3D::DEFAULT_MASS);
+    float mass = _dynamicAttributeHelper.calculate(_dynParticleMass, (static_cast<PUParticleSystem3D*>(_particleSystem))->getTimeElapsedSinceStart(),
+                                                   PUParticle3D::DEFAULT_MASS);
     particle->mass = mass;
 }
 
-void PUEmitter::initParticleColor( PUParticle3D* particle )
+void PUEmitter::initParticleColor(PUParticle3D* particle)
 {
     if (_particleColorRangeSet)
     {
@@ -805,7 +813,7 @@ void PUEmitter::initParticleColor( PUParticle3D* particle )
     particle->originalColor = particle->color;
 }
 
-void PUEmitter::initParticleTextureCoords( PUParticle3D* particle )
+void PUEmitter::initParticleTextureCoords(PUParticle3D* particle)
 {
     if (_particleTextureCoordsRangeSet)
     {
@@ -819,10 +827,11 @@ void PUEmitter::initParticleTextureCoords( PUParticle3D* particle )
 
 float PUEmitter::initParticleTimeToLive()
 {
-    return _dynamicAttributeHelper.calculate(_dynTotalTimeToLive, (static_cast<PUParticleSystem3D *>(_particleSystem))->getTimeElapsedSinceStart(), PUParticle3D::DEFAULT_TTL);
+    return _dynamicAttributeHelper.calculate(_dynTotalTimeToLive, (static_cast<PUParticleSystem3D*>(_particleSystem))->getTimeElapsedSinceStart(),
+                                             PUParticle3D::DEFAULT_TTL);
 }
 
-void PUEmitter::initParticleDimensions( PUParticle3D* particle )
+void PUEmitter::initParticleDimensions(PUParticle3D* particle)
 {
     // Only continue if one of them is set
     if (_dynParticleAllDimensionsSet || _dynParticleWidthSet || _dynParticleHeightSet || _dynParticleDepthSet)
@@ -831,7 +840,7 @@ void PUEmitter::initParticleDimensions( PUParticle3D* particle )
         float extend = 0;
         if (_dynParticleAllDimensionsSet && _dynParticleAllDimensions)
         {
-            extend = _dynamicAttributeHelper.calculate(_dynParticleAllDimensions, (static_cast<PUParticleSystem3D *>(_particleSystem))->getTimeElapsedSinceStart());
+            extend = _dynamicAttributeHelper.calculate(_dynParticleAllDimensions, (static_cast<PUParticleSystem3D*>(_particleSystem))->getTimeElapsedSinceStart());
             particle->setOwnDimensions(_emitterScale.x * extend, _emitterScale.y * extend, _emitterScale.z * extend);
             return;
         }
@@ -842,17 +851,17 @@ void PUEmitter::initParticleDimensions( PUParticle3D* particle )
         float depth = 0;
         if (_dynParticleWidthSet && _dynParticleWidth)
         {
-            width = _dynamicAttributeHelper.calculate(_dynParticleWidth, (static_cast<PUParticleSystem3D *>(_particleSystem))->getTimeElapsedSinceStart());
+            width = _dynamicAttributeHelper.calculate(_dynParticleWidth, (static_cast<PUParticleSystem3D*>(_particleSystem))->getTimeElapsedSinceStart());
         }
         if (_dynParticleHeightSet && _dynParticleHeight)
         {
-            height = _dynamicAttributeHelper.calculate(_dynParticleHeight, (static_cast<PUParticleSystem3D *>(_particleSystem))->getTimeElapsedSinceStart());
+            height = _dynamicAttributeHelper.calculate(_dynParticleHeight, (static_cast<PUParticleSystem3D*>(_particleSystem))->getTimeElapsedSinceStart());
         }
         if (_dynParticleDepthSet && _dynParticleDepth)
         {
-            depth = _dynamicAttributeHelper.calculate(_dynParticleDepth, (static_cast<PUParticleSystem3D *>(_particleSystem))->getTimeElapsedSinceStart());
+            depth = _dynamicAttributeHelper.calculate(_dynParticleDepth, (static_cast<PUParticleSystem3D*>(_particleSystem))->getTimeElapsedSinceStart());
         }
-    
+
         /** Set the width, height and depth if at least one of them is set.
         @remarks
             If one of the dimensions is 0, it will be overridden by the default value later on.
@@ -866,9 +875,9 @@ void PUEmitter::initParticleDimensions( PUParticle3D* particle )
     {
         // Just set the width, height and depth, but these are just the default settings; the particle doesn't
         // have own dimensions. Recalculate the bounding sphere radius.
-        particle->width = _emitterScale.x * (static_cast<PUParticleSystem3D *>(_particleSystem))->getDefaultWidth();
-        particle->height = _emitterScale.y * (static_cast<PUParticleSystem3D *>(_particleSystem))->getDefaultHeight();
-        particle->depth = _emitterScale.z * (static_cast<PUParticleSystem3D *>(_particleSystem))->getDefaultDepth();
+        particle->width = _emitterScale.x * (static_cast<PUParticleSystem3D*>(_particleSystem))->getDefaultWidth();
+        particle->height = _emitterScale.y * (static_cast<PUParticleSystem3D*>(_particleSystem))->getDefaultHeight();
+        particle->depth = _emitterScale.z * (static_cast<PUParticleSystem3D*>(_particleSystem))->getDefaultDepth();
         particle->calculateBoundingSphereRadius();
     }
 }
@@ -883,7 +892,7 @@ Ref* PUEmitter::getEmitsEntityPtr() const
     return _emitsEntity;
 }
 
-void PUEmitter::copyAttributesTo( PUEmitter* emitter )
+void PUEmitter::copyAttributesTo(PUEmitter* emitter)
 {
     emitter->setName(_name);
     emitter->setEmitterType(_emitterType);

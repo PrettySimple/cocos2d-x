@@ -1,39 +1,38 @@
 /*
-* cocos2d-x   http://www.cocos2d-x.org
-*
-* Copyright (c) 2010-2011 - cocos2d-x community
-*
-* Portions Copyright (c) Microsoft Open Technologies, Inc.
-* All Rights Reserved
-*
-* Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an
-* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and limitations under the License.
-*/
+ * cocos2d-x   http://www.cocos2d-x.org
+ *
+ * Copyright (c) 2010-2011 - cocos2d-x community
+ *
+ * Portions Copyright (c) Microsoft Open Technologies, Inc.
+ * All Rights Reserved
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and limitations under the License.
+ */
 
 #include "base/ccMacros.h"
 #include "platform/CCPlatformConfig.h"
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
 
-#include "audio/winrt/AudioEngine-winrt.h"
-#include "platform/CCFileUtils.h"
-#include "base/CCDirector.h"
-#include "base/CCScheduler.h"
+#    include "audio/winrt/AudioEngine-winrt.h"
+#    include "base/CCDirector.h"
+#    include "base/CCScheduler.h"
+#    include "platform/CCFileUtils.h"
 
 using namespace cocos2d;
 using namespace cocos2d::experimental;
 
 AudioEngineImpl::AudioEngineImpl()
-    : _lazyInitLoop(true)
-    , _currentAudioID(0)
+: _lazyInitLoop(true)
+, _currentAudioID(0)
 {
-
 }
 
 AudioEngineImpl::~AudioEngineImpl()
@@ -52,10 +51,11 @@ bool AudioEngineImpl::init()
 AudioCache* AudioEngineImpl::preload(const std::string& filePath, std::function<void(bool)> callback)
 {
     AudioCache* audioCache = nullptr;
-    do 
+    do
     {
         auto it = _audioCaches.find(filePath);
-        if (it == _audioCaches.end()) {
+        if (it == _audioCaches.end())
+        {
             FileFormat fileFormat = FileFormat::UNKNOWN;
 
             std::string fileExtension = FileUtils::getInstance()->getFileExtension(filePath);
@@ -85,7 +85,7 @@ AudioCache* AudioEngineImpl::preload(const std::string& filePath, std::function<
             audioCache->_fileFullPath = fullPath;
             AudioEngine::addTask(std::bind(&AudioCache::readDataTask, audioCache));
         }
-        else 
+        else
         {
             audioCache = &it->second;
         }
@@ -96,7 +96,7 @@ AudioCache* AudioEngineImpl::preload(const std::string& filePath, std::function<
         if (audioCache)
         {
             audioCache->addLoadCallback(callback);
-        } 
+        }
         else
         {
             callback(false);
@@ -106,7 +106,7 @@ AudioCache* AudioEngineImpl::preload(const std::string& filePath, std::function<
     return audioCache;
 }
 
-int AudioEngineImpl::play2d(const std::string &filePath, bool loop, float volume)
+int AudioEngineImpl::play2d(const std::string& filePath, bool loop, float volume)
 {
     auto audioCache = preload(filePath, nullptr);
     if (audioCache == nullptr)
@@ -119,7 +119,8 @@ int AudioEngineImpl::play2d(const std::string &filePath, bool loop, float volume
     player->_volume = volume;
     audioCache->addPlayCallback(std::bind(&AudioEngineImpl::_play2d, this, audioCache, _currentAudioID));
 
-    if (_lazyInitLoop) {
+    if (_lazyInitLoop)
+    {
         _lazyInitLoop = false;
 
         auto scheduler = cocos2d::Director::getInstance()->getScheduler();
@@ -129,22 +130,27 @@ int AudioEngineImpl::play2d(const std::string &filePath, bool loop, float volume
     return _currentAudioID++;
 }
 
-void AudioEngineImpl::_play2d(AudioCache *cache, int audioID)
+void AudioEngineImpl::_play2d(AudioCache* cache, int audioID)
 {
-    if (cache->_isReady){
+    if (cache->_isReady)
+    {
         auto playerIt = _audioPlayers.find(audioID);
-        if (playerIt != _audioPlayers.end()) {
-            if (playerIt->second.play2d(cache)) {
+        if (playerIt != _audioPlayers.end())
+        {
+            if (playerIt->second.play2d(cache))
+            {
                 AudioEngine::_audioIDInfoMap[audioID].state = AudioEngine::AudioState::PLAYING;
             }
-            else{
+            else
+            {
                 _threadMutex.lock();
                 _toRemoveAudioIDs.push_back(audioID);
                 _threadMutex.unlock();
             }
         }
     }
-    else {
+    else
+    {
         _threadMutex.lock();
         _toRemoveCaches.push_back(cache);
         _toRemoveAudioIDs.push_back(audioID);
@@ -156,11 +162,13 @@ void AudioEngineImpl::setVolume(int audioID, float volume)
 {
     auto& player = _audioPlayers[audioID];
 
-    if (player._ready){
+    if (player._ready)
+    {
         player.setVolume(volume);
     }
 
-    if (player.isInError()) {
+    if (player.isInError())
+    {
         log("%s: audio id = %d, error.\n", __FUNCTION__, audioID);
     }
 }
@@ -169,11 +177,13 @@ void AudioEngineImpl::setLoop(int audioID, bool loop)
 {
     auto& player = _audioPlayers[audioID];
 
-    if (player._ready) {
+    if (player._ready)
+    {
         player._loop = loop;
     }
 
-    if (player.isInError()) {
+    if (player.isInError())
+    {
         log("%s: audio id = %d, error.\n", __FUNCTION__, audioID);
     }
 }
@@ -183,14 +193,16 @@ bool AudioEngineImpl::pause(int audioID)
     bool ret = false;
     auto& player = _audioPlayers[audioID];
 
-    if (player._ready) {
+    if (player._ready)
+    {
         player.pause();
         AudioEngine::_audioIDInfoMap[audioID].state = AudioEngine::AudioState::PAUSED;
     }
 
     ret = !player.isInError();
 
-    if (!ret) {
+    if (!ret)
+    {
         log("%s: audio id = %d, error.\n", __FUNCTION__, audioID);
     }
 
@@ -202,14 +214,16 @@ bool AudioEngineImpl::resume(int audioID)
     bool ret = false;
     auto& player = _audioPlayers[audioID];
 
-    if (player._ready) {
+    if (player._ready)
+    {
         player.resume();
         AudioEngine::_audioIDInfoMap[audioID].state = AudioEngine::AudioState::PLAYING;
     }
 
     ret = !player.isInError();
 
-    if (!ret) {
+    if (!ret)
+    {
         log("%s: audio id = %d, error.\n", __FUNCTION__, audioID);
     }
 
@@ -221,12 +235,14 @@ bool AudioEngineImpl::stop(int audioID)
     bool ret = false;
     auto& player = _audioPlayers[audioID];
 
-    if (player._ready) {
+    if (player._ready)
+    {
         player.stop();
         ret = !player.isInError();
     }
 
-    if (!ret) {
+    if (!ret)
+    {
         log("%s: audio id = %d, error.\n", __FUNCTION__, audioID);
     }
 
@@ -236,7 +252,8 @@ bool AudioEngineImpl::stop(int audioID)
 
 void AudioEngineImpl::stopAll()
 {
-    for (auto &player : _audioPlayers) {
+    for (auto& player : _audioPlayers)
+    {
         player.second.stop();
     }
 
@@ -247,10 +264,12 @@ float AudioEngineImpl::getDuration(int audioID)
 {
     auto& player = _audioPlayers[audioID];
 
-    if (player._ready) {
+    if (player._ready)
+    {
         return player.getDuration();
     }
-    else {
+    else
+    {
         return AudioEngine::TIME_UNKNOWN;
     }
 }
@@ -260,7 +279,8 @@ float AudioEngineImpl::getCurrentTime(int audioID)
     float ret = 0.0f;
     auto& player = _audioPlayers[audioID];
 
-    if (player._ready) {
+    if (player._ready)
+    {
         ret = player.getCurrentTime();
     }
 
@@ -272,18 +292,20 @@ bool AudioEngineImpl::setCurrentTime(int audioID, float time)
     bool ret = false;
     auto& player = _audioPlayers[audioID];
 
-    if (player._ready) {
+    if (player._ready)
+    {
         ret = player.setTime(time);
     }
 
-    if (!ret) {
+    if (!ret)
+    {
         log("%s: audio id = %d, error.\n", __FUNCTION__, audioID);
     }
 
     return ret;
 }
 
-void AudioEngineImpl::setFinishCallback(int audioID, const std::function<void(int, const std::string &)> &callback)
+void AudioEngineImpl::setFinishCallback(int audioID, const std::function<void(int, const std::string&)>& callback)
 {
     _audioPlayers[audioID]._finishCallback = callback;
 }
@@ -292,13 +314,17 @@ void AudioEngineImpl::update(float dt)
 {
     int audioID;
 
-    if (_threadMutex.try_lock()) {
+    if (_threadMutex.try_lock())
+    {
         size_t removeAudioCount = _toRemoveAudioIDs.size();
-        for (size_t index = 0; index < removeAudioCount; ++index) {
+        for (size_t index = 0; index < removeAudioCount; ++index)
+        {
             audioID = _toRemoveAudioIDs[index];
             auto playerIt = _audioPlayers.find(audioID);
-            if (playerIt != _audioPlayers.end()) {
-                if (playerIt->second._finishCallback) {
+            if (playerIt != _audioPlayers.end())
+            {
+                if (playerIt->second._finishCallback)
+                {
                     auto& audioInfo = AudioEngine::_audioIDInfoMap[audioID];
                     playerIt->second._finishCallback(audioID, *audioInfo.filePath);
                 }
@@ -308,10 +334,13 @@ void AudioEngineImpl::update(float dt)
         }
 
         size_t removeCacheCount = _toRemoveCaches.size();
-        for (size_t index = 0; index < removeCacheCount; ++index) {
+        for (size_t index = 0; index < removeCacheCount; ++index)
+        {
             auto itEnd = _audioCaches.end();
-            for (auto it = _audioCaches.begin(); it != itEnd; ++it) {
-                if (&it->second == _toRemoveCaches[index]) {
+            for (auto it = _audioCaches.begin(); it != itEnd; ++it)
+            {
+                if (&it->second == _toRemoveCaches[index])
+                {
                     _audioCaches.erase(it);
                     break;
                 }
@@ -320,12 +349,15 @@ void AudioEngineImpl::update(float dt)
         _threadMutex.unlock();
     }
 
-    for (auto it = _audioPlayers.begin(); it != _audioPlayers.end();) {
+    for (auto it = _audioPlayers.begin(); it != _audioPlayers.end();)
+    {
         audioID = it->first;
         auto& player = it->second;
 
-        if (player._ready && player._state == AudioPlayerState::STOPPED) {
-            if (player._finishCallback) {
+        if (player._ready && player._state == AudioPlayerState::STOPPED)
+        {
+            if (player._finishCallback)
+            {
                 auto& audioInfo = AudioEngine::_audioIDInfoMap[audioID];
                 player._finishCallback(audioID, *audioInfo.filePath);
             }
@@ -333,13 +365,15 @@ void AudioEngineImpl::update(float dt)
             AudioEngine::remove(audioID);
             it = _audioPlayers.erase(it);
         }
-        else{
+        else
+        {
             player.update();
             ++it;
         }
     }
 
-    if (_audioPlayers.empty()){
+    if (_audioPlayers.empty())
+    {
         _lazyInitLoop = true;
 
         auto scheduler = cocos2d::Director::getInstance()->getScheduler();
@@ -347,7 +381,7 @@ void AudioEngineImpl::update(float dt)
     }
 }
 
-void AudioEngineImpl::uncache(const std::string &filePath)
+void AudioEngineImpl::uncache(const std::string& filePath)
 {
     _audioCaches.erase(filePath);
 }

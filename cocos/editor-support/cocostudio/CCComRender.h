@@ -25,63 +25,63 @@ THE SOFTWARE.
 #ifndef __CC_EXTENTIONS_CCCOMRENDER_H__
 #define __CC_EXTENTIONS_CCCOMRENDER_H__
 
-#include "CCComBase.h"
 #include "2d/CCComponent.h"
+#include "CCComBase.h"
 #include "cocostudio/CocosStudioExport.h"
 
-namespace cocostudio {
-
-class CC_STUDIO_DLL ComRender : public cocos2d::Component
+namespace cocostudio
 {
-    DECLARE_CLASS_COMPONENT_INFO
- 
-public:
-    const static std::string COMPONENT_NAME;
+    class CC_STUDIO_DLL ComRender : public cocos2d::Component
+    {
+        DECLARE_CLASS_COMPONENT_INFO
 
-    static ComRender* create();
-    static ComRender* create(cocos2d::Node *node, const char *comName);
+    public:
+        const static std::string COMPONENT_NAME;
 
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual void onEnter() override;
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual void onExit() override;
-    /**
-    * @js NA
-    * @lua NA
-    */
-    virtual void onAdd() override;
-    /**
-    * @js NA
-    * @lua NA
-    */
-    virtual void onRemove() override;
-    virtual bool serialize(void* r) override;
-    virtual cocos2d::Node* getNode();
-    virtual void setNode(cocos2d::Node *node);
+        static ComRender* create();
+        static ComRender* create(cocos2d::Node* node, const char* comName);
 
-CC_CONSTRUCTOR_ACCESS:
-    /**
-    *  @js ctor
-    */
-    ComRender();
-    ComRender(cocos2d::Node *node, const char *comName);
-    /**
-    * @js NA
-    * @lua NA
-    */
-    virtual ~ComRender();
+        /**
+         * @js NA
+         * @lua NA
+         */
+        virtual void onEnter() override;
+        /**
+         * @js NA
+         * @lua NA
+         */
+        virtual void onExit() override;
+        /**
+         * @js NA
+         * @lua NA
+         */
+        virtual void onAdd() override;
+        /**
+         * @js NA
+         * @lua NA
+         */
+        virtual void onRemove() override;
+        virtual bool serialize(void* r) override;
+        virtual cocos2d::Node* getNode();
+        virtual void setNode(cocos2d::Node* node);
 
-private:
-    bool readJson(const std::string &fileName, rapidjson::Document &doc);
+        CC_CONSTRUCTOR_ACCESS :
+            /**
+             *  @js ctor
+             */
+            ComRender();
+        ComRender(cocos2d::Node* node, const char* comName);
+        /**
+         * @js NA
+         * @lua NA
+         */
+        virtual ~ComRender();
 
-    cocos2d::Node *_render;
-};
+    private:
+        bool readJson(const std::string& fileName, rapidjson::Document& doc);
 
-}
-#endif  // __CC_EXTENTIONS_CCCOMRENDER_H__
+        cocos2d::Node* _render;
+    };
+
+} // namespace cocostudio
+#endif // __CC_EXTENTIONS_CCCOMRENDER_H__

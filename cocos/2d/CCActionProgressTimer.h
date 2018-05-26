@@ -2,7 +2,7 @@
 Copyright (C) 2010      Lam Pham
 Copyright (c) 2010-2012 cocos2d-x.org
 CopyRight (c) 2013-2016 Chukong Technologies Inc.
- 
+
 http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -46,7 +46,7 @@ NS_CC_BEGIN
 class CC_DLL ProgressTo : public ActionInterval
 {
 public:
-    /** 
+    /**
      * @brief Create and initializes with a duration and a destination percentage.
      * @param duration Specify the duration of the ProgressTo action. It's a value in seconds.
      * @param percent Specify the destination percentage.
@@ -59,15 +59,14 @@ public:
     //
     virtual ProgressTo* clone() const override;
     virtual ProgressTo* reverse() const override;
-    virtual void startWithTarget(Node *target) override;
+    virtual void startWithTarget(Node* target) override;
     virtual void update(float time) override;
-    
-CC_CONSTRUCTOR_ACCESS:
-    ProgressTo() {}
+
+    CC_CONSTRUCTOR_ACCESS : ProgressTo() {}
     virtual ~ProgressTo() {}
 
-    /** 
-     * @brief Initializes with a duration and destination percentage. 
+    /**
+     * @brief Initializes with a duration and destination percentage.
      * @param duration Specify the duration of the ProgressTo action. It's a value in seconds.
      * @param percent Specify the destination percentage.
      * @return If the creation success, return true; otherwise, return false.
@@ -89,7 +88,7 @@ private:
 class CC_DLL ProgressFromTo : public ActionInterval
 {
 public:
-    /** 
+    /**
      * @brief Create and initializes the action with a duration, a "from" percentage and a "to" percentage.
      * @param duration Specify the duration of the ProgressFromTo action. It's a value in seconds.
      * @param fromPercentage Specify the source percentage.
@@ -103,11 +102,10 @@ public:
     //
     virtual ProgressFromTo* clone() const override;
     virtual ProgressFromTo* reverse() const override;
-    virtual void startWithTarget(Node *target) override;
+    virtual void startWithTarget(Node* target) override;
     virtual void update(float time) override;
-    
-CC_CONSTRUCTOR_ACCESS:
-    ProgressFromTo() {}
+
+    CC_CONSTRUCTOR_ACCESS : ProgressFromTo() {}
     virtual ~ProgressFromTo() {}
 
     /**

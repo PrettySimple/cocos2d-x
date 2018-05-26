@@ -24,111 +24,108 @@ THE SOFTWARE.
 
 #pragma once
 
+#include "audio/android/AssetFd.h"
 #include "audio/android/IAudioPlayer.h"
 #include "audio/android/OpenSLHelper.h"
-#include "audio/android/AssetFd.h"
-#include <mutex>
-#include <vector>
 #include <memory>
+#include <mutex>
 #include <thread>
+#include <vector>
 
-namespace cocos2d { namespace experimental {
-
-class ICallerThreadUtils;
-class AssetFd;
-
-class UrlAudioPlayer : public IAudioPlayer
+namespace cocos2d
 {
-public:
+    namespace experimental
+    {
+        class ICallerThreadUtils;
+        class AssetFd;
 
-    // Override Functions Begin
-    virtual int getId() const override
-    { return _id; };
+        class UrlAudioPlayer : public IAudioPlayer
+        {
+        public:
+            // Override Functions Begin
+            virtual int getId() const override { return _id; };
 
-    virtual void setId(int id) override
-    { _id = id; };
+            virtual void setId(int id) override { _id = id; };
 
-    virtual std::string getUrl() const override
-    { return _url; };
+            virtual std::string getUrl() const override { return _url; };
 
-    virtual State getState() const override
-    { return _state; };
+            virtual State getState() const override { return _state; };
 
-    virtual void play() override;
+            virtual void play() override;
 
-    virtual void pause() override;
+            virtual void pause() override;
 
-    virtual void resume() override;
+            virtual void resume() override;
 
-    virtual void stop() override;
+            virtual void stop() override;
 
-    virtual void rewind() override;
+            virtual void rewind() override;
 
-    virtual void setVolume(float volume) override;
+            virtual void setVolume(float volume) override;
 
-    virtual float getVolume() const override;
+            virtual float getVolume() const override;
 
-    virtual void setAudioFocus(bool isFocus) override;
+            virtual void setAudioFocus(bool isFocus) override;
 
-    virtual void setLoop(bool isLoop) override;
+            virtual void setLoop(bool isLoop) override;
 
-    virtual bool isLoop() const override;
+            virtual bool isLoop() const override;
 
-    virtual float getDuration() const override;
+            virtual float getDuration() const override;
 
-    virtual float getPosition() const override;
+            virtual float getPosition() const override;
 
-    virtual bool setPosition(float pos) override;
+            virtual bool setPosition(float pos) override;
 
-    virtual void setPlayEventCallback(const PlayEventCallback &playEventCallback) override;
+            virtual void setPlayEventCallback(const PlayEventCallback& playEventCallback) override;
 
-    // Override Functions EndOv
+            // Override Functions EndOv
 
-private:
-    UrlAudioPlayer(SLEngineItf engineItf, SLObjectItf outputMixObject, ICallerThreadUtils* callerThreadUtils);
-    virtual ~UrlAudioPlayer();
+        private:
+            UrlAudioPlayer(SLEngineItf engineItf, SLObjectItf outputMixObject, ICallerThreadUtils* callerThreadUtils);
+            virtual ~UrlAudioPlayer();
 
-    bool prepare(const std::string &url, SLuint32 locatorType, std::shared_ptr<AssetFd> assetFd, int start, int length);
+            bool prepare(const std::string& url, SLuint32 locatorType, std::shared_ptr<AssetFd> assetFd, int start, int length);
 
-    static void stopAll();
+            static void stopAll();
 
-    void destroy();
+            void destroy();
 
-    inline void setState(State state)
-    { _state = state; };
+            inline void setState(State state) { _state = state; };
 
-    void playEventCallback(SLPlayItf caller, SLuint32 playEvent);
+            void playEventCallback(SLPlayItf caller, SLuint32 playEvent);
 
-    void setVolumeToSLPlayer(float volume);
+            void setVolumeToSLPlayer(float volume);
 
-private:
-    SLEngineItf _engineItf;
-    SLObjectItf _outputMixObj;
-    ICallerThreadUtils* _callerThreadUtils;
+        private:
+            SLEngineItf _engineItf;
+            SLObjectItf _outputMixObj;
+            ICallerThreadUtils* _callerThreadUtils;
 
-    int _id;
-    std::string _url;
+            int _id;
+            std::string _url;
 
-    std::shared_ptr<AssetFd> _assetFd;
+            std::shared_ptr<AssetFd> _assetFd;
 
-    SLObjectItf _playObj;
-    SLPlayItf _playItf;
-    SLSeekItf _seekItf;
-    SLVolumeItf _volumeItf;
+            SLObjectItf _playObj;
+            SLPlayItf _playItf;
+            SLSeekItf _seekItf;
+            SLVolumeItf _volumeItf;
 
-    float _volume;
-    float _duration;
-    bool _isLoop;
-    bool _isAudioFocus;
-    State _state;
+            float _volume;
+            float _duration;
+            bool _isLoop;
+            bool _isAudioFocus;
+            State _state;
 
-    PlayEventCallback _playEventCallback;
+            PlayEventCallback _playEventCallback;
 
-    std::thread::id _callerThreadId;
-    std::shared_ptr<bool> _isDestroyed;
+            std::thread::id _callerThreadId;
+            std::shared_ptr<bool> _isDestroyed;
 
-    friend class SLUrlAudioPlayerCallbackProxy;
-    friend class AudioPlayerProvider;
-};
+            friend class SLUrlAudioPlayerCallbackProxy;
+            friend class AudioPlayerProvider;
+        };
 
-}} // namespace cocos2d { namespace experimental {
+    } // namespace experimental
+} // namespace cocos2d

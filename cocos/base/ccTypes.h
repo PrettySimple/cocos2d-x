@@ -30,9 +30,9 @@ THE SOFTWARE.
 
 #include <string>
 
+#include "base/CCRef.h"
 #include "math/CCGeometry.h"
 #include "math/CCMath.h"
-#include "base/CCRef.h"
 #include "platform/CCGL.h"
 
 /**
@@ -52,7 +52,8 @@ struct Color4F;
 struct CC_DLL Color3B
 {
     Color3B();
-    constexpr Color3B(GLubyte _r, GLubyte _g, GLubyte _b): r(_r)
+    constexpr Color3B(GLubyte _r, GLubyte _g, GLubyte _b)
+    : r(_r)
     , g(_g)
     , b(_b)
     {
@@ -67,10 +68,7 @@ struct CC_DLL Color3B
     bool operator!=(const Color4B& right) const;
     bool operator!=(const Color4F& right) const;
 
-    bool equals(const Color3B& other) const
-    {
-        return (*this == other);
-    }
+    bool equals(const Color3B& other) const { return (*this == other); }
 
     GLubyte r;
     GLubyte g;
@@ -97,7 +95,7 @@ struct CC_DLL Color4B
     Color4B(GLubyte _r, GLubyte _g, GLubyte _b, GLubyte _a);
     explicit Color4B(const Color3B& color, GLubyte _a = 255);
     explicit Color4B(const Color4F& color);
-    
+
     inline void set(GLubyte _r, GLubyte _g, GLubyte _b, GLubyte _a)
     {
         r = _r;
@@ -129,7 +127,6 @@ struct CC_DLL Color4B
     static const Color4B GRAY;
 };
 
-
 /**
  * RGBA color composed of 4 floats.
  * @since v3.0
@@ -148,10 +145,7 @@ struct CC_DLL Color4F
     bool operator!=(const Color3B& right) const;
     bool operator!=(const Color4B& right) const;
 
-    bool equals(const Color4F &other) const
-    {
-        return (*this == other);
-    }
+    bool equals(const Color4F& other) const { return (*this == other); }
 
     GLfloat r;
     GLfloat g;
@@ -182,7 +176,6 @@ struct CC_DLL Color4F
 //     GLfloat y;
 // };
 
-
 /** A vertex composed of 2 floats: x, y
  @since v3.0
  */
@@ -205,10 +198,19 @@ struct CC_DLL Color4F
  * A TEXCOORD composed of 2 floats: u, y
  * @since v3.0
  */
-struct CC_DLL Tex2F {
-    Tex2F(float _u, float _v): u(_u), v(_v) {}
+struct CC_DLL Tex2F
+{
+    Tex2F(float _u, float _v)
+    : u(_u)
+    , v(_v)
+    {
+    }
 
-    Tex2F(): u(0.f), v(0.f) {}
+    Tex2F()
+    : u(0.f)
+    , v(0.f)
+    {
+    }
 
     GLfloat u;
     GLfloat v;
@@ -219,9 +221,9 @@ struct CC_DLL Tex2F {
  */
 struct CC_DLL PointSprite
 {
-    Vec2   pos;        // 8 bytes
-    Color4B    color;      // 4 bytes
-    GLfloat    size;       // 4 bytes
+    Vec2 pos; // 8 bytes
+    Color4B color; // 4 bytes
+    GLfloat size; // 4 bytes
 };
 
 /** @struct Quad2
@@ -229,20 +231,21 @@ struct CC_DLL PointSprite
  */
 struct CC_DLL Quad2
 {
-    Vec2        tl;
-    Vec2        tr;
-    Vec2        bl;
-    Vec2        br;
+    Vec2 tl;
+    Vec2 tr;
+    Vec2 bl;
+    Vec2 br;
 };
 
 /** @struct Quad3
  * A 3D Quad. 4 * 3 floats.
  */
-struct CC_DLL Quad3 {
-    Vec3        bl;
-    Vec3        br;
-    Vec3        tl;
-    Vec3        tr;
+struct CC_DLL Quad3
+{
+    Vec3 bl;
+    Vec3 br;
+    Vec3 tl;
+    Vec3 tr;
 };
 
 /** @struct V2F_C4B_T2F
@@ -251,11 +254,11 @@ struct CC_DLL Quad3 {
 struct V2F_C4B_T2F
 {
     /// vertices (2F)
-    Vec2       vertices;
+    Vec2 vertices;
     /// colors (4B)
-    Color4B        colors;
+    Color4B colors;
     /// tex coords (2F)
-    Tex2F          texCoords;
+    Tex2F texCoords;
 };
 
 /** @struct V2F_C4B_PF
@@ -264,11 +267,11 @@ struct V2F_C4B_T2F
 struct V2F_C4B_PF
 {
     /// vertices (2F)
-    Vec2       vertices;
+    Vec2 vertices;
     /// colors (4B)
-    Color4B        colors;
+    Color4B colors;
     /// pointsize
-    float      pointSize;
+    float pointSize;
 };
 
 /** @struct V2F_C4F_T2F
@@ -277,11 +280,11 @@ struct V2F_C4B_PF
 struct CC_DLL V2F_C4F_T2F
 {
     /// vertices (2F)
-    Vec2       vertices;
+    Vec2 vertices;
     /// colors (4F)
-    Color4F        colors;
+    Color4F colors;
     /// tex coords (2F)
-    Tex2F          texCoords;
+    Tex2F texCoords;
 };
 
 /** @struct V3F_C4B_T2F
@@ -290,13 +293,13 @@ struct CC_DLL V2F_C4F_T2F
 struct CC_DLL V3F_C4B_T2F
 {
     /// vertices (3F)
-    Vec3     vertices;            // 12 bytes
+    Vec3 vertices; // 12 bytes
 
     /// colors (4B)
-    Color4B      colors;              // 4 bytes
+    Color4B colors; // 4 bytes
 
     // tex coords (2F)
-    Tex2F        texCoords;           // 8 bytes
+    Tex2F texCoords; // 8 bytes
 };
 
 /** @struct V3F_T2F
@@ -305,9 +308,9 @@ struct CC_DLL V3F_C4B_T2F
 struct CC_DLL V3F_T2F
 {
     /// vertices (2F)
-    Vec3       vertices;
+    Vec3 vertices;
     /// tex coords (2F)
-    Tex2F          texCoords;
+    Tex2F texCoords;
 };
 
 /** @struct V2F_C4B_T2F_Triangle
@@ -326,13 +329,13 @@ struct CC_DLL V2F_C4B_T2F_Triangle
 struct CC_DLL V2F_C4B_T2F_Quad
 {
     /// bottom left
-    V2F_C4B_T2F    bl;
+    V2F_C4B_T2F bl;
     /// bottom right
-    V2F_C4B_T2F    br;
+    V2F_C4B_T2F br;
     /// top left
-    V2F_C4B_T2F    tl;
+    V2F_C4B_T2F tl;
     /// top right
-    V2F_C4B_T2F    tr;
+    V2F_C4B_T2F tr;
 };
 
 /** @struct V3F_C4B_T2F_Quad
@@ -341,13 +344,13 @@ struct CC_DLL V2F_C4B_T2F_Quad
 struct CC_DLL V3F_C4B_T2F_Quad
 {
     /// top left
-    V3F_C4B_T2F    tl;
+    V3F_C4B_T2F tl;
     /// bottom left
-    V3F_C4B_T2F    bl;
+    V3F_C4B_T2F bl;
     /// top right
-    V3F_C4B_T2F    tr;
+    V3F_C4B_T2F tr;
     /// bottom right
-    V3F_C4B_T2F    br;
+    V3F_C4B_T2F br;
 };
 
 /** @struct V2F_C4F_T2F_Quad
@@ -356,13 +359,13 @@ struct CC_DLL V3F_C4B_T2F_Quad
 struct CC_DLL V2F_C4F_T2F_Quad
 {
     /// bottom left
-    V2F_C4F_T2F    bl;
+    V2F_C4F_T2F bl;
     /// bottom right
-    V2F_C4F_T2F    br;
+    V2F_C4F_T2F br;
     /// top left
-    V2F_C4F_T2F    tl;
+    V2F_C4F_T2F tl;
     /// top right
-    V2F_C4F_T2F    tr;
+    V2F_C4F_T2F tr;
 };
 
 /** @struct V3F_T2F_Quad
@@ -371,13 +374,13 @@ struct CC_DLL V2F_C4F_T2F_Quad
 struct CC_DLL V3F_T2F_Quad
 {
     /// bottom left
-    V3F_T2F    bl;
+    V3F_T2F bl;
     /// bottom right
-    V3F_T2F    br;
+    V3F_T2F br;
     /// top left
-    V3F_T2F    tl;
+    V3F_T2F tl;
     /// top right
-    V3F_T2F    tr;
+    V3F_T2F tr;
 };
 
 /** @struct BlendFunc
@@ -399,20 +402,11 @@ struct CC_DLL BlendFunc
     /** Enables Additive blending. Uses {GL_SRC_ALPHA, GL_ONE} */
     static const BlendFunc ADDITIVE;
 
-    bool operator==(const BlendFunc &a) const
-    {
-        return src == a.src && dst == a.dst;
-    }
+    bool operator==(const BlendFunc& a) const { return src == a.src && dst == a.dst; }
 
-    bool operator!=(const BlendFunc &a) const
-    {
-        return src != a.src || dst != a.dst;
-    }
+    bool operator!=(const BlendFunc& a) const { return src != a.src || dst != a.dst; }
 
-    bool operator<(const BlendFunc &a) const
-    {
-        return src < a.src || (src == a.src && dst < a.dst);
-    }
+    bool operator<(const BlendFunc& a) const { return src < a.src || (src == a.src && dst < a.dst); }
 };
 
 /** @enum TextVAlignment
@@ -440,12 +434,13 @@ enum class CC_DLL TextHAlignment
 };
 
 /**
-* @brief Possible GlyphCollection used by Label.
-*
-* Specify a collections of characters to be load when Label created.
-* Consider using DYNAMIC.
-*/
-enum class GlyphCollection {
+ * @brief Possible GlyphCollection used by Label.
+ *
+ * Specify a collections of characters to be load when Label created.
+ * Consider using DYNAMIC.
+ */
+enum class GlyphCollection
+{
     DYNAMIC,
     NEHE,
     ASCII,
@@ -460,13 +455,13 @@ enum class GlyphCollection {
 struct CC_DLL T2F_Quad
 {
     /// bottom left
-    Tex2F    bl;
+    Tex2F bl;
     /// bottom right
-    Tex2F    br;
+    Tex2F br;
     /// top left
-    Tex2F    tl;
+    Tex2F tl;
     /// top right
-    Tex2F    tr;
+    Tex2F tr;
 };
 
 /** @struct AnimationFrameData
@@ -489,22 +484,22 @@ struct CC_DLL AnimationFrameData
 struct CC_DLL FontShadow
 {
 public:
-
     // shadow is not enabled by default
     FontShadow()
-        : _shadowEnabled(false)
-        , _shadowBlur(0)
-        , _shadowOpacity(0)
-    {}
+    : _shadowEnabled(false)
+    , _shadowBlur(0)
+    , _shadowOpacity(0)
+    {
+    }
 
     /// true if shadow enabled
-    bool   _shadowEnabled;
+    bool _shadowEnabled;
     /// shadow x and y offset
-    Size   _shadowOffset;
+    Size _shadowOffset;
     /// shadow blurriness
-    float  _shadowBlur;
+    float _shadowBlur;
     /// shadow opacity
-    float  _shadowOpacity;
+    float _shadowOpacity;
 };
 
 /** @struct FontStroke
@@ -513,24 +508,23 @@ public:
 struct CC_DLL FontStroke
 {
 public:
-
     // stroke is disabled by default
     FontStroke()
-        : _strokeEnabled(false)
-        , _strokeColor(Color3B::BLACK)
-        , _strokeAlpha(255)
-        , _strokeSize(0)
-    {}
+    : _strokeEnabled(false)
+    , _strokeColor(Color3B::BLACK)
+    , _strokeAlpha(255)
+    , _strokeSize(0)
+    {
+    }
 
     /// true if stroke enabled
-    bool      _strokeEnabled;
+    bool _strokeEnabled;
     /// stroke color
-    Color3B   _strokeColor;
+    Color3B _strokeColor;
     /// stroke alpha
-    GLubyte   _strokeAlpha;
+    GLubyte _strokeAlpha;
     /// stroke size
-    float     _strokeSize;
-
+    float _strokeSize;
 };
 
 /** @struct FontDefinition
@@ -544,48 +538,50 @@ public:
      * @lua NA
      */
     FontDefinition()
-        : _fontSize(0)
-        , _alignment(TextHAlignment::CENTER)
-        , _vertAlignment(TextVAlignment::TOP)
-        , _dimensions(Size::ZERO)
-        , _fontFillColor(Color3B::WHITE)
-        , _fontAlpha(255)
-        , _enableWrap(true)
-        , _overflow(0)
-    {}
+    : _fontSize(0)
+    , _alignment(TextHAlignment::CENTER)
+    , _vertAlignment(TextVAlignment::TOP)
+    , _dimensions(Size::ZERO)
+    , _fontFillColor(Color3B::WHITE)
+    , _fontAlpha(255)
+    , _enableWrap(true)
+    , _overflow(0)
+    {
+    }
 
     /// font name
-    std::string           _fontName;
+    std::string _fontName;
     /// font size
-    int                   _fontSize;
+    int _fontSize;
     /// horizontal alignment
-    TextHAlignment        _alignment;
+    TextHAlignment _alignment;
     /// vertical alignment
     TextVAlignment _vertAlignment;
     /// rendering box
-    Size                  _dimensions;
+    Size _dimensions;
     /// font color
-    Color3B               _fontFillColor;
+    Color3B _fontFillColor;
     /// font alpha
-    GLubyte               _fontAlpha;
+    GLubyte _fontAlpha;
     /// font shadow
-    FontShadow            _shadow;
+    FontShadow _shadow;
     /// font stroke
-    FontStroke            _stroke;
+    FontStroke _stroke;
     /// enable text wrap
-    bool                  _enableWrap;
+    bool _enableWrap;
     /** There are 4 overflows: none, clamp, shrink and resize_height.
      *  The corresponding integer values are 0, 1, 2, 3 respectively
      * For more information, please refer to Label::Overflow enum class.
      */
-    int                  _overflow;
+    int _overflow;
 };
 
 /**
  * @brief Effects used by `Label`
  *
  */
-enum class LabelEffect {
+enum class LabelEffect
+{
     // FIXME: Covert them to bitwise. More than one effect should be supported
     NORMAL,
     OUTLINE,
@@ -601,8 +597,7 @@ enum class LabelEffect {
 /** @struct Acceleration
  * The device accelerometer reports values for each axis in units of g-force.
  */
-class CC_DLL Acceleration
-    : public Ref
+class CC_DLL Acceleration : public Ref
 {
 public:
     double x;
@@ -611,7 +606,13 @@ public:
 
     double timestamp;
 
-    Acceleration(): x(0), y(0), z(0), timestamp(0) {}
+    Acceleration()
+    : x(0)
+    , y(0)
+    , z(0)
+    , timestamp(0)
+    {
+    }
 };
 
 extern const std::string CC_DLL STD_STRING_EMPTY;

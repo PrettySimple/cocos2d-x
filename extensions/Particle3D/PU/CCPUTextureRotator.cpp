@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -33,11 +33,11 @@ const float PUTextureRotator::DEFAULT_ROTATION_SPEED = 10.0f;
 const float PUTextureRotator::DEFAULT_ROTATION = 0.0f;
 
 //-----------------------------------------------------------------------
-PUTextureRotator::PUTextureRotator(void) : 
-    PUAffector(),
-    _useOwnRotationSpeed(DEFAULT_USE_OWN_SPEED),
-    _scaledRotationSpeed(0.0f),
-    _twoPiRad(float(2.0 * M_PI))
+PUTextureRotator::PUTextureRotator(void)
+: PUAffector()
+, _useOwnRotationSpeed(DEFAULT_USE_OWN_SPEED)
+, _scaledRotationSpeed(0.0f)
+, _twoPiRad(float(2.0 * M_PI))
 {
     _dynRotation = new (std::nothrow) PUDynamicAttributeFixed();
     (static_cast<PUDynamicAttributeFixed*>(_dynRotation))->setValue(DEFAULT_ROTATION);
@@ -58,12 +58,12 @@ PUTextureRotator::~PUTextureRotator(void)
     }
 }
 //-----------------------------------------------------------------------
-bool PUTextureRotator::useOwnRotationSpeed (void) const
+bool PUTextureRotator::useOwnRotationSpeed(void) const
 {
     return _useOwnRotationSpeed;
 }
 //-----------------------------------------------------------------------
-void PUTextureRotator::setUseOwnRotationSpeed (bool useOwnRotationSpeed)
+void PUTextureRotator::setUseOwnRotationSpeed(bool useOwnRotationSpeed)
 {
     _useOwnRotationSpeed = useOwnRotationSpeed;
 }
@@ -96,7 +96,7 @@ void PUTextureRotator::setRotationSpeed(PUDynamicAttribute* dynRotationSpeed)
 //-----------------------------------------------------------------------
 float PUTextureRotator::calculateRotation(void)
 {
-    return _dynamicAttributeHelper.calculate(_dynRotation, (static_cast<PUParticleSystem3D *>(_particleSystem))->getTimeElapsedSinceStart());
+    return _dynamicAttributeHelper.calculate(_dynRotation, (static_cast<PUParticleSystem3D*>(_particleSystem))->getTimeElapsedSinceStart());
 }
 //-----------------------------------------------------------------------
 float PUTextureRotator::calculateRotationSpeed(PUParticle3D* particle)
@@ -107,13 +107,13 @@ float PUTextureRotator::calculateRotationSpeed(PUParticle3D* particle)
 void PUTextureRotator::initParticleForEmission(PUParticle3D* particle)
 {
     //// Only continue if the particle is a visual particle
-    //if (particle->particleType != PUParticle3D::PT_VISUAL)
+    // if (particle->particleType != PUParticle3D::PT_VISUAL)
     //	return;
 
     // Set initial random zRotation
     particle->zRotation = calculateRotation();
-    //FIXME
-    //if (particle->parentEmitter->getParentTechnique()->getRenderer())
+    // FIXME
+    // if (particle->parentEmitter->getParentTechnique()->getRenderer())
     //{
     //	// Assume that all parents exist. That must be the case otherwise particles are not emitted.
     //	particle->parentEmitter->getParentTechnique()->getRenderer()->_notifyParticleZRotated();
@@ -124,13 +124,13 @@ void PUTextureRotator::initParticleForEmission(PUParticle3D* particle)
 }
 //-----------------------------------------------------------------------
 
-void PUTextureRotator::updatePUAffector( PUParticle3D *particle, float deltaTime )
+void PUTextureRotator::updatePUAffector(PUParticle3D* particle, float deltaTime)
 {
-    //for (auto iter : _particleSystem->getParticles())
+    // for (auto iter : _particleSystem->getParticles())
     {
-        //PUParticle3D *particle = iter;
+        // PUParticle3D *particle = iter;
         //// Only continue if the particle is a visual particle
-        //if (particle->particleType != PUParticle3D::PT_VISUAL)
+        // if (particle->particleType != PUParticle3D::PT_VISUAL)
         //	return;
 
         if (_useOwnRotationSpeed)
@@ -147,8 +147,8 @@ void PUTextureRotator::updatePUAffector( PUParticle3D *particle, float deltaTime
         particle->zRotation += _scaledRotationSpeed;
         particle->zRotation = particle->zRotation > _twoPiRad ? particle->zRotation - _twoPiRad : particle->zRotation;
 
-        //FIXME
-        //if (particleTechnique->getRenderer())
+        // FIXME
+        // if (particleTechnique->getRenderer())
         //{
         //	particleTechnique->getRenderer()->_notifyParticleZRotated();
         //}
@@ -162,7 +162,7 @@ PUTextureRotator* PUTextureRotator::create()
     return ptr;
 }
 
-void PUTextureRotator::copyAttributesTo( PUAffector* affector )
+void PUTextureRotator::copyAttributesTo(PUAffector* affector)
 {
     PUAffector::copyAttributesTo(affector);
 

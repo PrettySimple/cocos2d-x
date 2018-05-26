@@ -28,9 +28,9 @@ THE SOFTWARE.
 #include "platform/CCCommon.h"
 #include "platform/winrt/CCGL.h"
 
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
 
 NS_CC_BEGIN
 
@@ -38,16 +38,15 @@ typedef struct _PrecompiledProgram
 {
     const char* key;
     const unsigned char* program;
-    int    length;
+    int length;
 } PrecompiledProgram;
 
 typedef struct _CompiledProgram
 {
     std::string key;
     std::vector<unsigned char> program;
-    int    length;
+    int length;
 } CompiledProgram;
-
 
 class CC_DLL CCPrecompiledShaders
 {
@@ -67,23 +66,22 @@ public:
 
     bool loadProgram(GLuint program, const GLchar* vShaderByteArray, const GLchar* fShaderByteArray);
 
-
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
     void savePrecompiledShaders();
 #endif
 
 protected:
-    void savePrecompiledPrograms(Windows::Storage::StorageFolder^ folder);
+    void savePrecompiledPrograms(Windows::Storage::StorageFolder ^ folder);
     void loadPrecompiledPrograms();
 
-    void                Init();
+    void Init();
 
     std::map<std::string, CompiledProgram*> m_programs;
     std::map<std::string, PrecompiledProgram*> m_precompiledPrograms;
-    
-    bool                m_isDirty;
+
+    bool m_isDirty;
 };
 
 NS_CC_END
 
-#endif    // __CC_PRECOMPILED_SHADERS_H__
+#endif // __CC_PRECOMPILED_SHADERS_H__

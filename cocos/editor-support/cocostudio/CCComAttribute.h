@@ -25,48 +25,49 @@ THE SOFTWARE.
 #ifndef __CC_EXTENTIONS_CCCOMATTRIBUTE_H__
 #define __CC_EXTENTIONS_CCCOMATTRIBUTE_H__
 
-#include "CCComBase.h"
 #include "2d/CCComponent.h"
+#include "CCComBase.h"
 #include "base/CCValue.h"
 #include "cocostudio/CocosStudioExport.h"
 
-namespace cocostudio {
-
-class CC_STUDIO_DLL ComAttribute : public cocos2d::Component
+namespace cocostudio
 {
-    DECLARE_CLASS_COMPONENT_INFO
-public:
-    /**
-     * @js ctor
-     */
-    ComAttribute(void);
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~ComAttribute(void);
-    
-public:
-    const static std::string COMPONENT_NAME;
+    class CC_STUDIO_DLL ComAttribute : public cocos2d::Component
+    {
+        DECLARE_CLASS_COMPONENT_INFO
+    public:
+        /**
+         * @js ctor
+         */
+        ComAttribute(void);
+        /**
+         * @js NA
+         * @lua NA
+         */
+        virtual ~ComAttribute(void);
 
-    static ComAttribute* create(void);
-    virtual bool init() override;
-    virtual bool serialize(void* r) override;
-    
-    void setInt(const std::string& key, int value);
-    void setFloat(const std::string& key, float value);
-    void setBool(const std::string& key, bool value);
-    void setString(const std::string& key, const std::string& value);
-    int getInt(const std::string& key, int def = 0) const;
-    float getFloat(const std::string& key, float def = 0.0f) const;
-    bool getBool(const std::string& key, bool def = false) const;
-    std::string getString(const std::string& key, const std::string& def = "") const;
-    bool parse(const std::string &jsonFile);
-private:
-   cocos2d::ValueMap _dict;
-   rapidjson::Document _doc;
-};
+    public:
+        const static std::string COMPONENT_NAME;
 
-}
+        static ComAttribute* create(void);
+        virtual bool init() override;
+        virtual bool serialize(void* r) override;
 
-#endif  // __CC_EXTENTIONS_CCCOMATTRIBUTE_H__
+        void setInt(const std::string& key, int value);
+        void setFloat(const std::string& key, float value);
+        void setBool(const std::string& key, bool value);
+        void setString(const std::string& key, const std::string& value);
+        int getInt(const std::string& key, int def = 0) const;
+        float getFloat(const std::string& key, float def = 0.0f) const;
+        bool getBool(const std::string& key, bool def = false) const;
+        std::string getString(const std::string& key, const std::string& def = "") const;
+        bool parse(const std::string& jsonFile);
+
+    private:
+        cocos2d::ValueMap _dict;
+        rapidjson::Document _doc;
+    };
+
+} // namespace cocostudio
+
+#endif // __CC_EXTENTIONS_CCCOMATTRIBUTE_H__

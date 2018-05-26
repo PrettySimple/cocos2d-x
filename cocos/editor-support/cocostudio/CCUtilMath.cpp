@@ -26,55 +26,52 @@ THE SOFTWARE.
 
 using namespace cocos2d;
 
-
-namespace cocostudio {
-
-bool isSpriteContainPoint(Sprite *sprite, Vec2 point, Vec2 &outPoint)
+namespace cocostudio
 {
-    outPoint = sprite->convertToNodeSpace(point);
+    bool isSpriteContainPoint(Sprite* sprite, Vec2 point, Vec2& outPoint)
+    {
+        outPoint = sprite->convertToNodeSpace(point);
 
-    Size s  = sprite->getContentSize();
-    Rect r(0, 0, s.width, s.height);
+        Size s = sprite->getContentSize();
+        Rect r(0, 0, s.width, s.height);
 
-    return r.containsPoint(outPoint);
-}
+        return r.containsPoint(outPoint);
+    }
 
-bool isSpriteContainPoint(Sprite *sprite, Vec2 point)
-{
-    Vec2 p;
-    return isSpriteContainPoint(sprite, point, p);
-}
+    bool isSpriteContainPoint(Sprite* sprite, Vec2 point)
+    {
+        Vec2 p;
+        return isSpriteContainPoint(sprite, point, p);
+    }
 
+    Vec2 bezierTo(float t, Vec2& point1, Vec2& point2, Vec2& point3)
+    {
+        Vec2 p;
 
-Vec2 bezierTo(float t, Vec2 &point1, Vec2 &point2, Vec2 &point3)
-{
+        p.x = pow((1 - t), 2) * point1.x + 2 * t * (1 - t) * point2.x + pow(t, 2) * point3.x;
+        p.y = pow((1 - t), 2) * point1.y + 2 * t * (1 - t) * point2.y + pow(t, 2) * point3.y;
 
-    Vec2 p;
+        return p;
+    }
 
-    p.x = pow((1 - t), 2) * point1.x + 2 * t * (1 - t) * point2.x + pow(t, 2) * point3.x;
-    p.y = pow((1 - t), 2) * point1.y + 2 * t * (1 - t) * point2.y + pow(t, 2) * point3.y;
+    Vec2 bezierTo(float t, Vec2& point1, Vec2& point2, Vec2& point3, Vec2& point4)
+    {
+        Vec2 p;
 
-    return p;
-}
+        p.x = point1.x * pow((1 - t), 3) + 3 * t * point2.x * pow((1 - t), 2) + 3 * point3.x * pow(t, 2) * (1 - t) + point4.x * pow(t, 3);
+        p.y = point1.y * pow((1 - t), 3) + 3 * t * point2.y * pow((1 - t), 2) + 3 * point3.y * pow(t, 2) * (1 - t) + point4.y * pow(t, 3);
 
-Vec2 bezierTo(float t, Vec2 &point1, Vec2 &point2, Vec2 &point3, Vec2 &point4)
-{
-    Vec2 p;
+        return p;
+    }
 
-    p.x = point1.x * pow((1 - t), 3) + 3 * t * point2.x * pow((1 - t), 2) + 3 * point3.x * pow(t, 2) * (1 - t) + point4.x * pow(t, 3);
-    p.y = point1.y * pow((1 - t), 3) + 3 * t * point2.y * pow((1 - t), 2) + 3 * point3.y * pow(t, 2) * (1 - t) + point4.y * pow(t, 3);
+    Vec2 circleTo(float t, Vec2& center, float radius, float fromRadian, float radianDif)
+    {
+        Vec2 p;
 
-    return p;
-}
+        p.x = center.x + radius * cos(fromRadian + radianDif * t);
+        p.y = center.y + radius * sin(fromRadian + radianDif * t);
 
-Vec2 circleTo(float t, Vec2 &center, float radius, float fromRadian, float radianDif)
-{
-    Vec2 p;
+        return p;
+    }
 
-    p.x = center.x + radius * cos(fromRadian + radianDif * t);
-    p.y = center.y + radius * sin(fromRadian + radianDif * t);
-
-    return p;
-}
-
-}
+} // namespace cocostudio

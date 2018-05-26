@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-Based upon code from the DirectX Tool Kit by Microsoft Corporation, 
+Based upon code from the DirectX Tool Kit by Microsoft Corporation,
 obtained from https://directxtk.codeplex.com
 ****************************************************************************/
 
@@ -30,72 +30,66 @@ obtained from https://directxtk.codeplex.com
 
 #include "base/ccConfig.h"
 
-
 #if CC_USE_WIC
 
-#include <memory>
-#include <string>
-#include <wincodec.h>
-#include "platform/CCPlatformMacros.h"
+#    include "platform/CCPlatformMacros.h"
+#    include <memory>
+#    include <string>
+#    include <wincodec.h>
 
 NS_CC_BEGIN
 
-
-	typedef const unsigned char* ImageBlob;
+typedef const unsigned char* ImageBlob;
 
 struct WICConvert
 {
-	WICPixelFormatGUID source;
-	WICPixelFormatGUID target;
+    WICPixelFormatGUID source;
+    WICPixelFormatGUID target;
 };
 
 class CC_DLL WICImageLoader
 {
 public:
+    WICImageLoader();
+    ~WICImageLoader();
 
-	WICImageLoader();
-	~WICImageLoader();
-
-	int getWidth();
-	int getHeight();
+    int getWidth();
+    int getHeight();
     size_t getImageDataSize();
-	WICPixelFormatGUID getPixelFormat();
-	size_t getImageData(ImageBlob rawData, size_t dataLen);
-	bool decodeImageData(ImageBlob data, size_t dataLen);
+    WICPixelFormatGUID getPixelFormat();
+    size_t getImageData(ImageBlob rawData, size_t dataLen);
+    bool decodeImageData(ImageBlob data, size_t dataLen);
     bool encodeImageData(std::string path, const unsigned char* data, size_t dataLen, WICPixelFormatGUID pixelFormat, int width, int height, GUID containerFormat);
 
 protected:
-	bool processImage(IWICBitmapDecoder* decoder);
-	size_t getBitsPerPixel(WICPixelFormatGUID format); 
-	HRESULT convertFormatIfRequired(IWICBitmapFrameDecode* pFrame, IWICFormatConverter** ppConv);
+    bool processImage(IWICBitmapDecoder* decoder);
+    size_t getBitsPerPixel(WICPixelFormatGUID format);
+    HRESULT convertFormatIfRequired(IWICBitmapFrameDecode* pFrame, IWICFormatConverter** ppConv);
 
-	static IWICImagingFactory* getWICFactory();
+    static IWICImagingFactory* getWICFactory();
 
 private:
-	int _height;
-	int _width;
-	size_t _dataLen;
+    int _height;
+    int _width;
+    size_t _dataLen;
     size_t _bpp;
-	WICPixelFormatGUID _format;
-	BYTE* _data;
+    WICPixelFormatGUID _format;
+    BYTE* _data;
 
-
-	static IWICImagingFactory* _wicFactory;
+    static IWICImagingFactory* _wicFactory;
 };
 
-template<typename T>
-void SafeRelease(T **ppObj)
+template <typename T>
+void SafeRelease(T** ppObj)
 {
-	if(*ppObj != NULL)
-	{
-		(*ppObj)->Release();
-		*ppObj = NULL;
-	}
+    if (*ppObj != NULL)
+    {
+        (*ppObj)->Release();
+        *ppObj = NULL;
+    }
 }
-
 
 NS_CC_END
 
 #endif
-#endif    // #ifndef __WIC_IMAGE_LOADER_H__
-
+#endif // #ifndef __WIC_IMAGE_LOADER_H__

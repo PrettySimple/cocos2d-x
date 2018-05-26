@@ -1,8 +1,8 @@
 /****************************************************************************
 Copyright 2014 Chukong Technologies Inc.
- 
+
 http://www.cocos2d-x.org
- 
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -25,9 +25,9 @@ THE SOFTWARE.
 #ifndef __CCGLPROGRAMSTATECACHE_H__
 #define __CCGLPROGRAMSTATECACHE_H__
 
-#include "base/ccTypes.h"
-#include "base/CCVector.h"
 #include "base/CCMap.h"
+#include "base/CCVector.h"
+#include "base/ccTypes.h"
 #include "math/Vec2.h"
 #include "math/Vec3.h"
 #include "math/Vec4.h"
@@ -54,18 +54,18 @@ public:
     static GLProgramStateCache* getInstance();
     /**Destroy the GLProgramStateCache singleton.*/
     static void destroyInstance();
-    
+
     /**Get the shared GLProgramState by the owner GLProgram.*/
     GLProgramState* getGLProgramState(GLProgram* program);
     /**Remove all the cached GLProgramState.*/
-	void removeAllGLProgramState();
+    void removeAllGLProgramState();
     /**Remove unused GLProgramState.*/
     void removeUnusedGLProgramState();
 
 protected:
     GLProgramStateCache();
     ~GLProgramStateCache();
-    
+
     Map<GLProgram*, GLProgramState*> _glProgramStates;
     static GLProgramStateCache* s_instance;
 };

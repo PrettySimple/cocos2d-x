@@ -24,19 +24,19 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
-#include "platform/winrt/CCGLViewImpl-winrt.h"
+#    include "platform/winrt/CCGLViewImpl-winrt.h"
 using namespace Windows::UI::Core;
 using namespace Windows::Foundation;
 
 #else
-#include "platform/wp8/CCGLViewImpl-wp8.h"
+#    include "platform/wp8/CCGLViewImpl-wp8.h"
 #endif
 #include "base/CCDirector.h"
-#include <algorithm>
+#include "platform/CCApplication.h"
 #include "platform/CCFileUtils.h"
 #include "platform/winrt/CCWinRTUtils.h"
-#include "platform/CCApplication.h"
 #include "tinyxml2/tinyxml2.h"
+#include <algorithm>
 
 /**
 @brief    This function change the PVRFrame show/hide setting in register.
@@ -46,24 +46,20 @@ using namespace Windows::Foundation;
 NS_CC_BEGIN
 
 // sharedApplication pointer
-Application * Application::sm_pSharedApplication = nullptr;
-
-
-
-
+Application* Application::sm_pSharedApplication = nullptr;
 
 ////////////////////////////////////////////////////////////////////////////////
 // implement Application
 ////////////////////////////////////////////////////////////////////////////////
 
 // sharedApplication pointer
-Application * s_pSharedApplication = nullptr;
+Application* s_pSharedApplication = nullptr;
 
-Application::Application() :
-m_openURLDelegate(nullptr)
+Application::Application()
+: m_openURLDelegate(nullptr)
 {
     m_nAnimationInterval.QuadPart = 0;
-    CC_ASSERT(! sm_pSharedApplication);
+    CC_ASSERT(!sm_pSharedApplication);
     sm_pSharedApplication = this;
 }
 
@@ -81,8 +77,8 @@ int Application::run()
         return 0;
     }
 
-	GLViewImpl::sharedOpenGLView()->Run();
-	return 0;
+    GLViewImpl::sharedOpenGLView()->Run();
+    return 0;
 }
 
 void Application::setAnimationInterval(float interval)
@@ -101,9 +97,9 @@ Application* Application::getInstance()
     return sm_pSharedApplication;
 }
 
-const char * Application::getCurrentLanguageCode()
+const char* Application::getCurrentLanguageCode()
 {
-	static std::string code = "en";
+    static std::string code = "en";
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
     auto languages = Windows::System::UserProfile::GlobalizationPreferences::Languages;
@@ -113,32 +109,31 @@ const char * Application::getCurrentLanguageCode()
     DWORD cchLanguagesBuffer = 0;
     BOOL result = GetUserPreferredUILanguages(MUI_LANGUAGE_NAME, &numLanguages, NULL, &cchLanguagesBuffer);
 
-    if (result) {
+    if (result)
+    {
         WCHAR* pwszLanguagesBuffer = new WCHAR[cchLanguagesBuffer];
         result = GetUserPreferredUILanguages(MUI_LANGUAGE_NAME, &numLanguages, pwszLanguagesBuffer, &cchLanguagesBuffer);
-        if (result) {
-
+        if (result)
+        {
             code = StringWideCharToUtf8(pwszLanguagesBuffer);
         }
 
         if (pwszLanguagesBuffer)
         {
-            delete [] pwszLanguagesBuffer;
+            delete[] pwszLanguagesBuffer;
         }
     }
-
 
 #endif
     return code.c_str();
 }
 
-
 LanguageType Application::getCurrentLanguage()
 {
     LanguageType ret = LanguageType::ENGLISH;
-    
+
     const char* code = getCurrentLanguageCode();
-    
+
     if (strncmp(code, "zh", 2) == 0)
     {
         ret = LanguageType::CHINESE;
@@ -214,7 +209,7 @@ LanguageType Application::getCurrentLanguage()
     return ret;
 }
 
-Application::Platform  Application::getTargetPlatform()
+Application::Platform Application::getTargetPlatform()
 {
     if (isWindowsPhone())
     {
@@ -226,17 +221,21 @@ Application::Platform  Application::getTargetPlatform()
     }
 }
 
-std::string  Application::getVersion()
+std::string Application::getVersion()
 {
     std::string r("");
     std::string s = FileUtils::getInstance()->getStringFromFile("WMAppManifest.xml");
-    if (!s.empty()) {
+    if (!s.empty())
+    {
         tinyxml2::XMLDocument doc;
-        if (!doc.Parse(s.c_str())) {
-            tinyxml2::XMLElement *app = doc.RootElement()->FirstChildElement("App");
-            if (app) {
+        if (!doc.Parse(s.c_str()))
+        {
+            tinyxml2::XMLElement* app = doc.RootElement()->FirstChildElement("App");
+            if (app)
+            {
                 const char* version = app->Attribute("Version");
-                if (version) {
+                if (version)
+                {
                     r = version;
                 }
             }
@@ -245,14 +244,14 @@ std::string  Application::getVersion()
     return r;
 }
 
-bool Application::openURL(const std::string &url)
+bool Application::openURL(const std::string& url)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
     auto dispatcher = cocos2d::GLViewImpl::sharedOpenGLView()->getDispatcher();
     dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, ref new DispatchedHandler([url]() {
-        auto uri = ref new Windows::Foundation::Uri(PlatformStringFromString(url));
-        concurrency::task<bool> launchUriOperation(Windows::System::Launcher::LaunchUriAsync(uri));
-    }));
+                             auto uri = ref new Windows::Foundation::Uri(PlatformStringFromString(url));
+                             concurrency::task<bool> launchUriOperation(Windows::System::Launcher::LaunchUriAsync(uri));
+                         }));
     return true;
 #else
     if (m_openURLDelegate)
@@ -293,5 +292,3 @@ void Application::setStartupScriptFilename(const std::string& startupScriptFile)
 }
 
 NS_CC_END
-
-

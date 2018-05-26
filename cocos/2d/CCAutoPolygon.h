@@ -28,10 +28,11 @@ THE SOFTWARE.
 #ifndef COCOS_2D_CCAUTOPOLYGON_H__
 #define COCOS_2D_CCAUTOPOLYGON_H__
 
-#include <string>
-#include <vector>
 #include "platform/CCImage.h"
 #include "renderer/CCTrianglesCommand.h"
+
+#include <string>
+#include <vector>
 
 NS_CC_BEGIN
 
@@ -64,21 +65,21 @@ public:
     PolygonInfo(const PolygonInfo& other);
     //  end of creators group
     /// @}
-    
+
     /**
      * Copy the member of the other PolygonInfo
      * @param other     another PolygonInfo to be copied
      */
-    PolygonInfo& operator= (const PolygonInfo &other);
+    PolygonInfo& operator=(const PolygonInfo& other);
     ~PolygonInfo();
-    
+
     /**
      * set the data to be a pointer to a quad
      * the member verts will not be released when this PolygonInfo destructs
      * as the verts memory are managed by other objects
      * @param quad  a pointer to the V3F_C4B_T2F_Quad object
      */
-    void setQuad(V3F_C4B_T2F_Quad *quad);
+    void setQuad(V3F_C4B_T2F_Quad* quad);
 
     /**
      * set the data to be a pointer to a triangles
@@ -93,7 +94,7 @@ public:
      * @return number of vertices
      */
     unsigned int getVertCount() const;
-    
+
     /**
      * get triangles count
      * @return number of triangles
@@ -102,23 +103,23 @@ public:
 
     /** @deprecated Use method getTrianglesCount() instead */
     CC_DEPRECATED_ATTRIBUTE unsigned int getTriaglesCount() const;
-    
+
     /**
      * get sum of all triangle area size
      * @return sum of all triangle area size
      */
     float getArea() const;
-    
+
     Rect rect;
     std::string filename;
     TrianglesCommand::Triangles triangles;
+
 protected:
     bool isVertsOwner;
-    
+
 private:
     void releaseVertsAndIndices();
 };
-
 
 /**
  * AutoPolygon is a helper Object
@@ -135,15 +136,15 @@ public:
      * @param   filename    a path to image file, e.g., "scene1/monster.png".
      * @return  an AutoPolygon object;
      */
-    AutoPolygon(const std::string &filename);
-    
+    AutoPolygon(const std::string& filename);
+
     /**
      * Destructor of AutoPolygon.
      */
     ~AutoPolygon();
-    
+
     /**
-     * trace all the points along the outline of the image, 
+     * trace all the points along the outline of the image,
      * @warning must create AutoPolygon with filename to use this function
      * @param   rect    a texture rect for specify an area of the image
      * @param   threshold   the value when alpha is greater than this value will be counted as opaque, default to 0.0
@@ -154,8 +155,8 @@ public:
      * std::vector<Vec2> points = ap.trace(rect);//default threshold is 0.0
      * @endcode
      */
-     std::vector<Vec2> trace(const cocos2d::Rect& rect, const float& threshold = 0.0);
-    
+    std::vector<Vec2> trace(const cocos2d::Rect& rect, const float& threshold = 0.0);
+
     /**
      * reduce the amount of points so its faster for GPU to process and draw
      * based on Ramer-Douglas-Puecker algorithm
@@ -169,12 +170,13 @@ public:
      * @endcode
      */
     std::vector<Vec2> reduce(const std::vector<Vec2>& points, const Rect& rect, const float& epsilon = 2.0);
-    
+
     /**
      * expand the points along their edge, useful after you reduce the points that cuts into the sprite
      * using ClipperLib
      * @param   points  a vector of Vec2 points as input
-     * @param   rect    a texture rect for specify an area of the image, the expanded points will be clamped in this rect, ultimately resulting in a quad if the expansion is too great
+     * @param   rect    a texture rect for specify an area of the image, the expanded points will be clamped in this rect, ultimately resulting in a quad if the
+     * expansion is too great
      * @param   epsilon the distance which the edges will expand
      * @return  a vector of Vec2 as the result of the expansion
      * @code
@@ -183,7 +185,7 @@ public:
      * @endcode
      */
     std::vector<Vec2> expand(const std::vector<Vec2>& points, const Rect& rect, const float& epsilon);
-    
+
     /**
      * Triangulate the input points into triangles for rendering
      * using poly2tri
@@ -196,7 +198,7 @@ public:
      * @endcode
      */
     TrianglesCommand::Triangles triangulate(const std::vector<Vec2>& points);
-    
+
     /**
      * calculate the UV coordinates for each points based on a texture rect
      * @warning This method requires the AutoPolygon object to know the texture file dimension
@@ -210,7 +212,7 @@ public:
      * @endcode
      */
     void calculateUV(const Rect& rect, V3F_C4B_T2F* verts, const ssize_t& count);
-    
+
     /**
      * a helper function, packing trace, reduce, expand, triangulate and calculate uv in one function
      * @param   rect    texture rect, use Rect::ZERO for the size of the texture, default is Rect::ZERO
@@ -226,10 +228,11 @@ public:
      * @endcode
      */
     PolygonInfo generateTriangles(const Rect& rect = Rect::ZERO, const float& epsilon = 2.0, const float& threshold = 0.05);
-    
+
     /**
      * a helper function, packing autoPolygon creation, trace, reduce, expand, triangulate and calculate uv in one function
-     * @warning if you want to repetitively generate polygons, consider create an AutoPolygon object, and use generateTriangles function, as it only reads the file once
+     * @warning if you want to repetitively generate polygons, consider create an AutoPolygon object, and use generateTriangles function, as it only reads the
+     * file once
      * @param   filename     A path to image file, e.g., "scene1/monster.png".
      * @param   rect    texture rect, use Rect::ZERO for the size of the texture, default is Rect::ZERO
      * @param   epsilon the value used to reduce and expand, default to 2.0
@@ -240,6 +243,7 @@ public:
      * @endcode
      */
     static PolygonInfo generatePolygon(const std::string& filename, const Rect& rect = Rect::ZERO, const float epsilon = 2.0, const float threshold = 0.05);
+
 protected:
     Vec2 findFirstNoneTransparentPixel(const Rect& rect, const float& threshold);
     std::vector<cocos2d::Vec2> marchSquare(const Rect& rect, const Vec2& first, const float& threshold);
@@ -248,17 +252,17 @@ protected:
     unsigned char getAlphaByIndex(const unsigned int& i);
     unsigned char getAlphaByPos(const Vec2& pos);
 
-    int getIndexFromPos(const unsigned int& x, const unsigned int& y){return y*_width+x;};
-    cocos2d::Vec2 getPosFromIndex(const unsigned int& i){return cocos2d::Vec2(i%_width, i/_width);};
+    int getIndexFromPos(const unsigned int& x, const unsigned int& y) { return y * _width + x; };
+    cocos2d::Vec2 getPosFromIndex(const unsigned int& i) { return cocos2d::Vec2(i % _width, i / _width); };
 
     std::vector<cocos2d::Vec2> rdp(const std::vector<cocos2d::Vec2>& v, float optimization);
     float perpendicularDistance(const cocos2d::Vec2& i, const cocos2d::Vec2& start, const cocos2d::Vec2& end);
 
-    //real rect is the size that is in scale with the texture file
+    // real rect is the size that is in scale with the texture file
     Rect getRealRect(const Rect& rect);
-    
+
     Image* _image;
-    unsigned char * _data;
+    unsigned char* _data;
     std::string _filename;
     unsigned int _width;
     unsigned int _height;

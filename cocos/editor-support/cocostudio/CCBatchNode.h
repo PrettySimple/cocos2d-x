@@ -29,43 +29,45 @@ THE SOFTWARE.
 #include "cocostudio/CCArmatureDefine.h"
 #include "cocostudio/CocosStudioExport.h"
 
-namespace cocos2d {
+namespace cocos2d
+{
     class GroupCommand;
 }
 
-namespace cocostudio {
-
-class CC_STUDIO_DLL BatchNode : public cocos2d::Node
+namespace cocostudio
 {
-public:
-    static BatchNode *create();
-public:
-    /**
-     * @js ctor
-     */
-    BatchNode();
-    /**
-     * @ js NA
-     * @ lua NA
-     */
-    ~BatchNode();
-    /**
-     *  @js NA
-     */
-    virtual bool init() override;
-    using Node::addChild;
-    virtual void addChild(cocos2d::Node *pChild, int zOrder, int tag) override;
-    virtual void addChild(cocos2d::Node *pChild, int zOrder, const std::string &name) override;
-    virtual void removeChild(cocos2d::Node* child, bool cleanup) override;
-    virtual void visit(cocos2d::Renderer *renderer, const cocos2d::Mat4 &parentTransform, uint32_t parentFlags) override;
-    virtual void draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags) override;
-    
-protected:
-    void generateGroupCommand();
+    class CC_STUDIO_DLL BatchNode : public cocos2d::Node
+    {
+    public:
+        static BatchNode* create();
 
-    cocos2d::GroupCommand* _groupCommand;
-};
+    public:
+        /**
+         * @js ctor
+         */
+        BatchNode();
+        /**
+         * @ js NA
+         * @ lua NA
+         */
+        ~BatchNode();
+        /**
+         *  @js NA
+         */
+        virtual bool init() override;
+        using Node::addChild;
+        virtual void addChild(cocos2d::Node* pChild, int zOrder, int tag) override;
+        virtual void addChild(cocos2d::Node* pChild, int zOrder, const std::string& name) override;
+        virtual void removeChild(cocos2d::Node* child, bool cleanup) override;
+        virtual void visit(cocos2d::Renderer* renderer, const cocos2d::Mat4& parentTransform, uint32_t parentFlags) override;
+        virtual void draw(cocos2d::Renderer* renderer, const cocos2d::Mat4& transform, uint32_t flags) override;
 
-}
+    protected:
+        void generateGroupCommand();
+
+        cocos2d::GroupCommand* _groupCommand;
+    };
+
+} // namespace cocostudio
 
 #endif /*__CCBATCHNODE_H__*/

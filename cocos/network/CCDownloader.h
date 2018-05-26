@@ -25,75 +25,71 @@
 #pragma once
 
 #include <functional>
-#include <string>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "platform/CCPlatformMacros.h"
 
-namespace cocos2d { namespace network {
-
-    class IDownloadTask;
-    class IDownloaderImpl;
-    class Downloader;
-
-    class CC_DLL DownloadTask final
+namespace cocos2d
+{
+    namespace network
     {
-    public:
-        const static int ERROR_NO_ERROR = 0;
-        const static int ERROR_INVALID_PARAMS = -1;
-        const static int ERROR_FILE_OP_FAILED = -2;
-        const static int ERROR_IMPL_INTERNAL = -3;
+        class IDownloadTask;
+        class IDownloaderImpl;
+        class Downloader;
 
-        std::string identifier;
-        std::string requestURL;
-        std::string storagePath;
+        class CC_DLL DownloadTask final
+        {
+        public:
+            const static int ERROR_NO_ERROR = 0;
+            const static int ERROR_INVALID_PARAMS = -1;
+            const static int ERROR_FILE_OP_FAILED = -2;
+            const static int ERROR_IMPL_INTERNAL = -3;
 
-        DownloadTask();
-        virtual ~DownloadTask();
+            std::string identifier;
+            std::string requestURL;
+            std::string storagePath;
 
-    private:
-        friend class Downloader;
-        std::unique_ptr<IDownloadTask> _coTask;
-    };
+            DownloadTask();
+            virtual ~DownloadTask();
 
-    class CC_DLL DownloaderHints
-    {
-    public:
-        uint32_t countOfMaxProcessingTasks;
-        uint32_t timeoutInSeconds;
-        std::string tempFileNameSuffix;
-    };
+        private:
+            friend class Downloader;
+            std::unique_ptr<IDownloadTask> _coTask;
+        };
 
-    class CC_DLL Downloader final
-    {
-    public:
-        Downloader();
-        Downloader(const DownloaderHints& hints);
-        ~Downloader();
+        class CC_DLL DownloaderHints
+        {
+        public:
+            uint32_t countOfMaxProcessingTasks;
+            uint32_t timeoutInSeconds;
+            std::string tempFileNameSuffix;
+        };
 
-        std::function<void(const DownloadTask& task,
-                           std::vector<unsigned char>& data)> onDataTaskSuccess;
+        class CC_DLL Downloader final
+        {
+        public:
+            Downloader();
+            Downloader(const DownloaderHints& hints);
+            ~Downloader();
 
-        std::function<void(const DownloadTask& task)> onFileTaskSuccess;
+            std::function<void(const DownloadTask& task, std::vector<unsigned char>& data)> onDataTaskSuccess;
 
-        std::function<void(const DownloadTask& task,
-                           int64_t bytesReceived,
-                           int64_t totalBytesReceived,
-                           int64_t totalBytesExpected)> onTaskProgress;
+            std::function<void(const DownloadTask& task)> onFileTaskSuccess;
 
-        std::function<void(const DownloadTask& task,
-                           int errorCode,
-                           int errorCodeInternal,
-                           const std::string& errorStr)> onTaskError;
+            std::function<void(const DownloadTask& task, int64_t bytesReceived, int64_t totalBytesReceived, int64_t totalBytesExpected)> onTaskProgress;
 
-        std::shared_ptr<const DownloadTask> createDownloadDataTask(const std::string& srcUrl, const std::string& identifier = "");
+            std::function<void(const DownloadTask& task, int errorCode, int errorCodeInternal, const std::string& errorStr)> onTaskError;
 
-        std::shared_ptr<const DownloadTask> createDownloadFileTask(const std::string& srcUrl, const std::string& storagePath, const std::string& identifier = "");
+            std::shared_ptr<const DownloadTask> createDownloadDataTask(const std::string& srcUrl, const std::string& identifier = "");
 
-    private:
-        std::unique_ptr<IDownloaderImpl> _impl;
-    };
+            std::shared_ptr<const DownloadTask>
+            createDownloadFileTask(const std::string& srcUrl, const std::string& storagePath, const std::string& identifier = "");
 
-}}  // namespace cocos2d::network
+        private:
+            std::unique_ptr<IDownloaderImpl> _impl;
+        };
 
+    } // namespace network
+} // namespace cocos2d

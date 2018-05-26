@@ -24,8 +24,8 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "platform/winrt/CCPrecompiledShaders.h"
 #include "platform/winrt/CCWinRTUtils.h"
-#include "renderer/CCGLProgram.h"
 #include "platform/winrt/sha1.h"
+#include "renderer/CCGLProgram.h"
 
 using namespace Windows::Graphics::Display;
 using namespace Windows::Storage;
@@ -38,10 +38,9 @@ using namespace concurrency;
 NS_CC_BEGIN
 
 // singleton stuff
-static CCPrecompiledShaders *s_pPrecompiledShaders = nullptr;
+static CCPrecompiledShaders* s_pPrecompiledShaders = nullptr;
 
 #define SHADER_NAME_PREFIX "s_"
-
 
 CCPrecompiledShaders* CCPrecompiledShaders::getInstance(void)
 {
@@ -53,8 +52,8 @@ CCPrecompiledShaders* CCPrecompiledShaders::getInstance(void)
     return s_pPrecompiledShaders;
 }
 
-CCPrecompiledShaders::CCPrecompiledShaders(void) 
-    : m_isDirty(false)
+CCPrecompiledShaders::CCPrecompiledShaders(void)
+: m_isDirty(false)
 {
     Init();
 }
@@ -72,7 +71,7 @@ CCPrecompiledShaders::~CCPrecompiledShaders(void)
 {
 }
 
-static std::string computeHash(const GLchar* vShaderByteArray, const GLchar* fShaderByteArray) 
+static std::string computeHash(const GLchar* vShaderByteArray, const GLchar* fShaderByteArray)
 {
     SHA1Context sha;
     int err;
@@ -81,24 +80,24 @@ static std::string computeHash(const GLchar* vShaderByteArray, const GLchar* fSh
     uint8_t hash[SHA1HashSize];
     char hashString[SHA1HashSize * 2 + 1];
 
-    if(!err)
+    if (!err)
     {
-        err = SHA1Input(&sha,(const unsigned char *) vShaderByteArray,static_cast<unsigned int>(strlen(vShaderByteArray)));
+        err = SHA1Input(&sha, (const unsigned char*)vShaderByteArray, static_cast<unsigned int>(strlen(vShaderByteArray)));
     }
-    if(!err)
+    if (!err)
     {
-        err = SHA1Input(&sha,(const unsigned char *) fShaderByteArray, static_cast<unsigned int>(strlen(fShaderByteArray)));
+        err = SHA1Input(&sha, (const unsigned char*)fShaderByteArray, static_cast<unsigned int>(strlen(fShaderByteArray)));
     }
-    if(!err)
+    if (!err)
     {
-        char* shader_version = (char*) glGetString(GL_SHADING_LANGUAGE_VERSION);
-        err = SHA1Input(&sha,(const unsigned char *) shader_version, static_cast<unsigned int>(strlen(shader_version)));
+        char* shader_version = (char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
+        err = SHA1Input(&sha, (const unsigned char*)shader_version, static_cast<unsigned int>(strlen(shader_version)));
     }
-    if(!err)
+    if (!err)
     {
         err = SHA1Result(&sha, hash);
     }
-    if(!err)
+    if (!err)
     {
         SHA1ConvertMessageToString(hash, hashString);
         result = hashString;
@@ -112,12 +111,11 @@ std::string CCPrecompiledShaders::addShaders(const GLchar* vShaderByteArray, con
     return computeHash(vShaderByteArray, fShaderByteArray);
 }
 
-
 void CCPrecompiledShaders::loadPrecompiledPrograms()
 {
     m_precompiledPrograms.clear();
 #if defined(PRECOMPILED_SHADERS)
-    for(int i = 0; i < s_numPrograms; i++)
+    for (int i = 0; i < s_numPrograms; i++)
     {
         PrecompiledProgram* p = new PrecompiledProgram();
         p->key = s_programKeys[i];
@@ -152,10 +150,10 @@ bool CCPrecompiledShaders::loadProgram(GLuint program, const GLchar* vShaderByte
     std::string id = computeHash(vShaderByteArray, fShaderByteArray);
 
     auto it = m_precompiledPrograms.find(id);
-    if(it == m_precompiledPrograms.end())
+    if (it == m_precompiledPrograms.end())
         return false;
 
-    glProgramBinaryOES(program, GL_PROGRAM_BINARY_ANGLE, (const GLvoid*) it->second->program, it->second->length);
+    glProgramBinaryOES(program, GL_PROGRAM_BINARY_ANGLE, (const GLvoid*)it->second->program, it->second->length);
 
     return true;
 }
@@ -165,11 +163,11 @@ bool CCPrecompiledShaders::addProgram(GLuint program, const std::string& id)
     int length;
 
     auto it = m_programs.find(id);
-    if(it != m_programs.end())
+    if (it != m_programs.end())
         return true;
 
     auto it2 = m_precompiledPrograms.find(id);
-    if(it2 == m_precompiledPrograms.end())
+    if (it2 == m_precompiledPrograms.end())
         m_isDirty = true;
 
     CompiledProgram* p = new CompiledProgram();
@@ -187,31 +185,29 @@ bool CCPrecompiledShaders::addProgram(GLuint program, const std::string& id)
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 
-void CCPrecompiledShaders::savePrecompiledPrograms(Windows::Storage::StorageFolder^ folder)
+void CCPrecompiledShaders::savePrecompiledPrograms(Windows::Storage::StorageFolder ^ folder)
 {
-    Platform::String ^fileName = L"precompiledshaders.h";
+    Platform::String ^ fileName = L"precompiledshaders.h";
 
     auto saveTask = create_task(folder->CreateFileAsync(fileName, CreationCollisionOption::ReplaceExisting));
 
-    saveTask.then([this](StorageFile^ file)
-    {
-        InMemoryRandomAccessStream^ memoryStream = ref new InMemoryRandomAccessStream(); 
-        DataWriter^ dataWriter = ref new DataWriter(memoryStream); 
+    saveTask.then([this](StorageFile ^ file) {
+        InMemoryRandomAccessStream ^ memoryStream = ref new InMemoryRandomAccessStream();
+        DataWriter ^ dataWriter = ref new DataWriter(memoryStream);
 
-        Platform::String^ programLengths = "const int s_programLengths[] = {";
-        Platform::String^ programs = "const unsigned char* s_programs[] = {";
-        Platform::String^ programKeys = "const char* s_programKeys[] = {";
+        Platform::String ^ programLengths = "const int s_programLengths[] = {";
+        Platform::String ^ programs = "const unsigned char* s_programs[] = {";
+        Platform::String ^ programKeys = "const char* s_programKeys[] = {";
 
         int numPrograms = 0;
 
         dataWriter->WriteString(L"#define PRECOMPILED_SHADERS\n\n");
 
-
-        for (auto iter = m_programs.begin(); iter != m_programs.end(); ++iter) 
+        for (auto iter = m_programs.begin(); iter != m_programs.end(); ++iter)
         {
             CompiledProgram* p = (CompiledProgram*)iter->second;
-            Platform::String^ keyName = PlatformStringFromString(p->key);
-            Platform::String^ programName = SHADER_NAME_PREFIX + keyName;
+            Platform::String ^ keyName = PlatformStringFromString(p->key);
+            Platform::String ^ programName = SHADER_NAME_PREFIX + keyName;
 
             dataWriter->WriteString("const unsigned char ");
             dataWriter->WriteString(programName);
@@ -220,20 +216,20 @@ void CCPrecompiledShaders::savePrecompiledPrograms(Windows::Storage::StorageFold
             char temp[32];
             unsigned char* buffer = p->program.data();
 
-            for(int i = 0; i < p->length - 1; i++)
+            for (int i = 0; i < p->length - 1; i++)
             {
-                if(i % 8 == 0)
+                if (i % 8 == 0)
                     dataWriter->WriteString("\n");
                 sprintf_s(temp, "%3i, ", buffer[i]);
                 dataWriter->WriteString(PlatformStringFromString(temp));
             }
-            if((p->length - 1) % 8 == 0)
+            if ((p->length - 1) % 8 == 0)
                 dataWriter->WriteString("\n");
             sprintf_s(temp, "%3i, ", buffer[p->length - 1]);
             dataWriter->WriteString(PlatformStringFromString(temp));
             dataWriter->WriteString("\n};\n\n");
 
-            if(numPrograms != 0)
+            if (numPrograms != 0)
             {
                 programLengths += (",");
                 programs += (",");
@@ -249,7 +245,7 @@ void CCPrecompiledShaders::savePrecompiledPrograms(Windows::Storage::StorageFold
         programs += "};\n";
         programKeys += "};\n";
 
-        Platform::String^ n = ref new Platform::String(L"const int s_numPrograms = ");
+        Platform::String ^ n = ref new Platform::String(L"const int s_numPrograms = ");
         n += numPrograms;
         n += ";\n";
 
@@ -259,34 +255,27 @@ void CCPrecompiledShaders::savePrecompiledPrograms(Windows::Storage::StorageFold
         dataWriter->WriteString(programKeys);
 
         return FileIO::WriteBufferAsync(file, dataWriter->DetachBuffer());
-   });  
-
+    });
 }
 
 void CCPrecompiledShaders::savePrecompiledShaders()
 {
-    if(!m_isDirty)
+    if (!m_isDirty)
         return;
 
-
-    FolderPicker^ folderPicker = ref new FolderPicker();
+    FolderPicker ^ folderPicker = ref new FolderPicker();
     folderPicker->SuggestedStartLocation = PickerLocationId::Desktop;
     folderPicker->FileTypeFilter->Append(".h");
 
     auto saveTask = create_task(folderPicker->PickSingleFolderAsync());
-    saveTask.then([this](StorageFolder^ folder)
-    {
-        if(folder != nullptr)
+    saveTask.then([this](StorageFolder ^ folder) {
+        if (folder != nullptr)
         {
             savePrecompiledPrograms(folder);
             m_isDirty = false;
-       }
-	});
+        }
+    });
 }
 #endif
 
-
-
 NS_CC_END
-
-

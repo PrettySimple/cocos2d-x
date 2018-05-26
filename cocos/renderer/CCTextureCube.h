@@ -1,18 +1,18 @@
 ﻿/****************************************************************************
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,9 +27,9 @@
 
 #include "renderer/CCTexture2D.h"
 
+#include "base/ccTypes.h"
 #include <string>
 #include <unordered_map>
-#include "base/ccTypes.h"
 
 NS_CC_BEGIN
 
@@ -39,10 +39,10 @@ NS_CC_BEGIN
  */
 
 /**
- TextureCube is a collection of six separate square textures that are put 
+ TextureCube is a collection of six separate square textures that are put
  onto the faces of an imaginary cube.
 */
-class CC_DLL TextureCube: public Texture2D
+class CC_DLL TextureCube : public Texture2D
 {
 public:
     /** create cube texture from 6 textures.
@@ -54,8 +54,7 @@ public:
        @param negative_z texture for the rear side of the texture cube face.
        @return  A new texture cube inited with given parameters.
     */
-    static TextureCube* create(const std::string& positive_x, const std::string& negative_x,
-                               const std::string& positive_y, const std::string& negative_y,
+    static TextureCube* create(const std::string& positive_x, const std::string& negative_x, const std::string& positive_y, const std::string& negative_y,
                                const std::string& positive_z, const std::string& negative_z);
 
     /** Sets the min filter, mag filter, wrap s and wrap t texture parameters.
@@ -65,21 +64,21 @@ public:
 
     /** reload texture cube after GLESContext reconstructed.*/
     bool reloadTexture();
-CC_CONSTRUCTOR_ACCESS:
-    /**
-    * Constructor.
-    */
-    TextureCube();
+    CC_CONSTRUCTOR_ACCESS :
+        /**
+         * Constructor.
+         */
+        TextureCube();
 
     /**
-    * Destructor.
-    */
+     * Destructor.
+     */
     virtual ~TextureCube();
-protected:
 
-    bool init(const std::string& positive_x, const std::string& negative_x,
-              const std::string& positive_y, const std::string& negative_y,
+protected:
+    bool init(const std::string& positive_x, const std::string& negative_x, const std::string& positive_y, const std::string& negative_y,
               const std::string& positive_z, const std::string& negative_z);
+
 private:
     std::vector<std::string> _imgPath;
 };

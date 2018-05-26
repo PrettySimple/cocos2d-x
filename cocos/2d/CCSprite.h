@@ -28,14 +28,15 @@ THE SOFTWARE.
 #ifndef __SPRITE_NODE_CCSPRITE_H__
 #define __SPRITE_NODE_CCSPRITE_H__
 
-#include <string>
-#include "2d/CCNode.h"
+#include "2d/CCAutoPolygon.h"
 #include "2d/CCDrawNode.h"
+#include "2d/CCNode.h"
 #include "base/CCProtocols.h"
+#include "renderer/CCCustomCommand.h"
 #include "renderer/CCTextureAtlas.h"
 #include "renderer/CCTrianglesCommand.h"
-#include "renderer/CCCustomCommand.h"
-#include "2d/CCAutoPolygon.h"
+
+#include <string>
 
 NS_CC_BEGIN
 
@@ -48,13 +49,13 @@ class Texture2D;
 struct transformValues_;
 
 #ifdef SPRITE_RENDER_IN_SUBPIXEL
-#undef SPRITE_RENDER_IN_SUBPIXEL
+#    undef SPRITE_RENDER_IN_SUBPIXEL
 #endif
 
 #if CC_SPRITEBATCHNODE_RENDER_SUBPIXEL
-#define SPRITE_RENDER_IN_SUBPIXEL
+#    define SPRITE_RENDER_IN_SUBPIXEL
 #else
-#define SPRITE_RENDER_IN_SUBPIXEL(__ARGS__) (ceil(__ARGS__))
+#    define SPRITE_RENDER_IN_SUBPIXEL(__ARGS__) (ceil(__ARGS__))
 #endif
 
 /**
@@ -85,7 +86,7 @@ struct transformValues_;
 class CC_DLL Sprite : public Node, public TextureProtocol
 {
 public:
-     /** Sprite invalid index on the SpriteBatchNode. */
+    /** Sprite invalid index on the SpriteBatchNode. */
     static const int INDEX_NOT_INITIALIZED = -1;
 
     /// @name Creators
@@ -109,7 +110,7 @@ public:
      * @return  An autoreleased sprite object.
      */
     static Sprite* create(const std::string& filename);
-    
+
     /**
      * Creates a polygon sprite with a polygon info.
      *
@@ -138,7 +139,7 @@ public:
      * @param   texture    A pointer to a Texture2D object.
      * @return  An autoreleased sprite object.
      */
-    static Sprite* createWithTexture(Texture2D *texture);
+    static Sprite* createWithTexture(Texture2D* texture);
 
     /**
      * Creates a sprite with a texture and a rect.
@@ -151,7 +152,7 @@ public:
      * @param   rotated     Whether or not the rect is rotated.
      * @return  An autoreleased sprite object.
      */
-    static Sprite* createWithTexture(Texture2D *texture, const Rect& rect, bool rotated=false);
+    static Sprite* createWithTexture(Texture2D* texture, const Rect& rect, bool rotated = false);
 
     /**
      * Creates a sprite with an sprite frame.
@@ -159,7 +160,7 @@ public:
      * @param   spriteFrame    A sprite frame which involves a texture and a rect.
      * @return  An autoreleased sprite object.
      */
-    static Sprite* createWithSpriteFrame(SpriteFrame *spriteFrame);
+    static Sprite* createWithSpriteFrame(SpriteFrame* spriteFrame);
 
     /**
      * Creates a sprite with an sprite frame name.
@@ -174,7 +175,6 @@ public:
 
     //  end of creators group
     /// @}
-
 
     /// @{
     /// @name BatchNode methods
@@ -201,10 +201,9 @@ public:
      * layer->addChild(batch);
      * @endcode
      */
-    virtual void setBatchNode(SpriteBatchNode *spriteBatchNode);
+    virtual void setBatchNode(SpriteBatchNode* spriteBatchNode);
 
     /// @} end of BatchNode methods
-
 
     /// @{
     /// @name Texture / Frame methods
@@ -214,13 +213,13 @@ public:
      *  @memberof Sprite
      *  It will call `setTextureRect()` with the texture's content size.
      */
-    virtual void setTexture(const std::string &filename );
+    virtual void setTexture(const std::string& filename);
 
     /** @overload
      *
      *  The Texture's rect is not changed.
      */
-    virtual void setTexture(Texture2D *texture) override;
+    virtual void setTexture(Texture2D* texture) override;
 
     /** Returns the Texture2D object used by the sprite. */
     virtual Texture2D* getTexture() const override;
@@ -250,17 +249,17 @@ public:
     /** @{
      * Sets a new SpriteFrame to the Sprite.
      */
-    virtual void setSpriteFrame(const std::string &spriteFrameName);
+    virtual void setSpriteFrame(const std::string& spriteFrameName);
     virtual void setSpriteFrame(SpriteFrame* newFrame);
     /** @} */
 
     /** @deprecated Use `setSpriteFrame()` instead. */
-    CC_DEPRECATED_ATTRIBUTE virtual void setDisplayFrame(SpriteFrame *newFrame) { setSpriteFrame(newFrame); }
+    CC_DEPRECATED_ATTRIBUTE virtual void setDisplayFrame(SpriteFrame* newFrame) { setSpriteFrame(newFrame); }
 
     /**
      * Returns whether or not a SpriteFrame is being displayed.
      */
-    virtual bool isFrameDisplayed(SpriteFrame *frame) const;
+    virtual bool isFrameDisplayed(SpriteFrame* frame) const;
 
     /**
      * Returns the current displayed frame.
@@ -275,7 +274,6 @@ public:
 
     /// @} End of frames methods
 
-
     /// @{
     /// @name Animation methods
     /**
@@ -284,7 +282,6 @@ public:
      */
     virtual void setDisplayFrameWithAnimationName(const std::string& animationName, ssize_t frameIndex);
     /// @}
-
 
     /// @{
     /// @name Sprite Properties' setter/getters.
@@ -338,13 +335,12 @@ public:
     /**
      * Sets the weak reference of the TextureAtlas when the sprite is rendered using via SpriteBatchNode.
      */
-    void setTextureAtlas(TextureAtlas *textureAtlas) { _textureAtlas = textureAtlas; }
+    void setTextureAtlas(TextureAtlas* textureAtlas) { _textureAtlas = textureAtlas; }
 
     /**
      * Gets the offset position of the sprite. Calculated automatically by editors like Zwoptex.
      */
     const Vec2& getOffsetPosition() const { return _offsetPosition; }
-
 
     /**
      * Returns the flag which indicates whether the sprite is flipped horizontally or not.
@@ -365,9 +361,9 @@ public:
     void setFlippedX(bool flippedX);
 
     /** @deprecated Use isFlippedX() instead.
-    * @js NA
-    * @lua NA
-    */
+     * @js NA
+     * @lua NA
+     */
     CC_DEPRECATED_ATTRIBUTE bool isFlipX() { return isFlippedX(); };
     /** @deprecated Use setFlippedX() instead
      * @js NA
@@ -422,17 +418,17 @@ public:
     /// @{
     /// @name Functions inherited from TextureProtocol.
     /**
-    *@code
-    *When this function bound into js or lua,the parameter will be changed.
-    *In js: var setBlendFunc(var src, var dst).
-    *In lua: local setBlendFunc(local src, local dst).
-    *@endcode
-    */
-    void setBlendFunc(const BlendFunc &blendFunc) override { _blendFunc = blendFunc; }
+     *@code
+     *When this function bound into js or lua,the parameter will be changed.
+     *In js: var setBlendFunc(var src, var dst).
+     *In lua: local setBlendFunc(local src, local dst).
+     *@endcode
+     */
+    void setBlendFunc(const BlendFunc& blendFunc) override { _blendFunc = blendFunc; }
     /**
-    * @js  NA
-    * @lua NA
-    */
+     * @js  NA
+     * @lua NA
+     */
     const BlendFunc& getBlendFunc() const override { return _blendFunc; }
     /// @}
 
@@ -447,9 +443,9 @@ public:
     virtual void setScaleY(float scaleY) override;
     virtual void setScale(float scaleX, float scaleY) override;
     /**
-    * @js  NA
-    * @lua NA
-    */
+     * @js  NA
+     * @lua NA
+     */
     virtual void setPosition(const Vec2& pos) override;
     virtual void setPosition(float x, float y) override;
     virtual void setRotation(float rotation) override;
@@ -459,19 +455,19 @@ public:
     virtual void setSkewY(float sy) override;
     virtual void removeChild(Node* child, bool cleanup) override;
     virtual void removeAllChildrenWithCleanup(bool cleanup) override;
-    virtual void reorderChild(Node *child, int zOrder) override;
+    virtual void reorderChild(Node* child, int zOrder) override;
     using Node::addChild;
-    virtual void addChild(Node *child, int zOrder, int tag) override;
-    virtual void addChild(Node *child, int zOrder, const std::string &name) override;
+    virtual void addChild(Node* child, int zOrder, int tag) override;
+    virtual void addChild(Node* child, int zOrder, const std::string& name) override;
     virtual void sortAllChildren() override;
     virtual void setScale(float scale) override;
     virtual void setPositionZ(float positionZ) override;
     virtual void setAnchorPoint(const Vec2& anchor) override;
-    
+
     virtual void setIgnoreAnchorPointForPosition(bool value) override;
-    
+
     virtual void setVisible(bool bVisible) override;
-    virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
+    virtual void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
     virtual void setOpacityModifyRGB(bool modify) override;
     virtual bool isOpacityModifyRGB() const override;
     /// @}
@@ -479,11 +475,11 @@ public:
     int getResourceType() const { return _fileType; }
     const std::string& getResourceName() const { return _fileName; }
 
-CC_CONSTRUCTOR_ACCESS :
-	/**
-     * @js ctor
-     */
-    Sprite();
+    CC_CONSTRUCTOR_ACCESS :
+        /**
+         * @js ctor
+         */
+        Sprite();
     virtual ~Sprite();
 
     /* Initializes an empty sprite with no parameters. */
@@ -498,9 +494,8 @@ CC_CONSTRUCTOR_ACCESS :
      *                      You can use a Texture2D object for many sprites.
      * @return  True if the sprite is initialized properly, false otherwise.
      */
-    virtual bool initWithTexture(Texture2D *texture);
-    
-    
+    virtual bool initWithTexture(Texture2D* texture);
+
     /**
      * Initializes a sprite with a PolygonInfo.
      *
@@ -521,7 +516,7 @@ CC_CONSTRUCTOR_ACCESS :
      * @param   rect        Only the contents inside rect of this texture will be applied for this sprite.
      * @return  True if the sprite is initialized properly, false otherwise.
      */
-    virtual bool initWithTexture(Texture2D *texture, const Rect& rect);
+    virtual bool initWithTexture(Texture2D* texture, const Rect& rect);
 
     /**
      * Initializes a sprite with a texture and a rect in points, optionally rotated.
@@ -534,7 +529,7 @@ CC_CONSTRUCTOR_ACCESS :
      * @param   rotated     Whether or not the texture rectangle is rotated.
      * @return  True if the sprite is initialized properly, false otherwise.
      */
-    virtual bool initWithTexture(Texture2D *texture, const Rect& rect, bool rotated);
+    virtual bool initWithTexture(Texture2D* texture, const Rect& rect, bool rotated);
 
     /**
      * Initializes a sprite with an SpriteFrame. The texture and rect in SpriteFrame will be applied on this sprite.
@@ -542,7 +537,7 @@ CC_CONSTRUCTOR_ACCESS :
      * @param   spriteFrame  A SpriteFrame object. It should includes a valid texture and a rect.
      * @return  True if the sprite is initialized properly, false otherwise.
      */
-    virtual bool initWithSpriteFrame(SpriteFrame *spriteFrame);
+    virtual bool initWithSpriteFrame(SpriteFrame* spriteFrame);
 
     /**
      * Initializes a sprite with an sprite frame name.
@@ -581,9 +576,8 @@ CC_CONSTRUCTOR_ACCESS :
      * @lua     init
      */
     virtual bool initWithFile(const std::string& filename, const Rect& rect);
-    
-protected:
 
+protected:
     void updateColor() override;
     virtual void updateFlipX();
     virtual void updateFlipY();
@@ -592,37 +586,35 @@ protected:
     virtual void setReorderChildDirtyRecursively();
     virtual void setDirtyRecursively(bool value);
 
-
-    
     //
     // Data used when the sprite is rendered using a SpriteSheet
     //
-    TextureAtlas*       _textureAtlas;      /// SpriteBatchNode texture atlas (weak reference)
-    ssize_t             _atlasIndex;        /// Absolute (real) Index on the SpriteSheet
-    SpriteBatchNode*    _batchNode;         /// Used batch node (weak reference)
+    TextureAtlas* _textureAtlas; /// SpriteBatchNode texture atlas (weak reference)
+    ssize_t _atlasIndex; /// Absolute (real) Index on the SpriteSheet
+    SpriteBatchNode* _batchNode; /// Used batch node (weak reference)
 
-    bool                _dirty;             /// Whether the sprite needs to be updated
-    bool                _recursiveDirty;    /// Whether all of the sprite's children needs to be updated
-    bool                _shouldBeHidden;    /// should not be drawn because one of the ancestors is not visible
-    Mat4              _transformToBatch;
+    bool _dirty; /// Whether the sprite needs to be updated
+    bool _recursiveDirty; /// Whether all of the sprite's children needs to be updated
+    bool _shouldBeHidden; /// should not be drawn because one of the ancestors is not visible
+    Mat4 _transformToBatch;
 
     //
     // Data used when the sprite is self-rendered
     //
-    BlendFunc        _blendFunc;            /// It's required for TextureProtocol inheritance
-    Texture2D*       _texture;              /// Texture2D object that is used to render the sprite
-    SpriteFrame*     _spriteFrame;
-    TrianglesCommand _trianglesCommand;     ///
+    BlendFunc _blendFunc; /// It's required for TextureProtocol inheritance
+    Texture2D* _texture; /// Texture2D object that is used to render the sprite
+    SpriteFrame* _spriteFrame;
+    TrianglesCommand _trianglesCommand; ///
 #if CC_SPRITE_DEBUG_DRAW
-    DrawNode *_debugDrawNode;
-#endif //CC_SPRITE_DEBUG_DRAW
+    DrawNode* _debugDrawNode;
+#endif // CC_SPRITE_DEBUG_DRAW
     //
     // Shared data
     //
 
     // texture
-    Rect _rect;                             /// Rectangle of Texture2D
-    bool   _rectRotated;                    /// Whether the texture is rotated
+    Rect _rect; /// Rectangle of Texture2D
+    bool _rectRotated; /// Whether the texture is rotated
 
     // Offset Position (used by Zwoptex)
     Vec2 _offsetPosition;
@@ -630,16 +622,16 @@ protected:
 
     // vertex coords, texture coords and color info
     V3F_C4B_T2F_Quad _quad;
-    PolygonInfo  _polyInfo;
+    PolygonInfo _polyInfo;
 
     // opacity and RGB protocol
     bool _opacityModifyRGB;
 
     // image is flipped
-    bool _flippedX;                         /// Whether the sprite is flipped horizontally or not
-    bool _flippedY;                         /// Whether the sprite is flipped vertically or not
+    bool _flippedX; /// Whether the sprite is flipped horizontally or not
+    bool _flippedY; /// Whether the sprite is flipped vertically or not
 
-    bool _insideBounds;                     /// whether or not the sprite was inside bounds the previous frame
+    bool _insideBounds; /// whether or not the sprite was inside bounds the previous frame
 
     std::string _fileName;
     int _fileType;
@@ -647,7 +639,6 @@ protected:
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(Sprite);
 };
-
 
 // end of sprite_nodes group
 /// @}

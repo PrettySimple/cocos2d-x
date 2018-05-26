@@ -46,7 +46,7 @@ class VertexAttribValue;
  * between a Mesh and Effect to satisfy the OpenGL requirement of one VAO per VBO.
  *
  * Note that this class still does provide a binding between a VertexFormat
- * and an Effect, however this binding is actually a client-side binding and 
+ * and an Effect, however this binding is actually a client-side binding and
  * should only be used when writing custom code that use client-side vertex
  * arrays, since it is slower than the server-side VAOs used by OpenGL
  * (when creating a VertexAttribBinding between a Mesh and Effect).
@@ -54,7 +54,6 @@ class VertexAttribValue;
 class CC_DLL VertexAttribBinding : public Ref
 {
 public:
-
     /**
      * Creates a new VertexAttribBinding between the given MeshVertexData and GLProgramState.
      *
@@ -66,7 +65,7 @@ public:
      *
      * @param mesh The mesh.
      * @param effect The effect.
-     * 
+     *
      * @return A VertexAttribBinding for the requested parameters.
      */
     static VertexAttribBinding* create(MeshIndexData* meshIndexData, GLProgramState* glProgramState);
@@ -86,9 +85,7 @@ public:
      */
     uint32_t getVertexAttribsFlags() const;
 
-
 private:
-
     bool init(MeshIndexData* meshIndexData, GLProgramState* glProgramState);
 
     /**
@@ -107,9 +104,8 @@ private:
     VertexAttribBinding& operator=(const VertexAttribBinding&);
 
     void setVertexAttribPointer(const std::string& name, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid* pointer);
-    VertexAttribValue* getVertexAttribValue(const std::string &name);
+    VertexAttribValue* getVertexAttribValue(const std::string& name);
     void parseAttributes();
-
 
     GLuint _handle;
 
@@ -121,7 +117,7 @@ private:
 };
 
 /// @cond
-extern std::string CC_DLL s_attributeNames[];//attribute names array
+extern std::string CC_DLL s_attributeNames[]; // attribute names array
 /// @endcond
 
 NS_CC_END

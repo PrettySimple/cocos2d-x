@@ -27,10 +27,10 @@
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#import <UIKit/UIKit.h>
+#    import <UIKit/UIKit.h>
 
-#import "math/CCGeometry.h"
-#import "platform/ios/CCDirectorCaller-ios.h"
+#    import "math/CCGeometry.h"
+#    import "platform/ios/CCDirectorCaller-ios.h"
 
 NS_CC_BEGIN
 
@@ -38,7 +38,7 @@ Application* Application::sm_pSharedApplication = nullptr;
 
 Application::Application()
 {
-    CC_ASSERT(! sm_pSharedApplication);
+    CC_ASSERT(!sm_pSharedApplication);
     sm_pSharedApplication = this;
 }
 
@@ -59,7 +59,7 @@ int Application::run()
 
 void Application::setAnimationInterval(float interval)
 {
-    [[CCDirectorCaller sharedDirectorCaller] setAnimationInterval: interval ];
+    [[CCDirectorCaller sharedDirectorCaller] setAnimationInterval:interval];
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,53 +78,71 @@ Application* Application::sharedApplication()
     return Application::getInstance();
 }
 
-const char * Application::getCurrentLanguageCode()
+const char* Application::getCurrentLanguageCode()
 {
-    static char code[3]={0};
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSArray *languages = [defaults objectForKey:@"AppleLanguages"];
-    NSString *currentLanguage = [languages objectAtIndex:0];
+    static char code[3] = {0};
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    NSArray* languages = [defaults objectForKey:@"AppleLanguages"];
+    NSString* currentLanguage = [languages objectAtIndex:0];
 
     // get the current language code.(such as English is "en", Chinese is "zh" and so on)
     NSDictionary* temp = [NSLocale componentsFromLocaleIdentifier:currentLanguage];
-    NSString * languageCode = [temp objectForKey:NSLocaleLanguageCode];
+    NSString* languageCode = [temp objectForKey:NSLocaleLanguageCode];
     [languageCode getCString:code maxLength:3 encoding:NSASCIIStringEncoding];
-    code[2]='\0';
+    code[2] = '\0';
     return code;
 }
 
 LanguageType Application::getCurrentLanguage()
 {
     // get the current language and country config
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSArray *languages = [defaults objectForKey:@"AppleLanguages"];
-    NSString *currentLanguage = [languages objectAtIndex:0];
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    NSArray* languages = [defaults objectForKey:@"AppleLanguages"];
+    NSString* currentLanguage = [languages objectAtIndex:0];
 
     // get the current language code.(such as English is "en", Chinese is "zh" and so on)
     NSDictionary* temp = [NSLocale componentsFromLocaleIdentifier:currentLanguage];
-    NSString * languageCode = [temp objectForKey:NSLocaleLanguageCode];
+    NSString* languageCode = [temp objectForKey:NSLocaleLanguageCode];
 
-    if ([languageCode isEqualToString:@"zh"]) return LanguageType::CHINESE;
-    if ([languageCode isEqualToString:@"en"]) return LanguageType::ENGLISH;
-    if ([languageCode isEqualToString:@"fr"]) return LanguageType::FRENCH;
-    if ([languageCode isEqualToString:@"it"]) return LanguageType::ITALIAN;
-    if ([languageCode isEqualToString:@"de"]) return LanguageType::GERMAN;
-    if ([languageCode isEqualToString:@"es"]) return LanguageType::SPANISH;
-    if ([languageCode isEqualToString:@"nl"]) return LanguageType::DUTCH;
-    if ([languageCode isEqualToString:@"ru"]) return LanguageType::RUSSIAN;
-    if ([languageCode isEqualToString:@"ko"]) return LanguageType::KOREAN;
-    if ([languageCode isEqualToString:@"ja"]) return LanguageType::JAPANESE;
-    if ([languageCode isEqualToString:@"hu"]) return LanguageType::HUNGARIAN;
-    if ([languageCode isEqualToString:@"pt"]) return LanguageType::PORTUGUESE;
-    if ([languageCode isEqualToString:@"ar"]) return LanguageType::ARABIC;
-    if ([languageCode isEqualToString:@"nb"]) return LanguageType::NORWEGIAN;
-    if ([languageCode isEqualToString:@"pl"]) return LanguageType::POLISH;
-    if ([languageCode isEqualToString:@"tr"]) return LanguageType::TURKISH;
-    if ([languageCode isEqualToString:@"uk"]) return LanguageType::UKRAINIAN;
-    if ([languageCode isEqualToString:@"ro"]) return LanguageType::ROMANIAN;
-    if ([languageCode isEqualToString:@"bg"]) return LanguageType::BULGARIAN;
+    if ([languageCode isEqualToString:@"zh"])
+        return LanguageType::CHINESE;
+    if ([languageCode isEqualToString:@"en"])
+        return LanguageType::ENGLISH;
+    if ([languageCode isEqualToString:@"fr"])
+        return LanguageType::FRENCH;
+    if ([languageCode isEqualToString:@"it"])
+        return LanguageType::ITALIAN;
+    if ([languageCode isEqualToString:@"de"])
+        return LanguageType::GERMAN;
+    if ([languageCode isEqualToString:@"es"])
+        return LanguageType::SPANISH;
+    if ([languageCode isEqualToString:@"nl"])
+        return LanguageType::DUTCH;
+    if ([languageCode isEqualToString:@"ru"])
+        return LanguageType::RUSSIAN;
+    if ([languageCode isEqualToString:@"ko"])
+        return LanguageType::KOREAN;
+    if ([languageCode isEqualToString:@"ja"])
+        return LanguageType::JAPANESE;
+    if ([languageCode isEqualToString:@"hu"])
+        return LanguageType::HUNGARIAN;
+    if ([languageCode isEqualToString:@"pt"])
+        return LanguageType::PORTUGUESE;
+    if ([languageCode isEqualToString:@"ar"])
+        return LanguageType::ARABIC;
+    if ([languageCode isEqualToString:@"nb"])
+        return LanguageType::NORWEGIAN;
+    if ([languageCode isEqualToString:@"pl"])
+        return LanguageType::POLISH;
+    if ([languageCode isEqualToString:@"tr"])
+        return LanguageType::TURKISH;
+    if ([languageCode isEqualToString:@"uk"])
+        return LanguageType::UKRAINIAN;
+    if ([languageCode isEqualToString:@"ro"])
+        return LanguageType::ROMANIAN;
+    if ([languageCode isEqualToString:@"bg"])
+        return LanguageType::BULGARIAN;
     return LanguageType::ENGLISH;
-
 }
 
 Application::Platform Application::getTargetPlatform()
@@ -139,28 +157,29 @@ Application::Platform Application::getTargetPlatform()
     }
 }
 
-std::string Application::getVersion() {
+std::string Application::getVersion()
+{
     NSString* version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    if (version) {
+    if (version)
+    {
         return [version UTF8String];
     }
     return "";
 }
 
-bool Application::openURL(const std::string &url)
+bool Application::openURL(const std::string& url)
 {
     NSString* msg = [NSString stringWithCString:url.c_str() encoding:NSUTF8StringEncoding];
     NSURL* nsUrl = [NSURL URLWithString:msg];
     return [[UIApplication sharedApplication] openURL:nsUrl];
 }
 
-void Application::applicationScreenSizeChanged(int newWidth, int newHeight) {
-
+void Application::applicationScreenSizeChanged(int newWidth, int newHeight)
+{
 }
 
 void Application::applicationReceivedMemoryWarning()
 {
-    
 }
 
 NS_CC_END

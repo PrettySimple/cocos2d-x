@@ -26,61 +26,64 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "scripting/js-bindings/auto/jsb_cocos2dx_navmesh_auto.hpp"
 #if CC_USE_NAVMESH
-#include "scripting/js-bindings/manual/ScriptingCore.h"
-#include "scripting/js-bindings/manual/cocos2d_specifics.hpp"
+#    include "scripting/js-bindings/manual/ScriptingCore.h"
+#    include "scripting/js-bindings/manual/cocos2d_specifics.hpp"
 
-#include "navmesh/CCNavMesh.h"
-#include "scripting/js-bindings/manual/js_manual_conversions.h"
+#    include "navmesh/CCNavMesh.h"
+#    include "scripting/js-bindings/manual/js_manual_conversions.h"
 
-static bool jsb_cocos2dx_navmesh_NavMeshAgent_move(JSContext *cx, uint32_t argc, jsval *vp)
+static bool jsb_cocos2dx_navmesh_NavMeshAgent_move(JSContext* cx, uint32_t argc, jsval* vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
-	js_proxy_t *proxy = jsb_get_js_proxy(obj);
-	cocos2d::NavMeshAgent* cobj = (cocos2d::NavMeshAgent *)(proxy ? proxy->ptr : NULL);
-	JSB_PRECONDITION2(cobj, cx, false, "Invalid Native Object");
+    js_proxy_t* proxy = jsb_get_js_proxy(obj);
+    cocos2d::NavMeshAgent* cobj = (cocos2d::NavMeshAgent*)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2(cobj, cx, false, "Invalid Native Object");
 
-	bool ok = true;
+    bool ok = true;
 
-	if (argc == 1){
-		cocos2d::Vec3 arg0;
-		ok &= jsval_to_vector3(cx, args.get(0), &arg0);
-		JSB_PRECONDITION2(ok, cx, false, "jsb_cocos2dx_navmesh_NavMeshAgent_move : Error processing arguments");
-		cobj->move(arg0);
-		return true;
-	}
+    if (argc == 1)
+    {
+        cocos2d::Vec3 arg0;
+        ok &= jsval_to_vector3(cx, args.get(0), &arg0);
+        JSB_PRECONDITION2(ok, cx, false, "jsb_cocos2dx_navmesh_NavMeshAgent_move : Error processing arguments");
+        cobj->move(arg0);
+        return true;
+    }
 
-	if (argc == 2){
-		cocos2d::Vec3 arg0;
-		ok &= jsval_to_vector3(cx, args.get(0), &arg0);
-		JSB_PRECONDITION2(ok, cx, false, "jsb_cocos2dx_navmesh_NavMeshAgent_move : Error processing arguments");
+    if (argc == 2)
+    {
+        cocos2d::Vec3 arg0;
+        ok &= jsval_to_vector3(cx, args.get(0), &arg0);
+        JSB_PRECONDITION2(ok, cx, false, "jsb_cocos2dx_navmesh_NavMeshAgent_move : Error processing arguments");
 
-		std::shared_ptr<JSFunctionWrapper> func(new JSFunctionWrapper(cx, obj, args.get(1)));
+        std::shared_ptr<JSFunctionWrapper> func(new JSFunctionWrapper(cx, obj, args.get(1)));
 
-		cobj->move(arg0, [=](cocos2d::NavMeshAgent *agent, float totalTimeAfterMove)->void{
+        cobj->move(arg0, [=](cocos2d::NavMeshAgent* agent, float totalTimeAfterMove) -> void {
             jsval arg[2];
             JS::RootedObject jsobj(cx, js_get_or_create_jsobject<cocos2d::NavMeshAgent>(cx, agent));
             arg[0] = OBJECT_TO_JSVAL(jsobj);
-			arg[1] = DOUBLE_TO_JSVAL((double)totalTimeAfterMove);
-			JS::RootedValue rval(cx);
+            arg[1] = DOUBLE_TO_JSVAL((double)totalTimeAfterMove);
+            JS::RootedValue rval(cx);
 
-			bool invokeOk = func->invoke(2, arg, &rval);
-			if (!invokeOk && JS_IsExceptionPending(cx)) {
-				JS_ReportPendingException(cx);
-			}
-		});
-		return true;
-	}
-    
+            bool invokeOk = func->invoke(2, arg, &rval);
+            if (!invokeOk && JS_IsExceptionPending(cx))
+            {
+                JS_ReportPendingException(cx);
+            }
+        });
+        return true;
+    }
+
     JS_ReportError(cx, "jsb_cocos2dx_navmesh_NavMeshAgent_move : wrong number of arguments: %d, was expecting %d or %d", argc, 1, 2);
     return false;
 }
 
-extern JSObject *jsb_cocos2d_NavMeshAgent_prototype;
+extern JSObject* jsb_cocos2d_NavMeshAgent_prototype;
 
-void register_all_cocos2dx_navmesh_manual(JSContext *cx, JS::HandleObject global)
+void register_all_cocos2dx_navmesh_manual(JSContext* cx, JS::HandleObject global)
 {
     JS::RootedObject proto(cx, jsb_cocos2d_NavMeshAgent_prototype);
-	JS_DefineFunction(cx, proto, "move", jsb_cocos2dx_navmesh_NavMeshAgent_move, 2, JSPROP_ENUMERATE | JSPROP_PERMANENT);
+    JS_DefineFunction(cx, proto, "move", jsb_cocos2dx_navmesh_NavMeshAgent_move, 2, JSPROP_ENUMERATE | JSPROP_PERMANENT);
 }
 #endif //#if CC_USE_NAVMESH

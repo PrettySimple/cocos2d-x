@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,10 +27,10 @@
 #define __CC_PU_PARTICLE_3D_DO_SCALE_EVENT_HANDLER_H__
 
 #include "base/CCRef.h"
-#include "math/CCMath.h"
 #include "extensions/Particle3D/PU/CCPUEventHandler.h"
-#include <vector>
+#include "math/CCMath.h"
 #include <string>
+#include <vector>
 
 NS_CC_BEGIN
 
@@ -53,31 +53,30 @@ public:
     static PUDoScaleEventHandler* create();
 
     /** Returns the scale type
-    */
+     */
     const ScaleType& getScaleType(void) const;
 
     /** Set the scale type. This scale type identifies to which attribute the scale factor is applied.
-    */
+     */
     void setScaleType(const ScaleType& scaleType);
 
     /** Returns the scale fraction
-    */
+     */
     float getScaleFraction() const;
 
-    /** Set the scale fraction. This scale fraction value is used to scale different attributes if the 
+    /** Set the scale fraction. This scale fraction value is used to scale different attributes if the
         event handler is called.
     */
     void setScaleFraction(const float scaleFraction);
 
-    /** 
-    */
-    virtual void handle (PUParticleSystem3D* particleSystem, PUParticle3D* particle, float timeElapsed) override;
+    /**
+     */
+    virtual void handle(PUParticleSystem3D* particleSystem, PUParticle3D* particle, float timeElapsed) override;
 
-    virtual void copyAttributesTo (PUEventHandler* eventHandler) override;
+    virtual void copyAttributesTo(PUEventHandler* eventHandler) override;
 
-CC_CONSTRUCTOR_ACCESS:
-    PUDoScaleEventHandler(void);
-    virtual ~PUDoScaleEventHandler(void) {};
+    CC_CONSTRUCTOR_ACCESS : PUDoScaleEventHandler(void);
+    virtual ~PUDoScaleEventHandler(void){};
 
 protected:
     float _scaleFraction;

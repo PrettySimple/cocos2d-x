@@ -28,13 +28,13 @@ Copyright (c) 2013-2016 Chukong Technologies Inc.
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-#include "platform/CCFileUtils.h"
-#include "platform/CCPlatformMacros.h"
-#include "base/ccTypes.h"
-#include <string>
-#include <vector>
-#include "jni.h"
-#include "android/asset_manager.h"
+#    include "android/asset_manager.h"
+#    include "base/ccTypes.h"
+#    include "jni.h"
+#    include "platform/CCFileUtils.h"
+#    include "platform/CCPlatformMacros.h"
+#    include <string>
+#    include <vector>
 
 NS_CC_BEGIN
 
@@ -49,6 +49,7 @@ class ZipFile;
 class CC_DLL FileUtilsAndroid : public FileUtils
 {
     friend class FileUtils;
+
 public:
     FileUtilsAndroid();
     /**
@@ -64,7 +65,7 @@ public:
     /* override functions */
     bool init() override;
 
-    virtual std::string getNewFilename(const std::string &filename) const override;
+    virtual std::string getNewFilename(const std::string& filename) const override;
 
     virtual FileUtils::Status getContents(const std::string& filename, ResizableBuffer* buffer) override;
 

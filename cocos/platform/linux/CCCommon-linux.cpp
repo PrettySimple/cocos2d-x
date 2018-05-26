@@ -26,18 +26,18 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
 
-#include "platform/CCCommon.h"
-#include "platform/linux/CCStdC-linux.h"
-#include "base/CCConsole.h"
+#    include "base/CCConsole.h"
+#    include "platform/CCCommon.h"
+#    include "platform/linux/CCStdC-linux.h"
 
 NS_CC_BEGIN
 
-void MessageBox(const char * msg, const char * title)
+void MessageBox(const char* msg, const char* title)
 {
     log("%s: %s", title, msg);
 }
 
-void LuaLog(const char * format)
+void LuaLog(const char* format)
 {
     puts(format);
 }

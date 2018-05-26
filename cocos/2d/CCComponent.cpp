@@ -50,19 +50,19 @@ bool Component::init()
 static bool sendComponentEventToJS(Component* node, int action)
 {
     auto scriptEngine = ScriptEngineManager::getInstance()->getScriptEngine();
-    
+
     if (scriptEngine->isCalledFromScript())
     {
         scriptEngine->setCalledFromScript(false);
     }
     else
     {
-        BasicScriptData data(node,(void*)&action);
-        ScriptEvent scriptEvent(kComponentEvent,(void*)&data);
+        BasicScriptData data(node, (void*)&action);
+        ScriptEvent scriptEvent(kComponentEvent, (void*)&data);
         if (scriptEngine->sendEvent(&scriptEvent))
             return true;
     }
-    
+
     return false;
 }
 
@@ -118,14 +118,14 @@ void Component::update(float delta)
 #endif
 }
 
-bool Component::serialize(void *ar)
+bool Component::serialize(void* ar)
 {
     return true;
 }
 
 Component* Component::create()
 {
-    Component * ret = new (std::nothrow) Component();
+    Component* ret = new (std::nothrow) Component();
 
     if (ret && ret->init())
     {
@@ -139,7 +139,7 @@ Component* Component::create()
     return ret;
 }
 
-void Component::setOwner(Node *owner)
+void Component::setOwner(Node* owner)
 {
     _owner = owner;
 }

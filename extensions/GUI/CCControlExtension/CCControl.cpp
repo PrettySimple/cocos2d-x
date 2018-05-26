@@ -4,17 +4,17 @@
  *
  * Copyright 2011 Yannick Loriot.
  * http://yannickloriot.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,12 +28,12 @@
  */
 
 #include "CCControl.h"
-#include "base/CCDirector.h"
 #include "2d/CCMenu.h"
-#include "base/CCTouch.h"
 #include "CCInvocation.h"
+#include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
 #include "base/CCEventListenerTouch.h"
+#include "base/CCTouch.h"
 
 NS_CC_EXT_BEGIN
 
@@ -45,7 +45,6 @@ Control::Control()
 , _isOpacityModifyRGB(false)
 , _state(State::NORMAL)
 {
-
 }
 
 Control* Control::create()
@@ -68,7 +67,7 @@ bool Control::init()
     if (Layer::init())
     {
         // Initialise instance variables
-        _state=Control::State::NORMAL;
+        _state = Control::State::NORMAL;
         setEnabled(true);
         setSelected(false);
         setHighlighted(false);
@@ -80,9 +79,9 @@ bool Control::init()
         touchListener->onTouchMoved = CC_CALLBACK_2(Control::onTouchMoved, this);
         touchListener->onTouchEnded = CC_CALLBACK_2(Control::onTouchEnded, this);
         touchListener->onTouchCancelled = CC_CALLBACK_2(Control::onTouchCancelled, this);
-        
+
         dispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
-        
+
         return true;
     }
     else
@@ -97,13 +96,13 @@ Control::~Control()
     {
         delete iter->second;
     }
-    
+
     _dispatchTable.clear();
 }
 
 void Control::sendActionsForControlEvents(EventType controlEvents)
 {
-	retain();
+    retain();
     // For each control events
     for (int i = 0; i < kControlEventTotalNumber; i++)
     {
@@ -111,24 +110,25 @@ void Control::sendActionsForControlEvents(EventType controlEvents)
         if (((int)controlEvents & (1 << i)))
         {
             // Call invocations
-            const auto& invocationList = this->dispatchListforControlEvent((Control::EventType)(1<<i));
+            const auto& invocationList = this->dispatchListforControlEvent((Control::EventType)(1 << i));
 
-            for(const auto &invocation : invocationList) {
+            for (const auto& invocation : invocationList)
+            {
                 invocation->invoke(this);
             }
 
 #if CC_ENABLE_SCRIPT_BINDING
-            //Call ScriptFunc
+            // Call ScriptFunc
             if (kScriptTypeLua == _scriptType)
             {
-                cocos2d::BasicScriptData data(this,(void*)&controlEvents);
-                cocos2d::ScriptEvent event(cocos2d::kControlEvent,(void*)&data);
+                cocos2d::BasicScriptData data(this, (void*)&controlEvents);
+                cocos2d::ScriptEvent event(cocos2d::kControlEvent, (void*)&data);
                 cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
             }
 #endif
         }
     }
-	release();
+    release();
 }
 void Control::addTargetWithActionForControlEvents(Ref* target, Handler action, EventType controlEvents)
 {
@@ -138,30 +138,28 @@ void Control::addTargetWithActionForControlEvents(Ref* target, Handler action, E
         // If the given controlEvents bitmask contains the current event
         if (((int)controlEvents & (1 << i)))
         {
-            this->addTargetWithActionForControlEvent(target, action, (EventType)(1<<i));
+            this->addTargetWithActionForControlEvent(target, action, (EventType)(1 << i));
         }
     }
 }
 
-
-
 /**
- * Adds a target and action for a particular event to an internal dispatch 
+ * Adds a target and action for a particular event to an internal dispatch
  * table.
- * The action message may optionally include the sender and the event as 
+ * The action message may optionally include the sender and the event as
  * parameters, in that order.
  * When you call this method, target is not retained.
  *
- * @param target The target object that is, the object to which the action 
+ * @param target The target object that is, the object to which the action
  * message is sent. It cannot be nil. The target is not retained.
  * @param action A selector identifying an action message. It cannot be nullptr.
  * @param controlEvent A control event for which the action message is sent.
  * See "CCControlEvent" for constants.
  */
 void Control::addTargetWithActionForControlEvent(Ref* target, Handler action, EventType controlEvent)
-{    
+{
     // Create the invocation object
-    Invocation *invocation = Invocation::create(target, action, controlEvent);
+    Invocation* invocation = Invocation::create(target, action, controlEvent);
 
     // Add the invocation into the dispatch list for the given control event
     auto& eventInvocationList = this->dispatchListforControlEvent(controlEvent);
@@ -170,7 +168,7 @@ void Control::addTargetWithActionForControlEvent(Ref* target, Handler action, Ev
 
 void Control::removeTargetWithActionForControlEvents(Ref* target, Handler action, EventType controlEvents)
 {
-     // For each control events
+    // For each control events
     for (int i = 0; i < kControlEventTotalNumber; i++)
     {
         // If the given controlEvents bitmask contains the current event
@@ -186,29 +184,30 @@ void Control::removeTargetWithActionForControlEvent(Ref* target, Handler action,
     // Retrieve all invocations for the given control event
     //<Invocation*>
     auto& eventInvocationList = this->dispatchListforControlEvent(controlEvent);
-    
-    //remove all invocations if the target and action are null
-    //TODO: should the invocations be deleted, or just removed from the array? Won't that cause issues if you add a single invocation for multiple events?
+
+    // remove all invocations if the target and action are null
+    // TODO: should the invocations be deleted, or just removed from the array? Won't that cause issues if you add a single invocation for multiple events?
 
     if (!target && !action)
     {
-        //remove objects
+        // remove objects
         eventInvocationList.clear();
-    } 
+    }
     else
     {
         std::vector<Invocation*> tobeRemovedInvocations;
-        
-        //normally we would use a predicate, but this won't work here. Have to do it manually
-        for(const auto &invocation : eventInvocationList) {
-            bool shouldBeRemoved=true;
+
+        // normally we would use a predicate, but this won't work here. Have to do it manually
+        for (const auto& invocation : eventInvocationList)
+        {
+            bool shouldBeRemoved = true;
             if (target)
             {
-                shouldBeRemoved=(target==invocation->getTarget());
+                shouldBeRemoved = (target == invocation->getTarget());
             }
             if (action)
             {
-                shouldBeRemoved=(shouldBeRemoved && (action==invocation->getAction()));
+                shouldBeRemoved = (shouldBeRemoved && (action == invocation->getAction()));
             }
             // Remove the corresponding invocation object
             if (shouldBeRemoved)
@@ -217,19 +216,20 @@ void Control::removeTargetWithActionForControlEvent(Ref* target, Handler action,
             }
         }
 
-        for(const auto &invocation : tobeRemovedInvocations) {
+        for (const auto& invocation : tobeRemovedInvocations)
+        {
             eventInvocationList.eraseObject(invocation);
         }
     }
 }
 
-
-//CRGBA protocol
+// CRGBA protocol
 void Control::setOpacityModifyRGB(bool bOpacityModifyRGB)
 {
-    _isOpacityModifyRGB=bOpacityModifyRGB;
-    
-    for(auto child : _children){
+    _isOpacityModifyRGB = bOpacityModifyRGB;
+
+    for (auto child : _children)
+    {
         child->setOpacityModifyRGB(bOpacityModifyRGB);
     }
 }
@@ -239,12 +239,11 @@ bool Control::isOpacityModifyRGB() const
     return _isOpacityModifyRGB;
 }
 
-
 Vec2 Control::getTouchLocation(Touch* touch)
 {
-    Vec2 touchLocation = touch->getLocation();            // Get the touch position
-    touchLocation = this->convertToNodeSpace(touchLocation);  // Convert to the node space of this class
-    
+    Vec2 touchLocation = touch->getLocation(); // Get the touch position
+    touchLocation = this->convertToNodeSpace(touchLocation); // Convert to the node space of this class
+
     return touchLocation;
 }
 
@@ -260,7 +259,7 @@ Vector<Invocation*>& Control::dispatchListforControlEvent(EventType controlEvent
 {
     Vector<Invocation*>* invocationList = nullptr;
     auto iter = _dispatchTable.find((int)controlEvent);
-    
+
     // If the invocation list does not exist for the  dispatch table, we create it
     if (iter == _dispatchTable.end())
     {
@@ -281,9 +280,12 @@ void Control::needsLayout()
 void Control::setEnabled(bool bEnabled)
 {
     _enabled = bEnabled;
-    if(_enabled) {
+    if (_enabled)
+    {
         _state = Control::State::NORMAL;
-    } else {
+    }
+    else
+    {
         _state = Control::State::DISABLED;
     }
 
@@ -320,9 +322,9 @@ bool Control::isHighlighted() const
 bool Control::hasVisibleParents() const
 {
     auto parent = this->getParent();
-    for( auto c = parent; c != nullptr; c = c->getParent() )
+    for (auto c = parent; c != nullptr; c = c->getParent())
     {
-        if( !c->isVisible() )
+        if (!c->isVisible())
         {
             return false;
         }
@@ -330,7 +332,8 @@ bool Control::hasVisibleParents() const
     return true;
 }
 
-Control::EventType operator|(Control::EventType a, Control::EventType b) {
+Control::EventType operator|(Control::EventType a, Control::EventType b)
+{
     return static_cast<Control::EventType>(static_cast<int>(a) | static_cast<int>(b));
 }
 

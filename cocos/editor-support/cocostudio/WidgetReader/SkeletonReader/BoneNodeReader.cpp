@@ -22,14 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "tinyxml2.h"
-#include "flatbuffers/flatbuffers.h"
-#include "cocostudio/WidgetReader/NodeReader/NodeReader.h"
-#include "cocostudio/CSParseBinary_generated.h"
-#include "cocostudio/WidgetReader/SkeletonReader/CSBoneBinary_generated.h"
 #include "cocostudio/WidgetReader/SkeletonReader/BoneNodeReader.h"
 #include "cocostudio/ActionTimeline/CCBoneNode.h"
-
+#include "cocostudio/CSParseBinary_generated.h"
+#include "cocostudio/WidgetReader/NodeReader/NodeReader.h"
+#include "cocostudio/WidgetReader/SkeletonReader/CSBoneBinary_generated.h"
+#include "flatbuffers/flatbuffers.h"
+#include "tinyxml2.h"
 
 USING_NS_CC;
 USING_NS_TIMELINE;
@@ -40,12 +39,10 @@ IMPLEMENT_CLASS_NODE_READER_INFO(BoneNodeReader)
 
 BoneNodeReader::BoneNodeReader()
 {
-
 }
 
 BoneNodeReader::~BoneNodeReader()
 {
-
 }
 
 static BoneNodeReader* _instanceBoneNodeReader = nullptr;
@@ -64,10 +61,8 @@ void BoneNodeReader::destroyInstance()
     CC_SAFE_DELETE(_instanceBoneNodeReader);
 }
 
-Offset<Table> BoneNodeReader::createOptionsWithFlatBuffers(const tinyxml2::XMLElement *objectData,
-    flatbuffers::FlatBufferBuilder *builder)
+Offset<Table> BoneNodeReader::createOptionsWithFlatBuffers(const tinyxml2::XMLElement* objectData, flatbuffers::FlatBufferBuilder* builder)
 {
-
     auto temp = NodeReader::getInstance()->createOptionsWithFlatBuffers(objectData, builder);
     auto nodeOptions = *(Offset<WidgetOptions>*)(&temp);
 
@@ -117,18 +112,13 @@ Offset<Table> BoneNodeReader::createOptionsWithFlatBuffers(const tinyxml2::XMLEl
     }
     flatbuffers::BlendFunc f_blendFunc(blendFunc.src, blendFunc.dst);
 
-    auto options = CreateBoneOptions(*builder,
-        nodeOptions,
-        length,
-        &f_blendFunc);
+    auto options = CreateBoneOptions(*builder, nodeOptions, length, &f_blendFunc);
 
     return *(Offset<Table>*)(&options);
 }
 
-void BoneNodeReader::setPropsWithFlatBuffers(cocos2d::Node *node,
-    const flatbuffers::Table *nodeOptions)
+void BoneNodeReader::setPropsWithFlatBuffers(cocos2d::Node* node, const flatbuffers::Table* nodeOptions)
 {
-
     auto* bone = static_cast<BoneNode*>(node);
     auto options = (flatbuffers::BoneOptions*)nodeOptions;
 
@@ -145,7 +135,7 @@ void BoneNodeReader::setPropsWithFlatBuffers(cocos2d::Node *node,
     }
 }
 
-cocos2d::Node*  BoneNodeReader::createNodeWithFlatBuffers(const flatbuffers::Table *nodeOptions)
+cocos2d::Node* BoneNodeReader::createNodeWithFlatBuffers(const flatbuffers::Table* nodeOptions)
 {
     auto bone = BoneNode::create();
 

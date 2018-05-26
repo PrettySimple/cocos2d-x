@@ -27,50 +27,49 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 
-#include "network/HttpClient.h"
+#    include "network/HttpClient.h"
 
-#include <thread>
-#include <queue>
-#include <condition_variable>
+#    include <condition_variable>
+#    include <queue>
+#    include <thread>
 
-#include <errno.h>
+#    include <errno.h>
 
-#include "base/CCVector.h"
-#include "base/CCDirector.h"
-#include "base/CCScheduler.h"
+#    include "base/CCDirector.h"
+#    include "base/CCScheduler.h"
+#    include "base/CCVector.h"
 
-#include "platform/CCFileUtils.h"
-#include "network/HttpConnection-winrt.h"
+#    include "network/HttpConnection-winrt.h"
+#    include "platform/CCFileUtils.h"
 
 NS_CC_BEGIN
 
-namespace network {
-
-    static std::mutex       s_requestQueueMutex;
-    static std::mutex       s_responseQueueMutex;
+namespace network
+{
+    static std::mutex s_requestQueueMutex;
+    static std::mutex s_responseQueueMutex;
 
     static std::condition_variable_any s_SleepCondition;
 
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+#    if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
     typedef int int32_t;
-#endif
+#    endif
 
-    static Vector<HttpRequest*>*  s_requestQueue = nullptr;
+    static Vector<HttpRequest*>* s_requestQueue = nullptr;
     static Vector<HttpResponse*>* s_responseQueue = nullptr;
 
-    static HttpClient *s_pHttpClient = nullptr; // pointer to singleton
+    static HttpClient* s_pHttpClient = nullptr; // pointer to singleton
 
-    static std::string s_errorBuffer ="";
+    static std::string s_errorBuffer = "";
 
     static std::string s_cookieFilename = "";
 
     static std::string s_sslCaFilename = "";
 
     // function used to collect response/header data
-    static void writeData(std::vector<char> *pFromBuffer, std::vector<char> *pToBuffer)
+    static void writeData(std::vector<char>* pFromBuffer, std::vector<char>* pToBuffer)
     {
-        if(nullptr == pFromBuffer || nullptr == pToBuffer)
+        if (nullptr == pFromBuffer || nullptr == pToBuffer)
             return;
 
         pToBuffer->insert(pToBuffer->end(), pFromBuffer->begin(), pFromBuffer->end());
@@ -78,7 +77,7 @@ namespace network {
 
     static void processHttpResponse(HttpResponse* response, std::string& errorStr);
 
-    static HttpRequest *s_requestSentinel = new (std::nothrow) HttpRequest;
+    static HttpRequest* s_requestSentinel = new (std::nothrow) HttpRequest;
 
     // Worker thread
     void HttpClient::networkThread()
@@ -87,36 +86,38 @@ namespace network {
 
         while (true)
         {
-            HttpRequest *request;
+            HttpRequest* request;
 
             // step 1: send http request if the requestQueue isn't empty
             {
                 std::lock_guard<std::mutex> lock(s_requestQueueMutex);
-                while (s_requestQueue->empty()) {
+                while (s_requestQueue->empty())
+                {
                     s_SleepCondition.wait(s_requestQueueMutex);
                 }
                 request = s_requestQueue->at(0);
                 s_requestQueue->erase(0);
             }
 
-            if (request == s_requestSentinel) {
+            if (request == s_requestSentinel)
+            {
                 break;
             }
 
             // step 2: libcurl sync access
 
             // Create a HttpResponse object, the default setting is http access failed
-            HttpResponse *response = new (std::nothrow) HttpResponse(request);
+            HttpResponse* response = new (std::nothrow) HttpResponse(request);
 
             processHttpResponse(response, s_errorBuffer);
-
 
             // add response packet into queue
             s_responseQueueMutex.lock();
             s_responseQueue->pushBack(response);
             s_responseQueueMutex.unlock();
 
-            if (nullptr != s_pHttpClient) {
+            if (nullptr != s_pHttpClient)
+            {
                 scheduler->performFunctionInCocosThread(CC_CALLBACK_0(HttpClient::dispatchResponseCallbacks, this));
             }
         }
@@ -126,14 +127,13 @@ namespace network {
         s_requestQueue->clear();
         s_requestQueueMutex.unlock();
 
-
-        if (s_requestQueue != nullptr) {
+        if (s_requestQueue != nullptr)
+        {
             delete s_requestQueue;
             s_requestQueue = nullptr;
             delete s_responseQueue;
             s_responseQueue = nullptr;
         }
-
     }
 
     // Worker thread
@@ -143,7 +143,7 @@ namespace network {
         processHttpResponse(response, errorStr);
 
         auto scheduler = Director::getInstance()->getScheduler();
-        scheduler->performFunctionInCocosThread([response, request]{
+        scheduler->performFunctionInCocosThread([response, request] {
             const ccHttpRequestCallback& callback = request->getCallback();
             Ref* pTarget = request->getTarget();
             SEL_HttpResponse pSelector = request->getSelector();
@@ -175,25 +175,25 @@ namespace network {
         // Process the request -> get response packet
         switch (request->getRequestType())
         {
-        case HttpRequest::Type::GET: // HTTP GET
-            ok = (xhr.init(request) && xhr.open("GET", manualAuthReqd, s_cookieFilename) && xhr.send());
-            break;
+            case HttpRequest::Type::GET: // HTTP GET
+                ok = (xhr.init(request) && xhr.open("GET", manualAuthReqd, s_cookieFilename) && xhr.send());
+                break;
 
-        case HttpRequest::Type::POST: // HTTP POST
-            ok = (xhr.init(request) && xhr.open("POST", manualAuthReqd, s_cookieFilename) && xhr.send());
-            break;
+            case HttpRequest::Type::POST: // HTTP POST
+                ok = (xhr.init(request) && xhr.open("POST", manualAuthReqd, s_cookieFilename) && xhr.send());
+                break;
 
-        case HttpRequest::Type::PUT: // HTTP PUT
-            ok = (xhr.init(request) && xhr.open("PUT", manualAuthReqd, s_cookieFilename) && xhr.send());
-            break;
+            case HttpRequest::Type::PUT: // HTTP PUT
+                ok = (xhr.init(request) && xhr.open("PUT", manualAuthReqd, s_cookieFilename) && xhr.send());
+                break;
 
-        case HttpRequest::Type::DELETE: // HTTP DELETE
-            ok = (xhr.init(request) && xhr.open("DELETE", manualAuthReqd, s_cookieFilename) && xhr.send());
-            break;
+            case HttpRequest::Type::DELETE: // HTTP DELETE
+                ok = (xhr.init(request) && xhr.open("DELETE", manualAuthReqd, s_cookieFilename) && xhr.send());
+                break;
 
-        default:
-            CCASSERT(true, "CCHttpClient: unknown request type, only GET and POST are supported");
-            break;
+            default:
+                CCASSERT(true, "CCHttpClient: unknown request type, only GET and POST are supported");
+                break;
         }
 
         writeData(xhr.getResponseHeader(), response->getResponseHeader());
@@ -219,41 +219,40 @@ namespace network {
     // HttpClient implementation
     HttpClient* HttpClient::getInstance()
     {
-        if (s_pHttpClient == nullptr) {
+        if (s_pHttpClient == nullptr)
+        {
             s_pHttpClient = new (std::nothrow) HttpClient();
         }
 
         return s_pHttpClient;
     }
 
-    void HttpClient::destroyInstance()
-    {
-        CC_SAFE_DELETE(s_pHttpClient);
-    }
+    void HttpClient::destroyInstance() { CC_SAFE_DELETE(s_pHttpClient); }
 
-    void HttpClient::enableCookies(const char* cookieFile) {
-        if (cookieFile) {
+    void HttpClient::enableCookies(const char* cookieFile)
+    {
+        if (cookieFile)
+        {
             s_cookieFilename = std::string(cookieFile);
         }
-        else {
+        else
+        {
             s_cookieFilename = (FileUtils::getInstance()->getWritablePath() + "cookieFile.txt");
         }
     }
 
-    void HttpClient::setSSLVerification(const std::string& caFile)
-    {
-        s_sslCaFilename = caFile;
-    }
+    void HttpClient::setSSLVerification(const std::string& caFile) { s_sslCaFilename = caFile; }
 
     HttpClient::HttpClient()
-        : _timeoutForConnect(30)
-        , _timeoutForRead(60)
+    : _timeoutForConnect(30)
+    , _timeoutForRead(60)
     {
     }
 
     HttpClient::~HttpClient()
     {
-        if (s_requestQueue != nullptr) {
+        if (s_requestQueue != nullptr)
+        {
             {
                 std::lock_guard<std::mutex> lock(s_requestQueueMutex);
                 s_requestQueue->pushBack(s_requestSentinel);
@@ -264,14 +263,15 @@ namespace network {
         s_pHttpClient = nullptr;
     }
 
-    //Lazy create semaphore & mutex & thread
+    // Lazy create semaphore & mutex & thread
     bool HttpClient::lazyInitThreadSemphore()
     {
-        if (s_requestQueue != nullptr) {
+        if (s_requestQueue != nullptr)
+        {
             return true;
         }
-        else {
-
+        else
+        {
             s_requestQueue = new (std::nothrow) Vector<HttpRequest*>();
             s_responseQueue = new (std::nothrow) Vector<HttpResponse*>();
 
@@ -282,7 +282,7 @@ namespace network {
         return true;
     }
 
-    //Add a get task to queue
+    // Add a get task to queue
     void HttpClient::send(HttpRequest* request)
     {
         if (false == lazyInitThreadSemphore())
@@ -297,7 +297,8 @@ namespace network {
 
         request->retain();
 
-        if (nullptr != s_requestQueue) {
+        if (nullptr != s_requestQueue)
+        {
             s_requestQueueMutex.lock();
             s_requestQueue->pushBack(request);
             s_requestQueueMutex.unlock();
@@ -316,7 +317,7 @@ namespace network {
 
         request->retain();
         // Create a HttpResponse object, the default setting is http access failed
-        HttpResponse *response = new (std::nothrow) HttpResponse(request);
+        HttpResponse* response = new (std::nothrow) HttpResponse(request);
 
         auto t = std::thread(&HttpClient::networkThreadAlone, this, request, response);
         t.detach();
@@ -326,8 +327,9 @@ namespace network {
     void HttpClient::dispatchResponseCallbacks()
     {
         // log("CCHttpClient::dispatchResponseCallbacks is running");
-        //occurs when cocos thread fires but the network thread has already quited
-        if (nullptr == s_responseQueue) {
+        // occurs when cocos thread fires but the network thread has already quited
+        if (nullptr == s_responseQueue)
+        {
             return;
         }
         HttpResponse* response = nullptr;
@@ -344,7 +346,7 @@ namespace network {
 
         if (response)
         {
-            HttpRequest *request = response->getHttpRequest();
+            HttpRequest* request = response->getHttpRequest();
             const ccHttpRequestCallback& callback = request->getCallback();
             Ref* pTarget = request->getTarget();
             SEL_HttpResponse pSelector = request->getSelector();
@@ -364,9 +366,8 @@ namespace network {
         }
     }
 
-    }
+} // namespace network
 
 NS_CC_END
 
 #endif // #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-

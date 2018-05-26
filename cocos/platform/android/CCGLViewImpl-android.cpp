@@ -26,25 +26,26 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-#include "platform/android/CCGLViewImpl-android.h"
-#include "base/CCDirector.h"
-#include "base/ccMacros.h"
-#include "platform/android/jni/JniHelper.h"
-#include "CCGL.h"
+#    include "CCGL.h"
+#    include "base/CCDirector.h"
+#    include "base/ccMacros.h"
+#    include "platform/android/CCGLViewImpl-android.h"
+#    include "platform/android/jni/JniHelper.h"
 
-#include <stdlib.h>
-#include <android/log.h>
+#    include <android/log.h>
+#    include <stdlib.h>
 
 // <EGL/egl.h> exists since android 2.3
-#include <EGL/egl.h>
+#    include <EGL/egl.h>
 PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOESEXT = 0;
 PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOESEXT = 0;
 PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT = 0;
 
-void initExtensions() {
-     glGenVertexArraysOESEXT = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
-     glBindVertexArrayOESEXT = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
-     glDeleteVertexArraysOESEXT = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArraysOES");
+void initExtensions()
+{
+    glGenVertexArraysOESEXT = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
+    glBindVertexArrayOESEXT = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
+    glDeleteVertexArraysOESEXT = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArraysOES");
 }
 
 NS_CC_BEGIN
@@ -52,7 +53,8 @@ NS_CC_BEGIN
 GLViewImpl* GLViewImpl::createWithRect(const std::string& viewName, Rect rect, float frameZoomFactor)
 {
     auto ret = new GLViewImpl;
-    if(ret && ret->initWithRect(viewName, rect, frameZoomFactor)) {
+    if (ret && ret->initWithRect(viewName, rect, frameZoomFactor))
+    {
         ret->autorelease();
         return ret;
     }
@@ -63,7 +65,8 @@ GLViewImpl* GLViewImpl::createWithRect(const std::string& viewName, Rect rect, f
 GLViewImpl* GLViewImpl::create(const std::string& viewName)
 {
     auto ret = new GLViewImpl;
-    if(ret && ret->initWithFullScreen(viewName)) {
+    if (ret && ret->initWithFullScreen(viewName))
+    {
         ret->autorelease();
         return ret;
     }
@@ -74,7 +77,8 @@ GLViewImpl* GLViewImpl::create(const std::string& viewName)
 GLViewImpl* GLViewImpl::createWithFullScreen(const std::string& viewName)
 {
     auto ret = new GLViewImpl();
-    if(ret && ret->initWithFullScreen(viewName)) {
+    if (ret && ret->initWithFullScreen(viewName))
+    {
         ret->autorelease();
         return ret;
     }
@@ -89,7 +93,6 @@ GLViewImpl::GLViewImpl()
 
 GLViewImpl::~GLViewImpl()
 {
-
 }
 
 bool GLViewImpl::initWithRect(const std::string& viewName, Rect rect, float frameZoomFactor)
@@ -101,7 +104,6 @@ bool GLViewImpl::initWithFullScreen(const std::string& viewName)
 {
     return true;
 }
-
 
 bool GLViewImpl::isOpenGLReady()
 {
@@ -119,9 +121,12 @@ void GLViewImpl::swapBuffers()
 
 void GLViewImpl::setIMEKeyboardState(bool bOpen)
 {
-    if (bOpen) {
+    if (bOpen)
+    {
         JniHelper::callStaticVoidMethod("org/cocos2dx/lib/Cocos2dxGLSurfaceView", "openIMEKeyboard");
-    } else {
+    }
+    else
+    {
         JniHelper::callStaticVoidMethod("org/cocos2dx/lib/Cocos2dxGLSurfaceView", "closeIMEKeyboard");
     }
 }

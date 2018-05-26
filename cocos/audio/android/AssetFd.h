@@ -25,18 +25,21 @@ THE SOFTWARE.
 
 #include <unistd.h>
 
-namespace cocos2d { namespace experimental {
-
-class AssetFd
+namespace cocos2d
 {
-public:
-    AssetFd(int assetFd);
-    ~AssetFd();
+    namespace experimental
+    {
+        class AssetFd
+        {
+        public:
+            AssetFd(int assetFd);
+            ~AssetFd();
 
-    inline int getFd() const { return _assetFd; };
-private:
-    int _assetFd;
-};
+            inline int getFd() const { return _assetFd; };
 
-}} // namespace cocos2d { namespace experimental {
+        private:
+            int _assetFd;
+        };
 
+    } // namespace experimental
+} // namespace cocos2d

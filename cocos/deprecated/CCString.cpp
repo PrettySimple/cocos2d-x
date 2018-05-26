@@ -24,32 +24,36 @@ Copyright (c) 2013-2014 Chukong Technologies
  ****************************************************************************/
 
 #include "deprecated/CCString.h"
-#include "platform/CCFileUtils.h"
 #include "base/ccMacros.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include "deprecated/CCArray.h"
 #include "base/ccUtils.h"
+#include "deprecated/CCArray.h"
+#include "platform/CCFileUtils.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 NS_CC_BEGIN
 
-#define kMaxStringLen (1024*100)
+#define kMaxStringLen (1024 * 100)
 
 __String::__String()
-    :_string("")
-{}
+: _string("")
+{
+}
 
-__String::__String(const char * str)
-    :_string(str)
-{}
+__String::__String(const char* str)
+: _string(str)
+{
+}
 
 __String::__String(const std::string& str)
-    :_string(str)
-{}
+: _string(str)
+{
+}
 
 __String::__String(const __String& str)
-    :_string(str.getCString())
-{}
+: _string(str.getCString())
+{
+}
 
 __String::~__String()
 {
@@ -58,9 +62,10 @@ __String::~__String()
     _string.clear();
 }
 
-__String& __String::operator= (const __String& other)
+__String& __String::operator=(const __String& other)
 {
-    if (this != &other) {
+    if (this != &other)
+    {
         _string = other._string;
     }
     return *this;
@@ -155,7 +160,7 @@ int __String::length() const
     return static_cast<int>(_string.length());
 }
 
-int __String::compare(const char * pStr) const
+int __String::compare(const char* pStr) const
 {
     return strcmp(getCString(), pStr);
 }
@@ -169,7 +174,7 @@ void __String::appendWithFormat(const char* format, ...)
 {
     va_list ap;
     va_start(ap, format);
-    
+
     char* pBuf = (char*)malloc(kMaxStringLen);
     if (pBuf != nullptr)
     {
@@ -177,30 +182,29 @@ void __String::appendWithFormat(const char* format, ...)
         _string.append(pBuf);
         free(pBuf);
     }
-    
+
     va_end(ap);
-    
 }
 
-__Array* __String::componentsSeparatedByString(const char *delimiter)
+__Array* __String::componentsSeparatedByString(const char* delimiter)
 {
     __Array* result = __Array::create();
     std::string strTmp = _string;
     size_t cutAt;
-    while( (cutAt = strTmp.find_first_of(delimiter)) != strTmp.npos )
+    while ((cutAt = strTmp.find_first_of(delimiter)) != strTmp.npos)
     {
-        if(cutAt > 0)
+        if (cutAt > 0)
         {
             result->addObject(__String::create(strTmp.substr(0, cutAt)));
         }
         strTmp = strTmp.substr(cutAt + 1);
     }
-    
-    if(!strTmp.empty())
+
+    if (!strTmp.empty())
     {
         result->addObject(__String::create(strTmp));
     }
-    
+
     return result;
 }
 
@@ -230,7 +234,7 @@ __String* __String::createWithData(const unsigned char* data, size_t nLen)
     __String* ret = nullptr;
     if (data != nullptr)
     {
-        char* pStr = (char*)malloc(nLen+1);
+        char* pStr = (char*)malloc(nLen + 1);
         if (pStr != nullptr)
         {
             pStr[nLen] = '\0';
@@ -238,7 +242,7 @@ __String* __String::createWithData(const unsigned char* data, size_t nLen)
             {
                 memcpy(pStr, data, nLen);
             }
-            
+
             ret = __String::create(pStr);
             free(pStr);
         }
@@ -257,13 +261,13 @@ __String* __String::createWithFormat(const char* format, ...)
     return ret;
 }
 
-__String* __String::createWithContentsOfFile(const std::string &filename)
+__String* __String::createWithContentsOfFile(const std::string& filename)
 {
     std::string str = FileUtils::getInstance()->getStringFromFile(filename);
     return __String::create(std::move(str));
 }
 
-void __String::acceptVisitor(DataVisitor &visitor)
+void __String::acceptVisitor(DataVisitor& visitor)
 {
     visitor.visit(this);
 }
@@ -272,5 +276,5 @@ __String* __String::clone() const
 {
     return __String::create(_string);
 }
-    
+
 NS_CC_END

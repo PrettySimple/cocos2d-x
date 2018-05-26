@@ -1,19 +1,19 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,8 +27,8 @@ Copyright (c) 2013-2016 Chukong Technologies Inc.
 #define __CCBOOL_H__
 /// @cond DO_NOT_SHOW
 
-#include "base/CCRef.h"
 #include "base/CCDataVisitor.h"
+#include "base/CCRef.h"
 
 NS_CC_BEGIN
 
@@ -41,8 +41,10 @@ class CC_DLL __Bool : public Ref, public Clonable
 {
 public:
     __Bool(bool v)
-        : _value(v) {}
-    bool getValue() const {return _value;}
+    : _value(v)
+    {
+    }
+    bool getValue() const { return _value; }
 
     static __Bool* create(bool v)
     {
@@ -55,12 +57,10 @@ public:
     }
 
     /* override functions */
-    virtual void acceptVisitor(DataVisitor &visitor) { visitor.visit(this); }
+    virtual void acceptVisitor(DataVisitor& visitor) { visitor.visit(this); }
 
-    virtual __Bool* clone() const override
-    {
-        return __Bool::create(_value);
-    }
+    virtual __Bool* clone() const override { return __Bool::create(_value); }
+
 private:
     bool _value;
 };

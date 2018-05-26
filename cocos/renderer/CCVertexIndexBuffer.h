@@ -25,9 +25,9 @@
 #ifndef __CC_VERTEX_INDEX_BUFFER_H__
 #define __CC_VERTEX_INDEX_BUFFER_H__
 
-#include <vector>
 #include "base/CCRef.h"
 #include "platform/CCGL.h"
+#include <vector>
 
 /**
  * @addtogroup renderer
@@ -73,7 +73,7 @@ public:
     Get the internal openGL handle.
     */
     GLuint getVBO() const;
-    
+
 protected:
     /**
     Constructor.
@@ -90,6 +90,7 @@ protected:
     @param usage A hint to indicate whether the vertexBuffer are updated frequently or not to let GL optimise it.
     */
     bool init(int sizePerVertex, int vertexNumber, GLenum usage = GL_STATIC_DRAW);
+
 protected:
     /**
     Event handler for foreground.
@@ -99,6 +100,7 @@ protected:
     Event listener for foreground.
     */
     EventListenerCustom* _recreateVBOEventListener;
+
 protected:
     /**
     Internal handle for openGL.
@@ -120,11 +122,13 @@ protected:
     Hint for optimisation in GL.
     */
     GLenum _usage;
+
 protected:
     /**
-    Static member to indicate that use _shadowCopy or not. 
+    Static member to indicate that use _shadowCopy or not.
     */
     static bool _enableShadowCopy;
+
 public:
     /**
     Static getter for shadowCopy.
@@ -154,7 +158,7 @@ public:
         /**Int index will be used.*/
         INDEX_TYPE_UINT_32
     };
-    
+
 public:
     /**
     Create an instance of IndexBuffer.
@@ -207,7 +211,7 @@ protected:
     @param usage A hint to indicate whether the vertexBuffer are updated frequently or not to let GL optimise it.
     */
     bool init(IndexType type, int number, GLenum usage = GL_STATIC_DRAW);
-    
+
 protected:
     /**
     Handle for openGL.
@@ -221,7 +225,7 @@ protected:
     Number of indices.
     */
     int _indexNumber;
-    
+
 protected:
     /**
     Event handler for foreground.
@@ -239,11 +243,13 @@ protected:
     Hint for optimisation in GL.
     */
     GLenum _usage;
+
 protected:
     /**
     Static member to indicate that use _shadowCopy or not.
     */
     static bool _enableShadowCopy;
+
 public:
     /**
     Static getter for shadowCopy.
@@ -254,7 +260,6 @@ public:
      */
     static void enableShadowCopy(bool enabled) { _enableShadowCopy = enabled; }
 };
-
 
 NS_CC_END
 

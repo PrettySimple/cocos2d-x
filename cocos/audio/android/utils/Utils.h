@@ -24,6 +24,10 @@ THE SOFTWARE.
 
 #include <string>
 
-namespace cocos2d { namespace experimental {
-	extern int getSDKVersion();
-}}
+namespace cocos2d
+{
+    namespace experimental
+    {
+        extern int getSDKVersion();
+    }
+} // namespace cocos2d

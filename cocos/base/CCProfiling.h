@@ -28,11 +28,11 @@ THE SOFTWARE.
 #define __SUPPORT_CCPROFILING_H__
 /// @cond DO_NOT_SHOW
 
-#include <string>
-#include <chrono>
-#include "base/ccConfig.h"
-#include "base/CCRef.h"
 #include "base/CCMap.h"
+#include "base/CCRef.h"
+#include "base/ccConfig.h"
+#include <chrono>
+#include <string>
 
 NS_CC_BEGIN
 
@@ -69,7 +69,7 @@ public:
     bool init(void);
 
 public:
-    /** returns the singleton 
+    /** returns the singleton
      * @js NA
      * @lua NA
      */
@@ -81,17 +81,17 @@ public:
      */
     CC_DEPRECATED_ATTRIBUTE static Profiler* sharedProfiler(void);
 
-    /** Creates and adds a new timer 
+    /** Creates and adds a new timer
      * @js NA
      * @lua NA
      */
     ProfilingTimer* createAndAddTimerWithName(const char* timerName);
-    /** releases a timer 
+    /** releases a timer
      * @js NA
      * @lua NA
      */
     void releaseTimer(const char* timerName);
-    /** releases all timers 
+    /** releases all timers
      * @js NA
      * @lua NA
      */
@@ -145,9 +145,9 @@ public:
     long numberOfCalls;
 };
 
-extern void CC_DLL ProfilingBeginTimingBlock(const char *timerName);
-extern void CC_DLL ProfilingEndTimingBlock(const char *timerName);
-extern void CC_DLL ProfilingResetTimingBlock(const char *timerName);
+extern void CC_DLL ProfilingBeginTimingBlock(const char* timerName);
+extern void CC_DLL ProfilingEndTimingBlock(const char* timerName);
+extern void CC_DLL ProfilingResetTimingBlock(const char* timerName);
 
 /*
  * cocos2d profiling categories

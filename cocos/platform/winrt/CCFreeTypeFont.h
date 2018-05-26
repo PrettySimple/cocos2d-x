@@ -28,14 +28,14 @@ THE SOFTWARE.
 
 #include "platform/CCCommon.h"
 #include "platform/CCDevice.h"
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
 
 #define generic GenericFromFreeTypeLibrary
 #define internal InternalFromFreeTypeLibrary
-#include <ft2build.h>
 #include <freetype.h>
+#include <ft2build.h>
 #include <ftglyph.h>
 #include <ftoutln.h>
 #include <fttrigon.h>
@@ -46,32 +46,30 @@ NS_CC_BEGIN
 
 typedef struct TGlyph_
 {
-	FT_UInt    index;  // glyph index
-    FT_Vector  pos;    // glyph origin on the baseline
-	FT_Glyph   image;  // glyph image
+    FT_UInt index; // glyph index
+    FT_Vector pos; // glyph origin on the baseline
+    FT_Glyph image; // glyph image
 } TGlyph, *PGlyph;
 
 typedef struct FontBufferInfo
 {
-	unsigned char*  pBuffer;  
-	unsigned long  size;  
+    unsigned char* pBuffer;
+    unsigned long size;
 } FontBufferInfo;
 
 typedef struct FTWordInfo
 {
-	std::vector<TGlyph> glyphs; // glyphs for the word
-	FT_BBox             bbox;   // bounding box containing all of the glyphs in the word
+    std::vector<TGlyph> glyphs; // glyphs for the word
+    FT_BBox bbox; // bounding box containing all of the glyphs in the word
 } FTWordInfo;
-
 
 typedef struct FTLineInfo
 {
-	std::vector<TGlyph> glyphs;     // glyphs for the line text
-	FT_BBox             bbox;       // bounding box containing all of the glyphs in the line
-    unsigned int        width;      // width of the line     
-    FT_Vector           pen;        // current pen position
+    std::vector<TGlyph> glyphs; // glyphs for the line text
+    FT_BBox bbox; // bounding box containing all of the glyphs in the line
+    unsigned int width; // width of the line
+    FT_Vector pen; // current pen position
 } FTLineInfo;
-
 
 class CC_DLL CCFreeTypeFont
 {
@@ -79,27 +77,25 @@ public:
     CCFreeTypeFont();
     ~CCFreeTypeFont();
 
-    unsigned char* initWithString(const char * text, const FontDefinition& textDefinition, Device::TextAlign align, int &width, int &height, ssize_t& dataLength);
+    unsigned char* initWithString(const char* text, const FontDefinition& textDefinition, Device::TextAlign align, int& width, int& height, ssize_t& dataLength);
 
     static const std::string DEFAULT_FONT;
 
 private:
+    unsigned char* getBitmap(Device::TextAlign eAlignMask, int& width, int& height, ssize_t& dataLength);
 
-    unsigned char* getBitmap(Device::TextAlign eAlignMask, int &width, int &height, ssize_t& dataLength);
+    unsigned char* loadFont(const char* pFontName, ssize_t* size);
 
-
-	unsigned char* loadFont(const char *pFontName, ssize_t* size);
-
-    unsigned char* CCFreeTypeFont::loadSystemFont(const char *pFontName, ssize_t* size);
+    unsigned char* CCFreeTypeFont::loadSystemFont(const char* pFontName, ssize_t* size);
 
     FT_Error CCFreeTypeFont::initGlyphs(const char* text);
     FT_Error CCFreeTypeFont::initWordGlyphs(std::vector<TGlyph>& glyphs, const std::string& text, FT_Vector& pen);
 
-	void compute_bbox(std::vector<TGlyph>& glyphs, FT_BBox  *abbox);
+    void compute_bbox(std::vector<TGlyph>& glyphs, FT_BBox* abbox);
 
-    void drawText(FTLineInfo* pInfo, unsigned char* pBuffer, FT_Vector *pen);
+    void drawText(FTLineInfo* pInfo, unsigned char* pBuffer, FT_Vector* pen);
 
-    void draw_bitmap(unsigned char* pBuffer, FT_Bitmap*  bitmap,FT_Int x,FT_Int y);
+    void draw_bitmap(unsigned char* pBuffer, FT_Bitmap* bitmap, FT_Int x, FT_Int y);
 
     void initWords(const char* text);
 
@@ -113,26 +109,26 @@ private:
 
     const std::string m_space;
 
-	std::string		m_text;
-	std::string		m_fontName;
-	FT_Face			m_face;
-	std::vector<FTLineInfo*> m_lines;
+    std::string m_text;
+    std::string m_fontName;
+    FT_Face m_face;
+    std::vector<FTLineInfo*> m_lines;
 
-    int             m_inWidth;      // requested width of text box
-    int             m_inHeight;     // requested height of text box
-    int             m_width;        // final bitMap width
-    int             m_height;       // final bitMap height
-    int             m_textWidth;    // width of text text after word wrapping and line breaks    
-    int             m_textHeight;   // height of text text after word wrapping and line breaks  
-    int             m_lineHeight;   // height of a line for the font size
-    int             m_windowWidth;  // the width of the window
+    int m_inWidth; // requested width of text box
+    int m_inHeight; // requested height of text box
+    int m_width; // final bitMap width
+    int m_height; // final bitMap height
+    int m_textWidth; // width of text text after word wrapping and line breaks
+    int m_textHeight; // height of text text after word wrapping and line breaks
+    int m_lineHeight; // height of a line for the font size
+    int m_windowWidth; // the width of the window
 
-    FTLineInfo*     m_currentLine;  // the current line object to add words to.
+    FTLineInfo* m_currentLine; // the current line object to add words to.
 
-    int             m_fontFillColorR;
-    int             m_fontFillColorG;
-    int             m_fontFillColorB;
-    int             m_fontFillColorA;
+    int m_fontFillColorR;
+    int m_fontFillColorG;
+    int m_fontFillColorB;
+    int m_fontFillColorA;
 };
 
 NS_CC_END

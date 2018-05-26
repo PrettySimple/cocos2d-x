@@ -23,15 +23,14 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "cocostudio/CCDatas.h"
-#include "cocostudio/CCUtilMath.h"
 #include "cocostudio/CCTransformHelp.h"
+#include "cocostudio/CCUtilMath.h"
 
 using namespace cocos2d;
 
-namespace cocostudio {
-
-
-BaseData::BaseData()
+namespace cocostudio
+{
+    BaseData::BaseData()
     : x(0.0f)
     , y(0.0f)
     , zOrder(0)
@@ -48,205 +47,163 @@ BaseData::BaseData()
     , r(255)
     , g(255)
     , b(255)
-{
-}
-
-BaseData::~BaseData()
-{
-}
-
-void BaseData::copy(const BaseData *node )
-{
-    x = node->x;
-    y = node->y;
-    zOrder = node->zOrder;
-
-    scaleX = node->scaleX;
-    scaleY = node->scaleY;
-    skewX = node->skewX;
-    skewY = node->skewY;
-
-    tweenRotate = node->tweenRotate;
-
-    isUseColorInfo = node->isUseColorInfo;
-    r = node->r;
-    g = node->g;
-    b = node->b;
-    a = node->a;
-}
-
-
-void BaseData::subtract(BaseData *from, BaseData *to, bool limit)
-{
-    x = to->x - from->x;
-    y = to->y - from->y;
-    scaleX = to->scaleX - from->scaleX;
-    scaleY = to->scaleY - from->scaleY;
-    skewX = to->skewX - from->skewX;
-    skewY = to->skewY - from->skewY;
-
-    if(isUseColorInfo || from->isUseColorInfo || to->isUseColorInfo)
     {
-        a = to->a - from->a;
-        r = to->r - from->r;
-        g = to->g - from->g;
-        b = to->b - from->b;
-
-        isUseColorInfo = true;
-    }
-    else
-    {
-        a = r = g = b = 0;
-        isUseColorInfo = false;
     }
 
-	if (limit)
-	{
-        if (skewX > M_PI)
+    BaseData::~BaseData() {}
+
+    void BaseData::copy(const BaseData* node)
+    {
+        x = node->x;
+        y = node->y;
+        zOrder = node->zOrder;
+
+        scaleX = node->scaleX;
+        scaleY = node->scaleY;
+        skewX = node->skewX;
+        skewY = node->skewY;
+
+        tweenRotate = node->tweenRotate;
+
+        isUseColorInfo = node->isUseColorInfo;
+        r = node->r;
+        g = node->g;
+        b = node->b;
+        a = node->a;
+    }
+
+    void BaseData::subtract(BaseData* from, BaseData* to, bool limit)
+    {
+        x = to->x - from->x;
+        y = to->y - from->y;
+        scaleX = to->scaleX - from->scaleX;
+        scaleY = to->scaleY - from->scaleY;
+        skewX = to->skewX - from->skewX;
+        skewY = to->skewY - from->skewY;
+
+        if (isUseColorInfo || from->isUseColorInfo || to->isUseColorInfo)
         {
-            skewX -= (float)CC_DOUBLE_PI;
+            a = to->a - from->a;
+            r = to->r - from->r;
+            g = to->g - from->g;
+            b = to->b - from->b;
+
+            isUseColorInfo = true;
         }
-        if (skewX < -M_PI)
+        else
         {
-            skewX += (float)CC_DOUBLE_PI;
+            a = r = g = b = 0;
+            isUseColorInfo = false;
         }
 
-        if (skewY > M_PI)
+        if (limit)
         {
-            skewY -= (float)CC_DOUBLE_PI;
+            if (skewX > M_PI)
+            {
+                skewX -= (float)CC_DOUBLE_PI;
+            }
+            if (skewX < -M_PI)
+            {
+                skewX += (float)CC_DOUBLE_PI;
+            }
+
+            if (skewY > M_PI)
+            {
+                skewY -= (float)CC_DOUBLE_PI;
+            }
+            if (skewY < -M_PI)
+            {
+                skewY += (float)CC_DOUBLE_PI;
+            }
         }
-        if (skewY < -M_PI)
+
+        if (to->tweenRotate)
         {
-            skewY += (float)CC_DOUBLE_PI;
+            skewX += to->tweenRotate * M_PI * 2;
+            skewY -= to->tweenRotate * M_PI * 2;
         }
     }
 
-    if (to->tweenRotate)
+    void BaseData::setColor(const Color4B& color)
     {
-        skewX += to->tweenRotate * M_PI * 2;
-        skewY -= to->tweenRotate * M_PI * 2;
-    }
-	
-}
-
-void BaseData::setColor(const Color4B &color)
-{
-    r = color.r;
-    g = color.g;
-    b = color.b;
-    a = color.a;
-}
-
-Color4B BaseData::getColor()
-{
-    return Color4B(r, g, b, a);
-}
-
-const std::string DisplayData::changeDisplayToTexture(const std::string& displayName)
-{
-    // remove .xxx
-    std::string textureName = displayName;
-    size_t startPos = textureName.find_last_of(".");
-
-    if(startPos != std::string::npos)
-    {
-        textureName = textureName.erase(startPos);
+        r = color.r;
+        g = color.g;
+        b = color.b;
+        a = color.a;
     }
 
-    return textureName;
-}
+    Color4B BaseData::getColor() { return Color4B(r, g, b, a); }
 
-DisplayData::DisplayData(void)
+    const std::string DisplayData::changeDisplayToTexture(const std::string& displayName)
+    {
+        // remove .xxx
+        std::string textureName = displayName;
+        size_t startPos = textureName.find_last_of(".");
+
+        if (startPos != std::string::npos)
+        {
+            textureName = textureName.erase(startPos);
+        }
+
+        return textureName;
+    }
+
+    DisplayData::DisplayData(void)
     : displayType(CS_DISPLAY_MAX)
     , displayName("")
-{
-}
-
-void DisplayData::copy(DisplayData *displayData)
-{
-    displayName = displayData->displayName;
-    displayType = displayData->displayType;
-}
-
-SpriteDisplayData::SpriteDisplayData(void)
-{
-    displayType = CS_DISPLAY_SPRITE;
-}
-
-
-void SpriteDisplayData::copy(DisplayData *displayData)
-{
-    DisplayData::copy(displayData);
-
-    if (SpriteDisplayData *sdd = dynamic_cast<SpriteDisplayData*>(displayData))
     {
-        skinData = sdd->skinData;
     }
-}
 
-ArmatureDisplayData::ArmatureDisplayData(void)
-{
-    displayType = CS_DISPLAY_ARMATURE;
-}
+    void DisplayData::copy(DisplayData* displayData)
+    {
+        displayName = displayData->displayName;
+        displayType = displayData->displayType;
+    }
 
-ParticleDisplayData::ParticleDisplayData(void)
-{
-    displayType = CS_DISPLAY_PARTICLE;
-}
+    SpriteDisplayData::SpriteDisplayData(void) { displayType = CS_DISPLAY_SPRITE; }
 
+    void SpriteDisplayData::copy(DisplayData* displayData)
+    {
+        DisplayData::copy(displayData);
 
+        if (SpriteDisplayData* sdd = dynamic_cast<SpriteDisplayData*>(displayData))
+        {
+            skinData = sdd->skinData;
+        }
+    }
 
-BoneData::BoneData(void)
+    ArmatureDisplayData::ArmatureDisplayData(void) { displayType = CS_DISPLAY_ARMATURE; }
+
+    ParticleDisplayData::ParticleDisplayData(void) { displayType = CS_DISPLAY_PARTICLE; }
+
+    BoneData::BoneData(void)
     : name("")
     , parentName("")
-{
-}
+    {
+    }
 
-BoneData::~BoneData(void)
-{
-}
+    BoneData::~BoneData(void) {}
 
-bool BoneData::init()
-{
-    return true;
-}
+    bool BoneData::init() { return true; }
 
-void BoneData::addDisplayData(DisplayData *displayData)
-{
-    displayDataList.pushBack(displayData);
-}
+    void BoneData::addDisplayData(DisplayData* displayData) { displayDataList.pushBack(displayData); }
 
-DisplayData *BoneData::getDisplayData(int index)
-{
-    return displayDataList.at(index);
-}
+    DisplayData* BoneData::getDisplayData(int index) { return displayDataList.at(index); }
 
-
-ArmatureData::ArmatureData()
+    ArmatureData::ArmatureData()
     : dataVersion(0.1f)
-{
-}
+    {
+    }
 
-ArmatureData::~ArmatureData()
-{
-}
+    ArmatureData::~ArmatureData() {}
 
-bool ArmatureData::init()
-{
-    return true;
-}
+    bool ArmatureData::init() { return true; }
 
-void ArmatureData::addBoneData(BoneData *boneData)
-{
-    boneDataDic.insert(boneData->name, boneData);
-}
+    void ArmatureData::addBoneData(BoneData* boneData) { boneDataDic.insert(boneData->name, boneData); }
 
-BoneData *ArmatureData::getBoneData(const std::string& boneName)
-{
-    return static_cast<BoneData*>(boneDataDic.at(boneName));
-}
+    BoneData* ArmatureData::getBoneData(const std::string& boneName) { return static_cast<BoneData*>(boneDataDic.at(boneName)); }
 
-FrameData::FrameData(void)
+    FrameData::FrameData(void)
     : frameID(0)
     , duration(1)
     , tweenEasing(cocos2d::tweenfunc::Linear)
@@ -260,71 +217,55 @@ FrameData::FrameData(void)
     , strMovement("")
     , strSound("")
     , strSoundEffect("")
-{
-}
-
-FrameData::~FrameData(void)
-{
-    CC_SAFE_DELETE(easingParams);
-}
-
-void FrameData::copy(const BaseData *baseData)
-{
-    BaseData::copy(baseData);
-    
-    if (const FrameData *frameData = dynamic_cast<const FrameData*>(baseData))
     {
-        duration = frameData->duration;
-        displayIndex = frameData->displayIndex;
-        
-        tweenEasing = frameData->tweenEasing;
-        easingParamNumber = frameData->easingParamNumber;
-        
-        CC_SAFE_DELETE(easingParams);
-        if (easingParamNumber != 0)
-        {
-            easingParams = new (std::nothrow) float[easingParamNumber];
-            for (int i = 0; i<easingParamNumber; i++)
-            {
-                easingParams[i] = frameData->easingParams[i];
-            }
-        }
-
-        blendFunc = frameData->blendFunc;
-        isTween = frameData->isTween;
     }
-}
 
-MovementBoneData::MovementBoneData()
+    FrameData::~FrameData(void) { CC_SAFE_DELETE(easingParams); }
+
+    void FrameData::copy(const BaseData* baseData)
+    {
+        BaseData::copy(baseData);
+
+        if (const FrameData* frameData = dynamic_cast<const FrameData*>(baseData))
+        {
+            duration = frameData->duration;
+            displayIndex = frameData->displayIndex;
+
+            tweenEasing = frameData->tweenEasing;
+            easingParamNumber = frameData->easingParamNumber;
+
+            CC_SAFE_DELETE(easingParams);
+            if (easingParamNumber != 0)
+            {
+                easingParams = new (std::nothrow) float[easingParamNumber];
+                for (int i = 0; i < easingParamNumber; i++)
+                {
+                    easingParams[i] = frameData->easingParams[i];
+                }
+            }
+
+            blendFunc = frameData->blendFunc;
+            isTween = frameData->isTween;
+        }
+    }
+
+    MovementBoneData::MovementBoneData()
     : delay(0.0f)
     , scale(1.0f)
     , duration(0)
     , name("")
-{
-}
+    {
+    }
 
-MovementBoneData::~MovementBoneData(void)
-{
-}
+    MovementBoneData::~MovementBoneData(void) {}
 
-bool MovementBoneData::init()
-{
-    return true;
-}
+    bool MovementBoneData::init() { return true; }
 
-void MovementBoneData::addFrameData(FrameData *frameData)
-{
-    frameList.pushBack(frameData);
-}
+    void MovementBoneData::addFrameData(FrameData* frameData) { frameList.pushBack(frameData); }
 
-FrameData *MovementBoneData::getFrameData(int index)
-{
-    return frameList.at(index);
-}
+    FrameData* MovementBoneData::getFrameData(int index) { return frameList.at(index); }
 
-
-
-MovementData::MovementData(void)
+    MovementData::MovementData(void)
     : name("")
     , duration(0)
     , scale(1.0f)
@@ -332,96 +273,52 @@ MovementData::MovementData(void)
     , durationTween(0)
     , loop(true)
     , tweenEasing(cocos2d::tweenfunc::Linear)
-{
-}
+    {
+    }
 
-MovementData::~MovementData(void)
-{
-}
+    MovementData::~MovementData(void) {}
 
-void MovementData::addMovementBoneData(MovementBoneData *movBoneData)
-{
-    movBoneDataDic.insert(movBoneData->name, movBoneData);
-}
+    void MovementData::addMovementBoneData(MovementBoneData* movBoneData) { movBoneDataDic.insert(movBoneData->name, movBoneData); }
 
-MovementBoneData *MovementData::getMovementBoneData(const std::string& boneName)
-{
-    return movBoneDataDic.at(boneName);
-}
+    MovementBoneData* MovementData::getMovementBoneData(const std::string& boneName) { return movBoneDataDic.at(boneName); }
 
+    AnimationData::AnimationData(void) {}
 
+    AnimationData::~AnimationData(void) {}
 
-AnimationData::AnimationData(void)
-{
-}
+    void AnimationData::addMovement(MovementData* movData)
+    {
+        movementDataDic.insert(movData->name, movData);
+        movementNames.push_back(movData->name);
+    }
 
-AnimationData::~AnimationData(void)
-{
-}
+    MovementData* AnimationData::getMovement(const std::string& movementName) { return movementDataDic.at(movementName); }
 
-void AnimationData::addMovement(MovementData *movData)
-{
-    movementDataDic.insert(movData->name, movData);
-    movementNames.push_back(movData->name);
-}
+    ssize_t AnimationData::getMovementCount() { return movementDataDic.size(); }
 
-MovementData *AnimationData::getMovement(const std::string& movementName)
-{
-    return movementDataDic.at(movementName);
-}
+    ContourData::ContourData() {}
 
-ssize_t AnimationData::getMovementCount()
-{
-    return movementDataDic.size();
-}
+    ContourData::~ContourData() {}
 
+    bool ContourData::init() { return true; }
 
+    void ContourData::addVertex(Vec2& vertex) { vertexList.push_back(vertex); }
 
-ContourData::ContourData()
-{
-}
-
-ContourData::~ContourData()
-{
-}
-
-bool ContourData::init()
-{
-    return true;
-}
-
-void ContourData::addVertex(Vec2 &vertex)
-{
-    vertexList.push_back(vertex);
-}
-
-TextureData::TextureData()
+    TextureData::TextureData()
     : height(0.0f)
     , width(0.0f)
     , pivotX(0.5f)
     , pivotY(0.5f)
     , name("")
-{
-}
+    {
+    }
 
-TextureData::~TextureData()
-{
-}
+    TextureData::~TextureData() {}
 
-bool TextureData::init()
-{
-    return true;
-}
+    bool TextureData::init() { return true; }
 
-void TextureData::addContourData(ContourData *contourData)
-{
-    contourDataList.pushBack(contourData);
-}
+    void TextureData::addContourData(ContourData* contourData) { contourDataList.pushBack(contourData); }
 
-ContourData *TextureData::getContourData(int index)
-{
-    return contourDataList.at(index);
-}
+    ContourData* TextureData::getContourData(int index) { return contourDataList.at(index); }
 
-
-}
+} // namespace cocostudio

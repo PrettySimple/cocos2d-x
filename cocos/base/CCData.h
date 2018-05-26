@@ -27,9 +27,9 @@
 #define __CCDATA_H__
 
 #include "platform/CCPlatformMacros.h"
-#include <stdint.h> // for ssize_t on android
-#include <string>   // for ssize_t on linux
 #include "platform/CCStdC.h" // for ssize_t on window
+#include <stdint.h> // for ssize_t on android
+#include <string> // for ssize_t on linux
 
 /**
  * @addtogroup base
@@ -71,12 +71,12 @@ public:
     /**
      * Overloads of operator=.
      */
-    Data& operator= (const Data& other);
+    Data& operator=(const Data& other);
 
     /**
      * Overloads of operator=.
      */
-    Data& operator= (Data&& other);
+    Data& operator=(Data&& other);
 
     /**
      * Gets internal bytes of Data. It will return the pointer directly used in Data, so don't delete it.
@@ -141,6 +141,7 @@ public:
      * @return the internal data buffer, free it after use.
      */
     unsigned char* takeBuffer(ssize_t* size);
+
 private:
     void move(Data& other);
 
@@ -148,7 +149,6 @@ private:
     unsigned char* _bytes;
     ssize_t _size;
 };
-
 
 NS_CC_END
 

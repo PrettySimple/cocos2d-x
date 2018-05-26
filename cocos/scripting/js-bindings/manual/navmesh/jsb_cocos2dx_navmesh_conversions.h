@@ -23,19 +23,19 @@
 
 #include "base/ccConfig.h"
 #if CC_USE_NAVMESH
-#ifndef __cocos2d_js_bindings__jsb_cocos2dx_navmesh_conversions__
-#define __cocos2d_js_bindings__jsb_cocos2dx_navmesh_conversions__
+#    ifndef __cocos2d_js_bindings__jsb_cocos2dx_navmesh_conversions__
+#        define __cocos2d_js_bindings__jsb_cocos2dx_navmesh_conversions__
 
-#include "jsapi.h"
-#include "navmesh/CCNavMeshAgent.h"
+#        include "jsapi.h"
+#        include "navmesh/CCNavMeshAgent.h"
 
 namespace cocos2d
 {
     struct NavMeshAgentParam;
 }
 
-bool jsval_to_NavMeshAgentParam(JSContext *cx, JS::HandleValue v, cocos2d::NavMeshAgentParam* ret);
+bool jsval_to_NavMeshAgentParam(JSContext* cx, JS::HandleValue v, cocos2d::NavMeshAgentParam* ret);
 jsval offMeshLinkData_to_jsval(JSContext* cx, const cocos2d::OffMeshLinkData& v);
 
-#endif /* defined(__cocos2d_js_bindings__jsb_cocos2dx_navmesh_conversions__) */
+#    endif /* defined(__cocos2d_js_bindings__jsb_cocos2dx_navmesh_conversions__) */
 #endif //#if CC_USE_NAVMESH

@@ -25,9 +25,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "renderer/CCTextureCache.h"
 #include "2d/CCSpriteFrame.h"
+
 #include "base/CCDirector.h"
+#include "renderer/CCTextureCache.h"
 
 NS_CC_BEGIN
 
@@ -35,37 +36,37 @@ NS_CC_BEGIN
 
 SpriteFrame* SpriteFrame::create(const std::string& filename, const Rect& rect)
 {
-    SpriteFrame *spriteFrame = new (std::nothrow) SpriteFrame();
+    SpriteFrame* spriteFrame = new (std::nothrow) SpriteFrame();
     spriteFrame->initWithTextureFilename(filename, rect);
     spriteFrame->autorelease();
-    
+
     return spriteFrame;
 }
 
-SpriteFrame* SpriteFrame::createWithTexture(Texture2D *texture, const Rect& rect)
+SpriteFrame* SpriteFrame::createWithTexture(Texture2D* texture, const Rect& rect)
 {
-    SpriteFrame *spriteFrame = new (std::nothrow) SpriteFrame();
+    SpriteFrame* spriteFrame = new (std::nothrow) SpriteFrame();
     spriteFrame->initWithTexture(texture, rect);
     spriteFrame->autorelease();
-    
+
     return spriteFrame;
 }
 
 SpriteFrame* SpriteFrame::createWithTexture(Texture2D* texture, const Rect& rect, bool rotated, const Vec2& offset, const Size& originalSize)
 {
-    SpriteFrame *spriteFrame = new (std::nothrow) SpriteFrame();
+    SpriteFrame* spriteFrame = new (std::nothrow) SpriteFrame();
     spriteFrame->initWithTexture(texture, rect, rotated, offset, originalSize);
     spriteFrame->autorelease();
-    
+
     return spriteFrame;
 }
 
 SpriteFrame* SpriteFrame::create(const std::string& filename, const Rect& rect, bool rotated, const Vec2& offset, const Size& originalSize)
 {
-    SpriteFrame *spriteFrame = new (std::nothrow) SpriteFrame();
+    SpriteFrame* spriteFrame = new (std::nothrow) SpriteFrame();
     spriteFrame->initWithTextureFilename(filename, rect, rotated, offset, originalSize);
     spriteFrame->autorelease();
-    
+
     return spriteFrame;
 }
 
@@ -73,7 +74,6 @@ SpriteFrame::SpriteFrame()
 : _rotated(false)
 , _texture(nullptr)
 {
-    
 }
 
 bool SpriteFrame::initWithTexture(Texture2D* texture, const Rect& rect)
@@ -84,20 +84,20 @@ bool SpriteFrame::initWithTexture(Texture2D* texture, const Rect& rect)
 
 bool SpriteFrame::initWithTextureFilename(const std::string& filename, const Rect& rect)
 {
-    Rect rectInPixels = CC_RECT_POINTS_TO_PIXELS( rect );
+    Rect rectInPixels = CC_RECT_POINTS_TO_PIXELS(rect);
     return initWithTextureFilename(filename, rectInPixels, false, Vec2::ZERO, rectInPixels.size);
 }
 
 bool SpriteFrame::initWithTexture(Texture2D* texture, const Rect& rect, bool rotated, const Vec2& offset, const Size& originalSize)
 {
     _texture = texture;
-    
+
     _rectInPixels = rect;
     _rect = CC_RECT_PIXELS_TO_POINTS(rect);
     _offsetInPixels = offset;
-    _offset = CC_POINT_PIXELS_TO_POINTS( _offsetInPixels );
+    _offset = CC_POINT_PIXELS_TO_POINTS(_offsetInPixels);
     _originalSizeInPixels = originalSize;
-    _originalSize = CC_SIZE_PIXELS_TO_POINTS( _originalSizeInPixels );
+    _originalSize = CC_SIZE_PIXELS_TO_POINTS(_originalSizeInPixels);
     _rotated = rotated;
     _anchorPoint = Vec2(NAN, NAN);
 
@@ -109,11 +109,11 @@ bool SpriteFrame::initWithTextureFilename(const std::string& filename, const Rec
     _texture = nullptr;
     _textureFilename = filename;
     _rectInPixels = rect;
-    _rect = CC_RECT_PIXELS_TO_POINTS( rect );
+    _rect = CC_RECT_PIXELS_TO_POINTS(rect);
     _offsetInPixels = offset;
-    _offset = CC_POINT_PIXELS_TO_POINTS( _offsetInPixels );
+    _offset = CC_POINT_PIXELS_TO_POINTS(_offsetInPixels);
     _originalSizeInPixels = originalSize;
-    _originalSize = CC_SIZE_PIXELS_TO_POINTS( _originalSizeInPixels );
+    _originalSize = CC_SIZE_PIXELS_TO_POINTS(_originalSizeInPixels);
     _rotated = rotated;
     _anchorPoint = Vec2(NAN, NAN);
 
@@ -128,7 +128,7 @@ SpriteFrame::~SpriteFrame()
 SpriteFrame* SpriteFrame::clone() const
 {
     // no copy constructor
-    SpriteFrame *copy = new (std::nothrow) SpriteFrame();
+    SpriteFrame* copy = new (std::nothrow) SpriteFrame();
     copy->setTexture(_texture);
     copy->setPolygonInfo(_polygonInfo);
     copy->autorelease();
@@ -155,7 +155,7 @@ const Vec2& SpriteFrame::getOffset() const
 void SpriteFrame::setOffset(const Vec2& offsets)
 {
     _offset = offsets;
-    _offsetInPixels = CC_POINT_POINTS_TO_PIXELS( _offset );
+    _offsetInPixels = CC_POINT_POINTS_TO_PIXELS(_offset);
 }
 
 const Vec2& SpriteFrame::getOffsetInPixels() const
@@ -166,7 +166,7 @@ const Vec2& SpriteFrame::getOffsetInPixels() const
 void SpriteFrame::setOffsetInPixels(const Vec2& offsetInPixels)
 {
     _offsetInPixels = offsetInPixels;
-    _offset = CC_POINT_PIXELS_TO_POINTS( _offsetInPixels );
+    _offset = CC_POINT_PIXELS_TO_POINTS(_offsetInPixels);
 }
 
 const Vec2& SpriteFrame::getAnchorPoint() const
@@ -184,27 +184,30 @@ bool SpriteFrame::hasAnchorPoint() const
     return !std::isnan(_anchorPoint.x);
 }
 
-void SpriteFrame::setTexture(Texture2D * texture)
+void SpriteFrame::setTexture(Texture2D* texture)
 {
-    if( _texture != texture ) {
+    if (_texture != texture)
+    {
         _texture = texture;
     }
 }
 
 Texture2D* SpriteFrame::getTexture()
 {
-    if( _texture ) {
+    if (_texture)
+    {
         return _texture;
     }
-    
-    if(!_textureFilename.empty()) {
+
+    if (!_textureFilename.empty())
+    {
         return Director::getInstance()->getTextureCache()->addImage(_textureFilename);
     }
     // no texture or texture filename
     return nullptr;
 }
 
-void SpriteFrame::setPolygonInfo(const PolygonInfo &polygonInfo)
+void SpriteFrame::setPolygonInfo(const PolygonInfo& polygonInfo)
 {
     _polygonInfo = polygonInfo;
 }

@@ -1,23 +1,23 @@
 #ifndef _CCB_CCNODELOADERLISTENER_H_
 #define _CCB_CCNODELOADERLISTENER_H_
 
-
-namespace cocosbuilder {
-
-class CC_DLL NodeLoaderListener {
+namespace cocosbuilder
+{
+    class CC_DLL NodeLoaderListener
+    {
     public:
         /**
          * @js NA
          * @lua NA
          */
-        virtual ~NodeLoaderListener() {};
+        virtual ~NodeLoaderListener(){};
         /**
          * @js NA
          * @lua NA
          */
-        virtual void onNodeLoaded(cocos2d::Node * pNode, NodeLoader * pNodeLoader) = 0;
-};
+        virtual void onNodeLoaded(cocos2d::Node* pNode, NodeLoader* pNodeLoader) = 0;
+    };
 
-}
+} // namespace cocosbuilder
 
 #endif

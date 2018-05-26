@@ -35,7 +35,7 @@ using namespace std;
 
 NS_CC_BEGIN
 
-static __NotificationCenter *s_sharedNotifCenter = nullptr;
+static __NotificationCenter* s_sharedNotifCenter = nullptr;
 
 __NotificationCenter::__NotificationCenter()
 : _scriptHandler(0)
@@ -49,7 +49,7 @@ __NotificationCenter::~__NotificationCenter()
     _observers->release();
 }
 
-__NotificationCenter *__NotificationCenter::getInstance()
+__NotificationCenter* __NotificationCenter::getInstance()
 {
     if (!s_sharedNotifCenter)
     {
@@ -64,7 +64,7 @@ void __NotificationCenter::destroyInstance()
 }
 
 // FIXME:: deprecated
-__NotificationCenter *__NotificationCenter::sharedNotificationCenter(void)
+__NotificationCenter* __NotificationCenter::sharedNotificationCenter(void)
 {
     return __NotificationCenter::getInstance();
 }
@@ -78,15 +78,15 @@ void __NotificationCenter::purgeNotificationCenter(void)
 //
 // internal functions
 //
-bool __NotificationCenter::observerExisted(Ref *target, const std::string& name, Ref *sender)
+bool __NotificationCenter::observerExisted(Ref* target, const std::string& name, Ref* sender)
 {
     Ref* obj = nullptr;
     CCARRAY_FOREACH(_observers, obj)
     {
-        NotificationObserver* observer = (NotificationObserver*) obj;
+        NotificationObserver* observer = (NotificationObserver*)obj;
         if (!observer)
             continue;
-        
+
         if (observer->getName() == name && observer->getTarget() == target && observer->getSender() == sender)
             return true;
     }
@@ -96,23 +96,20 @@ bool __NotificationCenter::observerExisted(Ref *target, const std::string& name,
 //
 // observer functions
 //
-void __NotificationCenter::addObserver(Ref *target, 
-                                       SEL_CallFuncO selector,
-                                       const std::string& name,
-                                       Ref *sender)
+void __NotificationCenter::addObserver(Ref* target, SEL_CallFuncO selector, const std::string& name, Ref* sender)
 {
     if (this->observerExisted(target, name, sender))
         return;
-    
-    NotificationObserver *observer = new (std::nothrow) NotificationObserver(target, selector, name, sender);
+
+    NotificationObserver* observer = new (std::nothrow) NotificationObserver(target, selector, name, sender);
     if (!observer)
         return;
-    
+
     observer->autorelease();
     _observers->addObject(observer);
 }
 
-void __NotificationCenter::removeObserver(Ref *target, const std::string& name)
+void __NotificationCenter::removeObserver(Ref* target, const std::string& name)
 {
     Ref* obj = nullptr;
     CCARRAY_FOREACH(_observers, obj)
@@ -120,7 +117,7 @@ void __NotificationCenter::removeObserver(Ref *target, const std::string& name)
         NotificationObserver* observer = static_cast<NotificationObserver*>(obj);
         if (!observer)
             continue;
-        
+
         if (observer->getName() == name && observer->getTarget() == target)
         {
             _observers->removeObject(observer);
@@ -129,14 +126,14 @@ void __NotificationCenter::removeObserver(Ref *target, const std::string& name)
     }
 }
 
-int __NotificationCenter::removeAllObservers(Ref *target)
+int __NotificationCenter::removeAllObservers(Ref* target)
 {
-    Ref *obj = nullptr;
-    __Array *toRemove = __Array::create();
+    Ref* obj = nullptr;
+    __Array* toRemove = __Array::create();
 
     CCARRAY_FOREACH(_observers, obj)
     {
-        NotificationObserver *observer = static_cast<NotificationObserver *>(obj);
+        NotificationObserver* observer = static_cast<NotificationObserver*>(obj);
         if (!observer)
             continue;
 
@@ -150,38 +147,37 @@ int __NotificationCenter::removeAllObservers(Ref *target)
     return static_cast<int>(toRemove->count());
 }
 
-void __NotificationCenter::registerScriptObserver(Ref *target, int handler,const std::string& name)
+void __NotificationCenter::registerScriptObserver(Ref* target, int handler, const std::string& name)
 {
-    
     if (this->observerExisted(target, name, nullptr))
         return;
-    
-    NotificationObserver *observer = new (std::nothrow) NotificationObserver(target, nullptr, name, nullptr);
+
+    NotificationObserver* observer = new (std::nothrow) NotificationObserver(target, nullptr, name, nullptr);
     if (!observer)
         return;
-    
+
     observer->setHandler(handler);
     observer->autorelease();
     _observers->addObject(observer);
 }
 
-void __NotificationCenter::unregisterScriptObserver(Ref *target,const std::string& name)
-{        
+void __NotificationCenter::unregisterScriptObserver(Ref* target, const std::string& name)
+{
     Ref* obj = nullptr;
     CCARRAY_FOREACH(_observers, obj)
     {
         NotificationObserver* observer = static_cast<NotificationObserver*>(obj);
         if (!observer)
             continue;
-            
-        if ( observer->getName() == name && observer->getTarget() == target)
+
+        if (observer->getName() == name && observer->getTarget() == target)
         {
             _observers->removeObject(observer);
         }
     }
 }
 
-void __NotificationCenter::postNotification(const std::string& name, Ref *sender)
+void __NotificationCenter::postNotification(const std::string& name, Ref* sender)
 {
     __Array* ObserversCopy = __Array::createWithCapacity(_observers->count());
     ObserversCopy->addObjectsFromArray(_observers);
@@ -191,7 +187,7 @@ void __NotificationCenter::postNotification(const std::string& name, Ref *sender
         NotificationObserver* observer = static_cast<NotificationObserver*>(obj);
         if (!observer)
             continue;
-        
+
         if (observer->getName() == name && (observer->getSender() == sender || observer->getSender() == nullptr || sender == nullptr))
         {
             if (0 == observer->getHandler())
@@ -204,7 +200,7 @@ void __NotificationCenter::postNotification(const std::string& name, Ref *sender
 
 void __NotificationCenter::postNotification(const std::string& name)
 {
-    this->postNotification(name,nullptr);
+    this->postNotification(name, nullptr);
 }
 
 int __NotificationCenter::getObserverHandlerByName(const std::string& name)
@@ -213,21 +209,21 @@ int __NotificationCenter::getObserverHandlerByName(const std::string& name)
     {
         return 0;
     }
-    
+
     Ref* obj = nullptr;
     CCARRAY_FOREACH(_observers, obj)
     {
         NotificationObserver* observer = static_cast<NotificationObserver*>(obj);
         if (nullptr == observer)
             continue;
-        
-        if ( observer->getName() == name )
+
+        if (observer->getName() == name)
         {
             return observer->getHandler();
             break;
         }
     }
-    
+
     return 0;
 }
 
@@ -236,37 +232,36 @@ int __NotificationCenter::getObserverHandlerByName(const std::string& name)
 /// NotificationObserver
 ///
 ////////////////////////////////////////////////////////////////////////////////
-NotificationObserver::NotificationObserver(Ref *target, 
-                                               SEL_CallFuncO selector,
-                                               const std::string& name,
-                                               Ref *sender)
+NotificationObserver::NotificationObserver(Ref* target, SEL_CallFuncO selector, const std::string& name, Ref* sender)
 {
     _target = target;
     _selector = selector;
     _sender = sender;
-    
+
     _name = name;
     _handler = 0;
 }
 
 NotificationObserver::~NotificationObserver()
 {
-
 }
 
-void NotificationObserver::performSelector(Ref *sender)
+void NotificationObserver::performSelector(Ref* sender)
 {
     if (_target)
     {
-		if (sender) {
-			(_target->*_selector)(sender);
-		} else {
-			(_target->*_selector)(_sender);
-		}
+        if (sender)
+        {
+            (_target->*_selector)(sender);
+        }
+        else
+        {
+            (_target->*_selector)(_sender);
+        }
     }
 }
 
-Ref *NotificationObserver::getTarget() const
+Ref* NotificationObserver::getTarget() const
 {
     return _target;
 }

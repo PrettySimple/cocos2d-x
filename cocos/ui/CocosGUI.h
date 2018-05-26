@@ -25,56 +25,54 @@ THE SOFTWARE.
 #ifndef __COCOSGUI_H__
 #define __COCOSGUI_H__
 
-
-#include "ui/UIWidget.h"
-#include "ui/UILayout.h"
 #include "ui/UIButton.h"
 #include "ui/UICheckBox.h"
-#include "ui/UIRadioButton.h"
+#include "ui/UIHBox.h"
+#include "ui/UIHelper.h"
 #include "ui/UIImageView.h"
+#include "ui/UILayout.h"
+#include "ui/UIListView.h"
+#include "ui/UILoadingBar.h"
+#include "ui/UIPageView.h"
+#include "ui/UIRadioButton.h"
+#include "ui/UIRelativeBox.h"
+#include "ui/UIRichText.h"
+#include "ui/UIScrollView.h"
+#include "ui/UISlider.h"
 #include "ui/UIText.h"
 #include "ui/UITextAtlas.h"
-#include "ui/UILoadingBar.h"
-#include "ui/UIScrollView.h"
-#include "ui/UIListView.h"
-#include "ui/UISlider.h"
-#include "ui/UITextField.h"
 #include "ui/UITextBMFont.h"
-#include "ui/UIPageView.h"
-#include "ui/UIHelper.h"
-#include "ui/UIRichText.h"
-#include "ui/UIHBox.h"
+#include "ui/UITextField.h"
 #include "ui/UIVBox.h"
-#include "ui/UIRelativeBox.h"
+#include "ui/UIWidget.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN)
-#include "ui/UIVideoPlayer.h"
+#    include "ui/UIVideoPlayer.h"
 #endif
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN)
-#include "ui/UIWebView.h"
+#    include "ui/UIWebView.h"
 #endif
-#include "ui/UIDeprecated.h"
+#include "editor-support/cocostudio/CocosStudioExtension.h"
 #include "ui/GUIExport.h"
-#include "ui/UIScale9Sprite.h"
+#include "ui/UIDeprecated.h"
 #include "ui/UIEditBox/UIEditBox.h"
 #include "ui/UILayoutComponent.h"
+#include "ui/UIScale9Sprite.h"
 #include "ui/UITabControl.h"
-#include "editor-support/cocostudio/CocosStudioExtension.h"
 
 /**
  * @addtogroup ui
  * @{
  */
 NS_CC_BEGIN
-namespace ui {
+namespace ui
+{
+    /**
+     * Get current cocos GUI module version string.
+     *@return A string representation of GUI module version number
+     */
+    CC_GUI_DLL const char* CocosGUIVersion();
 
-
-/**
- * Get current cocos GUI module version string.
- *@return A string representation of GUI module version number
- */
-CC_GUI_DLL const char* CocosGUIVersion();
-
-}
+} // namespace ui
 
 NS_CC_END
 // end of ui group

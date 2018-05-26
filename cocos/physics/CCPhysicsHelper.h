@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2013 cocos2d-x.org
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,9 +28,9 @@
 #include "base/ccConfig.h"
 #if CC_USE_PHYSICS
 
-#include "chipmunk/chipmunk.h"
-#include "platform/CCPlatformMacros.h"
-#include "math/CCGeometry.h"
+#    include "chipmunk/chipmunk.h"
+#    include "math/CCGeometry.h"
+#    include "platform/CCPlatformMacros.h"
 
 NS_CC_BEGIN
 
@@ -54,25 +54,25 @@ public:
 
     /** Make Vec2 type convert to cpVect type. */
     static cpVect point2cpv(const Vec2& point) { return cpv(point.x, point.y); }
-    
+
     /** Make cpVect type convert to Size type. */
     static Size cpv2size(const cpVect& vec) { return Size(vec.x, vec.y); }
-    
+
     /** Make Size type convert to cpVect type. */
     static cpVect size2cpv(const Size& size) { return cpv(size.width, size.height); }
-    
+
     /** Make cpFloat type convert to float type. */
     static float cpfloat2float(cpFloat f) { return f; }
-    
+
     /** Make Rect type convert to cpBB type. */
     static cpBB rect2cpbb(const Rect& rect) { return cpBBNew(rect.origin.x, rect.origin.y, rect.origin.x + rect.size.width, rect.origin.y + rect.size.height); }
-    
+
     /** Make cpBB type convert to Rect type. */
-    static Rect cpbb2rect(const cpBB& bb) { return Rect(bb.l, bb.b, bb.r -  bb.l, bb.t - bb.b); }
-    
-    /** 
+    static Rect cpbb2rect(const cpBB& bb) { return Rect(bb.l, bb.b, bb.r - bb.l, bb.t - bb.b); }
+
+    /**
      Make cpVect array convert to Vec2 array.
-     
+
      @param cpvs The be converted object, it's a cpVect array.
      @param out The converted object, it's a Vec2 array.
      @param count It's cpvs array length.
@@ -84,13 +84,13 @@ public:
         {
             out[i] = cpv2point(cpvs[i]);
         }
-        
+
         return out;
     }
-    
+
     /**
      Make Vec2 array convert to cpVect array.
-     
+
      @param points The be converted object, it's a Vec2 array.
      @param out The converted object, it's a cpVect array.
      @param count It's points array length.
@@ -102,7 +102,7 @@ public:
         {
             out[i] = point2cpv(points[i]);
         }
-        
+
         return out;
     }
 };

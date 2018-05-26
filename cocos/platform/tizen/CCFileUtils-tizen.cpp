@@ -25,9 +25,9 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
 
-#include "platform/tizen/CCFileUtils-tizen.h"
-#include <app.h>
-#include <sys/stat.h>
+#    include "platform/tizen/CCFileUtils-tizen.h"
+#    include <app.h>
+#    include <sys/stat.h>
 
 using namespace std;
 NS_CC_BEGIN
@@ -37,11 +37,11 @@ FileUtils* FileUtils::getInstance()
     if (s_sharedFileUtils == nullptr)
     {
         s_sharedFileUtils = new FileUtilsTizen();
-        if(!s_sharedFileUtils->init())
+        if (!s_sharedFileUtils->init())
         {
-          delete s_sharedFileUtils;
-          s_sharedFileUtils = nullptr;
-          CCLOG("ERROR: Could not init FileUtilsTizen");
+            delete s_sharedFileUtils;
+            s_sharedFileUtils = nullptr;
+            CCLOG("ERROR: Could not init FileUtilsTizen");
         }
     }
 
@@ -50,7 +50,6 @@ FileUtils* FileUtils::getInstance()
 
 FileUtilsTizen::FileUtilsTizen()
 {
-
 }
 
 bool FileUtilsTizen::init()
@@ -78,7 +77,7 @@ bool FileUtilsTizen::isFileExistInternal(const std::string& strFilePath) const
     { // Not absolute path, add the default root path at the beginning.
         strPath.insert(0, _defaultResRootPath);
     }
-    
+
     struct stat sts;
     return (stat(strPath.c_str(), &sts) != -1) ? true : false;
 }

@@ -22,31 +22,31 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-
 #include "renderer/CCBatchCommand.h"
-#include "renderer/ccGLStateCache.h"
-#include "renderer/CCTextureAtlas.h"
-#include "renderer/CCTexture2D.h"
 #include "renderer/CCGLProgram.h"
+#include "renderer/CCTexture2D.h"
+#include "renderer/CCTextureAtlas.h"
+#include "renderer/ccGLStateCache.h"
 
 NS_CC_BEGIN
 
-BatchCommand::BatchCommand() : RenderCommand(RenderCommand::Type::BATCH_COMMAND)
+BatchCommand::BatchCommand()
+: RenderCommand(RenderCommand::Type::BATCH_COMMAND)
 {
 }
 
-void BatchCommand::init(float globalOrder, GLProgram* shader, BlendFunc blendType, TextureAtlas *textureAtlas, const Mat4& modelViewTransform, uint32_t flags)
+void BatchCommand::init(float globalOrder, GLProgram* shader, BlendFunc blendType, TextureAtlas* textureAtlas, const Mat4& modelViewTransform, uint32_t flags)
 {
     CCASSERT(shader, "shader cannot be null");
     CCASSERT(textureAtlas, "textureAtlas cannot be null");
-    
+
     RenderCommand::init(globalOrder, modelViewTransform, flags);
     _textureID = textureAtlas->getTexture()->getName();
     _blendType = blendType;
     _shader = shader;
-    
+
     _textureAtlas = textureAtlas;
-    
+
     _mv = modelViewTransform;
 }
 

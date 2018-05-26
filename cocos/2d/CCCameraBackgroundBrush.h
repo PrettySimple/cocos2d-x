@@ -25,13 +25,13 @@
 #ifndef _CCCAMERA_BACKGROUND_BRUSH_H__
 #define _CCCAMERA_BACKGROUND_BRUSH_H__
 
-#include "base/ccTypes.h"
-#include "base/CCRef.h"
 #include "3d/CCFrustum.h"
+#include "base/CCRef.h"
+#include "base/ccTypes.h"
 #include "platform/CCPlatformConfig.h"
-#include "renderer/CCQuadCommand.h"
 #include "renderer/CCCustomCommand.h"
 #include "renderer/CCFrameBuffer.h"
+#include "renderer/CCQuadCommand.h"
 
 NS_CC_BEGIN
 
@@ -44,7 +44,8 @@ class Camera;
 
 /**
  * Defines a brush to clear the background of camera.
- * There are 4 types of brush. None brush do nothing, Depth brush clear background with given depth, Color brush clear background with given color and depth, Skybox brush clear the background with a skybox. Camera uses depth brush by default.
+ * There are 4 types of brush. None brush do nothing, Depth brush clear background with given depth, Color brush clear background with given color and depth,
+ * Skybox brush clear the background with a skybox. Camera uses depth brush by default.
  */
 class CC_DLL CameraBackgroundBrush : public Ref
 {
@@ -54,7 +55,7 @@ public:
      */
     enum class BrushType
     {
-        NONE, //none brush
+        NONE, // none brush
         DEPTH, // depth brush. See CameraBackgroundDepthBrush
         COLOR, // color brush. See CameraBackgroundColorBrush
         SKYBOX, // skybox brush. See CameraBackgroundSkyBoxBrush
@@ -87,7 +88,6 @@ public:
      */
     static CameraBackgroundColorBrush* createColorBrush(const Color4F& color, float depth);
 
-
     /** Creates a Skybox brush with 6 textures.
      @param positive_x texture for the right side of the texture cube face.
      @param negative_x texture for the up side of the texture cube face.
@@ -97,9 +97,8 @@ public:
      @param negative_z texture for the rear side of the texture cube face.
      @return  A new brush inited with given parameters.
      */
-    static CameraBackgroundSkyBoxBrush* createSkyboxBrush(const std::string& positive_x, const std::string& negative_x,
-                                                          const std::string& positive_y, const std::string& negative_y,
-                                                          const std::string& positive_z, const std::string& negative_z);
+    static CameraBackgroundSkyBoxBrush* createSkyboxBrush(const std::string& positive_x, const std::string& negative_x, const std::string& positive_y,
+                                                          const std::string& negative_y, const std::string& positive_z, const std::string& negative_z);
     /**
      * draw the background
      */
@@ -107,8 +106,7 @@ public:
 
     virtual bool isValid() { return true; }
 
-    CC_CONSTRUCTOR_ACCESS :
-    CameraBackgroundBrush();
+    CC_CONSTRUCTOR_ACCESS : CameraBackgroundBrush();
     virtual ~CameraBackgroundBrush();
 
     virtual bool init() { return true; }
@@ -147,8 +145,7 @@ public:
      */
     void setDepth(float depth) { _depth = depth; }
 
-CC_CONSTRUCTOR_ACCESS:
-    CameraBackgroundDepthBrush();
+    CC_CONSTRUCTOR_ACCESS : CameraBackgroundDepthBrush();
     virtual ~CameraBackgroundDepthBrush();
 
     virtual bool init() override;
@@ -159,9 +156,9 @@ protected:
     GLboolean _clearColor;
 
     V3F_C4B_T2F_Quad _quad;
-    GLuint      _vao;
-    GLuint      _vertexBuffer;
-    GLuint      _indexBuffer;
+    GLuint _vao;
+    GLuint _vertexBuffer;
+    GLuint _indexBuffer;
 };
 
 /**
@@ -190,8 +187,7 @@ public:
      */
     void setColor(const Color4F& color);
 
-CC_CONSTRUCTOR_ACCESS:
-    CameraBackgroundColorBrush();
+    CC_CONSTRUCTOR_ACCESS : CameraBackgroundColorBrush();
     virtual ~CameraBackgroundColorBrush();
 
     virtual bool init() override;
@@ -225,9 +221,8 @@ public:
      @param negative_z texture for the rear side of the texture cube face.
      @return  A new brush inited with given parameters.
      */
-    static CameraBackgroundSkyBoxBrush* create(const std::string& positive_x, const std::string& negative_x,
-                                               const std::string& positive_y, const std::string& negative_y,
-                                               const std::string& positive_z, const std::string& negative_z);
+    static CameraBackgroundSkyBoxBrush* create(const std::string& positive_x, const std::string& negative_x, const std::string& positive_y,
+                                               const std::string& negative_y, const std::string& positive_z, const std::string& negative_z);
 
     /** Creates a Skybox brush with 6 textures.
      */
@@ -236,7 +231,7 @@ public:
      * Set skybox texture
      * @param texture Skybox texture
      */
-    void setTexture(TextureCube*  texture);
+    void setTexture(TextureCube* texture);
 
     /**
      * Draw background
@@ -246,10 +241,9 @@ public:
     bool isActived() const;
     void setActived(bool actived);
     virtual void setTextureValid(bool valid);
-    virtual bool isValid()override;
+    virtual bool isValid() override;
 
-    CC_CONSTRUCTOR_ACCESS :
-    CameraBackgroundSkyBoxBrush();
+    CC_CONSTRUCTOR_ACCESS : CameraBackgroundSkyBoxBrush();
     virtual ~CameraBackgroundSkyBoxBrush();
 
     /**
@@ -260,11 +254,11 @@ public:
 protected:
     void initBuffer();
 
-    GLuint      _vao;
-    GLuint      _vertexBuffer;
-    GLuint      _indexBuffer;
+    GLuint _vao;
+    GLuint _vertexBuffer;
+    GLuint _indexBuffer;
 
-    TextureCube*  _texture;
+    TextureCube* _texture;
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     EventListenerCustom* _backToForegroundListener;
@@ -277,4 +271,4 @@ private:
 
 NS_CC_END
 
-#endif// _CCCAMERA_BACKGROUND_BRUSH_H__
+#endif // _CCCAMERA_BACKGROUND_BRUSH_H__

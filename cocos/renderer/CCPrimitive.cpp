@@ -30,14 +30,14 @@ NS_CC_BEGIN
 Primitive* Primitive::create(VertexData* verts, IndexBuffer* indices, int type)
 {
     auto result = new (std::nothrow) Primitive();
-    if( result && result->init(verts, indices, type))
+    if (result && result->init(verts, indices, type))
     {
         result->autorelease();
         return result;
     }
-    
+
     CC_SAFE_DELETE(result);
-    return  nullptr;
+    return nullptr;
 }
 
 const VertexData* Primitive::getVertexData() const
@@ -67,15 +67,16 @@ Primitive::~Primitive()
 
 bool Primitive::init(VertexData* verts, IndexBuffer* indices, int type)
 {
-    if( nullptr == verts ) return false;
-    if(verts != _verts)
+    if (nullptr == verts)
+        return false;
+    if (verts != _verts)
     {
         CC_SAFE_RELEASE(_verts);
         CC_SAFE_RETAIN(verts);
         _verts = verts;
     }
-    
-    if(indices != _indices)
+
+    if (indices != _indices)
     {
         CC_SAFE_RETAIN(indices);
         CC_SAFE_RELEASE(_indices);
@@ -83,16 +84,16 @@ bool Primitive::init(VertexData* verts, IndexBuffer* indices, int type)
     }
 
     _type = type;
-    
+
     return true;
 }
 
 void Primitive::draw()
 {
-    if(_verts)
+    if (_verts)
     {
         _verts->use();
-        if(_indices!= nullptr)
+        if (_indices != nullptr)
         {
             GLenum type = (_indices->getType() == IndexBuffer::IndexType::INDEX_TYPE_SHORT_16) ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT;
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indices->getVBO());
@@ -103,7 +104,7 @@ void Primitive::draw()
         {
             glDrawArrays((GLenum)_type, _start, _count);
         }
-        
+
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }

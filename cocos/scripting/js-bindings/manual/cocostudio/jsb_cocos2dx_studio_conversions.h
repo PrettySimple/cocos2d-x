@@ -32,7 +32,7 @@ namespace cocostudio
     {
         struct AnimationInfo;
     }
-}
+} // namespace cocostudio
 
 extern jsval animationInfo_to_jsval(JSContext* cx, const cocostudio::timeline::AnimationInfo& v);
 extern bool jsval_to_animationInfo(JSContext* cx, JS::HandleValue vp, cocostudio::timeline::AnimationInfo* ret);

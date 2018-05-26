@@ -18,11 +18,10 @@
  This file was modified to fit the cocos2d-x project
  */
 
-#include "math/Vec3.h"
 #include "math/Mat4.h"
+#include "math/Vec3.h"
 
 NS_CC_MATH_BEGIN
-
 
 inline bool Vec3::isZero() const
 {
@@ -72,7 +71,7 @@ inline void Vec3::scale(float scalar)
     z *= scalar;
 }
 
-inline Vec3 Vec3::lerp(const Vec3 &target, float alpha) const
+inline Vec3 Vec3::lerp(const Vec3& target, float alpha) const
 {
     return *this * (1.f - alpha) + target * alpha;
 }
@@ -172,12 +171,12 @@ inline const Vec3 Vec3::operator/(const float s) const
 
 inline bool Vec3::operator==(const Vec3& v) const
 {
-    return x==v.x && y==v.y && z==v.z;
+    return x == v.x && y == v.y && z == v.z;
 }
 
 inline bool Vec3::operator!=(const Vec3& v) const
 {
-    return x!=v.x || y!=v.y || z!=v.z;
+    return x != v.x || y != v.y || z != v.z;
 }
 
 inline const Vec3 operator*(float x, const Vec3& v)

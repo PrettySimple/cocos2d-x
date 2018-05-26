@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -35,23 +35,22 @@ const Vec3 PULineAffector::DEFAULT_END(0, 0, 0);
 const float PULineAffector::DEFAULT_DRIFT = 0.0f;
 
 //-----------------------------------------------------------------------
-PULineAffector::PULineAffector(void) : 
-    PUAffector(),
-    _maxDeviation(DEFAULT_MAX_DEVIATION),
-    _scaledMaxDeviation(1.0f),
-    _end(DEFAULT_END),
-    _timeSinceLastUpdate(0.0f),
-    _timeStep(DEFAULT_TIME_STEP),
-    _drift(DEFAULT_DRIFT),
-    _oneMinusDrift(1.0f),
-    _update(true),
-    _first(true)
+PULineAffector::PULineAffector(void)
+: PUAffector()
+, _maxDeviation(DEFAULT_MAX_DEVIATION)
+, _scaledMaxDeviation(1.0f)
+, _end(DEFAULT_END)
+, _timeSinceLastUpdate(0.0f)
+, _timeStep(DEFAULT_TIME_STEP)
+, _drift(DEFAULT_DRIFT)
+, _oneMinusDrift(1.0f)
+, _update(true)
+, _first(true)
 {
 }
 
-PULineAffector::~PULineAffector( void )
+PULineAffector::~PULineAffector(void)
 {
-
 }
 //-----------------------------------------------------------------------
 float PULineAffector::getMaxDeviation(void) const
@@ -103,7 +102,7 @@ void PULineAffector::notifyRescaled(const Vec3& scale)
 //-----------------------------------------------------------------------
 void PULineAffector::preUpdateAffector(float deltaTime)
 {
-    if (/*technique->getNumberOfEmittedParticles()*/static_cast<PUParticleSystem3D *>(_particleSystem)->getAliveParticleCount() > 0)
+    if (/*technique->getNumberOfEmittedParticles()*/ static_cast<PUParticleSystem3D*>(_particleSystem)->getAliveParticleCount() > 0)
     {
         _timeSinceLastUpdate += deltaTime;
         while (_timeSinceLastUpdate > _timeStep)
@@ -112,17 +111,17 @@ void PULineAffector::preUpdateAffector(float deltaTime)
             _update = true;
         }
     }
-    (static_cast<PUParticleSystem3D *>(_particleSystem))->rotationOffset(_end); // Always update
+    (static_cast<PUParticleSystem3D*>(_particleSystem))->rotationOffset(_end); // Always update
 }
 //-----------------------------------------------------------------------
 
-void PULineAffector::updatePUAffector( PUParticle3D *particle, float deltaTime )
+void PULineAffector::updatePUAffector(PUParticle3D* particle, float deltaTime)
 {
     //_first = true;
-    //for (auto iter : _particleSystem->getParticles())
+    // for (auto iter : _particleSystem->getParticles())
     {
-        //PUParticle3D *particle = iter;
-        (static_cast<PUParticleSystem3D *>(_particleSystem))->rotationOffset(particle->originalPosition); // Always update
+        // PUParticle3D *particle = iter;
+        (static_cast<PUParticleSystem3D*>(_particleSystem))->rotationOffset(particle->originalPosition); // Always update
         if (_update && CCRANDOM_0_1() > 0.5f && !_first)
         {
             // Generate a random vector perpendicular on the line
@@ -140,7 +139,7 @@ void PULineAffector::updatePUAffector( PUParticle3D *particle, float deltaTime )
                 a new particle position instead of a direction.
             */
             particle->position = _drift * targetPosition + _oneMinusDrift * particle->position;
-            (static_cast<PUParticleSystem3D *>(_particleSystem))->rotationOffset(particle->position);
+            (static_cast<PUParticleSystem3D*>(_particleSystem))->rotationOffset(particle->position);
         }
         _first = false;
     }
@@ -152,7 +151,7 @@ void PULineAffector::postUpdateAffector(float deltaTime)
     _update = false;
 }
 
-void PULineAffector::firstParticleUpdate( PUParticle3D *particle, float deltaTime )
+void PULineAffector::firstParticleUpdate(PUParticle3D* particle, float deltaTime)
 {
     _first = true;
 }
@@ -164,7 +163,7 @@ PULineAffector* PULineAffector::create()
     return pla;
 }
 
-void PULineAffector::copyAttributesTo( PUAffector* affector )
+void PULineAffector::copyAttributesTo(PUAffector* affector)
 {
     PUAffector::copyAttributesTo(affector);
 

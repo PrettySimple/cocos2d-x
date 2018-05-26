@@ -28,9 +28,9 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
 
-#include "GL/glew.h"
+#    include "GL/glew.h"
 
-#define CC_GL_DEPTH24_STENCIL8      GL_DEPTH24_STENCIL8
+#    define CC_GL_DEPTH24_STENCIL8 GL_DEPTH24_STENCIL8
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
 

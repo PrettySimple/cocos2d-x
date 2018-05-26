@@ -30,9 +30,9 @@
 #include <string>
 #include <vector>
 
+#include "base/ccTypes.h"
 #include "platform/CCFileUtils.h"
 #include "platform/CCPlatformMacros.h"
-#include "base/ccTypes.h"
 
 NS_CC_BEGIN
 
@@ -52,7 +52,7 @@ public:
     virtual std::string getFullPathForDirectoryAndFilename(const std::string& directory, const std::string& filename) const override;
 
     virtual ValueMap getValueMapFromFile(const std::string& filename) override;
-    virtual ValueMap getValueMapFromData(const char* filedata, int filesize)override;
+    virtual ValueMap getValueMapFromData(const char* filedata, int filesize) override;
     virtual bool writeToFile(const ValueMap& dict, const std::string& fullPath) override;
 
     virtual ValueVector getValueVectorFromFile(const std::string& filename) override;
@@ -60,8 +60,9 @@ public:
 #if CC_FILEUTILS_APPLE_ENABLE_OBJC
     void setBundle(NSBundle* bundle);
 #endif
-    
+
     virtual bool createDirectory(const std::string& path) override;
+
 private:
     virtual bool isFileExistInternal(const std::string& filePath) const override;
     virtual bool removeDirectory(const std::string& dirPath) override;
@@ -77,4 +78,4 @@ private:
 
 NS_CC_END
 
-#endif    // __CC_FILEUTILS_APPLE_H__
+#endif // __CC_FILEUTILS_APPLE_H__

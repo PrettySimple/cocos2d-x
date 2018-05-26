@@ -30,9 +30,10 @@
 
 // Probably we can get rid of this struct, but since a lot of code
 // depends on it, we cannot remove it easily
-typedef struct js_proxy {
+typedef struct js_proxy
+{
     /** the native object. usually a pointer to cocos2d::Ref, but could be a pointer to another object */
-    void *ptr;
+    void* ptr;
     /** the JS object, as a heap object. Required by GC best practices */
     JS::Heap<JSObject*> obj;
     /** This is the raw pointer. The same as the "obj", but 'raw'. This is needed
@@ -42,43 +43,31 @@ typedef struct js_proxy {
     JSObject* _jsobj;
 } js_proxy_t;
 
-
 class ScriptingRootHolder
 {
 public:
-    ScriptingRootHolder(JS::PersistentRootedObject* ptr)
-    {
-        set(ptr);
-    }
-    
-    void set(JS::PersistentRootedObject* k)
-    {
-        p = k;
-    }
-    
-    JSObject* ref()
-    {
-        return *p;
-    }
-    
-    JS::PersistentRootedObject* ptr()
-    {
-        return p;
-    }
-    
+    ScriptingRootHolder(JS::PersistentRootedObject* ptr) { set(ptr); }
+
+    void set(JS::PersistentRootedObject* k) { p = k; }
+
+    JSObject* ref() { return *p; }
+
+    JS::PersistentRootedObject* ptr() { return p; }
+
 private:
     JS::PersistentRootedObject* p;
 };
 
-typedef struct js_type_class {
-    JSClass *jsclass;
+typedef struct js_type_class
+{
+    JSClass* jsclass;
     ScriptingRootHolder proto;
     ScriptingRootHolder parentProto;
 } js_type_class_t;
 
 extern std::unordered_map<std::string, js_type_class_t*> _js_global_type_map;
 
-template< typename DERIVED >
+template <typename DERIVED>
 class TypeTest
 {
 public:
@@ -87,15 +76,15 @@ public:
         // return id unique for DERIVED
         // ALWAYS VALID BUT STRING, NOT INT - BUT VALID AND CROSS-PLATFORM/CROSS-VERSION COMPATIBLE
         // AS FAR AS YOU KEEP THE CLASS NAME
-        return typeid( DERIVED ).name();
+        return typeid(DERIVED).name();
     }
 };
 
-
-#define TEST_NATIVE_OBJECT(cx, native_obj) \
-if (!native_obj) { \
-    JS_ReportError(cx, "Invalid Native Object"); \
-    return false; \
-}
+#define TEST_NATIVE_OBJECT(cx, native_obj)           \
+    if (!native_obj)                                 \
+    {                                                \
+        JS_ReportError(cx, "Invalid Native Object"); \
+        return false;                                \
+    }
 
 #endif

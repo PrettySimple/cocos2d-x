@@ -8,17 +8,17 @@
  *
  * Modified by Yannick Loriot.
  * http://yannickloriot.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -34,25 +34,25 @@
 #ifndef __CCCONTROL_UTILS_H__
 #define __CCCONTROL_UTILS_H__
 
-#include "2d/CCSprite.h"
 #include "../../ExtensionMacros.h"
+#include "2d/CCSprite.h"
 #include "extensions/ExtensionExport.h"
 
 NS_CC_EXT_BEGIN
 
 typedef struct
 {
-    double r;       // percent
-    double g;       // percent
-    double b;       // percent
-    double a;       // percent
+    double r; // percent
+    double g; // percent
+    double b; // percent
+    double a; // percent
 } RGBA;
 
 typedef struct
 {
-    double h;       // angle in degrees
-    double s;       // percent
-    double v;       // percent
+    double h; // angle in degrees
+    double s; // percent
+    double v; // percent
 } HSV;
 
 /**
@@ -62,7 +62,7 @@ typedef struct
  * @{
  */
 
-//helper class to store Color3B's in mutable arrays
+// helper class to store Color3B's in mutable arrays
 class CC_EX_DLL Color3bObject : public Ref
 {
 public:
@@ -71,7 +71,10 @@ public:
      * @js NA
      * @lua NA
      */
-    Color3bObject(Color3B s_value):value(s_value){}
+    Color3bObject(Color3B s_value)
+    : value(s_value)
+    {
+    }
 };
 
 class CC_EX_DLL ControlUtils
@@ -81,7 +84,7 @@ public:
      * @js NA
      * @lua NA
      */
-    static Sprite* addSpriteToTargetWithPosAndAnchor(const char* spriteName, Node * target, Vec2 pos, Vec2 anchor);
+    static Sprite* addSpriteToTargetWithPosAndAnchor(const char* spriteName, Node* target, Vec2 pos, Vec2 anchor);
     /**
      * @js NA
      * @lua NA

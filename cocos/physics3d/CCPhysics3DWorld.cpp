@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,7 +27,7 @@
 
 #if CC_USE_3D_PHYSICS
 
-#if (CC_ENABLE_BULLET_INTEGRATION)
+#    if (CC_ENABLE_BULLET_INTEGRATION)
 
 NS_CC_BEGIN
 
@@ -43,7 +43,6 @@ Physics3DWorld::Physics3DWorld()
 , _collisionCheckingFlag(false)
 , _needGhostPairCallbackChecking(false)
 {
-    
 }
 Physics3DWorld::~Physics3DWorld()
 {
@@ -82,30 +81,30 @@ Vec3 Physics3DWorld::getGravity() const
 
 bool Physics3DWorld::init(Physics3DWorldDes* info)
 {
-    ///collision configuration contains default setup for memory, collision setup
+    /// collision configuration contains default setup for memory, collision setup
     _collisionConfiguration = new (std::nothrow) btDefaultCollisionConfiguration();
     //_collisionConfiguration->setConvexConvexMultipointIterations();
-    
-    ///use the default collision dispatcher. For parallel processing you can use a different dispatcher (see Extras/BulletMultiThreaded)
+
+    /// use the default collision dispatcher. For parallel processing you can use a different dispatcher (see Extras/BulletMultiThreaded)
     _dispatcher = new (std::nothrow) btCollisionDispatcher(_collisionConfiguration);
-    
+
     _broadphase = new (std::nothrow) btDbvtBroadphase();
-    
-    ///the default constraint solver. For parallel processing you can use a different solver (see Extras/BulletMultiThreaded)
+
+    /// the default constraint solver. For parallel processing you can use a different solver (see Extras/BulletMultiThreaded)
     btSequentialImpulseConstraintSolver* sol = new btSequentialImpulseConstraintSolver();
     _solver = sol;
 
-    btGhostPairCallback *ghostCallback = new btGhostPairCallback();
+    btGhostPairCallback* ghostCallback = new btGhostPairCallback();
     _ghostCallback = ghostCallback;
-    
-    _btPhyiscsWorld = new btDiscreteDynamicsWorld(_dispatcher,_broadphase,_solver,_collisionConfiguration);
+
+    _btPhyiscsWorld = new btDiscreteDynamicsWorld(_dispatcher, _broadphase, _solver, _collisionConfiguration);
     _btPhyiscsWorld->setGravity(convertVec3TobtVector3(info->gravity));
     if (info->isDebugDrawEnabled)
     {
         _debugDrawer = new (std::nothrow) Physics3DDebugDrawer();
         _btPhyiscsWorld->setDebugDrawer(_debugDrawer);
     }
-    
+
     return true;
 }
 
@@ -165,7 +164,8 @@ void Physics3DWorld::removePhysics3DObject(Physics3DObject* physicsObj)
 
 void Physics3DWorld::removeAllPhysics3DObjects()
 {
-    for (auto it : _objects) {
+    for (auto it : _objects)
+    {
         if (it->getObjType() == Physics3DObject::PhysicsObjType::RIGID_BODY)
         {
             _btPhyiscsWorld->removeRigidBody(static_cast<Physics3DRigidBody*>(it)->getRigidBody());
@@ -186,7 +186,7 @@ void Physics3DWorld::addPhysics3DConstraint(Physics3DConstraint* constraint, boo
     auto body = constraint->getBodyA();
     if (body)
         body->addConstraint(constraint);
-    
+
     body = constraint->getBodyB();
     if (body)
     {
@@ -198,7 +198,7 @@ void Physics3DWorld::addPhysics3DConstraint(Physics3DConstraint* constraint, boo
 void Physics3DWorld::removePhysics3DConstraint(Physics3DConstraint* constraint)
 {
     _btPhyiscsWorld->removeConstraint(constraint->getbtContraint());
-    
+
     auto bodyA = constraint->getBodyA();
     auto bodyB = constraint->getBodyB();
     if (bodyA)
@@ -209,20 +209,20 @@ void Physics3DWorld::removePhysics3DConstraint(Physics3DConstraint* constraint)
 
 void Physics3DWorld::removeAllPhysics3DConstraints()
 {
-    for(auto it : _objects)
+    for (auto it : _objects)
     {
         auto type = it->getObjType();
         if (type == Physics3DObject::PhysicsObjType::RIGID_BODY)
         {
             auto& constraints = static_cast<Physics3DRigidBody*>(it)->_constraintList;
-            for (auto constraint : constraints) {
+            for (auto constraint : constraints)
+            {
                 _btPhyiscsWorld->removeConstraint(constraint->getbtContraint());
                 constraint->release();
             }
             constraints.clear();
         }
     }
-    
 }
 
 void Physics3DWorld::stepSimulate(float dt)
@@ -230,13 +230,13 @@ void Physics3DWorld::stepSimulate(float dt)
     if (_btPhyiscsWorld)
     {
         setGhostPairCallback();
-        //should sync kinematic node before simulation
+        // should sync kinematic node before simulation
         for (auto it : _physicsComponents)
         {
             it->preSimulate();
         }
         _btPhyiscsWorld->stepSimulation(dt, 3);
-        //sync dynamic node after simulation
+        // sync dynamic node after simulation
         for (auto it : _physicsComponents)
         {
             it->postSimulate();
@@ -293,7 +293,7 @@ bool Physics3DWorld::sweepShape(Physics3DShape* shape, const cocos2d::Mat4& star
 
 Physics3DObject* Physics3DWorld::getPhysicsObject(const btCollisionObject* btObj)
 {
-    for(auto it : _objects)
+    for (auto it : _objects)
     {
         if (it->getObjType() == Physics3DObject::PhysicsObjType::RIGID_BODY)
         {
@@ -312,32 +312,36 @@ Physics3DObject* Physics3DWorld::getPhysicsObject(const btCollisionObject* btObj
 void Physics3DWorld::collisionChecking()
 {
     int numManifolds = _dispatcher->getNumManifolds();
-    for (int i = 0; i < numManifolds; ++i){
-        btPersistentManifold * contactManifold = _dispatcher->getManifoldByIndexInternal(i);
+    for (int i = 0; i < numManifolds; ++i)
+    {
+        btPersistentManifold* contactManifold = _dispatcher->getManifoldByIndexInternal(i);
         int numContacts = contactManifold->getNumContacts();
-        if (0 < numContacts){
+        if (0 < numContacts)
+        {
             const btCollisionObject* obA = static_cast<const btCollisionObject*>(contactManifold->getBody0());
             const btCollisionObject* obB = static_cast<const btCollisionObject*>(contactManifold->getBody1());
-            Physics3DObject *poA = getPhysicsObject(obA);
-            Physics3DObject *poB = getPhysicsObject(obB);
-            if (poA->needCollisionCallback() || poB->needCollisionCallback()){
+            Physics3DObject* poA = getPhysicsObject(obA);
+            Physics3DObject* poB = getPhysicsObject(obB);
+            if (poA->needCollisionCallback() || poB->needCollisionCallback())
+            {
                 Physics3DCollisionInfo ci;
                 ci.objA = poA;
                 ci.objB = poB;
-                for (int c = 0; c < numContacts; ++c){
+                for (int c = 0; c < numContacts; ++c)
+                {
                     btManifoldPoint& pt = contactManifold->getContactPoint(c);
-                    Physics3DCollisionInfo::CollisionPoint cp = {
-                          convertbtVector3ToVec3(pt.m_localPointA), convertbtVector3ToVec3(pt.m_positionWorldOnA)
-                        , convertbtVector3ToVec3(pt.m_localPointB), convertbtVector3ToVec3(pt.m_positionWorldOnB)
-                        , convertbtVector3ToVec3(pt.m_normalWorldOnB)
-                    };
+                    Physics3DCollisionInfo::CollisionPoint cp = {convertbtVector3ToVec3(pt.m_localPointA), convertbtVector3ToVec3(pt.m_positionWorldOnA),
+                                                                 convertbtVector3ToVec3(pt.m_localPointB), convertbtVector3ToVec3(pt.m_positionWorldOnB),
+                                                                 convertbtVector3ToVec3(pt.m_normalWorldOnB)};
                     ci.collisionPointList.push_back(cp);
                 }
 
-                if (poA->needCollisionCallback()){
+                if (poA->needCollisionCallback())
+                {
                     poA->getCollisionCallback()(ci);
                 }
-                if (poB->needCollisionCallback()){
+                if (poB->needCollisionCallback())
+                {
                     poB->getCollisionCallback()(ci);
                 }
             }
@@ -347,11 +351,13 @@ void Physics3DWorld::collisionChecking()
 
 bool Physics3DWorld::needCollisionChecking()
 {
-    if (_collisionCheckingFlag){
+    if (_collisionCheckingFlag)
+    {
         _needCollisionChecking = false;
-        for(auto it : _objects)
+        for (auto it : _objects)
         {
-            if (it->getCollisionCallback() != nullptr){
+            if (it->getCollisionCallback() != nullptr)
+            {
                 _needCollisionChecking = true;
                 break;
             }
@@ -363,22 +369,24 @@ bool Physics3DWorld::needCollisionChecking()
 
 void Physics3DWorld::setGhostPairCallback()
 {
-    if (_needGhostPairCallbackChecking){
+    if (_needGhostPairCallbackChecking)
+    {
         bool needCallback = false;
         for (auto it : _objects)
         {
-            if (it->getObjType() == Physics3DObject::PhysicsObjType::COLLIDER){
+            if (it->getObjType() == Physics3DObject::PhysicsObjType::COLLIDER)
+            {
                 needCallback = true;
                 break;
             }
         }
-        _btPhyiscsWorld->getPairCache()->setInternalGhostPairCallback(needCallback == true? _ghostCallback: nullptr);
+        _btPhyiscsWorld->getPairCache()->setInternalGhostPairCallback(needCallback == true ? _ghostCallback : nullptr);
         _needGhostPairCallbackChecking = false;
     }
 }
 
 NS_CC_END
 
-#endif // CC_ENABLE_BULLET_INTEGRATION
+#    endif // CC_ENABLE_BULLET_INTEGRATION
 
-#endif //CC_USE_3D_PHYSICS
+#endif // CC_USE_3D_PHYSICS

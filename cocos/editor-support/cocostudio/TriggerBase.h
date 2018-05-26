@@ -25,29 +25,26 @@ THE SOFTWARE.
 #ifndef __TRIGGEREVENT_H__
 #define __TRIGGEREVENT_H__
 
-#include "cocostudio/CocoStudio.h"
-#include "base/ObjectFactory.h"
-#include "TriggerObj.h"
 #include "TriggerMng.h"
+#include "TriggerObj.h"
+#include "base/ObjectFactory.h"
+#include "cocostudio/CocoStudio.h"
 #include "cocostudio/CocosStudioExport.h"
 
+#define DECLARE_CLASS_INFO                     \
+public:                                        \
+    static cocos2d::ObjectFactory::TInfo Type; \
+    static cocos2d::Ref* createInstance(void);
 
-#define DECLARE_CLASS_INFO \
-    public: \
-        static cocos2d::ObjectFactory::TInfo Type; \
-        static cocos2d::Ref* createInstance(void); \
-        
-#define IMPLEMENT_CLASS_INFO(className) \
-        cocos2d::Ref* className::createInstance(void) \
-        { \
-            auto ret = new (std::nothrow) className; \
-            ret->autorelease(); \
-            return ret; \
-        } \
-        cocos2d::ObjectFactory::TInfo className::Type(#className, &className::createInstance); \
-
+#define IMPLEMENT_CLASS_INFO(className)           \
+    cocos2d::Ref* className::createInstance(void) \
+    {                                             \
+        auto ret = new (std::nothrow) className;  \
+        ret->autorelease();                       \
+        return ret;                               \
+    }                                             \
+    cocos2d::ObjectFactory::TInfo className::Type(#className, &className::createInstance);
 
 void CC_STUDIO_DLL sendEvent(unsigned int event);
-
 
 #endif

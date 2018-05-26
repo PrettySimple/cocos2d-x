@@ -22,7 +22,6 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-
 #include "renderer/CCRenderCommand.h"
 
 #include "2d/CCCamera.h"
@@ -30,7 +29,8 @@
 
 NS_CC_BEGIN
 
-RenderCommand::RenderCommand(Type type) : _type(type)
+RenderCommand::RenderCommand(Type type)
+: _type(type)
 {
 }
 
@@ -38,7 +38,7 @@ RenderCommand::~RenderCommand()
 {
 }
 
-void RenderCommand::init(float globalZOrder, const cocos2d::Mat4 &transform, uint32_t flags)
+void RenderCommand::init(float globalZOrder, const cocos2d::Mat4& transform, uint32_t flags)
 {
     _globalOrder = globalZOrder;
     if ((flags & Node::FLAGS_RENDER_AS_3D) == Node::FLAGS_RENDER_AS_3D)
@@ -47,7 +47,7 @@ void RenderCommand::init(float globalZOrder, const cocos2d::Mat4 &transform, uin
         {
             _depth = Camera::getVisitingCamera()->getDepthInView(transform);
         }
-        
+
         _is3D = true;
     }
     else

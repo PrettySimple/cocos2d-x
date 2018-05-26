@@ -29,17 +29,17 @@
 
 #include "vr/CCVRGenericHeadTracker.h"
 
-#include <cmath>
-#include "platform/CCPlatformMacros.h"
 #include "platform/CCDevice.h"
+#include "platform/CCPlatformMacros.h"
+#include <cmath>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-#import <CoreMotion/CoreMotion.h>
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#    import <CoreMotion/CoreMotion.h>
+#    import <Foundation/Foundation.h>
+#    import <UIKit/UIKit.h>
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#include <jni.h>
-#include "platform/android/jni/JniHelper.h"
+#    include "platform/android/jni/JniHelper.h"
+#    include <jni.h>
 #endif
 
 NS_CC_BEGIN
@@ -49,25 +49,13 @@ NS_CC_BEGIN
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 static Mat4 matrixFromRotationMatrix(const CMRotationMatrix& rotationMatrix)
 {
-    return Mat4(rotationMatrix.m11,
-                rotationMatrix.m21,
-                rotationMatrix.m31,
-                0.0f,
+    return Mat4(rotationMatrix.m11, rotationMatrix.m21, rotationMatrix.m31, 0.0f,
 
-                rotationMatrix.m12,
-                rotationMatrix.m22,
-                rotationMatrix.m32,
-                0.0f,
+                rotationMatrix.m12, rotationMatrix.m22, rotationMatrix.m32, 0.0f,
 
-                rotationMatrix.m13,
-                rotationMatrix.m23,
-                rotationMatrix.m33,
-                0.0f,
+                rotationMatrix.m13, rotationMatrix.m23, rotationMatrix.m33, 0.0f,
 
-                0.0f,
-                0.0f,
-                0.0f,
-                1.0f);
+                0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -79,10 +67,11 @@ Mat4 getRotationMatrix(const Vec3& gravity, const Vec3& geomagnetic)
     float Ay = gravity.y;
     float Az = gravity.z;
 
-    const float normsqA = (Ax*Ax + Ay*Ay + Az*Az);
+    const float normsqA = (Ax * Ax + Ay * Ay + Az * Az);
     const float g = 9.81f;
     const float freeFallGravitySquared = 0.01f * g * g;
-    if (normsqA < freeFallGravitySquared) {
+    if (normsqA < freeFallGravitySquared)
+    {
         // gravity less than 10% of normal value
         return Mat4::IDENTITY;
     }
@@ -90,12 +79,13 @@ Mat4 getRotationMatrix(const Vec3& gravity, const Vec3& geomagnetic)
     const float Ex = geomagnetic.x;
     const float Ey = geomagnetic.y;
     const float Ez = geomagnetic.z;
-    float Hx = Ey*Az - Ez*Ay;
-    float Hy = Ez*Ax - Ex*Az;
-    float Hz = Ex*Ay - Ey*Ax;
-    const float normH = std::sqrt(Hx*Hx + Hy*Hy + Hz*Hz);
+    float Hx = Ey * Az - Ez * Ay;
+    float Hy = Ez * Ax - Ex * Az;
+    float Hz = Ex * Ay - Ey * Ax;
+    const float normH = std::sqrt(Hx * Hx + Hy * Hy + Hz * Hz);
 
-    if (normH < 0.1f) {
+    if (normH < 0.1f)
+    {
         // device is close to free fall (or in space?), or close to
         // magnetic north pole. Typical values are  > 100.
         return Mat4::IDENTITY;
@@ -104,27 +94,22 @@ Mat4 getRotationMatrix(const Vec3& gravity, const Vec3& geomagnetic)
     Hx *= invH;
     Hy *= invH;
     Hz *= invH;
-    const float invA = 1.0f / std::sqrt(Ax*Ax + Ay*Ay + Az*Az);
+    const float invA = 1.0f / std::sqrt(Ax * Ax + Ay * Ay + Az * Az);
     Ax *= invA;
     Ay *= invA;
     Az *= invA;
-    const float Mx = Ay*Hz - Az*Hy;
-    const float My = Az*Hx - Ax*Hz;
-    const float Mz = Ax*Hy - Ay*Hx;
+    const float Mx = Ay * Hz - Az * Hy;
+    const float My = Az * Hx - Ax * Hz;
+    const float Mz = Ax * Hy - Ay * Hx;
 
-    return Mat4( Hx, Mx, Ax, 0,
-                Hy, My, Ay, 0,
-                Hz, Mz, Az, 0,
-                0, 0, 0, 1);
+    return Mat4(Hx, Mx, Ax, 0, Hy, My, Ay, 0, Hz, Mz, Az, 0, 0, 0, 0, 1);
 }
 
 Vec3 lowPass(const Vec3& input, const Vec3& prev)
 {
     // if ALPHA = 1 OR 0, no filter applies.
     static const float ALPHA = 0.12f;
-    return Vec3(prev.x + ALPHA * (input.x - prev.x),
-                prev.y + ALPHA * (input.y - prev.y),
-                prev.z + ALPHA * (input.z - prev.z));
+    return Vec3(prev.x + ALPHA * (input.x - prev.x), prev.y + ALPHA * (input.y - prev.y), prev.z + ALPHA * (input.z - prev.z));
 }
 
 #endif // (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -234,33 +219,34 @@ Mat4 VRGenericHeadTracker::getLocalRotation()
     CMMotionManager* motionMgr = (CMMotionManager*)_motionMgr;
     CMDeviceMotion* motion = motionMgr.deviceMotion;
 
-    if (motion) {
+    if (motion)
+    {
         CMRotationMatrix rotationMatrix = motion.attitude.rotationMatrix;
         Mat4 inertialReferenceFrameToDevice0 = matrixFromRotationMatrix(rotationMatrix); // note the matrix inversion
         Mat4 inertialReferenceFrameToDevice = inertialReferenceFrameToDevice0.getTransposed();
-        Mat4 worldToDevice =  inertialReferenceFrameToDevice * _worldToInertialReferenceFrame;
-        return  _deviceToDisplay * worldToDevice;
+        Mat4 worldToDevice = inertialReferenceFrameToDevice * _worldToInertialReferenceFrame;
+        return _deviceToDisplay * worldToDevice;
     }
     // bug!
     return Mat4::IDENTITY;
 
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    static Vec3 prevAccel = Vec3(0,0,0);
-    static Vec3 prevCompass = Vec3(0,0,0);
+    static Vec3 prevAccel = Vec3(0, 0, 0);
+    static Vec3 prevCompass = Vec3(0, 0, 0);
 
     Vec3 accel = JniHelper::callStaticVec3Method("org/cocos2dx/lib/Cocos2dxHelper", "getAccelValue");
     Vec3 compass = JniHelper::callStaticVec3Method("org/cocos2dx/lib/Cocos2dxHelper", "getCompassValue");
 
-//    CCLOG("accel: %f, %f, %f.... compass: %f, %f, %f", accel.x, accel.y, accel.z, compass.x, compass.y, compass.z);
+    //    CCLOG("accel: %f, %f, %f.... compass: %f, %f, %f", accel.x, accel.y, accel.z, compass.x, compass.y, compass.z);
     prevAccel = lowPass(accel, prevAccel);
     prevCompass = lowPass(compass, prevCompass);
-//    CCLOG("low pass accel: %f, %f, %f.... compass: %f, %f, %f", prevAccel.x, prevAccel.y, prevAccel.z, prevCompass.x, prevCompass.y, prevCompass.z);
+    //    CCLOG("low pass accel: %f, %f, %f.... compass: %f, %f, %f", prevAccel.x, prevAccel.y, prevAccel.z, prevCompass.x, prevCompass.y, prevCompass.z);
 
     Mat4 rotMatrix = getRotationMatrix(prevAccel, prevCompass);
 
     Mat4 inertialReferenceFrameToDevice(rotMatrix);
-    Mat4 worldToDevice =  inertialReferenceFrameToDevice * _worldToInertialReferenceFrame;
-    return  _deviceToDisplay * worldToDevice;
+    Mat4 worldToDevice = inertialReferenceFrameToDevice * _worldToInertialReferenceFrame;
+    return _deviceToDisplay * worldToDevice;
 #else
     return Mat4::IDENTITY;
 #endif

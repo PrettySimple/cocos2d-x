@@ -1,20 +1,20 @@
 
-const char* cc3D_PositionTex_vert = STRINGIFY(
-
+const char* cc3D_PositionTex_vert = R"(
 attribute vec4 a_position;
 attribute vec2 a_texCoord;
 
 varying vec2 TextureCoordOut;
 
-void main(void)
+void main()
 {
     gl_Position = CC_MVPMatrix * a_position;
     TextureCoordOut = a_texCoord;
     TextureCoordOut.y = 1.0 - TextureCoordOut.y;
 }
-);
 
-const char* cc3D_SkinPositionTex_vert = STRINGIFY(
+)";
+
+const char* cc3D_SkinPositionTex_vert = R"(
 attribute vec3 a_position;
 
 attribute vec4 a_blendWeight;
@@ -33,12 +33,11 @@ vec4 getPosition()
 {
     float blendWeight = a_blendWeight[0];
 
-    int matrixIndex = int (a_blendIndex[0]) * 3;
+    int matrixIndex = int(a_blendIndex[0]) * 3;
     vec4 matrixPalette1 = u_matrixPalette[matrixIndex] * blendWeight;
     vec4 matrixPalette2 = u_matrixPalette[matrixIndex + 1] * blendWeight;
     vec4 matrixPalette3 = u_matrixPalette[matrixIndex + 2] * blendWeight;
-    
-    
+
     blendWeight = a_blendWeight[1];
     if (blendWeight > 0.0)
     {
@@ -46,7 +45,7 @@ vec4 getPosition()
         matrixPalette1 += u_matrixPalette[matrixIndex] * blendWeight;
         matrixPalette2 += u_matrixPalette[matrixIndex + 1] * blendWeight;
         matrixPalette3 += u_matrixPalette[matrixIndex + 2] * blendWeight;
-        
+
         blendWeight = a_blendWeight[2];
         if (blendWeight > 0.0)
         {
@@ -54,7 +53,7 @@ vec4 getPosition()
             matrixPalette1 += u_matrixPalette[matrixIndex] * blendWeight;
             matrixPalette2 += u_matrixPalette[matrixIndex + 1] * blendWeight;
             matrixPalette3 += u_matrixPalette[matrixIndex + 2] * blendWeight;
-            
+
             blendWeight = a_blendWeight[3];
             if (blendWeight > 0.0)
             {
@@ -72,7 +71,7 @@ vec4 getPosition()
     _skinnedPosition.y = dot(position, matrixPalette2);
     _skinnedPosition.z = dot(position, matrixPalette3);
     _skinnedPosition.w = position.w;
-    
+
     return _skinnedPosition;
 }
 
@@ -80,9 +79,9 @@ void main()
 {
     vec4 position = getPosition();
     gl_Position = CC_MVPMatrix * position;
-    
+
     TextureCoordOut = a_texCoord;
     TextureCoordOut.y = 1.0 - TextureCoordOut.y;
 }
 
-);
+)";

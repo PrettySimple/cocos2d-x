@@ -3,7 +3,7 @@
 #define __TOLUA_FIX_H_
 
 #include "tolua++.h"
-    
+
 #define TOLUA_REFID_PTR_MAPPING "toluafix_refid_ptr_mapping"
 #define TOLUA_REFID_TYPE_MAPPING "toluafix_refid_type_mapping"
 #define TOLUA_REFID_FUNCTION_MAPPING "toluafix_refid_function_mapping"
@@ -20,10 +20,9 @@ TOLUA_API void toluafix_open(lua_State* L);
  * Push the userdata correspondings to the ptr on the top index of the Lua stack.
  * If the userdata correspondings to the ptr don't exist, it would call lua_newuserdata to new a userdata.
  * If the userdata correspondings to the ptr exist,it would update the metatable information of the super.
- * In addition, this function would update some table in the Lua registry,such as toluafix_refid_ptr_mapping, toluafix_refid_type_mapping,tolua_value_root,and so on.
- * Meanwhile, Add a reference about the userdata corresponding to the ptr in the tolua_ubox table.
- * The ptr should be point to a Ref object.
- * 
+ * In addition, this function would update some table in the Lua registry,such as toluafix_refid_ptr_mapping, toluafix_refid_type_mapping,tolua_value_root,and
+ * so on. Meanwhile, Add a reference about the userdata corresponding to the ptr in the tolua_ubox table. The ptr should be point to a Ref object.
+ *
  * @param L the current lua_State.
  * @param uid the object id of the ptr.
  * @param p_refid the pointer points to the Lua reference id of the ptr.
@@ -33,21 +32,18 @@ TOLUA_API void toluafix_open(lua_State* L);
  * @lua NA
  * @js NA
  */
-TOLUA_API int toluafix_pushusertype_ccobject(lua_State* L,
-                                             int uid,
-                                             int* p_refid,
-                                             void* ptr,
-                                             const char* type);
+TOLUA_API int toluafix_pushusertype_ccobject(lua_State* L, int uid, int* p_refid, void* ptr, const char* type);
 
 /**
  * Find the value of Ref object pointer in the Lua registry by the refid.
- * Then, remove the corresponding reference in some table in the Lua registry by refid, such as toluafix_refid_type_mapping, toluafix_refid_ptr_mapping,tolua_value_root,and so on.
- * Set the value of userdata nullptr and remove the reference of userdata in the tolua_ubox table.
- * This function is called in the destructor of the Ref automatically.
+ * Then, remove the corresponding reference in some table in the Lua registry by refid, such as toluafix_refid_type_mapping,
+ * toluafix_refid_ptr_mapping,tolua_value_root,and so on. Set the value of userdata nullptr and remove the reference of userdata in the tolua_ubox table. This
+ * function is called in the destructor of the Ref automatically.
  *
  * @param L the current lua_State.
  * @param refid the value of the _luaID of a Ref object.
- * @return -1,if refid equals to 0 , type name found by refid equals to nil or corresponding userdata pointer equal to nullptr; return -2, if the Ref object pointer found by refid is nullptr; return 3, if the value corresponding to the Ref object pointer in the tolua_ubox is nil; otherwise return 0.
+ * @return -1,if refid equals to 0 , type name found by refid equals to nil or corresponding userdata pointer equal to nullptr; return -2, if the Ref object
+ * pointer found by refid is nullptr; return 3, if the value corresponding to the Ref object pointer in the tolua_ubox is nil; otherwise return 0.
  * @lua NA
  * @js NA
  */
@@ -88,7 +84,7 @@ TOLUA_API void toluafix_remove_function_by_refid(lua_State* L, int refid);
 
 /**
  * Verify the value at the given acceptable index is a function or not.
- * 
+ *
  * @param L the current lua_State.
  * @param lo the given acceptable index lo of stack.
  * @param type useless.
@@ -106,7 +102,7 @@ TOLUA_API int toluafix_totable(lua_State* L, int lo, int def);
 
 /**
  * Verify the value at the given acceptable index is a table or not.
- * 
+ *
  * @param L the current lua_State.
  * @param lo the given acceptable index lo of stack.
  * @param type useless.
@@ -120,7 +116,8 @@ TOLUA_API int toluafix_istable(lua_State* L, int lo, const char* type, int def, 
 
 /**
  * Print all information of the stack from the top index.
- * If the type corresponding to the index of the stack is LUA_TSTRING, LUA_TBOOLEAN or LUA_TNUMBER, it would output the value of the index,otherwise output the type name of the index.
+ * If the type corresponding to the index of the stack is LUA_TSTRING, LUA_TBOOLEAN or LUA_TNUMBER, it would output the value of the index,otherwise output the
+ * type name of the index.
  *
  * @param L the current lua_State.
  * @param label the string pointer to define the label of the dump information.

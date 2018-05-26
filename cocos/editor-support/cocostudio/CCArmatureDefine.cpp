@@ -24,11 +24,8 @@ THE SOFTWARE.
 
 #include "cocostudio/CCArmatureDefine.h"
 
-namespace cocostudio {
-
-const char *armatureVersion()
+namespace cocostudio
 {
-    return "1.1.0.0";
-}
+    const char* armatureVersion() { return "1.1.0.0"; }
 
-}
+} // namespace cocostudio

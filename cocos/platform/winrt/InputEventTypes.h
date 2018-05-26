@@ -26,11 +26,9 @@ THE SOFTWARE.
 #ifndef __INPUT_EVENT_TYPES__
 #define __INPUT_EVENT_TYPES__
 
-
 NS_CC_BEGIN
 
-
-enum class Cocos2dKeyEvent : int 
+enum class Cocos2dKeyEvent : int
 {
     Text,
     Escape,
@@ -40,6 +38,4 @@ enum class Cocos2dKeyEvent : int
 
 NS_CC_END
 
-
 #endif // #ifndef __INPUT_EVENT_TYPES__
-

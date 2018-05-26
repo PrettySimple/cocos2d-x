@@ -2,9 +2,9 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 
-#include "platform/emscripten/CCFileUtils-emscripten.h"
-#include <limits.h>
-#include <unistd.h>
+#    include "platform/emscripten/CCFileUtils-emscripten.h"
+#    include <limits.h>
+#    include <unistd.h>
 
 using namespace std;
 
@@ -15,17 +15,18 @@ FileUtils* FileUtils::getInstance()
     if (s_sharedFileUtils == nullptr)
     {
         s_sharedFileUtils = new FileUtilsEmscripten();
-        if(!s_sharedFileUtils->init())
+        if (!s_sharedFileUtils->init())
         {
-          delete s_sharedFileUtils;
-          s_sharedFileUtils = nullptr;
-          CCLOG("ERROR: Could not init CCFileUtilsEmscripten");
+            delete s_sharedFileUtils;
+            s_sharedFileUtils = nullptr;
+            CCLOG("ERROR: Could not init CCFileUtilsEmscripten");
         }
     }
     return s_sharedFileUtils;
 }
 
-FileUtilsEmscripten::FileUtilsEmscripten() : FileUtils()
+FileUtilsEmscripten::FileUtilsEmscripten()
+: FileUtils()
 {
 }
 
@@ -37,7 +38,7 @@ bool FileUtilsEmscripten::init()
 {
     _defaultResRootPath = "/";
     char temp[PATH_MAX];
-    temp[PATH_MAX-1] = '\0';
+    temp[PATH_MAX - 1] = '\0';
     _writablePath = (getcwd(temp, PATH_MAX) ? std::string(temp) : std::string(""));
     return FileUtils::init();
 }
@@ -53,7 +54,7 @@ bool FileUtilsEmscripten::isFileExistInternal(const std::string& strFilePath) co
     if (strPath.front() != '/')
     {
         if (strPath.find(_defaultResRootPath) == std::string::npos)
-        {// Didn't find "assets/" at the beginning of the path, adding it.
+        { // Didn't find "assets/" at the beginning of the path, adding it.
             strPath.insert(0, _defaultResRootPath);
         }
     }

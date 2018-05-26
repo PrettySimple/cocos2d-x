@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -33,9 +33,9 @@ const Vec3 PUVortexAffector::DEFAULT_ROTATION_VECTOR(0, 0, 0);
 const float PUVortexAffector::DEFAULT_ROTATION_SPEED = 1.0f;
 
 //-----------------------------------------------------------------------
-PUVortexAffector::PUVortexAffector(void) : 
-    PUAffector(),
-    _rotationVector(DEFAULT_ROTATION_VECTOR)
+PUVortexAffector::PUVortexAffector(void)
+: PUAffector()
+, _rotationVector(DEFAULT_ROTATION_VECTOR)
 {
     _dynRotationSpeed = new (std::nothrow) PUDynamicAttributeFixed();
     (static_cast<PUDynamicAttributeFixed*>(_dynRotationSpeed))->setValue(DEFAULT_ROTATION_SPEED);
@@ -74,15 +74,15 @@ void PUVortexAffector::setRotationSpeed(PUDynamicAttribute* dynRotationSpeed)
 //-----------------------------------------------------------------------
 float PUVortexAffector::calculateRotationSpeed(void)
 {
-    return float(_dynamicAttributeHelper.calculate(_dynRotationSpeed, (static_cast<PUParticleSystem3D *>(_particleSystem))->getTimeElapsedSinceStart()));
+    return float(_dynamicAttributeHelper.calculate(_dynRotationSpeed, (static_cast<PUParticleSystem3D*>(_particleSystem))->getTimeElapsedSinceStart()));
 }
 //-----------------------------------------------------------------------
 
-void PUVortexAffector::updatePUAffector( PUParticle3D *particle, float deltaTime )
+void PUVortexAffector::updatePUAffector(PUParticle3D* particle, float deltaTime)
 {
-    //for (auto iter : _particleSystem->getParticles())
+    // for (auto iter : _particleSystem->getParticles())
     {
-        //PUParticle3D *particle = iter;
+        // PUParticle3D *particle = iter;
         // Explicitly check on 'freezed', because it passes the techniques' validation.
         if (particle->isFreezed())
             return;
@@ -98,9 +98,9 @@ void PUVortexAffector::updatePUAffector( PUParticle3D *particle, float deltaTime
     }
 }
 
-void PUVortexAffector::preUpdateAffector( float deltaTime )
+void PUVortexAffector::preUpdateAffector(float deltaTime)
 {
-    PUParticleSystem3D* sys = static_cast<PUParticleSystem3D *>(_particleSystem);
+    PUParticleSystem3D* sys = static_cast<PUParticleSystem3D*>(_particleSystem);
 
     if (sys)
     {
@@ -123,7 +123,7 @@ PUVortexAffector* PUVortexAffector::create()
     return pvf;
 }
 
-void PUVortexAffector::copyAttributesTo( PUAffector* affector )
+void PUVortexAffector::copyAttributesTo(PUAffector* affector)
 {
     PUAffector::copyAttributesTo(affector);
 

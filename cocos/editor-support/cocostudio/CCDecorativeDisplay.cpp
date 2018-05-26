@@ -27,54 +27,50 @@ THE SOFTWARE.
 
 using namespace cocos2d;
 
-namespace cocostudio {
-
-DecorativeDisplay *DecorativeDisplay::create()
+namespace cocostudio
 {
-    DecorativeDisplay *pDisplay = new (std::nothrow) DecorativeDisplay();
-    if (pDisplay && pDisplay->init())
+    DecorativeDisplay* DecorativeDisplay::create()
     {
-        pDisplay->autorelease();
-        return pDisplay;
+        DecorativeDisplay* pDisplay = new (std::nothrow) DecorativeDisplay();
+        if (pDisplay && pDisplay->init())
+        {
+            pDisplay->autorelease();
+            return pDisplay;
+        }
+        CC_SAFE_DELETE(pDisplay);
+        return nullptr;
     }
-    CC_SAFE_DELETE(pDisplay);
-    return nullptr;
-}
 
-DecorativeDisplay::DecorativeDisplay()
+    DecorativeDisplay::DecorativeDisplay()
     : _display(nullptr)
     , _displayData(nullptr)
 
-{
-#if ENABLE_PHYSICS_BOX2D_DETECT || ENABLE_PHYSICS_CHIPMUNK_DETECT || ENABLE_PHYSICS_SAVE_CALCULATED_VERTEX
-    _colliderDetector = nullptr;
-#endif
-}
-
-
-DecorativeDisplay::~DecorativeDisplay(void)
-{
-    CC_SAFE_RELEASE_NULL(_displayData);
-    CC_SAFE_RELEASE_NULL(_display);
-
-#if ENABLE_PHYSICS_BOX2D_DETECT || ENABLE_PHYSICS_CHIPMUNK_DETECT || ENABLE_PHYSICS_SAVE_CALCULATED_VERTEX
-    CC_SAFE_RELEASE_NULL(_colliderDetector);
-#endif
-}
-
-bool DecorativeDisplay::init()
-{
-    return true;
-}
-
-void DecorativeDisplay::setDisplay(cocos2d::Node *display)
-{
-    if (_display != display)
     {
-        CC_SAFE_RETAIN(display);
-        CC_SAFE_RELEASE(_display);
-        _display = display;
+#if ENABLE_PHYSICS_BOX2D_DETECT || ENABLE_PHYSICS_CHIPMUNK_DETECT || ENABLE_PHYSICS_SAVE_CALCULATED_VERTEX
+        _colliderDetector = nullptr;
+#endif
     }
-}
-    
-}
+
+    DecorativeDisplay::~DecorativeDisplay(void)
+    {
+        CC_SAFE_RELEASE_NULL(_displayData);
+        CC_SAFE_RELEASE_NULL(_display);
+
+#if ENABLE_PHYSICS_BOX2D_DETECT || ENABLE_PHYSICS_CHIPMUNK_DETECT || ENABLE_PHYSICS_SAVE_CALCULATED_VERTEX
+        CC_SAFE_RELEASE_NULL(_colliderDetector);
+#endif
+    }
+
+    bool DecorativeDisplay::init() { return true; }
+
+    void DecorativeDisplay::setDisplay(cocos2d::Node* display)
+    {
+        if (_display != display)
+        {
+            CC_SAFE_RETAIN(display);
+            CC_SAFE_RELEASE(_display);
+            _display = display;
+        }
+    }
+
+} // namespace cocostudio

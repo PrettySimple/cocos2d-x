@@ -25,7 +25,8 @@
 #define COCOS_SCRIPTING_LUA_BINDINGS_MANUAL_AUDIOENGINE_LUA_COCOS2DX_AUDIOENGINE_MANUAL_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 #include "tolua++.h"
 #ifdef __cplusplus
@@ -45,7 +46,7 @@ extern "C" {
  * The current mechanism,this function is called in the lua_module_register.h
  */
 
-TOLUA_API int  register_audioengine_module(lua_State* L);
+TOLUA_API int register_audioengine_module(lua_State* L);
 
 // end group
 /// @}

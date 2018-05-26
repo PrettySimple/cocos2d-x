@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2014-2016 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,8 +27,8 @@
 
 #include "platform/CCPlatformMacros.h"
 #include <string>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
 NS_CC_BEGIN
 
@@ -50,14 +50,14 @@ class EventDispatcher;
 class Controller
 {
 public:
-    /** 
+    /**
      * Controllers' standard  key
      * Controller receives only standard key which contained within enum Key by default.
      */
     enum Key
     {
         KEY_NONE = 0,
-        
+
         JOYSTICK_LEFT_X = 1000,
         JOYSTICK_LEFT_Y,
         JOYSTICK_RIGHT_X,
@@ -69,7 +69,7 @@ public:
         BUTTON_X,
         BUTTON_Y,
         BUTTON_Z,
-       
+
         BUTTON_DPAD_UP,
         BUTTON_DPAD_DOWN,
         BUTTON_DPAD_LEFT,
@@ -94,7 +94,7 @@ public:
 
     /**
      * @struct KeyStatus
-     * 
+     *
      */
     typedef struct _keyStatus
     {
@@ -103,20 +103,20 @@ public:
         /** The value of key.This value is used in conjunction with the isPressed parameter. */
         float value;
         /** A Boolean value that indicates whether the value of key is analog.
-         * If isAnalog is true, the key value might be a float from -1 to 1. 
+         * If isAnalog is true, the key value might be a float from -1 to 1.
          * If isAnalog is false, the key value would be contain one number: 0 or 1.
          */
         bool isAnalog;
-    }KeyStatus;
-    
+    } KeyStatus;
+
     static const int TAG_UNSET = -1;
 
     /**
      * Gets all Controller objects.
      */
-    static const std::vector<Controller*>& getAllController(){ return s_allController;}
+    static const std::vector<Controller*>& getAllController() { return s_allController; }
 
-    /** 
+    /**
      * Gets a Controller object with tag.
      *
      * @param tag   An identifier to find the controller.
@@ -131,7 +131,7 @@ public:
      */
     static void startDiscoveryController();
 
-    /** 
+    /**
      * Stop the discovery process.
      *
      * @warning The API only work on the IOS platform.Empty implementation on other platform.
@@ -141,12 +141,12 @@ public:
     /**
      * Gets the name of this Controller object.
      */
-    const std::string& getDeviceName() const { return _deviceName;}
+    const std::string& getDeviceName() const { return _deviceName; }
 
     /**
      * Gets the Controller id.
      */
-    int getDeviceId() const { return _deviceId;}
+    int getDeviceId() const { return _deviceId; }
 
     /**
      * Indicates whether the Controller is connected.
@@ -154,11 +154,11 @@ public:
     bool isConnected() const;
 
     /**
-     * 
+     *
      */
     const KeyStatus& getKeyStatus(int keyCode);
-    
-    /** 
+
+    /**
      * Activate receives key event from external key. e.g. back,menu.
      * Controller receives only standard key which contained within enum Key by default.
      *
@@ -167,20 +167,20 @@ public:
      * @param externalKeyCode   External key code.
      * @param receive   True if external key event on this controller should be receive, false otherwise.
      */
-    void receiveExternalKeyEvent(int externalKeyCode,bool receive);
+    void receiveExternalKeyEvent(int externalKeyCode, bool receive);
 
-    /** 
+    /**
      * Changes the tag that is used to identify the controller easily.
      * @param tag   A integer that identifies the controller.
      */
-    void setTag(int tag) { _controllerTag = tag;}
+    void setTag(int tag) { _controllerTag = tag; }
 
     /**
      * Returns a tag that is used to identify the controller easily.
      *
      * @return An integer that identifies the controller.
      */
-    int getTag() const { return _controllerTag;}
+    int getTag() const { return _controllerTag; }
 
 private:
     static std::vector<Controller*> s_allController;
@@ -207,9 +207,9 @@ private:
     ControllerImpl* _impl;
 
     EventDispatcher* _eventDispatcher;
-    EventController *_connectEvent;
-    EventController *_keyEvent;
-    EventController *_axisEvent;
+    EventController* _connectEvent;
+    EventController* _keyEvent;
+    EventController* _axisEvent;
 
     friend class ControllerImpl;
     friend class EventListenerController;

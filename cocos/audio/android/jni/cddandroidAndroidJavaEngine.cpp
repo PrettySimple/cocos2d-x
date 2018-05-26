@@ -23,19 +23,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#define  LOG_TAG    "cocosdenshion::android::AndroidJavaEngine"
+#define LOG_TAG "cocosdenshion::android::AndroidJavaEngine"
 
 #include "audio/android/jni/cddandroidAndroidJavaEngine.h"
 #include <stdlib.h>
 
-#include <sys/system_properties.h>
 #include "audio/android/ccdandroidUtils.h"
 #include "audio/android/utils/Utils.h"
 #include "audio/include/AudioEngine.h"
 #include "platform/android/jni/JniHelper.h"
+#include <sys/system_properties.h>
 
 // logging
-#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
+#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
 
 // Java class
 static const std::string helperClassName = "org/cocos2dx/lib/Cocos2dxHelper";
@@ -45,8 +45,8 @@ using namespace cocos2d::experimental;
 using namespace CocosDenshion::android;
 
 AndroidJavaEngine::AndroidJavaEngine()
-    : _implementBaseOnAudioEngine(false)
-    , _effectVolume(1.f)
+: _implementBaseOnAudioEngine(false)
+, _effectVolume(1.f)
 {
     int sdkVer = getSDKVersion();
     if (sdkVer > 0)
@@ -73,46 +73,55 @@ AndroidJavaEngine::~AndroidJavaEngine()
     JniHelper::callStaticVoidMethod(helperClassName, "end");
 }
 
-void AndroidJavaEngine::preloadBackgroundMusic(const char* filePath) {
+void AndroidJavaEngine::preloadBackgroundMusic(const char* filePath)
+{
     std::string fullPath = CocosDenshion::android::getFullPathWithoutAssetsPrefix(filePath);
     JniHelper::callStaticVoidMethod(helperClassName, "preloadBackgroundMusic", fullPath);
 }
 
-void AndroidJavaEngine::playBackgroundMusic(const char* filePath, bool loop) {
+void AndroidJavaEngine::playBackgroundMusic(const char* filePath, bool loop)
+{
     std::string fullPath = CocosDenshion::android::getFullPathWithoutAssetsPrefix(filePath);
     JniHelper::callStaticVoidMethod(helperClassName, "playBackgroundMusic", fullPath, loop);
 }
 
-void AndroidJavaEngine::stopBackgroundMusic(bool releaseData) {
+void AndroidJavaEngine::stopBackgroundMusic(bool releaseData)
+{
     JniHelper::callStaticVoidMethod(helperClassName, "stopBackgroundMusic");
 }
 
-void AndroidJavaEngine::pauseBackgroundMusic() {
+void AndroidJavaEngine::pauseBackgroundMusic()
+{
     JniHelper::callStaticVoidMethod(helperClassName, "pauseBackgroundMusic");
-
 }
 
-void AndroidJavaEngine::resumeBackgroundMusic() {
+void AndroidJavaEngine::resumeBackgroundMusic()
+{
     JniHelper::callStaticVoidMethod(helperClassName, "resumeBackgroundMusic");
 }
 
-void AndroidJavaEngine::rewindBackgroundMusic() {
+void AndroidJavaEngine::rewindBackgroundMusic()
+{
     JniHelper::callStaticVoidMethod(helperClassName, "rewindBackgroundMusic");
 }
 
-bool AndroidJavaEngine::willPlayBackgroundMusic() {
+bool AndroidJavaEngine::willPlayBackgroundMusic()
+{
     return JniHelper::callStaticBooleanMethod(helperClassName, "willPlayBackgroundMusic");
 }
 
-bool AndroidJavaEngine::isBackgroundMusicPlaying() {
+bool AndroidJavaEngine::isBackgroundMusicPlaying()
+{
     return JniHelper::callStaticBooleanMethod(helperClassName, "isBackgroundMusicPlaying");
 }
 
-float AndroidJavaEngine::getBackgroundMusicVolume() {
+float AndroidJavaEngine::getBackgroundMusicVolume()
+{
     return JniHelper::callStaticFloatMethod(helperClassName, "getBackgroundMusicVolume");
 }
 
-void AndroidJavaEngine::setBackgroundMusicVolume(float volume) {
+void AndroidJavaEngine::setBackgroundMusicVolume(float volume)
+{
     JniHelper::callStaticVoidMethod(helperClassName, "setBackgroundMusicVolume", volume);
 }
 
@@ -156,8 +165,7 @@ void AndroidJavaEngine::setEffectsVolume(float volume)
     }
 }
 
-unsigned int AndroidJavaEngine::playEffect(const char* filePath, bool loop,
-    float pitch, float pan, float gain)
+unsigned int AndroidJavaEngine::playEffect(const char* filePath, bool loop, float pitch, float pan, float gain)
 {
     if (_implementBaseOnAudioEngine)
     {
@@ -166,9 +174,7 @@ unsigned int AndroidJavaEngine::playEffect(const char* filePath, bool loop,
         {
             _soundIDs.push_back(soundID);
 
-            AudioEngine::setFinishCallback(soundID, [this](int id, const std::string& filePath){
-                _soundIDs.remove(id);
-            });
+            AudioEngine::setFinishCallback(soundID, [this](int id, const std::string& filePath) { _soundIDs.remove(id); });
         }
 
         return soundID;

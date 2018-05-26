@@ -26,12 +26,12 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 
-#include "platform/CCApplication.h"
-#include "base/CCDirector.h"
-#include <algorithm>
-#include "platform/CCFileUtils.h"
-#include <shellapi.h>
-#include <WinVer.h>
+#    include "base/CCDirector.h"
+#    include "platform/CCApplication.h"
+#    include "platform/CCFileUtils.h"
+#    include <WinVer.h>
+#    include <algorithm>
+#    include <shellapi.h>
 /**
 @brief    This function change the PVRFrame show/hide setting in register.
 @param  bEnable If true show the PVRFrame window, otherwise hide.
@@ -41,15 +41,15 @@ static void PVRFrameEnableControlWindow(bool bEnable);
 NS_CC_BEGIN
 
 // sharedApplication pointer
-Application * Application::sm_pSharedApplication = nullptr;
+Application* Application::sm_pSharedApplication = nullptr;
 
 Application::Application()
 : _instance(nullptr)
 , _accelTable(nullptr)
 {
-    _instance    = GetModuleHandle(nullptr);
+    _instance = GetModuleHandle(nullptr);
     _animationInterval.QuadPart = 0;
-    CC_ASSERT(! sm_pSharedApplication);
+    CC_ASSERT(!sm_pSharedApplication);
     sm_pSharedApplication = this;
 }
 
@@ -83,13 +83,13 @@ int Application::run()
     // Retain glview to avoid glview being released in the while loop
     glview->retain();
 
-    while(!glview->windowShouldClose())
+    while (!glview->windowShouldClose())
     {
         QueryPerformanceCounter(&nNow);
         if (nNow.QuadPart - nLast.QuadPart > _animationInterval.QuadPart)
         {
             nLast.QuadPart = nNow.QuadPart - (nNow.QuadPart % _animationInterval.QuadPart);
-            
+
             director->mainLoop();
             glview->pollEvents();
         }
@@ -135,10 +135,10 @@ Application* Application::sharedApplication()
 LanguageType Application::getCurrentLanguage()
 {
     LanguageType ret = LanguageType::ENGLISH;
-    
+
     LCID localeID = GetUserDefaultLCID();
     unsigned short primaryLanguageID = localeID & 0xFF;
-    
+
     switch (primaryLanguageID)
     {
         case LANG_CHINESE:
@@ -199,15 +199,15 @@ LanguageType Application::getCurrentLanguage()
             ret = LanguageType::BULGARIAN;
             break;
     }
-    
+
     return ret;
 }
 
-const char * Application::getCurrentLanguageCode()
+const char* Application::getCurrentLanguageCode()
 {
     LANGID lid = GetUserDefaultUILanguage();
     const LCID locale_id = MAKELCID(lid, SORT_DEFAULT);
-    static char code[3] = { 0 };
+    static char code[3] = {0};
     GetLocaleInfoA(locale_id, LOCALE_SISO639LANGNAME, code, sizeof(code));
     code[2] = '\0';
     return code;
@@ -220,36 +220,32 @@ Application::Platform Application::getTargetPlatform()
 
 std::string Application::getVersion()
 {
-    char verString[256] = { 0 };
+    char verString[256] = {0};
     TCHAR szVersionFile[MAX_PATH];
     GetModuleFileName(NULL, szVersionFile, MAX_PATH);
-    DWORD  verHandle = NULL;
-    UINT   size = 0;
+    DWORD verHandle = NULL;
+    UINT size = 0;
     LPBYTE lpBuffer = NULL;
-    DWORD  verSize = GetFileVersionInfoSize(szVersionFile, &verHandle);
-    
+    DWORD verSize = GetFileVersionInfoSize(szVersionFile, &verHandle);
+
     if (verSize != NULL)
     {
         LPSTR verData = new char[verSize];
-        
+
         if (GetFileVersionInfo(szVersionFile, verHandle, verSize, verData))
         {
-            if (VerQueryValue(verData, L"\\", (VOID FAR* FAR*)&lpBuffer, &size))
+            if (VerQueryValue(verData, L"\\", (VOID FAR * FAR*)&lpBuffer, &size))
             {
                 if (size)
                 {
-                    VS_FIXEDFILEINFO *verInfo = (VS_FIXEDFILEINFO *)lpBuffer;
+                    VS_FIXEDFILEINFO* verInfo = (VS_FIXEDFILEINFO*)lpBuffer;
                     if (verInfo->dwSignature == 0xfeef04bd)
                     {
-                        
                         // Doesn't matter if you are on 32 bit or 64 bit,
                         // DWORD is always 32 bits, so first two revision numbers
                         // come from dwFileVersionMS, last two come from dwFileVersionLS
-                        sprintf(verString, "%d.%d.%d.%d", (verInfo->dwFileVersionMS >> 16) & 0xffff,
-                                (verInfo->dwFileVersionMS >> 0) & 0xffff,
-                                (verInfo->dwFileVersionLS >> 16) & 0xffff,
-                                (verInfo->dwFileVersionLS >> 0) & 0xffff
-                                );
+                        sprintf(verString, "%d.%d.%d.%d", (verInfo->dwFileVersionMS >> 16) & 0xffff, (verInfo->dwFileVersionMS >> 0) & 0xffff,
+                                (verInfo->dwFileVersionLS >> 16) & 0xffff, (verInfo->dwFileVersionLS >> 0) & 0xffff);
                     }
                 }
             }
@@ -259,13 +255,13 @@ std::string Application::getVersion()
     return verString;
 }
 
-bool Application::openURL(const std::string &url)
+bool Application::openURL(const std::string& url)
 {
-    WCHAR *temp = new WCHAR[url.size() + 1];
+    WCHAR* temp = new WCHAR[url.size() + 1];
     int wchars_num = MultiByteToWideChar(CP_UTF8, 0, url.c_str(), url.size() + 1, temp, url.size() + 1);
     HINSTANCE r = ShellExecuteW(NULL, L"open", temp, NULL, NULL, SW_SHOWNORMAL);
     delete[] temp;
-    return (size_t)r>32;
+    return (size_t)r > 32;
 }
 
 void Application::setResourceRootPath(const std::string& rootResDir)
@@ -303,15 +299,9 @@ static void PVRFrameEnableControlWindow(bool bEnable)
     HKEY hKey = 0;
 
     // Open PVRFrame control key, if not exist create it.
-    if(ERROR_SUCCESS != RegCreateKeyExW(HKEY_CURRENT_USER,
-        L"Software\\Imagination Technologies\\PVRVFRame\\STARTUP\\",
-        0,
-        0,
-        REG_OPTION_NON_VOLATILE,
-        KEY_ALL_ACCESS,
-        0,
-        &hKey,
-        nullptr))
+    if (ERROR_SUCCESS !=
+        RegCreateKeyExW(HKEY_CURRENT_USER, L"Software\\Imagination Technologies\\PVRVFRame\\STARTUP\\", 0, 0, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, 0, &hKey,
+                        nullptr))
     {
         return;
     }
@@ -319,14 +309,14 @@ static void PVRFrameEnableControlWindow(bool bEnable)
     const WCHAR* wszValue = L"hide_gui";
     const WCHAR* wszNewData = (bEnable) ? L"NO" : L"YES";
     WCHAR wszOldData[256] = {0};
-    DWORD   dwSize = sizeof(wszOldData);
+    DWORD dwSize = sizeof(wszOldData);
     LSTATUS status = RegQueryValueExW(hKey, wszValue, 0, nullptr, (LPBYTE)wszOldData, &dwSize);
-    if (ERROR_FILE_NOT_FOUND == status              // the key not exist
-        || (ERROR_SUCCESS == status                 // or the hide_gui value is exist
-        && 0 != wcscmp(wszNewData, wszOldData)))    // but new data and old data not equal
+    if (ERROR_FILE_NOT_FOUND == status // the key not exist
+        || (ERROR_SUCCESS == status // or the hide_gui value is exist
+            && 0 != wcscmp(wszNewData, wszOldData))) // but new data and old data not equal
     {
         dwSize = sizeof(WCHAR) * (wcslen(wszNewData) + 1);
-        RegSetValueEx(hKey, wszValue, 0, REG_SZ, (const BYTE *)wszNewData, dwSize);
+        RegSetValueEx(hKey, wszValue, 0, REG_SZ, (const BYTE*)wszNewData, dwSize);
     }
 
     RegCloseKey(hKey);

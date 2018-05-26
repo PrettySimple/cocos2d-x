@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,10 +25,10 @@
 #include "navmesh/CCNavMeshObstacle.h"
 #if CC_USE_NAVMESH
 
-#include "navmesh/CCNavMesh.h"
-#include "2d/CCNode.h"
-#include "2d/CCScene.h"
-#include "recast/DetourTileCache/DetourTileCache.h"
+#    include "2d/CCNode.h"
+#    include "2d/CCScene.h"
+#    include "navmesh/CCNavMesh.h"
+#    include "recast/DetourTileCache/DetourTileCache.h"
 
 NS_CC_BEGIN
 
@@ -57,12 +57,10 @@ NavMeshObstacle::NavMeshObstacle()
 , _obstacleID(-1)
 , _syncFlag(NODE_AND_NODE)
 {
-
 }
 
 cocos2d::NavMeshObstacle::~NavMeshObstacle()
 {
-
 }
 
 bool NavMeshObstacle::initWith(float radius, float height)
@@ -73,14 +71,14 @@ bool NavMeshObstacle::initWith(float radius, float height)
     return true;
 }
 
-void cocos2d::NavMeshObstacle::removeFrom(dtTileCache *tileCache)
+void cocos2d::NavMeshObstacle::removeFrom(dtTileCache* tileCache)
 {
     _tileCache->removeObstacle(_obstacleID);
     _tileCache = nullptr;
     _obstacleID = -1;
 }
 
-void cocos2d::NavMeshObstacle::addTo(dtTileCache *tileCache)
+void cocos2d::NavMeshObstacle::addTo(dtTileCache* tileCache)
 {
     _tileCache = tileCache;
     Mat4 mat = _owner->getNodeToWorldTransform();
@@ -89,20 +87,24 @@ void cocos2d::NavMeshObstacle::addTo(dtTileCache *tileCache)
 
 void cocos2d::NavMeshObstacle::onExit()
 {
-    if (_obstacleID == -1) return;
+    if (_obstacleID == -1)
+        return;
     Component::onExit();
     auto scene = _owner->getScene();
-    if (scene && scene->getNavMesh()){
+    if (scene && scene->getNavMesh())
+    {
         scene->getNavMesh()->removeNavMeshObstacle(this);
     }
 }
 
 void cocos2d::NavMeshObstacle::onEnter()
 {
-    if (_obstacleID != -1) return;
+    if (_obstacleID != -1)
+        return;
     Component::onEnter();
     auto scene = _owner->getScene();
-    if (scene && scene->getNavMesh()){
+    if (scene && scene->getNavMesh())
+    {
         scene->getNavMesh()->addNavMeshObstacle(this);
     }
 }
@@ -121,9 +123,11 @@ void cocos2d::NavMeshObstacle::preUpdate(float delta)
 
 void NavMeshObstacle::syncToNode()
 {
-    if (_tileCache){
+    if (_tileCache)
+    {
         auto obstacle = _tileCache->getObstacleByRef(_obstacleID);
-        if (obstacle){
+        if (obstacle)
+        {
             Vec3 localPos = Vec3(obstacle->pos[0], obstacle->pos[1], obstacle->pos[2]);
             if (_owner->getParent())
                 _owner->getParent()->getWorldToNodeTransform().transformPoint(localPos, &localPos);
@@ -146,14 +150,16 @@ void cocos2d::NavMeshObstacle::setHeight(float height)
 
 void NavMeshObstacle::syncToObstacle()
 {
-    if (_tileCache){
+    if (_tileCache)
+    {
         auto obstacle = _tileCache->getObstacleByRef(_obstacleID);
-        if (obstacle){
+        if (obstacle)
+        {
             Vec3 worldPos = Vec3(obstacle->pos[0], obstacle->pos[1], obstacle->pos[2]);
             Mat4 mat = _owner->getNodeToWorldTransform();
-            if ((mat.m[12] != obstacle->pos[0] && mat.m[13] != obstacle->pos[1] && mat.m[14] != obstacle->pos[2])
-                || obstacle->radius != _radius
-                || obstacle->height != _height){
+            if ((mat.m[12] != obstacle->pos[0] && mat.m[13] != obstacle->pos[1] && mat.m[14] != obstacle->pos[2]) || obstacle->radius != _radius ||
+                obstacle->height != _height)
+            {
                 _tileCache->removeObstacle(_obstacleID);
                 _tileCache->addObstacle(&mat.m[12], _radius, _height, &_obstacleID);
             }
@@ -163,4 +169,4 @@ void NavMeshObstacle::syncToObstacle()
 
 NS_CC_END
 
-#endif //CC_USE_NAVMESH
+#endif // CC_USE_NAVMESH

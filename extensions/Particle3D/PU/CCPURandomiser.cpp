@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -34,20 +34,19 @@ const float PURandomiser::DEFAULT_TIME_STEP = 0.0f;
 const bool PURandomiser::DEFAULT_RANDOM_DIRECTION = true;
 
 //-----------------------------------------------------------------------
-PURandomiser::PURandomiser(void) : 
-    PUAffector(),
-    _maxDeviationX(DEFAULT_MAX_DEVIATION.x),
-    _maxDeviationY(DEFAULT_MAX_DEVIATION.y),
-    _maxDeviationZ(DEFAULT_MAX_DEVIATION.z),
-    _timeSinceLastUpdate(0.0f),
-    _timeStep(DEFAULT_TIME_STEP),
-    _randomDirection(DEFAULT_RANDOM_DIRECTION),
-    _update(true)
+PURandomiser::PURandomiser(void)
+: PUAffector()
+, _maxDeviationX(DEFAULT_MAX_DEVIATION.x)
+, _maxDeviationY(DEFAULT_MAX_DEVIATION.y)
+, _maxDeviationZ(DEFAULT_MAX_DEVIATION.z)
+, _timeSinceLastUpdate(0.0f)
+, _timeStep(DEFAULT_TIME_STEP)
+, _randomDirection(DEFAULT_RANDOM_DIRECTION)
+, _update(true)
 {
 }
-PURandomiser::~PURandomiser( void )
+PURandomiser::~PURandomiser(void)
 {
-
 }
 //-----------------------------------------------------------------------
 float PURandomiser::getMaxDeviationX(void) const
@@ -103,7 +102,7 @@ void PURandomiser::setRandomDirection(bool randomDirection)
 //-----------------------------------------------------------------------
 void PURandomiser::preUpdateAffector(float deltaTime)
 {
-    if (/*technique->getNumberOfEmittedParticles()*/static_cast<PUParticleSystem3D *>(_particleSystem)->getAliveParticleCount() > 0)
+    if (/*technique->getNumberOfEmittedParticles()*/ static_cast<PUParticleSystem3D*>(_particleSystem)->getAliveParticleCount() > 0)
     {
         _timeSinceLastUpdate += deltaTime;
         if (_timeSinceLastUpdate > _timeStep)
@@ -114,19 +113,17 @@ void PURandomiser::preUpdateAffector(float deltaTime)
     }
 }
 //-----------------------------------------------------------------------
-void PURandomiser::updatePUAffector( PUParticle3D *particle, float deltaTime )
+void PURandomiser::updatePUAffector(PUParticle3D* particle, float deltaTime)
 {
-    //for (auto iter : _particleSystem->getParticles())
+    // for (auto iter : _particleSystem->getParticles())
     {
-        //PUParticle3D *particle = iter;
+        // PUParticle3D *particle = iter;
         if (_update)
         {
             if (_randomDirection)
             {
                 // Random direction: Change the direction after each update
-                particle->direction.add(CCRANDOM_MINUS1_1() * _maxDeviationX,
-                    CCRANDOM_MINUS1_1() * _maxDeviationY,
-                    CCRANDOM_MINUS1_1() * _maxDeviationZ);
+                particle->direction.add(CCRANDOM_MINUS1_1() * _maxDeviationX, CCRANDOM_MINUS1_1() * _maxDeviationY, CCRANDOM_MINUS1_1() * _maxDeviationZ);
             }
             else
             {
@@ -135,9 +132,8 @@ void PURandomiser::updatePUAffector( PUParticle3D *particle, float deltaTime )
                     return;
 
                 // Random position: Add the position deviation after each update
-                particle->position.add(CCRANDOM_MINUS1_1() * _maxDeviationX * _affectorScale.x,
-                    CCRANDOM_MINUS1_1() * _maxDeviationY * _affectorScale.y,
-                    CCRANDOM_MINUS1_1() * _maxDeviationZ * _affectorScale.z);
+                particle->position.add(CCRANDOM_MINUS1_1() * _maxDeviationX * _affectorScale.x, CCRANDOM_MINUS1_1() * _maxDeviationY * _affectorScale.y,
+                                       CCRANDOM_MINUS1_1() * _maxDeviationZ * _affectorScale.z);
             }
         }
     }
@@ -156,7 +152,7 @@ PURandomiser* PURandomiser::create()
     return pr;
 }
 
-void PURandomiser::copyAttributesTo( PUAffector* affector )
+void PURandomiser::copyAttributesTo(PUAffector* affector)
 {
     PUAffector::copyAttributesTo(affector);
 

@@ -4,8 +4,8 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 
-#include "platform/CCFileUtils.h"
-#include <string>
+#    include "platform/CCFileUtils.h"
+#    include <string>
 
 NS_CC_BEGIN
 

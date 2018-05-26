@@ -24,20 +24,19 @@
  ****************************************************************************/
 #include "deprecated/CCDeprecated.h"
 
-#include "platform/CCPlatformMacros.h"
-#include "math/Vec2.h"
-#include "math/CCGeometry.h"
-#include "base/ccTypes.h"
-#include "renderer/CCGLProgram.h"
 #include "2d/CCDrawingPrimitives.h"
 #include "base/CCDirector.h"
-
+#include "base/ccTypes.h"
+#include "math/CCGeometry.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+#include "renderer/CCGLProgram.h"
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (push)
-#pragma warning (disable: 4996)
+#    pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#elif _MSC_VER >= 1400 // vs 2005 or higher
+#    pragma warning(push)
+#    pragma warning(disable : 4996)
 #endif
 
 NS_CC_BEGIN
@@ -49,7 +48,6 @@ const Size CCSizeZero = Size::ZERO;
 
 /* The "zero" rectangle -- equivalent to Rect(0, 0, 0, 0). */
 const Rect CCRectZero = Rect::ZERO;
-
 
 const Color3B ccWHITE = Color3B::WHITE;
 const Color3B ccYELLOW = Color3B::YELLOW;
@@ -78,9 +76,9 @@ const char* kCCUniformMVMatrix_s = GLProgram::UNIFORM_NAME_MV_MATRIX;
 const char* kCCUniformMVPMatrix_s = GLProgram::UNIFORM_NAME_MVP_MATRIX;
 const char* kCCUniformTime_s = GLProgram::UNIFORM_NAME_TIME;
 const char* kCCUniformSinTime_s = GLProgram::UNIFORM_NAME_SIN_TIME;
-const char* kCCUniformCosTime_s	= GLProgram::UNIFORM_NAME_COS_TIME;
+const char* kCCUniformCosTime_s = GLProgram::UNIFORM_NAME_COS_TIME;
 const char* kCCUniformRandom01_s = GLProgram::UNIFORM_NAME_RANDOM01;
-const char* kCCUniformSampler_s	= GLProgram::UNIFORM_NAME_SAMPLER0;
+const char* kCCUniformSampler_s = GLProgram::UNIFORM_NAME_SAMPLER0;
 const char* kCCUniformAlphaTestValue = GLProgram::UNIFORM_NAME_ALPHA_TEST_VALUE;
 
 // Attribute names
@@ -95,63 +93,63 @@ void ccDrawInit()
 
 void ccDrawFree()
 {
-//it will crash clang static analyzer so hide it if __clang_analyzer__ defined
+// it will crash clang static analyzer so hide it if __clang_analyzer__ defined
 #ifndef __clang_analyzer__
     DrawPrimitives::free();
 #endif
 }
 
-void ccDrawPoint( const Vec2& point )
+void ccDrawPoint(const Vec2& point)
 {
     DrawPrimitives::drawPoint(point);
 }
 
-void ccDrawPoints( const Vec2 *points, unsigned int numberOfPoints )
+void ccDrawPoints(const Vec2* points, unsigned int numberOfPoints)
 {
     DrawPrimitives::drawPoints(points, numberOfPoints);
 }
 
-void ccDrawLine( const Vec2& origin, const Vec2& destination )
+void ccDrawLine(const Vec2& origin, const Vec2& destination)
 {
     DrawPrimitives::drawLine(origin, destination);
 }
 
-void ccDrawRect( Vec2 origin, Vec2 destination )
+void ccDrawRect(Vec2 origin, Vec2 destination)
 {
     DrawPrimitives::drawRect(origin, destination);
 }
 
-void ccDrawSolidRect( Vec2 origin, Vec2 destination, Color4F color )
+void ccDrawSolidRect(Vec2 origin, Vec2 destination, Color4F color)
 {
     DrawPrimitives::drawSolidRect(origin, destination, color);
 }
 
-void ccDrawPoly( const Vec2 *vertices, unsigned int numOfVertices, bool closePolygon )
+void ccDrawPoly(const Vec2* vertices, unsigned int numOfVertices, bool closePolygon)
 {
     DrawPrimitives::drawPoly(vertices, numOfVertices, closePolygon);
 }
 
-void ccDrawSolidPoly( const Vec2 *poli, unsigned int numberOfPoints, Color4F color )
+void ccDrawSolidPoly(const Vec2* poli, unsigned int numberOfPoints, Color4F color)
 {
     DrawPrimitives::drawSolidPoly(poli, numberOfPoints, color);
 }
 
-void ccDrawCircle( const Vec2& center, float radius, float angle, unsigned int segments, bool drawLineToCenter, float scaleX, float scaleY)
+void ccDrawCircle(const Vec2& center, float radius, float angle, unsigned int segments, bool drawLineToCenter, float scaleX, float scaleY)
 {
     DrawPrimitives::drawCircle(center, radius, angle, segments, drawLineToCenter, scaleX, scaleY);
 }
 
-void ccDrawCircle( const Vec2& center, float radius, float angle, unsigned int segments, bool drawLineToCenter)
+void ccDrawCircle(const Vec2& center, float radius, float angle, unsigned int segments, bool drawLineToCenter)
 {
     DrawPrimitives::drawCircle(center, radius, angle, segments, drawLineToCenter);
 }
 
-void ccDrawSolidCircle( const Vec2& center, float radius, float angle, unsigned int segments, float scaleX, float scaleY)
+void ccDrawSolidCircle(const Vec2& center, float radius, float angle, unsigned int segments, float scaleX, float scaleY)
 {
     DrawPrimitives::drawSolidCircle(center, radius, angle, segments, scaleX, scaleY);
 }
 
-void ccDrawSolidCircle( const Vec2& center, float radius, float angle, unsigned int segments)
+void ccDrawSolidCircle(const Vec2& center, float radius, float angle, unsigned int segments)
 {
     DrawPrimitives::drawSolidCircle(center, radius, angle, segments);
 }
@@ -166,27 +164,27 @@ void ccDrawCubicBezier(const Vec2& origin, const Vec2& control1, const Vec2& con
     DrawPrimitives::drawCubicBezier(origin, control1, control2, destination, segments);
 }
 
-void ccDrawCatmullRom( PointArray *arrayOfControlPoints, unsigned int segments )
+void ccDrawCatmullRom(PointArray* arrayOfControlPoints, unsigned int segments)
 {
     DrawPrimitives::drawCatmullRom(arrayOfControlPoints, segments);
 }
 
-void ccDrawCardinalSpline( PointArray *config, float tension,  unsigned int segments )
+void ccDrawCardinalSpline(PointArray* config, float tension, unsigned int segments)
 {
     DrawPrimitives::drawCardinalSpline(config, tension, segments);
 }
 
-void ccDrawColor4B( GLubyte r, GLubyte g, GLubyte b, GLubyte a )
+void ccDrawColor4B(GLubyte r, GLubyte g, GLubyte b, GLubyte a)
 {
     DrawPrimitives::setDrawColor4B(r, g, b, a);
 }
 
-void ccDrawColor4F( GLfloat r, GLfloat g, GLfloat b, GLfloat a )
+void ccDrawColor4F(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
 {
     DrawPrimitives::setDrawColor4F(r, g, b, a);
 }
 
-void ccPointSize( GLfloat pointSize )
+void ccPointSize(GLfloat pointSize)
 {
     DrawPrimitives::setPointSize(pointSize);
 }
@@ -210,11 +208,11 @@ void CC_DLL kmGLPopMatrix(void)
 
 void CC_DLL kmGLMatrixMode(unsigned int mode)
 {
-    if(KM_GL_MODELVIEW == mode)
+    if (KM_GL_MODELVIEW == mode)
         currentActiveStackType = MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW;
-    else if(KM_GL_PROJECTION == mode)
+    else if (KM_GL_PROJECTION == mode)
         currentActiveStackType = MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION;
-    else if(KM_GL_TEXTURE == mode)
+    else if (KM_GL_TEXTURE == mode)
         currentActiveStackType = MATRIX_STACK_TYPE::MATRIX_STACK_TEXTURE;
     else
     {
@@ -260,11 +258,11 @@ void CC_DLL kmGLScalef(float x, float y, float z)
 
 void CC_DLL kmGLGetMatrix(unsigned int mode, Mat4* pOut)
 {
-    if(KM_GL_MODELVIEW == mode)
+    if (KM_GL_MODELVIEW == mode)
         *pOut = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
-    else if(KM_GL_PROJECTION == mode)
+    else if (KM_GL_PROJECTION == mode)
         *pOut = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
-    else if(KM_GL_TEXTURE == mode)
+    else if (KM_GL_TEXTURE == mode)
         *pOut = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_TEXTURE);
     else
     {
@@ -382,9 +380,9 @@ float kmVec3LengthSq(const Vec3* pIn)
 
 CC_DLL Vec3* kmVec3Lerp(Vec3* pOut, const Vec3* pV1, const Vec3* pV2, float t)
 {
-    pOut->x = pV1->x + t * ( pV2->x - pV1->x );
-    pOut->y = pV1->y + t * ( pV2->y - pV1->y );
-    pOut->z = pV1->z + t * ( pV2->z - pV1->z );
+    pOut->x = pV1->x + t * (pV2->x - pV1->x);
+    pOut->y = pV1->y + t * (pV2->y - pV1->y);
+    pOut->z = pV1->z + t * (pV2->z - pV1->z);
     return pOut;
 }
 
@@ -433,7 +431,7 @@ Vec3* kmVec3TransformCoord(Vec3* pOut, const Vec3* pV, const Mat4* pM)
 {
     Vec4 v(pV->x, pV->y, pV->z, 1);
     pM->transformVector(&v);
-    v = v * (1/v.w);
+    v = v * (1 / v.w);
     pOut->set(v.x, v.y, v.z);
     return pOut;
 }
@@ -480,8 +478,8 @@ Vec2* kmVec2Normalize(Vec2* pOut, const Vec2* pIn)
 
 Vec2* kmVec2Lerp(Vec2* pOut, const Vec2* pV1, const Vec2* pV2, float t)
 {
-    pOut->x = pV1->x + t * ( pV2->x - pV1->x );
-    pOut->y = pV1->y + t * ( pV2->y - pV1->y );
+    pOut->x = pV1->x + t * (pV2->x - pV1->x);
+    pOut->y = pV1->y + t * (pV2->y - pV1->y);
     return pOut;
 }
 
@@ -543,10 +541,10 @@ float kmVec4LengthSq(const Vec4* pIn)
 
 Vec4* kmVec4Lerp(Vec4* pOut, const Vec4* pV1, const Vec4* pV2, float t)
 {
-    pOut->x = pV1->x + t * ( pV2->x - pV1->x );
-    pOut->y = pV1->y + t * ( pV2->y - pV1->y );
-    pOut->z = pV1->z + t * ( pV2->z - pV1->z );
-    pOut->w = pV1->w + t * ( pV2->w - pV1->w );
+    pOut->x = pV1->x + t * (pV2->x - pV1->x);
+    pOut->y = pV1->y + t * (pV2->y - pV1->y);
+    pOut->z = pV1->z + t * (pV2->z - pV1->z);
+    pOut->w = pV1->w + t * (pV2->w - pV1->w);
     return pOut;
 }
 
@@ -603,7 +601,7 @@ const Vec2 KM_VEC2_ZERO(0, 0);
 NS_CC_END
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic warning "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (pop)
+#    pragma GCC diagnostic warning "-Wdeprecated-declarations"
+#elif _MSC_VER >= 1400 // vs 2005 or higher
+#    pragma warning(pop)
 #endif

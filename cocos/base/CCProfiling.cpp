@@ -35,12 +35,11 @@ bool kProfilerCategorySprite = false;
 bool kProfilerCategoryBatchSprite = false;
 bool kProfilerCategoryParticles = false;
 
-
 static Profiler* g_sSharedProfiler = nullptr;
 
 Profiler* Profiler::getInstance()
 {
-    if (! g_sSharedProfiler)
+    if (!g_sSharedProfiler)
     {
         g_sSharedProfiler = new (std::nothrow) Profiler();
         g_sSharedProfiler->init();
@@ -57,7 +56,7 @@ Profiler* Profiler::sharedProfiler(void)
 
 ProfilingTimer* Profiler::createAndAddTimerWithName(const char* timerName)
 {
-    ProfilingTimer *t = new (std::nothrow) ProfilingTimer();
+    ProfilingTimer* t = new (std::nothrow) ProfilingTimer();
     t->initWithName(timerName);
     _activeTimers.insert(timerName, t);
     t->release();
@@ -113,14 +112,14 @@ bool ProfilingTimer::initWithName(const char* timerName)
 
 ProfilingTimer::~ProfilingTimer(void)
 {
-    
 }
 
 std::string ProfilingTimer::getDescription() const
 {
     static char s_description[512] = {0};
 
-    sprintf(s_description, "%s ::\tavg1: %ldu,\tavg2: %ldu,\tmin: %ldu,\tmax: %ldu,\ttotal: %.2fs,\tnr calls: %ld", _nameStr.c_str(), _averageTime1, _averageTime2, minTime, maxTime, totalTime/1000000., numberOfCalls);
+    sprintf(s_description, "%s ::\tavg1: %ldu,\tavg2: %ldu,\tmin: %ldu,\tmax: %ldu,\ttotal: %.2fs,\tnr calls: %ld", _nameStr.c_str(), _averageTime1,
+            _averageTime2, minTime, maxTime, totalTime / 1000000., numberOfCalls);
     return s_description;
 }
 
@@ -135,11 +134,11 @@ void ProfilingTimer::reset()
     _startTime = chrono::high_resolution_clock::now();
 }
 
-void ProfilingBeginTimingBlock(const char *timerName)
+void ProfilingBeginTimingBlock(const char* timerName)
 {
     Profiler* p = Profiler::getInstance();
     ProfilingTimer* timer = p->_activeTimers.at(timerName);
-    if( ! timer )
+    if (!timer)
     {
         timer = p->createAndAddTimerWithName(timerName);
     }
@@ -150,7 +149,7 @@ void ProfilingBeginTimingBlock(const char *timerName)
     timer->_startTime = chrono::high_resolution_clock::now();
 }
 
-void ProfilingEndTimingBlock(const char *timerName)
+void ProfilingEndTimingBlock(const char* timerName)
 {
     // should be the 1st instruction in order to be more reliable
     auto now = chrono::high_resolution_clock::now();
@@ -160,20 +159,19 @@ void ProfilingEndTimingBlock(const char *timerName)
 
     CCASSERT(timer, "CCProfilingTimer  not found");
 
-
     long duration = static_cast<long>(chrono::duration_cast<chrono::microseconds>(now - timer->_startTime).count());
 
     timer->totalTime += duration;
     timer->_averageTime1 = (timer->_averageTime1 + duration) / 2.0f;
     timer->_averageTime2 = timer->totalTime / timer->numberOfCalls;
-    timer->maxTime = MAX( timer->maxTime, duration);
-    timer->minTime = MIN( timer->minTime, duration);
+    timer->maxTime = MAX(timer->maxTime, duration);
+    timer->minTime = MIN(timer->minTime, duration);
 }
 
-void ProfilingResetTimingBlock(const char *timerName)
+void ProfilingResetTimingBlock(const char* timerName)
 {
     Profiler* p = Profiler::getInstance();
-    ProfilingTimer *timer = p->_activeTimers.at(timerName);
+    ProfilingTimer* timer = p->_activeTimers.at(timerName);
 
     CCASSERT(timer, "CCProfilingTimer not found");
 
@@ -181,4 +179,3 @@ void ProfilingResetTimingBlock(const char *timerName)
 }
 
 NS_CC_END
-

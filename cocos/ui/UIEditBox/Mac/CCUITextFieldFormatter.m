@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (c) 2010-2012 cocos2d-x.org
  Copyright (c) 2013-2016 zilongshanren
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,8 +25,7 @@
 
 #import "ui/UIEditBox/Mac/CCUITextFieldFormatter.h"
 
-@implementation CCUITextFieldFormatter
-{
+@implementation CCUITextFieldFormatter {
 }
 
 @synthesize maximumLength = _maximumLength;
@@ -34,34 +33,35 @@
 - (instancetype)init
 {
     self = [super init];
-    if (self) {
+    if (self)
+    {
         _maximumLength = INT_MAX;
     }
-    
+
     return self;
 }
 
-- (NSString *)stringForObjectValue:(id)object
+- (NSString*)stringForObjectValue:(id)object
 {
     return object;
 }
 
-- (BOOL)getObjectValue:(id *)object forString:(NSString *)string errorDescription:(NSString **)error
+- (BOOL)getObjectValue:(id*)object forString:(NSString*)string errorDescription:(NSString**)error
 {
     *object = string;
     return YES;
 }
 
-- (BOOL)isPartialStringValid:(NSString **)partialStringPtr
+- (BOOL)isPartialStringValid:(NSString**)partialStringPtr
        proposedSelectedRange:(NSRangePointer)proposedSelRangePtr
-              originalString:(NSString *)origString
+              originalString:(NSString*)origString
        originalSelectedRange:(NSRange)origSelRange
-            errorDescription:(NSString **)error
+            errorDescription:(NSString**)error
 {
     return (*partialStringPtr).length <= self.maximumLength;
 }
 
-- (NSAttributedString *)attributedStringForObjectValue:(id)anObject withDefaultAttributes:(NSDictionary *)attributes
+- (NSAttributedString*)attributedStringForObjectValue:(id)anObject withDefaultAttributes:(NSDictionary*)attributes
 {
     return nil;
 }

@@ -23,7 +23,8 @@
 NS_CC_MATH_BEGIN
 
 inline Vec2::Vec2()
-: x(0.0f), y(0.0f)
+: x(0.0f)
+, y(0.0f)
 {
 }
 
@@ -196,12 +197,12 @@ inline bool Vec2::operator>(const Vec2& v) const
 
 inline bool Vec2::operator==(const Vec2& v) const
 {
-    return x==v.x && y==v.y;
+    return x == v.x && y == v.y;
 }
 
 inline bool Vec2::operator!=(const Vec2& v) const
 {
-    return x!=v.x || y!=v.y;
+    return x != v.x || y != v.y;
 }
 
 inline const Vec2 operator*(float x, const Vec2& v)

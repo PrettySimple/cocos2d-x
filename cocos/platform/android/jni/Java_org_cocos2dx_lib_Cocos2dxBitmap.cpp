@@ -23,22 +23,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "platform/android/jni/JniHelper.h"
-#include <string.h>
 #include "base/CCDirector.h"
+#include "base/ccUTF8.h"
 #include "platform/CCApplication.h"
 #include "platform/CCFileUtils.h"
-#include "base/ccUTF8.h"
+#include "platform/android/jni/JniHelper.h"
+#include <string.h>
 
 static const std::string className = "org/cocos2dx/lib/Cocos2dxBitmap";
 
 using namespace cocos2d;
 
-int getFontSizeAccordingHeightJni(int height) {
+int getFontSizeAccordingHeightJni(int height)
+{
     return JniHelper::callStaticIntMethod(className, "getFontSizeAccordingHeight", height);
 }
 
-std::string getStringWithEllipsisJni(const char* text, float width, float fontSize) {
+std::string getStringWithEllipsisJni(const char* text, float width, float fontSize)
+{
     return JniHelper::callStaticStringMethod(className, "getStringWithEllipsis", text, width, fontSize);
 }
-

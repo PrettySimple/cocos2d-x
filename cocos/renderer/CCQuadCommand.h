@@ -27,8 +27,8 @@
 
 #include <vector>
 
-#include "renderer/CCTrianglesCommand.h"
 #include "renderer/CCGLProgramState.h"
+#include "renderer/CCTrianglesCommand.h"
 
 /**
  * @addtogroup renderer
@@ -37,7 +37,7 @@
 
 NS_CC_BEGIN
 
-/** 
+/**
  Command used to render one or more Quads, similar to TrianglesCommand.
  Every QuadCommand will have generate material ID by give textureID, glProgramState, Blend function
  if the material id is the same, these QuadCommands could be batched to save draw call.
@@ -45,15 +45,15 @@ NS_CC_BEGIN
 class CC_DLL QuadCommand final : public TrianglesCommand
 {
 public:
-    QuadCommand() =default;
-    QuadCommand(QuadCommand const&) =delete;
-    QuadCommand& operator=(QuadCommand const&) =delete;
-    QuadCommand(QuadCommand &&) noexcept =delete;
-    QuadCommand& operator=(QuadCommand &&) noexcept =delete;
+    QuadCommand() = default;
+    QuadCommand(QuadCommand const&) = delete;
+    QuadCommand& operator=(QuadCommand const&) = delete;
+    QuadCommand(QuadCommand&&) noexcept = delete;
+    QuadCommand& operator=(QuadCommand&&) noexcept = delete;
     ~QuadCommand() override;
 
     void init(float globalOrder, Texture2D* textureID, GLProgramState* glProgramState, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, ssize_t quadCount,
-        const Mat4& mv, uint32_t flags);
+              const Mat4& mv, uint32_t flags);
 
 private:
     /** Initializes the command.
@@ -70,8 +70,8 @@ private:
               const Mat4& mv, uint32_t flags);
 
     /**Deprecated function, the params is similar as the upper init function, with flags equals 0.*/
-    CC_DEPRECATED_ATTRIBUTE void init(float globalOrder, GLuint textureID, GLProgramState* shader, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, ssize_t quadCount,
-                                      const Mat4& mv);
+    CC_DEPRECATED_ATTRIBUTE void
+    init(float globalOrder, GLuint textureID, GLProgramState* shader, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, ssize_t quadCount, const Mat4& mv);
 
     void reIndex(int indices);
 

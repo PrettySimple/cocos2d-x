@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -32,9 +32,9 @@ NS_CC_BEGIN
 const PUColorAffector::ColorOperation PUColorAffector::DEFAULT_COLOR_OPERATION = PUColorAffector::CAO_SET;
 
 //-----------------------------------------------------------------------
-PUColorAffector::PUColorAffector() : 
-    PUAffector(),
-    _colorOperation(DEFAULT_COLOR_OPERATION)
+PUColorAffector::PUColorAffector()
+: PUAffector()
+, _colorOperation(DEFAULT_COLOR_OPERATION)
 {
 }
 
@@ -42,17 +42,17 @@ PUColorAffector::~PUColorAffector()
 {
 }
 //-----------------------------------------------------------------------
-const PUColorAffector::ColorOperation& PUColorAffector::getColorOperation () const
+const PUColorAffector::ColorOperation& PUColorAffector::getColorOperation() const
 {
     return _colorOperation;
 }
 //-----------------------------------------------------------------------
-void PUColorAffector::setColorOperation (const PUColorAffector::ColorOperation& colorOperation)
+void PUColorAffector::setColorOperation(const PUColorAffector::ColorOperation& colorOperation)
 {
     _colorOperation = colorOperation;
 }
 //-----------------------------------------------------------------------
-void PUColorAffector::addColor (float timeFraction, const Vec4& color)
+void PUColorAffector::addColor(float timeFraction, const Vec4& color)
 {
     _colorMap[timeFraction] = color;
 }
@@ -62,7 +62,7 @@ const PUColorAffector::ColorMap& PUColorAffector::getTimeAndColor() const
     return _colorMap;
 }
 //-----------------------------------------------------------------------
-void PUColorAffector::clearColorMap ()
+void PUColorAffector::clearColorMap()
 {
     _colorMap.clear();
 }
@@ -85,15 +85,15 @@ PUColorAffector::ColorMapIterator PUColorAffector::findNearestColorMapIterator(f
     return --it;
 }
 
-void PUColorAffector::updatePUAffector( PUParticle3D *particle, float deltaTime )
+void PUColorAffector::updatePUAffector(PUParticle3D* particle, float deltaTime)
 {
     // Fast rejection
     if (_colorMap.empty())
         return;
 
-    //for (auto iter : _particleSystem->getParticles())
+    // for (auto iter : _particleSystem->getParticles())
     {
-        //PUParticle3D *particle = iter;
+        // PUParticle3D *particle = iter;
         // Linear interpolation of the colour
         Vec4 color = Vec4::ONE;
         float timeFraction = (particle->totalTimeToLive - particle->timeToLive) / particle->totalTimeToLive;
@@ -104,7 +104,7 @@ void PUColorAffector::updatePUAffector( PUParticle3D *particle, float deltaTime 
         {
             // Interpolate colour
 
-            color = it1->second + ((it2->second - it1->second) * ((timeFraction - it1->first)/(it2->first - it1->first)));
+            color = it1->second + ((it2->second - it1->second) * ((timeFraction - it1->first) / (it2->first - it1->first)));
         }
         else
         {
@@ -120,7 +120,8 @@ void PUColorAffector::updatePUAffector( PUParticle3D *particle, float deltaTime 
         else
         {
             // Multiply
-            particle->color = Vec4(color.x * particle->originalColor.x, color.y * particle->originalColor.y, color.z * particle->originalColor.z, color.w * particle->originalColor.w);
+            particle->color = Vec4(color.x * particle->originalColor.x, color.y * particle->originalColor.y, color.z * particle->originalColor.z,
+                                   color.w * particle->originalColor.w);
         }
     }
 }
@@ -132,7 +133,7 @@ PUColorAffector* PUColorAffector::create()
     return pca;
 }
 
-void PUColorAffector::copyAttributesTo( PUAffector* affector )
+void PUColorAffector::copyAttributesTo(PUAffector* affector)
 {
     PUAffector::copyAttributesTo(affector);
 

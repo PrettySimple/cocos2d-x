@@ -28,12 +28,13 @@ NS_CC_BEGIN
 class GLNode : public cocos2d::Node
 {
 public:
-    void draw(Renderer *renderer, const Mat4& transform, uint32_t flags) override;
+    void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
+
 protected:
-    void onDraw(Mat4 &transform, uint32_t flags);
+    void onDraw(Mat4& transform, uint32_t flags);
     cocos2d::CustomCommand _customCommand;
 };
 
 NS_CC_END
 
-void js_register_cocos2dx_GLNode(JSContext *cx, JS::HandleObject global);
+void js_register_cocos2dx_GLNode(JSContext* cx, JS::HandleObject global);

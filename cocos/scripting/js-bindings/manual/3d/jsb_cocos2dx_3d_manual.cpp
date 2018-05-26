@@ -24,42 +24,43 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "scripting/js-bindings/manual/3d/jsb_cocos2dx_3d_manual.h"
-#include "scripting/js-bindings/manual/cocos2d_specifics.hpp"
-#include "scripting/js-bindings/auto/jsb_cocos2dx_3d_auto.hpp"
 #include "3d/CCAnimate3D.h"
 #include "3d/CCBundle3D.h"
 #include "3d/CCMesh.h"
 #include "3d/CCSprite3D.h"
 #include "renderer/CCTextureCube.h"
+#include "scripting/js-bindings/auto/jsb_cocos2dx_3d_auto.hpp"
+#include "scripting/js-bindings/manual/cocos2d_specifics.hpp"
 
 using namespace cocos2d;
 
-class JSB_HeapValueWrapper{
+class JSB_HeapValueWrapper
+{
 public:
     JSB_HeapValueWrapper(JSContext* cx, JS::HandleValue value)
-    :_cx(cx)
+    : _cx(cx)
     {
         _data = value;
         js_add_object_root(value);
     }
 
-    ~JSB_HeapValueWrapper(){
+    ~JSB_HeapValueWrapper()
+    {
         JS::RootedValue value(_cx, _data);
         js_remove_object_root(value);
     }
 
-    jsval get(){
-        return _data;
-    }
+    jsval get() { return _data; }
+
 private:
     JSContext* _cx;
     JS::Heap<JS::Value> _data;
 };
 
-static bool js_cocos2dx_Sprite3D_createAsync(JSContext *cx, uint32_t argc, jsval *vp)
+static bool js_cocos2dx_Sprite3D_createAsync(JSContext* cx, uint32_t argc, jsval* vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    if(argc == 4 || argc == 5)
+    if (argc == 4 || argc == 5)
     {
         std::string modelPath;
         jsval_to_std_string(cx, args.get(0), &modelPath);
@@ -69,7 +70,7 @@ static bool js_cocos2dx_Sprite3D_createAsync(JSContext *cx, uint32_t argc, jsval
         JS::RootedObject target(cx, targetVal.toObjectOrNull());
         JS::RootedValue fval(cx, args.get(argc == 4 ? 1 : 2));
         std::shared_ptr<JSFunctionWrapper> func(new JSFunctionWrapper(cx, target, fval));
-        auto lambda = [=](Sprite3D* larg0, void* larg1) -> void{
+        auto lambda = [=](Sprite3D* larg0, void* larg1) -> void {
             JSB_AUTOCOMPARTMENT_WITH_GLOBAL_OBJCET
             jsval largv[2];
             largv[0] = OBJECT_TO_JSVAL(js_get_or_create_jsobject<Sprite3D>(cx, larg0));
@@ -78,10 +79,11 @@ static bool js_cocos2dx_Sprite3D_createAsync(JSContext *cx, uint32_t argc, jsval
             largv[1] = dataVal;
 
             JS::RootedValue rval(cx);
-		    bool ok = func->invoke(2, largv, &rval);
-		    if (!ok && JS_IsExceptionPending(cx)) {
-		        JS_ReportPendingException(cx);
-		    }
+            bool ok = func->invoke(2, largv, &rval);
+            if (!ok && JS_IsExceptionPending(cx))
+            {
+                JS_ReportPendingException(cx);
+            }
 
             delete v;
         };
@@ -89,7 +91,7 @@ static bool js_cocos2dx_Sprite3D_createAsync(JSContext *cx, uint32_t argc, jsval
 
         JSB_HeapValueWrapper* data = new (std::nothrow) JSB_HeapValueWrapper(cx, args.get(argc == 4 ? 3 : 4));
 
-        if(argc == 4)
+        if (argc == 4)
             cocos2d::Sprite3D::createAsync(modelPath, callback, data);
         else
         {
@@ -104,14 +106,14 @@ static bool js_cocos2dx_Sprite3D_createAsync(JSContext *cx, uint32_t argc, jsval
     return false;
 }
 
-bool js_cocos2dx_Sprite3D_getAABB(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_cocos2dx_Sprite3D_getAABB(JSContext* cx, uint32_t argc, jsval* vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
-    js_proxy_t *proxy = jsb_get_js_proxy(obj);
-    cocos2d::Sprite3D* cobj = (cocos2d::Sprite3D *)(proxy ? proxy->ptr : NULL);
-    JSB_PRECONDITION2( cobj, cx, false, "js_cocos2dx_3d_Sprite3D_setCullFaceEnabled : Invalid Native Object");
-    if(argc == 0)
+    js_proxy_t* proxy = jsb_get_js_proxy(obj);
+    cocos2d::Sprite3D* cobj = (cocos2d::Sprite3D*)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2(cobj, cx, false, "js_cocos2dx_3d_Sprite3D_setCullFaceEnabled : Invalid Native Object");
+    if (argc == 0)
     {
         cocos2d::AABB aabb = cobj->getAABB();
 
@@ -131,17 +133,18 @@ bool js_cocos2dx_Sprite3D_getAABB(JSContext *cx, uint32_t argc, jsval *vp)
     return false;
 }
 
-bool js_cocos2dx_Mesh_getMeshVertexAttribute(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_cocos2dx_Mesh_getMeshVertexAttribute(JSContext* cx, uint32_t argc, jsval* vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
     JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
-    js_proxy_t *proxy = jsb_get_js_proxy(obj);
-    cocos2d::Mesh* cobj = (cocos2d::Mesh *)(proxy ? proxy->ptr : NULL);
-    JSB_PRECONDITION2( cobj, cx, false, "js_cocos2dx_3d_Mesh_getMeshVertexAttribute : Invalid Native Object");
-    if (argc == 1) {
+    js_proxy_t* proxy = jsb_get_js_proxy(obj);
+    cocos2d::Mesh* cobj = (cocos2d::Mesh*)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2(cobj, cx, false, "js_cocos2dx_3d_Mesh_getMeshVertexAttribute : Invalid Native Object");
+    if (argc == 1)
+    {
         int arg0;
-        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t*)&arg0);
         JSB_PRECONDITION2(ok, cx, false, "js_cocos2dx_3d_Mesh_getMeshVertexAttribute : Error processing arguments");
         const cocos2d::MeshVertexAttrib ret = cobj->getMeshVertexAttribute(arg0);
         jsval jsret = JSVAL_NULL;
@@ -154,11 +157,11 @@ bool js_cocos2dx_Mesh_getMeshVertexAttribute(JSContext *cx, uint32_t argc, jsval
     return false;
 }
 
-bool js_cocos2dx_CCTextureCube_setTexParameters(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_cocos2dx_CCTextureCube_setTexParameters(JSContext* cx, uint32_t argc, jsval* vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
-    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    js_proxy_t* proxy = jsb_get_js_proxy(obj);
     TextureCube* cobj = (TextureCube*)(proxy ? proxy->ptr : NULL);
     TEST_NATIVE_OBJECT(cx, cobj)
 
@@ -175,7 +178,7 @@ bool js_cocos2dx_CCTextureCube_setTexParameters(JSContext *cx, uint32_t argc, js
 
         JSB_PRECONDITION2(ok, cx, false, "Error processing arguments");
 
-        Texture2D::TexParams param = { arg0, arg1, arg2, arg3 };
+        Texture2D::TexParams param = {arg0, arg1, arg2, arg3};
 
         cobj->setTexParameters(param);
 
@@ -197,10 +200,8 @@ bool jsval_to_DetailMap(JSContext* cx, JS::HandleValue v, Terrain::DetailMap* re
     std::string file;
     double size;
 
-    bool ok = JS_GetProperty(cx, jsobj, "file", &js_file) &&
-            JS_GetProperty(cx, jsobj, "size", &js_size) &&
-            jsval_to_std_string(cx, js_file, &file) &&
-            JS::ToNumber(cx, js_size, &size);
+    bool ok = JS_GetProperty(cx, jsobj, "file", &js_file) && JS_GetProperty(cx, jsobj, "size", &js_size) && jsval_to_std_string(cx, js_file, &file) &&
+        JS::ToNumber(cx, js_size, &size);
     JSB_PRECONDITION2(ok, cx, false, "Error processing arguments");
 
     ret->_detailMapSrc = file;
@@ -225,17 +226,11 @@ bool jsval_to_TerrainData(JSContext* cx, JS::HandleValue v, Terrain::TerrainData
     double mapScale, mapHeight;
 
     bool ok = true;
-    ok &= JS_GetProperty(cx, jsobj, "heightMap", &js_heightMap) &&
-        JS_GetProperty(cx, jsobj, "alphaMap", &js_alphaMap) &&
-        JS_GetProperty(cx, jsobj, "chunkSize", &js_chunkSize) &&
-        JS_GetProperty(cx, jsobj, "mapHeight", &js_mapHeight) &&
-        JS_GetProperty(cx, jsobj, "mapScale", &js_mapScale) &&
-        JS_GetProperty(cx, jsobj, "detailMap", &js_detailMap) &&
-        jsval_to_std_string(cx, js_heightMap, &heightMap) &&
-        jsval_to_std_string(cx, js_alphaMap, &alphaMap) &&
-        jsval_to_ccsize(cx, js_chunkSize, &chunkSize) &&
-        JS::ToNumber(cx, js_mapScale, &mapScale) &&
-        JS::ToNumber(cx, js_mapHeight, &mapHeight);
+    ok &= JS_GetProperty(cx, jsobj, "heightMap", &js_heightMap) && JS_GetProperty(cx, jsobj, "alphaMap", &js_alphaMap) &&
+        JS_GetProperty(cx, jsobj, "chunkSize", &js_chunkSize) && JS_GetProperty(cx, jsobj, "mapHeight", &js_mapHeight) &&
+        JS_GetProperty(cx, jsobj, "mapScale", &js_mapScale) && JS_GetProperty(cx, jsobj, "detailMap", &js_detailMap) &&
+        jsval_to_std_string(cx, js_heightMap, &heightMap) && jsval_to_std_string(cx, js_alphaMap, &alphaMap) && jsval_to_ccsize(cx, js_chunkSize, &chunkSize) &&
+        JS::ToNumber(cx, js_mapScale, &mapScale) && JS::ToNumber(cx, js_mapHeight, &mapHeight);
     JSB_PRECONDITION2(ok, cx, false, "Error processing arguments");
 
     ret->_heightMapSrc = heightMap.c_str();
@@ -251,7 +246,7 @@ bool jsval_to_TerrainData(JSContext* cx, JS::HandleValue v, Terrain::TerrainData
     JS::RootedObject jsobj_detailMap(cx, js_detailMap.toObjectOrNull());
     uint32_t length = 0;
     JS_GetArrayLength(cx, jsobj_detailMap, &length);
-    for(uint32_t i = 0; i < length; ++i)
+    for (uint32_t i = 0; i < length; ++i)
     {
         JS::RootedValue element(cx);
         JS_GetElement(cx, jsobj_detailMap, i, &element);
@@ -265,22 +260,22 @@ bool jsval_to_TerrainData(JSContext* cx, JS::HandleValue v, Terrain::TerrainData
     return true;
 }
 
-bool js_cocos2dx_Terrain_create(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_cocos2dx_Terrain_create(JSContext* cx, uint32_t argc, jsval* vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    if(argc == 1 || argc == 2)
+    if (argc == 1 || argc == 2)
     {
         bool ok = true;
         Terrain* ret = nullptr;
 
         Terrain::TerrainData arg0;
         ok &= jsval_to_TerrainData(cx, args.get(0), &arg0);
-        if(argc == 1)
+        if (argc == 1)
         {
             JSB_PRECONDITION2(ok, cx, false, "Error processing arguments");
             ret = Terrain::create(arg0);
         }
-        else if(argc == 2)
+        else if (argc == 2)
         {
             Terrain::CrackFixedType arg1;
             ok &= jsval_to_int32(cx, args.get(1), (int32_t*)&arg1);
@@ -300,7 +295,7 @@ jsval std_vector_vec3_to_jsval(JSContext* cx, const std::vector<cocos2d::Vec3>& 
     JS::RootedObject jsarr(cx, JS_NewArrayObject(cx, triangles.size()));
 
     uint32_t i = 0;
-    for(auto iter = triangles.begin(); iter != triangles.end(); ++iter)
+    for (auto iter = triangles.begin(); iter != triangles.end(); ++iter)
     {
         JS::RootedValue element(cx, vector3_to_jsval(cx, *iter));
         JS_SetElement(cx, jsarr, i, element);
@@ -310,9 +305,9 @@ jsval std_vector_vec3_to_jsval(JSContext* cx, const std::vector<cocos2d::Vec3>& 
     return OBJECT_TO_JSVAL(jsarr);
 }
 
-bool js_cocos2dx_Bundle3D_getTrianglesList(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_cocos2dx_Bundle3D_getTrianglesList(JSContext* cx, uint32_t argc, jsval* vp)
 {
-    if(argc == 1)
+    if (argc == 1)
     {
         JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
 
@@ -330,15 +325,15 @@ bool js_cocos2dx_Bundle3D_getTrianglesList(JSContext *cx, uint32_t argc, jsval *
     return false;
 }
 
-bool js_cocos2dx_Terrain_getHeightData(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_cocos2dx_Terrain_getHeightData(JSContext* cx, uint32_t argc, jsval* vp)
 {
-    if(argc == 0)
+    if (argc == 0)
     {
         JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
         JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
-        js_proxy_t *proxy = jsb_get_js_proxy(obj);
-        cocos2d::Terrain* cobj = (cocos2d::Terrain *)(proxy ? proxy->ptr : NULL);
-        JSB_PRECONDITION2( cobj, cx, false, "js_cocos2dx_Terrain_getHeightData : Invalid Native Object");
+        js_proxy_t* proxy = jsb_get_js_proxy(obj);
+        cocos2d::Terrain* cobj = (cocos2d::Terrain*)(proxy ? proxy->ptr : NULL);
+        JSB_PRECONDITION2(cobj, cx, false, "js_cocos2dx_Terrain_getHeightData : Invalid Native Object");
 
         auto data = cobj->getHeightData();
 
@@ -353,22 +348,24 @@ bool js_cocos2dx_Terrain_getHeightData(JSContext *cx, uint32_t argc, jsval *vp)
 // get_or_create_jsobject instead of create_jsobject
 // since Animation3D::create() might return an existing copy
 // since it caches them
-bool js_cocos2dx_3d_Animation3D_create(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_cocos2dx_3d_Animation3D_create(JSContext* cx, uint32_t argc, jsval* vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
-    if (argc == 1) {
+    if (argc == 1)
+    {
         std::string arg0;
         ok &= jsval_to_std_string(cx, args.get(0), &arg0);
         JSB_PRECONDITION2(ok, cx, false, "js_cocos2dx_3d_Animation3D_create : Error processing arguments");
 
         auto ret = cocos2d::Animation3D::create(arg0);
-        js_type_class_t *typeClass = js_get_type_from_native<cocos2d::Animation3D>(ret);
+        js_type_class_t* typeClass = js_get_type_from_native<cocos2d::Animation3D>(ret);
         JS::RootedObject jsret(cx, jsb_ref_autoreleased_get_or_create_jsobject(cx, ret, typeClass, "cocos2d::Animation3D"));
         args.rval().set(OBJECT_TO_JSVAL(jsret));
         return true;
     }
-    if (argc == 2) {
+    if (argc == 2)
+    {
         std::string arg0;
         std::string arg1;
         ok &= jsval_to_std_string(cx, args.get(0), &arg0);
@@ -376,7 +373,7 @@ bool js_cocos2dx_3d_Animation3D_create(JSContext *cx, uint32_t argc, jsval *vp)
         JSB_PRECONDITION2(ok, cx, false, "js_cocos2dx_3d_Animation3D_create : Error processing arguments");
 
         auto ret = cocos2d::Animation3D::create(arg0, arg1);
-        js_type_class_t *typeClass = js_get_type_from_native<cocos2d::Animation3D>(ret);
+        js_type_class_t* typeClass = js_get_type_from_native<cocos2d::Animation3D>(ret);
         JS::RootedObject jsret(cx, jsb_ref_autoreleased_get_or_create_jsobject(cx, ret, typeClass, "cocos2d::Animation3D"));
         args.rval().set(OBJECT_TO_JSVAL(jsret));
         return true;
@@ -385,7 +382,7 @@ bool js_cocos2dx_3d_Animation3D_create(JSContext *cx, uint32_t argc, jsval *vp)
     return false;
 }
 
-void register_all_cocos2dx_3d_manual(JSContext *cx, JS::HandleObject global)
+void register_all_cocos2dx_3d_manual(JSContext* cx, JS::HandleObject global)
 {
     JS::RootedValue tmpVal(cx);
     JS::RootedObject ccObj(cx);

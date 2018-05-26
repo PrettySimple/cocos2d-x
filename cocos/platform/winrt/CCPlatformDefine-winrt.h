@@ -26,25 +26,22 @@ THE SOFTWARE.
 #define __CCPLATFORMDEFINE_H__
 
 #if defined(CC_STATIC)
-#define CC_DLL
+#    define CC_DLL
 #else
-#if defined(_USRDLL)
-#define CC_DLL     __declspec(dllexport)
-#else         /* use a DLL library */
-#define CC_DLL		__declspec(dllimport)
-#endif  
+#    if defined(_USRDLL)
+#        define CC_DLL __declspec(dllexport)
+#    else /* use a DLL library */
+#        define CC_DLL __declspec(dllimport)
+#    endif
 #endif
-
-
 
 #include <assert.h>
 
 #if CC_DISABLE_ASSERT > 0
-#define CC_ASSERT(cond)
+#    define CC_ASSERT(cond)
 #else
-#define CC_ASSERT(cond)    assert(cond)
+#    define CC_ASSERT(cond) assert(cond)
 #endif
 #define CC_UNUSED_PARAM(unusedparam) (void)unusedparam
-
 
 #endif /* __CCPLATFORMDEFINE_H__*/

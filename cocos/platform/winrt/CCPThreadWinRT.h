@@ -26,23 +26,21 @@ THE SOFTWARE.
 #ifndef __CCPTHREADWINRT_H__
 #define __CCPTHREADWINRT_H__
 
-
 #include "platform/CCPlatformConfig.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
-#include <Windows.h>
-#include "platform/CCPlatformMacros.h"
-
+#    ifndef WIN32_LEAN_AND_MEAN
+#        define WIN32_LEAN_AND_MEAN
+#    endif
+#    include "platform/CCPlatformMacros.h"
+#    include <Windows.h>
 
 NS_CC_BEGIN
 
 typedef HANDLE pthread_t;
 typedef HANDLE pthread_mutex_t;
 typedef int pthread_cond_t;
-#define pthread_cond_wait(x, y)
+#    define pthread_cond_wait(x, y)
 
 void pthread_mutex_init(pthread_mutex_t* m, void* attributes);
 
@@ -52,12 +50,11 @@ int pthread_mutex_unlock(pthread_mutex_t* m);
 
 void pthread_mutex_destroy(pthread_mutex_t* m);
 
-#define pthread_cond_destroy(x)
-#define pthread_cond_signal(x)
-#define pthread_cond_init(x, y)
+#    define pthread_cond_destroy(x)
+#    define pthread_cond_signal(x)
+#    define pthread_cond_init(x, y)
 
 NS_CC_END
-
 
 #endif // (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 

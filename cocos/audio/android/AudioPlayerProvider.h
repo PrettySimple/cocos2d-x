@@ -28,100 +28,99 @@ THE SOFTWARE.
 #include "audio/android/OpenSLHelper.h"
 #include "audio/android/PcmData.h"
 
-#include <unordered_map>
-#include <memory>
 #include <condition_variable>
+#include <memory>
+#include <unordered_map>
 
-namespace cocos2d { namespace experimental {
-// Manage PcmAudioPlayer& UrlAudioPlayer
-
-class PcmAudioPlayer;
-class PcmAudioService;
-class UrlAudioPlayer;
-class AudioMixerController;
-class ICallerThreadUtils;
-class AssetFd;
-class ThreadPool;
-
-class AudioPlayerProvider
+namespace cocos2d
 {
-public:
-    AudioPlayerProvider(SLEngineItf engineItf, SLObjectItf outputMixObject, int deviceSampleRate,
-                        int bufferSizeInFrames, const FdGetterCallback &fdGetterCallback,
-                        ICallerThreadUtils* callerThreadUtils);
-
-    virtual ~AudioPlayerProvider();
-
-    IAudioPlayer *getAudioPlayer(const std::string &audioFilePath);
-
-    typedef std::function<void(bool/* succeed */, PcmData /* data */)> PreloadCallback;
-    void preloadEffect(const std::string &audioFilePath, const PreloadCallback& cb);
-
-    void clearPcmCache(const std::string &audioFilePath);
-
-    void clearAllPcmCaches();
-
-    void pause();
-
-    void resume();
-
-private:
-
-    struct AudioFileInfo
+    namespace experimental
     {
-        std::string url;
-        std::shared_ptr<AssetFd> assetFd;
-        off_t start;
-        off_t length;
+        // Manage PcmAudioPlayer& UrlAudioPlayer
 
-        AudioFileInfo()
-                : assetFd(nullptr), start(0), length(0)
-        { };
+        class PcmAudioPlayer;
+        class PcmAudioService;
+        class UrlAudioPlayer;
+        class AudioMixerController;
+        class ICallerThreadUtils;
+        class AssetFd;
+        class ThreadPool;
 
-        inline bool isValid() const
+        class AudioPlayerProvider
         {
-            return !url.empty() && length > 0;
-        }
-    };
+        public:
+            AudioPlayerProvider(SLEngineItf engineItf, SLObjectItf outputMixObject, int deviceSampleRate, int bufferSizeInFrames,
+                                const FdGetterCallback& fdGetterCallback, ICallerThreadUtils* callerThreadUtils);
 
-    PcmAudioPlayer *obtainPcmAudioPlayer(const std::string &url, const PcmData &pcmData);
+            virtual ~AudioPlayerProvider();
 
-    UrlAudioPlayer *createUrlAudioPlayer(const AudioFileInfo &info);
+            IAudioPlayer* getAudioPlayer(const std::string& audioFilePath);
 
-    void preloadEffect(const AudioFileInfo &info, const PreloadCallback& cb, bool isPreloadInPlay2d);
+            typedef std::function<void(bool /* succeed */, PcmData /* data */)> PreloadCallback;
+            void preloadEffect(const std::string& audioFilePath, const PreloadCallback& cb);
 
-    AudioFileInfo getFileInfo(const std::string &audioFilePath);
+            void clearPcmCache(const std::string& audioFilePath);
 
-    bool isSmallFile(const AudioFileInfo &info);
+            void clearAllPcmCaches();
 
-private:
-    SLEngineItf _engineItf;
-    SLObjectItf _outputMixObject;
-    int _deviceSampleRate;
-    int _bufferSizeInFrames;
-    FdGetterCallback _fdGetterCallback;
-    ICallerThreadUtils* _callerThreadUtils;
+            void pause();
 
-    std::unordered_map<std::string, PcmData> _pcmCache;
-    std::mutex _pcmCacheMutex;
+            void resume();
 
-    struct PreloadCallbackParam
-    {
-        PreloadCallback callback;
-        bool isPreloadInPlay2d;
-    };
+        private:
+            struct AudioFileInfo
+            {
+                std::string url;
+                std::shared_ptr<AssetFd> assetFd;
+                off_t start;
+                off_t length;
 
-    std::unordered_map<std::string, std::vector<PreloadCallbackParam>> _preloadCallbackMap;
-    std::mutex _preloadCallbackMutex;
+                AudioFileInfo()
+                : assetFd(nullptr)
+                , start(0)
+                , length(0){};
 
-    std::mutex _preloadWaitMutex;
-    std::condition_variable _preloadWaitCond;
+                inline bool isValid() const { return !url.empty() && length > 0; }
+            };
 
-    PcmAudioService* _pcmAudioService;
-    AudioMixerController *_mixController;
+            PcmAudioPlayer* obtainPcmAudioPlayer(const std::string& url, const PcmData& pcmData);
 
-    ThreadPool* _threadPool;
-};
+            UrlAudioPlayer* createUrlAudioPlayer(const AudioFileInfo& info);
 
-}} // namespace cocos2d { namespace experimental {
+            void preloadEffect(const AudioFileInfo& info, const PreloadCallback& cb, bool isPreloadInPlay2d);
 
+            AudioFileInfo getFileInfo(const std::string& audioFilePath);
+
+            bool isSmallFile(const AudioFileInfo& info);
+
+        private:
+            SLEngineItf _engineItf;
+            SLObjectItf _outputMixObject;
+            int _deviceSampleRate;
+            int _bufferSizeInFrames;
+            FdGetterCallback _fdGetterCallback;
+            ICallerThreadUtils* _callerThreadUtils;
+
+            std::unordered_map<std::string, PcmData> _pcmCache;
+            std::mutex _pcmCacheMutex;
+
+            struct PreloadCallbackParam
+            {
+                PreloadCallback callback;
+                bool isPreloadInPlay2d;
+            };
+
+            std::unordered_map<std::string, std::vector<PreloadCallbackParam>> _preloadCallbackMap;
+            std::mutex _preloadCallbackMutex;
+
+            std::mutex _preloadWaitMutex;
+            std::condition_variable _preloadWaitCond;
+
+            PcmAudioService* _pcmAudioService;
+            AudioMixerController* _mixController;
+
+            ThreadPool* _threadPool;
+        };
+
+    } // namespace experimental
+} // namespace cocos2d

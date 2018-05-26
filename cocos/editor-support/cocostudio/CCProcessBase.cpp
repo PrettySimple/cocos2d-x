@@ -27,9 +27,9 @@ THE SOFTWARE.
 
 using namespace cocos2d;
 
-namespace cocostudio {
-
-ProcessBase::ProcessBase(void)
+namespace cocostudio
+{
+    ProcessBase::ProcessBase(void)
     : _processScale(1)
     , _isPause(true)
     , _isComplete(true)
@@ -38,121 +38,111 @@ ProcessBase::ProcessBase(void)
     , _rawDuration(0)
     , _loopType(ANIMATION_LOOP_BACK)
     , _tweenEasing(cocos2d::tweenfunc::Linear)
-    , _animationInternal(1/60.0f)
+    , _animationInternal(1 / 60.0f)
     , _durationTween(0)
     , _currentFrame(0)
     , _curFrameIndex(0)
     , _isLoopBack(false)
-{
-}
-
-
-ProcessBase::~ProcessBase(void)
-{
-}
-
-
-void ProcessBase::pause()
-{
-    _isPause = true;
-    _isPlaying = false;
-}
-
-
-void ProcessBase::resume()
-{
-    _isPause = false;
-    _isPlaying = true;
-}
-
-void ProcessBase::stop()
-{
-    _isComplete = true;
-    _isPlaying = false;
-}
-
-void ProcessBase::play(int durationTo, int durationTween,  int loop, int tweenEasing)
-{
-    _isComplete = false;
-    _isPause = false;
-    _isPlaying = true;
-    _currentFrame = 0;
-
-    /*
-     *  Set m_iTotalFrames to durationTo, it is used for change tween between two animation.
-     *  When changing end, m_iTotalFrames will be set to _durationTween
-     */
-    _nextFrameIndex = durationTo;
-    _tweenEasing = (cocos2d::tweenfunc::TweenType)tweenEasing;
-
-}
-
-void ProcessBase::update(float dt)
-{
-
-    if (_isComplete || _isPause)
     {
-        return;
     }
 
-    /*
-     *  Filter the m_iDuration <=0 and dt >1
-     *  If dt>1, generally speaking  the reason is the device is stuck.
-     */
-    if(_rawDuration <= 0 || dt > 1)
+    ProcessBase::~ProcessBase(void) {}
+
+    void ProcessBase::pause()
     {
-        return;
+        _isPause = true;
+        _isPlaying = false;
     }
 
-    if (_nextFrameIndex <= 0)
+    void ProcessBase::resume()
     {
-        _currentPercent = 1;
+        _isPause = false;
+        _isPlaying = true;
+    }
+
+    void ProcessBase::stop()
+    {
+        _isComplete = true;
+        _isPlaying = false;
+    }
+
+    void ProcessBase::play(int durationTo, int durationTween, int loop, int tweenEasing)
+    {
+        _isComplete = false;
+        _isPause = false;
+        _isPlaying = true;
         _currentFrame = 0;
-    }
-    else
-    {
-        /*
-        *  update _currentFrame, every update add the frame passed.
-        *  dt/_animationInternal determine it is not a frame animation. If frame speed changed, it will not make our
-        *  animation speed slower or quicker.
-        */
-        _currentFrame += _processScale * (dt / _animationInternal);
-
-
-        _currentPercent = _currentFrame / _nextFrameIndex;
 
         /*
-        *	if _currentFrame is bigger or equal than m_iTotalFrames, then reduce it until _currentFrame is
-        *  smaller than m_iTotalFrames
-        */
-        _currentFrame = fmodf(_currentFrame, _nextFrameIndex);
+         *  Set m_iTotalFrames to durationTo, it is used for change tween between two animation.
+         *  When changing end, m_iTotalFrames will be set to _durationTween
+         */
+        _nextFrameIndex = durationTo;
+        _tweenEasing = (cocos2d::tweenfunc::TweenType)tweenEasing;
     }
 
-    updateHandler();
-}
-
-
-
-void ProcessBase::gotoFrame(int frameIndex)
-{
-    if (_loopType == ANIMATION_NO_LOOP)
+    void ProcessBase::update(float dt)
     {
-        _loopType = ANIMATION_MAX;
+        if (_isComplete || _isPause)
+        {
+            return;
+        }
+
+        /*
+         *  Filter the m_iDuration <=0 and dt >1
+         *  If dt>1, generally speaking  the reason is the device is stuck.
+         */
+        if (_rawDuration <= 0 || dt > 1)
+        {
+            return;
+        }
+
+        if (_nextFrameIndex <= 0)
+        {
+            _currentPercent = 1;
+            _currentFrame = 0;
+        }
+        else
+        {
+            /*
+             *  update _currentFrame, every update add the frame passed.
+             *  dt/_animationInternal determine it is not a frame animation. If frame speed changed, it will not make our
+             *  animation speed slower or quicker.
+             */
+            _currentFrame += _processScale * (dt / _animationInternal);
+
+            _currentPercent = _currentFrame / _nextFrameIndex;
+
+            /*
+             *	if _currentFrame is bigger or equal than m_iTotalFrames, then reduce it until _currentFrame is
+             *  smaller than m_iTotalFrames
+             */
+            _currentFrame = fmodf(_currentFrame, _nextFrameIndex);
+        }
+
+        updateHandler();
     }
-    else if (_loopType == ANIMATION_TO_LOOP_FRONT)
+
+    void ProcessBase::gotoFrame(int frameIndex)
     {
-        _loopType = ANIMATION_LOOP_FRONT;
+        if (_loopType == ANIMATION_NO_LOOP)
+        {
+            _loopType = ANIMATION_MAX;
+        }
+        else if (_loopType == ANIMATION_TO_LOOP_FRONT)
+        {
+            _loopType = ANIMATION_LOOP_FRONT;
+        }
+
+        _curFrameIndex = frameIndex;
+
+        _nextFrameIndex = _durationTween;
     }
 
-    _curFrameIndex = frameIndex;
-    
-    _nextFrameIndex = _durationTween;
-}
+    int ProcessBase::getCurrentFrameIndex()
+    {
+        _curFrameIndex = (_rawDuration - 1) * _currentPercent;
+        return _curFrameIndex;
+    }
 
-int ProcessBase::getCurrentFrameIndex()
-{
-    _curFrameIndex = (_rawDuration-1) * _currentPercent;
-    return _curFrameIndex;
-}
-
-}
+} // namespace cocostudio

@@ -25,106 +25,107 @@ THE SOFTWARE.
 #ifndef __CC_EXTENTIONS_CCCOMAUDIO_H__
 #define __CC_EXTENTIONS_CCCOMAUDIO_H__
 
+#include "2d/CCComponent.h"
 #include "CCComBase.h"
 #include "base/CCProtocols.h"
-#include "2d/CCComponent.h"
 #include "cocostudio/CocosStudioExport.h"
 
-namespace cocostudio {
-
-    class CC_STUDIO_DLL ComAudio : public cocos2d::Component, public cocos2d::PlayableProtocol
+namespace cocostudio
 {
-    DECLARE_CLASS_COMPONENT_INFO
-public:
-    const static std::string COMPONENT_NAME;
+    class CC_STUDIO_DLL ComAudio : public cocos2d::Component, public cocos2d::PlayableProtocol
+    {
+        DECLARE_CLASS_COMPONENT_INFO
+    public:
+        const static std::string COMPONENT_NAME;
 
-    /**
-     * @js ctor
-     */
-    ComAudio();
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~ComAudio();
-    
-public:
-    static ComAudio* create();
+        /**
+         * @js ctor
+         */
+        ComAudio();
+        /**
+         * @js NA
+         * @lua NA
+         */
+        virtual ~ComAudio();
 
-    virtual bool init() override;
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual void onEnter() override;
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual void onExit() override;
-    /**
-    * @js NA
-    * @lua NA
-    */
-    virtual void onAdd() override;
-    /**
-    * @js NA
-    * @lua NA
-    */
-    virtual void onRemove() override;
+    public:
+        static ComAudio* create();
 
-    virtual bool serialize(void* r) override;
-public:
-    /**
-    * @lua endToLua
-    */
-    void end();
-    void preloadBackgroundMusic(const char* pszFilePath);
-    void playBackgroundMusic(const char* pszFilePath, bool bLoop);
-    void playBackgroundMusic(const char* pszFilePath);
-    void playBackgroundMusic();
-    void stopBackgroundMusic(bool bReleaseData);
-    void stopBackgroundMusic();
-    void pauseBackgroundMusic();
-    void resumeBackgroundMusic();
-    void rewindBackgroundMusic();
-    bool willPlayBackgroundMusic();
-    bool isBackgroundMusicPlaying();
-    float getBackgroundMusicVolume();
-    void setBackgroundMusicVolume(float volume);
-    float getEffectsVolume();
-    void setEffectsVolume(float volume);
-    unsigned int playEffect(const char* pszFilePath, bool bLoop);
-    unsigned int playEffect(const char* pszFilePath);
-    unsigned int playEffect();
-    void pauseEffect(unsigned int nSoundId);
-    void pauseAllEffects();
-    void resumeEffect(unsigned int nSoundId);
-    void resumeAllEffects();
-    void stopEffect(unsigned int nSoundId);
-    void stopAllEffects();
-    void preloadEffect(const char* pszFilePath);
-    void unloadEffect(const char* pszFilePath);
-    void setFile(const char* pszFilePath);
-    const char* getFile();
-    void setLoop(bool bLoop);
-    bool isLoop();
-    
-    /// @{
-    /// @name implement Playable Protocol
-    // play the effect sound path in _filePath
-    virtual void start() override;
-    // stop the effect sound which started with latest start()
-    virtual void stop() override;
-    /// @} end of PlaybleProtocol
+        virtual bool init() override;
+        /**
+         * @js NA
+         * @lua NA
+         */
+        virtual void onEnter() override;
+        /**
+         * @js NA
+         * @lua NA
+         */
+        virtual void onExit() override;
+        /**
+         * @js NA
+         * @lua NA
+         */
+        virtual void onAdd() override;
+        /**
+         * @js NA
+         * @lua NA
+         */
+        virtual void onRemove() override;
 
-private:
-    std::string _filePath;
-    bool _loop;
+        virtual bool serialize(void* r) override;
 
-    unsigned int _startedSoundId; // !playing sound id from start(), not playEffect
-};
+    public:
+        /**
+         * @lua endToLua
+         */
+        void end();
+        void preloadBackgroundMusic(const char* pszFilePath);
+        void playBackgroundMusic(const char* pszFilePath, bool bLoop);
+        void playBackgroundMusic(const char* pszFilePath);
+        void playBackgroundMusic();
+        void stopBackgroundMusic(bool bReleaseData);
+        void stopBackgroundMusic();
+        void pauseBackgroundMusic();
+        void resumeBackgroundMusic();
+        void rewindBackgroundMusic();
+        bool willPlayBackgroundMusic();
+        bool isBackgroundMusicPlaying();
+        float getBackgroundMusicVolume();
+        void setBackgroundMusicVolume(float volume);
+        float getEffectsVolume();
+        void setEffectsVolume(float volume);
+        unsigned int playEffect(const char* pszFilePath, bool bLoop);
+        unsigned int playEffect(const char* pszFilePath);
+        unsigned int playEffect();
+        void pauseEffect(unsigned int nSoundId);
+        void pauseAllEffects();
+        void resumeEffect(unsigned int nSoundId);
+        void resumeAllEffects();
+        void stopEffect(unsigned int nSoundId);
+        void stopAllEffects();
+        void preloadEffect(const char* pszFilePath);
+        void unloadEffect(const char* pszFilePath);
+        void setFile(const char* pszFilePath);
+        const char* getFile();
+        void setLoop(bool bLoop);
+        bool isLoop();
 
-}
+        /// @{
+        /// @name implement Playable Protocol
+        // play the effect sound path in _filePath
+        virtual void start() override;
+        // stop the effect sound which started with latest start()
+        virtual void stop() override;
+        /// @} end of PlaybleProtocol
 
-#endif  // __CC_EXTENTIONS_CCCOMAUDIO_H__
+    private:
+        std::string _filePath;
+        bool _loop;
+
+        unsigned int _startedSoundId; // !playing sound id from start(), not playEffect
+    };
+
+} // namespace cocostudio
+
+#endif // __CC_EXTENTIONS_CCCOMAUDIO_H__

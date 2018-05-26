@@ -26,11 +26,11 @@
 #define __CCEVENTLISTENER_H__
 
 #include <functional>
-#include <string>
 #include <memory>
+#include <string>
 
-#include "platform/CCPlatformMacros.h"
 #include "base/CCRef.h"
+#include "platform/CCPlatformMacros.h"
 
 /**
  * @addtogroup base
@@ -60,32 +60,33 @@ public:
         MOUSE,
         ACCELERATION,
         FOCUS,
-		GAME_CONTROLLER,
+        GAME_CONTROLLER,
         CUSTOM
     };
 
     typedef std::string ListenerID;
 
-CC_CONSTRUCTOR_ACCESS:
-    /**
-     * Constructor
-     * @js ctor
-     */
-    EventListener();
+    CC_CONSTRUCTOR_ACCESS :
+        /**
+         * Constructor
+         * @js ctor
+         */
+        EventListener();
 
-    /** 
+    /**
      * Initializes event with type and callback function
      * @js NA
      */
     bool init(Type t, const ListenerID& listenerID, const std::function<void(Event*)>& callback);
+
 public:
     /** Destructor.
-     * @js NA 
+     * @js NA
      */
     virtual ~EventListener();
 
     /** Checks whether the listener is available.
-     * 
+     *
      * @return True if the listener is available.
      */
     virtual bool checkAvailable() = 0;
@@ -111,7 +112,6 @@ public:
     bool isEnabled() const { return _isEnabled; }
 
 protected:
-
     /** Sets paused state for the listener
      *  The paused state is only used for scene graph priority listeners.
      *  `EventDispatcher::resumeAllEventListenersForTarget(node)` will set the paused state to `true`,
@@ -163,16 +163,16 @@ protected:
     ///////////////
     // Properties
     //////////////
-    std::function<void(Event*)> _onEvent;   /// Event callback function
+    std::function<void(Event*)> _onEvent; /// Event callback function
 
-    Type _type;                             /// Event listener type
-    ListenerID _listenerID;                 /// Event listener ID
-    bool _isRegistered;                     /// Whether the listener has been added to dispatcher.
+    Type _type; /// Event listener type
+    ListenerID _listenerID; /// Event listener ID
+    bool _isRegistered; /// Whether the listener has been added to dispatcher.
 
-    int   _fixedPriority;   // The higher the number, the higher the priority, 0 is for scene graph base priority.
-    Node* _node;            // scene graph based priority
-    bool _paused;           // Whether the listener is paused
-    bool _isEnabled;        // Whether the listener is enabled
+    int _fixedPriority; // The higher the number, the higher the priority, 0 is for scene graph base priority.
+    Node* _node; // scene graph based priority
+    bool _paused; // Whether the listener is paused
+    bool _isEnabled; // Whether the listener is enabled
     friend class EventDispatcher;
 };
 

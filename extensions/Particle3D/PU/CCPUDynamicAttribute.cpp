@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,52 +28,53 @@
 #include "platform/CCStdC.h"
 
 NS_CC_BEGIN
-    //-----------------------------------------------------------------------
-    PUDynamicAttribute::PUDynamicAttribute (void)
+//-----------------------------------------------------------------------
+PUDynamicAttribute::PUDynamicAttribute(void)
 {
 }
 //-----------------------------------------------------------------------
-PUDynamicAttribute::~PUDynamicAttribute (void)
+PUDynamicAttribute::~PUDynamicAttribute(void)
 {
 }
 //-----------------------------------------------------------------------
-PUDynamicAttribute::DynamicAttributeType PUDynamicAttribute::getType (void) const
+PUDynamicAttribute::DynamicAttributeType PUDynamicAttribute::getType(void) const
 {
     return _type;
 }
 //-----------------------------------------------------------------------
-void PUDynamicAttribute::setType (PUDynamicAttribute::DynamicAttributeType type)
+void PUDynamicAttribute::setType(PUDynamicAttribute::DynamicAttributeType type)
 {
     _type = type;
 }
 
 //-----------------------------------------------------------------------
-PUDynamicAttributeFixed::PUDynamicAttributeFixed (void) : _value(0)
+PUDynamicAttributeFixed::PUDynamicAttributeFixed(void)
+: _value(0)
 {
     _type = PUDynamicAttribute::DAT_FIXED;
 }
 //-----------------------------------------------------------------------
-PUDynamicAttributeFixed::PUDynamicAttributeFixed (const PUDynamicAttributeFixed& dynamicAttributeFixed)
+PUDynamicAttributeFixed::PUDynamicAttributeFixed(const PUDynamicAttributeFixed& dynamicAttributeFixed)
 {
     _type = PUDynamicAttribute::DAT_FIXED;
     _value = dynamicAttributeFixed._value;
 }
 //-----------------------------------------------------------------------
-PUDynamicAttributeFixed::~PUDynamicAttributeFixed (void)
+PUDynamicAttributeFixed::~PUDynamicAttributeFixed(void)
 {
 }
 //-----------------------------------------------------------------------
-void PUDynamicAttributeFixed::setValue (float value)
+void PUDynamicAttributeFixed::setValue(float value)
 {
     _value = value;
 }
 //-----------------------------------------------------------------------
-float PUDynamicAttributeFixed::getValue (float x)
+float PUDynamicAttributeFixed::getValue(float x)
 {
     return _value;
 }
 
-void PUDynamicAttributeFixed::copyAttributesTo( PUDynamicAttribute* dynamicAttribute )
+void PUDynamicAttributeFixed::copyAttributesTo(PUDynamicAttribute* dynamicAttribute)
 {
     if (!dynamicAttribute || dynamicAttribute->getType() != PUDynamicAttribute::DAT_FIXED)
         return;
@@ -90,54 +91,56 @@ PUDynamicAttributeFixed* PUDynamicAttributeFixed::clone()
 }
 
 //-----------------------------------------------------------------------
-PUDynamicAttributeRandom::PUDynamicAttributeRandom (void) : _min(0), _max(0)
+PUDynamicAttributeRandom::PUDynamicAttributeRandom(void)
+: _min(0)
+, _max(0)
 {
     _type = PUDynamicAttribute::DAT_RANDOM;
 }
 //-----------------------------------------------------------------------
-PUDynamicAttributeRandom::PUDynamicAttributeRandom (const PUDynamicAttributeRandom& dynamicAttributeRandom)
+PUDynamicAttributeRandom::PUDynamicAttributeRandom(const PUDynamicAttributeRandom& dynamicAttributeRandom)
 {
     _type = PUDynamicAttribute::DAT_RANDOM;
     _min = dynamicAttributeRandom._min;
     _max = dynamicAttributeRandom._max;
 }
 //-----------------------------------------------------------------------
-PUDynamicAttributeRandom::~PUDynamicAttributeRandom (void)
+PUDynamicAttributeRandom::~PUDynamicAttributeRandom(void)
 {
 }
 //-----------------------------------------------------------------------
-float PUDynamicAttributeRandom::getMin (void) const
+float PUDynamicAttributeRandom::getMin(void) const
 {
     return _min;
 }
 //-----------------------------------------------------------------------
-void PUDynamicAttributeRandom::setMin (float min)
+void PUDynamicAttributeRandom::setMin(float min)
 {
     _min = min;
 }
 //-----------------------------------------------------------------------
-float PUDynamicAttributeRandom::getMax (void) const
+float PUDynamicAttributeRandom::getMax(void) const
 {
     return _max;
 }
 //-----------------------------------------------------------------------
-void PUDynamicAttributeRandom::setMax (float max)
+void PUDynamicAttributeRandom::setMax(float max)
 {
     _max = max;
 }
 //-----------------------------------------------------------------------
-void PUDynamicAttributeRandom::setMinMax (float min, float max)
+void PUDynamicAttributeRandom::setMinMax(float min, float max)
 {
     _min = min;
     _max = max;
 }
 //-----------------------------------------------------------------------
-float PUDynamicAttributeRandom::getValue (float x)
+float PUDynamicAttributeRandom::getValue(float x)
 {
     return cocos2d::random(_min, _max);
 }
 
-void PUDynamicAttributeRandom::copyAttributesTo( PUDynamicAttribute* dynamicAttribute )
+void PUDynamicAttributeRandom::copyAttributesTo(PUDynamicAttribute* dynamicAttribute)
 {
     if (!dynamicAttribute || dynamicAttribute->getType() != PUDynamicAttribute::DAT_RANDOM)
         return;
@@ -155,21 +158,21 @@ PUDynamicAttributeRandom* PUDynamicAttributeRandom::clone()
 }
 
 //-----------------------------------------------------------------------
-PUDynamicAttributeCurved::PUDynamicAttributeCurved (void) : 
-	_range(0),
-	_interpolationType(IT_LINEAR)
+PUDynamicAttributeCurved::PUDynamicAttributeCurved(void)
+: _range(0)
+, _interpolationType(IT_LINEAR)
 {
     _type = PUDynamicAttribute::DAT_CURVED;
 }
 //-----------------------------------------------------------------------
-PUDynamicAttributeCurved::PUDynamicAttributeCurved (PUInterpolationType interpolationType) : 
-    _range(0),
-    _interpolationType(interpolationType) 
+PUDynamicAttributeCurved::PUDynamicAttributeCurved(PUInterpolationType interpolationType)
+: _range(0)
+, _interpolationType(interpolationType)
 {
     _type = PUDynamicAttribute::DAT_CURVED;
 }
 //-----------------------------------------------------------------------
-PUDynamicAttributeCurved::PUDynamicAttributeCurved (const PUDynamicAttributeCurved& dynamicAttributeCurved)
+PUDynamicAttributeCurved::PUDynamicAttributeCurved(const PUDynamicAttributeCurved& dynamicAttributeCurved)
 {
     _type = PUDynamicAttribute::DAT_CURVED;
     _interpolationType = dynamicAttributeCurved._interpolationType;
@@ -182,16 +185,16 @@ PUDynamicAttributeCurved::PUDynamicAttributeCurved (const PUDynamicAttributeCurv
     for (it = dynamicAttributeCurved._controlPoints.begin(); it != itEnd; ++it)
     {
         Vec2 controlPoint = *it;
-        _controlPoints.push_back (controlPoint);
+        _controlPoints.push_back(controlPoint);
     }
     processControlPoints();
 }
 //-----------------------------------------------------------------------
-PUDynamicAttributeCurved::~PUDynamicAttributeCurved (void)
+PUDynamicAttributeCurved::~PUDynamicAttributeCurved(void)
 {
 }
 //-----------------------------------------------------------------------
-void PUDynamicAttributeCurved::setInterpolationType (PUInterpolationType interpolationType)
+void PUDynamicAttributeCurved::setInterpolationType(PUInterpolationType interpolationType)
 {
     if (interpolationType != _interpolationType)
     {
@@ -201,16 +204,16 @@ void PUDynamicAttributeCurved::setInterpolationType (PUInterpolationType interpo
     }
 }
 //-----------------------------------------------------------------------
-PUInterpolationType PUDynamicAttributeCurved::getInterpolationType (void) const
+PUInterpolationType PUDynamicAttributeCurved::getInterpolationType(void) const
 {
     return _interpolationType;
 }
 //-----------------------------------------------------------------------
-float PUDynamicAttributeCurved::getValue (float x)
+float PUDynamicAttributeCurved::getValue(float x)
 {
     switch (_interpolationType)
     {
-    case IT_LINEAR:
+        case IT_LINEAR:
         {
             // Search the interval in which 'x' resides and apply linear interpolation
             if (_controlPoints.empty())
@@ -221,7 +224,7 @@ float PUDynamicAttributeCurved::getValue (float x)
             if (it2 != _controlPoints.end())
             {
                 // Calculate fraction: y = y1 + ((y2 - y1) * (x - x1)/(x2 - x1))
-                return (*it1).y + (((*it2).y - (*it1).y) * (x - (*it1).x)/((*it2).x - (*it1).x));
+                return (*it1).y + (((*it2).y - (*it1).y) * (x - (*it1).x) / ((*it2).x - (*it1).x));
             }
             else
             {
@@ -230,7 +233,7 @@ float PUDynamicAttributeCurved::getValue (float x)
         }
         break;
 
-    case IT_SPLINE:
+        case IT_SPLINE:
         {
             // Fit using spline
             if (_spline.getNumPoints() < 1)
@@ -245,12 +248,12 @@ float PUDynamicAttributeCurved::getValue (float x)
     return 0;
 }
 //-----------------------------------------------------------------------
-void PUDynamicAttributeCurved::addControlPoint (float x, float y)
+void PUDynamicAttributeCurved::addControlPoint(float x, float y)
 {
     _controlPoints.push_back(Vec2(x, y));
 }
 //-----------------------------------------------------------------------
-const PUDynamicAttributeCurved::ControlPointList& PUDynamicAttributeCurved::getControlPoints (void) const
+const PUDynamicAttributeCurved::ControlPointList& PUDynamicAttributeCurved::getControlPoints(void) const
 {
     return _controlPoints;
 }
@@ -313,7 +316,7 @@ PUDynamicAttributeCurved::ControlPointList::iterator PUDynamicAttributeCurved::g
     return _controlPoints.end() - 1;
 }
 
-void PUDynamicAttributeCurved::copyAttributesTo( PUDynamicAttribute* dynamicAttribute )
+void PUDynamicAttributeCurved::copyAttributesTo(PUDynamicAttribute* dynamicAttribute)
 {
     if (!dynamicAttribute || dynamicAttribute->getType() != PUDynamicAttribute::DAT_CURVED)
         return;
@@ -342,89 +345,89 @@ PUDynamicAttributeCurved* PUDynamicAttributeCurved::clone()
 }
 
 //-----------------------------------------------------------------------
-PUDynamicAttributeOscillate::PUDynamicAttributeOscillate (void) :
-    _oscillationType(PUDynamicAttributeOscillate::OSCT_SINE),
-    _frequency(1.0f),
-    _phase(0.0f),
-    _base(0.0f),
-    _amplitude(1.0f)
+PUDynamicAttributeOscillate::PUDynamicAttributeOscillate(void)
+: _oscillationType(PUDynamicAttributeOscillate::OSCT_SINE)
+, _frequency(1.0f)
+, _phase(0.0f)
+, _base(0.0f)
+, _amplitude(1.0f)
 {
     _type = PUDynamicAttribute::DAT_OSCILLATE;
 }
 //-----------------------------------------------------------------------
-PUDynamicAttributeOscillate::PUDynamicAttributeOscillate (const PUDynamicAttributeOscillate& dynamicAttributeOscillate)
+PUDynamicAttributeOscillate::PUDynamicAttributeOscillate(const PUDynamicAttributeOscillate& dynamicAttributeOscillate)
 {
     _type = PUDynamicAttribute::DAT_OSCILLATE;
 }
 //-----------------------------------------------------------------------
-PUDynamicAttributeOscillate::~PUDynamicAttributeOscillate (void)
+PUDynamicAttributeOscillate::~PUDynamicAttributeOscillate(void)
 {
 }
 //-----------------------------------------------------------------------
-PUDynamicAttributeOscillate::OscillationType PUDynamicAttributeOscillate::getOscillationType (void) const
+PUDynamicAttributeOscillate::OscillationType PUDynamicAttributeOscillate::getOscillationType(void) const
 {
     return _oscillationType;
 }
 //-----------------------------------------------------------------------
-void PUDynamicAttributeOscillate::setOscillationType (PUDynamicAttributeOscillate::OscillationType oscillationType)
+void PUDynamicAttributeOscillate::setOscillationType(PUDynamicAttributeOscillate::OscillationType oscillationType)
 {
     _oscillationType = oscillationType;
 }
 //-----------------------------------------------------------------------
-float PUDynamicAttributeOscillate::getFrequency (void) const
+float PUDynamicAttributeOscillate::getFrequency(void) const
 {
     return _frequency;
 }
 //-----------------------------------------------------------------------
-void PUDynamicAttributeOscillate::setFrequency (float frequency)
+void PUDynamicAttributeOscillate::setFrequency(float frequency)
 {
     _frequency = frequency;
 }
 //-----------------------------------------------------------------------
-float PUDynamicAttributeOscillate::getPhase (void) const
+float PUDynamicAttributeOscillate::getPhase(void) const
 {
     return _phase;
 }
 //-----------------------------------------------------------------------
-void PUDynamicAttributeOscillate::setPhase (float phase)
+void PUDynamicAttributeOscillate::setPhase(float phase)
 {
     _phase = phase;
 }
 //-----------------------------------------------------------------------
-float PUDynamicAttributeOscillate::getBase (void) const
+float PUDynamicAttributeOscillate::getBase(void) const
 {
     return _base;
 }
 //-----------------------------------------------------------------------
-void PUDynamicAttributeOscillate::setBase (float base)
+void PUDynamicAttributeOscillate::setBase(float base)
 {
     _base = base;
 }
 //-----------------------------------------------------------------------
-float PUDynamicAttributeOscillate::getAmplitude (void) const
+float PUDynamicAttributeOscillate::getAmplitude(void) const
 {
     return _amplitude;
 }
 //-----------------------------------------------------------------------
-void PUDynamicAttributeOscillate::setAmplitude (float amplitude)
+void PUDynamicAttributeOscillate::setAmplitude(float amplitude)
 {
     _amplitude = amplitude;
 }
 //-----------------------------------------------------------------------
-float PUDynamicAttributeOscillate::getValue (float x)
+float PUDynamicAttributeOscillate::getValue(float x)
 {
     switch (_oscillationType)
     {
-    case OSCT_SINE:
+        case OSCT_SINE:
         {
             return _base + _amplitude * sin(_phase + _frequency * x * M_PI * 2.0f);
         }
         break;
-    case OSCT_SQUARE:
+        case OSCT_SQUARE:
         {
             float val = sin(_phase + _frequency * x * M_PI * 2.0f);
             if (std::abs(val) < 0.00001f)
-                val = val >0? 1: -1;
+                val = val > 0 ? 1 : -1;
             return _base + _amplitude * val;
         }
         break;
@@ -433,7 +436,7 @@ float PUDynamicAttributeOscillate::getValue (float x)
     return 0;
 }
 
-void PUDynamicAttributeOscillate::copyAttributesTo( PUDynamicAttribute* dynamicAttribute )
+void PUDynamicAttributeOscillate::copyAttributesTo(PUDynamicAttribute* dynamicAttribute)
 {
     if (!dynamicAttribute || dynamicAttribute->getType() != PUDynamicAttribute::DAT_OSCILLATE)
         return;

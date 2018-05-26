@@ -24,8 +24,8 @@
 #ifndef __jsb_cocos2dx_spine_manual__
 #define __jsb_cocos2dx_spine_manual__
 
-#include "jsapi.h"
 #include "editor-support/spine/spine-cocos2dx.h"
+#include "jsapi.h"
 
 void register_all_cocos2dx_spine_manual(JSContext* cx, JS::HandleObject global);
 

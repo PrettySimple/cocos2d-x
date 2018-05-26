@@ -27,8 +27,8 @@ THE SOFTWARE.
 
 #pragma once
 
-#include <agile.h>
 #include "platform/winrt/InputEvent.h"
+#include <agile.h>
 
 NS_CC_BEGIN
 
@@ -38,15 +38,14 @@ public:
     KeyBoardWinRT();
     virtual ~KeyBoardWinRT();
 
-    void ShowKeyboard(Platform::String^ text);
-    void HideKeyboard(Platform::String^ text);
+    void ShowKeyboard(Platform::String ^ text);
+    void HideKeyboard(Platform::String ^ text);
 
-internal:
-    void OnWinRTKeyboardEvent(WinRTKeyboardEventType type, Windows::UI::Core::KeyEventArgs^ args);
+    internal : void OnWinRTKeyboardEvent(WinRTKeyboardEventType type, Windows::UI::Core::KeyEventArgs ^ args);
 
 private:
-    void OnTextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ args);
-    Windows::UI::Xaml::Controls::TextBox^ m_textBox;
+    void OnTextChanged(Platform::Object ^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs ^ args);
+    Windows::UI::Xaml::Controls::TextBox ^ m_textBox;
 };
 
 NS_CC_END

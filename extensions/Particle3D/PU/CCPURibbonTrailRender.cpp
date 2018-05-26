@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,20 +23,20 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "extensions/Particle3D/CCParticleSystem3D.h"
 #include "extensions/Particle3D/PU/CCPURibbonTrailRender.h"
-#include "extensions/Particle3D/PU/CCPUUtil.h"
+#include "2d/CCCamera.h"
+#include "3d/CCMesh.h"
+#include "3d/CCSprite3D.h"
+#include "base/CCDirector.h"
+#include "extensions/Particle3D/CCParticleSystem3D.h"
 #include "extensions/Particle3D/PU/CCPUSimpleSpline.h"
+#include "extensions/Particle3D/PU/CCPUUtil.h"
+#include "renderer/CCGLProgramCache.h"
+#include "renderer/CCGLProgramState.h"
 #include "renderer/CCMeshCommand.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/CCTextureCache.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCGLProgramCache.h"
 #include "renderer/CCVertexIndexBuffer.h"
-#include "base/CCDirector.h"
-#include "3d/CCSprite3D.h"
-#include "3d/CCMesh.h"
-#include "2d/CCCamera.h"
 #include <sstream>
 
 NS_CC_BEGIN
@@ -50,7 +50,7 @@ const bool PURibbonTrailRender::DEFAULT_RANDOM_INITIAL_COLOUR = true;
 const Vec4 PURibbonTrailRender::DEFAULT_INITIAL_COLOUR(1, 1, 1, 1);
 const Vec4 PURibbonTrailRender::DEFAULT_COLOUR_CHANGE(0.5, 0.5, 0.5, 0.5);
 
-PURibbonTrailRender* PURibbonTrailRender::create( const std::string &texFile )
+PURibbonTrailRender* PURibbonTrailRender::create(const std::string& texFile)
 {
     auto br = new (std::nothrow) PURibbonTrailRender();
     br->autorelease();
@@ -58,29 +58,34 @@ PURibbonTrailRender* PURibbonTrailRender::create( const std::string &texFile )
     return br;
 }
 
-void PURibbonTrailRender::render( Renderer* renderer, const Mat4 &transform, ParticleSystem3D* particleSystem )
+void PURibbonTrailRender::render(Renderer* renderer, const Mat4& transform, ParticleSystem3D* particleSystem)
 {
     if (!_isVisible || !_trail)
         return;
 
     bool needDraw = false;
-    const ParticlePool &particlePool = particleSystem->getParticlePool();
-    if (!particlePool.empty()){
+    const ParticlePool& particlePool = particleSystem->getParticlePool();
+    if (!particlePool.empty())
+    {
         updateParticles(particlePool);
         needDraw = true;
     }
 
-    const PUParticleSystem3D::ParticlePoolMap &emitterPool = static_cast<PUParticleSystem3D *>(particleSystem)->getEmittedEmitterParticlePool();
-    if (!emitterPool.empty()){
-        for (auto iter : emitterPool){
+    const PUParticleSystem3D::ParticlePoolMap& emitterPool = static_cast<PUParticleSystem3D*>(particleSystem)->getEmittedEmitterParticlePool();
+    if (!emitterPool.empty())
+    {
+        for (auto iter : emitterPool)
+        {
             updateParticles(iter.second);
             needDraw = true;
         }
     }
 
-    const PUParticleSystem3D::ParticlePoolMap &systemPool = static_cast<PUParticleSystem3D *>(particleSystem)->getEmittedSystemParticlePool();
-    if (!systemPool.empty()){
-        for (auto iter : systemPool){
+    const PUParticleSystem3D::ParticlePoolMap& systemPool = static_cast<PUParticleSystem3D*>(particleSystem)->getEmittedSystemParticlePool();
+    if (!systemPool.empty())
+    {
+        for (auto iter : systemPool)
+        {
             updateParticles(iter.second);
             needDraw = true;
         }
@@ -90,21 +95,21 @@ void PURibbonTrailRender::render( Renderer* renderer, const Mat4 &transform, Par
         _trail->render(renderer, transform, particleSystem);
 }
 
-PURibbonTrailRender::PURibbonTrailRender() : 
-    _quota(0),
-    _trail(0),
-    _useVertexColours(DEFAULT_USE_VERTEX_COLOURS),
-    _maxChainElements(DEFAULT_MAX_ELEMENTS),
-    _trailLength(DEFAULT_LENGTH),
-    _trailWidth(DEFAULT_WIDTH),
-    _randomInitialColor(DEFAULT_RANDOM_INITIAL_COLOUR),
-    _setLength(false),
-    _setWidth(false),
-    _initialColor(DEFAULT_INITIAL_COLOUR),
-    _colorChange(DEFAULT_COLOUR_CHANGE),
-    _childNode(0)
+PURibbonTrailRender::PURibbonTrailRender()
+: _quota(0)
+, _trail(0)
+, _useVertexColours(DEFAULT_USE_VERTEX_COLOURS)
+, _maxChainElements(DEFAULT_MAX_ELEMENTS)
+, _trailLength(DEFAULT_LENGTH)
+, _trailWidth(DEFAULT_WIDTH)
+, _randomInitialColor(DEFAULT_RANDOM_INITIAL_COLOUR)
+, _setLength(false)
+, _setWidth(false)
+, _initialColor(DEFAULT_INITIAL_COLOUR)
+, _colorChange(DEFAULT_COLOUR_CHANGE)
+, _childNode(0)
 {
-    std::stringstream ss; 
+    std::stringstream ss;
     ss << this;
     _ribbonTrailName = "RibbonTrail" + ss.str();
     autoRotate = false;
@@ -118,12 +123,12 @@ PURibbonTrailRender::~PURibbonTrailRender()
     destroyAll();
 }
 
-void PURibbonTrailRender::particleEmitted( PUParticleSystem3D* particleSystem, PUParticle3D* particle )
+void PURibbonTrailRender::particleEmitted(PUParticleSystem3D* particleSystem, PUParticle3D* particle)
 {
     // Assigning visual data already done in _updateRenderQueue()
 }
 
-void PURibbonTrailRender::particleExpired( PUParticleSystem3D* particleSystem, PUParticle3D* particle )
+void PURibbonTrailRender::particleExpired(PUParticleSystem3D* particleSystem, PUParticle3D* particle)
 {
     if (particle->visualData)
     {
@@ -136,74 +141,74 @@ void PURibbonTrailRender::particleExpired( PUParticleSystem3D* particleSystem, P
 bool PURibbonTrailRender::isUseVertexColors(void) const
 {
     return _useVertexColours;
-} 
+}
 //-----------------------------------------------------------------------
 void PURibbonTrailRender::setUseVertexColors(bool useVertexColours)
 {
     _useVertexColours = useVertexColours;
-} 
+}
 //-----------------------------------------------------------------------
 size_t PURibbonTrailRender::getMaxChainElements(void) const
 {
     return _maxChainElements;
-} 
+}
 //-----------------------------------------------------------------------
 void PURibbonTrailRender::setMaxChainElements(size_t maxChainElements)
 {
     _maxChainElements = maxChainElements;
-} 
+}
 //-----------------------------------------------------------------------
 float PURibbonTrailRender::getTrailLength(void) const
 {
     return _trailLength;
-} 
+}
 //-----------------------------------------------------------------------
 void PURibbonTrailRender::setTrailLength(float trailLength)
 {
     _trailLength = trailLength;
     _setLength = true;
-} 
+}
 //-----------------------------------------------------------------------
 float PURibbonTrailRender::getTrailWidth(void) const
 {
     return _trailWidth;
-} 
+}
 //-----------------------------------------------------------------------
 void PURibbonTrailRender::setTrailWidth(float trailWidth)
 {
     _trailWidth = trailWidth;
     _setWidth = true;
-} 
+}
 //-----------------------------------------------------------------------
 bool PURibbonTrailRender::isRandomInitialColor(void) const
 {
     return _randomInitialColor;
-} 
+}
 //-----------------------------------------------------------------------
 void PURibbonTrailRender::setRandomInitialColor(bool randomInitialColour)
 {
     _randomInitialColor = randomInitialColour;
-} 
+}
 //-----------------------------------------------------------------------
 const Vec4& PURibbonTrailRender::getInitialColor(void) const
 {
     return _initialColor;
-} 
+}
 //-----------------------------------------------------------------------
 void PURibbonTrailRender::setInitialColor(const Vec4& initialColour)
 {
     _initialColor = initialColour;
-} 
+}
 //-----------------------------------------------------------------------
 const Vec4& PURibbonTrailRender::getColorChange(void) const
 {
     return _colorChange;
-} 
+}
 //-----------------------------------------------------------------------
 void PURibbonTrailRender::setColorChange(const Vec4& colourChange)
 {
     _colorChange = colourChange;
-} 
+}
 //-----------------------------------------------------------------------
 
 void PURibbonTrailRender::prepare()
@@ -216,14 +221,14 @@ void PURibbonTrailRender::prepare()
     {
         // Although it is safe to assume that technique == mParentTechnique, use the mParentTechnique, because the mParentTechnique is
         // also used for unregistering.
-        static_cast<PUParticleSystem3D *>(_particleSystem)->addListener(this);
+        static_cast<PUParticleSystem3D*>(_particleSystem)->addListener(this);
     }
 
     _quota = _particleSystem->getParticleQuota();
     if (!_childNode)
     {
         // Create a childnode if not created earlier
-        std::stringstream ss; 
+        std::stringstream ss;
         ss << this;
         std::string childNodeNodeName = "ParticleUniverse" + ss.str();
         //_childNode = mParentTechnique->getParentSystem()->getParentSceneNode()->createChildSceneNode(childNodeNodeName);
@@ -239,7 +244,7 @@ void PURibbonTrailRender::prepare()
     if (_childNode)
     {
         // Create RibbonTrail
-        //Ogre::SceneManager* sceneManager = mParentTechnique->getParentSystem()->getSceneManager();
+        // Ogre::SceneManager* sceneManager = mParentTechnique->getParentSystem()->getSceneManager();
         _trail = new (std::nothrow) PURibbonTrail(_ribbonTrailName, _texFile);
         _trail->setNumberOfChains(_quota);
         _trail->setMaxChainElements(_maxChainElements);
@@ -249,20 +254,20 @@ void PURibbonTrailRender::prepare()
         }
         else
         {
-            _trail->setTrailLength(_rendererScale.y * static_cast<PUParticleSystem3D *>(_particleSystem)->getDefaultHeight());
+            _trail->setTrailLength(_rendererScale.y * static_cast<PUParticleSystem3D*>(_particleSystem)->getDefaultHeight());
         }
         _trail->setUseVertexColours(_useVertexColours);
 
         // Create number of VisualData objects
         std::string sceneNodeName;
-        std::stringstream ss; 
+        std::stringstream ss;
         ss << this;
         for (size_t i = 0; i < _quota; i++)
         {
-            //sceneNodeName = "ParticleUniverse" + ss.str() + StringConverter::toString(i);
-            //RibbonTrailRendererVisualData* visualData = 
+            // sceneNodeName = "ParticleUniverse" + ss.str() + StringConverter::toString(i);
+            // RibbonTrailRendererVisualData* visualData =
             //	PU_NEW_T(RibbonTrailRendererVisualData, MEMCATEGORY_SCENE_OBJECTS)(_childNode->createChildSceneNode(sceneNodeName), _trail);
-            //visualData->node->setInheritOrientation(false);
+            // visualData->node->setInheritOrientation(false);
             auto node = Node::create();
             _childNode->addChild(node);
             PURibbonTrailVisualData* visualData = new (std::nothrow) PURibbonTrailVisualData(node, _trail);
@@ -284,7 +289,7 @@ void PURibbonTrailRender::prepare()
             }
             else
             {
-                _trail->setInitialWidth(i, _rendererScale.x * static_cast<PUParticleSystem3D *>(_particleSystem)->getDefaultWidth());
+                _trail->setInitialWidth(i, _rendererScale.x * static_cast<PUParticleSystem3D*>(_particleSystem)->getDefaultWidth());
             }
         }
         //_childNode->attachObject(_trail);
@@ -299,7 +304,7 @@ void PURibbonTrailRender::unPrepare()
     destroyAll();
 }
 
-void PURibbonTrailRender::updateRender( PUParticle3D *particle, float deltaTime, bool firstParticle )
+void PURibbonTrailRender::updateRender(PUParticle3D* particle, float deltaTime, bool firstParticle)
 {
     if (_trail)
         _trail->update(deltaTime);
@@ -312,7 +317,7 @@ void PURibbonTrailRender::destroyAll(void)
         return;
 
     // Remove the listener
-    static_cast<PUParticleSystem3D *>(_particleSystem)->removeListener(this);
+    static_cast<PUParticleSystem3D*>(_particleSystem)->removeListener(this);
 
     // Detach the Ribbontrail
     if (_childNode && _trail)
@@ -346,8 +351,7 @@ void PURibbonTrailRender::destroyAll(void)
     }
 }
 
-
-void PURibbonTrailRender::notifyRescaled( const Vec3& scale )
+void PURibbonTrailRender::notifyRescaled(const Vec3& scale)
 {
     PURender::notifyRescaled(scale);
     if (_trail)
@@ -369,7 +373,7 @@ PURibbonTrailRender* PURibbonTrailRender::clone()
     return tr;
 }
 
-void PURibbonTrailRender::copyAttributesTo(PURibbonTrailRender *trailRender)
+void PURibbonTrailRender::copyAttributesTo(PURibbonTrailRender* trailRender)
 {
     PURender::copyAttributesTo(trailRender);
     trailRender->setUseVertexColors(_useVertexColours);
@@ -381,13 +385,13 @@ void PURibbonTrailRender::copyAttributesTo(PURibbonTrailRender *trailRender)
     trailRender->setColorChange(_colorChange);
 }
 
-void PURibbonTrailRender::updateParticles( const ParticlePool &pool )
+void PURibbonTrailRender::updateParticles(const ParticlePool& pool)
 {
     PURibbonTrailVisualData* visualData = nullptr;
-    Vec3 basePosition = static_cast<PUParticleSystem3D *>(_particleSystem)->getDerivedPosition();
+    Vec3 basePosition = static_cast<PUParticleSystem3D*>(_particleSystem)->getDerivedPosition();
     for (auto iter : pool.getActiveDataList())
     {
-        auto particle = static_cast<PUParticle3D *>(iter);
+        auto particle = static_cast<PUParticle3D*>(iter);
         if (!particle->visualData && !_visualData.empty())
         {
             particle->visualData = _visualData.back();

@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,13 +28,13 @@
 #include "base/ccConfig.h"
 #if CC_USE_NAVMESH
 
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCCustomCommand.h"
-#include "renderer/CCRenderState.h"
-#include "math/Vec3.h"
-#include "recast/DebugUtils/DebugDraw.h"
-#include <string>
-#include <vector>
+#    include "math/Vec3.h"
+#    include "recast/DebugUtils/DebugDraw.h"
+#    include "renderer/CCCustomCommand.h"
+#    include "renderer/CCGLProgram.h"
+#    include "renderer/CCRenderState.h"
+#    include <string>
+#    include <vector>
 
 NS_CC_BEGIN
 
@@ -49,8 +49,8 @@ public:
     NavMeshDebugDraw();
     virtual ~NavMeshDebugDraw();
 
-    virtual void depthMask(bool state)override;
-    virtual void texture(bool state)override{};
+    virtual void depthMask(bool state) override;
+    virtual void texture(bool state) override{};
     virtual void begin(duDebugDrawPrimitives prim, float size = 1.0f) override;
 
     virtual void vertex(const float* pos, unsigned int color) override;
@@ -66,13 +66,11 @@ public:
     void clear();
 
 private:
-
     GLenum getPrimitiveType(duDebugDrawPrimitives prim);
     void drawImplement(const cocos2d::Mat4& transform, uint32_t flags);
     static Vec4 getColor(unsigned int col);
 
 private:
-
     struct V3F_C4F
     {
         Vec3 position;
@@ -90,8 +88,8 @@ private:
 
     std::vector<V3F_C4F> _vertices;
     std::vector<Primitive*> _primitiveList;
-    Primitive *_currentPrimitive;
-    GLProgram *_program;
+    Primitive* _currentPrimitive;
+    GLProgram* _program;
     CustomCommand _customCmd;
     RenderState::StateBlock* _stateBlock;
     GLenum _primitiveType;
@@ -104,6 +102,6 @@ private:
 
 NS_CC_END
 
-#endif //CC_USE_NAVMESH
+#endif // CC_USE_NAVMESH
 
 #endif // __CCNAV_MESH_DEBUG_DRAW_H__

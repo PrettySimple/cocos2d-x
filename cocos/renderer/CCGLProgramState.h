@@ -29,8 +29,8 @@ THE SOFTWARE.
 
 #include <unordered_map>
 
-#include "base/ccTypes.h"
 #include "base/CCVector.h"
+#include "base/ccTypes.h"
 #include "math/Vec2.h"
 #include "math/Vec3.h"
 #include "math/Vec4.h"
@@ -60,6 +60,7 @@ class CC_DLL UniformValue
 {
     friend class GLProgram;
     friend class GLProgramState;
+
 public:
     /**
      Constructor. The Uniform and Glprogram will be nullptr.
@@ -70,7 +71,7 @@ public:
      @param uniform Uniform to apply the value.
      @param glprogram Specify the owner GLProgram of this uniform and uniform value.
      */
-    UniformValue(Uniform *uniform, GLProgram* glprogram);
+    UniformValue(Uniform* uniform, GLProgram* glprogram);
 
     /**Destructor.*/
     ~UniformValue();
@@ -89,7 +90,7 @@ public:
     void setVec4(const Vec4& value);
     void setVec4v(ssize_t size, const Vec4* pointer);
     void setMat4(const Mat4& value);
-    
+
     /**
      @}
      */
@@ -98,7 +99,7 @@ public:
      Set call back to uniform value, which could be used for array and struct.
      @param callback Callback function to send data to OpenGL pipeline.
      */
-    void setCallback(const std::function<void(GLProgram*, Uniform*)> &callback);
+    void setCallback(const std::function<void(GLProgram*, Uniform*)>& callback);
     /**
      Set texture to uniform value.
      @param textureId The texture handle.
@@ -110,15 +111,15 @@ public:
     void apply();
 
 protected:
-
-    enum class Type {
+    enum class Type
+    {
         VALUE,
         POINTER,
-        CALLBACK_FN     // CALLBACK is already defined in windows, can't use it.
+        CALLBACK_FN // CALLBACK is already defined in windows, can't use it.
     };
 
     /**Weak reference to Uniform.*/
-	Uniform* _uniform;
+    Uniform* _uniform;
     /**Weak reference to GLprogram.*/
     GLProgram* _glprogram;
     /** What kind of type is the Uniform */
@@ -128,38 +129,45 @@ protected:
      @name Uniform Value Uniform
      @{
      */
-    union U{
+    union U
+    {
         float floatValue;
         int intValue;
         float v2Value[2];
         float v3Value[3];
         float v4Value[4];
         float matrixValue[16];
-        struct {
+        struct
+        {
             GLuint textureId;
             GLuint textureUnit;
         } tex;
-        struct {
+        struct
+        {
             const float* pointer;
             GLsizei size;
         } floatv;
-        struct {
+        struct
+        {
             const float* pointer;
             GLsizei size;
         } v2f;
-        struct {
+        struct
+        {
             const float* pointer;
             GLsizei size;
         } v3f;
-        struct {
+        struct
+        {
             const float* pointer;
             GLsizei size;
         } v4f;
-        std::function<void(GLProgram*, Uniform*)> *callback;
+        std::function<void(GLProgram*, Uniform*)>* callback;
 
-        U() { memset( this, 0, sizeof(*this) ); }
-        ~U(){}
-        U& operator=( const U& other ) {
+        U() { memset(this, 0, sizeof(*this)); }
+        ~U() {}
+        U& operator=(const U& other)
+        {
             memcpy(this, &other, sizeof(*this));
             return *this;
         }
@@ -167,7 +175,7 @@ protected:
     /**
      @}
      */
-    
+
 public:
     const U& getValue() const { return _value; }
 };
@@ -188,7 +196,7 @@ public:
      Constructor.
      @param vertexAttrib VertexAttrib from shader.
     */
-    VertexAttribValue(VertexAttrib *vertexAttrib);
+    VertexAttribValue(VertexAttrib* vertexAttrib);
     /**
      Constructor.
      */
@@ -206,36 +214,38 @@ public:
      @param stride The number of bytes if an interleaved vertex array is used. 0 means array is not interleaved.
      @param pointer The pointer to the vertex data.
      */
-	void setPointer(GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid *pointer);
+    void setPointer(GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid* pointer);
     /**Set a user call back for set VertexAttrib array.*/
-    void setCallback(const std::function<void(VertexAttrib*)> &callback);
+    void setCallback(const std::function<void(VertexAttrib*)>& callback);
     /**Apply the vertex attribute to the openGL pipeline.*/
     void apply();
 
 protected:
-	VertexAttrib* _vertexAttrib;  // weak ref
+    VertexAttrib* _vertexAttrib; // weak ref
     bool _useCallback;
     bool _enabled;
 
-    union U{
-        struct {
+    union U
+    {
+        struct
+        {
             GLint size;
             GLenum type;
             GLboolean normalized;
             GLsizei stride;
-            GLvoid *pointer;
+            GLvoid* pointer;
         } pointer;
-        std::function<void(VertexAttrib*)> *callback;
+        std::function<void(VertexAttrib*)>* callback;
 
-        U() { memset( this, 0, sizeof(*this) ); }
-        ~U(){}
-        U& operator=( const U& other ) {
+        U() { memset(this, 0, sizeof(*this)); }
+        ~U() {}
+        U& operator=(const U& other)
+        {
             memcpy(this, &other, sizeof(*this));
             return *this;
         }
     } _value;
 };
-
 
 /**
  GLProgramState holds the 'state' (uniforms and attributes) of the GLProgram.
@@ -245,6 +255,7 @@ protected:
 class CC_DLL GLProgramState : public Ref
 {
     friend class GLProgramStateCache;
+
 public:
     /** returns a new instance of GLProgramState for a given GLProgram */
     static GLProgramState* create(GLProgram* glprogram);
@@ -253,7 +264,7 @@ public:
     static GLProgramState* getOrCreateWithGLProgram(GLProgram* glprogram);
 
     /** gets-or-creates an instance of GLProgramState for a given GLProgramName */
-    static GLProgramState* getOrCreateWithGLProgramName(const std::string& glProgramName );
+    static GLProgramState* getOrCreateWithGLProgramName(const std::string& glProgramName);
 
     /** gets-or-creates an instance of GLProgramState for the given GLProgramName & texture */
     static GLProgramState* getOrCreateWithGLProgramName(const std::string& glProgramName, Texture2D* texture);
@@ -300,8 +311,8 @@ public:
     /**@{
      Set the vertex attribute value.
      */
-    void setVertexAttribCallback(const std::string& name, const std::function<void(VertexAttrib*)> &callback);
-    void setVertexAttribPointer(const std::string& name, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid *pointer);
+    void setVertexAttribCallback(const std::string& name, const std::function<void(VertexAttrib*)>& callback);
+    void setVertexAttribPointer(const std::string& name, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid* pointer);
     /**@}*/
 
     /**Get the number of user defined uniform count.*/
@@ -320,8 +331,8 @@ public:
     void setUniformVec4(const std::string& uniformName, const Vec4& value);
     void setUniformVec4v(const std::string& uniformName, ssize_t size, const Vec4* pointer);
     void setUniformMat4(const std::string& uniformName, const Mat4& value);
-    void setUniformCallback(const std::string& uniformName, const std::function<void(GLProgram*, Uniform*)> &callback);
-    void setUniformTexture(const std::string& uniformName, Texture2D *texture);
+    void setUniformCallback(const std::string& uniformName, const std::function<void(GLProgram*, Uniform*)>& callback);
+    void setUniformTexture(const std::string& uniformName, Texture2D* texture);
     void setUniformTexture(const std::string& uniformName, GLuint textureId);
     /**@}*/
 
@@ -338,8 +349,8 @@ public:
     void setUniformVec4(GLint uniformLocation, const Vec4& value);
     void setUniformVec4v(GLint uniformLocation, ssize_t size, const Vec4* pointer);
     void setUniformMat4(GLint uniformLocation, const Mat4& value);
-    void setUniformCallback(GLint uniformLocation, const std::function<void(GLProgram*, Uniform*)> &callback);
-    void setUniformTexture(GLint uniformLocation, Texture2D *texture);
+    void setUniformCallback(GLint uniformLocation, const std::function<void(GLProgram*, Uniform*)>& callback);
+    void setUniformTexture(GLint uniformLocation, Texture2D* texture);
     void setUniformTexture(GLint uniformLocation, GLuint textureId);
     /**@}*/
 
@@ -409,7 +420,6 @@ public:
     class CC_DLL AutoBindingResolver
     {
     public:
-
         /**
          * Destructor.
          */
@@ -436,7 +446,6 @@ public:
         virtual bool resolveAutoBinding(GLProgramState* glProgramState, Node* node, const std::string& uniformName, const std::string& autoBinding) = 0;
 
     protected:
-
         /**
          * Constructor.
          */
@@ -477,7 +486,6 @@ protected:
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     EventListenerCustom* _backToForegroundlistener;
 #endif
-
 };
 
 NS_CC_END

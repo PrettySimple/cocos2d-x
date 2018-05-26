@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (c) 2014-2016 Chukong Technologies Inc.
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,27 +28,32 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#import <Foundation/Foundation.h>
+#    import <Foundation/Foundation.h>
 
-#include "audio/apple/ALAudioPlayer.h"
-#include "audio/apple/AudioCache.h"
-#include "platform/CCFileUtils.h"
-#include "audio/apple/AudioDecoder.h"
+#    include "audio/apple/ALAudioPlayer.h"
+#    include "audio/apple/AudioCache.h"
+#    include "audio/apple/AudioDecoder.h"
+#    include "platform/CCFileUtils.h"
 
-#ifdef VERY_VERY_VERBOSE_LOGGING
-#define ALOGVV ALOGV
-#else
-#define ALOGVV(...) do{} while(false)
-#endif
+#    ifdef VERY_VERY_VERBOSE_LOGGING
+#        define ALOGVV ALOGV
+#    else
+#        define ALOGVV(...) \
+            do              \
+            {               \
+            } while (false)
+#    endif
 
 using namespace cocos2d;
 using namespace cocos2d::experimental;
 
-namespace {
+namespace
+{
     unsigned int __idIndex = 0;
 }
 
-ALAudioPlayer::ALAudioPlayer(AudioCache& audioCache) : AudioPlayer()
+ALAudioPlayer::ALAudioPlayer(AudioCache& audioCache)
+: AudioPlayer()
 , _audioCache(audioCache)
 , _finishCallbak(nullptr)
 , _rotateBufferThread(nullptr)
@@ -65,7 +70,7 @@ ALAudioPlayer::~ALAudioPlayer()
 {
     ALOGVV("~ALAudioPlayer() (%p), id=%u", this, _id);
     destroy();
-    
+
     if (_streamingSource)
     {
         alDeleteBuffers(QUEUEBUFFER_NUM, _bufferIds);
@@ -76,11 +81,11 @@ void ALAudioPlayer::destroy()
 {
     if (_isDestroyed)
         return;
-    
+
     ALOGVV("ALAudioPlayer::destroy begin, id=%u", _id);
-    
+
     _isDestroyed = true;
-    
+
     do
     {
         if (_audioCache._state == AudioCache::State::INITIAL)
@@ -93,11 +98,11 @@ void ALAudioPlayer::destroy()
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(5));
         }
-        
+
         // Wait for play2d to be finished.
         _play2dMutex.lock();
         _play2dMutex.unlock();
-        
+
         if (_streamingSource)
         {
             if (_rotateBufferThread != nullptr)
@@ -107,26 +112,29 @@ void ALAudioPlayer::destroy()
                     _sleepCondition.notify_one();
                     std::this_thread::sleep_for(std::chrono::milliseconds(5));
                 }
-                
-                if (_rotateBufferThread->joinable()) {
+
+                if (_rotateBufferThread->joinable())
+                {
                     _rotateBufferThread->join();
                 }
-                
+
                 delete _rotateBufferThread;
                 _rotateBufferThread = nullptr;
                 ALOGVV("rotateBufferThread exited!");
             }
         }
-    } while(false);
-    
+    } while (false);
+
     ALOGVV("Before alSourceStop");
-    alSourceStop(_alSource); CHECK_AL_ERROR_DEBUG();
+    alSourceStop(_alSource);
+    CHECK_AL_ERROR_DEBUG();
     ALOGVV("Before alSourcei");
-    alSourcei(_alSource, AL_BUFFER, 0); CHECK_AL_ERROR_DEBUG();
+    alSourcei(_alSource, AL_BUFFER, 0);
+    CHECK_AL_ERROR_DEBUG();
     ALOGVV("unbinding buffer %u from cache id %d", _audioCache._alBufferId, _audioCache._id);
-    
+
     _removeByAudioEngine = true;
-    
+
     _ready = false;
     ALOGVV("ALAudioPlayer::destroy end, id=%u", _id);
 }
@@ -135,7 +143,7 @@ bool ALAudioPlayer::play2d()
 {
     _play2dMutex.lock();
     ALOGVV("ALAudioPlayer::play2d, _alSource: %u", _alSource);
-    
+
     /*********************************************************************/
     /*       Note that it may be in sub thread or in main thread.       **/
     /*********************************************************************/
@@ -147,15 +155,20 @@ bool ALAudioPlayer::play2d()
             ALOGE("alBuffer isn't ready for play!");
             break;
         }
-        
-        alSourcei(_alSource, AL_BUFFER, 0);CHECK_AL_ERROR_DEBUG();
-        alSourcef(_alSource, AL_PITCH, 1.0f);CHECK_AL_ERROR_DEBUG();
-        alSourcef(_alSource, AL_GAIN, _volume);CHECK_AL_ERROR_DEBUG();
-        alSourcei(_alSource, AL_LOOPING, AL_FALSE);CHECK_AL_ERROR_DEBUG();
-        
+
+        alSourcei(_alSource, AL_BUFFER, 0);
+        CHECK_AL_ERROR_DEBUG();
+        alSourcef(_alSource, AL_PITCH, 1.0f);
+        CHECK_AL_ERROR_DEBUG();
+        alSourcef(_alSource, AL_GAIN, _volume);
+        CHECK_AL_ERROR_DEBUG();
+        alSourcei(_alSource, AL_LOOPING, AL_FALSE);
+        CHECK_AL_ERROR_DEBUG();
+
         if (_audioCache._queBufferFrames == 0)
         {
-            if (_loop) {
+            if (_loop)
+            {
                 alSourcei(_alSource, AL_LOOPING, AL_TRUE);
                 CHECK_AL_ERROR_DEBUG();
             }
@@ -163,29 +176,30 @@ bool ALAudioPlayer::play2d()
         else
         {
             alGenBuffers(QUEUEBUFFER_NUM, _bufferIds);
-            
+
             auto alError = alGetError();
             if (alError == AL_NO_ERROR)
             {
                 for (int index = 0; index < QUEUEBUFFER_NUM; ++index)
                 {
-                    alBufferData(_bufferIds[index], _audioCache._format, _audioCache._queBuffers[index], _audioCache._queBufferSize[index], _audioCache._sampleRate);
+                    alBufferData(_bufferIds[index], _audioCache._format, _audioCache._queBuffers[index], _audioCache._queBufferSize[index],
+                                 _audioCache._sampleRate);
                 }
                 CHECK_AL_ERROR_DEBUG();
             }
             else
             {
-                ALOGE("%s:alGenBuffers error code:%x", __PRETTY_FUNCTION__,alError);
+                ALOGE("%s:alGenBuffers error code:%x", __PRETTY_FUNCTION__, alError);
                 break;
             }
             _streamingSource = true;
         }
-        
+
         {
             std::unique_lock<std::mutex> lk(_sleepMutex);
             if (_isDestroyed)
                 break;
-            
+
             if (_streamingSource)
             {
                 alSourceQueueBuffers(_alSource, QUEUEBUFFER_NUM, _bufferIds);
@@ -195,46 +209,48 @@ bool ALAudioPlayer::play2d()
             else
             {
                 alSourcei(_alSource, AL_BUFFER, _audioCache._alBufferId);
-                
+
                 ALOGE("%s:alSource %u bind buffer :%u", __PRETTY_FUNCTION__, _alSource, _audioCache->_alBufferId);
-                
+
                 CHECK_AL_ERROR_DEBUG();
             }
-            
+
             alSourcePlay(_alSource);
         }
-        
+
         auto alError = alGetError();
         if (alError != AL_NO_ERROR)
         {
-            ALOGE("%s:alSourcePlay error code:%x", __PRETTY_FUNCTION__,alError);
+            ALOGE("%s:alSourcePlay error code:%x", __PRETTY_FUNCTION__, alError);
             break;
         }
-        
+
         ALint state;
         alGetSourcei(_alSource, AL_SOURCE_STATE, &state);
         assert(state == AL_PLAYING);
         _ready = true;
         ret = true;
     } while (false);
-    
+
     if (!ret)
     {
         _removeByAudioEngine = true;
     }
-    
+
     _play2dMutex.unlock();
     return ret;
 }
 
 void ALAudioPlayer::rotateBufferThread(int offsetFrame)
 {
-    @autoreleasepool {
+    @autoreleasepool
+    {
         char* tmpBuffer = nullptr;
         AudioDecoder decoder;
         do
         {
-            @autoreleasepool {
+            @autoreleasepool
+            {
                 BREAK_IF(!decoder.open(_audioCache._fileFullPath.c_str()));
 
                 uint32_t framesRead = 0;
@@ -243,7 +259,8 @@ void ALAudioPlayer::rotateBufferThread(int offsetFrame)
                 tmpBuffer = (char*)malloc(bufferSize);
                 memset(tmpBuffer, 0, bufferSize);
 
-                if (offsetFrame != 0) {
+                if (offsetFrame != 0)
+                {
                     decoder.seek(offsetFrame);
                 }
 
@@ -251,23 +268,32 @@ void ALAudioPlayer::rotateBufferThread(int offsetFrame)
                 ALint bufferProcessed = 0;
                 bool needToExitThread = false;
 
-                while (!_isDestroyed) {
+                while (!_isDestroyed)
+                {
                     alGetSourcei(_alSource, AL_SOURCE_STATE, &sourceState);
-                    if (sourceState == AL_PLAYING) {
+                    if (sourceState == AL_PLAYING)
+                    {
                         alGetSourcei(_alSource, AL_BUFFERS_PROCESSED, &bufferProcessed);
-                        while (bufferProcessed > 0) {
+                        while (bufferProcessed > 0)
+                        {
                             bufferProcessed--;
-                            if (_timeDirty) {
+                            if (_timeDirty)
+                            {
                                 _timeDirty = false;
                                 offsetFrame = _currTime * decoder.getSampleRate();
                                 decoder.seek(offsetFrame);
                             }
-                            else {
+                            else
+                            {
                                 _currTime += QUEUEBUFFER_TIME_STEP;
-                                if (_currTime > static_cast<float>(_audioCache._duration.count()) / 1000.f) {
-                                    if (_loop) {
+                                if (_currTime > static_cast<float>(_audioCache._duration.count()) / 1000.f)
+                                {
+                                    if (_loop)
+                                    {
                                         _currTime = 0.0f;
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         _currTime = static_cast<float>(_audioCache._duration.count()) / 1000.f;
                                     }
                                 }
@@ -275,11 +301,15 @@ void ALAudioPlayer::rotateBufferThread(int offsetFrame)
 
                             framesRead = decoder.readFixedFrames(framesToRead, tmpBuffer);
 
-                            if (framesRead == 0) {
-                                if (_loop) {
+                            if (framesRead == 0)
+                            {
+                                if (_loop)
+                                {
                                     decoder.seek(0);
                                     framesRead = decoder.readFixedFrames(framesToRead, tmpBuffer);
-                                } else {
+                                }
+                                else
+                                {
                                     needToExitThread = true;
                                     break;
                                 }
@@ -293,20 +323,21 @@ void ALAudioPlayer::rotateBufferThread(int offsetFrame)
                     }
 
                     std::unique_lock<std::mutex> lk(_sleepMutex);
-                    if (_isDestroyed || needToExitThread) {
+                    if (_isDestroyed || needToExitThread)
+                    {
                         break;
                     }
 
                     if (!_needWakeupRotateThread)
                     {
-                        _sleepCondition.wait_for(lk,std::chrono::milliseconds(75));
+                        _sleepCondition.wait_for(lk, std::chrono::milliseconds(75));
                     }
 
                     _needWakeupRotateThread = false;
                 }
             }
 
-        } while(false);
+        } while (false);
 
         ALOGV("Exit rotate buffer thread ...");
         decoder.close();
@@ -321,52 +352,60 @@ void ALAudioPlayer::wakeupRotateThread()
     _sleepCondition.notify_all();
 }
 
-const std::function<void (int, const std::string &)> ALAudioPlayer::getFinishCallback()
+const std::function<void(int, const std::string&)> ALAudioPlayer::getFinishCallback()
 {
     return _finishCallbak;
 }
 
-
-void ALAudioPlayer::setFinishCallback(const std::function<void (int, const std::string &)> &callback)
+void ALAudioPlayer::setFinishCallback(const std::function<void(int, const std::string&)>& callback)
 {
     _finishCallbak = callback;
 }
 
 bool ALAudioPlayer::setLoop(bool loop)
 {
-    if (_ready) {
-        if (!_streamingSource) {
-            if (loop) {
+    if (_ready)
+    {
+        if (!_streamingSource)
+        {
+            if (loop)
+            {
                 alSourcei(_alSource, AL_LOOPING, AL_TRUE);
-            } else {
+            }
+            else
+            {
                 alSourcei(_alSource, AL_LOOPING, AL_FALSE);
             }
-            
+
             auto error = alGetError();
-            if (error != AL_NO_ERROR) {
-                ALOGE("%s: player id = %d, error = %x", __PRETTY_FUNCTION__,_id,error);
+            if (error != AL_NO_ERROR)
+            {
+                ALOGE("%s: player id = %d, error = %x", __PRETTY_FUNCTION__, _id, error);
             }
         }
     }
-    
-    if (!_isDestroyed ) {
+
+    if (!_isDestroyed)
+    {
         _loop = loop;
         return true;
     }
-    
+
     return false;
 }
 
 void ALAudioPlayer::setVolume(float p_volume)
 {
     _volume = p_volume;
-    
-    if (_ready) {
+
+    if (_ready)
+    {
         alSourcef(_alSource, AL_GAIN, _volume);
-        
+
         auto error = alGetError();
-        if (error != AL_NO_ERROR) {
-            ALOGE("%s: audio id = %d, error = %x", __PRETTY_FUNCTION__,_id,error);
+        if (error != AL_NO_ERROR)
+        {
+            ALOGE("%s: audio id = %d, error = %x", __PRETTY_FUNCTION__, _id, error);
         }
     }
 }
@@ -374,25 +413,28 @@ void ALAudioPlayer::setVolume(float p_volume)
 bool ALAudioPlayer::setTime(float time)
 {
     bool ret = false;
-    if (_ready) {
+    if (_ready)
+    {
         if (!_streamingSource)
         {
             if (_audioCache._framesRead != _audioCache._totalFrames && (time * _audioCache._sampleRate) > _audioCache._framesRead)
-                ALOGE("%s: audio id = %d", __PRETTY_FUNCTION__,_id);
+                ALOGE("%s: audio id = %d", __PRETTY_FUNCTION__, _id);
             else
             {
                 alSourcef(_alSource, AL_SEC_OFFSET, time);
                 ret = true;
-                
+
                 auto error = alGetError();
-                if (error != AL_NO_ERROR) {
-                    ALOGE("%s: audio id = %d, error = %x", __PRETTY_FUNCTION__,_id,error);
+                if (error != AL_NO_ERROR)
+                {
+                    ALOGE("%s: audio id = %d, error = %x", __PRETTY_FUNCTION__, _id, error);
                 }
             }
         }
         else
         {
-            if (!_isDestroyed && time >= 0.0f && time < static_cast<float>(_audioCache._duration.count()) / 1000.f) {
+            if (!_isDestroyed && time >= 0.0f && time < static_cast<float>(_audioCache._duration.count()) / 1000.f)
+            {
                 _currTime = time;
                 _timeDirty = true;
                 ret = true;
@@ -406,13 +448,16 @@ bool ALAudioPlayer::setTime(float time)
 float ALAudioPlayer::getTime()
 {
     float ret = _currTime;
-    if(_ready) {
-        if (!_streamingSource) {
+    if (_ready)
+    {
+        if (!_streamingSource)
+        {
             alGetSourcef(_alSource, AL_SEC_OFFSET, &ret);
-            
+
             auto error = alGetError();
-            if (error != AL_NO_ERROR) {
-                ALOGE("%s, player id:%d,error code:%x", __PRETTY_FUNCTION__,_id,error);
+            if (error != AL_NO_ERROR)
+            {
+                ALOGE("%s, player id:%d,error code:%x", __PRETTY_FUNCTION__, _id, error);
             }
         }
     }
@@ -423,11 +468,12 @@ bool ALAudioPlayer::pause()
 {
     bool ret = true;
     alSourcePause(_alSource);
-    
+
     auto error = alGetError();
-    if (error != AL_NO_ERROR) {
+    if (error != AL_NO_ERROR)
+    {
         ret = false;
-        ALOGE("%s: player id = %d, error = %x", __PRETTY_FUNCTION__,_id,error);
+        ALOGE("%s: player id = %d, error = %x", __PRETTY_FUNCTION__, _id, error);
     }
     return ret;
 }
@@ -436,11 +482,12 @@ bool ALAudioPlayer::resume()
 {
     bool ret = true;
     alSourcePlay(_alSource);
-    
+
     auto error = alGetError();
-    if (error != AL_NO_ERROR) {
+    if (error != AL_NO_ERROR)
+    {
         ret = false;
-        ALOGE("%s: player id = %d, error = %x", __PRETTY_FUNCTION__,_id,error);
+        ALOGE("%s: player id = %d, error = %x", __PRETTY_FUNCTION__, _id, error);
     }
     return ret;
 }
@@ -449,7 +496,7 @@ bool ALAudioPlayer::isStopped()
 {
     ALint sourceState;
     alGetSourcei(_alSource, AL_SOURCE_STATE, &sourceState);
-    
+
     return _ready && (sourceState == AL_STOPPED);
 }
 

@@ -30,6 +30,7 @@ THE SOFTWARE.
 #include "2d/CCSpriteBatchNode.h"
 #include "2d/CCTMXXMLParser.h"
 #include "base/ccCArray.h"
+
 NS_CC_BEGIN
 
 class TMXMapInfo;
@@ -58,7 +59,8 @@ struct _ccCArray;
  * For further information, please see the programming guide:
  * http://www.cocos2d-iphone.org/wiki/doku.php/prog_guide:tiled_maps
  * @since v0.8.1
- * Tiles can have tile flags for additional properties. At the moment only flip horizontal and flip vertical are used. These bit flags are defined in TMXXMLParser.h.
+ * Tiles can have tile flags for additional properties. At the moment only flip horizontal and flip vertical are used. These bit flags are defined in
+ * TMXXMLParser.h.
  * @since 1.1
  */
 
@@ -72,7 +74,7 @@ public:
      * @param mapInfo A map info.
      * @return An autorelease object.
      */
-    static TMXLayer * create(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
+    static TMXLayer* create(TMXTilesetInfo* tilesetInfo, TMXLayerInfo* layerInfo, TMXMapInfo* mapInfo);
     /**
      * @js ctor
      */
@@ -90,7 +92,7 @@ public:
      * @param mapInfo A map info.
      * @return If initializes successfully, it will return true.
      */
-    bool initWithTilesetInfo(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
+    bool initWithTilesetInfo(TMXTilesetInfo* tilesetInfo, TMXLayerInfo* layerInfo, TMXMapInfo* mapInfo);
 
     /** Dealloc the map that contains the tile position from memory.
      * Unless you want to know at runtime the tiles positions, you can safely call this method.
@@ -113,21 +115,19 @@ public:
      * @js NA
      */
     CC_DEPRECATED_ATTRIBUTE Sprite* tileAt(const Vec2& tileCoordinate) { return getTileAt(tileCoordinate); };
-    
+
     /** Returns the tile gid at a given tile coordinate. It also returns the tile flags.
      * This method requires the tile map has not been previously released (eg. don't call [layer releaseMap]).
-     * 
+     *
      * @param tileCoordinate The tile coordinate.
      * @param flags Tile flags.
      * @return Returns the tile gid at a given tile coordinate. It also returns the tile flags.
      */
-	uint32_t getTileGIDAt(const Vec2& tileCoordinate, TMXTileFlags* flags = nullptr);
+    uint32_t getTileGIDAt(const Vec2& tileCoordinate, TMXTileFlags* flags = nullptr);
     /**
      * @js NA
      */
-    CC_DEPRECATED_ATTRIBUTE uint32_t tileGIDAt(const Vec2& tileCoordinate, TMXTileFlags* flags = nullptr){
-        return getTileGIDAt(tileCoordinate, flags);
-    }
+    CC_DEPRECATED_ATTRIBUTE uint32_t tileGIDAt(const Vec2& tileCoordinate, TMXTileFlags* flags = nullptr) { return getTileGIDAt(tileCoordinate, flags); }
 
     /** Sets the tile gid (gid = tile global id) at a given tile coordinate.
      * The Tile GID can be obtained by using the method "tileGIDAt" or by using the TMX editor -> Tileset Mgr +1.
@@ -142,7 +142,7 @@ public:
      * The Tile GID can be obtained by using the method "tileGIDAt" or by using the TMX editor -> Tileset Mgr +1.
      * If a tile is already placed at that position, then it will be removed.
      * Use withFlags if the tile flags need to be changed as well.
-     * 
+     *
      * @param gid The tile gid.
      * @param tileCoordinate The tile coordinate.
      * @param flags The tile flags.
@@ -150,7 +150,7 @@ public:
 
     void setTileGID(uint32_t gid, const Vec2& tileCoordinate, TMXTileFlags flags);
 
-    /** Removes a tile at given tile coordinate. 
+    /** Removes a tile at given tile coordinate.
      *
      * @param tileCoordinate The tile coordinate.
      */
@@ -161,10 +161,10 @@ public:
      * @param tileCoordinate The tile coordinate.
      * @return The position in points of a given tile coordinate.
      */
-	Vec2 getPositionAt(const Vec2& tileCoordinate);
+    Vec2 getPositionAt(const Vec2& tileCoordinate);
     /**
-    * @js NA
-    */
+     * @js NA
+     */
     CC_DEPRECATED_ATTRIBUTE Vec2 positionAt(const Vec2& tileCoordinate) { return getPositionAt(tileCoordinate); };
 
     /** Return the value for the specific property name.
@@ -172,21 +172,21 @@ public:
      * @param propertyName The specific property name.
      * @return Return the value for the specific property name.
      */
-	Value getProperty(const std::string& propertyName) const;
+    Value getProperty(const std::string& propertyName) const;
     /**
-    * @js NA
-    */
+     * @js NA
+     */
     CC_DEPRECATED_ATTRIBUTE Value propertyNamed(const std::string& propertyName) const { return getProperty(propertyName); };
 
     /** Creates the tiles. */
     void setupTiles();
-    
-    /** Get the layer name. 
+
+    /** Get the layer name.
      *
      * @return The layer name.
      */
     const std::string& getLayerName() { return _layerName; }
-    
+
     /** Set the layer name.
      *
      * @param layerName The layer name.
@@ -198,86 +198,85 @@ public:
      * @return Size of the layer in tiles.
      */
     const Size& getLayerSize() const { return _layerSize; }
-    
+
     /** Set size of the layer in tiles.
      *
      * @param size Size of the layer in tiles.
      */
     void setLayerSize(const Size& size) { _layerSize = size; }
-    
+
     /** Size of the map's tile (could be different from the tile's size).
      *
      * @return The size of the map's tile.
      */
     const Size& getMapTileSize() const { return _mapTileSize; }
-    
+
     /** Set the size of the map's tile.
      *
      * @param size The size of the map's tile.
      */
     void setMapTileSize(const Size& size) { _mapTileSize = size; }
-    
+
     /** Pointer to the map of tiles.
      * @js NA
      * @lua NA
      * @return Pointer to the map of tiles.
      */
     uint32_t* getTiles() const { return _tiles; };
-    
+
     /** Set a pointer to the map of tiles.
      *
      * @param tiles A pointer to the map of tiles.
      */
     void setTiles(uint32_t* tiles) { _tiles = tiles; };
-    
-    /** Tileset information for the layer. 
+
+    /** Tileset information for the layer.
      *
      * @return Tileset information for the layer.
      */
     TMXTilesetInfo* getTileSet() const { return _tileSet; }
-    
+
     /** Set tileset information for the layer.
      *
      * @param info The tileset information for the layer.
      * @js NA
      */
-    void setTileSet(TMXTilesetInfo* info) {
+    void setTileSet(TMXTilesetInfo* info)
+    {
         CC_SAFE_RETAIN(info);
         CC_SAFE_RELEASE(_tileSet);
         _tileSet = info;
     }
-    
+
     /** Layer orientation, which is the same as the map orientation.
      *
      * @return Layer orientation, which is the same as the map orientation.
      */
     int getLayerOrientation() const { return _layerOrientation; }
-    
+
     /** Set layer orientation, which is the same as the map orientation.
      *
      * @param orientation Layer orientation,which is the same as the map orientation.
      */
     void setLayerOrientation(int orientation) { _layerOrientation = orientation; }
-    
+
     /** Properties from the layer. They can be added using Tiled.
      *
      * @return Properties from the layer. They can be added using Tiled.
      */
     const ValueMap& getProperties() const { return _properties; }
-    
+
     /** Properties from the layer. They can be added using Tiled.
      *
      * @return Properties from the layer. They can be added using Tiled.
      */
     ValueMap& getProperties() { return _properties; }
-    
+
     /** Set an Properties from to layer.
      *
      * @param properties It is used to set the layer Properties.
      */
-    void setProperties(const ValueMap& properties) {
-        _properties = properties;
-    }
+    void setProperties(const ValueMap& properties) { _properties = properties; }
     //
     // Override
     //
@@ -285,12 +284,12 @@ public:
      @warning addChild(z, tag); is not supported on TMXLayer. Instead of setTileGID.
      */
     using SpriteBatchNode::addChild;
-    virtual void addChild(Node * child, int zOrder, int tag) override;
+    virtual void addChild(Node* child, int zOrder, int tag) override;
     // super method
     void removeChild(Node* child, bool cleanup) override;
     /**
-    * @js NA
-    */
+     * @js NA
+     */
     virtual std::string getDescription() const override;
 
 protected:
@@ -317,23 +316,22 @@ protected:
     ssize_t atlasIndexForExistantZ(int z);
     ssize_t atlasIndexForNewZ(int z);
 
-
     //! name of the layer
     std::string _layerName;
     //! TMX Layer supports opacity
     unsigned char _opacity;
-    
+
     //! Only used when vertexZ is used
     int _vertexZvalue;
     bool _useAutomaticVertexZ;
 
     //! used for optimization
-    Sprite *_reusedTile;
-    ccCArray *_atlasIndexArray;
-    
+    Sprite* _reusedTile;
+    ccCArray* _atlasIndexArray;
+
     // used for retina display
     float _contentScaleFactor;
-    
+
     /** size of the layer in tiles */
     Size _layerSize;
     /** size of the map's tile (could be different from the tile's size) */
@@ -360,4 +358,3 @@ protected:
 NS_CC_END
 
 #endif //__CCTMX_LAYER_H__
-

@@ -23,15 +23,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 #include "platform/winrt/CCWinRTUtils.h"
-#include <wrl/client.h>
-#include <wrl/wrappers/corewrappers.h>
+#include "base/CCUserDefault.h"
+#include "base/ccMacros.h"
+#include "platform/CCFileUtils.h"
+#include "platform/CCPlatformMacros.h"
 #include <ppl.h>
 #include <ppltasks.h>
 #include <sstream>
-#include "base/ccMacros.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCFileUtils.h"
-#include "base/CCUserDefault.h"
+#include <wrl/client.h>
+#include <wrl/wrappers/corewrappers.h>
 
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
@@ -62,7 +62,7 @@ bool isWindowsPhone()
     return false;
 }
 
-CC_DEPRECATED_ATTRIBUTE std::wstring CC_DLL CCUtf8ToUnicode(const char * pszUtf8Str, unsigned len /*= -1*/)
+CC_DEPRECATED_ATTRIBUTE std::wstring CC_DLL CCUtf8ToUnicode(const char* pszUtf8Str, unsigned len /*= -1*/)
 {
     if (len == -1)
     {
@@ -73,15 +73,18 @@ CC_DEPRECATED_ATTRIBUTE std::wstring CC_DLL CCUtf8ToUnicode(const char * pszUtf8
         std::wstring ret;
         do
         {
-            if (!pszUtf8Str || !len) break;
+            if (!pszUtf8Str || !len)
+                break;
 
             // get UTF16 string length
             int wLen = MultiByteToWideChar(CP_UTF8, 0, pszUtf8Str, len, 0, 0);
-            if (0 == wLen || 0xFFFD == wLen) break;
+            if (0 == wLen || 0xFFFD == wLen)
+                break;
 
-            // convert string  
-            wchar_t * pwszStr = new wchar_t[wLen + 1];
-            if (!pwszStr) break;
+            // convert string
+            wchar_t* pwszStr = new wchar_t[wLen + 1];
+            if (!pwszStr)
+                break;
             pwszStr[wLen] = 0;
             MultiByteToWideChar(CP_UTF8, 0, pszUtf8Str, len, pwszStr, wLen + 1);
             ret = pwszStr;
@@ -95,7 +98,6 @@ CC_DEPRECATED_ATTRIBUTE std::string CC_DLL CCUnicodeToUtf8(const wchar_t* pwszSt
 {
     return StringWideCharToUtf8(pwszStr);
 }
-
 
 std::wstring StringUtf8ToWideChar(const std::string& strUtf8)
 {
@@ -146,15 +148,16 @@ std::string StringWideCharToUtf8(const std::wstring& strWideChar)
     return ret;
 }
 
-std::string PlatformStringToString(Platform::String^ s) {
-	return StringWideCharToUtf8(std::wstring(s->Data()));
+std::string PlatformStringToString(Platform::String ^ s)
+{
+    return StringWideCharToUtf8(std::wstring(s->Data()));
 }
 
-Platform::String^ PlatformStringFromString(const std::string& s)
-{
-    std::wstring ws = StringUtf8ToWideChar(s);
-    return ref new Platform::String(ws.data(), static_cast<unsigned int>(ws.length()));
-}
+Platform::String ^
+    PlatformStringFromString(const std::string& s) {
+        std::wstring ws = StringUtf8ToWideChar(s);
+        return ref new Platform::String(ws.data(), static_cast<unsigned int>(ws.length()));
+    }
 
 #if 0
 // Method to convert a length in device-independent pixels (DIPs) to a length in physical pixels.
@@ -170,12 +173,12 @@ float getScaledDPIValue(float v) {
 }
 #endif
 
-void CC_DLL CCLogIPAddresses()
+    void CC_DLL CCLogIPAddresses()
 {
     auto hostnames = NetworkInformation::GetHostNames();
     int length = hostnames->Size;
 
-    for(int i = 0; i < length; i++)
+    for (int i = 0; i < length; i++)
     {
         auto hn = hostnames->GetAt(i);
         if (hn->IPInformation != nullptr)
@@ -193,7 +196,7 @@ std::string CC_DLL getDeviceIPAddresses()
     auto hostnames = NetworkInformation::GetHostNames();
     int length = hostnames->Size;
 
-    for(int i = 0; i < length; i++)
+    for (int i = 0; i < length; i++)
     {
         auto hn = hostnames->GetAt(i);
         if (hn->IPInformation != nullptr)
@@ -205,53 +208,52 @@ std::string CC_DLL getDeviceIPAddresses()
     return result.str();
 }
 
-Platform::Object^ findXamlElement(Platform::Object^ parent, Platform::String^ name)
-{
-    if (parent == nullptr || name == nullptr || name->Length() == 0)
-    {
-        return nullptr;
-    }
-
-    FrameworkElement^ element = dynamic_cast<FrameworkElement^>(parent);
-    if (element == nullptr)
-    {
-        return nullptr;
-    }
-
-    if (element->Name == name)
-    {
-        return element;
-    }
-
-    Panel^ panel = dynamic_cast<Panel^>(element);
-    if (panel == nullptr)
-    {
-        return nullptr;
-    }
-
-    int count = panel->Children->Size;
-    for (int i = 0; i < count; i++)
-    {
-        auto result = findXamlElement(panel->Children->GetAt(i), name);
-        if (result != nullptr)
+Platform::Object ^
+    findXamlElement(Platform::Object ^ parent, Platform::String ^ name) {
+        if (parent == nullptr || name == nullptr || name->Length() == 0)
         {
-            return result;
+            return nullptr;
         }
+
+        FrameworkElement ^ element = dynamic_cast<FrameworkElement ^>(parent);
+        if (element == nullptr)
+        {
+            return nullptr;
+        }
+
+        if (element->Name == name)
+        {
+            return element;
+        }
+
+        Panel ^ panel = dynamic_cast<Panel ^>(element);
+        if (panel == nullptr)
+        {
+            return nullptr;
+        }
+
+        int count = panel->Children->Size;
+        for (int i = 0; i < count; i++)
+        {
+            auto result = findXamlElement(panel->Children->GetAt(i), name);
+            if (result != nullptr)
+            {
+                return result;
+            }
+        }
+
+        return nullptr;
     }
 
-    return nullptr;
-}
-
-
-bool removeXamlElement(Platform::Object^ parent, Platform::Object^ element)
+    bool removeXamlElement(Platform::Object ^ parent, Platform::Object ^ element)
 {
-    Panel^ panel = dynamic_cast<Panel^>(parent);
+    Panel ^ panel = dynamic_cast<Panel ^>(parent);
     if (panel == nullptr)
     {
         return false;
     }
 
-    UIElement^ uiElement = dynamic_cast<UIElement^>(element);
+    UIElement ^ uiElement = dynamic_cast<UIElement ^>(element);
     if (uiElement == nullptr)
     {
         return false;
@@ -268,21 +270,21 @@ bool removeXamlElement(Platform::Object^ parent, Platform::Object^ element)
     return true;
 }
 
-bool replaceXamlElement(Platform::Object^ parent, Platform::Object^ add, Platform::Object^ remove)
+bool replaceXamlElement(Platform::Object ^ parent, Platform::Object ^ add, Platform::Object ^ remove)
 {
-    Panel^ panel = dynamic_cast<Panel^>(parent);
+    Panel ^ panel = dynamic_cast<Panel ^>(parent);
     if (panel == nullptr)
     {
         return false;
     }
 
-    UIElement^ addElement = dynamic_cast<UIElement^>(add);
+    UIElement ^ addElement = dynamic_cast<UIElement ^>(add);
     if (addElement == nullptr)
     {
         return false;
     }
 
-    UIElement^ removeElement = dynamic_cast<UIElement^>(remove);
+    UIElement ^ removeElement = dynamic_cast<UIElement ^>(remove);
     if (removeElement == nullptr)
     {
         return false;
@@ -301,21 +303,17 @@ bool replaceXamlElement(Platform::Object^ parent, Platform::Object^ add, Platfor
 }
 
 // Function that reads from a binary file asynchronously.
-Concurrency::task<Platform::Array<byte>^> ReadDataAsync(Platform::String^ path)
+Concurrency::task<Platform::Array<byte> ^> ReadDataAsync(Platform::String ^ path)
 {
-	using namespace Windows::Storage;
-	using namespace Concurrency;
-		
-	return create_task(StorageFile::GetFileFromPathAsync(path)).then([&](StorageFile^ f)
-	{
-		return FileIO::ReadBufferAsync(f);
+    using namespace Windows::Storage;
+    using namespace Concurrency;
 
-	}).then([] (Streams::IBuffer^ fileBuffer) -> Platform::Array<byte>^ 
-	{
-		auto fileData = ref new Platform::Array<byte>(fileBuffer->Length);
-		Streams::DataReader::FromBuffer(fileBuffer)->ReadBytes(fileData);
-		return fileData;
-	});
+    return create_task(StorageFile::GetFileFromPathAsync(path)).then([&](StorageFile ^ f) { return FileIO::ReadBufferAsync(f); }).then([
+    ](Streams::IBuffer ^ fileBuffer) -> Platform::Array<byte> ^ {
+        auto fileData = ref new Platform::Array<byte>(fileBuffer->Length);
+        Streams::DataReader::FromBuffer(fileBuffer)->ReadBytes(fileData);
+        return fileData;
+    });
 }
 
 std::string computeHashForFile(const std::string& filePath)
@@ -323,17 +321,19 @@ std::string computeHashForFile(const std::string& filePath)
     std::string ret = filePath;
     size_t pos = ret.find_last_of('/');
 
-    if (pos != std::string::npos) {
+    if (pos != std::string::npos)
+    {
         ret = ret.substr(pos);
     }
 
     pos = ret.find_last_of('.');
 
-    if (pos != std::string::npos) {
+    if (pos != std::string::npos)
+    {
         ret = ret.substr(0, pos);
     }
 
-    CREATEFILE2_EXTENDED_PARAMETERS extParams = { 0 };
+    CREATEFILE2_EXTENDED_PARAMETERS extParams = {0};
     extParams.dwFileAttributes = FILE_ATTRIBUTE_NORMAL;
     extParams.dwFileFlags = FILE_FLAG_RANDOM_ACCESS;
     extParams.dwSecurityQosFlags = SECURITY_ANONYMOUS;
@@ -341,11 +341,14 @@ std::string computeHashForFile(const std::string& filePath)
     extParams.hTemplateFile = nullptr;
     extParams.lpSecurityAttributes = nullptr;
 
-    Microsoft::WRL::Wrappers::FileHandle file(CreateFile2(std::wstring(filePath.begin(), filePath.end()).c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING, &extParams));
+    Microsoft::WRL::Wrappers::FileHandle file(
+        CreateFile2(std::wstring(filePath.begin(), filePath.end()).c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING, &extParams));
 
-    if (file.Get() != INVALID_HANDLE_VALUE) {
-        FILE_BASIC_INFO  fInfo = { 0 };
-        if (GetFileInformationByHandleEx(file.Get(), FileBasicInfo, &fInfo, sizeof(FILE_BASIC_INFO))) {
+    if (file.Get() != INVALID_HANDLE_VALUE)
+    {
+        FILE_BASIC_INFO fInfo = {0};
+        if (GetFileInformationByHandleEx(file.Get(), FileBasicInfo, &fInfo, sizeof(FILE_BASIC_INFO)))
+        {
             std::stringstream ss;
             ss << ret << "_";
             ss << fInfo.CreationTime.QuadPart;
@@ -364,10 +367,12 @@ bool createMappedCacheFile(const std::string& srcFilePath, std::string& cacheFil
     cacheFilePath = folderPath + computeHashForFile(srcFilePath) + ext;
     std::string prevFile = UserDefault::getInstance()->getStringForKey(srcFilePath.c_str());
 
-    if (prevFile == cacheFilePath) {
+    if (prevFile == cacheFilePath)
+    {
         ret = FileUtils::getInstance()->isFileExist(cacheFilePath);
     }
-    else {
+    else
+    {
         FileUtils::getInstance()->removeFile(prevFile);
     }
 
@@ -378,8 +383,9 @@ bool createMappedCacheFile(const std::string& srcFilePath, std::string& cacheFil
 void destroyMappedCacheFile(const std::string& key)
 {
     std::string value = UserDefault::getInstance()->getStringForKey(key.c_str());
-    
-    if (!value.empty()) {
+
+    if (!value.empty())
+    {
         FileUtils::getInstance()->removeFile(value);
     }
 

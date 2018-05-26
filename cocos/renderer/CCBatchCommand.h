@@ -42,8 +42,8 @@ public:
     BatchCommand();
     BatchCommand(BatchCommand const&) = delete;
     BatchCommand& operator=(BatchCommand const&) = delete;
-    BatchCommand(BatchCommand &&) noexcept = delete;
-    BatchCommand& operator=(BatchCommand &&) noexcept = delete;
+    BatchCommand(BatchCommand&&) noexcept = delete;
+    BatchCommand& operator=(BatchCommand&&) noexcept = delete;
     ~BatchCommand() final = default;
     /**Init the batch command.
     @param globalZOrder GlobalZOrder of the render command.
@@ -53,7 +53,7 @@ public:
     @param modelViewTransform Model view transform used for rendering.
     @param flags Indicate the render command should be rendered in 3D mode or not.
     */
-    void init(float globalZOrder, GLProgram* shader, BlendFunc blendType, TextureAtlas *textureAtlas, const Mat4& modelViewTransform, uint32_t flags);
+    void init(float globalZOrder, GLProgram* shader, BlendFunc blendType, TextureAtlas* textureAtlas, const Mat4& modelViewTransform, uint32_t flags);
 
     /**Execute the command, which will call openGL function to draw the texture atlas.*/
     void execute();
@@ -74,4 +74,4 @@ protected:
 
 NS_CC_END
 
-#endif //COCOS2D_RENDERER_BATCHCOMMAND_H
+#endif // COCOS2D_RENDERER_BATCHCOMMAND_H

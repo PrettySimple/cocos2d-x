@@ -26,12 +26,9 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-namespace ui {
-
-const char* CocosGUIVersion()
+namespace ui
 {
-    return "CocosGUI v1.0.0.0";
-}
+    const char* CocosGUIVersion() { return "CocosGUI v1.0.0.0"; }
 
-}
+} // namespace ui
 NS_CC_END

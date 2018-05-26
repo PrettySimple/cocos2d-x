@@ -25,21 +25,22 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
 
-#include "platform/tizen/CCGLViewImpl-tizen.h"
-#include <app.h>
-#include <Evas.h>
-#include <Elementary.h>
-#include <efl_extension.h>
-#include "platform/CCApplication.h"
-#include "base/CCIMEDispatcher.h"
-#include "base/CCDirector.h"
+#    include "base/CCDirector.h"
+#    include "base/CCIMEDispatcher.h"
+#    include "platform/CCApplication.h"
+#    include "platform/tizen/CCGLViewImpl-tizen.h"
+#    include <Elementary.h>
+#    include <Evas.h>
+#    include <app.h>
+#    include <efl_extension.h>
 
 NS_CC_BEGIN
 
 GLViewImpl* GLViewImpl::createWithRect(const std::string& viewName, Rect rect, float frameZoomFactor)
 {
     auto ret = new GLViewImpl;
-    if(ret && ret->initWithRect(viewName, rect, frameZoomFactor)) {
+    if (ret && ret->initWithRect(viewName, rect, frameZoomFactor))
+    {
         ret->autorelease();
         return ret;
     }
@@ -50,7 +51,8 @@ GLViewImpl* GLViewImpl::createWithRect(const std::string& viewName, Rect rect, f
 GLViewImpl* GLViewImpl::create(const std::string& viewName)
 {
     auto ret = new GLViewImpl;
-    if(ret && ret->initWithFullScreen(viewName)) {
+    if (ret && ret->initWithFullScreen(viewName))
+    {
         ret->autorelease();
         return ret;
     }
@@ -61,7 +63,8 @@ GLViewImpl* GLViewImpl::create(const std::string& viewName)
 GLViewImpl* GLViewImpl::createWithFullScreen(const std::string& viewName)
 {
     auto ret = new GLViewImpl();
-    if(ret && ret->initWithFullScreen(viewName)) {
+    if (ret && ret->initWithFullScreen(viewName))
+    {
         ret->autorelease();
         return ret;
     }
@@ -71,12 +74,10 @@ GLViewImpl* GLViewImpl::createWithFullScreen(const std::string& viewName)
 
 GLViewImpl::GLViewImpl()
 {
-
 }
 
 GLViewImpl::~GLViewImpl()
 {
-
 }
 
 bool GLViewImpl::initWithRect(const std::string& viewName, Rect rect, float frameZoomFactor)
@@ -89,7 +90,6 @@ bool GLViewImpl::initWithFullScreen(const std::string& viewName)
     return true;
 }
 
-
 bool GLViewImpl::isOpenGLReady()
 {
     return (_screenSize.width != 0 && _screenSize.height != 0);
@@ -97,7 +97,7 @@ bool GLViewImpl::isOpenGLReady()
 
 void GLViewImpl::end()
 {
-	ui_app_exit();
+    ui_app_exit();
 }
 
 void GLViewImpl::swapBuffers()
@@ -105,29 +105,29 @@ void GLViewImpl::swapBuffers()
 }
 
 //============================================================================================
-static Evas_Object * s_keypadWin = nullptr;
-static Evas_Object * s_keypadEntry = nullptr;
-Ecore_IMF_Context *s_imf = nullptr;
+static Evas_Object* s_keypadWin = nullptr;
+static Evas_Object* s_keypadEntry = nullptr;
+Ecore_IMF_Context* s_imf = nullptr;
 
-static void imfEventCommitCallback(void *data, Ecore_IMF_Context *ctx, void *event_info)
+static void imfEventCommitCallback(void* data, Ecore_IMF_Context* ctx, void* event_info)
 {
-    auto commit_str = (char *)event_info;
+    auto commit_str = (char*)event_info;
     if (commit_str)
     {
         cocos2d::IMEDispatcher::sharedDispatcher()->dispatchInsertText(commit_str, strlen(commit_str));
     }
 }
 
-static void entryKeyCallback(void *data, Evas *e, Evas_Object *obj, void *event_info)
+static void entryKeyCallback(void* data, Evas* e, Evas_Object* obj, void* event_info)
 {
     auto keyInfo = (Evas_Event_Key_Up*)event_info;
-    if (keyInfo->key && !strcmp(keyInfo->key,"BackSpace"))
+    if (keyInfo->key && !strcmp(keyInfo->key, "BackSpace"))
     {
         cocos2d::IMEDispatcher::sharedDispatcher()->dispatchDeleteBackward();
     }
 }
 
-static void stateChangedCallback(void *data, Ecore_IMF_Context *ctx, int value)
+static void stateChangedCallback(void* data, Ecore_IMF_Context* ctx, int value)
 {
     if (value == ECORE_IMF_INPUT_PANEL_STATE_HIDE)
     {
@@ -139,21 +139,21 @@ static void stateChangedCallback(void *data, Ecore_IMF_Context *ctx, int value)
 
 static void closeKeypad()
 {
-    ecore_imf_context_input_panel_event_callback_add (s_imf, ECORE_IMF_INPUT_PANEL_STATE_EVENT, stateChangedCallback, NULL);
+    ecore_imf_context_input_panel_event_callback_add(s_imf, ECORE_IMF_INPUT_PANEL_STATE_EVENT, stateChangedCallback, NULL);
     elm_entry_input_panel_hide(s_keypadEntry);
 }
 
-static void entryActivatedCallback(void *data, Evas_Object *obj, void *event_info)
+static void entryActivatedCallback(void* data, Evas_Object* obj, void* event_info)
 {
     closeKeypad();
 }
 
-static void keyPadBackCallback(void *data, Evas_Object *obj, void *event_info)
+static void keyPadBackCallback(void* data, Evas_Object* obj, void* event_info)
 {
     closeKeypad();
 }
 
-static void blankAreaClickedCallback(void *data, Evas *e, Evas_Object *obj, void *event_info)
+static void blankAreaClickedCallback(void* data, Evas* e, Evas_Object* obj, void* event_info)
 {
     closeKeypad();
 }
@@ -205,7 +205,7 @@ void GLViewImpl::setIMEKeyboardState(bool open)
             s_imf = (Ecore_IMF_Context*)elm_entry_imf_context_get(s_keypadEntry);
             ecore_imf_context_event_callback_add(s_imf, ECORE_IMF_CALLBACK_COMMIT, imfEventCommitCallback, s_keypadEntry);
         }
-    } 
+    }
     else if (s_keypadWin)
     {
         closeKeypad();

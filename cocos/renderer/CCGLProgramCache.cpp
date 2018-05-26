@@ -27,17 +27,18 @@ THE SOFTWARE.
 
 #include "renderer/CCGLProgramCache.h"
 
-#include "renderer/CCGLProgram.h"
-#include "renderer/ccShaders.h"
-#include "base/ccMacros.h"
 #include "base/CCConfiguration.h"
-#include "base/CCEventListenerCustom.h"
 #include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
+#include "base/CCEventListenerCustom.h"
+#include "base/ccMacros.h"
+#include "renderer/CCGLProgram.h"
+#include "renderer/ccShaders.h"
 
 NS_CC_BEGIN
 
-enum {
+enum
+{
     kShaderType_PositionTextureColor,
     kShaderType_PositionTextureColor_noMVP,
     kShaderType_PositionTextureColorAlphaTest,
@@ -77,11 +78,12 @@ enum {
     kShaderType_MAX,
 };
 
-static GLProgramCache *_sharedGLProgramCache = nullptr;
+static GLProgramCache* _sharedGLProgramCache = nullptr;
 
 GLProgramCache* GLProgramCache::getInstance()
 {
-    if (!_sharedGLProgramCache) {
+    if (!_sharedGLProgramCache)
+    {
         _sharedGLProgramCache = new (std::nothrow) GLProgramCache();
         if (!_sharedGLProgramCache->init())
         {
@@ -111,12 +113,12 @@ void GLProgramCache::purgeSharedShaderCache()
 GLProgramCache::GLProgramCache()
 : _programs()
 {
-
 }
 
 GLProgramCache::~GLProgramCache()
 {
-    for( auto it = _programs.begin(); it != _programs.end(); ++it ) {
+    for (auto it = _programs.begin(); it != _programs.end(); ++it)
+    {
         (it->second)->release();
     }
 
@@ -127,9 +129,7 @@ bool GLProgramCache::init()
 {
     loadDefaultGLPrograms();
 
-    auto listener = EventListenerCustom::create(Configuration::CONFIG_FILE_LOADED, [this](EventCustom* event){
-        reloadDefaultGLProgramsRelativeToLights();
-    });
+    auto listener = EventListenerCustom::create(Configuration::CONFIG_FILE_LOADED, [this](EventCustom* event) { reloadDefaultGLProgramsRelativeToLights(); });
 
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(listener, -1);
 
@@ -142,85 +142,85 @@ void GLProgramCache::loadDefaultGLPrograms()
     GLProgram::createMipmapDebug();
 #endif
     // Position Texture Color shader
-    GLProgram *p = new (std::nothrow) GLProgram();
+    GLProgram* p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_PositionTextureColor);
-    _programs.insert( std::make_pair( GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR, p ) );
+    _programs.insert(std::make_pair(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR, p));
 
     // Position Texture Color without MVP shader
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_PositionTextureColor_noMVP);
-    _programs.insert( std::make_pair( GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP, p ) );
+    _programs.insert(std::make_pair(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP, p));
 
     // Position Texture Color alpha test
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_PositionTextureColorAlphaTest);
-    _programs.insert( std::make_pair(GLProgram::SHADER_NAME_POSITION_TEXTURE_ALPHA_TEST, p) );
+    _programs.insert(std::make_pair(GLProgram::SHADER_NAME_POSITION_TEXTURE_ALPHA_TEST, p));
 
     // Position Texture Color alpha test
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_PositionTextureColorAlphaTestNoMV);
-    _programs.insert( std::make_pair(GLProgram::SHADER_NAME_POSITION_TEXTURE_ALPHA_TEST_NO_MV, p) );
+    _programs.insert(std::make_pair(GLProgram::SHADER_NAME_POSITION_TEXTURE_ALPHA_TEST_NO_MV, p));
     //
     // Position, Color shader
     //
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_PositionColor);
-    _programs.insert( std::make_pair(GLProgram::SHADER_NAME_POSITION_COLOR, p) );
+    _programs.insert(std::make_pair(GLProgram::SHADER_NAME_POSITION_COLOR, p));
 
     // Position, Color, PointSize shader
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_PositionColorTextureAsPointsize);
-    _programs.insert( std::make_pair(GLProgram::SHADER_NAME_POSITION_COLOR_TEXASPOINTSIZE, p) );
+    _programs.insert(std::make_pair(GLProgram::SHADER_NAME_POSITION_COLOR_TEXASPOINTSIZE, p));
 
     //
     // Position, Color shader no MVP
     //
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_PositionColor_noMVP);
-    _programs.insert( std::make_pair(GLProgram::SHADER_NAME_POSITION_COLOR_NO_MVP, p) );
+    _programs.insert(std::make_pair(GLProgram::SHADER_NAME_POSITION_COLOR_NO_MVP, p));
 
     //
     // Position Texture shader
     //
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_PositionTexture);
-    _programs.insert( std::make_pair( GLProgram::SHADER_NAME_POSITION_TEXTURE, p) );
+    _programs.insert(std::make_pair(GLProgram::SHADER_NAME_POSITION_TEXTURE, p));
 
     //
     // Position, Texture attribs, 1 Color as uniform shader
     //
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_PositionTexture_uColor);
-    _programs.insert( std::make_pair( GLProgram::SHADER_NAME_POSITION_TEXTURE_U_COLOR, p) );
+    _programs.insert(std::make_pair(GLProgram::SHADER_NAME_POSITION_TEXTURE_U_COLOR, p));
 
     //
     // Position Texture A8 Color shader
     //
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_PositionTextureA8Color);
-    _programs.insert( std::make_pair(GLProgram::SHADER_NAME_POSITION_TEXTURE_A8_COLOR, p) );
+    _programs.insert(std::make_pair(GLProgram::SHADER_NAME_POSITION_TEXTURE_A8_COLOR, p));
 
     //
     // Position and 1 color passed as a uniform (to simulate glColor4ub )
     //
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_Position_uColor);
-    _programs.insert( std::make_pair(GLProgram::SHADER_NAME_POSITION_U_COLOR, p) );
+    _programs.insert(std::make_pair(GLProgram::SHADER_NAME_POSITION_U_COLOR, p));
 
     //
     // Position, Length(TexCoords, Color (used by Draw Node basically )
     //
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_PositionLengthTextureColor);
-    _programs.insert( std::make_pair(GLProgram::SHADER_NAME_POSITION_LENGTH_TEXTURE_COLOR, p) );
+    _programs.insert(std::make_pair(GLProgram::SHADER_NAME_POSITION_LENGTH_TEXTURE_COLOR, p));
 
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_LabelDistanceFieldNormal);
-    _programs.insert( std::make_pair(GLProgram::SHADER_NAME_LABEL_DISTANCEFIELD_NORMAL, p) );
+    _programs.insert(std::make_pair(GLProgram::SHADER_NAME_LABEL_DISTANCEFIELD_NORMAL, p));
 
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_LabelDistanceFieldGlow);
-    _programs.insert( std::make_pair(GLProgram::SHADER_NAME_LABEL_DISTANCEFIELD_GLOW, p) );
+    _programs.insert(std::make_pair(GLProgram::SHADER_NAME_LABEL_DISTANCEFIELD_GLOW, p));
 
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_UIGrayScale);
@@ -228,19 +228,19 @@ void GLProgramCache::loadDefaultGLPrograms()
 
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_LabelNormal);
-    _programs.insert( std::make_pair(GLProgram::SHADER_NAME_LABEL_NORMAL, p) );
+    _programs.insert(std::make_pair(GLProgram::SHADER_NAME_LABEL_NORMAL, p));
 
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_LabelOutline);
-    _programs.insert( std::make_pair(GLProgram::SHADER_NAME_LABEL_OUTLINE, p) );
+    _programs.insert(std::make_pair(GLProgram::SHADER_NAME_LABEL_OUTLINE, p));
 
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_3DPosition);
-    _programs.insert( std::make_pair(GLProgram::SHADER_3D_POSITION, p) );
+    _programs.insert(std::make_pair(GLProgram::SHADER_3D_POSITION, p));
 
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_3DPositionTex);
-    _programs.insert( std::make_pair(GLProgram::SHADER_3D_POSITION_TEXTURE, p) );
+    _programs.insert(std::make_pair(GLProgram::SHADER_3D_POSITION_TEXTURE, p));
 
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_3DSkinPositionTex);
@@ -248,11 +248,11 @@ void GLProgramCache::loadDefaultGLPrograms()
 
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_3DPositionNormal);
-    _programs.insert( std::make_pair(GLProgram::SHADER_3D_POSITION_NORMAL, p) );
+    _programs.insert(std::make_pair(GLProgram::SHADER_3D_POSITION_NORMAL, p));
 
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_3DPositionNormalTex);
-    _programs.insert( std::make_pair(GLProgram::SHADER_3D_POSITION_NORMAL_TEXTURE, p) );
+    _programs.insert(std::make_pair(GLProgram::SHADER_3D_POSITION_NORMAL_TEXTURE, p));
 
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_3DSkinPositionNormalTex);
@@ -287,20 +287,20 @@ void GLProgramCache::loadDefaultGLPrograms()
     _programs.insert(std::make_pair(GLProgram::SHADER_CAMERA_CLEAR, p));
 
     /// ETC1 ALPHA supports.
-    p = new(std::nothrow) GLProgram();
+    p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_ETC1ASPositionTextureColor);
     _programs.insert(std::make_pair(GLProgram::SHADER_NAME_ETC1AS_POSITION_TEXTURE_COLOR, p));
 
-    p = new(std::nothrow) GLProgram();
+    p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_ETC1ASPositionTextureColor_noMVP);
     _programs.insert(std::make_pair(GLProgram::SHADER_NAME_ETC1AS_POSITION_TEXTURE_COLOR_NO_MVP, p));
 
     /// ETC1 Gray supports.
-    p = new(std::nothrow) GLProgram();
+    p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_ETC1ASPositionTextureGray);
     _programs.insert(std::make_pair(GLProgram::SHADER_NAME_ETC1AS_POSITION_TEXTURE_GRAY, p));
 
-    p = new(std::nothrow) GLProgram();
+    p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_ETC1ASPositionTextureGray_noMVP);
     _programs.insert(std::make_pair(GLProgram::SHADER_NAME_ETC1AS_POSITION_TEXTURE_GRAY_NO_MVP, p));
 }
@@ -313,7 +313,7 @@ void GLProgramCache::reloadDefaultGLPrograms()
     // reset all programs and reload them
 
     // Position Texture Color shader
-    GLProgram *p = getGLProgram(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR);
+    GLProgram* p = getGLProgram(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR);
     p->reset();
     loadDefaultGLProgram(p, kShaderType_PositionTextureColor);
 
@@ -459,7 +459,7 @@ void GLProgramCache::reloadDefaultGLPrograms()
 
 void GLProgramCache::reloadDefaultGLProgramsRelativeToLights()
 {
-    GLProgram *p = getGLProgram(GLProgram::SHADER_3D_POSITION_NORMAL);
+    GLProgram* p = getGLProgram(GLProgram::SHADER_3D_POSITION_NORMAL);
     p->reset();
     loadDefaultGLProgram(p, kShaderType_3DPositionNormal);
 
@@ -480,9 +480,10 @@ void GLProgramCache::reloadDefaultGLProgramsRelativeToLights()
     loadDefaultGLProgram(p, kShaderType_3DSkinPositionBumpedNormalTex);
 }
 
-void GLProgramCache::loadDefaultGLProgram(GLProgram *p, int type)
+void GLProgramCache::loadDefaultGLProgram(GLProgram* p, int type)
 {
-    switch (type) {
+    switch (type)
+    {
         case kShaderType_PositionTextureColor:
             p->initWithByteArrays(ccPositionTextureColor_vert, ccPositionTextureColor_frag);
             break;
@@ -496,16 +497,16 @@ void GLProgramCache::loadDefaultGLProgram(GLProgram *p, int type)
             p->initWithByteArrays(ccPositionTextureColor_noMVP_vert, ccPositionTextureColorAlphaTest_frag);
             break;
         case kShaderType_PositionColor:
-            p->initWithByteArrays(ccPositionColor_vert ,ccPositionColor_frag);
+            p->initWithByteArrays(ccPositionColor_vert, ccPositionColor_frag);
             break;
         case kShaderType_PositionColorTextureAsPointsize:
-            p->initWithByteArrays(ccPositionColorTextureAsPointsize_vert ,ccPositionColor_frag);
+            p->initWithByteArrays(ccPositionColorTextureAsPointsize_vert, ccPositionColor_frag);
             break;
         case kShaderType_PositionColor_noMVP:
-            p->initWithByteArrays(ccPositionTextureColor_noMVP_vert ,ccPositionColor_frag);
+            p->initWithByteArrays(ccPositionTextureColor_noMVP_vert, ccPositionColor_frag);
             break;
         case kShaderType_PositionTexture:
-            p->initWithByteArrays(ccPositionTexture_vert ,ccPositionTexture_frag);
+            p->initWithByteArrays(ccPositionTexture_vert, ccPositionTexture_frag);
             break;
         case kShaderType_PositionTexture_uColor:
             p->initWithByteArrays(ccPositionTexture_uColor_vert, ccPositionTexture_uColor_frag);
@@ -527,8 +528,7 @@ void GLProgramCache::loadDefaultGLProgram(GLProgram *p, int type)
             p->initWithByteArrays(ccLabel_vert, ccLabelDistanceFieldGlow_frag);
             break;
         case kShaderType_UIGrayScale:
-            p->initWithByteArrays(ccPositionTextureColor_noMVP_vert,
-                                  ccPositionTexture_GrayScale_frag);
+            p->initWithByteArrays(ccPositionTextureColor_noMVP_vert, ccPositionTexture_GrayScale_frag);
             break;
         case kShaderType_LabelNormal:
             p->initWithByteArrays(ccLabel_vert, ccLabelNormal_frag);
@@ -546,42 +546,44 @@ void GLProgramCache::loadDefaultGLProgram(GLProgram *p, int type)
             p->initWithByteArrays(cc3D_SkinPositionTex_vert, cc3D_ColorTex_frag);
             break;
         case kShaderType_3DPositionNormal:
-            {
-                std::string def = getShaderMacrosForLight();
-                p->initWithByteArrays((def + std::string(cc3D_PositionNormalTex_vert)).c_str(), (def + std::string(cc3D_ColorNormal_frag)).c_str());
-            }
-            break;
+        {
+            std::string def = getShaderMacrosForLight();
+            p->initWithByteArrays((def + std::string(cc3D_PositionNormalTex_vert)).c_str(), (def + std::string(cc3D_ColorNormal_frag)).c_str());
+        }
+        break;
         case kShaderType_3DPositionNormalTex:
-            {
-                std::string def = getShaderMacrosForLight();
-                p->initWithByteArrays((def + std::string(cc3D_PositionNormalTex_vert)).c_str(), (def + std::string(cc3D_ColorNormalTex_frag)).c_str());
-            }
-            break;
+        {
+            std::string def = getShaderMacrosForLight();
+            p->initWithByteArrays((def + std::string(cc3D_PositionNormalTex_vert)).c_str(), (def + std::string(cc3D_ColorNormalTex_frag)).c_str());
+        }
+        break;
         case kShaderType_3DSkinPositionNormalTex:
-            {
-                std::string def = getShaderMacrosForLight();
-                p->initWithByteArrays((def + std::string(cc3D_SkinPositionNormalTex_vert)).c_str(), (def + std::string(cc3D_ColorNormalTex_frag)).c_str());
-            }
-            break;
+        {
+            std::string def = getShaderMacrosForLight();
+            p->initWithByteArrays((def + std::string(cc3D_SkinPositionNormalTex_vert)).c_str(), (def + std::string(cc3D_ColorNormalTex_frag)).c_str());
+        }
+        break;
         case kShaderType_3DPositionBumpedNormalTex:
-            {
-                std::string def = getShaderMacrosForLight();
-                std::string normalMapDef = "\n#define USE_NORMAL_MAPPING 1 \n";
-                p->initWithByteArrays((def + normalMapDef + std::string(cc3D_PositionNormalTex_vert)).c_str(), (def + normalMapDef + std::string(cc3D_ColorNormalTex_frag)).c_str());
-            }
-            break;
+        {
+            std::string def = getShaderMacrosForLight();
+            std::string normalMapDef = "\n#define USE_NORMAL_MAPPING 1 \n";
+            p->initWithByteArrays((def + normalMapDef + std::string(cc3D_PositionNormalTex_vert)).c_str(),
+                                  (def + normalMapDef + std::string(cc3D_ColorNormalTex_frag)).c_str());
+        }
+        break;
         case kShaderType_3DSkinPositionBumpedNormalTex:
-            {
-                std::string def = getShaderMacrosForLight();
-                std::string normalMapDef = "\n#define USE_NORMAL_MAPPING 1 \n";
-                p->initWithByteArrays((def + normalMapDef + std::string(cc3D_SkinPositionNormalTex_vert)).c_str(), (def + normalMapDef + std::string(cc3D_ColorNormalTex_frag)).c_str());
-            }
-            break;
+        {
+            std::string def = getShaderMacrosForLight();
+            std::string normalMapDef = "\n#define USE_NORMAL_MAPPING 1 \n";
+            p->initWithByteArrays((def + normalMapDef + std::string(cc3D_SkinPositionNormalTex_vert)).c_str(),
+                                  (def + normalMapDef + std::string(cc3D_ColorNormalTex_frag)).c_str());
+        }
+        break;
         case kShaderType_3DParticleTex:
-           {
-                p->initWithByteArrays(cc3D_Particle_vert, cc3D_Particle_tex_frag);
-           }
-            break;
+        {
+            p->initWithByteArrays(cc3D_Particle_vert, cc3D_Particle_tex_frag);
+        }
+        break;
         case kShaderType_3DParticleColor:
             p->initWithByteArrays(cc3D_Particle_vert, cc3D_Particle_color_frag);
             break;
@@ -619,19 +621,19 @@ void GLProgramCache::loadDefaultGLProgram(GLProgram *p, int type)
     CHECK_GL_ERROR_DEBUG();
 }
 
-GLProgram* GLProgramCache::getGLProgram(const std::string &key)
+GLProgram* GLProgramCache::getGLProgram(const std::string& key)
 {
     auto it = _programs.find(key);
-    if( it != _programs.end() )
+    if (it != _programs.end())
         return it->second;
     return nullptr;
 }
 
-void GLProgramCache::addGLProgram(GLProgram* program, const std::string &key)
+void GLProgramCache::addGLProgram(GLProgram* program, const std::string& key)
 {
     // release old one
     auto prev = getGLProgram(key);
-    if( prev == program )
+    if (prev == program)
         return;
 
     _programs.erase(key);
@@ -647,19 +649,18 @@ std::string GLProgramCache::getShaderMacrosForLight() const
     GLchar def[256];
     auto conf = Configuration::getInstance();
 
-    snprintf(def, sizeof(def)-1, "\n#define MAX_DIRECTIONAL_LIGHT_NUM %d \n"
-            "\n#define MAX_POINT_LIGHT_NUM %d \n"
-            "\n#define MAX_SPOT_LIGHT_NUM %d \n",
-             conf->getMaxSupportDirLightInShader(),
-             conf->getMaxSupportPointLightInShader(),
-             conf->getMaxSupportSpotLightInShader());
+    snprintf(def, sizeof(def) - 1,
+             "\n#define MAX_DIRECTIONAL_LIGHT_NUM %d \n"
+             "\n#define MAX_POINT_LIGHT_NUM %d \n"
+             "\n#define MAX_SPOT_LIGHT_NUM %d \n",
+             conf->getMaxSupportDirLightInShader(), conf->getMaxSupportPointLightInShader(), conf->getMaxSupportSpotLightInShader());
     return std::string(def);
 }
 
 #ifdef DEBUG_TEXTURE_SIZE
 void GLProgramCache::setDebug(DebugFlag debug) noexcept
 {
-    for(auto [_, prog] : _programs)
+    for (auto [_, prog] : _programs)
     {
         prog->setDebug(debug);
     }

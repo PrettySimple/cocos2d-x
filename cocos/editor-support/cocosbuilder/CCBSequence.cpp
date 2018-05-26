@@ -4,86 +4,56 @@ using namespace cocos2d;
 using namespace std::chrono_literals;
 using namespace std;
 
-
-namespace cocosbuilder {
-
-CCBSequence::CCBSequence() : _duration(0ms)
-, _name("")
-, mSequenceId(0)
-, mChainedSequenceId(0)
-, mCallbackChannel(nullptr)
-, mSoundChannel(nullptr)
-{}
-
-CCBSequence::~CCBSequence() {
-    CC_SAFE_RELEASE(mCallbackChannel);
-    CC_SAFE_RELEASE(mSoundChannel);
-}
-
-std::chrono::milliseconds CCBSequence::getDuration()
+namespace cocosbuilder
 {
-    return _duration;
-}
+    CCBSequence::CCBSequence()
+    : _duration(0ms)
+    , _name("")
+    , mSequenceId(0)
+    , mChainedSequenceId(0)
+    , mCallbackChannel(nullptr)
+    , mSoundChannel(nullptr)
+    {
+    }
 
-void CCBSequence::setDuration(std::chrono::milliseconds fDuration)
-{
-    _duration = fDuration;
-}
+    CCBSequence::~CCBSequence()
+    {
+        CC_SAFE_RELEASE(mCallbackChannel);
+        CC_SAFE_RELEASE(mSoundChannel);
+    }
 
-const char* CCBSequence::getName()
-{
-    return _name.c_str();
-}
+    std::chrono::milliseconds CCBSequence::getDuration() { return _duration; }
 
-void CCBSequence::setName(const char *pName)
-{
-    _name = pName;
-}
+    void CCBSequence::setDuration(std::chrono::milliseconds fDuration) { _duration = fDuration; }
 
-int CCBSequence::getSequenceId()
-{
-    return mSequenceId;
-}
+    const char* CCBSequence::getName() { return _name.c_str(); }
 
-void CCBSequence::setSequenceId(int nSequenceId)
-{
-    mSequenceId = nSequenceId;
-}
+    void CCBSequence::setName(const char* pName) { _name = pName; }
 
-CCBSequenceProperty* CCBSequence::getCallbackChannel()
-{
-    return mCallbackChannel;
-}
+    int CCBSequence::getSequenceId() { return mSequenceId; }
 
-void CCBSequence::setCallbackChannel(CCBSequenceProperty* callbackChannel)
-{
-    CC_SAFE_RELEASE(mCallbackChannel);
-    mCallbackChannel = callbackChannel;
-    CC_SAFE_RETAIN(mCallbackChannel);
-}
+    void CCBSequence::setSequenceId(int nSequenceId) { mSequenceId = nSequenceId; }
 
+    CCBSequenceProperty* CCBSequence::getCallbackChannel() { return mCallbackChannel; }
 
-CCBSequenceProperty* CCBSequence::getSoundChannel()
-{
-    return mSoundChannel;
-}
+    void CCBSequence::setCallbackChannel(CCBSequenceProperty* callbackChannel)
+    {
+        CC_SAFE_RELEASE(mCallbackChannel);
+        mCallbackChannel = callbackChannel;
+        CC_SAFE_RETAIN(mCallbackChannel);
+    }
 
-void CCBSequence::setSoundChannel(CCBSequenceProperty* soundChannel)
-{
-    CC_SAFE_RELEASE(mSoundChannel);
-    mSoundChannel = soundChannel;
-    CC_SAFE_RETAIN(mSoundChannel);
-}
+    CCBSequenceProperty* CCBSequence::getSoundChannel() { return mSoundChannel; }
 
+    void CCBSequence::setSoundChannel(CCBSequenceProperty* soundChannel)
+    {
+        CC_SAFE_RELEASE(mSoundChannel);
+        mSoundChannel = soundChannel;
+        CC_SAFE_RETAIN(mSoundChannel);
+    }
 
-int CCBSequence::getChainedSequenceId()
-{
-    return mChainedSequenceId;
-}
+    int CCBSequence::getChainedSequenceId() { return mChainedSequenceId; }
 
-void CCBSequence::setChainedSequenceId(int nChainedSequenceId)
-{
-    mChainedSequenceId = nChainedSequenceId;
-}
+    void CCBSequence::setChainedSequenceId(int nChainedSequenceId) { mChainedSequenceId = nChainedSequenceId; }
 
-}
+} // namespace cocosbuilder

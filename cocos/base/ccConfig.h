@@ -33,7 +33,7 @@ THE SOFTWARE.
 /**
  * @file
  * cocos2d (cc) configuration file.
-*/
+ */
 
 /** @def CC_ENABLE_STACKABLE_ACTIONS
  * If enabled, actions that alter the position property (eg: MoveBy, JumpBy, BezierBy, etc..) will be stacked.
@@ -43,7 +43,7 @@ THE SOFTWARE.
  * @since v2.1
  */
 #ifndef CC_ENABLE_STACKABLE_ACTIONS
-#define CC_ENABLE_STACKABLE_ACTIONS 1
+#    define CC_ENABLE_STACKABLE_ACTIONS 1
 #endif
 
 /** @def CC_ENABLE_GL_STATE_CACHE
@@ -63,7 +63,7 @@ THE SOFTWARE.
  * @since v2.0.0
  */
 #ifndef CC_ENABLE_GL_STATE_CACHE
-#define CC_ENABLE_GL_STATE_CACHE 1
+#    define CC_ENABLE_GL_STATE_CACHE 1
 #endif
 
 /** @def CC_FIX_ARTIFACTS_BY_STRECHING_TEXEL
@@ -87,7 +87,7 @@ THE SOFTWARE.
  * @since v0.99.5
  */
 #ifndef CC_FIX_ARTIFACTS_BY_STRECHING_TEXEL
-#define CC_FIX_ARTIFACTS_BY_STRECHING_TEXEL 0
+#    define CC_FIX_ARTIFACTS_BY_STRECHING_TEXEL 0
 #endif
 
 /** @def CC_DIRECTOR_STATS_INTERVAL
@@ -98,7 +98,7 @@ THE SOFTWARE.
  * Default value: 0.1f
  */
 #ifndef CC_DIRECTOR_STATS_INTERVAL
-#define CC_DIRECTOR_STATS_INTERVAL (0.1f)
+#    define CC_DIRECTOR_STATS_INTERVAL (0.1f)
 #endif
 
 /** @def CC_DIRECTOR_FPS_POSITION
@@ -107,7 +107,7 @@ THE SOFTWARE.
  * Default: 0,0 (bottom-left corner).
  */
 #ifndef CC_DIRECTOR_FPS_POSITION
-#define CC_DIRECTOR_FPS_POSITION Vec2(0,0)
+#    define CC_DIRECTOR_FPS_POSITION Vec2(0, 0)
 #endif
 
 /** @def CC_DIRECTOR_DISPATCH_FAST_EVENTS
@@ -121,7 +121,7 @@ THE SOFTWARE.
  * @warning This feature is experimental.
  */
 #ifndef CC_DIRECTOR_DISPATCH_FAST_EVENTS
- #define CC_DIRECTOR_DISPATCH_FAST_EVENTS 0
+#    define CC_DIRECTOR_DISPATCH_FAST_EVENTS 0
 #endif
 
 /** @def CC_DIRECTOR_MAC_USE_DISPLAY_LINK_THREAD
@@ -132,7 +132,7 @@ THE SOFTWARE.
  * Only valid for cocos2d-mac. Not supported on cocos2d-ios.
  */
 #ifndef CC_DIRECTOR_MAC_USE_DISPLAY_LINK_THREAD
-#define CC_DIRECTOR_MAC_USE_DISPLAY_LINK_THREAD 1
+#    define CC_DIRECTOR_MAC_USE_DISPLAY_LINK_THREAD 1
 #endif
 
 /** @def CC_NODE_RENDER_SUBPIXEL
@@ -141,7 +141,7 @@ THE SOFTWARE.
  * To enable set it to 1. Enabled by default.
  */
 #ifndef CC_NODE_RENDER_SUBPIXEL
-#define CC_NODE_RENDER_SUBPIXEL 1
+#    define CC_NODE_RENDER_SUBPIXEL 1
 #endif
 
 /** @def CC_SPRITEBATCHNODE_RENDER_SUBPIXEL
@@ -150,7 +150,7 @@ THE SOFTWARE.
  * To enable set it to 1. Enabled by default.
  */
 #ifndef CC_SPRITEBATCHNODE_RENDER_SUBPIXEL
-#define CC_SPRITEBATCHNODE_RENDER_SUBPIXEL    1
+#    define CC_SPRITEBATCHNODE_RENDER_SUBPIXEL 1
 #endif
 
 /** @def CC_TEXTURE_ATLAS_USE_VAO
@@ -160,17 +160,16 @@ THE SOFTWARE.
  * To disable it set it to 0. Enabled by default.
  */
 #ifndef CC_TEXTURE_ATLAS_USE_VAO
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
-        #define CC_TEXTURE_ATLAS_USE_VAO 1
-    #else
-        /* Some Windows display adapter driver cannot support VAO.
-         * Some android devices cannot support VAO very well, so we disable it by default for android platform.
-         * Blackberry also doesn't support this feature.
-         */
-		#define CC_TEXTURE_ATLAS_USE_VAO 0
-    #endif
+#    if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+#        define CC_TEXTURE_ATLAS_USE_VAO 1
+#    else
+/* Some Windows display adapter driver cannot support VAO.
+ * Some android devices cannot support VAO very well, so we disable it by default for android platform.
+ * Blackberry also doesn't support this feature.
+ */
+#        define CC_TEXTURE_ATLAS_USE_VAO 0
+#    endif
 #endif
-
 
 /** @def CC_USE_LA88_LABELS
  * If enabled, it will use LA88 (Luminance Alpha 16-bit textures) for LabelTTF objects.
@@ -180,7 +179,7 @@ THE SOFTWARE.
  * @since v0.99.5
  */
 #ifndef CC_USE_LA88_LABELS
-#define CC_USE_LA88_LABELS 1
+#    define CC_USE_LA88_LABELS 1
 #endif
 
 /** @def CC_SPRITE_DEBUG_DRAW
@@ -192,18 +191,18 @@ THE SOFTWARE.
  * 2 -- draw texture box
  */
 #ifndef CC_SPRITE_DEBUG_DRAW
-#define CC_SPRITE_DEBUG_DRAW 0
+#    define CC_SPRITE_DEBUG_DRAW 0
 #endif
 
 /** @def CC_LABEL_DEBUG_DRAW
-* If enabled, all subclasses of Label will draw a bounding box.
-* Useful for debugging purposes only. It is recommended to leave it disabled.
-* To enable set it to a value different than 0. Disabled by default:
-* 0 -- disabled
-* 1 -- draw bounding box
-*/
+ * If enabled, all subclasses of Label will draw a bounding box.
+ * Useful for debugging purposes only. It is recommended to leave it disabled.
+ * To enable set it to a value different than 0. Disabled by default:
+ * 0 -- disabled
+ * 1 -- draw bounding box
+ */
 #ifndef CC_LABEL_DEBUG_DRAW
-#define CC_LABEL_DEBUG_DRAW 0
+#    define CC_LABEL_DEBUG_DRAW 0
 #endif
 
 /** @def CC_SPRITEBATCHNODE_DEBUG_DRAW
@@ -212,7 +211,7 @@ THE SOFTWARE.
  * To enable set it to a value different than 0. Disabled by default.
  */
 #ifndef CC_SPRITEBATCHNODE_DEBUG_DRAW
-#define CC_SPRITEBATCHNODE_DEBUG_DRAW 0
+#    define CC_SPRITEBATCHNODE_DEBUG_DRAW 0
 #endif
 
 /** @def CC_LABELBMFONT_DEBUG_DRAW
@@ -221,7 +220,7 @@ THE SOFTWARE.
  * To enable set it to a value different than 0. Disabled by default.
  */
 #ifndef CC_LABELBMFONT_DEBUG_DRAW
-#define CC_LABELBMFONT_DEBUG_DRAW 0
+#    define CC_LABELBMFONT_DEBUG_DRAW 0
 #endif
 
 /** @def CC_LABELATLAS_DEBUG_DRAW
@@ -230,7 +229,7 @@ THE SOFTWARE.
  * To enable set it to a value different than 0. Disabled by default.
  */
 #ifndef CC_LABELATLAS_DEBUG_DRAW
-#define CC_LABELATLAS_DEBUG_DRAW 0
+#    define CC_LABELATLAS_DEBUG_DRAW 0
 #endif
 
 /** @def CC_NODE_DEBUG_VERIFY_EVENT_LISTENERS
@@ -240,7 +239,7 @@ THE SOFTWARE.
  * Note: event listener verification will always be disabled in builds where assertions are disabled regardless of this setting.
  */
 #ifndef CC_NODE_DEBUG_VERIFY_EVENT_LISTENERS
-#define CC_NODE_DEBUG_VERIFY_EVENT_LISTENERS 0
+#    define CC_NODE_DEBUG_VERIFY_EVENT_LISTENERS 0
 #endif
 
 /** @def CC_ENABLE_PROFILERS
@@ -250,83 +249,84 @@ THE SOFTWARE.
  * To enable set it to a value different than 0. Disabled by default.
  */
 #ifndef CC_ENABLE_PROFILERS
-#define CC_ENABLE_PROFILERS 0
+#    define CC_ENABLE_PROFILERS 0
 #endif
 
 /** Enable Lua engine debug log. */
 #ifndef CC_LUA_ENGINE_DEBUG
-#define CC_LUA_ENGINE_DEBUG 0
+#    define CC_LUA_ENGINE_DEBUG 0
 #endif
 
 /** Use physics integration API. */
 #ifndef CC_USE_PHYSICS
-#define CC_USE_PHYSICS 1
+#    define CC_USE_PHYSICS 1
 #endif
 
 /** Use 3d physics integration API. */
 #ifndef CC_USE_3D_PHYSICS
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-#define CC_USE_3D_PHYSICS 1
-#endif
+#    if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || \
+         CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+#        define CC_USE_3D_PHYSICS 1
+#    endif
 #endif
 
 #if (CC_USE_3D_PHYSICS)
 /** Use bullet physics engine. */
-#ifndef CC_ENABLE_BULLET_INTEGRATION
-#define CC_ENABLE_BULLET_INTEGRATION 1
-#endif
+#    ifndef CC_ENABLE_BULLET_INTEGRATION
+#        define CC_ENABLE_BULLET_INTEGRATION 1
+#    endif
 #endif
 
 /** Use 3D navigation API */
 #ifndef CC_USE_NAVMESH
-#define CC_USE_NAVMESH 1
+#    define CC_USE_NAVMESH 1
 #endif
 
 /** Use culling or not. */
 #ifndef CC_USE_CULLING
-#define CC_USE_CULLING 1
+#    define CC_USE_CULLING 1
 #endif
 
 /** Support PNG or not. If your application don't use png format picture, you can undefine this macro to save package size.
-*/
+ */
 #ifndef CC_USE_PNG
-#define CC_USE_PNG  1
+#    define CC_USE_PNG 1
 #endif // CC_USE_PNG
 
 /** Support JPEG or not. If your application don't use jpeg format picture, you can undefine this macro to save package size.
  */
 #ifndef CC_USE_JPEG
-#define CC_USE_JPEG  1
+#    define CC_USE_JPEG 1
 #endif // CC_USE_JPEG
 
 /** Support TIFF or not. If your application don't use TIFF format picture, you can undefine this macro to save package size.
  */
 #ifndef CC_USE_TIFF
-#define CC_USE_TIFF  1
+#    define CC_USE_TIFF 1
 #endif // CC_USE_TIFF
 
 /** Support webp or not. If your application don't use webp format picture, you can undefine this macro to save package size.
  */
 #ifndef CC_USE_WEBP
-#if (CC_TARGET_PLATFORM != CC_PLATFORM_WINRT)
-#define CC_USE_WEBP  1
-#endif
+#    if (CC_TARGET_PLATFORM != CC_PLATFORM_WINRT)
+#        define CC_USE_WEBP 1
+#    endif
 #endif // CC_USE_WEBP
 
- /** Support WIC (Windows Image Component) or not. Replaces PNG, TIFF and JPEG
+/** Support WIC (Windows Image Component) or not. Replaces PNG, TIFF and JPEG
  */
 #ifndef CC_USE_WIC
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-#define CC_USE_WIC  1
-#undef CC_USE_TIFF
-#undef CC_USE_JPEG
-#undef CC_USE_PNG
-#endif
+#    if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+#        define CC_USE_WIC 1
+#        undef CC_USE_TIFF
+#        undef CC_USE_JPEG
+#        undef CC_USE_PNG
+#    endif
 #endif // CC_USE_WIC
 
 /** Enable Script binding. */
 #ifndef CC_ENABLE_SCRIPT_BINDING
-#define CC_ENABLE_SCRIPT_BINDING 1
+#    define CC_ENABLE_SCRIPT_BINDING 1
 #endif
 
 /** When CC_ENABLE_SCRIPT_BINDING and CC_ENABLE_GC_FOR_NATIVE_OBJECTS are both 1
@@ -337,9 +337,9 @@ THE SOFTWARE.
  By default this behavior is disabled by default
  */
 #ifdef CC_ENABLE_SCRIPT_BINDING
-  #ifndef CC_ENABLE_GC_FOR_NATIVE_OBJECTS
-  #define CC_ENABLE_GC_FOR_NATIVE_OBJECTS 0
-  #endif
+#    ifndef CC_ENABLE_GC_FOR_NATIVE_OBJECTS
+#        define CC_ENABLE_GC_FOR_NATIVE_OBJECTS 0
+#    endif
 #endif
 
 /** @def CC_CONSTRUCTOR_ACCESS
@@ -348,11 +348,11 @@ THE SOFTWARE.
  * protected by default.
  */
 #ifndef CC_CONSTRUCTOR_ACCESS
-  #ifdef CC_ENABLE_SCRIPT_BINDING
-    #define CC_CONSTRUCTOR_ACCESS public
-  #else
-    #define CC_CONSTRUCTOR_ACCESS protected
-  #endif
+#    ifdef CC_ENABLE_SCRIPT_BINDING
+#        define CC_CONSTRUCTOR_ACCESS public
+#    else
+#        define CC_CONSTRUCTOR_ACCESS protected
+#    endif
 #endif
 
 /** @def CC_ENABLE_ALLOCATOR
@@ -360,7 +360,7 @@ THE SOFTWARE.
  * as specified by CC_ALLOCATOR_GLOBAL below.
  */
 #ifndef CC_ENABLE_ALLOCATOR
-# define CC_ENABLE_ALLOCATOR 0
+#    define CC_ENABLE_ALLOCATOR 0
 #endif
 
 /** @def CC_ENABLE_ALLOCATOR_DIAGNOSTICS
@@ -368,7 +368,7 @@ THE SOFTWARE.
  * more memory, and should not be used for production builds.
  */
 #ifndef CC_ENABLE_ALLOCATOR_DIAGNOSTICS
-# define CC_ENABLE_ALLOCATOR_DIAGNOSTICS CC_ENABLE_ALLOCATOR
+#    define CC_ENABLE_ALLOCATOR_DIAGNOSTICS CC_ENABLE_ALLOCATOR
 #endif
 
 /** @def CC_ENABLE_ALLOCATOR_GLOBAL_NEW_DELETE
@@ -376,25 +376,25 @@ THE SOFTWARE.
  * as specified by CC_ALLOCATOR_GLOBAL_NEW_DELETE below.
  */
 #ifndef CC_ENABLE_ALLOCATOR_GLOBAL_NEW_DELETE
-# define CC_ENABLE_ALLOCATOR_GLOBAL_NEW_DELETE 0
-# endif//CC_ENABLE_ALLOCATOR_GLOBAL_NEW_DELETE
+#    define CC_ENABLE_ALLOCATOR_GLOBAL_NEW_DELETE 0
+#endif // CC_ENABLE_ALLOCATOR_GLOBAL_NEW_DELETE
 
 /** @def CC_ALLOCATOR_GLOBAL
  * Specify allocator to use for global allocator.
  */
 #ifndef CC_ALLOCATOR_GLOBAL
-# define CC_ALLOCATOR_GLOBAL cocos2d::allocator::AllocatorStrategyDefault
+#    define CC_ALLOCATOR_GLOBAL cocos2d::allocator::AllocatorStrategyDefault
 #endif
 
 /** @def CC_ALLOCATOR_GLOBAL_NEW_DELETE
  * Specify allocator to use when overriding of new and delete.
  */
 #ifndef CC_ALLOCATOR_GLOBAL_NEW_DELETE
-# define CC_ALLOCATOR_GLOBAL_NEW_DELETE cocos2d::allocator::AllocatorStrategyGlobalSmallBlock
+#    define CC_ALLOCATOR_GLOBAL_NEW_DELETE cocos2d::allocator::AllocatorStrategyGlobalSmallBlock
 #endif
 
 #ifndef CC_FILEUTILS_APPLE_ENABLE_OBJC
-#define CC_FILEUTILS_APPLE_ENABLE_OBJC  1
+#    define CC_FILEUTILS_APPLE_ENABLE_OBJC 1
 #endif
 
 /** @def CC_ENABLE_PREMULTIPLIED_ALPHA
@@ -402,7 +402,7 @@ THE SOFTWARE.
  * by its alpha component.
  */
 #ifndef CC_ENABLE_PREMULTIPLIED_ALPHA
-# define CC_ENABLE_PREMULTIPLIED_ALPHA 1
+#    define CC_ENABLE_PREMULTIPLIED_ALPHA 1
 #endif
 
 #endif // __CCCONFIG_H__

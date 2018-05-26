@@ -45,7 +45,7 @@ Technique* Technique::createWithGLProgramState(Material* parent, GLProgramState*
         technique->autorelease();
         return technique;
     }
-    return  nullptr;
+    return nullptr;
 }
 
 Technique* Technique::create(Material* material)
@@ -83,7 +83,7 @@ Technique* Technique::clone() const
         technique->_name = _name;
         RenderState::cloneInto(technique);
 
-        for (const auto pass: _passes)
+        for (const auto pass : _passes)
         {
             auto p = pass->clone();
             p->_parent = technique;
@@ -95,7 +95,7 @@ Technique* Technique::clone() const
     return technique;
 }
 
-void Technique::addPass(Pass *pass)
+void Technique::addPass(Pass* pass)
 {
     _passes.pushBack(pass);
 }
@@ -105,14 +105,14 @@ std::string Technique::getName() const
     return _name;
 }
 
-void Technique::setName(const std::string &name)
+void Technique::setName(const std::string& name)
 {
     _name = name;
 }
 
 Pass* Technique::getPassByIndex(ssize_t index) const
 {
-    CC_ASSERT(index>=0 && index<_passes.size() && "Invalid index");
+    CC_ASSERT(index >= 0 && index < _passes.size() && "Invalid index");
     return _passes.at(index);
 }
 

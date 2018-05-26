@@ -57,7 +57,7 @@ static bool compareRenderCommand(RenderCommand const* a, RenderCommand const* b)
 
 static bool compare3DCommand(RenderCommand const* a, RenderCommand const* b)
 {
-    return  a->getDepth() > b->getDepth();
+    return a->getDepth() > b->getDepth();
 }
 
 // queue
@@ -65,19 +65,19 @@ static bool compare3DCommand(RenderCommand const* a, RenderCommand const* b)
 void RenderQueue::push_back(RenderCommand* command)
 {
     float const z = command->getGlobalOrder();
-    if(z < 0.f)
+    if (z < 0.f)
     {
         _commands[static_cast<std::size_t>(QUEUE_GROUP::GLOBALZ_NEG)].emplace_back(command);
     }
-    else if(z > 0.f)
+    else if (z > 0.f)
     {
         _commands[static_cast<std::size_t>(QUEUE_GROUP::GLOBALZ_POS)].emplace_back(command);
     }
     else
     {
-        if(command->is3D())
+        if (command->is3D())
         {
-            if(command->isTransparent())
+            if (command->isTransparent())
             {
                 _commands[static_cast<std::size_t>(QUEUE_GROUP::TRANSPARENT_3D)].emplace_back(command);
             }
@@ -106,16 +106,19 @@ std::size_t RenderQueue::size() const noexcept
 void RenderQueue::sort()
 {
     // Don't sort _queue0, it already comes sorted
-    std::sort(_commands[static_cast<std::size_t>(QUEUE_GROUP::TRANSPARENT_3D)].begin(), _commands[static_cast<std::size_t>(QUEUE_GROUP::TRANSPARENT_3D)].end(), compare3DCommand);
-    std::sort(_commands[static_cast<std::size_t>(QUEUE_GROUP::GLOBALZ_NEG)].begin(), _commands[static_cast<std::size_t>(QUEUE_GROUP::GLOBALZ_NEG)].end(), compareRenderCommand);
-    std::sort(_commands[static_cast<std::size_t>(QUEUE_GROUP::GLOBALZ_POS)].begin(), _commands[static_cast<std::size_t>(QUEUE_GROUP::GLOBALZ_POS)].end(), compareRenderCommand);
+    std::sort(_commands[static_cast<std::size_t>(QUEUE_GROUP::TRANSPARENT_3D)].begin(), _commands[static_cast<std::size_t>(QUEUE_GROUP::TRANSPARENT_3D)].end(),
+              compare3DCommand);
+    std::sort(_commands[static_cast<std::size_t>(QUEUE_GROUP::GLOBALZ_NEG)].begin(), _commands[static_cast<std::size_t>(QUEUE_GROUP::GLOBALZ_NEG)].end(),
+              compareRenderCommand);
+    std::sort(_commands[static_cast<std::size_t>(QUEUE_GROUP::GLOBALZ_POS)].begin(), _commands[static_cast<std::size_t>(QUEUE_GROUP::GLOBALZ_POS)].end(),
+              compareRenderCommand);
 }
 
 RenderCommand* RenderQueue::operator[](std::size_t index) const noexcept
 {
     for (auto const& cmd : _commands)
     {
-        if(index < cmd.size())
+        if (index < cmd.size())
         {
             return cmd[index];
         }
@@ -124,7 +127,7 @@ RenderCommand* RenderQueue::operator[](std::size_t index) const noexcept
             index -= cmd.size();
         }
     }
-    
+
     CCASSERT(false, "invalid index");
     return nullptr;
 }
@@ -152,7 +155,7 @@ void RenderQueue::saveRenderState()
     _isDepthEnabled = glIsEnabled(GL_DEPTH_TEST) != GL_FALSE;
     _isCullEnabled = glIsEnabled(GL_CULL_FACE) != GL_FALSE;
     glGetBooleanv(GL_DEPTH_WRITEMASK, &_isDepthWrite);
-    
+
     CHECK_GL_ERROR_DEBUG();
 }
 
@@ -179,7 +182,7 @@ void RenderQueue::restoreRenderState()
         glDisable(GL_DEPTH_TEST);
         RenderState::StateBlock::_defaultState->setDepthTest(false);
     }
-    
+
     glDepthMask(_isDepthWrite);
     RenderState::StateBlock::_defaultState->setDepthWrite(_isDepthEnabled);
 
@@ -194,7 +197,8 @@ static constexpr Renderer::render_queue_id_t const DEFAULT_RENDER_QUEUE = 0;
 //
 // constructors, destructor, init
 //
-Renderer::Renderer() : _triBatchesToDraw(500)
+Renderer::Renderer()
+: _triBatchesToDraw(500)
 {
     _commandGroupStack.push(DEFAULT_RENDER_QUEUE);
     _renderGroups.emplace_back(RenderQueue{});
@@ -204,7 +208,7 @@ Renderer::Renderer() : _triBatchesToDraw(500)
 Renderer::~Renderer()
 {
     _renderGroups.clear();
-    
+
     glDeleteBuffers(2, _buffersVBO.data());
 
     if (Configuration::getInstance()->supportsShareableVAO())
@@ -221,22 +225,22 @@ Renderer::~Renderer()
 void Renderer::initGLView()
 {
 #if CC_ENABLE_CACHE_TEXTURE_DATA
-    _cacheTextureListener = EventListenerCustom::create(EVENT_RENDERER_RECREATED, [this](EventCustom* event){
+    _cacheTextureListener = EventListenerCustom::create(EVENT_RENDERER_RECREATED, [this](EventCustom* event) {
         /** listen the event that renderer was recreated on Android/WP8 */
         this->setupBuffer();
     });
-    
+
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_cacheTextureListener, -1);
 #endif
 
     setupBuffer();
-    
+
     _glViewAssigned = true;
 }
 
 void Renderer::setupBuffer()
 {
-    if(Configuration::getInstance()->supportsShareableVAO())
+    if (Configuration::getInstance()->supportsShareableVAO())
     {
         setupVBOAndVAO();
     }
@@ -248,7 +252,7 @@ void Renderer::setupBuffer()
 
 void Renderer::setupVBOAndVAO()
 {
-    //generate vbo and vao for trianglesCommand
+    // generate vbo and vao for trianglesCommand
     glGenVertexArrays(1, &_buffersVAO);
     GL::bindVAO(_buffersVAO);
 
@@ -259,15 +263,18 @@ void Renderer::setupVBOAndVAO()
 
     // vertices
     glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_POSITION);
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizeiptr>(sizeof(V3F_C4B_T2F)), reinterpret_cast<GLvoid*>(offsetof( V3F_C4B_T2F, vertices)));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizeiptr>(sizeof(V3F_C4B_T2F)),
+                          reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, vertices)));
 
     // colors
     glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_COLOR);
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, static_cast<GLsizeiptr>(sizeof(V3F_C4B_T2F)), reinterpret_cast<GLvoid*>(offsetof( V3F_C4B_T2F, colors)));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, static_cast<GLsizeiptr>(sizeof(V3F_C4B_T2F)),
+                          reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, colors)));
 
     // tex coords
     glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_TEX_COORD);
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizeiptr>(sizeof(V3F_C4B_T2F)), reinterpret_cast<GLvoid*>(offsetof( V3F_C4B_T2F, texCoords)));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizeiptr>(sizeof(V3F_C4B_T2F)),
+                          reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, texCoords)));
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffersVBO[1]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(sizeof(GLushort) * INDEX_VBO_SIZE), reinterpret_cast<GLvoid*>(_indices.data()), GL_STATIC_DRAW);
@@ -290,7 +297,7 @@ void Renderer::setupVBO()
     // copy the whole memory of VBO which initialzied at the first time
     // once glBufferData/glBufferSubData is invoked.
     // For more discussion, please refer to https://github.com/cocos2d/cocos2d-x/issues/15652
-//    mapBuffers();
+    //    mapBuffers();
 }
 
 void Renderer::mapBuffers()
@@ -300,7 +307,6 @@ void Renderer::mapBuffers()
 
     glBindBuffer(GL_ARRAY_BUFFER, _buffersVBO[0]);
     glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(sizeof(V3F_C4B_T2F) * VBO_SIZE), reinterpret_cast<GLvoid*>(_verts.data()), GL_DYNAMIC_DRAW);
-    
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -321,7 +327,7 @@ void Renderer::addCommand(RenderCommand* command)
 void Renderer::addCommand(RenderCommand* command, render_queue_id_t renderQueue)
 {
     CCASSERT(!_isRendering, "Cannot add command while rendering");
-    CCASSERT(renderQueue >=0, "Invalid render queue");
+    CCASSERT(renderQueue >= 0, "Invalid render queue");
     CCASSERT(command->getType() != RenderCommand::Type::UNKNOWN_COMMAND, "Invalid Command Type");
 
     _renderGroups[renderQueue].push_back(command);
@@ -348,21 +354,23 @@ Renderer::render_queue_id_t Renderer::createRenderQueue()
 void Renderer::processRenderCommand(RenderCommand* command)
 {
     auto const commandType = command->getType();
-    if( RenderCommand::Type::TRIANGLES_COMMAND == commandType)
+    if (RenderCommand::Type::TRIANGLES_COMMAND == commandType)
     {
         // flush other queues
         flush3D();
 
         auto cmd = static_cast<TrianglesCommand*>(command);
-        
+
         // flush own queue when buffer is full
-        if(_filledVertex + cmd->getVertexCount() > VBO_SIZE || _filledIndex + cmd->getIndexCount() > INDEX_VBO_SIZE)
+        if (_filledVertex + cmd->getVertexCount() > VBO_SIZE || _filledIndex + cmd->getIndexCount() > INDEX_VBO_SIZE)
         {
-            CCASSERT(cmd->getVertexCount()>= 0 && cmd->getVertexCount() < VBO_SIZE, "VBO for vertex is not big enough, please break the data down or use customized render command");
-            CCASSERT(cmd->getIndexCount()>= 0 && cmd->getIndexCount() < INDEX_VBO_SIZE, "VBO for index is not big enough, please break the data down or use customized render command");
+            CCASSERT(cmd->getVertexCount() >= 0 && cmd->getVertexCount() < VBO_SIZE,
+                     "VBO for vertex is not big enough, please break the data down or use customized render command");
+            CCASSERT(cmd->getIndexCount() >= 0 && cmd->getIndexCount() < INDEX_VBO_SIZE,
+                     "VBO for index is not big enough, please break the data down or use customized render command");
             drawBatchedTriangles();
         }
-        
+
         // queue it
         _queuedTriangleCommands.emplace_back(cmd);
         _filledIndex += cmd->getIndexCount();
@@ -372,14 +380,14 @@ void Renderer::processRenderCommand(RenderCommand* command)
     {
         flush2D();
         auto cmd = static_cast<MeshCommand*>(command);
-        
+
         if (cmd->isSkipBatching() || _lastBatchedMeshCommand == nullptr || _lastBatchedMeshCommand->getMaterialID() != cmd->getMaterialID())
         {
             flush3D();
 
             CCGL_DEBUG_INSERT_EVENT_MARKER("RENDERER_MESH_COMMAND");
 
-            if(cmd->isSkipBatching())
+            if (cmd->isSkipBatching())
             {
                 // XXX: execute() will call bind() and unbind()
                 // but unbind() shouldn't be call if the next command is a MESH_COMMAND with Material.
@@ -399,7 +407,7 @@ void Renderer::processRenderCommand(RenderCommand* command)
             cmd->batchDraw();
         }
     }
-    else if(RenderCommand::Type::GROUP_COMMAND == commandType)
+    else if (RenderCommand::Type::GROUP_COMMAND == commandType)
     {
         flush();
         auto renderQueueID = static_cast<GroupCommand*>(command)->getRenderQueueID();
@@ -407,21 +415,21 @@ void Renderer::processRenderCommand(RenderCommand* command)
         visitRenderQueue(_renderGroups[renderQueueID]);
         CCGL_DEBUG_POP_GROUP_MARKER();
     }
-    else if(RenderCommand::Type::CUSTOM_COMMAND == commandType)
+    else if (RenderCommand::Type::CUSTOM_COMMAND == commandType)
     {
         flush();
         auto cmd = static_cast<CustomCommand*>(command);
         CCGL_DEBUG_INSERT_EVENT_MARKER("RENDERER_CUSTOM_COMMAND");
         cmd->execute();
     }
-    else if(RenderCommand::Type::BATCH_COMMAND == commandType)
+    else if (RenderCommand::Type::BATCH_COMMAND == commandType)
     {
         flush();
         auto cmd = static_cast<BatchCommand*>(command);
         CCGL_DEBUG_INSERT_EVENT_MARKER("RENDERER_BATCH_COMMAND");
         cmd->execute();
     }
-    else if(RenderCommand::Type::PRIMITIVE_COMMAND == commandType)
+    else if (RenderCommand::Type::PRIMITIVE_COMMAND == commandType)
     {
         flush();
         auto cmd = static_cast<PrimitiveCommand*>(command);
@@ -437,14 +445,14 @@ void Renderer::processRenderCommand(RenderCommand* command)
 void Renderer::visitRenderQueue(RenderQueue& queue)
 {
     queue.saveRenderState();
-    
+
     //
-    //Process Global-Z < 0 Objects
+    // Process Global-Z < 0 Objects
     //
     const auto& zNegQueue = queue.getSubQueue(RenderQueue::QUEUE_GROUP::GLOBALZ_NEG);
     if (zNegQueue.size() > 0)
     {
-        if(_isDepthTestFor2D)
+        if (_isDepthTestFor2D)
         {
             glEnable(GL_DEPTH_TEST);
             glDepthMask(true);
@@ -464,21 +472,21 @@ void Renderer::visitRenderQueue(RenderQueue& queue)
         }
         glDisable(GL_CULL_FACE);
         RenderState::StateBlock::_defaultState->setCullFace(false);
-        
+
         for (auto cmd : zNegQueue)
         {
             processRenderCommand(cmd);
         }
         flush();
     }
-    
+
     //
-    //Process Opaque Object
+    // Process Opaque Object
     //
     const auto& opaqueQueue = queue.getSubQueue(RenderQueue::QUEUE_GROUP::OPAQUE_3D);
     if (opaqueQueue.size() > 0)
     {
-        //Clear depth to achieve layered rendering
+        // Clear depth to achieve layered rendering
         glEnable(GL_DEPTH_TEST);
         glDepthMask(true);
         glDisable(GL_BLEND);
@@ -488,16 +496,15 @@ void Renderer::visitRenderQueue(RenderQueue& queue)
         RenderState::StateBlock::_defaultState->setBlend(false);
         RenderState::StateBlock::_defaultState->setCullFace(true);
 
-
         for (auto cmd : opaqueQueue)
         {
             processRenderCommand(cmd);
         }
         flush();
     }
-    
+
     //
-    //Process 3D Transparent object
+    // Process 3D Transparent object
     //
     auto const& transQueue = queue.getSubQueue(RenderQueue::QUEUE_GROUP::TRANSPARENT_3D);
     if (transQueue.size() > 0)
@@ -512,21 +519,20 @@ void Renderer::visitRenderQueue(RenderQueue& queue)
         RenderState::StateBlock::_defaultState->setBlend(true);
         RenderState::StateBlock::_defaultState->setCullFace(true);
 
-
         for (auto cmd : transQueue)
         {
             processRenderCommand(cmd);
         }
         flush();
     }
-    
+
     //
-    //Process Global-Z = 0 Queue
+    // Process Global-Z = 0 Queue
     //
     const auto& zZeroQueue = queue.getSubQueue(RenderQueue::QUEUE_GROUP::GLOBALZ_ZERO);
     if (zZeroQueue.size() > 0)
     {
-        if(_isDepthTestFor2D)
+        if (_isDepthTestFor2D)
         {
             glEnable(GL_DEPTH_TEST);
             glDepthMask(true);
@@ -555,19 +561,19 @@ void Renderer::visitRenderQueue(RenderQueue& queue)
         }
         flush();
     }
-    
+
     //
-    //Process Global-Z > 0 Queue
+    // Process Global-Z > 0 Queue
     //
     const auto& zPosQueue = queue.getSubQueue(RenderQueue::QUEUE_GROUP::GLOBALZ_POS);
     if (zPosQueue.size() > 0)
     {
-        if(_isDepthTestFor2D)
+        if (_isDepthTestFor2D)
         {
             glEnable(GL_DEPTH_TEST);
             glDepthMask(true);
             glEnable(GL_BLEND);
-            
+
             RenderState::StateBlock::_defaultState->setDepthTest(true);
             RenderState::StateBlock::_defaultState->setDepthWrite(true);
             RenderState::StateBlock::_defaultState->setBlend(true);
@@ -577,36 +583,36 @@ void Renderer::visitRenderQueue(RenderQueue& queue)
             glDisable(GL_DEPTH_TEST);
             glDepthMask(false);
             glEnable(GL_BLEND);
-            
+
             RenderState::StateBlock::_defaultState->setDepthTest(false);
             RenderState::StateBlock::_defaultState->setDepthWrite(false);
             RenderState::StateBlock::_defaultState->setBlend(true);
         }
         glDisable(GL_CULL_FACE);
         RenderState::StateBlock::_defaultState->setCullFace(false);
-        
+
         for (auto cmd : zPosQueue)
         {
             processRenderCommand(cmd);
         }
         flush();
     }
-    
+
     queue.restoreRenderState();
 }
 
 void Renderer::render()
 {
-    //Uncomment this once everything is rendered by new renderer
-    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // Uncomment this once everything is rendered by new renderer
+    // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    //TODO: setup camera or MVP
+    // TODO: setup camera or MVP
     _isRendering = true;
-    
+
     if (_glViewAssigned)
     {
-        //Process render commands
-        //1. Sort render commands based on ID
+        // Process render commands
+        // 1. Sort render commands based on ID
         for (auto& renderqueue : _renderGroups)
         {
             renderqueue.sort();
@@ -622,7 +628,7 @@ void Renderer::clean()
     // Clear render group
     for (auto& renderGroup : _renderGroups)
     {
-        //commands are owned by nodes
+        // commands are owned by nodes
         // for (const auto &cmd : _renderGroups[j])
         // {
         //     cmd->releaseToCommandPool();
@@ -639,7 +645,7 @@ void Renderer::clean()
 
 void Renderer::clear()
 {
-    //Enable Depth mask to make sure glClear clear the depth buffer correctly
+    // Enable Depth mask to make sure glClear clear the depth buffer correctly
     glDepthMask(true);
     glClearColor(_clearColor.r, _clearColor.g, _clearColor.b, _clearColor.a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -659,7 +665,7 @@ void Renderer::setDepthTest(bool enable)
         RenderState::StateBlock::_defaultState->setDepthTest(true);
         RenderState::StateBlock::_defaultState->setDepthFunction(RenderState::DEPTH_LEQUAL);
 
-//        glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+        //        glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     }
     else
     {
@@ -680,9 +686,9 @@ void Renderer::fillVerticesAndIndices(TrianglesCommand const* cmd)
 
     // fill vertex, and convert them to world coordinates
     Mat4 const& modelView = cmd->getModelView();
-    for(std::size_t i=0; i < cmd->getVertexCount(); ++i)
+    for (std::size_t i = 0; i < cmd->getVertexCount(); ++i)
     {
-		Vec3& vec1 = _verts[i + _filledVertex].vertices;
+        Vec3& vec1 = _verts[i + _filledVertex].vertices;
         if (std::abs(modelView.m[15] - 1.0f) >= std::numeric_limits<float>::epsilon())
         {
             Vec4 vec4 = Vec4(vec1.x, vec1.y, vec1.z, 1.0f);
@@ -701,7 +707,7 @@ void Renderer::fillVerticesAndIndices(TrianglesCommand const* cmd)
     // fill index
     auto const indices = cmd->getIndices();
     auto const indicesCount = cmd->getIndexCount();
-    for(std::size_t i = 0; i < indicesCount; ++i)
+    for (std::size_t i = 0; i < indicesCount; ++i)
     {
         _indices[_filledIndex + i] = _filledVertex + indices[i];
     }
@@ -712,7 +718,7 @@ void Renderer::fillVerticesAndIndices(TrianglesCommand const* cmd)
 
 void Renderer::drawBatchedTriangles()
 {
-    if(_queuedTriangleCommands.empty())
+    if (_queuedTriangleCommands.empty())
         return;
 
     CCGL_DEBUG_INSERT_EVENT_MARKER("RENDERER_BATCH_TRIANGLES");
@@ -730,7 +736,7 @@ void Renderer::drawBatchedTriangles()
     std::size_t prevMaterialID = std::numeric_limits<std::size_t>::max();
     bool firstCommand = true;
 
-    for(auto const& cmd : _queuedTriangleCommands)
+    for (auto const& cmd : _queuedTriangleCommands)
     {
         std::size_t currentMaterialID = cmd->getMaterialID();
         bool const batchable = !cmd->isSkipBatching();
@@ -750,7 +756,7 @@ void Renderer::drawBatchedTriangles()
             if (!firstCommand)
             {
                 batchesTotal++;
-                _triBatchesToDraw[batchesTotal].offset = _triBatchesToDraw[batchesTotal-1].offset + _triBatchesToDraw[batchesTotal-1].indicesToDraw;
+                _triBatchesToDraw[batchesTotal].offset = _triBatchesToDraw[batchesTotal - 1].offset + _triBatchesToDraw[batchesTotal - 1].indicesToDraw;
             }
 
             _triBatchesToDraw[batchesTotal].cmd = cmd;
@@ -783,16 +789,16 @@ void Renderer::drawBatchedTriangles()
     auto conf = Configuration::getInstance();
     if (conf->supportsShareableVAO() && conf->supportsMapBuffer())
     {
-        //Bind VAO
+        // Bind VAO
         GL::bindVAO(_buffersVAO);
-        //Set VBO data
+        // Set VBO data
         glBindBuffer(GL_ARRAY_BUFFER, _buffersVBO[0]);
 
         // option 1: subdata
-//        glBufferSubData(GL_ARRAY_BUFFER, sizeof(_quads[0])*start, sizeof(_quads[0]) * n , &_quads[start] );
+        //        glBufferSubData(GL_ARRAY_BUFFER, sizeof(_quads[0])*start, sizeof(_quads[0]) * n , &_quads[start] );
 
         // option 2: data
-//        glBufferData(GL_ARRAY_BUFFER, sizeof(_verts[0]) * _filledVertex, _verts, GL_STATIC_DRAW);
+        //        glBufferData(GL_ARRAY_BUFFER, sizeof(_verts[0]) * _filledVertex, _verts, GL_STATIC_DRAW);
 
         // option 3: orphaning + glMapBuffer
         // FIXME: in order to work as fast as possible, it must "and the exact same size and usage hints it had before."
@@ -804,7 +810,7 @@ void Renderer::drawBatchedTriangles()
         glUnmapBuffer(GL_ARRAY_BUFFER);
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
-        
+
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffersVBO[1]);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * _filledIndex, reinterpret_cast<GLvoid*>(_indices.data()), GL_STATIC_DRAW);
     }
@@ -819,13 +825,16 @@ void Renderer::drawBatchedTriangles()
         GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POS_COLOR_TEX);
 
         // vertices
-        glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(V3F_C4B_T2F), reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, vertices)));
+        glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(V3F_C4B_T2F),
+                              reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, vertices)));
 
         // colors
-        glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(V3F_C4B_T2F), reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, colors)));
+        glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(V3F_C4B_T2F),
+                              reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, colors)));
 
         // tex coords
-        glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(V3F_C4B_T2F), reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, texCoords)));
+        glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(V3F_C4B_T2F),
+                              reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, texCoords)));
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffersVBO[1]);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * _filledIndex, reinterpret_cast<GLvoid*>(_indices.data()), GL_STATIC_DRAW);
@@ -836,7 +845,8 @@ void Renderer::drawBatchedTriangles()
     {
         CC_ASSERT(_triBatchesToDraw[i].cmd && "Invalid batch");
         _triBatchesToDraw[i].cmd->useMaterial();
-        glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(_triBatchesToDraw[i].indicesToDraw), GL_UNSIGNED_SHORT, reinterpret_cast<GLvoid*>(_triBatchesToDraw[i].offset * sizeof(GLushort)));
+        glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(_triBatchesToDraw[i].indicesToDraw), GL_UNSIGNED_SHORT,
+                       reinterpret_cast<GLvoid*>(_triBatchesToDraw[i].offset * sizeof(GLushort)));
         _drawnBatches++;
         _drawnVertices += _triBatchesToDraw[i].indicesToDraw;
     }
@@ -844,7 +854,7 @@ void Renderer::drawBatchedTriangles()
     /************** 4: Cleanup *************/
     if (Configuration::getInstance()->supportsShareableVAO())
     {
-        //Unbind VAO
+        // Unbind VAO
         GL::bindVAO(0);
     }
     else
@@ -886,21 +896,21 @@ void Renderer::flushTriangles()
 }
 
 // helpers
-bool Renderer::checkVisibility(const Mat4 &transform, const Size &size)
+bool Renderer::checkVisibility(const Mat4& transform, const Size& size)
 {
     auto scene = Director::getInstance()->getRunningScene();
-    
-    //If draw to Rendertexture, return true directly.
+
+    // If draw to Rendertexture, return true directly.
     // only cull the default camera. The culling algorithm is valid for default camera.
     if (!scene || (scene && scene->_defaultCamera != Camera::getVisitingCamera()))
         return true;
 
     auto director = Director::getInstance();
     Rect visiableRect(director->getVisibleOrigin(), director->getVisibleSize());
-    
+
     // transform center point to screen space
-    float hSizeX = size.width/2;
-    float hSizeY = size.height/2;
+    float hSizeX = size.width / 2;
+    float hSizeY = size.height / 2;
     Vec3 v3p(hSizeX, hSizeY, 0);
     transform.transformPoint(&v3p);
     Vec2 v2p = Camera::getVisitingCamera()->projectGL(v3p);
@@ -908,7 +918,7 @@ bool Renderer::checkVisibility(const Mat4 &transform, const Size &size)
     // convert content size to world coordinates
     float wshw = std::max(std::abs(hSizeX * transform.m[0] + hSizeY * transform.m[4]), std::abs(hSizeX * transform.m[0] - hSizeY * transform.m[4]));
     float wshh = std::max(std::abs(hSizeX * transform.m[1] + hSizeY * transform.m[5]), std::abs(hSizeX * transform.m[1] - hSizeY * transform.m[5]));
-    
+
     // enlarge visible rect half size in screen coord
     visiableRect.origin.x -= wshw;
     visiableRect.origin.y -= wshh;

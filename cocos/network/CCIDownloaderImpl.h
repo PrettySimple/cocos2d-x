@@ -24,48 +24,47 @@ THE SOFTWARE.
 
 #pragma once
 
+#include <memory>
 #include <string>
 #include <unordered_map>
-#include <memory>
 
 #include "base/CCConsole.h"
 
 //#define CC_DOWNLOADER_DEBUG
-#ifdef  CC_DOWNLOADER_DEBUG
-#define DLLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
+#ifdef CC_DOWNLOADER_DEBUG
+#    define DLLOG(format, ...) cocos2d::log(format, ##__VA_ARGS__)
 #else
-#define DLLOG(...)       do {} while (0)
+#    define DLLOG(...) \
+        do             \
+        {              \
+        } while (0)
 #endif
 
-namespace cocos2d { namespace network
+namespace cocos2d
 {
-    class DownloadTask;
-
-    class CC_DLL IDownloadTask
+    namespace network
     {
-    public:
-        virtual ~IDownloadTask(){}
-    };
+        class DownloadTask;
 
-    class IDownloaderImpl
-    {
-    public:
-        virtual ~IDownloaderImpl(){}
+        class CC_DLL IDownloadTask
+        {
+        public:
+            virtual ~IDownloadTask() {}
+        };
 
-        std::function<void(const DownloadTask& task,
-                           int64_t bytesReceived,
-                           int64_t totalBytesReceived,
-                           int64_t totalBytesExpected,
-                           std::function<int64_t(void *buffer, int64_t len)>& transferDataToBuffer)> onTaskProgress;
+        class IDownloaderImpl
+        {
+        public:
+            virtual ~IDownloaderImpl() {}
 
-        std::function<void(const DownloadTask& task,
-                           int errorCode,
-                           int errorCodeInternal,
-                           const std::string& errorStr,
-                           std::vector<unsigned char>& data)> onTaskFinish;
+            std::function<void(const DownloadTask& task, int64_t bytesReceived, int64_t totalBytesReceived, int64_t totalBytesExpected,
+                               std::function<int64_t(void* buffer, int64_t len)>& transferDataToBuffer)>
+                onTaskProgress;
 
-        virtual IDownloadTask *createCoTask(std::shared_ptr<const DownloadTask>& task) = 0;
-    };
+            std::function<void(const DownloadTask& task, int errorCode, int errorCodeInternal, const std::string& errorStr, std::vector<unsigned char>& data)> onTaskFinish;
 
-}}  // namespace cocos2d::network
+            virtual IDownloadTask* createCoTask(std::shared_ptr<const DownloadTask>& task) = 0;
+        };
 
+    } // namespace network
+} // namespace cocos2d

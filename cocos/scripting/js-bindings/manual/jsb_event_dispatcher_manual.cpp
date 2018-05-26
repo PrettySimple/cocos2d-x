@@ -30,10 +30,11 @@
 
 USING_NS_CC;
 
-bool js_EventListenerTouchOneByOne_create(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_EventListenerTouchOneByOne_create(JSContext* cx, uint32_t argc, jsval* vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    if (argc == 0) {
+    if (argc == 0)
+    {
         auto ret = EventListenerTouchOneByOne::create();
 
         ret->onTouchBegan = [cx, ret](Touch* touch, Event* event) -> bool {
@@ -44,9 +45,12 @@ bool js_EventListenerTouchOneByOne_create(JSContext *cx, uint32_t argc, jsval *v
             if (!ok)
                 return false;
 
-            if (jsret.isBoolean()) {
+            if (jsret.isBoolean())
+            {
                 return jsret.toBoolean();
-            } else {
+            }
+            else
+            {
                 return false;
             }
         };
@@ -72,10 +76,11 @@ bool js_EventListenerTouchOneByOne_create(JSContext *cx, uint32_t argc, jsval *v
     return false;
 }
 
-bool js_EventListenerTouchAllAtOnce_create(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_EventListenerTouchAllAtOnce_create(JSContext* cx, uint32_t argc, jsval* vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    if (argc == 0) {
+    if (argc == 0)
+    {
         auto ret = EventListenerTouchAllAtOnce::create();
 
         ret->onTouchesBegan = [ret](const std::vector<Touch*>& touches, Event* event) {
@@ -103,27 +108,20 @@ bool js_EventListenerTouchAllAtOnce_create(JSContext *cx, uint32_t argc, jsval *
     return false;
 }
 
-bool js_EventListenerMouse_create(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_EventListenerMouse_create(JSContext* cx, uint32_t argc, jsval* vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    if (argc == 0) {
+    if (argc == 0)
+    {
         auto ret = EventListenerMouse::create();
 
-        ret->onMouseDown = [ret](Event* event) {
-            ScriptingCore::getInstance()->handleMouseEvent(ret, EventMouse::MouseEventType::MOUSE_DOWN, event);
-        };
+        ret->onMouseDown = [ret](Event* event) { ScriptingCore::getInstance()->handleMouseEvent(ret, EventMouse::MouseEventType::MOUSE_DOWN, event); };
 
-        ret->onMouseUp = [ret](Event* event) {
-            ScriptingCore::getInstance()->handleMouseEvent(ret, EventMouse::MouseEventType::MOUSE_UP, event);
-        };
+        ret->onMouseUp = [ret](Event* event) { ScriptingCore::getInstance()->handleMouseEvent(ret, EventMouse::MouseEventType::MOUSE_UP, event); };
 
-        ret->onMouseMove = [ret](Event* event) {
-            ScriptingCore::getInstance()->handleMouseEvent(ret, EventMouse::MouseEventType::MOUSE_MOVE, event);
-        };
+        ret->onMouseMove = [ret](Event* event) { ScriptingCore::getInstance()->handleMouseEvent(ret, EventMouse::MouseEventType::MOUSE_MOVE, event); };
 
-        ret->onMouseScroll = [ret](Event* event) {
-            ScriptingCore::getInstance()->handleMouseEvent(ret, EventMouse::MouseEventType::MOUSE_SCROLL, event);
-        };
+        ret->onMouseScroll = [ret](Event* event) { ScriptingCore::getInstance()->handleMouseEvent(ret, EventMouse::MouseEventType::MOUSE_SCROLL, event); };
 
         jsval jsret = OBJECT_TO_JSVAL(js_get_or_create_jsobject<EventListenerMouse>(cx, ret));
         args.rval().set(jsret);
@@ -134,15 +132,14 @@ bool js_EventListenerMouse_create(JSContext *cx, uint32_t argc, jsval *vp)
     return false;
 }
 
-bool js_EventListenerKeyboard_create(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_EventListenerKeyboard_create(JSContext* cx, uint32_t argc, jsval* vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    if (argc == 0) {
+    if (argc == 0)
+    {
         auto ret = EventListenerKeyboard::create();
 
-        ret->onKeyPressed = [ret](EventKeyboard::KeyCode keyCode, Event* event) {
-            ScriptingCore::getInstance()->handleKeyboardEvent(ret, keyCode, true, event);
-        };
+        ret->onKeyPressed = [ret](EventKeyboard::KeyCode keyCode, Event* event) { ScriptingCore::getInstance()->handleKeyboardEvent(ret, keyCode, true, event); };
 
         ret->onKeyReleased = [ret](EventKeyboard::KeyCode keyCode, Event* event) {
             ScriptingCore::getInstance()->handleKeyboardEvent(ret, keyCode, false, event);
@@ -157,12 +154,12 @@ bool js_EventListenerKeyboard_create(JSContext *cx, uint32_t argc, jsval *vp)
     return false;
 }
 
-bool js_EventListenerFocus_create(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_EventListenerFocus_create(JSContext* cx, uint32_t argc, jsval* vp)
 {
-    if(argc == 0)
+    if (argc == 0)
     {
         auto ret = EventListenerFocus::create();
-        ret->onFocusChanged = [ret](ui::Widget* widgetLoseFocus, ui::Widget* widgetGetFocus){
+        ret->onFocusChanged = [ret](ui::Widget* widgetLoseFocus, ui::Widget* widgetGetFocus) {
             ScriptingCore::getInstance()->handleFocusEvent(ret, widgetLoseFocus, widgetGetFocus);
         };
 

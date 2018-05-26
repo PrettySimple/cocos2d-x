@@ -31,12 +31,12 @@ THE SOFTWARE.
 #define CC_USE_ARRAY_VECTOR 0
 
 #if CC_USE_ARRAY_VECTOR
-#include <vector>
-#include <algorithm>
-#include "base/CCRef.h"
-#include "base/ccMacros.h"
+#    include "base/CCRef.h"
+#    include "base/ccMacros.h"
+#    include <algorithm>
+#    include <vector>
 #else
-#include "base/ccCArray.h"
+#    include "base/ccCArray.h"
 #endif
 
 #include "base/CCDataVisitor.h"
@@ -48,84 +48,95 @@ THE SOFTWARE.
  * Original code: http://www.codeproject.com/Articles/64111/Building-a-Quick-and-Handy-Reference-Counting-Clas
  * License: http://www.codeproject.com/info/cpol10.aspx
  */
-template < class T >
+template <class T>
 class RCPtr
 {
 public:
-	//Construct using a C pointer
-	//e.g. RCPtr< T > x = new (std::nothrow) T();
-	RCPtr(T* ptr = nullptr)
+    // Construct using a C pointer
+    // e.g. RCPtr< T > x = new (std::nothrow) T();
+    RCPtr(T* ptr = nullptr)
     : _ptr(ptr)
-	{
-        if(ptr != nullptr) {ptr->retain();}
-	}
+    {
+        if (ptr != nullptr)
+        {
+            ptr->retain();
+        }
+    }
 
-	//Copy constructor
-	RCPtr(const RCPtr &ptr)
+    // Copy constructor
+    RCPtr(const RCPtr& ptr)
     : _ptr(ptr._ptr)
-	{
-//        printf("Array: copy constructor: %p\n", this);
-		if(_ptr != NULL) {_ptr->retain();}
-	}
+    {
+        //        printf("Array: copy constructor: %p\n", this);
+        if (_ptr != NULL)
+        {
+            _ptr->retain();
+        }
+    }
 
-    //Move constructor
-	RCPtr(RCPtr &&ptr)
+    // Move constructor
+    RCPtr(RCPtr&& ptr)
     : _ptr(ptr._ptr)
-	{
-//        printf("Array: Move Constructor: %p\n", this);
+    {
+        //        printf("Array: Move Constructor: %p\n", this);
         ptr._ptr = nullptr;
-	}
+    }
 
-	~RCPtr()
-	{
-//        printf("Array: Destructor: %p\n", this);
-        if(_ptr != nullptr) {_ptr->release();}
-	}
+    ~RCPtr()
+    {
+        //        printf("Array: Destructor: %p\n", this);
+        if (_ptr != nullptr)
+        {
+            _ptr->release();
+        }
+    }
 
-	//Assign a pointer
-	//e.g. x = new (std::nothrow) T();
-	RCPtr &operator=(T* ptr)
-	{
-//        printf("Array: operator= T*: %p\n", this);
+    // Assign a pointer
+    // e.g. x = new (std::nothrow) T();
+    RCPtr& operator=(T* ptr)
+    {
+        //        printf("Array: operator= T*: %p\n", this);
 
-        //The following grab and release operations have to be performed
-        //in that order to handle the case where ptr == _ptr
+        // The following grab and release operations have to be performed
+        // in that order to handle the case where ptr == _ptr
         //(See comment below by David Garlisch)
-        if(ptr != nullptr) {ptr->retain();}
-        if(_ptr != nullptr) {_ptr->release();}
+        if (ptr != nullptr)
+        {
+            ptr->retain();
+        }
+        if (_ptr != nullptr)
+        {
+            _ptr->release();
+        }
         _ptr = ptr;
         return (*this);
-	}
+    }
 
-	//Assign another RCPtr
-	RCPtr &operator=(const RCPtr &ptr)
-	{
-//        printf("Array: operator= const&: %p\n", this);
+    // Assign another RCPtr
+    RCPtr& operator=(const RCPtr& ptr)
+    {
+        //        printf("Array: operator= const&: %p\n", this);
         return (*this) = ptr._ptr;
-	}
+    }
 
-	//Retrieve actual pointer
-	T* get() const
-	{
-        return _ptr;
-	}
+    // Retrieve actual pointer
+    T* get() const { return _ptr; }
 
-    //Some overloaded operators to facilitate dealing with an RCPtr
-    //as a conventional C pointer.
-    //Without these operators, one can still use the less transparent
-    //get() method to access the pointer.
-    T* operator->() const {return _ptr;}		//x->member
-    T &operator*() const {return *_ptr;}		//*x, (*x).member
-    explicit operator T*() const {return _ptr;}		//T* y = x;
-    explicit operator bool() const {return _ptr != nullptr;}	//if(x) {/*x is not NULL*/}
-    bool operator==(const RCPtr &ptr) {return _ptr == ptr._ptr;}
-    bool operator==(const T *ptr) {return _ptr == ptr;}
+    // Some overloaded operators to facilitate dealing with an RCPtr
+    // as a conventional C pointer.
+    // Without these operators, one can still use the less transparent
+    // get() method to access the pointer.
+    T* operator->() const { return _ptr; } // x->member
+    T& operator*() const { return *_ptr; } //*x, (*x).member
+    explicit operator T*() const { return _ptr; } // T* y = x;
+    explicit operator bool() const { return _ptr != nullptr; } // if(x) {/*x is not NULL*/}
+    bool operator==(const RCPtr& ptr) { return _ptr == ptr._ptr; }
+    bool operator==(const T* ptr) { return _ptr == ptr; }
 
 private:
-    T *_ptr;	//Actual pointer
+    T* _ptr; // Actual pointer
 };
 #endif // CC_USE_ARRAY_VECTOR
-
 
 /**
  * @addtogroup data_structures
@@ -150,112 +161,101 @@ I found that it's not work in C++. So it keep what it's look like in version 1.0
 */
 
 #if CC_USE_ARRAY_VECTOR
-#define CCARRAY_FOREACH(__array__, __object__)                  \
-    if (__array__) \
-    for( auto __it__ = (__array__)->data.begin();              \
-        __it__ != (__array__)->data.end() && ((__object__) = __it__->get()) != nullptr;                     \
-        ++__it__)
+#    define CCARRAY_FOREACH(__array__, __object__) \
+        if (__array__)                             \
+            for (auto __it__ = (__array__)->data.begin(); __it__ != (__array__)->data.end() && ((__object__) = __it__->get()) != nullptr; ++__it__)
 
+#    define CCARRAY_FOREACH_REVERSE(__array__, __object__) \
+        if (__array__)                                     \
+            for (auto __it__ = (__array__)->data.rbegin(); __it__ != (__array__)->data.rend() && ((__object__) = __it__->get()) != nullptr; ++__it__)
 
-#define CCARRAY_FOREACH_REVERSE(__array__, __object__)          \
-    if (__array__) \
-    for( auto __it__ = (__array__)->data.rbegin();             \
-    __it__ != (__array__)->data.rend() && ((__object__) = __it__->get()) != nullptr;                        \
-    ++__it__ )
-
-
-#define CCARRAY_VERIFY_TYPE(__array__, __type__) void(0)
+#    define CCARRAY_VERIFY_TYPE(__array__, __type__) void(0)
 
 #else // ! CC_USE_ARRAY_VECTOR --------------------------
 
-#define CCARRAY_FOREACH(__array__, __object__)                                                                         \
-    if ((__array__) && (__array__)->data->num > 0)                                                                     \
-    for(Ref** __arr__ = (__array__)->data->arr, **__end__ = (__array__)->data->arr + (__array__)->data->num-1;    \
-    __arr__ <= __end__ && (((__object__) = *__arr__) != NULL/* || true*/);                                             \
-    __arr__++)
+#    define CCARRAY_FOREACH(__array__, __object__)                                                                         \
+        if ((__array__) && (__array__)->data->num > 0)                                                                     \
+            for (Ref** __arr__ = (__array__)->data->arr, ** __end__ = (__array__)->data->arr + (__array__)->data->num - 1; \
+                 __arr__ <= __end__ && (((__object__) = *__arr__) != NULL /* || true*/); __arr__++)
 
-#define CCARRAY_FOREACH_REVERSE(__array__, __object__)                                                                  \
-    if ((__array__) && (__array__)->data->num > 0)                                                                      \
-    for(Ref** __arr__ = (__array__)->data->arr + (__array__)->data->num-1, **__end__ = (__array__)->data->arr;     \
-    __arr__ >= __end__ && (((__object__) = *__arr__) != NULL/* || true*/);                                              \
-    __arr__--)
+#    define CCARRAY_FOREACH_REVERSE(__array__, __object__)                                                                 \
+        if ((__array__) && (__array__)->data->num > 0)                                                                     \
+            for (Ref** __arr__ = (__array__)->data->arr + (__array__)->data->num - 1, ** __end__ = (__array__)->data->arr; \
+                 __arr__ >= __end__ && (((__object__) = *__arr__) != NULL /* || true*/); __arr__--)
 
-#if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
-#define CCARRAY_VERIFY_TYPE(__array__, __type__)                                                                 \
-    do {                                                                                                         \
-        if ((__array__) && (__array__)->data->num > 0)                                                           \
-            for(Ref** __arr__ = (__array__)->data->arr,                                                     \
-                **__end__ = (__array__)->data->arr + (__array__)->data->num-1; __arr__ <= __end__; __arr__++)    \
-                CCASSERT(dynamic_cast<__type__>(*__arr__), "element type is wrong!");                            \
-    } while(false)
-#else
-#define CCARRAY_VERIFY_TYPE(__array__, __type__) void(0)
-#endif
+#    if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
+#        define CCARRAY_VERIFY_TYPE(__array__, __type__)                                                                                                          \
+            do                                                                                                                                                    \
+            {                                                                                                                                                     \
+                if ((__array__) && (__array__)->data->num > 0)                                                                                                    \
+                    for (Ref** __arr__ = (__array__)->data->arr, ** __end__ = (__array__)->data->arr + (__array__)->data->num - 1; __arr__ <= __end__; __arr__++) \
+                        CCASSERT(dynamic_cast<__type__>(*__arr__), "element type is wrong!");                                                                     \
+            } while (false)
+#    else
+#        define CCARRAY_VERIFY_TYPE(__array__, __type__) void(0)
+#    endif
 
 #endif // ! CC_USE_ARRAY_VECTOR
 
-
 // Common defines -----------------------------------------------------------------------------------------------
 
-#define arrayMakeObjectsPerformSelector(pArray, func, elementType)    \
-do {                                                                  \
-    if(pArray && pArray->count() > 0)                                 \
-    {                                                                 \
-        Ref* child;                                                \
-        CCARRAY_FOREACH(pArray, child)                                \
-        {                                                             \
-            elementType pNode = static_cast<elementType>(child);      \
-            if(pNode)                                                 \
-            {                                                         \
-                pNode->func();                                        \
-            }                                                         \
-        }                                                             \
-    }                                                                 \
-}                                                                     \
-while(false)
+#define arrayMakeObjectsPerformSelector(pArray, func, elementType)   \
+    do                                                               \
+    {                                                                \
+        if (pArray && pArray->count() > 0)                           \
+        {                                                            \
+            Ref* child;                                              \
+            CCARRAY_FOREACH(pArray, child)                           \
+            {                                                        \
+                elementType pNode = static_cast<elementType>(child); \
+                if (pNode)                                           \
+                {                                                    \
+                    pNode->func();                                   \
+                }                                                    \
+            }                                                        \
+        }                                                            \
+    } while (false)
 
-#define arrayMakeObjectsPerformSelectorWithObject(pArray, func, object, elementType)   \
-do {                                                                  \
-    if(pArray && pArray->count() > 0)                                 \
-    {                                                                 \
-        Ref* child;                                                \
-        CCARRAY_FOREACH(pArray, child)                                \
-        {                                                             \
-            elementType pNode = static_cast<elementType>(child);      \
-            if(pNode)                                                 \
-            {                                                         \
-                pNode->func(object);                                 \
-            }                                                         \
-        }                                                             \
-    }                                                                 \
-}                                                                     \
-while(false)
-
+#define arrayMakeObjectsPerformSelectorWithObject(pArray, func, object, elementType) \
+    do                                                                               \
+    {                                                                                \
+        if (pArray && pArray->count() > 0)                                           \
+        {                                                                            \
+            Ref* child;                                                              \
+            CCARRAY_FOREACH(pArray, child)                                           \
+            {                                                                        \
+                elementType pNode = static_cast<elementType>(child);                 \
+                if (pNode)                                                           \
+                {                                                                    \
+                    pNode->func(object);                                             \
+                }                                                                    \
+            }                                                                        \
+        }                                                                            \
+    } while (false)
 
 NS_CC_BEGIN
 
 class CC_DLL __Array : public Ref, public Clonable
 {
 public:
-
-    /** Creates an empty array. Default capacity is 10 
+    /** Creates an empty array. Default capacity is 10
      * @js NA
      * @lua NA
      */
     static __Array* create();
-    /** Create an array with objects 
+    /** Create an array with objects
      * @js NA
      */
     static __Array* create(Ref* object, ...) CC_REQUIRES_NULL_TERMINATION;
-    /** Create an array with one object 
+    /** Create an array with one object
      * @js NA
      */
     static __Array* createWithObject(Ref* object);
-    /** Create an array with a default capacity 
+    /** Create an array with a default capacity
      * @js NA
      */
     static __Array* createWithCapacity(ssize_t capacity);
-    /** Create an array with from an existing array 
+    /** Create an array with from an existing array
      * @js NA
      */
     static __Array* createWithArray(__Array* otherArray);
@@ -266,7 +266,7 @@ public:
      * @js NA
      */
     static __Array* createWithContentsOfFile(const std::string& pFileName);
-    
+
     /*
      @brief The same meaning as arrayWithContentsOfFile(), but it doesn't call autorelease, so the
      invoker should call release().
@@ -280,27 +280,27 @@ public:
      */
     ~__Array();
 
-    /** Initializes an array 
+    /** Initializes an array
      * @js NA
      * @lua NA
      */
     bool init();
-    /** Initializes an array with one object 
+    /** Initializes an array with one object
      * @js NA
      * @lua NA
      */
     bool initWithObject(Ref* object);
-    /** Initializes an array with some objects 
+    /** Initializes an array with some objects
      * @js NA
      * @lua NA
      */
     bool initWithObjects(Ref* object, ...) CC_REQUIRES_NULL_TERMINATION;
-    /** Initializes an array with capacity 
+    /** Initializes an array with capacity
      * @js NA
      * @lua NA
      */
     bool initWithCapacity(ssize_t capacity);
-    /** Initializes an array with an existing array 
+    /** Initializes an array with an existing array
      * @js NA
      * @lua NA
      */
@@ -308,7 +308,7 @@ public:
 
     // Querying an Array
 
-    /** Returns element count of the array 
+    /** Returns element count of the array
      * @js NA
      */
     ssize_t count() const
@@ -319,7 +319,7 @@ public:
         return data->num;
 #endif
     }
-    /** Returns capacity of the array 
+    /** Returns capacity of the array
      * @js NA
      */
     ssize_t capacity() const
@@ -330,7 +330,7 @@ public:
         return data->max;
 #endif
     }
-    /** Returns index of a certain object, return UINT_MAX if doesn't contain the object 
+    /** Returns index of a certain object, return UINT_MAX if doesn't contain the object
      * @js NA
      * @lua NA
      */
@@ -340,13 +340,13 @@ public:
      */
     CC_DEPRECATED_ATTRIBUTE ssize_t indexOfObject(Ref* object) const { return getIndexOfObject(object); }
 
-    /** Returns an element with a certain index 
+    /** Returns an element with a certain index
      * @js NA
      * @lua NA
      */
     Ref* getObjectAtIndex(ssize_t index)
     {
-        CCASSERT(index>=0 && index < count(), "index out of range in getObjectAtIndex()");
+        CCASSERT(index >= 0 && index < count(), "index out of range in getObjectAtIndex()");
 #if CC_USE_ARRAY_VECTOR
         return data[index].get();
 #else
@@ -354,7 +354,7 @@ public:
 #endif
     }
     CC_DEPRECATED_ATTRIBUTE Ref* objectAtIndex(ssize_t index) { return getObjectAtIndex(index); }
-    /** Returns the last element of the array 
+    /** Returns the last element of the array
      * @js NA
      */
     Ref* getLastObject()
@@ -362,9 +362,9 @@ public:
 #if CC_USE_ARRAY_VECTOR
         return data.back().get();
 #else
-        if(data->num > 0)
-            return data->arr[data->num-1];
-        
+        if (data->num > 0)
+            return data->arr[data->num - 1];
+
         return nullptr;
 #endif
     }
@@ -372,7 +372,7 @@ public:
      * @js NA
      */
     CC_DEPRECATED_ATTRIBUTE Ref* lastObject() { return getLastObject(); }
-    /** Returns a random element 
+    /** Returns a random element
      * @js NA
      * @lua NA
      */
@@ -381,37 +381,37 @@ public:
      * @js NA
      */
     CC_DEPRECATED_ATTRIBUTE Ref* randomObject() { return getRandomObject(); }
-    /** Returns a Boolean value that indicates whether object is present in array. 
+    /** Returns a Boolean value that indicates whether object is present in array.
      * @js NA
      */
     bool containsObject(Ref* object) const;
-    /** @since 1.1 
+    /** @since 1.1
      * @js NA
      */
     bool isEqualToArray(__Array* otherArray);
     // Adding Objects
 
-    /** Add a certain object 
+    /** Add a certain object
      * @js NA
      */
     void addObject(Ref* object);
     /**
      * @js NA
      */
-    /** Add all elements of an existing array 
+    /** Add all elements of an existing array
      * @js NA
      */
     void addObjectsFromArray(__Array* otherArray);
-    /** Insert a certain object at a certain index 
+    /** Insert a certain object at a certain index
      * @js NA
      */
     void insertObject(Ref* object, ssize_t index);
-    /** sets a certain object at a certain index 
+    /** sets a certain object at a certain index
      * @js NA
      * @lua NA
      */
     void setObject(Ref* object, ssize_t index);
-    /** sets a certain object at a certain index without retaining. Use it with caution 
+    /** sets a certain object at a certain index without retaining. Use it with caution
      * @js NA
      * @lua NA
      */
@@ -428,9 +428,9 @@ public:
      * @js NA
      * @lua NA
      */
-    void swap( ssize_t indexOne, ssize_t indexTwo )
+    void swap(ssize_t indexOne, ssize_t indexTwo)
     {
-        CCASSERT(indexOne >=0 && indexOne < count() && indexTwo >= 0 && indexTwo < count(), "Invalid indices");
+        CCASSERT(indexOne >= 0 && indexOne < count() && indexTwo >= 0 && indexTwo < count(), "Invalid indices");
 #if CC_USE_ARRAY_VECTOR
         std::swap(data[indexOne], data[indexTwo]);
 #else
@@ -440,64 +440,64 @@ public:
 
     // Removing Objects
 
-    /** Remove last object 
+    /** Remove last object
      * @js NA
      */
     void removeLastObject(bool releaseObj = true);
-    /** Remove a certain object 
+    /** Remove a certain object
      * @js NA
      */
     void removeObject(Ref* object, bool releaseObj = true);
-    /** Remove an element with a certain index 
+    /** Remove an element with a certain index
      * @js NA
      */
     void removeObjectAtIndex(ssize_t index, bool releaseObj = true);
-    /** Remove all elements 
+    /** Remove all elements
      * @js NA
      */
     void removeObjectsInArray(__Array* otherArray);
-    /** Remove all objects 
+    /** Remove all objects
      * @js NA
      */
     void removeAllObjects();
-    /** Fast way to remove a certain object 
+    /** Fast way to remove a certain object
      * @js NA
      */
     void fastRemoveObject(Ref* object);
-    /** Fast way to remove an element with a certain index 
+    /** Fast way to remove an element with a certain index
      * @js NA
      */
     void fastRemoveObjectAtIndex(ssize_t index);
 
     // Rearranging Content
 
-    /** Swap two elements 
+    /** Swap two elements
      * @js NA
      */
     void exchangeObject(Ref* object1, Ref* object2);
-    /** Swap two elements with certain indexes 
+    /** Swap two elements with certain indexes
      * @js NA
      */
     void exchangeObjectAtIndex(ssize_t index1, ssize_t index2);
 
-    /** Replace object at index with another object. 
+    /** Replace object at index with another object.
      * @js NA
      */
     void replaceObjectAtIndex(ssize_t index, Ref* object, bool releaseObject = true);
 
-    /** Revers the array 
+    /** Revers the array
      * @js NA
      */
     void reverseObjects();
-    /* Shrinks the array so the memory footprint corresponds with the number of items 
+    /* Shrinks the array so the memory footprint corresponds with the number of items
      * @js NA
      */
     void reduceMemoryFootprint();
-  
-    /* override functions 
+
+    /* override functions
      * @js NA
      */
-    virtual void acceptVisitor(DataVisitor &visitor);
+    virtual void acceptVisitor(DataVisitor& visitor);
     /**
      * @js NA
      * @lua NA
@@ -545,7 +545,7 @@ public:
 
 #endif
 
-//protected:
+    // protected:
     /**
      * @js NA
      * @lua NA

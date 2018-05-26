@@ -2,25 +2,24 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 
-#include "ui/UIVideoPlayer.h"
-#include "scripting/js-bindings/manual/ScriptingCore.h"
-#include "scripting/js-bindings/manual/cocos2d_specifics.hpp"
-
+#    include "scripting/js-bindings/manual/ScriptingCore.h"
+#    include "scripting/js-bindings/manual/cocos2d_specifics.hpp"
+#    include "ui/UIVideoPlayer.h"
 
 using namespace cocos2d;
 
-
-static bool jsb_cocos2dx_experimental_ui_VideoPlayer_addEventListener(JSContext *cx, uint32_t argc, jsval *vp)
+static bool jsb_cocos2dx_experimental_ui_VideoPlayer_addEventListener(JSContext* cx, uint32_t argc, jsval* vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
-    js_proxy_t *proxy = jsb_get_js_proxy(obj);
-    experimental::ui::VideoPlayer* cobj = (experimental::ui::VideoPlayer *)(proxy ? proxy->ptr : NULL);
-    JSB_PRECONDITION2( cobj, cx, false, "Invalid Native Object");
+    js_proxy_t* proxy = jsb_get_js_proxy(obj);
+    experimental::ui::VideoPlayer* cobj = (experimental::ui::VideoPlayer*)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2(cobj, cx, false, "Invalid Native Object");
 
-    if(argc == 1){
+    if (argc == 1)
+    {
         std::shared_ptr<JSFunctionWrapper> func(new JSFunctionWrapper(cx, obj, args.get(0)));
-        cobj->addEventListener([=](Ref* widget, experimental::ui::VideoPlayer::EventType type)->void{
+        cobj->addEventListener([=](Ref* widget, experimental::ui::VideoPlayer::EventType type) -> void {
             jsval arg[2];
             JS::RootedObject jsobj(cx, js_get_or_create_jsobject<Ref>(cx, widget));
             arg[0] = OBJECT_TO_JSVAL(jsobj);
@@ -28,7 +27,8 @@ static bool jsb_cocos2dx_experimental_ui_VideoPlayer_addEventListener(JSContext 
             JS::RootedValue rval(cx);
 
             bool ok = func->invoke(2, arg, &rval);
-            if (!ok && JS_IsExceptionPending(cx)) {
+            if (!ok && JS_IsExceptionPending(cx))
+            {
                 JS_ReportPendingException(cx);
             }
         });

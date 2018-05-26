@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -42,31 +42,27 @@ const Vec3 PUForceFieldAffector::DEFAULT_MOVEMENT(500.0f, 0.0f, 0.0f);
 const float PUForceFieldAffector::DEFAULT_MOVEMENT_FREQUENCY = 5.0f;
 
 //-----------------------------------------------------------------------
-PUForceFieldAffector::PUForceFieldAffector() :
-    _forceFieldType(PUForceField::FF_REALTIME_CALC),
-    _delta(DEFAULT_DELTA),
-    _scaleForce(DEFAULT_FORCE),
-    _octaves(DEFAULT_OCTAVES),
-    _frequency(DEFAULT_FREQUENCY),
-    _amplitude(DEFAULT_AMPLITUDE),
-    _persistence(DEFAULT_PERSISTENCE),
-    _forceFieldSize(DEFAULT_FORCEFIELDSIZE),
-    _worldSize(DEFAULT_WORLDSIZE),
-    _prepared(true),
-    _ignoreNegativeX(false),
-    _ignoreNegativeY(false),
-    _ignoreNegativeZ(false),
-    _movement(DEFAULT_MOVEMENT),
-    _movementSet(false),
-    _movementFrequency(DEFAULT_MOVEMENT_FREQUENCY),
-    _movementFrequencyCount(0.0f),
-    _suppressGeneration(false)
-{
-};
+PUForceFieldAffector::PUForceFieldAffector()
+: _forceFieldType(PUForceField::FF_REALTIME_CALC)
+, _delta(DEFAULT_DELTA)
+, _scaleForce(DEFAULT_FORCE)
+, _octaves(DEFAULT_OCTAVES)
+, _frequency(DEFAULT_FREQUENCY)
+, _amplitude(DEFAULT_AMPLITUDE)
+, _persistence(DEFAULT_PERSISTENCE)
+, _forceFieldSize(DEFAULT_FORCEFIELDSIZE)
+, _worldSize(DEFAULT_WORLDSIZE)
+, _prepared(true)
+, _ignoreNegativeX(false)
+, _ignoreNegativeY(false)
+, _ignoreNegativeZ(false)
+, _movement(DEFAULT_MOVEMENT)
+, _movementSet(false)
+, _movementFrequency(DEFAULT_MOVEMENT_FREQUENCY)
+, _movementFrequencyCount(0.0f)
+, _suppressGeneration(false){};
 //-----------------------------------------------------------------------
-PUForceFieldAffector::~PUForceFieldAffector()
-{
-};
+PUForceFieldAffector::~PUForceFieldAffector(){};
 //-----------------------------------------------------------------------
 PUForceField::ForceFieldType PUForceFieldAffector::getForceFieldType() const
 {
@@ -243,11 +239,11 @@ void PUForceFieldAffector::suppressGeneration(bool suppress)
     _suppressGeneration = suppress;
 }
 
-void PUForceFieldAffector::updatePUAffector( PUParticle3D *particle, float deltaTime )
+void PUForceFieldAffector::updatePUAffector(PUParticle3D* particle, float deltaTime)
 {
-    //for (auto iter : _particleSystem->getParticles())
+    // for (auto iter : _particleSystem->getParticles())
     {
-        //PUParticle3D *particle = iter;
+        // PUParticle3D *particle = iter;
         _forceField.determineForce(particle->position, _force, _delta);
         // If negative values are ignored, set the force to 0.
         if (_ignoreNegativeX)
@@ -271,7 +267,7 @@ void PUForceFieldAffector::notifyStart()
     _movementFrequencyCount = 0.0f;
 }
 
-void PUForceFieldAffector::preUpdateAffector( float deltaTime )
+void PUForceFieldAffector::preUpdateAffector(float deltaTime)
 {
     if (_movementSet)
     {
@@ -287,26 +283,20 @@ void PUForceFieldAffector::preUpdateAffector( float deltaTime )
             _movementFrequencyCount -= _movementFrequency;
         }
 
-        _displacement = sin(2.0f * M_PI * _movementFrequencyCount/_movementFrequency) * _movement;
+        _displacement = sin(2.0f * M_PI * _movementFrequencyCount / _movementFrequency) * _movement;
         _forceField.setForceFieldPositionBase(_basePosition + _displacement);
     }
 }
 
 void PUForceFieldAffector::prepare()
 {
-    //if (particleTechnique->getParentSystem())
+    // if (particleTechnique->getParentSystem())
     {
         // Forcefield position is same position as particle system position
         _forceField.initialise(_forceFieldType,
-            // _particleSystem->getDerivedPosition()
-            getDerivedPosition(),
-            _forceFieldSize,
-            _octaves,
-            _frequency,
-            _amplitude,
-            _persistence,
-            _worldSize);
-    
+                               // _particleSystem->getDerivedPosition()
+                               getDerivedPosition(), _forceFieldSize, _octaves, _frequency, _amplitude, _persistence, _worldSize);
+
         _basePosition = _forceField.getForceFieldPositionBase();
         _prepared = true;
     }
@@ -319,7 +309,7 @@ PUForceFieldAffector* PUForceFieldAffector::create()
     return pffa;
 }
 
-void PUForceFieldAffector::copyAttributesTo( PUAffector* affector )
+void PUForceFieldAffector::copyAttributesTo(PUAffector* affector)
 {
     PUAffector::copyAttributesTo(affector);
 

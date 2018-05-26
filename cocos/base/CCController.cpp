@@ -27,9 +27,9 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventController.h"
-#include "base/CCDirector.h"
+#    include "base/CCDirector.h"
+#    include "base/CCEventController.h"
+#    include "base/CCEventDispatcher.h"
 
 NS_CC_BEGIN
 
@@ -37,7 +37,7 @@ std::vector<Controller*> Controller::s_allController;
 
 Controller* Controller::getControllerByTag(int tag)
 {
-    for (auto controller:Controller::s_allController)
+    for (auto controller : Controller::s_allController)
     {
         if (controller->_controllerTag == tag)
         {

@@ -32,16 +32,15 @@
 
 #include <string>
 
-#include "renderer/CCRenderState.h"
-#include "renderer/CCTechnique.h"
 #include "base/CCRef.h"
 #include "base/CCVector.h"
+#include "math/Mat4.h"
 #include "math/Vec2.h"
 #include "math/Vec3.h"
 #include "math/Vec4.h"
-#include "math/Mat4.h"
 #include "platform/CCPlatformMacros.h"
-
+#include "renderer/CCRenderState.h"
+#include "renderer/CCTechnique.h"
 
 NS_CC_BEGIN
 
@@ -98,7 +97,7 @@ public:
      */
     Technique* getTechniqueByName(const std::string& name);
 
-    /** Returns a Technique by index. 
+    /** Returns a Technique by index.
      returns `nullptr` if the index is invalid.
      */
     Technique* getTechniqueByIndex(ssize_t index);
@@ -137,8 +136,7 @@ protected:
     bool parseSampler(GLProgramState* glProgramState, Properties* properties);
     bool parseUniform(GLProgramState* programState, Properties* properties, const char* uniformName);
     bool parseRenderState(RenderState* renderState, Properties* properties);
-    
-    
+
     // material name
     std::string _name;
 
@@ -153,6 +151,5 @@ protected:
 };
 
 NS_CC_END
-
 
 #endif /* defined(__cocos2d_libs__CCMaterial__) */

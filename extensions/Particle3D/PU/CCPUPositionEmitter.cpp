@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -31,10 +31,10 @@ NS_CC_BEGIN
 const bool PUPositionEmitter::DEFAULT_RANDOMIZE = true;
 
 //-----------------------------------------------------------------------
-PUPositionEmitter::PUPositionEmitter(void) : 
-    PUEmitter(),
-    _randomized(DEFAULT_RANDOMIZE),
-    _index(0)
+PUPositionEmitter::PUPositionEmitter(void)
+: PUEmitter()
+, _randomized(DEFAULT_RANDOMIZE)
+, _index(0)
 {
 }
 //-----------------------------------------------------------------------
@@ -104,15 +104,17 @@ void PUPositionEmitter::initParticlePosition(PUParticle3D* particle)
         return;
 
     /** Remark: Don't take the orientation of the node into account, because the positions shouldn't be affected by the rotated node.
-    */
+     */
     if (_randomized)
     {
         size_t i = (size_t)(CCRANDOM_0_1() * (_positionList.size() - 1));
-        particle->position = getDerivedPosition() + Vec3(_emitterScale.x * _positionList[i].x, _emitterScale.y * _positionList[i].y, _emitterScale.z * _positionList[i].z);
+        particle->position =
+            getDerivedPosition() + Vec3(_emitterScale.x * _positionList[i].x, _emitterScale.y * _positionList[i].y, _emitterScale.z * _positionList[i].z);
     }
     else if (_index < _positionList.size())
     {
-        particle->position = getDerivedPosition() + Vec3(_emitterScale.x * _positionList[_index].x, _emitterScale.y * _positionList[_index].y, _emitterScale.z * _positionList[_index].z);
+        particle->position = getDerivedPosition() +
+            Vec3(_emitterScale.x * _positionList[_index].x, _emitterScale.y * _positionList[_index].y, _emitterScale.z * _positionList[_index].z);
         _index++;
     }
 
@@ -126,7 +128,7 @@ PUPositionEmitter* PUPositionEmitter::create()
     return pe;
 }
 
-void PUPositionEmitter::copyAttributesTo( PUEmitter* emitter )
+void PUPositionEmitter::copyAttributesTo(PUEmitter* emitter)
 {
     PUEmitter::copyAttributesTo(emitter);
     PUPositionEmitter* positionEmitter = static_cast<PUPositionEmitter*>(emitter);

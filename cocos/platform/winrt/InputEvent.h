@@ -26,13 +26,12 @@ THE SOFTWARE.
 #ifndef __WINRT_INPUT_EVENT__
 #define __WINRT_INPUT_EVENT__
 
+#include "base/ccTypes.h"
 #include "platform/CCPlatformMacros.h"
 #include "platform/winrt/InputEventTypes.h"
-#include "base/ccTypes.h"
 #include <agile.h>
 
 NS_CC_BEGIN
-
 
 enum PointerEventType
 {
@@ -55,11 +54,10 @@ enum MouseButton
 class CC_DLL InputEvent
 {
 public:
-    InputEvent() {};
-    virtual ~InputEvent() {};
+    InputEvent(){};
+    virtual ~InputEvent(){};
     virtual void execute() = 0;
 };
-
 
 class CC_DLL AccelerometerEvent : public InputEvent
 {
@@ -74,9 +72,8 @@ private:
 class CC_DLL PointerEvent : public InputEvent
 {
 public:
-    PointerEvent(PointerEventType type, Windows::UI::Core::PointerEventArgs^ args);
+    PointerEvent(PointerEventType type, Windows::UI::Core::PointerEventArgs ^ args);
     virtual void execute();
-
 
 private:
     PointerEventType m_type;
@@ -88,7 +85,7 @@ class CC_DLL KeyboardEvent : public InputEvent
 {
 public:
     KeyboardEvent(Cocos2dKeyEvent type);
-    KeyboardEvent(Cocos2dKeyEvent type, Platform::String^ text);
+    KeyboardEvent(Cocos2dKeyEvent type, Platform::String ^ text);
     virtual void execute();
 
 private:
@@ -98,21 +95,20 @@ private:
 
 enum WinRTKeyboardEventType
 {
-	KeyPressed,
-	KeyReleased,
+    KeyPressed,
+    KeyReleased,
 };
 
 class CC_DLL WinRTKeyboardEvent : public InputEvent
 {
 public:
-	WinRTKeyboardEvent(WinRTKeyboardEventType type, Windows::UI::Core::KeyEventArgs^ args);
-	virtual void execute();
+    WinRTKeyboardEvent(WinRTKeyboardEventType type, Windows::UI::Core::KeyEventArgs ^ args);
+    virtual void execute();
 
 private:
-	WinRTKeyboardEventType m_type;
-	Platform::Agile<Windows::UI::Core::KeyEventArgs> m_key;
+    WinRTKeyboardEventType m_type;
+    Platform::Agile<Windows::UI::Core::KeyEventArgs> m_key;
 };
-
 
 class CC_DLL BackButtonEvent : public InputEvent
 {
@@ -126,6 +122,7 @@ class CC_DLL CustomInputEvent : public InputEvent
 public:
     CustomInputEvent(const std::function<void()>&);
     virtual void execute();
+
 private:
     std::function<void()> m_fun;
 };
@@ -133,17 +130,16 @@ private:
 class UIEditBoxEvent : public cocos2d::InputEvent
 {
 public:
-    UIEditBoxEvent(Platform::Object^ sender, Platform::String^ text, Windows::Foundation::EventHandler<Platform::String^>^ handle);
+    UIEditBoxEvent(Platform::Object ^ sender, Platform::String ^ text, Windows::Foundation::EventHandler<Platform::String ^> ^ handle);
 
     virtual void execute();
 
 private:
-    Platform::Agile<Platform::Object^> m_sender;
-    Platform::Agile<Platform::String^> m_text;
-    Platform::Agile<Windows::Foundation::EventHandler<Platform::String^>^> m_handler;
+    Platform::Agile<Platform::Object ^> m_sender;
+    Platform::Agile<Platform::String ^> m_text;
+    Platform::Agile<Windows::Foundation::EventHandler<Platform::String ^> ^> m_handler;
 };
 
 NS_CC_END
 
 #endif // #ifndef __WINRT_INPUT_EVENT__
-

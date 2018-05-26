@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,24 +24,23 @@
  ****************************************************************************/
 
 #include "extensions/Particle3D/PU/CCPURibbonTrail.h"
-#include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
+#include "2d/CCCamera.h"
+#include "3d/CCSprite3D.h"
 #include "base/CCDirector.h"
+#include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
+#include "renderer/CCGLProgramCache.h"
+#include "renderer/CCGLProgramState.h"
 #include "renderer/CCMeshCommand.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/CCTextureCache.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCGLProgramCache.h"
 #include "renderer/CCVertexIndexBuffer.h"
-#include "2d/CCCamera.h"
-#include "3d/CCSprite3D.h"
 
 NS_CC_BEGIN
 
-PURibbonTrail::PURibbonTrail(const std::string& name, const std::string &texFile, size_t maxElements, 
-    size_t numberOfChains, bool useTextureCoords, bool useColours)
-    :PUBillboardChain(name, texFile, maxElements, 0, useTextureCoords, useColours, true),
-    _parentNode(nullptr),
-    _needTimeUpdate(false)
+PURibbonTrail::PURibbonTrail(const std::string& name, const std::string& texFile, size_t maxElements, size_t numberOfChains, bool useTextureCoords, bool useColours)
+: PUBillboardChain(name, texFile, maxElements, 0, useTextureCoords, useColours, true)
+, _parentNode(nullptr)
+, _needTimeUpdate(false)
 {
     setTrailLength(100);
     setNumberOfChains(numberOfChains);
@@ -61,9 +60,9 @@ void PURibbonTrail::addNode(Node* n)
         CCASSERT(false, " cannot monitor any more nodes, chain count exceeded");
     }
 
-    //if (n->getListener())
+    // if (n->getListener())
     //{
-    //	OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, 
+    //	OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
     //		mName + " cannot monitor node " + n->getName() + " since it already has a listener.",
     //		"RibbonTrail::addNode");
     //}
@@ -78,8 +77,7 @@ void PURibbonTrail::addNode(Node* n)
     resetTrail(chainIndex, n);
 
     _nodeList.push_back(n);
-    //n->setListener(this);
-
+    // n->setListener(this);
 }
 //-----------------------------------------------------------------------
 size_t PURibbonTrail::getChainIndexForNode(const Node* n)
@@ -105,7 +103,7 @@ void PURibbonTrail::removeNode(Node* n)
         PUBillboardChain::clearChain(chainIndex);
         // mark as free now
         _freeChains.push_back(chainIndex);
-        //n->setListener(0);
+        // n->setListener(0);
         _nodeList.erase(i);
         _nodeToChainSegment.erase(mi);
         _nodeToSegMap.erase(_nodeToSegMap.find(n));
@@ -208,8 +206,7 @@ float PURibbonTrail::getInitialWidth(size_t chainIndex) const
 //-----------------------------------------------------------------------
 void PURibbonTrail::setColourChange(size_t chainIndex, const Vec4& valuePerSecond)
 {
-    setColourChange(chainIndex, 
-        valuePerSecond.x, valuePerSecond.y, valuePerSecond.z, valuePerSecond.w);
+    setColourChange(chainIndex, valuePerSecond.x, valuePerSecond.y, valuePerSecond.z, valuePerSecond.w);
 }
 //-----------------------------------------------------------------------
 void PURibbonTrail::setColourChange(size_t chainIndex, float r, float g, float b, float a)
@@ -221,7 +218,6 @@ void PURibbonTrail::setColourChange(size_t chainIndex, float r, float g, float b
     _deltaColor[chainIndex].w = a;
 
     manageController();
-
 }
 //-----------------------------------------------------------------------
 const Vec4& PURibbonTrail::getColourChange(size_t chainIndex) const
@@ -241,7 +237,6 @@ float PURibbonTrail::getWidthChange(size_t chainIndex) const
 {
     CCASSERT(chainIndex < _chainCount, "chainIndex out of bounds");
     return _deltaWidth[chainIndex];
-
 }
 //-----------------------------------------------------------------------
 void PURibbonTrail::manageController(void)
@@ -298,15 +293,13 @@ void PURibbonTrail::updateTrail(size_t index, const Node* node)
             Vec3 scaledDiff = diff * (_elemLength / sqrtf(sqlen));
             headElem.position = nextElem.position + scaledDiff;
             // Add a new element to be the new head
-            Element newElem( newPos, _initialWidth[index], 0.0f,
-                _initialColor[index], node->getRotationQuat() );
+            Element newElem(newPos, _initialWidth[index], 0.0f, _initialColor[index], node->getRotationQuat());
             addChainElement(index, newElem);
             // alter diff to represent new head size
             diff = newPos - headElem.position;
             // check whether another step is needed or not
-            if (diff.lengthSquared() <= _squaredElemLength)   
+            if (diff.lengthSquared() <= _squaredElemLength)
                 done = true;
-
         }
         else
         {
@@ -336,19 +329,17 @@ void PURibbonTrail::updateTrail(size_t index, const Node* node)
                 taildiff *= tailsize / taillen;
                 tailElem.position = preTailElem.position + taildiff;
             }
-
         }
     } // end while
 
     _vertexContentDirty = true;
-    // Need to dirty the parent node, but can't do it using needUpdate() here 
-    // since we're in the middle of the scene graph update (node listener), 
+    // Need to dirty the parent node, but can't do it using needUpdate() here
+    // since we're in the middle of the scene graph update (node listener),
     // so re-entrant calls don't work. Queue.
-    //if (mParentNode)
+    // if (mParentNode)
     //{
     //	Node::queueNeedUpdate(getParentSceneNode());
     //}
-
 }
 //-----------------------------------------------------------------------
 void PURibbonTrail::timeUpdate(float time)
@@ -359,25 +350,21 @@ void PURibbonTrail::timeUpdate(float time)
         ChainSegment& seg = _chainSegmentList[s];
         if (seg.head != SEGMENT_EMPTY && seg.head != seg.tail)
         {
-
-            for(size_t e = seg.head + 1;; ++e) // until break
+            for (size_t e = seg.head + 1;; ++e) // until break
             {
                 e = e % _maxElementsPerChain;
 
                 Element& elem = _chainElementList[seg.start + e];
                 elem.width = elem.width - (time * _deltaWidth[s]);
-                elem.width = 0.0f < elem.width? elem.width: 0.0f;
+                elem.width = 0.0f < elem.width ? elem.width : 0.0f;
                 elem.color = elem.color - (_deltaColor[s] * time);
                 elem.color.clamp(Vec4(0.0f, 0.0f, 0.0f, 0.0f), Vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
                 if (e == seg.tail)
                     break;
-
             }
         }
-
     }
-
 }
 //-----------------------------------------------------------------------
 void PURibbonTrail::resetTrail(size_t index, const Node* node)
@@ -395,8 +382,7 @@ void PURibbonTrail::resetTrail(size_t index, const Node* node)
         // Transform position to ourself space
         _parentNode->getWorldToNodeTransform().transformPoint(position, &position);
     }
-    Element e(position,
-        _initialWidth[index], 0.0f, _initialColor[index], node->getRotationQuat());
+    Element e(position, _initialWidth[index], 0.0f, _initialColor[index], node->getRotationQuat());
     // Add the start position
     addChainElement(index, e);
     // Add another on the same spot, this will extend
@@ -411,18 +397,21 @@ void PURibbonTrail::resetAllTrails(void)
     }
 }
 
-void PURibbonTrail::update( float deltaTime )
+void PURibbonTrail::update(float deltaTime)
 {
-    if (_needTimeUpdate){
+    if (_needTimeUpdate)
+    {
         static float lastUpdateTime = 0.0f;
-        if (0.5f < lastUpdateTime){
+        if (0.5f < lastUpdateTime)
+        {
             timeUpdate(deltaTime);
             lastUpdateTime = 0.0f;
         }
         lastUpdateTime += deltaTime;
     }
 
-    for (auto iter : _nodeToSegMap){
+    for (auto iter : _nodeToSegMap)
+    {
         updateTrail(iter.second, iter.first);
     }
 }

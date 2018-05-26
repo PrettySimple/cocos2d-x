@@ -25,66 +25,52 @@ THE SOFTWARE.
 #include "cocostudio/CCComController.h"
 #include "2d/CCNode.h"
 
-namespace cocostudio {
-
-IMPLEMENT_CLASS_COMPONENT_INFO(ComController)
-
-const std::string ComController::COMPONENT_NAME = "CCComController";
-
-ComController::ComController()
+namespace cocostudio
 {
-    _name = COMPONENT_NAME;
-}
+    IMPLEMENT_CLASS_COMPONENT_INFO(ComController)
 
-ComController::~ComController()
-{
-}
+    const std::string ComController::COMPONENT_NAME = "CCComController";
 
-bool ComController::init()
-{
-    return true;
-}
+    ComController::ComController() { _name = COMPONENT_NAME; }
 
-void ComController::onEnter()
-{
-    if (_owner != nullptr)
+    ComController::~ComController() {}
+
+    bool ComController::init() { return true; }
+
+    void ComController::onEnter()
     {
-        _owner->scheduleUpdate();
+        if (_owner != nullptr)
+        {
+            _owner->scheduleUpdate();
+        }
     }
-}
 
-void ComController::onExit()
-{
-}
+    void ComController::onExit() {}
 
-void ComController::onAdd()
-{
-    if (_owner != nullptr)
+    void ComController::onAdd()
     {
-       _owner->scheduleUpdate();
+        if (_owner != nullptr)
+        {
+            _owner->scheduleUpdate();
+        }
     }
-}
 
-void ComController::onRemove()
-{
-}
+    void ComController::onRemove() {}
 
-void ComController::update(float delta)
-{
-}
+    void ComController::update(float delta) {}
 
-ComController* ComController::create()
-{
-    ComController * pRet = new (std::nothrow) ComController();
-    if (pRet && pRet->init())
+    ComController* ComController::create()
     {
-        pRet->autorelease();
+        ComController* pRet = new (std::nothrow) ComController();
+        if (pRet && pRet->init())
+        {
+            pRet->autorelease();
+        }
+        else
+        {
+            CC_SAFE_DELETE(pRet);
+        }
+        return pRet;
     }
-    else
-    {
-        CC_SAFE_DELETE(pRet);
-    }
-	return pRet;
-}
 
-}
+} // namespace cocostudio

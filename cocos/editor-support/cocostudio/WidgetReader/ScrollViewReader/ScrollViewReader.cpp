@@ -2,13 +2,13 @@
 
 #include "ScrollViewReader.h"
 
-#include "ui/UIScrollView.h"
-#include "cocostudio/CocoLoader.h"
 #include "cocostudio/CSParseBinary_generated.h"
+#include "cocostudio/CocoLoader.h"
 #include "cocostudio/FlatBuffersSerialize.h"
+#include "ui/UIScrollView.h"
 
-#include "tinyxml2.h"
 #include "flatbuffers/flatbuffers.h"
+#include "tinyxml2.h"
 
 USING_NS_CC;
 using namespace ui;
@@ -25,15 +25,9 @@ namespace cocostudio
 
     IMPLEMENT_CLASS_NODE_READER_INFO(ScrollViewReader)
 
-        ScrollViewReader::ScrollViewReader()
-    {
+    ScrollViewReader::ScrollViewReader() {}
 
-    }
-
-    ScrollViewReader::~ScrollViewReader()
-    {
-
-    }
+    ScrollViewReader::~ScrollViewReader() {}
 
     ScrollViewReader* ScrollViewReader::getInstance()
     {
@@ -44,46 +38,46 @@ namespace cocostudio
         return instanceScrollViewReader;
     }
 
-    void ScrollViewReader::destroyInstance()
-    {
-        CC_SAFE_DELETE(instanceScrollViewReader);
-    }
+    void ScrollViewReader::destroyInstance() { CC_SAFE_DELETE(instanceScrollViewReader); }
 
-    void ScrollViewReader::setPropsFromBinary(cocos2d::ui::Widget *widget, CocoLoader *cocoLoader, stExpCocoNode* cocoNode)
+    void ScrollViewReader::setPropsFromBinary(cocos2d::ui::Widget* widget, CocoLoader* cocoLoader, stExpCocoNode* cocoNode)
     {
-        //TODO: need to refactor...
+        // TODO: need to refactor...
         LayoutReader::setPropsFromBinary(widget, cocoLoader, cocoNode);
 
         ScrollView* scrollView = static_cast<ScrollView*>(widget);
 
-        stExpCocoNode *stChildArray = cocoNode->GetChildArray(cocoLoader);
+        stExpCocoNode* stChildArray = cocoNode->GetChildArray(cocoLoader);
         float innerWidth;
         float innerHeight;
-        for (int i = 0; i < cocoNode->GetChildNum(); ++i) {
+        for (int i = 0; i < cocoNode->GetChildNum(); ++i)
+        {
             std::string key = stChildArray[i].GetName(cocoLoader);
             std::string value = stChildArray[i].GetValue(cocoLoader);
-            if (key == P_InnerWidth) {
+            if (key == P_InnerWidth)
+            {
                 innerWidth = valueToFloat(value);
             }
-            else if (key == P_InnerHeight) {
+            else if (key == P_InnerHeight)
+            {
                 innerHeight = valueToFloat(value);
             }
-            else if (key == P_Direction) {
+            else if (key == P_Direction)
+            {
                 scrollView->setDirection((ScrollView::Direction)valueToInt(value));
             }
-            else if (key == P_BounceEnable) {
+            else if (key == P_BounceEnable)
+            {
                 scrollView->setBounceEnabled(valueToBool(value));
             }
 
-        } //end of for loop
+        } // end of for loop
         scrollView->setInnerContainerSize(Size(innerWidth, innerHeight));
-
     }
 
-    void ScrollViewReader::setPropsFromJsonDictionary(Widget *widget, const rapidjson::Value &options)
+    void ScrollViewReader::setPropsFromJsonDictionary(Widget* widget, const rapidjson::Value& options)
     {
         LayoutReader::setPropsFromJsonDictionary(widget, options);
-
 
         ScrollView* scrollView = static_cast<ScrollView*>(widget);
         float innerWidth = DICTOOL->getFloatValue_json(options, P_InnerWidth, 200);
@@ -93,12 +87,10 @@ namespace cocostudio
         scrollView->setDirection((ScrollView::Direction)direction);
         scrollView->setBounceEnabled(DICTOOL->getBooleanValue_json(options, P_BounceEnable));
 
-
         LayoutReader::setColorPropsFromJsonDictionary(widget, options);
     }
 
-    Offset<Table> ScrollViewReader::createOptionsWithFlatBuffers(const tinyxml2::XMLElement *objectData,
-        flatbuffers::FlatBufferBuilder *builder)
+    Offset<Table> ScrollViewReader::createOptionsWithFlatBuffers(const tinyxml2::XMLElement* objectData, flatbuffers::FlatBufferBuilder* builder)
     {
         auto temp = WidgetReader::getInstance()->createOptionsWithFlatBuffers(objectData, builder);
         auto widgetOptions = *(Offset<WidgetOptions>*)(&temp);
@@ -385,34 +377,16 @@ namespace cocostudio
         CapInsets f_capInsets(capInsets.origin.x, capInsets.origin.y, capInsets.size.width, capInsets.size.height);
         FlatSize f_scale9Size(scale9Size.width, scale9Size.height);
         FlatSize f_innerSize(innerSize.width, innerSize.height);
-        
-        auto options = CreateScrollViewOptions(*builder,
-                                               widgetOptions,
-                                               CreateResourceData(*builder,
-                                                                  builder->CreateString(path),
-                                                                  builder->CreateString(plistFile),
-                                                                  resourceType),
-                                               clipEnabled,
-                                               &f_bgColor,
-                                               &f_bgStartColor,
-                                               &f_bgEndColor,
-                                               colorType,
-                                               bgColorOpacity,
-                                               &f_colorVector,
-                                               &f_capInsets,
-                                               &f_scale9Size,
-                                               backGroundScale9Enabled,
-                                               &f_innerSize,
-                                               direction,
-                                               bounceEnabled,
-                                               scrollbarEnabled,
-                                               scrollbarAutoHide,
-                                               scrollbarAutoHideTime);
-        
+
+        auto options = CreateScrollViewOptions(
+            *builder, widgetOptions, CreateResourceData(*builder, builder->CreateString(path), builder->CreateString(plistFile), resourceType), clipEnabled,
+            &f_bgColor, &f_bgStartColor, &f_bgEndColor, colorType, bgColorOpacity, &f_colorVector, &f_capInsets, &f_scale9Size, backGroundScale9Enabled,
+            &f_innerSize, direction, bounceEnabled, scrollbarEnabled, scrollbarAutoHide, scrollbarAutoHideTime);
+
         return *(Offset<Table>*)(&options);
     }
 
-    void ScrollViewReader::setPropsWithFlatBuffers(cocos2d::Node *node, const flatbuffers::Table *scrollViewOptions)
+    void ScrollViewReader::setPropsWithFlatBuffers(cocos2d::Node* node, const flatbuffers::Table* scrollViewOptions)
     {
         ScrollView* scrollView = static_cast<ScrollView*>(node);
         auto options = (ScrollViewOptions*)scrollViewOptions;
@@ -422,7 +396,6 @@ namespace cocostudio
 
         bool backGroundScale9Enabled = options->backGroundScale9Enabled() != 0;
         scrollView->setBackGroundImageScale9Enabled(backGroundScale9Enabled);
-
 
         auto f_bgColor = options->bgColor();
         Color3B bgColor(f_bgColor->r(), f_bgColor->g(), f_bgColor->b());
@@ -444,7 +417,6 @@ namespace cocostudio
         scrollView->setBackGroundColor(bgColor);
         scrollView->setBackGroundColorOpacity(bgColorOpacity);
 
-
         bool fileExist = false;
         std::string errorFilePath = "";
         auto imageFileNameDic = options->backGroundImageData();
@@ -454,51 +426,51 @@ namespace cocostudio
         {
             switch (imageFileNameType)
             {
-            case 0:
-            {
-                if (FileUtils::getInstance()->isFileExist(imageFileName))
+                case 0:
                 {
-                    fileExist = true;
-                }
-                else
-                {
-                    errorFilePath = imageFileName;
-                    fileExist = false;
-                }
-                break;
-            }
-
-            case 1:
-            {
-                std::string plist = imageFileNameDic->plistFile()->c_str();
-                SpriteFrame* spriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(imageFileName);
-                if (spriteFrame)
-                {
-                    fileExist = true;
-                }
-                else
-                {
-                    if (FileUtils::getInstance()->isFileExist(plist))
+                    if (FileUtils::getInstance()->isFileExist(imageFileName))
                     {
-                        ValueMap value = FileUtils::getInstance()->getValueMapFromFile(plist);
-                        ValueMap metadata = value["metadata"].asValueMap();
-                        std::string textureFileName = metadata["textureFileName"].asString();
-                        if (!FileUtils::getInstance()->isFileExist(textureFileName))
-                        {
-                            errorFilePath = textureFileName;
-                        }
+                        fileExist = true;
                     }
                     else
                     {
-                        errorFilePath = plist;
+                        errorFilePath = imageFileName;
+                        fileExist = false;
                     }
-                    fileExist = false;
+                    break;
                 }
-                break;
-            }
 
-            default:
-                break;
+                case 1:
+                {
+                    std::string plist = imageFileNameDic->plistFile()->c_str();
+                    SpriteFrame* spriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(imageFileName);
+                    if (spriteFrame)
+                    {
+                        fileExist = true;
+                    }
+                    else
+                    {
+                        if (FileUtils::getInstance()->isFileExist(plist))
+                        {
+                            ValueMap value = FileUtils::getInstance()->getValueMapFromFile(plist);
+                            ValueMap metadata = value["metadata"].asValueMap();
+                            std::string textureFileName = metadata["textureFileName"].asString();
+                            if (!FileUtils::getInstance()->isFileExist(textureFileName))
+                            {
+                                errorFilePath = textureFileName;
+                            }
+                        }
+                        else
+                        {
+                            errorFilePath = plist;
+                        }
+                        fileExist = false;
+                    }
+                    break;
+                }
+
+                default:
+                    break;
             }
             if (fileExist)
             {
@@ -553,10 +525,9 @@ namespace cocostudio
                 scrollView->setContentSize(contentSize);
             }
         }
-
     }
 
-    Node* ScrollViewReader::createNodeWithFlatBuffers(const flatbuffers::Table *scrollViewOptions)
+    Node* ScrollViewReader::createNodeWithFlatBuffers(const flatbuffers::Table* scrollViewOptions)
     {
         ScrollView* scrollView = ScrollView::create();
 
@@ -569,7 +540,7 @@ namespace cocostudio
     {
         if (key == "Normal" || key == "Default")
         {
-            return 	0;
+            return 0;
         }
 
         FlatBuffersSerialize* fbs = FlatBuffersSerialize::getInstance();
@@ -583,4 +554,4 @@ namespace cocostudio
         return 1;
     }
 
-}
+} // namespace cocostudio

@@ -22,18 +22,20 @@
  */
 
 #include "scripting/js-bindings/manual/cocostudio/jsb_cocos2dx_studio_conversions.h"
-#include "scripting/js-bindings/manual/cocos2d_specifics.hpp"
 #include "editor-support/cocostudio/CocoStudio.h"
+#include "scripting/js-bindings/manual/cocos2d_specifics.hpp"
 
 jsval animationInfo_to_jsval(JSContext* cx, const cocostudio::timeline::AnimationInfo& v)
 {
     JS::RootedObject tmp(cx, JS_NewObject(cx, NULL, JS::NullPtr(), JS::NullPtr()));
-    if (!tmp) return JSVAL_NULL;
+    if (!tmp)
+        return JSVAL_NULL;
     JS::RootedValue jsname(cx, std_string_to_jsval(cx, v.name));
     bool ok = JS_DefineProperty(cx, tmp, "name", jsname, JSPROP_ENUMERATE | JSPROP_PERMANENT) &&
-    JS_DefineProperty(cx, tmp, "startIndex", v.startIndex, JSPROP_ENUMERATE | JSPROP_PERMANENT) &&
-    JS_DefineProperty(cx, tmp, "endIndex", v.endIndex, JSPROP_ENUMERATE | JSPROP_PERMANENT);
-    if (ok) {
+        JS_DefineProperty(cx, tmp, "startIndex", v.startIndex, JSPROP_ENUMERATE | JSPROP_PERMANENT) &&
+        JS_DefineProperty(cx, tmp, "endIndex", v.endIndex, JSPROP_ENUMERATE | JSPROP_PERMANENT);
+    if (ok)
+    {
         return OBJECT_TO_JSVAL(tmp);
     }
     return JSVAL_NULL;
@@ -47,19 +49,13 @@ bool jsval_to_animationInfo(JSContext* cx, JS::HandleValue vp, cocostudio::timel
     JS::RootedValue jsEndId(cx);
     std::string name;
     double startIndex, endIndex;
-    
-    bool ok = vp.isObject() &&
-    JS_ValueToObject(cx, vp, &tmp) &&
-    JS_GetProperty(cx, tmp, "name", &jsName) &&
-    JS_GetProperty(cx, tmp, "startIndex", &jsStartId) &&
-    JS_GetProperty(cx, tmp, "endIndex", &jsEndId) &&
-    JS::ToNumber(cx, jsStartId, &startIndex) &&
-    JS::ToNumber(cx, jsEndId, &endIndex) &&
-    jsval_to_std_string(cx, jsName, &name) &&
-    !std::isnan(startIndex) && !std::isnan(endIndex);
-    
+
+    bool ok = vp.isObject() && JS_ValueToObject(cx, vp, &tmp) && JS_GetProperty(cx, tmp, "name", &jsName) &&
+        JS_GetProperty(cx, tmp, "startIndex", &jsStartId) && JS_GetProperty(cx, tmp, "endIndex", &jsEndId) && JS::ToNumber(cx, jsStartId, &startIndex) &&
+        JS::ToNumber(cx, jsEndId, &endIndex) && jsval_to_std_string(cx, jsName, &name) && !std::isnan(startIndex) && !std::isnan(endIndex);
+
     JSB_PRECONDITION3(ok, cx, false, "Error processing arguments");
-    
+
     ret->name = name;
     ret->startIndex = (int)startIndex;
     ret->endIndex = (int)endIndex;

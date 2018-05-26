@@ -28,49 +28,50 @@ THE SOFTWARE.
 #include "base/CCRef.h"
 #include "cocostudio/CocosStudioExport.h"
 
-namespace cocostudio {
-
-enum FrameEasingType
+namespace cocostudio
 {
-    kframeEasingInstant,
+    enum FrameEasingType
+    {
+        kframeEasingInstant,
 
-    kframeEasingLinear,
+        kframeEasingLinear,
 
-    kframeEasingCubicIn,
-    kframeEasingCubicOut,
-    kframeEasingCubicInOut,
+        kframeEasingCubicIn,
+        kframeEasingCubicOut,
+        kframeEasingCubicInOut,
 
-    kframeEasingElasticIn,
-    kframeEasingElasticOut,
-    kframeEasingElasticInOut,
+        kframeEasingElasticIn,
+        kframeEasingElasticOut,
+        kframeEasingElasticInOut,
 
-    kframeEasingBounceIn,
-    kframeEasingBounceOut,
-    kframeEasingBounceInOut,
+        kframeEasingBounceIn,
+        kframeEasingBounceOut,
+        kframeEasingBounceInOut,
 
-    kframeEasingBackIn,
-    kframeEasingBackOut,
-    kframeEasingBackInOut,
-};
+        kframeEasingBackIn,
+        kframeEasingBackOut,
+        kframeEasingBackInOut,
+    };
 
-/**
-*  @js NA
-*  @lua NA
-*/
-class CC_STUDIO_DLL ActionFrameEasing:public cocos2d::Ref
-{
-protected:
-    FrameEasingType _type;
-    float _fValue;
-public:
-    ActionFrameEasing();
-    virtual ~ActionFrameEasing();
+    /**
+     *  @js NA
+     *  @lua NA
+     */
+    class CC_STUDIO_DLL ActionFrameEasing : public cocos2d::Ref
+    {
+    protected:
+        FrameEasingType _type;
+        float _fValue;
 
-    float bounceTime(float t);
+    public:
+        ActionFrameEasing();
+        virtual ~ActionFrameEasing();
 
-    float easeValue(float t);
-};
+        float bounceTime(float t);
 
-}
+        float easeValue(float t);
+    };
+
+} // namespace cocostudio
 
 #endif

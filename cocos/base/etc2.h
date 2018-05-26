@@ -11,11 +11,11 @@ typedef int etc2_bool;
 typedef unsigned int etc2_uint32;
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-int etc2_decode_image(const unsigned char* pIn, const GLenum srcFormat, unsigned int width, unsigned int height, unsigned char** pOut);
-
+    int etc2_decode_image(const unsigned char* pIn, const GLenum srcFormat, unsigned int width, unsigned int height, unsigned char** pOut);
 
 #ifdef __cplusplus
 }

@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (c) 2014 cocos2d-x.org
  Copyright (c) 2014 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,9 +24,9 @@
  ****************************************************************************/
 
 #include "base/CCEventListenerController.h"
+#include "base/CCController.h"
 #include "base/CCEventController.h"
 #include "base/ccMacros.h"
-#include "base/CCController.h"
 
 NS_CC_BEGIN
 
@@ -48,26 +48,26 @@ EventListenerController* EventListenerController::create()
 
 bool EventListenerController::init()
 {
-    auto listener = [this](Event* event){
+    auto listener = [this](Event* event) {
         auto evtController = static_cast<EventController*>(event);
         switch (evtController->getControllerEventType())
         {
-        case EventController::ControllerEventType::CONNECTION:
-            if (evtController->isConnected())
+            case EventController::ControllerEventType::CONNECTION:
+                if (evtController->isConnected())
+                {
+                    if (this->onConnected)
+                        this->onConnected(evtController->getController(), event);
+                }
+                else
+                {
+                    if (this->onDisconnected)
+                        this->onDisconnected(evtController->getController(), event);
+                }
+                break;
+            case EventController::ControllerEventType::BUTTON_STATUS_CHANGED:
             {
-                if (this->onConnected)
-                    this->onConnected(evtController->getController(), event);
-            }
-            else
-            {
-                if (this->onDisconnected)
-                    this->onDisconnected(evtController->getController(), event);
-            }
-            break;
-        case EventController::ControllerEventType::BUTTON_STATUS_CHANGED:
-            {
-                const auto&  keyStatus = evtController->_controller->_allKeyStatus[evtController->_keyCode];
-                const auto&  keyPrevStatus = evtController->_controller->_allKeyPrevStatus[evtController->_keyCode];
+                const auto& keyStatus = evtController->_controller->_allKeyStatus[evtController->_keyCode];
+                const auto& keyPrevStatus = evtController->_controller->_allKeyPrevStatus[evtController->_keyCode];
 
                 if (this->onKeyDown && keyStatus.isPressed && !keyPrevStatus.isPressed)
                 {
@@ -83,7 +83,7 @@ bool EventListenerController::init()
                 }
             }
             break;
-        case EventController::ControllerEventType::AXIS_STATUS_CHANGED:
+            case EventController::ControllerEventType::AXIS_STATUS_CHANGED:
             {
                 if (this->onAxisEvent)
                 {
@@ -91,9 +91,9 @@ bool EventListenerController::init()
                 }
             }
             break;
-        default:
-            CCASSERT(false, "Invalid EventController type");
-            break;
+            default:
+                CCASSERT(false, "Invalid EventController type");
+                break;
         }
     };
 

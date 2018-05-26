@@ -1,25 +1,24 @@
 #include "scripting/lua-bindings/manual/cocostudio/CustomGUIReader.h"
 #include "scripting/lua-bindings/manual/CCLuaEngine.h"
-#include "json/writer.h"
 #include "json/stringbuffer.h"
+#include "json/writer.h"
 
 USING_NS_CC;
 
 namespace cocostudio
 {
-
-    CustomGUIReader* CustomGUIReader::create(std::string &className, int createFunc, int setPropsFunc)
+    CustomGUIReader* CustomGUIReader::create(std::string& className, int createFunc, int setPropsFunc)
     {
         auto reader = new (std::nothrow) CustomGUIReader();
         reader->init(className, createFunc, setPropsFunc);
         return reader;
     }
-   
+
     Ref* CustomGUIReader::createInstance()
     {
         Ref* result = nullptr;
         LuaStack* stack = LuaEngine::getInstance()->getLuaStack();
-        stack->executeFunction(_createFunc, 0, 1, [&result](lua_State* L,int numReturn){
+        stack->executeFunction(_createFunc, 0, 1, [&result](lua_State* L, int numReturn) {
             result = static_cast<Ref*>(tolua_tousertype(L, -1, nullptr));
             lua_pop(L, 1);
         });
@@ -27,11 +26,10 @@ namespace cocostudio
     }
 
     CustomGUIReader::CustomGUIReader()
-    :_className()
-    ,_createFunc(0)
-    ,_setPropsFunc(0)
+    : _className()
+    , _createFunc(0)
+    , _setPropsFunc(0)
     {
-
     }
 
     CustomGUIReader::~CustomGUIReader()
@@ -48,7 +46,7 @@ namespace cocostudio
         }
     }
 
-    void CustomGUIReader::init(std::string &className, int createFunc, int setPropsFunc)
+    void CustomGUIReader::init(std::string& className, int createFunc, int setPropsFunc)
     {
         _className = className;
         _createFunc = createFunc;
@@ -67,8 +65,8 @@ namespace cocostudio
         (*callbackMap)[className] = parseselector(CustomGUIReader::setCustomProps);
     }
 
-	void CustomGUIReader::setCustomProps(const std::string &classType, cocos2d::Ref *widget, const rapidjson::Value &customOptions)
-	{
+    void CustomGUIReader::setCustomProps(const std::string& classType, cocos2d::Ref* widget, const rapidjson::Value& customOptions)
+    {
         if (_setPropsFunc != 0)
         {
             rapidjson::StringBuffer buffer;
@@ -81,5 +79,5 @@ namespace cocostudio
             stack->pushString(buffer.GetString(), static_cast<int>(buffer.GetSize()));
             stack->executeFunctionByHandler(_setPropsFunc, 3);
         }
-	}
-}
+    }
+} // namespace cocostudio

@@ -27,12 +27,12 @@ THE SOFTWARE.
 #define __BASE_CCREF_H__
 
 #if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
-#include <string>
-#include <vector>
+#    include <string>
+#    include <vector>
 #endif
 
-#include "platform/CCPlatformMacros.h"
 #include "base/ccConfig.h"
+#include "platform/CCPlatformMacros.h"
 
 #define CC_REF_LEAK_DETECTION 0
 
@@ -42,25 +42,24 @@ THE SOFTWARE.
  */
 NS_CC_BEGIN
 
-
 class Ref;
 
-/** 
-  * Interface that defines how to clone an Ref.
-  * @lua NA
-  * @js NA
-  */
+/**
+ * Interface that defines how to clone an Ref.
+ * @lua NA
+ * @js NA
+ */
 class CC_DLL Clonable
 {
 public:
     /** Returns a copy of the Ref. */
     virtual Clonable* clone() const = 0;
-    
+
     /**
      * @js NA
      * @lua NA
      */
-    virtual ~Clonable() {};
+    virtual ~Clonable(){};
 
     /** Returns a copy of the Ref.
      * @deprecated Use clone() instead.
@@ -83,6 +82,7 @@ class CC_DLL Ref
 #if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
 protected:
     bool _trackRetainRelease = false;
+
 private:
     std::vector<std::vector<std::string>> _retainList;
     std::vector<std::vector<std::string>> _releaseList;
@@ -148,8 +148,8 @@ protected:
 public:
     Ref(const Ref& other);
     Ref& operator=(const Ref& other);
-    Ref(Ref&& other) noexcept =default;
-    Ref& operator=(Ref&& other) noexcept =default;
+    Ref(Ref&& other) noexcept = default;
+    Ref& operator=(Ref&& other) noexcept = default;
     /**
      * Destructor
      *
@@ -167,9 +167,9 @@ protected:
 #if CC_ENABLE_SCRIPT_BINDING
 public:
     /// object id, ScriptSupport need public _ID
-    unsigned int        _ID;
+    unsigned int _ID;
     /// Lua reference id
-    int                 _luaID;
+    int _luaID;
     /// scriptObject, support for swift
     void* _scriptObject;
 
@@ -209,8 +209,6 @@ typedef void (Ref::*SEL_SCHEDULE)(float);
 #define callfuncO_selector(_SELECTOR) CC_CALLFUNCO_SELECTOR(_SELECTOR)
 #define menu_selector(_SELECTOR) CC_MENU_SELECTOR(_SELECTOR)
 #define schedule_selector(_SELECTOR) CC_SCHEDULE_SELECTOR(_SELECTOR)
-
-
 
 NS_CC_END
 // end of base group

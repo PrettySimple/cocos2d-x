@@ -25,45 +25,46 @@ THE SOFTWARE.
 #ifndef __DICTIONARYHELPER_H__
 #define __DICTIONARYHELPER_H__
 
-#include "json/rapidjson.h"
-#include "json/document.h"
 #include "cocostudio/CocosStudioExport.h"
+#include "json/document.h"
+#include "json/rapidjson.h"
 
 #define DICTOOL DictionaryHelper::getInstance()
 
-namespace cocostudio {
-/**
- *  @js NA
- *  @lua NA
- */
-class CC_STUDIO_DLL DictionaryHelper
+namespace cocostudio
 {
-public:
-    DictionaryHelper();
-    ~DictionaryHelper();
-    static DictionaryHelper* getInstance();
-	static void destroyInstance();
-    
-	const rapidjson::Value& getSubDictionary_json(const rapidjson::Value &root, const char* key);
-    const rapidjson::Value& getSubDictionary_json(const rapidjson::Value &root, const char* key, int idx);
-    const rapidjson::Value& getSubDictionary_json(const rapidjson::Value &root, int idx);
-    
-	int   getIntValue_json(const rapidjson::Value& root, const char* key, int def = 0);
-	float getFloatValue_json(const rapidjson::Value& root,const char* key, float def = 0.0f);
-    bool  getBooleanValue_json(const rapidjson::Value& root,const char* key, bool def = false);
-    const char* getStringValue_json(const rapidjson::Value& root,const char* key, const char *def = NULL);
-    int   getArrayCount_json(const rapidjson::Value& root,const char* key, int def = 0);
-	
-    int   getIntValueFromArray_json(const rapidjson::Value& root,const char* arrayKey,int idx, int def = 0);
-	float getFloatValueFromArray_json(const rapidjson::Value& root,const char* arrayKey,int idx, float def = 0.0f);
-	bool  getBoolValueFromArray_json(const rapidjson::Value& root,const char* arrayKey,int idx, bool def = false);
-	const char* getStringValueFromArray_json(const rapidjson::Value& root,const char* arrayKey,int idx, const char *def = NULL);
-	const rapidjson::Value &getDictionaryFromArray_json(const rapidjson::Value &root, const char* key,int idx);
-	bool checkObjectExist_json(const rapidjson::Value &root);
-    bool checkObjectExist_json(const rapidjson::Value &root, const char* key);
-    bool checkObjectExist_json(const rapidjson::Value &root, int index);
-};
+    /**
+     *  @js NA
+     *  @lua NA
+     */
+    class CC_STUDIO_DLL DictionaryHelper
+    {
+    public:
+        DictionaryHelper();
+        ~DictionaryHelper();
+        static DictionaryHelper* getInstance();
+        static void destroyInstance();
 
-}
+        const rapidjson::Value& getSubDictionary_json(const rapidjson::Value& root, const char* key);
+        const rapidjson::Value& getSubDictionary_json(const rapidjson::Value& root, const char* key, int idx);
+        const rapidjson::Value& getSubDictionary_json(const rapidjson::Value& root, int idx);
+
+        int getIntValue_json(const rapidjson::Value& root, const char* key, int def = 0);
+        float getFloatValue_json(const rapidjson::Value& root, const char* key, float def = 0.0f);
+        bool getBooleanValue_json(const rapidjson::Value& root, const char* key, bool def = false);
+        const char* getStringValue_json(const rapidjson::Value& root, const char* key, const char* def = NULL);
+        int getArrayCount_json(const rapidjson::Value& root, const char* key, int def = 0);
+
+        int getIntValueFromArray_json(const rapidjson::Value& root, const char* arrayKey, int idx, int def = 0);
+        float getFloatValueFromArray_json(const rapidjson::Value& root, const char* arrayKey, int idx, float def = 0.0f);
+        bool getBoolValueFromArray_json(const rapidjson::Value& root, const char* arrayKey, int idx, bool def = false);
+        const char* getStringValueFromArray_json(const rapidjson::Value& root, const char* arrayKey, int idx, const char* def = NULL);
+        const rapidjson::Value& getDictionaryFromArray_json(const rapidjson::Value& root, const char* key, int idx);
+        bool checkObjectExist_json(const rapidjson::Value& root);
+        bool checkObjectExist_json(const rapidjson::Value& root, const char* key);
+        bool checkObjectExist_json(const rapidjson::Value& root, int index);
+    };
+
+} // namespace cocostudio
 
 #endif /* defined(__CocoGUI__DictionaryHelper__) */

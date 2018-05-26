@@ -26,69 +26,71 @@ THE SOFTWARE.
 #define __CCDECORATIVEDISPLAY_H__
 
 #include "cocostudio/CCArmatureDefine.h"
-#include "cocostudio/CCDisplayFactory.h"
 #include "cocostudio/CCDatas.h"
+#include "cocostudio/CCDisplayFactory.h"
 #include "cocostudio/CocosStudioExport.h"
 
-
 #if ENABLE_PHYSICS_BOX2D_DETECT || ENABLE_PHYSICS_CHIPMUNK_DETECT || ENABLE_PHYSICS_SAVE_CALCULATED_VERTEX
-#include "cocostudio/CCColliderDetector.h"
+#    include "cocostudio/CCColliderDetector.h"
 #endif
 
-namespace cocos2d {
+namespace cocos2d
+{
     class Node;
 }
 
-namespace cocostudio {
-/**
- *  @js NA
- *  @lua NA
- */
-class CC_STUDIO_DLL DecorativeDisplay: public cocos2d::Ref
+namespace cocostudio
 {
-public:
-    static DecorativeDisplay *create();
-public:
-    DecorativeDisplay(void);
-    ~DecorativeDisplay(void);
-
-    virtual bool init();
-
-    virtual void setDisplay(cocos2d::Node *display);
-    virtual cocos2d::Node *getDisplay() const { return _display; }
-
-    virtual void setDisplayData(DisplayData *data)
+    /**
+     *  @js NA
+     *  @lua NA
+     */
+    class CC_STUDIO_DLL DecorativeDisplay : public cocos2d::Ref
     {
-        if (_displayData != data)
+    public:
+        static DecorativeDisplay* create();
+
+    public:
+        DecorativeDisplay(void);
+        ~DecorativeDisplay(void);
+
+        virtual bool init();
+
+        virtual void setDisplay(cocos2d::Node* display);
+        virtual cocos2d::Node* getDisplay() const { return _display; }
+
+        virtual void setDisplayData(DisplayData* data)
         {
-            CC_SAFE_RETAIN(data);
-            CC_SAFE_RELEASE(_displayData);
-            _displayData = data; 
+            if (_displayData != data)
+            {
+                CC_SAFE_RETAIN(data);
+                CC_SAFE_RELEASE(_displayData);
+                _displayData = data;
+            }
         }
-    }
-    virtual DisplayData *getDisplayData() const { return _displayData; }
+        virtual DisplayData* getDisplayData() const { return _displayData; }
 
 #if ENABLE_PHYSICS_BOX2D_DETECT || ENABLE_PHYSICS_CHIPMUNK_DETECT || ENABLE_PHYSICS_SAVE_CALCULATED_VERTEX
-    virtual void setColliderDetector(ColliderDetector *detector)
-    {
-        if (_colliderDetector != detector)
+        virtual void setColliderDetector(ColliderDetector* detector)
         {
-            CC_SAFE_RETAIN(detector);
-            CC_SAFE_RELEASE(_colliderDetector);
-            _colliderDetector = detector; 
+            if (_colliderDetector != detector)
+            {
+                CC_SAFE_RETAIN(detector);
+                CC_SAFE_RELEASE(_colliderDetector);
+                _colliderDetector = detector;
+            }
         }
-    }
-    virtual ColliderDetector *getColliderDetector() const { return _colliderDetector; }
+        virtual ColliderDetector* getColliderDetector() const { return _colliderDetector; }
 #endif
-protected:
-    cocos2d::Node *_display;
-    DisplayData *_displayData;
+    protected:
+        cocos2d::Node* _display;
+        DisplayData* _displayData;
 
 #if ENABLE_PHYSICS_BOX2D_DETECT || ENABLE_PHYSICS_CHIPMUNK_DETECT || ENABLE_PHYSICS_SAVE_CALCULATED_VERTEX
-    ColliderDetector *_colliderDetector;
+        ColliderDetector* _colliderDetector;
 #endif
-};
+    };
 
-}
+} // namespace cocostudio
 
 #endif /*__CCDECORATIVEDISPLAY_H__*/

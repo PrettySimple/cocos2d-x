@@ -3,7 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
- 
+
 http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -39,7 +39,8 @@ NS_CC_BEGIN
 
 class Node;
 
-enum {
+enum
+{
     kActionUpdate
 };
 
@@ -48,7 +49,7 @@ enum {
  * @{
  */
 
-/** 
+/**
  * @brief Base class for Action objects.
  */
 class Action : public Ref, public Clonable
@@ -59,10 +60,10 @@ public:
 
     enum struct Status : std::uint8_t
     {
-        UNKNOWN = 0
-        , START = 1
-        , RUNNING = 2
-        , DONE = 3
+        UNKNOWN = 0,
+        START = 1,
+        RUNNING = 2,
+        DONE = 3
     };
 
 protected:
@@ -81,15 +82,15 @@ protected:
     Status _status = Status::UNKNOWN;
 
 #if CC_ENABLE_SCRIPT_BINDING
-    ccScriptType _scriptType;         ///< type of script binding, lua or javascript
+    ccScriptType _scriptType; ///< type of script binding, lua or javascript
 #endif
 
 public:
     Action();
-    Action(Action const&) =delete;
-    Action& operator=(Action const&) =delete;
-    Action(Action &&) noexcept =delete;
-    Action& operator=(Action &&) noexcept =delete;
+    Action(Action const&) = delete;
+    Action& operator=(Action const&) = delete;
+    Action(Action&&) noexcept = delete;
+    Action& operator=(Action&&) noexcept = delete;
     ~Action() override;
 
     /**
@@ -104,38 +105,38 @@ public:
      */
     virtual Action* clone() const override;
 
-    /** Returns a new action that performs the exact reverse of the action. 
+    /** Returns a new action that performs the exact reverse of the action.
      *
      * @return A new action that performs the exact reverse of the action.
      * @js NA
      */
     virtual Action* reverse() const;
 
-    /** Return true if the action has finished. 
-     * 
+    /** Return true if the action has finished.
+     *
      * @return Is true if the action has finished.
      */
     virtual bool isDone() const;
 
-    /** Called before the action start. It will also set the target. 
+    /** Called before the action start. It will also set the target.
      *
      * @param target A certain target.
      */
     virtual void startWithTarget(Node* target);
 
-    /** 
+    /**
      * Called after the action has finished. It will set the 'target' to nil.
      * IMPORTANT: You should never call "Action::stop()" manually. Instead, use: "target->stopAction(action);".
      */
     virtual void stop();
 
-    /** Called every frame with it's delta time, dt in seconds. DON'T override unless you know what you are doing. 
+    /** Called every frame with it's delta time, dt in seconds. DON'T override unless you know what you are doing.
      *
      * @param dt In seconds.
      */
     virtual void step(float dt);
 
-    /** 
+    /**
      * Called once per frame. time a value between 0 and 1.
 
      * For example:
@@ -151,17 +152,17 @@ public:
      * @return A certain target.
      */
     inline Node* getTarget() const noexcept { return _target; }
-    /** The action will modify the target properties. 
+    /** The action will modify the target properties.
      *
      * @param target A certain target.
      */
     inline void setTarget(Node* target) noexcept { _target = target; }
-    /** Return a original Target. 
+    /** Return a original Target.
      *
      * @return A original Target.
      */
     inline Node* getOriginalTarget() const noexcept { return _originalTarget; }
-    /** 
+    /**
      * Set the original target, since target can be nil.
      * Is the target that were used to run the action. Unless you are doing something complex, like ActionManager, you should NOT call this method.
      * The target is 'assigned', it is not 'retained'.
@@ -169,13 +170,13 @@ public:
      *
      * @param originalTarget Is 'assigned', it is not 'retained'.
      */
-    inline void setOriginalTarget(Node *originalTarget) noexcept { _originalTarget = originalTarget; }
-    /** Returns a tag that is used to identify the action easily. 
+    inline void setOriginalTarget(Node* originalTarget) noexcept { _originalTarget = originalTarget; }
+    /** Returns a tag that is used to identify the action easily.
      *
      * @return A tag.
      */
     inline int getTag() const noexcept { return _tag; }
-    /** Changes the tag that is used to identify the action easily. 
+    /** Changes the tag that is used to identify the action easily.
      *
      * @param tag Used to identify the action easily.
      */
@@ -207,20 +208,21 @@ class FiniteTimeAction : public Action
 {
 protected:
     std::chrono::milliseconds _duration = std::chrono::milliseconds::zero();
+
 public:
-    FiniteTimeAction() =default;
-    FiniteTimeAction(FiniteTimeAction const&) =delete;
-    FiniteTimeAction& operator=(FiniteTimeAction const&) =delete;
-    FiniteTimeAction(FiniteTimeAction &&) noexcept =delete;
-    FiniteTimeAction& operator=(FiniteTimeAction &&) noexcept =delete;
+    FiniteTimeAction() = default;
+    FiniteTimeAction(FiniteTimeAction const&) = delete;
+    FiniteTimeAction& operator=(FiniteTimeAction const&) = delete;
+    FiniteTimeAction(FiniteTimeAction&&) noexcept = delete;
+    FiniteTimeAction& operator=(FiniteTimeAction&&) noexcept = delete;
     ~FiniteTimeAction() override;
 
-    /** Get duration in seconds of the action. 
+    /** Get duration in seconds of the action.
      *
      * @return The duration in seconds of the action.
      */
     inline std::chrono::milliseconds getDuration() const noexcept { return _duration; }
-    /** Set duration in seconds of the action. 
+    /** Set duration in seconds of the action.
      *
      * @param duration In seconds of the action.
      */
@@ -244,12 +246,13 @@ class CC_DLL Speed : public Action
 private:
     float _speed = 0.f;
     ActionInterval* _innerAction = nullptr;
+
 public:
-    Speed() =default;
-    Speed(Speed const&) =delete;
-    Speed& operator=(Speed const&) =delete;
-    Speed(Speed &&) noexcept =delete;
-    Speed& operator=(Speed &&) noexcept =delete;
+    Speed() = default;
+    Speed(Speed const&) = delete;
+    Speed& operator=(Speed const&) = delete;
+    Speed(Speed&&) noexcept = delete;
+    Speed& operator=(Speed&&) noexcept = delete;
     ~Speed() override;
 
     bool initWithAction(ActionInterval* action, float speed);
@@ -265,7 +268,7 @@ public:
      * @return The action speed.
      */
     inline float getSpeed() const noexcept { return _speed; }
-    /** Alter the speed of the inner function in runtime. 
+    /** Alter the speed of the inner function in runtime.
      *
      * @param speed Alter the speed of the inner function in runtime.
      */
@@ -275,7 +278,7 @@ public:
      *
      * @param action The new action, it will replace the running action.
      */
-    void setInnerAction(ActionInterval *action);
+    void setInnerAction(ActionInterval* action);
     /** Return the interior action.
      *
      * @return The interior action.
@@ -329,12 +332,13 @@ protected:
     float _offsetY = 0.f;
 
     Rect _worldRect = Rect::ZERO;
+
 public:
-    Follow() =default;
-    Follow(Follow const&) =delete;
-    Follow& operator=(Follow const&) =delete;
-    Follow(Follow &&) noexcept =delete;
-    Follow& operator=(Follow &&) noexcept =delete;
+    Follow() = default;
+    Follow(Follow const&) = delete;
+    Follow& operator=(Follow const&) = delete;
+    Follow(Follow&&) noexcept = delete;
+    Follow& operator=(Follow&&) noexcept = delete;
     ~Follow() override;
 
     /**
@@ -345,7 +349,6 @@ public:
      *              with no boundary.
      */
     bool initWithTarget(Node* followedNode, Rect const& rect = Rect::ZERO);
-
 
     /**
      * Initializes the action with a set boundary or with no boundary with offsets.
@@ -370,9 +373,9 @@ public:
      * @param followedNode  The node to be followed.
      * @param rect  The boundary. If \p rect is equal to Rect::ZERO, it'll work
      *              with no boundary.
-    */
+     */
     static Follow* create(Node* followedNode, Rect const& rect = Rect::ZERO);
-    
+
     /**
      * Creates the action with a set boundary or with no boundary with offsets.
      *
@@ -388,19 +391,19 @@ public:
      *   If both xOffset and yOffset are set to zero,then the node will be horizontally and vertically centered followed.
      */
     static Follow* createWithOffset(Node* followedNode, float xOffset, float yOffset, Rect const& rect = Rect::ZERO);
-    
+
     /** Return boundarySet.
      *
      * @return Return boundarySet.
      */
     inline bool isBoundarySet() const noexcept { return _boundarySet; }
-    /** Alter behavior - turn on/off boundary. 
+    /** Alter behavior - turn on/off boundary.
      *
      * @param value Turn on/off boundary.
      */
     inline void setBoundarySet(bool value) noexcept { _boundarySet = value; }
-    
-    /** @deprecated Alter behavior - turn on/off boundary. 
+
+    /** @deprecated Alter behavior - turn on/off boundary.
      *
      * @param value Turn on/off boundary.
      */

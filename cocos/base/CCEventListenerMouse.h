@@ -27,7 +27,7 @@
 #include "base/CCEventMouse.h"
 
 #ifndef __cocos2d_libs__CCMouseEventListener__
-#define __cocos2d_libs__CCMouseEventListener__
+#    define __cocos2d_libs__CCMouseEventListener__
 
 /**
  * @addtogroup base
@@ -46,7 +46,7 @@ class CC_DLL EventListenerMouse : public EventListener
 {
 public:
     static const std::string LISTENER_ID;
-    
+
     /** Create a mouse event listener.
      *
      * @return An autoreleased EventListenerMouse object.
@@ -63,8 +63,7 @@ public:
     std::function<void(EventMouse* event)> onMouseScroll;
     std::function<void(EventMouse* event)> onMouseOut;
 
-CC_CONSTRUCTOR_ACCESS:
-    EventListenerMouse();
+    CC_CONSTRUCTOR_ACCESS : EventListenerMouse();
     bool init();
 };
 

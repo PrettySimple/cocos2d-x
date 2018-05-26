@@ -1,18 +1,18 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 
-#include "platform/CCDevice.h"
-#include <emscripten/emscripten.h>
+#    include "platform/CCDevice.h"
+#    include <emscripten/emscripten.h>
 
 NS_CC_BEGIN
 
 int Device::getDPI()
 {
-	// https://github.com/emscripten-ports/Cocos2d/blob/master/cocos2dx/platform/emscripten/CCDevice.cpp
-	// https://goo.gl/JWvtjA
-	//return 160;
+    // https://github.com/emscripten-ports/Cocos2d/blob/master/cocos2dx/platform/emscripten/CCDevice.cpp
+    // https://goo.gl/JWvtjA
+    // return 160;
 
-	return emscripten_get_device_pixel_ratio() * 96.0;
+    return emscripten_get_device_pixel_ratio() * 96.0;
 }
 
 /**
@@ -20,7 +20,7 @@ int Device::getDPI()
  */
 void Device::setAccelerometerEnabled(bool isEnabled)
 {
-	(void)isEnabled;
+    (void)isEnabled;
 }
 
 /**
@@ -28,7 +28,7 @@ void Device::setAccelerometerEnabled(bool isEnabled)
  */
 void Device::setAccelerometerInterval(float interval)
 {
-	(void)interval;
+    (void)interval;
 }
 
 /**
@@ -38,7 +38,7 @@ void Device::setAccelerometerInterval(float interval)
  */
 void Device::setKeepScreenOn(bool keepScreenOn)
 {
-	(void)keepScreenOn;
+    (void)keepScreenOn;
 }
 
 /**
@@ -50,7 +50,7 @@ void Device::setKeepScreenOn(bool keepScreenOn)
  */
 void Device::vibrate(float duration)
 {
-	(void)duration;
+    (void)duration;
 }
 
 /**
@@ -58,10 +58,10 @@ void Device::vibrate(float duration)
  */
 Data Device::getTextureDataForText(const char* text, const FontDefinition& textDefinition, TextAlign align, int& width, int& height, bool& hasPremultipliedAlpha)
 {
-	//printf("*** Device::getTextureDataForText(%s)\n", text);
-	// Seems to be unused in NewYork & Oregon
-	//TODO EMSCRIPTEN: Implement
-	return Data();
+    // printf("*** Device::getTextureDataForText(%s)\n", text);
+    // Seems to be unused in NewYork & Oregon
+    // TODO EMSCRIPTEN: Implement
+    return Data();
 }
 
 NS_CC_END

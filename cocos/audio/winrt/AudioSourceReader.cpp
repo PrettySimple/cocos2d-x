@@ -1,39 +1,37 @@
 /*
-* cocos2d-x   http://www.cocos2d-x.org
-*
-* Copyright (c) 2010-2011 - cocos2d-x community
-*
-* Portions Copyright (c) Microsoft Open Technologies, Inc.
-* All Rights Reserved
-*
-* Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an
-* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and limitations under the License.
-*/
+ * cocos2d-x   http://www.cocos2d-x.org
+ *
+ * Copyright (c) 2010-2011 - cocos2d-x community
+ *
+ * Portions Copyright (c) Microsoft Open Technologies, Inc.
+ * All Rights Reserved
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and limitations under the License.
+ */
 
 #include "base/ccMacros.h"
-#include "platform/CCPlatformConfig.h"
 #include "platform/CCFileUtils.h"
-
+#include "platform/CCPlatformConfig.h"
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
 
-#include "platform/winrt/CCWinRTUtils.h"
-#include "audio/winrt/AudioSourceReader.h"
+#    include "audio/winrt/AudioSourceReader.h"
+#    include "platform/winrt/CCWinRTUtils.h"
 
 using namespace cocos2d;
 using namespace cocos2d::experimental;
 using namespace Microsoft::WRL;
 
-
 // AudioFileReader
-AudioSourceReader::AudioSourceReader() :
-_isStreaming(false)
+AudioSourceReader::AudioSourceReader()
+: _isStreaming(false)
 , _filePath("")
 , _audioSize(0)
 , _bytesRead(0)
@@ -50,7 +48,8 @@ AudioSourceReader::~AudioSourceReader()
 void AudioSourceReader::flushChunks()
 {
     _rwMutex.lock();
-    while (!_chnkQ.empty()) {
+    while (!_chnkQ.empty())
+    {
         _chnkQ.pop();
     }
     _rwMutex.unlock();
@@ -58,10 +57,11 @@ void AudioSourceReader::flushChunks()
 
 void AudioSourceReader::seekTo(const float ratio)
 {
-    if (_isStreaming) {
+    if (_isStreaming)
+    {
         auto newPos = ratio * _audioSize;
 
-        if (!newPos && !_isDirty && _chnkQ.size())  // already in 0.0 position
+        if (!newPos && !_isDirty && _chnkQ.size()) // already in 0.0 position
             return;
 
         _bytesRead = newPos;
@@ -69,15 +69,16 @@ void AudioSourceReader::seekTo(const float ratio)
         auto alignment = _wfx.nChannels * _wfx.nBlockAlign;
         _bytesRead = _bytesRead >= _audioSize ? (_audioSize - alignment) : _bytesRead - (_bytesRead % alignment);
 
-        for (int i = 0; i < QUEUEBUFFER_NUM; i++) {
+        for (int i = 0; i < QUEUEBUFFER_NUM; i++)
+        {
             produceChunk();
         }
     }
 }
 
 // WAVFileReader
-WAVReader::WAVReader() :
-_streamer(nullptr)
+WAVReader::WAVReader()
+: _streamer(nullptr)
 {
 }
 
@@ -91,7 +92,8 @@ bool WAVReader::initialize(const std::string& filePath)
     _isStreaming = false;
     _filePath = filePath;
 
-    do {
+    do
+    {
         auto fileSize = FileUtils::getInstance()->getFileSize(_filePath);
 
         if (fileSize <= 0)
@@ -109,12 +111,15 @@ bool WAVReader::initialize(const std::string& filePath)
             break;
 
         _audioSize = dataSize;
-        if (_audioSize <= PCMDATA_CACHEMAXSIZE) {
+        if (_audioSize <= PCMDATA_CACHEMAXSIZE)
+        {
             produceChunk();
         }
-        else {
+        else
+        {
             _isStreaming = true;
-            for (int i = 0; i < QUEUEBUFFER_NUM; i++) {
+            for (int i = 0; i < QUEUEBUFFER_NUM; i++)
+            {
                 produceChunk();
             }
         }
@@ -131,9 +136,11 @@ bool WAVReader::consumeChunk(AudioDataChunk& chunk)
     _isDirty = true;
 
     _rwMutex.lock();
-    if (_chnkQ.size() > 0) {
+    if (_chnkQ.size() > 0)
+    {
         chunk = _chnkQ.front();
-        if (_isStreaming) {
+        if (_isStreaming)
+        {
             _chnkQ.pop();
         }
         ret = true;
@@ -148,27 +155,32 @@ void WAVReader::produceChunk()
     _rwMutex.lock();
     size_t chunkSize = _audioSize;
 
-    do {
-        if (!_isStreaming && _chnkQ.size() || _chnkQ.size() >= QUEUEBUFFER_NUM) {
+    do
+    {
+        if (!_isStreaming && _chnkQ.size() || _chnkQ.size() >= QUEUEBUFFER_NUM)
+        {
             break;
         }
 
-        if (_isStreaming) {
+        if (_isStreaming)
+        {
             chunkSize = std::min(CHUNK_SIZE_MAX, _audioSize - _bytesRead);
         }
 
-        if (!chunkSize && !_chnkQ.size()) {
+        if (!chunkSize && !_chnkQ.size())
+        {
             auto alignment = _wfx.nChannels * _wfx.nBlockAlign;
             _bytesRead -= alignment;
             chunkSize = alignment;
         }
 
-        if (!chunkSize) {
+        if (!chunkSize)
+        {
             break;
         }
 
         unsigned int retSize = 0;
-        AudioDataChunk chunk = { 0 };
+        AudioDataChunk chunk = {0};
         chunk._data = std::make_shared<PCMBuffer>(chunkSize);
         _streamer->ReadChunk(chunk._data->data(), static_cast<unsigned int>(_bytesRead), static_cast<unsigned int>(chunkSize), &retSize);
         _bytesRead += retSize;
@@ -185,10 +197,9 @@ void WAVReader::seekTo(const float ratio)
     AudioSourceReader::seekTo(ratio);
 }
 
-
 // MP3Reader
-MP3Reader::MP3Reader() :
-_mappedWavFile("")
+MP3Reader::MP3Reader()
+: _mappedWavFile("")
 , _largeFileSupport(true)
 {
 }
@@ -204,30 +215,35 @@ bool MP3Reader::initialize(const std::string& filePath)
     HRESULT hr = S_OK;
     MFStartup(MF_VERSION);
 
-    do {
+    do
+    {
         ComPtr<IMFSourceReader> pReader;
         ComPtr<IMFMediaType> ppDecomprsdAudioType;
 
-        if (FAILED(hr = MFCreateSourceReaderFromURL(StringUtf8ToWideChar(_filePath).c_str(), NULL, &pReader))) {
+        if (FAILED(hr = MFCreateSourceReaderFromURL(StringUtf8ToWideChar(_filePath).c_str(), NULL, &pReader)))
+        {
             break;
         }
-        
+
         hr = configureSourceReader(pReader.Get(), &ppDecomprsdAudioType);
 
-        if (FAILED(hr)) {
+        if (FAILED(hr))
+        {
             break;
         }
 
         UINT32 cbFormat = 0;
-        WAVEFORMATEX *pWav = nullptr;
-        if (FAILED(hr = MFCreateWaveFormatExFromMFMediaType(ppDecomprsdAudioType.Get(), &pWav, &cbFormat))) {
+        WAVEFORMATEX* pWav = nullptr;
+        if (FAILED(hr = MFCreateWaveFormatExFromMFMediaType(ppDecomprsdAudioType.Get(), &pWav, &cbFormat)))
+        {
             break;
         }
 
         CopyMemory(&_wfx, pWav, sizeof(WAVEFORMATEX));
         CoTaskMemFree(pWav);
 
-        if (FAILED(hr = readAudioData(pReader.Get()))) {
+        if (FAILED(hr = readAudioData(pReader.Get())))
+        {
             break;
         }
 
@@ -244,9 +260,11 @@ bool MP3Reader::consumeChunk(AudioDataChunk& chunk)
     _isDirty = true;
 
     _rwMutex.lock();
-    if (_chnkQ.size() > 0) {
+    if (_chnkQ.size() > 0)
+    {
         chunk = _chnkQ.front();
-        if (_isStreaming) {
+        if (_isStreaming)
+        {
             _chnkQ.pop();
         }
         ret = true;
@@ -261,27 +279,32 @@ void MP3Reader::produceChunk()
     _rwMutex.lock();
     size_t chunkSize = _audioSize;
 
-    do {
-        if (!_isStreaming && _chnkQ.size() || _chnkQ.size() >= QUEUEBUFFER_NUM) {
+    do
+    {
+        if (!_isStreaming && _chnkQ.size() || _chnkQ.size() >= QUEUEBUFFER_NUM)
+        {
             break;
         }
 
-        if (_isStreaming) {
+        if (_isStreaming)
+        {
             chunkSize = std::min(CHUNK_SIZE_MAX, _audioSize - _bytesRead);
         }
 
-        if (!chunkSize && !_chnkQ.size()) {
+        if (!chunkSize && !_chnkQ.size())
+        {
             auto alignment = _wfx.nChannels * _wfx.nBlockAlign;
             _bytesRead -= alignment;
             chunkSize = alignment;
         }
 
-        if (!chunkSize) {
+        if (!chunkSize)
+        {
             break;
         }
 
         UINT retSize = 0;
-        AudioDataChunk chunk = { 0 };
+        AudioDataChunk chunk = {0};
         chunk._data = std::make_shared<PCMBuffer>(chunkSize);
         readFromMappedWavFile(chunk._data->data(), _bytesRead, chunkSize, &retSize);
         _bytesRead += retSize;
@@ -302,33 +325,40 @@ HRESULT MP3Reader::configureSourceReader(IMFSourceReader* pReader, IMFMediaType*
 {
     HRESULT hr = S_OK;
 
-    do {
+    do
+    {
         ComPtr<IMFMediaType> pTmpMediaType;
         ComPtr<IMFMediaType> pRetMediaType;
         pReader->SetStreamSelection(MF_SOURCE_READER_ALL_STREAMS, FALSE);
         pReader->SetStreamSelection(MF_SOURCE_READER_FIRST_AUDIO_STREAM, TRUE);
 
-        if (FAILED(hr = MFCreateMediaType(&pTmpMediaType))) {
+        if (FAILED(hr = MFCreateMediaType(&pTmpMediaType)))
+        {
             break;
         }
 
-        if (FAILED(hr = pTmpMediaType->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio))) {
+        if (FAILED(hr = pTmpMediaType->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio)))
+        {
             break;
         }
 
-        if (FAILED(hr = pTmpMediaType->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM))) {
+        if (FAILED(hr = pTmpMediaType->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM)))
+        {
             break;
         }
 
-        if (FAILED(hr = pReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, NULL, pTmpMediaType.Get()))) {
+        if (FAILED(hr = pReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, NULL, pTmpMediaType.Get())))
+        {
             break;
         }
 
-        if (FAILED(hr = pReader->GetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, &pRetMediaType))) {
+        if (FAILED(hr = pReader->GetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, &pRetMediaType)))
+        {
             break;
         }
 
-        if (FAILED(hr = pReader->SetStreamSelection(MF_SOURCE_READER_FIRST_AUDIO_STREAM, TRUE))) {
+        if (FAILED(hr = pReader->SetStreamSelection(MF_SOURCE_READER_FIRST_AUDIO_STREAM, TRUE)))
+        {
             break;
         }
 
@@ -343,13 +373,16 @@ HRESULT MP3Reader::readAudioData(IMFSourceReader* pReader)
 {
     HRESULT hr = S_OK;
 
-    do {
+    do
+    {
         PCMBuffer buffer;
 
-        if (createMappedCacheFile(_filePath, _mappedWavFile, ".dat")) {
+        if (createMappedCacheFile(_filePath, _mappedWavFile, ".dat"))
+        {
             _isStreaming = _largeFileSupport;
             _audioSize = FileUtils::getInstance()->getFileSize(_mappedWavFile);
-            if (!_largeFileSupport) {
+            if (!_largeFileSupport)
+            {
                 buffer.resize(_audioSize);
                 readFromMappedWavFile(buffer.data(), 0, _audioSize, nullptr);
                 chunkify(buffer);
@@ -367,25 +400,30 @@ HRESULT MP3Reader::readAudioData(IMFSourceReader* pReader)
             ComPtr<IMFSample> pSample;
             ComPtr<IMFMediaBuffer> pBuffer;
 
-            if (FAILED(hr = pReader->ReadSample(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, NULL, &flags, NULL, &pSample))) {
+            if (FAILED(hr = pReader->ReadSample(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, NULL, &flags, NULL, &pSample)))
+            {
                 break;
             }
 
-            if (flags & MF_SOURCE_READERF_ENDOFSTREAM) {
+            if (flags & MF_SOURCE_READERF_ENDOFSTREAM)
+            {
                 break;
             }
 
-            if (FAILED(hr = pSample->ConvertToContiguousBuffer(&pBuffer))) {
+            if (FAILED(hr = pSample->ConvertToContiguousBuffer(&pBuffer)))
+            {
                 break;
             }
 
-            if (FAILED(hr = pBuffer->Lock(&pAudioData, NULL, &cbSize))) {
+            if (FAILED(hr = pBuffer->Lock(&pAudioData, NULL, &cbSize)))
+            {
                 break;
             }
 
-            if (_largeFileSupport && _audioSize + cbSize > PCMDATA_CACHEMAXSIZE) {
-
-                if (!_isStreaming) {
+            if (_largeFileSupport && _audioSize + cbSize > PCMDATA_CACHEMAXSIZE)
+            {
+                if (!_isStreaming)
+                {
                     _isStreaming = true;
                     chunkify(buffer);
                     appendToMappedWavFile(buffer);
@@ -397,7 +435,8 @@ HRESULT MP3Reader::readAudioData(IMFSourceReader* pReader)
                 appendToMappedWavFile(buffer);
                 buffer.clear();
             }
-            else {
+            else
+            {
                 buffer.resize(_audioSize + cbSize);
                 CopyMemory(&buffer[_audioSize], pAudioData, cbSize);
             }
@@ -407,15 +446,15 @@ HRESULT MP3Reader::readAudioData(IMFSourceReader* pReader)
             pAudioData = nullptr;
         }
 
-        if (FAILED(hr)) {
+        if (FAILED(hr))
+        {
             break;
         }
 
-        if (!_isStreaming) {
+        if (!_isStreaming)
+        {
             chunkify(buffer);
-            _audioSize > PCMDATA_CACHEMAXSIZE ?
-                appendToMappedWavFile(buffer) :
-            destroyMappedCacheFile(_filePath);
+            _audioSize > PCMDATA_CACHEMAXSIZE ? appendToMappedWavFile(buffer) : destroyMappedCacheFile(_filePath);
         }
     } while (false);
 
@@ -429,7 +468,7 @@ void MP3Reader::chunkify(PCMBuffer& buffer)
 
     if (buffer.size() && _chnkQ.size() < QUEUEBUFFER_NUM)
     {
-        AudioDataChunk chunk = { 0 };
+        AudioDataChunk chunk = {0};
         size_t chunkSize = buffer.size();
         chunk._data = std::make_shared<PCMBuffer>(buffer);
         _bytesRead += chunkSize;
@@ -447,15 +486,18 @@ bool MP3Reader::appendToMappedWavFile(PCMBuffer& buffer)
     bool ret = false;
 
     _rwMutex.lock();
-    do {
+    do
+    {
         auto file = openFile(_mappedWavFile, true);
 
-        if (file.Get() == INVALID_HANDLE_VALUE) {
+        if (file.Get() == INVALID_HANDLE_VALUE)
+        {
             break;
         }
 
-        LARGE_INTEGER li = { 0 };
-        if (!SetFilePointerEx(file.Get(), li, nullptr, FILE_END)) {
+        LARGE_INTEGER li = {0};
+        if (!SetFilePointerEx(file.Get(), li, nullptr, FILE_END))
+        {
             break;
         }
 
@@ -466,19 +508,23 @@ bool MP3Reader::appendToMappedWavFile(PCMBuffer& buffer)
     return ret;
 }
 
-void MP3Reader::readFromMappedWavFile(BYTE *data, size_t offset, size_t size, UINT *pRetSize)
+void MP3Reader::readFromMappedWavFile(BYTE* data, size_t offset, size_t size, UINT* pRetSize)
 {
-    do {
+    do
+    {
         auto file = openFile(_mappedWavFile);
 
-        if (file.Get() == INVALID_HANDLE_VALUE) {
+        if (file.Get() == INVALID_HANDLE_VALUE)
+        {
             break;
         }
 
-        if (offset) {
-            LARGE_INTEGER li = { 0 };
+        if (offset)
+        {
+            LARGE_INTEGER li = {0};
             li.QuadPart = offset;
-            if (!SetFilePointerEx(file.Get(), li, nullptr, FILE_BEGIN)) {
+            if (!SetFilePointerEx(file.Get(), li, nullptr, FILE_BEGIN))
+            {
                 break;
             }
         }
@@ -489,7 +535,7 @@ void MP3Reader::readFromMappedWavFile(BYTE *data, size_t offset, size_t size, UI
 
 Wrappers::FileHandle MP3Reader::openFile(const std::string& filePath, bool append)
 {
-    CREATEFILE2_EXTENDED_PARAMETERS extParams = { 0 };
+    CREATEFILE2_EXTENDED_PARAMETERS extParams = {0};
     extParams.dwFileAttributes = FILE_ATTRIBUTE_NORMAL;
     extParams.dwFileFlags = FILE_FLAG_RANDOM_ACCESS;
     extParams.dwSecurityQosFlags = SECURITY_ANONYMOUS;
@@ -502,7 +548,6 @@ Wrappers::FileHandle MP3Reader::openFile(const std::string& filePath, bool appen
     return Microsoft::WRL::Wrappers::FileHandle(CreateFile2(StringUtf8ToWideChar(filePath).c_str(), access, FILE_SHARE_READ, creation, &extParams));
 }
 
-
 // OGGReader
 OGGReader::OGGReader()
 {
@@ -510,7 +555,8 @@ OGGReader::OGGReader()
 
 OGGReader::~OGGReader()
 {
-    if (_vorbisFd) {
+    if (_vorbisFd)
+    {
         ov_clear(_vorbisFd.get());
     }
 }
@@ -520,15 +566,18 @@ bool OGGReader::initialize(const std::string& filePath)
     bool ret = false;
     _filePath = filePath;
 
-    do {
+    do
+    {
         _vorbisFd = std::make_unique<OggVorbis_File>();
-        if (ov_fopen(FileUtils::getInstance()->getSuitableFOpen(_filePath).c_str(), _vorbisFd.get())){
+        if (ov_fopen(FileUtils::getInstance()->getSuitableFOpen(_filePath).c_str(), _vorbisFd.get()))
+        {
             break;
         }
 
-        auto  vi = ov_info(_vorbisFd.get(), -1);
+        auto vi = ov_info(_vorbisFd.get(), -1);
 
-        if (!vi) {
+        if (!vi)
+        {
             break;
         }
 
@@ -544,12 +593,15 @@ bool OGGReader::initialize(const std::string& filePath)
         _wfx.wBitsPerSample = (bytesPerFrame / vi->channels) * 8;
         _wfx.cbSize = 0;
 
-        if (_audioSize <= PCMDATA_CACHEMAXSIZE) {
+        if (_audioSize <= PCMDATA_CACHEMAXSIZE)
+        {
             produceChunk();
         }
-        else {
+        else
+        {
             _isStreaming = true;
-            for (int i = 0; i < QUEUEBUFFER_NUM; i++) {
+            for (int i = 0; i < QUEUEBUFFER_NUM; i++)
+            {
                 produceChunk();
             }
         }
@@ -566,9 +618,11 @@ bool OGGReader::consumeChunk(AudioDataChunk& chunk)
     _isDirty = true;
 
     _rwMutex.lock();
-    if (_chnkQ.size() > 0) {
+    if (_chnkQ.size() > 0)
+    {
         chunk = _chnkQ.front();
-        if (_isStreaming) {
+        if (_isStreaming)
+        {
             _chnkQ.pop();
         }
         ret = true;
@@ -583,31 +637,37 @@ void OGGReader::produceChunk()
     _rwMutex.lock();
     size_t chunkSize = _audioSize;
 
-    do {
-        if (!_isStreaming && _chnkQ.size() || _chnkQ.size() >= QUEUEBUFFER_NUM) {
+    do
+    {
+        if (!_isStreaming && _chnkQ.size() || _chnkQ.size() >= QUEUEBUFFER_NUM)
+        {
             break;
         }
 
-        if (_isStreaming) {
+        if (_isStreaming)
+        {
             chunkSize = std::min(CHUNK_SIZE_MAX, _audioSize - _bytesRead);
         }
 
-        if (!chunkSize && !_chnkQ.size()) {
+        if (!chunkSize && !_chnkQ.size())
+        {
             auto alignment = _wfx.nChannels * _wfx.nBlockAlign;
             _bytesRead -= alignment;
             chunkSize = alignment;
         }
 
-        if (!chunkSize) {
+        if (!chunkSize)
+        {
             break;
         }
 
         int retSize = 0;
-        AudioDataChunk chunk = { 0 };
+        AudioDataChunk chunk = {0};
         chunk._data = std::make_shared<PCMBuffer>(chunkSize);
-        
+
         auto newPos = (1.0f * _bytesRead / _audioSize) * ov_time_total(_vorbisFd.get(), -1);
-        if (ov_time_seek(_vorbisFd.get(), newPos)){
+        if (ov_time_seek(_vorbisFd.get(), newPos))
+        {
             break;
         }
 
@@ -615,7 +675,8 @@ void OGGReader::produceChunk()
         {
             long br = 0;
             int current_section = 0;
-            if ((br = ov_read(_vorbisFd.get(), (char*)chunk._data->data() + retSize, static_cast<int>(chunkSize) - retSize, 0, 2, 1, &current_section)) == 0) {
+            if ((br = ov_read(_vorbisFd.get(), (char*)chunk._data->data() + retSize, static_cast<int>(chunkSize) - retSize, 0, 2, 1, &current_section)) == 0)
+            {
                 break;
             }
             retSize += br;

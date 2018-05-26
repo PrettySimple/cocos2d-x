@@ -21,19 +21,17 @@
  * THE SOFTWARE.
  */
 
-
 #ifndef __jsb_opengl_manual
 #define __jsb_opengl_manual
 
 #include "scripting/js-bindings/manual/js_bindings_config.h"
 #ifdef JSB_INCLUDE_OPENGL
 
-#include "jsapi.h"
-#include "jsfriendapi.h"
+#    include "jsapi.h"
+#    include "jsfriendapi.h"
 
 // forward declaration of new functions
-bool JSB_glGetSupportedExtensions(JSContext *cx, uint32_t argc, jsval *vp);
-
+bool JSB_glGetSupportedExtensions(JSContext* cx, uint32_t argc, jsval* vp);
 
 #endif // JSB_INCLUDE_OPENGL
 

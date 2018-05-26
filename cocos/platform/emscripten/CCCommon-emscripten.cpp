@@ -1,9 +1,9 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMPSCRIPTEN
 
-#include "platform/CCCommon.h"
-#include "platform/emscripten/CCStdC-emscripten.h"
-#include "base/CCConsole.h"
+#    include "base/CCConsole.h"
+#    include "platform/CCCommon.h"
+#    include "platform/emscripten/CCStdC-emscripten.h"
 
 NS_CC_BEGIN
 

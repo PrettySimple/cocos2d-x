@@ -27,50 +27,55 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#include "AudioCache.h"
+#    include "AudioCache.h"
 
-#import <Foundation/Foundation.h>
+#    import <Foundation/Foundation.h>
 
-#include "AudioDecoder.h"
-#include "base/CCDirector.h"
-#include "base/CCScheduler.h"
+#    include "AudioDecoder.h"
+#    include "base/CCDirector.h"
+#    include "base/CCScheduler.h"
 
-#import <OpenAL/alc.h>
-#include <thread>
+#    import <OpenAL/alc.h>
+#    include <thread>
 
-#ifdef VERY_VERY_VERBOSE_LOGGING
-#define ALOGVV ALOGV
-#else
-#define ALOGVV(...) do{} while(false)
-#endif
+#    ifdef VERY_VERY_VERBOSE_LOGGING
+#        define ALOGVV ALOGV
+#    else
+#        define ALOGVV(...) \
+            do              \
+            {               \
+            } while (false)
+#    endif
 
 using namespace std::chrono_literals;
 
-namespace {
-unsigned int __idIndex = 0;
+namespace
+{
+    unsigned int __idIndex = 0;
 }
 
-#define INVALID_AL_BUFFER_ID 0xFFFFFFFF
-#define PCMDATA_CACHEMAXSIZE 1048576
+#    define INVALID_AL_BUFFER_ID 0xFFFFFFFF
+#    define PCMDATA_CACHEMAXSIZE 1048576
 
-typedef ALvoid	AL_APIENTRY	(*alBufferDataStaticProcPtr) (const ALint bid, ALenum format, ALvoid* data, ALsizei size, ALsizei freq);
-static ALvoid  alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* data, ALsizei size, ALsizei freq)
+typedef ALvoid AL_APIENTRY (*alBufferDataStaticProcPtr)(const ALint bid, ALenum format, ALvoid* data, ALsizei size, ALsizei freq);
+static ALvoid alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* data, ALsizei size, ALsizei freq)
 {
     static alBufferDataStaticProcPtr proc = nullptr;
 
-    if (proc == nullptr) {
-        proc = (alBufferDataStaticProcPtr) alcGetProcAddress(nullptr, (const ALCchar*) "alBufferDataStatic");
+    if (proc == nullptr)
+    {
+        proc = (alBufferDataStaticProcPtr)alcGetProcAddress(nullptr, (const ALCchar*)"alBufferDataStatic");
     }
 
-    if (proc){
+    if (proc)
+    {
         proc(bid, format, data, size, freq);
     }
 
     return;
 }
 
-@interface NSTimerWrapper : NSObject
-{
+@interface NSTimerWrapper : NSObject {
     std::function<void()> _timeoutCallback;
 }
 
@@ -78,19 +83,19 @@ static ALvoid  alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* da
 
 @implementation NSTimerWrapper
 
--(id) initWithTimeInterval:(double) seconds callback:(const std::function<void()>&) cb
+- (id)initWithTimeInterval:(double)seconds callback:(const std::function<void()>&)cb
 {
     if (self = [super init])
     {
         _timeoutCallback = cb;
-        NSTimer* timer = [NSTimer timerWithTimeInterval:seconds target: self selector:@selector(onTimeoutCallback:) userInfo:nil repeats:NO];
+        NSTimer* timer = [NSTimer timerWithTimeInterval:seconds target:self selector:@selector(onTimeoutCallback:) userInfo:nil repeats:NO];
         [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
     }
 
     return self;
 }
 
--(void) onTimeoutCallback: (NSTimer*) timer
+- (void)onTimeoutCallback:(NSTimer*)timer
 {
     if (_timeoutCallback != nullptr)
     {
@@ -99,7 +104,7 @@ static ALvoid  alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* da
     }
 }
 
--(void) dealloc
+- (void)dealloc
 {
     [super dealloc];
 }
@@ -151,7 +156,7 @@ AudioCache::~AudioCache()
         ALOGVV("id=%u, waiting readData thread to finish ...", _id);
         std::this_thread::sleep_for(5ms);
     }
-    //wait for the 'readDataTask' task to exit
+    // wait for the 'readDataTask' task to exit
     _readDataTaskMutex.lock();
     _readDataTaskMutex.unlock();
 
@@ -179,9 +184,7 @@ AudioCache::~AudioCache()
         // 'cpp-tests/NewAudioEngineTest/AudioSwitchStateTest' can reproduce this issue without the following fix.
         // The workaround is delaying 200ms to free pcm data.
         char* data = _pcmData;
-        setTimeout(0.2, [data](){
-            free(data);
-        });
+        setTimeout(0.2, [data]() { free(data); });
     }
 
     if (_queBufferFrames > 0)
@@ -196,7 +199,7 @@ AudioCache::~AudioCache()
 
 void AudioCache::readDataTask(unsigned int selfId)
 {
-    //Note: It's in sub thread
+    // Note: It's in sub thread
     ALOGVV("readDataTask, cache id=%u", selfId);
 
     _readDataTaskMutex.lock();
@@ -272,7 +275,8 @@ void AudioCache::readDataTask(unsigned int selfId)
 
             alGenBuffers(1, &_alBufferId);
             auto alError = alGetError();
-            if (alError != AL_NO_ERROR) {
+            if (alError != AL_NO_ERROR)
+            {
                 ALOGE("%s: attaching audio to buffer fail: %x", __PRETTY_FUNCTION__, alError);
                 break;
             }
@@ -312,7 +316,8 @@ void AudioCache::readDataTask(unsigned int selfId)
             {
                 memset(_pcmData + _framesRead * bytesPerFrame, 0x00, (totalFrames - _framesRead) * bytesPerFrame);
             }
-            ALOGV("pcm buffer was loaded successfully, total frames: %u, total read frames: %u, adjust frames: %u, remainingFrames: %u", totalFrames, _framesRead, adjustFrames, remainingFrames);
+            ALOGV("pcm buffer was loaded successfully, total frames: %u, total read frames: %u, adjust frames: %u, remainingFrames: %u", totalFrames,
+                  _framesRead, adjustFrames, remainingFrames);
 
             _framesRead += adjustFrames;
         }
@@ -338,7 +343,7 @@ void AudioCache::readDataTask(unsigned int selfId)
 
     decoder.close();
 
-    //FIXME: Why to invoke play callback first? Should it be after 'load' callback?
+    // FIXME: Why to invoke play callback first? Should it be after 'load' callback?
     invokingPlayCallbacks();
     invokingLoadCallbacks();
 
@@ -424,7 +429,7 @@ void AudioCache::invokingLoadCallbacks()
 
     auto isDestroyed = _isDestroyed;
     auto scheduler = Director::getInstance()->getScheduler();
-    scheduler->performFunctionInCocosThread([this](){
+    scheduler->performFunctionInCocosThread([this]() {
         if (*_isDestroyed)
         {
             ALOGV("invokingLoadCallbacks perform in cocos thread, AudioCache (%p) was destroyed!", this);
@@ -435,7 +440,7 @@ void AudioCache::invokingLoadCallbacks()
         // so we copy them before iterating over
         auto copyLoadCallbacks = _loadCallbacks;
         _loadCallbacks.clear();
-        
+
         for (auto&& cb : copyLoadCallbacks)
         {
             cb(_state == State::READY);

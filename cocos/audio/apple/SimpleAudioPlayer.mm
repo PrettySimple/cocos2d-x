@@ -7,15 +7,15 @@
 
 #define LOG_TAG "SimpleAudioPlayer.mm"
 
-#include "AudioCache.h"
 #include "SimpleAudioPlayer.h"
+#include "AudioCache.h"
 #include "audio/include/SimpleAudioEngine.h"
-
 
 using namespace cocos2d;
 using namespace cocos2d::experimental;
 
-SimpleAudioPlayer::SimpleAudioPlayer(std::string filePath) : AudioPlayer()
+SimpleAudioPlayer::SimpleAudioPlayer(std::string filePath)
+: AudioPlayer()
 , _filePath(filePath)
 {
     _streamingSource = true;
@@ -23,7 +23,6 @@ SimpleAudioPlayer::SimpleAudioPlayer(std::string filePath) : AudioPlayer()
 
 SimpleAudioPlayer::~SimpleAudioPlayer()
 {
-    
 }
 
 void SimpleAudioPlayer::destroy()
@@ -39,7 +38,8 @@ bool SimpleAudioPlayer::play2d()
     return true;
 }
 
-bool SimpleAudioPlayer::setLoop(bool loop) {
+bool SimpleAudioPlayer::setLoop(bool loop)
+{
     _loop = loop;
     if (!_isDestroyed)
     {
@@ -48,17 +48,20 @@ bool SimpleAudioPlayer::setLoop(bool loop) {
     }
     return false;
 }
-void SimpleAudioPlayer::setVolume(float volume) {
+void SimpleAudioPlayer::setVolume(float volume)
+{
     _volume = volume;
     CocosDenshion::SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(volume);
 }
 
-bool SimpleAudioPlayer::pause() {
+bool SimpleAudioPlayer::pause()
+{
     CocosDenshion::SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
     return true;
 }
 
-bool SimpleAudioPlayer::resume() {
+bool SimpleAudioPlayer::resume()
+{
     CocosDenshion::SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
     return true;
 }

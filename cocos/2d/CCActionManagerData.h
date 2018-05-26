@@ -38,12 +38,9 @@ class ActionManagerData
 
     struct element_less
     {
-        constexpr bool operator()(Element const& a, Element const& b) const
-        {
-            return a.index < b.index;
-        }
+        constexpr bool operator()(Element const& a, Element const& b) const { return a.index < b.index; }
     };
-    
+
     using data_t = std::set<Element, element_less>;
     using action_t = std::unordered_map<Action*, typename data_t::key_type const&>;
     using target_t = std::unordered_multimap<Node*, typename data_t::key_type const&>;
@@ -52,6 +49,7 @@ class ActionManagerData
     action_t _actions; // weak ref
     target_t _targets; // weak ref
     std::size_t _index = 0;
+
 public:
     void pause_target(Node* target);
     void resume_target(Node* target);

@@ -1,18 +1,18 @@
 ﻿/****************************************************************************
  Copyright (c) 2014 cocos2d-x.org
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -30,10 +30,11 @@
 namespace flatbuffers
 {
     class FlatBufferBuilder;
-    template<typename T> struct Offset;
-    
+    template <typename T>
+    struct Offset;
+
     class Table;
-}
+} // namespace flatbuffers
 
 namespace tinyxml2
 {
@@ -50,14 +51,14 @@ namespace cocostudio
     class CC_STUDIO_DLL NodeReaderProtocol
     {
     public:
-        NodeReaderProtocol() {};
-        virtual ~NodeReaderProtocol() {};
-        
-        virtual flatbuffers::Offset<flatbuffers::Table> createOptionsWithFlatBuffers(const tinyxml2::XMLElement* objectData,
-                                                                                     flatbuffers::FlatBufferBuilder* builder) = 0;
+        NodeReaderProtocol(){};
+        virtual ~NodeReaderProtocol(){};
+
+        virtual flatbuffers::Offset<flatbuffers::Table>
+        createOptionsWithFlatBuffers(const tinyxml2::XMLElement* objectData, flatbuffers::FlatBufferBuilder* builder) = 0;
         virtual void setPropsWithFlatBuffers(cocos2d::Node* node, const flatbuffers::Table* nodeOptions) = 0;
         virtual cocos2d::Node* createNodeWithFlatBuffers(const flatbuffers::Table* nodeOptions) = 0;
     };
-}
+} // namespace cocostudio
 
 #endif /* defined(__cocos2d_libs__NodeReaderProtocol__) */

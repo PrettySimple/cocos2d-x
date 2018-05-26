@@ -1,7 +1,7 @@
 #include "editor-support/cocostudio/LocalizationManager.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCFileUtils.h"
 #include "editor-support/cocostudio/CSLanguageDataBinary_generated.h"
+#include "platform/CCFileUtils.h"
+#include "platform/CCPlatformMacros.h"
 
 using namespace cocostudio;
 using namespace cocos2d;
@@ -28,7 +28,7 @@ void JsonLocalizationManager::destroyInstance()
 }
 
 JsonLocalizationManager::JsonLocalizationManager()
-    :languageData(nullptr)
+: languageData(nullptr)
 {
 }
 
@@ -60,14 +60,11 @@ std::string JsonLocalizationManager::getLocalizationString(std::string key)
 {
     std::string result = key;
 
-    if (languageData && languageData->HasMember(key.c_str()) &&
-        (*languageData)[key.c_str()].IsString())
+    if (languageData && languageData->HasMember(key.c_str()) && (*languageData)[key.c_str()].IsString())
         result = (*languageData)[key.c_str()].GetString();
 
     return result;
 }
-
-
 
 static BinLocalizationManager* _sharedBinLocalizationManager = nullptr;
 
@@ -140,8 +137,6 @@ std::string BinLocalizationManager::getLocalizationString(std::string key)
     return result;
 }
 
-
-
 static bool isCurrentBinManager = true;
 static ILocalizationManager* _sharedLocalizationManager = nullptr;
 
@@ -152,7 +147,7 @@ ILocalizationManager* LocalizationHelper::getCurrentManager()
         _sharedLocalizationManager = BinLocalizationManager::getInstance();
         isCurrentBinManager = true;
     }
-    
+
     return _sharedLocalizationManager;
 }
 

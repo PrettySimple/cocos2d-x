@@ -26,62 +26,64 @@ THE SOFTWARE.
 
 #include "audio/android/utils/Errors.h"
 
-#include <thread>
-#include <mutex>
-#include <condition_variable>
 #include <atomic>
+#include <condition_variable>
+#include <mutex>
+#include <thread>
 #include <vector>
 
-namespace cocos2d { namespace experimental {
-
-class Track;
-class AudioMixer;
-
-class AudioMixerController
+namespace cocos2d
 {
-public:
-
-    struct OutputBuffer
+    namespace experimental
     {
-        void* buf;
-        size_t size;
-    };
+        class Track;
+        class AudioMixer;
 
-    AudioMixerController(int bufferSizeInFrames, int sampleRate, int channelCount);
+        class AudioMixerController
+        {
+        public:
+            struct OutputBuffer
+            {
+                void* buf;
+                size_t size;
+            };
 
-    ~AudioMixerController();
+            AudioMixerController(int bufferSizeInFrames, int sampleRate, int channelCount);
 
-    bool init();
+            ~AudioMixerController();
 
-    bool addTrack(Track* track);
-    bool hasPlayingTacks();
+            bool init();
 
-    void pause();
-    void resume();
-    inline bool isPaused() const { return _isPaused; };
+            bool addTrack(Track* track);
+            bool hasPlayingTacks();
 
-    void mixOneFrame();
+            void pause();
+            void resume();
+            inline bool isPaused() const { return _isPaused; };
 
-    inline OutputBuffer* current() { return &_mixingBuffer; }
+            void mixOneFrame();
 
-private:
-    void destroy();
-    void initTrack(Track* track, std::vector<Track*>& tracksToRemove);
+            inline OutputBuffer* current() { return &_mixingBuffer; }
 
-private:
-    int _bufferSizeInFrames;
-    int _sampleRate;
-    int _channelCount;
+        private:
+            void destroy();
+            void initTrack(Track* track, std::vector<Track*>& tracksToRemove);
 
-    AudioMixer* _mixer;
+        private:
+            int _bufferSizeInFrames;
+            int _sampleRate;
+            int _channelCount;
 
-    std::mutex _activeTracksMutex;
-    std::vector<Track*> _activeTracks;
+            AudioMixer* _mixer;
 
-    OutputBuffer _mixingBuffer;
+            std::mutex _activeTracksMutex;
+            std::vector<Track*> _activeTracks;
 
-    std::atomic_bool _isPaused;
-    std::atomic_bool _isMixingFrame;
-};
+            OutputBuffer _mixingBuffer;
 
-}} // namespace cocos2d { namespace experimental {
+            std::atomic_bool _isPaused;
+            std::atomic_bool _isMixingFrame;
+        };
+
+    } // namespace experimental
+} // namespace cocos2d

@@ -38,9 +38,9 @@ TableView* TableView::create(TableViewDataSource* dataSource, Size size)
     return TableView::create(dataSource, size, nullptr);
 }
 
-TableView* TableView::create(TableViewDataSource* dataSource, Size size, Node *container)
+TableView* TableView::create(TableViewDataSource* dataSource, Size size, Node* container)
 {
-    TableView *table = new (std::nothrow) TableView();
+    TableView* table = new (std::nothrow) TableView();
     table->initWithViewSize(size, container);
     table->autorelease();
     table->setDataSource(dataSource);
@@ -50,13 +50,13 @@ TableView* TableView::create(TableViewDataSource* dataSource, Size size, Node *c
     return table;
 }
 
-bool TableView::initWithViewSize(Size size, Node* container/* = nullptr*/)
+bool TableView::initWithViewSize(Size size, Node* container /* = nullptr*/)
 {
-    if (ScrollView::initWithViewSize(size,container))
+    if (ScrollView::initWithViewSize(size, container))
     {
         CC_SAFE_DELETE(_indices);
-        _indices        = new (std::nothrow) std::set<ssize_t>();
-        _vordering      = VerticalFillOrder::BOTTOM_UP;
+        _indices = new (std::nothrow) std::set<ssize_t>();
+        _vordering = VerticalFillOrder::BOTTOM_UP;
         this->setDirection(Direction::VERTICAL);
 
         ScrollView::setDelegate(this);
@@ -73,7 +73,6 @@ TableView::TableView()
 , _oldDirection(Direction::NONE)
 , _isUsedCellsDirty(false)
 {
-
 }
 
 TableView::~TableView()
@@ -102,13 +101,15 @@ void TableView::reloadData()
 {
     _oldDirection = Direction::NONE;
 
-    for(const auto &cell : _cellsUsed) {
-        if(_tableViewDelegate != nullptr) {
+    for (const auto& cell : _cellsUsed)
+    {
+        if (_tableViewDelegate != nullptr)
+        {
             _tableViewDelegate->tableCellWillRecycle(this, cell);
         }
 
         _cellsFreed.pushBack(cell);
-        
+
         cell->reset();
         if (cell->getParent() == this->getContainer())
         {
@@ -118,7 +119,7 @@ void TableView::reloadData()
 
     _indices->clear();
     _cellsUsed.clear();
-    
+
     this->_updateCellPositions();
     this->_updateContentSize();
     if (_dataSource->numberOfCellsInTableView(this) > 0)
@@ -127,7 +128,7 @@ void TableView::reloadData()
     }
 }
 
-TableViewCell *TableView::cellAtIndex(ssize_t idx)
+TableViewCell* TableView::cellAtIndex(ssize_t idx)
 {
     if (_indices->find(idx) != _indices->end())
     {
@@ -150,7 +151,7 @@ void TableView::updateCellAtIndex(ssize_t idx)
         return;
     }
     long countOfItems = _dataSource->numberOfCellsInTableView(this);
-    if (0 == countOfItems || idx > countOfItems-1)
+    if (0 == countOfItems || idx > countOfItems - 1)
     {
         return;
     }
@@ -173,7 +174,7 @@ void TableView::insertCellAtIndex(ssize_t idx)
     }
 
     long countOfItems = _dataSource->numberOfCellsInTableView(this);
-    if (0 == countOfItems || idx > countOfItems-1)
+    if (0 == countOfItems || idx > countOfItems - 1)
     {
         return;
     }
@@ -188,11 +189,11 @@ void TableView::insertCellAtIndex(ssize_t idx)
         for (long i = newIdx; i < _cellsUsed.size(); i++)
         {
             cell = _cellsUsed.at(i);
-            this->_setIndexForCell(cell->getIdx()+1, cell);
+            this->_setIndexForCell(cell->getIdx() + 1, cell);
         }
     }
 
-    //insert a new cell
+    // insert a new cell
     cell = _dataSource->tableCellAtIndex(this, idx);
     this->_setIndexForCell(idx, cell);
     this->_addCellIfNecessary(cell);
@@ -209,7 +210,7 @@ void TableView::removeCellAtIndex(ssize_t idx)
     }
 
     long uCountOfItems = _dataSource->numberOfCellsInTableView(this);
-    if (0 == uCountOfItems || idx > uCountOfItems-1)
+    if (0 == uCountOfItems || idx > uCountOfItems - 1)
     {
         return;
     }
@@ -224,26 +225,29 @@ void TableView::removeCellAtIndex(ssize_t idx)
 
     newIdx = _cellsUsed.getIndex(cell);
 
-    //remove first
+    // remove first
     this->_moveCellOutOfSight(cell);
 
     _indices->erase(idx);
     this->_updateCellPositions();
 
-    for (ssize_t i = _cellsUsed.size()-1; i > newIdx; i--)
+    for (ssize_t i = _cellsUsed.size() - 1; i > newIdx; i--)
     {
         cell = _cellsUsed.at(i);
-        this->_setIndexForCell(cell->getIdx()-1, cell);
+        this->_setIndexForCell(cell->getIdx() - 1, cell);
     }
 }
 
-TableViewCell *TableView::dequeueCell()
+TableViewCell* TableView::dequeueCell()
 {
-    TableViewCell *cell;
+    TableViewCell* cell;
 
-    if (_cellsFreed.empty()) {
+    if (_cellsFreed.empty())
+    {
         cell = nullptr;
-    } else {
+    }
+    else
+    {
         cell = _cellsFreed.at(0);
         cell->retain();
         _cellsFreed.erase(0);
@@ -252,7 +256,7 @@ TableViewCell *TableView::dequeueCell()
     return cell;
 }
 
-void TableView::_addCellIfNecessary(TableViewCell * cell)
+void TableView::_addCellIfNecessary(TableViewCell* cell)
 {
     if (cell->getParent() != this->getContainer())
     {
@@ -285,19 +289,18 @@ void TableView::_updateContentSize()
 
     this->setContentSize(size);
 
-	if (_oldDirection != _direction)
-	{
-		if (_direction == Direction::HORIZONTAL)
-		{
-			this->setContentOffset(Vec2(0,0));
-		}
-		else
-		{
-			this->setContentOffset(Vec2(0,this->minContainerOffset().y));
-		}
-		_oldDirection = _direction;
-	}
-
+    if (_oldDirection != _direction)
+    {
+        if (_direction == Direction::HORIZONTAL)
+        {
+            this->setContentOffset(Vec2(0, 0));
+        }
+        else
+        {
+            this->setContentOffset(Vec2(0, this->minContainerOffset().y));
+        }
+        _oldDirection = _direction;
+    }
 }
 
 Vec2 TableView::_offsetFromIndex(ssize_t index)
@@ -315,7 +318,7 @@ Vec2 TableView::_offsetFromIndex(ssize_t index)
 Vec2 TableView::__offsetFromIndex(ssize_t index)
 {
     Vec2 offset;
-    Size  cellSize;
+    Size cellSize;
 
     switch (this->getDirection())
     {
@@ -387,33 +390,35 @@ long TableView::__indexFromOffset(Vec2 offset)
         }
     }
 
-    if (low <= 0) {
+    if (low <= 0)
+    {
         return 0;
     }
 
     return -1;
 }
 
-void TableView::_moveCellOutOfSight(TableViewCell *cell)
+void TableView::_moveCellOutOfSight(TableViewCell* cell)
 {
-    if(_tableViewDelegate != nullptr) {
+    if (_tableViewDelegate != nullptr)
+    {
         _tableViewDelegate->tableCellWillRecycle(this, cell);
     }
 
     _cellsFreed.pushBack(cell);
     _cellsUsed.eraseObject(cell);
     _isUsedCellsDirty = true;
-    
+
     _indices->erase(cell->getIdx());
     cell->reset();
-    
+
     if (cell->getParent() == this->getContainer())
     {
         this->getContainer()->removeChild(cell, true);
     }
 }
 
-void TableView::_setIndexForCell(ssize_t index, TableViewCell *cell)
+void TableView::_setIndexForCell(ssize_t index, TableViewCell* cell)
 {
     cell->setAnchorPoint(Vec2(0.0f, 0.0f));
     cell->setPosition(this->_offsetFromIndex(index));
@@ -429,7 +434,7 @@ void TableView::_updateCellPositions()
     {
         float currentPos = 0;
         Size cellSize;
-        for (int i=0; i < cellsCount; i++)
+        for (int i = 0; i < cellsCount; i++)
         {
             _vCellsPositions[i] = currentPos;
             cellSize = _dataSource->tableCellSizeForIndex(this, i);
@@ -443,9 +448,8 @@ void TableView::_updateCellPositions()
                     break;
             }
         }
-        _vCellsPositions[cellsCount] = currentPos;//1 extra value allows us to get right/bottom of the last cell
+        _vCellsPositions[cellsCount] = currentPos; // 1 extra value allows us to get right/bottom of the last cell
     }
-
 }
 
 void TableView::scrollViewDidScroll(ScrollView* view)
@@ -459,44 +463,43 @@ void TableView::scrollViewDidScroll(ScrollView* view)
     if (_isUsedCellsDirty)
     {
         _isUsedCellsDirty = false;
-        std::sort(_cellsUsed.begin(), _cellsUsed.end(), [](TableViewCell *a, TableViewCell *b) -> bool{
-            return a->getIdx() < b->getIdx();
-        });
+        std::sort(_cellsUsed.begin(), _cellsUsed.end(), [](TableViewCell* a, TableViewCell* b) -> bool { return a->getIdx() < b->getIdx(); });
     }
-    
-    if(_tableViewDelegate != nullptr) {
+
+    if (_tableViewDelegate != nullptr)
+    {
         _tableViewDelegate->scrollViewDidScroll(this);
     }
 
     ssize_t startIdx = 0, endIdx = 0, idx = 0, maxIdx = 0;
     Vec2 offset = this->getContentOffset() * -1;
-    maxIdx = MAX(countOfItems-1, 0);
+    maxIdx = MAX(countOfItems - 1, 0);
 
     if (_vordering == VerticalFillOrder::TOP_DOWN)
     {
-        offset.y = offset.y + _viewSize.height/this->getContainer()->getScaleY();
+        offset.y = offset.y + _viewSize.height / this->getContainer()->getScaleY();
     }
     startIdx = this->_indexFromOffset(offset);
-	if (startIdx == CC_INVALID_INDEX)
-	{
-		startIdx = countOfItems - 1;
-	}
+    if (startIdx == CC_INVALID_INDEX)
+    {
+        startIdx = countOfItems - 1;
+    }
 
     if (_vordering == VerticalFillOrder::TOP_DOWN)
     {
-        offset.y -= _viewSize.height/this->getContainer()->getScaleY();
+        offset.y -= _viewSize.height / this->getContainer()->getScaleY();
     }
     else
     {
-        offset.y += _viewSize.height/this->getContainer()->getScaleY();
+        offset.y += _viewSize.height / this->getContainer()->getScaleY();
     }
-    offset.x += _viewSize.width/this->getContainer()->getScaleX();
+    offset.x += _viewSize.width / this->getContainer()->getScaleX();
 
-    endIdx   = this->_indexFromOffset(offset);
+    endIdx = this->_indexFromOffset(offset);
     if (endIdx == CC_INVALID_INDEX)
-	{
-		endIdx = countOfItems - 1;
-	}
+    {
+        endIdx = countOfItems - 1;
+    }
 
 #if 0 // For Testing.
     Ref* pObj;
@@ -522,8 +525,8 @@ void TableView::scrollViewDidScroll(ScrollView* view)
     {
         auto cell = _cellsUsed.at(0);
         idx = cell->getIdx();
-        
-        while(idx < startIdx)
+
+        while (idx < startIdx)
         {
             this->_moveCellOutOfSight(cell);
             if (!_cellsUsed.empty())
@@ -542,7 +545,7 @@ void TableView::scrollViewDidScroll(ScrollView* view)
         auto cell = _cellsUsed.back();
         idx = cell->getIdx();
 
-        while(idx <= maxIdx && idx > endIdx)
+        while (idx <= maxIdx && idx > endIdx)
         {
             this->_moveCellOutOfSight(cell);
             if (!_cellsUsed.empty())
@@ -567,17 +570,19 @@ void TableView::scrollViewDidScroll(ScrollView* view)
     }
 }
 
-void TableView::onTouchEnded(Touch *pTouch, Event *pEvent)
+void TableView::onTouchEnded(Touch* pTouch, Event* pEvent)
 {
-    if (!this->isVisible()) {
+    if (!this->isVisible())
+    {
         return;
     }
 
-    if (_touchedCell){
-		Rect bb = this->getBoundingBox();
-		bb.origin = _parent->convertToWorldSpace(bb.origin);
+    if (_touchedCell)
+    {
+        Rect bb = this->getBoundingBox();
+        bb.origin = _parent->convertToWorldSpace(bb.origin);
 
-		if (bb.containsPoint(pTouch->getLocation()) && _tableViewDelegate != nullptr)
+        if (bb.containsPoint(pTouch->getLocation()) && _tableViewDelegate != nullptr)
         {
             _tableViewDelegate->tableCellUnhighlight(this, _touchedCell);
             _tableViewDelegate->tableCellTouched(this, _touchedCell);
@@ -589,9 +594,9 @@ void TableView::onTouchEnded(Touch *pTouch, Event *pEvent)
     ScrollView::onTouchEnded(pTouch, pEvent);
 }
 
-bool TableView::onTouchBegan(Touch *pTouch, Event *pEvent)
+bool TableView::onTouchBegan(Touch* pTouch, Event* pEvent)
 {
-    for (Node *c = this; c != nullptr; c = c->getParent())
+    for (Node* c = this; c != nullptr; c = c->getParent())
     {
         if (!c->isVisible())
         {
@@ -601,7 +606,7 @@ bool TableView::onTouchBegan(Touch *pTouch, Event *pEvent)
 
     bool touchResult = ScrollView::onTouchBegan(pTouch, pEvent);
 
-    if(_touches.size() == 1)
+    if (_touches.size() == 1)
     {
         long index;
         Vec2 point;
@@ -609,14 +614,14 @@ bool TableView::onTouchBegan(Touch *pTouch, Event *pEvent)
         point = this->getContainer()->convertTouchToNodeSpace(pTouch);
 
         index = this->_indexFromOffset(point);
-		if (index == CC_INVALID_INDEX)
-		{
-			_touchedCell = nullptr;
-		}
+        if (index == CC_INVALID_INDEX)
+        {
+            _touchedCell = nullptr;
+        }
         else
-		{
-			_touchedCell  = this->cellAtIndex(index);
-		}
+        {
+            _touchedCell = this->cellAtIndex(index);
+        }
 
         if (_touchedCell && _tableViewDelegate != nullptr)
         {
@@ -625,7 +630,7 @@ bool TableView::onTouchBegan(Touch *pTouch, Event *pEvent)
     }
     else if (_touchedCell)
     {
-        if(_tableViewDelegate != nullptr)
+        if (_tableViewDelegate != nullptr)
         {
             _tableViewDelegate->tableCellUnhighlight(this, _touchedCell);
         }
@@ -636,13 +641,13 @@ bool TableView::onTouchBegan(Touch *pTouch, Event *pEvent)
     return touchResult;
 }
 
-void TableView::onTouchMoved(Touch *pTouch, Event *pEvent)
+void TableView::onTouchMoved(Touch* pTouch, Event* pEvent)
 {
     ScrollView::onTouchMoved(pTouch, pEvent);
 
     if (_touchedCell && isTouchMoved())
     {
-        if(_tableViewDelegate != nullptr)
+        if (_tableViewDelegate != nullptr)
         {
             _tableViewDelegate->tableCellUnhighlight(this, _touchedCell);
         }
@@ -651,13 +656,13 @@ void TableView::onTouchMoved(Touch *pTouch, Event *pEvent)
     }
 }
 
-void TableView::onTouchCancelled(Touch *pTouch, Event *pEvent)
+void TableView::onTouchCancelled(Touch* pTouch, Event* pEvent)
 {
     ScrollView::onTouchCancelled(pTouch, pEvent);
 
     if (_touchedCell)
     {
-        if(_tableViewDelegate != nullptr)
+        if (_tableViewDelegate != nullptr)
         {
             _tableViewDelegate->tableCellUnhighlight(this, _touchedCell);
         }

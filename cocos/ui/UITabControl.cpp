@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,26 +22,25 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCFileUtils.h"
-#include "2d/CCSprite.h"
-#include "2d/CCLabel.h"
-#include "ui/UILayout.h"
 #include "ui/UITabControl.h"
+#include "2d/CCLabel.h"
+#include "2d/CCSprite.h"
+#include "platform/CCFileUtils.h"
+#include "ui/UILayout.h"
 
 NS_CC_BEGIN
 
 namespace ui
 {
-
     TabControl::TabControl()
-        : _selectedItem(nullptr)
-        , _headerHeight(20)
-        , _headerWidth(50)
-        , _headerDockPlace(Dock::TOP)
-        , _containerPosition(Vec2::ZERO)
-        , _containerSize(Size::ZERO)
-        , _currentHeaderZoom(0.1f)
-        , _ignoreHeaderTextureSize(true)
+    : _selectedItem(nullptr)
+    , _headerHeight(20)
+    , _headerWidth(50)
+    , _headerDockPlace(Dock::TOP)
+    , _containerPosition(Vec2::ZERO)
+    , _containerSize(Size::ZERO)
+    , _currentHeaderZoom(0.1f)
+    , _ignoreHeaderTextureSize(true)
     {
         this->_anchorPoint = Vec2(0.f, 0.f);
         setContentSize(Size(200, 200));
@@ -145,10 +144,7 @@ namespace ui
         initTabHeadersPos(index);
     }
 
-    size_t TabControl::getTabCount() const
-    {
-        return _tabItems.size();
-    }
+    size_t TabControl::getTabCount() const { return _tabItems.size(); }
 
     void TabControl::setHeaderWidth(float headerWidth)
     {
@@ -184,28 +180,27 @@ namespace ui
         }
     }
 
-
     cocos2d::Vec2 TabControl::getHeaderAnchorWithDock() const
     {
         Vec2 anpoint(.5f, .0f);
         switch (_headerDockPlace)
         {
-        case Dock::TOP:
-            break;
-        case Dock::LEFT:
-            anpoint.x = 1.f;
-            anpoint.y = .5f;
-            break;
-        case Dock::BOTTOM:
-            anpoint.x = .5f;
-            anpoint.y = 1.f;
-            break;
-        case Dock::RIGHT:
-            anpoint.x = 0.f;
-            anpoint.y = .5f;
-            break;
-        default:
-            break;
+            case Dock::TOP:
+                break;
+            case Dock::LEFT:
+                anpoint.x = 1.f;
+                anpoint.y = .5f;
+                break;
+            case Dock::BOTTOM:
+                anpoint.x = .5f;
+                anpoint.y = 1.f;
+                break;
+            case Dock::RIGHT:
+                anpoint.x = 0.f;
+                anpoint.y = .5f;
+                break;
+            default:
+                break;
         }
         return anpoint;
     }
@@ -227,31 +222,31 @@ namespace ui
         Vec2 deltaPos(0.f, 0.f);
         switch (_headerDockPlace)
         {
-        case Dock::TOP:
-            deltaPos.x = _headerWidth;
-            break;
-        case Dock::LEFT:
-            originX = _headerWidth;
-            originY = _contentSize.height - _headerHeight * .5f;
-            deltaPos.y = 0 - _headerHeight;
-            break;
-        case Dock::BOTTOM:
-            originY = _headerHeight;
-            deltaPos.x = _headerWidth;
-            break;
-        case Dock::RIGHT:
-            originX = _contentSize.width - _headerWidth;
-            originY = _contentSize.height - _headerHeight * .5f;
-            deltaPos.y = 0 - _headerHeight;
-            break;
-        default:
-            break;
+            case Dock::TOP:
+                deltaPos.x = _headerWidth;
+                break;
+            case Dock::LEFT:
+                originX = _headerWidth;
+                originY = _contentSize.height - _headerHeight * .5f;
+                deltaPos.y = 0 - _headerHeight;
+                break;
+            case Dock::BOTTOM:
+                originY = _headerHeight;
+                deltaPos.x = _headerWidth;
+                break;
+            case Dock::RIGHT:
+                originX = _contentSize.width - _headerWidth;
+                originY = _contentSize.height - _headerHeight * .5f;
+                deltaPos.y = 0 - _headerHeight;
+                break;
+            default:
+                break;
         }
 
         for (int cellI = startIndex; cellI < cellSize; cellI++)
         {
             auto headerCell = _tabItems.at(cellI)->header;
-            headerCell->setPosition(Vec2(originX + cellI* deltaPos.x, originY + cellI * deltaPos.y));
+            headerCell->setPosition(Vec2(originX + cellI * deltaPos.x, originY + cellI * deltaPos.y));
         }
     }
 
@@ -259,24 +254,24 @@ namespace ui
     {
         switch (_headerDockPlace)
         {
-        case Dock::TOP:
-            _containerPosition = Vec2(0, 0);
-            _containerSize = Size(_contentSize.width, _contentSize.height - _headerHeight);
-            break;
-        case Dock::LEFT:
-            _containerPosition = Vec2(_headerWidth, 0);
-            _containerSize = Size(_contentSize.width - _headerWidth, _contentSize.height);
-            break;
-        case Dock::BOTTOM:
-            _containerPosition = Vec2(0, _headerHeight);
-            _containerSize = Size(_contentSize.width, _contentSize.height - _headerHeight);
-            break;
-        case Dock::RIGHT:
-            _containerPosition = Vec2(0, 0);
-            _containerSize = Size(_contentSize.width - _headerWidth, _contentSize.height);
-            break;
-        default:
-            break;
+            case Dock::TOP:
+                _containerPosition = Vec2(0, 0);
+                _containerSize = Size(_contentSize.width, _contentSize.height - _headerHeight);
+                break;
+            case Dock::LEFT:
+                _containerPosition = Vec2(_headerWidth, 0);
+                _containerSize = Size(_contentSize.width - _headerWidth, _contentSize.height);
+                break;
+            case Dock::BOTTOM:
+                _containerPosition = Vec2(0, _headerHeight);
+                _containerSize = Size(_contentSize.width, _contentSize.height - _headerHeight);
+                break;
+            case Dock::RIGHT:
+                _containerPosition = Vec2(0, 0);
+                _containerSize = Size(_contentSize.width - _headerWidth, _contentSize.height);
+                break;
+            default:
+                break;
         }
 
         for (auto& tabItem : _tabItems)
@@ -339,10 +334,7 @@ namespace ui
         }
     }
 
-    void TabControl::setTabChangedEventListener(const ccTabControlCallback& callback)
-    {
-        _tabChangedCallback = callback;
-    }
+    void TabControl::setTabChangedEventListener(const ccTabControlCallback& callback) { _tabChangedCallback = callback; }
 
     int TabControl::indexOfTabHeader(const TabHeader* tabCell) const
     {
@@ -369,10 +361,7 @@ namespace ui
         return nullptr;
     }
 
-    void TabControl::setSelectTab(int index)
-    {
-        dispatchSelectedTabChanged(index, TabHeader::EventType::SELECTED);
-    }
+    void TabControl::setSelectTab(int index) { dispatchSelectedTabChanged(index, TabHeader::EventType::SELECTED); }
 
     void TabControl::setSelectTab(TabHeader* tabHeader)
     {
@@ -419,7 +408,6 @@ namespace ui
         }
     }
 
-
     void TabControl::copySpecialProperties(Widget* model)
     {
         auto srcTab = dynamic_cast<TabControl*>(model);
@@ -453,17 +441,14 @@ namespace ui
         }
     }
 
-    int TabControl::getSelectedTabIndex() const
-    {
-        return _selectedItem == nullptr ? -1 : indexOfTabHeader(_selectedItem->header);
-    }
+    int TabControl::getSelectedTabIndex() const { return _selectedItem == nullptr ? -1 : indexOfTabHeader(_selectedItem->header); }
 
     TabHeader::TabHeader()
-        : _tabLabelRender(nullptr)
-        , _tabLabelFontSize(12)
-        , _tabView(nullptr)
-        , _tabSelectedEvent(nullptr)
-        , _fontType(FontType::SYSTEM)
+    : _tabLabelRender(nullptr)
+    , _tabLabelFontSize(12)
+    , _tabView(nullptr)
+    , _tabSelectedEvent(nullptr)
+    , _fontType(FontType::SYSTEM)
     {
     }
 
@@ -474,7 +459,7 @@ namespace ui
         _tabSelectedEvent = nullptr;
     }
 
-    TabHeader * TabHeader::create()
+    TabHeader* TabHeader::create()
     {
         TabHeader* tabcell = new (std::nothrow) TabHeader();
         if (tabcell != nullptr && tabcell->init())
@@ -488,17 +473,10 @@ namespace ui
         return nullptr;
     }
 
-    TabHeader * TabHeader::create(const std::string& titleStr,
-        const std::string & backGround,
-        const std::string & cross, TextureResType texType)
+    TabHeader* TabHeader::create(const std::string& titleStr, const std::string& backGround, const std::string& cross, TextureResType texType)
     {
-        TabHeader *tabcell = new (std::nothrow) TabHeader;
-        if (tabcell && tabcell->init(backGround,
-            "",
-            cross,
-            "",
-            "",
-            texType))
+        TabHeader* tabcell = new (std::nothrow) TabHeader;
+        if (tabcell && tabcell->init(backGround, "", cross, "", "", texType))
         {
             tabcell->_frontCrossRenderer->setVisible(false);
             tabcell->_tabLabelRender->setString(titleStr);
@@ -510,21 +488,12 @@ namespace ui
         return nullptr;
     }
 
-    TabHeader* TabHeader::create(const std::string& titleStr,
-        const std::string& backGround,
-        const std::string& backGroundSelected,
-        const std::string& cross,
-        const std::string& backGroundDisabled,
-        const std::string& frontCrossDisabled,
-        TextureResType texType /*= TextureResType::LOCAL*/)
+    TabHeader* TabHeader::create(const std::string& titleStr, const std::string& backGround, const std::string& backGroundSelected, const std::string& cross,
+                                 const std::string& backGroundDisabled, const std::string& frontCrossDisabled,
+                                 TextureResType texType /*= TextureResType::LOCAL*/)
     {
-        TabHeader *tabcell = new (std::nothrow) TabHeader;
-        if (tabcell && tabcell->init(backGround,
-            backGroundSelected,
-            cross,
-            backGroundDisabled,
-            frontCrossDisabled,
-            texType))
+        TabHeader* tabcell = new (std::nothrow) TabHeader;
+        if (tabcell && tabcell->init(backGround, backGroundSelected, cross, backGroundDisabled, frontCrossDisabled, texType))
         {
             tabcell->_frontCrossRenderer->setVisible(false);
             tabcell->_tabLabelRender->setString(titleStr);
@@ -574,10 +543,7 @@ namespace ui
         return _tabLabelRender->getString();
     }
 
-    void TabHeader::setTitleColor(const Color4B& color)
-    {
-        _tabLabelRender->setTextColor(color);
-    }
+    void TabHeader::setTitleColor(const Color4B& color) { _tabLabelRender->setTextColor(color); }
 
     const Color4B& TabHeader::getTitleColor() const
     {
@@ -601,24 +567,20 @@ namespace ui
             config.fontSize = _tabLabelFontSize;
             _tabLabelRender->setTTFConfig(config);
         }
-        //we can't change font size of BMFont.
+        // we can't change font size of BMFont.
         if (FontType::BMFONT != _fontType)
         {
             updateContentSize();
         }
     }
 
-    float TabHeader::getTitleFontSize() const
-    {
-        return _tabLabelFontSize;
-    }
+    float TabHeader::getTitleFontSize() const { return _tabLabelFontSize; }
 
     void TabHeader::updateContentSize()
     {
         ProtectedNode::setContentSize(_customSize);
         onSizeChanged();
     }
-
 
     void TabHeader::setTitleFontName(const std::string& fontName)
     {
@@ -653,10 +615,7 @@ namespace ui
         this->updateContentSize();
     }
 
-    Label* TabHeader::getTitleRenderer()const
-    {
-        return _tabLabelRender;
-    }
+    Label* TabHeader::getTitleRenderer() const { return _tabLabelRender; }
 
     const std::string TabHeader::getTitleFontName() const
     {
@@ -666,7 +625,7 @@ namespace ui
         }
         else if (this->_fontType == FontType::TTF)
         {
-            return  _tabLabelRender->getTTFConfig().fontFilePath;
+            return _tabLabelRender->getTTFConfig().fontFilePath;
         }
         else
         {
@@ -731,5 +690,5 @@ namespace ui
         }
     }
 
-}
+} // namespace ui
 NS_CC_END

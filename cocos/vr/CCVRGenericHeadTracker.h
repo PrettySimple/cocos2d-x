@@ -26,9 +26,9 @@
 #ifndef CCVRGenericHeadTracker_hpp
 #define CCVRGenericHeadTracker_hpp
 
-#include "vr/CCVRProtocol.h"
-#include "math/Vec3.h"
 #include "math/Mat4.h"
+#include "math/Vec3.h"
+#include "vr/CCVRProtocol.h"
 
 NS_CC_BEGIN
 

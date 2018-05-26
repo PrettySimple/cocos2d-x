@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -35,13 +35,13 @@ const float PUScaleAffector::DEFAULT_Z_SCALE = 1.0f;
 const float PUScaleAffector::DEFAULT_XYZ_SCALE = 1.0f;
 
 //-----------------------------------------------------------------------
-PUScaleAffector::PUScaleAffector(void) : 
-    PUAffector(),
-    _dynScaleXSet(false),
-    _dynScaleYSet(false),
-    _dynScaleZSet(false),
-    _dynScaleXYZSet(false),
-    _sinceStartSystem(false)
+PUScaleAffector::PUScaleAffector(void)
+: PUAffector()
+, _dynScaleXSet(false)
+, _dynScaleYSet(false)
+, _dynScaleZSet(false)
+, _dynScaleXYZSet(false)
+, _sinceStartSystem(false)
 {
     _dynScaleX = new (std::nothrow) PUDynamicAttributeFixed();
     _dynScaleY = new (std::nothrow) PUDynamicAttributeFixed();
@@ -83,7 +83,7 @@ void PUScaleAffector::setDynScaleX(PUDynamicAttribute* dynScaleX)
     _dynScaleXSet = true;
 }
 //-----------------------------------------------------------------------
-    void PUScaleAffector::resetDynScaleX(bool resetToDefault)
+void PUScaleAffector::resetDynScaleX(bool resetToDefault)
 {
     if (resetToDefault)
     {
@@ -111,7 +111,6 @@ void PUScaleAffector::resetDynScaleY(bool resetToDefault)
 {
     if (resetToDefault)
     {
-
         CC_SAFE_DELETE(_dynScaleY);
         _dynScaleY = new (std::nothrow) PUDynamicAttributeFixed();
         (static_cast<PUDynamicAttributeFixed*>(_dynScaleY))->setValue(DEFAULT_X_SCALE);
@@ -179,7 +178,7 @@ float PUScaleAffector::calculateScale(PUDynamicAttribute* dynScale, PUParticle3D
     if (_sinceStartSystem)
     {
         // If control points are used (curved type), the first value of each control point is seconds from the start of the system
-        return _dynamicAttributeHelper.calculate(dynScale, (static_cast<PUParticleSystem3D *>(_particleSystem))->getTimeElapsedSinceStart());
+        return _dynamicAttributeHelper.calculate(dynScale, (static_cast<PUParticleSystem3D*>(_particleSystem))->getTimeElapsedSinceStart());
     }
     else
     {
@@ -188,15 +187,14 @@ float PUScaleAffector::calculateScale(PUDynamicAttribute* dynScale, PUParticle3D
     }
 }
 
-void PUScaleAffector::updatePUAffector( PUParticle3D *particle, float deltaTime )
+void PUScaleAffector::updatePUAffector(PUParticle3D* particle, float deltaTime)
 {
-
     //// Only continue if the particle is a visual particle
-    //if (particle->particleType != Particle::PT_VISUAL)
+    // if (particle->particleType != Particle::PT_VISUAL)
     //	return;
-    //for (auto iter : _particleSystem->getParticles())
+    // for (auto iter : _particleSystem->getParticles())
     {
-        //PUParticle3D *particle = iter;
+        // PUParticle3D *particle = iter;
         float ds = 0;
         float width = 0;
         float height = 0;
@@ -255,7 +253,6 @@ void PUScaleAffector::updatePUAffector( PUParticle3D *particle, float deltaTime 
             particle->setOwnDimensions(width, height, depth);
         }
     }
-
 }
 
 PUScaleAffector* PUScaleAffector::create()
@@ -265,7 +262,7 @@ PUScaleAffector* PUScaleAffector::create()
     return psa;
 }
 
-void PUScaleAffector::copyAttributesTo( PUAffector* affector )
+void PUScaleAffector::copyAttributesTo(PUAffector* affector)
 {
     PUAffector::copyAttributesTo(affector);
 

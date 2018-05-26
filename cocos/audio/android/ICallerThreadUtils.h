@@ -26,16 +26,18 @@ THE SOFTWARE.
 #include <functional>
 #include <thread>
 
-namespace cocos2d { namespace experimental {
-
-class ICallerThreadUtils
+namespace cocos2d
 {
-public:
-    virtual ~ICallerThreadUtils()
-    { };
+    namespace experimental
+    {
+        class ICallerThreadUtils
+        {
+        public:
+            virtual ~ICallerThreadUtils(){};
 
-    virtual void performFunctionInCallerThread(const std::function<void()>& func) = 0;
-    virtual std::thread::id getCallerThreadId() = 0;
-};
+            virtual void performFunctionInCallerThread(const std::function<void()>& func) = 0;
+            virtual std::thread::id getCallerThreadId() = 0;
+        };
 
-}} // namespace cocos2d { namespace experimental {
+    } // namespace experimental
+} // namespace cocos2d

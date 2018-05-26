@@ -35,20 +35,20 @@ NS_CC_BEGIN
 
 bool isWindowsPhone();
 
-CC_DEPRECATED_ATTRIBUTE std::wstring CC_DLL CCUtf8ToUnicode(const char * pszUtf8Str, unsigned len = -1);
+CC_DEPRECATED_ATTRIBUTE std::wstring CC_DLL CCUtf8ToUnicode(const char* pszUtf8Str, unsigned len = -1);
 CC_DEPRECATED_ATTRIBUTE std::string CC_DLL CCUnicodeToUtf8(const wchar_t* pwszStr);
 
 std::wstring CC_DLL StringUtf8ToWideChar(const std::string& strUtf8);
 std::string CC_DLL StringWideCharToUtf8(const std::wstring& strWideChar);
 
-Platform::Object^ findXamlElement(Platform::Object^ parent, Platform::String^ name);
-bool removeXamlElement(Platform::Object^ parent, Platform::Object^ element);
-bool replaceXamlElement(Platform::Object^ parent, Platform::Object^ add, Platform::Object^ remove);
+Platform::Object ^ findXamlElement(Platform::Object ^ parent, Platform::String ^ name);
+bool removeXamlElement(Platform::Object ^ parent, Platform::Object ^ element);
+bool replaceXamlElement(Platform::Object ^ parent, Platform::Object ^ add, Platform::Object ^ remove);
 
-std::string PlatformStringToString(Platform::String^ s);
-Platform::String^ PlatformStringFromString(const std::string& s);
+std::string PlatformStringToString(Platform::String ^ s);
+Platform::String ^ PlatformStringFromString(const std::string& s);
 
-Concurrency::task<Platform::Array<byte>^> ReadDataAsync(Platform::String^ path);
+Concurrency::task<Platform::Array<byte> ^> ReadDataAsync(Platform::String ^ path);
 
 void CC_DLL CCLogIPAddresses();
 

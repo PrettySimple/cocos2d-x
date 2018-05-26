@@ -22,42 +22,40 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include <list>
 #include <fstream>
 #include <iostream>
+#include <list>
 #include <sstream>
 
+#include "3d/CCBundle3D.h"
+#include "3d/CCMesh.h"
 #include "3d/CCMeshVertexIndexData.h"
 #include "3d/CCObjLoader.h"
 #include "3d/CCSprite3DMaterial.h"
-#include "3d/CCMesh.h"
-#include "3d/CCBundle3D.h"
 
-#include "base/ccMacros.h"
-#include "base/CCEventCustom.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventType.h"
 #include "base/CCDirector.h"
+#include "base/CCEventCustom.h"
+#include "base/CCEventDispatcher.h"
+#include "base/CCEventListenerCustom.h"
+#include "base/CCEventType.h"
+#include "base/ccMacros.h"
 #include "renderer/ccGLStateCache.h"
-
 
 using namespace std;
 
 NS_CC_BEGIN
 
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 MeshIndexData* MeshIndexData::create(const std::string& id, MeshVertexData* vertexData, IndexBuffer* indexbuffer, const AABB& aabb)
 {
     auto meshindex = new (std::nothrow) MeshIndexData();
-    
+
     meshindex->_id = id;
     meshindex->_indexBuffer = indexbuffer;
     meshindex->_vertexData = vertexData;
     indexbuffer->retain();
     meshindex->_aabb = aabb;
-    
+
     meshindex->autorelease();
     return meshindex;
 }
@@ -72,7 +70,6 @@ MeshIndexData::MeshIndexData()
 , _vertexData(nullptr)
 , _primitiveType(GL_TRIANGLES)
 {
-    
 }
 MeshIndexData::~MeshIndexData()
 {
@@ -87,23 +84,24 @@ MeshVertexData* MeshVertexData::create(const MeshData& meshdata)
     vertexdata->_vertexData = VertexData::create();
     CC_SAFE_RETAIN(vertexdata->_vertexData);
     CC_SAFE_RETAIN(vertexdata->_vertexBuffer);
-    
+
     int offset = 0;
-    for (const auto& it : meshdata.attribs) {
+    for (const auto& it : meshdata.attribs)
+    {
         vertexdata->_vertexData->setStream(vertexdata->_vertexBuffer, VertexStreamAttribute(offset, it.vertexAttrib, it.type, it.size));
         offset += it.attribSizeBytes;
     }
-    
+
     vertexdata->_attribs = meshdata.attribs;
-    
-    if(vertexdata->_vertexBuffer)
+
+    if (vertexdata->_vertexBuffer)
     {
         vertexdata->_vertexBuffer->updateVertices((void*)&meshdata.vertex[0], (int)meshdata.vertex.size() * 4 / vertexdata->_vertexBuffer->getSizePerVertex(), 0);
     }
-    
-    bool needCalcAABB = (meshdata.subMeshAABB.size() != meshdata.subMeshIndices.size());
-    for (size_t i = 0; i < meshdata.subMeshIndices.size(); i++) {
 
+    bool needCalcAABB = (meshdata.subMeshAABB.size() != meshdata.subMeshIndices.size());
+    for (size_t i = 0; i < meshdata.subMeshIndices.size(); i++)
+    {
         auto& index = meshdata.subMeshIndices[i];
         auto indexBuffer = IndexBuffer::create(IndexBuffer::IndexType::INDEX_TYPE_SHORT_16, (int)(index.size()));
         indexBuffer->updateIndices(&index[0], (int)index.size(), 0);
@@ -116,17 +114,18 @@ MeshVertexData* MeshVertexData::create(const MeshData& meshdata)
         }
         else
             indexdata = MeshIndexData::create(id, vertexdata, indexBuffer, meshdata.subMeshAABB[i]);
-        
+
         vertexdata->_indexs.pushBack(indexdata);
     }
-    
+
     vertexdata->autorelease();
     return vertexdata;
 }
 
 MeshIndexData* MeshVertexData::getMeshIndexDataById(const std::string& id) const
 {
-    for (auto it : _indexs) {
+    for (auto it : _indexs)
+    {
         if (it->getId() == id)
             return it;
     }
@@ -135,7 +134,8 @@ MeshIndexData* MeshVertexData::getMeshIndexDataById(const std::string& id) const
 
 bool MeshVertexData::hasVertexAttrib(int attrib) const
 {
-    for (const auto& it : _attribs) {
+    for (const auto& it : _attribs)
+    {
         if (it.vertexAttrib == attrib)
             return true;
     }
@@ -147,7 +147,6 @@ MeshVertexData::MeshVertexData()
 , _vertexBuffer(nullptr)
 , _vertexCount(0)
 {
-    
 }
 MeshVertexData::~MeshVertexData()
 {

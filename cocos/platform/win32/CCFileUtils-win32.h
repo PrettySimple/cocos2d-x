@@ -28,11 +28,11 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 
-#include "platform/CCFileUtils.h"
-#include "platform/CCPlatformMacros.h"
-#include "base/ccTypes.h"
-#include <string>
-#include <vector>
+#    include "base/ccTypes.h"
+#    include "platform/CCFileUtils.h"
+#    include "platform/CCPlatformMacros.h"
+#    include <string>
+#    include <vector>
 
 NS_CC_BEGIN
 
@@ -45,71 +45,72 @@ NS_CC_BEGIN
 class CC_DLL FileUtilsWin32 : public FileUtils
 {
     friend class FileUtils;
+
 protected:
     FileUtilsWin32();
+
 public:
     /* override functions */
     bool init();
     virtual std::string getWritablePath() const override;
     virtual bool isAbsolutePath(const std::string& strPath) const override;
     virtual std::string getSuitableFOpen(const std::string& filenameUtf8) const override;
-    virtual long getFileSize(const std::string &filepath);
-protected:
+    virtual long getFileSize(const std::string& filepath);
 
+protected:
     virtual bool isFileExistInternal(const std::string& strFilePath) const override;
 
     /**
-    *  Renames a file under the given directory.
-    *
-    *  @param path     The parent directory path of the file, it must be an absolute path.
-    *  @param oldname  The current name of the file.
-    *  @param name     The new name of the file.
-    *  @return True if the file have been renamed successfully, false if not.
-    */
-    virtual bool renameFile(const std::string &path, const std::string &oldname, const std::string &name) override;
+     *  Renames a file under the given directory.
+     *
+     *  @param path     The parent directory path of the file, it must be an absolute path.
+     *  @param oldname  The current name of the file.
+     *  @param name     The new name of the file.
+     *  @return True if the file have been renamed successfully, false if not.
+     */
+    virtual bool renameFile(const std::string& path, const std::string& oldname, const std::string& name) override;
 
     /**
-    *  Renames a file under the given directory.
-    *
-    *  @param oldfullpath  The current path + name of the file.
-    *  @param newfullpath  The new path + name of the file.
-    *  @return True if the file have been renamed successfully, false if not.
-    */
-    virtual bool renameFile(const std::string &oldfullpath, const std::string &newfullpath) override;
+     *  Renames a file under the given directory.
+     *
+     *  @param oldfullpath  The current path + name of the file.
+     *  @param newfullpath  The new path + name of the file.
+     *  @return True if the file have been renamed successfully, false if not.
+     */
+    virtual bool renameFile(const std::string& oldfullpath, const std::string& newfullpath) override;
 
     /**
-    *  Checks whether a directory exists without considering search paths and resolution orders.
-    *  @param dirPath The directory (with absolute path) to look up for
-    *  @return Returns true if the directory found at the given absolute path, otherwise returns false
-    */
+     *  Checks whether a directory exists without considering search paths and resolution orders.
+     *  @param dirPath The directory (with absolute path) to look up for
+     *  @return Returns true if the directory found at the given absolute path, otherwise returns false
+     */
     virtual bool isDirectoryExistInternal(const std::string& dirPath) const override;
 
     /**
-    *  Removes a file.
-    *
-    *  @param filepath The full path of the file, it must be an absolute path.
-    *  @return True if the file have been removed successfully, false if not.
-    */
-    virtual bool removeFile(const std::string &filepath) override;
+     *  Removes a file.
+     *
+     *  @param filepath The full path of the file, it must be an absolute path.
+     *  @return True if the file have been removed successfully, false if not.
+     */
+    virtual bool removeFile(const std::string& filepath) override;
 
     /**
-    *  Creates a directory.
-    *
-    *  @param dirPath The path of the directory, it must be an absolute path.
-    *  @return True if the directory have been created successfully, false if not.
-    */
+     *  Creates a directory.
+     *
+     *  @param dirPath The path of the directory, it must be an absolute path.
+     *  @return True if the directory have been created successfully, false if not.
+     */
     virtual bool createDirectory(const std::string& dirPath) override;
 
     /**
-    *  Removes a directory.
-    *
-    *  @param dirPath  The full path of the directory, it must be an absolute path.
-    *  @return True if the directory have been removed successfully, false if not.
-    */
+     *  Removes a directory.
+     *
+     *  @param dirPath  The full path of the directory, it must be an absolute path.
+     *  @return True if the directory have been removed successfully, false if not.
+     */
     virtual bool removeDirectory(const std::string& dirPath) override;
 
-
-	virtual FileUtils::Status getContents(const std::string& filename, ResizableBuffer* buffer) override;
+    virtual FileUtils::Status getContents(const std::string& filename, ResizableBuffer* buffer) override;
 
     /**
      *  Gets full path for filename, resolution directory and search path.
@@ -141,4 +142,4 @@ NS_CC_END
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 
-#endif    // __CC_FILEUTILS_WIN32_H__
+#endif // __CC_FILEUTILS_WIN32_H__

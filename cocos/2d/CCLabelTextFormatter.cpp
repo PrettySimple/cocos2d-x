@@ -23,12 +23,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "2d/CCLabel.h"
-#include <vector>
-#include "base/ccUTF8.h"
-#include "base/CCDirector.h"
 #include "2d/CCFontAtlas.h"
 #include "2d/CCFontFNT.h"
+#include "2d/CCLabel.h"
+#include "base/CCDirector.h"
+#include "base/ccUTF8.h"
+#include <vector>
 
 NS_CC_BEGIN
 
@@ -37,38 +37,38 @@ void Label::computeAlignmentOffset()
     _linesOffsetX.clear();
     switch (_hAlignment)
     {
-    case cocos2d::TextHAlignment::LEFT:
-        _linesOffsetX.assign(_numberOfLines, 0);
-        break;
-    case cocos2d::TextHAlignment::CENTER:
-        for (auto lineWidth : _linesWidth)
-        {
-            _linesOffsetX.push_back((_contentSize.width - lineWidth) / 2.f);
-        }
-        break;
-    case cocos2d::TextHAlignment::RIGHT:
-        for (auto lineWidth : _linesWidth)
-        {
-            _linesOffsetX.push_back(_contentSize.width - lineWidth);
-        }
-        break;
-    default:
-        break;
+        case cocos2d::TextHAlignment::LEFT:
+            _linesOffsetX.assign(_numberOfLines, 0);
+            break;
+        case cocos2d::TextHAlignment::CENTER:
+            for (auto lineWidth : _linesWidth)
+            {
+                _linesOffsetX.push_back((_contentSize.width - lineWidth) / 2.f);
+            }
+            break;
+        case cocos2d::TextHAlignment::RIGHT:
+            for (auto lineWidth : _linesWidth)
+            {
+                _linesOffsetX.push_back(_contentSize.width - lineWidth);
+            }
+            break;
+        default:
+            break;
     }
 
     switch (_vAlignment)
     {
-    case cocos2d::TextVAlignment::TOP:
-        _letterOffsetY = _contentSize.height;
-        break;
-    case cocos2d::TextVAlignment::CENTER:
-        _letterOffsetY = (_contentSize.height + _textDesiredHeight) / 2.f;
-        break;
-    case cocos2d::TextVAlignment::BOTTOM:
-        _letterOffsetY = _textDesiredHeight;
-        break;
-    default:
-        break;
+        case cocos2d::TextVAlignment::TOP:
+            _letterOffsetY = _contentSize.height;
+            break;
+        case cocos2d::TextVAlignment::CENTER:
+            _letterOffsetY = (_contentSize.height + _textDesiredHeight) / 2.f;
+            break;
+        case cocos2d::TextVAlignment::BOTTOM:
+            _letterOffsetY = _textDesiredHeight;
+            break;
+        default:
+            break;
     }
 }
 
@@ -98,11 +98,11 @@ int Label::getFirstWordLen(const std::u16string& utf16Text, int startIndex, int 
         }
 
         auto letterX = (nextLetterX + letterDef.offsetX * _bmfontScale) / contentScaleFactor;
-        if (_maxLineWidth > 0.f && letterX + letterDef.width * _bmfontScale > _maxLineWidth
-            && !StringUtils::isUnicodeSpace(character))
+        if (_maxLineWidth > 0.f && letterX + letterDef.width * _bmfontScale > _maxLineWidth && !StringUtils::isUnicodeSpace(character))
         {
-            if(len >= 2) {
-                return len -1;
+            if (len >= 2)
+            {
+                return len - 1;
             }
         }
 
@@ -121,11 +121,14 @@ int Label::getFirstWordLen(const std::u16string& utf16Text, int startIndex, int 
 void Label::updateBMFontScale()
 {
     auto font = _fontAtlas->getFont();
-    if (_currentLabelType == LabelType::BMFONT) {
-        FontFNT *bmFont = (FontFNT*)font;
+    if (_currentLabelType == LabelType::BMFONT)
+    {
+        FontFNT* bmFont = (FontFNT*)font;
         float originalFontSize = bmFont->getOriginalFontSize();
         _bmfontScale = _bmFontSize * CC_CONTENT_SCALE_FACTOR() / originalFontSize;
-    }else{
+    }
+    else
+    {
         _bmfontScale = 1.0f;
     }
 }
@@ -149,7 +152,7 @@ bool Label::multilineTextWrap(const std::function<int(const std::u16string&, int
 
     this->updateBMFontScale();
 
-    for (int index = 0; index < textLen; )
+    for (int index = 0; index < textLen;)
     {
         auto character = _utf16Text[index];
         if (character == (char16_t)TextFormatter::NewLine)
@@ -158,7 +161,7 @@ bool Label::multilineTextWrap(const std::function<int(const std::u16string&, int
             letterRight = 0.f;
             lineIndex++;
             nextTokenX = 0.f;
-            nextTokenY -= _lineHeight*_bmfontScale + lineSpacing;
+            nextTokenY -= _lineHeight * _bmfontScale + lineSpacing;
             recordPlaceholderInfo(index, character);
             index++;
             continue;
@@ -170,7 +173,7 @@ bool Label::multilineTextWrap(const std::function<int(const std::u16string&, int
         float tokenRight = letterRight;
         float nextLetterX = nextTokenX;
         bool newLine = false;
-        for (int tmp = 0; tmp < tokenLen;++tmp)
+        for (int tmp = 0; tmp < tokenLen; ++tmp)
         {
             int letterIndex = index + tmp;
             character = _utf16Text[letterIndex];
@@ -194,14 +197,14 @@ bool Label::multilineTextWrap(const std::function<int(const std::u16string&, int
             }
 
             auto letterX = (nextLetterX + letterDef.offsetX * _bmfontScale) / contentScaleFactor;
-            if (_enableWrap && _maxLineWidth > 0.f && nextTokenX > 0.f && letterX + letterDef.width * _bmfontScale > _maxLineWidth
-                && !StringUtils::isUnicodeSpace(character) && nextChangeSize)
+            if (_enableWrap && _maxLineWidth > 0.f && nextTokenX > 0.f && letterX + letterDef.width * _bmfontScale > _maxLineWidth &&
+                !StringUtils::isUnicodeSpace(character) && nextChangeSize)
             {
                 _linesWidth.push_back(letterRight);
                 letterRight = 0.f;
                 lineIndex++;
                 nextTokenX = 0.f;
-                nextTokenY -= (_lineHeight*_bmfontScale + lineSpacing);
+                nextTokenY -= (_lineHeight * _bmfontScale + lineSpacing);
                 newLine = true;
                 break;
             }
@@ -299,25 +302,28 @@ bool Label::isHorizontalClamp()
         {
             auto& letterDef = _fontAtlas->_letterDefinitions[_lettersInfo[ctr].utf16Char];
 
-            auto px = _lettersInfo[ctr].positionX + letterDef.width/2 * _bmfontScale;
+            auto px = _lettersInfo[ctr].positionX + letterDef.width / 2 * _bmfontScale;
             auto lineIndex = _lettersInfo[ctr].lineIndex;
 
-            if(_labelWidth > 0.f){
-                if(!this->_enableWrap){
-                    if (px > _contentSize.width) {
+            if (_labelWidth > 0.f)
+            {
+                if (!this->_enableWrap)
+                {
+                    if (px > _contentSize.width)
+                    {
                         letterClamp = true;
                         break;
                     }
                 }
-                else{
+                else
+                {
                     auto wordWidth = this->_linesWidth[lineIndex];
-                    if(wordWidth > this->_contentSize.width && (px > _contentSize.width)){
+                    if (wordWidth > this->_contentSize.width && (px > _contentSize.width))
+                    {
                         letterClamp = true;
                         break;
                     }
-
                 }
-
             }
         }
     }
@@ -334,11 +340,13 @@ void Label::shrinkLabelToContentSize(const std::function<bool(void)>& lambda)
     auto tempLetterDefinition = letterDefinition;
     float originalLineHeight = _lineHeight;
     bool flag = true;
-    while (lambda()) {
+    while (lambda())
+    {
         ++i;
         float newFontSize = fontSize - i;
         flag = false;
-        if (newFontSize <= 0) {
+        if (newFontSize <= 0)
+        {
             break;
         }
         float scale = newFontSize / fontSize;
@@ -359,8 +367,10 @@ void Label::shrinkLabelToContentSize(const std::function<bool(void)>& lambda)
     this->setLineHeight(originalLineHeight);
     std::swap(_fontAtlas->_letterDefinitions, letterDefinition);
 
-    if (!flag) {
-        if (fontSize - i >= 0) {
+    if (!flag)
+    {
+        if (fontSize - i >= 0)
+        {
             this->scaleFontSizeDown(fontSize - i);
         }
     }

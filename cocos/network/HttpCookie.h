@@ -26,8 +26,8 @@
 #define HTTP_COOKIE_H
 /// @cond DO_NOT_SHOW
 
-#include<string>
-#include<vector>
+#include <string>
+#include <vector>
 
 struct CookiesInfo
 {
@@ -48,7 +48,7 @@ public:
     void writeFile();
     void setCookieFileName(const std::string& fileName);
 
-    const std::vector<CookiesInfo>* getCookies()const;
+    const std::vector<CookiesInfo>* getCookies() const;
     const CookiesInfo* getMatchCookie(const std::string& url) const;
     void updateOrAddCookie(CookiesInfo* cookie);
 
@@ -59,4 +59,3 @@ private:
 
 /// @endcond
 #endif /* HTTP_COOKIE_H */
-

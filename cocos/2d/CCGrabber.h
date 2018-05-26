@@ -2,7 +2,7 @@
 Copyright (c) 2009      On-Core
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (C) 2013-2016 Chukong Technologies Inc.
- 
+
 http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -54,11 +54,11 @@ public:
      */
     ~Grabber(void);
     /**Init the grab structure, will set the texture as the FBO color attachment.*/
-    void grab(Texture2D *texture);
+    void grab(Texture2D* texture);
     /**Begin capture the screen, which will save the old FBO, clear color, and set the new FBO, clear the background.*/
-    void beforeRender(Texture2D *texture);
+    void beforeRender(Texture2D* texture);
     /**After capture, will reset the old FBO and clear color.*/
-    void afterRender(Texture2D *texture);
+    void afterRender(Texture2D* texture);
 
 protected:
     GLuint _FBO;

@@ -22,7 +22,6 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-
 #ifndef __CCRENDERCOMMAND_H_
 #define __CCRENDERCOMMAND_H_
 
@@ -74,16 +73,16 @@ public:
      @param flags Flag used to indicate whether the command should be draw at 3D mode or not.
      */
     virtual void init(float globalZOrder, const Mat4& modelViewTransform, std::uint32_t flags);
-    
+
     /** Get global Z order. */
     inline float getGlobalOrder() const noexcept { return _globalOrder; }
 
     /** Returns the Command type. */
     inline Type getType() const noexcept { return _type; }
-    
+
     /** Returns whether is transparent. */
     inline bool isTransparent() const noexcept { return _isTransparent; }
-    
+
     /** Set transparent flag. */
     inline void setTransparent(bool isTransparent) noexcept { _isTransparent = isTransparent; }
     /**
@@ -98,17 +97,17 @@ public:
     inline void set3D(bool value) noexcept { _is3D = value; }
     /**Get the depth by current model view matrix.*/
     inline float getDepth() const noexcept { return _depth; }
-    
+
 protected:
     RenderCommand() = default;
     RenderCommand(Type _type);
     RenderCommand(RenderCommand const&) = default;
     RenderCommand& operator=(RenderCommand const&) = delete;
-    RenderCommand(RenderCommand &&) noexcept = default;
-    RenderCommand& operator=(RenderCommand &&) noexcept = delete;
+    RenderCommand(RenderCommand&&) noexcept = default;
+    RenderCommand& operator=(RenderCommand&&) noexcept = delete;
     virtual ~RenderCommand();
 
-    //used for debug but it is not implemented.
+    // used for debug but it is not implemented.
     void printID();
 
 protected:

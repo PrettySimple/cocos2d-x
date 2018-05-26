@@ -23,10 +23,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
 #include "platform/emscripten/CCStdC-emscripten.h"
+#include "platform/CCPlatformConfig.h"
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
-
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN

@@ -19,7 +19,8 @@
 
 NS_CC_BEGIN
 
-ActionManagerData::Element::Element(Node* t, Action* a, bool p, std::size_t i) : target(t)
+ActionManagerData::Element::Element(Node* t, Action* a, bool p, std::size_t i)
+: target(t)
 , action(a)
 , paused(p)
 , index(i)
@@ -93,12 +94,12 @@ void ActionManagerData::remove_all_actions()
 {
     std::vector<std::reference_wrapper<Element const>> tmp;
     tmp.reserve(_data.size());
-    for (auto const& ele :_data)
+    for (auto const& ele : _data)
     {
         tmp.emplace_back(std::cref(ele));
     }
 
-    for (auto const& ele :tmp)
+    for (auto const& ele : tmp)
     {
         remove_element(ele);
     }
@@ -116,9 +117,8 @@ void ActionManagerData::remove_action(Action* action)
 void ActionManagerData::remove_action_from_target_by_tag(Node* target, int tag)
 {
     auto search_target = _targets.equal_range(target);
-    auto search_action = std::find_if(search_target.first, search_target.second, [tag](typename target_t::value_type const& ele) {
-        return ele.second.action->getTag() == tag;
-    });
+    auto search_action =
+        std::find_if(search_target.first, search_target.second, [tag](typename target_t::value_type const& ele) { return ele.second.action->getTag() == tag; });
     if (search_action != search_target.second)
     {
         remove_element(search_action->second);
@@ -174,9 +174,8 @@ void ActionManagerData::remove_all_actions_from_target_by_flag(Node* target, uns
 Action* ActionManagerData::get_action_from_target_by_tag(Node* target, int tag) const noexcept
 {
     auto search_target = _targets.equal_range(target);
-    auto search_action = std::find_if(search_target.first, search_target.second, [tag](typename target_t::value_type const& ele) {
-        return ele.second.action->getTag() == tag;
-    });
+    auto search_action =
+        std::find_if(search_target.first, search_target.second, [tag](typename target_t::value_type const& ele) { return ele.second.action->getTag() == tag; });
     if (search_action != search_target.second)
     {
         return search_action->second.action;

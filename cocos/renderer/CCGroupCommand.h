@@ -22,7 +22,6 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-
 #ifndef _CC_GROUPCOMMAND_H_
 #define _CC_GROUPCOMMAND_H_
 
@@ -45,17 +44,18 @@ NS_CC_BEGIN
 class CC_DLL GroupCommand final : public RenderCommand
 {
     std::size_t _renderQueueID = std::numeric_limits<std::size_t>::max();
+
 public:
     GroupCommand();
     GroupCommand(GroupCommand const&) = delete;
     GroupCommand& operator=(GroupCommand const&) = delete;
-    GroupCommand(GroupCommand &&) noexcept = delete;
-    GroupCommand& operator=(GroupCommand &&) noexcept = delete;
+    GroupCommand(GroupCommand&&) noexcept = delete;
+    GroupCommand& operator=(GroupCommand&&) noexcept = delete;
     ~GroupCommand() final;
-    
+
     /**Init function for group command*/
     void init(float globalOrder);
-    
+
     /**called by renderer, get the group ID.*/
     inline std::size_t getRenderQueueID() const noexcept { return _renderQueueID; }
 };

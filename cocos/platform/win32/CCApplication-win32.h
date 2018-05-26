@@ -28,10 +28,10 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 
-#include "platform/CCStdC.h"
-#include "platform/CCCommon.h"
-#include "platform/CCApplicationProtocol.h"
-#include <string>
+#    include "platform/CCApplicationProtocol.h"
+#    include "platform/CCCommon.h"
+#    include "platform/CCStdC.h"
+#    include <string>
 
 NS_CC_BEGIN
 
@@ -63,18 +63,18 @@ public:
 
     /** @deprecated Use getInstance() instead */
     CC_DEPRECATED_ATTRIBUTE static Application* sharedApplication();
-    
+
     /* override functions */
     virtual void setAnimationInterval(float interval);
     virtual LanguageType getCurrentLanguage();
 
-    virtual const char * getCurrentLanguageCode();
-    
+    virtual const char* getCurrentLanguageCode();
+
     /**
      @brief Get target platform
      */
     virtual Platform getTargetPlatform();
-    
+
     /**
     @brief Get application version
     */
@@ -85,7 +85,7 @@ public:
      @param String with url to open.
      @return true if the resource located by the URL was successfully opened; otherwise false.
      */
-    virtual bool openURL(const std::string &url);
+    virtual bool openURL(const std::string& url);
 
     /**
      *  Sets the Resource root path.
@@ -93,31 +93,28 @@ public:
      */
     CC_DEPRECATED_ATTRIBUTE void setResourceRootPath(const std::string& rootResDir);
 
-    /** 
+    /**
      *  Gets the Resource root path.
-     *  @deprecated Please use FileUtils::getInstance()->getSearchPaths() instead. 
+     *  @deprecated Please use FileUtils::getInstance()->getSearchPaths() instead.
      */
     CC_DEPRECATED_ATTRIBUTE const std::string& getResourceRootPath(void);
 
     void setStartupScriptFilename(const std::string& startupScriptFile);
 
-    const std::string& getStartupScriptFilename(void)
-    {
-        return _startupScriptFilename;
-    }
+    const std::string& getStartupScriptFilename(void) { return _startupScriptFilename; }
 
 protected:
-    HINSTANCE           _instance;
-    HACCEL              _accelTable;
-    LARGE_INTEGER       _animationInterval;
-    std::string         _resourceRootPath;
-    std::string         _startupScriptFilename;
+    HINSTANCE _instance;
+    HACCEL _accelTable;
+    LARGE_INTEGER _animationInterval;
+    std::string _resourceRootPath;
+    std::string _startupScriptFilename;
 
-    static Application * sm_pSharedApplication;
+    static Application* sm_pSharedApplication;
 };
 
 NS_CC_END
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 
-#endif    // __CC_APPLICATION_WIN32_H__
+#endif // __CC_APPLICATION_WIN32_H__

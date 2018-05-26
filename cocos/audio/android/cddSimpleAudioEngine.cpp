@@ -23,60 +23,57 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "audio/include/SimpleAudioEngine.h"
-#include "audio/android/jni/cddandroidAndroidJavaEngine.h"
 #include "audio/android/ccdandroidUtils.h"
+#include "audio/android/jni/cddandroidAndroidJavaEngine.h"
+#include "audio/include/SimpleAudioEngine.h"
 
-namespace CocosDenshion {
+namespace CocosDenshion
+{
+    static SimpleAudioEngine* s_pEngine = nullptr;
 
-    static SimpleAudioEngine *s_pEngine = nullptr;
-
-    SimpleAudioEngine* SimpleAudioEngine::getInstance() {
-        if (! s_pEngine) {
+    SimpleAudioEngine* SimpleAudioEngine::getInstance()
+    {
+        if (!s_pEngine)
+        {
             s_pEngine = new CocosDenshion::android::AndroidJavaEngine();
         }
-    
+
         return s_pEngine;
     }
 
-    void SimpleAudioEngine::end() {
-        if (s_pEngine) {
+    void SimpleAudioEngine::end()
+    {
+        if (s_pEngine)
+        {
             delete s_pEngine;
             s_pEngine = nullptr;
         }
     }
 
-    SimpleAudioEngine::SimpleAudioEngine() {
-    }
+    SimpleAudioEngine::SimpleAudioEngine() {}
 
-    SimpleAudioEngine::~SimpleAudioEngine() {
-    }
+    SimpleAudioEngine::~SimpleAudioEngine() {}
 
     // Empty implementations. On Android, only subclasses are meant to be used
-    void SimpleAudioEngine::preloadBackgroundMusic(const char* pszFilePath) { }
-    void SimpleAudioEngine::playBackgroundMusic(const char* pszFilePath, bool bLoop) { }
-    void SimpleAudioEngine::stopBackgroundMusic(bool bReleaseData) { }
-    void SimpleAudioEngine::pauseBackgroundMusic() { }
-    void SimpleAudioEngine::resumeBackgroundMusic() { }
-    void SimpleAudioEngine::rewindBackgroundMusic() { }
+    void SimpleAudioEngine::preloadBackgroundMusic(const char* pszFilePath) {}
+    void SimpleAudioEngine::playBackgroundMusic(const char* pszFilePath, bool bLoop) {}
+    void SimpleAudioEngine::stopBackgroundMusic(bool bReleaseData) {}
+    void SimpleAudioEngine::pauseBackgroundMusic() {}
+    void SimpleAudioEngine::resumeBackgroundMusic() {}
+    void SimpleAudioEngine::rewindBackgroundMusic() {}
     bool SimpleAudioEngine::willPlayBackgroundMusic() { return false; }
     bool SimpleAudioEngine::isBackgroundMusicPlaying() { return false; }
     float SimpleAudioEngine::getBackgroundMusicVolume() { return 0.0f; }
-    void SimpleAudioEngine::setBackgroundMusicVolume(float volume) { }
+    void SimpleAudioEngine::setBackgroundMusicVolume(float volume) {}
     float SimpleAudioEngine::getEffectsVolume() { return 0.0f; }
-    void SimpleAudioEngine::setEffectsVolume(float volume) { }
-    unsigned int SimpleAudioEngine::playEffect(const char* pszFilePath,
-                                               bool bLoop,
-                                               float pitch,
-                                               float pan,
-                                               float gain) {
-        return 0; }
-    void SimpleAudioEngine::pauseEffect(unsigned int nSoundId) { }
-    void SimpleAudioEngine::pauseAllEffects() { }
-    void SimpleAudioEngine::resumeEffect(unsigned int nSoundId) { }
-    void SimpleAudioEngine::resumeAllEffects() { }
-    void SimpleAudioEngine::stopEffect(unsigned int nSoundId) { }
-    void SimpleAudioEngine::stopAllEffects() { }
-    void SimpleAudioEngine::preloadEffect(const char* pszFilePath) { }
-    void SimpleAudioEngine::unloadEffect(const char* pszFilePath) { }
-}
+    void SimpleAudioEngine::setEffectsVolume(float volume) {}
+    unsigned int SimpleAudioEngine::playEffect(const char* pszFilePath, bool bLoop, float pitch, float pan, float gain) { return 0; }
+    void SimpleAudioEngine::pauseEffect(unsigned int nSoundId) {}
+    void SimpleAudioEngine::pauseAllEffects() {}
+    void SimpleAudioEngine::resumeEffect(unsigned int nSoundId) {}
+    void SimpleAudioEngine::resumeAllEffects() {}
+    void SimpleAudioEngine::stopEffect(unsigned int nSoundId) {}
+    void SimpleAudioEngine::stopAllEffects() {}
+    void SimpleAudioEngine::preloadEffect(const char* pszFilePath) {}
+    void SimpleAudioEngine::unloadEffect(const char* pszFilePath) {}
+} // namespace CocosDenshion

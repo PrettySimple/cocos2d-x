@@ -39,12 +39,12 @@ NS_CC_BEGIN
 /**
  * lua can not deal with ...
  */
-void CC_DLL LuaLog(const char * format);
+void CC_DLL LuaLog(const char* format);
 
 /**
 @brief Pop out a message box
 */
-void CC_DLL MessageBox(const char * msg, const char * title);
+void CC_DLL MessageBox(const char* msg, const char* title);
 
 /**
 @brief Enum the language type supported now
@@ -78,4 +78,4 @@ enum class LanguageType
 NS_CC_END
 
 /// @endcond
-#endif    // __CC_COMMON_H__
+#endif // __CC_COMMON_H__

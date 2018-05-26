@@ -23,13 +23,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 #include "base/CCUserDefault.h"
-#include "platform/CCPlatformConfig.h"
+#include "base/base64.h"
 #include "base/ccUtils.h"
 #include "platform/CCCommon.h"
-#include "base/base64.h"
+#include "platform/CCPlatformConfig.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#include "platform/android/jni/JniHelper.h"
+#    include "platform/android/jni/JniHelper.h"
 
 static const std::string helperClassName = "org/cocos2dx/lib/Cocos2dxHelper";
 
@@ -42,7 +42,6 @@ NS_CC_BEGIN
 
 UserDefault* UserDefault::_userDefault = nullptr;
 
-
 UserDefault::~UserDefault()
 {
 }
@@ -51,10 +50,9 @@ UserDefault::UserDefault()
 {
 }
 
-
 void UserDefault::destroyInstance()
 {
-   CC_SAFE_DELETE(_userDefault);
+    CC_SAFE_DELETE(_userDefault);
 }
 
 bool UserDefault::getBoolForKey(const char* pKey)
@@ -74,7 +72,7 @@ int UserDefault::getIntegerForKey(const char* pKey)
 
 int UserDefault::getIntegerForKey(const char* pKey, int defaultValue)
 {
-	return JniHelper::callStaticIntMethod(helperClassName, "getIntegerForKey", pKey, defaultValue);
+    return JniHelper::callStaticIntMethod(helperClassName, "getIntegerForKey", pKey, defaultValue);
 }
 
 float UserDefault::getFloatForKey(const char* pKey)
@@ -87,14 +85,14 @@ float UserDefault::getFloatForKey(const char* pKey, float defaultValue)
     return JniHelper::callStaticFloatMethod(helperClassName, "getFloatForKey", pKey, defaultValue);
 }
 
-double  UserDefault::getDoubleForKey(const char* pKey)
+double UserDefault::getDoubleForKey(const char* pKey)
 {
     return getDoubleForKey(pKey, 0.0);
 }
 
 double UserDefault::getDoubleForKey(const char* pKey, double defaultValue)
 {
-	return JniHelper::callStaticDoubleMethod(helperClassName, "getDoubleForKey", pKey, defaultValue);
+    return JniHelper::callStaticDoubleMethod(helperClassName, "getDoubleForKey", pKey, defaultValue);
 }
 
 std::string UserDefault::getStringForKey(const char* pKey)
@@ -102,7 +100,7 @@ std::string UserDefault::getStringForKey(const char* pKey)
     return getStringForKey(pKey, "");
 }
 
-string UserDefault::getStringForKey(const char* pKey, const std::string & defaultValue)
+string UserDefault::getStringForKey(const char* pKey, const std::string& defaultValue)
 {
     return JniHelper::callStaticStringMethod(helperClassName, "getStringForKey", pKey, defaultValue);
 }
@@ -114,7 +112,7 @@ Data UserDefault::getDataForKey(const char* pKey)
 
 Data UserDefault::getDataForKey(const char* pKey, const Data& defaultValue)
 {
-    char * encodedDefaultData = NULL;
+    char* encodedDefaultData = NULL;
     unsigned int encodedDefaultDataLen = !defaultValue.isNull() ? base64Encode(defaultValue.getBytes(), defaultValue.getSize(), &encodedDefaultData) : 0;
 
     string encodedStr = JniHelper::callStaticStringMethod(helperClassName, "getStringForKey", pKey, (const char*)encodedDefaultData);
@@ -124,12 +122,13 @@ Data UserDefault::getDataForKey(const char* pKey, const Data& defaultValue)
 
     CCLOG("ENCODED STRING: --%s--%d", encodedStr.c_str(), encodedStr.length());
 
-    unsigned char * decodedData = NULL;
+    unsigned char* decodedData = NULL;
     int decodedDataLen = base64Decode((unsigned char*)encodedStr.c_str(), (unsigned int)encodedStr.length(), &decodedData);
 
     CCLOG("DECODED DATA: %s %d", decodedData, decodedDataLen);
 
-    if (decodedData && decodedDataLen) {
+    if (decodedData && decodedDataLen)
+    {
         Data ret;
         ret.fastSet(decodedData, decodedDataLen);
         return ret;
@@ -137,7 +136,6 @@ Data UserDefault::getDataForKey(const char* pKey, const Data& defaultValue)
 
     return defaultValue;
 }
-
 
 void UserDefault::setBoolForKey(const char* pKey, bool value)
 {
@@ -167,7 +165,7 @@ void UserDefault::setStringForKey(const char* pKey, const std::string& value)
 void UserDefault::setDataForKey(const char* pKey, const Data& value)
 {
     CCLOG("SET DATA FOR KEY: --%s--%d", value.getBytes(), (int)(value.getSize()));
-    char * encodedData = nullptr;
+    char* encodedData = nullptr;
     unsigned int encodedDataLen = base64Encode(value.getBytes(), value.getSize(), &encodedData);
 
     CCLOG("SET DATA ENCODED: --%s", encodedData);
@@ -180,7 +178,7 @@ void UserDefault::setDataForKey(const char* pKey, const Data& value)
 
 UserDefault* UserDefault::getInstance()
 {
-    if (! _userDefault)
+    if (!_userDefault)
     {
         _userDefault = new (std::nothrow) UserDefault();
     }

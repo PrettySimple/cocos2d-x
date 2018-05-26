@@ -26,148 +26,118 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-namespace ui {
-    
-IMPLEMENT_CLASS_GUI_INFO(CheckBox)
+namespace ui
+{
+    IMPLEMENT_CLASS_GUI_INFO(CheckBox)
 
-CheckBox::CheckBox():
-_checkBoxEventListener(nullptr),
-_checkBoxEventSelector(nullptr)
-{
-}
+    CheckBox::CheckBox()
+    : _checkBoxEventListener(nullptr)
+    , _checkBoxEventSelector(nullptr)
+    {
+    }
 
-CheckBox::~CheckBox()
-{
-    _checkBoxEventSelector = nullptr;
-}
+    CheckBox::~CheckBox() { _checkBoxEventSelector = nullptr; }
 
-CheckBox* CheckBox::create()
-{
-    CheckBox* widget = new (std::nothrow) CheckBox();
-    if (widget && widget->init())
+    CheckBox* CheckBox::create()
     {
-        widget->autorelease();
-        return widget;
+        CheckBox* widget = new (std::nothrow) CheckBox();
+        if (widget && widget->init())
+        {
+            widget->autorelease();
+            return widget;
+        }
+        CC_SAFE_DELETE(widget);
+        return nullptr;
     }
-    CC_SAFE_DELETE(widget);
-    return nullptr;
-}
-    
-CheckBox* CheckBox::create(const std::string& backGround,
-                           const std::string& backGroundSeleted,
-                           const std::string& cross,
-                           const std::string& backGroundDisabled,
-                           const std::string& frontCrossDisabled,
-                           TextureResType texType)
-{
-    CheckBox *pWidget = new (std::nothrow) CheckBox;
-    if (pWidget && pWidget->init(backGround,
-                                 backGroundSeleted,
-                                 cross,
-                                 backGroundDisabled,
-                                 frontCrossDisabled,
-                                 texType))
-    {
-        pWidget->autorelease();
-        return pWidget;
-    }
-    CC_SAFE_DELETE(pWidget);
-    return nullptr;
-}
-    
-CheckBox* CheckBox::create(const std::string& backGround,
-                           const std::string& cross,
-                           TextureResType texType)
-{
-    CheckBox *pWidget = new (std::nothrow) CheckBox;
-    if (pWidget && pWidget->init(backGround,
-                                 "",
-                                 cross,
-                                 "",
-                                 "",
-                                 texType))
-    {
-        pWidget->autorelease();
-        return pWidget;
-    }
-    CC_SAFE_DELETE(pWidget);
-    return nullptr;
-}
-    
-void CheckBox::onTouchEnded(Touch *touch, Event *unusedEvent)
-{
-    if (_isSelected)
-    {
-        setSelected(false);
-        AbstractCheckButton::onTouchEnded(touch, unusedEvent);
-        dispatchSelectChangedEvent(false);
-    }
-    else
-    {
-        setSelected(true);
-        AbstractCheckButton::onTouchEnded(touch, unusedEvent);
-        dispatchSelectChangedEvent(true);
-    }
-}
-    
 
-void CheckBox::dispatchSelectChangedEvent(bool selected)
-{
-    EventType eventType = (selected ? EventType::SELECTED : EventType::UNSELECTED);
-    CheckBoxEventType checkBoxEventType = (selected ? CHECKBOX_STATE_EVENT_SELECTED : CHECKBOX_STATE_EVENT_UNSELECTED);
-    
-    this->retain();
-    if (_checkBoxEventCallback)
+    CheckBox* CheckBox::create(const std::string& backGround, const std::string& backGroundSeleted, const std::string& cross,
+                               const std::string& backGroundDisabled, const std::string& frontCrossDisabled, TextureResType texType)
     {
-        _checkBoxEventCallback(this, eventType);
+        CheckBox* pWidget = new (std::nothrow) CheckBox;
+        if (pWidget && pWidget->init(backGround, backGroundSeleted, cross, backGroundDisabled, frontCrossDisabled, texType))
+        {
+            pWidget->autorelease();
+            return pWidget;
+        }
+        CC_SAFE_DELETE(pWidget);
+        return nullptr;
     }
-    if (_ccEventCallback)
+
+    CheckBox* CheckBox::create(const std::string& backGround, const std::string& cross, TextureResType texType)
     {
-        _ccEventCallback(this, static_cast<int>(eventType));
+        CheckBox* pWidget = new (std::nothrow) CheckBox;
+        if (pWidget && pWidget->init(backGround, "", cross, "", "", texType))
+        {
+            pWidget->autorelease();
+            return pWidget;
+        }
+        CC_SAFE_DELETE(pWidget);
+        return nullptr;
     }
-    
-    if (_checkBoxEventListener && _checkBoxEventSelector)
+
+    void CheckBox::onTouchEnded(Touch* touch, Event* unusedEvent)
     {
-        (_checkBoxEventListener->*_checkBoxEventSelector)(this, checkBoxEventType);
+        if (_isSelected)
+        {
+            setSelected(false);
+            AbstractCheckButton::onTouchEnded(touch, unusedEvent);
+            dispatchSelectChangedEvent(false);
+        }
+        else
+        {
+            setSelected(true);
+            AbstractCheckButton::onTouchEnded(touch, unusedEvent);
+            dispatchSelectChangedEvent(true);
+        }
     }
-    this->release();
-    
-}
 
-void CheckBox::addEventListenerCheckBox(Ref *target, SEL_SelectedStateEvent selector)
-{
-    _checkBoxEventListener = target;
-    _checkBoxEventSelector = selector;
-}
-
-void CheckBox::addEventListener(const ccCheckBoxCallback& callback)
-{
-    _checkBoxEventCallback = callback;
-}
-    
-std::string CheckBox::getDescription() const
-{
-    return "CheckBox";
-}
-
-Widget* CheckBox::createCloneInstance()
-{
-    return CheckBox::create();
-}
-
-void CheckBox::copySpecialProperties(Widget *widget)
-{
-    CheckBox* checkBox = dynamic_cast<CheckBox*>(widget);
-    if (checkBox)
+    void CheckBox::dispatchSelectChangedEvent(bool selected)
     {
-        AbstractCheckButton::copySpecialProperties(widget);
-        _checkBoxEventListener = checkBox->_checkBoxEventListener;
-        _checkBoxEventSelector = checkBox->_checkBoxEventSelector;
-        _checkBoxEventCallback = checkBox->_checkBoxEventCallback;
-        _ccEventCallback = checkBox->_ccEventCallback;
-    }
-}
+        EventType eventType = (selected ? EventType::SELECTED : EventType::UNSELECTED);
+        CheckBoxEventType checkBoxEventType = (selected ? CHECKBOX_STATE_EVENT_SELECTED : CHECKBOX_STATE_EVENT_UNSELECTED);
 
-}
+        this->retain();
+        if (_checkBoxEventCallback)
+        {
+            _checkBoxEventCallback(this, eventType);
+        }
+        if (_ccEventCallback)
+        {
+            _ccEventCallback(this, static_cast<int>(eventType));
+        }
+
+        if (_checkBoxEventListener && _checkBoxEventSelector)
+        {
+            (_checkBoxEventListener->*_checkBoxEventSelector)(this, checkBoxEventType);
+        }
+        this->release();
+    }
+
+    void CheckBox::addEventListenerCheckBox(Ref* target, SEL_SelectedStateEvent selector)
+    {
+        _checkBoxEventListener = target;
+        _checkBoxEventSelector = selector;
+    }
+
+    void CheckBox::addEventListener(const ccCheckBoxCallback& callback) { _checkBoxEventCallback = callback; }
+
+    std::string CheckBox::getDescription() const { return "CheckBox"; }
+
+    Widget* CheckBox::createCloneInstance() { return CheckBox::create(); }
+
+    void CheckBox::copySpecialProperties(Widget* widget)
+    {
+        CheckBox* checkBox = dynamic_cast<CheckBox*>(widget);
+        if (checkBox)
+        {
+            AbstractCheckButton::copySpecialProperties(widget);
+            _checkBoxEventListener = checkBox->_checkBoxEventListener;
+            _checkBoxEventSelector = checkBox->_checkBoxEventSelector;
+            _checkBoxEventCallback = checkBox->_checkBoxEventCallback;
+            _ccEventCallback = checkBox->_ccEventCallback;
+        }
+    }
+
+} // namespace ui
 
 NS_CC_END

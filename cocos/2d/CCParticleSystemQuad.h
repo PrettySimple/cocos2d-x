@@ -4,7 +4,7 @@ Copyright (c) 2009      Leonardo Kasperavičius
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
- 
+
 http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -46,7 +46,7 @@ class EventCustom;
 
 It includes all the features of ParticleSystem.
 
-Special features and Limitations:    
+Special features and Limitations:
 - Particle size can be any float number.
 - The system can be scaled.
 - The particles can be rotated.
@@ -58,31 +58,30 @@ Special features and Limitations:
 class CC_DLL ParticleSystemQuad : public ParticleSystem
 {
 public:
-
     /** Creates a Particle Emitter.
      *
      * @return An autoreleased ParticleSystemQuad object.
      */
-    static ParticleSystemQuad * create();
+    static ParticleSystemQuad* create();
     /** Creates a Particle Emitter with a number of particles.
      *
      * @param numberOfParticles A given number of particles.
      * @return An autoreleased ParticleSystemQuad object.
      */
-    static ParticleSystemQuad * createWithTotalParticles(int numberOfParticles);
+    static ParticleSystemQuad* createWithTotalParticles(int numberOfParticles);
     /** Creates an initializes a ParticleSystemQuad from a plist file.
      This plist files can be created manually or with Particle Designer.
      *
      * @param filename Particle plist file name.
      * @return An autoreleased ParticleSystemQuad object.
      */
-    static ParticleSystemQuad * create(const std::string& filename);
+    static ParticleSystemQuad* create(const std::string& filename);
     /** Creates a Particle Emitter with a dictionary.
-     * 
+     *
      * @param dictionary Particle dictionary.
      * @return An autoreleased ParticleSystemQuad object.
      */
-    static ParticleSystemQuad * create(ValueMap &dictionary);
+    static ParticleSystemQuad* create(ValueMap& dictionary);
 
     /** Sets a new SpriteFrame as particle.
     WARNING: this method is experimental. Use setTextureWithRect instead.
@@ -90,7 +89,7 @@ public:
      * @param spriteFrame A given sprite frame as particle texture.
     @since v0.99.4
     */
-    void setDisplayFrame(SpriteFrame *spriteFrame);
+    void setDisplayFrame(SpriteFrame* spriteFrame);
 
     /** Sets a new texture with a rect. The rect is in Points.
      @since v0.99.4
@@ -100,7 +99,7 @@ public:
      * @param texture A given texture.
      8 @param rect A given rect, in points.
      */
-    void setTextureWithRect(Texture2D *texture, const Rect& rect);
+    void setTextureWithRect(Texture2D* texture, const Rect& rect);
 
     /** Listen the event that renderer was recreated on Android/WP8.
      * @js NA
@@ -118,7 +117,7 @@ public:
     /**
      * @js NA
      * @lua NA
-     */    
+     */
     virtual void updateParticleQuads() override;
     /**
      * @js NA
@@ -129,7 +128,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
+    virtual void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
 
     /**
      * @js NA
@@ -143,34 +142,32 @@ public:
     virtual void setTotalParticles(int tp) override;
 
     virtual std::string getDescription() const override;
-    
-CC_CONSTRUCTOR_ACCESS:
-    /**
-     * @js ctor
-     */
-    ParticleSystemQuad();
+
+    CC_CONSTRUCTOR_ACCESS :
+        /**
+         * @js ctor
+         */
+        ParticleSystemQuad();
     /**
      * @js NA
      * @lua NA
      */
     virtual ~ParticleSystemQuad();
-    
+
     // Overrides
     /**
      * @js NA
      * @lua NA
      */
     virtual bool initWithTotalParticles(int numberOfParticles) override;
-    
-
 
 protected:
     /** initializes the indices for the vertices*/
     void initIndices();
-    
+
     /** initializes the texture with a rectangle measured Points */
     void initTexCoordsWithRect(const Rect& rect);
-    
+
     /** Updates texture coords */
     void updateTexCoords();
 
@@ -178,14 +175,12 @@ protected:
     void setupVBO();
     bool allocMemory();
 
-    V3F_C4B_T2F_Quad    *_quads;        // quads to be rendered
-    GLushort            *_indices;      // indices
-    GLuint              _VAOname;
-    GLuint              _buffersVBO[2]; //0: vertex  1: indices
+    V3F_C4B_T2F_Quad* _quads; // quads to be rendered
+    GLushort* _indices; // indices
+    GLuint _VAOname;
+    GLuint _buffersVBO[2]; // 0: vertex  1: indices
 
-    QuadCommand _quadCommand;           // quad command
-    
-
+    QuadCommand _quadCommand; // quad command
 
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(ParticleSystemQuad);
@@ -197,4 +192,3 @@ private:
 NS_CC_END
 
 #endif //__CC_PARTICLE_SYSTEM_QUAD_H__
-

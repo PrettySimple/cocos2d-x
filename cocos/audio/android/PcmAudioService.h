@@ -28,53 +28,54 @@ THE SOFTWARE.
 #include "audio/android/OpenSLHelper.h"
 #include "audio/android/PcmData.h"
 
-#include <mutex>
 #include <condition_variable>
+#include <mutex>
 
-namespace cocos2d { namespace experimental {
-
-class AudioMixerController;
-
-class PcmAudioService
+namespace cocos2d
 {
-public:
-    inline int getChannelCount() const
-    { return _numChannels; };
+    namespace experimental
+    {
+        class AudioMixerController;
 
-    inline int getSampleRate() const
-    { return _sampleRate; };
+        class PcmAudioService
+        {
+        public:
+            inline int getChannelCount() const { return _numChannels; };
 
-private:
-    PcmAudioService(SLEngineItf engineItf, SLObjectItf outputMixObject);
+            inline int getSampleRate() const { return _sampleRate; };
 
-    virtual ~PcmAudioService();
+        private:
+            PcmAudioService(SLEngineItf engineItf, SLObjectItf outputMixObject);
 
-    bool init(AudioMixerController* controller, int numChannels, int sampleRate, int bufferSizeInBytes);
+            virtual ~PcmAudioService();
 
-    bool enqueue();
+            bool init(AudioMixerController* controller, int numChannels, int sampleRate, int bufferSizeInBytes);
 
-    void bqFetchBufferCallback(SLAndroidSimpleBufferQueueItf bq);
+            bool enqueue();
 
-    void pause();
-    void resume();
+            void bqFetchBufferCallback(SLAndroidSimpleBufferQueueItf bq);
 
-private:
-    SLEngineItf _engineItf;
-    SLObjectItf _outputMixObj;
+            void pause();
+            void resume();
 
-    SLObjectItf _playObj;
-    SLPlayItf _playItf;
-    SLVolumeItf _volumeItf;
-    SLAndroidSimpleBufferQueueItf _bufferQueueItf;
+        private:
+            SLEngineItf _engineItf;
+            SLObjectItf _outputMixObj;
 
-    int _numChannels;
-    int _sampleRate;
-    int _bufferSizeInBytes;
+            SLObjectItf _playObj;
+            SLPlayItf _playItf;
+            SLVolumeItf _volumeItf;
+            SLAndroidSimpleBufferQueueItf _bufferQueueItf;
 
-    AudioMixerController* _controller;
+            int _numChannels;
+            int _sampleRate;
+            int _bufferSizeInBytes;
 
-    friend class SLPcmAudioPlayerCallbackProxy;
-    friend class AudioPlayerProvider;
-};
+            AudioMixerController* _controller;
 
-}} // namespace cocos2d { namespace experimental {
+            friend class SLPcmAudioPlayerCallbackProxy;
+            friend class AudioPlayerProvider;
+        };
+
+    } // namespace experimental
+} // namespace cocos2d

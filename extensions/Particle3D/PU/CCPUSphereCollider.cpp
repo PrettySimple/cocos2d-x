@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -31,16 +31,15 @@ NS_CC_BEGIN
 const float PUSphereCollider::DEFAULT_RADIUS = 100.0f;
 
 //-----------------------------------------------------------------------
-PUSphereCollider::PUSphereCollider(void) : 
-    PUBaseCollider(),
-    _radius(DEFAULT_RADIUS),
-    _innerCollision(false)
+PUSphereCollider::PUSphereCollider(void)
+: PUBaseCollider()
+, _radius(DEFAULT_RADIUS)
+, _innerCollision(false)
 {
 }
 
-PUSphereCollider::~PUSphereCollider( void )
+PUSphereCollider::~PUSphereCollider(void)
 {
-
 }
 
 //-----------------------------------------------------------------------
@@ -100,24 +99,24 @@ void PUSphereCollider::calculateDirectionAfterCollision(PUParticle3D* particle, 
         }
         break;
         default:
-        break;
+            break;
     }
 }
 
-void PUSphereCollider::updatePUAffector( PUParticle3D *particle, float deltaTime )
+void PUSphereCollider::updatePUAffector(PUParticle3D* particle, float deltaTime)
 {
-    //for (auto iter : _particleSystem->getParticles())
+    // for (auto iter : _particleSystem->getParticles())
     {
-        //PUParticle3D *particle = iter;
+        // PUParticle3D *particle = iter;
         _predictedPosition = particle->position + _velocityScale * particle->direction;
         bool collision = false;
         Vec3 distance = particle->position - _derivedPosition;
         float distanceLength = distance.length();
         float scaledRadius = 0.3333f * (_affectorScale.x + _affectorScale.y + _affectorScale.z) * _radius; // Scaling changed in V 1.3.1
 
-        switch(_intersectionType)
+        switch (_intersectionType)
         {
-        case PUBaseCollider::IT_POINT:
+            case PUBaseCollider::IT_POINT:
             {
                 // Validate for a point-sphere intersection
                 if (_innerCollision == (distanceLength > scaledRadius))
@@ -139,31 +138,27 @@ void PUSphereCollider::updatePUAffector( PUParticle3D *particle, float deltaTime
             }
             break;
 
-        case PUBaseCollider::IT_BOX:
+            case PUBaseCollider::IT_BOX:
             {
                 //// Validate for a box-sphere intersection
-                //if (particle->particleType != Particle::PT_VISUAL)
+                // if (particle->particleType != Particle::PT_VISUAL)
                 //	break;
                 AABB box;
-                populateAlignedBox(box,
-                    particle->position, 
-                    particle->width, 
-                    particle->height,
-                    particle->depth);
+                populateAlignedBox(box, particle->position, particle->width, particle->height, particle->depth);
 
-                //FIXME
-                //if (_innerCollision != box.intersects(_sphere))
+                // FIXME
+                // if (_innerCollision != box.intersects(_sphere))
                 //{
                 //	// Collision detected (re-position the particle)
                 //	particle->position -= _velocityScale * particle->direction;
                 //	collision = true;
                 //}
-                //else
+                // else
                 //{
                 //	AABB box;
                 //	populateAlignedBox(box,
-                //		_predictedPosition, 
-                //		particle->width, 
+                //		_predictedPosition,
+                //		particle->width,
                 //		particle->height,
                 //		particle->depth);
                 //	if (_innerCollision != box.intersects(_sphere))
@@ -185,7 +180,7 @@ void PUSphereCollider::updatePUAffector( PUParticle3D *particle, float deltaTime
     }
 }
 
-void PUSphereCollider::preUpdateAffector( float deltaTime )
+void PUSphereCollider::preUpdateAffector(float deltaTime)
 {
     // Calculate the affectors' center position.
     _sphere.setCenter(getDerivedPosition());
@@ -198,7 +193,7 @@ PUSphereCollider* PUSphereCollider::create()
     return psc;
 }
 
-void PUSphereCollider::copyAttributesTo( PUAffector* affector )
+void PUSphereCollider::copyAttributesTo(PUAffector* affector)
 {
     PUAffector::copyAttributesTo(affector);
 

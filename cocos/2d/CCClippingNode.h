@@ -30,8 +30,8 @@
 
 #include "2d/CCNode.h"
 #include "platform/CCGL.h"
-#include "renderer/CCGroupCommand.h"
 #include "renderer/CCCustomCommand.h"
+#include "renderer/CCGroupCommand.h"
 
 NS_CC_BEGIN
 
@@ -53,12 +53,12 @@ public:
      * @return An autorelease ClippingNode.
      */
     static ClippingNode* create();
-    
+
     /** Creates and initializes a clipping node with an other node as its stencil.
      * The stencil node will be retained.
      * @param stencil The stencil node.
      */
-    static ClippingNode* create(Node *stencil);
+    static ClippingNode* create(Node* stencil);
 
     /** The Node to use as a stencil to do the clipping.
      * The stencil node will be retained.
@@ -67,12 +67,12 @@ public:
      * @return The stencil node.
      */
     Node* getStencil() const;
-    
+
     /** Set the Node to use as a stencil to do the clipping.
      *
      * @param stencil The Node to use as a stencil to do the clipping.
      */
-    void setStencil(Node *stencil);
+    void setStencil(Node* stencil);
 
     /** If stencil has no children it will not be drawn.
      * If you have custom stencil-based node with stencil drawing mechanics other then children-based,
@@ -94,13 +94,13 @@ public:
      * @return The alpha threshold value,Should be a float between 0 and 1.
      */
     GLfloat getAlphaThreshold() const;
-    
-    /** Set the alpha threshold. 
-     * 
+
+    /** Set the alpha threshold.
+     *
      * @param alphaThreshold The alpha threshold.
      */
     void setAlphaThreshold(GLfloat alphaThreshold);
-    
+
     /** Inverted. If this is set to true,
      * the stencil is inverted, so the content is drawn where the stencil is NOT drawn.
      * This default to false.
@@ -108,7 +108,7 @@ public:
      * @return If the clippingNode is Inverted, it will be return true.
      */
     bool isInverted() const;
-    
+
     /** Set the ClippingNode whether or not invert.
      *
      * @param inverted A bool Type,to set the ClippingNode whether or not invert.
@@ -132,13 +132,12 @@ public:
      * @lua NA
      */
     virtual void onExit() override;
-    virtual void visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags) override;
-    
+    virtual void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
+
     virtual void setCameraMask(unsigned short mask, bool applyChildren = true) override;
-    
-CC_CONSTRUCTOR_ACCESS:
-    ClippingNode();
-    
+
+    CC_CONSTRUCTOR_ACCESS : ClippingNode();
+
     /**
      * @js NA
      * @lua NA
@@ -148,17 +147,17 @@ CC_CONSTRUCTOR_ACCESS:
     /** Initializes a clipping node without a stencil.
      */
     virtual bool init() override;
-    
+
     /** Initializes a clipping node with an other node as its stencil.
      The stencil node will be retained, and its parent will be set to this clipping node.
      */
-    virtual bool init(Node *stencil);
+    virtual bool init(Node* stencil);
 
 protected:
     Node* _stencil;
-   
+
     StencilStateManager* _stencilStateManager;
-    
+
     GroupCommand _groupCommand;
     CustomCommand _beforeVisitCmd;
     CustomCommand _afterDrawStencilCmd;

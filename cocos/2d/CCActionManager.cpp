@@ -4,7 +4,7 @@
  Copyright (c) 2010-2012 cocos2d-x.org
  Copyright (c) 2011      Zynga Inc.
  CopyRight (c) 2013-2016 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -32,6 +32,7 @@
 #include "2d/CCNode.h"
 #include "base/ccMacros.h"
 #include "platform/CCPlatformDefine.h"
+
 #include <algorithm>
 #include <functional>
 #include <iterator>
@@ -49,12 +50,12 @@ ActionManager::~ActionManager()
 
 // pause / resume
 
-void ActionManager::pauseTarget(Node *target)
+void ActionManager::pauseTarget(Node* target)
 {
     _actions.pause_target(target);
 }
 
-void ActionManager::resumeTarget(Node *target)
+void ActionManager::resumeTarget(Node* target)
 {
     _actions.resume_target(target);
 }
@@ -63,7 +64,7 @@ Vector<Node*> ActionManager::pauseAllRunningActions()
 {
     Vector<Node*> ret;
 
-    auto const tmp { _actions.get_all_targets() };
+    auto const tmp{_actions.get_all_targets()};
     ret.reserve(tmp.size());
     for (auto const action : tmp)
     {
@@ -77,7 +78,7 @@ Vector<Node*> ActionManager::pauseAllRunningActions()
 
 void ActionManager::resumeTargets(Vector<Node*> const& targetsToResume)
 {
-    for(auto node : targetsToResume)
+    for (auto node : targetsToResume)
     {
         resumeTarget(node);
     }
@@ -85,11 +86,11 @@ void ActionManager::resumeTargets(Vector<Node*> const& targetsToResume)
 
 // run
 
-void ActionManager::addAction(Action *action, Node *target, bool paused)
+void ActionManager::addAction(Action* action, Node* target, bool paused)
 {
     CCASSERT(action != nullptr, "action can't be nullptr!");
     CCASSERT(target != nullptr, "target can't be nullptr!");
-    if(action == nullptr || target == nullptr)
+    if (action == nullptr || target == nullptr)
         return;
 
     _actions_to_process.emplace_back(action);
@@ -103,7 +104,7 @@ void ActionManager::removeAllActions()
     _actions.remove_all_actions();
 }
 
-void ActionManager::removeAllActionsFromTarget(Node * target)
+void ActionManager::removeAllActionsFromTarget(Node* target)
 {
     CCASSERT(target != nullptr, "target can't be nullptr!");
     if (target == nullptr)
@@ -112,7 +113,7 @@ void ActionManager::removeAllActionsFromTarget(Node * target)
     _actions.remove_all_actions_from_target(target);
 }
 
-void ActionManager::removeAction(Action *action)
+void ActionManager::removeAction(Action* action)
 {
     //    CCASSERT(action != nullptr && action->getOriginalTarget() != nullptr, "target can't be nullptr!");
     if (action == nullptr)
@@ -121,7 +122,7 @@ void ActionManager::removeAction(Action *action)
     _actions.remove_action(action);
 }
 
-void ActionManager::removeAllActionsByTag(int tag, Node *target)
+void ActionManager::removeAllActionsByTag(int tag, Node* target)
 {
     CCASSERT(tag != Action::INVALID_TAG, "Invalid tag value!");
     CCASSERT(target != nullptr, "target can't be nullptr!");
@@ -131,7 +132,7 @@ void ActionManager::removeAllActionsByTag(int tag, Node *target)
     _actions.remove_all_actions_from_target_by_tag(target, tag);
 }
 
-void ActionManager::removeActionsByFlags(unsigned int flags, Node *target)
+void ActionManager::removeActionsByFlags(unsigned int flags, Node* target)
 {
     CCASSERT(target != nullptr, "target can't be nullptr!");
     CCASSERT(flags != 0, "flags can't be 0!");
@@ -143,7 +144,7 @@ void ActionManager::removeActionsByFlags(unsigned int flags, Node *target)
 
 // get
 
-Action* ActionManager::getActionByTag(int tag, Node *target) const
+Action* ActionManager::getActionByTag(int tag, Node* target) const
 {
     CCASSERT(tag != Action::INVALID_TAG, "Invalid tag value!");
     CCASSERT(target != nullptr, "target can't be nullptr!");
@@ -153,12 +154,12 @@ Action* ActionManager::getActionByTag(int tag, Node *target) const
     return _actions.get_action_from_target_by_tag(target, tag);
 }
 
-ssize_t ActionManager::getNumberOfRunningActionsInTarget(Node *target) const
+ssize_t ActionManager::getNumberOfRunningActionsInTarget(Node* target) const
 {
     return _actions.get_number_of_running_action_from_target(target);
 }
 
-std::vector<Action*> ActionManager::getRunningActionsInTarget(Node *target) const
+std::vector<Action*> ActionManager::getRunningActionsInTarget(Node* target) const
 {
     return _actions.get_all_actions_from_target(target);
 }

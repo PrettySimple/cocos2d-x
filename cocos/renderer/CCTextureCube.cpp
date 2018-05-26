@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,24 +23,24 @@
  ****************************************************************************/
 
 #include "renderer/CCTextureCube.h"
-#include "platform/CCImage.h"
 #include "platform/CCFileUtils.h"
+#include "platform/CCImage.h"
 
 #include "renderer/ccGLStateCache.h"
 
 NS_CC_BEGIN
 
-unsigned char* getImageData(Image* img, Texture2D::PixelFormat&  ePixFmt)
+unsigned char* getImageData(Image* img, Texture2D::PixelFormat& ePixFmt)
 {
-    unsigned char*    pTmpData = img->getData();
-    unsigned int*     inPixel32 = nullptr;
-    unsigned char*    inPixel8 = nullptr;
-    unsigned short*   outPixel16 = nullptr;
-    bool              bHasAlpha = img->hasAlpha();
-    size_t            uBPP = img->getBitPerPixel();
+    unsigned char* pTmpData = img->getData();
+    unsigned int* inPixel32 = nullptr;
+    unsigned char* inPixel8 = nullptr;
+    unsigned short* outPixel16 = nullptr;
+    bool bHasAlpha = img->hasAlpha();
+    size_t uBPP = img->getBitPerPixel();
 
-    int               nWidth = img->getWidth();
-    int               nHeight = img->getHeight();
+    int nWidth = img->getWidth();
+    int nHeight = img->getHeight();
 
     // compute pixel format
     if (bHasAlpha)
@@ -73,10 +73,9 @@ unsigned char* getImageData(Image* img, Texture2D::PixelFormat&  ePixFmt)
 
             for (unsigned int i = 0; i < uLen; ++i, ++inPixel32)
             {
-                *outPixel16++ =
-                    ((((*inPixel32 >> 0) & 0xFF) >> 3) << 11) |  // R
-                    ((((*inPixel32 >> 8) & 0xFF) >> 2) << 5) |  // G
-                    ((((*inPixel32 >> 16) & 0xFF) >> 3) << 0);    // B
+                *outPixel16++ = ((((*inPixel32 >> 0) & 0xFF) >> 3) << 11) | // R
+                    ((((*inPixel32 >> 8) & 0xFF) >> 2) << 5) | // G
+                    ((((*inPixel32 >> 16) & 0xFF) >> 3) << 0); // B
             }
         }
         else
@@ -92,10 +91,9 @@ unsigned char* getImageData(Image* img, Texture2D::PixelFormat&  ePixFmt)
                 unsigned char G = *inPixel8++;
                 unsigned char B = *inPixel8++;
 
-                *outPixel16++ =
-                    ((R >> 3) << 11) |  // R
-                    ((G >> 2) << 5) |  // G
-                    ((B >> 3) << 0);    // B
+                *outPixel16++ = ((R >> 3) << 11) | // R
+                    ((G >> 2) << 5) | // G
+                    ((B >> 3) << 0); // B
             }
         }
     }
@@ -140,8 +138,7 @@ Image* createImage(const std::string& path)
 
         bool bRet = image->initWithImageFile(fullpath);
         CC_BREAK_IF(!bRet);
-    }
-    while (0);
+    } while (0);
 
     return image;
 }
@@ -155,8 +152,7 @@ TextureCube::~TextureCube()
 {
 }
 
-TextureCube* TextureCube::create(const std::string& positive_x, const std::string& negative_x,
-                                 const std::string& positive_y, const std::string& negative_y,
+TextureCube* TextureCube::create(const std::string& positive_x, const std::string& negative_x, const std::string& positive_y, const std::string& negative_y,
                                  const std::string& positive_z, const std::string& negative_z)
 {
     auto ret = new (std::nothrow) TextureCube();
@@ -169,8 +165,7 @@ TextureCube* TextureCube::create(const std::string& positive_x, const std::strin
     return nullptr;
 }
 
-bool TextureCube::init(const std::string& positive_x, const std::string& negative_x,
-                       const std::string& positive_y, const std::string& negative_y,
+bool TextureCube::init(const std::string& positive_x, const std::string& negative_x, const std::string& positive_y, const std::string& negative_y,
                        const std::string& positive_z, const std::string& negative_z)
 {
     _imgPath[0] = positive_x;
@@ -198,31 +193,31 @@ bool TextureCube::init(const std::string& positive_x, const std::string& negativ
     {
         Image* img = images[i];
 
-        Texture2D::PixelFormat  ePixelFmt;
-        unsigned char*          pData = getImageData(img, ePixelFmt);
+        Texture2D::PixelFormat ePixelFmt;
+        unsigned char* pData = getImageData(img, ePixelFmt);
         if (ePixelFmt == Texture2D::PixelFormat::RGBA8888 || ePixelFmt == Texture2D::PixelFormat::DEFAULT)
         {
             glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-                         0,                  // level
-                         GL_RGBA,            // internal format
-                         img->getWidth(),    // width
-                         img->getHeight(),   // height
-                         0,                  // border
-                         GL_RGBA,            // format
-                         GL_UNSIGNED_BYTE,   // type
-                         pData);             // pixel data
+                         0, // level
+                         GL_RGBA, // internal format
+                         img->getWidth(), // width
+                         img->getHeight(), // height
+                         0, // border
+                         GL_RGBA, // format
+                         GL_UNSIGNED_BYTE, // type
+                         pData); // pixel data
         }
         else if (ePixelFmt == Texture2D::PixelFormat::RGB888)
         {
             glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-                         0,                  // level
-                         GL_RGB,             // internal format
-                         img->getWidth(),    // width
-                         img->getHeight(),   // height
-                         0,                  // border
-                         GL_RGB,             // format
-                         GL_UNSIGNED_BYTE,   // type
-                         pData);             // pixel data
+                         0, // level
+                         GL_RGB, // internal format
+                         img->getWidth(), // width
+                         img->getHeight(), // height
+                         0, // border
+                         GL_RGB, // format
+                         GL_UNSIGNED_BYTE, // type
+                         pData); // pixel data
         }
 
         if (pData != img->getData())
@@ -238,7 +233,7 @@ bool TextureCube::init(const std::string& positive_x, const std::string& negativ
 
     GL::bindTextureN(0, 0, GL_TEXTURE_CUBE_MAP);
 
-    for (auto img: images)
+    for (auto img : images)
     {
         CC_SAFE_RELEASE(img);
     }

@@ -25,8 +25,8 @@ THE SOFTWARE.
 #ifndef __UIIMAGEVIEW_H__
 #define __UIIMAGEVIEW_H__
 
-#include "ui/UIWidget.h"
 #include "ui/GUIExport.h"
+#include "ui/UIWidget.h"
 
 /**
  * @addtogroup ui
@@ -36,126 +36,127 @@ NS_CC_BEGIN
 
 struct CC_DLL ResourceData;
 
-namespace ui {
-    class Scale9Sprite;
-/**
- * @brief A widget to display images.
- */
-class CC_GUI_DLL ImageView : public Widget
+namespace ui
 {
-    
-    DECLARE_CLASS_GUI_INFO
-    
-public:
+    class Scale9Sprite;
     /**
-     * Default constructor
-     * @js ctor
-     * @lua new
+     * @brief A widget to display images.
      */
-    ImageView();
+    class CC_GUI_DLL ImageView : public Widget
+    {
+        DECLARE_CLASS_GUI_INFO
 
-    /**
-     * Default destructor
-     * @js NA
-     * @lua NA
-     */
-    virtual ~ImageView();
+    public:
+        /**
+         * Default constructor
+         * @js ctor
+         * @lua new
+         */
+        ImageView();
 
-    /**
-     * Create a empty ImageView.
-     */
-    static ImageView* create();
-    
-    /**
-     * Create a  imageview  with a image name.
-     *
-     * @param imageFileName   file name of texture.
-     * @param texType    @see `Widget::TextureResType`
-     * @return A ImageView instance.
-     */
-    static ImageView* create(const std::string& imageFileName, TextureResType texType = TextureResType::LOCAL);
-    
+        /**
+         * Default destructor
+         * @js NA
+         * @lua NA
+         */
+        virtual ~ImageView();
 
-    /**
-     * Load texture for imageview.
-     *
-     * @param fileName   file name of texture.
-     * @param texType    @see `Widget::TextureResType`
-     */
-    void loadTexture(const std::string& fileName,TextureResType texType = TextureResType::LOCAL);
+        /**
+         * Create a empty ImageView.
+         */
+        static ImageView* create();
 
-    /**
-     * Updates the texture rect of the ImageView in points.
-     * It will call setTextureRect:rotated:untrimmedSize with rotated = NO, and utrimmedSize = rect.size.
-     */
-    void setTextureRect(const Rect& rect);
+        /**
+         * Create a  imageview  with a image name.
+         *
+         * @param imageFileName   file name of texture.
+         * @param texType    @see `Widget::TextureResType`
+         * @return A ImageView instance.
+         */
+        static ImageView* create(const std::string& imageFileName, TextureResType texType = TextureResType::LOCAL);
 
-    /**
-     * Enable scale9 renderer.
-     *
-     * @param enabled Set to true will use scale9 renderer, false otherwise.
-     */
-    void setScale9Enabled(bool enabled);
+        /**
+         * Load texture for imageview.
+         *
+         * @param fileName   file name of texture.
+         * @param texType    @see `Widget::TextureResType`
+         */
+        void loadTexture(const std::string& fileName, TextureResType texType = TextureResType::LOCAL);
 
-    /**
-     * Query whether button is using scale9 renderer or not.
-     *@return whether button use scale9 renderer or not.
-     */
-    bool isScale9Enabled()const;
+        /**
+         * Updates the texture rect of the ImageView in points.
+         * It will call setTextureRect:rotated:untrimmedSize with rotated = NO, and utrimmedSize = rect.size.
+         */
+        void setTextureRect(const Rect& rect);
 
-    /**
-     * Sets capInsets for imageview.
-     * The capInsets affects the ImageView's renderer only if `setScale9Enabled(true)` is called.
-     *
-     * @param capInsets    capinsets for imageview
-     */
-    void setCapInsets(const Rect &capInsets);
+        /**
+         * Enable scale9 renderer.
+         *
+         * @param enabled Set to true will use scale9 renderer, false otherwise.
+         */
+        void setScale9Enabled(bool enabled);
 
-    /**
-     * Get ImageView's capInsets size.
-     * @return Query capInsets size in Rect
-     * @see `setCapInsets(const Rect&)`
-     */
-    const Rect& getCapInsets()const;
+        /**
+         * Query whether button is using scale9 renderer or not.
+         *@return whether button use scale9 renderer or not.
+         */
+        bool isScale9Enabled() const;
 
-    //override methods.
-    virtual void ignoreContentAdaptWithSize(bool ignore) override;
-    virtual std::string getDescription() const override;
-    virtual Size getVirtualRendererSize() const override;
-    virtual Node* getVirtualRenderer() override;
+        /**
+         * Sets capInsets for imageview.
+         * The capInsets affects the ImageView's renderer only if `setScale9Enabled(true)` is called.
+         *
+         * @param capInsets    capinsets for imageview
+         */
+        void setCapInsets(const Rect& capInsets);
 
-    ResourceData getRenderFile();
+        /**
+         * Get ImageView's capInsets size.
+         * @return Query capInsets size in Rect
+         * @see `setCapInsets(const Rect&)`
+         */
+        const Rect& getCapInsets() const;
 
-    virtual void setGLProgram(GLProgram* glProgram) override;
-    virtual void setGLProgramState(cocos2d::GLProgramState* glProgramState) override;
-CC_CONSTRUCTOR_ACCESS:
-    //initializes state of widget.
-    virtual bool init() override;
-    virtual bool init(const std::string& imageFileName, TextureResType texType = TextureResType::LOCAL);
+        // override methods.
+        virtual void ignoreContentAdaptWithSize(bool ignore) override;
+        virtual std::string getDescription() const override;
+        virtual Size getVirtualRendererSize() const override;
+        virtual Node* getVirtualRenderer() override;
 
-protected:
-    virtual void initRenderer() override;
-    virtual void onSizeChanged() override;
-    
-    virtual void adaptRenderers() override;
-    void loadTexture(SpriteFrame* spriteframe);
-    void setupTexture();
-    
-    void imageTextureScaleChangedWithSize();
-    virtual Widget* createCloneInstance() override;
-    virtual void copySpecialProperties(Widget* model) override;
-protected:
-    bool _scale9Enabled;
-    bool _prevIgnoreSize;
-    Rect _capInsets;
-    Scale9Sprite* _imageRenderer;
-    TextureResType _imageTexType;
-    Size _imageTextureSize;
-    bool _imageRendererAdaptDirty;
-    std::string _textureFile;
-};
+        ResourceData getRenderFile();
 
-}
+        virtual void setGLProgram(GLProgram* glProgram) override;
+        virtual void setGLProgramState(cocos2d::GLProgramState* glProgramState) override;
+        CC_CONSTRUCTOR_ACCESS :
+            // initializes state of widget.
+            virtual bool
+            init() override;
+        virtual bool init(const std::string& imageFileName, TextureResType texType = TextureResType::LOCAL);
+
+    protected:
+        virtual void initRenderer() override;
+        virtual void onSizeChanged() override;
+
+        virtual void adaptRenderers() override;
+        void loadTexture(SpriteFrame* spriteframe);
+        void setupTexture();
+
+        void imageTextureScaleChangedWithSize();
+        virtual Widget* createCloneInstance() override;
+        virtual void copySpecialProperties(Widget* model) override;
+
+    protected:
+        bool _scale9Enabled;
+        bool _prevIgnoreSize;
+        Rect _capInsets;
+        Scale9Sprite* _imageRenderer;
+        TextureResType _imageTexType;
+        Size _imageTextureSize;
+        bool _imageRendererAdaptDirty;
+        std::string _textureFile;
+    };
+
+} // namespace ui
 
 NS_CC_END
 // end of ui group

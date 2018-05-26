@@ -26,9 +26,9 @@ THE SOFTWARE.
 #ifndef __MATH_CCGEOMETRY_H__
 #define __MATH_CCGEOMETRY_H__
 
-#include "platform/CCPlatformMacros.h"
 #include "base/ccMacros.h"
 #include "math/CCMath.h"
+#include "platform/CCPlatformMacros.h"
 
 /**
  * @addtogroup base
@@ -44,12 +44,10 @@ public:
     float width;
     /**Height of the Size.*/
     float height;
+
 public:
     /**Conversion from Vec2 to Size.*/
-    operator Vec2() const
-    {
-        return Vec2(width, height);
-    }
+    operator Vec2() const { return Vec2(width, height); }
 
 public:
     /**
@@ -61,10 +59,14 @@ public:
     @param point Conversion from a point.
      */
     Size();
-    constexpr Size(float w, float h) : width(w), height(h)
+    constexpr Size(float w, float h)
+    : width(w)
+    , height(h)
     {
     }
-    constexpr Size(const Size& other) : width(other.width), height(other.height)
+    constexpr Size(const Size& other)
+    : width(other.width)
+    , height(other.height)
     {
     }
     explicit Size(const Vec2& point);
@@ -74,12 +76,12 @@ public:
      * @js NA
      * @lua NA
      */
-    Size& operator= (const Size& other);
+    Size& operator=(const Size& other);
     /**
      * @js NA
      * @lua NA
      */
-    Size& operator= (const Vec2& point);
+    Size& operator=(const Vec2& point);
     /**
      * @js NA
      * @lua NA
@@ -122,7 +124,7 @@ public:
     /**Low left point of rect.*/
     Vec2 origin;
     /**Width and height of the rect.*/
-    Size  size;
+    Size size;
 
 public:
     /**
@@ -134,7 +136,9 @@ public:
     Constructor a rect.
      * @js NA
      */
-    constexpr Rect(float x, float y, float width, float height) : origin(x, y), size(width, height)
+    constexpr Rect(float x, float y, float width, float height)
+    : origin(x, y)
+    , size(width, height)
     {
     }
     /**
@@ -152,7 +156,7 @@ public:
      * @js NA
      * @lua NA
      */
-    Rect& operator= (const Rect& other);
+    Rect& operator=(const Rect& other);
     /**
     Set the x, y, width and height of Rect.
      * @js NA
@@ -214,7 +218,7 @@ public:
      * @js NA
      * @lua NA
      */
-    Rect unionWithRect(const Rect & rect) const;
+    Rect unionWithRect(const Rect& rect) const;
     /**Compute the min rect which can contain this and rect, assign it to this.*/
     void merge(const Rect& rect);
     /**An empty Rect.*/

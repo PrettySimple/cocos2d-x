@@ -34,7 +34,7 @@ Distortion::Distortion()
     _coefficients[1] = 0.156f;
 }
 
-void Distortion::setCoefficients(float *coefficients)
+void Distortion::setCoefficients(float* coefficients)
 {
     for (int i = 0; i < s_numberOfCoefficients; i++)
     {
@@ -42,7 +42,7 @@ void Distortion::setCoefficients(float *coefficients)
     }
 }
 
-float *Distortion::coefficients()
+float* Distortion::coefficients()
 {
     return _coefficients;
 }

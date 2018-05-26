@@ -28,17 +28,17 @@ THE SOFTWARE.
 
 #include "renderer/CCGLProgramState.h"
 
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramStateCache.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/ccGLStateCache.h"
-#include "renderer/CCTexture2D.h"
+#include "2d/CCCamera.h"
+#include "base/CCDirector.h"
 #include "base/CCEventCustom.h"
+#include "base/CCEventDispatcher.h"
 #include "base/CCEventListenerCustom.h"
 #include "base/CCEventType.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "2d/CCCamera.h"
+#include "renderer/CCGLProgram.h"
+#include "renderer/CCGLProgramCache.h"
+#include "renderer/CCGLProgramStateCache.h"
+#include "renderer/CCTexture2D.h"
+#include "renderer/ccGLStateCache.h"
 
 NS_CC_BEGIN
 
@@ -58,7 +58,7 @@ UniformValue::UniformValue()
 {
 }
 
-UniformValue::UniformValue(Uniform *uniform, GLProgram* glprogram)
+UniformValue::UniformValue(Uniform* uniform, GLProgram* glprogram)
 : _uniform(uniform)
 , _glprogram(glprogram)
 , _type(Type::VALUE)
@@ -67,8 +67,8 @@ UniformValue::UniformValue(Uniform *uniform, GLProgram* glprogram)
 
 UniformValue::~UniformValue()
 {
-	if (_type == Type::CALLBACK_FN)
-		delete _value.callback;
+    if (_type == Type::CALLBACK_FN)
+        delete _value.callback;
 }
 
 void UniformValue::apply()
@@ -79,7 +79,8 @@ void UniformValue::apply()
     }
     else if (_type == Type::POINTER)
     {
-        switch (_uniform->type) {
+        switch (_uniform->type)
+        {
             case GL_FLOAT:
                 _glprogram->setUniformLocationWith1fv(_uniform->location, _value.floatv.pointer, _value.floatv.size);
                 break;
@@ -103,7 +104,8 @@ void UniformValue::apply()
     }
     else /* _type == VALUE */
     {
-        switch (_uniform->type) {
+        switch (_uniform->type)
+        {
             case GL_SAMPLER_2D:
                 _glprogram->setUniformLocationWith1i(_uniform->location, _value.tex.textureUnit);
                 GL::bindTexture2DN(_value.tex.textureUnit, _value.tex.textureId);
@@ -145,24 +147,24 @@ void UniformValue::apply()
     }
 }
 
-void UniformValue::setCallback(const std::function<void(GLProgram*, Uniform*)> &callback)
+void UniformValue::setCallback(const std::function<void(GLProgram*, Uniform*)>& callback)
 {
-	// delete previously set callback
-	// TODO: memory will leak if the user does:
-	//    value->setCallback();
-	//    value->setFloat();
+    // delete previously set callback
+    // TODO: memory will leak if the user does:
+    //    value->setCallback();
+    //    value->setFloat();
     if (_type == Type::CALLBACK_FN)
-		delete _value.callback;
+        delete _value.callback;
 
     _value.callback = new (std::nothrow) std::function<void(GLProgram*, Uniform*)>();
-	*_value.callback = callback;
+    *_value.callback = callback;
 
     _type = Type::CALLBACK_FN;
 }
 
 void UniformValue::setTexture(GLuint textureId, GLuint textureUnit)
 {
-    //CCASSERT(_uniform->type == GL_SAMPLER_2D, "Wrong type. expecting GL_SAMPLER_2D");
+    // CCASSERT(_uniform->type == GL_SAMPLER_2D, "Wrong type. expecting GL_SAMPLER_2D");
     _value.tex.textureId = textureId;
     _value.tex.textureUnit = textureUnit;
     _type = Type::VALUE;
@@ -192,7 +194,7 @@ void UniformValue::setFloatv(ssize_t size, const float* pointer)
 void UniformValue::setVec2(const Vec2& value)
 {
     CCASSERT(_uniform->type == GL_FLOAT_VEC2, "Wrong type: expecting GL_FLOAT_VEC2");
-	memcpy(_value.v2Value, &value, sizeof(_value.v2Value));
+    memcpy(_value.v2Value, &value, sizeof(_value.v2Value));
     _type = Type::VALUE;
 }
 
@@ -207,9 +209,8 @@ void UniformValue::setVec2v(ssize_t size, const Vec2* pointer)
 void UniformValue::setVec3(const Vec3& value)
 {
     CCASSERT(_uniform->type == GL_FLOAT_VEC3, "Wrong type: expecting GL_FLOAT_VEC3");
-	memcpy(_value.v3Value, &value, sizeof(_value.v3Value));
+    memcpy(_value.v3Value, &value, sizeof(_value.v3Value));
     _type = Type::VALUE;
-
 }
 
 void UniformValue::setVec3v(ssize_t size, const Vec3* pointer)
@@ -218,19 +219,18 @@ void UniformValue::setVec3v(ssize_t size, const Vec3* pointer)
     _value.v3f.pointer = (const float*)pointer;
     _value.v3f.size = (GLsizei)size;
     _type = Type::POINTER;
-
 }
 
 void UniformValue::setVec4(const Vec4& value)
 {
-    CCASSERT (_uniform->type == GL_FLOAT_VEC4, "Wrong type: expecting GL_FLOAT_VEC4");
-	memcpy(_value.v4Value, &value, sizeof(_value.v4Value));
+    CCASSERT(_uniform->type == GL_FLOAT_VEC4, "Wrong type: expecting GL_FLOAT_VEC4");
+    memcpy(_value.v4Value, &value, sizeof(_value.v4Value));
     _type = Type::VALUE;
 }
 
 void UniformValue::setVec4v(ssize_t size, const Vec4* pointer)
 {
-    CCASSERT (_uniform->type == GL_FLOAT_VEC4, "Wrong type: expecting GL_FLOAT_VEC4");
+    CCASSERT(_uniform->type == GL_FLOAT_VEC4, "Wrong type: expecting GL_FLOAT_VEC4");
     _value.v4f.pointer = (const float*)pointer;
     _value.v4f.size = (GLsizei)size;
     _type = Type::POINTER;
@@ -239,7 +239,7 @@ void UniformValue::setVec4v(ssize_t size, const Vec4* pointer)
 void UniformValue::setMat4(const Mat4& value)
 {
     CCASSERT(_uniform->type == GL_FLOAT_MAT4, "_uniform's type should be equal GL_FLOAT_MAT4.");
-	memcpy(_value.matrixValue, &value, sizeof(_value.matrixValue));
+    memcpy(_value.matrixValue, &value, sizeof(_value.matrixValue));
     _type = Type::VALUE;
 }
 
@@ -256,7 +256,7 @@ VertexAttribValue::VertexAttribValue()
 {
 }
 
-VertexAttribValue::VertexAttribValue(VertexAttrib *vertexAttrib)
+VertexAttribValue::VertexAttribValue(VertexAttrib* vertexAttrib)
 : _vertexAttrib(vertexAttrib)
 , _useCallback(false)
 , _enabled(false)
@@ -265,37 +265,35 @@ VertexAttribValue::VertexAttribValue(VertexAttrib *vertexAttrib)
 
 VertexAttribValue::~VertexAttribValue()
 {
-	if (_useCallback)
-		delete _value.callback;
+    if (_useCallback)
+        delete _value.callback;
 }
 
 void VertexAttribValue::apply()
 {
-    if(_enabled) {
-        if(_useCallback) {
+    if (_enabled)
+    {
+        if (_useCallback)
+        {
             (*_value.callback)(_vertexAttrib);
         }
         else
         {
-            glVertexAttribPointer(_vertexAttrib->index,
-                                  _value.pointer.size,
-                                  _value.pointer.type,
-                                  _value.pointer.normalized,
-                                  _value.pointer.stride,
+            glVertexAttribPointer(_vertexAttrib->index, _value.pointer.size, _value.pointer.type, _value.pointer.normalized, _value.pointer.stride,
                                   _value.pointer.pointer);
         }
     }
 }
 
-void VertexAttribValue::setCallback(const std::function<void(VertexAttrib*)> &callback)
+void VertexAttribValue::setCallback(const std::function<void(VertexAttrib*)>& callback)
 {
-	_value.callback = new (std::nothrow) std::function<void(VertexAttrib*)>();
-	*_value.callback = callback;
+    _value.callback = new (std::nothrow) std::function<void(VertexAttrib*)>();
+    *_value.callback = callback;
     _useCallback = true;
     _enabled = true;
 }
 
-void VertexAttribValue::setPointer(GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid *pointer)
+void VertexAttribValue::setPointer(GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid* pointer)
 {
     _value.pointer.size = size;
     _value.pointer.type = type;
@@ -312,14 +310,18 @@ void VertexAttribValue::setPointer(GLint size, GLenum type, GLboolean normalized
 //
 GLProgramState* GLProgramState::getOrCreateWithGLProgramName(const std::string& glProgramName, Texture2D* texture)
 {
-    if (texture != nullptr && texture->getAlphaTextureName() != 0) {
-        if (glProgramName == GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR) {
+    if (texture != nullptr && texture->getAlphaTextureName() != 0)
+    {
+        if (glProgramName == GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR)
+        {
             return GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_ETC1AS_POSITION_TEXTURE_COLOR);
         }
-        else if (glProgramName == GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP) {
+        else if (glProgramName == GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP)
+        {
             return GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_ETC1AS_POSITION_TEXTURE_COLOR_NO_MVP);
         }
-        else if (glProgramName == GLProgram::SHADER_NAME_POSITION_GRAYSCALE) {
+        else if (glProgramName == GLProgram::SHADER_NAME_POSITION_GRAYSCALE)
+        {
             return GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_ETC1AS_POSITION_TEXTURE_GRAY_NO_MVP);
         }
     }
@@ -327,11 +329,11 @@ GLProgramState* GLProgramState::getOrCreateWithGLProgramName(const std::string& 
     return GLProgramState::getOrCreateWithGLProgramName(glProgramName);
 }
 
-GLProgramState* GLProgramState::create(GLProgram *glprogram)
+GLProgramState* GLProgramState::create(GLProgram* glprogram)
 {
     GLProgramState* ret = nullptr;
     ret = new (std::nothrow) GLProgramState();
-    if(ret && ret->init(glprogram))
+    if (ret && ret->init(glprogram))
     {
         ret->autorelease();
         return ret;
@@ -340,18 +342,17 @@ GLProgramState* GLProgramState::create(GLProgram *glprogram)
     return nullptr;
 }
 
-GLProgramState* GLProgramState::getOrCreateWithGLProgramName(const std::string& glProgramName )
+GLProgramState* GLProgramState::getOrCreateWithGLProgramName(const std::string& glProgramName)
 {
-    GLProgram *glProgram = GLProgramCache::getInstance()->getGLProgram(glProgramName);
-    if( glProgram )
+    GLProgram* glProgram = GLProgramCache::getInstance()->getGLProgram(glProgramName);
+    if (glProgram)
         return getOrCreateWithGLProgram(glProgram);
 
     CCLOG("cocos2d: warning: GLProgram '%s' not found", glProgramName.c_str());
     return nullptr;
 }
 
-
-GLProgramState* GLProgramState::getOrCreateWithGLProgram(GLProgram *glprogram)
+GLProgramState* GLProgramState::getOrCreateWithGLProgram(GLProgram* glprogram)
 {
     GLProgramState* ret = GLProgramStateCache::getInstance()->getGLProgramState(glprogram);
     return ret;
@@ -363,7 +364,8 @@ GLProgramState* GLProgramState::getOrCreateWithShaders(const std::string& vertex
     const std::string key = vertexShader + "+" + fragShader + "+" + compileTimeDefines;
     auto glprogram = glprogramcache->getGLProgram(key);
 
-    if (!glprogram) {
+    if (!glprogram)
+    {
         glprogram = GLProgram::createWithFilenames(vertexShader, fragShader, compileTimeDefines);
         glprogramcache->addGLProgram(glprogram, key);
     }
@@ -371,22 +373,19 @@ GLProgramState* GLProgramState::getOrCreateWithShaders(const std::string& vertex
     return create(glprogram);
 }
 
-
 GLProgramState::GLProgramState()
 : _uniformAttributeValueDirty(true)
-, _textureUnitIndex(4)  // first 4 textures unites are reserved for CC_Texture0-3
+, _textureUnitIndex(4) // first 4 textures unites are reserved for CC_Texture0-3
 , _vertexAttribsFlags(0)
 , _glprogram(nullptr)
 , _nodeBinding(nullptr)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     /** listen the event that renderer was recreated on Android/WP8 */
-    _backToForegroundlistener = EventListenerCustom::create(EVENT_RENDERER_RECREATED,
-        [this](EventCustom*)
-        {
-            CCLOG("Dirty Uniform and Attributes of GLProgramState");
-            _uniformAttributeValueDirty = true;
-        });
+    _backToForegroundlistener = EventListenerCustom::create(EVENT_RENDERER_RECREATED, [this](EventCustom*) {
+        CCLOG("Dirty Uniform and Attributes of GLProgramState");
+        _uniformAttributeValueDirty = true;
+    });
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_backToForegroundlistener, -1);
 #endif
 }
@@ -439,12 +438,14 @@ bool GLProgramState::init(GLProgram* glprogram)
     _glprogram = glprogram;
     _glprogram->retain();
 
-    for(auto &attrib : _glprogram->_vertexAttribs) {
+    for (auto& attrib : _glprogram->_vertexAttribs)
+    {
         VertexAttribValue value(&attrib.second);
         _attributes[attrib.first] = value;
     }
 
-    for(auto &uniform : _glprogram->_userUniforms) {
+    for (auto& uniform : _glprogram->_userUniforms)
+    {
         UniformValue value(&uniform.second, _glprogram);
         _uniforms[uniform.second.location] = value;
         _uniformsByName[uniform.first] = uniform.second.location;
@@ -476,23 +477,22 @@ void GLProgramState::apply(const Mat4& modelView)
 void GLProgramState::updateUniformsAndAttributes()
 {
     CCASSERT(_glprogram, "invalid glprogram");
-    if(_uniformAttributeValueDirty)
+    if (_uniformAttributeValueDirty)
     {
-        for(auto& uniformLocation : _uniformsByName)
+        for (auto& uniformLocation : _uniformsByName)
         {
             _uniforms[uniformLocation.second]._uniform = _glprogram->getUniform(uniformLocation.first);
         }
 
         _vertexAttribsFlags = 0;
-        for(auto& attributeValue : _attributes)
+        for (auto& attributeValue : _attributes)
         {
             attributeValue.second._vertexAttrib = _glprogram->getVertexAttrib(attributeValue.first);
-            if(attributeValue.second._enabled)
+            if (attributeValue.second._enabled)
                 _vertexAttribsFlags |= 1 << attributeValue.second._vertexAttrib->index;
         }
 
         _uniformAttributeValueDirty = false;
-
     }
 }
 
@@ -510,12 +510,13 @@ void GLProgramState::applyAttributes(bool applyAttribFlags)
     // Don't set attributes if they weren't set
     // Use Case: Auto-batching
     updateUniformsAndAttributes();
-    if(_vertexAttribsFlags) {
+    if (_vertexAttribsFlags)
+    {
         // enable/disable vertex attribs
         if (applyAttribFlags)
             GL::enableVertexAttribs(_vertexAttribsFlags);
         // set attributes
-        for(auto &attribute : _attributes)
+        for (auto& attribute : _attributes)
         {
             attribute.second.apply();
         }
@@ -525,16 +526,18 @@ void GLProgramState::applyUniforms()
 {
     // set uniforms
     updateUniformsAndAttributes();
-    for(auto& uniform : _uniforms) {
+    for (auto& uniform : _uniforms)
+    {
         uniform.second.apply();
     }
 }
 
-void GLProgramState::setGLProgram(GLProgram *glprogram)
+void GLProgramState::setGLProgram(GLProgram* glprogram)
 {
     CCASSERT(glprogram, "invalid GLProgram");
 
-    if( _glprogram != glprogram) {
+    if (_glprogram != glprogram)
+    {
         resetGLProgram();
         init(glprogram);
     }
@@ -572,52 +575,55 @@ VertexAttribValue* GLProgramState::getVertexAttribValue(const std::string& name)
 {
     updateUniformsAndAttributes();
     const auto itr = _attributes.find(name);
-    if( itr != _attributes.end())
+    if (itr != _attributes.end())
         return &itr->second;
     return nullptr;
 }
 
 // VertexAttrib Setters
-void GLProgramState::setVertexAttribCallback(const std::string& name, const std::function<void(VertexAttrib*)> &callback)
+void GLProgramState::setVertexAttribCallback(const std::string& name, const std::function<void(VertexAttrib*)>& callback)
 {
-    VertexAttribValue *v = getVertexAttribValue(name);
-    if(v) {
+    VertexAttribValue* v = getVertexAttribValue(name);
+    if (v)
+    {
         v->setCallback(callback);
         _vertexAttribsFlags |= 1 << v->_vertexAttrib->index;
     }
     else
     {
-		CCLOG("cocos2d: warning: Attribute not found: %s", name.c_str());
-	}
+        CCLOG("cocos2d: warning: Attribute not found: %s", name.c_str());
+    }
 }
 
-void GLProgramState::setVertexAttribPointer(const std::string& name, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid *pointer)
+void GLProgramState::setVertexAttribPointer(const std::string& name, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid* pointer)
 {
     auto v = getVertexAttribValue(name);
-    if(v) {
+    if (v)
+    {
         v->setPointer(size, type, normalized, stride, pointer);
         _vertexAttribsFlags |= 1 << v->_vertexAttrib->index;
     }
     else
     {
-		CCLOG("cocos2d: warning: Attribute not found: %s", name.c_str());
+        CCLOG("cocos2d: warning: Attribute not found: %s", name.c_str());
     }
 }
 
 // Uniform Setters
 
-void GLProgramState::setUniformCallback(const std::string& uniformName, const std::function<void(GLProgram*, Uniform*)> &callback)
+void GLProgramState::setUniformCallback(const std::string& uniformName, const std::function<void(GLProgram*, Uniform*)>& callback)
 {
     auto v = getUniformValue(uniformName);
     if (v)
         v->setCallback(callback);
 }
 
-void GLProgramState::setUniformCallback(GLint uniformLocation, const std::function<void(GLProgram*, Uniform*)> &callback)
+void GLProgramState::setUniformCallback(GLint uniformLocation, const std::function<void(GLProgram*, Uniform*)>& callback)
 {
     auto v = getUniformValue(uniformLocation);
     if (v)
-        v->setCallback(callback);}
+        v->setCallback(callback);
+}
 
 void GLProgramState::setUniformFloat(const std::string& uniformName, float value)
 {
@@ -630,14 +636,14 @@ void GLProgramState::setUniformFloat(GLint uniformLocation, float value)
 {
     auto v = getUniformValue(uniformLocation);
     if (v)
-        v->setFloat(value);}
+        v->setFloat(value);
+}
 
 void GLProgramState::setUniformInt(const std::string& uniformName, int value)
 {
     auto v = getUniformValue(uniformName);
-    if(v)
+    if (v)
         v->setInt(value);
-    
 }
 
 void GLProgramState::setUniformInt(GLint uniformLocation, int value)
@@ -652,123 +658,122 @@ void GLProgramState::setUniformFloatv(const std::string& uniformName, ssize_t si
     auto v = getUniformValue(uniformName);
     if (v)
         v->setFloatv(size, pointer);
-    
 }
 
 void GLProgramState::setUniformFloatv(GLint uniformLocation, ssize_t size, const float* pointer)
 {
     auto v = getUniformValue(uniformLocation);
     if (v)
-        v->setFloatv(size, pointer);}
+        v->setFloatv(size, pointer);
+}
 
 void GLProgramState::setUniformVec2(const std::string& uniformName, const Vec2& value)
 {
     auto v = getUniformValue(uniformName);
     if (v)
         v->setVec2(value);
-    
 }
 
 void GLProgramState::setUniformVec2(GLint uniformLocation, const Vec2& value)
 {
     auto v = getUniformValue(uniformLocation);
     if (v)
-        v->setVec2(value);}
+        v->setVec2(value);
+}
 
 void GLProgramState::setUniformVec2v(const std::string& uniformName, ssize_t size, const Vec2* pointer)
 {
     auto v = getUniformValue(uniformName);
     if (v)
         v->setVec2v(size, pointer);
-    
 }
 
 void GLProgramState::setUniformVec2v(GLint uniformLocation, ssize_t size, const Vec2* pointer)
 {
     auto v = getUniformValue(uniformLocation);
     if (v)
-        v->setVec2v(size, pointer);}
+        v->setVec2v(size, pointer);
+}
 
 void GLProgramState::setUniformVec3(const std::string& uniformName, const Vec3& value)
 {
     auto v = getUniformValue(uniformName);
     if (v)
         v->setVec3(value);
-    
 }
 
 void GLProgramState::setUniformVec3(GLint uniformLocation, const Vec3& value)
 {
     auto v = getUniformValue(uniformLocation);
     if (v)
-        v->setVec3(value);}
+        v->setVec3(value);
+}
 
 void GLProgramState::setUniformVec3v(const std::string& uniformName, ssize_t size, const Vec3* pointer)
 {
     auto v = getUniformValue(uniformName);
     if (v)
         v->setVec3v(size, pointer);
-    
 }
 
 void GLProgramState::setUniformVec3v(GLint uniformLocation, ssize_t size, const Vec3* pointer)
 {
     auto v = getUniformValue(uniformLocation);
     if (v)
-        v->setVec3v(size, pointer);}
+        v->setVec3v(size, pointer);
+}
 
 void GLProgramState::setUniformVec4(const std::string& uniformName, const Vec4& value)
 {
     auto v = getUniformValue(uniformName);
     if (v)
         v->setVec4(value);
-    
 }
 
 void GLProgramState::setUniformVec4(GLint uniformLocation, const Vec4& value)
 {
     auto v = getUniformValue(uniformLocation);
     if (v)
-        v->setVec4(value);}
+        v->setVec4(value);
+}
 
 void GLProgramState::setUniformVec4v(const std::string& uniformName, ssize_t size, const Vec4* value)
 {
     auto v = getUniformValue(uniformName);
     if (v)
         v->setVec4v(size, value);
-    
 }
 
 void GLProgramState::setUniformVec4v(GLint uniformLocation, ssize_t size, const Vec4* pointer)
 {
     auto v = getUniformValue(uniformLocation);
     if (v)
-        v->setVec4v(size, pointer);}
-
+        v->setVec4v(size, pointer);
+}
 
 void GLProgramState::setUniformMat4(const std::string& uniformName, const Mat4& value)
 {
     auto v = getUniformValue(uniformName);
     if (v)
         v->setMat4(value);
-    
 }
 
 void GLProgramState::setUniformMat4(GLint uniformLocation, const Mat4& value)
 {
     auto v = getUniformValue(uniformLocation);
     if (v)
-        v->setMat4(value);}
+        v->setMat4(value);
+}
 
 // Textures
 
-void GLProgramState::setUniformTexture(const std::string& uniformName, Texture2D *texture)
+void GLProgramState::setUniformTexture(const std::string& uniformName, Texture2D* texture)
 {
     CCASSERT(texture, "Invalid texture");
     setUniformTexture(uniformName, texture->getName());
 }
 
-void GLProgramState::setUniformTexture(GLint uniformLocation, Texture2D *texture)
+void GLProgramState::setUniformTexture(GLint uniformLocation, Texture2D* texture)
 {
     CCASSERT(texture, "Invalid texture");
     setUniformTexture(uniformLocation, texture->getName());
@@ -835,7 +840,7 @@ void GLProgramState::applyAutoBinding(const std::string& uniformName, const std:
     // Instead, the GLProgramState should obtain it from its target.
 
     bool resolved = false;
-    for (const auto resolver: _customAutoBindingResolvers)
+    for (const auto resolver : _customAutoBindingResolvers)
     {
         resolved = resolver->resolveAutoBinding(this, _nodeBinding, uniformName, autoBinding);
         if (resolved)
@@ -862,7 +867,7 @@ void GLProgramState::setNodeBinding(Node* target)
     // weak ref
     _nodeBinding = target;
 
-    for (const auto autobinding: _autoBindings)
+    for (const auto autobinding : _autoBindings)
         applyAutoBinding(autobinding.first, autobinding.second);
 }
 

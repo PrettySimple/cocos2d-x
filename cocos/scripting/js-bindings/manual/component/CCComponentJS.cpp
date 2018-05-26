@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,10 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "jsapi.h"
-#include "mozilla/Maybe.h"
 #include "scripting/js-bindings/manual/component/CCComponentJS.h"
 #include "base/CCScriptSupport.h"
+#include "jsapi.h"
+#include "mozilla/Maybe.h"
 #include "scripting/js-bindings/manual/ScriptingCore.h"
 #include "scripting/js-bindings/manual/cocos2d_specifics.hpp"
 #include "scripting/js-bindings/manual/js_manual_conversions.h"
@@ -39,13 +39,13 @@ const std::string ComponentJS::UPDATE = "update";
 ComponentJS* ComponentJS::create(const std::string& scriptFileName)
 {
     CC_ASSERT(!scriptFileName.empty());
-    
-    auto componentJS = new(std::nothrow) ComponentJS(scriptFileName);
+
+    auto componentJS = new (std::nothrow) ComponentJS(scriptFileName);
     if (componentJS)
     {
         componentJS->autorelease();
     }
-    
+
     return componentJS;
 }
 
@@ -58,23 +58,23 @@ ComponentJS::ComponentJS(const std::string& scriptFileName)
     // Require script
     JS::RootedValue classValue(cx);
     _succeedLoadingScript = engine->requireScript(_scriptFileName.c_str(), &classValue);
-    
+
     if (_succeedLoadingScript)
     {
         JS::RootedObject classObj(cx, classValue.toObjectOrNull());
         const JSClass* theClass = JS_GetClass(classObj);
         JS::RootedValue protoValue(cx);
         JS_GetProperty(cx, classObj, "prototype", &protoValue);
-        
-        mozilla::Maybe<JS::PersistentRootedObject> *jsObj = new (std::nothrow) mozilla::Maybe<JS::PersistentRootedObject>();
-        
-        js_type_class_t *typeClass = js_get_type_from_native<cocos2d::ComponentJS>(this);
+
+        mozilla::Maybe<JS::PersistentRootedObject>* jsObj = new (std::nothrow) mozilla::Maybe<JS::PersistentRootedObject>();
+
+        js_type_class_t* typeClass = js_get_type_from_native<cocos2d::ComponentJS>(this);
         JS::RootedObject proto(cx, protoValue.toObjectOrNull());
         JS::RootedObject parent(cx, typeClass->proto.ref());
         jsObj->construct(cx);
         JS::RootedObject obj(cx, JS_NewObject(cx, theClass, proto, parent));
         jsObj->ref() = obj;
-        
+
         // Unbind current proxy binding
         js_proxy_t* nproxy = jsb_get_native_proxy(this);
         if (nproxy)
@@ -87,7 +87,7 @@ ComponentJS::ComponentJS(const std::string& scriptFileName)
         }
         // link the native object with the javascript object
         jsb_new_proxy(this, jsObj->ref());
-        
+
         _jsObj = jsObj;
     }
 }

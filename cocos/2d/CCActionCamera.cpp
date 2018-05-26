@@ -3,7 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
- 
+
 http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,6 +26,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "2d/CCActionCamera.h"
+
 #include "2d/CCNode.h"
 #include "platform/CCStdC.h"
 
@@ -39,7 +40,7 @@ ActionCamera::ActionCamera()
 , _up(0, 1, 0)
 {
 }
-void ActionCamera::startWithTarget(Node *target)
+void ActionCamera::startWithTarget(Node* target)
 {
     ActionInterval::startWithTarget(target);
 }
@@ -52,12 +53,12 @@ ActionCamera* ActionCamera::clone() const
         action->autorelease();
         return action;
     }
-    
+
     delete action;
     return nullptr;
 }
 
-ActionCamera * ActionCamera::reverse() const
+ActionCamera* ActionCamera::reverse() const
 {
     // FIXME: This conversion isn't safe.
     return (ActionCamera*)ReverseTime::create(const_cast<ActionCamera*>(this));
@@ -105,16 +106,16 @@ void ActionCamera::updateTransform()
 
     Mat4 mv = Mat4::IDENTITY;
 
-    if(needsTranslation)
+    if (needsTranslation)
     {
         Mat4 t;
         Mat4::createTranslation(anchorPoint.x, anchorPoint.y, 0, &t);
         mv = mv * t;
     }
-    
+
     mv = mv * lookupMatrix;
 
-    if(needsTranslation)
+    if (needsTranslation)
     {
         Mat4 t;
         Mat4::createTranslation(-anchorPoint.x, -anchorPoint.y, 0, &t);
@@ -151,15 +152,15 @@ OrbitCamera::~OrbitCamera()
 {
 }
 
-OrbitCamera * OrbitCamera::create(std::chrono::milliseconds t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX)
+OrbitCamera* OrbitCamera::create(std::chrono::milliseconds t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX)
 {
-    OrbitCamera * obitCamera = new (std::nothrow) OrbitCamera();
-    if(obitCamera && obitCamera->initWithDuration(t, radius, deltaRadius, angleZ, deltaAngleZ, angleX, deltaAngleX))
+    OrbitCamera* obitCamera = new (std::nothrow) OrbitCamera();
+    if (obitCamera && obitCamera->initWithDuration(t, radius, deltaRadius, angleZ, deltaAngleZ, angleX, deltaAngleX))
     {
         obitCamera->autorelease();
         return obitCamera;
     }
-    
+
     delete obitCamera;
     return nullptr;
 }
@@ -172,7 +173,7 @@ OrbitCamera* OrbitCamera::clone() const
 
 bool OrbitCamera::initWithDuration(std::chrono::milliseconds t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX)
 {
-    if ( ActionInterval::initWithDuration(t) )
+    if (ActionInterval::initWithDuration(t))
     {
         _radius = radius;
         _deltaRadius = deltaRadius;
@@ -188,17 +189,17 @@ bool OrbitCamera::initWithDuration(std::chrono::milliseconds t, float radius, fl
     return false;
 }
 
-void OrbitCamera::startWithTarget(Node *target)
+void OrbitCamera::startWithTarget(Node* target)
 {
     ActionCamera::startWithTarget(target);
 
     float r, zenith, azimuth;
     this->sphericalRadius(&r, &zenith, &azimuth);
-    if( std::isnan(_radius) )
+    if (std::isnan(_radius))
         _radius = r;
-    if( std::isnan(_angleZ) )
+    if (std::isnan(_angleZ))
         _angleZ = (float)CC_RADIANS_TO_DEGREES(zenith);
-    if( std::isnan(_angleX) )
+    if (std::isnan(_angleX))
         _angleX = (float)CC_RADIANS_TO_DEGREES(azimuth);
 
     _radZ = (float)CC_DEGREES_TO_RADIANS(_angleZ);
@@ -215,10 +216,10 @@ void OrbitCamera::update(float dt)
     float j = sinf(za) * sinf(xa) * r + _center.y;
     float k = cosf(za) * r + _center.z;
 
-    setEye(i,j,k);
+    setEye(i, j, k);
 }
 
-void OrbitCamera::sphericalRadius(float *newRadius, float *zenith, float *azimuth)
+void OrbitCamera::sphericalRadius(float* newRadius, float* zenith, float* azimuth)
 {
     float r; // radius
     float s;
@@ -227,18 +228,18 @@ void OrbitCamera::sphericalRadius(float *newRadius, float *zenith, float *azimut
     float y = _eye.y - _center.y;
     float z = _eye.z - _center.z;
 
-    r = sqrtf( powf(x,2) + powf(y,2) + powf(z,2));
-    s = sqrtf( powf(x,2) + powf(y,2));
-    if( s == 0.0f )
+    r = sqrtf(powf(x, 2) + powf(y, 2) + powf(z, 2));
+    s = sqrtf(powf(x, 2) + powf(y, 2));
+    if (s == 0.0f)
         s = FLT_EPSILON;
-    if(r==0.0f)
+    if (r == 0.0f)
         r = FLT_EPSILON;
 
-    *zenith = acosf( z/r);
-    if( x < 0 )
-        *azimuth= (float)M_PI - asinf(y/s);
+    *zenith = acosf(z / r);
+    if (x < 0)
+        *azimuth = (float)M_PI - asinf(y / s);
     else
-        *azimuth = asinf(y/s);
+        *azimuth = asinf(y / s);
 
     *newRadius = r / FLT_EPSILON;
 }

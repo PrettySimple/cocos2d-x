@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -33,35 +33,35 @@ NS_CC_BEGIN
 const unsigned int PUDoPlacementParticleEventHandler::DEFAULT_NUMBER_OF_PARTICLES = 1;
 
 //-----------------------------------------------------------------------
-PUDoPlacementParticleEventHandler::PUDoPlacementParticleEventHandler(void) : 
-    PUEventHandler(),
-    PUListener(),
-    _numberOfParticles(DEFAULT_NUMBER_OF_PARTICLES),
-    _system(0),
-    _emitter(0),
-    _found(false),
-    _alwaysUsePosition(true),
-    _baseParticle(0),
-    _inheritPosition(true),
-    _inheritDirection(false),
-    _inheritOrientation(false),
-    _inheritTimeToLive(false),
-    _inheritMass(false),
-    _inheritTextureCoordinate(false),
-    _inheritColour(false),
-    _inheritParticleWidth(false),
-    _inheritParticleHeight(false),
-    _inheritParticleDepth(false)
+PUDoPlacementParticleEventHandler::PUDoPlacementParticleEventHandler(void)
+: PUEventHandler()
+, PUListener()
+, _numberOfParticles(DEFAULT_NUMBER_OF_PARTICLES)
+, _system(0)
+, _emitter(0)
+, _found(false)
+, _alwaysUsePosition(true)
+, _baseParticle(0)
+, _inheritPosition(true)
+, _inheritDirection(false)
+, _inheritOrientation(false)
+, _inheritTimeToLive(false)
+, _inheritMass(false)
+, _inheritTextureCoordinate(false)
+, _inheritColour(false)
+, _inheritParticleWidth(false)
+, _inheritParticleHeight(false)
+, _inheritParticleDepth(false)
 {
 }
 //-----------------------------------------------------------------------
 PUDoPlacementParticleEventHandler::~PUDoPlacementParticleEventHandler(void)
 {
-    // We cannot remove this listener from mTechnique, because it is undetermined whether the ParticleTechnique 
+    // We cannot remove this listener from mTechnique, because it is undetermined whether the ParticleTechnique
     // still exist.
 }
 //-----------------------------------------------------------------------
-void PUDoPlacementParticleEventHandler::handle (PUParticleSystem3D* particleSystem, PUParticle3D* particle, float timeElapsed)
+void PUDoPlacementParticleEventHandler::handle(PUParticleSystem3D* particleSystem, PUParticle3D* particle, float timeElapsed)
 {
     if (!particle)
         return;
@@ -70,18 +70,20 @@ void PUDoPlacementParticleEventHandler::handle (PUParticleSystem3D* particleSyst
     {
         auto system = particleSystem;
         auto emitter = system->getEmitter(_forceEmitterName);
-        //ParticleTechnique* technique = particleTechnique;
-        //ParticleEmitter* emitter = particleTechnique->getEmitter(_forceEmitterName);
+        // ParticleTechnique* technique = particleTechnique;
+        // ParticleEmitter* emitter = particleTechnique->getEmitter(_forceEmitterName);
         if (!emitter)
         {
             // Search all techniques in this ParticleSystem for an emitter with the correct name
             PUParticleSystem3D* parentSystem = particleSystem->getParentParticleSystem();
-            if (parentSystem){
+            if (parentSystem)
+            {
                 auto children = parentSystem->getChildren();
-                for(auto iter : children)		
+                for (auto iter : children)
                 {
-                    PUParticleSystem3D *child  = dynamic_cast<PUParticleSystem3D *>(iter);
-                    if (child){
+                    PUParticleSystem3D* child = dynamic_cast<PUParticleSystem3D*>(iter);
+                    if (child)
+                    {
                         system = child;
                         emitter = system->getEmitter(_forceEmitterName);
                         if (emitter)
@@ -154,8 +156,8 @@ void PUDoPlacementParticleEventHandler::particleEmitted(PUParticleSystem3D* part
         {
             if (_baseParticle->particleType == PUParticle3D::PT_VISUAL && particle->particleType == PUParticle3D::PT_VISUAL)
             {
-                //VisualParticle* visualBaseParticle = static_cast<VisualParticle*>(_baseParticle);
-                //VisualParticle* visualParticle = static_cast<VisualParticle*>(particle);
+                // VisualParticle* visualBaseParticle = static_cast<VisualParticle*>(_baseParticle);
+                // VisualParticle* visualParticle = static_cast<VisualParticle*>(particle);
                 particle->orientation = _baseParticle->orientation;
                 particle->originalOrientation = _baseParticle->originalOrientation;
             }
@@ -174,8 +176,8 @@ void PUDoPlacementParticleEventHandler::particleEmitted(PUParticleSystem3D* part
         {
             if (_baseParticle->particleType == PUParticle3D::PT_VISUAL && particle->particleType == PUParticle3D::PT_VISUAL)
             {
-                //VisualParticle* visualBaseParticle = static_cast<VisualParticle*>(_baseParticle);
-                //VisualParticle* visualParticle = static_cast<VisualParticle*>(particle);
+                // VisualParticle* visualBaseParticle = static_cast<VisualParticle*>(_baseParticle);
+                // VisualParticle* visualParticle = static_cast<VisualParticle*>(particle);
                 particle->textureAnimationTimeStep = _baseParticle->textureAnimationTimeStep;
                 particle->textureAnimationTimeStepCount = _baseParticle->textureAnimationTimeStepCount;
                 particle->textureCoordsCurrent = _baseParticle->textureCoordsCurrent;
@@ -186,8 +188,8 @@ void PUDoPlacementParticleEventHandler::particleEmitted(PUParticleSystem3D* part
         {
             if (_baseParticle->particleType == PUParticle3D::PT_VISUAL && particle->particleType == PUParticle3D::PT_VISUAL)
             {
-                //VisualParticle* visualBaseParticle = static_cast<VisualParticle*>(_baseParticle);
-                //VisualParticle* visualParticle = static_cast<VisualParticle*>(particle);
+                // VisualParticle* visualBaseParticle = static_cast<VisualParticle*>(_baseParticle);
+                // VisualParticle* visualParticle = static_cast<VisualParticle*>(particle);
                 particle->color = _baseParticle->color;
                 particle->originalColor = _baseParticle->originalColor;
             }
@@ -196,8 +198,8 @@ void PUDoPlacementParticleEventHandler::particleEmitted(PUParticleSystem3D* part
         {
             if (_baseParticle->particleType == PUParticle3D::PT_VISUAL && particle->particleType == PUParticle3D::PT_VISUAL)
             {
-                //VisualParticle* visualBaseParticle = static_cast<VisualParticle*>(_baseParticle);
-                //VisualParticle* visualParticle = static_cast<VisualParticle*>(particle);
+                // VisualParticle* visualBaseParticle = static_cast<VisualParticle*>(_baseParticle);
+                // VisualParticle* visualParticle = static_cast<VisualParticle*>(particle);
                 particle->setOwnDimensions(_baseParticle->width, particle->height, particle->depth);
             }
         }
@@ -205,8 +207,8 @@ void PUDoPlacementParticleEventHandler::particleEmitted(PUParticleSystem3D* part
         {
             if (_baseParticle->particleType == PUParticle3D::PT_VISUAL && particle->particleType == PUParticle3D::PT_VISUAL)
             {
-                //VisualParticle* visualBaseParticle = static_cast<VisualParticle*>(_baseParticle);
-                //VisualParticle* visualParticle = static_cast<VisualParticle*>(particle);
+                // VisualParticle* visualBaseParticle = static_cast<VisualParticle*>(_baseParticle);
+                // VisualParticle* visualParticle = static_cast<VisualParticle*>(particle);
                 particle->setOwnDimensions(particle->width, _baseParticle->height, particle->depth);
             }
         }
@@ -214,8 +216,8 @@ void PUDoPlacementParticleEventHandler::particleEmitted(PUParticleSystem3D* part
         {
             if (_baseParticle->particleType == PUParticle3D::PT_VISUAL && particle->particleType == PUParticle3D::PT_VISUAL)
             {
-                //VisualParticle* visualBaseParticle = static_cast<VisualParticle*>(_baseParticle);
-                //VisualParticle* visualParticle = static_cast<VisualParticle*>(particle);
+                // VisualParticle* visualBaseParticle = static_cast<VisualParticle*>(_baseParticle);
+                // VisualParticle* visualParticle = static_cast<VisualParticle*>(particle);
                 particle->setOwnDimensions(particle->width, particle->height, _baseParticle->depth);
             }
         }
@@ -251,7 +253,7 @@ PUDoPlacementParticleEventHandler* PUDoPlacementParticleEventHandler::create()
     return peh;
 }
 
-void PUDoPlacementParticleEventHandler::copyAttributesTo( PUEventHandler* eventHandler )
+void PUDoPlacementParticleEventHandler::copyAttributesTo(PUEventHandler* eventHandler)
 {
     PUEventHandler::copyAttributesTo(eventHandler);
     PUDoPlacementParticleEventHandler* doPlacementParticleEventHandler = static_cast<PUDoPlacementParticleEventHandler*>(eventHandler);

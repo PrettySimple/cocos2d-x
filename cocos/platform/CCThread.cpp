@@ -30,7 +30,6 @@ NS_CC_BEGIN
 // iOS and Mac already has a Thread.mm
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_IOS && CC_TARGET_PLATFORM != CC_PLATFORM_MAC)
 
-
 void* ThreadHelper::createAutoreleasePool()
 {
     return nullptr;
@@ -38,7 +37,6 @@ void* ThreadHelper::createAutoreleasePool()
 
 void ThreadHelper::releaseAutoreleasePool(void* autoreleasePool)
 {
-    
 }
 
 #endif

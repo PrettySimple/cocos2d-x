@@ -1,31 +1,31 @@
 /*
-* cocos2d-x   http://www.cocos2d-x.org
-*
-* Copyright (c) 2010-2014 - cocos2d-x community
-*
-* Portions Copyright (c) Microsoft Open Technologies, Inc.
-* All Rights Reserved
-*
-* Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an
-* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and limitations under the License.
-*/
+ * cocos2d-x   http://www.cocos2d-x.org
+ *
+ * Copyright (c) 2010-2014 - cocos2d-x community
+ *
+ * Portions Copyright (c) Microsoft Open Technologies, Inc.
+ * All Rights Reserved
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and limitations under the License.
+ */
 
 #include "Cocos2dRenderer.h"
 #include "AppDelegate.h"
-#include "platform/winrt/CCGLViewImpl-winrt.h"
 #include "platform/CCApplication.h"
+#include "platform/winrt/CCGLViewImpl-winrt.h"
 #include "renderer/CCTextureCache.h"
 
 // These are used by the shader compilation methods.
-#include <vector>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <vector>
 
 using namespace Platform;
 using namespace Windows::UI::Core;
@@ -33,14 +33,14 @@ using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::Graphics::Display;
 using namespace cocos2d;
 
-Cocos2dRenderer::Cocos2dRenderer(int width, int height, float dpi, DisplayOrientations orientation, CoreDispatcher^ dispatcher, Panel^ panel)
-    : m_app(nullptr)
-    , m_width(width)
-    , m_height(height)
-    , m_dpi(dpi)
-    , m_dispatcher(dispatcher)
-    , m_panel(panel)
-    , m_orientation(orientation)
+Cocos2dRenderer::Cocos2dRenderer(int width, int height, float dpi, DisplayOrientations orientation, CoreDispatcher ^ dispatcher, Panel ^ panel)
+: m_app(nullptr)
+, m_width(width)
+, m_height(height)
+, m_dpi(dpi)
+, m_dispatcher(dispatcher)
+, m_panel(panel)
+, m_orientation(orientation)
 {
     m_app = new AppDelegate();
 }
@@ -74,7 +74,8 @@ void Cocos2dRenderer::Resume()
 
 void Cocos2dRenderer::Pause()
 {
-    if (Director::getInstance()->getOpenGLView()) {
+    if (Director::getInstance()->getOpenGLView())
+    {
         Application::getInstance()->applicationDidEnterBackground();
         cocos2d::EventCustom backgroundEvent(EVENT_COME_TO_BACKGROUND);
         cocos2d::Director::getInstance()->getEventDispatcher()->dispatchEvent(&backgroundEvent);
@@ -91,7 +92,8 @@ void Cocos2dRenderer::DeviceLost()
     Pause();
 
     auto director = cocos2d::Director::getInstance();
-    if (director->getOpenGLView()) {
+    if (director->getOpenGLView())
+    {
         cocos2d::GL::invalidateStateCache();
         cocos2d::GLProgramCache::getInstance()->reloadDefaultGLPrograms();
         cocos2d::DrawPrimitives::init();
@@ -106,8 +108,6 @@ void Cocos2dRenderer::DeviceLost()
         cocos2d::Director::getInstance()->getEventDispatcher()->dispatchEvent(&foregroundEvent);
     }
 }
-
-
 
 void Cocos2dRenderer::Draw(GLsizei width, GLsizei height, float dpi, DisplayOrientations orientation)
 {
@@ -136,7 +136,7 @@ void Cocos2dRenderer::Draw(GLsizei width, GLsizei height, float dpi, DisplayOrie
     glView->Render();
 }
 
-void Cocos2dRenderer::QueuePointerEvent(cocos2d::PointerEventType type, Windows::UI::Core::PointerEventArgs^ args)
+void Cocos2dRenderer::QueuePointerEvent(cocos2d::PointerEventType type, Windows::UI::Core::PointerEventArgs ^ args)
 {
     GLViewImpl::sharedOpenGLView()->QueuePointerEvent(type, args);
 }
@@ -146,7 +146,7 @@ void Cocos2dRenderer::QueueBackButtonEvent()
     GLViewImpl::sharedOpenGLView()->QueueBackKeyPress();
 }
 
-void Cocos2dRenderer::QueueKeyboardEvent(WinRTKeyboardEventType type, Windows::UI::Core::KeyEventArgs^ args)
+void Cocos2dRenderer::QueueKeyboardEvent(WinRTKeyboardEventType type, Windows::UI::Core::KeyEventArgs ^ args)
 {
-	GLViewImpl::sharedOpenGLView()->QueueWinRTKeyboardEvent(type, args);
+    GLViewImpl::sharedOpenGLView()->QueueWinRTKeyboardEvent(type, args);
 }

@@ -1,7 +1,7 @@
 /****************************************************************************
 Copyright (c) 2013      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
- 
+
 http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,8 +28,8 @@ THE SOFTWARE.
 #include "platform/CCGL.h"
 
 /**
-* @js NA
-*/
+ * @js NA
+ */
 
 namespace cocos2d
 {
@@ -52,12 +52,12 @@ public:
     /**@{
      * Load the given data into this Node's GL Buffer. Needed for WebGL, as it does not support client-side arrays.
      */
-    void setGLBufferData(void *buf, GLuint bufSize, int slot);
-    void setGLIndexData(void *buf, GLuint bufSize, int slot);
+    void setGLBufferData(void* buf, GLuint bufSize, int slot);
+    void setGLIndexData(void* buf, GLuint bufSize, int slot);
     void onContextRecovered() noexcept;
-    /**@}*/
-    /** Allocate 4 buffer objs per node, and index into them as slots.*/
-    #define BUFFER_SLOTS 4
+/**@}*/
+/** Allocate 4 buffer objs per node, and index into them as slots.*/
+#define BUFFER_SLOTS 4
     /**Handle for vertex buffers.*/
     GLuint _bufferObject[BUFFER_SLOTS];
     /**Size in bytes for vertex buffers.*/

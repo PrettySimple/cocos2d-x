@@ -22,7 +22,6 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-
 #ifndef _CC_CUSTOMCOMMAND_H_
 #define _CC_CUSTOMCOMMAND_H_
 
@@ -48,10 +47,10 @@ public:
     CustomCommand(std::function<void()> const& func);
     CustomCommand(CustomCommand const&) = delete;
     CustomCommand& operator=(CustomCommand const&) = delete;
-    CustomCommand(CustomCommand &&) noexcept = default;
-    CustomCommand& operator=(CustomCommand &&) noexcept = delete;
+    CustomCommand(CustomCommand&&) noexcept = default;
+    CustomCommand& operator=(CustomCommand&&) noexcept = delete;
     ~CustomCommand() override = default;
-    
+
 public:
     /**
      Init function.

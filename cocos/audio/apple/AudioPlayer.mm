@@ -2,8 +2,6 @@
 
 #include "AudioPlayer.h"
 
-
-
 using namespace cocos2d;
 using namespace cocos2d::experimental;
 
@@ -16,14 +14,11 @@ AudioPlayer::AudioPlayer()
 , _currTime(0.0f)
 , _streamingSource(false)
 {
-    
 }
 
 AudioPlayer::~AudioPlayer()
 {
 }
-
-
 
 bool AudioPlayer::isStreamingSource()
 {

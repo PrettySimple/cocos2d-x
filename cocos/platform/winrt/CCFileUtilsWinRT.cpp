@@ -23,9 +23,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 #include "platform/winrt/CCFileUtilsWinRT.h"
-#include <regex>
-#include "platform/winrt/CCWinRTUtils.h"
 #include "platform/CCCommon.h"
+#include "platform/winrt/CCWinRTUtils.h"
+#include <regex>
 using namespace std;
 
 NS_CC_BEGIN
@@ -87,11 +87,11 @@ FileUtils* FileUtils::getInstance()
     if (s_sharedFileUtils == nullptr)
     {
         s_sharedFileUtils = new CCFileUtilsWinRT();
-        if(!s_sharedFileUtils->init())
+        if (!s_sharedFileUtils->init())
         {
-          delete s_sharedFileUtils;
-          s_sharedFileUtils = nullptr;
-          CCLOG("ERROR: Could not init CCFileUtilsWinRT");
+            delete s_sharedFileUtils;
+            s_sharedFileUtils = nullptr;
+            CCLOG("ERROR: Could not init CCFileUtilsWinRT");
         }
     }
     return s_sharedFileUtils;
@@ -129,7 +129,7 @@ std::string CCFileUtilsWinRT::getSuitableFOpen(const std::string& filenameUtf8) 
     return UTF8StringToMultiByte(filenameUtf8);
 }
 
-long CCFileUtilsWinRT::getFileSize(const std::string &filepath)
+long CCFileUtilsWinRT::getFileSize(const std::string& filepath)
 {
     WIN32_FILE_ATTRIBUTE_DATA fad;
     if (!GetFileAttributesEx(StringUtf8ToWideChar(filepath).c_str(), GetFileExInfoStandard, &fad))
@@ -184,7 +184,7 @@ FileUtils::Status CCFileUtilsWinRT::getContents(const std::string& filename, Res
 bool CCFileUtilsWinRT::isFileExistInternal(const std::string& strFilePath) const
 {
     bool ret = false;
-    FILE * pf = nullptr;
+    FILE* pf = nullptr;
 
     std::string strPath = strFilePath;
     if (!isAbsolutePath(strPath))
@@ -272,7 +272,7 @@ bool CCFileUtilsWinRT::removeDirectory(const std::string& path)
     std::wstring wpath = StringUtf8ToWideChar(path);
     std::wstring files = wpath + L"*.*";
     WIN32_FIND_DATA wfd;
-    HANDLE  search = FindFirstFileEx(files.c_str(), FindExInfoStandard, &wfd, FindExSearchNameMatch, NULL, 0);
+    HANDLE search = FindFirstFileEx(files.c_str(), FindExInfoStandard, &wfd, FindExSearchNameMatch, NULL, 0);
     bool ret = true;
     if (search != INVALID_HANDLE_VALUE)
     {
@@ -307,16 +307,14 @@ bool CCFileUtilsWinRT::removeDirectory(const std::string& path)
 
 bool CCFileUtilsWinRT::isAbsolutePath(const std::string& strPath) const
 {
-    if (   strPath.length() > 2
-        && ( (strPath[0] >= 'a' && strPath[0] <= 'z') || (strPath[0] >= 'A' && strPath[0] <= 'Z') )
-        && strPath[1] == ':')
+    if (strPath.length() > 2 && ((strPath[0] >= 'a' && strPath[0] <= 'z') || (strPath[0] >= 'A' && strPath[0] <= 'Z')) && strPath[1] == ':')
     {
         return true;
     }
     return false;
 }
 
-bool CCFileUtilsWinRT::removeFile(const std::string &path)
+bool CCFileUtilsWinRT::removeFile(const std::string& path)
 {
     std::wstring wpath = StringUtf8ToWideChar(path);
     if (DeleteFile(wpath.c_str()))
@@ -330,7 +328,7 @@ bool CCFileUtilsWinRT::removeFile(const std::string &path)
     }
 }
 
-bool CCFileUtilsWinRT::renameFile(const std::string &oldfullpath, const std::string& newfullpath)
+bool CCFileUtilsWinRT::renameFile(const std::string& oldfullpath, const std::string& newfullpath)
 {
     CCASSERT(!oldfullpath.empty(), "Invalid path");
     CCASSERT(!newfullpath.empty(), "Invalid path");
@@ -349,8 +347,7 @@ bool CCFileUtilsWinRT::renameFile(const std::string &oldfullpath, const std::str
         }
     }
 
-    if (MoveFileEx(StringUtf8ToWideChar(_oldfullpath).c_str(), _wNewfullpath.c_str(),
-        MOVEFILE_REPLACE_EXISTING & MOVEFILE_WRITE_THROUGH))
+    if (MoveFileEx(StringUtf8ToWideChar(_oldfullpath).c_str(), _wNewfullpath.c_str(), MOVEFILE_REPLACE_EXISTING & MOVEFILE_WRITE_THROUGH))
     {
         return true;
     }
@@ -361,7 +358,7 @@ bool CCFileUtilsWinRT::renameFile(const std::string &oldfullpath, const std::str
     }
 }
 
-bool CCFileUtilsWinRT::renameFile(const std::string &path, const std::string &oldname, const std::string &name)
+bool CCFileUtilsWinRT::renameFile(const std::string& path, const std::string& oldname, const std::string& name)
 {
     CCASSERT(!path.empty(), "Invalid path");
     std::string oldPath = path + oldname;
@@ -369,7 +366,6 @@ bool CCFileUtilsWinRT::renameFile(const std::string &path, const std::string &ol
 
     return renameFile(oldPath, newPath);
 }
-
 
 string CCFileUtilsWinRT::getWritablePath() const
 {
@@ -379,7 +375,7 @@ string CCFileUtilsWinRT::getWritablePath() const
 
 string CCFileUtilsWinRT::getAppPath()
 {
-    Windows::ApplicationModel::Package^ package = Windows::ApplicationModel::Package::Current;
+    Windows::ApplicationModel::Package ^ package = Windows::ApplicationModel::Package::Current;
     return convertPathFormatToUnixStyle(std::string(PlatformStringToString(package->InstalledLocation->Path)));
 }
 

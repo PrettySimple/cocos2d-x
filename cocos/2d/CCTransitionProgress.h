@@ -61,9 +61,8 @@ public:
     virtual void onEnter() override;
     virtual void onExit() override;
 
-CC_CONSTRUCTOR_ACCESS:
-    TransitionProgress();
-    virtual ~TransitionProgress(){}
+    CC_CONSTRUCTOR_ACCESS : TransitionProgress();
+    virtual ~TransitionProgress() {}
 
 protected:
     virtual void sceneOrder() override;
@@ -77,7 +76,6 @@ protected:
     float _from;
     Scene* _sceneToBeModified;
 };
-
 
 /** @class TransitionProgressRadialCCW
  * @brief TransitionRadialCCW transition.
@@ -94,21 +92,21 @@ public:
      */
     static TransitionProgressRadialCCW* create(std::chrono::milliseconds t, Scene* scene);
 
-CC_CONSTRUCTOR_ACCESS:
-    /**
-     * @js ctor
-     */
-    TransitionProgressRadialCCW(){}
-    virtual ~TransitionProgressRadialCCW(){}
+    CC_CONSTRUCTOR_ACCESS :
+        /**
+         * @js ctor
+         */
+        TransitionProgressRadialCCW()
+    {
+    }
+    virtual ~TransitionProgressRadialCCW() {}
 
 protected:
     //
     // Overrides
     //
     virtual ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
-  
 };
-
 
 /** @class TransitionProgressRadialCW
  * @brief TransitionRadialCW transition.
@@ -125,19 +123,20 @@ public:
      */
     static TransitionProgressRadialCW* create(std::chrono::milliseconds t, Scene* scene);
 
-CC_CONSTRUCTOR_ACCESS:
-    /**
-     * @js ctor
-     */
-    TransitionProgressRadialCW(){}
-    virtual ~TransitionProgressRadialCW(){}
+    CC_CONSTRUCTOR_ACCESS :
+        /**
+         * @js ctor
+         */
+        TransitionProgressRadialCW()
+    {
+    }
+    virtual ~TransitionProgressRadialCW() {}
 
 protected:
     //
     // Overrides
     //
     virtual ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
-
 };
 
 /** @class TransitionProgressHorizontal
@@ -155,12 +154,14 @@ public:
      */
     static TransitionProgressHorizontal* create(std::chrono::milliseconds t, Scene* scene);
 
-CC_CONSTRUCTOR_ACCESS:
-    /**
-     * @js ctor
-     */
-    TransitionProgressHorizontal(){}
-    virtual ~TransitionProgressHorizontal(){}
+    CC_CONSTRUCTOR_ACCESS :
+        /**
+         * @js ctor
+         */
+        TransitionProgressHorizontal()
+    {
+    }
+    virtual ~TransitionProgressHorizontal() {}
 
 protected:
     //
@@ -183,12 +184,14 @@ public:
      */
     static TransitionProgressVertical* create(std::chrono::milliseconds t, Scene* scene);
 
-CC_CONSTRUCTOR_ACCESS:
-    /**
-     * @js ctor
-     */
-    TransitionProgressVertical(){}
-    virtual ~TransitionProgressVertical(){}
+    CC_CONSTRUCTOR_ACCESS :
+        /**
+         * @js ctor
+         */
+        TransitionProgressVertical()
+    {
+    }
+    virtual ~TransitionProgressVertical() {}
 
 protected:
     //
@@ -211,12 +214,14 @@ public:
      */
     static TransitionProgressInOut* create(std::chrono::milliseconds t, Scene* scene);
 
-CC_CONSTRUCTOR_ACCESS:
-    /**
-     * @js ctor
-     */
-    TransitionProgressInOut(){}
-    virtual ~TransitionProgressInOut(){}
+    CC_CONSTRUCTOR_ACCESS :
+        /**
+         * @js ctor
+         */
+        TransitionProgressInOut()
+    {
+    }
+    virtual ~TransitionProgressInOut() {}
 
 protected:
     //
@@ -241,19 +246,20 @@ public:
      */
     static TransitionProgressOutIn* create(std::chrono::milliseconds t, Scene* scene);
 
-CC_CONSTRUCTOR_ACCESS:
-    /**
-     * @js ctor
-     */
-    TransitionProgressOutIn(){}
-    virtual ~TransitionProgressOutIn(){}
+    CC_CONSTRUCTOR_ACCESS :
+        /**
+         * @js ctor
+         */
+        TransitionProgressOutIn()
+    {
+    }
+    virtual ~TransitionProgressOutIn() {}
 
 protected:
     //
     // Overrides
     //
     virtual ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
-
 };
 
 // end of _2d group
@@ -262,4 +268,3 @@ protected:
 NS_CC_END
 
 #endif /* __CCTRANSITIONPROGRESS_H__ */
-

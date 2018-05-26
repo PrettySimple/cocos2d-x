@@ -24,11 +24,11 @@ THE SOFTWARE.
 #include "audio/android/utils/Utils.h"
 #include "platform/android/jni/JniHelper.h"
 
-namespace cocos2d { namespace experimental {
-
-int getSDKVersion()
+namespace cocos2d
 {
-    return JniHelper::callStaticIntMethod("org/cocos2dx/lib/Cocos2dxHelper", "getSDKVersion");
-}
+    namespace experimental
+    {
+        int getSDKVersion() { return JniHelper::callStaticIntMethod("org/cocos2dx/lib/Cocos2dxHelper", "getSDKVersion"); }
 
-}} // end of namespace cocos2d { namespace experimental
+    } // namespace experimental
+} // namespace cocos2d

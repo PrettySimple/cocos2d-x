@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -35,16 +35,16 @@ const PUTextureAnimator::TextureAnimationType PUTextureAnimator::DEFAULT_ANIMATI
 const bool PUTextureAnimator::DEFAULT_START_RANDOM = true;
 
 //-----------------------------------------------------------------------
-PUTextureAnimator::PUTextureAnimator(void) : 
-    PUAffector(),
-    _animationTimeStep(DEFAULT_TIME_STEP),
-    _animationTimeStepCount(0.0f),
-    _startRandom(DEFAULT_START_RANDOM),
-    _animationTimeStepSet(false),
-    _nextIndex(false),
-    _textureAnimationType(DEFAULT_ANIMATION_TYPE),
-    _textureCoordsStart(DEFAULT_TEXCOORDS_START),
-    _textureCoordsEnd(DEFAULT_TEXCOORDS_END)
+PUTextureAnimator::PUTextureAnimator(void)
+: PUAffector()
+, _animationTimeStep(DEFAULT_TIME_STEP)
+, _animationTimeStepCount(0.0f)
+, _startRandom(DEFAULT_START_RANDOM)
+, _animationTimeStepSet(false)
+, _nextIndex(false)
+, _textureAnimationType(DEFAULT_ANIMATION_TYPE)
+, _textureCoordsStart(DEFAULT_TEXCOORDS_START)
+, _textureCoordsEnd(DEFAULT_TEXCOORDS_END)
 {
 }
 //-----------------------------------------------------------------------
@@ -106,7 +106,7 @@ void PUTextureAnimator::setStartRandom(bool startRandom)
 void PUTextureAnimator::initParticleForEmission(PUParticle3D* particle)
 {
     //// Only continue if the particle is a visual particle
-    //if (particle->particleType != Particle::PT_VISUAL)
+    // if (particle->particleType != Particle::PT_VISUAL)
     //	return;
 
     // Set first image
@@ -123,21 +123,21 @@ void PUTextureAnimator::initParticleForEmission(PUParticle3D* particle)
     if (!_animationTimeStepSet)
     {
         // Set the animation time step for each particle
-        switch(_textureAnimationType)
+        switch (_textureAnimationType)
         {
-        case TAT_LOOP:
+            case TAT_LOOP:
             {
                 particle->textureAnimationTimeStep = particle->timeToLive / (_textureCoordsEnd - _textureCoordsStart + 1);
             }
             break;
 
-        case TAT_UP_DOWN:
+            case TAT_UP_DOWN:
             {
                 particle->textureAnimationTimeStep = particle->timeToLive / (2 * (_textureCoordsEnd - _textureCoordsStart) + 1);
             }
             break;
 
-        case TAT_RANDOM:
+            case TAT_RANDOM:
             {
                 particle->textureAnimationTimeStep = particle->timeToLive;
             }
@@ -163,9 +163,9 @@ void PUTextureAnimator::preUpdateAffector(float deltaTime)
 //-----------------------------------------------------------------------
 void PUTextureAnimator::determineNextTextureCoords(PUParticle3D* visualParticle)
 {
-    switch(_textureAnimationType)
+    switch (_textureAnimationType)
     {
-    case TAT_LOOP:
+        case TAT_LOOP:
         {
             if (visualParticle->textureCoordsCurrent >= _textureCoordsEnd)
             {
@@ -178,7 +178,7 @@ void PUTextureAnimator::determineNextTextureCoords(PUParticle3D* visualParticle)
         }
         break;
 
-    case TAT_UP_DOWN:
+        case TAT_UP_DOWN:
         {
             if (visualParticle->textureAnimationDirectionUp == true)
             {
@@ -209,7 +209,7 @@ void PUTextureAnimator::determineNextTextureCoords(PUParticle3D* visualParticle)
         }
         break;
 
-    case TAT_RANDOM:
+        case TAT_RANDOM:
         {
             // Generate a random texcoord index
             visualParticle->textureCoordsCurrent = (unsigned short)cocos2d::random((float)_textureCoordsStart, (float)_textureCoordsEnd + 0.999f);
@@ -218,15 +218,15 @@ void PUTextureAnimator::determineNextTextureCoords(PUParticle3D* visualParticle)
     }
 }
 
-void PUTextureAnimator::updatePUAffector( PUParticle3D *particle, float deltaTime )
+void PUTextureAnimator::updatePUAffector(PUParticle3D* particle, float deltaTime)
 {
     //// Only continue if the particle is a visual particle
-    //if (particle->particleType != Particle::PT_VISUAL)
+    // if (particle->particleType != Particle::PT_VISUAL)
     //	return;
 
-    //for (auto iter : _particleSystem->getParticles())
+    // for (auto iter : _particleSystem->getParticles())
     {
-        //PUParticle3D *particle = iter;
+        // PUParticle3D *particle = iter;
         // Determine the next texture coords index
         if (_animationTimeStepSet)
         {
@@ -255,7 +255,7 @@ PUTextureAnimator* PUTextureAnimator::create()
     return pta;
 }
 
-void PUTextureAnimator::copyAttributesTo( PUAffector* affector )
+void PUTextureAnimator::copyAttributesTo(PUAffector* affector)
 {
     PUAffector::copyAttributesTo(affector);
     PUTextureAnimator* textureAnimator = static_cast<PUTextureAnimator*>(affector);

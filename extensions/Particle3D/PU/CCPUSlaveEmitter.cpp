@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -29,13 +29,13 @@
 
 NS_CC_BEGIN
 //-----------------------------------------------------------------------
-PUSlaveEmitter::PUSlaveEmitter(void) : 
-    PUEmitter(),
-    PUListener(),
-    _masterParticle(0),
-    _masterTechniqueName(),
-    _masterEmitterName(),
-    _masterEmitterNameSet(false)
+PUSlaveEmitter::PUSlaveEmitter(void)
+: PUEmitter()
+, PUListener()
+, _masterParticle(0)
+, _masterTechniqueName()
+, _masterEmitterName()
+, _masterEmitterNameSet(false)
 {
 }
 //-----------------------------------------------------------------------
@@ -76,7 +76,7 @@ void PUSlaveEmitter::particleEmitted(PUParticleSystem3D* particleSystem, PUParti
     _masterDirection = particle->direction;
     _masterParticle = particle;
     _isEnabled = true;
-    static_cast<PUParticleSystem3D *>(_particleSystem)->forceEmission(this, 1); // Just emit one, to be in sync with the master.
+    static_cast<PUParticleSystem3D*>(_particleSystem)->forceEmission(this, 1); // Just emit one, to be in sync with the master.
     _isEnabled = false;
 }
 //-----------------------------------------------------------------------
@@ -95,9 +95,11 @@ void PUSlaveEmitter::initParticleDirection(PUParticle3D* particle)
 
     // Make use of the opportunity to set the master particle in the behaviour object (if available)
 
-    for (auto iter : particle->behaviours) {
-        if (iter->getBehaviourType() == "Slave"){
-            static_cast<PUSlaveBehaviour *>(iter)->masterParticle = _masterParticle;
+    for (auto iter : particle->behaviours)
+    {
+        if (iter->getBehaviourType() == "Slave")
+        {
+            static_cast<PUSlaveBehaviour*>(iter)->masterParticle = _masterParticle;
         }
     }
 }
@@ -105,13 +107,15 @@ void PUSlaveEmitter::initParticleDirection(PUParticle3D* particle)
 void PUSlaveEmitter::prepare()
 {
     PUEmitter::prepare();
-    PUParticleSystem3D* system = dynamic_cast<PUParticleSystem3D *>(_particleSystem)->getParentParticleSystem();
+    PUParticleSystem3D* system = dynamic_cast<PUParticleSystem3D*>(_particleSystem)->getParentParticleSystem();
     if (system)
     {
         auto children = system->getChildren();
-        for (auto it : children){
-            if (it->getName() == _masterTechniqueName){
-                static_cast<PUParticleSystem3D *>(it)->addListener(this);
+        for (auto it : children)
+        {
+            if (it->getName() == _masterTechniqueName)
+            {
+                static_cast<PUParticleSystem3D*>(it)->addListener(this);
                 break;
             }
         }
@@ -123,13 +127,15 @@ void PUSlaveEmitter::prepare()
 void PUSlaveEmitter::unPrepare()
 {
     PUEmitter::unPrepare();
-    PUParticleSystem3D* system = dynamic_cast<PUParticleSystem3D *>(_particleSystem)->getParentParticleSystem();
+    PUParticleSystem3D* system = dynamic_cast<PUParticleSystem3D*>(_particleSystem)->getParentParticleSystem();
     if (system)
     {
         auto children = system->getChildren();
-        for (auto it : children){
-            if (it->getName() == _masterTechniqueName){
-                static_cast<PUParticleSystem3D *>(it)->removeListener(this);
+        for (auto it : children)
+        {
+            if (it->getName() == _masterTechniqueName)
+            {
+                static_cast<PUParticleSystem3D*>(it)->removeListener(this);
                 break;
             }
         }
@@ -138,7 +144,7 @@ void PUSlaveEmitter::unPrepare()
     PUEmitter::unPrepare();
 }
 //-----------------------------------------------------------------------
-void PUSlaveEmitter::notifyStart (void)
+void PUSlaveEmitter::notifyStart(void)
 {
     PUEmitter::notifyStart();
     setEnabled(false);
@@ -151,7 +157,7 @@ PUSlaveEmitter* PUSlaveEmitter::create()
     return pe;
 }
 
-void PUSlaveEmitter::copyAttributesTo( PUEmitter* emitter )
+void PUSlaveEmitter::copyAttributesTo(PUEmitter* emitter)
 {
     PUEmitter::copyAttributesTo(emitter);
 

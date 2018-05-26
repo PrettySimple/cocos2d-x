@@ -27,42 +27,36 @@
 #define CC_ALLOCATOR_MUTEX_H
 /// @cond DO_NOT_SHOW
 
-#include "platform/CCPlatformMacros.h"
 #include "platform/CCPlatformConfig.h"
-#if CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
-#include "pthread.h"
-#define MUTEX pthread_mutex_t
-#define MUTEX_INIT(m) \
-    pthread_mutexattr_t mta; \
-    pthread_mutexattr_init(&mta); \
-    pthread_mutexattr_settype(&mta, PTHREAD_MUTEX_RECURSIVE); \
-    pthread_mutex_init(&m, &mta)
-#define MUTEX_LOCK(m) \
-    pthread_mutex_lock(&m);
-#define MUTEX_UNLOCK(m) \
-    pthread_mutex_unlock(&m);
+#include "platform/CCPlatformMacros.h"
+#if CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC || \
+    CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+#    include "pthread.h"
+#    define MUTEX pthread_mutex_t
+#    define MUTEX_INIT(m)                                         \
+        pthread_mutexattr_t mta;                                  \
+        pthread_mutexattr_init(&mta);                             \
+        pthread_mutexattr_settype(&mta, PTHREAD_MUTEX_RECURSIVE); \
+        pthread_mutex_init(&m, &mta)
+#    define MUTEX_LOCK(m) pthread_mutex_lock(&m);
+#    define MUTEX_UNLOCK(m) pthread_mutex_unlock(&m);
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
-#include "windows.h"
-#define MUTEX HANDLE
-#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-#define MUTEX_INIT(m) \
-    m = CreateMutex(0, FALSE, 0)
-#define MUTEX_LOCK(m) \
-    WaitForSingleObject(m, INFINITE)
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
-#define MUTEX_INIT(m) \
-	m = CreateMutexEx(NULL,FALSE,0,NULL);
-#define MUTEX_LOCK(m) \
-    WaitForSingleObjectEx(m, INFINITE, false)
-#endif
-#define MUTEX_UNLOCK(m) \
-    ReleaseMutex(m)
+#    include "windows.h"
+#    define MUTEX HANDLE
+#    if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+#        define MUTEX_INIT(m) m = CreateMutex(0, FALSE, 0)
+#        define MUTEX_LOCK(m) WaitForSingleObject(m, INFINITE)
+#    elif CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
+#        define MUTEX_INIT(m) m = CreateMutexEx(NULL, FALSE, 0, NULL);
+#        define MUTEX_LOCK(m) WaitForSingleObjectEx(m, INFINITE, false)
+#    endif
+#    define MUTEX_UNLOCK(m) ReleaseMutex(m)
 #else
-#message "Unsupported platform for AllocatorMutex, Locking semantics will not be supported"
-#define MUTEX
-#define MUTEX_INIT(...)
-#define MUTEX_LOCK(...)
-#define MUTEX_UNLOCK(...)
+#    message "Unsupported platform for AllocatorMutex, Locking semantics will not be supported"
+#    define MUTEX
+#    define MUTEX_INIT(...)
+#    define MUTEX_LOCK(...)
+#    define MUTEX_UNLOCK(...)
 #endif
 
 NS_CC_BEGIN
@@ -73,42 +67,25 @@ NS_CC_ALLOCATOR_BEGIN
 class AllocatorMutex
 {
 public:
+    AllocatorMutex() { MUTEX_INIT(_mutex); }
 
-    AllocatorMutex()
-    {
-        MUTEX_INIT(_mutex);
-    }
+    void lock() { MUTEX_LOCK(_mutex); }
 
-    void lock()
-    {
-        MUTEX_LOCK(_mutex);
-    }
-
-    void unlock()
-    {
-        MUTEX_UNLOCK(_mutex);
-    }
+    void unlock() { MUTEX_UNLOCK(_mutex); }
 
 protected:
-
     MUTEX _mutex;
 };
 
-#define LOCK(m)   m.lock()
+#define LOCK(m) m.lock()
 #define UNLOCK(m) m.unlock()
 
 // @param implementation that provides a mutex with locking semantics.
 struct locking_semantics
 {
     AllocatorMutex _mutex;
-    CC_ALLOCATOR_INLINE void lock()
-    {
-        LOCK(_mutex);
-    }
-    CC_ALLOCATOR_INLINE void unlock()
-    {
-        UNLOCK(_mutex);
-    }
+    CC_ALLOCATOR_INLINE void lock() { LOCK(_mutex); }
+    CC_ALLOCATOR_INLINE void unlock() { UNLOCK(_mutex); }
 };
 
 // @param implementation that provides lockless semantics that should optimize away.
@@ -122,4 +99,4 @@ NS_CC_ALLOCATOR_END
 NS_CC_END
 
 /// @endcond
-#endif//CC_ALLOCATOR_MUTEX_H
+#endif // CC_ALLOCATOR_MUTEX_H

@@ -25,18 +25,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 #include "2d/CCTMXTiledMap.h"
-#include "2d/CCTMXXMLParser.h"
-#include "2d/CCTMXLayer.h"
+
 #include "2d/CCSprite.h"
+#include "2d/CCTMXLayer.h"
+#include "2d/CCTMXXMLParser.h"
 #include "base/ccUTF8.h"
 
 NS_CC_BEGIN
 
 // implementation TMXTiledMap
 
-TMXTiledMap * TMXTiledMap::create(const std::string& tmxFile)
+TMXTiledMap* TMXTiledMap::create(const std::string& tmxFile)
 {
-    TMXTiledMap *ret = new (std::nothrow) TMXTiledMap();
+    TMXTiledMap* ret = new (std::nothrow) TMXTiledMap();
     if (ret->initWithTMXFile(tmxFile))
     {
         ret->autorelease();
@@ -48,7 +49,7 @@ TMXTiledMap * TMXTiledMap::create(const std::string& tmxFile)
 
 TMXTiledMap* TMXTiledMap::createWithXML(const std::string& tmxString, const std::string& resourcePath)
 {
-    TMXTiledMap *ret = new (std::nothrow) TMXTiledMap();
+    TMXTiledMap* ret = new (std::nothrow) TMXTiledMap();
     if (ret->initWithXML(tmxString, resourcePath))
     {
         ret->autorelease();
@@ -60,19 +61,19 @@ TMXTiledMap* TMXTiledMap::createWithXML(const std::string& tmxString, const std:
 
 bool TMXTiledMap::initWithTMXFile(const std::string& tmxFile)
 {
-    CCASSERT(tmxFile.size()>0, "TMXTiledMap: tmx file should not be empty");
+    CCASSERT(tmxFile.size() > 0, "TMXTiledMap: tmx file should not be empty");
 
     _tmxFile = tmxFile;
 
     setContentSize(Size::ZERO);
 
-    TMXMapInfo *mapInfo = TMXMapInfo::create(tmxFile);
+    TMXMapInfo* mapInfo = TMXMapInfo::create(tmxFile);
 
-    if (! mapInfo)
+    if (!mapInfo)
     {
         return false;
     }
-    CCASSERT( !mapInfo->getTilesets().empty(), "TMXTiledMap: Map not found. Please check the filename.");
+    CCASSERT(!mapInfo->getTilesets().empty(), "TMXTiledMap: Map not found. Please check the filename.");
     buildWithMapInfo(mapInfo);
 
     return true;
@@ -84,19 +85,19 @@ bool TMXTiledMap::initWithXML(const std::string& tmxString, const std::string& r
 
     setContentSize(Size::ZERO);
 
-    TMXMapInfo *mapInfo = TMXMapInfo::createWithXML(tmxString, resourcePath);
+    TMXMapInfo* mapInfo = TMXMapInfo::createWithXML(tmxString, resourcePath);
 
-    CCASSERT( !mapInfo->getTilesets().empty(), "TMXTiledMap: Map not found. Please check the filename.");
+    CCASSERT(!mapInfo->getTilesets().empty(), "TMXTiledMap: Map not found. Please check the filename.");
     buildWithMapInfo(mapInfo);
 
     return true;
 }
 
 TMXTiledMap::TMXTiledMap()
-    :_mapSize(Size::ZERO)
-    ,_tileSize(Size::ZERO)        
-    ,_tmxFile("")
-    , _tmxLayerNum(0)
+: _mapSize(Size::ZERO)
+, _tileSize(Size::ZERO)
+, _tmxFile("")
+, _tmxLayerNum(0)
 {
 }
 
@@ -105,13 +106,13 @@ TMXTiledMap::~TMXTiledMap()
 }
 
 // private
-TMXLayer * TMXTiledMap::parseLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
+TMXLayer* TMXTiledMap::parseLayer(TMXLayerInfo* layerInfo, TMXMapInfo* mapInfo)
 {
-    TMXTilesetInfo *tileset = tilesetForLayer(layerInfo, mapInfo);
+    TMXTilesetInfo* tileset = tilesetForLayer(layerInfo, mapInfo);
     if (tileset == nullptr)
         return nullptr;
-    
-    TMXLayer *layer = TMXLayer::create(tileset, layerInfo, mapInfo);
+
+    TMXLayer* layer = TMXLayer::create(tileset, layerInfo, mapInfo);
 
     if (nullptr != layer)
     {
@@ -123,11 +124,11 @@ TMXLayer * TMXTiledMap::parseLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
     return layer;
 }
 
-TMXTilesetInfo * TMXTiledMap::tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
+TMXTilesetInfo* TMXTiledMap::tilesetForLayer(TMXLayerInfo* layerInfo, TMXMapInfo* mapInfo)
 {
     Size size = layerInfo->_layerSize;
     auto& tilesets = mapInfo->getTilesets();
-    if (tilesets.size()>0)
+    if (tilesets.size() > 0)
     {
         TMXTilesetInfo* tileset = nullptr;
         for (auto iter = tilesets.crbegin(); iter != tilesets.crend(); ++iter)
@@ -135,29 +136,29 @@ TMXTilesetInfo * TMXTiledMap::tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInf
             tileset = *iter;
             if (tileset)
             {
-                for( int y=0; y < size.height; y++ )
+                for (int y = 0; y < size.height; y++)
                 {
-                    for( int x=0; x < size.width; x++ )
+                    for (int x = 0; x < size.width; x++)
                     {
                         int pos = static_cast<int>(x + size.width * y);
-                        int gid = layerInfo->_tiles[ pos ];
+                        int gid = layerInfo->_tiles[pos];
 
                         // gid are stored in little endian.
                         // if host is big endian, then swap
-                        //if( o == CFByteOrderBigEndian )
+                        // if( o == CFByteOrderBigEndian )
                         //    gid = CFSwapInt32( gid );
                         /* We support little endian.*/
 
                         // FIXME:: gid == 0 --> empty tile
-                        if( gid != 0 ) 
+                        if (gid != 0)
                         {
                             // Optimization: quick return
                             // if the layer is invalid (more than 1 tileset per layer) an CCAssert will be thrown later
-                            if( (gid & kTMXFlippedMask) >= tileset->_firstGid )
+                            if ((gid & kTMXFlippedMask) >= tileset->_firstGid)
                                 return tileset;
                         }
                     }
-                }        
+                }
             }
         }
     }
@@ -182,10 +183,13 @@ void TMXTiledMap::buildWithMapInfo(TMXMapInfo* mapInfo)
     int idx = 0;
 
     auto& layers = mapInfo->getLayers();
-    for (const auto &layerInfo : layers) {
-        if (layerInfo->_visible) {
-            TMXLayer *child = parseLayer(layerInfo, mapInfo);
-            if (child == nullptr) {
+    for (const auto& layerInfo : layers)
+    {
+        if (layerInfo->_visible)
+        {
+            TMXLayer* child = parseLayer(layerInfo, mapInfo);
+            if (child == nullptr)
+            {
                 idx++;
                 continue;
             }
@@ -204,16 +208,16 @@ void TMXTiledMap::buildWithMapInfo(TMXMapInfo* mapInfo)
 }
 
 // public
-TMXLayer * TMXTiledMap::getLayer(const std::string& layerName) const
+TMXLayer* TMXTiledMap::getLayer(const std::string& layerName) const
 {
     CCASSERT(layerName.size() > 0, "Invalid layer name!");
-    
+
     for (auto& child : _children)
     {
         TMXLayer* layer = dynamic_cast<TMXLayer*>(child);
-        if(layer)
+        if (layer)
         {
-            if(layerName.compare( layer->getLayerName()) == 0)
+            if (layerName.compare(layer->getLayerName()) == 0)
             {
                 return layer;
             }
@@ -224,11 +228,11 @@ TMXLayer * TMXTiledMap::getLayer(const std::string& layerName) const
     return nullptr;
 }
 
-TMXObjectGroup * TMXTiledMap::getObjectGroup(const std::string& groupName) const
+TMXObjectGroup* TMXTiledMap::getObjectGroup(const std::string& groupName) const
 {
     CCASSERT(groupName.size() > 0, "Invalid group name!");
 
-    if (_objectGroups.size()>0)
+    if (_objectGroups.size() > 0)
     {
         TMXObjectGroup* objectGroup = nullptr;
         for (auto iter = _objectGroups.cbegin(); iter != _objectGroups.cend(); ++iter)
@@ -249,7 +253,7 @@ Value TMXTiledMap::getProperty(const std::string& propertyName) const
 {
     if (_properties.find(propertyName) != _properties.end())
         return _properties.at(propertyName);
-    
+
     return Value();
 }
 
@@ -257,16 +261,19 @@ Value TMXTiledMap::getPropertiesForGID(int GID) const
 {
     if (_tileProperties.find(GID) != _tileProperties.end())
         return _tileProperties.at(GID);
-    
+
     return Value();
 }
 
 bool TMXTiledMap::getPropertiesForGID(int GID, Value** value)
 {
-    if (_tileProperties.find(GID) != _tileProperties.end()) {
+    if (_tileProperties.find(GID) != _tileProperties.end())
+    {
         *value = &_tileProperties.at(GID);
         return true;
-    } else {
+    }
+    else
+    {
         return false;
     }
 }

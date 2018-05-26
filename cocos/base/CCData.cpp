@@ -30,24 +30,24 @@ NS_CC_BEGIN
 
 const Data Data::Null;
 
-Data::Data() :
-_bytes(nullptr),
-_size(0)
+Data::Data()
+: _bytes(nullptr)
+, _size(0)
 {
     CCLOGINFO("In the empty constructor of Data.");
 }
 
-Data::Data(Data&& other) :
-_bytes(nullptr),
-_size(0)
+Data::Data(Data&& other)
+: _bytes(nullptr)
+, _size(0)
 {
     CCLOGINFO("In the move constructor of Data.");
     move(other);
 }
 
-Data::Data(const Data& other) :
-_bytes(nullptr),
-_size(0)
+Data::Data(const Data& other)
+: _bytes(nullptr)
+, _size(0)
 {
     CCLOGINFO("In the copy constructor of Data.");
     copy(other._bytes, other._size);
@@ -59,14 +59,14 @@ Data::~Data()
     clear();
 }
 
-Data& Data::operator= (const Data& other)
+Data& Data::operator=(const Data& other)
 {
     CCLOGINFO("In the copy assignment of Data.");
     copy(other._bytes, other._size);
     return *this;
 }
 
-Data& Data::operator= (Data&& other)
+Data& Data::operator=(Data&& other)
 {
     CCLOGINFO("In the move assignment of Data.");
     move(other);
@@ -76,7 +76,7 @@ Data& Data::operator= (Data&& other)
 void Data::move(Data& other)
 {
     clear();
-    
+
     _bytes = other._bytes;
     _size = other._size;
 

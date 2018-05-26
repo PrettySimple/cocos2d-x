@@ -29,12 +29,11 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#include "base/CCRef.h"
-#include "platform/CCCommon.h"
-#include "platform/CCGLView.h"
+#    include "base/CCRef.h"
+#    include "platform/CCCommon.h"
+#    include "platform/CCGLView.h"
 
 NS_CC_BEGIN
-
 
 /** Class that represent the OpenGL View
  */
@@ -52,7 +51,7 @@ public:
 
     /** creates a GLViewImpl with a name in fullscreen mode */
     static GLViewImpl* createWithFullScreen(const std::string& viewName);
-    
+
     static void convertAttrs();
     static void* _pixelFormat;
     static int _depthFormat;
@@ -84,11 +83,11 @@ protected:
     bool initWithFullScreen(const std::string& viewName);
 
     // the objective-c CCEAGLView instance
-    void *_eaglview;
+    void* _eaglview;
 };
 
 NS_CC_END
 
 #endif // CC_PLATFORM_IOS
 
-#endif    // end of __CC_EGLViewImpl_IPHONE_H__
+#endif // end of __CC_EGLViewImpl_IPHONE_H__

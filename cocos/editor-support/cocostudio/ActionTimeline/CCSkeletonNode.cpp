@@ -25,9 +25,9 @@ THE SOFTWARE.
 
 #include "base/CCDirector.h"
 #include "math/TransformUtils.h"
+#include "renderer/CCGLProgramState.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/ccGLStateCache.h"
-#include "renderer/CCGLProgramState.h"
 #include <stack>
 
 using namespace cocos2d::GL;
@@ -45,7 +45,6 @@ SkeletonNode* SkeletonNode::create()
     CC_SAFE_DELETE(skeletonNode);
     return nullptr;
 }
-
 
 bool SkeletonNode::init()
 {
@@ -73,8 +72,7 @@ cocos2d::Rect SkeletonNode::getBoundingBox() const
     auto allbones = getAllSubBones();
     for (const auto& bone : allbones)
     {
-        cocos2d::Rect r = RectApplyAffineTransform(bone->getVisibleSkinsRect(),
-            bone->getNodeToParentAffineTransform(bone->getRootSkeletonNode()));
+        cocos2d::Rect r = RectApplyAffineTransform(bone->getVisibleSkinsRect(), bone->getNodeToParentAffineTransform(bone->getRootSkeletonNode()));
         if (r.equals(cocos2d::Rect::ZERO))
             continue;
 
@@ -100,16 +98,16 @@ cocos2d::Rect SkeletonNode::getBoundingBox() const
 }
 
 SkeletonNode::SkeletonNode()
-    : BoneNode()
-    , _subBonesDirty(true)
-    , _subBonesOrderDirty(true)
-    , _batchedVeticesCount(0)
+: BoneNode()
+, _subBonesDirty(true)
+, _subBonesOrderDirty(true)
+, _batchedVeticesCount(0)
 {
 }
 
 SkeletonNode::~SkeletonNode()
 {
-    for (auto &bonepair : _subBonesMap)
+    for (auto& bonepair : _subBonesMap)
     {
         setRootSkeleton(bonepair.second, nullptr);
     }
@@ -123,13 +121,16 @@ void SkeletonNode::updateVertices()
         const float radiusw = _rackWidth * .5f;
         const float radiusl_2 = radiusl * .25f;
         const float radiusw_2 = radiusw * .25f;
-        _squareVertices[5].y = _squareVertices[2].y = _squareVertices[1].y = _squareVertices[6].y
-            = _squareVertices[0].x = _squareVertices[4].x = _squareVertices[7].x = _squareVertices[3].x = .0f;
-        _squareVertices[5].x = -radiusl; _squareVertices[0].y = -radiusw;
-        _squareVertices[6].x = radiusl;  _squareVertices[3].y = radiusw;
-        _squareVertices[1].x = radiusl_2; _squareVertices[7].y = radiusw_2;
-        _squareVertices[2].x = -radiusl_2; _squareVertices[4].y = -radiusw_2;
-
+        _squareVertices[5].y = _squareVertices[2].y = _squareVertices[1].y = _squareVertices[6].y = _squareVertices[0].x = _squareVertices[4].x =
+            _squareVertices[7].x = _squareVertices[3].x = .0f;
+        _squareVertices[5].x = -radiusl;
+        _squareVertices[0].y = -radiusw;
+        _squareVertices[6].x = radiusl;
+        _squareVertices[3].y = radiusw;
+        _squareVertices[1].x = radiusl_2;
+        _squareVertices[7].y = radiusw_2;
+        _squareVertices[2].x = -radiusl_2;
+        _squareVertices[4].y = -radiusw_2;
 
         for (int i = 0; i < 8; i++)
         {
@@ -149,7 +150,7 @@ void SkeletonNode::updateColor()
     _transformUpdated = _transformDirty = _inverseDirty = _contentSizeDirty = true;
 }
 
-void SkeletonNode::visit(cocos2d::Renderer *renderer, const cocos2d::Mat4& parentTransform, uint32_t parentFlags)
+void SkeletonNode::visit(cocos2d::Renderer* renderer, const cocos2d::Mat4& parentTransform, uint32_t parentFlags)
 {
     // quick return if not visible. children won't be drawn.
     if (!_visible)
@@ -195,9 +196,7 @@ void SkeletonNode::visit(cocos2d::Renderer *renderer, const cocos2d::Mat4& paren
         this->draw(renderer, _modelViewTransform, flags);
         // batch draw all sub bones
         _batchBoneCommand.init(_globalZOrder, _modelViewTransform, parentFlags);
-        _batchBoneCommand.setFunc([this]() {
-            batchDrawAllSubBones(_modelViewTransform);
-        });
+        _batchBoneCommand.setFunc([this]() { batchDrawAllSubBones(_modelViewTransform); });
         renderer->addCommand(&_batchBoneCommand);
     }
     _director->popMatrix(cocos2d::MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
@@ -207,24 +206,24 @@ void SkeletonNode::visit(cocos2d::Renderer *renderer, const cocos2d::Mat4& paren
     // _orderOfArrival = 0;
 }
 
-void SkeletonNode::draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags)
+void SkeletonNode::draw(cocos2d::Renderer* renderer, const cocos2d::Mat4& transform, uint32_t flags)
 {
     _customCommand.init(_globalZOrder, transform, flags);
-    _customCommand.setFunc([this, transform, flags]() {
-        onDraw(transform, flags);
-    });
+    _customCommand.setFunc([this, transform, flags]() { onDraw(transform, flags); });
     renderer->addCommand(&_customCommand);
     for (int i = 0; i < 8; ++i)
     {
         cocos2d::Vec4 pos;
-        pos.x = _squareVertices[i].x; pos.y = _squareVertices[i].y; pos.z = _positionZ;
+        pos.x = _squareVertices[i].x;
+        pos.y = _squareVertices[i].y;
+        pos.z = _positionZ;
         pos.w = 1;
         _modelViewTransform.transformVector(&pos);
         _noMVPVertices[i] = cocos2d::Vec3(pos.x, pos.y, pos.z) / pos.w;
     }
 }
 
-void SkeletonNode::batchDrawAllSubBones(const cocos2d::Mat4 &transform)
+void SkeletonNode::batchDrawAllSubBones(const cocos2d::Mat4& transform)
 {
     checkSubBonesDirty();
 
@@ -263,11 +262,10 @@ void SkeletonNode::batchDrawAllSubBones(const cocos2d::Mat4 &transform)
         glDrawArrays(GL_TRIANGLE_FAN, i, 4);
     }
     CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, _batchedVeticesCount);
-#endif //CC_STUDIO_ENABLED_VIEW
+#endif // CC_STUDIO_ENABLED_VIEW
 }
 
-
-void SkeletonNode::onDraw(const cocos2d::Mat4 &transform, uint32_t flags)
+void SkeletonNode::onDraw(const cocos2d::Mat4& transform, uint32_t flags)
 {
     getGLProgram()->use();
     getGLProgram()->setUniformsForBuiltins(transform);
@@ -288,7 +286,7 @@ void SkeletonNode::onDraw(const cocos2d::Mat4 &transform, uint32_t flags)
 
 void SkeletonNode::changeSkins(const std::map<std::string, std::string>& boneSkinNameMap)
 {
-    for (auto &boneskin : boneSkinNameMap)
+    for (auto& boneskin : boneSkinNameMap)
     {
         auto bone = getBoneNode(boneskin.first);
         if (nullptr != bone)

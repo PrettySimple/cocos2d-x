@@ -22,7 +22,6 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-
 #ifndef __CC_RENDERER_H_
 #define __CC_RENDERER_H_
 
@@ -41,17 +40,17 @@
 #if !defined(NDEBUG) && CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
 /// Basic wrapper for glInsertEventMarkerEXT() depending on the current build settings and platform.
-#define CCGL_DEBUG_INSERT_EVENT_MARKER(__message__) glInsertEventMarkerEXT(0, __message__)
+#    define CCGL_DEBUG_INSERT_EVENT_MARKER(__message__) glInsertEventMarkerEXT(0, __message__)
 /// Basic wrapper for glPushGroupMarkerEXT() depending on the current build settings and platform.
-#define CCGL_DEBUG_PUSH_GROUP_MARKER(__message__) glPushGroupMarkerEXT(0, __message__)
+#    define CCGL_DEBUG_PUSH_GROUP_MARKER(__message__) glPushGroupMarkerEXT(0, __message__)
 /// Basic wrapper for CCGL_DEBUG_POP_GROUP_MARKER() depending on the current build settings and platform.
-#define CCGL_DEBUG_POP_GROUP_MARKER() glPopGroupMarkerEXT()
+#    define CCGL_DEBUG_POP_GROUP_MARKER() glPopGroupMarkerEXT()
 
 #else
 
-#define CCGL_DEBUG_INSERT_EVENT_MARKER(__message__)
-#define CCGL_DEBUG_PUSH_GROUP_MARKER(__message__)
-#define CCGL_DEBUG_POP_GROUP_MARKER()
+#    define CCGL_DEBUG_INSERT_EVENT_MARKER(__message__)
+#    define CCGL_DEBUG_PUSH_GROUP_MARKER(__message__)
+#    define CCGL_DEBUG_POP_GROUP_MARKER()
 
 #endif
 
@@ -71,7 +70,8 @@ class MeshCommand;
  the correct order, the only `RenderCommand` objects that need to be sorted,
  are the ones that have `z < 0` and `z > 0`.
 */
-class RenderQueue final {
+class RenderQueue final
+{
 public:
     /**
     RenderCommand will be divided into Queue Groups.
@@ -91,6 +91,7 @@ public:
 
         MAX
     };
+
 private:
     /**The commands in the render queue.*/
     std::array<std::vector<RenderCommand*>, static_cast<std::size_t>(QUEUE_GROUP::MAX)> _commands;
@@ -106,8 +107,8 @@ public:
     RenderQueue() = default;
     RenderQueue(RenderQueue const&) = delete;
     RenderQueue& operator=(RenderQueue const&) = delete;
-    RenderQueue(RenderQueue &&) noexcept = default;
-    RenderQueue& operator=(RenderQueue &&) noexcept = delete;
+    RenderQueue(RenderQueue&&) noexcept = default;
+    RenderQueue& operator=(RenderQueue&&) noexcept = delete;
     ~RenderQueue() = default;
 
     /**Push a renderCommand into current renderqueue.*/
@@ -151,15 +152,14 @@ public:
     /**Reserved for material id, which means that the command could not be batched.*/
     static constexpr std::size_t const MATERIAL_ID_DO_NOT_BATCH = 0;
 
-
     Renderer();
     Renderer(Renderer const&) = delete;
     Renderer& operator=(Renderer const&) = delete;
-    Renderer(Renderer &&) noexcept = delete;
-    Renderer& operator=(Renderer &&) noexcept = delete;
+    Renderer(Renderer&&) noexcept = delete;
+    Renderer& operator=(Renderer&&) noexcept = delete;
     ~Renderer();
 
-    //TODO: manage GLView inside Render itself
+    // TODO: manage GLView inside Render itself
     void initGLView();
 
     /** Adds a `RenderComamnd` into the renderer */
@@ -197,7 +197,11 @@ public:
     /* RenderCommands (except) TrianglesCommand should update this value */
     inline void addDrawnVertices(std::size_t number) noexcept { _drawnVertices += number; };
     /* clear draw stats */
-    inline void clearDrawStats() noexcept { _drawnBatches = 0; _drawnVertices = 0; }
+    inline void clearDrawStats() noexcept
+    {
+        _drawnBatches = 0;
+        _drawnVertices = 0;
+    }
 
     /**
      * Enable/Disable depth test
@@ -210,19 +214,18 @@ public:
     bool checkVisibility(Mat4 const& transform, Size const& size);
 
 protected:
-
-    //Setup VBO or VAO based on OpenGL extensions
+    // Setup VBO or VAO based on OpenGL extensions
     void setupBuffer();
     void setupVBOAndVAO();
     void setupVBO();
     void mapBuffers();
     void drawBatchedTriangles();
 
-    //Draw the previews queued triangles and flush previous context
+    // Draw the previews queued triangles and flush previous context
     void flush();
-    
+
     void flush2D();
-    
+
     void flush3D();
 
     void flushTriangles();
@@ -232,26 +235,26 @@ protected:
 
     void fillVerticesAndIndices(TrianglesCommand const* cmd);
 
-
     /* clear color set outside be used in setGLDefaultValues() */
     Color4F _clearColor = Color4F::BLACK;
 
     std::stack<render_queue_id_t> _commandGroupStack;
-    
+
     std::vector<RenderQueue> _renderGroups;
 
     MeshCommand* _lastBatchedMeshCommand = nullptr;
     std::vector<TrianglesCommand*> _queuedTriangleCommands;
 
-    //for TrianglesCommand
+    // for TrianglesCommand
     std::array<V3F_C4B_T2F, VBO_SIZE> _verts;
     std::array<GLushort, INDEX_VBO_SIZE> _indices;
     GLuint _buffersVAO = 0;
-    std::array<GLuint, 2> _buffersVBO; //0: vertex  1: indices
+    std::array<GLuint, 2> _buffersVBO; // 0: vertex  1: indices
 
     // Internal structure that has the information for the batches
-    struct TriBatchToDraw {
-        TrianglesCommand* cmd = nullptr;  // needed for the Material
+    struct TriBatchToDraw
+    {
+        TrianglesCommand* cmd = nullptr; // needed for the Material
         GLsizei indicesToDraw = 0;
         GLsizei offset = 0;
     };
@@ -266,11 +269,11 @@ protected:
     // stats
     std::size_t _drawnBatches = 0;
     std::size_t _drawnVertices = 0;
-    //the flag for checking whether renderer is rendering
+    // the flag for checking whether renderer is rendering
     bool _isRendering = false;
-    
+
     bool _isDepthTestFor2D = false;
-    
+
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     EventListenerCustom* _cacheTextureListener = nullptr;
 #endif

@@ -25,15 +25,14 @@
  * THE SOFTWARE.
  */
 
-
 #ifndef __FAKE_XMLHTTPREQUEST_H__
 #define __FAKE_XMLHTTPREQUEST_H__
 
 #include "jsapi.h"
 #include "jsfriendapi.h"
 #include "network/HttpClient.h"
-#include "scripting/js-bindings/manual/js_bindings_config.h"
 #include "scripting/js-bindings/manual/ScriptingCore.h"
+#include "scripting/js-bindings/manual/js_bindings_config.h"
 #include "scripting/js-bindings/manual/jsb_helper.h"
 
 class MinXmlHttpRequest : public cocos2d::Ref
@@ -56,9 +55,9 @@ public:
     static const unsigned short DONE = 4;
 
     MinXmlHttpRequest();
-    MinXmlHttpRequest(JSContext *cx);
+    MinXmlHttpRequest(JSContext* cx);
     ~MinXmlHttpRequest();
-    
+
     JS_BINDED_CLASS_GLUE(MinXmlHttpRequest);
     JS_BINDED_CONSTRUCTOR(MinXmlHttpRequest);
     JS_BINDED_PROP_ACCESSOR(MinXmlHttpRequest, onloadstart);
@@ -86,45 +85,46 @@ public:
     JS_BINDED_FUNC(MinXmlHttpRequest, setRequestHeader);
     JS_BINDED_FUNC(MinXmlHttpRequest, overrideMimeType);
 
-    void handle_requestResponse(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
+    void handle_requestResponse(cocos2d::network::HttpClient* sender, cocos2d::network::HttpResponse* response);
 
     void update(float dt);
+
 private:
     void _gotHeader(std::string& header);
     void _setRequestHeader(const char* field, const char* value);
     void _setHttpRequestHeader();
-    void _setHttpRequestData(const char *data, size_t len);
-    void _sendRequest(JSContext *cx);
+    void _setHttpRequestData(const char* data, size_t len);
+    void _sendRequest(JSContext* cx);
     void _notify(JS::HandleObject callback);
-    
-    std::string                       _url;
-    JSContext*                        _cx;
-    std::string                       _meth;
-    std::string                       _type;
-    char*                             _data;
-    uint32_t                          _dataSize;
-    JS::Heap<JSObject*>               _onloadstartCallback;
-    JS::Heap<JSObject*>               _onabortCallback;
-    JS::Heap<JSObject*>               _onerrorCallback;
-    JS::Heap<JSObject*>               _onloadCallback;
-    JS::Heap<JSObject*>               _onloadendCallback;
-    JS::Heap<JSObject*>               _ontimeoutCallback;
-    JS::Heap<JSObject*>               _onreadystateCallback;
-    int                               _readyState;
-    long                              _status;
-    std::string                       _statusText;
-    ResponseType                      _responseType;
-    unsigned long long                _timeout;
-    float                             _elapsedTime;
-    bool                              _isAsync;
-    cocos2d::network::HttpRequest*    _httpRequest;
-    bool                              _isNetwork;
-    bool                              _withCredentialsValue;
-    bool                              _errorFlag;
-    std::unordered_map<std::string, std::string>          _httpHeader;
-    std::unordered_map<std::string, std::string>          _requestHeader;
-    bool                              _isAborted;
-    cocos2d::Scheduler*               _scheduler;
+
+    std::string _url;
+    JSContext* _cx;
+    std::string _meth;
+    std::string _type;
+    char* _data;
+    uint32_t _dataSize;
+    JS::Heap<JSObject*> _onloadstartCallback;
+    JS::Heap<JSObject*> _onabortCallback;
+    JS::Heap<JSObject*> _onerrorCallback;
+    JS::Heap<JSObject*> _onloadCallback;
+    JS::Heap<JSObject*> _onloadendCallback;
+    JS::Heap<JSObject*> _ontimeoutCallback;
+    JS::Heap<JSObject*> _onreadystateCallback;
+    int _readyState;
+    long _status;
+    std::string _statusText;
+    ResponseType _responseType;
+    unsigned long long _timeout;
+    float _elapsedTime;
+    bool _isAsync;
+    cocos2d::network::HttpRequest* _httpRequest;
+    bool _isNetwork;
+    bool _withCredentialsValue;
+    bool _errorFlag;
+    std::unordered_map<std::string, std::string> _httpHeader;
+    std::unordered_map<std::string, std::string> _requestHeader;
+    bool _isAborted;
+    cocos2d::Scheduler* _scheduler;
 };
 
 #endif

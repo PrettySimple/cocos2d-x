@@ -24,33 +24,31 @@
 
 /// @cond DO_NOT_SHOW
 
-#include "ui/UIWebView.h"
-#include "platform/CCGLView.h"
 #include "base/CCDirector.h"
 #include "platform/CCFileUtils.h"
+#include "platform/CCGLView.h"
+#include "ui/UIWebView.h"
 #include "ui/UIWebViewImpl-tizen.h"
 
 NS_CC_BEGIN
-namespace experimental{
-    namespace ui{
-
+namespace experimental
+{
+    namespace ui
+    {
         WebView::WebView()
-        : _impl(new WebViewImpl(this)),
-        _onJSCallback(nullptr),
-        _onShouldStartLoading(nullptr),
-        _onDidFinishLoading(nullptr),
-        _onDidFailLoading(nullptr)
+        : _impl(new WebViewImpl(this))
+        , _onJSCallback(nullptr)
+        , _onShouldStartLoading(nullptr)
+        , _onDidFinishLoading(nullptr)
+        , _onDidFailLoading(nullptr)
         {
         }
 
-        WebView::~WebView()
-        {
-            CC_SAFE_DELETE(_impl);
-        }
+        WebView::~WebView() { CC_SAFE_DELETE(_impl); }
 
-        WebView *WebView::create()
+        WebView* WebView::create()
         {
-            auto webView = new(std::nothrow) WebView();
+            auto webView = new (std::nothrow) WebView();
             if (webView && webView->init())
             {
                 webView->autorelease();
@@ -60,75 +58,36 @@ namespace experimental{
             return nullptr;
         }
 
-        void WebView::setJavascriptInterfaceScheme(const std::string &scheme)
-        {
-            _impl->setJavascriptInterfaceScheme(scheme);
-        }
+        void WebView::setJavascriptInterfaceScheme(const std::string& scheme) { _impl->setJavascriptInterfaceScheme(scheme); }
 
-        void WebView::loadData(const cocos2d::Data &data,
-                               const std::string &MIMEType,
-                               const std::string &encoding,
-                               const std::string &baseURL)
+        void WebView::loadData(const cocos2d::Data& data, const std::string& MIMEType, const std::string& encoding, const std::string& baseURL)
         {
             _impl->loadData(data, MIMEType, encoding, baseURL);
         }
 
-        void WebView::loadHTMLString(const std::string &string, const std::string &baseURL)
-        {
-            _impl->loadHTMLString(string, baseURL);
-        }
+        void WebView::loadHTMLString(const std::string& string, const std::string& baseURL) { _impl->loadHTMLString(string, baseURL); }
 
-        void WebView::loadURL(const std::string &url)
-        {
-            _impl->loadURL(url);
-        }
+        void WebView::loadURL(const std::string& url) { _impl->loadURL(url); }
 
-        void WebView::loadFile(const std::string &fileName)
-        {
-            _impl->loadFile(fileName);
-        }
+        void WebView::loadFile(const std::string& fileName) { _impl->loadFile(fileName); }
 
-        void WebView::stopLoading()
-        {
-            _impl->stopLoading();
-        }
+        void WebView::stopLoading() { _impl->stopLoading(); }
 
-        void WebView::reload()
-        {
-            _impl->reload();
-        }
+        void WebView::reload() { _impl->reload(); }
 
-        bool WebView::canGoBack()
-        {
-            return _impl->canGoBack();
-        }
+        bool WebView::canGoBack() { return _impl->canGoBack(); }
 
-        bool WebView::canGoForward()
-        {
-            return _impl->canGoForward();
-        }
+        bool WebView::canGoForward() { return _impl->canGoForward(); }
 
-        void WebView::goBack()
-        {
-            _impl->goBack();
-        }
+        void WebView::goBack() { _impl->goBack(); }
 
-        void WebView::goForward()
-        {
-            _impl->goForward();
-        }
+        void WebView::goForward() { _impl->goForward(); }
 
-        void WebView::evaluateJS(const std::string &js)
-        {
-            _impl->evaluateJS(js);
-        }
+        void WebView::evaluateJS(const std::string& js) { _impl->evaluateJS(js); }
 
-        void WebView::setScalesPageToFit(bool const scalesPageToFit)
-        {
-            _impl->setScalesPageToFit(scalesPageToFit);
-        }
+        void WebView::setScalesPageToFit(bool const scalesPageToFit) { _impl->setScalesPageToFit(scalesPageToFit); }
 
-        void WebView::draw(cocos2d::Renderer *renderer, cocos2d::Mat4 const &transform, uint32_t flags)
+        void WebView::draw(cocos2d::Renderer* renderer, cocos2d::Mat4 const& transform, uint32_t flags)
         {
             cocos2d::ui::Widget::draw(renderer, transform, flags);
             _impl->draw(renderer, transform, flags);
@@ -146,7 +105,7 @@ namespace experimental{
         void WebView::onEnter()
         {
             Widget::onEnter();
-            if(isVisible())
+            if (isVisible())
             {
                 _impl->setVisible(true);
             }
@@ -157,16 +116,10 @@ namespace experimental{
             Widget::onExit();
             _impl->setVisible(false);
         }
-        
-        void WebView::setBounces(bool bounces)
-        {
-          _impl->setBounces(bounces);
-        }
-        
-        cocos2d::ui::Widget* WebView::createCloneInstance()
-        {
-            return WebView::create();
-        }
+
+        void WebView::setBounces(bool bounces) { _impl->setBounces(bounces); }
+
+        cocos2d::ui::Widget* WebView::createCloneInstance() { return WebView::create(); }
 
         void WebView::copySpecialProperties(Widget* model)
         {
@@ -181,48 +134,27 @@ namespace experimental{
             }
         }
 
-        void WebView::setOnDidFailLoading(const ccWebViewCallback &callback)
-        {
-            _onDidFailLoading = callback;
-        }
+        void WebView::setOnDidFailLoading(const ccWebViewCallback& callback) { _onDidFailLoading = callback; }
 
-        void WebView::setOnDidFinishLoading(const ccWebViewCallback &callback)
-        {
-            _onDidFinishLoading = callback;
-        }
+        void WebView::setOnDidFinishLoading(const ccWebViewCallback& callback) { _onDidFinishLoading = callback; }
 
-        void WebView::setOnShouldStartLoading(const std::function<bool(WebView *sender, const std::string &url)> &callback)
+        void WebView::setOnShouldStartLoading(const std::function<bool(WebView* sender, const std::string& url)>& callback)
         {
             _onShouldStartLoading = callback;
         }
 
-        void WebView::setOnJSCallback(const ccWebViewCallback &callback)
-        {
-            _onJSCallback = callback;
-        }
+        void WebView::setOnJSCallback(const ccWebViewCallback& callback) { _onJSCallback = callback; }
 
-        std::function<bool(WebView *sender, const std::string &url)> WebView::getOnShouldStartLoading()const
-        {
-            return _onShouldStartLoading;
-        }
+        std::function<bool(WebView* sender, const std::string& url)> WebView::getOnShouldStartLoading() const { return _onShouldStartLoading; }
 
-        WebView::ccWebViewCallback WebView::getOnDidFailLoading()const
-        {
-            return _onDidFailLoading;
-        }
+        WebView::ccWebViewCallback WebView::getOnDidFailLoading() const { return _onDidFailLoading; }
 
-        WebView::ccWebViewCallback WebView::getOnDidFinishLoading()const
-        {
-            return _onDidFinishLoading;
-        }
+        WebView::ccWebViewCallback WebView::getOnDidFinishLoading() const { return _onDidFinishLoading; }
 
-        WebView::ccWebViewCallback WebView::getOnJSCallback()const
-        {
-            return _onJSCallback;
-        }
+        WebView::ccWebViewCallback WebView::getOnJSCallback() const { return _onJSCallback; }
 
     } // namespace ui
 } // namespace experimental
-} //namespace cocos2d
+} // namespace cocos2d
 
 /// @endcond

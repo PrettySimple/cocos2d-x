@@ -25,14 +25,14 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
 
-#ifndef CCAPLICATION_TIZEN_H_
-#define CCAPLICATION_TIZEN_H_
+#    ifndef CCAPLICATION_TIZEN_H_
+#        define CCAPLICATION_TIZEN_H_
 
-#include "platform/CCCommon.h"
-#include "platform/CCApplicationProtocol.h"
-#include <string>
+#        include "platform/CCApplicationProtocol.h"
+#        include "platform/CCCommon.h"
+#        include <string>
 
-#include <Elementary.h>
+#        include <Elementary.h>
 
 NS_CC_BEGIN
 class Rect;
@@ -69,7 +69,7 @@ public:
 
     /** @deprecated Use getInstance() instead */
     CC_DEPRECATED_ATTRIBUTE static Application* sharedApplication();
-    
+
     /* override functions */
     virtual LanguageType getCurrentLanguage() override;
 
@@ -79,56 +79,57 @@ public:
     @brief Get current language iso 639-1 code
     @return Current language iso 639-1 code
     */
-    virtual const char * getCurrentLanguageCode() override;
-    
-  /**
-   @brief Open url in default browser
-   @param String with url to open.
-   @return true if the resource located by the URL was successfully opened; otherwise false.
-   */
-  virtual bool openURL(const std::string &url) override;
+    virtual const char* getCurrentLanguageCode() override;
 
-  /**
-  *  Sets the Resource root path.
-  *  @deprecated Please use FileUtils::getInstance()->setSearchPaths() instead.
-  */
-  CC_DEPRECATED_ATTRIBUTE void setResourceRootPath(const std::string& rootResDir);
+    /**
+     @brief Open url in default browser
+     @param String with url to open.
+     @return true if the resource located by the URL was successfully opened; otherwise false.
+     */
+    virtual bool openURL(const std::string& url) override;
 
-  /** 
-  *  Gets the Resource root path.
-  *  @deprecated Please use FileUtils::getInstance()->getSearchPaths() instead. 
-  */
-  CC_DEPRECATED_ATTRIBUTE const std::string& getResourceRootPath(void);
+    /**
+     *  Sets the Resource root path.
+     *  @deprecated Please use FileUtils::getInstance()->setSearchPaths() instead.
+     */
+    CC_DEPRECATED_ATTRIBUTE void setResourceRootPath(const std::string& rootResDir);
 
-  /**
-  @brief Get target platform
-  */
-  virtual Platform getTargetPlatform() override;
-  
-  void setDeviceOrientation(int orientation);
-  void setMainArgs(int argc, char **argv);
+    /**
+     *  Gets the Resource root path.
+     *  @deprecated Please use FileUtils::getInstance()->getSearchPaths() instead.
+     */
+    CC_DEPRECATED_ATTRIBUTE const std::string& getResourceRootPath(void);
+
+    /**
+    @brief Get target platform
+    */
+    virtual Platform getTargetPlatform() override;
+
+    void setDeviceOrientation(int orientation);
+    void setMainArgs(int argc, char** argv);
 
 public:
-    Evas_Object * _win;
-    Evas_Object * _conform;
+    Evas_Object* _win;
+    Evas_Object* _conform;
 
-    Evas_GL * _evasGL;
-    Evas_GL_Context * _ctx;
-    Evas_GL_Surface * _sfc;
-    Ecore_Animator * _ani;
+    Evas_GL* _evasGL;
+    Evas_GL_Context* _ctx;
+    Evas_GL_Surface* _sfc;
+    Ecore_Animator* _ani;
 
     int _orientation;
     int _argc;
-    char **_argv;
+    char** _argv;
+
 protected:
-    long _animationInterval;  //micro second
+    long _animationInterval; // micro second
     std::string _resourceRootPath;
 
-    static Application * __instance;
+    static Application* __instance;
 };
 
 NS_CC_END
 
-#endif // CCAPLICATION_TIZEN_H_
+#    endif // CCAPLICATION_TIZEN_H_
 
 #endif /* CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN */

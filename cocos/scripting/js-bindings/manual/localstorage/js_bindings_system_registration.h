@@ -21,10 +21,9 @@
  * THE SOFTWARE.
  */
 
-
 #ifndef __JSB_SYSTEM_REGISTRATION
 #define __JSB_SYSTEM_REGISTRATION
 
-void jsb_register_system( JSContext *globalC, JS::HandleObject globalO);
+void jsb_register_system(JSContext* globalC, JS::HandleObject globalO);
 
 #endif // __JSB_CHIPMUNK_REGISTRATION

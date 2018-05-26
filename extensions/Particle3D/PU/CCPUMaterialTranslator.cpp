@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -33,7 +33,7 @@ enum MaterialToken
     TOKEN_MAT_TECHNIQUE,
     TOKEN_MAT_PASS,
 
-    //pass
+    // pass
     TOKEN_MAT_LIGHTING,
     TOKEN_MAT_AMIBIENT,
     TOKEN_MAT_DIFFUSE,
@@ -44,11 +44,11 @@ enum MaterialToken
     TOKEN_MAT_DEPTH_WRITE,
     TOKEN_MAT_TEXTURE_UNIT,
 
-    //texture unit
+    // texture unit
     TOKEN_MAT_TEXTURE_FILE,
     TOKEN_MAT_TEXTURE_WRAP,
 
-    //status
+    // status
     TOKEN_MAT_ON,
     TOKEN_MAT_OFF,
     TOKEN_MAT_BLEND_ADD,
@@ -69,7 +69,7 @@ static const std::string matToken[] = {
     "technique",
     "pass",
 
-    //pass
+    // pass
     "lighting",
     "ambient",
     "diffuse",
@@ -80,11 +80,11 @@ static const std::string matToken[] = {
     "depth_write",
     "texture_unit",
 
-    //texture unit
+    // texture unit
     "texture",
     "tex_address_mode",
 
-    //status
+    // status
     "on",
     "off",
     "add",
@@ -101,19 +101,17 @@ static const std::string matToken[] = {
     "mirror",
 };
 
-CCPUMaterialTranslator::CCPUMaterialTranslator()//:mTechnique(0)
+CCPUMaterialTranslator::CCPUMaterialTranslator() //:mTechnique(0)
 {
-    
 }
 CCPUMaterialTranslator::~CCPUMaterialTranslator()
 {
-    
 }
 
-void CCPUMaterialTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode *node)
+void CCPUMaterialTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode* node)
 {
     PUObjectAbstractNode* obj = reinterpret_cast<PUObjectAbstractNode*>(node);
-    //PUObjectAbstractNode* parent = obj->parent ? reinterpret_cast<PUObjectAbstractNode*>(obj->parent) : 0;
+    // PUObjectAbstractNode* parent = obj->parent ? reinterpret_cast<PUObjectAbstractNode*>(obj->parent) : 0;
 
     _material = new (std::nothrow) PUMaterial();
     _material->fileName = obj->file;
@@ -122,12 +120,12 @@ void CCPUMaterialTranslator::translate(PUScriptCompiler* compiler, PUAbstractNod
     _ms->addMaterial(_material);
     obj->context = _material;
 
-    for(PUAbstractNodeList::iterator i = obj->children.begin(); i != obj->children.end(); ++i)
+    for (PUAbstractNodeList::iterator i = obj->children.begin(); i != obj->children.end(); ++i)
     {
-        if((*i)->type == ANT_OBJECT)
+        if ((*i)->type == ANT_OBJECT)
         {
             PUObjectAbstractNode* child = reinterpret_cast<PUObjectAbstractNode*>(*i);
-            if(child->cls == matToken[TOKEN_MAT_TECHNIQUE])
+            if (child->cls == matToken[TOKEN_MAT_TECHNIQUE])
             {
                 PUMaterialTechniqueTranslator materialTechniqueTranslator;
                 materialTechniqueTranslator.translate(compiler, *i);
@@ -136,13 +134,12 @@ void CCPUMaterialTranslator::translate(PUScriptCompiler* compiler, PUAbstractNod
     }
 }
 
-void CCPUMaterialTranslator::setMaterialSystem( PUMaterialCache *ms )
+void CCPUMaterialTranslator::setMaterialSystem(PUMaterialCache* ms)
 {
     _ms = ms;
 }
 
-
-void PUMaterialTechniqueTranslator::translate( PUScriptCompiler* compiler, PUAbstractNode *node )
+void PUMaterialTechniqueTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode* node)
 {
     PUObjectAbstractNode* obj = reinterpret_cast<PUObjectAbstractNode*>(node);
     PUObjectAbstractNode* parent = obj->parent ? reinterpret_cast<PUObjectAbstractNode*>(obj->parent) : 0;
@@ -150,12 +147,12 @@ void PUMaterialTechniqueTranslator::translate( PUScriptCompiler* compiler, PUAbs
     if (parent)
         obj->context = parent->context;
 
-    for(PUAbstractNodeList::iterator i = obj->children.begin(); i != obj->children.end(); ++i)
+    for (PUAbstractNodeList::iterator i = obj->children.begin(); i != obj->children.end(); ++i)
     {
-        if((*i)->type == ANT_OBJECT)
+        if ((*i)->type == ANT_OBJECT)
         {
             PUObjectAbstractNode* child = reinterpret_cast<PUObjectAbstractNode*>(*i);
-            if(child->cls == matToken[TOKEN_MAT_PASS])
+            if (child->cls == matToken[TOKEN_MAT_PASS])
             {
                 PUMaterialPassTranslator materialPassTranslator;
                 materialPassTranslator.translate(compiler, *i);
@@ -164,8 +161,7 @@ void PUMaterialTechniqueTranslator::translate( PUScriptCompiler* compiler, PUAbs
     }
 }
 
-
-void PUMaterialPassTranslator::translate( PUScriptCompiler* compiler, PUAbstractNode *node )
+void PUMaterialPassTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode* node)
 {
     PUObjectAbstractNode* obj = reinterpret_cast<PUObjectAbstractNode*>(node);
     PUObjectAbstractNode* parent = obj->parent ? reinterpret_cast<PUObjectAbstractNode*>(obj->parent) : 0;
@@ -173,19 +169,19 @@ void PUMaterialPassTranslator::translate( PUScriptCompiler* compiler, PUAbstract
     if (parent)
         obj->context = parent->context;
 
-    PUMaterial *material = static_cast<PUMaterial *>(obj->context);
+    PUMaterial* material = static_cast<PUMaterial*>(obj->context);
 
-    for(PUAbstractNodeList::iterator i = obj->children.begin(); i != obj->children.end(); ++i)
+    for (PUAbstractNodeList::iterator i = obj->children.begin(); i != obj->children.end(); ++i)
     {
-        if((*i)->type == ANT_PROPERTY)
+        if ((*i)->type == ANT_PROPERTY)
         {
-            PUPropertyAbstractNode *prop = reinterpret_cast<PUPropertyAbstractNode*>((*i));
+            PUPropertyAbstractNode* prop = reinterpret_cast<PUPropertyAbstractNode*>((*i));
             if (prop->name == matToken[TOKEN_MAT_LIGHTING])
             {
                 if (passValidateProperty(compiler, prop, matToken[TOKEN_MAT_LIGHTING], VAL_STRING))
                 {
                     std::string val;
-                    if(getString(*prop->values.front(), &val))
+                    if (getString(*prop->values.front(), &val))
                     {
                         if (val == matToken[TOKEN_MAT_ON])
                         {
@@ -203,7 +199,7 @@ void PUMaterialPassTranslator::translate( PUScriptCompiler* compiler, PUAbstract
                 if (passValidateProperty(compiler, prop, matToken[TOKEN_MAT_AMIBIENT], VAL_VECTOR4))
                 {
                     Vec4 val;
-                    if(getVector4(prop->values.begin(), prop->values.end(), &val))
+                    if (getVector4(prop->values.begin(), prop->values.end(), &val))
                     {
                         material->ambientColor = val;
                     }
@@ -214,7 +210,7 @@ void PUMaterialPassTranslator::translate( PUScriptCompiler* compiler, PUAbstract
                 if (passValidateProperty(compiler, prop, matToken[TOKEN_MAT_AMIBIENT], VAL_VECTOR4))
                 {
                     Vec4 val;
-                    if(getVector4(prop->values.begin(), prop->values.end(), &val))
+                    if (getVector4(prop->values.begin(), prop->values.end(), &val))
                     {
                         material->diffuseColor = val;
                     }
@@ -227,28 +223,28 @@ void PUMaterialPassTranslator::translate( PUScriptCompiler* compiler, PUAbstract
                 unsigned int n = 0;
                 Vec4 color;
                 float shininess = 0.0f;
-                while(it != end)
+                while (it != end)
                 {
                     float v = 0;
-                    if(getFloat(**it, &v))
+                    if (getFloat(**it, &v))
                     {
-                        switch(n)
+                        switch (n)
                         {
-                        case 0:
-                            color.x = v;
-                            break;
-                        case 1:
-                            color.y = v;
-                            break;
-                        case 2:
-                            color.z = v;
-                            break;
-                        case 3:
-                            color.w = v;
-                            break;
-                        case 4:
-                            shininess = v;
-                            break;
+                            case 0:
+                                color.x = v;
+                                break;
+                            case 1:
+                                color.y = v;
+                                break;
+                            case 2:
+                                color.z = v;
+                                break;
+                            case 3:
+                                color.w = v;
+                                break;
+                            case 4:
+                                shininess = v;
+                                break;
                         }
                     }
                     ++n;
@@ -263,7 +259,7 @@ void PUMaterialPassTranslator::translate( PUScriptCompiler* compiler, PUAbstract
                 if (passValidateProperty(compiler, prop, matToken[TOKEN_MAT_AMIBIENT], VAL_VECTOR4))
                 {
                     Vec4 val;
-                    if(getVector4(prop->values.begin(), prop->values.end(), &val))
+                    if (getVector4(prop->values.begin(), prop->values.end(), &val))
                     {
                         material->emissiveColor = val;
                     }
@@ -271,16 +267,16 @@ void PUMaterialPassTranslator::translate( PUScriptCompiler* compiler, PUAbstract
             }
             else if (prop->name == matToken[TOKEN_MAT_BLEND])
             {
-                //if (passValidateProperty(compiler, prop, matToken[TOKEN_MAT_BLEND], VAL_STRING))
+                // if (passValidateProperty(compiler, prop, matToken[TOKEN_MAT_BLEND], VAL_STRING))
                 if (!prop->values.empty())
                 {
                     std::string val;
-                    if(getString(*prop->values.front(), &val))
+                    if (getString(*prop->values.front(), &val))
                     {
                         if (val == matToken[TOKEN_MAT_BLEND_ADD])
                         {
                             material->blendFunc.src = GL_ONE;
-                            material->blendFunc.dst= GL_ONE;
+                            material->blendFunc.dst = GL_ONE;
                         }
                         else if (val == matToken[TOKEN_MAT_BLEND_ALPHA])
                         {
@@ -289,17 +285,17 @@ void PUMaterialPassTranslator::translate( PUScriptCompiler* compiler, PUAbstract
                         else if (val == matToken[TOKEN_MAT_BLEND_COLOR])
                         {
                             material->blendFunc.src = GL_SRC_COLOR;
-                            material->blendFunc.dst= GL_ONE_MINUS_SRC_COLOR;
+                            material->blendFunc.dst = GL_ONE_MINUS_SRC_COLOR;
                         }
                         else if (val == matToken[TOKEN_MAT_BLEND_MODULATE])
                         {
                             material->blendFunc.src = GL_DST_COLOR;
-                            material->blendFunc.dst= GL_ZERO;
+                            material->blendFunc.dst = GL_ZERO;
                         }
                         else if (val == matToken[TOKEN_MAT_BLEND_REPLACE])
                         {
                             material->blendFunc.src = GL_ONE;
-                            material->blendFunc.dst= GL_ZERO;
+                            material->blendFunc.dst = GL_ZERO;
                         }
                         else if (val == matToken[TOKEN_MAT_BLEND_SRC_COLOR])
                         {
@@ -340,7 +336,7 @@ void PUMaterialPassTranslator::translate( PUScriptCompiler* compiler, PUAbstract
                 if (passValidateProperty(compiler, prop, matToken[TOKEN_MAT_DEPTH_CHECK], VAL_STRING))
                 {
                     std::string val;
-                    if(getString(*prop->values.front(), &val))
+                    if (getString(*prop->values.front(), &val))
                     {
                         if (val == matToken[TOKEN_MAT_ON])
                         {
@@ -358,7 +354,7 @@ void PUMaterialPassTranslator::translate( PUScriptCompiler* compiler, PUAbstract
                 if (passValidateProperty(compiler, prop, matToken[TOKEN_MAT_DEPTH_WRITE], VAL_STRING))
                 {
                     std::string val;
-                    if(getString(*prop->values.front(), &val))
+                    if (getString(*prop->values.front(), &val))
                     {
                         if (val == matToken[TOKEN_MAT_ON])
                         {
@@ -375,7 +371,7 @@ void PUMaterialPassTranslator::translate( PUScriptCompiler* compiler, PUAbstract
         else if ((*i)->type == ANT_OBJECT)
         {
             PUObjectAbstractNode* child = reinterpret_cast<PUObjectAbstractNode*>(*i);
-            if(child->cls == matToken[TOKEN_MAT_TEXTURE_UNIT])
+            if (child->cls == matToken[TOKEN_MAT_TEXTURE_UNIT])
             {
                 PUMaterialTextureUnitTranslator materialTextureUnitTranslator;
                 materialTextureUnitTranslator.translate(compiler, *i);
@@ -384,27 +380,25 @@ void PUMaterialPassTranslator::translate( PUScriptCompiler* compiler, PUAbstract
     }
 }
 
-
-void PUMaterialTextureUnitTranslator::translate( PUScriptCompiler* compiler, PUAbstractNode *node )
+void PUMaterialTextureUnitTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode* node)
 {
     PUObjectAbstractNode* obj = reinterpret_cast<PUObjectAbstractNode*>(node);
     PUObjectAbstractNode* parent = obj->parent ? reinterpret_cast<PUObjectAbstractNode*>(obj->parent) : 0;
 
-    PUMaterial *material = static_cast<PUMaterial *>(parent->context);
+    PUMaterial* material = static_cast<PUMaterial*>(parent->context);
 
-    for(PUAbstractNodeList::iterator i = obj->children.begin(); i != obj->children.end(); ++i)
+    for (PUAbstractNodeList::iterator i = obj->children.begin(); i != obj->children.end(); ++i)
     {
-        if((*i)->type == ANT_PROPERTY)
+        if ((*i)->type == ANT_PROPERTY)
         {
-            PUPropertyAbstractNode *prop = reinterpret_cast<PUPropertyAbstractNode*>((*i));
+            PUPropertyAbstractNode* prop = reinterpret_cast<PUPropertyAbstractNode*>((*i));
             if (prop->name == matToken[TOKEN_MAT_TEXTURE_FILE])
             {
-
-                //if (passValidateProperty(compiler, prop, matToken[TOKEN_MAT_TEXTURE_FILE], VAL_STRING))
+                // if (passValidateProperty(compiler, prop, matToken[TOKEN_MAT_TEXTURE_FILE], VAL_STRING))
                 if (!prop->values.empty())
                 {
                     std::string val;
-                    if(getString(*prop->values.front(), &val))
+                    if (getString(*prop->values.front(), &val))
                     {
                         material->textureFile = val;
                     }
@@ -415,7 +409,7 @@ void PUMaterialTextureUnitTranslator::translate( PUScriptCompiler* compiler, PUA
                 if (passValidateProperty(compiler, prop, matToken[TOKEN_MAT_TEXTURE_WRAP], VAL_STRING))
                 {
                     std::string val;
-                    if(getString(*prop->values.front(), &val))
+                    if (getString(*prop->values.front(), &val))
                     {
                         if (val == matToken[TOKEN_MAT_TEXTURE_CLAMP])
                         {
@@ -427,7 +421,7 @@ void PUMaterialTextureUnitTranslator::translate( PUScriptCompiler* compiler, PUA
                         }
                         else if (val == matToken[TOKEN_MAT_TEXTURE_MIRROR])
                         {
-                            material->wrapMode = GL_MIRRORED_REPEAT;//GL_MIRROR_CLAMP_EXT;
+                            material->wrapMode = GL_MIRRORED_REPEAT; // GL_MIRROR_CLAMP_EXT;
                         }
                     }
                 }

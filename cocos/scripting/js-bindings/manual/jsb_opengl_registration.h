@@ -25,6 +25,6 @@
 #define __JSB_OPENGL_REGISTRATION
 #include "scripting/js-bindings/manual/jsb_opengl_functions.h"
 
-void JSB_register_opengl( JSContext *globalC, JS::HandleObject globalO);
+void JSB_register_opengl(JSContext* globalC, JS::HandleObject globalO);
 
 #endif // __JSB_OPENGL_REGISTRATION

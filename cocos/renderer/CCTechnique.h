@@ -30,12 +30,12 @@
 #ifndef __cocos2d_libs__CCTechnique__
 #define __cocos2d_libs__CCTechnique__
 
-#include <string>
-#include "renderer/CCRenderState.h"
-#include "renderer/CCPass.h"
 #include "base/CCRef.h"
-#include "platform/CCPlatformMacros.h"
 #include "base/CCVector.h"
+#include "platform/CCPlatformMacros.h"
+#include "renderer/CCPass.h"
+#include "renderer/CCRenderState.h"
+#include <string>
 
 NS_CC_BEGIN
 

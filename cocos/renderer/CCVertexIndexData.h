@@ -45,7 +45,7 @@ glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalize
  _type      ->  type
  _normalize ->  normalized
  _offset is used to compute the start offset in a interleaved array, take a V3F_C4B_T2F array,
- offset of vertex will be 0, offset of color would be 0 + sizeof(float) * 3 = 12, 
+ offset of vertex will be 0, offset of color would be 0 + sizeof(float) * 3 = 12,
  offset of texture coord would be 12 + sizeof(char) * 4 = 16.
  @js NA
 */
@@ -55,7 +55,11 @@ struct CC_DLL VertexStreamAttribute
      Constructor.
      */
     VertexStreamAttribute()
-    : _normalize(false),_offset(0),_semantic(0),_type(0),_size(0)
+    : _normalize(false)
+    , _offset(0)
+    , _semantic(0)
+    , _type(0)
+    , _size(0)
     {
     }
     /**
@@ -66,7 +70,11 @@ struct CC_DLL VertexStreamAttribute
      @param size Describe how many elements of type in the attribute.
      */
     VertexStreamAttribute(int offset, int semantic, int type, int size)
-    : _normalize(false),_offset(offset),_semantic(semantic),_type(type),_size(size)
+    : _normalize(false)
+    , _offset(offset)
+    , _semantic(semantic)
+    , _type(type)
+    , _size(size)
     {
     }
     /**
@@ -78,7 +86,11 @@ struct CC_DLL VertexStreamAttribute
      @param normalize If true, the data will be normalized by dividing 255.
      */
     VertexStreamAttribute(int offset, int semantic, int type, int size, bool normalize)
-    : _normalize(normalize),_offset(offset),_semantic(semantic),_type(type),_size(size)
+    : _normalize(normalize)
+    , _offset(offset)
+    , _semantic(semantic)
+    , _type(type)
+    , _size(size)
     {
     }
     /**
@@ -117,7 +129,7 @@ public:
     Create function, used to create a instance of VertexData.
     */
     static VertexData* create();
-    
+
     /**
     Get the number of streams in the VertexData.
     */
@@ -149,11 +161,12 @@ public:
     @param semantic The semantic of the stream.
     */
     VertexBuffer* getStreamBuffer(int semantic) const;
-    
+
     /**
     Called for rendering, it will bind the state of vertex data to current rendering pipeline.
     */
     void use();
+
 protected:
     /**
     Constructor.
@@ -163,6 +176,7 @@ protected:
     Destructor.
     */
     virtual ~VertexData();
+
 protected:
     /**
     Simple struct to bundle buffer and attribute.
@@ -172,7 +186,7 @@ protected:
         VertexBuffer* _buffer;
         VertexStreamAttribute _stream;
     };
-    
+
     /**
     Streams in the VertexData.
     */

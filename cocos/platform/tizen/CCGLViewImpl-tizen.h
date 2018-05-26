@@ -28,16 +28,15 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
 
-#include "platform/CCGLView.h"
+#    include "platform/CCGLView.h"
 
 NS_CC_BEGIN
 
 class CC_DLL GLViewImpl : public GLView
 {
 public:
-
     // static function
-    static GLViewImpl* create(const std::string &viewname);
+    static GLViewImpl* create(const std::string& viewname);
     static GLViewImpl* createWithRect(const std::string& viewName, Rect rect, float frameZoomFactor = 1.0f);
     static GLViewImpl* createWithFullScreen(const std::string& viewName);
 
@@ -58,4 +57,4 @@ NS_CC_END
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
 
-#endif    // end of __CC_EGLVIEWIMPL_TIZEN_H__
+#endif // end of __CC_EGLVIEWIMPL_TIZEN_H__

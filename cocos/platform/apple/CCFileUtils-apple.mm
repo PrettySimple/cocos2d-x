@@ -29,8 +29,8 @@ THE SOFTWARE.
 
 #include <ftw.h>
 
-#include <string>
 #include <stack>
+#include <string>
 
 #include "base/CCDirector.h"
 #include "platform/CCFileUtils.h"
@@ -38,76 +38,81 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-struct FileUtilsApple::IMPL {
-    IMPL(NSBundle* bundle):bundle_([NSBundle mainBundle]) {}
-    void setBundle(NSBundle* bundle) {
-        bundle_ = bundle;
+struct FileUtilsApple::IMPL
+{
+    IMPL(NSBundle* bundle)
+    : bundle_([NSBundle mainBundle])
+    {
     }
-    NSBundle* getBundle() const {
-        return bundle_;
-    }
+    void setBundle(NSBundle* bundle) { bundle_ = bundle; }
+    NSBundle* getBundle() const { return bundle_; }
+
 private:
     NSBundle* bundle_;
 };
 
-static id convertCCValueToNSObject(const cocos2d::Value &value);
+static id convertCCValueToNSObject(const cocos2d::Value& value);
 static cocos2d::Value convertNSObjectToCCValue(id object);
 
 static void addNSObjectToCCMap(id nsKey, id nsValue, ValueMap& dict);
-static void addCCValueToNSDictionary(const std::string& key, const Value& value, NSMutableDictionary *dict);
+static void addCCValueToNSDictionary(const std::string& key, const Value& value, NSMutableDictionary* dict);
 static void addNSObjectToCCVector(id item, ValueVector& array);
-static void addCCValueToNSArray(const Value& value, NSMutableArray *array);
+static void addCCValueToNSArray(const Value& value, NSMutableArray* array);
 
-static id convertCCValueToNSObject(const cocos2d::Value &value)
+static id convertCCValueToNSObject(const cocos2d::Value& value)
 {
     switch (value.getType())
     {
         case Value::Type::NONE:
             return [NSNull null];
-            
+
         case Value::Type::STRING:
             return [NSString stringWithCString:value.asString().c_str() encoding:NSUTF8StringEncoding];
-            
+
         case Value::Type::BYTE:
             return [NSNumber numberWithInt:value.asByte()];
-            
+
         case Value::Type::INTEGER:
             return [NSNumber numberWithInt:value.asInt()];
-            
+
         case Value::Type::UNSIGNED:
             return [NSNumber numberWithUnsignedInt:value.asUnsignedInt()];
-            
+
         case Value::Type::FLOAT:
             return [NSNumber numberWithFloat:value.asFloat()];
-            
+
         case Value::Type::DOUBLE:
             return [NSNumber numberWithDouble:value.asDouble()];
-            
+
         case Value::Type::BOOLEAN:
             return [NSNumber numberWithBool:value.asBool()];
-            
-        case Value::Type::VECTOR: {
-            NSMutableArray *array = [NSMutableArray array];
-            const ValueVector &vector = value.asValueVector();
-            for (const auto &e : vector) {
+
+        case Value::Type::VECTOR:
+        {
+            NSMutableArray* array = [NSMutableArray array];
+            const ValueVector& vector = value.asValueVector();
+            for (const auto& e : vector)
+            {
                 addCCValueToNSArray(e, array);
             }
             return array;
         }
-            
-        case Value::Type::MAP: {
-            NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-            const ValueMap &map = value.asValueMap();
-            for (auto iter = map.begin(); iter != map.end(); ++iter) {
+
+        case Value::Type::MAP:
+        {
+            NSMutableDictionary* dictionary = [NSMutableDictionary dictionary];
+            const ValueMap& map = value.asValueMap();
+            for (auto iter = map.begin(); iter != map.end(); ++iter)
+            {
                 addCCValueToNSDictionary(iter->first, iter->second, dictionary);
             }
             return dictionary;
         }
-            
+
         case Value::Type::INT_KEY_MAP:
             break;
     }
-    
+
     return [NSNull null];
 }
 
@@ -118,23 +123,23 @@ static cocos2d::Value convertNSObjectToCCValue(id item)
     {
         return Value([item UTF8String]);
     }
-    
+
     // add number value into array(such as int, float, bool and so on)
     // the value is a number
     if ([item isKindOfClass:[NSNumber class]])
     {
         NSNumber* num = item;
         const char* numType = [num objCType];
-        if(num == (void*)kCFBooleanFalse || num == (void*)kCFBooleanTrue)
+        if (num == (void*)kCFBooleanFalse || num == (void*)kCFBooleanTrue)
         {
             bool v = [num boolValue];
             return Value(v);
         }
-        else if(strcmp(numType, @encode(float)) == 0)
+        else if (strcmp(numType, @encode(float)) == 0)
         {
             return Value([num floatValue]);
         }
-        else if(strcmp(numType, @encode(double)) == 0)
+        else if (strcmp(numType, @encode(double)) == 0)
         {
             return Value([num doubleValue]);
         }
@@ -143,8 +148,7 @@ static cocos2d::Value convertNSObjectToCCValue(id item)
             return Value([num intValue]);
         }
     }
-    
-    
+
     // add dictionary value into array
     if ([item isKindOfClass:[NSDictionary class]])
     {
@@ -154,10 +158,10 @@ static cocos2d::Value convertNSObjectToCCValue(id item)
             id subValue = [item objectForKey:subKey];
             addNSObjectToCCMap(subKey, subValue, dict);
         }
-        
+
         return Value(dict);
     }
-    
+
     // add array value into array
     if ([item isKindOfClass:[NSArray class]])
     {
@@ -168,7 +172,7 @@ static cocos2d::Value convertNSObjectToCCValue(id item)
         }
         return Value(subArray);
     }
-    
+
     return Value::Null;
 }
 
@@ -177,7 +181,7 @@ static void addNSObjectToCCVector(id item, ValueVector& array)
     array.push_back(convertNSObjectToCCValue(item));
 }
 
-static void addCCValueToNSArray(const Value& value, NSMutableArray *array)
+static void addCCValueToNSArray(const Value& value, NSMutableArray* array)
 {
     [array addObject:convertCCValueToNSObject(value)];
 }
@@ -190,20 +194,22 @@ static void addNSObjectToCCMap(id nsKey, id nsValue, ValueMap& dict)
     dict[key] = convertNSObjectToCCValue(nsValue);
 }
 
-static void addCCValueToNSDictionary(const std::string& key, const Value& value, NSMutableDictionary *dict)
+static void addCCValueToNSDictionary(const std::string& key, const Value& value, NSMutableDictionary* dict)
 {
-    NSString *NSkey = [NSString stringWithCString:key.c_str() encoding:NSUTF8StringEncoding];
+    NSString* NSkey = [NSString stringWithCString:key.c_str() encoding:NSUTF8StringEncoding];
     [dict setObject:convertCCValueToNSObject(value) forKey:NSkey];
 }
 
-
-FileUtilsApple::FileUtilsApple() : pimpl_(new IMPL([NSBundle mainBundle])) {
+FileUtilsApple::FileUtilsApple()
+: pimpl_(new IMPL([NSBundle mainBundle]))
+{
 }
 
 FileUtilsApple::~FileUtilsApple() = default;
 
 #if CC_FILEUTILS_APPLE_ENABLE_OBJC
-void FileUtilsApple::setBundle(NSBundle* bundle) {
+void FileUtilsApple::setBundle(NSBundle* bundle)
+{
     pimpl_->setBundle(bundle);
 }
 #endif
@@ -217,16 +223,15 @@ FileUtils* FileUtils::getInstance()
     if (s_sharedFileUtils == nullptr)
     {
         s_sharedFileUtils = new (std::nothrow) FileUtilsApple();
-        if(!s_sharedFileUtils->init())
+        if (!s_sharedFileUtils->init())
         {
-          delete s_sharedFileUtils;
-          s_sharedFileUtils = nullptr;
-          CCLOG("ERROR: Could not init CCFileUtilsApple");
+            delete s_sharedFileUtils;
+            s_sharedFileUtils = nullptr;
+            CCLOG("ERROR: Could not init CCFileUtilsApple");
         }
     }
     return s_sharedFileUtils;
 }
-
 
 std::string FileUtilsApple::getWritablePath() const
 {
@@ -236,8 +241,8 @@ std::string FileUtilsApple::getWritablePath() const
     }
 
     // save to document folder
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString* documentsDirectory = [paths objectAtIndex:0];
     std::string strRet = [documentsDirectory UTF8String];
     strRet.append("/");
     return strRet;
@@ -259,8 +264,8 @@ bool FileUtilsApple::isFileExistInternal(const std::string& filePath) const
         size_t pos = filePath.find_last_of("/");
         if (pos != std::string::npos)
         {
-            file = filePath.substr(pos+1);
-            path = filePath.substr(0, pos+1);
+            file = filePath.substr(pos + 1);
+            path = filePath.substr(0, pos + 1);
         }
         else
         {
@@ -268,16 +273,18 @@ bool FileUtilsApple::isFileExistInternal(const std::string& filePath) const
         }
 
         NSString* fullpath = [pimpl_->getBundle() pathForResource:[NSString stringWithUTF8String:file.c_str()]
-                                                             ofType:nil
-                                                        inDirectory:[NSString stringWithUTF8String:path.c_str()]];
-        if (fullpath != nil) {
+                                                           ofType:nil
+                                                      inDirectory:[NSString stringWithUTF8String:path.c_str()]];
+        if (fullpath != nil)
+        {
             ret = true;
         }
     }
     else
     {
         // Search path is an absolute path.
-        if ([s_fileManager fileExistsAtPath:[NSString stringWithUTF8String:filePath.c_str()]]) {
+        if ([s_fileManager fileExistsAtPath:[NSString stringWithUTF8String:filePath.c_str()]])
+        {
             ret = true;
         }
     }
@@ -285,12 +292,12 @@ bool FileUtilsApple::isFileExistInternal(const std::string& filePath) const
     return ret;
 }
 
-static int unlink_cb(const char *fpath, const struct stat *sb, int typeflag, struct FTW *ftwbuf)
+static int unlink_cb(const char* fpath, const struct stat* sb, int typeflag, struct FTW* ftwbuf)
 {
     auto ret = remove(fpath);
     if (ret)
     {
-        log("Fail to remove: %s ",fpath);
+        log("Fail to remove: %s ", fpath);
     }
 
     return ret;
@@ -304,7 +311,7 @@ bool FileUtilsApple::removeDirectory(const std::string& path)
         return false;
     }
 
-    if (nftw(path.c_str(),unlink_cb, 64, FTW_DEPTH | FTW_PHYS))
+    if (nftw(path.c_str(), unlink_cb, 64, FTW_DEPTH | FTW_PHYS))
         return false;
     else
         return true;
@@ -315,17 +322,19 @@ std::string FileUtilsApple::getFullPathForDirectoryAndFilename(const std::string
     if (directory[0] != '/')
     {
         NSString* fullpath = [pimpl_->getBundle() pathForResource:[NSString stringWithUTF8String:filename.c_str()]
-                                                             ofType:nil
-                                                        inDirectory:[NSString stringWithUTF8String:directory.c_str()]];
-        if (fullpath != nil) {
+                                                           ofType:nil
+                                                      inDirectory:[NSString stringWithUTF8String:directory.c_str()]];
+        if (fullpath != nil)
+        {
             return [fullpath UTF8String];
         }
     }
     else
     {
-        std::string fullPath = directory+filename;
+        std::string fullPath = directory + filename;
         // Search path is an absolute path.
-        if ([s_fileManager fileExistsAtPath:[NSString stringWithUTF8String:fullPath.c_str()]]) {
+        if ([s_fileManager fileExistsAtPath:[NSString stringWithUTF8String:fullPath.c_str()]])
+        {
             return fullPath;
         }
     }
@@ -347,24 +356,24 @@ ValueMap FileUtilsApple::getValueMapFromData(const char* filedata, int filesize)
 
     ValueMap ret;
 
-    if (plist != nil && [plist isKindOfClass:[NSDictionary class]]) {
-        for (id key in [plist allKeys]) {
+    if (plist != nil && [plist isKindOfClass:[NSDictionary class]])
+    {
+        for (id key in [plist allKeys])
+        {
             id value = [plist objectForKey:key];
             addNSObjectToCCMap(key, value, ret);
         }
     }
     else
     {
-        NSException* e = [NSException exceptionWithName:@"Not a Dictionary"
-                                                 reason:@"Filedata is not a dictionary"
-                                               userInfo:nil];
+        NSException* e = [NSException exceptionWithName:@"Not a Dictionary" reason:@"Filedata is not a dictionary" userInfo:nil];
         @throw e;
     }
 
     return ret;
 }
 
-bool FileUtilsApple::writeToFile(const ValueMap& dict, const std::string &fullPath)
+bool FileUtilsApple::writeToFile(const ValueMap& dict, const std::string& fullPath)
 {
     return writeValueMapToFile(dict, fullPath);
 }
@@ -372,15 +381,15 @@ bool FileUtilsApple::writeToFile(const ValueMap& dict, const std::string &fullPa
 bool FileUtils::writeValueMapToFile(const ValueMap& dict, const std::string& fullPath)
 {
     valueMapCompact(const_cast<ValueMap&>(dict));
-    //CCLOG("iOS||Mac Dictionary %d write to file %s", dict->_ID, fullPath.c_str());
-    NSMutableDictionary *nsDict = [NSMutableDictionary dictionary];
+    // CCLOG("iOS||Mac Dictionary %d write to file %s", dict->_ID, fullPath.c_str());
+    NSMutableDictionary* nsDict = [NSMutableDictionary dictionary];
 
     for (auto iter = dict.begin(); iter != dict.end(); ++iter)
     {
         addCCValueToNSDictionary(iter->first, iter->second, nsDict);
     }
 
-    NSString *file = [NSString stringWithUTF8String:fullPath.c_str()];
+    NSString* file = [NSString stringWithUTF8String:fullPath.c_str()];
     // do it atomically
     return [nsDict writeToFile:file atomically:YES];
 }
@@ -388,22 +397,27 @@ bool FileUtils::writeValueMapToFile(const ValueMap& dict, const std::string& ful
 void FileUtilsApple::valueMapCompact(ValueMap& valueMap)
 {
     auto itr = valueMap.begin();
-    while(itr != valueMap.end()){
+    while (itr != valueMap.end())
+    {
         auto vtype = itr->second.getType();
-        switch(vtype){
-            case Value::Type::NONE:{
+        switch (vtype)
+        {
+            case Value::Type::NONE:
+            {
                 itr = valueMap.erase(itr);
                 continue;
             }
-                break;
-            case Value::Type::MAP:{
+            break;
+            case Value::Type::MAP:
+            {
                 valueMapCompact(itr->second.asValueMap());
             }
-                break;
-            case Value::Type::VECTOR:{
+            break;
+            case Value::Type::VECTOR:
+            {
                 valueVectorCompact(itr->second.asValueVector());
             }
-                break;
+            break;
             default:
                 break;
         }
@@ -414,22 +428,27 @@ void FileUtilsApple::valueMapCompact(ValueMap& valueMap)
 void FileUtilsApple::valueVectorCompact(ValueVector& valueVector)
 {
     auto itr = valueVector.begin();
-    while(itr != valueVector.end()){
+    while (itr != valueVector.end())
+    {
         auto vtype = (*itr).getType();
-        switch(vtype){
-            case Value::Type::NONE:{
+        switch (vtype)
+        {
+            case Value::Type::NONE:
+            {
                 itr = valueVector.erase(itr);
                 continue;
             }
-                break;
-            case Value::Type::MAP:{
+            break;
+            case Value::Type::MAP:
+            {
                 valueMapCompact((*itr).asValueMap());
             }
-                break;
-            case Value::Type::VECTOR:{
+            break;
+            case Value::Type::VECTOR:
+            {
                 valueVectorCompact((*itr).asValueVector());
             }
-                break;
+            break;
             default:
                 break;
         }
@@ -442,7 +461,7 @@ bool FileUtils::writeValueVectorToFile(const ValueVector& vecData, const std::st
     NSString* path = [NSString stringWithUTF8String:fullPath.c_str()];
     NSMutableArray* array = [NSMutableArray array];
 
-    for (const auto &e : vecData)
+    for (const auto& e : vecData)
     {
         addCCValueToNSArray(e, array);
     }
@@ -464,41 +483,42 @@ ValueVector FileUtilsApple::getValueVectorFromData(const char* filedata, int fil
     NSPropertyListFormat format;
     NSError* error;
     id plist = [NSPropertyListSerialization propertyListWithData:file options:NSPropertyListImmutable format:&format error:&error];
-    
+
     ValueVector ret;
-    
-    if (plist != nil && [plist isKindOfClass:[NSArray class]]) {
-        for (id value in plist) {
+
+    if (plist != nil && [plist isKindOfClass:[NSArray class]])
+    {
+        for (id value in plist)
+        {
             addNSObjectToCCVector(value, ret);
         }
     }
     else
     {
-        NSException* e = [NSException exceptionWithName:@"Not an Array"
-                                                 reason:@"Filedata is not an array"
-                                               userInfo:nil];
+        NSException* e = [NSException exceptionWithName:@"Not an Array" reason:@"Filedata is not an array" userInfo:nil];
         @throw e;
     }
-    
+
     return ret;
 }
 
 bool FileUtilsApple::createDirectory(const std::string& path)
 {
     CCASSERT(!path.empty(), "Invalid path");
-    
+
     if (isDirectoryExist(path))
         return true;
-    
+
     NSError* error;
-    
-    bool result = [s_fileManager createDirectoryAtPath:[NSString stringWithUTF8String:path.c_str()] withIntermediateDirectories:YES attributes:nil error:&error];
-    
-    if(!result && error != nil)
+
+    bool result =
+        [s_fileManager createDirectoryAtPath:[NSString stringWithUTF8String:path.c_str()] withIntermediateDirectories:YES attributes:nil error:&error];
+
+    if (!result && error != nil)
     {
         CCLOGERROR("Fail to create directory \"%s\": %s", path.c_str(), [error.localizedDescription UTF8String]);
     }
-    
+
     return result;
 }
 

@@ -4,17 +4,17 @@
  *
  * Copyright 2012 Yannick Loriot. All rights reserved.
  * http://yannickloriot.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,8 +28,8 @@
 #ifndef __CCCONTROLSTEPPER_H__
 #define __CCCONTROLSTEPPER_H__
 
-#include "CCControl.h"
 #include "2d/CCLabel.h"
+#include "CCControl.h"
 #include "extensions/ExtensionExport.h"
 
 NS_CC_EXT_BEGIN
@@ -50,8 +50,8 @@ public:
         PLUS,
         NONE
     };
-    
-    static ControlStepper* create(Sprite *minusSprite, Sprite *plusSprite);
+
+    static ControlStepper* create(Sprite* minusSprite, Sprite* plusSprite);
     /**
      * @js ctor
      * @lua new
@@ -63,7 +63,7 @@ public:
      */
     virtual ~ControlStepper();
 
-    bool initWithMinusSpriteAndPlusSprite(Sprite *minusSprite, Sprite *plusSprite);
+    bool initWithMinusSpriteAndPlusSprite(Sprite* minusSprite, Sprite* plusSprite);
 
     virtual void setWraps(bool wraps);
     virtual void setMinimumValue(double minimumValue);
@@ -77,9 +77,9 @@ public:
     virtual bool isContinuous() const;
 
     // Overrides
-    virtual bool onTouchBegan(Touch *pTouch, Event *pEvent) override;
-    virtual void onTouchMoved(Touch *pTouch, Event *pEvent) override;
-    virtual void onTouchEnded(Touch *pTouch, Event *pEvent) override;
+    virtual bool onTouchBegan(Touch* pTouch, Event* pEvent) override;
+    virtual void onTouchMoved(Touch* pTouch, Event* pEvent) override;
+    virtual void onTouchEnded(Touch* pTouch, Event* pEvent) override;
     void update(float dt) override;
 
     /** Update the layout of the stepper with the given touch location. */
@@ -93,25 +93,25 @@ public:
 
 protected:
     /** The numeric value of the stepper. */
-    double                  _value;
+    double _value;
     /** The continuous vs. noncontinuous state of the stepper. */
-    bool                    _continuous;
+    bool _continuous;
     /** The automatic vs. nonautomatic repeat state of the stepper. */
-    bool                    _autorepeat;
+    bool _autorepeat;
     /** The wrap vs. no-wrap state of the stepper. */
-    bool                    _wraps;
+    bool _wraps;
     /** The lowest possible numeric value for the stepper. */
-    double                  _minimumValue;
+    double _minimumValue;
     /** The highest possible numeric value for the stepper. */
-    double                  _maximumValue;
+    double _maximumValue;
     /** The step, or increment, value for the stepper. */
-    double                  _stepValue;
-    bool                    _touchInsideFlag;
-    Part                    _touchedPart;
-    int                     _autorepeatCount;
+    double _stepValue;
+    bool _touchInsideFlag;
+    Part _touchedPart;
+    int _autorepeatCount;
 
     // Weak links to children
-	CC_SYNTHESIZE_RETAIN(Sprite*, _minusSprite, MinusSprite)
+    CC_SYNTHESIZE_RETAIN(Sprite*, _minusSprite, MinusSprite)
     CC_SYNTHESIZE_RETAIN(Sprite*, _plusSprite, PlusSprite)
     CC_SYNTHESIZE_RETAIN(Label*, _minusLabel, MinusLabel)
     CC_SYNTHESIZE_RETAIN(Label*, _plusLabel, PlusLabel)

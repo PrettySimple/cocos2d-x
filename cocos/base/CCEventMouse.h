@@ -29,14 +29,14 @@
 #include "base/CCEvent.h"
 #include "math/CCGeometry.h"
 
-#define MOUSE_BUTTON_LEFT       0
-#define MOUSE_BUTTON_RIGHT      1
-#define MOUSE_BUTTON_MIDDLE     2
-#define MOUSE_BUTTON_4          3
-#define MOUSE_BUTTON_5          4
-#define MOUSE_BUTTON_6          5
-#define MOUSE_BUTTON_7          6
-#define MOUSE_BUTTON_8          7
+#define MOUSE_BUTTON_LEFT 0
+#define MOUSE_BUTTON_RIGHT 1
+#define MOUSE_BUTTON_MIDDLE 2
+#define MOUSE_BUTTON_4 3
+#define MOUSE_BUTTON_5 4
+#define MOUSE_BUTTON_6 5
+#define MOUSE_BUTTON_7 6
+#define MOUSE_BUTTON_8 7
 
 /**
  * @addtogroup base
@@ -52,9 +52,9 @@ class CC_DLL EventMouse : public Event
 {
 public:
     /**
-    * MouseEventType Different types of MouseEvent.
-    * @js NA
-    */
+     * MouseEventType Different types of MouseEvent.
+     * @js NA
+     */
     enum class MouseEventType
     {
         MOUSE_NONE,
@@ -73,13 +73,17 @@ public:
     EventMouse(MouseEventType mouseEventCode);
 
     /** Set mouse scroll data.
-     * 
+     *
      * @param scrollX The scroll data of x axis.
      * @param scrollY The scroll data of y axis.
      */
-    void setScrollData(float scrollX, float scrollY) { _scrollX = scrollX; _scrollY = scrollY; }
+    void setScrollData(float scrollX, float scrollY)
+    {
+        _scrollX = scrollX;
+        _scrollY = scrollY;
+    }
     /** Get mouse scroll data of x axis.
-     * 
+     *
      * @return The scroll data of x axis.
      */
     float getScrollX() const { return _scrollX; }
@@ -95,7 +99,8 @@ public:
      * @param y The y coordinate of cursor position.
      * @js setLocation
      */
-    void setCursorPosition(float x, float y) { 
+    void setCursorPosition(float x, float y)
+    {
         _x = x;
         _y = y;
         _prevPoint = _point;
@@ -109,7 +114,7 @@ public:
     }
 
     /** Set mouse button.
-     * 
+     *
      * @param button a given mouse button.
      * @js setButton
      */
@@ -172,7 +177,6 @@ public:
      * @js NA
      */
     Vec2 getStartLocationInView() const;
-
 
 private:
     MouseEventType _mouseEventType;

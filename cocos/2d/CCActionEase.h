@@ -56,25 +56,26 @@ public:
     //
     // Overrides
     //
-    virtual void startWithTarget(Node *target) override;
+    virtual void startWithTarget(Node* target) override;
     virtual void stop() override;
     virtual void update(float time) override;
 
-CC_CONSTRUCTOR_ACCESS:
-    ActionEase()
+    CC_CONSTRUCTOR_ACCESS : ActionEase()
     : _inner(nullptr)
-    {}
-    
+    {
+    }
+
     virtual ~ActionEase();
     /**
      @brief Initializes the action.
      @return Return true when the initialization success, otherwise return false.
     */
-    bool initWithAction(ActionInterval *action);
+    bool initWithAction(ActionInterval* action);
 
 protected:
     /** The inner action */
     ActionInterval* _inner;
+
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(ActionEase);
 };
@@ -100,8 +101,7 @@ public:
     */
     inline float getRate() const noexcept { return _rate; }
 
-CC_CONSTRUCTOR_ACCESS:
-    EaseRateAction() {}
+    CC_CONSTRUCTOR_ACCESS : EaseRateAction() {}
     virtual ~EaseRateAction() {}
     /**
      @brief Initializes the action with the inner action and the rate parameter.
@@ -122,20 +122,21 @@ private:
 // NOTE: Converting these macros into Templates is desirable, but please see
 // issue #16159 [https://github.com/cocos2d/cocos2d-x/pull/16159] for further info
 //
-#define EASE_TEMPLATE_DECL_CLASS(CLASSNAME) \
-class CC_DLL CLASSNAME : public ActionEase \
-{ \
-CC_CONSTRUCTOR_ACCESS: \
-    virtual ~CLASSNAME() { } \
-    CLASSNAME() { } \
-public: \
-    static CLASSNAME* create(ActionInterval* action); \
-    CLASSNAME* clone() const override; \
-    void update(float time) override; \
-    ActionEase* reverse() const override; \
-private: \
-    CC_DISALLOW_COPY_AND_ASSIGN(CLASSNAME); \
-};
+#define EASE_TEMPLATE_DECL_CLASS(CLASSNAME)               \
+    class CC_DLL CLASSNAME : public ActionEase            \
+    {                                                     \
+        CC_CONSTRUCTOR_ACCESS : virtual ~CLASSNAME() {}   \
+        CLASSNAME() {}                                    \
+                                                          \
+    public:                                               \
+        static CLASSNAME* create(ActionInterval* action); \
+        CLASSNAME* clone() const override;                \
+        void update(float time) override;                 \
+        ActionEase* reverse() const override;             \
+                                                          \
+    private:                                              \
+        CC_DISALLOW_COPY_AND_ASSIGN(CLASSNAME);           \
+    };
 
 /**
  @class EaseExponentialIn
@@ -199,7 +200,9 @@ EASE_TEMPLATE_DECL_CLASS(EaseSineInOut);
  @since v0.8.2
  @ingroup Actions
  */
-class CC_DLL EaseBounce : public ActionEase {};
+class CC_DLL EaseBounce : public ActionEase
+{
+};
 
 /**
  @class EaseBounceIn
@@ -371,20 +374,21 @@ EASE_TEMPLATE_DECL_CLASS(EaseCubicActionInOut);
 // issue #16159 [https://github.com/cocos2d/cocos2d-x/pull/16159] for further info
 //
 
-#define EASERATE_TEMPLATE_DECL_CLASS(CLASSNAME) \
-class CC_DLL CLASSNAME : public EaseRateAction \
-{ \
-CC_CONSTRUCTOR_ACCESS: \
-    virtual ~CLASSNAME() { } \
-    CLASSNAME() { } \
-public: \
-    static CLASSNAME* create(ActionInterval* action, float rate); \
-    CLASSNAME* clone() const override; \
-    void update(float time) override; \
-    EaseRateAction* reverse() const override; \
-private: \
-    CC_DISALLOW_COPY_AND_ASSIGN(CLASSNAME); \
-};
+#define EASERATE_TEMPLATE_DECL_CLASS(CLASSNAME)                       \
+    class CC_DLL CLASSNAME : public EaseRateAction                    \
+    {                                                                 \
+        CC_CONSTRUCTOR_ACCESS : virtual ~CLASSNAME() {}               \
+        CLASSNAME() {}                                                \
+                                                                      \
+    public:                                                           \
+        static CLASSNAME* create(ActionInterval* action, float rate); \
+        CLASSNAME* clone() const override;                            \
+        void update(float time) override;                             \
+        EaseRateAction* reverse() const override;                     \
+                                                                      \
+    private:                                                          \
+        CC_DISALLOW_COPY_AND_ASSIGN(CLASSNAME);                       \
+    };
 
 /**
  @class EaseIn
@@ -424,7 +428,6 @@ EASERATE_TEMPLATE_DECL_CLASS(EaseInOut);
 class CC_DLL EaseElastic : public ActionEase
 {
 public:
-
     /**
      @brief Get period of the wave in radians. Default value is 0.3.
      @return Return the period of the wave in radians.
@@ -436,8 +439,7 @@ public:
     */
     inline void setPeriod(float fPeriod) noexcept { _period = fPeriod; }
 
-CC_CONSTRUCTOR_ACCESS:
-    EaseElastic() {}
+    CC_CONSTRUCTOR_ACCESS : EaseElastic() {}
     virtual ~EaseElastic() {}
     /**
      @brief Initializes the action with the inner action and the period in radians.
@@ -445,7 +447,7 @@ CC_CONSTRUCTOR_ACCESS:
      @param period Period of the wave in radians. Default is 0.3.
      @return Return true when the initialization success, otherwise return false.
     */
-    bool initWithAction(ActionInterval *action, float period = 0.3f);
+    bool initWithAction(ActionInterval* action, float period = 0.3f);
 
 protected:
     float _period;
@@ -458,20 +460,21 @@ private:
 // NOTE: Converting these macros into Templates is desirable, but please see
 // issue #16159 [https://github.com/cocos2d/cocos2d-x/pull/16159] for further info
 //
-#define EASEELASTIC_TEMPLATE_DECL_CLASS(CLASSNAME) \
-class CC_DLL CLASSNAME : public EaseElastic \
-{ \
-CC_CONSTRUCTOR_ACCESS: \
-    virtual ~CLASSNAME() { } \
-    CLASSNAME() { } \
-public: \
-    static CLASSNAME* create(ActionInterval* action, float rate = 0.3f); \
-    CLASSNAME* clone() const override; \
-    void update(float time) override; \
-    EaseElastic* reverse() const override; \
-private: \
-    CC_DISALLOW_COPY_AND_ASSIGN(CLASSNAME); \
-};
+#define EASEELASTIC_TEMPLATE_DECL_CLASS(CLASSNAME)                           \
+    class CC_DLL CLASSNAME : public EaseElastic                              \
+    {                                                                        \
+        CC_CONSTRUCTOR_ACCESS : virtual ~CLASSNAME() {}                      \
+        CLASSNAME() {}                                                       \
+                                                                             \
+    public:                                                                  \
+        static CLASSNAME* create(ActionInterval* action, float rate = 0.3f); \
+        CLASSNAME* clone() const override;                                   \
+        void update(float time) override;                                    \
+        EaseElastic* reverse() const override;                               \
+                                                                             \
+    private:                                                                 \
+        CC_DISALLOW_COPY_AND_ASSIGN(CLASSNAME);                              \
+    };
 
 /**
  @class EaseElasticIn
@@ -510,7 +513,6 @@ EASEELASTIC_TEMPLATE_DECL_CLASS(EaseElasticOut);
  */
 EASEELASTIC_TEMPLATE_DECL_CLASS(EaseElasticInOut);
 
-
 /**
  @class EaseBezierAction
  @brief Ease Bezier
@@ -535,8 +537,7 @@ public:
     */
     virtual void setBezierParamer(float p0, float p1, float p2, float p3);
 
-CC_CONSTRUCTOR_ACCESS:
-    EaseBezierAction() {}
+    CC_CONSTRUCTOR_ACCESS : EaseBezierAction() {}
     virtual ~EaseBezierAction() {}
 
 protected:

@@ -25,40 +25,34 @@ THE SOFTWARE.
 #ifndef __CC_EXTENTIONS_CCCOMBASE_H__
 #define __CC_EXTENTIONS_CCCOMBASE_H__
 
-#include <string>
-#include "DictionaryHelper.h"
-#include "cocostudio/CocosStudioExport.h"
-#include "base/ObjectFactory.h"
 #include "CocoLoader.h"
+#include "DictionaryHelper.h"
+#include "base/ObjectFactory.h"
+#include "cocostudio/CocosStudioExport.h"
+#include <string>
 
+#define DECLARE_CLASS_COMPONENT_INFO           \
+public:                                        \
+    static cocos2d::ObjectFactory::TInfo Type; \
+    static cocos2d::Ref* createInstance(void);
 
-#define DECLARE_CLASS_COMPONENT_INFO \
-    public: \
-        static cocos2d::ObjectFactory::TInfo Type; \
-        static cocos2d::Ref* createInstance(void); \
-        
-#define IMPLEMENT_CLASS_COMPONENT_INFO(className) \
-        cocos2d::Ref* className::createInstance(void) \
-        { \
-            return className::create(); \
-        } \
-        cocos2d::ObjectFactory::TInfo className::Type(#className, &className::createInstance); \
+#define IMPLEMENT_CLASS_COMPONENT_INFO(className)                                 \
+    cocos2d::Ref* className::createInstance(void) { return className::create(); } \
+    cocos2d::ObjectFactory::TInfo className::Type(#className, &className::createInstance);
 
-#define CREATE_CLASS_COMPONENT_INFO(className) \
-        cocos2d::ObjectFactory::TInfo(#className, &className::createInstance)
+#define CREATE_CLASS_COMPONENT_INFO(className) cocos2d::ObjectFactory::TInfo(#className, &className::createInstance)
 
 struct CC_STUDIO_DLL SerData
 {
-    const rapidjson::Value *_rData;
-    cocostudio::stExpCocoNode *_cocoNode;
-    cocostudio::CocoLoader *_cocoLoader;
+    const rapidjson::Value* _rData;
+    cocostudio::stExpCocoNode* _cocoNode;
+    cocostudio::CocoLoader* _cocoLoader;
     SerData()
     {
         _rData = NULL;
         _cocoNode = NULL;
         _cocoLoader = NULL;
     }
-    
 };
 
 #endif

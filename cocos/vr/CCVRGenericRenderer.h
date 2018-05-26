@@ -25,9 +25,9 @@
 #ifndef CCVRGenericRenderer_hpp
 #define CCVRGenericRenderer_hpp
 
-#include "vr/CCVRProtocol.h"
 #include "renderer/CCCustomCommand.h"
 #include "renderer/CCFrameBuffer.h"
+#include "vr/CCVRProtocol.h"
 
 NS_CC_BEGIN
 
@@ -40,7 +40,8 @@ class VRGenericHeadTracker;
 
 struct CC_DLL VREye
 {
-    enum class EyeType {
+    enum class EyeType
+    {
         MONO,
         LEFT,
         RIGHT,
@@ -63,7 +64,7 @@ public:
 
 protected:
     void setupGLProgram();
-    void renderDistortionMesh(DistortionMesh *mesh, GLint textureID);
+    void renderDistortionMesh(DistortionMesh* mesh, GLint textureID);
     DistortionMesh* createDistortionMesh(VREye::EyeType eyeType);
 
     experimental::FrameBuffer* _fb;
@@ -74,7 +75,7 @@ protected:
     DistortionMesh* _rightDistortionMesh;
     Distortion* _distortion;
     bool _vignetteEnabled;
-    
+
     GLProgramState* _glProgramState;
     VRGenericHeadTracker* _headTracker;
 };

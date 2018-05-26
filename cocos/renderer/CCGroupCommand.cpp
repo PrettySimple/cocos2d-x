@@ -22,7 +22,6 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-
 #include "renderer/CCGroupCommand.h"
 
 #include "base/CCDirector.h"
@@ -42,7 +41,7 @@ std::size_t get_group_id()
 {
     auto& unused_ids = get_unused_ids();
 
-    //Reuse old id
+    // Reuse old id
     if (!unused_ids.empty())
     {
         auto it = unused_ids.begin();
@@ -51,7 +50,7 @@ std::size_t get_group_id()
         return groupID;
     }
 
-    //Create new ID
+    // Create new ID
     return Director::getInstance()->getRenderer()->createRenderQueue();
 }
 
@@ -64,7 +63,8 @@ void recycle_group_id(std::size_t group_id)
     }
 }
 
-GroupCommand::GroupCommand() : RenderCommand(RenderCommand::Type::GROUP_COMMAND)
+GroupCommand::GroupCommand()
+: RenderCommand(RenderCommand::Type::GROUP_COMMAND)
 {
 }
 
@@ -79,7 +79,5 @@ void GroupCommand::init(float globalOrder)
     recycle_group_id(_renderQueueID);
     _renderQueueID = get_group_id();
 }
-
-
 
 NS_CC_END

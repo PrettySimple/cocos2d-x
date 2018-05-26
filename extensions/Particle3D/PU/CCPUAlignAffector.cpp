@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -30,11 +30,11 @@ NS_CC_BEGIN
 
 // Constants
 const bool PUAlignAffector::DEFAULT_RESIZE = false;
-    
+
 //-----------------------------------------------------------------------
-PUAlignAffector::PUAlignAffector() 
-    : PUAffector()
-    , _resize(DEFAULT_RESIZE)
+PUAlignAffector::PUAlignAffector()
+: PUAffector()
+, _resize(DEFAULT_RESIZE)
 {
 }
 
@@ -52,15 +52,15 @@ void PUAlignAffector::setResize(bool resize)
     _resize = resize;
 }
 
-void PUAlignAffector::updatePUAffector( PUParticle3D *particle, float deltaTime )
+void PUAlignAffector::updatePUAffector(PUParticle3D* particle, float deltaTime)
 {
-    //auto particles = _particleSystem->getParticles();
-    //if (!particles.empty())
+    // auto particles = _particleSystem->getParticles();
+    // if (!particles.empty())
     {
-        //PUParticle3D *preParticle = particles[0];
-        //for (unsigned int i = 1; i < particles.size(); ++i)
+        // PUParticle3D *preParticle = particles[0];
+        // for (unsigned int i = 1; i < particles.size(); ++i)
         {
-            //PUParticle3D *particle = particles[i];
+            // PUParticle3D *particle = particles[i];
             Vec3 diff = _previousParticle->position - particle->position;
             if (_resize)
             {
@@ -75,7 +75,7 @@ void PUAlignAffector::updatePUAffector( PUParticle3D *particle, float deltaTime 
     }
 }
 
-void PUAlignAffector::firstParticleUpdate( PUParticle3D *particle, float deltaTime )
+void PUAlignAffector::firstParticleUpdate(PUParticle3D* particle, float deltaTime)
 {
     _previousParticle = particle;
 }
@@ -87,7 +87,7 @@ PUAlignAffector* PUAlignAffector::create()
     return paa;
 }
 
-void PUAlignAffector::copyAttributesTo( PUAffector* affector )
+void PUAlignAffector::copyAttributesTo(PUAffector* affector)
 {
     PUAffector::copyAttributesTo(affector);
 

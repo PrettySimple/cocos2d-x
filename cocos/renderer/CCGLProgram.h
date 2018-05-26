@@ -52,9 +52,9 @@ NS_CC_BEGIN
 
 class GLProgram;
 class Director;
-//FIXME: these two typedefs would be deprecated or removed in version 4.0.
+// FIXME: these two typedefs would be deprecated or removed in version 4.0.
 typedef void (*GLInfoFunction)(GLuint program, GLenum pname, GLint* params);
-typedef void (*GLLogFunction) (GLuint program, GLsizei bufsize, GLsizei* length, GLchar* infolog);
+typedef void (*GLLogFunction)(GLuint program, GLsizei bufsize, GLsizei* length, GLchar* infolog);
 
 /**VertexAttrib is a structure to encapsulate data got from glGetActiveAttrib.*/
 struct VertexAttrib
@@ -84,9 +84,9 @@ struct Uniform
 #ifdef DEBUG_TEXTURE_SIZE
 enum struct DebugFlag : std::uint8_t
 {
-    None = 0
-    , Mipmap = 1
-    };
+    None = 0,
+    Mipmap = 1
+};
 #endif
 
 /** GLProgram
@@ -154,8 +154,8 @@ public:
         /**Random number.*/
         UNIFORM_RANDOM01,
         /** @{
-        * Sampler 0-3, used for texture.
-        */
+         * Sampler 0-3, used for texture.
+         */
         UNIFORM_SAMPLER0,
         UNIFORM_SAMPLER1,
         UNIFORM_SAMPLER2,
@@ -170,14 +170,14 @@ public:
     /** Flags used by the uniforms */
     enum struct UniformFlags : std::uint8_t
     {
-        None = 0
-        , Time = 1
-        , Normal = 2
-        , MVP = 4
-        , MV = 8
-        , P = 16
-        , Random = 32
-        , Debug = 64
+        None = 0,
+        Time = 1,
+        Normal = 2,
+        MVP = 4,
+        MV = 8,
+        P = 16,
+        Random = 32,
+        Debug = 64
     };
 
     /**
@@ -359,10 +359,10 @@ public:
     */
 
     GLProgram();
-    GLProgram(GLProgram const&) =delete;
-    GLProgram& operator=(GLProgram const&) =delete;
-    GLProgram(GLProgram &&) noexcept =delete;
-    GLProgram& operator=(GLProgram &&) noexcept =delete;
+    GLProgram(GLProgram const&) = delete;
+    GLProgram& operator=(GLProgram const&) = delete;
+    GLProgram(GLProgram&&) noexcept = delete;
+    GLProgram& operator=(GLProgram&&) noexcept = delete;
     ~GLProgram() override;
 
     /** @{
@@ -410,15 +410,15 @@ public:
     bool link();
     /** it will call glUseProgram() */
     void use();
-/** It will create 4 uniforms:
-    - kUniformPMatrix
-    - kUniformMVMatrix
-    - kUniformMVPMatrix
-    - GLProgram::UNIFORM_SAMPLER
+    /** It will create 4 uniforms:
+        - kUniformPMatrix
+        - kUniformMVMatrix
+        - kUniformMVPMatrix
+        - GLProgram::UNIFORM_SAMPLER
 
- And it will bind "GLProgram::UNIFORM_SAMPLER" to 0
+     And it will bind "GLProgram::UNIFORM_SAMPLER" to 0
 
- */
+     */
     void updateUniforms();
 
     /** calls retrieves the named uniform location for this shader program. */
@@ -498,7 +498,7 @@ public:
      Update the builtin uniforms if they are different than the previous call for this same shader program.
      @param modelView modelView matrix applied to the built in uniform of the shader.
      */
-    void setUniformsForBuiltins(const Mat4 &modelView);
+    void setUniformsForBuiltins(const Mat4& modelView);
     /**
      Update the builtin uniforms if they are different than the previous call for this same shader program.
      */
@@ -523,12 +523,16 @@ public:
     /** returns the Uniform flags */
     UniformFlags const& getUniformFlags() const noexcept { return _flags; }
 
-    //DEPRECATED
+    // DEPRECATED
     CC_DEPRECATED_ATTRIBUTE bool initWithVertexShaderByteArray(const GLchar* vertexByteArray, const GLchar* fragByteArray)
-    { return initWithByteArrays(vertexByteArray, fragByteArray); }
-    CC_DEPRECATED_ATTRIBUTE bool initWithVertexShaderFilename(const std::string &vertexFilename, const std::string& fragFilename)
-    { return initWithFilenames(vertexFilename, fragFilename); }
-    CC_DEPRECATED_ATTRIBUTE void addAttribute(const std::string &attributeName, GLuint index) const { return bindAttribLocation(attributeName, index); }
+    {
+        return initWithByteArrays(vertexByteArray, fragByteArray);
+    }
+    CC_DEPRECATED_ATTRIBUTE bool initWithVertexShaderFilename(const std::string& vertexFilename, const std::string& fragFilename)
+    {
+        return initWithFilenames(vertexFilename, fragFilename);
+    }
+    CC_DEPRECATED_ATTRIBUTE void addAttribute(const std::string& attributeName, GLuint index) const { return bindAttribLocation(attributeName, index); }
 
 #ifdef DEBUG_TEXTURE_SIZE
     inline void setDebug(DebugFlag debug) noexcept { _debug = debug; }
@@ -554,20 +558,20 @@ protected:
     /**Parse user defined uniform automatically.*/
     void parseUniforms();
     /**Compile the shader sources.*/
-    bool compileShader(GLuint * shader, GLenum type, const GLchar* source, const std::string& convertedDefines);
-    bool compileShader(GLuint * shader, GLenum type, const GLchar* source);
+    bool compileShader(GLuint* shader, GLenum type, const GLchar* source, const std::string& convertedDefines);
+    bool compileShader(GLuint* shader, GLenum type, const GLchar* source);
     void clearShader();
 
     /**OpenGL handle for program.*/
-    GLuint            _program = 0;
+    GLuint _program = 0;
     /**OpenGL handle for vertex shader.*/
-    GLuint            _vertShader = 0;
+    GLuint _vertShader = 0;
     /**OpenGL handle for fragment shader.*/
-    GLuint            _fragShader = 0;
+    GLuint _fragShader = 0;
     /**Built in uniforms.*/
     std::array<GLint, UNIFORM_MAX> _builtInUniforms;
     /**Indicate whether it has a offline shader compiler or not.*/
-    bool              _hasShaderCompiler = false;
+    bool _hasShaderCompiler = false;
 #ifdef DEBUG_TEXTURE_SIZE
     DebugFlag _debug = DebugFlag::None;
     static GLuint _mipmapId;
@@ -579,7 +583,7 @@ protected:
     std::unordered_map<std::string, VertexAttrib> _vertexAttribs;
     /**Hash value of uniforms for quick access.*/
     std::unordered_map<GLint, std::vector<std::uint8_t>> _hashForUniforms;
-    //cached director pointer for calling
+    // cached director pointer for calling
     Director* _director = nullptr;
 
     /*needed uniforms*/

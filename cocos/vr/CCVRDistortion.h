@@ -36,8 +36,8 @@ class Distortion
 public:
     Distortion();
 
-    void setCoefficients(float *coefficients);
-    float *coefficients();
+    void setCoefficients(float* coefficients);
+    float* coefficients();
 
     float distortionFactor(float radius);
     float distort(float radius);

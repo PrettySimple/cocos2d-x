@@ -25,11 +25,11 @@
 #ifndef __CCBUNDLE3D_H__
 #define __CCBUNDLE3D_H__
 
-#include "base/CCData.h"
 #include "3d/CCBundle3DData.h"
 #include "3d/CCBundleReader.h"
-#include "json/rapidjson.h"
+#include "base/CCData.h"
 #include "json/document.h"
+#include "json/rapidjson.h"
 
 NS_CC_BEGIN
 
@@ -55,10 +55,10 @@ public:
      * create a new bundle, destroy it when finish using it
      */
     static Bundle3D* createBundle();
-    
+
     static void destroyBundle(Bundle3D* bundle);
-    
-	virtual void clear();
+
+    virtual void clear();
 
     /**
      * load a file. You must load a file first, then call loadMeshData, loadSkinData, and so on
@@ -66,40 +66,39 @@ public:
      * @return result of load
      */
     virtual bool load(const std::string& path);
-    
+
     /**
      * load skin data from bundle
      * @param id The ID of the skin, load the first Skin in the bundle if it is empty
      */
     virtual bool loadSkinData(const std::string& id, SkinData* skindata);
-    
+
     /**
      * load material data from bundle
      * @param id The ID of the animation, load the first animation in the bundle if it is empty
      */
     virtual bool loadAnimationData(const std::string& id, Animation3DData* animationdata);
-    
-    //since 3.3, to support reskin
+
+    // since 3.3, to support reskin
     virtual bool loadMeshDatas(MeshDatas& meshdatas);
-    //since 3.3, to support reskin
+    // since 3.3, to support reskin
     virtual bool loadNodes(NodeDatas& nodedatas);
-    //since 3.3, to support reskin
+    // since 3.3, to support reskin
     virtual bool loadMaterials(MaterialDatas& materialdatas);
-    
+
     /**
      * load triangle list
      * @param path the file path to load
      */
     static std::vector<Vec3> getTrianglesList(const std::string& path);
-    
-    //load .obj file
-    static bool loadObj(MeshDatas& meshdatas, MaterialDatas& materialdatas, NodeDatas& nodedatas, const std::string& fullPath, const char* mtl_basepath = nullptr);
-    
-    //calculate aabb
-    static AABB calculateAABB(const std::vector<float>& vertex, int stride, const std::vector<unsigned short>& index);
-  
-protected:
 
+    // load .obj file
+    static bool loadObj(MeshDatas& meshdatas, MaterialDatas& materialdatas, NodeDatas& nodedatas, const std::string& fullPath, const char* mtl_basepath = nullptr);
+
+    // calculate aabb
+    static AABB calculateAABB(const std::vector<float>& vertex, int stride, const std::vector<unsigned short>& index);
+
+protected:
     bool loadJson(const std::string& path);
     bool loadBinary(const std::string& path);
     bool loadMeshDatasJson(MeshDatas& meshdatas);
@@ -114,16 +113,16 @@ protected:
     bool loadMaterialsBinary(MaterialDatas& materialdatas);
     bool loadMaterialsBinary_0_1(MaterialDatas& materialdatas);
     bool loadMaterialsBinary_0_2(MaterialDatas& materialdatas);
-    bool loadMeshDataJson(MeshData* meshdata){return true;}
-    bool loadMeshDataJson_0_1(MeshData* meshdata){return true;}
-    bool loadMeshDataJson_0_2(MeshData* meshdata){return true;}
+    bool loadMeshDataJson(MeshData* meshdata) { return true; }
+    bool loadMeshDataJson_0_1(MeshData* meshdata) { return true; }
+    bool loadMeshDataJson_0_2(MeshData* meshdata) { return true; }
     bool loadSkinDataJson(SkinData* skindata);
     bool loadSkinDataBinary(SkinData* skindata);
-    bool loadMaterialDataJson(MaterialData* materialdata){return true;}
-    bool loadMaterialDataJson_0_1(MaterialData* materialdata){return true;}
-    bool loadMaterialDataJson_0_2(MaterialData* materialdata){return true;}
-    bool loadAnimationDataJson(const std::string& id,Animation3DData* animationdata);
-    bool loadAnimationDataBinary(const std::string& id,Animation3DData* animationdata);
+    bool loadMaterialDataJson(MaterialData* materialdata) { return true; }
+    bool loadMaterialDataJson_0_1(MaterialData* materialdata) { return true; }
+    bool loadMaterialDataJson_0_2(MaterialData* materialdata) { return true; }
+    bool loadAnimationDataJson(const std::string& id, Animation3DData* animationdata);
+    bool loadAnimationDataBinary(const std::string& id, Animation3DData* animationdata);
 
     /**
      * load nodes of json
@@ -143,7 +142,7 @@ protected:
      */
     GLenum parseGLType(const std::string& str);
 
-     /**
+    /**
      * get define data type
      * @param str The type in string
      */
@@ -168,15 +167,14 @@ protected:
      */
     Reference* seekToFirstType(unsigned int type, const std::string& id = "");
 
-CC_CONSTRUCTOR_ACCESS:
-    Bundle3D();
+    CC_CONSTRUCTOR_ACCESS : Bundle3D();
     virtual ~Bundle3D();
-    
+
 protected:
     std::string _modelPath;
     std::string _path;
-    std::string _version;// the c3b or c3t version
-    
+    std::string _version; // the c3b or c3t version
+
     // for json reading
     std::string _jsonBuffer;
     rapidjson::Document _jsonReader;
@@ -186,7 +184,7 @@ protected:
     BundleReader _binaryReader;
     unsigned int _referenceCount;
     Reference* _references;
-    bool  _isBinary;
+    bool _isBinary;
 };
 
 // end of 3d group

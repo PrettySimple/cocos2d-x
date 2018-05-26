@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2014 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,27 +27,26 @@
 #include "platform/CCPlatformConfig.h"
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-#include "audio/win32/AudioPlayer.h"
-#include "audio/win32/AudioCache.h"
-#include "base/CCConsole.h"
-#include "platform/CCFileUtils.h"
-#include "mpg123.h"
-#include "vorbis/codec.h"
-#include "vorbis/vorbisfile.h"
+#    include "audio/win32/AudioCache.h"
+#    include "audio/win32/AudioPlayer.h"
+#    include "base/CCConsole.h"
+#    include "mpg123.h"
+#    include "platform/CCFileUtils.h"
+#    include "vorbis/codec.h"
+#    include "vorbis/vorbisfile.h"
 
 using namespace cocos2d::experimental;
 
 AudioPlayer::AudioPlayer()
-    : _exitThread(false)
-    , _timeDirty(false)
-    , _streamingSource(false)
-    , _currTime(0.0f)
-    , _finishCallbak(nullptr)
-    , _ready(false)
-    , _audioCache(nullptr)
-    , _readForRemove(false)
+: _exitThread(false)
+, _timeDirty(false)
+, _streamingSource(false)
+, _currTime(0.0f)
+, _finishCallbak(nullptr)
+, _ready(false)
+, _audioCache(nullptr)
+, _readForRemove(false)
 {
-
 }
 
 AudioPlayer::AudioPlayer(const AudioPlayer& player)
@@ -64,14 +63,16 @@ AudioPlayer::AudioPlayer(const AudioPlayer& player)
 
 AudioPlayer::~AudioPlayer()
 {
-    if (_audioCache && _audioCache->_queBufferFrames > 0) {
+    if (_audioCache && _audioCache->_queBufferFrames > 0)
+    {
         alDeleteBuffers(QUEUEBUFFER_NUM, _bufferIds);
     }
 }
 
 void AudioPlayer::notifyExitThread()
 {
-    if (_audioCache && _audioCache->_queBufferFrames > 0) {
+    if (_audioCache && _audioCache->_queBufferFrames > 0)
+    {
         std::unique_lock<std::mutex> lk(_sleepMutex);
         _exitThread = true;
         _sleepCondition.notify_all();
@@ -80,7 +81,8 @@ void AudioPlayer::notifyExitThread()
 
 bool AudioPlayer::play2d(AudioCache* cache)
 {
-    if (!cache->_alBufferReady) {
+    if (!cache->_alBufferReady)
+    {
         return false;
     }
     _audioCache = cache;
@@ -89,30 +91,38 @@ bool AudioPlayer::play2d(AudioCache* cache)
     alSourcef(_alSource, AL_PITCH, 1.0f);
     alSourcef(_alSource, AL_GAIN, _volume);
 
-    if (_audioCache->_queBufferFrames == 0) {
-        if (_loop) {
+    if (_audioCache->_queBufferFrames == 0)
+    {
+        if (_loop)
+        {
             alSourcei(_alSource, AL_LOOPING, AL_TRUE);
         }
-        else {
+        else
+        {
             alSourcei(_alSource, AL_LOOPING, AL_FALSE);
         }
         alSourcei(_alSource, AL_BUFFER, _audioCache->_alBufferId);
-
-    } else {
+    }
+    else
+    {
         _streamingSource = true;
         alSourcei(_alSource, AL_LOOPING, AL_FALSE);
 
         auto alError = alGetError();
         alGenBuffers(QUEUEBUFFER_NUM, _bufferIds);
         alError = alGetError();
-        if (alError == AL_NO_ERROR) {
-            for (int index = 0; index < QUEUEBUFFER_NUM; ++index) {
-                alBufferData(_bufferIds[index], _audioCache->_alBufferFormat, _audioCache->_queBuffers[index], _audioCache->_queBufferSize[index], _audioCache->_sampleRate);
+        if (alError == AL_NO_ERROR)
+        {
+            for (int index = 0; index < QUEUEBUFFER_NUM; ++index)
+            {
+                alBufferData(_bufferIds[index], _audioCache->_alBufferFormat, _audioCache->_queBuffers[index], _audioCache->_queBufferSize[index],
+                             _audioCache->_sampleRate);
             }
             alSourceQueueBuffers(_alSource, QUEUEBUFFER_NUM, _bufferIds);
         }
-        else {
-            ALOGE("%s:alGenBuffers error code:%x", __FUNCTION__,alError);
+        else
+        {
+            ALOGE("%s:alGenBuffers error code:%x", __FUNCTION__, alError);
             return false;
         }
     }
@@ -127,7 +137,8 @@ bool AudioPlayer::play2d(AudioCache* cache)
         alSourcePlay(_alSource);
 
         auto alError = alGetError();
-        if (alError != AL_NO_ERROR) {
+        if (alError != AL_NO_ERROR)
+        {
             ALOGE("%s:alSourcePlay error code:%x\n", __FUNCTION__, alError);
             return false;
         }
@@ -138,7 +149,7 @@ bool AudioPlayer::play2d(AudioCache* cache)
     return true;
 }
 
-int AudioPlayer::readPcmData(char* buffer, int bufferSize, const std::function<int/*readBytes*/(char* /*buf*/, int /*bytesToRead*/)>& fileReader)
+int AudioPlayer::readPcmData(char* buffer, int bufferSize, const std::function<int /*readBytes*/ (char* /*buf*/, int /*bytesToRead*/)>& fileReader)
 {
     assert(buffer != nullptr && bufferSize > 0);
 
@@ -173,20 +184,22 @@ void AudioPlayer::rotateBufferThread(int offsetFrame)
 
     switch (audioFileFormat)
     {
-    case AudioCache::FileFormat::MP3:
+        case AudioCache::FileFormat::MP3:
         {
             int error = MPG123_OK;
             mpg123handle = mpg123_new(nullptr, &error);
-            if (!mpg123handle){
+            if (!mpg123handle)
+            {
                 ALOGE("Basic setup goes wrong: %s", mpg123_plain_strerror(error));
                 goto ExitBufferThread;
             }
             long rate = 0;
             int channels = 0;
             int mp3Encoding = 0;
-            if (mpg123_open(mpg123handle,_audioCache->_fileFullPath.c_str()) != MPG123_OK
-                || mpg123_getformat(mpg123handle, &rate, &channels, &mp3Encoding) != MPG123_OK){
-                ALOGE("Trouble with mpg123: %s\n", mpg123_strerror(mpg123handle) );
+            if (mpg123_open(mpg123handle, _audioCache->_fileFullPath.c_str()) != MPG123_OK ||
+                mpg123_getformat(mpg123handle, &rate, &channels, &mp3Encoding) != MPG123_OK)
+            {
+                ALOGE("Trouble with mpg123: %s\n", mpg123_strerror(mpg123handle));
                 goto ExitBufferThread;
             }
 
@@ -194,26 +207,29 @@ void AudioPlayer::rotateBufferThread(int offsetFrame)
             mpg123_format_none(mpg123handle);
             mpg123_format(mpg123handle, _audioCache->_sampleRate, _audioCache->_channels, _audioCache->_mp3Encoding);
 
-            if (offsetFrame != 0) {
-                mpg123_seek(mpg123handle,offsetFrame,SEEK_SET);
+            if (offsetFrame != 0)
+            {
+                mpg123_seek(mpg123handle, offsetFrame, SEEK_SET);
             }
             break;
         }
-    case AudioCache::FileFormat::OGG:
+        case AudioCache::FileFormat::OGG:
         {
             vorbisFile = new OggVorbis_File;
             int openCode;
-            if (openCode = ov_fopen(FileUtils::getInstance()->getSuitableFOpen(_audioCache->_fileFullPath).c_str(), vorbisFile)){
+            if (openCode = ov_fopen(FileUtils::getInstance()->getSuitableFOpen(_audioCache->_fileFullPath).c_str(), vorbisFile))
+            {
                 ALOGE("Input does not appear to be an Ogg bitstream: %s. Code: 0x%x\n", _audioCache->_fileFullPath.c_str(), openCode);
                 goto ExitBufferThread;
             }
-            if (offsetFrame != 0) {
-                ov_pcm_seek(vorbisFile,offsetFrame);
+            if (offsetFrame != 0)
+            {
+                ov_pcm_seek(vorbisFile, offsetFrame);
             }
             break;
         }
-    default:
-        break;
+        default:
+            break;
     }
 
     alSourcePlay(_alSource);
@@ -226,9 +242,7 @@ void AudioPlayer::rotateBufferThread(int offsetFrame)
             return ret;
         };
 
-        fileSeeker = [&](int pos) {
-            mpg123_seek(mpg123handle, pos, SEEK_SET);
-        };
+        fileSeeker = [&](int pos) { mpg123_seek(mpg123handle, pos, SEEK_SET); };
     }
     else if (audioFileFormat == AudioCache::FileFormat::OGG)
     {
@@ -237,42 +251,52 @@ void AudioPlayer::rotateBufferThread(int offsetFrame)
             return ov_read(vorbisFile, buffer, bufferSize, 0, 2, 1, &current_section);
         };
 
-        fileSeeker = [&](int pos) {
-            ov_pcm_seek(vorbisFile, pos);
-        };
+        fileSeeker = [&](int pos) { ov_pcm_seek(vorbisFile, pos); };
     }
 
-    while (!_exitThread) {
+    while (!_exitThread)
+    {
         alGetSourcei(_alSource, AL_SOURCE_STATE, &sourceState);
-        if (sourceState == AL_PLAYING) {
+        if (sourceState == AL_PLAYING)
+        {
             _ready = true;
 
             alGetSourcei(_alSource, AL_BUFFERS_PROCESSED, &bufferProcessed);
-            while (bufferProcessed > 0) {
+            while (bufferProcessed > 0)
+            {
                 bufferProcessed--;
-                if (_timeDirty) {
+                if (_timeDirty)
+                {
                     _timeDirty = false;
                     offsetFrame = _currTime * _audioCache->_sampleRate;
                     fileSeeker(offsetFrame);
                 }
-                else {
+                else
+                {
                     _currTime += QUEUEBUFFER_TIME_STEP;
-                    if (_currTime > _audioCache->_duration) {
-                        if (_loop) {
+                    if (_currTime > _audioCache->_duration)
+                    {
+                        if (_loop)
+                        {
                             _currTime = 0.0f;
-                        } else {
+                        }
+                        else
+                        {
                             _currTime = _audioCache->_duration;
                         }
                     }
                 }
 
                 int readRet = readPcmData(tmpBuffer, _audioCache->_queBufferBytes, fileReader);
-                if (readRet <= 0) {
-                    if (_loop) {
+                if (readRet <= 0)
+                {
+                    if (_loop)
+                    {
                         fileSeeker(0);
                         readRet = readPcmData(tmpBuffer, _audioCache->_queBufferBytes, fileReader);
                     }
-                    else {
+                    else
+                    {
                         _exitThread = true;
                         break;
                     }
@@ -282,7 +306,7 @@ void AudioPlayer::rotateBufferThread(int offsetFrame)
                     _audioCache->_bytesOfRead += readRet;
                 }
 
-                //ALOGV("readRet: %d, queBufferBytes: %d", (int)readRet, _audioCache->_queBufferBytes);
+                // ALOGV("readRet: %d, queBufferBytes: %d", (int)readRet, _audioCache->_queBufferBytes);
                 ALuint bid;
                 alSourceUnqueueBuffers(_alSource, 1, &bid);
                 CHECK_AL_ERROR_DEBUG();
@@ -299,23 +323,23 @@ void AudioPlayer::rotateBufferThread(int offsetFrame)
             ALOGV("thread exit...");
             break;
         }
-        
-        _sleepCondition.wait_for(lk,std::chrono::milliseconds(35));
+
+        _sleepCondition.wait_for(lk, std::chrono::milliseconds(35));
     }
 ExitBufferThread:
     switch (audioFileFormat)
     {
-    case AudioCache::FileFormat::OGG:
-        ov_clear(vorbisFile);
-        delete vorbisFile;
-        break;
-    case AudioCache::FileFormat::MP3:
-        mpg123_close(mpg123handle);
-        mpg123_delete(mpg123handle);
-        break;
-    case AudioCache::FileFormat::UNKNOWN:
-    default:
-        break;
+        case AudioCache::FileFormat::OGG:
+            ov_clear(vorbisFile);
+            delete vorbisFile;
+            break;
+        case AudioCache::FileFormat::MP3:
+            mpg123_close(mpg123handle);
+            mpg123_delete(mpg123handle);
+            break;
+        case AudioCache::FileFormat::UNKNOWN:
+        default:
+            break;
     }
     free(tmpBuffer);
     _readForRemove = true;
@@ -324,7 +348,8 @@ ExitBufferThread:
 
 bool AudioPlayer::setLoop(bool loop)
 {
-    if (!_exitThread ) {
+    if (!_exitThread)
+    {
         _loop = loop;
         return true;
     }
@@ -334,7 +359,8 @@ bool AudioPlayer::setLoop(bool loop)
 
 bool AudioPlayer::setTime(float time)
 {
-    if (!_exitThread && time >= 0.0f && time < _audioCache->_duration) {
+    if (!_exitThread && time >= 0.0f && time < _audioCache->_duration)
+    {
         _currTime = time;
         _timeDirty = true;
         return true;

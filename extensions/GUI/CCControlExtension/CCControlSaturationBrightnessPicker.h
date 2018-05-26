@@ -7,17 +7,17 @@
  *
  * Modified by Yannick Loriot.
  * http://yannickloriot.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,7 +28,6 @@
  *
  * Converted to c++ / cocos2d-x by Angus C
  */
-
 
 #ifndef __CCCONTROL_SATURATION_PICKER_H__
 #define __CCCONTROL_SATURATION_PICKER_H__
@@ -53,7 +52,7 @@ class CC_EX_DLL ControlSaturationBrightnessPicker : public Control
     /** Contains the receiver's current brightness value. */
     CC_SYNTHESIZE_READONLY(float, _brightness, Brightness);
 
-    //not sure if these need to be there actually. I suppose someone might want to access the sprite?
+    // not sure if these need to be there actually. I suppose someone might want to access the sprite?
     CC_SYNTHESIZE_READONLY(Sprite*, _background, Background);
     CC_SYNTHESIZE_READONLY(Sprite*, _overlay, Overlay);
     CC_SYNTHESIZE_READONLY(Sprite*, _shadow, Shadow);
@@ -61,9 +60,9 @@ class CC_EX_DLL ControlSaturationBrightnessPicker : public Control
     CC_SYNTHESIZE_READONLY(Vec2, _startPos, StartPos);
 
 protected:
-    int         boxPos;
-    int         boxSize;
-    
+    int boxPos;
+    int boxSize;
+
 public:
     /**
      * @js ctor
@@ -90,12 +89,12 @@ public:
      */
     virtual void updateDraggerWithHSV(HSV hsv);
 
-protected:    
+protected:
     void updateSliderPosition(Vec2 location);
     bool checkSliderPosition(Vec2 location);
 
     virtual bool onTouchBegan(Touch* touch, Event* pEvent) override;
-    virtual void onTouchMoved(Touch *pTouch, Event *pEvent) override;
+    virtual void onTouchMoved(Touch* pTouch, Event* pEvent) override;
 };
 
 // end of GUI group

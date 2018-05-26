@@ -25,28 +25,28 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
 
-#include "platform/tizen/CCApplication-tizen.h"
-#include <unistd.h>
-#include <sys/time.h>
-#include <string>
+#    include "platform/tizen/CCApplication-tizen.h"
+#    include <string>
+#    include <sys/time.h>
+#    include <unistd.h>
 
-#include <app.h>
-#include <dlog.h>
-#include <Elementary.h>
-#include <Elementary_GL_Helpers.h>
-#include <efl_extension.h>
-#include <Evas_GL.h>
+#    include <Elementary.h>
+#    include <Elementary_GL_Helpers.h>
+#    include <Evas_GL.h>
+#    include <app.h>
+#    include <dlog.h>
+#    include <efl_extension.h>
 
-#include "platform/tizen/CCGLViewImpl-tizen.h"
-#include "base/CCDirector.h"
-#include "base/CCEventKeyboard.h"
-#include "base/CCEventDispatcher.h"
-#include "platform/CCFileUtils.h"
+#    include "base/CCDirector.h"
+#    include "base/CCEventDispatcher.h"
+#    include "base/CCEventKeyboard.h"
+#    include "platform/CCFileUtils.h"
+#    include "platform/tizen/CCGLViewImpl-tizen.h"
 
-#ifdef  LOG_TAG
-#undef  LOG_TAG
-#endif
-#define LOG_TAG "cocos2d-x"
+#    ifdef LOG_TAG
+#        undef LOG_TAG
+#    endif
+#    define LOG_TAG "cocos2d-x"
 
 ELEMENTARY_GLVIEW_GLOBAL_DEFINE();
 
@@ -58,48 +58,47 @@ void resumeAccelerometerSensor();
 
 static void makeCurrent(void)
 {
-	Application* app = Application::getInstance();
-	evas_gl_make_current(app->_evasGL, app->_sfc, app->_ctx);
+    Application* app = Application::getInstance();
+    evas_gl_make_current(app->_evasGL, app->_sfc, app->_ctx);
 }
 
-
-static Eina_Bool _key_down_cb(void *data, int type, void *ev)
+static Eina_Bool _key_down_cb(void* data, int type, void* ev)
 {
-   makeCurrent();
-   Ecore_Event_Key *event = (Ecore_Event_Key *)ev;
-   if (!strcmp("XF86Stop", event->key) || !strcmp("XF86Back", event->key))
-   {
-	    cocos2d::EventKeyboard event(cocos2d::EventKeyboard::KeyCode::KEY_ESCAPE, true);
-	    cocos2d::Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
-   }
-   else if (!strcmp("XF86Menu", event->key))
-   {
-	    cocos2d::EventKeyboard event(cocos2d::EventKeyboard::KeyCode::KEY_MENU, true);
-	    cocos2d::Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
-   }
+    makeCurrent();
+    Ecore_Event_Key* event = (Ecore_Event_Key*)ev;
+    if (!strcmp("XF86Stop", event->key) || !strcmp("XF86Back", event->key))
+    {
+        cocos2d::EventKeyboard event(cocos2d::EventKeyboard::KeyCode::KEY_ESCAPE, true);
+        cocos2d::Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+    }
+    else if (!strcmp("XF86Menu", event->key))
+    {
+        cocos2d::EventKeyboard event(cocos2d::EventKeyboard::KeyCode::KEY_MENU, true);
+        cocos2d::Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+    }
 
-   return ECORE_CALLBACK_PASS_ON;
+    return ECORE_CALLBACK_PASS_ON;
 }
 
-static Eina_Bool _key_up_cb(void *data, int type, void *ev)
+static Eina_Bool _key_up_cb(void* data, int type, void* ev)
 {
-   makeCurrent();
-   Ecore_Event_Key *event = (Ecore_Event_Key *)ev;
-   if (!strcmp("XF86Stop", event->key) || !strcmp("XF86Back", event->key))
-   {
-	    cocos2d::EventKeyboard event(cocos2d::EventKeyboard::KeyCode::KEY_ESCAPE, false);
-	    cocos2d::Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
-   }
-   else if (!strcmp("XF86Menu", event->key))
-   {
-	    cocos2d::EventKeyboard event(cocos2d::EventKeyboard::KeyCode::KEY_MENU, false);
-	    cocos2d::Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
-   }
+    makeCurrent();
+    Ecore_Event_Key* event = (Ecore_Event_Key*)ev;
+    if (!strcmp("XF86Stop", event->key) || !strcmp("XF86Back", event->key))
+    {
+        cocos2d::EventKeyboard event(cocos2d::EventKeyboard::KeyCode::KEY_ESCAPE, false);
+        cocos2d::Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+    }
+    else if (!strcmp("XF86Menu", event->key))
+    {
+        cocos2d::EventKeyboard event(cocos2d::EventKeyboard::KeyCode::KEY_MENU, false);
+        cocos2d::Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+    }
 
-   return ECORE_CALLBACK_PASS_ON;
+    return ECORE_CALLBACK_PASS_ON;
 }
 
-static void draw_gl(Evas_Object *obj)
+static void draw_gl(Evas_Object* obj)
 {
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
@@ -108,8 +107,8 @@ static void draw_gl(Evas_Object *obj)
     glview->pollEvents();
 }
 
-static void del_gl(Evas_Object *obj) {
-
+static void del_gl(Evas_Object* obj)
+{
 }
 
 // sharedApplication pointer
@@ -118,10 +117,10 @@ Application* Application::__instance = nullptr;
 Application::Application()
 : _win(nullptr)
 , _conform(nullptr)
-, _animationInterval(1.0f/60.0f*1000.0f)
+, _animationInterval(1.0f / 60.0f * 1000.0f)
 {
     _orientation = APP_DEVICE_ORIENTATION_0;
-    CC_ASSERT(! __instance);
+    CC_ASSERT(!__instance);
     __instance = this;
 }
 
@@ -131,28 +130,31 @@ Application::~Application()
     __instance = nullptr;
 }
 
-static void del_anim(void *data, Evas *evas, Evas_Object *obj, void *event_info)
+static void del_anim(void* data, Evas* evas, Evas_Object* obj, void* event_info)
 {
-    Ecore_Animator *ani = (Ecore_Animator *)evas_object_data_get(obj, "ani");
+    Ecore_Animator* ani = (Ecore_Animator*)evas_object_data_get(obj, "ani");
     ecore_animator_del(ani);
 }
 
-static Eina_Bool anim(void *data) {
+static Eina_Bool anim(void* data)
+{
     elm_glview_changed_set((Evas_Object*)data);
     return EINA_TRUE;
 }
 
-static void init_gl(Evas_Object *obj) {
-    Application *ad = Application::getInstance();
+static void init_gl(Evas_Object* obj)
+{
+    Application* ad = Application::getInstance();
 
-    //save current ctx
+    // save current ctx
     ad->_evasGL = elm_glview_evas_gl_get(obj);
     ad->_ctx = evas_gl_current_context_get(ad->_evasGL);
     ad->_sfc = evas_gl_current_surface_get(ad->_evasGL);
 
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
-    if (glview == nullptr) {
+    if (glview == nullptr)
+    {
         glview = GLViewImpl::create("Cocos2dxTizen");
 
         int w, h;
@@ -163,43 +165,44 @@ static void init_gl(Evas_Object *obj) {
 
     ad->initGLContextAttrs();
     // Initialize instance and cocos2d.
-    if (! ad->applicationDidFinishLaunching())
+    if (!ad->applicationDidFinishLaunching())
     {
         return;
     }
 }
 
-static void create_indicator(Application *ad) {
+static void create_indicator(Application* ad)
+{
     elm_win_conformant_set(ad->_win, EINA_TRUE);
 
     elm_win_indicator_mode_set(ad->_win, ELM_WIN_INDICATOR_SHOW);
     elm_win_indicator_opacity_set(ad->_win, ELM_WIN_INDICATOR_TRANSPARENT);
 
     ad->_conform = elm_conformant_add(ad->_win);
-    evas_object_size_hint_weight_set(ad->_conform, EVAS_HINT_EXPAND,
-            EVAS_HINT_EXPAND);
+    evas_object_size_hint_weight_set(ad->_conform, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
     elm_win_resize_object_add(ad->_win, ad->_conform);
     evas_object_show(ad->_conform);
 }
 
-static Evas_Object* add_win(const char *name) {
-    Evas_Object *win;
+static Evas_Object* add_win(const char* name)
+{
+    Evas_Object* win;
 
     win = elm_win_util_standard_add(name, "tizen");
 
     if (!win)
         return nullptr;
-    //fix openURL tests not goes to another program issue
-   // elm_win_fullscreen_set(win, EINA_TRUE);
+    // fix openURL tests not goes to another program issue
+    // elm_win_fullscreen_set(win, EINA_TRUE);
     evas_object_show(win);
 
     return win;
 }
 
-//touch call back
-static void touches_down_cb(void *data, Evas *e , Evas_Object *obj , void *event_info)
+// touch call back
+static void touches_down_cb(void* data, Evas* e, Evas_Object* obj, void* event_info)
 {
-    auto ev = (Evas_Event_Multi_Down *)event_info;
+    auto ev = (Evas_Event_Multi_Down*)event_info;
     int id = ev->device;
     float x = ev->canvas.x;
     float y = ev->canvas.y;
@@ -208,9 +211,9 @@ static void touches_down_cb(void *data, Evas *e , Evas_Object *obj , void *event
     cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesBegin(1, &id, &x, &y);
 }
 
-static void touches_move_cb(void *data, Evas *e , Evas_Object *obj , void *event_info)
+static void touches_move_cb(void* data, Evas* e, Evas_Object* obj, void* event_info)
 {
-    auto ev = (Evas_Event_Multi_Move *)event_info;
+    auto ev = (Evas_Event_Multi_Move*)event_info;
     int id = ev->device;
     float x = ev->cur.canvas.x;
     float y = ev->cur.canvas.y;
@@ -219,9 +222,9 @@ static void touches_move_cb(void *data, Evas *e , Evas_Object *obj , void *event
     cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesMove(1, &id, &x, &y);
 }
 
-static void touches_up_cb(void *data, Evas *e , Evas_Object *obj , void *event_info)
+static void touches_up_cb(void* data, Evas* e, Evas_Object* obj, void* event_info)
 {
-    auto ev = (Evas_Event_Multi_Up *)event_info;
+    auto ev = (Evas_Event_Multi_Up*)event_info;
     int id = ev->device;
     float x = ev->canvas.x;
     float y = ev->canvas.y;
@@ -230,9 +233,9 @@ static void touches_up_cb(void *data, Evas *e , Evas_Object *obj , void *event_i
     cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesEnd(1, &id, &x, &y);
 }
 
-static void touch_down_cb(void *data, Evas *e , Evas_Object *obj , void *event_info)
+static void touch_down_cb(void* data, Evas* e, Evas_Object* obj, void* event_info)
 {
-    auto ev = (Evas_Event_Mouse_Down *)event_info;
+    auto ev = (Evas_Event_Mouse_Down*)event_info;
     int id = ev->button;
     float x = ev->canvas.x;
     float y = ev->canvas.y;
@@ -241,9 +244,9 @@ static void touch_down_cb(void *data, Evas *e , Evas_Object *obj , void *event_i
     cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesBegin(1, &id, &x, &y);
 }
 
-static void touch_move_cb(void *data, Evas *e , Evas_Object *obj , void *event_info)
+static void touch_move_cb(void* data, Evas* e, Evas_Object* obj, void* event_info)
 {
-    auto ev = (Evas_Event_Mouse_Move *)event_info;
+    auto ev = (Evas_Event_Mouse_Move*)event_info;
     int id = ev->buttons;
     float x = ev->cur.canvas.x;
     float y = ev->cur.canvas.y;
@@ -252,9 +255,9 @@ static void touch_move_cb(void *data, Evas *e , Evas_Object *obj , void *event_i
     cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesMove(1, &id, &x, &y);
 }
 
-static void touch_up_cb(void *data, Evas *e , Evas_Object *obj , void *event_info)
+static void touch_up_cb(void* data, Evas* e, Evas_Object* obj, void* event_info)
 {
-    auto ev = (Evas_Event_Mouse_Up *)event_info;
+    auto ev = (Evas_Event_Mouse_Up*)event_info;
     int id = ev->button;
     float x = ev->canvas.x;
     float y = ev->canvas.y;
@@ -263,69 +266,70 @@ static void touch_up_cb(void *data, Evas *e , Evas_Object *obj , void *event_inf
     cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesEnd(1, &id, &x, &y);
 }
 
-static Elm_GLView_Mode get_glview_mode(const GLContextAttrs &attrs)
+static Elm_GLView_Mode get_glview_mode(const GLContextAttrs& attrs)
 {
-	/* for performance */
-	Elm_GLView_Mode mode = ELM_GLVIEW_DIRECT;
+    /* for performance */
+    Elm_GLView_Mode mode = ELM_GLVIEW_DIRECT;
 
-	/* alpha */
-	if (attrs.alphaBits > 0)
-	{
-		//fixme if enable this, cpp-test show white screen only.
-		//mode = (Elm_GLView_Mode)(mode | ELM_GLVIEW_ALPHA);
-	}
+    /* alpha */
+    if (attrs.alphaBits > 0)
+    {
+        // fixme if enable this, cpp-test show white screen only.
+        // mode = (Elm_GLView_Mode)(mode | ELM_GLVIEW_ALPHA);
+    }
 
-	/* depth */
-	if (attrs.depthBits > 24)
-	{
-		mode = (Elm_GLView_Mode)(mode | ELM_GLVIEW_DEPTH_32);
-	}
-	else if (attrs.depthBits > 16)
-	{
-		mode = (Elm_GLView_Mode)(mode | ELM_GLVIEW_DEPTH_24);
-	}
-	else if (attrs.depthBits > 8)
-	{
-		mode = (Elm_GLView_Mode)(mode | ELM_GLVIEW_DEPTH_16);
-	}
-	else if (attrs.depthBits > 0)
-	{
-		mode = (Elm_GLView_Mode)(mode | ELM_GLVIEW_DEPTH_8);
-	}
+    /* depth */
+    if (attrs.depthBits > 24)
+    {
+        mode = (Elm_GLView_Mode)(mode | ELM_GLVIEW_DEPTH_32);
+    }
+    else if (attrs.depthBits > 16)
+    {
+        mode = (Elm_GLView_Mode)(mode | ELM_GLVIEW_DEPTH_24);
+    }
+    else if (attrs.depthBits > 8)
+    {
+        mode = (Elm_GLView_Mode)(mode | ELM_GLVIEW_DEPTH_16);
+    }
+    else if (attrs.depthBits > 0)
+    {
+        mode = (Elm_GLView_Mode)(mode | ELM_GLVIEW_DEPTH_8);
+    }
 
-	/* stencil */
-	if (attrs.stencilBits > 8)
-	{
-		mode = (Elm_GLView_Mode)(mode | ELM_GLVIEW_STENCIL_16);
-	}
-	else if (attrs.stencilBits > 4)
-	{
-		mode = (Elm_GLView_Mode)(mode | ELM_GLVIEW_STENCIL_8);
-	}
-	else if (attrs.stencilBits > 2)
-	{
-		mode = (Elm_GLView_Mode)(mode | ELM_GLVIEW_STENCIL_4);
-	}
-	else if (attrs.stencilBits > 1)
-	{
-		mode = (Elm_GLView_Mode)(mode | ELM_GLVIEW_STENCIL_2);
-	}
-	else if (attrs.stencilBits > 0)
-	{
-		mode = (Elm_GLView_Mode)(mode | ELM_GLVIEW_STENCIL_1);
-	}
+    /* stencil */
+    if (attrs.stencilBits > 8)
+    {
+        mode = (Elm_GLView_Mode)(mode | ELM_GLVIEW_STENCIL_16);
+    }
+    else if (attrs.stencilBits > 4)
+    {
+        mode = (Elm_GLView_Mode)(mode | ELM_GLVIEW_STENCIL_8);
+    }
+    else if (attrs.stencilBits > 2)
+    {
+        mode = (Elm_GLView_Mode)(mode | ELM_GLVIEW_STENCIL_4);
+    }
+    else if (attrs.stencilBits > 1)
+    {
+        mode = (Elm_GLView_Mode)(mode | ELM_GLVIEW_STENCIL_2);
+    }
+    else if (attrs.stencilBits > 0)
+    {
+        mode = (Elm_GLView_Mode)(mode | ELM_GLVIEW_STENCIL_1);
+    }
 
-	return mode;
+    return mode;
 }
 
-static bool app_create(void *data) {
+static bool app_create(void* data)
+{
     /* Hook to take necessary actions before main event loop starts
      * Initialize UI resources and application's data
      * If this function returns true, the main loop of application starts
      * If this function returns false, the application is terminated. */
 
-    Evas_Object *gl;
-    Application *ad = (Application *)data;
+    Evas_Object* gl;
+    Application* ad = (Application*)data;
 
     if (!data)
         return false;
@@ -362,7 +366,7 @@ static bool app_create(void *data) {
      * resizes. ELM_GLVIEW_RESIZE_POLICY_RECREATE will tell it to
      * destroy the current surface and recreate it to the new size.
      */
-    //elm_glview_resize_policy_set(gl, ELM_GLVIEW_RESIZE_POLICY_RECREATE);
+    // elm_glview_resize_policy_set(gl, ELM_GLVIEW_RESIZE_POLICY_RECREATE);
 
     /* The render policy sets how GLView should render GL code.
      * ELM_GLVIEW_RENDER_POLICY_ON_DEMAND will have the GL callback
@@ -381,7 +385,7 @@ static bool app_create(void *data) {
     /* The resize callback function gets registered here */
     // Cocos2d-x doesn't support to change orientation from portrait to landscape.
     // So comment next line.
-//  elm_glview_resize_func_set(gl, resize_gl);
+    //  elm_glview_resize_func_set(gl, resize_gl);
 
     /* The render callback function gets registered here */
     elm_glview_render_func_set(gl, draw_gl);
@@ -411,64 +415,64 @@ static bool app_create(void *data) {
     evas_object_event_callback_add(gl, EVAS_CALLBACK_MULTI_MOVE, touches_move_cb, ad);
     evas_object_event_callback_add(gl, EVAS_CALLBACK_MULTI_UP, touches_up_cb, ad);
 
-
-
     create_indicator(ad);
 
     return true;
 }
 
-static void app_pause(void *data)
+static void app_pause(void* data)
 {
     /* Take necessary actions when application becomes invisible. */
-    if(!data)
+    if (!data)
     {
         return;
     }
     pauseAccelerometerSensor();
 
-    Application* app = ((Application *)data);
+    Application* app = ((Application*)data);
     app->applicationDidEnterBackground();
 
     ecore_animator_freeze(app->_ani);
 }
 
-static void app_resume(void *data)
+static void app_resume(void* data)
 {
     /* Take necessary actions when application becomes visible. */
-    if(!data)
+    if (!data)
     {
         return;
     }
 
-    Application* app = ((Application *)data);
+    Application* app = ((Application*)data);
     app->applicationWillEnterForeground();
     resumeAccelerometerSensor();
 
     ecore_animator_thaw(app->_ani);
 }
 
-static void app_terminate(void *data)
+static void app_terminate(void* data)
 {
     /* Release all resources. */
-    if(!data)
+    if (!data)
     {
         return;
     }
     stopAccelerometerSensor();
     Director::getInstance()->end();
-  //  Application* app = ((Application *)data);
-  //  delete app;
+    //  Application* app = ((Application *)data);
+    //  delete app;
 }
 
-static void app_control(app_control_h app_control, void *data)
+static void app_control(app_control_h app_control, void* data)
 {
     /* Handle the launch request. */
 }
 
 int Application::run()
 {
-	ui_app_lifecycle_callback_s event_callback = { nullptr, };
+    ui_app_lifecycle_callback_s event_callback = {
+        nullptr,
+    };
 
     event_callback.create = app_create;
     event_callback.terminate = app_terminate;
@@ -476,15 +480,16 @@ int Application::run()
     event_callback.resume = app_resume;
     event_callback.app_control = app_control;
 
-/*  ui_app_add_event_handler(&handlers[APP_EVENT_LOW_BATTERY], APP_EVENT_LOW_BATTERY, ui_app_low_battery, &ad);
-    ui_app_add_event_handler(&handlers[APP_EVENT_LOW_MEMORY], APP_EVENT_LOW_MEMORY, ui_app_low_memory, &ad);
-    ui_app_add_event_handler(&handlers[APP_EVENT_DEVICE_ORIENTATION_CHANGED], APP_EVENT_DEVICE_ORIENTATION_CHANGED, ui_app_orient_changed, &ad);
-    ui_app_add_event_handler(&handlers[APP_EVENT_LANGUAGE_CHANGED], APP_EVENT_LANGUAGE_CHANGED, ui_app_lang_changed, &ad);
-    ui_app_add_event_handler(&handlers[APP_EVENT_REGION_FORMAT_CHANGED], APP_EVENT_REGION_FORMAT_CHANGED, ui_app_region_changed, &ad);
-    ui_app_remove_event_handler(handlers[APP_EVENT_LOW_MEMORY]);
-*/
+    /*  ui_app_add_event_handler(&handlers[APP_EVENT_LOW_BATTERY], APP_EVENT_LOW_BATTERY, ui_app_low_battery, &ad);
+        ui_app_add_event_handler(&handlers[APP_EVENT_LOW_MEMORY], APP_EVENT_LOW_MEMORY, ui_app_low_memory, &ad);
+        ui_app_add_event_handler(&handlers[APP_EVENT_DEVICE_ORIENTATION_CHANGED], APP_EVENT_DEVICE_ORIENTATION_CHANGED, ui_app_orient_changed, &ad);
+        ui_app_add_event_handler(&handlers[APP_EVENT_LANGUAGE_CHANGED], APP_EVENT_LANGUAGE_CHANGED, ui_app_lang_changed, &ad);
+        ui_app_add_event_handler(&handlers[APP_EVENT_REGION_FORMAT_CHANGED], APP_EVENT_REGION_FORMAT_CHANGED, ui_app_region_changed, &ad);
+        ui_app_remove_event_handler(handlers[APP_EVENT_LOW_MEMORY]);
+    */
     int ret = ui_app_main(_argc, _argv, &event_callback, this);
-    if (ret != APP_ERROR_NONE) {
+    if (ret != APP_ERROR_NONE)
+    {
         dlog_print(DLOG_ERROR, LOG_TAG, "The application failed to start, and returned %d", ret);
     }
 
@@ -493,7 +498,7 @@ int Application::run()
 
 void Application::setAnimationInterval(float interval)
 {
-    _animationInterval = interval*1000.0f;
+    _animationInterval = interval * 1000.0f;
     ecore_animator_frametime_set(interval);
 }
 
@@ -525,15 +530,15 @@ void Application::setDeviceOrientation(int orientation)
     _orientation = orientation;
 }
 
-void Application::setMainArgs(int argc, char **argv)
+void Application::setMainArgs(int argc, char** argv)
 {
     _argc = argc;
     _argv = argv;
 }
-bool Application::openURL(const std::string &url)
+bool Application::openURL(const std::string& url)
 {
     bool flag = false;
-    if(0==url.length())
+    if (0 == url.length())
     {
         return flag;
     }
@@ -544,7 +549,7 @@ bool Application::openURL(const std::string &url)
     app_control_set_uri(app_control, url.c_str());
 
     int ctrlError;
-    if ((ctrlError=app_control_send_launch_request(app_control, NULL, NULL)) == APP_CONTROL_ERROR_NONE)
+    if ((ctrlError = app_control_send_launch_request(app_control, NULL, NULL)) == APP_CONTROL_ERROR_NONE)
     {
         flag = true;
     }
@@ -572,29 +577,29 @@ Application* Application::sharedApplication()
     return Application::getInstance();
 }
 
-const char * Application::getCurrentLanguageCode()
+const char* Application::getCurrentLanguageCode()
 {
-    static char code[3]={0};
-    char *pLanguageName = getenv("LANG");
+    static char code[3] = {0};
+    char* pLanguageName = getenv("LANG");
     if (!pLanguageName)
         return "en";
     strtok(pLanguageName, "_");
     if (!pLanguageName)
         return "en";
-    strncpy(code,pLanguageName,2);
-    code[2]='\0';
+    strncpy(code, pLanguageName, 2);
+    code[2] = '\0';
     return code;
 }
 
 std::string Application::getVersion()
 {
-    //TODO
+    // TODO
     return "";
 }
 
 LanguageType Application::getCurrentLanguage()
 {
-    char *pLanguageName = getenv("LANG");
+    char* pLanguageName = getenv("LANG");
     LanguageType ret = LanguageType::ENGLISH;
     if (!pLanguageName)
     {
@@ -605,7 +610,7 @@ LanguageType Application::getCurrentLanguage()
     {
         return LanguageType::ENGLISH;
     }
-    
+
     if (0 == strcmp("zh", pLanguageName))
     {
         ret = LanguageType::CHINESE;
@@ -666,11 +671,10 @@ LanguageType Application::getCurrentLanguage()
     {
         ret = LanguageType::POLISH;
     }
-    
+
     return ret;
 }
 
 NS_CC_END
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
-

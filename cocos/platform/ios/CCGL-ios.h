@@ -29,24 +29,23 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#define glClearDepth                glClearDepthf
-#define glDeleteVertexArrays        glDeleteVertexArraysOES
-#define glGenVertexArrays           glGenVertexArraysOES
-#define glBindVertexArray           glBindVertexArrayOES
-#define glMapBuffer                 glMapBufferOES
-#define glUnmapBuffer               glUnmapBufferOES
+#    define glClearDepth glClearDepthf
+#    define glDeleteVertexArrays glDeleteVertexArraysOES
+#    define glGenVertexArrays glGenVertexArraysOES
+#    define glBindVertexArray glBindVertexArrayOES
+#    define glMapBuffer glMapBufferOES
+#    define glUnmapBuffer glUnmapBufferOES
 
-#define GL_DEPTH24_STENCIL8         GL_DEPTH24_STENCIL8_OES
-#define GL_DEPTH_STENCIL            GL_DEPTH_STENCIL_OES
-#define GL_WRITE_ONLY               GL_WRITE_ONLY_OES
+#    define GL_DEPTH24_STENCIL8 GL_DEPTH24_STENCIL8_OES
+#    define GL_DEPTH_STENCIL GL_DEPTH_STENCIL_OES
+#    define GL_WRITE_ONLY GL_WRITE_ONLY_OES
 
-#define GL_TEXTURE_COMPARE_FUNC     GL_TEXTURE_COMPARE_FUNC_EXT
-#define GL_TEXTURE_COMPARE_MODE     GL_TEXTURE_COMPARE_MODE_EXT
+#    define GL_TEXTURE_COMPARE_FUNC GL_TEXTURE_COMPARE_FUNC_EXT
+#    define GL_TEXTURE_COMPARE_MODE GL_TEXTURE_COMPARE_MODE_EXT
 
-#include <OpenGLES/ES2/gl.h>
-#include <OpenGLES/ES2/glext.h>
+#    include <OpenGLES/ES2/gl.h>
+#    include <OpenGLES/ES2/glext.h>
 
 #endif // CC_PLATFORM_IOS
 
 #endif // __PLATFORM_IOS_CCGL_H__
-

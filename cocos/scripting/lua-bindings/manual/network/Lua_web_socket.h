@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2013-2016 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,20 +24,22 @@
 #ifndef __LUA_WEB_SOCKET_H__
 #define __LUA_WEB_SOCKET_H__
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || \
+     CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-#include "tolua++.h"
-#ifdef __cplusplus
+#    ifdef __cplusplus
+extern "C"
+{
+#    endif
+#    include "tolua++.h"
+#    ifdef __cplusplus
 }
-#endif
+#    endif
 
-#include "network/WebSocket.h"
+#    include "network/WebSocket.h"
 
 ///@cond
-class LuaWebSocket: public cocos2d::network::WebSocket,public cocos2d::network::WebSocket::Delegate
+class LuaWebSocket : public cocos2d::network::WebSocket, public cocos2d::network::WebSocket::Delegate
 {
 public:
     virtual ~LuaWebSocket();
@@ -45,7 +47,7 @@ public:
     virtual void onMessage(WebSocket* ws, const WebSocket::Data& data) override;
     virtual void onClose(WebSocket* ws) override;
     virtual void onError(WebSocket* ws, const WebSocket::ErrorCode& error) override;
-    
+
     enum WebSocketScriptHandlerType
     {
         kWebSocketScriptHandlerOpen,

@@ -26,19 +26,19 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 
-#include "platform/win32/CCFileUtils-win32.h"
-#include "platform/win32/CCUtils-win32.h"
-#include "platform/CCCommon.h"
-#include <Shlobj.h>
-#include <cstdlib>
-#include <regex>
-#include <sstream>
+#    include "platform/CCCommon.h"
+#    include "platform/win32/CCFileUtils-win32.h"
+#    include "platform/win32/CCUtils-win32.h"
+#    include <Shlobj.h>
+#    include <cstdlib>
+#    include <regex>
+#    include <sstream>
 
 using namespace std;
 
 NS_CC_BEGIN
 
-#define CC_MAX_PATH  512
+#    define CC_MAX_PATH 512
 
 // The root path of resources, the character encoding is UTF-8.
 // UTF-8 is the only encoding supported by cocos2d-x API.
@@ -63,15 +63,15 @@ static void _checkPath()
 {
     if (s_resourcePath.empty())
     {
-        WCHAR utf16Path[CC_MAX_PATH] = { 0 };
+        WCHAR utf16Path[CC_MAX_PATH] = {0};
         GetModuleFileNameW(NULL, utf16Path, CC_MAX_PATH - 1);
-        WCHAR *pUtf16ExePath = &(utf16Path[0]);
+        WCHAR* pUtf16ExePath = &(utf16Path[0]);
 
         // We need only directory part without exe
-        WCHAR *pUtf16DirEnd = wcsrchr(pUtf16ExePath, L'\\');
+        WCHAR* pUtf16DirEnd = wcsrchr(pUtf16ExePath, L'\\');
 
-        char utf8ExeDir[CC_MAX_PATH] = { 0 };
-        int nNum = WideCharToMultiByte(CP_UTF8, 0, pUtf16ExePath, pUtf16DirEnd-pUtf16ExePath+1, utf8ExeDir, sizeof(utf8ExeDir), nullptr, nullptr);
+        char utf8ExeDir[CC_MAX_PATH] = {0};
+        int nNum = WideCharToMultiByte(CP_UTF8, 0, pUtf16ExePath, pUtf16DirEnd - pUtf16ExePath + 1, utf8ExeDir, sizeof(utf8ExeDir), nullptr, nullptr);
 
         s_resourcePath = convertPathFormatToUnixStyle(utf8ExeDir);
     }
@@ -82,11 +82,11 @@ FileUtils* FileUtils::getInstance()
     if (s_sharedFileUtils == nullptr)
     {
         s_sharedFileUtils = new FileUtilsWin32();
-        if(!s_sharedFileUtils->init())
+        if (!s_sharedFileUtils->init())
         {
-          delete s_sharedFileUtils;
-          s_sharedFileUtils = nullptr;
-          CCLOG("ERROR: Could not init CCFileUtilsWin32");
+            delete s_sharedFileUtils;
+            s_sharedFileUtils = nullptr;
+            CCLOG("ERROR: Could not init CCFileUtilsWin32");
         }
     }
     return s_sharedFileUtils;
@@ -106,8 +106,7 @@ bool FileUtilsWin32::init()
 bool FileUtilsWin32::isDirectoryExistInternal(const std::string& dirPath) const
 {
     unsigned long fAttrib = GetFileAttributes(StringUtf8ToWideChar(dirPath).c_str());
-    if (fAttrib != INVALID_FILE_ATTRIBUTES &&
-        (fAttrib & FILE_ATTRIBUTE_DIRECTORY))
+    if (fAttrib != INVALID_FILE_ATTRIBUTES && (fAttrib & FILE_ATTRIBUTE_DIRECTORY))
     {
         return true;
     }
@@ -119,7 +118,7 @@ std::string FileUtilsWin32::getSuitableFOpen(const std::string& filenameUtf8) co
     return UTF8StringToMultiByte(filenameUtf8);
 }
 
-long FileUtilsWin32::getFileSize(const std::string &filepath)
+long FileUtilsWin32::getFileSize(const std::string& filepath)
 {
     WIN32_FILE_ATTRIBUTE_DATA fad;
     if (!GetFileAttributesEx(StringUtf8ToWideChar(filepath).c_str(), GetFileExInfoStandard, &fad))
@@ -146,22 +145,20 @@ bool FileUtilsWin32::isFileExistInternal(const std::string& strFilePath) const
     }
 
     DWORD attr = GetFileAttributesW(StringUtf8ToWideChar(strPath).c_str());
-    if(attr == INVALID_FILE_ATTRIBUTES || (attr & FILE_ATTRIBUTE_DIRECTORY))
-        return false;   //  not a file
+    if (attr == INVALID_FILE_ATTRIBUTES || (attr & FILE_ATTRIBUTE_DIRECTORY))
+        return false; //  not a file
     return true;
 }
 
 bool FileUtilsWin32::isAbsolutePath(const std::string& strPath) const
 {
-    if (   (strPath.length() > 2
-        && ( (strPath[0] >= 'a' && strPath[0] <= 'z') || (strPath[0] >= 'A' && strPath[0] <= 'Z') )
-        && strPath[1] == ':') || (strPath[0] == '/' && strPath[1] == '/'))
+    if ((strPath.length() > 2 && ((strPath[0] >= 'a' && strPath[0] <= 'z') || (strPath[0] >= 'A' && strPath[0] <= 'Z')) && strPath[1] == ':') ||
+        (strPath[0] == '/' && strPath[1] == '/'))
     {
         return true;
     }
     return false;
 }
-
 
 FileUtils::Status FileUtilsWin32::getContents(const std::string& filename, ResizableBuffer* buffer)
 {
@@ -175,13 +172,13 @@ FileUtils::Status FileUtilsWin32::getContents(const std::string& filename, Resiz
     if (fileHandle == INVALID_HANDLE_VALUE)
         return FileUtils::Status::OpenFailed;
 
-	DWORD hi;
+    DWORD hi;
     auto size = ::GetFileSize(fileHandle, &hi);
-	if (hi > 0)
-	{
-		::CloseHandle(fileHandle);
-		return FileUtils::Status::TooLarge;
-	}
+    if (hi > 0)
+    {
+        ::CloseHandle(fileHandle);
+        return FileUtils::Status::TooLarge;
+    }
     // don't read file content if it is empty
     if (size == 0)
     {
@@ -194,10 +191,11 @@ FileUtils::Status FileUtilsWin32::getContents(const std::string& filename, Resiz
     BOOL successed = ::ReadFile(fileHandle, buffer->buffer(), size, &sizeRead, nullptr);
     ::CloseHandle(fileHandle);
 
-    if (!successed) {
-		CCLOG("Get data from file(%s) failed, error code is %s", filename.data(), std::to_string(::GetLastError()).data());
-		buffer->resize(sizeRead);
-		return FileUtils::Status::ReadFailed;
+    if (!successed)
+    {
+        CCLOG("Get data from file(%s) failed, error code is %s", filename.data(), std::to_string(::GetLastError()).data());
+        buffer->resize(sizeRead);
+        return FileUtils::Status::ReadFailed;
     }
     return FileUtils::Status::OK;
 }
@@ -227,15 +225,15 @@ string FileUtilsWin32::getWritablePath() const
     }
 
     // Get full path of executable, e.g. c:\Program Files (x86)\My Game Folder\MyGame.exe
-    WCHAR full_path[CC_MAX_PATH + 1] = { 0 };
+    WCHAR full_path[CC_MAX_PATH + 1] = {0};
     ::GetModuleFileName(nullptr, full_path, CC_MAX_PATH + 1);
 
     // Debug app uses executable directory; Non-debug app uses local app data directory
-//#ifndef _DEBUG
+    //#ifndef _DEBUG
     // Get filename of executable only, e.g. MyGame.exe
-    WCHAR *base_name = wcsrchr(full_path, '\\');
+    WCHAR* base_name = wcsrchr(full_path, '\\');
     wstring retPath;
-    if(base_name)
+    if (base_name)
     {
         WCHAR app_data_path[CC_MAX_PATH + 1];
 
@@ -260,7 +258,7 @@ string FileUtilsWin32::getWritablePath() const
         }
     }
     if (retPath.empty())
-//#endif // not defined _DEBUG
+    //#endif // not defined _DEBUG
     {
         // If fetching of local app data directory fails, use the executable one
         retPath = full_path;
@@ -272,7 +270,7 @@ string FileUtilsWin32::getWritablePath() const
     return convertPathFormatToUnixStyle(StringWideCharToUtf8(retPath));
 }
 
-bool FileUtilsWin32::renameFile(const std::string &oldfullpath, const std::string& newfullpath)
+bool FileUtilsWin32::renameFile(const std::string& oldfullpath, const std::string& newfullpath)
 {
     CCASSERT(!oldfullpath.empty(), "Invalid path");
     CCASSERT(!newfullpath.empty(), "Invalid path");
@@ -299,7 +297,7 @@ bool FileUtilsWin32::renameFile(const std::string &oldfullpath, const std::strin
     }
 }
 
-bool FileUtilsWin32::renameFile(const std::string &path, const std::string &oldname, const std::string &name)
+bool FileUtilsWin32::renameFile(const std::string& path, const std::string& oldname, const std::string& name)
 {
     CCASSERT(!path.empty(), "Invalid path");
     std::string oldPath = path + oldname;
@@ -369,7 +367,7 @@ bool FileUtilsWin32::createDirectory(const std::string& dirPath)
     return true;
 }
 
-bool FileUtilsWin32::removeFile(const std::string &filepath)
+bool FileUtilsWin32::removeFile(const std::string& filepath)
 {
     std::regex pat("\\/");
     std::string win32path = std::regex_replace(filepath, pat, "\\");
@@ -390,7 +388,7 @@ bool FileUtilsWin32::removeDirectory(const std::string& dirPath)
     std::wstring wpath = StringUtf8ToWideChar(dirPath);
     std::wstring files = wpath + L"*.*";
     WIN32_FIND_DATA wfd;
-    HANDLE  search = FindFirstFileEx(files.c_str(), FindExInfoStandard, &wfd, FindExSearchNameMatch, NULL, 0);
+    HANDLE search = FindFirstFileEx(files.c_str(), FindExInfoStandard, &wfd, FindExSearchNameMatch, NULL, 0);
     bool ret = true;
     if (search != INVALID_HANDLE_VALUE)
     {

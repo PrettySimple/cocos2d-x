@@ -22,17 +22,16 @@
 #include "CCPhysicsDebugNode.h"
 
 #if CC_ENABLE_CHIPMUNK_INTEGRATION
-#include "chipmunk/chipmunk_private.h"
+#    include "chipmunk/chipmunk_private.h"
 #endif
 
 #include "base/ccTypes.h"
 #include "math/CCGeometry.h"
 
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
 #include <limits.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 NS_CC_EXT_BEGIN
@@ -40,18 +39,18 @@ NS_CC_EXT_BEGIN
 #if CC_ENABLE_CHIPMUNK_INTEGRATION
 /*
  IMPORTANT - READ ME!
- 
+
  This file sets pokes around in the private API a lot to provide efficient
  debug rendering given nothing more than reference to a Chipmunk space.
  It is not recommended to write rendering code like this in your own games
  as the private API may change with little or no warning.
  */
 
-static Color4F ColorForBody(cpBody *body)
+static Color4F ColorForBody(cpBody* body)
 {
     if (CP_BODY_TYPE_STATIC == cpBodyGetType(body) || cpBodyIsSleeping(body))
     {
-        return Color4F(0.5f, 0.5f, 0.5f ,0.5f);
+        return Color4F(0.5f, 0.5f, 0.5f, 0.5f);
     }
     else if (body->sleeping.idleTime > cpBodyGetSpace(body)->sleepTimeThreshold)
     {
@@ -63,16 +62,17 @@ static Color4F ColorForBody(cpBody *body)
     }
 }
 
-static Vec2 cpVert2Point(const cpVect &vert)
+static Vec2 cpVert2Point(const cpVect& vert)
 {
     return Vec2(vert.x, vert.y);
 }
 
 static Vec2* cpVertArray2ccpArrayN(const cpVect* cpVertArray, unsigned int count)
 {
-    if (count == 0) return nullptr;
+    if (count == 0)
+        return nullptr;
     Vec2* pPoints = new (std::nothrow) Vec2[count];
-    
+
     for (unsigned int i = 0; i < count; ++i)
     {
         pPoints[i].x = cpVertArray[i].x;
@@ -81,28 +81,28 @@ static Vec2* cpVertArray2ccpArrayN(const cpVect* cpVertArray, unsigned int count
     return pPoints;
 }
 
-static void DrawShape(cpShape *shape, DrawNode *renderer)
+static void DrawShape(cpShape* shape, DrawNode* renderer)
 {
-    cpBody *body = cpShapeGetBody(shape);
+    cpBody* body = cpShapeGetBody(shape);
     Color4F color = ColorForBody(body);
-    
+
     switch (shape->CP_PRIVATE(klass)->type)
     {
         case CP_CIRCLE_SHAPE:
         {
-            cpCircleShape *circle = (cpCircleShape *)shape;
+            cpCircleShape* circle = (cpCircleShape*)shape;
             cpVect center = circle->tc;
             cpFloat radius = circle->r;
             renderer->drawDot(cpVert2Point(center), cpfmax(radius, 1.0), color);
             renderer->drawSegment(cpVert2Point(center), cpVert2Point(cpvadd(center, cpvmult(cpBodyGetRotation(body), radius))), 1.0, color);
         }
-             break;
+        break;
         case CP_SEGMENT_SHAPE:
         {
-            cpSegmentShape *seg = (cpSegmentShape *)shape;
+            cpSegmentShape* seg = (cpSegmentShape*)shape;
             renderer->drawSegment(cpVert2Point(seg->ta), cpVert2Point(seg->tb), cpfmax(seg->r, 2.0), color);
         }
-            break;
+        break;
         case CP_POLY_SHAPE:
         {
             cpPolyShape* poly = (cpPolyShape*)shape;
@@ -110,12 +110,12 @@ static void DrawShape(cpShape *shape, DrawNode *renderer)
             line.a = cpflerp(color.a, 1.0, 0.5);
             int num = poly->count;
             Vec2* pPoints = new (std::nothrow) Vec2[num];
-            for(int i=0;i<num;++i)
+            for (int i = 0; i < num; ++i)
                 pPoints[i] = cpVert2Point(poly->planes[i].v0);
             renderer->drawPolygon(pPoints, num, color, 1.0, line);
             CC_SAFE_DELETE_ARRAY(pPoints);
         }
-            break;
+        break;
         default:
             cpAssertHard(false, "Bad assertion in DrawShape()");
     }
@@ -123,47 +123,47 @@ static void DrawShape(cpShape *shape, DrawNode *renderer)
 
 static Color4F CONSTRAINT_COLOR(0, 1, 0, 0.5);
 
-static void DrawConstraint(cpConstraint *constraint, DrawNode *renderer)
+static void DrawConstraint(cpConstraint* constraint, DrawNode* renderer)
 {
-    cpBody *body_a = cpConstraintGetBodyA(constraint);
-    cpBody *body_b = cpConstraintGetBodyB(constraint);
-    
-    if(cpConstraintIsPinJoint(constraint))
+    cpBody* body_a = cpConstraintGetBodyA(constraint);
+    cpBody* body_b = cpConstraintGetBodyB(constraint);
+
+    if (cpConstraintIsPinJoint(constraint))
     {
         cpVect a = cpvadd(cpBodyGetPosition(body_a), cpvrotate(cpPinJointGetAnchorA(constraint), cpBodyGetRotation(body_a)));
         cpVect b = cpvadd(cpBodyGetPosition(body_b), cpvrotate(cpPinJointGetAnchorB(constraint), cpBodyGetRotation(body_b)));
-        
+
         renderer->drawDot(cpVert2Point(a), 3.0, CONSTRAINT_COLOR);
         renderer->drawDot(cpVert2Point(b), 3.0, CONSTRAINT_COLOR);
         renderer->drawSegment(cpVert2Point(a), cpVert2Point(b), 1.0, CONSTRAINT_COLOR);
     }
-    else if(cpConstraintIsSlideJoint(constraint))
+    else if (cpConstraintIsSlideJoint(constraint))
     {
         cpVect a = cpvadd(cpBodyGetPosition(body_a), cpvrotate(cpSlideJointGetAnchorA(constraint), cpBodyGetRotation(body_a)));
         cpVect b = cpvadd(cpBodyGetPosition(body_b), cpvrotate(cpSlideJointGetAnchorB(constraint), cpBodyGetRotation(body_b)));
-        
+
         renderer->drawDot(cpVert2Point(a), 3.0, CONSTRAINT_COLOR);
         renderer->drawDot(cpVert2Point(b), 3.0, CONSTRAINT_COLOR);
         renderer->drawSegment(cpVert2Point(a), cpVert2Point(b), 1.0, CONSTRAINT_COLOR);
     }
-    else if(cpConstraintIsPivotJoint(constraint))
+    else if (cpConstraintIsPivotJoint(constraint))
     {
         cpVect a = cpvadd(cpBodyGetPosition(body_a), cpvrotate(cpPivotJointGetAnchorA(constraint), cpBodyGetRotation(body_a)));
         cpVect b = cpvadd(cpBodyGetPosition(body_b), cpvrotate(cpPivotJointGetAnchorB(constraint), cpBodyGetRotation(body_b)));
-        
+
         renderer->drawDot(cpVert2Point(a), 3.0, CONSTRAINT_COLOR);
         renderer->drawDot(cpVert2Point(b), 3.0, CONSTRAINT_COLOR);
     }
-    else if(cpConstraintIsGrooveJoint(constraint))
+    else if (cpConstraintIsGrooveJoint(constraint))
     {
         cpVect a = cpvadd(cpBodyGetPosition(body_a), cpvrotate(cpGrooveJointGetGrooveA(constraint), cpBodyGetRotation(body_a)));
         cpVect b = cpvadd(cpBodyGetPosition(body_a), cpvrotate(cpGrooveJointGetGrooveB(constraint), cpBodyGetRotation(body_a)));
         cpVect c = cpvadd(cpBodyGetPosition(body_b), cpvrotate(cpGrooveJointGetAnchorB(constraint), cpBodyGetRotation(body_b)));
-        
+
         renderer->drawDot(cpVert2Point(c), 3.0, CONSTRAINT_COLOR);
         renderer->drawSegment(cpVert2Point(a), cpVert2Point(b), 1.0, CONSTRAINT_COLOR);
     }
-    else if(cpConstraintIsDampedSpring(constraint))
+    else if (cpConstraintIsDampedSpring(constraint))
     {
         // TODO: uninplemented
     }
@@ -176,9 +176,9 @@ static void DrawConstraint(cpConstraint *constraint, DrawNode *renderer)
 
 // implementation of PhysicsDebugNode
 
-void PhysicsDebugNode::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
+void PhysicsDebugNode::draw(Renderer* renderer, const Mat4& transform, uint32_t flags)
 {
-    if (! _spacePtr)
+    if (!_spacePtr)
     {
         return;
     }
@@ -188,18 +188,19 @@ void PhysicsDebugNode::draw(Renderer *renderer, const Mat4 &transform, uint32_t 
 
     cpSpaceEachShape(_spacePtr, (cpSpaceShapeIteratorFunc)DrawShape, this);
     cpSpaceEachConstraint(_spacePtr, (cpSpaceConstraintIteratorFunc)DrawConstraint, this);
-    
+
     DrawNode::draw(renderer, transform, flags);
 #endif
 }
 
 PhysicsDebugNode::PhysicsDebugNode()
 : _spacePtr(nullptr)
-{}
-
-PhysicsDebugNode* PhysicsDebugNode::create(cpSpace *space)
 {
-    PhysicsDebugNode *node = new (std::nothrow) PhysicsDebugNode();
+}
+
+PhysicsDebugNode* PhysicsDebugNode::create(cpSpace* space)
+{
+    PhysicsDebugNode* node = new (std::nothrow) PhysicsDebugNode();
     if (node)
     {
         node->init();
@@ -214,7 +215,7 @@ PhysicsDebugNode* PhysicsDebugNode::create(cpSpace *space)
     {
         CC_SAFE_DELETE(node);
     }
-    
+
     return node;
 }
 
@@ -232,7 +233,7 @@ cpSpace* PhysicsDebugNode::getSpace() const
 #endif
 }
 
-void PhysicsDebugNode::setSpace(cpSpace *space)
+void PhysicsDebugNode::setSpace(cpSpace* space)
 {
 #if CC_ENABLE_CHIPMUNK_INTEGRATION
     _spacePtr = space;

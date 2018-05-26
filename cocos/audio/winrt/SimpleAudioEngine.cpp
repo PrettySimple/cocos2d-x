@@ -1,204 +1,145 @@
 /*
-* cocos2d-x   http://www.cocos2d-x.org
-*
-* Copyright (c) 2010-2011 - cocos2d-x community
-* 
-* Portions Copyright (c) Microsoft Open Technologies, Inc.
-* All Rights Reserved
-* 
-* Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. 
-* You may obtain a copy of the License at 
-* 
-* http://www.apache.org/licenses/LICENSE-2.0 
-* 
-* Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an 
-* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-* See the License for the specific language governing permissions and limitations under the License.
-*/
+ * cocos2d-x   http://www.cocos2d-x.org
+ *
+ * Copyright (c) 2010-2011 - cocos2d-x community
+ *
+ * Portions Copyright (c) Microsoft Open Technologies, Inc.
+ * All Rights Reserved
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and limitations under the License.
+ */
 
 #include "audio/include/SimpleAudioEngine.h"
 #include "audio/winrt/Audio.h"
 
-#include <map>
-#include "platform/CCPlatformMacros.h"
 #include "platform/CCFileUtils.h"
+#include "platform/CCPlatformMacros.h"
+#include <map>
 
 using namespace std;
 USING_NS_CC;
 
-namespace CocosDenshion {
-
-Audio* s_audioController = nullptr;
-bool s_initialized = false;
-
-SimpleAudioEngine* SimpleAudioEngine::getInstance()
+namespace CocosDenshion
 {
-    static SimpleAudioEngine s_SharedEngine;
-    return &s_SharedEngine;
-}
+    Audio* s_audioController = nullptr;
+    bool s_initialized = false;
 
-
-static Audio* sharedAudioController()
-{
-    if (! s_audioController || !s_initialized)
+    SimpleAudioEngine* SimpleAudioEngine::getInstance()
     {
-        if (s_audioController == nullptr)
+        static SimpleAudioEngine s_SharedEngine;
+        return &s_SharedEngine;
+    }
+
+    static Audio* sharedAudioController()
+    {
+        if (!s_audioController || !s_initialized)
         {
-            s_audioController = new Audio;
+            if (s_audioController == nullptr)
+            {
+                s_audioController = new Audio;
+            }
+            s_audioController->Initialize();
+            s_audioController->CreateResources();
+            s_initialized = true;
         }
-        s_audioController->Initialize();
-        s_audioController->CreateResources();
-        s_initialized = true;
+
+        return s_audioController;
     }
 
-    return s_audioController;
-}
+    SimpleAudioEngine::SimpleAudioEngine() {}
 
-SimpleAudioEngine::SimpleAudioEngine()
-{
-}
+    SimpleAudioEngine::~SimpleAudioEngine() {}
 
-SimpleAudioEngine::~SimpleAudioEngine()
-{
-}
-
-
-void SimpleAudioEngine::end()
-{
-    sharedAudioController()->StopBackgroundMusic(true);
-    sharedAudioController()->StopAllSoundEffects(true);
-    sharedAudioController()->ReleaseResources();
-    s_initialized = false;
-}
-
-
-
-//////////////////////////////////////////////////////////////////////////
-// BackgroundMusic
-//////////////////////////////////////////////////////////////////////////
-
-void SimpleAudioEngine::playBackgroundMusic(const char* pszFilePath, bool bLoop)
-{
-    if (! pszFilePath)
+    void SimpleAudioEngine::end()
     {
-        return;
+        sharedAudioController()->StopBackgroundMusic(true);
+        sharedAudioController()->StopAllSoundEffects(true);
+        sharedAudioController()->ReleaseResources();
+        s_initialized = false;
     }
 
-    string fullPath = FileUtils::getInstance()->fullPathForFilename(pszFilePath);
-    sharedAudioController()->PlayBackgroundMusic(fullPath.c_str(), bLoop);
-}
+    //////////////////////////////////////////////////////////////////////////
+    // BackgroundMusic
+    //////////////////////////////////////////////////////////////////////////
 
-void SimpleAudioEngine::stopBackgroundMusic(bool bReleaseData)
-{
-    sharedAudioController()->StopBackgroundMusic(bReleaseData);
-}
+    void SimpleAudioEngine::playBackgroundMusic(const char* pszFilePath, bool bLoop)
+    {
+        if (!pszFilePath)
+        {
+            return;
+        }
 
-void SimpleAudioEngine::pauseBackgroundMusic()
-{
-    sharedAudioController()->PauseBackgroundMusic();
-}
+        string fullPath = FileUtils::getInstance()->fullPathForFilename(pszFilePath);
+        sharedAudioController()->PlayBackgroundMusic(fullPath.c_str(), bLoop);
+    }
 
-void SimpleAudioEngine::resumeBackgroundMusic()
-{
-    sharedAudioController()->ResumeBackgroundMusic();
-}
+    void SimpleAudioEngine::stopBackgroundMusic(bool bReleaseData) { sharedAudioController()->StopBackgroundMusic(bReleaseData); }
 
-void SimpleAudioEngine::rewindBackgroundMusic()
-{
-    sharedAudioController()->RewindBackgroundMusic();
-}
+    void SimpleAudioEngine::pauseBackgroundMusic() { sharedAudioController()->PauseBackgroundMusic(); }
 
-bool SimpleAudioEngine::willPlayBackgroundMusic()
-{
-    return false;
-}
+    void SimpleAudioEngine::resumeBackgroundMusic() { sharedAudioController()->ResumeBackgroundMusic(); }
 
-bool SimpleAudioEngine::isBackgroundMusicPlaying()
-{
-    return sharedAudioController()->IsBackgroundMusicPlaying();
-}
+    void SimpleAudioEngine::rewindBackgroundMusic() { sharedAudioController()->RewindBackgroundMusic(); }
 
-//////////////////////////////////////////////////////////////////////////
-// effect function
-//////////////////////////////////////////////////////////////////////////
+    bool SimpleAudioEngine::willPlayBackgroundMusic() { return false; }
 
-unsigned int SimpleAudioEngine::playEffect(const char* pszFilePath, bool bLoop,float pitch, float pan, float gain)
-{
-    unsigned int sound;
-    string fullPath = FileUtils::getInstance()->fullPathForFilename(pszFilePath);
-    sharedAudioController()->PlaySoundEffect(fullPath.c_str(), bLoop, sound);    // TODO: need to support playEffect parameters
-    return sound;
-}
+    bool SimpleAudioEngine::isBackgroundMusicPlaying() { return sharedAudioController()->IsBackgroundMusicPlaying(); }
 
-void SimpleAudioEngine::stopEffect(unsigned int nSoundId)
-{
-    sharedAudioController()->StopSoundEffect(nSoundId);
-}
+    //////////////////////////////////////////////////////////////////////////
+    // effect function
+    //////////////////////////////////////////////////////////////////////////
 
-void SimpleAudioEngine::preloadEffect(const char* pszFilePath)
-{
-    string fullPath = FileUtils::getInstance()->fullPathForFilename(pszFilePath);
-    sharedAudioController()->PreloadSoundEffect(fullPath.c_str());
-}
+    unsigned int SimpleAudioEngine::playEffect(const char* pszFilePath, bool bLoop, float pitch, float pan, float gain)
+    {
+        unsigned int sound;
+        string fullPath = FileUtils::getInstance()->fullPathForFilename(pszFilePath);
+        sharedAudioController()->PlaySoundEffect(fullPath.c_str(), bLoop, sound); // TODO: need to support playEffect parameters
+        return sound;
+    }
 
-void SimpleAudioEngine::pauseEffect(unsigned int nSoundId)
-{
-    sharedAudioController()->PauseSoundEffect(nSoundId);
-}
+    void SimpleAudioEngine::stopEffect(unsigned int nSoundId) { sharedAudioController()->StopSoundEffect(nSoundId); }
 
-void SimpleAudioEngine::resumeEffect(unsigned int nSoundId)
-{
-    sharedAudioController()->ResumeSoundEffect(nSoundId);
-}
+    void SimpleAudioEngine::preloadEffect(const char* pszFilePath)
+    {
+        string fullPath = FileUtils::getInstance()->fullPathForFilename(pszFilePath);
+        sharedAudioController()->PreloadSoundEffect(fullPath.c_str());
+    }
 
-void SimpleAudioEngine::pauseAllEffects()
-{
-    sharedAudioController()->PauseAllSoundEffects();
-}
+    void SimpleAudioEngine::pauseEffect(unsigned int nSoundId) { sharedAudioController()->PauseSoundEffect(nSoundId); }
 
-void SimpleAudioEngine::resumeAllEffects()
-{
-    sharedAudioController()->ResumeAllSoundEffects();
-}
+    void SimpleAudioEngine::resumeEffect(unsigned int nSoundId) { sharedAudioController()->ResumeSoundEffect(nSoundId); }
 
-void SimpleAudioEngine::stopAllEffects()
-{
-    sharedAudioController()->StopAllSoundEffects(false);
-}
+    void SimpleAudioEngine::pauseAllEffects() { sharedAudioController()->PauseAllSoundEffects(); }
 
-void SimpleAudioEngine::preloadBackgroundMusic(const char* pszFilePath)
-{
-    UNUSED_PARAM(pszFilePath);
-}
+    void SimpleAudioEngine::resumeAllEffects() { sharedAudioController()->ResumeAllSoundEffects(); }
 
-void SimpleAudioEngine::unloadEffect(const char* pszFilePath)
-{
-    string fullPath = FileUtils::getInstance()->fullPathForFilename(pszFilePath);
-    sharedAudioController()->UnloadSoundEffect(fullPath.c_str());
-}
+    void SimpleAudioEngine::stopAllEffects() { sharedAudioController()->StopAllSoundEffects(false); }
 
-//////////////////////////////////////////////////////////////////////////
-// volume interface
-//////////////////////////////////////////////////////////////////////////
+    void SimpleAudioEngine::preloadBackgroundMusic(const char* pszFilePath) { UNUSED_PARAM(pszFilePath); }
 
-float SimpleAudioEngine::getBackgroundMusicVolume()
-{
-    return sharedAudioController()->GetBackgroundVolume();
-}
+    void SimpleAudioEngine::unloadEffect(const char* pszFilePath)
+    {
+        string fullPath = FileUtils::getInstance()->fullPathForFilename(pszFilePath);
+        sharedAudioController()->UnloadSoundEffect(fullPath.c_str());
+    }
 
-void SimpleAudioEngine::setBackgroundMusicVolume(float volume)
-{
-	sharedAudioController()->SetBackgroundVolume((volume<=0.0f)? 0.0f : volume);
-}
+    //////////////////////////////////////////////////////////////////////////
+    // volume interface
+    //////////////////////////////////////////////////////////////////////////
 
-float SimpleAudioEngine::getEffectsVolume()
-{
-    return sharedAudioController()->GetSoundEffectVolume();
-}
+    float SimpleAudioEngine::getBackgroundMusicVolume() { return sharedAudioController()->GetBackgroundVolume(); }
 
-void SimpleAudioEngine::setEffectsVolume(float volume)
-{
-    sharedAudioController()->SetSoundEffectVolume((volume<=0.0f)? 0.0f : volume);
-}
+    void SimpleAudioEngine::setBackgroundMusicVolume(float volume) { sharedAudioController()->SetBackgroundVolume((volume <= 0.0f) ? 0.0f : volume); }
+
+    float SimpleAudioEngine::getEffectsVolume() { return sharedAudioController()->GetSoundEffectVolume(); }
+
+    void SimpleAudioEngine::setEffectsVolume(float volume) { sharedAudioController()->SetSoundEffectVolume((volume <= 0.0f) ? 0.0f : volume); }
 
 } // end of namespace CocosDenshion

@@ -1,6 +1,6 @@
 /****************************************************************************
 Copyright (c) 2015 Chukong Technologies Inc.
- 
+
 http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,7 +27,6 @@ THE SOFTWARE.
 
 #include "2d/CCNode.h"
 #include "CCTimelineMacro.h"
-
 
 NS_TIMELINE_BEGIN
 

@@ -1,39 +1,34 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 
-#include "platform/CCGL.h"
-#include "platform/emscripten/CCGLViewImpl-emscripten.h"
-#include "platform/emscripten/EMDebug.h"
-#include "base/ccMacros.h"
-#include "renderer/CCFrameBuffer.h"
-#include "2d/CCCamera.h"
-#include "base/CCDirector.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/ccGLStateCache.h"
-#include "renderer/CCTextureCache.h"
-#include "renderer/CCRenderer.h"
-#include "2d/CCDrawingPrimitives.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventType.h"
-#include "base/CCEventCustom.h"
-#include "base/CCEventMouse.h"
-#include "base/CCEventKeyboard.h"
+#    include "2d/CCCamera.h"
+#    include "2d/CCDrawingPrimitives.h"
+#    include "base/CCDirector.h"
+#    include "base/CCEventCustom.h"
+#    include "base/CCEventDispatcher.h"
+#    include "base/CCEventKeyboard.h"
+#    include "base/CCEventMouse.h"
+#    include "base/CCEventType.h"
+#    include "base/ccMacros.h"
+#    include "platform/CCGL.h"
+#    include "platform/emscripten/CCGLViewImpl-emscripten.h"
+#    include "platform/emscripten/EMDebug.h"
+#    include "renderer/CCFrameBuffer.h"
+#    include "renderer/CCGLProgramCache.h"
+#    include "renderer/CCRenderer.h"
+#    include "renderer/CCTextureCache.h"
+#    include "renderer/ccGLStateCache.h"
 
-
-#include <emscripten/emscripten.h>
-#include <cassert>
-#include <cmath>
-#include <limits>
-#include <cstring>
-
-
-
+#    include <cassert>
+#    include <cmath>
+#    include <cstring>
+#    include <emscripten/emscripten.h>
+#    include <limits>
 
 NS_CC_BEGIN
 
-
 /*
-	This code was never tested, commenting until actually needed
+    This code was never tested, commenting until actually needed
 
 static EventKeyboard::KeyCode findKeyFromHTML5Code(const char* code) noexcept
 {
@@ -227,7 +222,7 @@ static EventKeyboard::KeyCode findKeyFromHTML5Key(const char* key) noexcept
 
 extern "C" EM_BOOL keyCb(int eventType, const EmscriptenKeyboardEvent* e, void* userData)
 {
-	(void)userData;	// Unused for now
+    (void)userData;	// Unused for now
 
     auto key = findKeyFromHTML5Key(e->key);
     if (key == EventKeyboard::KeyCode::KEY_NONE)
@@ -250,19 +245,17 @@ extern "C" EM_BOOL keyCb(int eventType, const EmscriptenKeyboardEvent* e, void* 
 
 */
 
-
-
 GLViewImpl::GLViewImpl()
-:	_display(EGL_NO_DISPLAY)
-,	_context(EGL_NO_CONTEXT)
-,	_surface(EGL_NO_SURFACE)
-,	_config(nullptr)
-,	_retinaFactor(emscripten_get_device_pixel_ratio())
-,	_currentCursorShape(CursorShape::DEFAULT)
-,	_mouseMoveInjector()
-,	_mouseCaptured(false)
-,	_fullscreen(false)
-,	_screenSizeBeforeFullscreen(Size::ZERO)
+: _display(EGL_NO_DISPLAY)
+, _context(EGL_NO_CONTEXT)
+, _surface(EGL_NO_SURFACE)
+, _config(nullptr)
+, _retinaFactor(emscripten_get_device_pixel_ratio())
+, _currentCursorShape(CursorShape::DEFAULT)
+, _mouseMoveInjector()
+, _mouseCaptured(false)
+, _fullscreen(false)
+, _screenSizeBeforeFullscreen(Size::ZERO)
 {
     registerEvents();
     createEGLContext();
@@ -275,69 +268,52 @@ GLViewImpl::~GLViewImpl()
 
 void GLViewImpl::registerEvents() noexcept
 {
-	emscripten_set_webglcontextlost_callback(
-		"canvas", reinterpret_cast<void *>(this), EM_TRUE,
-		[](int, const void *, void *userData)
-		{
-			auto glview = reinterpret_cast<GLViewImpl *>(userData);
-			EMS_ASSERT_PTR(glview);
-			glview->em_webglContextLostEvent();
-			return EM_TRUE;
-		}
-	);
+    emscripten_set_webglcontextlost_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, [](int, const void*, void* userData) {
+        auto glview = reinterpret_cast<GLViewImpl*>(userData);
+        EMS_ASSERT_PTR(glview);
+        glview->em_webglContextLostEvent();
+        return EM_TRUE;
+    });
 
-	emscripten_set_webglcontextrestored_callback(
-		"canvas", reinterpret_cast<void *>(this), EM_TRUE,
-		[](int, const void *, void *userData)
-		{
-			auto glview = reinterpret_cast<GLViewImpl *>(userData);
-			EMS_ASSERT_PTR(glview);
-			glview->em_webglContextRestoredEvent();
-			return EM_TRUE;
-		}
-	);
+    emscripten_set_webglcontextrestored_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, [](int, const void*, void* userData) {
+        auto glview = reinterpret_cast<GLViewImpl*>(userData);
+        EMS_ASSERT_PTR(glview);
+        glview->em_webglContextRestoredEvent();
+        return EM_TRUE;
+    });
 
-	emscripten_set_fullscreenchange_callback(
-		"#document", reinterpret_cast<void *>(this), EM_TRUE,
-		[](int, const EmscriptenFullscreenChangeEvent *e, void *userData)
-		{
-			auto glview = reinterpret_cast<GLViewImpl *>(userData);
-			EMS_ASSERT_PTR(glview);
-			glview->em_fullscreenEvent(e);
-			return EM_TRUE;
-		}
-	);
+    emscripten_set_fullscreenchange_callback("#document", reinterpret_cast<void*>(this), EM_TRUE, [](int, const EmscriptenFullscreenChangeEvent* e, void* userData) {
+        auto glview = reinterpret_cast<GLViewImpl*>(userData);
+        EMS_ASSERT_PTR(glview);
+        glview->em_fullscreenEvent(e);
+        return EM_TRUE;
+    });
 
-	const auto	mouseEventCb = [](int eventType, const EmscriptenMouseEvent *mouseEvent, void *userData)
-	{
-		auto glview = reinterpret_cast<GLViewImpl *>(userData);
-		EMS_ASSERT_PTR(glview);
-		glview->em_mouseEvent(eventType, mouseEvent);
-		return EM_TRUE;
-	};
+    const auto mouseEventCb = [](int eventType, const EmscriptenMouseEvent* mouseEvent, void* userData) {
+        auto glview = reinterpret_cast<GLViewImpl*>(userData);
+        EMS_ASSERT_PTR(glview);
+        glview->em_mouseEvent(eventType, mouseEvent);
+        return EM_TRUE;
+    };
 
-	emscripten_set_mousedown_callback("canvas", reinterpret_cast<void *>(this), EM_TRUE, mouseEventCb);
-	emscripten_set_mouseup_callback("canvas", reinterpret_cast<void *>(this), EM_TRUE, mouseEventCb);
-	emscripten_set_mousemove_callback("canvas", reinterpret_cast<void *>(this), EM_TRUE, mouseEventCb);
-	// It is important to track both mouseleave and mouseenter, as they're being fired (on some browsers...) when switching to/from fullscreen!
-	emscripten_set_mouseleave_callback("canvas", reinterpret_cast<void *>(this), EM_TRUE, mouseEventCb);
-	emscripten_set_mouseenter_callback("canvas", reinterpret_cast<void *>(this), EM_TRUE, mouseEventCb);
+    emscripten_set_mousedown_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, mouseEventCb);
+    emscripten_set_mouseup_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, mouseEventCb);
+    emscripten_set_mousemove_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, mouseEventCb);
+    // It is important to track both mouseleave and mouseenter, as they're being fired (on some browsers...) when switching to/from fullscreen!
+    emscripten_set_mouseleave_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, mouseEventCb);
+    emscripten_set_mouseenter_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, mouseEventCb);
 
-	emscripten_set_wheel_callback(
-		"canvas", reinterpret_cast<void *>(this), EM_TRUE,
-		[](int, const EmscriptenWheelEvent *wheelEvent, void *userData)
-		{
-			auto glview = reinterpret_cast<GLViewImpl *>(userData);
-			EMS_ASSERT_PTR(glview);
-			glview->em_wheelEvent(wheelEvent);
-			return EM_TRUE;
-		}
-	);
+    emscripten_set_wheel_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, [](int, const EmscriptenWheelEvent* wheelEvent, void* userData) {
+        auto glview = reinterpret_cast<GLViewImpl*>(userData);
+        EMS_ASSERT_PTR(glview);
+        glview->em_wheelEvent(wheelEvent);
+        return EM_TRUE;
+    });
 
-	/* This code was never tested, commenting until actually needed
-	emscripten_set_keypress_callback("#document", reinterpret_cast<void *>(this), EM_TRUE, &keyCb);
-	emscripten_set_keyup_callback("#document", reinterpret_cast<void *>(this), EM_TRUE, &keyCb);
-	*/
+    /* This code was never tested, commenting until actually needed
+    emscripten_set_keypress_callback("#document", reinterpret_cast<void *>(this), EM_TRUE, &keyCb);
+    emscripten_set_keyup_callback("#document", reinterpret_cast<void *>(this), EM_TRUE, &keyCb);
+    */
 }
 
 void GLViewImpl::unregisterEvents() noexcept
@@ -353,12 +329,12 @@ void GLViewImpl::unregisterEvents() noexcept
     emscripten_set_mouseleave_callback("canvas", nullptr, EM_TRUE, nullptr);
     emscripten_set_mouseenter_callback("canvas", nullptr, EM_TRUE, nullptr);
 
-	emscripten_set_wheel_callback("canvas", nullptr, EM_TRUE, nullptr);
+    emscripten_set_wheel_callback("canvas", nullptr, EM_TRUE, nullptr);
 
-	/*
+    /*
     emscripten_set_keypress_callback("#document", nullptr, EM_TRUE, nullptr);
     emscripten_set_keyup_callback("#document", nullptr, EM_TRUE, nullptr);
-	*/
+    */
 }
 
 GLViewImpl* GLViewImpl::create(const std::string& viewName)
@@ -379,7 +355,8 @@ void GLViewImpl::end()
 
 bool GLViewImpl::isOpenGLReady()
 {
-    return _display != EGL_NO_DISPLAY && _context != EGL_NO_CONTEXT && _surface != EGL_NO_SURFACE && _config != nullptr && !emscripten_is_webgl_context_lost("canvas");
+    return _display != EGL_NO_DISPLAY && _context != EGL_NO_CONTEXT && _surface != EGL_NO_SURFACE && _config != nullptr &&
+        !emscripten_is_webgl_context_lost("canvas");
 }
 
 void GLViewImpl::swapBuffers()
@@ -394,8 +371,8 @@ void GLViewImpl::swapBuffers()
 
 void GLViewImpl::setIMEKeyboardState(bool bOpen)
 {
-	(void)bOpen;
-    //TODO EMSCRIPTEN: Implement
+    (void)bOpen;
+    // TODO EMSCRIPTEN: Implement
 }
 
 bool GLViewImpl::windowShouldClose()
@@ -409,42 +386,41 @@ bool GLViewImpl::windowShouldClose()
 
 void GLViewImpl::setCursorVisible(bool isVisible)
 {
-	// This function is deprecated.
-	// For this to behave correctly, we would need to store the shape the cursor had before going invisible.
+    // This function is deprecated.
+    // For this to behave correctly, we would need to store the shape the cursor had before going invisible.
 
-	// Anyway, the current cursor behavior/shape implementation is simplistic (eg. we don't mess up with the pointer lock...)
-	// Also note that the built-in emscripten_hide_mouse() (which, BTW, doesn't have a emscripten_show_mouse() counterpart) is (or will be) deprecated.
+    // Anyway, the current cursor behavior/shape implementation is simplistic (eg. we don't mess up with the pointer lock...)
+    // Also note that the built-in emscripten_hide_mouse() (which, BTW, doesn't have a emscripten_show_mouse() counterpart) is (or will be) deprecated.
 
-	setCursorShape(isVisible ? CursorShape::DEFAULT : CursorShape::NONE);
+    setCursorShape(isVisible ? CursorShape::DEFAULT : CursorShape::NONE);
 }
 
 void GLViewImpl::setCursorShape(CursorShape shape)
 {
-	if(shape != _currentCursorShape)
-	{
-		const char	*cssName;
+    if (shape != _currentCursorShape)
+    {
+        const char* cssName;
 
-		switch(shape)
-		{
-			case CursorShape::DEFAULT:
-				cssName = "default";
-				break;
+        switch (shape)
+        {
+            case CursorShape::DEFAULT:
+                cssName = "default";
+                break;
 
-			case CursorShape::POINTER:
-				cssName = "pointer";
-				break;
+            case CursorShape::POINTER:
+                cssName = "pointer";
+                break;
 
-			case CursorShape::NONE:
-				cssName = "none";
-				break;
-		}
+            case CursorShape::NONE:
+                cssName = "none";
+                break;
+        }
 
-		EM_ASM_({document.getElementById('canvas').style.cursor = Pointer_stringify($0);}, cssName);
+        EM_ASM_({ document.getElementById('canvas').style.cursor = Pointer_stringify($0); }, cssName);
 
-		_currentCursorShape = shape;
-	}
+        _currentCursorShape = shape;
+    }
 }
-
 
 int GLViewImpl::getRetinaFactor() const
 {
@@ -456,21 +432,19 @@ bool GLViewImpl::isRetinaDisplay() const
     return _retinaFactor > 1.f;
 }
 
-void GLViewImpl::setViewPortInPoints(float x , float y , float w , float h)
+void GLViewImpl::setViewPortInPoints(float x, float y, float w, float h)
 {
     experimental::Viewport vp((float)(x * _scaleX * _retinaFactor + _viewPortRect.origin.x * _retinaFactor),
-        (float)(y * _scaleY * _retinaFactor + _viewPortRect.origin.y * _retinaFactor),
-        (float)(w * _scaleX * _retinaFactor),
-        (float)(h * _scaleY * _retinaFactor));
+                              (float)(y * _scaleY * _retinaFactor + _viewPortRect.origin.y * _retinaFactor), (float)(w * _scaleX * _retinaFactor),
+                              (float)(h * _scaleY * _retinaFactor));
     Camera::setDefaultViewport(vp);
 }
 
-void GLViewImpl::setScissorInPoints(float x , float y , float w , float h)
+void GLViewImpl::setScissorInPoints(float x, float y, float w, float h)
 {
     glScissor(static_cast<GLint>(std::ceil((x * _scaleX + _viewPortRect.origin.x) * _retinaFactor)),
-                static_cast<GLint>(std::ceil((y * _scaleY + _viewPortRect.origin.y) * _retinaFactor)),
-                static_cast<GLsizei>(std::ceil(w * _scaleX * _retinaFactor)),
-                static_cast<GLsizei>(std::ceil(h * _scaleY * _retinaFactor)));
+              static_cast<GLint>(std::ceil((y * _scaleY + _viewPortRect.origin.y) * _retinaFactor)),
+              static_cast<GLsizei>(std::ceil(w * _scaleX * _retinaFactor)), static_cast<GLsizei>(std::ceil(h * _scaleY * _retinaFactor)));
 }
 
 Rect GLViewImpl::getScissorRect() const
@@ -484,405 +458,381 @@ Rect GLViewImpl::getScissorRect() const
     return Rect(x, y, w, h);
 }
 
+/************************************************************************************************************************************/
+/*
+    Fullscreen management
+*/
 
+bool GLViewImpl::setFullscreen(bool fullscreen) noexcept
+{
+    static EmscriptenFullscreenStrategy strategy{
+        // scaleMode									//		Result				Changes to the canvas element		Changed to the body element
+        // ----------------------------------------------------------------------------------------------------------------------------------------------------------
+        // EMSCRIPTEN_FULLSCREEN_SCALE_DEFAULT,			//		OK					+"background-color: black;"						+"background-color: black;"
+        EMSCRIPTEN_FULLSCREEN_SCALE_STRETCH, //		OK					+"background-color: black;"						+"background-color: black;"
+        // EMSCRIPTEN_FULLSCREEN_SCALE_ASPECT,			//		NOK					+"padding: 0px 160px;background-color: black;"	+"background-color: black;"
+        //							Removing the padding gives the same results as the other modes
+
+        // canvasResolutionScaleMode					//		Result
+        // ----------------------------------------------------------------------------------------------------------------------------------------------------------
+        // EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE,		//		OK
+        // EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_STDDEF,	//		OK
+        EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_HIDEF, //		OK
+
+        // filteringMode
+        // ----------------------------------------------------------------------------------------------------------------------------------------------------------
+        EMSCRIPTEN_FULLSCREEN_FILTERING_DEFAULT,
+        // EMSCRIPTEN_FULLSCREEN_FILTERING_NEAREST,
+        // EMSCRIPTEN_FULLSCREEN_FILTERING_BILINEAR,
+
+        // canvasResizedCallback						// Doesn't receive any information, invoked only when returning to windowed mode
+        // ----------------------------------------------------------------------------------------------------------------------------------------------------------
+        nullptr,
+        //[](int, const void*, void*) { printf("*** canvasResizedCallback()\n"); return EM_TRUE; },
+
+        // canvasResizedCallbackUserData
+        // ----------------------------------------------------------------------------------------------------------------------------------------------------------
+        nullptr};
+
+    if (fullscreen == _fullscreen)
+        return false;
+
+    // We don't change the _fullscreen flag here, it is only done in the callback
+
+    if (fullscreen)
+        return emscripten_request_fullscreen_strategy("canvas", EM_FALSE, &strategy) == EMSCRIPTEN_RESULT_SUCCESS;
+
+    return emscripten_exit_fullscreen() == EMSCRIPTEN_RESULT_SUCCESS;
+}
 
 /************************************************************************************************************************************/
 /*
-	Fullscreen management
+    em_*Event() callbacks
 */
 
-bool	GLViewImpl::setFullscreen(bool fullscreen) noexcept
+void GLViewImpl::em_webglContextLostEvent() noexcept
 {
-	static EmscriptenFullscreenStrategy	strategy{
-		// scaleMode									//		Result				Changes to the canvas element		Changed to the body element
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
-		//EMSCRIPTEN_FULLSCREEN_SCALE_DEFAULT,			//		OK					+"background-color: black;"						+"background-color: black;"
-		EMSCRIPTEN_FULLSCREEN_SCALE_STRETCH,			//		OK					+"background-color: black;"						+"background-color: black;"
-		//EMSCRIPTEN_FULLSCREEN_SCALE_ASPECT,			//		NOK					+"padding: 0px 160px;background-color: black;"	+"background-color: black;"
-														//							Removing the padding gives the same results as the other modes
-
-		// canvasResolutionScaleMode					//		Result
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
-		//EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE,		//		OK
-		//EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_STDDEF,	//		OK
-		EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_HIDEF,		//		OK
-
-		// filteringMode
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
-		EMSCRIPTEN_FULLSCREEN_FILTERING_DEFAULT,
-		// EMSCRIPTEN_FULLSCREEN_FILTERING_NEAREST,
-		// EMSCRIPTEN_FULLSCREEN_FILTERING_BILINEAR,
-
-		// canvasResizedCallback						// Doesn't receive any information, invoked only when returning to windowed mode
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
-		nullptr,
-		//[](int, const void*, void*) { printf("*** canvasResizedCallback()\n"); return EM_TRUE; },
-
-		// canvasResizedCallbackUserData
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
-		nullptr
-	};
-
-	if(fullscreen == _fullscreen)
-		return false;
-
-	// We don't change the _fullscreen flag here, it is only done in the callback
-
-	if(fullscreen)
-		return emscripten_request_fullscreen_strategy("canvas", EM_FALSE, &strategy) == EMSCRIPTEN_RESULT_SUCCESS;
-
-	return emscripten_exit_fullscreen() == EMSCRIPTEN_RESULT_SUCCESS;
+    Director::getInstance()->stopAnimation();
+    deleteEGLContext();
 }
 
-
-
-/************************************************************************************************************************************/
-/*
-	em_*Event() callbacks
-*/
-
-
-void	GLViewImpl::em_webglContextLostEvent() noexcept
+void GLViewImpl::em_webglContextRestoredEvent() noexcept
 {
-	Director::getInstance()->stopAnimation();
-	deleteEGLContext();
+    auto director = Director::getInstance();
+
+    GL::invalidateStateCache();
+    GLProgramCache::getInstance()->reloadDefaultGLPrograms();
+    DrawPrimitives::init();
+    VolatileTextureMgr::reloadAllTextures();
+
+    cocos2d::EventCustom recreatedEvent(EVENT_RENDERER_RECREATED);
+    director->getEventDispatcher()->dispatchEvent(&recreatedEvent);
+    director->setGLDefaultValues();
+
+    createEGLContext();
+
+    director->startAnimation();
 }
 
-
-void	GLViewImpl::em_webglContextRestoredEvent() noexcept
+void GLViewImpl::em_fullscreenEvent(const EmscriptenFullscreenChangeEvent* e) noexcept
 {
-	auto	director = Director::getInstance();
+    _fullscreen = (e->isFullscreen == EM_TRUE);
 
-	GL::invalidateStateCache();
-	GLProgramCache::getInstance()->reloadDefaultGLPrograms();
-	DrawPrimitives::init();
-	VolatileTextureMgr::reloadAllTextures();
+    if (_fullscreen)
+    {
+        /*
+        printf("*** _screenSize(%f, %f)\n", _screenSize.width, _screenSize.height);
+        printf("*** e->screen*(%d, %d)\n", e->screenWidth, e->screenHeight);
+        printf("*** e->element*(%d, %d)\n", e->elementWidth, e->elementHeight);
 
-	cocos2d::EventCustom recreatedEvent(EVENT_RENDERER_RECREATED);
-	director->getEventDispatcher()->dispatchEvent(&recreatedEvent);
-	director->setGLDefaultValues();
+        printf("*** (fullscreen) emscripten_get_device_pixel_ratio(): %f\n", emscripten_get_device_pixel_ratio());
+        */
 
-	createEGLContext();
+        _screenSizeBeforeFullscreen = _screenSize * _retinaFactor;
+        emscripten_set_canvas_size(e->screenWidth, e->screenHeight);
+        updateCanvasSize(e->screenWidth, e->screenHeight);
+    }
+    else
+    {
+        /*
+        printf("*** (canvas) emscripten_get_device_pixel_ratio(): %f\n", emscripten_get_device_pixel_ratio());
+        */
 
-	director->startAnimation();
+        emscripten_set_canvas_size(_screenSizeBeforeFullscreen.width, _screenSizeBeforeFullscreen.height);
+        updateCanvasSize(_screenSizeBeforeFullscreen.width, _screenSizeBeforeFullscreen.height);
+    }
+
+    // Pause mouse move injections until the next move, as the coordinates we previously computed are no longer accurate.
+    _mouseMoveInjector.pauseInject();
+
+    // Note that some browsers fire the MOUSELEAVE events when switching the fullscreen mode (and MOUSEENTER when the mouse moves again),
+    // while others don't.
+    // Also, our attempts to handle it here (by faking a mouseleave event) were not successful on all browsers - some ignored
+    // the css cursor switch, which became effective only after the next mouse move. This is a known issue, but solving it
+    // might require a huge effort (if at all possible), hence we're postponing it...
+
+    // => Notify the application
+    Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(GLViewImpl::EVENT_FULLSCREEN_CHANGED, reinterpret_cast<void*>(_fullscreen));
 }
 
-
-void	GLViewImpl::em_fullscreenEvent(const EmscriptenFullscreenChangeEvent *e) noexcept
+void GLViewImpl::em_mouseEvent(int eventType, const EmscriptenMouseEvent* mouseEvent) noexcept
 {
-	_fullscreen = (e->isFullscreen == EM_TRUE);
+    /*
+        This is quite rudimentary for now, in that that we currently only handle the left mouse button.
+        Also, I doubt all the browsers behave in identical way in all situations (eg. when loosing focus), hence there might be glitches.
 
-	if(_fullscreen)
-	{
-		/*
-		printf("*** _screenSize(%f, %f)\n", _screenSize.width, _screenSize.height);
-		printf("*** e->screen*(%d, %d)\n", e->screenWidth, e->screenHeight);
-		printf("*** e->element*(%d, %d)\n", e->elementWidth, e->elementHeight);
+        Should the implementation be extended to other buttons, please be aware that:
 
-		printf("*** (fullscreen) emscripten_get_device_pixel_ratio(): %f\n", emscripten_get_device_pixel_ratio());
-		*/
+            * Cocos' MOUSE_BUTTON_* values do NOT match EmscriptenMouseEvent::button values, except for the left button.
 
-		_screenSizeBeforeFullscreen = _screenSize * _retinaFactor;
-		emscripten_set_canvas_size(e->screenWidth, e->screenHeight);
-		updateCanvasSize(e->screenWidth, e->screenHeight);
-	}
-	else
-	{
-		/*
-		printf("*** (canvas) emscripten_get_device_pixel_ratio(): %f\n", emscripten_get_device_pixel_ratio());
-		*/
+            * According to docs & source, EmscriptenMouseEvent::buttons is a bitmask of the pressed buttons.
 
-		emscripten_set_canvas_size(_screenSizeBeforeFullscreen.width, _screenSizeBeforeFullscreen.height);
-		updateCanvasSize(_screenSizeBeforeFullscreen.width, _screenSizeBeforeFullscreen.height);
-	}
+                I couldn't find documentation nor enum/constants actually defining the buttons, but it appears from tests
+                that 1 (one) matches the left button (perhaps it's in DOM specs?).
 
-	// Pause mouse move injections until the next move, as the coordinates we previously computed are no longer accurate.
-	_mouseMoveInjector.pauseInject();
+                This contrasts with EmscriptenMouseEvent::button (without the 's') which is set to 0 in UP/DOWN events
+                when the left mouse button is [un]pressed.
 
-	// Note that some browsers fire the MOUSELEAVE events when switching the fullscreen mode (and MOUSEENTER when the mouse moves again),
-	// while others don't.
-	// Also, our attempts to handle it here (by faking a mouseleave event) were not successful on all browsers - some ignored
-	// the css cursor switch, which became effective only after the next mouse move. This is a known issue, but solving it
-	// might require a huge effort (if at all possible), hence we're postponing it...
+            * MOUSELEAVE/MOUSEENTER implementation would need to be much more complex, tracking the state of each of the
+                buttons individually
 
 
-	// => Notify the application
-	Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(GLViewImpl::EVENT_FULLSCREEN_CHANGED, reinterpret_cast<void *>(_fullscreen));
+        Update 25/01/2018.
+
+            Dispatching MOUSE_UP and MOUSE_DOWN events was useless. The whole implementation was solely based on transforming
+            the browser mouse events into touch events.
+
+            However, we now need/want to dispatch the MOUSE_MOVE events - which we already did. However, we now only want to do
+            so when not in a touch event, as handling the two at a time would be a mess (<-- this is a design decision that
+            restricts possibilities but makes things easier).
+
+        Update 26/01/2018
+
+            Adding a MOUSE_OUT event (so that we may un-highlight a highlighted element)
+
+        Update 26/01/2018
+
+            In order to correctly handle the fullscreen mode which eventually adds black borders, we need to ignore all mouse events
+            (that is, treat them as a MOUSELEAVE) that happen outside the rendered area.
+
+            Otherwise, events get processed for elements that are actually invisible (in the black bands) - including touchdown events.
+
+        Update 06/03/2018
+
+            We're now setting up a mechanism to periodically inject dummy mouse-move events, even when the mouse is actually not moving.
+            This allows us to handle scene updates (eg. a button/sprite that ended being under/off the cursor, or got enabled/disabled) in a fairly easy way.
+
+    */
+
+    float cursorX = (mouseEvent->targetX / _retinaFactor);
+    float cursorY = (mouseEvent->targetY / _retinaFactor);
+    float designX, designY;
+    bool mouseOutside;
+
+    if (eventType == EMSCRIPTEN_EVENT_MOUSELEAVE)
+        mouseOutside = true;
+    else
+    {
+        /*
+            We need to figure out whether the mouse is actually over the rendered area.
+            If not, set mouseOutside to true, so that the event is treated the same as EMSCRIPTEN_EVENT_MOUSELEAVE.
+        */
+
+        const auto viewPortRect = getViewPortRect();
+
+        // Same coordinates computations as in GLView::handleTouchesMove()
+
+        if ((designX = (cursorX - viewPortRect.origin.x) / getScaleX()) < 0.0f || (designY = (cursorY - viewPortRect.origin.y) / getScaleY()) < 0.0f)
+            mouseOutside = true;
+        else
+        {
+            const auto& designResolutionSize = getDesignResolutionSize();
+            mouseOutside = (designX > designResolutionSize.width || designY > designResolutionSize.height);
+        }
+    }
+
+    if (mouseOutside)
+    {
+        if (_mouseCaptured)
+        {
+            _mouseCaptured = false;
+            intptr_t id = 0;
+
+            EM_STICKY(TOUCH);
+            EM_STICKY_PRINT("handleTouchesCancel(1, %d, %f, %f)\n", id, cursorX, cursorY);
+
+            // TODO: we're transmitting cursor (not design) coordinated here.
+            // While it IS wrong, I haven't figured out yet why would the coordinates be used for a touches cancel event...
+
+            handleTouchesCancel(1, &id, &cursorX, &cursorY);
+        }
+
+        EM_STICKY(MOUSE);
+        EM_STICKY_PRINT("handleMouseOut()\n");
+        handleMouseOut();
+    }
+    else
+    {
+        switch (eventType)
+        {
+            case EMSCRIPTEN_EVENT_MOUSEMOVE:
+            {
+                if (_mouseCaptured)
+                {
+                    intptr_t id = 0;
+
+                    EM_STICKY(TOUCH);
+                    EM_STICKY_PRINT("handleTouchesMove(1, %d, %f, %f)\n", id, cursorX, cursorY);
+
+                    handleTouchesMove(1, &id, &cursorX, &cursorY);
+                }
+                else
+                {
+                    EM_STICKY(MOUSE);
+                    EM_STICKY_PRINT("handleMouseMove(%f, %f)\n", designX, designY);
+
+                    handleMouseMove(designX, designY);
+                }
+            }
+            break;
+
+            case EMSCRIPTEN_EVENT_MOUSEDOWN:
+            {
+                if (mouseEvent->button == 0 /*LEFT*/)
+                {
+                    _mouseCaptured = true;
+
+                    intptr_t id = 0;
+
+                    EM_STICKY(TOUCH);
+                    EM_STICKY_PRINT("handleTouchesBegin(1, %d, %f, %f)\n", id, cursorX, cursorY);
+
+                    handleTouchesBegin(1, &id, &cursorX, &cursorY);
+
+                    // Pause injecting mouse move - since we already stop forwarding the actual moves as long as _mouseCaptured == true ...
+                    // (and the injected coordinates would be wrong anyway)
+                    _mouseMoveInjector.pauseInject();
+                }
+            }
+            break;
+
+            case EMSCRIPTEN_EVENT_MOUSEUP:
+            {
+                if (mouseEvent->button == 0 /*LEFT*/)
+                {
+                    if (_mouseCaptured)
+                    {
+                        _mouseCaptured = false;
+                        intptr_t id = 0;
+
+                        EM_STICKY(TOUCH);
+                        EM_STICKY_PRINT("handleTouchesEnd(1, %d, %f, %f)\n", id, cursorX, cursorY);
+
+                        handleTouchesEnd(1, &id, &cursorX, &cursorY);
+
+                        // Also firing a single mousemove here, so that if the drag ended over a control,
+                        // it gets notified.
+                        EM_STICKY(MOUSE);
+                        EM_STICKY_PRINT("handleMouseMove(%f, %f)\n", designX, designY);
+
+                        handleMouseMove(designX, designY);
+                    }
+                }
+            }
+            break;
+        }
+    }
 }
 
-
-void	GLViewImpl::em_mouseEvent(int eventType, const EmscriptenMouseEvent* mouseEvent) noexcept
+void GLViewImpl::em_wheelEvent(const EmscriptenWheelEvent* wheelEvent) noexcept
 {
-	/*
-		This is quite rudimentary for now, in that that we currently only handle the left mouse button.
-		Also, I doubt all the browsers behave in identical way in all situations (eg. when loosing focus), hence there might be glitches.
+    // For now, ignore scrolls when the mouse is captured (touch events in progress)
 
-		Should the implementation be extended to other buttons, please be aware that:
+    float designX, designY;
 
-			* Cocos' MOUSE_BUTTON_* values do NOT match EmscriptenMouseEvent::button values, except for the left button.
+    if (!_mouseCaptured && _mouseMoveInjector.getLastKnownPosition(designX, designY))
+    {
+        // All browsers tested so far provide delta in lines, yet support all the delta modes
 
-			* According to docs & source, EmscriptenMouseEvent::buttons is a bitmask of the pressed buttons.
+        float pxDeltaX, pxDeltaY;
+        const char* deltaMode;
 
-				I couldn't find documentation nor enum/constants actually defining the buttons, but it appears from tests
-				that 1 (one) matches the left button (perhaps it's in DOM specs?).
+        (void)deltaMode;
 
-				This contrasts with EmscriptenMouseEvent::button (without the 's') which is set to 0 in UP/DOWN events
-				when the left mouse button is [un]pressed.
+        switch (wheelEvent->deltaMode)
+        {
+            case DOM_DELTA_PIXEL:
+                pxDeltaX = wheelEvent->deltaX;
+                pxDeltaY = wheelEvent->deltaY;
+                deltaMode = "DOM_DELTA_PIXEL";
+                break;
 
-			* MOUSELEAVE/MOUSEENTER implementation would need to be much more complex, tracking the state of each of the
-				buttons individually
+            case DOM_DELTA_LINE:
+                // Using a somehow arbitrary multiplier...
+                pxDeltaX = wheelEvent->deltaX * 12.f;
+                pxDeltaY = wheelEvent->deltaY * 12.f;
+                deltaMode = "DOM_DELTA_LINE";
+                break;
 
+            case DOM_DELTA_PAGE:
+                // Using a somehow arbitrary multiplier...
+                pxDeltaX = wheelEvent->deltaX * 120.f;
+                pxDeltaY = wheelEvent->deltaY * 120.f;
+                deltaMode = "DOM_DELTA_PAGE";
+                break;
 
-		Update 25/01/2018.
+            default:
+                pxDeltaX = wheelEvent->deltaX;
+                pxDeltaY = wheelEvent->deltaY;
+                deltaMode = "DOM_DELTA_UNKNOWN";
+        }
 
-			Dispatching MOUSE_UP and MOUSE_DOWN events was useless. The whole implementation was solely based on transforming
-			the browser mouse events into touch events.
+        const float designDeltaX = pxDeltaX / getScaleX(), designDeltaY = pxDeltaY / getScaleY();
 
-			However, we now need/want to dispatch the MOUSE_MOVE events - which we already did. However, we now only want to do
-			so when not in a touch event, as handling the two at a time would be a mess (<-- this is a design decision that
-			restricts possibilities but makes things easier).
+        EM_STICKY(WHEEL);
+        EM_STICKY_PRINT("wheelCb(): INPUT:  deltaX: %f, deltaY: %f, deltaZ: %f, deltaMode: %s\n", wheelEvent->deltaX, wheelEvent->deltaY, wheelEvent->deltaZ,
+                        deltaMode);
+        EM_STICKY_PRINT("wheelCb(): PIXELS: deltaX: %f, deltaY: %f\n", pxDeltaX, pxDeltaY);
+        EM_STICKY_PRINT("wheelCb(): COCOS:  deltaX: %f, deltaY: %f\n", designDeltaX, designDeltaY);
 
-		Update 26/01/2018
-
-			Adding a MOUSE_OUT event (so that we may un-highlight a highlighted element)
-
-		Update 26/01/2018
-
-			In order to correctly handle the fullscreen mode which eventually adds black borders, we need to ignore all mouse events
-			(that is, treat them as a MOUSELEAVE) that happen outside the rendered area.
-
-			Otherwise, events get processed for elements that are actually invisible (in the black bands) - including touchdown events.
-
-		Update 06/03/2018
-
-			We're now setting up a mechanism to periodically inject dummy mouse-move events, even when the mouse is actually not moving.
-			This allows us to handle scene updates (eg. a button/sprite that ended being under/off the cursor, or got enabled/disabled) in a fairly easy way.
-
-	*/
-
-	float	cursorX = (mouseEvent->targetX / _retinaFactor);
-	float	cursorY = (mouseEvent->targetY / _retinaFactor);
-	float	designX, designY;
-	bool	mouseOutside;
-
-
-	if(eventType == EMSCRIPTEN_EVENT_MOUSELEAVE)
-		mouseOutside = true;
-	else
-	{
-		/*
-			We need to figure out whether the mouse is actually over the rendered area.
-			If not, set mouseOutside to true, so that the event is treated the same as EMSCRIPTEN_EVENT_MOUSELEAVE.
-		*/
-
-		const auto	viewPortRect = getViewPortRect();
-
-		// Same coordinates computations as in GLView::handleTouchesMove()
-
-		if((designX = (cursorX - viewPortRect.origin.x) / getScaleX()) < 0.0f || (designY = (cursorY - viewPortRect.origin.y) / getScaleY()) < 0.0f)
-			mouseOutside = true;
-		else
-		{
-			const auto&	designResolutionSize = getDesignResolutionSize();
-			mouseOutside = (designX > designResolutionSize.width || designY > designResolutionSize.height);
-		}
-	}
-
-	if(mouseOutside)
-	{
-		if(_mouseCaptured)
-		{
-			_mouseCaptured = false;
-			intptr_t id = 0;
-
-			EM_STICKY(TOUCH);
-			EM_STICKY_PRINT("handleTouchesCancel(1, %d, %f, %f)\n", id, cursorX, cursorY);
-
-			// TODO: we're transmitting cursor (not design) coordinated here.
-			// While it IS wrong, I haven't figured out yet why would the coordinates be used for a touches cancel event...
-
-			handleTouchesCancel(1, &id, &cursorX, &cursorY);
-		}
-
-		EM_STICKY(MOUSE);
-		EM_STICKY_PRINT("handleMouseOut()\n");
-		handleMouseOut();
-	}
-	else
-	{
-		switch(eventType)
-		{
-			case EMSCRIPTEN_EVENT_MOUSEMOVE:
-			{
-				if(_mouseCaptured)
-				{
-					intptr_t id = 0;
-
-					EM_STICKY(TOUCH);
-					EM_STICKY_PRINT("handleTouchesMove(1, %d, %f, %f)\n", id, cursorX, cursorY);
-
-					handleTouchesMove(1, &id, &cursorX, &cursorY);
-				}
-				else
-				{
-					EM_STICKY(MOUSE);
-					EM_STICKY_PRINT("handleMouseMove(%f, %f)\n", designX, designY);
-
-					handleMouseMove(designX, designY);
-				}
-			}
-			break;
-
-			case EMSCRIPTEN_EVENT_MOUSEDOWN:
-			{
-				if(mouseEvent->button == 0 /*LEFT*/)
-				{
-					_mouseCaptured = true;
-
-					intptr_t id = 0;
-
-					EM_STICKY(TOUCH);
-					EM_STICKY_PRINT("handleTouchesBegin(1, %d, %f, %f)\n", id, cursorX, cursorY);
-
-					handleTouchesBegin(1, &id, &cursorX, &cursorY);
-
-					// Pause injecting mouse move - since we already stop forwarding the actual moves as long as _mouseCaptured == true ...
-					// (and the injected coordinates would be wrong anyway)
-					_mouseMoveInjector.pauseInject();
-				}
-			}
-			break;
-
-
-			case EMSCRIPTEN_EVENT_MOUSEUP:
-			{
-				if(mouseEvent->button == 0 /*LEFT*/)
-				{
-					if(_mouseCaptured)
-					{
-						_mouseCaptured = false;
-						intptr_t id = 0;
-
-						EM_STICKY(TOUCH);
-						EM_STICKY_PRINT("handleTouchesEnd(1, %d, %f, %f)\n", id, cursorX, cursorY);
-
-						handleTouchesEnd(1, &id, &cursorX, &cursorY);
-
-						// Also firing a single mousemove here, so that if the drag ended over a control,
-						// it gets notified.
-						EM_STICKY(MOUSE);
-						EM_STICKY_PRINT("handleMouseMove(%f, %f)\n", designX, designY);
-
-						handleMouseMove(designX, designY);
-					}
-				}
-			}
-			break;
-
-		}
-	}
+        handleMouseScroll(designX, designY, designDeltaX, designDeltaY);
+    }
+    else
+    {
+        EM_STICKY(WHEEL);
+        EM_STICKY_PRINT("wheelCb(): ignoring input (mouse captured or position unknown)\n");
+    }
 }
 
-
-void	GLViewImpl::em_wheelEvent(const EmscriptenWheelEvent *wheelEvent) noexcept
+void GLViewImpl::handleMouseMove(float posX, float posY) noexcept
 {
-	// For now, ignore scrolls when the mouse is captured (touch events in progress)
+    EventMouse event(EventMouse::MouseEventType::MOUSE_MOVE);
 
-	float	designX, designY;
+    event.setCursorPosition(posX, posY);
 
-	if(!_mouseCaptured && _mouseMoveInjector.getLastKnownPosition(designX, designY))
-	{
-		// All browsers tested so far provide delta in lines, yet support all the delta modes
+    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 
-		float		pxDeltaX, pxDeltaY;
-		const char	*deltaMode;
-
-		(void)deltaMode;
-
-		switch(wheelEvent->deltaMode)
-		{
-			case DOM_DELTA_PIXEL:
-				pxDeltaX = wheelEvent->deltaX;
-				pxDeltaY = wheelEvent->deltaY;
-				deltaMode = "DOM_DELTA_PIXEL";
-				break;
-
-			case DOM_DELTA_LINE:
-				// Using a somehow arbitrary multiplier...
-				pxDeltaX = wheelEvent->deltaX * 12.f;
-				pxDeltaY = wheelEvent->deltaY * 12.f;
-				deltaMode = "DOM_DELTA_LINE";
-				break;
-
-			case DOM_DELTA_PAGE:
-				// Using a somehow arbitrary multiplier...
-				pxDeltaX = wheelEvent->deltaX * 120.f;
-				pxDeltaY = wheelEvent->deltaY * 120.f;
-				deltaMode = "DOM_DELTA_PAGE";
-				break;
-
-			default:
-				pxDeltaX = wheelEvent->deltaX;
-				pxDeltaY = wheelEvent->deltaY;
-				deltaMode = "DOM_DELTA_UNKNOWN";
-		}
-
-		const float	designDeltaX = pxDeltaX / getScaleX(), designDeltaY = pxDeltaY / getScaleY();
-
-		EM_STICKY(WHEEL);
-		EM_STICKY_PRINT("wheelCb(): INPUT:  deltaX: %f, deltaY: %f, deltaZ: %f, deltaMode: %s\n", wheelEvent->deltaX, wheelEvent->deltaY, wheelEvent->deltaZ, deltaMode);
-		EM_STICKY_PRINT("wheelCb(): PIXELS: deltaX: %f, deltaY: %f\n", pxDeltaX, pxDeltaY);
-		EM_STICKY_PRINT("wheelCb(): COCOS:  deltaX: %f, deltaY: %f\n", designDeltaX, designDeltaY);
-
-		handleMouseScroll(designX, designY, designDeltaX, designDeltaY);
-	}
-	else
-	{
-		EM_STICKY(WHEEL);
-		EM_STICKY_PRINT("wheelCb(): ignoring input (mouse captured or position unknown)\n");
-	}
+    _mouseMoveInjector.updatePosition(posX, posY);
 }
 
-
-
-void	GLViewImpl::handleMouseMove(float posX, float posY) noexcept
+void GLViewImpl::handleMouseOut() noexcept
 {
-	EventMouse	event(EventMouse::MouseEventType::MOUSE_MOVE);
+    EventMouse event(EventMouse::MouseEventType::MOUSE_OUT);
 
-	event.setCursorPosition(posX, posY);
+    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 
-	Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
-
-	_mouseMoveInjector.updatePosition(posX, posY);
+    _mouseMoveInjector.pauseInject();
 }
 
-void	GLViewImpl::handleMouseOut() noexcept
+void GLViewImpl::handleMouseScroll(float posX, float posY, float deltaX, float deltaY) noexcept
 {
-	EventMouse	event(EventMouse::MouseEventType::MOUSE_OUT);
+    EventMouse event(EventMouse::MouseEventType::MOUSE_SCROLL);
 
-	Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+    event.setCursorPosition(posX, posY);
+    event.setScrollData(deltaX, deltaY);
 
-	_mouseMoveInjector.pauseInject();
+    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 }
-
-void	GLViewImpl::handleMouseScroll(float posX, float posY, float deltaX, float deltaY) noexcept
-{
-	EventMouse	event(EventMouse::MouseEventType::MOUSE_SCROLL);
-
-	event.setCursorPosition(posX, posY);
-	event.setScrollData(deltaX, deltaY);
-
-	Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
-}
-
-
-
-
-
-
-
-
-
 
 void GLViewImpl::createEGLContext() noexcept
 {
@@ -901,17 +851,23 @@ void GLViewImpl::createEGLContext() noexcept
     assert(ret == EGL_TRUE);
     assert(eglGetError() == EGL_SUCCESS);
 
-    EGLint attribList[] = {
-        EGL_RED_SIZE,        _glContextAttrs.redBits,
-        EGL_GREEN_SIZE,      _glContextAttrs.greenBits,
-        EGL_BLUE_SIZE,       _glContextAttrs.blueBits,
-        EGL_ALPHA_SIZE,      _glContextAttrs.alphaBits,
-        EGL_DEPTH_SIZE,      _glContextAttrs.depthBits,
-        EGL_STENCIL_SIZE,    _glContextAttrs.stencilBits,
-        EGL_SURFACE_TYPE,    EGL_WINDOW_BIT,
-        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
-        EGL_NONE
-    };
+    EGLint attribList[] = {EGL_RED_SIZE,
+                           _glContextAttrs.redBits,
+                           EGL_GREEN_SIZE,
+                           _glContextAttrs.greenBits,
+                           EGL_BLUE_SIZE,
+                           _glContextAttrs.blueBits,
+                           EGL_ALPHA_SIZE,
+                           _glContextAttrs.alphaBits,
+                           EGL_DEPTH_SIZE,
+                           _glContextAttrs.depthBits,
+                           EGL_STENCIL_SIZE,
+                           _glContextAttrs.stencilBits,
+                           EGL_SURFACE_TYPE,
+                           EGL_WINDOW_BIT,
+                           EGL_RENDERABLE_TYPE,
+                           EGL_OPENGL_ES2_BIT,
+                           EGL_NONE};
     ret = eglChooseConfig(_display, attribList, &_config, 1, &numConfigs);
     assert(ret == EGL_TRUE);
     assert(eglGetError() == EGL_SUCCESS);
@@ -920,10 +876,7 @@ void GLViewImpl::createEGLContext() noexcept
     assert(_surface != EGL_NO_SURFACE);
     assert(eglGetError() == EGL_SUCCESS);
 
-    EGLint contextAttribs[] = {
-        EGL_CONTEXT_CLIENT_VERSION, 2,
-        EGL_NONE
-    };
+    EGLint contextAttribs[] = {EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE};
     _context = eglCreateContext(_display, _config, EGL_NO_CONTEXT, contextAttribs);
     assert(_context != EGL_NO_CONTEXT);
     assert(eglGetError() == EGL_SUCCESS);
@@ -939,7 +892,7 @@ void GLViewImpl::createEGLContext() noexcept
         eglQuerySurface(_display, _surface, EGL_HEIGHT, &height);
 
         updateCanvasSize(width, height);
-	}
+    }
 }
 
 void GLViewImpl::deleteEGLContext() noexcept
@@ -979,7 +932,6 @@ void GLViewImpl::updateCanvasSize(int width, int height) noexcept
     if (sendEnvent)
         Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(GLViewImpl::EVENT_WINDOW_RESIZED, nullptr);
 }
-
 
 NS_CC_END
 

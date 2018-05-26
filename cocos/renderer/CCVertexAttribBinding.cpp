@@ -20,33 +20,27 @@
  */
 
 #include "renderer/CCVertexAttribBinding.h"
+#include "3d/CCMeshVertexIndexData.h"
+#include "base/CCConfiguration.h"
+#include "platform/CCGL.h"
 #include "renderer/CCGLProgramState.h"
 #include "renderer/ccGLStateCache.h"
-#include "platform/CCGL.h"
-#include "base/CCConfiguration.h"
-#include "3d/CCMeshVertexIndexData.h"
 
 NS_CC_BEGIN
 
-std::string s_attributeNames[] = {
-    GLProgram::ATTRIBUTE_NAME_POSITION,
-    GLProgram::ATTRIBUTE_NAME_COLOR,
-    GLProgram::ATTRIBUTE_NAME_TEX_COORD,
-    GLProgram::ATTRIBUTE_NAME_TEX_COORD1,
-    GLProgram::ATTRIBUTE_NAME_TEX_COORD2,
-    GLProgram::ATTRIBUTE_NAME_TEX_COORD3,
-    GLProgram::ATTRIBUTE_NAME_NORMAL,
-    GLProgram::ATTRIBUTE_NAME_BLEND_WEIGHT,
-    GLProgram::ATTRIBUTE_NAME_BLEND_INDEX,
-    GLProgram::ATTRIBUTE_NAME_TANGENT,
-    GLProgram::ATTRIBUTE_NAME_BINORMAL
-};
+std::string s_attributeNames[] = {GLProgram::ATTRIBUTE_NAME_POSITION,   GLProgram::ATTRIBUTE_NAME_COLOR,        GLProgram::ATTRIBUTE_NAME_TEX_COORD,
+                                  GLProgram::ATTRIBUTE_NAME_TEX_COORD1, GLProgram::ATTRIBUTE_NAME_TEX_COORD2,   GLProgram::ATTRIBUTE_NAME_TEX_COORD3,
+                                  GLProgram::ATTRIBUTE_NAME_NORMAL,     GLProgram::ATTRIBUTE_NAME_BLEND_WEIGHT, GLProgram::ATTRIBUTE_NAME_BLEND_INDEX,
+                                  GLProgram::ATTRIBUTE_NAME_TANGENT,    GLProgram::ATTRIBUTE_NAME_BINORMAL};
 
 static GLuint __maxVertexAttribs = 0;
 static std::vector<VertexAttribBinding*> __vertexAttribBindingCache;
 
-VertexAttribBinding::VertexAttribBinding() :
-    _handle(0), _attributes(), _meshIndexData(nullptr), _glProgramState(nullptr)
+VertexAttribBinding::VertexAttribBinding()
+: _handle(0)
+, _attributes()
+, _meshIndexData(nullptr)
+, _glProgramState(nullptr)
 {
 }
 
@@ -123,20 +117,14 @@ bool VertexAttribBinding::init(MeshIndexData* meshIndexData, GLProgramState* glP
     auto meshVertexData = meshIndexData->getMeshVertexData();
     auto attributeCount = meshVertexData->getMeshVertexAttribCount();
 
-
     // Parse and set attributes
     parseAttributes();
     long offset = 0;
     for (auto k = 0; k < attributeCount; k++)
     {
         auto meshattribute = meshVertexData->getMeshVertexAttrib(k);
-        setVertexAttribPointer(
-                               s_attributeNames[meshattribute.vertexAttrib],
-                               meshattribute.size,
-                               meshattribute.type,
-                               GL_FALSE,
-                               meshVertexData->getVertexBuffer()->getSizePerVertex(),
-                               (GLvoid*)offset);
+        setVertexAttribPointer(s_attributeNames[meshattribute.vertexAttrib], meshattribute.size, meshattribute.type, GL_FALSE,
+                               meshVertexData->getVertexBuffer()->getSizePerVertex(), (GLvoid*)offset);
         offset += meshattribute.attribSizeBytes;
     }
 
@@ -148,7 +136,8 @@ bool VertexAttribBinding::init(MeshIndexData* meshIndexData, GLProgramState* glP
         glBindBuffer(GL_ARRAY_BUFFER, meshVertexData->getVertexBuffer()->getVBO());
 
         auto flags = _vertexAttribsFlags;
-        for (int i = 0; flags > 0; i++) {
+        for (int i = 0; flags > 0; i++)
+        {
             int flag = 1 << i;
             if (flag & flags)
                 glEnableVertexAttribArray(i);
@@ -157,7 +146,7 @@ bool VertexAttribBinding::init(MeshIndexData* meshIndexData, GLProgramState* glP
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshIndexData->getIndexBuffer()->getVBO());
 
-        for(auto &attribute : _attributes)
+        for (auto& attribute : _attributes)
         {
             attribute.second.apply();
         }
@@ -172,7 +161,6 @@ bool VertexAttribBinding::init(MeshIndexData* meshIndexData, GLProgramState* glP
 
 void VertexAttribBinding::bind()
 {
-
     if (_handle)
     {
         // hardware
@@ -188,11 +176,10 @@ void VertexAttribBinding::bind()
         // Software mode
         GL::enableVertexAttribs(_vertexAttribsFlags);
         // set attributes
-        for(auto &attribute : _attributes)
+        for (auto& attribute : _attributes)
         {
             attribute.second.apply();
         }
-        
     }
 }
 
@@ -201,7 +188,7 @@ void VertexAttribBinding::unbind()
     if (_handle)
     {
         // Hardware
-       GL::bindVAO(0);
+        GL::bindVAO(0);
     }
     else
     {
@@ -225,7 +212,7 @@ void VertexAttribBinding::parseAttributes()
 
     auto glprogram = _glProgramState->getGLProgram();
 
-    for(auto &attrib: glprogram->_vertexAttribs)
+    for (auto& attrib : glprogram->_vertexAttribs)
     {
         VertexAttribValue value(&attrib.second);
         _attributes[attrib.first] = value;
@@ -235,15 +222,16 @@ void VertexAttribBinding::parseAttributes()
 VertexAttribValue* VertexAttribBinding::getVertexAttribValue(const std::string& name)
 {
     const auto itr = _attributes.find(name);
-    if( itr != _attributes.end())
+    if (itr != _attributes.end())
         return &itr->second;
     return nullptr;
 }
 
-void VertexAttribBinding::setVertexAttribPointer(const std::string &name, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid* pointer)
+void VertexAttribBinding::setVertexAttribPointer(const std::string& name, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid* pointer)
 {
     auto v = getVertexAttribValue(name);
-    if(v) {
+    if (v)
+    {
         v->setPointer(size, type, normalized, stride, pointer);
         _vertexAttribsFlags |= 1 << v->_vertexAttrib->index;
     }

@@ -23,22 +23,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 #include "base/CCUserDefault.h"
-#include "platform/CCCommon.h"
 #include "base/base64.h"
 #include "base/ccUtils.h"
+#include "platform/CCCommon.h"
 #include "platform/CCFileUtils.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-#include "platform/winrt/CCWinRTUtils.h"
+#    include "platform/winrt/CCWinRTUtils.h"
 
 using namespace Windows::Storage;
 using namespace Windows::Foundation;
 using namespace std;
 
-#define XML_FILE_NAME "UserDefault.xml"
+#    define XML_FILE_NAME "UserDefault.xml"
 
 NS_CC_BEGIN
-
 
 /**
  * WinRT implementation of UserDefault
@@ -56,27 +55,27 @@ UserDefault::UserDefault()
 {
 }
 
-Platform::Object^ getPlatformKeyValue(const char* pKey)
-{
-    // check key
-    if (!pKey)
-    {
+Platform::Object ^
+    getPlatformKeyValue(const char* pKey) {
+        // check key
+        if (!pKey)
+        {
+            return nullptr;
+        }
+
+        ApplicationDataContainer ^ localSettings = ApplicationData::Current->LocalSettings;
+        auto key = PlatformStringFromString(pKey);
+        auto values = localSettings->Values;
+
+        if (values->HasKey(key))
+        {
+            return values->Lookup(key);
+        }
+
         return nullptr;
     }
 
-    ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
-    auto key = PlatformStringFromString(pKey);
-    auto values = localSettings->Values;
-
-    if (values->HasKey(key))
-    {
-        return values->Lookup(key);
-    }
-
-    return nullptr;
-}
-
-void setPlatformKeyValue(const char* pKey, PropertyValue^ value)
+    void setPlatformKeyValue(const char* pKey, PropertyValue ^ value)
 {
     // check key
     if (!pKey)
@@ -84,7 +83,7 @@ void setPlatformKeyValue(const char* pKey, PropertyValue^ value)
         return;
     }
 
-    ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
+    ApplicationDataContainer ^ localSettings = ApplicationData::Current->LocalSettings;
     auto values = localSettings->Values;
     values->Insert(PlatformStringFromString(pKey), value);
 }
@@ -96,13 +95,13 @@ bool UserDefault::getBoolForKey(const char* pKey)
 
 bool UserDefault::getBoolForKey(const char* pKey, bool defaultValue)
 {
-	bool ret = defaultValue;
+    bool ret = defaultValue;
     auto value = getPlatformKeyValue(pKey);
     if (value)
     {
         ret = safe_cast<bool>(value);
     }
-	return ret;
+    return ret;
 }
 
 int UserDefault::getIntegerForKey(const char* pKey)
@@ -133,7 +132,7 @@ float UserDefault::getFloatForKey(const char* pKey, float defaultValue)
     return ret;
 }
 
-double  UserDefault::getDoubleForKey(const char* pKey)
+double UserDefault::getDoubleForKey(const char* pKey)
 {
     return getDoubleForKey(pKey, 0.0);
 }
@@ -154,13 +153,13 @@ std::string UserDefault::getStringForKey(const char* pKey)
     return getStringForKey(pKey, "");
 }
 
-string UserDefault::getStringForKey(const char* pKey, const std::string & defaultValue)
+string UserDefault::getStringForKey(const char* pKey, const std::string& defaultValue)
 {
     string ret = defaultValue;
     auto value = getPlatformKeyValue(pKey);
     if (value)
     {
-        auto result = safe_cast<Platform::String^>(value);
+        auto result = safe_cast<Platform::String ^>(value);
         ret = PlatformStringToString(result);
     }
 
@@ -175,12 +174,12 @@ Data UserDefault::getDataForKey(const char* pKey)
 Data UserDefault::getDataForKey(const char* pKey, const Data& defaultValue)
 {
     Data ret = defaultValue;
-    std::string encodedData = getStringForKey(pKey,"");
+    std::string encodedData = getStringForKey(pKey, "");
 
     if (!encodedData.empty())
     {
         unsigned char* decodedData = nullptr;
-        int decodedDataLen = base64Decode((unsigned char*) encodedData.c_str(), (unsigned int) encodedData.length(), &decodedData);
+        int decodedDataLen = base64Decode((unsigned char*)encodedData.c_str(), (unsigned int)encodedData.length(), &decodedData);
         if (decodedData && decodedDataLen > 0)
         {
             ret.fastSet(decodedData, decodedDataLen);
@@ -198,18 +197,18 @@ void UserDefault::setBoolForKey(const char* pKey, bool value)
         return;
     }
 
-    setPlatformKeyValue(pKey, dynamic_cast<PropertyValue^>(PropertyValue::CreateBoolean(value)));
+    setPlatformKeyValue(pKey, dynamic_cast<PropertyValue ^>(PropertyValue::CreateBoolean(value)));
 }
 
 void UserDefault::setIntegerForKey(const char* pKey, int value)
 {
     // check key
-    if (! pKey)
+    if (!pKey)
     {
         return;
     }
 
-    setPlatformKeyValue(pKey, dynamic_cast<PropertyValue^>(PropertyValue::CreateInt32(value)));
+    setPlatformKeyValue(pKey, dynamic_cast<PropertyValue ^>(PropertyValue::CreateInt32(value)));
 }
 
 void UserDefault::setFloatForKey(const char* pKey, float value)
@@ -220,36 +219,37 @@ void UserDefault::setFloatForKey(const char* pKey, float value)
 void UserDefault::setDoubleForKey(const char* pKey, double value)
 {
     // check key
-    if (! pKey)
+    if (!pKey)
     {
         return;
     }
 
-    setPlatformKeyValue(pKey, dynamic_cast<PropertyValue^>(PropertyValue::CreateDouble(value)));
+    setPlatformKeyValue(pKey, dynamic_cast<PropertyValue ^>(PropertyValue::CreateDouble(value)));
 }
 
-void UserDefault::setStringForKey(const char* pKey, const std::string & value)
+void UserDefault::setStringForKey(const char* pKey, const std::string& value)
 {
     // check key
-    if (! pKey)
+    if (!pKey)
     {
         return;
     }
 
-    setPlatformKeyValue(pKey, dynamic_cast<PropertyValue^>(PropertyValue::CreateString(PlatformStringFromString(value))));
+    setPlatformKeyValue(pKey, dynamic_cast<PropertyValue ^>(PropertyValue::CreateString(PlatformStringFromString(value))));
 }
 
-void UserDefault::setDataForKey(const char* pKey, const Data& value) {
+void UserDefault::setDataForKey(const char* pKey, const Data& value)
+{
     // check key
-    if (! pKey)
+    if (!pKey)
     {
         return;
     }
 
-    char *encodedData = nullptr;
+    char* encodedData = nullptr;
     base64Encode(value.getBytes(), static_cast<unsigned int>(value.getSize()), &encodedData);
 
-    setPlatformKeyValue(pKey, dynamic_cast<PropertyValue^>(PropertyValue::CreateString(PlatformStringFromString(encodedData))));
+    setPlatformKeyValue(pKey, dynamic_cast<PropertyValue ^>(PropertyValue::CreateString(PlatformStringFromString(encodedData))));
 
     if (encodedData)
         free(encodedData);
@@ -279,14 +279,13 @@ void UserDefault::destroyInstance()
     CC_SAFE_DELETE(_userDefault);
 }
 
-void UserDefault::setDelegate(UserDefault *delegate)
+void UserDefault::setDelegate(UserDefault* delegate)
 {
     if (_userDefault)
         delete _userDefault;
 
     _userDefault = delegate;
 }
-
 
 // FIXME:: deprecated
 UserDefault* UserDefault::sharedUserDefault()
@@ -302,13 +301,13 @@ void UserDefault::purgeSharedUserDefault()
 
 bool UserDefault::isXMLFileExist()
 {
-    //return FileUtils::getInstance()->isFileExist(_filePath);
+    // return FileUtils::getInstance()->isFileExist(_filePath);
     return true;
 }
 
 void UserDefault::initXMLFilePath()
 {
-    if (! _isFilePathInitialized)
+    if (!_isFilePathInitialized)
     {
         _filePath += FileUtils::getInstance()->getWritablePath() + XML_FILE_NAME;
         _isFilePathInitialized = true;
@@ -338,7 +337,7 @@ void UserDefault::deleteValueForKey(const char* key)
         CCLOG("the key is invalid");
     }
 
-    ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
+    ApplicationDataContainer ^ localSettings = ApplicationData::Current->LocalSettings;
     auto values = localSettings->Values;
     values->Remove(PlatformStringFromString(key));
 

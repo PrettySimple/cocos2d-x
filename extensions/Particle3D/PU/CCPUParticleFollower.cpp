@@ -1,19 +1,19 @@
 /****************************************************************************
  Copyright (C) 2013 Henry van Merode. All rights reserved.
  Copyright (c) 2015 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -33,17 +33,16 @@ const float PUParticleFollower::DEFAULT_MAX_DISTANCE = 3.40282e+038f;
 const float PUParticleFollower::DEFAULT_MIN_DISTANCE = 10.0f;
 
 //-----------------------------------------------------------------------
-PUParticleFollower::PUParticleFollower(void) : 
-    PUAffector(),
-    _minDistance(DEFAULT_MIN_DISTANCE),
-    _maxDistance(DEFAULT_MAX_DISTANCE),
-    _first(false)
+PUParticleFollower::PUParticleFollower(void)
+: PUAffector()
+, _minDistance(DEFAULT_MIN_DISTANCE)
+, _maxDistance(DEFAULT_MAX_DISTANCE)
+, _first(false)
 {
 }
 
-PUParticleFollower::~PUParticleFollower( void )
+PUParticleFollower::~PUParticleFollower(void)
 {
-
 }
 //-----------------------------------------------------------------------
 float PUParticleFollower::getMaxDistance(void) const
@@ -66,12 +65,12 @@ void PUParticleFollower::setMinDistance(float minDistance)
     _minDistance = minDistance;
 }
 
-void PUParticleFollower::updatePUAffector( PUParticle3D *particle, float deltaTime )
+void PUParticleFollower::updatePUAffector(PUParticle3D* particle, float deltaTime)
 {
     //_first = true;
-    //for (auto iter : _particleSystem->getParticles())
+    // for (auto iter : _particleSystem->getParticles())
     {
-        //PUParticle3D *particle = iter;
+        // PUParticle3D *particle = iter;
         if (!_first)
         {
             // Change in V 1.3.1
@@ -82,7 +81,7 @@ void PUParticleFollower::updatePUAffector( PUParticle3D *particle, float deltaTi
             if (distance > scaledMinDistance && distance < avgScale * _maxDistance)
             {
                 // This particle drifts too much from the previous one; correct it!
-                float f = scaledMinDistance/distance;
+                float f = scaledMinDistance / distance;
                 particle->position = _positionPreviousParticle + f * (particle->position - _positionPreviousParticle);
             }
         }
@@ -91,7 +90,7 @@ void PUParticleFollower::updatePUAffector( PUParticle3D *particle, float deltaTi
     }
 }
 
-void PUParticleFollower::firstParticleUpdate( PUParticle3D *particle, float deltaTime )
+void PUParticleFollower::firstParticleUpdate(PUParticle3D* particle, float deltaTime)
 {
     _first = true;
 }
@@ -103,7 +102,7 @@ PUParticleFollower* PUParticleFollower::create()
     return ppf;
 }
 
-void PUParticleFollower::copyAttributesTo( PUAffector* affector )
+void PUParticleFollower::copyAttributesTo(PUAffector* affector)
 {
     PUAffector::copyAttributesTo(affector);
 

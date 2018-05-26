@@ -32,7 +32,8 @@
 
 NS_CC_BEGIN
 
-PrimitiveCommand::PrimitiveCommand() : RenderCommand(RenderCommand::Type::PRIMITIVE_COMMAND)
+PrimitiveCommand::PrimitiveCommand()
+: RenderCommand(RenderCommand::Type::PRIMITIVE_COMMAND)
 {
 }
 
@@ -40,44 +41,44 @@ PrimitiveCommand::~PrimitiveCommand()
 {
 }
 
-void PrimitiveCommand::init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, BlendFunc blendType, Primitive* primitive, const Mat4& mv, uint32_t flags)
+void PrimitiveCommand::init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, BlendFunc blendType, Primitive* primitive, const Mat4& mv,
+                            uint32_t flags)
 {
     CCASSERT(glProgramState, "Invalid GLProgramState");
     CCASSERT(glProgramState->getVertexAttribsFlags() == 0, "No custom attributes are supported in PrimitiveCommand");
     CCASSERT(primitive != nullptr, "Could not render null primitive");
-    
+
     RenderCommand::init(globalOrder, mv, flags);
-    
+
     _primitive = primitive;
-    
+
     _mv = mv;
-    
-    if( _textureID != textureID || _blendType.src != blendType.src || _blendType.dst != blendType.dst || _glProgramState != glProgramState) {
-        
+
+    if (_textureID != textureID || _blendType.src != blendType.src || _blendType.dst != blendType.dst || _glProgramState != glProgramState)
+    {
         _textureID = textureID;
         _blendType = blendType;
         _glProgramState = glProgramState;
-        
     }
 }
 
-void PrimitiveCommand::init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, BlendFunc blendType, Primitive* primitive,const Mat4& mv)
+void PrimitiveCommand::init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, BlendFunc blendType, Primitive* primitive, const Mat4& mv)
 {
     init(globalOrder, textureID, glProgramState, blendType, primitive, mv, 0);
 }
 
 void PrimitiveCommand::execute() const
 {
-    //Set texture
+    // Set texture
     GL::bindTexture2D(_textureID);
-    
-    //set blend mode
+
+    // set blend mode
     GL::blendFunc(_blendType.src, _blendType.dst);
-    
+
     _glProgramState->apply(_mv);
-    
+
     _primitive->draw();
-    CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1,_primitive->getCount());
+    CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, _primitive->getCount());
 }
 
 NS_CC_END

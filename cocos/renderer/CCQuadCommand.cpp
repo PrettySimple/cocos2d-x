@@ -22,7 +22,6 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-
 #include "renderer/CCQuadCommand.h"
 
 #include "renderer/CCGLProgram.h"
@@ -49,14 +48,14 @@ QuadCommand::~QuadCommand()
     }
 }
 
-void QuadCommand::init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, ssize_t quadCount,
-                       const Mat4& mv, uint32_t flags)
+void QuadCommand::init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads,
+                       ssize_t quadCount, const Mat4& mv, uint32_t flags)
 {
     CCASSERT(glProgramState, "Invalid GLProgramState");
     CCASSERT(glProgramState->getVertexAttribsFlags() == 0, "No custom attributes are supported in QuadCommand");
 
     if (quadCount * 6 > _indexSize)
-        reIndex((int)quadCount*6);
+        reIndex((int)quadCount * 6);
 
     Triangles triangles;
     triangles.verts = &quads->tl;
@@ -87,31 +86,32 @@ void QuadCommand::reIndex(int indicesCount)
         __indexCapacity = indicesCount;
     }
 
-    for( int i=0; i < __indexCapacity/6; i++)
+    for (int i = 0; i < __indexCapacity / 6; i++)
     {
-        __indices[i*6+0] = (GLushort) (i*4+0);
-        __indices[i*6+1] = (GLushort) (i*4+1);
-        __indices[i*6+2] = (GLushort) (i*4+2);
-        __indices[i*6+3] = (GLushort) (i*4+3);
-        __indices[i*6+4] = (GLushort) (i*4+2);
-        __indices[i*6+5] = (GLushort) (i*4+1);
+        __indices[i * 6 + 0] = (GLushort)(i * 4 + 0);
+        __indices[i * 6 + 1] = (GLushort)(i * 4 + 1);
+        __indices[i * 6 + 2] = (GLushort)(i * 4 + 2);
+        __indices[i * 6 + 3] = (GLushort)(i * 4 + 3);
+        __indices[i * 6 + 4] = (GLushort)(i * 4 + 2);
+        __indices[i * 6 + 5] = (GLushort)(i * 4 + 1);
     }
 
     _indexSize = indicesCount;
 }
 
-void QuadCommand::init(float globalOrder, GLuint textureID, GLProgramState* shader, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, ssize_t quadCount, const Mat4 &mv)
+void QuadCommand::init(float globalOrder, GLuint textureID, GLProgramState* shader, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, ssize_t quadCount,
+                       const Mat4& mv)
 {
     init(globalOrder, textureID, shader, blendType, quads, quadCount, mv, 0);
 }
 
-void QuadCommand::init(float globalOrder, Texture2D* texture, GLProgramState* glProgramState, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, ssize_t quadCount,
-    const Mat4& mv, uint32_t flags)
+void QuadCommand::init(float globalOrder, Texture2D* texture, GLProgramState* glProgramState, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads,
+                       ssize_t quadCount, const Mat4& mv, uint32_t flags)
 {
     init(globalOrder, texture->getName(), glProgramState, blendType, quads, quadCount, mv, flags);
 #ifdef DEBUG_TEXTURE_SIZE
     CC_ASSERT(texture != nullptr);
-    _texSize = { static_cast<float>(texture->getPixelsWide()), static_cast<float>(texture->getPixelsHigh()) };
+    _texSize = {static_cast<float>(texture->getPixelsWide()), static_cast<float>(texture->getPixelsHigh())};
 #endif
     _alphaTextureID = texture->getAlphaTextureName();
 }

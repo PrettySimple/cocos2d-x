@@ -3,18 +3,19 @@
 
 #include "CCNodeLoader.h"
 
-namespace cocosbuilder {
+namespace cocosbuilder
+{
+    /* Forward declaration. */
+    class CCBReader;
 
-/* Forward declaration. */
-class CCBReader;
-
-class CC_DLL CCBFileLoader : public NodeLoader {
+    class CC_DLL CCBFileLoader : public NodeLoader
+    {
     public:
         /**
          * @js NA
          * @lua NA
          */
-        virtual ~CCBFileLoader() {};
+        virtual ~CCBFileLoader(){};
         /**
          * @js NA
          * @lua NA
@@ -24,9 +25,10 @@ class CC_DLL CCBFileLoader : public NodeLoader {
     protected:
         CCB_VIRTUAL_NEW_AUTORELEASE_CREATECCNODE_METHOD(CCBFile);
 
-        virtual void onHandlePropTypeCCBFile(cocos2d::Node * pNode, cocos2d::Node * pParent, const char * pPropertyName, cocos2d::Node * pCCBFileNode, CCBReader * ccbReader);
-};
+        virtual void
+        onHandlePropTypeCCBFile(cocos2d::Node* pNode, cocos2d::Node* pParent, const char* pPropertyName, cocos2d::Node* pCCBFileNode, CCBReader* ccbReader);
+    };
 
-}
+} // namespace cocosbuilder
 
 #endif

@@ -45,8 +45,8 @@
 
 NS_CC_BEGIN
 
-
-MeshCommand::MeshCommand() : RenderCommand(RenderCommand::Type::MESH_COMMAND)
+MeshCommand::MeshCommand()
+: RenderCommand(RenderCommand::Type::MESH_COMMAND)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     // listen the event that renderer was recreated on Android/WP8
@@ -55,15 +55,8 @@ MeshCommand::MeshCommand() : RenderCommand(RenderCommand::Type::MESH_COMMAND)
 #endif
 }
 
-void MeshCommand::init(float globalZOrder,
-                       Material* material,
-                       GLuint vertexBuffer,
-                       GLuint indexBuffer,
-                       GLenum primitive,
-                       GLenum indexFormat,
-                       ssize_t indexCount,
-                       const cocos2d::Mat4 &mv,
-                       uint32_t flags)
+void MeshCommand::init(float globalZOrder, Material* material, GLuint vertexBuffer, GLuint indexBuffer, GLenum primitive, GLenum indexFormat,
+                       ssize_t indexCount, const cocos2d::Mat4& mv, uint32_t flags)
 {
     CCASSERT(material, "material cannot be null");
 
@@ -82,17 +75,8 @@ void MeshCommand::init(float globalZOrder,
     _is3D = true;
 }
 
-void MeshCommand::init(float globalZOrder,
-                       GLuint textureID,
-                       GLProgramState* glProgramState,
-                       RenderState::StateBlock* stateBlock,
-                       GLuint vertexBuffer,
-                       GLuint indexBuffer,
-                       GLenum primitive,
-                       GLenum indexFormat,
-                       ssize_t indexCount,
-                       const cocos2d::Mat4& mv,
-                       uint32_t flags)
+void MeshCommand::init(float globalZOrder, GLuint textureID, GLProgramState* glProgramState, RenderState::StateBlock* stateBlock, GLuint vertexBuffer,
+                       GLuint indexBuffer, GLenum primitive, GLenum indexFormat, ssize_t indexCount, const cocos2d::Mat4& mv, uint32_t flags)
 {
     CCASSERT(glProgramState, "GLProgramState cannot be null");
     CCASSERT(stateBlock, "StateBlock cannot be null");
@@ -115,9 +99,7 @@ void MeshCommand::init(float globalZOrder,
     _mv.set(mv);
 
     _is3D = true;
-
 }
-
 
 void MeshCommand::setDisplayColor(const Vec4& color)
 {
@@ -163,7 +145,7 @@ template <class T>
 inline constexpr void hash_combine(std::size_t& seed, T const& v)
 {
     std::hash<T> hasher;
-    seed ^= hasher(v) + 0x9e3779b9 + (seed<<6) + (seed>>2);
+    seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
 
 void MeshCommand::genMaterialID(GLuint texID, void* glProgramState, GLuint vertexBuffer, GLuint indexBuffer, BlendFunc blend)
@@ -203,9 +185,7 @@ void MeshCommand::preBatchDraw()
             glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
 
             // FIXME: Assumes that all the passes in the Material share the same Vertex Attribs
-            GLProgramState* programState = _material
-                                            ? _material->_currentTechnique->_passes.at(0)->getGLProgramState()
-                                            : _glProgramState;
+            GLProgramState* programState = _material ? _material->_currentTechnique->_passes.at(0)->getGLProgramState() : _glProgramState;
             programState->applyAttributes();
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
         }
@@ -216,7 +196,7 @@ void MeshCommand::batchDraw()
 {
     if (_material)
     {
-        for(const auto& pass: _material->_currentTechnique->_passes)
+        for (const auto& pass : _material->_currentTechnique->_passes)
         {
             pass->bind(_mv);
 
@@ -267,7 +247,7 @@ void MeshCommand::execute()
 
     if (_material)
     {
-        for(const auto& pass: _material->_currentTechnique->_passes)
+        for (const auto& pass : _material->_currentTechnique->_passes)
         {
             pass->bind(_mv, true);
 
@@ -297,16 +277,15 @@ void MeshCommand::execute()
 void MeshCommand::buildVAO()
 {
     // FIXME: Assumes that all the passes in the Material share the same Vertex Attribs
-    GLProgramState* programState = (_material != nullptr)
-                                    ? _material->_currentTechnique->_passes.at(0)->getGLProgramState()
-                                    : _glProgramState;
+    GLProgramState* programState = (_material != nullptr) ? _material->_currentTechnique->_passes.at(0)->getGLProgramState() : _glProgramState;
 
     releaseVAO();
     glGenVertexArrays(1, &_vao);
     GL::bindVAO(_vao);
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
     auto flags = programState->getVertexAttribsFlags();
-    for (int i = 0; flags > 0; i++) {
+    for (int i = 0; flags > 0; i++)
+    {
         int flag = 1 << i;
         if (flag & flags)
             glEnableVertexAttribArray(i);

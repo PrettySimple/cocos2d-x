@@ -29,8 +29,8 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#include "platform/CCCommon.h"
-#include "platform/CCApplicationProtocol.h"
+#    include "platform/CCApplicationProtocol.h"
+#    include "platform/CCCommon.h"
 
 NS_CC_BEGIN
 
@@ -48,21 +48,21 @@ public:
      * @lua NA
      */
     virtual ~Application();
-        
+
     /**
     @brief    Run the message loop.
     */
     int run();
-        
+
     /**
     @brief    Get the current application instance.
     @return Current application instance pointer.
     */
     static Application* getInstance();
-    
+
     /** @deprecated Use getInstance() instead */
     CC_DEPRECATED_ATTRIBUTE static Application* sharedApplication();
-    
+
     /**
      @brief    Callback by Director for limit FPS.
      @param interval    The time, expressed in seconds, between current frame and next.
@@ -74,29 +74,29 @@ public:
     @return Current language config
     */
     virtual LanguageType getCurrentLanguage() override;
-    
+
     /**
      @brief Get current language iso 639-1 code
      @return Current language iso 639-1 code
      */
-    virtual const char * getCurrentLanguageCode() override;
-    
+    virtual const char* getCurrentLanguageCode() override;
+
     /**
      @brief Get target platform
      */
     virtual Platform getTargetPlatform() override;
-    
+
     /**
      @brief Get application version.
      */
     virtual std::string getVersion() override;
-    
+
     /**
      @brief Open url in default browser
      @param String with url to open.
      @return true if the resource located by the URL was successfully opened; otherwise false.
      */
-    virtual bool openURL(const std::string &url) override;
+    virtual bool openURL(const std::string& url) override;
 
     /**
     @brief  This function will be called when the application screen size is changed.
@@ -104,18 +104,18 @@ public:
     @param new height
     */
     virtual void applicationScreenSizeChanged(int newWidth, int newHeight);
-    
+
     /**
      @brief  This function will be called when the application receives a memory warning.
      */
     virtual void applicationReceivedMemoryWarning();
 
 protected:
-    static Application * sm_pSharedApplication;
+    static Application* sm_pSharedApplication;
 };
 
 NS_CC_END
 
 #endif // CC_PLATFORM_IOS
 
-#endif    // end of __CC_APPLICATION_IOS_H__
+#endif // end of __CC_APPLICATION_IOS_H__

@@ -88,9 +88,7 @@ public:
      * @lua NA
      */
     virtual void tableCellWillRecycle(TableView* table, TableViewCell* cell){};
-
 };
-
 
 /**
  * Data source that governs table backend data.
@@ -110,34 +108,28 @@ public:
      * @param idx the index of a cell to get a size
      * @return size of a cell at given index
      */
-    virtual Size tableCellSizeForIndex(TableView *table, ssize_t idx) {
-        return cellSizeForTable(table);
-    };
+    virtual Size tableCellSizeForIndex(TableView* table, ssize_t idx) { return cellSizeForTable(table); };
     /**
      * cell height for a given table.
      *
      * @param table table to hold the instances of Class
      * @return cell size
      */
-    virtual Size cellSizeForTable(TableView *table) {
-        return Size::ZERO;
-    };
+    virtual Size cellSizeForTable(TableView* table) { return Size::ZERO; };
     /**
      * a cell instance at a given index
      *
      * @param idx index to search for a cell
      * @return cell found at idx
      */
-    virtual TableViewCell* tableCellAtIndex(TableView *table, ssize_t idx) = 0;
+    virtual TableViewCell* tableCellAtIndex(TableView* table, ssize_t idx) = 0;
     /**
      * Returns number of cells in a given table view.
      *
      * @return number of cells
      */
-    virtual ssize_t numberOfCellsInTableView(TableView *table) = 0;
-
+    virtual ssize_t numberOfCellsInTableView(TableView* table) = 0;
 };
-
 
 /**
  * UITableView support for cocos2d-x.
@@ -147,16 +139,15 @@ public:
 class CC_EX_DLL TableView : public ScrollView, public ScrollViewDelegate
 {
 public:
-    
     enum class VerticalFillOrder
     {
         TOP_DOWN,
         BOTTOM_UP
     };
-    
+
     /** Empty constructor of TableView */
     static TableView* create();
-    
+
     /**
      * An initialized table view object
      *
@@ -185,7 +176,7 @@ public:
      * in lua:
      * @endcode
      */
-    static TableView* create(TableViewDataSource* dataSource, Size size, Node *container);
+    static TableView* create(TableViewDataSource* dataSource, Size size, Node* container);
     /**
      * @js ctor
      * @lua new
@@ -260,7 +251,7 @@ public:
      *
      * @return free cell
      */
-    TableViewCell *dequeueCell();
+    TableViewCell* dequeueCell();
 
     /**
      * Returns an existing cell at a given index. Returns nil if a cell is nonexistent at the moment of query.
@@ -268,15 +259,15 @@ public:
      * @param idx index
      * @return a cell at a given index
      */
-    TableViewCell *cellAtIndex(ssize_t idx);
+    TableViewCell* cellAtIndex(ssize_t idx);
 
     // Overrides
     virtual void scrollViewDidScroll(ScrollView* view) override;
-    virtual void scrollViewDidZoom(ScrollView* view)  override {}
-    virtual bool onTouchBegan(Touch *pTouch, Event *pEvent) override;
-    virtual void onTouchMoved(Touch *pTouch, Event *pEvent) override;
-    virtual void onTouchEnded(Touch *pTouch, Event *pEvent) override;
-    virtual void onTouchCancelled(Touch *pTouch, Event *pEvent) override;
+    virtual void scrollViewDidZoom(ScrollView* view) override {}
+    virtual bool onTouchBegan(Touch* pTouch, Event* pEvent) override;
+    virtual void onTouchMoved(Touch* pTouch, Event* pEvent) override;
+    virtual void onTouchEnded(Touch* pTouch, Event* pEvent) override;
+    virtual void onTouchCancelled(Touch* pTouch, Event* pEvent) override;
 
 protected:
     long __indexFromOffset(Vec2 offset);
@@ -284,14 +275,13 @@ protected:
     Vec2 __offsetFromIndex(ssize_t index);
     Vec2 _offsetFromIndex(ssize_t index);
 
-    void _moveCellOutOfSight(TableViewCell *cell);
-    void _setIndexForCell(ssize_t index, TableViewCell *cell);
-    void _addCellIfNecessary(TableViewCell * cell);
+    void _moveCellOutOfSight(TableViewCell* cell);
+    void _setIndexForCell(ssize_t index, TableViewCell* cell);
+    void _addCellIfNecessary(TableViewCell* cell);
 
     void _updateCellPositions();
 
-
-    TableViewCell *_touchedCell;
+    TableViewCell* _touchedCell;
     /**
      * vertical direction of cell filling
      */
@@ -306,7 +296,7 @@ protected:
      * vector with all cell positions
      */
     std::vector<float> _vCellsPositions;
-    //NSMutableIndexSet *indices_;
+    // NSMutableIndexSet *indices_;
     /**
      * cells that are currently in the table
      */
@@ -330,7 +320,6 @@ protected:
 
 public:
     void _updateContentSize();
-
 };
 
 NS_CC_EXT_END

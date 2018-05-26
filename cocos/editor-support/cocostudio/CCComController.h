@@ -25,61 +25,61 @@ THE SOFTWARE.
 #ifndef __CC_EXTENTIONS_CCCOMCONTROLLER_H__
 #define __CC_EXTENTIONS_CCCOMCONTROLLER_H__
 
+#include "2d/CCComponent.h"
 #include "CCComBase.h"
 #include "cocostudio/CCInputDelegate.h"
 #include "cocostudio/CocosStudioExport.h"
-#include "2d/CCComponent.h"
 
-namespace cocostudio {
-
-class CC_STUDIO_DLL ComController : public cocos2d::Component, public InputDelegate
+namespace cocostudio
 {
-    DECLARE_CLASS_COMPONENT_INFO
-public:
-    /**
-     *  @js ctor
-     */
-    ComController();
-    
-public:
-    const static std::string COMPONENT_NAME;
+    class CC_STUDIO_DLL ComController : public cocos2d::Component, public InputDelegate
+    {
+        DECLARE_CLASS_COMPONENT_INFO
+    public:
+        /**
+         *  @js ctor
+         */
+        ComController();
 
-    static ComController* create();
+    public:
+        const static std::string COMPONENT_NAME;
 
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~ComController();
+        static ComController* create();
 
-    virtual bool init() override;
+        /**
+         * @js NA
+         * @lua NA
+         */
+        virtual ~ComController();
 
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual void onEnter() override;
+        virtual bool init() override;
 
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual void onExit() override;
+        /**
+         * @js NA
+         * @lua NA
+         */
+        virtual void onEnter() override;
 
-    /**
-    * @js NA
-    * @lua NA
-    */
-    virtual void onAdd() override;
+        /**
+         * @js NA
+         * @lua NA
+         */
+        virtual void onExit() override;
 
-    /**
-    * @js NA
-    * @lua NA
-    */
-    virtual void onRemove() override;
-    virtual void update(float delta) override;
-};
+        /**
+         * @js NA
+         * @lua NA
+         */
+        virtual void onAdd() override;
 
-}
+        /**
+         * @js NA
+         * @lua NA
+         */
+        virtual void onRemove() override;
+        virtual void update(float delta) override;
+    };
 
-#endif  // __CC_EXTENTIONS_CCCOMCONTROLLER_H__
+} // namespace cocostudio
+
+#endif // __CC_EXTENTIONS_CCCOMCONTROLLER_H__

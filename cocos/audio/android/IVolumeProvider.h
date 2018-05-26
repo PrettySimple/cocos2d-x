@@ -25,20 +25,21 @@ THE SOFTWARE.
 
 #include "audio/android/audio_utils/include/audio_utils/minifloat.h"
 
-namespace cocos2d { namespace experimental {
-
-class IVolumeProvider
+namespace cocos2d
 {
-public:
-    // The provider implementation is responsible for validating that the return value is in range.
-    virtual gain_minifloat_packed_t getVolumeLR() = 0;
+    namespace experimental
+    {
+        class IVolumeProvider
+        {
+        public:
+            // The provider implementation is responsible for validating that the return value is in range.
+            virtual gain_minifloat_packed_t getVolumeLR() = 0;
 
-protected:
-    IVolumeProvider()
-    { }
+        protected:
+            IVolumeProvider() {}
 
-    virtual ~IVolumeProvider()
-    { }
-};
+            virtual ~IVolumeProvider() {}
+        };
 
-}} // namespace cocos2d { namespace experimental {
+    } // namespace experimental
+} // namespace cocos2d

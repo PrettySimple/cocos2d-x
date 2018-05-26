@@ -28,10 +28,10 @@
 #include "platform/android/jni/JniHelper.h"
 
 #define JCLS_DOWNLOADER "org/cocos2dx/lib/Cocos2dxDownloader"
-#define JCLS_TASK       "com/loopj/android/http/RequestHandle"
-#define JARG_STR        "Ljava/lang/String;"
+#define JCLS_TASK "com/loopj/android/http/RequestHandle"
+#define JARG_STR "Ljava/lang/String;"
 #define JARG_DOWNLOADER "L" JCLS_DOWNLOADER ";"
-#define JARG_TASK       "L" JCLS_TASK ";"
+#define JARG_TASK "L" JCLS_TASK ";"
 
 using namespace std;
 
@@ -39,8 +39,10 @@ static bool _registerNativeMethods(JNIEnv* env);
 
 unordered_map<int, cocos2d::network::DownloaderAndroid*> sDownloaderMap;
 
-namespace cocos2d { namespace network {
-
+namespace cocos2d
+{
+    namespace network
+    {
         static int sTaskCounter;
         static int sDownloaderCounter;
         static bool _registered = false;
@@ -48,17 +50,14 @@ namespace cocos2d { namespace network {
         struct DownloadTaskAndroid : public IDownloadTask
         {
             DownloadTaskAndroid()
-            :id(++sTaskCounter)
+            : id(++sTaskCounter)
             {
                 DLLOG("Construct DownloadTaskAndroid: %p", this);
             }
-            virtual  ~DownloadTaskAndroid()
-            {
-                DLLOG("Destruct DownloadTaskAndroid: %p", this);
-            }
+            virtual ~DownloadTaskAndroid() { DLLOG("Destruct DownloadTaskAndroid: %p", this); }
 
             int id;
-            shared_ptr<const DownloadTask> task;    // reference to DownloadTask, when task finish, release
+            shared_ptr<const DownloadTask> task; // reference to DownloadTask, when task finish, release
         };
 
         DownloaderAndroid::DownloaderAndroid(const DownloaderHints& hints)
@@ -67,20 +66,11 @@ namespace cocos2d { namespace network {
         {
             DLLOG("Construct DownloaderAndroid: %p", this);
             JniMethodInfo methodInfo;
-            if (JniHelper::getStaticMethodInfo(methodInfo,
-                                               JCLS_DOWNLOADER,
-                                               "createDownloader",
-                                               "(II" JARG_STR "I)" JARG_DOWNLOADER))
+            if (JniHelper::getStaticMethodInfo(methodInfo, JCLS_DOWNLOADER, "createDownloader", "(II" JARG_STR "I)" JARG_DOWNLOADER))
             {
                 jobject jStr = methodInfo.env->NewStringUTF(hints.tempFileNameSuffix.c_str());
-                jobject jObj = methodInfo.env->CallStaticObjectMethod(
-                        methodInfo.classID,
-                        methodInfo.methodID,
-                        _id,
-                        hints.timeoutInSeconds,
-                        jStr,
-                        hints.countOfMaxProcessingTasks
-                );
+                jobject jObj = methodInfo.env->CallStaticObjectMethod(methodInfo.classID, methodInfo.methodID, _id, hints.timeoutInSeconds, jStr,
+                                                                      hints.countOfMaxProcessingTasks);
                 _impl = methodInfo.env->NewGlobalRef(jObj);
                 DLLOG("android downloader: jObj: %p, _impl: %p", jObj, _impl);
                 sDownloaderMap.insert(make_pair(_id, this));
@@ -92,19 +82,12 @@ namespace cocos2d { namespace network {
 
         DownloaderAndroid::~DownloaderAndroid()
         {
-            if(_impl != nullptr)
+            if (_impl != nullptr)
             {
                 JniMethodInfo methodInfo;
-                if (JniHelper::getStaticMethodInfo(methodInfo,
-                                                   JCLS_DOWNLOADER,
-                                                   "cancelAllRequests",
-                                                   "(" JARG_DOWNLOADER ")V"))
+                if (JniHelper::getStaticMethodInfo(methodInfo, JCLS_DOWNLOADER, "cancelAllRequests", "(" JARG_DOWNLOADER ")V"))
                 {
-                    methodInfo.env->CallStaticVoidMethod(
-                            methodInfo.classID,
-                            methodInfo.methodID,
-                            _impl
-                    );
+                    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, _impl);
                     methodInfo.env->DeleteLocalRef(methodInfo.classID);
                 }
                 sDownloaderMap.erase(_id);
@@ -113,19 +96,16 @@ namespace cocos2d { namespace network {
             DLLOG("Destruct DownloaderAndroid: %p", this);
         }
 
-        IDownloadTask *DownloaderAndroid::createCoTask(std::shared_ptr<const DownloadTask>& task)
+        IDownloadTask* DownloaderAndroid::createCoTask(std::shared_ptr<const DownloadTask>& task)
         {
-            DownloadTaskAndroid *coTask = new DownloadTaskAndroid;
+            DownloadTaskAndroid* coTask = new DownloadTaskAndroid;
             coTask->task = task;
 
             JniMethodInfo methodInfo;
-            if (JniHelper::getStaticMethodInfo(methodInfo,
-                                               JCLS_DOWNLOADER,
-                                               "createTask",
-                                               "(" JARG_DOWNLOADER "I" JARG_STR JARG_STR")V"))
+            if (JniHelper::getStaticMethodInfo(methodInfo, JCLS_DOWNLOADER, "createTask", "(" JARG_DOWNLOADER "I" JARG_STR JARG_STR ")V"))
             {
                 jstring jstrURL = methodInfo.env->NewStringUTF(task->requestURL.c_str());
-                jstring jstrPath= methodInfo.env->NewStringUTF(task->storagePath.c_str());
+                jstring jstrPath = methodInfo.env->NewStringUTF(task->storagePath.c_str());
                 methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, _impl, coTask->id, jstrURL, jstrPath);
                 methodInfo.env->DeleteLocalRef(jstrURL);
                 methodInfo.env->DeleteLocalRef(jstrPath);
@@ -146,44 +126,38 @@ namespace cocos2d { namespace network {
                 DLLOG("DownloaderAndroid::onProgress can't find task with id: %d", taskId);
                 return;
             }
-            DownloadTaskAndroid *coTask = iter->second;
+            DownloadTaskAndroid* coTask = iter->second;
             function<int64_t(void*, int64_t)> transferDataToBuffer;
             onTaskProgress(*coTask->task, dl, dlNow, dlTotal, transferDataToBuffer);
         }
 
-        void DownloaderAndroid::_onFinish(int taskId, int errCode, const char *errStr, vector<unsigned char>& data)
+        void DownloaderAndroid::_onFinish(int taskId, int errCode, const char* errStr, vector<unsigned char>& data)
         {
-            DLLOG("DownloaderAndroid::_onFinish(taskId: %d, errCode: %d, errStr: %s)", taskId, errCode, (errStr)?errStr:"null");
+            DLLOG("DownloaderAndroid::_onFinish(taskId: %d, errCode: %d, errStr: %s)", taskId, errCode, (errStr) ? errStr : "null");
             auto iter = _taskMap.find(taskId);
             if (_taskMap.end() == iter)
             {
                 DLLOG("DownloaderAndroid::_onFinish can't find task with id: %d", taskId);
                 return;
             }
-            DownloadTaskAndroid *coTask = iter->second;
+            DownloadTaskAndroid* coTask = iter->second;
             string str = (errStr ? errStr : "");
             _taskMap.erase(iter);
-            onTaskFinish(*coTask->task,
-                         errStr ? DownloadTask::ERROR_IMPL_INTERNAL : DownloadTask::ERROR_NO_ERROR,
-                         errCode,
-                         str,
-                         data
-            );
+            onTaskFinish(*coTask->task, errStr ? DownloadTask::ERROR_IMPL_INTERNAL : DownloadTask::ERROR_NO_ERROR, errCode, str, data);
             coTask->task.reset();
         }
 
-
         void _preloadJavaDownloaderClass()
         {
-            if(!_registered)
+            if (!_registered)
             {
                 _registered = _registerNativeMethods(JniHelper::getEnv());
             }
         }
-    }
-}  // namespace cocos2d::network
+    } // namespace network
+} // namespace cocos2d
 
-static void _nativeOnProgress(JNIEnv *env, jclass clazz, jint id, jint taskId, jlong dl, jlong dlnow, jlong dltotal)
+static void _nativeOnProgress(JNIEnv* env, jclass clazz, jint id, jint taskId, jlong dl, jlong dlnow, jlong dltotal)
 {
     DLLOG("_nativeOnProgress(id: %d, taskId: %d, dl: %lld, dlnow: %lld, dltotal: %lld)", id, taskId, dl, dlnow, dltotal);
     auto iter = sDownloaderMap.find(id);
@@ -192,11 +166,11 @@ static void _nativeOnProgress(JNIEnv *env, jclass clazz, jint id, jint taskId, j
         DLLOG("_nativeOnProgress can't find downloader by key: %p for task: %d", clazz, id);
         return;
     }
-    cocos2d::network::DownloaderAndroid *downloader = iter->second;
+    cocos2d::network::DownloaderAndroid* downloader = iter->second;
     downloader->_onProcess((int)taskId, (int64_t)dl, (int64_t)dlnow, (int64_t)dltotal);
 }
 
-static void _nativeOnFinish(JNIEnv *env, jclass clazz, jint id, jint taskId, jint errCode, jstring errStr, jbyteArray data)
+static void _nativeOnFinish(JNIEnv* env, jclass clazz, jint id, jint taskId, jint errCode, jstring errStr, jbyteArray data)
 {
     DLLOG("_nativeOnFinish(id: %d, taskId: %d)", id, taskId);
     auto iter = sDownloaderMap.find(id);
@@ -205,12 +179,12 @@ static void _nativeOnFinish(JNIEnv *env, jclass clazz, jint id, jint taskId, jin
         DLLOG("_nativeOnFinish can't find downloader id: %d for task: %d", id, taskId);
         return;
     }
-    cocos2d::network::DownloaderAndroid *downloader = iter->second;
+    cocos2d::network::DownloaderAndroid* downloader = iter->second;
     vector<unsigned char> buf;
     if (errStr)
     {
         // failure
-        const char *nativeErrStr = env->GetStringUTFChars(errStr, JNI_FALSE);
+        const char* nativeErrStr = env->GetStringUTFChars(errStr, JNI_FALSE);
         downloader->_onFinish((int)taskId, (int)errCode, nativeErrStr, buf);
         env->ReleaseStringUTFChars(errStr, nativeErrStr);
         return;
@@ -231,8 +205,8 @@ static void _nativeOnFinish(JNIEnv *env, jclass clazz, jint id, jint taskId, jin
 }
 
 static JNINativeMethod sMethodTable[] = {
-        { "nativeOnProgress", "(IIJJJ)V", (void*)_nativeOnProgress },
-        { "nativeOnFinish", "(III" JARG_STR "[B)V", (void*)_nativeOnFinish },
+    {"nativeOnProgress", "(IIJJJ)V", (void*)_nativeOnProgress},
+    {"nativeOnFinish", "(III" JARG_STR "[B)V", (void*)_nativeOnFinish},
 };
 
 static bool _registerNativeMethods(JNIEnv* env)

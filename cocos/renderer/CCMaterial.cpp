@@ -28,19 +28,18 @@
  ****************************************************************************/
 
 #include "renderer/CCMaterial.h"
-#include "renderer/CCTechnique.h"
-#include "renderer/CCPass.h"
-#include "renderer/CCTextureCache.h"
-#include "renderer/CCTexture2D.h"
+#include "base/CCDirector.h"
+#include "base/CCProperties.h"
+#include "platform/CCFileUtils.h"
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramState.h"
-#include "base/CCProperties.h"
-#include "base/CCDirector.h"
-#include "platform/CCFileUtils.h"
-
+#include "renderer/CCPass.h"
+#include "renderer/CCTechnique.h"
+#include "renderer/CCTexture2D.h"
+#include "renderer/CCTextureCache.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-#define strcasecmp _stricmp
+#    define strcasecmp _stricmp
 #endif
 
 NS_CC_BEGIN
@@ -52,7 +51,8 @@ static bool isValidUniform(const char* name);
 Material* Material::createWithFilename(const std::string& filepath)
 {
     auto validfilename = FileUtils::getInstance()->fullPathForFilename(filepath);
-    if (validfilename.size() > 0) {
+    if (validfilename.size() > 0)
+    {
         auto mat = new (std::nothrow) Material();
         if (mat && mat->initWithFile(validfilename))
         {
@@ -84,15 +84,15 @@ Material* Material::createWithGLStateProgram(GLProgramState* programState)
     {
         mat->autorelease();
         return mat;
-
     }
     return nullptr;
 }
 
-bool Material::initWithGLProgramState(cocos2d::GLProgramState *state)
+bool Material::initWithGLProgramState(cocos2d::GLProgramState* state)
 {
     auto technique = Technique::createWithGLProgramState(this, state);
-    if (technique) {
+    if (technique)
+    {
         _techniques.pushBack(technique);
 
         // weak pointer
@@ -120,7 +120,7 @@ bool Material::initWithProperties(Properties* materialProperties)
     return parseProperties(materialProperties);
 }
 
-void Material::setTarget(cocos2d::Node *target)
+void Material::setTarget(cocos2d::Node* target)
 {
     _target = target;
 }
@@ -142,7 +142,6 @@ bool Material::parseProperties(Properties* materialProperties)
         }
 
         space = materialProperties->getNextNamespace();
-
     }
     return true;
 }
@@ -158,7 +157,6 @@ bool Material::parseTechnique(Properties* techniqueProperties)
 
     // name
     technique->setName(techniqueProperties->getId());
-
 
     // passes
     auto space = techniqueProperties->getNextNamespace();
@@ -198,7 +196,8 @@ bool Material::parsePass(Technique* technique, Properties* passProperties)
             parseShader(pass, space);
         else if (strcmp(name, "renderState") == 0)
             parseRenderState(pass, space);
-        else {
+        else
+        {
             CCASSERT(false, "Invalid namespace");
             return false;
         }
@@ -213,12 +212,13 @@ bool Material::parsePass(Technique* technique, Properties* passProperties)
 bool Material::parseSampler(GLProgramState* glProgramState, Properties* samplerProperties)
 {
     CCASSERT(samplerProperties->getId(), "Sampler must have an id. The id is the uniform name");
-    
+
     // required
     auto filename = samplerProperties->getString("path");
 
     auto texture = Director::getInstance()->getTextureCache()->addImage(filename);
-    if (!texture) {
+    if (!texture)
+    {
         CCLOG("Invalid filepath");
         return false;
     }
@@ -231,53 +231,52 @@ bool Material::parseSampler(GLProgramState* glProgramState, Properties* samplerP
         // mipmap
         bool usemipmap = false;
         const char* mipmap = getOptionalString(samplerProperties, "mipmap", "false");
-        if (mipmap && strcasecmp(mipmap, "true")==0) {
+        if (mipmap && strcasecmp(mipmap, "true") == 0)
+        {
             texture->generateMipmap();
             usemipmap = true;
         }
 
         // valid options: REPEAT, CLAMP
         const char* wrapS = getOptionalString(samplerProperties, "wrapS", "CLAMP_TO_EDGE");
-        if (strcasecmp(wrapS, "REPEAT")==0)
+        if (strcasecmp(wrapS, "REPEAT") == 0)
             texParams.wrapS = GL_REPEAT;
-        else if(strcasecmp(wrapS, "CLAMP_TO_EDGE")==0)
+        else if (strcasecmp(wrapS, "CLAMP_TO_EDGE") == 0)
             texParams.wrapS = GL_CLAMP_TO_EDGE;
         else
             CCLOG("Invalid wrapS: %s", wrapS);
 
-
         // valid options: REPEAT, CLAMP
         const char* wrapT = getOptionalString(samplerProperties, "wrapT", "CLAMP_TO_EDGE");
-        if (strcasecmp(wrapT, "REPEAT")==0)
+        if (strcasecmp(wrapT, "REPEAT") == 0)
             texParams.wrapT = GL_REPEAT;
-        else if(strcasecmp(wrapT, "CLAMP_TO_EDGE")==0)
+        else if (strcasecmp(wrapT, "CLAMP_TO_EDGE") == 0)
             texParams.wrapT = GL_CLAMP_TO_EDGE;
         else
             CCLOG("Invalid wrapT: %s", wrapT);
 
-
         // valid options: NEAREST, LINEAR, NEAREST_MIPMAP_NEAREST, LINEAR_MIPMAP_NEAREST, NEAREST_MIPMAP_LINEAR, LINEAR_MIPMAP_LINEAR
         const char* minFilter = getOptionalString(samplerProperties, "minFilter", usemipmap ? "LINEAR_MIPMAP_NEAREST" : "LINEAR");
-        if (strcasecmp(minFilter, "NEAREST")==0)
+        if (strcasecmp(minFilter, "NEAREST") == 0)
             texParams.minFilter = GL_NEAREST;
-        else if(strcasecmp(minFilter, "LINEAR")==0)
+        else if (strcasecmp(minFilter, "LINEAR") == 0)
             texParams.minFilter = GL_LINEAR;
-        else if(strcasecmp(minFilter, "NEAREST_MIPMAP_NEAREST")==0)
+        else if (strcasecmp(minFilter, "NEAREST_MIPMAP_NEAREST") == 0)
             texParams.minFilter = GL_NEAREST_MIPMAP_NEAREST;
-        else if(strcasecmp(minFilter, "LINEAR_MIPMAP_NEAREST")==0)
+        else if (strcasecmp(minFilter, "LINEAR_MIPMAP_NEAREST") == 0)
             texParams.minFilter = GL_LINEAR_MIPMAP_NEAREST;
-        else if(strcasecmp(minFilter, "NEAREST_MIPMAP_LINEAR")==0)
+        else if (strcasecmp(minFilter, "NEAREST_MIPMAP_LINEAR") == 0)
             texParams.minFilter = GL_NEAREST_MIPMAP_LINEAR;
-        else if(strcasecmp(minFilter, "LINEAR_MIPMAP_LINEAR")==0)
+        else if (strcasecmp(minFilter, "LINEAR_MIPMAP_LINEAR") == 0)
             texParams.minFilter = GL_LINEAR_MIPMAP_LINEAR;
         else
             CCLOG("Invalid minFilter: %s", minFilter);
 
         // valid options: NEAREST, LINEAR
         const char* magFilter = getOptionalString(samplerProperties, "magFilter", "LINEAR");
-        if (strcasecmp(magFilter, "NEAREST")==0)
+        if (strcasecmp(magFilter, "NEAREST") == 0)
             texParams.magFilter = GL_NEAREST;
-        else if(strcasecmp(magFilter, "LINEAR")==0)
+        else if (strcasecmp(magFilter, "LINEAR") == 0)
             texParams.magFilter = GL_LINEAR;
         else
             CCLOG("Invalid magFilter: %s", magFilter);
@@ -338,7 +337,8 @@ bool Material::parseUniform(GLProgramState* programState, Properties* properties
 
     auto type = properties->getType(uniformName);
 
-    switch (type) {
+    switch (type)
+    {
         case Properties::Type::NUMBER:
         {
             auto f = properties->getFloat(uniformName);
@@ -389,7 +389,6 @@ bool Material::parseUniform(GLProgramState* programState, Properties* properties
     return ret;
 }
 
-
 bool Material::parseRenderState(RenderState* renderState, Properties* properties)
 {
     auto state = renderState->getStateBlock();
@@ -407,7 +406,7 @@ bool Material::parseRenderState(RenderState* renderState, Properties* properties
     return true;
 }
 
-void Material::setName(const std::string&name)
+void Material::setName(const std::string& name)
 {
     _name = name;
 }
@@ -435,7 +434,7 @@ Material* Material::clone() const
     {
         RenderState::cloneInto(material);
 
-        for (const auto& technique: _techniques)
+        for (const auto& technique : _techniques)
         {
             auto t = technique->clone();
             t->_parent = material;
@@ -463,8 +462,9 @@ const Vector<Technique*>& Material::getTechniques() const
 
 Technique* Material::getTechniqueByName(const std::string& name)
 {
-    for(const auto& technique : _techniques) {
-        if (technique->getName().compare(name)==0)
+    for (const auto& technique : _techniques)
+    {
+        if (technique->getName().compare(name) == 0)
             return technique;
     }
     return nullptr;
@@ -472,7 +472,7 @@ Technique* Material::getTechniqueByName(const std::string& name)
 
 Technique* Material::getTechniqueByIndex(ssize_t index)
 {
-    CC_ASSERT(index>=0 && index<_techniques.size() && "Invalid size");
+    CC_ASSERT(index >= 0 && index < _techniques.size() && "Invalid size");
 
     return _techniques.at(index);
 }
@@ -494,18 +494,14 @@ ssize_t Material::getTechniqueCount() const
     return _techniques.size();
 }
 
-
 // Helpers implementation
 static bool isValidUniform(const char* name)
 {
-    return !(strcmp(name, "defines")==0 ||
-            strcmp(name, "vertexShader")==0 ||
-            strcmp(name, "fragmentShader")==0);
+    return !(strcmp(name, "defines") == 0 || strcmp(name, "vertexShader") == 0 || strcmp(name, "fragmentShader") == 0);
 }
 
 static const char* getOptionalString(Properties* properties, const char* key, const char* defaultValue)
 {
-
     const char* ret = properties->getString(key);
     if (!ret)
         ret = defaultValue;

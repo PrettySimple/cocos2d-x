@@ -32,28 +32,29 @@ http://www.angelcode.com/products/bmfont/ (Free, Windows only)
 
 ****************************************************************************/
 #include "2d/CCLabelBMFont.h"
-#include "base/ccUTF8.h"
+
 #include "2d/CCSprite.h"
+#include "base/ccUTF8.h"
 
 #if CC_LABELBMFONT_DEBUG_DRAW
-#include "renderer/CCRenderer.h"
-#include "base/CCDirector.h"
+#    include "base/CCDirector.h"
+#    include "renderer/CCRenderer.h"
 #endif
 
 using namespace std;
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (push)
-#pragma warning (disable: 4996)
+#    pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#elif _MSC_VER >= 1400 // vs 2005 or higher
+#    pragma warning(push)
+#    pragma warning(disable : 4996)
 #endif
 
 NS_CC_BEGIN
 
-LabelBMFont * LabelBMFont::create()
+LabelBMFont* LabelBMFont::create()
 {
-    LabelBMFont * pRet = new (std::nothrow) LabelBMFont();
+    LabelBMFont* pRet = new (std::nothrow) LabelBMFont();
     if (pRet)
     {
         pRet->autorelease();
@@ -63,11 +64,12 @@ LabelBMFont * LabelBMFont::create()
     return nullptr;
 }
 
-//LabelBMFont - Creation & Init
-LabelBMFont *LabelBMFont::create(const std::string& str, const std::string& fntFile, float width /* = 0 */, TextHAlignment alignment /* = TextHAlignment::LEFT */,const Vec2& imageOffset /* = Vec2::ZERO */)
+// LabelBMFont - Creation & Init
+LabelBMFont* LabelBMFont::create(const std::string& str, const std::string& fntFile, float width /* = 0 */,
+                                 TextHAlignment alignment /* = TextHAlignment::LEFT */, const Vec2& imageOffset /* = Vec2::ZERO */)
 {
-    LabelBMFont *ret = new (std::nothrow) LabelBMFont();
-    if(ret && ret->initWithString(str, fntFile, width, alignment,imageOffset))
+    LabelBMFont* ret = new (std::nothrow) LabelBMFont();
+    if (ret && ret->initWithString(str, fntFile, width, alignment, imageOffset))
     {
         ret->autorelease();
         return ret;
@@ -76,9 +78,10 @@ LabelBMFont *LabelBMFont::create(const std::string& str, const std::string& fntF
     return nullptr;
 }
 
-bool LabelBMFont::initWithString(const std::string& str, const std::string& fntFile, float width /* = 0 */, TextHAlignment alignment /* = TextHAlignment::LEFT */,const Vec2& imageOffset /* = Vec2::ZERO */)
+bool LabelBMFont::initWithString(const std::string& str, const std::string& fntFile, float width /* = 0 */,
+                                 TextHAlignment alignment /* = TextHAlignment::LEFT */, const Vec2& imageOffset /* = Vec2::ZERO */)
 {
-    if (_label->setBMFontFilePath(fntFile,imageOffset))
+    if (_label->setBMFontFilePath(fntFile, imageOffset))
     {
         _fntFile = fntFile;
         _label->setMaxLineWidth(width);
@@ -98,7 +101,7 @@ LabelBMFont::LabelBMFont()
     this->addChild(_label);
     this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _cascadeOpacityEnabled = true;
-    
+
 #if CC_LABELBMFONT_DEBUG_DRAW
     _debugDrawNode = DrawNode::create();
     addChild(_debugDrawNode);
@@ -107,11 +110,10 @@ LabelBMFont::LabelBMFont()
 
 LabelBMFont::~LabelBMFont()
 {
-
 }
 
-//LabelBMFont - LabelProtocol protocol
-void LabelBMFont::setString(const std::string &newString)
+// LabelBMFont - LabelProtocol protocol
+void LabelBMFont::setString(const std::string& newString)
 {
     _label->setString(newString);
     this->setContentSize(_label->getContentSize());
@@ -127,7 +129,8 @@ const std::string& LabelBMFont::getString() const
 void LabelBMFont::setOpacityModifyRGB(bool var)
 {
     _label->setOpacityModifyRGB(var);
-    for(const auto &child : _children) {
+    for (const auto& child : _children)
+    {
         child->setOpacityModifyRGB(var);
     }
 }
@@ -149,7 +152,7 @@ void LabelBMFont::setWidth(float width)
     this->setContentSize(_label->getContentSize());
 }
 
-void LabelBMFont::setLineBreakWithoutSpace( bool breakWithoutSpace )
+void LabelBMFont::setLineBreakWithoutSpace(bool breakWithoutSpace)
 {
     _label->setLineBreakWithoutSpace(breakWithoutSpace);
     this->setContentSize(_label->getContentSize());
@@ -161,7 +164,7 @@ void LabelBMFont::setFntFile(const std::string& fntFile, const Vec2& imageOffset
     if (_fntFile.compare(fntFile) != 0)
     {
         _fntFile = fntFile;
-        _label->setBMFontFilePath(fntFile,imageOffset);
+        _label->setBMFontFilePath(fntFile, imageOffset);
     }
 }
 
@@ -175,12 +178,12 @@ std::string LabelBMFont::getDescription() const
     return StringUtils::format("<LabelBMFont | Tag = %d, Label = '%s'>", _tag, _label->getString().c_str());
 }
 
-void LabelBMFont::setBlendFunc(const BlendFunc &blendFunc)
+void LabelBMFont::setBlendFunc(const BlendFunc& blendFunc)
 {
     _label->setBlendFunc(blendFunc);
 }
 
-const BlendFunc &LabelBMFont::getBlendFunc() const
+const BlendFunc& LabelBMFont::getBlendFunc() const
 {
     return _label->getBlendFunc();
 }
@@ -211,27 +214,21 @@ Rect LabelBMFont::getBoundingBox() const
     return Node::getBoundingBox();
 }
 #if CC_LABELBMFONT_DEBUG_DRAW
-void LabelBMFont::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
+void LabelBMFont::draw(Renderer* renderer, const Mat4& transform, uint32_t flags)
 {
     Node::draw(renderer, transform, _transformUpdated);
 
     _debugDrawNode->clear();
     auto size = getContentSize();
-    Vec2 vertices[4]=
-    {
-        Vec2::ZERO,
-        Vec2(size.width, 0),
-        Vec2(size.width, size.height),
-        Vec2(0, size.height)
-    };
+    Vec2 vertices[4] = {Vec2::ZERO, Vec2(size.width, 0), Vec2(size.width, size.height), Vec2(0, size.height)};
     _debugDrawNode->drawPoly(vertices, 4, true, Color4F(1.0, 1.0, 1.0, 1.0));
 }
 #endif
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic warning "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (pop)
+#    pragma GCC diagnostic warning "-Wdeprecated-declarations"
+#elif _MSC_VER >= 1400 // vs 2005 or higher
+#    pragma warning(pop)
 #endif
 
 NS_CC_END

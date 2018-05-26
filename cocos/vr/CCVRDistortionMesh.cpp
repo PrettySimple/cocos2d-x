@@ -27,20 +27,15 @@
 
 #include <vector>
 
-#include "vr/CCVRDistortion.h"
 #include "math/Vec2.h"
 #include "platform/CCGL.h"
+#include "vr/CCVRDistortion.h"
 
 NS_CC_BEGIN
 
-DistortionMesh::DistortionMesh(Distortion *distortion,
-                               float screenWidth, float screenHeight,
-                               float xEyeOffsetScreen, float yEyeOffsetScreen,
-                               float textureWidth, float textureHeight,
-                               float xEyeOffsetTexture, float yEyeOffsetTexture,
-                               float viewportXTexture, float viewportYTexture,
-                               float viewportWidthTexture, float viewportHeightTexture,
-                               bool vignetteEnabled)
+DistortionMesh::DistortionMesh(Distortion* distortion, float screenWidth, float screenHeight, float xEyeOffsetScreen, float yEyeOffsetScreen,
+                               float textureWidth, float textureHeight, float xEyeOffsetTexture, float yEyeOffsetTexture, float viewportXTexture,
+                               float viewportYTexture, float viewportWidthTexture, float viewportHeightTexture, bool vignetteEnabled)
 : _indices(-1)
 , _arrayBufferID(-1)
 , _elementBufferID(-1)
@@ -60,8 +55,8 @@ DistortionMesh::DistortionMesh(Distortion *distortion,
     {
         for (int col = 0; col < cols; col++)
         {
-            const float uTexture = col / (cols-1.0f) * (viewportWidthTexture / textureWidth) + viewportXTexture / textureWidth;
-            const float vTexture = row / (rows-1.0f) * (viewportHeightTexture / textureHeight) + viewportYTexture / textureHeight;
+            const float uTexture = col / (cols - 1.0f) * (viewportWidthTexture / textureWidth) + viewportXTexture / textureWidth;
+            const float vTexture = row / (rows - 1.0f) * (viewportHeightTexture / textureHeight) + viewportYTexture / textureHeight;
 
             const float xTexture = uTexture * textureWidth - xEyeOffsetTexture;
             const float yTexture = vTexture * textureHeight - yEyeOffsetTexture;
@@ -77,12 +72,10 @@ DistortionMesh::DistortionMesh(Distortion *distortion,
 
             const float vignetteSizeTexture = vignetteSizeTanAngle / textureToScreen;
 
-            const float dxTexture = xTexture + xEyeOffsetTexture - clampf(xTexture + xEyeOffsetTexture,
-                                                                         viewportXTexture + vignetteSizeTexture,
-                                                                         viewportXTexture + viewportWidthTexture - vignetteSizeTexture);
-            const float dyTexture = yTexture + yEyeOffsetTexture - clampf(yTexture + yEyeOffsetTexture,
-                                                                         viewportYTexture + vignetteSizeTexture,
-                                                                         viewportYTexture + viewportHeightTexture - vignetteSizeTexture);
+            const float dxTexture = xTexture + xEyeOffsetTexture -
+                clampf(xTexture + xEyeOffsetTexture, viewportXTexture + vignetteSizeTexture, viewportXTexture + viewportWidthTexture - vignetteSizeTexture);
+            const float dyTexture = yTexture + yEyeOffsetTexture -
+                clampf(yTexture + yEyeOffsetTexture, viewportYTexture + vignetteSizeTexture, viewportYTexture + viewportHeightTexture - vignetteSizeTexture);
             const float drTexture = sqrtf(dxTexture * dxTexture + dyTexture * dyTexture);
 
             float vignette = 1.0f;
@@ -104,14 +97,14 @@ DistortionMesh::DistortionMesh(Distortion *distortion,
         }
     }
 
-    _indices = (rows-1)*cols*2+rows-2;
-//    GLshort indexData[_indices];
-	std::vector<GLshort> indexData(_indices);
+    _indices = (rows - 1) * cols * 2 + rows - 2;
+    //    GLshort indexData[_indices];
+    std::vector<GLshort> indexData(_indices);
     const int indexDataSize = _indices * sizeof(GLshort);
 
     int indexOffset = 0;
     vertexOffset = 0;
-    for (int row = 0; row < rows-1; row++)
+    for (int row = 0; row < rows - 1; row++)
     {
         if (row > 0)
         {
@@ -133,7 +126,7 @@ DistortionMesh::DistortionMesh(Distortion *distortion,
         vertexOffset += rows;
     }
 
-    GLuint bufferIDs[2] = { 0, 0 };
+    GLuint bufferIDs[2] = {0, 0};
     glGenBuffers(2, bufferIDs);
     _arrayBufferID = bufferIDs[0];
     _elementBufferID = bufferIDs[1];
@@ -147,7 +140,7 @@ DistortionMesh::DistortionMesh(Distortion *distortion,
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-//    GLCheckForError();
+    //    GLCheckForError();
 }
 
 NS_CC_END

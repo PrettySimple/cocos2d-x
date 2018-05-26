@@ -32,39 +32,42 @@
 #define QUOTEME(x) QUOTEME_(x)
 
 #if defined(COCOS2D_AUDIO_DEBUG) && COCOS2D_AUDIO_DEBUG > 0
-#define ALOGV(fmt, ...) printf("V/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
-#define ALOGD(fmt, ...) printf("D/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
-#define ALOGI(fmt, ...) printf("I/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
-#define ALOGW(fmt, ...) printf("W/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
-#define ALOGE(fmt, ...) printf("E/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
+#    define ALOGV(fmt, ...) printf("V/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
+#    define ALOGD(fmt, ...) printf("D/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
+#    define ALOGI(fmt, ...) printf("I/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
+#    define ALOGW(fmt, ...) printf("W/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
+#    define ALOGE(fmt, ...) printf("E/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
 #else
-#define ALOGV(fmt, ...)
-#define ALOGD(fmt, ...)
-#define ALOGI(fmt, ...)
-#define ALOGW(fmt, ...)
-#define ALOGE(fmt, ...)
+#    define ALOGV(fmt, ...)
+#    define ALOGD(fmt, ...)
+#    define ALOGI(fmt, ...)
+#    define ALOGW(fmt, ...)
+#    define ALOGE(fmt, ...)
 #endif
 
-
 #if defined(COCOS2D_AUDIO_DEBUG) && COCOS2D_AUDIO_DEBUG > 0
-#define CHECK_AL_ERROR_DEBUG() \
-do { \
-    GLenum __error = alGetError(); \
-    if (__error) { \
-        ALOGE("OpenAL error 0x%04X in %s %s %d\n", __error, __FILE__, __FUNCTION__, __LINE__); \
-    } \
-} while (false)
+#    define CHECK_AL_ERROR_DEBUG()                                                                     \
+        do                                                                                             \
+        {                                                                                              \
+            GLenum __error = alGetError();                                                             \
+            if (__error)                                                                               \
+            {                                                                                          \
+                ALOGE("OpenAL error 0x%04X in %s %s %d\n", __error, __FILE__, __FUNCTION__, __LINE__); \
+            }                                                                                          \
+        } while (false)
 #else
-#define CHECK_AL_ERROR_DEBUG()
+#    define CHECK_AL_ERROR_DEBUG()
 #endif
 
 #define BREAK_IF(condition) \
-    if (!!(condition)) { \
-        break; \
+    if (!!(condition))      \
+    {                       \
+        break;              \
     }
 
-#define BREAK_IF_ERR_LOG(condition, fmt, ...) \
-    if (!!(condition)) { \
+#define BREAK_IF_ERR_LOG(condition, fmt, ...)                                   \
+    if (!!(condition))                                                          \
+    {                                                                           \
         ALOGE("(" QUOTEME(condition) ") failed, message: " fmt, ##__VA_ARGS__); \
-        break; \
+        break;                                                                  \
     }

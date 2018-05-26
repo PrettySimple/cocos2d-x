@@ -63,42 +63,40 @@ enum class LightFlag
 class CC_DLL BaseLight : public Node
 {
 public:
-    
     /**
      * Get the light type,light type MUST be one of LightType::DIRECTIONAL ,
      * LightType::POINT, LightType::SPOT, LightType::AMBIENT.
      */
     virtual LightType getLightType() const = 0;
-    
+
     /** intensity getter and setter */
     float getIntensity() const { return _intensity; }
     void setIntensity(float intensity);
-    
+
     /**light flag getter and setter*/
     LightFlag getLightFlag() const { return _lightFlag; }
     void setLightFlag(LightFlag flag) { _lightFlag = flag; }
-    
+
     /**
      * light enabled getter and setter.
      */
     void setEnabled(bool enabled) { _enabled = enabled; }
     bool isEnabled() const { return _enabled; }
-    
-    //override
+
+    // override
     virtual void onEnter() override;
     virtual void onExit() override;
-    
-CC_CONSTRUCTOR_ACCESS:
-    BaseLight();
+
+    CC_CONSTRUCTOR_ACCESS : BaseLight();
     virtual ~BaseLight();
-    
+
 protected:
-    void setRotationFromDirection( const Vec3 &direction );
-    
+    void setRotationFromDirection(const Vec3& direction);
+
 protected:
-    float       _intensity;
-    LightFlag   _lightFlag;
-    bool        _enabled;
+    float _intensity;
+    LightFlag _lightFlag;
+    bool _enabled;
 };
 
 /**
@@ -114,32 +112,30 @@ public:
      *
      * @return The new direction light.
      */
-    static DirectionLight* create(const Vec3 &direction, const Color3B &color);
-    
-    //get light type
+    static DirectionLight* create(const Vec3& direction, const Color3B& color);
+
+    // get light type
     virtual LightType getLightType() const override { return LightType::DIRECTIONAL; }
-    
+
     /**
      * Sets the Direction in parent.
      *
      * @param dir The Direction in parent.
      */
-    void setDirection(const Vec3 &dir);
-    
+    void setDirection(const Vec3& dir);
+
     /**
      * Returns the Direction in parent.
      */
     Vec3 getDirection() const;
-    
+
     /**
      * Returns direction in world.
      */
     Vec3 getDirectionInWorld() const;
-    
-CC_CONSTRUCTOR_ACCESS:
-    DirectionLight();
+
+    CC_CONSTRUCTOR_ACCESS : DirectionLight();
     virtual ~DirectionLight();
-    
 };
 
 /**
@@ -156,19 +152,18 @@ public:
      *
      * @return The new point light.
      */
-    static PointLight* create(const Vec3 &position, const Color3B &color, float range);
-    
-    //get light type
+    static PointLight* create(const Vec3& position, const Color3B& color, float range);
+
+    // get light type
     virtual LightType getLightType() const override { return LightType::POINT; }
-    
+
     /** get or set range */
     float getRange() const { return _range; }
     void setRange(float range) { _range = range; }
-    
-CC_CONSTRUCTOR_ACCESS:
-    PointLight();
+
+    CC_CONSTRUCTOR_ACCESS : PointLight();
     virtual ~PointLight();
-    
+
 protected:
     float _range;
 };
@@ -190,35 +185,35 @@ public:
      *
      * @return The new spot light.
      */
-    static SpotLight* create(const Vec3 &direction, const Vec3 &position, const Color3B &color, float innerAngle, float outerAngle, float range);
-    
-    //get light type
+    static SpotLight* create(const Vec3& direction, const Vec3& position, const Color3B& color, float innerAngle, float outerAngle, float range);
+
+    // get light type
     virtual LightType getLightType() const override { return LightType::SPOT; }
-    
+
     /**
      * Sets the Direction in parent.
      *
      * @param dir The Direction in parent.
      */
-    void setDirection(const Vec3 &dir);
-    
+    void setDirection(const Vec3& dir);
+
     /**
      * Returns the Direction in parent.
      */
     Vec3 getDirection() const;
-    
+
     /**
      * Returns direction in world.
      */
     Vec3 getDirectionInWorld() const;
-    
+
     /**
      * Sets the range of point or spot light.
      *
      * @param range The range of point or spot light.
      */
     void setRange(float range) { _range = range; }
-    
+
     /**
      * Returns the range of point or spot light.
      *
@@ -231,34 +226,33 @@ public:
      * @param angle The angle of spot light (in radians).
      */
     void setInnerAngle(float angle);
-    
+
     /**
      * Returns the inner angle the spot light (in radians).
      */
     float getInnerAngle() const { return _innerAngle; }
-    
+
     /** get cos innerAngle */
     float getCosInnerAngle() const { return _cosInnerAngle; }
-    
+
     /**
      * Sets the outer angle of a spot light (in radians).
      *
      * @param outerAngle The angle of spot light (in radians).
      */
     void setOuterAngle(float outerAngle);
-    
+
     /**
      * Returns the outer angle of the spot light (in radians).
      */
     float getOuterAngle() const { return _outerAngle; }
-    
+
     /** get cos outAngle */
     float getCosOuterAngle() const { return _cosOuterAngle; }
-    
-CC_CONSTRUCTOR_ACCESS:
-    SpotLight();
+
+    CC_CONSTRUCTOR_ACCESS : SpotLight();
     virtual ~SpotLight();
-    
+
 protected:
     float _range;
     float _innerAngle;
@@ -279,13 +273,12 @@ public:
      *
      * @return The new ambient light.
      */
-    static AmbientLight* create(const Color3B &color);
-    
-    //get light type
+    static AmbientLight* create(const Color3B& color);
+
+    // get light type
     virtual LightType getLightType() const override { return LightType::AMBIENT; }
-    
-CC_CONSTRUCTOR_ACCESS:
-    AmbientLight();
+
+    CC_CONSTRUCTOR_ACCESS : AmbientLight();
     virtual ~AmbientLight();
 };
 

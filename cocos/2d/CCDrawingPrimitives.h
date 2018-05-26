@@ -36,13 +36,11 @@ THE SOFTWARE.
  *
  */
 
-
 #ifndef __CCDRAWING_PRIMITIVES__
 #define __CCDRAWING_PRIMITIVES__
-    
 
-#include "base/ccTypes.h"
 #include "base/ccMacros.h"
+#include "base/ccTypes.h"
 #include "math/CCMath.h"
 
 /**
@@ -57,14 +55,15 @@ THE SOFTWARE.
  - drawCubicBezier
  - drawCatmullRom
  - drawCardinalSpline
- 
+
  You can change the color, point size, width by calling:
  - drawColor4B(), drawColor4F()
  - ccPointSize()
  - glLineWidth()
- 
- @warning These functions draws the Line, Vec2, Polygon, immediately. They aren't batched. If you are going to make a game that depends on these primitives, I suggest creating a batch. Instead you should use DrawNode
- 
+
+ @warning These functions draws the Line, Vec2, Polygon, immediately. They aren't batched. If you are going to make a game that depends on these primitives, I
+ suggest creating a batch. Instead you should use DrawNode
+
  */
 
 NS_CC_BEGIN
@@ -77,8 +76,8 @@ NS_CC_BEGIN
 class PointArray;
 
 /**
-* @js cc.DrawingPrimitiveCanvas/cc.DrawingPrimitiveWebGL
-*/
+ * @js cc.DrawingPrimitiveCanvas/cc.DrawingPrimitiveWebGL
+ */
 namespace DrawPrimitives
 {
     /**
@@ -105,7 +104,7 @@ namespace DrawPrimitives
      * @param numberOfPoints The number of points.
      * @since v0.7.2
      */
-    CC_DEPRECATED_ATTRIBUTE void CC_DLL drawPoints(const Vec2 *points, unsigned int numberOfPoints);
+    CC_DEPRECATED_ATTRIBUTE void CC_DLL drawPoints(const Vec2* points, unsigned int numberOfPoints);
 
     /** Draws a line given the origin and destination point measured in points
      *
@@ -139,7 +138,7 @@ namespace DrawPrimitives
      * @param numOfVertices The number of vertices measured in points.
      * @param closePolygon The polygon can be closed or open.
      */
-    CC_DEPRECATED_ATTRIBUTE void CC_DLL drawPoly(const Vec2 *vertices, unsigned int numOfVertices, bool closePolygon);
+    CC_DEPRECATED_ATTRIBUTE void CC_DLL drawPoly(const Vec2* vertices, unsigned int numOfVertices, bool closePolygon);
 
     /** Draws a solid polygon given a pointer to CGPoint coordinates, the number of vertices measured in points, and a color.
      *
@@ -147,9 +146,9 @@ namespace DrawPrimitives
      * @param numberOfPoints The number of vertices measured in points.
      * @param color The solid polygon color.
      */
-    CC_DEPRECATED_ATTRIBUTE void CC_DLL drawSolidPoly(const Vec2 *poli, unsigned int numberOfPoints, Color4F color);
+    CC_DEPRECATED_ATTRIBUTE void CC_DLL drawSolidPoly(const Vec2* poli, unsigned int numberOfPoints, Color4F color);
 
-    /** Draws a circle given the center, radius and number of segments. 
+    /** Draws a circle given the center, radius and number of segments.
      *
      * @param center The circle center point.
      * @param radius The circle rotate of radius.
@@ -159,8 +158,9 @@ namespace DrawPrimitives
      * @param scaleX The scale value in x.
      * @param scaleY The scale value in y.
      */
-    CC_DEPRECATED_ATTRIBUTE void CC_DLL drawCircle(const Vec2& center, float radius, float angle, unsigned int segments, bool drawLineToCenter, float scaleX, float scaleY);
-    
+    CC_DEPRECATED_ATTRIBUTE void CC_DLL drawCircle(const Vec2& center, float radius, float angle, unsigned int segments, bool drawLineToCenter, float scaleX,
+                                                   float scaleY);
+
     /** Draws a circle given the center, radius and number of segments.
      *
      * @param center The circle center point.
@@ -181,7 +181,7 @@ namespace DrawPrimitives
      * @js NA
      */
     CC_DEPRECATED_ATTRIBUTE void CC_DLL drawSolidCircle(const Vec2& center, float radius, float angle, unsigned int segments, float scaleX, float scaleY);
-    
+
     /** Draws a solid circle given the center, radius and number of segments.
      * @param center The circle center point.
      * @param radius The circle rotate of radius.
@@ -212,7 +212,8 @@ namespace DrawPrimitives
      * @warning This function could be pretty slow. Use it only for debugging purposes.
      * @since v0.8
      */
-    CC_DEPRECATED_ATTRIBUTE void CC_DLL drawCubicBezier(const Vec2& origin, const Vec2& control1, const Vec2& control2, const Vec2& destination, unsigned int segments);
+    CC_DEPRECATED_ATTRIBUTE void CC_DLL drawCubicBezier(const Vec2& origin, const Vec2& control1, const Vec2& control2, const Vec2& destination,
+                                                        unsigned int segments);
 
     /** Draws a Catmull Rom path.
      *
@@ -221,7 +222,7 @@ namespace DrawPrimitives
      * @warning This function could be pretty slow. Use it only for debugging purposes.
      * @since v2.0
      */
-    CC_DEPRECATED_ATTRIBUTE void CC_DLL drawCatmullRom(PointArray *arrayOfControlPoints, unsigned int segments);
+    CC_DEPRECATED_ATTRIBUTE void CC_DLL drawCatmullRom(PointArray* arrayOfControlPoints, unsigned int segments);
 
     /** Draws a Cardinal Spline path.
      *
@@ -231,7 +232,7 @@ namespace DrawPrimitives
      * @warning This function could be pretty slow. Use it only for debugging purposes.
      * @since v2.0
      */
-    CC_DEPRECATED_ATTRIBUTE void CC_DLL drawCardinalSpline(PointArray *config, float tension,  unsigned int segments);
+    CC_DEPRECATED_ATTRIBUTE void CC_DLL drawCardinalSpline(PointArray* config, float tension, unsigned int segments);
 
     /** Set the drawing color with 4 unsigned bytes.
      *
@@ -262,7 +263,7 @@ namespace DrawPrimitives
      */
     CC_DEPRECATED_ATTRIBUTE void CC_DLL setPointSize(GLfloat pointSize);
 
-};
+}; // namespace DrawPrimitives
 
 // end of global group
 /** @} */

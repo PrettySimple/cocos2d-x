@@ -29,75 +29,73 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
 
+#    include "platform/CCPlatformMacros.h"
+#    include <BaseTsd.h>
+#    include <cmath>
+#    include <float.h>
 
-#include "platform/CCPlatformMacros.h"
-#include <float.h>
-#include <BaseTsd.h>
-#include <cmath>
-
-#ifndef __SSIZE_T
-#define __SSIZE_T
+#    ifndef __SSIZE_T
+#        define __SSIZE_T
 typedef SSIZE_T ssize_t;
-#endif // __SSIZE_T
+#    endif // __SSIZE_T
 
 // for math.h on win32 platform
 
-#if !defined(_USE_MATH_DEFINES)
-    #define _USE_MATH_DEFINES       // make M_PI can be use
-#endif
+#    if !defined(_USE_MATH_DEFINES)
+#        define _USE_MATH_DEFINES // make M_PI can be use
+#    endif
 
-#if _MSC_VER < 1900
-#ifndef snprintf
-#define snprintf _snprintf
-#endif
-#endif
+#    if _MSC_VER < 1900
+#        ifndef snprintf
+#            define snprintf _snprintf
+#        endif
+#    endif
 
-#include <math.h>
-#include <string.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+#    include <math.h>
+#    include <stdarg.h>
+#    include <stdio.h>
+#    include <stdlib.h>
+#    include <string.h>
+#    include <time.h>
 
-#ifndef M_PI
-  #define M_PI      3.14159265358
-#endif
-#ifndef M_PI_2
-  #define M_PI_2    1.57079632679
-#endif
-
+#    ifndef M_PI
+#        define M_PI 3.14159265358
+#    endif
+#    ifndef M_PI_2
+#        define M_PI_2 1.57079632679
+#    endif
 
 // for MIN MAX and sys/time.h on win32 platform
-#ifndef NOMINMAX
-  #define NOMINMAX
-#endif
+#    ifndef NOMINMAX
+#        define NOMINMAX
+#    endif
 
-#ifndef MIN
-#define MIN(x,y) (((x) > (y)) ? (y) : (x))
-#endif  // MIN
+#    ifndef MIN
+#        define MIN(x, y) (((x) > (y)) ? (y) : (x))
+#    endif // MIN
 
-#ifndef MAX
-#define MAX(x,y) (((x) < (y)) ? (y) : (x))
-#endif  // MAX
+#    ifndef MAX
+#        define MAX(x, y) (((x) < (y)) ? (y) : (x))
+#    endif // MAX
 
-#include <stdint.h>
+#    include <stdint.h>
 
-#ifdef WINRT_NO_WINSOCK
-#undef timeval
+#    ifdef WINRT_NO_WINSOCK
+#        undef timeval
 struct timeval
 {
-	long tv_sec;		// seconds
-	long tv_usec;    // microSeconds
-}; 
-#else
+    long tv_sec; // seconds
+    long tv_usec; // microSeconds
+};
+#    else
 // Structure timeval has define in winsock.h, include windows.h for it.
-#define _WINSOCKAPI_
-#include <WinSock2.h>
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN 1
-#include <Windows.h>
-#endif
-#endif
+#        define _WINSOCKAPI_
+#        include <WinSock2.h>
+#        ifndef WIN32_LEAN_AND_MEAN
+#            define WIN32_LEAN_AND_MEAN 1
+#            include <Windows.h>
+#        endif
+#    endif
 
 struct timezone
 {
@@ -105,9 +103,8 @@ struct timezone
     int tz_dsttime;
 };
 
-int CC_DLL gettimeofday(struct timeval *, struct timezone *);
+int CC_DLL gettimeofday(struct timeval*, struct timezone*);
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
 
-#endif  // __CC_STD_C_H__
-
+#endif // __CC_STD_C_H__

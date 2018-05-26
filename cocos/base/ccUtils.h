@@ -25,10 +25,10 @@ THE SOFTWARE.
 #ifndef __SUPPORT_CC_UTILS_H__
 #define __SUPPORT_CC_UTILS_H__
 
-#include <vector>
-#include <string>
 #include "2d/CCNode.h"
 #include "base/ccMacros.h"
+#include <string>
+#include <vector>
 
 /** @file ccUtils.h
 Misc free functions
@@ -65,17 +65,17 @@ namespace utils
      * base filename ("hello.png" etc.), don't use a relative path containing directory names.("mydir/hello.png" etc.).
      * @since v3.2
      */
-    CC_DLL void  captureScreen(const std::function<void(bool, const std::string&)>& afterCaptured, const std::string& filename);
+    CC_DLL void captureScreen(const std::function<void(bool, const std::string&)>& afterCaptured, const std::string& filename);
 
     /** Capture a specific Node.
-    * @param startNode specify the snapshot Node. It should be cocos2d::Scene
-    * @param scale
-    * @returns: return a Image, then can call saveToFile to save the image as "xxx.png or xxx.jpg".
-    * @since v3.11
-    * !!! remark: Caller is responsible for releasing it by calling delete.
-    */
+     * @param startNode specify the snapshot Node. It should be cocos2d::Scene
+     * @param scale
+     * @returns: return a Image, then can call saveToFile to save the image as "xxx.png or xxx.jpg".
+     * @since v3.11
+     * !!! remark: Caller is responsible for releasing it by calling delete.
+     */
     CC_DLL Image* captureNode(Node* startNode, float scale = 1.0f);
-    
+
     /** Find children by name, it will return all child that has the same name.
      * It supports c++ 11 regular expression. It is  a helper function of `Node::enumerateChildren()`.
      * You can refer to `Node::enumerateChildren()` for detail information.
@@ -85,33 +85,33 @@ namespace utils
      * @return Array of Nodes that matches the name
      * @since v3.2
      */
-    CC_DLL std::vector<Node*>  findChildren(const Node &node, const std::string &name);
-    
+    CC_DLL std::vector<Node*> findChildren(const Node& node, const std::string& name);
+
     /** Same to ::atof, but strip the string, remain 7 numbers after '.' before call atof.
      * Why we need this? Because in android c++_static, atof ( and std::atof ) is unsupported for numbers have long decimal part and contain
      * several numbers can approximate to 1 ( like 90.099998474121094 ), it will return inf. This function is used to fix this bug.
      * @param str The string be to converted to double.
      * @return Returns converted value of a string.
      */
-    CC_DLL double  atof(const char* str);
+    CC_DLL double atof(const char* str);
 
     /** Get current exact time, accurate to nanoseconds.
      * @return Returns the time in seconds since the Epoch.
      */
-    CC_DLL double  gettime();
+    CC_DLL double gettime();
 
     /**
      * Get current time in milliseconds, accurate to nanoseconds
      *
      * @return  Returns the time in milliseconds since the Epoch.
      */
-    CC_DLL long long  getTimeInMilliseconds();
+    CC_DLL long long getTimeInMilliseconds();
 
     /**
      * Calculate unionof bounding box of a node and its children.
      * @return Returns unionof bounding box of a node and its children.
      */
-    CC_DLL Rect getCascadeBoundingBox(Node *node);
+    CC_DLL Rect getCascadeBoundingBox(Node* node);
 
     /**
      * Create a sprite instance from base64 encoded image and adds the texture to the Texture Cache.
@@ -127,28 +127,27 @@ namespace utils
     */
     CC_DLL Sprite* createSpriteFromBase64(const char* base64String);
 
-
     /**
      * Find a child by name recursively
 
      * @return  Returns found node or nullptr
      */
-    CC_DLL Node*  findChild(Node* levelRoot, const std::string& name);
+    CC_DLL Node* findChild(Node* levelRoot, const std::string& name);
 
     /**
      * Find a child by tag recursively
 
      * @return Returns found node or nullptr
      */
-   CC_DLL Node*  findChild(Node* levelRoot, int tag);
+    CC_DLL Node* findChild(Node* levelRoot, int tag);
 
     /**
      * Find a child by name recursively
 
      * @return  Returns found node or nullptr with specified type 'T'
      */
-    template<typename T> inline
-    T findChild(Node* levelRoot, const std::string& name)
+    template <typename T>
+    inline T findChild(Node* levelRoot, const std::string& name)
     {
         return dynamic_cast<T>(findChild(levelRoot, name));
     }
@@ -158,12 +157,12 @@ namespace utils
 
      * @return  Returns found node or nullptr with specified type 'T'
      */
-    template<typename T> inline
-    T findChild(Node* levelRoot, int tag)
+    template <typename T>
+    inline T findChild(Node* levelRoot, int tag)
     {
         return dynamic_cast<T>(findChild(levelRoot, tag));
     }
-}
+} // namespace utils
 
 NS_CC_END
 

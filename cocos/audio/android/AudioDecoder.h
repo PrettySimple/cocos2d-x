@@ -28,36 +28,38 @@ THE SOFTWARE.
 #include "audio/android/PcmData.h"
 #include "base/CCData.h"
 
-namespace cocos2d { namespace experimental {
-
-class AudioDecoder
+namespace cocos2d
 {
-public:
-    AudioDecoder();
-    virtual ~AudioDecoder();
+    namespace experimental
+    {
+        class AudioDecoder
+        {
+        public:
+            AudioDecoder();
+            virtual ~AudioDecoder();
 
-    virtual bool init(const std::string &url, int sampleRate);
+            virtual bool init(const std::string& url, int sampleRate);
 
-    bool start();
+            bool start();
 
-    inline PcmData getResult()
-    { return _result; };
+            inline PcmData getResult() { return _result; };
 
-protected:
-    virtual bool decodeToPcm() = 0;
-    bool resample();
-    bool interleave();
+        protected:
+            virtual bool decodeToPcm() = 0;
+            bool resample();
+            bool interleave();
 
-    static size_t fileRead(void* ptr, size_t size, size_t nmemb, void* datasource);
-    static int fileSeek(void* datasource, int64_t offset, int whence);
-    static int fileClose(void* datasource);
-    static long fileTell(void* datasource);
+            static size_t fileRead(void* ptr, size_t size, size_t nmemb, void* datasource);
+            static int fileSeek(void* datasource, int64_t offset, int whence);
+            static int fileClose(void* datasource);
+            static long fileTell(void* datasource);
 
-    std::string _url;
-    PcmData _result;
-    int _sampleRate;
-    Data _fileData;
-    size_t _fileCurrPos;
-};
+            std::string _url;
+            PcmData _result;
+            int _sampleRate;
+            Data _fileData;
+            size_t _fileCurrPos;
+        };
 
-}} // namespace cocos2d { namespace experimental {
+    } // namespace experimental
+} // namespace cocos2d

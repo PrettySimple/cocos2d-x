@@ -25,9 +25,10 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "2d/CCTransitionPageTurn.h"
-#include "base/CCDirector.h"
+
 #include "2d/CCActionPageTurn3D.h"
 #include "2d/CCNodeGrid.h"
+#include "base/CCDirector.h"
 #include "renderer/CCRenderer.h"
 
 NS_CC_BEGIN
@@ -36,7 +37,7 @@ TransitionPageTurn::TransitionPageTurn()
 {
     _inSceneProxy = NodeGrid::create();
     _outSceneProxy = NodeGrid::create();
-    
+
     _inSceneProxy->retain();
     _outSceneProxy->retain();
 }
@@ -48,16 +49,16 @@ TransitionPageTurn::~TransitionPageTurn()
 }
 
 /** creates a base transition with duration and incoming scene */
-TransitionPageTurn * TransitionPageTurn::create(std::chrono::milliseconds t, Scene *scene, bool backwards)
+TransitionPageTurn* TransitionPageTurn::create(std::chrono::milliseconds t, Scene* scene, bool backwards)
 {
-    TransitionPageTurn * transition = new (std::nothrow) TransitionPageTurn();
-    transition->initWithDuration(t,scene,backwards);
+    TransitionPageTurn* transition = new (std::nothrow) TransitionPageTurn();
+    transition->initWithDuration(t, scene, backwards);
     transition->autorelease();
     return transition;
 }
 
 /** initializes a transition with duration and incoming scene */
-bool TransitionPageTurn::initWithDuration(std::chrono::milliseconds t, Scene *scene, bool backwards)
+bool TransitionPageTurn::initWithDuration(std::chrono::milliseconds t, Scene* scene, bool backwards)
 {
     // FIXME:: needed before [super init]
     _back = backwards;
@@ -74,17 +75,19 @@ void TransitionPageTurn::sceneOrder()
     _isInSceneOnTop = _back;
 }
 
-void TransitionPageTurn::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
+void TransitionPageTurn::draw(Renderer* renderer, const Mat4& transform, uint32_t flags)
 {
     Scene::draw(renderer, transform, flags);
-    
-    if( _isInSceneOnTop ) {
+
+    if (_isInSceneOnTop)
+    {
         _outSceneProxy->visit(renderer, transform, flags);
         _inSceneProxy->visit(renderer, transform, flags);
-    } else {
+    }
+    else
+    {
         _inSceneProxy->visit(renderer, transform, flags);
         _outSceneProxy->visit(renderer, transform, flags);
-        
     }
 }
 
@@ -97,48 +100,31 @@ void TransitionPageTurn::onEnter()
 
     _inSceneProxy->onEnter();
     _outSceneProxy->onEnter();
-    
+
     Size s = Director::getInstance()->getWinSize();
-    int x,y;
+    int x, y;
     if (s.width > s.height)
     {
-        x=16;
-        y=12;
+        x = 16;
+        y = 12;
     }
     else
     {
-        x=12;
-        y=16;
+        x = 12;
+        y = 16;
     }
 
-    ActionInterval *action  = this->actionWithSize(Size(x,y));
+    ActionInterval* action = this->actionWithSize(Size(x, y));
 
-    if (! _back )
+    if (!_back)
     {
-        _outSceneProxy->runAction
-        (
-            Sequence::create
-         ({
-                action,
-                CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
-                StopGrid::create()
-        })
-        );
+        _outSceneProxy->runAction(Sequence::create({action, CallFunc::create(CC_CALLBACK_0(TransitionScene::finish, this)), StopGrid::create()}));
     }
     else
     {
         // to prevent initial flicker
         _inSceneProxy->setVisible(false);
-        _inSceneProxy->runAction
-        (
-            Sequence::create
-         ({
-                Show::create(),
-                action,
-                CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
-                StopGrid::create()
-        })
-        );
+        _inSceneProxy->runAction(Sequence::create({Show::create(), action, CallFunc::create(CC_CALLBACK_0(TransitionScene::finish, this)), StopGrid::create()}));
     }
 }
 void TransitionPageTurn::onExit()
@@ -147,19 +133,16 @@ void TransitionPageTurn::onExit()
     _outSceneProxy->setTarget(nullptr);
     _outSceneProxy->onExit();
     _inSceneProxy->onExit();
-    
+
     TransitionScene::onExit();
 }
 
-ActionInterval* TransitionPageTurn:: actionWithSize(const Size& vector)
+ActionInterval* TransitionPageTurn::actionWithSize(const Size& vector)
 {
     if (_back)
     {
         // Get hold of the PageTurn3DAction
-        return ReverseTime::create
-        (
-            PageTurn3D::create(_duration, vector)
-        );
+        return ReverseTime::create(PageTurn3D::create(_duration, vector));
     }
     else
     {

@@ -28,14 +28,13 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 
-#include "platform/CCStdC.h"
-#include "platform/CCCommon.h"
-#include "platform/CCApplicationProtocol.h"
-#include "platform/winrt/InputEvent.h"
-#include <string>
+#    include "platform/CCApplicationProtocol.h"
+#    include "platform/CCCommon.h"
+#    include "platform/CCStdC.h"
+#    include "platform/winrt/InputEvent.h"
+#    include <string>
 
 NS_CC_BEGIN
-
 
 class CC_DLL Application : public ApplicationProtocol
 {
@@ -57,7 +56,7 @@ public:
     /* override functions */
     virtual void setAnimationInterval(float interval);
     virtual LanguageType getCurrentLanguage();
-    virtual const char * getCurrentLanguageCode();
+    virtual const char* getCurrentLanguageCode();
 
     /**
      @brief Get target platform
@@ -68,22 +67,19 @@ public:
      @brief Get application version
      */
     virtual std::string getVersion() override;
-    
+
     /**
      @brief Open url in default browser
      @param String with url to open.
      @return true if the resource located by the URL was successfully opened; otherwise false.
      */
-    virtual bool openURL(const std::string &url);
+    virtual bool openURL(const std::string& url);
 
     /**
     @brief Set the callback responsible for opening a URL.
     @param del The delegate that will handle opening a URL. We can't pass back a Platform::String due to name clash.
     */
-    void SetXamlOpenURLDelegate(const std::function<void(::Platform::String^)>& del)
-    {
-        m_openURLDelegate = del;
-    }
+    void SetXamlOpenURLDelegate(const std::function<void(::Platform::String ^)>& del) { m_openURLDelegate = del; }
 
     /**
      *  Sets the Resource root path.
@@ -91,31 +87,28 @@ public:
      */
     CC_DEPRECATED_ATTRIBUTE void setResourceRootPath(const std::string& rootResDir);
 
-    /** 
+    /**
      *  Gets the Resource root path.
-     *  @deprecated Please use CCFileUtils::sharedFileUtils()->getSearchPaths() instead. 
+     *  @deprecated Please use CCFileUtils::sharedFileUtils()->getSearchPaths() instead.
      */
     CC_DEPRECATED_ATTRIBUTE const std::string& getResourceRootPath(void);
 
     void setStartupScriptFilename(const std::string& startupScriptFile);
 
-    const std::string& getStartupScriptFilename(void)
-    {
-        return m_startupScriptFilename;
-    }
+    const std::string& getStartupScriptFilename(void) { return m_startupScriptFilename; }
 
 protected:
-    LARGE_INTEGER       m_nAnimationInterval;
-    std::string         m_resourceRootPath;
-    std::string         m_startupScriptFilename;
+    LARGE_INTEGER m_nAnimationInterval;
+    std::string m_resourceRootPath;
+    std::string m_startupScriptFilename;
 
-    std::function<void(::Platform::String^)> m_openURLDelegate;
+    std::function<void(::Platform::String ^)> m_openURLDelegate;
 
-    static Application * sm_pSharedApplication;
+    static Application* sm_pSharedApplication;
 };
 
 NS_CC_END
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
 
-#endif    // __CC_APPLICATION_WINRT_H__
+#endif // __CC_APPLICATION_WINRT_H__

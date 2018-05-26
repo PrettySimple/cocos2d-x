@@ -28,22 +28,20 @@ THE SOFTWARE.
 #include "platform/winrt/CCWinRTUtils.h"
 
 #if defined(VLD_DEBUG_MEMORY)
-#include <vld.h>
+#    include <vld.h>
 #endif
 
 NS_CC_BEGIN
 
-
-void MessageBox(const char * pszMsg, const char * pszTitle)
+void MessageBox(const char* pszMsg, const char* pszTitle)
 {
     // Create the message dialog and set its content
-    Platform::String^ message = PlatformStringFromString(pszMsg);
-    Platform::String^ title = PlatformStringFromString(pszTitle);
+    Platform::String ^ message = PlatformStringFromString(pszMsg);
+    Platform::String ^ title = PlatformStringFromString(pszTitle);
     GLViewImpl::sharedOpenGLView()->ShowMessageBox(title, message);
 }
 
-
-void CCLuaLog(const char *pszMsg)
+void CCLuaLog(const char* pszMsg)
 {
 #if defined(COCOS2D_DEBUG)
     int bufflen = MultiByteToWideChar(CP_UTF8, 0, pszMsg, -1, NULL, 0);
@@ -51,18 +49,17 @@ void CCLuaLog(const char *pszMsg)
     memset(widebuff, 0, sizeof(WCHAR) * (bufflen + 1));
     MultiByteToWideChar(CP_UTF8, 0, pszMsg, -1, widebuff, bufflen);
 
-
     OutputDebugStringW(widebuff);
     OutputDebugStringA("\n");
 
-	bufflen = WideCharToMultiByte(CP_ACP, 0, widebuff, -1, NULL, 0, NULL, NULL);
-	char* buff = new char[bufflen + 1];
-	memset(buff, 0, sizeof(char) * (bufflen + 1));
-	WideCharToMultiByte(CP_ACP, 0, widebuff, -1, buff, bufflen, NULL, NULL);
-	puts(buff);
+    bufflen = WideCharToMultiByte(CP_ACP, 0, widebuff, -1, NULL, 0, NULL, NULL);
+    char* buff = new char[bufflen + 1];
+    memset(buff, 0, sizeof(char) * (bufflen + 1));
+    WideCharToMultiByte(CP_ACP, 0, widebuff, -1, buff, bufflen, NULL, NULL);
+    puts(buff);
 
-	delete[] widebuff;
-	delete[] buff;
+    delete[] widebuff;
+    delete[] buff;
 #endif
 }
 

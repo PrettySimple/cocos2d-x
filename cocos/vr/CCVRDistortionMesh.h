@@ -36,15 +36,9 @@ class DistortionMesh
 {
 public:
     DistortionMesh();
-    DistortionMesh(Distortion *distortion,
-                   float screenWidth, float screenHeight,
-                   float xEyeOffsetScreen, float yEyeOffsetScreen,
-                   float textureWidth, float textureHeight,
-                   float xEyeOffsetTexture, float yEyeOffsetTexture,
-                   float viewportXTexture, float viewportYTexture,
-                   float viewportWidthTexture,
-                   float viewportHeightTexture,
-                   bool vignetteEnabled);
+    DistortionMesh(Distortion* distortion, float screenWidth, float screenHeight, float xEyeOffsetScreen, float yEyeOffsetScreen, float textureWidth,
+                   float textureHeight, float xEyeOffsetTexture, float yEyeOffsetTexture, float viewportXTexture, float viewportYTexture,
+                   float viewportWidthTexture, float viewportHeightTexture, bool vignetteEnabled);
 
     int _indices;
     int _arrayBufferID;

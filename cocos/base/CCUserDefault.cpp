@@ -24,7 +24,7 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "platform/CCPlatformConfig.h"
 
-
-#if (CC_TARGET_PLATFORM != CC_PLATFORM_IOS && CC_TARGET_PLATFORM != CC_PLATFORM_MAC && CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID && CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN)
-	#error Platform is missing decent UserDefault implementation
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_IOS && CC_TARGET_PLATFORM != CC_PLATFORM_MAC && CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID && \
+     CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN)
+#    error Platform is missing decent UserDefault implementation
 #endif

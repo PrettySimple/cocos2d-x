@@ -24,16 +24,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 #include "2d/CCLabelTTF.h"
+
 #include "2d/CCLabel.h"
 #include "base/ccUTF8.h"
 
 NS_CC_BEGIN
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (push)
-#pragma warning (disable: 4996)
+#    pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#elif _MSC_VER >= 1400 // vs 2005 or higher
+#    pragma warning(push)
+#    pragma warning(disable : 4996)
 #endif
 
 LabelTTF::LabelTTF()
@@ -52,9 +53,9 @@ LabelTTF::~LabelTTF()
 {
 }
 
-LabelTTF * LabelTTF::create()
+LabelTTF* LabelTTF::create()
 {
-    LabelTTF * ret = new (std::nothrow) LabelTTF();
+    LabelTTF* ret = new (std::nothrow) LabelTTF();
     if (ret)
     {
         ret->autorelease();
@@ -66,12 +67,11 @@ LabelTTF * LabelTTF::create()
     return ret;
 }
 
-LabelTTF* LabelTTF::create(const std::string& string, const std::string& fontName, float fontSize,
-                               const Size &dimensions, TextHAlignment hAlignment, 
-                               TextVAlignment vAlignment)
+LabelTTF* LabelTTF::create(const std::string& string, const std::string& fontName, float fontSize, const Size& dimensions, TextHAlignment hAlignment,
+                           TextVAlignment vAlignment)
 {
-    LabelTTF *ret = new (std::nothrow) LabelTTF();
-    if(ret && ret->initWithString(string, fontName, fontSize, dimensions, hAlignment, vAlignment))
+    LabelTTF* ret = new (std::nothrow) LabelTTF();
+    if (ret && ret->initWithString(string, fontName, fontSize, dimensions, hAlignment, vAlignment))
     {
         ret->autorelease();
         return ret;
@@ -80,10 +80,10 @@ LabelTTF* LabelTTF::create(const std::string& string, const std::string& fontNam
     return nullptr;
 }
 
-LabelTTF * LabelTTF::createWithFontDefinition(const std::string& string, FontDefinition &textDefinition)
+LabelTTF* LabelTTF::createWithFontDefinition(const std::string& string, FontDefinition& textDefinition)
 {
-    LabelTTF *ret = new (std::nothrow) LabelTTF();
-    if(ret && ret->initWithStringAndTextDefinition(string, textDefinition))
+    LabelTTF* ret = new (std::nothrow) LabelTTF();
+    if (ret && ret->initWithStringAndTextDefinition(string, textDefinition))
     {
         ret->autorelease();
         return ret;
@@ -92,30 +92,29 @@ LabelTTF * LabelTTF::createWithFontDefinition(const std::string& string, FontDef
     return nullptr;
 }
 
-bool LabelTTF::initWithString(const std::string& string, const std::string& fontName, float fontSize,
-                                const cocos2d::Size &dimensions, TextHAlignment hAlignment,
-                                TextVAlignment vAlignment)
+bool LabelTTF::initWithString(const std::string& string, const std::string& fontName, float fontSize, const cocos2d::Size& dimensions,
+                              TextHAlignment hAlignment, TextVAlignment vAlignment)
 {
     _renderLabel->setString(string);
     _renderLabel->setSystemFontSize(fontSize);
-    _renderLabel->setDimensions(dimensions.width,dimensions.height);
-    _renderLabel->setAlignment(hAlignment,vAlignment);
+    _renderLabel->setDimensions(dimensions.width, dimensions.height);
+    _renderLabel->setAlignment(hAlignment, vAlignment);
     _renderLabel->setSystemFontName(fontName);
     _contentDirty = true;
 
     return true;
 }
 
-bool LabelTTF::initWithStringAndTextDefinition(const std::string& string, FontDefinition &textDefinition)
+bool LabelTTF::initWithStringAndTextDefinition(const std::string& string, FontDefinition& textDefinition)
 {
     _renderLabel->setFontDefinition(textDefinition);
     _renderLabel->setString(string);
     _contentDirty = true;
-    
+
     return true;
 }
 
-void LabelTTF::setString(const std::string &string)
+void LabelTTF::setString(const std::string& string)
 {
     _renderLabel->setString(string);
     _contentDirty = true;
@@ -128,7 +127,8 @@ const std::string& LabelTTF::getString() const
 
 std::string LabelTTF::getDescription() const
 {
-    return StringUtils::format("<LabelTTF | FontName = %s, FontSize = %f, Label = '%s'>", _renderLabel->getSystemFontName().c_str(), _renderLabel->getSystemFontSize(), _renderLabel->getString().c_str());
+    return StringUtils::format("<LabelTTF | FontName = %s, FontSize = %f, Label = '%s'>", _renderLabel->getSystemFontName().c_str(),
+                               _renderLabel->getSystemFontSize(), _renderLabel->getString().c_str());
 }
 
 TextHAlignment LabelTTF::getHorizontalAlignment() const
@@ -158,9 +158,9 @@ const Size& LabelTTF::getDimensions() const
     return _renderLabel->getDimensions();
 }
 
-void LabelTTF::setDimensions(const Size &dim)
+void LabelTTF::setDimensions(const Size& dim)
 {
-    _renderLabel->setDimensions(dim.width,dim.height);
+    _renderLabel->setDimensions(dim.width, dim.height);
     _contentDirty = true;
 }
 
@@ -186,11 +186,11 @@ void LabelTTF::setFontName(const std::string& fontName)
     _contentDirty = true;
 }
 
-void LabelTTF::enableShadow(const Size &shadowOffset, float shadowOpacity, float shadowBlur, bool updateTexture)
+void LabelTTF::enableShadow(const Size& shadowOffset, float shadowOpacity, float shadowBlur, bool updateTexture)
 {
     Color4B temp(Color3B::BLACK);
     temp.a = 255 * shadowOpacity;
-    _renderLabel->enableShadow(temp,shadowOffset,shadowBlur);
+    _renderLabel->enableShadow(temp, shadowOffset, shadowBlur);
     _contentDirty = true;
 }
 
@@ -200,9 +200,9 @@ void LabelTTF::disableShadow(bool updateTexture)
     _contentDirty = true;
 }
 
-void LabelTTF::enableStroke(const Color3B &strokeColor, float strokeSize, bool updateTexture)
+void LabelTTF::enableStroke(const Color3B& strokeColor, float strokeSize, bool updateTexture)
 {
-    _renderLabel->enableOutline(Color4B(strokeColor),strokeSize);
+    _renderLabel->enableOutline(Color4B(strokeColor), strokeSize);
     _contentDirty = true;
 }
 
@@ -212,7 +212,7 @@ void LabelTTF::disableStroke(bool updateTexture)
     _contentDirty = true;
 }
 
-void LabelTTF::setFontFillColor(const Color3B &tintColor, bool updateTexture)
+void LabelTTF::setFontFillColor(const Color3B& tintColor, bool updateTexture)
 {
     _renderLabel->setTextColor(Color4B(tintColor));
 }
@@ -230,12 +230,12 @@ const FontDefinition& LabelTTF::getTextDefinition()
     return _fontDef;
 }
 
-void LabelTTF::setBlendFunc(const BlendFunc &blendFunc)
+void LabelTTF::setBlendFunc(const BlendFunc& blendFunc)
 {
     _renderLabel->setBlendFunc(blendFunc);
 }
 
-const BlendFunc &LabelTTF::getBlendFunc() const
+const BlendFunc& LabelTTF::getBlendFunc() const
 {
     return _renderLabel->getBlendFunc();
 }
@@ -245,7 +245,7 @@ void LabelTTF::setFlippedX(bool flippedX)
     if (flippedX)
     {
         _renderLabel->setScaleX(-1.0f);
-    } 
+    }
     else
     {
         _renderLabel->setScaleX(1.0f);
@@ -257,21 +257,21 @@ void LabelTTF::setFlippedY(bool flippedY)
     if (flippedY)
     {
         _renderLabel->setScaleY(-1.0f);
-    } 
+    }
     else
     {
         _renderLabel->setScaleY(1.0f);
     }
 }
 
-void LabelTTF::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags)
+void LabelTTF::visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags)
 {
     if (_contentDirty)
     {
         this->setContentSize(_renderLabel->getContentSize());
         _contentDirty = false;
     }
-    Node::visit(renderer,parentTransform, parentFlags);
+    Node::visit(renderer, parentTransform, parentFlags);
 }
 
 const Size& LabelTTF::getContentSize() const
@@ -287,9 +287,9 @@ Rect LabelTTF::getBoundingBox() const
 }
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic warning "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (pop)
+#    pragma GCC diagnostic warning "-Wdeprecated-declarations"
+#elif _MSC_VER >= 1400 // vs 2005 or higher
+#    pragma warning(pop)
 #endif
 
 NS_CC_END

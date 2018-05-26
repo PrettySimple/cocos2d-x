@@ -26,36 +26,39 @@
 
 #include "network/CCIDownloaderImpl.h"
 
-namespace cocos2d {
+namespace cocos2d
+{
     class Scheduler;
 }
 
-namespace cocos2d { namespace network
+namespace cocos2d
 {
-    class DownloadTaskCURL;
-    class DownloaderHints;
-
-    class DownloaderCURL : public IDownloaderImpl
+    namespace network
     {
-    public:
-        DownloaderCURL(const DownloaderHints& hints);
-        virtual ~DownloaderCURL();
+        class DownloadTaskCURL;
+        class DownloaderHints;
 
-        virtual IDownloadTask *createCoTask(std::shared_ptr<const DownloadTask>& task) override;
+        class DownloaderCURL : public IDownloaderImpl
+        {
+        public:
+            DownloaderCURL(const DownloaderHints& hints);
+            virtual ~DownloaderCURL();
 
-    protected:
-        class Impl;
-        std::shared_ptr<Impl>   _impl;
+            virtual IDownloadTask* createCoTask(std::shared_ptr<const DownloadTask>& task) override;
 
-        // for transfer data on schedule
-        DownloadTaskCURL* _currTask;        // temp ref
-        std::function<int64_t(void*, int64_t)> _transferDataToBuffer;
+        protected:
+            class Impl;
+            std::shared_ptr<Impl> _impl;
 
-        // scheduler for update processing and finished task in main schedule
-        void _onSchedule(float);
-        std::string             _schedulerKey;
-        Scheduler*              _scheduler;
-    };
+            // for transfer data on schedule
+            DownloadTaskCURL* _currTask; // temp ref
+            std::function<int64_t(void*, int64_t)> _transferDataToBuffer;
 
-}}  // namespace cocos2d::network
+            // scheduler for update processing and finished task in main schedule
+            void _onSchedule(float);
+            std::string _schedulerKey;
+            Scheduler* _scheduler;
+        };
 
+    } // namespace network
+} // namespace cocos2d

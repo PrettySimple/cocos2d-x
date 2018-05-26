@@ -33,17 +33,14 @@ Lock::Lock(void)
 
 Lock::~Lock(void)
 {
-
 }
 
 void Lock::lock(void)
 {
-    
 }
 
 void Lock::unlock(void)
 {
-    
 }
 
 NS_CC_END

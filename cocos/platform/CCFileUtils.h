@@ -26,14 +26,14 @@ THE SOFTWARE.
 #define __CC_FILEUTILS_H__
 
 #include <string>
-#include <vector>
-#include <unordered_map>
 #include <type_traits>
+#include <unordered_map>
+#include <vector>
 
-#include "platform/CCPlatformMacros.h"
-#include "base/ccTypes.h"
-#include "base/CCValue.h"
 #include "base/CCData.h"
+#include "base/CCValue.h"
+#include "base/ccTypes.h"
+#include "platform/CCPlatformMacros.h"
 
 NS_CC_BEGIN
 
@@ -42,28 +42,33 @@ NS_CC_BEGIN
  * @{
  */
 
-
-class ResizableBuffer {
+class ResizableBuffer
+{
 public:
     virtual ~ResizableBuffer() {}
     virtual void resize(size_t size) = 0;
     virtual void* buffer() const = 0;
 };
 
-template<typename T>
-class ResizableBufferAdapter { };
+template <typename T>
+class ResizableBufferAdapter
+{
+};
 
-
-template<typename CharT, typename Traits, typename Allocator>
-class ResizableBufferAdapter< std::basic_string<CharT, Traits, Allocator> > : public ResizableBuffer {
+template <typename CharT, typename Traits, typename Allocator>
+class ResizableBufferAdapter<std::basic_string<CharT, Traits, Allocator>> : public ResizableBuffer
+{
     typedef std::basic_string<CharT, Traits, Allocator> BufferType;
     BufferType* _buffer;
+
 public:
-    explicit ResizableBufferAdapter(BufferType* buffer) : _buffer(buffer) {}
-    virtual void resize(size_t size) override {
-        _buffer->resize((size + sizeof(CharT) - 1) / sizeof(CharT));
+    explicit ResizableBufferAdapter(BufferType* buffer)
+    : _buffer(buffer)
+    {
     }
-    virtual void* buffer() const override {
+    virtual void resize(size_t size) override { _buffer->resize((size + sizeof(CharT) - 1) / sizeof(CharT)); }
+    virtual void* buffer() const override
+    {
         // can not invoke string::front() if it is empty
 
         if (_buffer->empty())
@@ -73,16 +78,20 @@ public:
     }
 };
 
-template<typename T, typename Allocator>
-class ResizableBufferAdapter< std::vector<T, Allocator> > : public ResizableBuffer {
+template <typename T, typename Allocator>
+class ResizableBufferAdapter<std::vector<T, Allocator>> : public ResizableBuffer
+{
     typedef std::vector<T, Allocator> BufferType;
     BufferType* _buffer;
+
 public:
-    explicit ResizableBufferAdapter(BufferType* buffer) : _buffer(buffer) {}
-    virtual void resize(size_t size) override {
-        _buffer->resize((size + sizeof(T) - 1) / sizeof(T));
+    explicit ResizableBufferAdapter(BufferType* buffer)
+    : _buffer(buffer)
+    {
     }
-    virtual void* buffer() const override {
+    virtual void resize(size_t size) override { _buffer->resize((size + sizeof(T) - 1) / sizeof(T)); }
+    virtual void* buffer() const override
+    {
         // can not invoke vector::front() if it is empty
 
         if (_buffer->empty())
@@ -92,24 +101,28 @@ public:
     }
 };
 
-
-template<>
-class ResizableBufferAdapter<Data> : public ResizableBuffer {
+template <>
+class ResizableBufferAdapter<Data> : public ResizableBuffer
+{
     typedef Data BufferType;
     BufferType* _buffer;
+
 public:
-    explicit ResizableBufferAdapter(BufferType* buffer) : _buffer(buffer) {}
-    virtual void resize(size_t size) override {
-        if (static_cast<size_t>(_buffer->getSize()) < size) {
+    explicit ResizableBufferAdapter(BufferType* buffer)
+    : _buffer(buffer)
+    {
+    }
+    virtual void resize(size_t size) override
+    {
+        if (static_cast<size_t>(_buffer->getSize()) < size)
+        {
             auto old = _buffer->getBytes();
             void* buffer = realloc(old, size);
             if (buffer)
                 _buffer->fastSet((unsigned char*)buffer, size);
         }
     }
-    virtual void* buffer() const override {
-        return _buffer->getBytes();
-    }
+    virtual void* buffer() const override { return _buffer->getBytes(); }
 };
 
 /** Helper class to handle file operations. */
@@ -139,7 +152,7 @@ public:
      * @warning It will delete previous delegate
      * @lua NA
      */
-    static void setDelegate(FileUtils *delegate);
+    static void setDelegate(FileUtils* delegate);
 
     /** @deprecated Use getInstance() instead */
     CC_DEPRECATED_ATTRIBUTE static FileUtils* sharedFileUtils() { return getInstance(); }
@@ -169,7 +182,6 @@ public:
      *  @return A data object.
      */
     virtual Data getDataFromFile(const std::string& filename);
-
 
     enum class Status
     {
@@ -237,13 +249,9 @@ public:
      *      - Status::TooLarge when there file to be read is too large (> 2^32-1), the buffer will not changed.
      *      - Status::ObtainSizeFailed when failed to obtain the file size, the buffer will not changed.
      */
-    template <
-        typename T,
-        typename Enable = typename std::enable_if<
-            std::is_base_of< ResizableBuffer, ResizableBufferAdapter<T> >::value
-        >::type
-    >
-    Status getContents(const std::string& filename, T* buffer) {
+    template <typename T, typename Enable = typename std::enable_if<std::is_base_of<ResizableBuffer, ResizableBufferAdapter<T>>::value>::type>
+    Status getContents(const std::string& filename, T* buffer)
+    {
         ResizableBufferAdapter<T> buf(buffer);
         return getContents(filename, &buf);
     }
@@ -258,7 +266,7 @@ public:
      *  @return Upon success, a pointer to the data is returned, otherwise NULL.
      *  @warning Recall: you are responsible for calling free() on any Non-NULL pointer returned.
      */
-    CC_DEPRECATED_ATTRIBUTE virtual unsigned char* getFileData(const std::string& filename, const char* mode, ssize_t *size);
+    CC_DEPRECATED_ATTRIBUTE virtual unsigned char* getFileData(const std::string& filename, const char* mode, ssize_t* size);
 
     /**
      *  Gets resource file data from a zip file.
@@ -268,8 +276,7 @@ public:
      *  @return Upon success, a pointer to the data is returned, otherwise nullptr.
      *  @warning Recall: you are responsible for calling free() on any Non-nullptr pointer returned.
      */
-    virtual unsigned char* getFileDataFromZip(const std::string& zipFilePath, const std::string& filename, ssize_t *size);
-
+    virtual unsigned char* getFileDataFromZip(const std::string& zipFilePath, const std::string& filename, ssize_t* size);
 
     /** Returns the fullpath for a given filename.
 
@@ -316,7 +323,7 @@ public:
 
      @since v2.1
      */
-    virtual std::string fullPathForFilename(const std::string &filename) const;
+    virtual std::string fullPathForFilename(const std::string& filename) const;
 
     /**
      * Loads the filenameLookup dictionary from the contents of a filename.
@@ -351,7 +358,7 @@ public:
      * @js loadFilenameLookup
      * @lua loadFilenameLookup
      */
-    virtual void loadFilenameLookupDictionaryFromFile(const std::string &filename);
+    virtual void loadFilenameLookupDictionaryFromFile(const std::string& filename);
 
     /**
      *  Sets the filenameLookup dictionary.
@@ -370,7 +377,7 @@ public:
      *               Return: /User/path1/path2/hello.pvr (If there a a key(hello.png)-value(hello.pvr) in FilenameLookup dictionary. )
      *
      */
-    virtual std::string fullPathFromRelativeFile(const std::string &filename, const std::string &relativeFile);
+    virtual std::string fullPathFromRelativeFile(const std::string& filename, const std::string& relativeFile);
 
     /**
      *  Sets the array that contains the search order of the resources.
@@ -384,12 +391,12 @@ public:
     virtual void setSearchResolutionsOrder(const std::vector<std::string>& searchResolutionsOrder);
 
     /**
-      * Append search order of the resources.
-      *
-      * @see setSearchResolutionsOrder(), fullPathForFilename().
-      * @since v2.1
-      */
-    virtual void addSearchResolutionsOrder(const std::string &order,const bool front=false);
+     * Append search order of the resources.
+     *
+     * @see setSearchResolutionsOrder(), fullPathForFilename().
+     * @since v2.1
+     */
+    virtual void addSearchResolutionsOrder(const std::string& order, const bool front = false);
 
     /**
      *  Gets the array that contains the search order of the resources.
@@ -427,11 +434,11 @@ public:
     void setDefaultResourceRootPath(const std::string& path);
 
     /**
-      * Add search path.
-      *
-      * @since v2.1
-      */
-    void addSearchPath(const std::string & path, const bool front=false);
+     * Add search path.
+     *
+     * @since v2.1
+     */
+    void addSearchPath(const std::string& path, const bool front = false);
 
     /**
      *  Gets the array of search paths.
@@ -471,19 +478,18 @@ public:
      */
     virtual ValueMap getValueMapFromFile(const std::string& filename);
 
-
     /** Converts the contents of a file to a ValueMap.
      *  This method is used internally.
      */
     virtual ValueMap getValueMapFromData(const char* filedata, int filesize);
 
     /**
-    * write a ValueMap into a plist file
-    *
-    *@param dict the ValueMap want to save
-    *@param fullPath The full path to the file you want to save a string
-    *@return bool
-    */
+     * write a ValueMap into a plist file
+     *
+     *@param dict the ValueMap want to save
+     *@param fullPath The full path to the file you want to save a string
+     *@return bool
+     */
     virtual bool writeToFile(const ValueMap& dict, const std::string& fullPath);
 
     /**
@@ -495,7 +501,6 @@ public:
      */
     virtual bool writeStringToFile(const std::string& dataStr, const std::string& fullPath);
 
-
     /**
      * write Data into a file
      *
@@ -506,36 +511,36 @@ public:
     virtual bool writeDataToFile(const Data& data, const std::string& fullPath);
 
     /**
-    * write ValueMap into a plist file
-    *
-    *@param dict the ValueMap want to save
-    *@param fullPath The full path to the file you want to save a string
-    *@return bool
-    */
+     * write ValueMap into a plist file
+     *
+     *@param dict the ValueMap want to save
+     *@param fullPath The full path to the file you want to save a string
+     *@return bool
+     */
     virtual bool writeValueMapToFile(const ValueMap& dict, const std::string& fullPath);
 
     /**
-    * write ValueVector into a plist file
-    *
-    *@param vecData the ValueVector want to save
-    *@param fullPath The full path to the file you want to save a string
-    *@return bool
-    */
+     * write ValueVector into a plist file
+     *
+     *@param vecData the ValueVector want to save
+     *@param fullPath The full path to the file you want to save a string
+     *@return bool
+     */
     virtual bool writeValueVectorToFile(const ValueVector& vecData, const std::string& fullPath);
 
     /**
-    * Windows fopen can't support UTF-8 filename
-    * Need convert all parameters fopen and other 3rd-party libs
-    *
-    * @param filenameUtf8 std::string name file for conversion from utf-8
-    * @return std::string ansi filename in current locale
-    */
+     * Windows fopen can't support UTF-8 filename
+     * Need convert all parameters fopen and other 3rd-party libs
+     *
+     * @param filenameUtf8 std::string name file for conversion from utf-8
+     * @return std::string ansi filename in current locale
+     */
     virtual std::string getSuitableFOpen(const std::string& filenameUtf8) const;
 
     // Converts the contents of a file to a ValueVector.
     // This method is used internally.
     virtual ValueVector getValueVectorFromFile(const std::string& filename);
-    
+
     // Converts the contents of a file to a ValueVector.
     // This method is used internally.
     virtual ValueVector getValueVectorFromData(const char* filedata, int filesize);
@@ -550,11 +555,11 @@ public:
     virtual bool isFileExist(const std::string& filename) const;
 
     /**
-    *  Gets filename extension is a suffix (separated from the base filename by a dot) in lower case.
-    *  Examples of filename extensions are .png, .jpeg, .exe, .dmg and .txt.
-    *  @param filePath The path of the file, it could be a relative or absolute path.
-    *  @return suffix for filename in lower case or empty if a dot not found.
-    */
+     *  Gets filename extension is a suffix (separated from the base filename by a dot) in lower case.
+     *  Examples of filename extensions are .png, .jpeg, .exe, .dmg and .txt.
+     *  @param filePath The path of the file, it could be a relative or absolute path.
+     *  @return suffix for filename in lower case or empty if a dot not found.
+     */
     virtual std::string getFileExtension(const std::string& filePath) const;
 
     /**
@@ -598,7 +603,7 @@ public:
      *  @param filepath The full path of the file, it must be an absolute path.
      *  @return True if the file have been removed successfully, false if not.
      */
-    virtual bool removeFile(const std::string &filepath);
+    virtual bool removeFile(const std::string& filepath);
 
     /**
      *  Renames a file under the given directory.
@@ -608,7 +613,7 @@ public:
      *  @param name     The new name of the file.
      *  @return True if the file have been renamed successfully, false if not.
      */
-    virtual bool renameFile(const std::string &path, const std::string &oldname, const std::string &name);
+    virtual bool renameFile(const std::string& path, const std::string& oldname, const std::string& name);
 
     /**
      *  Renames a file under the given directory.
@@ -617,7 +622,7 @@ public:
      *  @param newfullpath  The new fullpath of the file. Includes path and name.
      *  @return True if the file have been renamed successfully, false if not.
      */
-    virtual bool renameFile(const std::string &oldfullpath, const std::string &newfullpath);
+    virtual bool renameFile(const std::string& oldfullpath, const std::string& newfullpath);
 
     /**
      *  Retrieve the file size.
@@ -626,7 +631,7 @@ public:
      *  @param filepath The path of the file, it could be a relative or absolute path.
      *  @return The file size.
      */
-    virtual long getFileSize(const std::string &filepath);
+    virtual long getFileSize(const std::string& filepath);
 
     /** Returns the full path cache. */
     const std::unordered_map<std::string, std::string>& getFullPathCache() const { return _fullPathCache; }
@@ -654,7 +659,7 @@ protected:
      *  @return The new filename after searching in the filename lookup dictionary.
      *          If the original filename wasn't in the dictionary, it will return the original filename.
      */
-    virtual std::string getNewFilename(const std::string &filename) const;
+    virtual std::string getNewFilename(const std::string& filename) const;
 
     /**
      *  Checks whether a file exists without considering search paths and resolution orders.
@@ -750,4 +755,4 @@ protected:
 
 NS_CC_END
 
-#endif    // __CC_FILEUTILS_H__
+#endif // __CC_FILEUTILS_H__

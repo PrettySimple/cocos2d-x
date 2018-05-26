@@ -28,16 +28,16 @@ THE SOFTWARE.
 #include <cmath>
 #include <unordered_map>
 
-#include "platform/CCApplication.h"
+#include "2d/CCCamera.h"
 #include "base/CCDirector.h"
-#include "base/CCTouch.h"
 #include "base/CCEventDispatcher.h"
 #include "base/CCEventKeyboard.h"
 #include "base/CCEventMouse.h"
 #include "base/CCIMEDispatcher.h"
-#include "base/ccUtils.h"
+#include "base/CCTouch.h"
 #include "base/ccUTF8.h"
-#include "2d/CCCamera.h"
+#include "base/ccUtils.h"
+#include "platform/CCApplication.h"
 
 NS_CC_BEGIN
 
@@ -94,16 +94,13 @@ public:
             _view->onGLFWframebuffersize(window, w, h);
     }
 
-    static void onGLFWWindowSizeFunCallback(GLFWwindow *window, int width, int height)
+    static void onGLFWWindowSizeFunCallback(GLFWwindow* window, int width, int height)
     {
         if (_view)
             _view->onGLFWWindowSizeFunCallback(window, width, height);
     }
 
-    static void setGLViewImpl(GLViewImpl* view)
-    {
-        _view = view;
-    }
+    static void setGLViewImpl(GLViewImpl* view) { _view = view; }
 
     static void onGLFWWindowIconifyCallback(GLFWwindow* window, int iconified)
     {
@@ -143,138 +140,136 @@ static std::unordered_map<int, EventKeyboard::KeyCode> g_keyCodeMap;
 
 static keyCodeItem g_keyCodeStructArray[] = {
     /* The unknown key */
-    { GLFW_KEY_UNKNOWN         , EventKeyboard::KeyCode::KEY_NONE          },
+    {GLFW_KEY_UNKNOWN, EventKeyboard::KeyCode::KEY_NONE},
 
     /* Printable keys */
-    { GLFW_KEY_SPACE           , EventKeyboard::KeyCode::KEY_SPACE         },
-    { GLFW_KEY_APOSTROPHE      , EventKeyboard::KeyCode::KEY_APOSTROPHE    },
-    { GLFW_KEY_COMMA           , EventKeyboard::KeyCode::KEY_COMMA         },
-    { GLFW_KEY_MINUS           , EventKeyboard::KeyCode::KEY_MINUS         },
-    { GLFW_KEY_PERIOD          , EventKeyboard::KeyCode::KEY_PERIOD        },
-    { GLFW_KEY_SLASH           , EventKeyboard::KeyCode::KEY_SLASH         },
-    { GLFW_KEY_0               , EventKeyboard::KeyCode::KEY_0             },
-    { GLFW_KEY_1               , EventKeyboard::KeyCode::KEY_1             },
-    { GLFW_KEY_2               , EventKeyboard::KeyCode::KEY_2             },
-    { GLFW_KEY_3               , EventKeyboard::KeyCode::KEY_3             },
-    { GLFW_KEY_4               , EventKeyboard::KeyCode::KEY_4             },
-    { GLFW_KEY_5               , EventKeyboard::KeyCode::KEY_5             },
-    { GLFW_KEY_6               , EventKeyboard::KeyCode::KEY_6             },
-    { GLFW_KEY_7               , EventKeyboard::KeyCode::KEY_7             },
-    { GLFW_KEY_8               , EventKeyboard::KeyCode::KEY_8             },
-    { GLFW_KEY_9               , EventKeyboard::KeyCode::KEY_9             },
-    { GLFW_KEY_SEMICOLON       , EventKeyboard::KeyCode::KEY_SEMICOLON     },
-    { GLFW_KEY_EQUAL           , EventKeyboard::KeyCode::KEY_EQUAL         },
-    { GLFW_KEY_A               , EventKeyboard::KeyCode::KEY_A             },
-    { GLFW_KEY_B               , EventKeyboard::KeyCode::KEY_B             },
-    { GLFW_KEY_C               , EventKeyboard::KeyCode::KEY_C             },
-    { GLFW_KEY_D               , EventKeyboard::KeyCode::KEY_D             },
-    { GLFW_KEY_E               , EventKeyboard::KeyCode::KEY_E             },
-    { GLFW_KEY_F               , EventKeyboard::KeyCode::KEY_F             },
-    { GLFW_KEY_G               , EventKeyboard::KeyCode::KEY_G             },
-    { GLFW_KEY_H               , EventKeyboard::KeyCode::KEY_H             },
-    { GLFW_KEY_I               , EventKeyboard::KeyCode::KEY_I             },
-    { GLFW_KEY_J               , EventKeyboard::KeyCode::KEY_J             },
-    { GLFW_KEY_K               , EventKeyboard::KeyCode::KEY_K             },
-    { GLFW_KEY_L               , EventKeyboard::KeyCode::KEY_L             },
-    { GLFW_KEY_M               , EventKeyboard::KeyCode::KEY_M             },
-    { GLFW_KEY_N               , EventKeyboard::KeyCode::KEY_N             },
-    { GLFW_KEY_O               , EventKeyboard::KeyCode::KEY_O             },
-    { GLFW_KEY_P               , EventKeyboard::KeyCode::KEY_P             },
-    { GLFW_KEY_Q               , EventKeyboard::KeyCode::KEY_Q             },
-    { GLFW_KEY_R               , EventKeyboard::KeyCode::KEY_R             },
-    { GLFW_KEY_S               , EventKeyboard::KeyCode::KEY_S             },
-    { GLFW_KEY_T               , EventKeyboard::KeyCode::KEY_T             },
-    { GLFW_KEY_U               , EventKeyboard::KeyCode::KEY_U             },
-    { GLFW_KEY_V               , EventKeyboard::KeyCode::KEY_V             },
-    { GLFW_KEY_W               , EventKeyboard::KeyCode::KEY_W             },
-    { GLFW_KEY_X               , EventKeyboard::KeyCode::KEY_X             },
-    { GLFW_KEY_Y               , EventKeyboard::KeyCode::KEY_Y             },
-    { GLFW_KEY_Z               , EventKeyboard::KeyCode::KEY_Z             },
-    { GLFW_KEY_LEFT_BRACKET    , EventKeyboard::KeyCode::KEY_LEFT_BRACKET  },
-    { GLFW_KEY_BACKSLASH       , EventKeyboard::KeyCode::KEY_BACK_SLASH    },
-    { GLFW_KEY_RIGHT_BRACKET   , EventKeyboard::KeyCode::KEY_RIGHT_BRACKET },
-    { GLFW_KEY_GRAVE_ACCENT    , EventKeyboard::KeyCode::KEY_GRAVE         },
-    { GLFW_KEY_WORLD_1         , EventKeyboard::KeyCode::KEY_GRAVE         },
-    { GLFW_KEY_WORLD_2         , EventKeyboard::KeyCode::KEY_NONE          },
+    {GLFW_KEY_SPACE, EventKeyboard::KeyCode::KEY_SPACE},
+    {GLFW_KEY_APOSTROPHE, EventKeyboard::KeyCode::KEY_APOSTROPHE},
+    {GLFW_KEY_COMMA, EventKeyboard::KeyCode::KEY_COMMA},
+    {GLFW_KEY_MINUS, EventKeyboard::KeyCode::KEY_MINUS},
+    {GLFW_KEY_PERIOD, EventKeyboard::KeyCode::KEY_PERIOD},
+    {GLFW_KEY_SLASH, EventKeyboard::KeyCode::KEY_SLASH},
+    {GLFW_KEY_0, EventKeyboard::KeyCode::KEY_0},
+    {GLFW_KEY_1, EventKeyboard::KeyCode::KEY_1},
+    {GLFW_KEY_2, EventKeyboard::KeyCode::KEY_2},
+    {GLFW_KEY_3, EventKeyboard::KeyCode::KEY_3},
+    {GLFW_KEY_4, EventKeyboard::KeyCode::KEY_4},
+    {GLFW_KEY_5, EventKeyboard::KeyCode::KEY_5},
+    {GLFW_KEY_6, EventKeyboard::KeyCode::KEY_6},
+    {GLFW_KEY_7, EventKeyboard::KeyCode::KEY_7},
+    {GLFW_KEY_8, EventKeyboard::KeyCode::KEY_8},
+    {GLFW_KEY_9, EventKeyboard::KeyCode::KEY_9},
+    {GLFW_KEY_SEMICOLON, EventKeyboard::KeyCode::KEY_SEMICOLON},
+    {GLFW_KEY_EQUAL, EventKeyboard::KeyCode::KEY_EQUAL},
+    {GLFW_KEY_A, EventKeyboard::KeyCode::KEY_A},
+    {GLFW_KEY_B, EventKeyboard::KeyCode::KEY_B},
+    {GLFW_KEY_C, EventKeyboard::KeyCode::KEY_C},
+    {GLFW_KEY_D, EventKeyboard::KeyCode::KEY_D},
+    {GLFW_KEY_E, EventKeyboard::KeyCode::KEY_E},
+    {GLFW_KEY_F, EventKeyboard::KeyCode::KEY_F},
+    {GLFW_KEY_G, EventKeyboard::KeyCode::KEY_G},
+    {GLFW_KEY_H, EventKeyboard::KeyCode::KEY_H},
+    {GLFW_KEY_I, EventKeyboard::KeyCode::KEY_I},
+    {GLFW_KEY_J, EventKeyboard::KeyCode::KEY_J},
+    {GLFW_KEY_K, EventKeyboard::KeyCode::KEY_K},
+    {GLFW_KEY_L, EventKeyboard::KeyCode::KEY_L},
+    {GLFW_KEY_M, EventKeyboard::KeyCode::KEY_M},
+    {GLFW_KEY_N, EventKeyboard::KeyCode::KEY_N},
+    {GLFW_KEY_O, EventKeyboard::KeyCode::KEY_O},
+    {GLFW_KEY_P, EventKeyboard::KeyCode::KEY_P},
+    {GLFW_KEY_Q, EventKeyboard::KeyCode::KEY_Q},
+    {GLFW_KEY_R, EventKeyboard::KeyCode::KEY_R},
+    {GLFW_KEY_S, EventKeyboard::KeyCode::KEY_S},
+    {GLFW_KEY_T, EventKeyboard::KeyCode::KEY_T},
+    {GLFW_KEY_U, EventKeyboard::KeyCode::KEY_U},
+    {GLFW_KEY_V, EventKeyboard::KeyCode::KEY_V},
+    {GLFW_KEY_W, EventKeyboard::KeyCode::KEY_W},
+    {GLFW_KEY_X, EventKeyboard::KeyCode::KEY_X},
+    {GLFW_KEY_Y, EventKeyboard::KeyCode::KEY_Y},
+    {GLFW_KEY_Z, EventKeyboard::KeyCode::KEY_Z},
+    {GLFW_KEY_LEFT_BRACKET, EventKeyboard::KeyCode::KEY_LEFT_BRACKET},
+    {GLFW_KEY_BACKSLASH, EventKeyboard::KeyCode::KEY_BACK_SLASH},
+    {GLFW_KEY_RIGHT_BRACKET, EventKeyboard::KeyCode::KEY_RIGHT_BRACKET},
+    {GLFW_KEY_GRAVE_ACCENT, EventKeyboard::KeyCode::KEY_GRAVE},
+    {GLFW_KEY_WORLD_1, EventKeyboard::KeyCode::KEY_GRAVE},
+    {GLFW_KEY_WORLD_2, EventKeyboard::KeyCode::KEY_NONE},
 
     /* Function keys */
-    { GLFW_KEY_ESCAPE          , EventKeyboard::KeyCode::KEY_ESCAPE        },
-    { GLFW_KEY_ENTER           , EventKeyboard::KeyCode::KEY_ENTER      },
-    { GLFW_KEY_TAB             , EventKeyboard::KeyCode::KEY_TAB           },
-    { GLFW_KEY_BACKSPACE       , EventKeyboard::KeyCode::KEY_BACKSPACE     },
-    { GLFW_KEY_INSERT          , EventKeyboard::KeyCode::KEY_INSERT        },
-    { GLFW_KEY_DELETE          , EventKeyboard::KeyCode::KEY_DELETE        },
-    { GLFW_KEY_RIGHT           , EventKeyboard::KeyCode::KEY_RIGHT_ARROW   },
-    { GLFW_KEY_LEFT            , EventKeyboard::KeyCode::KEY_LEFT_ARROW    },
-    { GLFW_KEY_DOWN            , EventKeyboard::KeyCode::KEY_DOWN_ARROW    },
-    { GLFW_KEY_UP              , EventKeyboard::KeyCode::KEY_UP_ARROW      },
-    { GLFW_KEY_PAGE_UP         , EventKeyboard::KeyCode::KEY_PG_UP      },
-    { GLFW_KEY_PAGE_DOWN       , EventKeyboard::KeyCode::KEY_PG_DOWN    },
-    { GLFW_KEY_HOME            , EventKeyboard::KeyCode::KEY_HOME       },
-    { GLFW_KEY_END             , EventKeyboard::KeyCode::KEY_END           },
-    { GLFW_KEY_CAPS_LOCK       , EventKeyboard::KeyCode::KEY_CAPS_LOCK     },
-    { GLFW_KEY_SCROLL_LOCK     , EventKeyboard::KeyCode::KEY_SCROLL_LOCK   },
-    { GLFW_KEY_NUM_LOCK        , EventKeyboard::KeyCode::KEY_NUM_LOCK      },
-    { GLFW_KEY_PRINT_SCREEN    , EventKeyboard::KeyCode::KEY_PRINT         },
-    { GLFW_KEY_PAUSE           , EventKeyboard::KeyCode::KEY_PAUSE         },
-    { GLFW_KEY_F1              , EventKeyboard::KeyCode::KEY_F1            },
-    { GLFW_KEY_F2              , EventKeyboard::KeyCode::KEY_F2            },
-    { GLFW_KEY_F3              , EventKeyboard::KeyCode::KEY_F3            },
-    { GLFW_KEY_F4              , EventKeyboard::KeyCode::KEY_F4            },
-    { GLFW_KEY_F5              , EventKeyboard::KeyCode::KEY_F5            },
-    { GLFW_KEY_F6              , EventKeyboard::KeyCode::KEY_F6            },
-    { GLFW_KEY_F7              , EventKeyboard::KeyCode::KEY_F7            },
-    { GLFW_KEY_F8              , EventKeyboard::KeyCode::KEY_F8            },
-    { GLFW_KEY_F9              , EventKeyboard::KeyCode::KEY_F9            },
-    { GLFW_KEY_F10             , EventKeyboard::KeyCode::KEY_F10           },
-    { GLFW_KEY_F11             , EventKeyboard::KeyCode::KEY_F11           },
-    { GLFW_KEY_F12             , EventKeyboard::KeyCode::KEY_F12           },
-    { GLFW_KEY_F13             , EventKeyboard::KeyCode::KEY_NONE          },
-    { GLFW_KEY_F14             , EventKeyboard::KeyCode::KEY_NONE          },
-    { GLFW_KEY_F15             , EventKeyboard::KeyCode::KEY_NONE          },
-    { GLFW_KEY_F16             , EventKeyboard::KeyCode::KEY_NONE          },
-    { GLFW_KEY_F17             , EventKeyboard::KeyCode::KEY_NONE          },
-    { GLFW_KEY_F18             , EventKeyboard::KeyCode::KEY_NONE          },
-    { GLFW_KEY_F19             , EventKeyboard::KeyCode::KEY_NONE          },
-    { GLFW_KEY_F20             , EventKeyboard::KeyCode::KEY_NONE          },
-    { GLFW_KEY_F21             , EventKeyboard::KeyCode::KEY_NONE          },
-    { GLFW_KEY_F22             , EventKeyboard::KeyCode::KEY_NONE          },
-    { GLFW_KEY_F23             , EventKeyboard::KeyCode::KEY_NONE          },
-    { GLFW_KEY_F24             , EventKeyboard::KeyCode::KEY_NONE          },
-    { GLFW_KEY_F25             , EventKeyboard::KeyCode::KEY_NONE          },
-    { GLFW_KEY_KP_0            , EventKeyboard::KeyCode::KEY_0             },
-    { GLFW_KEY_KP_1            , EventKeyboard::KeyCode::KEY_1             },
-    { GLFW_KEY_KP_2            , EventKeyboard::KeyCode::KEY_2             },
-    { GLFW_KEY_KP_3            , EventKeyboard::KeyCode::KEY_3             },
-    { GLFW_KEY_KP_4            , EventKeyboard::KeyCode::KEY_4             },
-    { GLFW_KEY_KP_5            , EventKeyboard::KeyCode::KEY_5             },
-    { GLFW_KEY_KP_6            , EventKeyboard::KeyCode::KEY_6             },
-    { GLFW_KEY_KP_7            , EventKeyboard::KeyCode::KEY_7             },
-    { GLFW_KEY_KP_8            , EventKeyboard::KeyCode::KEY_8             },
-    { GLFW_KEY_KP_9            , EventKeyboard::KeyCode::KEY_9             },
-    { GLFW_KEY_KP_DECIMAL      , EventKeyboard::KeyCode::KEY_PERIOD        },
-    { GLFW_KEY_KP_DIVIDE       , EventKeyboard::KeyCode::KEY_KP_DIVIDE     },
-    { GLFW_KEY_KP_MULTIPLY     , EventKeyboard::KeyCode::KEY_KP_MULTIPLY   },
-    { GLFW_KEY_KP_SUBTRACT     , EventKeyboard::KeyCode::KEY_KP_MINUS      },
-    { GLFW_KEY_KP_ADD          , EventKeyboard::KeyCode::KEY_KP_PLUS       },
-    { GLFW_KEY_KP_ENTER        , EventKeyboard::KeyCode::KEY_KP_ENTER      },
-    { GLFW_KEY_KP_EQUAL        , EventKeyboard::KeyCode::KEY_EQUAL         },
-    { GLFW_KEY_LEFT_SHIFT      , EventKeyboard::KeyCode::KEY_LEFT_SHIFT         },
-    { GLFW_KEY_LEFT_CONTROL    , EventKeyboard::KeyCode::KEY_LEFT_CTRL          },
-    { GLFW_KEY_LEFT_ALT        , EventKeyboard::KeyCode::KEY_LEFT_ALT           },
-    { GLFW_KEY_LEFT_SUPER      , EventKeyboard::KeyCode::KEY_HYPER         },
-    { GLFW_KEY_RIGHT_SHIFT     , EventKeyboard::KeyCode::KEY_RIGHT_SHIFT         },
-    { GLFW_KEY_RIGHT_CONTROL   , EventKeyboard::KeyCode::KEY_RIGHT_CTRL          },
-    { GLFW_KEY_RIGHT_ALT       , EventKeyboard::KeyCode::KEY_RIGHT_ALT           },
-    { GLFW_KEY_RIGHT_SUPER     , EventKeyboard::KeyCode::KEY_HYPER         },
-    { GLFW_KEY_MENU            , EventKeyboard::KeyCode::KEY_MENU          },
-    { GLFW_KEY_LAST            , EventKeyboard::KeyCode::KEY_NONE          }
-};
+    {GLFW_KEY_ESCAPE, EventKeyboard::KeyCode::KEY_ESCAPE},
+    {GLFW_KEY_ENTER, EventKeyboard::KeyCode::KEY_ENTER},
+    {GLFW_KEY_TAB, EventKeyboard::KeyCode::KEY_TAB},
+    {GLFW_KEY_BACKSPACE, EventKeyboard::KeyCode::KEY_BACKSPACE},
+    {GLFW_KEY_INSERT, EventKeyboard::KeyCode::KEY_INSERT},
+    {GLFW_KEY_DELETE, EventKeyboard::KeyCode::KEY_DELETE},
+    {GLFW_KEY_RIGHT, EventKeyboard::KeyCode::KEY_RIGHT_ARROW},
+    {GLFW_KEY_LEFT, EventKeyboard::KeyCode::KEY_LEFT_ARROW},
+    {GLFW_KEY_DOWN, EventKeyboard::KeyCode::KEY_DOWN_ARROW},
+    {GLFW_KEY_UP, EventKeyboard::KeyCode::KEY_UP_ARROW},
+    {GLFW_KEY_PAGE_UP, EventKeyboard::KeyCode::KEY_PG_UP},
+    {GLFW_KEY_PAGE_DOWN, EventKeyboard::KeyCode::KEY_PG_DOWN},
+    {GLFW_KEY_HOME, EventKeyboard::KeyCode::KEY_HOME},
+    {GLFW_KEY_END, EventKeyboard::KeyCode::KEY_END},
+    {GLFW_KEY_CAPS_LOCK, EventKeyboard::KeyCode::KEY_CAPS_LOCK},
+    {GLFW_KEY_SCROLL_LOCK, EventKeyboard::KeyCode::KEY_SCROLL_LOCK},
+    {GLFW_KEY_NUM_LOCK, EventKeyboard::KeyCode::KEY_NUM_LOCK},
+    {GLFW_KEY_PRINT_SCREEN, EventKeyboard::KeyCode::KEY_PRINT},
+    {GLFW_KEY_PAUSE, EventKeyboard::KeyCode::KEY_PAUSE},
+    {GLFW_KEY_F1, EventKeyboard::KeyCode::KEY_F1},
+    {GLFW_KEY_F2, EventKeyboard::KeyCode::KEY_F2},
+    {GLFW_KEY_F3, EventKeyboard::KeyCode::KEY_F3},
+    {GLFW_KEY_F4, EventKeyboard::KeyCode::KEY_F4},
+    {GLFW_KEY_F5, EventKeyboard::KeyCode::KEY_F5},
+    {GLFW_KEY_F6, EventKeyboard::KeyCode::KEY_F6},
+    {GLFW_KEY_F7, EventKeyboard::KeyCode::KEY_F7},
+    {GLFW_KEY_F8, EventKeyboard::KeyCode::KEY_F8},
+    {GLFW_KEY_F9, EventKeyboard::KeyCode::KEY_F9},
+    {GLFW_KEY_F10, EventKeyboard::KeyCode::KEY_F10},
+    {GLFW_KEY_F11, EventKeyboard::KeyCode::KEY_F11},
+    {GLFW_KEY_F12, EventKeyboard::KeyCode::KEY_F12},
+    {GLFW_KEY_F13, EventKeyboard::KeyCode::KEY_NONE},
+    {GLFW_KEY_F14, EventKeyboard::KeyCode::KEY_NONE},
+    {GLFW_KEY_F15, EventKeyboard::KeyCode::KEY_NONE},
+    {GLFW_KEY_F16, EventKeyboard::KeyCode::KEY_NONE},
+    {GLFW_KEY_F17, EventKeyboard::KeyCode::KEY_NONE},
+    {GLFW_KEY_F18, EventKeyboard::KeyCode::KEY_NONE},
+    {GLFW_KEY_F19, EventKeyboard::KeyCode::KEY_NONE},
+    {GLFW_KEY_F20, EventKeyboard::KeyCode::KEY_NONE},
+    {GLFW_KEY_F21, EventKeyboard::KeyCode::KEY_NONE},
+    {GLFW_KEY_F22, EventKeyboard::KeyCode::KEY_NONE},
+    {GLFW_KEY_F23, EventKeyboard::KeyCode::KEY_NONE},
+    {GLFW_KEY_F24, EventKeyboard::KeyCode::KEY_NONE},
+    {GLFW_KEY_F25, EventKeyboard::KeyCode::KEY_NONE},
+    {GLFW_KEY_KP_0, EventKeyboard::KeyCode::KEY_0},
+    {GLFW_KEY_KP_1, EventKeyboard::KeyCode::KEY_1},
+    {GLFW_KEY_KP_2, EventKeyboard::KeyCode::KEY_2},
+    {GLFW_KEY_KP_3, EventKeyboard::KeyCode::KEY_3},
+    {GLFW_KEY_KP_4, EventKeyboard::KeyCode::KEY_4},
+    {GLFW_KEY_KP_5, EventKeyboard::KeyCode::KEY_5},
+    {GLFW_KEY_KP_6, EventKeyboard::KeyCode::KEY_6},
+    {GLFW_KEY_KP_7, EventKeyboard::KeyCode::KEY_7},
+    {GLFW_KEY_KP_8, EventKeyboard::KeyCode::KEY_8},
+    {GLFW_KEY_KP_9, EventKeyboard::KeyCode::KEY_9},
+    {GLFW_KEY_KP_DECIMAL, EventKeyboard::KeyCode::KEY_PERIOD},
+    {GLFW_KEY_KP_DIVIDE, EventKeyboard::KeyCode::KEY_KP_DIVIDE},
+    {GLFW_KEY_KP_MULTIPLY, EventKeyboard::KeyCode::KEY_KP_MULTIPLY},
+    {GLFW_KEY_KP_SUBTRACT, EventKeyboard::KeyCode::KEY_KP_MINUS},
+    {GLFW_KEY_KP_ADD, EventKeyboard::KeyCode::KEY_KP_PLUS},
+    {GLFW_KEY_KP_ENTER, EventKeyboard::KeyCode::KEY_KP_ENTER},
+    {GLFW_KEY_KP_EQUAL, EventKeyboard::KeyCode::KEY_EQUAL},
+    {GLFW_KEY_LEFT_SHIFT, EventKeyboard::KeyCode::KEY_LEFT_SHIFT},
+    {GLFW_KEY_LEFT_CONTROL, EventKeyboard::KeyCode::KEY_LEFT_CTRL},
+    {GLFW_KEY_LEFT_ALT, EventKeyboard::KeyCode::KEY_LEFT_ALT},
+    {GLFW_KEY_LEFT_SUPER, EventKeyboard::KeyCode::KEY_HYPER},
+    {GLFW_KEY_RIGHT_SHIFT, EventKeyboard::KeyCode::KEY_RIGHT_SHIFT},
+    {GLFW_KEY_RIGHT_CONTROL, EventKeyboard::KeyCode::KEY_RIGHT_CTRL},
+    {GLFW_KEY_RIGHT_ALT, EventKeyboard::KeyCode::KEY_RIGHT_ALT},
+    {GLFW_KEY_RIGHT_SUPER, EventKeyboard::KeyCode::KEY_HYPER},
+    {GLFW_KEY_MENU, EventKeyboard::KeyCode::KEY_MENU},
+    {GLFW_KEY_LAST, EventKeyboard::KeyCode::KEY_NONE}};
 
 //////////////////////////////////////////////////////////////////////////
 // implement GLViewImpl
 //////////////////////////////////////////////////////////////////////////
-
 
 GLViewImpl::GLViewImpl(bool initglfw)
 : _captured(false)
@@ -318,7 +313,8 @@ GLViewImpl* GLViewImpl::create(const std::string& viewName)
 GLViewImpl* GLViewImpl::create(const std::string& viewName, bool resizable)
 {
     auto ret = new (std::nothrow) GLViewImpl;
-    if(ret && ret->initWithRect(viewName, Rect(0, 0, 960, 640), 1.0f, resizable)) {
+    if (ret && ret->initWithRect(viewName, Rect(0, 0, 960, 640), 1.0f, resizable))
+    {
         ret->autorelease();
         return ret;
     }
@@ -329,7 +325,8 @@ GLViewImpl* GLViewImpl::create(const std::string& viewName, bool resizable)
 GLViewImpl* GLViewImpl::createWithRect(const std::string& viewName, Rect rect, float frameZoomFactor, bool resizable)
 {
     auto ret = new (std::nothrow) GLViewImpl;
-    if(ret && ret->initWithRect(viewName, rect, frameZoomFactor, resizable)) {
+    if (ret && ret->initWithRect(viewName, rect, frameZoomFactor, resizable))
+    {
         ret->autorelease();
         return ret;
     }
@@ -340,7 +337,8 @@ GLViewImpl* GLViewImpl::createWithRect(const std::string& viewName, Rect rect, f
 GLViewImpl* GLViewImpl::createWithFullScreen(const std::string& viewName)
 {
     auto ret = new (std::nothrow) GLViewImpl();
-    if(ret && ret->initWithFullScreen(viewName)) {
+    if (ret && ret->initWithFullScreen(viewName))
+    {
         ret->autorelease();
         return ret;
     }
@@ -348,10 +346,11 @@ GLViewImpl* GLViewImpl::createWithFullScreen(const std::string& viewName)
     return nullptr;
 }
 
-GLViewImpl* GLViewImpl::createWithFullScreen(const std::string& viewName, const GLFWvidmode &videoMode, GLFWmonitor *monitor)
+GLViewImpl* GLViewImpl::createWithFullScreen(const std::string& viewName, const GLFWvidmode& videoMode, GLFWmonitor* monitor)
 {
     auto ret = new (std::nothrow) GLViewImpl();
-    if(ret && ret->initWithFullscreen(viewName, videoMode, monitor)) {
+    if (ret && ret->initWithFullscreen(viewName, videoMode, monitor))
+    {
         ret->autorelease();
         return ret;
     }
@@ -365,13 +364,13 @@ bool GLViewImpl::initWithRect(const std::string& viewName, Rect rect, float fram
 
     _frameZoomFactor = frameZoomFactor;
 
-    glfwWindowHint(GLFW_RESIZABLE,resizable?GL_TRUE:GL_FALSE);
-    glfwWindowHint(GLFW_RED_BITS,_glContextAttrs.redBits);
-    glfwWindowHint(GLFW_GREEN_BITS,_glContextAttrs.greenBits);
-    glfwWindowHint(GLFW_BLUE_BITS,_glContextAttrs.blueBits);
-    glfwWindowHint(GLFW_ALPHA_BITS,_glContextAttrs.alphaBits);
-    glfwWindowHint(GLFW_DEPTH_BITS,_glContextAttrs.depthBits);
-    glfwWindowHint(GLFW_STENCIL_BITS,_glContextAttrs.stencilBits);
+    glfwWindowHint(GLFW_RESIZABLE, resizable ? GL_TRUE : GL_FALSE);
+    glfwWindowHint(GLFW_RED_BITS, _glContextAttrs.redBits);
+    glfwWindowHint(GLFW_GREEN_BITS, _glContextAttrs.greenBits);
+    glfwWindowHint(GLFW_BLUE_BITS, _glContextAttrs.blueBits);
+    glfwWindowHint(GLFW_ALPHA_BITS, _glContextAttrs.alphaBits);
+    glfwWindowHint(GLFW_DEPTH_BITS, _glContextAttrs.depthBits);
+    glfwWindowHint(GLFW_STENCIL_BITS, _glContextAttrs.stencilBits);
 
     int neededWidth = rect.size.width * _frameZoomFactor;
     int neededHeight = rect.size.height * _frameZoomFactor;
@@ -392,15 +391,15 @@ bool GLViewImpl::initWithRect(const std::string& viewName, Rect rect, float fram
     }
 
     /*
-    *  Note that the created window and context may differ from what you requested,
-    *  as not all parameters and hints are
-    *  [hard constraints](@ref window_hints_hard).  This includes the size of the
-    *  window, especially for full screen windows.  To retrieve the actual
-    *  attributes of the created window and context, use queries like @ref
-    *  glfwGetWindowAttrib and @ref glfwGetWindowSize.
-    *
-    *  see declaration glfwCreateWindow
-    */
+     *  Note that the created window and context may differ from what you requested,
+     *  as not all parameters and hints are
+     *  [hard constraints](@ref window_hints_hard).  This includes the size of the
+     *  window, especially for full screen windows.  To retrieve the actual
+     *  attributes of the created window and context, use queries like @ref
+     *  glfwGetWindowAttrib and @ref glfwGetWindowSize.
+     *
+     *  see declaration glfwCreateWindow
+     */
     int realW = 0, realH = 0;
     glfwGetWindowSize(_mainWindow, &realW, &realH);
     if (realW != neededWidth)
@@ -430,12 +429,10 @@ bool GLViewImpl::initWithRect(const std::string& viewName, Rect rect, float fram
     // check OpenGL version at first
     const GLubyte* glVersion = glGetString(GL_VERSION);
 
-    if ( utils::atof((const char*)glVersion) < 1.5 )
+    if (utils::atof((const char*)glVersion) < 1.5)
     {
         char strComplain[256] = {0};
-        sprintf(strComplain,
-                "OpenGL 1.5 or higher is required (your version is %s). Please upgrade the driver of your video card.",
-                glVersion);
+        sprintf(strComplain, "OpenGL 1.5 or higher is required (your version is %s). Please upgrade the driver of your video card.", glVersion);
         MessageBox(strComplain, "OpenGL version too old");
         return false;
     }
@@ -445,15 +442,15 @@ bool GLViewImpl::initWithRect(const std::string& viewName, Rect rect, float fram
     // Enable point size by default.
     glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 
-//    // GLFW v3.2 no longer emits "onGLFWWindowSizeFunCallback" at creation time. Force default viewport:
-//    setViewPortInPoints(0, 0, neededWidth, neededHeight);
-//
+    //    // GLFW v3.2 no longer emits "onGLFWWindowSizeFunCallback" at creation time. Force default viewport:
+    //    setViewPortInPoints(0, 0, neededWidth, neededHeight);
+    //
     return true;
 }
 
 bool GLViewImpl::initWithFullScreen(const std::string& viewName)
 {
-    //Create fullscreen window on primary monitor at its current video mode.
+    // Create fullscreen window on primary monitor at its current video mode.
     _monitor = glfwGetPrimaryMonitor();
     if (nullptr == _monitor)
         return false;
@@ -462,19 +459,20 @@ bool GLViewImpl::initWithFullScreen(const std::string& viewName)
     return initWithRect(viewName, Rect(0, 0, videoMode->width, videoMode->height), 1.0f, false);
 }
 
-bool GLViewImpl::initWithFullscreen(const std::string &viewname, const GLFWvidmode &videoMode, GLFWmonitor *monitor)
+bool GLViewImpl::initWithFullscreen(const std::string& viewname, const GLFWvidmode& videoMode, GLFWmonitor* monitor)
 {
-    //Create fullscreen on specified monitor at the specified video mode.
+    // Create fullscreen on specified monitor at the specified video mode.
     _monitor = monitor;
     if (nullptr == _monitor)
         return false;
-    
-    //These are soft constraints. If the video mode is retrieved at runtime, the resulting window and context should match these exactly. If invalid attribs are passed (eg. from an outdated cache), window creation will NOT fail but the actual window/context may differ.
+
+    // These are soft constraints. If the video mode is retrieved at runtime, the resulting window and context should match these exactly. If invalid attribs
+    // are passed (eg. from an outdated cache), window creation will NOT fail but the actual window/context may differ.
     glfwWindowHint(GLFW_REFRESH_RATE, videoMode.refreshRate);
     glfwWindowHint(GLFW_RED_BITS, videoMode.redBits);
     glfwWindowHint(GLFW_BLUE_BITS, videoMode.blueBits);
     glfwWindowHint(GLFW_GREEN_BITS, videoMode.greenBits);
-    
+
     return initWithRect(viewname, Rect(0, 0, videoMode.width, videoMode.height), 1.0f, false);
 }
 
@@ -485,9 +483,9 @@ bool GLViewImpl::isOpenGLReady()
 
 void GLViewImpl::end()
 {
-    if(_mainWindow)
+    if (_mainWindow)
     {
-        glfwSetWindowShouldClose(_mainWindow,1);
+        glfwSetWindowShouldClose(_mainWindow, 1);
         _mainWindow = nullptr;
     }
     // Release self. Otherwise, GLViewImpl could not be freed.
@@ -496,13 +494,13 @@ void GLViewImpl::end()
 
 void GLViewImpl::swapBuffers()
 {
-    if(_mainWindow)
+    if (_mainWindow)
         glfwSwapBuffers(_mainWindow);
 }
 
 bool GLViewImpl::windowShouldClose()
 {
-    if(_mainWindow)
+    if (_mainWindow)
         return glfwWindowShouldClose(_mainWindow) ? true : false;
     else
         return true;
@@ -529,18 +527,16 @@ void GLViewImpl::enableRetina(bool enabled)
 #endif
 }
 
-
 void GLViewImpl::setIMEKeyboardState(bool /*bOpen*/)
 {
-
 }
 
-void GLViewImpl::setCursorVisible( bool isVisible )
+void GLViewImpl::setCursorVisible(bool isVisible)
 {
-    if( _mainWindow == NULL )
+    if (_mainWindow == NULL)
         return;
-    
-    if( isVisible )
+
+    if (isVisible)
         glfwSetInputMode(_mainWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     else
         glfwSetInputMode(_mainWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
@@ -584,7 +580,7 @@ void GLViewImpl::updateFrameSize()
             {
                 _retinaFactor = 2;
             }
-            glfwSetWindowSize(_mainWindow, _screenSize.width/2 * _retinaFactor * _frameZoomFactor, _screenSize.height/2 * _retinaFactor * _frameZoomFactor);
+            glfwSetWindowSize(_mainWindow, _screenSize.width / 2 * _retinaFactor * _frameZoomFactor, _screenSize.height / 2 * _retinaFactor * _frameZoomFactor);
 
             _isInRetinaMonitor = true;
         }
@@ -594,7 +590,7 @@ void GLViewImpl::updateFrameSize()
             {
                 _retinaFactor = 1;
             }
-            glfwSetWindowSize(_mainWindow, _screenSize.width * _retinaFactor * _frameZoomFactor, _screenSize.height *_retinaFactor * _frameZoomFactor);
+            glfwSetWindowSize(_mainWindow, _screenSize.width * _retinaFactor * _frameZoomFactor, _screenSize.height * _retinaFactor * _frameZoomFactor);
 
             _isInRetinaMonitor = false;
         }
@@ -607,21 +603,19 @@ void GLViewImpl::setFrameSize(float width, float height)
     updateFrameSize();
 }
 
-void GLViewImpl::setViewPortInPoints(float x , float y , float w , float h)
+void GLViewImpl::setViewPortInPoints(float x, float y, float w, float h)
 {
     experimental::Viewport vp((float)(x * _scaleX * _retinaFactor * _frameZoomFactor + _viewPortRect.origin.x * _retinaFactor * _frameZoomFactor),
-        (float)(y * _scaleY * _retinaFactor  * _frameZoomFactor + _viewPortRect.origin.y * _retinaFactor * _frameZoomFactor),
-        (float)(w * _scaleX * _retinaFactor * _frameZoomFactor),
-        (float)(h * _scaleY * _retinaFactor * _frameZoomFactor));
+                              (float)(y * _scaleY * _retinaFactor * _frameZoomFactor + _viewPortRect.origin.y * _retinaFactor * _frameZoomFactor),
+                              (float)(w * _scaleX * _retinaFactor * _frameZoomFactor), (float)(h * _scaleY * _retinaFactor * _frameZoomFactor));
     Camera::setDefaultViewport(vp);
 }
 
-void GLViewImpl::setScissorInPoints(float x , float y , float w , float h)
+void GLViewImpl::setScissorInPoints(float x, float y, float w, float h)
 {
     glScissor((GLint)(x * _scaleX * _retinaFactor * _frameZoomFactor + _viewPortRect.origin.x * _retinaFactor * _frameZoomFactor),
-               (GLint)(y * _scaleY * _retinaFactor  * _frameZoomFactor + _viewPortRect.origin.y * _retinaFactor * _frameZoomFactor),
-               (GLsizei)(w * _scaleX * _retinaFactor * _frameZoomFactor),
-               (GLsizei)(h * _scaleY * _retinaFactor * _frameZoomFactor));
+              (GLint)(y * _scaleY * _retinaFactor * _frameZoomFactor + _viewPortRect.origin.y * _retinaFactor * _frameZoomFactor),
+              (GLsizei)(w * _scaleX * _retinaFactor * _frameZoomFactor), (GLsizei)(h * _scaleY * _retinaFactor * _frameZoomFactor));
 }
 
 Rect GLViewImpl::getScissorRect() const
@@ -629,9 +623,9 @@ Rect GLViewImpl::getScissorRect() const
     GLfloat params[4];
     glGetFloatv(GL_SCISSOR_BOX, params);
     float x = (params[0] - _viewPortRect.origin.x * _retinaFactor * _frameZoomFactor) / (_scaleX * _retinaFactor * _frameZoomFactor);
-    float y = (params[1] - _viewPortRect.origin.y * _retinaFactor * _frameZoomFactor) / (_scaleY * _retinaFactor  * _frameZoomFactor);
+    float y = (params[1] - _viewPortRect.origin.y * _retinaFactor * _frameZoomFactor) / (_scaleY * _retinaFactor * _frameZoomFactor);
     float w = params[2] / (_scaleX * _retinaFactor * _frameZoomFactor);
-    float h = params[3] / (_scaleY * _retinaFactor  * _frameZoomFactor);
+    float h = params[3] / (_scaleY * _retinaFactor * _frameZoomFactor);
     return Rect(x, y, w, h);
 }
 
@@ -650,18 +644,18 @@ void GLViewImpl::onGLFWError(int errorID, const char* errorDesc)
 
 void GLViewImpl::onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int modify)
 {
-    if(GLFW_MOUSE_BUTTON_LEFT == button)
+    if (GLFW_MOUSE_BUTTON_LEFT == button)
     {
-        if(GLFW_PRESS == action)
+        if (GLFW_PRESS == action)
         {
             _captured = true;
-            if (this->getViewPortRect().equals(Rect::ZERO) || this->getViewPortRect().containsPoint(Vec2(_mouseX,_mouseY)))
+            if (this->getViewPortRect().equals(Rect::ZERO) || this->getViewPortRect().containsPoint(Vec2(_mouseX, _mouseY)))
             {
                 intptr_t id = 0;
                 this->handleTouchesBegin(1, &id, &_mouseX, &_mouseY);
             }
         }
-        else if(GLFW_RELEASE == action)
+        else if (GLFW_RELEASE == action)
         {
             if (_captured)
             {
@@ -671,19 +665,19 @@ void GLViewImpl::onGLFWMouseCallBack(GLFWwindow* window, int button, int action,
             }
         }
     }
-    
-    //Because OpenGL and cocos2d-x uses different Y axis, we need to convert the coordinate here
+
+    // Because OpenGL and cocos2d-x uses different Y axis, we need to convert the coordinate here
     float cursorX = (_mouseX - _viewPortRect.origin.x) / _scaleX;
     float cursorY = (_viewPortRect.origin.y + _viewPortRect.size.height - _mouseY) / _scaleY;
 
-    if(GLFW_PRESS == action)
+    if (GLFW_PRESS == action)
     {
         EventMouse event(EventMouse::MouseEventType::MOUSE_DOWN);
         event.setCursorPosition(cursorX, cursorY);
         event.setMouseButton(button);
         Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
     }
-    else if(GLFW_RELEASE == action)
+    else if (GLFW_RELEASE == action)
     {
         EventMouse event(EventMouse::MouseEventType::MOUSE_UP);
         event.setCursorPosition(cursorX, cursorY);
@@ -714,8 +708,8 @@ void GLViewImpl::onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y)
         intptr_t id = 0;
         this->handleTouchesMove(1, &id, &_mouseX, &_mouseY);
     }
-    
-    //Because OpenGL and cocos2d-x uses different Y axis, we need to convert the coordinate here
+
+    // Because OpenGL and cocos2d-x uses different Y axis, we need to convert the coordinate here
     float cursorX = (_mouseX - _viewPortRect.origin.x) / _scaleX;
     float cursorY = (_viewPortRect.origin.y + _viewPortRect.size.height - _mouseY) / _scaleY;
 
@@ -740,7 +734,7 @@ void GLViewImpl::onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y)
 void GLViewImpl::onGLFWMouseScrollCallback(GLFWwindow* window, double x, double y)
 {
     EventMouse event(EventMouse::MouseEventType::MOUSE_SCROLL);
-    //Because OpenGL and cocos2d-x uses different Y axis, we need to convert the coordinate here
+    // Because OpenGL and cocos2d-x uses different Y axis, we need to convert the coordinate here
     float cursorX = (_mouseX - _viewPortRect.origin.x) / _scaleX;
     float cursorY = (_viewPortRect.origin.y + _viewPortRect.size.height - _mouseY) / _scaleY;
     event.setScrollData((float)x, -(float)y);
@@ -748,7 +742,7 @@ void GLViewImpl::onGLFWMouseScrollCallback(GLFWwindow* window, double x, double 
     Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 }
 
-void GLViewImpl::onGLFWKeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
+void GLViewImpl::onGLFWKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (GLFW_REPEAT != action)
     {
@@ -761,31 +755,31 @@ void GLViewImpl::onGLFWKeyCallback(GLFWwindow *window, int key, int scancode, in
     {
         switch (g_keyCodeMap[key])
         {
-        case EventKeyboard::KeyCode::KEY_BACKSPACE:
-            IMEDispatcher::sharedDispatcher()->dispatchDeleteBackward();
-            break;
-        case EventKeyboard::KeyCode::KEY_HOME:
-        case EventKeyboard::KeyCode::KEY_KP_HOME:
-        case EventKeyboard::KeyCode::KEY_DELETE:
-        case EventKeyboard::KeyCode::KEY_KP_DELETE:
-        case EventKeyboard::KeyCode::KEY_END:
-        case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-        case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-        case EventKeyboard::KeyCode::KEY_ESCAPE:
-            IMEDispatcher::sharedDispatcher()->dispatchControlKey(g_keyCodeMap[key]);
-            break;
-        default:
-            break;
+            case EventKeyboard::KeyCode::KEY_BACKSPACE:
+                IMEDispatcher::sharedDispatcher()->dispatchDeleteBackward();
+                break;
+            case EventKeyboard::KeyCode::KEY_HOME:
+            case EventKeyboard::KeyCode::KEY_KP_HOME:
+            case EventKeyboard::KeyCode::KEY_DELETE:
+            case EventKeyboard::KeyCode::KEY_KP_DELETE:
+            case EventKeyboard::KeyCode::KEY_END:
+            case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+            case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+            case EventKeyboard::KeyCode::KEY_ESCAPE:
+                IMEDispatcher::sharedDispatcher()->dispatchControlKey(g_keyCodeMap[key]);
+                break;
+            default:
+                break;
         }
     }
 }
 
-void GLViewImpl::onGLFWCharCallback(GLFWwindow *window, unsigned int character)
+void GLViewImpl::onGLFWCharCallback(GLFWwindow* window, unsigned int character)
 {
-    char16_t wcharString[2] = { (char16_t) character, 0 };
+    char16_t wcharString[2] = {(char16_t)character, 0};
     std::string utf8String;
 
-    StringUtils::UTF16ToUTF8( wcharString, utf8String );
+    StringUtils::UTF16ToUTF8(wcharString, utf8String);
     static std::set<std::string> controlUnicode = {
         "\xEF\x9C\x80", // up
         "\xEF\x9C\x81", // down
@@ -796,16 +790,16 @@ void GLViewImpl::onGLFWCharCallback(GLFWwindow *window, unsigned int character)
         "\xEF\x9C\xAB", // end
         "\xEF\x9C\xAC", // pageup
         "\xEF\x9C\xAD", // pagedown
-        "\xEF\x9C\xB9"  // clear
+        "\xEF\x9C\xB9" // clear
     };
     // Check for send control key
     if (controlUnicode.find(utf8String) == controlUnicode.end())
     {
-        IMEDispatcher::sharedDispatcher()->dispatchInsertText( utf8String.c_str(), utf8String.size() );
+        IMEDispatcher::sharedDispatcher()->dispatchInsertText(utf8String.c_str(), utf8String.size());
     }
 }
 
-void GLViewImpl::onGLFWWindowPosCallback(GLFWwindow *windows, int x, int y)
+void GLViewImpl::onGLFWWindowPosCallback(GLFWwindow* windows, int x, int y)
 {
     Director::getInstance()->setViewport();
 }
@@ -829,7 +823,8 @@ void GLViewImpl::onGLFWframebuffersize(GLFWwindow* window, int w, int h)
             _retinaFactor = 2;
         }
 
-        glfwSetWindowSize(window, static_cast<int>(frameSizeW * 0.5f * _retinaFactor * _frameZoomFactor) , static_cast<int>(frameSizeH * 0.5f * _retinaFactor * _frameZoomFactor));
+        glfwSetWindowSize(window, static_cast<int>(frameSizeW * 0.5f * _retinaFactor * _frameZoomFactor),
+                          static_cast<int>(frameSizeH * 0.5f * _retinaFactor * _frameZoomFactor));
     }
     else if (std::abs(factorX - 2.0f) < FLT_EPSILON && std::abs(factorY - 2.0f) < FLT_EPSILON)
     {
@@ -839,7 +834,7 @@ void GLViewImpl::onGLFWframebuffersize(GLFWwindow* window, int w, int h)
     }
 }
 
-void GLViewImpl::onGLFWWindowSizeFunCallback(GLFWwindow *window, int width, int height)
+void GLViewImpl::onGLFWWindowSizeFunCallback(GLFWwindow* window, int width, int height)
 {
     if (width && height && _resolutionPolicy != ResolutionPolicy::UNKNOWN)
     {
@@ -882,7 +877,7 @@ void GLViewImpl::onGLFWWindowFocusCallback(GLFWwindow* window, int focused)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 static bool glew_dynamic_binding()
 {
-    const char *gl_extensions = (const char*)glGetString(GL_EXTENSIONS);
+    const char* gl_extensions = (const char*)glGetString(GL_EXTENSIONS);
 
     // If the current opengl driver doesn't have framebuffers methods, check if an extension exists
     if (glGenFramebuffers == nullptr)
@@ -892,45 +887,44 @@ static bool glew_dynamic_binding()
         {
             log("OpenGL: ARB_framebuffer_object is supported");
 
-            glIsRenderbuffer = (PFNGLISRENDERBUFFERPROC) wglGetProcAddress("glIsRenderbuffer");
-            glBindRenderbuffer = (PFNGLBINDRENDERBUFFERPROC) wglGetProcAddress("glBindRenderbuffer");
-            glDeleteRenderbuffers = (PFNGLDELETERENDERBUFFERSPROC) wglGetProcAddress("glDeleteRenderbuffers");
-            glGenRenderbuffers = (PFNGLGENRENDERBUFFERSPROC) wglGetProcAddress("glGenRenderbuffers");
-            glRenderbufferStorage = (PFNGLRENDERBUFFERSTORAGEPROC) wglGetProcAddress("glRenderbufferStorage");
-            glGetRenderbufferParameteriv = (PFNGLGETRENDERBUFFERPARAMETERIVPROC) wglGetProcAddress("glGetRenderbufferParameteriv");
-            glIsFramebuffer = (PFNGLISFRAMEBUFFERPROC) wglGetProcAddress("glIsFramebuffer");
-            glBindFramebuffer = (PFNGLBINDFRAMEBUFFERPROC) wglGetProcAddress("glBindFramebuffer");
-            glDeleteFramebuffers = (PFNGLDELETEFRAMEBUFFERSPROC) wglGetProcAddress("glDeleteFramebuffers");
-            glGenFramebuffers = (PFNGLGENFRAMEBUFFERSPROC) wglGetProcAddress("glGenFramebuffers");
-            glCheckFramebufferStatus = (PFNGLCHECKFRAMEBUFFERSTATUSPROC) wglGetProcAddress("glCheckFramebufferStatus");
-            glFramebufferTexture1D = (PFNGLFRAMEBUFFERTEXTURE1DPROC) wglGetProcAddress("glFramebufferTexture1D");
-            glFramebufferTexture2D = (PFNGLFRAMEBUFFERTEXTURE2DPROC) wglGetProcAddress("glFramebufferTexture2D");
-            glFramebufferTexture3D = (PFNGLFRAMEBUFFERTEXTURE3DPROC) wglGetProcAddress("glFramebufferTexture3D");
-            glFramebufferRenderbuffer = (PFNGLFRAMEBUFFERRENDERBUFFERPROC) wglGetProcAddress("glFramebufferRenderbuffer");
-            glGetFramebufferAttachmentParameteriv = (PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC) wglGetProcAddress("glGetFramebufferAttachmentParameteriv");
-            glGenerateMipmap = (PFNGLGENERATEMIPMAPPROC) wglGetProcAddress("glGenerateMipmap");
+            glIsRenderbuffer = (PFNGLISRENDERBUFFERPROC)wglGetProcAddress("glIsRenderbuffer");
+            glBindRenderbuffer = (PFNGLBINDRENDERBUFFERPROC)wglGetProcAddress("glBindRenderbuffer");
+            glDeleteRenderbuffers = (PFNGLDELETERENDERBUFFERSPROC)wglGetProcAddress("glDeleteRenderbuffers");
+            glGenRenderbuffers = (PFNGLGENRENDERBUFFERSPROC)wglGetProcAddress("glGenRenderbuffers");
+            glRenderbufferStorage = (PFNGLRENDERBUFFERSTORAGEPROC)wglGetProcAddress("glRenderbufferStorage");
+            glGetRenderbufferParameteriv = (PFNGLGETRENDERBUFFERPARAMETERIVPROC)wglGetProcAddress("glGetRenderbufferParameteriv");
+            glIsFramebuffer = (PFNGLISFRAMEBUFFERPROC)wglGetProcAddress("glIsFramebuffer");
+            glBindFramebuffer = (PFNGLBINDFRAMEBUFFERPROC)wglGetProcAddress("glBindFramebuffer");
+            glDeleteFramebuffers = (PFNGLDELETEFRAMEBUFFERSPROC)wglGetProcAddress("glDeleteFramebuffers");
+            glGenFramebuffers = (PFNGLGENFRAMEBUFFERSPROC)wglGetProcAddress("glGenFramebuffers");
+            glCheckFramebufferStatus = (PFNGLCHECKFRAMEBUFFERSTATUSPROC)wglGetProcAddress("glCheckFramebufferStatus");
+            glFramebufferTexture1D = (PFNGLFRAMEBUFFERTEXTURE1DPROC)wglGetProcAddress("glFramebufferTexture1D");
+            glFramebufferTexture2D = (PFNGLFRAMEBUFFERTEXTURE2DPROC)wglGetProcAddress("glFramebufferTexture2D");
+            glFramebufferTexture3D = (PFNGLFRAMEBUFFERTEXTURE3DPROC)wglGetProcAddress("glFramebufferTexture3D");
+            glFramebufferRenderbuffer = (PFNGLFRAMEBUFFERRENDERBUFFERPROC)wglGetProcAddress("glFramebufferRenderbuffer");
+            glGetFramebufferAttachmentParameteriv = (PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC)wglGetProcAddress("glGetFramebufferAttachmentParameteriv");
+            glGenerateMipmap = (PFNGLGENERATEMIPMAPPROC)wglGetProcAddress("glGenerateMipmap");
         }
-        else
-        if (strstr(gl_extensions, "EXT_framebuffer_object"))
+        else if (strstr(gl_extensions, "EXT_framebuffer_object"))
         {
             log("OpenGL: EXT_framebuffer_object is supported");
-            glIsRenderbuffer = (PFNGLISRENDERBUFFERPROC) wglGetProcAddress("glIsRenderbufferEXT");
-            glBindRenderbuffer = (PFNGLBINDRENDERBUFFERPROC) wglGetProcAddress("glBindRenderbufferEXT");
-            glDeleteRenderbuffers = (PFNGLDELETERENDERBUFFERSPROC) wglGetProcAddress("glDeleteRenderbuffersEXT");
-            glGenRenderbuffers = (PFNGLGENRENDERBUFFERSPROC) wglGetProcAddress("glGenRenderbuffersEXT");
-            glRenderbufferStorage = (PFNGLRENDERBUFFERSTORAGEPROC) wglGetProcAddress("glRenderbufferStorageEXT");
-            glGetRenderbufferParameteriv = (PFNGLGETRENDERBUFFERPARAMETERIVPROC) wglGetProcAddress("glGetRenderbufferParameterivEXT");
-            glIsFramebuffer = (PFNGLISFRAMEBUFFERPROC) wglGetProcAddress("glIsFramebufferEXT");
-            glBindFramebuffer = (PFNGLBINDFRAMEBUFFERPROC) wglGetProcAddress("glBindFramebufferEXT");
-            glDeleteFramebuffers = (PFNGLDELETEFRAMEBUFFERSPROC) wglGetProcAddress("glDeleteFramebuffersEXT");
-            glGenFramebuffers = (PFNGLGENFRAMEBUFFERSPROC) wglGetProcAddress("glGenFramebuffersEXT");
-            glCheckFramebufferStatus = (PFNGLCHECKFRAMEBUFFERSTATUSPROC) wglGetProcAddress("glCheckFramebufferStatusEXT");
-            glFramebufferTexture1D = (PFNGLFRAMEBUFFERTEXTURE1DPROC) wglGetProcAddress("glFramebufferTexture1DEXT");
-            glFramebufferTexture2D = (PFNGLFRAMEBUFFERTEXTURE2DPROC) wglGetProcAddress("glFramebufferTexture2DEXT");
-            glFramebufferTexture3D = (PFNGLFRAMEBUFFERTEXTURE3DPROC) wglGetProcAddress("glFramebufferTexture3DEXT");
-            glFramebufferRenderbuffer = (PFNGLFRAMEBUFFERRENDERBUFFERPROC) wglGetProcAddress("glFramebufferRenderbufferEXT");
-            glGetFramebufferAttachmentParameteriv = (PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC) wglGetProcAddress("glGetFramebufferAttachmentParameterivEXT");
-            glGenerateMipmap = (PFNGLGENERATEMIPMAPPROC) wglGetProcAddress("glGenerateMipmapEXT");
+            glIsRenderbuffer = (PFNGLISRENDERBUFFERPROC)wglGetProcAddress("glIsRenderbufferEXT");
+            glBindRenderbuffer = (PFNGLBINDRENDERBUFFERPROC)wglGetProcAddress("glBindRenderbufferEXT");
+            glDeleteRenderbuffers = (PFNGLDELETERENDERBUFFERSPROC)wglGetProcAddress("glDeleteRenderbuffersEXT");
+            glGenRenderbuffers = (PFNGLGENRENDERBUFFERSPROC)wglGetProcAddress("glGenRenderbuffersEXT");
+            glRenderbufferStorage = (PFNGLRENDERBUFFERSTORAGEPROC)wglGetProcAddress("glRenderbufferStorageEXT");
+            glGetRenderbufferParameteriv = (PFNGLGETRENDERBUFFERPARAMETERIVPROC)wglGetProcAddress("glGetRenderbufferParameterivEXT");
+            glIsFramebuffer = (PFNGLISFRAMEBUFFERPROC)wglGetProcAddress("glIsFramebufferEXT");
+            glBindFramebuffer = (PFNGLBINDFRAMEBUFFERPROC)wglGetProcAddress("glBindFramebufferEXT");
+            glDeleteFramebuffers = (PFNGLDELETEFRAMEBUFFERSPROC)wglGetProcAddress("glDeleteFramebuffersEXT");
+            glGenFramebuffers = (PFNGLGENFRAMEBUFFERSPROC)wglGetProcAddress("glGenFramebuffersEXT");
+            glCheckFramebufferStatus = (PFNGLCHECKFRAMEBUFFERSTATUSPROC)wglGetProcAddress("glCheckFramebufferStatusEXT");
+            glFramebufferTexture1D = (PFNGLFRAMEBUFFERTEXTURE1DPROC)wglGetProcAddress("glFramebufferTexture1DEXT");
+            glFramebufferTexture2D = (PFNGLFRAMEBUFFERTEXTURE2DPROC)wglGetProcAddress("glFramebufferTexture2DEXT");
+            glFramebufferTexture3D = (PFNGLFRAMEBUFFERTEXTURE3DPROC)wglGetProcAddress("glFramebufferTexture3DEXT");
+            glFramebufferRenderbuffer = (PFNGLFRAMEBUFFERRENDERBUFFERPROC)wglGetProcAddress("glFramebufferRenderbufferEXT");
+            glGetFramebufferAttachmentParameteriv = (PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC)wglGetProcAddress("glGetFramebufferAttachmentParameterivEXT");
+            glGenerateMipmap = (PFNGLGENERATEMIPMAPPROC)wglGetProcAddress("glGenerateMipmapEXT");
         }
         else
         {
@@ -950,7 +944,7 @@ bool GLViewImpl::initGlew()
     GLenum GlewInitResult = glewInit();
     if (GLEW_OK != GlewInitResult)
     {
-        MessageBox((char *)glewGetErrorString(GlewInitResult), "OpenGL error");
+        MessageBox((char*)glewGetErrorString(GlewInitResult), "OpenGL error");
         return false;
     }
 
@@ -972,13 +966,13 @@ bool GLViewImpl::initGlew()
         log("OpenGL 2.0 not supported");
     }
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
-    if(glew_dynamic_binding() == false)
+#    if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+    if (glew_dynamic_binding() == false)
     {
         MessageBox("No OpenGL framebuffer support. Please upgrade the driver of your video card.", "OpenGL error");
         return false;
     }
-#endif
+#    endif
 
 #endif // (CC_TARGET_PLATFORM != CC_PLATFORM_MAC)
 

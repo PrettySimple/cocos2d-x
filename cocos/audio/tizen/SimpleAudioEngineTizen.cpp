@@ -25,8 +25,8 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
 
-#include "audio/include/SimpleAudioEngine.h"
-#include "audio/include/AudioEngine.h"
+#    include "audio/include/AudioEngine.h"
+#    include "audio/include/SimpleAudioEngine.h"
 
 USING_NS_CC;
 using namespace cocos2d::experimental;
@@ -34,183 +34,163 @@ using namespace cocos2d::experimental;
 static float s_bgMusicVolume = 1.0f;
 static float s_effectVolume = 1.0f;
 
-namespace CocosDenshion {
+namespace CocosDenshion
+{
+    SimpleAudioEngine::SimpleAudioEngine() {}
 
-SimpleAudioEngine::SimpleAudioEngine() {
+    SimpleAudioEngine::~SimpleAudioEngine() {}
 
-}
+    SimpleAudioEngine* SimpleAudioEngine::getInstance()
+    {
+        static SimpleAudioEngine s_SharedEngine;
+        return &s_SharedEngine;
+    }
 
-SimpleAudioEngine::~SimpleAudioEngine() {
-}
+    void SimpleAudioEngine::end() { AudioEngine::end(); }
 
-SimpleAudioEngine* SimpleAudioEngine::getInstance() {
-    static SimpleAudioEngine s_SharedEngine;
-    return &s_SharedEngine;
-}
+    static int s_bgAudioID = AudioEngine::INVALID_AUDIO_ID;
+    static std::string bgMusicFilePath;
+    //////////////////////////////////////////////////////////////////////////
+    // BackgroundMusic
+    //////////////////////////////////////////////////////////////////////////
 
-void SimpleAudioEngine::end() {
-    AudioEngine::end();
-}
+    void SimpleAudioEngine::playBackgroundMusic(const char* pszFilePath, bool bLoop)
+    {
+        if (s_bgAudioID != AudioEngine::INVALID_AUDIO_ID)
+        {
+            AudioEngine::stop(s_bgAudioID);
+            s_bgAudioID = AudioEngine::INVALID_AUDIO_ID;
+        }
 
-static int s_bgAudioID = AudioEngine::INVALID_AUDIO_ID;
-static std::string bgMusicFilePath;
-//////////////////////////////////////////////////////////////////////////
-// BackgroundMusic
-//////////////////////////////////////////////////////////////////////////
+        if (pszFilePath)
+        {
+            bgMusicFilePath = pszFilePath;
+            s_bgAudioID = AudioEngine::play2d(pszFilePath, bLoop, s_bgMusicVolume);
+        }
+    }
 
-void SimpleAudioEngine::playBackgroundMusic(const char* pszFilePath,bool bLoop) {
-    if (s_bgAudioID != AudioEngine::INVALID_AUDIO_ID)
+    void SimpleAudioEngine::stopBackgroundMusic(bool bReleaseData) { AudioEngine::stop(s_bgAudioID); }
+
+    void SimpleAudioEngine::pauseBackgroundMusic() { AudioEngine::pause(s_bgAudioID); }
+
+    void SimpleAudioEngine::resumeBackgroundMusic() { AudioEngine::resume(s_bgAudioID); }
+
+    void SimpleAudioEngine::rewindBackgroundMusic()
     {
         AudioEngine::stop(s_bgAudioID);
-        s_bgAudioID = AudioEngine::INVALID_AUDIO_ID;
+        if (!bgMusicFilePath.empty())
+        {
+            s_bgAudioID = AudioEngine::play2d(bgMusicFilePath);
+        }
     }
 
-    if (pszFilePath)
+    bool SimpleAudioEngine::willPlayBackgroundMusic() { return false; }
+
+    bool SimpleAudioEngine::isBackgroundMusicPlaying()
     {
-        bgMusicFilePath = pszFilePath;
-        s_bgAudioID = AudioEngine::play2d(pszFilePath,bLoop,s_bgMusicVolume);
+        auto state = AudioEngine::getState(s_bgAudioID);
+        if (state == AudioEngine::AudioState::PLAYING)
+        {
+            return true;
+        }
+        return false;
     }
-}
 
-void SimpleAudioEngine::stopBackgroundMusic(bool bReleaseData) {
-    AudioEngine::stop(s_bgAudioID);
-}
+    void SimpleAudioEngine::preloadBackgroundMusic(const char* pszFilePath) { bgMusicFilePath = pszFilePath; }
 
-void SimpleAudioEngine::pauseBackgroundMusic() {
-    AudioEngine::pause(s_bgAudioID);
-}
+    //////////////////////////////////////////////////////////////////////////
+    // effect function
+    //////////////////////////////////////////////////////////////////////////
 
-void SimpleAudioEngine::resumeBackgroundMusic() {
-    AudioEngine::resume(s_bgAudioID);
-}
-
-void SimpleAudioEngine::rewindBackgroundMusic() {
-    AudioEngine::stop(s_bgAudioID);
-    if (!bgMusicFilePath.empty())
+    unsigned int SimpleAudioEngine::playEffect(const char* pszFilePath, bool bLoop, float pitch, float pan, float gain)
     {
-        s_bgAudioID = AudioEngine::play2d(bgMusicFilePath);
+        return AudioEngine::play2d(pszFilePath, bLoop, s_effectVolume);
     }
-}
 
-bool SimpleAudioEngine::willPlayBackgroundMusic() {
-    return false;
-}
+    void SimpleAudioEngine::stopEffect(unsigned int nSoundId) { AudioEngine::stop(nSoundId); }
 
-bool SimpleAudioEngine::isBackgroundMusicPlaying() {
-    auto state = AudioEngine::getState(s_bgAudioID);
-    if (state == AudioEngine::AudioState::PLAYING)
+    void SimpleAudioEngine::preloadEffect(const char* pszFilePath)
     {
-        return true;
+        // FIXME: need implementation
     }
-    return false;
-}
 
-void SimpleAudioEngine::preloadBackgroundMusic(const char* pszFilePath) {
-    bgMusicFilePath = pszFilePath;
-}
+    void SimpleAudioEngine::unloadEffect(const char* pszFilePath) { AudioEngine::uncache(pszFilePath); }
 
-//////////////////////////////////////////////////////////////////////////
-// effect function
-//////////////////////////////////////////////////////////////////////////
+    void SimpleAudioEngine::pauseEffect(unsigned int uSoundId) { AudioEngine::pause(uSoundId); }
 
-unsigned int SimpleAudioEngine::playEffect(const char* pszFilePath, bool bLoop,
-                                           float pitch, float pan, float gain) {
-    return AudioEngine::play2d(pszFilePath,bLoop,s_effectVolume);
-}
-
-void SimpleAudioEngine::stopEffect(unsigned int nSoundId) {
-    AudioEngine::stop(nSoundId);
-}
-
-void SimpleAudioEngine::preloadEffect(const char* pszFilePath) {
-    // FIXME: need implementation
-}
-
-void SimpleAudioEngine::unloadEffect(const char* pszFilePath) {
-    AudioEngine::uncache(pszFilePath);
-}
-
-void SimpleAudioEngine::pauseEffect(unsigned int uSoundId) {
-    AudioEngine::pause(uSoundId);
-}
-
-void SimpleAudioEngine::pauseAllEffects() {
-    bool resumeBGMusic = false;
-    auto state = AudioEngine::getState(s_bgAudioID);
-    if (state == AudioEngine::AudioState::PLAYING)
+    void SimpleAudioEngine::pauseAllEffects()
     {
-        resumeBGMusic = true;
+        bool resumeBGMusic = false;
+        auto state = AudioEngine::getState(s_bgAudioID);
+        if (state == AudioEngine::AudioState::PLAYING)
+        {
+            resumeBGMusic = true;
+        }
+        AudioEngine::pauseAll();
+        if (resumeBGMusic)
+        {
+            AudioEngine::resume(s_bgAudioID);
+        }
     }
-    AudioEngine::pauseAll();
-    if (resumeBGMusic)
+
+    void SimpleAudioEngine::resumeEffect(unsigned int uSoundId) { AudioEngine::resume(uSoundId); }
+
+    void SimpleAudioEngine::resumeAllEffects()
     {
-        AudioEngine::resume(s_bgAudioID);
+        bool pauseBGMusic = false;
+        auto state = AudioEngine::getState(s_bgAudioID);
+        if (state == AudioEngine::AudioState::PAUSED)
+        {
+            pauseBGMusic = true;
+        }
+        AudioEngine::resumeAll();
+        if (pauseBGMusic)
+        {
+            AudioEngine::pause(s_bgAudioID);
+        }
     }
-}
 
-void SimpleAudioEngine::resumeEffect(unsigned int uSoundId) {
-    AudioEngine::resume(uSoundId);
-}
-
-void SimpleAudioEngine::resumeAllEffects() {
-    bool pauseBGMusic = false;
-    auto state = AudioEngine::getState(s_bgAudioID);
-    if (state == AudioEngine::AudioState::PAUSED)
+    void SimpleAudioEngine::stopAllEffects()
     {
-        pauseBGMusic = true;
+        // FIXME
+        AudioEngine::stopAll();
     }
-    AudioEngine::resumeAll();
-    if (pauseBGMusic)
+
+    //////////////////////////////////////////////////////////////////////////
+    // volume interface
+    //////////////////////////////////////////////////////////////////////////
+
+    float SimpleAudioEngine::getBackgroundMusicVolume() { return s_bgMusicVolume; }
+
+    void SimpleAudioEngine::setBackgroundMusicVolume(float volume)
     {
-        AudioEngine::pause(s_bgAudioID);
+        if (volume > 1.0f)
+        {
+            volume = 1.0f;
+        }
+        else if (volume < 0.0f)
+        {
+            volume = 0.0f;
+        }
+        s_bgMusicVolume = volume;
+        AudioEngine::setVolume(s_bgAudioID, s_bgMusicVolume);
     }
-}
 
-void SimpleAudioEngine::stopAllEffects() {
-    //FIXME
-    AudioEngine::stopAll();
-}
+    float SimpleAudioEngine::getEffectsVolume() { return s_effectVolume; }
 
-
-
-//////////////////////////////////////////////////////////////////////////
-// volume interface
-//////////////////////////////////////////////////////////////////////////
-
-float SimpleAudioEngine::getBackgroundMusicVolume() {
-    return s_bgMusicVolume;
-}
-
-void SimpleAudioEngine::setBackgroundMusicVolume(float volume) {
-    if (volume > 1.0f)
+    void SimpleAudioEngine::setEffectsVolume(float volume)
     {
-        volume = 1.0f;
+        if (volume > 1.0f)
+        {
+            volume = 1.0f;
+        }
+        else if (volume < 0.0f)
+        {
+            volume = 0.0f;
+        }
+        s_effectVolume = volume;
+        // FIXME
     }
-    else if(volume < 0.0f)
-    {
-        volume = 0.0f;
-    }
-    s_bgMusicVolume = volume;
-    AudioEngine::setVolume(s_bgAudioID, s_bgMusicVolume);
-}
-
-float SimpleAudioEngine::getEffectsVolume() {
-    return s_effectVolume;
-}
-
-void SimpleAudioEngine::setEffectsVolume(float volume) {
-    if (volume > 1.0f)
-    {
-        volume = 1.0f;
-    }
-    else if(volume < 0.0f)
-    {
-        volume = 0.0f;
-    }
-    s_effectVolume = volume;
-    //FIXME
-}
-
 
 } // end of namespace CocosDenshion
 
