@@ -708,7 +708,10 @@ void Scheduler::update(float dt)
             auto const& ele = _timers.get_element_from_target(key);
             if (ele.target != nullptr && !ele.paused)
             {
-                ele.timer->update(dt);
+                auto timer = ele.timer;
+                timer->retain(); // Need to make sure that the timer won't be deleted during the execution of update()
+                timer->update(dt);
+                timer->release();
             }
         }
     }
