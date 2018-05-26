@@ -24,9 +24,9 @@
 
 #include "network/CCDownloader-curl.h"
 
-#include <set>
-
+#include <chrono>
 #include <curl/curl.h>
+#include <set>
 
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
@@ -720,7 +720,7 @@ namespace cocos2d
             sprintf(key, "DownloaderCURL(%p)", this);
             _schedulerKey = key;
 
-            _scheduler->schedule(bind(&DownloaderCURL::_onSchedule, this, placeholders::_1), this, 0.1f, true, _schedulerKey);
+            _scheduler->schedule([this](float dt) { _onSchedule(dt); }, this, 100ms, true, _schedulerKey);
         }
 
         DownloaderCURL::~DownloaderCURL()
