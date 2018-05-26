@@ -6,6 +6,8 @@
 #ifndef __etc2_h__
 #define __etc2_h__
 
+#include "platform/CCGL.h"
+
 typedef unsigned char etc2_byte;
 typedef int etc2_bool;
 typedef unsigned int etc2_uint32;

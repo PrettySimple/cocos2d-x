@@ -27,12 +27,11 @@
 
 #    include "audio/android/AudioEngine-inl.h"
 
-#    include <unistd.h>
-// for native asset manager
-#    include <android/asset_manager.h>
-#    include <android/asset_manager_jni.h>
-#    include <sys/types.h>
-
+#    include "audio/android/AudioPlayerProvider.h"
+#    include "audio/android/cutils/log.h"
+#    include "audio/android/IAudioPlayer.h"
+#    include "audio/android/ICallerThreadUtils.h"
+#    include "audio/android/UrlAudioPlayer.h"
 #    include "audio/include/AudioEngine.h"
 #    include "base/CCDirector.h"
 #    include "base/CCEventDispatcher.h"
@@ -43,18 +42,17 @@
 #    include "platform/android/CCFileUtils-android.h"
 #    include "platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxHelper.h"
 #    include "platform/android/jni/JniHelper.h"
+#    include <android/asset_manager_jni.h>
+#    include <android/asset_manager.h>
 #    include <android/log.h>
 #    include <jni.h>
+#    include <sys/types.h>
+#    include <unistd.h>
 #    include <unordered_map>
-
-#    include "audio/android/AudioPlayerProvider.h"
-#    include "audio/android/IAudioPlayer.h"
-#    include "audio/android/ICallerThreadUtils.h"
-#    include "audio/android/UrlAudioPlayer.h"
-#    include "audio/android/cutils/log.h"
 
 using namespace cocos2d;
 using namespace cocos2d::experimental;
+using namespace std::chrono_literals;
 
 // Audio focus values synchronized with which in cocos/platform/android/java/src/org/cocos2dx/lib/Cocos2dxActivity.java
 static const int AUDIOFOCUS_GAIN = 0;
@@ -403,15 +401,15 @@ void AudioEngineImpl::stopAll()
     }
 }
 
-float AudioEngineImpl::getDuration(int audioID)
+std::chrono::milliseconds AudioEngineImpl::getDuration(int audioID)
 {
     auto iter = _audioPlayers.find(audioID);
     if (iter != _audioPlayers.end())
     {
         auto player = iter->second;
-        return player->getDuration();
+        return std::chrono::milliseconds(static_cast<std::size_t>(1000.f * player->getDuration()));
     }
-    return 0.0f;
+    return 0ms;
 }
 
 float AudioEngineImpl::getCurrentTime(int audioID)

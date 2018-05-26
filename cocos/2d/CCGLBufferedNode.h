@@ -26,6 +26,7 @@ THE SOFTWARE.
 #define __CC_GL_BUFFERED_NODE__
 
 #include "platform/CCGL.h"
+#include "platform/CCPlatformMacros.h"
 
 /**
  * @js NA

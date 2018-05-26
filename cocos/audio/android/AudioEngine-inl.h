@@ -28,8 +28,10 @@
 
 #        include "base/CCRef.h"
 #        include "base/ccUtils.h"
-#        include <SLES/OpenSLES.h>
+
+#        include <chrono>
 #        include <SLES/OpenSLES_Android.h>
+#        include <SLES/OpenSLES.h>
 #        include <string>
 #        include <unordered_map>
 
@@ -63,7 +65,7 @@ namespace experimental
         void resume(int audioID);
         void stop(int audioID);
         void stopAll();
-        float getDuration(int audioID);
+        std::chrono::milliseconds getDuration(int audioID);
         float getCurrentTime(int audioID);
         bool setCurrentTime(int audioID, float time);
         void setFinishCallback(int audioID, const std::function<void(int, const std::string&)>& callback);
