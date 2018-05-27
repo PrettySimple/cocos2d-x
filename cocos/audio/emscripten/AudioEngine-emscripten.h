@@ -6,6 +6,7 @@
 #        define __AUDIO_ENGINE_EMPSCRIPTEN_H_
 
 #        include "base/CCRef.h"
+#        include <chrono>
 #        include <functional>
 #        include <string>
 #        include <unordered_map>
@@ -62,7 +63,7 @@ namespace experimental
         void stop(int audioID);
         void stopAll(); // /!\ MUST NOT BE INVOKED. SHALL ABORT. /!\ //
 
-        float getDuration(int audioID);
+        std::chrono::milliseconds getDuration(int audioID);
         float getCurrentTime(int audioID);
         bool setCurrentTime(int audioID, float time);
 

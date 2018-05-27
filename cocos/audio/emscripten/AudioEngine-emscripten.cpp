@@ -1,5 +1,8 @@
 #include "audio/emscripten/AudioEngine-emscripten.h"
+
 #include "audio/include/AudioEngine.h"
+
+#include <cstddef>
 #include <emscripten.h>
 #include <emscripten/bind.h>
 #include <mutex>
@@ -142,11 +145,11 @@ void AudioEngineImpl::stopAll()
     std::abort();
 }
 
-float AudioEngineImpl::getDuration(int audioID)
+std::chrono::milliseconds AudioEngineImpl::getDuration(int audioID)
 {
     // printf("*** AudioEngineImpl::getDuration(%d)\n", audioID);
 
-    return EM_ASM_DOUBLE({return Module.cocos_AudioEngine.getDuration($0)}, audioID);
+    return std::chrono::milliseconds(static_cast<std::size_t>(1000.0 * EM_ASM_DOUBLE({return Module.cocos_AudioEngine.getDuration($0)}, audioID)));
 }
 
 float AudioEngineImpl::getCurrentTime(int audioID)

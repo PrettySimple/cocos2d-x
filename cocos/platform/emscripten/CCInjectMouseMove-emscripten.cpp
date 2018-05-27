@@ -9,9 +9,13 @@
 #    include "base/CCDirector.h"
 #    include "base/CCEventDispatcher.h"
 
+#    include <chrono>
+
+using namespace std::chrono_literals;
+
 namespace
 {
-    const float INTERVAL = 0.125f;
+    const auto INTERVAL = 125ms;
 }
 
 NS_CC_BEGIN
