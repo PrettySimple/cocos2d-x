@@ -350,14 +350,6 @@ void Director::calculateDeltaTime()
         _deltaTime = MAX(0, _deltaTime);
     }
 
-#if COCOS2D_DEBUG
-    // If we are debugging our code, prevent big delta time
-    if (_deltaTime > 0.2f)
-    {
-        _deltaTime = 1 / 60.0f;
-    }
-#endif
-
     _lastUpdate = now;
 }
 float Director::getDeltaTime() const
