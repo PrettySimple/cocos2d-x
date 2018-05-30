@@ -250,7 +250,6 @@ public:
     RepeatForever* reverse(void) const override;
     void startWithTarget(Node* target) override;
     void step(float dt) override;
-    bool isDone(void) const override;
     void update(float) override;
 };
 
