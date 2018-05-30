@@ -446,7 +446,7 @@ void RepeatForever::startWithTarget(Node* target)
 void RepeatForever::step(float dt)
 {
     _innerAction->step(dt);
-    if (_innerAction->isDone())
+    if (!isDone() && _innerAction->isDone())
     {
         auto const duration = _innerAction->getDuration();
         auto const elasped = _innerAction->getElapsed();
@@ -465,11 +465,6 @@ void RepeatForever::step(float dt)
             _innerAction->step(0.0f);
         }
     }
-}
-
-bool RepeatForever::isDone() const
-{
-    return false;
 }
 
 void RepeatForever::update(float)
