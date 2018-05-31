@@ -686,7 +686,7 @@ void Renderer::fillVerticesAndIndices(TrianglesCommand const* cmd)
 
     // fill vertex, and convert them to world coordinates
     Mat4 const& modelView = cmd->getModelView();
-    for (std::size_t i = 0; i < cmd->getVertexCount(); ++i)
+    for (std::size_t i = 0; i < verticesCount; ++i)
     {
         Vec3& vec1 = _verts[i + _filledVertex].vertices;
         if (std::abs(modelView.m[15] - 1.0f) >= std::numeric_limits<float>::epsilon())
