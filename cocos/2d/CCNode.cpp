@@ -579,12 +579,6 @@ ssize_t Node::getChildrenCount() const
     return _children.size();
 }
 
-/// isVisible getter
-bool Node::isVisible() const
-{
-    return _visible;
-}
-
 /// isVisible setter
 void Node::setVisible(bool visible)
 {

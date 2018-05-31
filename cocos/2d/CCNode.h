@@ -565,7 +565,7 @@ public:
      *
      * @return true if the node is visible, false if the node is hidden.
      */
-    virtual bool isVisible() const;
+    inline bool isVisible() const noexcept { return _visible; }
 
     /**
      * Sets the rotation (angle) of the node in degrees.
