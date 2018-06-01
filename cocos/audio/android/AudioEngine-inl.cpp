@@ -28,10 +28,10 @@
 #    include "audio/android/AudioEngine-inl.h"
 
 #    include "audio/android/AudioPlayerProvider.h"
-#    include "audio/android/cutils/log.h"
 #    include "audio/android/IAudioPlayer.h"
 #    include "audio/android/ICallerThreadUtils.h"
 #    include "audio/android/UrlAudioPlayer.h"
+#    include "audio/android/cutils/log.h"
 #    include "audio/include/AudioEngine.h"
 #    include "base/CCDirector.h"
 #    include "base/CCEventDispatcher.h"
@@ -42,8 +42,8 @@
 #    include "platform/android/CCFileUtils-android.h"
 #    include "platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxHelper.h"
 #    include "platform/android/jni/JniHelper.h"
-#    include <android/asset_manager_jni.h>
 #    include <android/asset_manager.h>
+#    include <android/asset_manager_jni.h>
 #    include <android/log.h>
 #    include <jni.h>
 #    include <sys/types.h>

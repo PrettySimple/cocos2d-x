@@ -118,13 +118,13 @@ void TransitionPageTurn::onEnter()
 
     if (!_back)
     {
-        _outSceneProxy->runAction(Sequence::create({action, CallFunc::create(CC_CALLBACK_0(TransitionScene::finish, this)), StopGrid::create()}));
+        _outSceneProxy->runAction(Sequence::create({action, CallFunc::create([this]() { finish(); }), StopGrid::create()}));
     }
     else
     {
         // to prevent initial flicker
         _inSceneProxy->setVisible(false);
-        _inSceneProxy->runAction(Sequence::create({Show::create(), action, CallFunc::create(CC_CALLBACK_0(TransitionScene::finish, this)), StopGrid::create()}));
+        _inSceneProxy->runAction(Sequence::create({Show::create(), action, CallFunc::create([this]() { finish(); }), StopGrid::create()}));
     }
 }
 void TransitionPageTurn::onExit()

@@ -171,7 +171,7 @@ void NavMeshDebugDraw::drawImplement(const cocos2d::Mat4& transform, uint32_t fl
 void NavMeshDebugDraw::draw(Renderer* renderer)
 {
     _customCmd.init(0, Mat4::IDENTITY, Node::FLAGS_RENDER_AS_3D);
-    _customCmd.func = CC_CALLBACK_0(NavMeshDebugDraw::drawImplement, this, Mat4::IDENTITY, 0);
+    _customCmd.setFunc([this]() { drawImplement(Mat4::IDENTITY, 0) });
     renderer->addCommand(&_customCmd);
 }
 

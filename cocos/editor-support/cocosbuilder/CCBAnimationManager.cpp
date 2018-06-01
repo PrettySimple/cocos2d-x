@@ -796,8 +796,7 @@ namespace cocosbuilder
 
         // Make callback at end of sequence
         CCBSequence* seq = getSequence(nSeqId);
-        Action* completeAction = Sequence::create(
-            {DelayTime::create(seq->getDuration() + fTweenDuration), CallFunc::create(CC_CALLBACK_0(CCBAnimationManager::sequenceCompleted, this))});
+        Action* completeAction = Sequence::create({DelayTime::create(seq->getDuration() + fTweenDuration), CallFunc::create([this]() { sequenceCompleted(); })});
         _rootNode->runAction(completeAction);
 
         // Set the running scene

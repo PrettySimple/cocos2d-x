@@ -84,7 +84,7 @@ namespace network
                 _schedulerMutex.lock();
                 if (nullptr != _scheduler)
                 {
-                    _scheduler->performFunctionInCocosThread(CC_CALLBACK_0(HttpClient::dispatchResponseCallbacks, this));
+                    _scheduler->performFunctionInCocosThread([this]() { dispatchResponseCallbacks(); });
                 }
                 _schedulerMutex.unlock();
             }
@@ -398,7 +398,7 @@ namespace network
         }
         else
         {
-            auto t = std::thread(CC_CALLBACK_0(HttpClient::networkThread, this));
+            auto t = std::thread([this]() { networkThread(); });
             t.detach();
             _isInited = true;
         }

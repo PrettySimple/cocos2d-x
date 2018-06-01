@@ -73,7 +73,7 @@ Scene::Scene()
     addChild(_defaultCamera);
 
     _event = Director::getInstance()->getEventDispatcher()->addCustomEventListener(Director::EVENT_PROJECTION_CHANGED,
-                                                                                   std::bind(&Scene::onProjectionChanged, this, std::placeholders::_1));
+                                                                                   [this](EventCustom* evt) { onProjectionChanged(evt); });
     _event->retain();
 
     Camera::_visitingCamera = nullptr;
