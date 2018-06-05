@@ -41,7 +41,6 @@
 #include <mutex>
 #include <set>
 #include <string>
-#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -220,11 +219,11 @@ class TimerData
 public:
     struct Key final
     {
-        std::string_view name;
+        std::string name;
         void* target = nullptr;
 
         Key() = default;
-        constexpr explicit Key(std::string_view n, void* t)
+        explicit Key(std::string const& n, void* t)
         : target(t)
         , name(n)
         {
@@ -266,7 +265,7 @@ private:
 
     struct key_equal_to final
     {
-        constexpr bool operator()(Key const& lhs, Key const& rhs) const noexcept { return lhs.name == rhs.name && lhs.target == rhs.target; }
+        bool operator()(Key const& lhs, Key const& rhs) const noexcept { return lhs.name == rhs.name && lhs.target == rhs.target; }
     };
 
     std::set<element, element_less> _data;
