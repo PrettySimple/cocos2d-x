@@ -136,7 +136,7 @@ bool ParticleSystemQuad::initWithTotalParticles(int numberOfParticles)
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
         // Need to listen the event only when not use batchnode, because it will use VBO
-        auto listener = EventListenerCustom::create(EVENT_RENDERER_RECREATED, CC_CALLBACK_1(ParticleSystemQuad::listenRendererRecreated, this));
+        auto listener = EventListenerCustom::create(EVENT_RENDERER_RECREATED, [this](EventCustom* evt) { listenRendererRecreated(evt); });
         _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 #endif
 

@@ -400,8 +400,9 @@ namespace cocostudio
         if (iter == _movementDispatches->end())
         {
             amd = new (std::nothrow) ArmatureMovementDispatcher();
-            pAr->getAnimation()->setMovementEventCallFunc(
-                CC_CALLBACK_0(ArmatureMovementDispatcher::animationEvent, amd, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+            pAr->getAnimation()->setMovementEventCallFunc([amd](Armature* armature, MovementEventType movementType, const std::string& movementID) {
+                amd->animationEvent(armature, movementType, movementID);
+            });
             amd->addAnimationEventCallBack(pTarget, mecf);
             _movementDispatches->insert(std::make_pair(pAr, amd));
         }

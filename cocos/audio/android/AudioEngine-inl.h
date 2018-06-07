@@ -29,9 +29,9 @@
 #        include "base/CCRef.h"
 #        include "base/ccUtils.h"
 
-#        include <chrono>
-#        include <SLES/OpenSLES_Android.h>
 #        include <SLES/OpenSLES.h>
+#        include <SLES/OpenSLES_Android.h>
+#        include <chrono>
 #        include <string>
 #        include <unordered_map>
 

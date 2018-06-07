@@ -858,7 +858,7 @@ bool Label::alignText()
 
             if (fontSize > 0 && isVerticalClamp())
             {
-                this->shrinkLabelToContentSize(CC_CALLBACK_0(Label::isVerticalClamp, this));
+                this->shrinkLabelToContentSize([this]() { return isVerticalClamp(); });
             }
         }
 
@@ -867,7 +867,7 @@ bool Label::alignText()
             ret = false;
             if (_overflow == Overflow::SHRINK)
             {
-                this->shrinkLabelToContentSize(CC_CALLBACK_0(Label::isHorizontalClamp, this));
+                this->shrinkLabelToContentSize([this]() { return isHorizontalClamp(); });
             }
             break;
         }

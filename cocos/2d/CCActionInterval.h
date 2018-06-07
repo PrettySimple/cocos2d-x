@@ -1427,11 +1427,14 @@ public:
     virtual TargetedAction* clone() const override;
     virtual TargetedAction* reverse() const override;
     virtual void startWithTarget(Node* target) override;
+    virtual void step(float dt) override;
     virtual void stop(void) override;
     /**
      * @param time In seconds.
      */
     virtual void update(float time) override;
+    
+    virtual bool isDone() const override;
 
     CC_CONSTRUCTOR_ACCESS : TargetedAction();
     virtual ~TargetedAction();

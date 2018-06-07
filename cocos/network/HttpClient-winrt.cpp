@@ -118,7 +118,7 @@ namespace network
 
             if (nullptr != s_pHttpClient)
             {
-                scheduler->performFunctionInCocosThread(CC_CALLBACK_0(HttpClient::dispatchResponseCallbacks, this));
+                scheduler->performFunctionInCocosThread([this]() { dispatchResponseCallbacks(); });
             }
         }
 
@@ -275,7 +275,7 @@ namespace network
             s_requestQueue = new (std::nothrow) Vector<HttpRequest*>();
             s_responseQueue = new (std::nothrow) Vector<HttpResponse*>();
 
-            auto t = std::thread(CC_CALLBACK_0(HttpClient::networkThread, this));
+            auto t = std::thread([this]() { networkThread(); });
             t.detach();
         }
 

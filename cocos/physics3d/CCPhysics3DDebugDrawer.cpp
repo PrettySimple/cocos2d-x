@@ -82,7 +82,7 @@ int Physics3DDebugDrawer::getDebugMode() const
 void Physics3DDebugDrawer::draw(Renderer* renderer)
 {
     _customCommand.init(0, Mat4::IDENTITY, 0);
-    _customCommand.func = CC_CALLBACK_0(Physics3DDebugDrawer::drawImplementation, this, Mat4::IDENTITY, 0);
+    _customCommand.setFunc([this]() { drawImplementation(Mat4::IDENTITY, 0); });
     renderer->addCommand(&_customCommand);
 }
 
