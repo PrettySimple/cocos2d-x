@@ -60,20 +60,7 @@ namespace
         return it.first->second;
     }
 
-    static uint32_t& s_attributeFlags()
-    {
-        static std::unordered_map<std::thread::id, uint32_t> attributeFlags;
-
-        const auto tId = std::this_thread::get_id();
-        auto search = attributeFlags.find(tId);
-        if (search != attributeFlags.end())
-        {
-            return search->second;
-        }
-
-        auto it = attributeFlags.emplace(tId, 0);
-        return it.first->second;
-    }
+    uint32_t s_attributeFlags = 0;
 
 #if CC_ENABLE_GL_STATE_CACHE
 
@@ -206,7 +193,7 @@ namespace GL {
 void initialize()
 {
     s_currentProjectionMatrix();
-    s_attributeFlags();
+    s_attributeFlags = 0;
 #if CC_ENABLE_GL_STATE_CACHE
     s_currentShaderProgram();
     s_currentBoundTexture();
@@ -222,7 +209,7 @@ void invalidateStateCache()
 {
     Director::getInstance()->resetMatrixStack();
     s_currentProjectionMatrix() = -1;
-    s_attributeFlags() = 0;
+    s_attributeFlags = 0;
 
 #if CC_ENABLE_GL_STATE_CACHE
     s_currentShaderProgram() = -1;
@@ -407,25 +394,50 @@ void bindVAO(GLuint vaoId)
 
 // GL Vertex Attrib functions
 
-void enableVertexAttribs(uint32_t flags)
+void enableVertexAttribs(uint32_t flags, GLuint vao)
 {
-    bindVAO(0);
+    // Do not use the state cache in case of vao as the attrib flags context is by vao!
+    if (Configuration::getInstance()->supportsShareableVAO() && vao != 0)
+    {
+        for(int i=0; i < MAX_ATTRIBUTES; i++) {
+            std::uint32_t bit = 1 << i;
+            glEnableVertexAttribArray(i);
+        }
+        return;
+    }
+    
+    if (vao == 0)
+        bindVAO(vao);
+    
+// Uncomment to check that the GL state is equal to the real GPU state
+//#define VALIDATE_GL_STATE
+#ifdef VALIDATE_GL_STATE
+    uint32_t realFlags = 0;
+    for(int i=0; i<MAX_ATTRIBUTES; i++) {
+        GLint realFlag;
+        glGetVertexAttribiv(i, GL_VERTEX_ATTRIB_ARRAY_ENABLED, &realFlag);
+        if (realFlag > 0)
+            realFlags |= 1 << i;
+    }
+    assert(realFlags == s_attributeFlags); // The GL state cache is not up to date with the GPU state
+                                             // Probably somebody called glEnableVertexAttribArray manually!!
+#endif
 
     // hardcoded!
     for(int i=0; i < MAX_ATTRIBUTES; i++) {
-        unsigned int bit = 1 << i;
+        uint32_t bit = 1 << i;
         //FIXME:Cache is disabled, try to enable cache as before
-        bool enabled = (flags & bit) != 0;
-        bool enabledBefore = (s_attributeFlags() & bit) != 0;
-        if(enabled != enabledBefore) 
+        bool const enabled = (flags & bit) != 0;
+        bool const enabledBefore = (s_attributeFlags & bit) != 0;
+        if(enabled != enabledBefore)
         {
-            if( enabled )
+            if (enabled)
                 glEnableVertexAttribArray(i);
             else
                 glDisableVertexAttribArray(i);
         }
     }
-    s_attributeFlags() = flags;
+    s_attributeFlags = flags;
 }
 
 // GL Uniforms functions

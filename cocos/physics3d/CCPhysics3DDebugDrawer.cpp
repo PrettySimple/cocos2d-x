@@ -181,10 +181,9 @@ void Physics3DDebugDrawer::init()
     glBindBuffer(GL_ARRAY_BUFFER, _vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(V3F_V4F)* _bufferCapacity, _buffer, GL_STREAM_DRAW);
 
-    glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_POSITION);
+    GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POSITION | GL::VERTEX_ATTRIB_FLAG_COLOR, _vao);
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(V3F_V4F), (GLvoid *)offsetof(V3F_V4F, vertex));
 
-    glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_COLOR);
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_FLOAT, GL_FALSE, sizeof(V3F_V4F), (GLvoid *)offsetof(V3F_V4F, color));
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);

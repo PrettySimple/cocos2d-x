@@ -147,13 +147,7 @@ bool VertexAttribBinding::init(MeshIndexData* meshIndexData, GLProgramState* glP
         GL::bindVAO(_handle);
         glBindBuffer(GL_ARRAY_BUFFER, meshVertexData->getVertexBuffer()->getVBO());
 
-        auto flags = _vertexAttribsFlags;
-        for (int i = 0; flags > 0; i++) {
-            int flag = 1 << i;
-            if (flag & flags)
-                glEnableVertexAttribArray(i);
-            flags &= ~flag;
-        }
+        GL::enableVertexAttribs(_vertexAttribsFlags, _handle);       
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshIndexData->getIndexBuffer()->getVBO());
 

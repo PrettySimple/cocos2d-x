@@ -136,7 +136,7 @@ void Skybox::initBuffers()
 
     if (Configuration::getInstance()->supportsShareableVAO())
     {
-        glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_POSITION);
+        GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POSITION, _vao);
         getGLProgramState()->applyAttributes(false);
 
         GL::bindVAO(0);

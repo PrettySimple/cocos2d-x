@@ -126,7 +126,6 @@ void VertexData::use()
     int lastVBO = -1;
     for(auto& element : _vertexStreams)
     {
-        //glEnableVertexAttribArray((GLint)element.second._stream._semantic);
         auto vertexStreamAttrib = element.second._stream;
         auto vertexBuffer = element.second._buffer;
 

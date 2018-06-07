@@ -299,17 +299,13 @@ void MeshCommand::buildVAO()
                                     ? _material->_currentTechnique->_passes.at(0)->getGLProgramState()
                                     : _glProgramState;
 
+    
+    
     releaseVAO();
     glGenVertexArrays(1, &_vao);
     GL::bindVAO(_vao);
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    auto flags = programState->getVertexAttribsFlags();
-    for (int i = 0; flags > 0; i++) {
-        int flag = 1 << i;
-        if (flag & flags)
-            glEnableVertexAttribArray(i);
-        flags &= ~flag;
-    }
+    GL::enableVertexAttribs(programState->getVertexAttribsFlags(), _vao);
     programState->applyAttributes(false);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
