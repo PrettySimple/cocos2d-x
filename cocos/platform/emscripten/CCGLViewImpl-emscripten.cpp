@@ -465,34 +465,35 @@ Rect GLViewImpl::getScissorRect() const
 
 bool GLViewImpl::setFullscreen(bool fullscreen) noexcept
 {
-    static EmscriptenFullscreenStrategy strategy{
-        // scaleMode									//		Result				Changes to the canvas element		Changed to the body element
-        // ----------------------------------------------------------------------------------------------------------------------------------------------------------
-        // EMSCRIPTEN_FULLSCREEN_SCALE_DEFAULT,			//		OK					+"background-color: black;"						+"background-color: black;"
-        EMSCRIPTEN_FULLSCREEN_SCALE_STRETCH, //		OK					+"background-color: black;"						+"background-color: black;"
-        // EMSCRIPTEN_FULLSCREEN_SCALE_ASPECT,			//		NOK					+"padding: 0px 160px;background-color: black;"	+"background-color: black;"
-        //							Removing the padding gives the same results as the other modes
+	static EmscriptenFullscreenStrategy strategy{
+		// scaleMode									//		Result		Changes to the canvas element					Changed to the body element
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// EMSCRIPTEN_FULLSCREEN_SCALE_DEFAULT,			//		OK			+"background-color: black;"						+"background-color: black;"
+		EMSCRIPTEN_FULLSCREEN_SCALE_STRETCH,			//		OK			+"background-color: black;"						+"background-color: black;"
+		// EMSCRIPTEN_FULLSCREEN_SCALE_ASPECT,			//		NOK			+"padding: 0px 160px;background-color: black;"	+"background-color: black;"
+		//																	Removing the padding gives the same results as the other modes
 
-        // canvasResolutionScaleMode					//		Result
-        // ----------------------------------------------------------------------------------------------------------------------------------------------------------
-        // EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE,		//		OK
-        // EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_STDDEF,	//		OK
-        EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_HIDEF, //		OK
+		// canvasResolutionScaleMode					//		Result
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE,		//		OK
+		// EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_STDDEF,	//		OK
+		EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_HIDEF,		//		OK
 
-        // filteringMode
-        // ----------------------------------------------------------------------------------------------------------------------------------------------------------
-        EMSCRIPTEN_FULLSCREEN_FILTERING_DEFAULT,
-        // EMSCRIPTEN_FULLSCREEN_FILTERING_NEAREST,
-        // EMSCRIPTEN_FULLSCREEN_FILTERING_BILINEAR,
+		// filteringMode
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		EMSCRIPTEN_FULLSCREEN_FILTERING_DEFAULT,
+		// EMSCRIPTEN_FULLSCREEN_FILTERING_NEAREST,
+		// EMSCRIPTEN_FULLSCREEN_FILTERING_BILINEAR,
 
-        // canvasResizedCallback						// Doesn't receive any information, invoked only when returning to windowed mode
-        // ----------------------------------------------------------------------------------------------------------------------------------------------------------
-        nullptr,
-        //[](int, const void*, void*) { printf("*** canvasResizedCallback()\n"); return EM_TRUE; },
+		// canvasResizedCallback						// Doesn't receive any information, invoked only when returning to windowed mode
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		nullptr,
+		//[](int, const void*, void*) { printf("*** canvasResizedCallback()\n"); return EM_TRUE; },
 
-        // canvasResizedCallbackUserData
-        // ----------------------------------------------------------------------------------------------------------------------------------------------------------
-        nullptr};
+		// canvasResizedCallbackUserData
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		nullptr
+	};
 
     if (fullscreen == _fullscreen)
         return false;
