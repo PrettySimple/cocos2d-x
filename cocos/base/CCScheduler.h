@@ -35,9 +35,9 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
-#include <deque>
 #include <functional>
 #include <limits>
+#include <list>
 #include <mutex>
 #include <set>
 #include <string>
@@ -69,8 +69,8 @@ protected:
     std::chrono::milliseconds _elapsed = std::chrono::milliseconds::max();
     bool _runForever = false;
     bool _useDelay = false;
-    unsigned int _timesExecuted = 0;
-    unsigned int _repeat = 0; // 0 = once, 1 is 2 x executed
+    std::uint32_t _timesExecuted = 0;
+    std::uint32_t _repeat = 0; // 0 = once, 1 is 2 x executed
     std::chrono::milliseconds _delay = std::chrono::milliseconds::zero();
     std::chrono::milliseconds _interval = std::chrono::milliseconds::zero();
 
@@ -94,7 +94,7 @@ public:
 
     inline Type getType() const noexcept { return _type; }
 
-    void setupTimerWithInterval(std::chrono::milliseconds seconds, unsigned int repeat, std::chrono::milliseconds delay);
+    void setupTimerWithInterval(std::chrono::milliseconds seconds, std::uint32_t repeat, std::chrono::milliseconds delay);
 
     virtual void trigger(float dt) = 0;
     virtual void cancel() = 0;
@@ -117,7 +117,7 @@ public:
     ~TimerTargetSelector() final = default;
 
     /** Initializes a timer with a target, a selector and an interval in seconds, repeat in number of times to repeat, delay in seconds. */
-    bool initWithSelector(Scheduler* scheduler, SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds seconds, unsigned int repeat,
+    bool initWithSelector(Scheduler* scheduler, SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds seconds, std::uint32_t repeat,
                           std::chrono::milliseconds delay);
 
     inline SEL_SCHEDULE getSelector() const noexcept { return _selector; }
@@ -142,7 +142,7 @@ public:
 
     // Initializes a timer with a target, a lambda and an interval in seconds, repeat in number of times to repeat, delay in seconds.
     bool initWithCallback(Scheduler* scheduler, ccSchedulerFunc const& callback, void* target, std::string const& key, std::chrono::milliseconds seconds,
-                          unsigned int repeat, std::chrono::milliseconds delay);
+                          std::uint32_t repeat, std::chrono::milliseconds delay);
 
     inline ccSchedulerFunc getCallback() const noexcept { return _callback; }
     inline std::string getKey() const noexcept { return _key; }
@@ -160,12 +160,12 @@ public:
     {
         ccSchedulerFunc callback = nullptr;
         void* target = nullptr;
-        int priority = 0;
+        std::int32_t priority = 0;
         bool paused = false;
         std::uint64_t index = 0;
 
         element() = default;
-        explicit element(ccSchedulerFunc const& c, void* t, int pr, bool pa, std::uint64_t i);
+        explicit element(ccSchedulerFunc const& c, void* t, std::int32_t pr, bool pa, std::uint64_t i);
         element(element const&) = delete;
         element& operator=(element const&) = delete;
         element(element&&) noexcept = delete;
@@ -195,12 +195,12 @@ public:
     void resume_target(void* target);
     bool is_pause_target(void* target) const noexcept;
     void pause_all_targets();
-    std::unordered_set<void*> pause_all_updates_with_min_priority(int min_priority);
+    std::unordered_set<void*> pause_all_updates_with_min_priority(std::int32_t min_priority);
 
-    void add_update(ccSchedulerFunc const& c, void* t, int pr, bool pa);
+    void add_update(ccSchedulerFunc const& c, void* t, std::int32_t pr, bool pa);
 
     void remove_update(void* t);
-    void remove_all_updates_with_min_priority(int min_priority);
+    void remove_all_updates_with_min_priority(std::int32_t min_priority);
 
     inline std::size_t count(void* t) const noexcept { return _targets.count(t); }
     inline decltype(_data)::iterator begin() { return _data.begin(); }
@@ -314,10 +314,10 @@ class CC_DLL Scheduler final : public Ref
 {
     float _timeScale = 1.f;
 
-    std::deque<void*> _updates_to_process;
-    int _updates_to_process_priority = std::numeric_limits<int>::min();
+    std::list<void*> _updates_to_process;
+    std::int32_t _updates_to_process_priority = std::numeric_limits<std::int32_t>::min();
     UpdateData _updates;
-    std::deque<TimerData::Key> _timers_to_process;
+    std::list<TimerData::Key> _timers_to_process;
     TimerData _timers;
 
     std::vector<std::function<void()>> _functionsToPerform;
@@ -326,12 +326,12 @@ class CC_DLL Scheduler final : public Ref
 public:
     /** Priority level reserved for system services.
      */
-    static constexpr int const PRIORITY_SYSTEM = std::numeric_limits<int>::min();
+    static constexpr std::int32_t const PRIORITY_SYSTEM = std::numeric_limits<std::int32_t>::min();
 
     /** Minimum priority level for user scheduling.
      * Priority level of user scheduling should bigger then this value.
      */
-    static constexpr int const PRIORITY_NON_SYSTEM_MIN = PRIORITY_SYSTEM + 1;
+    static constexpr std::int32_t const PRIORITY_NON_SYSTEM_MIN = PRIORITY_SYSTEM + 1;
 
     Scheduler() = default;
     Scheduler(Scheduler const&) = delete;
@@ -380,7 +380,7 @@ public:
      @param key The key to identify the callback function, because there is not way to identify a std::function<>.
      @since v3.0
      */
-    void schedule(ccSchedulerFunc const& callback, void* target, std::chrono::milliseconds interval, unsigned int repeat, std::chrono::milliseconds delay,
+    void schedule(ccSchedulerFunc const& callback, void* target, std::chrono::milliseconds interval, std::uint32_t repeat, std::chrono::milliseconds delay,
                   bool paused, std::string const& key);
 
     /** The scheduled method will be called every 'interval' seconds for ever.
@@ -409,7 +409,7 @@ public:
      @param paused Whether or not to pause the schedule.
      @since v3.0
      */
-    void schedule(SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds interval, unsigned int repeat, std::chrono::milliseconds delay, bool paused);
+    void schedule(SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds interval, std::uint32_t repeat, std::chrono::milliseconds delay, bool paused);
 
     /** The scheduled method will be called every `interval` seconds for ever.
      @param selector The callback function.
@@ -426,7 +426,7 @@ public:
      @lua NA
      */
     template <typename T>
-    void scheduleUpdate(T* target, int priority, bool paused)
+    void scheduleUpdate(T* target, std::int32_t priority, bool paused)
     {
         schedulePerFrame([target](float dt) { target->update(dt); }, target, priority, paused);
     }
@@ -477,7 +477,7 @@ public:
      priority is higher than minPriority will be unscheduled.
      @since v2.0.0
      */
-    void unscheduleAllWithMinPriority(int minPriority);
+    void unscheduleAllWithMinPriority(std::int32_t minPriority);
 
     /////////////////////////////////////
 
@@ -537,7 +537,7 @@ public:
      priority is higher than minPriority will be paused.
      @since v2.0.0
      */
-    std::unordered_set<void*> pauseAllTargetsWithMinPriority(int minPriority);
+    std::unordered_set<void*> pauseAllTargetsWithMinPriority(std::int32_t minPriority);
 
     /** Resume selectors on a set of targets.
      This can be useful for undoing a call to pauseAllSelectors.
@@ -562,7 +562,7 @@ protected:
      @since v3.0
      @js _schedulePerFrame
      */
-    void schedulePerFrame(ccSchedulerFunc const& callback, void* target, int priority, bool paused);
+    void schedulePerFrame(ccSchedulerFunc const& callback, void* target, std::int32_t priority, bool paused);
 };
 
 NS_CC_END

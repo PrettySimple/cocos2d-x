@@ -33,7 +33,7 @@
 #include "base/CCRef.h"
 #include "base/CCVector.h"
 
-#include <deque>
+#include <list>
 #include <vector>
 
 NS_CC_BEGIN
@@ -59,7 +59,7 @@ class Node;
  */
 class CC_DLL ActionManager : public Ref
 {
-    std::deque<Action*> _actions_to_process;
+    std::list<Action*> _actions_to_process;
     ActionManagerData _actions;
 
 public:

@@ -41,7 +41,7 @@ NS_CC_BEGIN
 
 // Timer
 
-void Timer::setupTimerWithInterval(std::chrono::milliseconds seconds, unsigned int repeat, std::chrono::milliseconds delay)
+void Timer::setupTimerWithInterval(std::chrono::milliseconds seconds, std::uint32_t repeat, std::chrono::milliseconds delay)
 {
     _elapsed = std::chrono::milliseconds::max();
     _interval = seconds;
@@ -110,7 +110,7 @@ TimerTargetSelector::TimerTargetSelector()
 {
 }
 
-bool TimerTargetSelector::initWithSelector(Scheduler* scheduler, SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds seconds, unsigned int repeat,
+bool TimerTargetSelector::initWithSelector(Scheduler* scheduler, SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds seconds, std::uint32_t repeat,
                                            std::chrono::milliseconds delay)
 {
     _scheduler = scheduler;
@@ -141,7 +141,7 @@ TimerTargetCallback::TimerTargetCallback()
 }
 
 bool TimerTargetCallback::initWithCallback(Scheduler* scheduler, ccSchedulerFunc const& callback, void* target, std::string const& key,
-                                           std::chrono::milliseconds seconds, unsigned int repeat, std::chrono::milliseconds delay)
+                                           std::chrono::milliseconds seconds, std::uint32_t repeat, std::chrono::milliseconds delay)
 {
     _scheduler = scheduler;
     _target = target;
@@ -166,7 +166,7 @@ void TimerTargetCallback::cancel()
 
 // UpdateData
 
-UpdateData::element::element(ccSchedulerFunc const& c, void* t, int pr, bool pa, std::uint64_t i)
+UpdateData::element::element(ccSchedulerFunc const& c, void* t, std::int32_t pr, bool pa, std::uint64_t i)
 : callback(c)
 , target(t)
 , priority(pr)
@@ -200,7 +200,7 @@ bool UpdateData::is_pause_target(void* target) const noexcept
     return false;
 }
 
-std::unordered_set<void*> UpdateData::pause_all_updates_with_min_priority(int min_priority)
+std::unordered_set<void*> UpdateData::pause_all_updates_with_min_priority(std::int32_t min_priority)
 {
     std::unordered_set<void*> ret;
     ret.reserve(_data.size());
@@ -223,7 +223,7 @@ void UpdateData::pause_all_targets()
     }
 }
 
-void UpdateData::add_update(ccSchedulerFunc const& c, void* t, int pr, bool pa)
+void UpdateData::add_update(ccSchedulerFunc const& c, void* t, std::int32_t pr, bool pa)
 {
     CCASSERT(_targets.count(t) == 0, "update has already been added!");
     CCASSERT(t != nullptr, "Argument target must be non-nullptr");
@@ -246,7 +246,7 @@ void UpdateData::remove_update(void* t)
     }
 }
 
-void UpdateData::remove_all_updates_with_min_priority(int min_priority)
+void UpdateData::remove_all_updates_with_min_priority(std::int32_t min_priority)
 {
     std::vector<std::reference_wrapper<UpdateData::element const>> tmp;
     tmp.reserve(_data.size());
@@ -482,7 +482,7 @@ void Scheduler::schedule(ccSchedulerFunc const& callback, void* target, std::chr
     schedule(callback, target, interval, CC_REPEAT_FOREVER, std::chrono::milliseconds::zero(), paused, key);
 }
 
-void Scheduler::schedule(ccSchedulerFunc const& callback, void* target, std::chrono::milliseconds interval, unsigned int repeat,
+void Scheduler::schedule(ccSchedulerFunc const& callback, void* target, std::chrono::milliseconds interval, std::uint32_t repeat,
                          std::chrono::milliseconds delay, bool paused, std::string const& key)
 {
     CCASSERT(target != nullptr, "Argument target must be non-nullptr");
@@ -521,7 +521,7 @@ void Scheduler::unschedule(std::string const& key, void* target)
     _timers.remove_timer(k);
 }
 
-void Scheduler::schedulePerFrame(ccSchedulerFunc const& callback, void* target, int priority, bool paused)
+void Scheduler::schedulePerFrame(ccSchedulerFunc const& callback, void* target, std::int32_t priority, bool paused)
 {
     CCASSERT(target != nullptr, "Argument target must be non-nullptr");
 
@@ -582,7 +582,7 @@ void Scheduler::unscheduleAll()
     unscheduleAllWithMinPriority(PRIORITY_SYSTEM);
 }
 
-void Scheduler::unscheduleAllWithMinPriority(int minPriority)
+void Scheduler::unscheduleAllWithMinPriority(std::int32_t minPriority)
 {
     _timers.remove_all_timers();
     _updates.remove_all_updates_with_min_priority(minPriority);
@@ -628,7 +628,7 @@ std::unordered_set<void*> Scheduler::pauseAllTargets()
     return pauseAllTargetsWithMinPriority(PRIORITY_SYSTEM);
 }
 
-std::unordered_set<void*> Scheduler::pauseAllTargetsWithMinPriority(int minPriority)
+std::unordered_set<void*> Scheduler::pauseAllTargetsWithMinPriority(std::int32_t minPriority)
 {
     std::unordered_set<void*> idsWithSelectors;
 
@@ -686,7 +686,7 @@ void Scheduler::update(float dt)
                 ele.callback(dt);
             }
         }
-        _updates_to_process_priority = std::numeric_limits<int>::min();
+        _updates_to_process_priority = std::numeric_limits<std::int32_t>::min();
     }
 
     // custom selectors
@@ -702,7 +702,7 @@ void Scheduler::update(float dt)
         }
         while (!_timers_to_process.empty())
         {
-            auto const& key = _timers_to_process.front();
+            auto const key = std::move(_timers_to_process.front());
             _timers_to_process.pop_front();
 
             auto const& ele = _timers.get_element_from_target(key);
@@ -734,7 +734,7 @@ void Scheduler::update(float dt)
     }
 }
 
-void Scheduler::schedule(SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds interval, unsigned int repeat, std::chrono::milliseconds delay, bool paused)
+void Scheduler::schedule(SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds interval, std::uint32_t repeat, std::chrono::milliseconds delay, bool paused)
 {
     CCASSERT(target != nullptr, "Argument target must be non-nullptr");
 
