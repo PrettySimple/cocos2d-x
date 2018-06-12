@@ -167,7 +167,7 @@ foreach(pkg ZLIB MINIZIP JPEG PNG TIFF TinyXML2 FREETYPE WEBSOCKETS CURL FLATBUF
 endforeach()
 
 if(EMSCRIPTEN)
-  foreach(pkg BZ2 XZ)
+  foreach(pkg BZ2 XZ OPENSSL)
     cocos_use_pkg(cocos2dInternal ${pkg})
   endforeach()
 endif(EMSCRIPTEN)

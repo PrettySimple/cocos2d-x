@@ -1,0 +1,23 @@
+tar xvf openssl-1.1.0h.tar.gz
+cd openssl-1.1.0h
+emmake bash
+
+alias ll="ls -laG"
+
+./Configure no-asm no-hw no-threads no-shared no-dso linux-generic32
+
+# Edit Makefile
+# * Search and remove all "$(CROSS_COMPILE)", as path concatenations are broken (paths following
+#   "$(CROSS_COMPILE)" are full, valid paths).
+# * Replace -O3 by -O2
+
+vi Makefile
+
+# Run make. It will make tests by default, hence you may skip to the next step as soon as libcrypto.a and libssl.a
+# appear in the root folder. Yet, do make sure tests were okay.
+
+make
+
+# copy:
+# * libcrypto.a and libssl.a into <cocos>/external/openssl/prebuilt/emscripten/
+# * include/openssl into <cocos>/external/openssl/include/emscripten/

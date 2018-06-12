@@ -138,8 +138,13 @@ if(ANDROID)
   list(APPEND all_prebuilt_libs curl websockets zlib)
 endif()
 
+
+set(_openssl_inc evp.h openssl/evp.h)
+set(_openssl_libs ssl crypto)
+
+
 if(EMSCRIPTEN)
-  list(APPEND all_prebuilt_libs zlib xz bz2)
+  list(APPEND all_prebuilt_libs zlib xz bz2 openssl)
 endif()
 
 

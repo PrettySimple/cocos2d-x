@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2016 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2018 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the OpenSSL license (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -625,8 +625,8 @@ ASN1_TIME *ASN1_TIME_set(ASN1_TIME *s, time_t t);
 ASN1_TIME *ASN1_TIME_adj(ASN1_TIME *s, time_t t,
                          int offset_day, long offset_sec);
 int ASN1_TIME_check(const ASN1_TIME *t);
-ASN1_GENERALIZEDTIME *ASN1_TIME_to_generalizedtime(ASN1_TIME *t, ASN1_GENERALIZEDTIME
-                                                   **out);
+ASN1_GENERALIZEDTIME *ASN1_TIME_to_generalizedtime(const ASN1_TIME *t,
+                                                   ASN1_GENERALIZEDTIME **out);
 int ASN1_TIME_set_string(ASN1_TIME *s, const char *str);
 
 int i2a_ASN1_INTEGER(BIO *bp, const ASN1_INTEGER *a);
@@ -946,6 +946,7 @@ int ERR_load_ASN1_strings(void);
 # define ASN1_F_C2I_ASN1_INTEGER                          194
 # define ASN1_F_C2I_ASN1_OBJECT                           196
 # define ASN1_F_C2I_IBUF                                  226
+# define ASN1_F_C2I_UINT64_INT                            101
 # define ASN1_F_COLLECT_DATA                              140
 # define ASN1_F_D2I_ASN1_OBJECT                           147
 # define ASN1_F_D2I_ASN1_UINTEGER                         150
@@ -971,6 +972,8 @@ int ERR_load_ASN1_strings(void);
 # define ASN1_F_SMIME_READ_ASN1                           212
 # define ASN1_F_SMIME_TEXT                                213
 # define ASN1_F_STBL_MODULE_INIT                          223
+# define ASN1_F_UINT32_C2I                                105
+# define ASN1_F_UINT64_C2I                                112
 # define ASN1_F_X509_CRL_ADD0_REVOKED                     169
 # define ASN1_F_X509_INFO_NEW                             170
 # define ASN1_F_X509_NAME_ENCODE                          203
@@ -1048,6 +1051,7 @@ int ERR_load_ASN1_strings(void);
 # define ASN1_R_MSTRING_NOT_UNIVERSAL                     139
 # define ASN1_R_MSTRING_WRONG_TAG                         140
 # define ASN1_R_NESTED_ASN1_STRING                        197
+# define ASN1_R_NESTED_TOO_DEEP                           201
 # define ASN1_R_NON_HEX_CHARACTERS                        141
 # define ASN1_R_NOT_ASCII_FORMAT                          190
 # define ASN1_R_NOT_ENOUGH_DATA                           142
