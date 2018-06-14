@@ -41,9 +41,9 @@ class CC_DLL Size
 {
 public:
     /**Width of the Size.*/
-    float width;
+    float width = 0.f;
     /**Height of the Size.*/
-    float height;
+    float height = 0.f;
 
 public:
     /**Conversion from Vec2 to Size.*/
@@ -58,7 +58,7 @@ public:
     @param other Copy constructor.
     @param point Conversion from a point.
      */
-    Size();
+    Size() = default;
     constexpr Size(float w, float h)
     : width(w)
     , height(h)

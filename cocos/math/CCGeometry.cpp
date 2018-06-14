@@ -34,12 +34,6 @@ NS_CC_BEGIN
 
 // implementation of Size
 
-Size::Size(void)
-: width(0)
-, height(0)
-{
-}
-
 Size::Size(const Vec2& point)
 : width(point.x)
 , height(point.y)
