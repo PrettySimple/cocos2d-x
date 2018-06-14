@@ -25,6 +25,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "base/CCConfiguration.h"
+
 #include "base/CCDirector.h"
 #include "base/CCEventCustom.h"
 #include "base/CCEventDispatcher.h"
@@ -33,35 +34,15 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-extern const char* cocos2dVersion();
+extern char const* cocos2dVersion();
 
 Configuration* Configuration::s_sharedConfiguration = nullptr;
 
-const char* Configuration::CONFIG_FILE_LOADED = "config_file_loaded";
+char const* Configuration::CONFIG_FILE_LOADED = "config_file_loaded";
 
 Configuration::Configuration()
-: _maxTextureSize(0)
-, _maxModelviewStackDepth(0)
-, _supportsPVRTC(false)
-, _supportsETC1(false)
-, _supportsETC2(false)
-, _supportsS3TC(false)
-, _supportsATITC(false)
-, _supportsNPOT(false)
-, _supportsBGRA8888(false)
-, _supportsDiscardFramebuffer(false)
-, _supportsShareableVAO(false)
-, _supportsOESDepth24(false)
-, _supportsOESPackedDepthStencil(false)
-, _supportsOESMapBuffer(false)
-, _maxSamplesAllowed(0)
-, _maxTextureUnits(0)
-, _maxDirLightInShader(1)
-, _maxPointLightInShader(1)
-, _maxSpotLightInShader(1)
-, _animate3DQuality(Animate3DQuality::QUALITY_LOW)
+: _loadedEvent(new (std::nothrow) EventCustom(CONFIG_FILE_LOADED))
 {
-    _loadedEvent = new (std::nothrow) EventCustom(CONFIG_FILE_LOADED);
 }
 
 bool Configuration::init()
@@ -201,7 +182,7 @@ void Configuration::purgeConfiguration()
     Configuration::destroyInstance();
 }
 
-bool Configuration::checkForGLExtension(const std::string& searchName) const
+bool Configuration::checkForGLExtension(std::string const& searchName) const noexcept
 {
     return !_glExtensions.empty() && _glExtensions.find(searchName) != std::string::npos;
 }
@@ -210,32 +191,8 @@ bool Configuration::checkForGLExtension(const std::string& searchName) const
 // getters for specific variables.
 // Maintained for backward compatibility reasons only.
 //
-int Configuration::getMaxTextureSize() const
-{
-    return _maxTextureSize;
-}
 
-int Configuration::getMaxModelviewStackDepth() const
-{
-    return _maxModelviewStackDepth;
-}
-
-int Configuration::getMaxTextureUnits() const
-{
-    return _maxTextureUnits;
-}
-
-bool Configuration::supportsNPOT() const
-{
-    return _supportsNPOT;
-}
-
-bool Configuration::supportsPVRTC() const
-{
-    return _supportsPVRTC;
-}
-
-bool Configuration::supportsETC() const
+bool Configuration::supportsETC() const noexcept
 {
     // GL_ETC1_RGB8_OES is not defined in old opengl version
 #ifdef GL_ETC1_RGB8_OES
@@ -245,12 +202,7 @@ bool Configuration::supportsETC() const
 #endif
 }
 
-bool Configuration::supportsETC2() const
-{
-    return _supportsETC2;
-}
-
-bool Configuration::supportsS3TC() const
+bool Configuration::supportsS3TC() const noexcept
 {
 #ifdef GL_EXT_texture_compression_s3tc
     return _supportsS3TC;
@@ -259,22 +211,7 @@ bool Configuration::supportsS3TC() const
 #endif
 }
 
-bool Configuration::supportsATITC() const
-{
-    return _supportsATITC;
-}
-
-bool Configuration::supportsBGRA8888() const
-{
-    return _supportsBGRA8888;
-}
-
-bool Configuration::supportsDiscardFramebuffer() const
-{
-    return _supportsDiscardFramebuffer;
-}
-
-bool Configuration::supportsShareableVAO() const
+bool Configuration::supportsShareableVAO() const noexcept
 {
 #if CC_TEXTURE_ATLAS_USE_VAO
     return _supportsShareableVAO;
@@ -283,7 +220,7 @@ bool Configuration::supportsShareableVAO() const
 #endif
 }
 
-bool Configuration::supportsMapBuffer() const
+bool Configuration::supportsMapBuffer() const noexcept
 {
     // Fixes Github issue #16123
     //
@@ -304,39 +241,10 @@ bool Configuration::supportsMapBuffer() const
 #endif
 }
 
-bool Configuration::supportsOESDepth24() const
-{
-    return _supportsOESDepth24;
-}
-bool Configuration::supportsOESPackedDepthStencil() const
-{
-    return _supportsOESPackedDepthStencil;
-}
-
-int Configuration::getMaxSupportDirLightInShader() const
-{
-    return _maxDirLightInShader;
-}
-
-int Configuration::getMaxSupportPointLightInShader() const
-{
-    return _maxPointLightInShader;
-}
-
-int Configuration::getMaxSupportSpotLightInShader() const
-{
-    return _maxSpotLightInShader;
-}
-
-Animate3DQuality Configuration::getAnimate3DQuality() const
-{
-    return _animate3DQuality;
-}
-
 //
 // generic getters for properties
 //
-const Value& Configuration::getValue(const std::string& key, const Value& defaultValue) const
+const Value& Configuration::getValue(std::string const& key, Value const& defaultValue) const noexcept
 {
     auto iter = _valueDict.find(key);
     if (iter != _valueDict.cend())
@@ -344,7 +252,7 @@ const Value& Configuration::getValue(const std::string& key, const Value& defaul
     return defaultValue;
 }
 
-void Configuration::setValue(const std::string& key, const Value& value)
+void Configuration::setValue(std::string const& key, Value const& value)
 {
     _valueDict[key] = value;
 }
@@ -352,7 +260,7 @@ void Configuration::setValue(const std::string& key, const Value& value)
 //
 // load file
 //
-void Configuration::loadConfigFile(const std::string& filename)
+void Configuration::loadConfigFile(std::string const& filename)
 {
     ValueMap dict = FileUtils::getInstance()->getValueMapFromFile(filename);
     CCASSERT(!dict.empty(), "cannot create dictionary");

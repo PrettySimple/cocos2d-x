@@ -782,18 +782,13 @@ void Renderer::drawBatchedTriangles()
 
     /************** 2: Copy vertices/indices to GL objects *************/
 
-// The emscripten dead code elimination fails to eliminate the below (supportsMapBuffer() is hardcoded to return false),
-// resuling in link-time warning: warning: unresolved symbol: glMapBufferOES
-#if (CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN)
-
-    auto conf = Configuration::getInstance();
-    if (conf->supportsShareableVAO() && conf->supportsMapBuffer())
+    auto const conf = Configuration::getInstance();
+    if (conf->supportsShareableVAO())
     {
         // Bind VAO
         GL::bindVAO(_buffersVAO);
         // Set VBO data
         glBindBuffer(GL_ARRAY_BUFFER, _buffersVBO[0]);
-
         // option 1: subdata
         //        glBufferSubData(GL_ARRAY_BUFFER, sizeof(_quads[0])*start, sizeof(_quads[0]) * n , &_quads[start] );
 
@@ -804,18 +799,12 @@ void Renderer::drawBatchedTriangles()
         // FIXME: in order to work as fast as possible, it must "and the exact same size and usage hints it had before."
         //  source: https://www.opengl.org/wiki/Buffer_Object_Streaming#Explicit_multiple_buffering
         // so most probably we won't have any benefit of using it
-        glBufferData(GL_ARRAY_BUFFER, sizeof(V3F_C4B_T2F) * _filledVertex, nullptr, GL_STATIC_DRAW);
-        V3F_C4B_T2F* buf = reinterpret_cast<V3F_C4B_T2F*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
-        std::copy(_verts.begin(), _verts.begin() + _filledVertex, buf);
-        glUnmapBuffer(GL_ARRAY_BUFFER);
-
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(sizeof(V3F_C4B_T2F) * _filledVertex), reinterpret_cast<GLvoid*>(_verts.data()), GL_DYNAMIC_DRAW);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffersVBO[1]);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * _filledIndex, reinterpret_cast<GLvoid*>(_indices.data()), GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(sizeof(GLushort) * _filledIndex), reinterpret_cast<GLvoid*>(_indices.data()), GL_STATIC_DRAW);
     }
     else
-#endif // (CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN)
     {
         // Client Side Arrays
         glBindBuffer(GL_ARRAY_BUFFER, _buffersVBO[0]);
@@ -857,11 +846,9 @@ void Renderer::drawBatchedTriangles()
         // Unbind VAO
         GL::bindVAO(0);
     }
-    else
-    {
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    }
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     _queuedTriangleCommands.clear();
     _filledVertex = 0;
