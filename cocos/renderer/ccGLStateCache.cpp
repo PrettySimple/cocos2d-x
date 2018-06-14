@@ -401,7 +401,8 @@ void enableVertexAttribs(uint32_t flags, GLuint vao)
     {
         for(int i=0; i < MAX_ATTRIBUTES; i++) {
             std::uint32_t bit = 1 << i;
-            glEnableVertexAttribArray(i);
+            if( flags & bit )
+                glEnableVertexAttribArray(i);
         }
         return;
     }
