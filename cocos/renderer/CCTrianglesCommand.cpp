@@ -74,7 +74,7 @@ void TrianglesCommand::init(float globalOrder, GLuint textureID, GLProgramState*
 void TrianglesCommand::init(float globalOrder, Texture2D* texture, GLProgramState* glProgramState, BlendFunc blendType, const Triangles& triangles,
                             const Mat4& mv, uint32_t flags)
 {
-    init(globalOrder, texture->getName(), glProgramState, blendType, triangles, mv, flags);
+    init(globalOrder, texture == nullptr ? 0 : texture->getName(), glProgramState, blendType, triangles, mv, flags);
 #ifdef DEBUG_TEXTURE_SIZE
     CC_ASSERT(texture != nullptr);
     _texSize = {static_cast<float>(texture->getPixelsWide()), static_cast<float>(texture->getPixelsHigh())};
@@ -133,7 +133,8 @@ void TrianglesCommand::useMaterial() const
     GL::blendFunc(_blendType.src, _blendType.dst);
 
 #ifdef DEBUG_TEXTURE_SIZE
-    if(_textureID) {
+    if (_textureID != 0)
+    {
         CC_ASSERT(_texSize != Vec2::ZERO);
         CC_ASSERT(_glProgramState != nullptr);
         _glProgramState->setUniformVec2(GLProgram::UNIFORM_NAME_TEX_SIZE, _texSize);
