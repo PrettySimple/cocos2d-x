@@ -76,8 +76,10 @@ void TrianglesCommand::init(float globalOrder, Texture2D* texture, GLProgramStat
 {
     init(globalOrder, texture == nullptr ? 0 : texture->getName(), glProgramState, blendType, triangles, mv, flags);
 #ifdef DEBUG_TEXTURE_SIZE
-    CC_ASSERT(texture != nullptr);
-    _texSize = {static_cast<float>(texture->getPixelsWide()), static_cast<float>(texture->getPixelsHigh())};
+    if (texture != nullptr)
+    {
+        _texSize = {static_cast<float>(texture->getPixelsWide()), static_cast<float>(texture->getPixelsHigh())};
+    }
 #endif
     _alphaTextureID = texture->getAlphaTextureName();
 }
