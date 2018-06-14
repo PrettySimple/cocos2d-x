@@ -133,9 +133,11 @@ void TrianglesCommand::useMaterial() const
     GL::blendFunc(_blendType.src, _blendType.dst);
 
 #ifdef DEBUG_TEXTURE_SIZE
-    CC_ASSERT(_texSize != Vec2::ZERO);
-    CC_ASSERT(_glProgramState != nullptr);
-    _glProgramState->setUniformVec2(GLProgram::UNIFORM_NAME_TEX_SIZE, _texSize);
+    if(_textureID) {
+        CC_ASSERT(_texSize != Vec2::ZERO);
+        CC_ASSERT(_glProgramState != nullptr);
+        _glProgramState->setUniformVec2(GLProgram::UNIFORM_NAME_TEX_SIZE, _texSize);
+    }
 #endif
 
     _glProgramState->apply(_mv);
