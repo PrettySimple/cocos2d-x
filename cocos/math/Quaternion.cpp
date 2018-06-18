@@ -27,22 +27,6 @@ NS_CC_MATH_BEGIN
 
 const Quaternion Quaternion::ZERO(0.0f, 0.0f, 0.0f, 0.0f);
 
-Quaternion::Quaternion()
-: x(0.0f)
-, y(0.0f)
-, z(0.0f)
-, w(1.0f)
-{
-}
-
-Quaternion::Quaternion(float xx, float yy, float zz, float ww)
-: x(xx)
-, y(yy)
-, z(zz)
-, w(ww)
-{
-}
-
 Quaternion::Quaternion(float* array)
 {
     set(array);
@@ -56,15 +40,6 @@ Quaternion::Quaternion(const Mat4& m)
 Quaternion::Quaternion(const Vec3& axis, float angle)
 {
     set(axis, angle);
-}
-
-Quaternion::Quaternion(const Quaternion& copy)
-{
-    set(copy);
-}
-
-Quaternion::~Quaternion()
-{
 }
 
 const Quaternion& Quaternion::identity()

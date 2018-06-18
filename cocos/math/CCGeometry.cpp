@@ -40,12 +40,6 @@ Size::Size(const Vec2& point)
 {
 }
 
-Size& Size::operator=(const Size& other)
-{
-    setSize(other.width, other.height);
-    return *this;
-}
-
 Size& Size::operator=(const Vec2& point)
 {
     setSize(point.x, point.y);
@@ -88,25 +82,9 @@ const Size Size::ZERO = Size(0, 0);
 
 // implementation of Rect
 
-Rect::Rect(void)
-{
-    setRect(0.0f, 0.0f, 0.0f, 0.0f);
-}
-
 Rect::Rect(const Vec2& pos, const Size& dimension)
 {
     setRect(pos.x, pos.y, dimension.width, dimension.height);
-}
-
-Rect::Rect(const Rect& other)
-{
-    setRect(other.origin.x, other.origin.y, other.size.width, other.size.height);
-}
-
-Rect& Rect::operator=(const Rect& other)
-{
-    setRect(other.origin.x, other.origin.y, other.size.width, other.size.height);
-    return *this;
 }
 
 void Rect::setRect(float x, float y, float width, float height)

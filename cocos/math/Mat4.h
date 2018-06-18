@@ -92,11 +92,11 @@ public:
 #ifdef __SSE__
     union
     {
-        __m128 col[4];
+        __m128 col[4] = {{1.0f, 0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 0.0f, 1.0f}};
         float m[16];
     };
 #else
-    float m[16];
+    float m[16] = {1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f};
 #endif
 
     /**
@@ -108,7 +108,12 @@ public:
      *     0  0  1  0
      *     0  0  0  1
      */
-    Mat4();
+    Mat4() = default;
+    Mat4(Mat4 const&) = default;
+    Mat4& operator=(Mat4 const&) = default;
+    Mat4(Mat4&&) noexcept = default;
+    Mat4& operator=(Mat4&&) noexcept = default;
+    ~Mat4() = default;
 
     /**
      * Constructs a matrix initialized to the specified value.
@@ -130,8 +135,11 @@ public:
      * @param m43 The third element of the fourth row.
      * @param m44 The fourth element of the fourth row.
      */
-    Mat4(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41,
-         float m42, float m43, float m44);
+    constexpr Mat4(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34,
+                   float m41, float m42, float m43, float m44)
+    : m{m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44}
+    {
+    }
 
     /**
      * Creates a matrix initialized to the specified column-major array.
@@ -146,21 +154,6 @@ public:
      * @param mat An array containing 16 elements in column-major order.
      */
     Mat4(const float* mat);
-
-    /**
-     * Constructs a new matrix by copying the values from the specified matrix.
-     *
-     * @param copy The matrix to copy.
-     */
-    Mat4(Mat4 const&) = default;
-    Mat4& operator=(Mat4 const&) = default;
-    Mat4(Mat4&&) noexcept = default;
-    Mat4& operator=(Mat4&&) noexcept = default;
-
-    /**
-     * Destructor.
-     */
-    ~Mat4() = default;
 
     /**
      * Creates a view matrix based on the specified input parameters.

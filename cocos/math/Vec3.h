@@ -50,22 +50,27 @@ public:
     /**
      * The x-coordinate.
      */
-    float x;
+    float x = 0.f;
 
     /**
      * The y-coordinate.
      */
-    float y;
+    float y = 0.f;
 
     /**
      * The z-coordinate.
      */
-    float z;
+    float z = 0.f;
 
     /**
      * Constructs a new vector initialized to all zeros.
      */
-    Vec3();
+    Vec3() = default;
+    Vec3(Vec3 const&) = default;
+    Vec3& operator=(Vec3 const&) = default;
+    Vec3(Vec3&&) noexcept = default;
+    Vec3& operator=(Vec3&&) noexcept = default;
+    ~Vec3() = default;
 
     /**
      * Constructs a new vector initialized to the specified values.

@@ -57,17 +57,23 @@ public:
     /**
      * The x coordinate.
      */
-    float x;
+    float x = 0.f;
 
     /**
      * The y coordinate.
      */
-    float y;
+    float y = 0.f;
 
     /**
      * Constructs a new vector initialized to all zeros.
      */
-    Vec2();
+
+    Vec2() = default;
+    Vec2(Vec2 const&) = default;
+    Vec2& operator=(Vec2 const&) = default;
+    Vec2(Vec2&&) noexcept = default;
+    Vec2& operator=(Vec2&&) noexcept = default;
+    ~Vec2() = default;
 
     /**
      * Constructs a new vector initialized to the specified values.
@@ -78,12 +84,6 @@ public:
     constexpr Vec2(float xx, float yy)
     : x(xx)
     , y(yy)
-    {
-    }
-
-    constexpr Vec2(const Vec2& v)
-    : x(v.x)
-    , y(v.y)
     {
     }
 
@@ -719,7 +719,7 @@ public:
  */
 inline const Vec2 operator*(float x, const Vec2& v);
 
-typedef Vec2 Point;
+using Point = Vec2;
 
 NS_CC_MATH_END
 

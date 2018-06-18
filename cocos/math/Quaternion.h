@@ -75,24 +75,29 @@ public:
     /**
      * The x-value of the quaternion's vector component.
      */
-    float x;
+    float x = 0.f;
     /**
      * The y-value of the quaternion's vector component.
      */
-    float y;
+    float y = 0.f;
     /**
      * The z-value of the quaternion's vector component.
      */
-    float z;
+    float z = 0.f;
     /**
      * The scalar component of the quaternion.
      */
-    float w;
+    float w = 1.f;
 
     /**
      * Constructs a quaternion initialized to (0, 0, 0, 1).
      */
-    Quaternion();
+    Quaternion() = default;
+    Quaternion(Quaternion const&) = default;
+    Quaternion& operator=(Quaternion const&) = default;
+    Quaternion(Quaternion&&) noexcept = default;
+    Quaternion& operator=(Quaternion&&) noexcept = default;
+    ~Quaternion() = default;
 
     /**
      * Constructs a quaternion initialized to (0, 0, 0, 1).
@@ -102,7 +107,13 @@ public:
      * @param zz The z component of the quaternion.
      * @param ww The w component of the quaternion.
      */
-    Quaternion(float xx, float yy, float zz, float ww);
+    constexpr Quaternion(float xx, float yy, float zz, float ww)
+    : x(xx)
+    , y(yy)
+    , z(zz)
+    , w(ww)
+    {
+    }
 
     /**
      * Constructs a new quaternion from the values in the specified array.
@@ -125,18 +136,6 @@ public:
      * @param angle The angle of rotation (in radians).
      */
     Quaternion(const Vec3& axis, float angle);
-
-    /**
-     * Constructs a new quaternion that is a copy of the specified one.
-     *
-     * @param copy The quaternion to copy.
-     */
-    Quaternion(const Quaternion& copy);
-
-    /**
-     * Destructor.
-     */
-    ~Quaternion();
 
     /**
      * Returns the identity quaternion.

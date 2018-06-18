@@ -53,33 +53,38 @@ public:
             float z;
             float w;
         };
-        __m128 v;
+        __m128 v = {0.f, 0.f, 0.f, 0.f};
     };
 #else
     /**
      * The x-coordinate.
      */
-    float x;
+    float x = 0.f;
 
     /**
      * The y-coordinate.
      */
-    float y;
+    float y = 0.f;
 
     /**
      * The z-coordinate.
      */
-    float z;
+    float z = 0.f;
 
     /**
      * The w-coordinate.
      */
-    float w;
+    float w = 0.f;
 #endif
     /**
      * Constructs a new vector initialized to all zeros.
      */
-    Vec4();
+    Vec4() = default;
+    Vec4(Vec4 const&) = default;
+    Vec4& operator=(Vec4 const&) = default;
+    Vec4(Vec4&&) noexcept = default;
+    Vec4& operator=(Vec4&&) noexcept = default;
+    ~Vec4() = default;
 
     /**
      * Constructs a new vector initialized to the specified values.
@@ -111,15 +116,6 @@ public:
      * @param p2 The second point.
      */
     Vec4(const Vec4& p1, const Vec4& p2);
-
-    /**
-     * Constructor.
-     *
-     * Creates a new vector that is a copy of the specified vector.
-     *
-     * @param copy The vector to copy.
-     */
-    Vec4(const Vec4& copy);
 
     /**
      * Creates a new vector from an integer interpreted as an RGBA value.

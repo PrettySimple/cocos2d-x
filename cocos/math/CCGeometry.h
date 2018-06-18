@@ -59,24 +59,21 @@ public:
     @param point Conversion from a point.
      */
     Size() = default;
+    Size(Size const&) = default;
+    Size& operator=(Size const&) = default;
+    Size(Size&&) noexcept = default;
+    Size& operator=(Size&&) noexcept = default;
+    ~Size() = default;
+
     constexpr Size(float w, float h)
     : width(w)
     , height(h)
     {
     }
-    constexpr Size(const Size& other)
-    : width(other.width)
-    , height(other.height)
-    {
-    }
+
     explicit Size(const Vec2& point);
     /**@}*/
 
-    /**
-     * @js NA
-     * @lua NA
-     */
-    Size& operator=(const Size& other);
     /**
      * @js NA
      * @lua NA
@@ -131,7 +128,13 @@ public:
     Constructor an empty Rect.
      * @js NA
      */
-    Rect();
+    Rect() = default;
+    Rect(Rect const&) = default;
+    Rect& operator=(Rect const&) = default;
+    Rect(Rect&&) noexcept = default;
+    Rect& operator=(Rect&&) noexcept = default;
+    ~Rect() = default;
+
     /**
     Constructor a rect.
      * @js NA
@@ -146,17 +149,6 @@ public:
      * @js NA
      */
     Rect(const Vec2& pos, const Size& dimension);
-    /**
-    Copy constructor.
-     * @js NA
-     * @lua NA
-     */
-    Rect(const Rect& other);
-    /**
-     * @js NA
-     * @lua NA
-     */
-    Rect& operator=(const Rect& other);
     /**
     Set the x, y, width and height of Rect.
      * @js NA

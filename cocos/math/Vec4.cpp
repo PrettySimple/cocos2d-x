@@ -26,14 +26,6 @@
 
 NS_CC_MATH_BEGIN
 
-Vec4::Vec4()
-: x(0.0f)
-, y(0.0f)
-, z(0.0f)
-, w(0.0f)
-{
-}
-
 Vec4::Vec4(const float* src)
 {
     set(src);
@@ -42,11 +34,6 @@ Vec4::Vec4(const float* src)
 Vec4::Vec4(const Vec4& p1, const Vec4& p2)
 {
     set(p1, p2);
-}
-
-Vec4::Vec4(const Vec4& copy)
-{
-    set(copy);
 }
 
 Vec4 Vec4::fromColor(unsigned int color)
