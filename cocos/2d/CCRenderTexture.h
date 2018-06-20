@@ -158,7 +158,7 @@ public:
      * @param callback When the file is save finished,it will callback this function.
      * @return Returns true if the operation is successful.
      */
-    bool saveToFile(const std::string& filename, bool isRGBA = true, std::function<void (RenderTexture*, const std::string&)> callback = nullptr);
+    bool saveToFile(const std::string& filename, bool isRGBA = true, std::function<void (RenderTexture*, const std::string&)> callback = nullptr, bool flipImage = true);
 
     /** saves the texture into a file. The format could be JPG or PNG. The file will be saved in the Documents folder.
         Returns true if the operation is successful.
@@ -172,7 +172,7 @@ public:
      * @param callback When the file is save finished,it will callback this function.
      * @return Returns true if the operation is successful.
      */
-    bool saveToFile(const std::string& filename, Image::Format format, bool isRGBA = true, std::function<void (RenderTexture*, const std::string&)> callback = nullptr);
+    bool saveToFile(const std::string& filename, Image::Format format, bool isRGBA = true, std::function<void (RenderTexture*, const std::string&)> callback = nullptr, bool flipImage = true);
     
     /** Listen "come to background" message, and save render texture.
      * It only has effect on Android.
@@ -374,7 +374,7 @@ protected:
     void onClear();
     void onClearDepth();
 
-    void onSaveToFile(const std::string& fileName, bool isRGBA = true);
+    void onSaveToFile(const std::string& fileName, bool isRGBA = true, bool flipImage = true);
 
     void forcePMATrue();
 
