@@ -529,14 +529,14 @@ void RenderTexture::visit(Renderer* renderer, const Mat4& parentTransform, uint3
     // setOrderOfArrival(0);
 }
 
-bool RenderTexture::saveToFile(const std::string& filename, bool isRGBA, std::function<void(RenderTexture*, const std::string&)> callback)
+bool RenderTexture::saveToFile(const std::string& filename, bool isRGBA, std::function<void (RenderTexture*, const std::string&)> callback, bool flipImage)
 {
     std::string basename(filename);
     std::transform(basename.begin(), basename.end(), basename.begin(), ::tolower);
 
     if (basename.find(".png") != std::string::npos)
     {
-        return saveToFile(filename, Image::Format::PNG, isRGBA, callback);
+        return saveToFile(filename, Image::Format::PNG, isRGBA, callback, flipImage);
     }
     else if (basename.find(".jpg") != std::string::npos)
     {
@@ -549,10 +549,10 @@ bool RenderTexture::saveToFile(const std::string& filename, bool isRGBA, std::fu
         CCLOG("Only PNG and JPG format are supported now!");
     }
 
-    return saveToFile(filename, Image::Format::JPG, false, callback);
+    return saveToFile(filename, Image::Format::JPG, false, callback, flipImage);
 }
 
-bool RenderTexture::saveToFile(const std::string& fileName, Image::Format format, bool isRGBA, std::function<void(RenderTexture*, const std::string&)> callback)
+bool RenderTexture::saveToFile(const std::string& fileName, Image::Format format, bool isRGBA, std::function<void (RenderTexture*, const std::string&)> callback, bool flipImage)
 {
     CCASSERT(format == Image::Format::JPG || format == Image::Format::PNG, "the image can only be saved as JPG or PNG format");
     if (isRGBA && format == Image::Format::JPG)
@@ -562,15 +562,15 @@ bool RenderTexture::saveToFile(const std::string& fileName, Image::Format format
 
     std::string fullpath = FileUtils::getInstance()->getWritablePath() + fileName;
     _saveToFileCommand.init(_globalZOrder);
-    _saveToFileCommand.setFunc([this, fullpath, isRGBA]() { onSaveToFile(fullpath, isRGBA); });
+    _saveToFileCommand.setFunc([this, fullpath, isRGBA, flipImage]() { onSaveToFile(fullpath, isRGBA, flipImage); });
 
     Director::getInstance()->getRenderer()->addCommand(&_saveToFileCommand);
     return true;
 }
 
-void RenderTexture::onSaveToFile(const std::string& filename, bool isRGBA)
+void RenderTexture::onSaveToFile(const std::string& filename, bool isRGBA, bool flipImage)
 {
-    Image* image = newImage(true);
+    Image *image = newImage(flipImage);
     if (image)
     {
         image->saveToFile(filename, !isRGBA);

@@ -119,7 +119,7 @@ namespace GL
      *
      * @since v2.0.0
      */
-    void CC_DLL enableVertexAttribs(uint32_t flags);
+    void CC_DLL enableVertexAttribs(uint32_t flags, GLuint vao = 0);
 
     /**
      * If the texture is not already bound to texture unit 0, it binds it.
