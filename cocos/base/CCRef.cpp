@@ -48,17 +48,16 @@ THE SOFTWARE.
 using namespace std;
 
 static constexpr size_t MAX_CALLSTACK_SIZE = 32;
-static constexpr size_t MAX_FUNC_SIZE = 4096;
 
 string demangle(string call)
 {
-    size_t funcnamesize = MAX_FUNC_SIZE;
-    char funcname[MAX_FUNC_SIZE];
     int status;
-    char* ret = abi::__cxa_demangle(call.c_str(), funcname, &funcnamesize, &status);
+    char* ret = abi::__cxa_demangle(call.c_str(), nullptr, nullptr, &status);
 
     if (status == 0)
         call = string(ret);
+    if (ret)
+        free(ret);
     return call;
 }
 
