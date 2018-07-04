@@ -79,6 +79,9 @@ namespace experimental
 
         void invokingLoadCallbacks();
 
+        State getState();
+        void setState(const State& p_state);
+        
         // pcm data related stuff
         ALenum _format;
         ALsizei _sampleRate;
@@ -108,6 +111,7 @@ namespace experimental
         std::mutex _readDataTaskMutex;
 
         State _state;
+        std::mutex _stateMutex;
 
         std::shared_ptr<bool> _isDestroyed;
         std::string _fileFullPath;
@@ -116,6 +120,7 @@ namespace experimental
         bool _isSkipReadDataTask;
         bool _askedAsPreload;
 
+        // remove this crap
         friend class AudioEngineImpl;
         friend class ALAudioPlayer;
         friend class SimpleAudioPlayer;

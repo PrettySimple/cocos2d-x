@@ -88,7 +88,7 @@ void ALAudioPlayer::destroy()
 
     do
     {
-        if (_audioCache._state == AudioCache::State::INITIAL)
+        if (_audioCache.getState() == AudioCache::State::INITIAL)
         {
             ALOGV("ALAudioPlayer::destroy, id=%u, cache isn't ready!", _id);
             break;
@@ -150,7 +150,7 @@ bool ALAudioPlayer::play2d()
     bool ret = false;
     do
     {
-        if (_audioCache._state != AudioCache::State::READY)
+        if (_audioCache.getState() != AudioCache::State::READY)
         {
             ALOGE("alBuffer isn't ready for play!");
             break;

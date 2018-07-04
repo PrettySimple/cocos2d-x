@@ -162,7 +162,7 @@ AudioCache::~AudioCache()
 
     if (_pcmData)
     {
-        if (_state == State::READY)
+        if (getState() == State::READY)
         {
             if (_alBufferId != INVALID_AL_BUFFER_ID && alIsBuffer(_alBufferId))
             {
@@ -173,7 +173,7 @@ AudioCache::~AudioCache()
         }
         else
         {
-            ALOGW("AudioCache (%p), id=%u, buffer isn't ready, state=%d", this, _id, _state);
+            ALOGW("AudioCache (%p), id=%u, buffer isn't ready, state=%d", this, _id, getState());
         }
 
         // fixed #17494: CrashIfClientProvidedBogusAudioBufferList
@@ -203,7 +203,7 @@ void AudioCache::readDataTask(unsigned int selfId)
     ALOGVV("readDataTask, cache id=%u", selfId);
 
     _readDataTaskMutex.lock();
-    _state = State::LOADING;
+    setState(State::LOADING);
 
     AudioDecoder decoder;
     do
@@ -293,7 +293,7 @@ void AudioCache::readDataTask(unsigned int selfId)
             if (*_isDestroyed)
                 break;
 
-            _state = State::READY;
+            setState(State::READY);
 
             invokingPlayCallbacks();
 
@@ -336,7 +336,7 @@ void AudioCache::readDataTask(unsigned int selfId)
                 decoder.readFixedFrames(_queBufferFrames, _queBuffers[index]);
             }
 
-            _state = State::READY;
+            setState(State::READY);
         }
 
     } while (false);
@@ -348,9 +348,9 @@ void AudioCache::readDataTask(unsigned int selfId)
     invokingLoadCallbacks();
 
     _isLoadingFinished = true;
-    if (_state != State::READY)
+    if (getState() != State::READY)
     {
-        _state = State::FAILED;
+        setState(State::FAILED);
         if (_alBufferId != INVALID_AL_BUFFER_ID && alIsBuffer(_alBufferId))
         {
             ALOGV("readDataTask failed, delete buffer: %u", _alBufferId);
@@ -365,7 +365,7 @@ void AudioCache::readDataTask(unsigned int selfId)
 void AudioCache::addPlayCallback(const std::function<void()>& callback)
 {
     std::lock_guard<std::mutex> lk(_playCallbackMutex);
-    switch (_state)
+    switch (getState())
     {
         case State::INITIAL:
         case State::LOADING:
@@ -380,7 +380,7 @@ void AudioCache::addPlayCallback(const std::function<void()>& callback)
             break;
 
         default:
-            ALOGE("Invalid state: %d", _state);
+            ALOGE("Invalid state: %d", getState());
             break;
     }
 }
@@ -399,7 +399,7 @@ void AudioCache::invokingPlayCallbacks()
 
 void AudioCache::addLoadCallback(const std::function<void(bool)>& callback)
 {
-    switch (_state)
+    switch (getState())
     {
         case State::INITIAL:
         case State::LOADING:
@@ -414,7 +414,7 @@ void AudioCache::addLoadCallback(const std::function<void(bool)>& callback)
             break;
 
         default:
-            ALOGE("Invalid state: %d", _state);
+            ALOGE("Invalid state: %d", getState());
             break;
     }
 }
@@ -442,9 +442,21 @@ void AudioCache::invokingLoadCallbacks()
 
         for (auto&& cb : copyLoadCallbacks)
         {
-            cb(_state == State::READY);
+            cb(getState() == State::READY);
         }
     });
+}
+
+AudioCache::State AudioCache::getState()
+{
+    std::lock_guard<std::mutex> lock(_stateMutex);
+    return _state;
+}
+
+void AudioCache::setState(const AudioCache::State& p_state)
+{
+    std::lock_guard<std::mutex> lock(_stateMutex);
+    _state = p_state;
 }
 
 #endif
