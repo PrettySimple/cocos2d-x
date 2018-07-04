@@ -439,7 +439,7 @@ void AudioEngineImpl::_play2d(AudioPlayer* player, AudioCache& audioCache, bool 
     _audioPlayers[_currentAudioID] = player;
     _threadMutex.unlock();
 
-    audioCache.addPlayCallback([this, &audioCache, isCacheDestroyed = audioCache._isDestroyed, audioId = _currentAudioID]() { _play2d(audioCache, audioId, *isCacheDestroyed); });
+    audioCache.addPlayCallback([this, &audioCache, audioId = _currentAudioID, isCacheDestroyed = audioCache._isDestroyed]() { _play2d(audioCache, audioId, *isCacheDestroyed); });
 
     if (_lazyInitLoop)
     {
@@ -466,7 +466,7 @@ int AudioEngineImpl::play2d(std::string const& filePath, bool loop, float volume
         {
             auto& audioCache = _audioCaches[filePath];
             audioCache._fileFullPath = FileUtils::getInstance()->fullPathForFilename(filePath);
-            audioCache.setState(AudioCache::State::READY);
+            audioCache._state = AudioCache::State::READY;
             audioCache._isLoadingFinished = true;
 
             _play2d(player, audioCache, loop, volume);
@@ -474,7 +474,7 @@ int AudioEngineImpl::play2d(std::string const& filePath, bool loop, float volume
         else
         {
             auto& audioCache = it->second;
-            audioCache.setState(AudioCache::State::READY);
+            audioCache._state = AudioCache::State::READY;
             audioCache._isLoadingFinished = true;
 
             _play2d(player, audioCache, loop, volume);
@@ -506,7 +506,7 @@ int AudioEngineImpl::play2d(std::string const& filePath, bool loop, float volume
 void AudioEngineImpl::_play2d(AudioCache& cache, int audioID, bool isCacheDestroyed)
 {
     // Note: It may bn in sub thread or main thread :(
-    if (!isCacheDestroyed && cache.getState() == AudioCache::State::READY)
+    if (!isCacheDestroyed && cache._state == AudioCache::State::READY)
     {
         _threadMutex.lock();
         auto playerIt = _audioPlayers.find(audioID);
