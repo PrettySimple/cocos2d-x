@@ -43,14 +43,16 @@ NS_CC_BEGIN
 
 static const int MAX_ATTRIBUTES = 16;
 static const int MAX_ACTIVE_TEXTURE = 16;
+std::mutex currentBoundProjectionMatrixMutex;
+#if CC_ENABLE_GL_STATE_CACHE
 std::mutex currentBoundTextureMutex;
 std::mutex currentBoundShaderMutex;
-std::mutex currentBoundProjectionMatrixMutex;
 std::mutex currentBlendingSourceMutex;
 std::mutex currentBlendingTestMutex;
 std::mutex GLServerStateMutex;
 std::mutex VAOMutex;
 std::mutex activeTextureMutex;
+#endif
 
 GLuint& s_currentProjectionMatrix()
 {
