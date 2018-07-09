@@ -42,9 +42,16 @@ NS_CC_BEGIN
  * @brief Encapsulates the Touch information, such as touch point, id and so on,
  and provides the methods that commonly used.
  */
-class CC_DLL Touch : public Ref
+class CC_DLL Touch final : public Ref
 {
 public:
+    Touch() = default;
+    Touch(Touch const&) = default;
+    Touch& operator=(Touch const&) = default;
+    Touch(Touch &&) noexcept = default;
+    Touch& operator=(Touch &&) noexcept = default;
+    ~Touch() final;
+
     /**
      * Dispatch mode, how the touches are dispatched.
      * @js NA

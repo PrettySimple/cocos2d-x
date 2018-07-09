@@ -29,6 +29,10 @@
 
 NS_CC_BEGIN
 
+Touch::~Touch()
+{
+}
+
 // returns the current touch location in OpenGL coordinates
 Vec2 Touch::getLocation() const
 {

@@ -58,7 +58,7 @@ GLuint& s_currentProjectionMatrix()
     return it.first->second;
 }
 
-uint32_t s_attributeFlags = 0;
+static uint32_t s_attributeFlags = 0;
 
 #if CC_ENABLE_GL_STATE_CACHE
 
