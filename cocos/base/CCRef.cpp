@@ -45,18 +45,17 @@ THE SOFTWARE.
 #    include <cxxabi.h> // For demagling
 
 static constexpr std::size_t const MAX_CALLSTACK_SIZE = 32;
-static constexpr std::size_t const MAX_FUNC_SIZE = 4096;
 
-std::string demangle(std::string const& call)
+string demangle(string call)
 {
-    std::size_t funcnamesize = MAX_FUNC_SIZE;
-    char funcname[MAX_FUNC_SIZE];
     int status;
-    char* ret = abi::__cxa_demangle(call.c_str(), funcname, &funcnamesize, &status);
+    char* ret = abi::__cxa_demangle(call.c_str(), nullptr, nullptr, &status);
 
     if (status == 0)
-        return std::string(ret);
-    return "";
+        call = std::string(ret);
+    if (ret)
+        free(ret);
+    return call;
 }
 
 #    ifdef __APPLE__

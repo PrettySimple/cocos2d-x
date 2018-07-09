@@ -484,14 +484,14 @@ public:
      */
     inline unsigned int getParticleCount() const noexcept { return _particleCount; }
 
-    /** Gets how many seconds the emitter will run. -1 means 'forever'.
+    /** Gets how many seconds the emitter will run. chrono::milliseconds::max() means 'forever'.
      *
-     * @return The seconds that the emitter will run. -1 means 'forever'.
+     * @return The seconds that the emitter will run. chrono::milliseconds::max() means 'forever'.
      */
     inline std::chrono::milliseconds getDuration() const noexcept { return _duration; }
-    /** Sets how many seconds the emitter will run. -1 means 'forever'.
+    /** Sets how many seconds the emitter will run. chrono::milliseconds::max() means 'forever'.
      *
-     * @param duration The seconds that the emitter will run. -1 means 'forever'.
+     * @param duration The seconds that the emitter will run. chrono::milliseconds::max() means 'forever'.
      */
     inline void setDuration(std::chrono::milliseconds duration) noexcept { _duration = duration; }
 

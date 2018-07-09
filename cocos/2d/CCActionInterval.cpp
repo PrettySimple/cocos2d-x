@@ -190,8 +190,10 @@ void Sequence::stop()
 {
     for (auto& action : _actions)
     {
-        action->stop();
-        action->setStatus(Action::Status::DONE);
+        if (action->getStatus() != Action::Status::DONE) {
+        	action->stop();
+        	action->setStatus(Action::Status::DONE);
+        }
     }
 
     ActionInterval::stop();
@@ -217,6 +219,7 @@ void Sequence::update(float p)
                 if (d == 0ms || (duration > 0ms && duration >= d))
                 {
                     action->update(1.f);
+                    action->stop();
                     action->setStatus(Status::DONE);
                 }
                 else
@@ -609,8 +612,10 @@ void Spawn::stop()
 {
     for (auto action : _actions)
     {
-        action->stop();
-        action->setStatus(Action::Status::DONE);
+        if (action->getStatus() != Action::Status::DONE) {
+            action->stop();
+            action->setStatus(Action::Status::DONE);
+        }
     }
 
     ActionInterval::stop();
@@ -636,6 +641,7 @@ void Spawn::update(float p)
                 if (d == 0ms || (duration > 0ms && duration >= d))
                 {
                     action->update(1.f);
+                    action->stop();
                     action->setStatus(Status::DONE);
                 }
                 else
