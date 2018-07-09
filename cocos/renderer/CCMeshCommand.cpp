@@ -279,8 +279,6 @@ void MeshCommand::buildVAO()
     // FIXME: Assumes that all the passes in the Material share the same Vertex Attribs
     GLProgramState* programState = (_material != nullptr) ? _material->_currentTechnique->_passes.at(0)->getGLProgramState() : _glProgramState;
 
-    
-    
     releaseVAO();
     glGenVertexArrays(1, &_vao);
     GL::bindVAO(_vao);

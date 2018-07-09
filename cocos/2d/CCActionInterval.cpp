@@ -190,9 +190,10 @@ void Sequence::stop()
 {
     for (auto& action : _actions)
     {
-        if (action->getStatus() != Action::Status::DONE) {
-        	action->stop();
-        	action->setStatus(Action::Status::DONE);
+        if (action->getStatus() != Action::Status::DONE)
+        {
+            action->stop();
+            action->setStatus(Action::Status::DONE);
         }
     }
 
@@ -612,7 +613,8 @@ void Spawn::stop()
 {
     for (auto action : _actions)
     {
-        if (action->getStatus() != Action::Status::DONE) {
+        if (action->getStatus() != Action::Status::DONE)
+        {
             action->stop();
             action->setStatus(Action::Status::DONE);
         }
