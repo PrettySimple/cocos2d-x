@@ -195,7 +195,7 @@ void SpriteFrameCache::addSpriteFramesWithDictionary(ValueMap& dictionary, Textu
             ow = std::abs(ow);
             oh = std::abs(oh);
             // create frame
-            spriteFrame = SpriteFrame::createWithTexture(texture, Rect(x, y, w, h), false, Vec2(ox, oy), Size((float)ow, (float)oh));
+            spriteFrame = SpriteFrame::createWithTexture(texture, Rect(x, y, w, h), false, Vec2(ox, oy), Size(static_cast<float>(ow), static_cast<float>(oh)));
         }
         else if (format == 1 || format == 2)
         {
@@ -626,7 +626,7 @@ void SpriteFrameCache::reloadSpriteFramesWithDictionary(ValueMap& dictionary, Te
             ow = std::abs(ow);
             oh = std::abs(oh);
             // create frame
-            spriteFrame = SpriteFrame::createWithTexture(texture, Rect(x, y, w, h), false, Vec2(ox, oy), Size((float)ow, (float)oh));
+            spriteFrame = SpriteFrame::createWithTexture(texture, Rect(x, y, w, h), false, Vec2(ox, oy), Size(static_cast<float>(ow), static_cast<float>(oh)));
         }
         else if (format == 1 || format == 2)
         {

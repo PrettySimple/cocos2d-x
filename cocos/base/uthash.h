@@ -21,8 +21,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef UTHASH_H
-#define UTHASH_H
+#ifndef CC_BASE_UTHASH_H
+#define CC_BASE_UTHASH_H
 /// @cond DO_NOT_SHOW
 
 #include <stddef.h> /* ptrdiff_t */
@@ -1028,4 +1028,4 @@ typedef struct UT_hash_handle
 } UT_hash_handle;
 
 /// @endcond
-#endif /* UTHASH_H */
+#endif // CC_BASE_UTHASH_H

@@ -29,8 +29,11 @@
 #include "cocostudio/FlatBuffersSerialize.h"
 #include "cocostudio/WidgetReader/Node3DReader/Node3DReader.h"
 
-#include "flatbuffers/flatbuffers.h"
-#include "tinyxml2.h"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <flatbuffers/flatbuffers.h>
+#include <tinyxml2/tinyxml2.h>
+#pragma clang diagnostic pop
 
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 

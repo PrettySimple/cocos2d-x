@@ -39,7 +39,7 @@
 #include "2d/CCNode.h"
 #include "base/ccTypes.h"
 
-#include <xxhash.h>
+#include <xxhash/xxhash.h>
 
 NS_CC_BEGIN
 

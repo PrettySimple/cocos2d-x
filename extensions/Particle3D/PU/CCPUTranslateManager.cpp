@@ -37,14 +37,14 @@ PUTranslateManager::~PUTranslateManager()
 
 PUScriptTranslator* PUTranslateManager::getTranslator(PUAbstractNode* node)
 {
-    PUScriptTranslator* translator = 0;
+    PUScriptTranslator* translator = nullptr;
 
     // add//
 
     if (node->type == ANT_OBJECT)
     {
         PUObjectAbstractNode* obj = reinterpret_cast<PUObjectAbstractNode*>(node);
-        PUObjectAbstractNode* parent = obj->parent ? reinterpret_cast<PUObjectAbstractNode*>(obj->parent) : 0;
+        PUObjectAbstractNode* parent = obj->parent ? reinterpret_cast<PUObjectAbstractNode*>(obj->parent) : nullptr;
         if (obj->cls == token[TOKEN_SYSTEM])
         {
             // Parse Particle System

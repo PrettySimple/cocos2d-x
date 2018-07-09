@@ -31,11 +31,14 @@
 #include "network/CCDownloader.h"
 #include "platform/CCFileUtils.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
 #ifdef MINIZIP_FROM_SYSTEM
 #    include <minizip/unzip.h>
 #else // from our embedded sources
-#    include "unzip.h"
+#    include <unzip/unzip.h>
 #endif
+#pragma clang diagnostic pop
 
 NS_CC_EXT_BEGIN;
 
@@ -97,7 +100,7 @@ AssetsManager::AssetsManager(const char* packageUrl /* =nullptr */, const char* 
     // get version from version file when get data success
     _downloader->onDataTaskSuccess = [this](const DownloadTask& task, std::vector<unsigned char>& data) {
         // store version info to member _version
-        const char* p = (char*)data.data();
+        const char* p = reinterpret_cast<char*>(data.data());
         _version.insert(_version.end(), p, p + data.size());
 
         if (getVersion() == _version)
@@ -490,6 +493,10 @@ AssetsManager* AssetsManager::create(const char* packageUrl, const char* version
     manager->_shouldDeleteDelegateWhenExit = true;
     manager->autorelease();
     return manager;
+}
+
+AssetsManagerDelegateProtocol::~AssetsManagerDelegateProtocol()
+{
 }
 
 NS_CC_EXT_END;

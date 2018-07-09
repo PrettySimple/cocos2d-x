@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCDISPLAYFACTORY_H__
-#define __CCDISPLAYFACTORY_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_DISPLAYFACTORY_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_DISPLAYFACTORY_H
 
 #include "cocostudio/CCArmatureDefine.h"
 #include "cocostudio/CCDatas.h"
@@ -61,4 +61,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif /*__CCDISPLAYFACTORY_H__*/
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_DISPLAYFACTORY_H

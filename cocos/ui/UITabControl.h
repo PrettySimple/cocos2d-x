@@ -22,11 +22,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __UITABVIEW_H__
-#define __UITABVIEW_H__
+#ifndef CC_UI_TABCONTROL_H
+#define CC_UI_TABCONTROL_H
 
 #include "ui/UIAbstractCheckButton.h"
 #include "ui/UIWidget.h"
+
+#include <cstdint>
 
 /**
  * @addtogroup ui
@@ -48,7 +50,7 @@ namespace ui
         friend class TabControl;
 
     public:
-        enum class EventType
+        enum class EventType : std::uint8_t
         {
             SELECTED,
             UNSELECTED
@@ -147,17 +149,17 @@ namespace ui
 
     protected:
         TabHeader();
-        ~TabHeader();
+        ~TabHeader() override;
 
-        virtual void initRenderer() override;
-        virtual void onSizeChanged() override;
+        void initRenderer() override;
+        void onSizeChanged() override;
 
         void updateContentSize();
 
         virtual void releaseUpEvent() override;
         void dispatchSelectChangedEvent(bool select) override;
 
-        virtual void copySpecialProperties(Widget* model) override;
+        void copySpecialProperties(Widget* model) override;
 
     private:
         Label* _tabLabelRender;
@@ -303,7 +305,7 @@ namespace ui
          * get whether ignore the textures' size in header, scale them with _headerWidth and _headerHeight
          * @return whether ignore the textures' size in header
          */
-        bool isIgnoreHeadersTextureSize() const { return _ignoreHeaderTextureSize; };
+        inline bool isIgnoreHeadersTextureSize() const noexcept { return _ignoreHeaderTextureSize; }
 
         /**
          * set the delta zoom of selected tab
@@ -327,7 +329,7 @@ namespace ui
         /// @}
     protected:
         TabControl();
-        ~TabControl();
+        ~TabControl() override;
 
         void onSizeChanged() override;
         void initTabHeadersPos(int startIndex);
@@ -375,4 +377,4 @@ namespace ui
 /// @}
 NS_CC_END
 
-#endif // __UITABVIEW_H__
+#endif // CC_UI_TABCONTROL_H

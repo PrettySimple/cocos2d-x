@@ -23,14 +23,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _CCFontAtlas_h_
-#define _CCFontAtlas_h_
+#ifndef CC_2D_FONTATLAS_H
+#define CC_2D_FONTATLAS_H
 
 /// @cond DO_NOT_SHOW
 
 #include "base/CCRef.h"
+#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
-#include "platform/CCStdC.h" // ssize_t on windows
 
 #include <string>
 #include <unordered_map>
@@ -78,7 +78,7 @@ public:
 
     bool prepareLetterDefinitions(const std::u16string& utf16String);
 
-    const std::unordered_map<ssize_t, Texture2D*>& getTextures() const { return _atlasTextures; }
+    const std::unordered_map<std::size_t, Texture2D*>& getTextures() const { return _atlasTextures; }
     void addTexture(Texture2D* texture, int slot);
     float getLineHeight() const { return _lineHeight; }
     void setLineHeight(float newHeight);
@@ -124,7 +124,7 @@ protected:
      */
     void scaleFontLetterDefinition(float scaleFactor);
 
-    std::unordered_map<ssize_t, Texture2D*> _atlasTextures;
+    std::unordered_map<std::size_t, Texture2D*> _atlasTextures;
     std::unordered_map<char16_t, FontLetterDefinition> _letterDefinitions;
     float _lineHeight;
     Font* _font;
@@ -151,4 +151,4 @@ protected:
 NS_CC_END
 
 /// @endcond
-#endif /* defined(__cocos2d_libs__CCFontAtlas__) */
+#endif // CC_2D_FONTATLAS_H

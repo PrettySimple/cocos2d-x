@@ -44,7 +44,7 @@ void PUOnRandomObserver::preUpdateObserver(float deltaTime)
     PUObserver::preUpdateObserver(deltaTime);
 
     // Handle the _observe here
-    handleObserve(0, deltaTime);
+    handleObserve(nullptr, deltaTime);
 }
 //-----------------------------------------------------------------------
 void PUOnRandomObserver::updateObserver(PUParticle3D* particle, float deltaTime, bool firstParticle)

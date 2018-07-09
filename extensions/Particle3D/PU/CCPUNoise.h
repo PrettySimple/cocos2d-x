@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_NOISE_H__
-#define __CC_PU_PARTICLE_3D_NOISE_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_NOISE_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_NOISE_H
 
 #include "base/CCRef.h"
 #include "math/CCMath.h"
@@ -77,4 +77,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_NOISE_H

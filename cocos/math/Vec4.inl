@@ -69,39 +69,29 @@ inline Vec4& Vec4::operator*=(float s)
     return *this;
 }
 
-inline const Vec4 Vec4::operator/(const float s) const
+inline const Vec4 Vec4::operator/(float s) const
 {
-    return Vec4(this->x / s, this->y / s, this->z / s, this->w / s);
+    return Vec4(v / s);
 }
 
-inline bool Vec4::operator<(const Vec4& v) const
+inline bool Vec4::operator<(const Vec4& other) const
 {
-    if (x == v.x)
-    {
-        if (y == v.y)
-        {
-            if (z < v.z)
-            {
-                if (w < v.w)
-                {
-                    return w < v.w;
-                }
-            }
-            return z < v.z;
-        }
-        return y < v.y;
-    }
-    return x < v.x;
+    auto const lt = v < other.v;
+    return lt[0] == -1 && lt[1] == -1 && lt[2] == -1 && lt[3] == -1;
 }
 
-inline bool Vec4::operator==(const Vec4& v) const
+inline bool Vec4::operator==(const Vec4& other) const
 {
-    return x == v.x && y == v.y && z == v.z && w == v.w;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+    auto const eq = (v == other.v);
+#pragma clang diagnostic pop
+    return eq[0] == -1 && eq[1] == -1 && eq[2] == -1 && eq[3] == -1;
 }
 
 inline bool Vec4::operator!=(const Vec4& v) const
 {
-    return x != v.x || y != v.y || z != v.z || w != v.w;
+    return !operator==(v);
 }
 
 inline const Vec4 operator*(float x, const Vec4& v)

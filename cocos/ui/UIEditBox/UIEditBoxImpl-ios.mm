@@ -94,7 +94,10 @@ namespace ui
 
     void EditBoxImplIOS::setNativeFontColor(const Color4B& color)
     {
-        _systemControl.textColor = [UIColor colorWithRed:color.r / 255.0f green:color.g / 255.0f blue:color.b / 255.0f alpha:color.a / 255.f];
+        _systemControl.textColor = [UIColor colorWithRed:static_cast<float>(color.r) / 255.f
+                                                   green:static_cast<float>(color.g) / 255.f
+                                                    blue:static_cast<float>(color.b) / 255.f
+                                                   alpha:static_cast<float>(color.a) / 255.f];
     }
 
     void EditBoxImplIOS::setNativePlaceholderFont(const char* pFontName, int fontSize)

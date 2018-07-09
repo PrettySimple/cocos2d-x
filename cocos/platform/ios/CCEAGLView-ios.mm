@@ -92,25 +92,21 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 @synthesize multiSampling = multiSampling_;
 @synthesize isKeyboardShown = isKeyboardShown_;
 @synthesize keyboardShowNotification = keyboardShowNotification_;
-+ (Class)layerClass
-{
++ (Class)layerClass {
     return [CAEAGLLayer class];
 }
 
-+ (id)viewWithFrame:(CGRect)frame
-{
++ (id)viewWithFrame:(CGRect)frame {
     return [[[self alloc] initWithFrame:frame] autorelease];
 }
 
-+ (id)viewWithFrame:(CGRect)frame pixelFormat:(NSString*)format
-{
++ (id)viewWithFrame:(CGRect)frame pixelFormat:(NSString*)format {
     return [[[self alloc] initWithFrame:frame pixelFormat:format] autorelease];
 }
 
-+ (id)viewWithFrame:(CGRect)frame pixelFormat:(NSString*)format depthFormat:(GLuint)depth
-{
-    return [[[self alloc] initWithFrame:frame pixelFormat:format depthFormat:depth preserveBackbuffer:NO sharegroup:nil multiSampling:NO numberOfSamples:0]
-        autorelease];
++ (id)viewWithFrame:(CGRect)frame pixelFormat:(NSString*)format depthFormat:(GLuint)depth {
+    return [[[self alloc] initWithFrame:frame pixelFormat:format depthFormat:depth preserveBackbuffer:NO sharegroup:nil multiSampling:NO
+                        numberOfSamples:0] autorelease];
 }
 
 + (id)viewWithFrame:(CGRect)frame
@@ -119,8 +115,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     preserveBackbuffer:(BOOL)retained
             sharegroup:(EAGLSharegroup*)sharegroup
          multiSampling:(BOOL)multisampling
-       numberOfSamples:(unsigned int)samples
-{
+       numberOfSamples:(unsigned int)samples {
     return [[[self alloc] initWithFrame:frame
                             pixelFormat:format
                             depthFormat:depth
@@ -130,13 +125,11 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
                         numberOfSamples:samples] autorelease];
 }
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     return [self initWithFrame:frame pixelFormat:kEAGLColorFormatRGB565 depthFormat:0 preserveBackbuffer:NO sharegroup:nil multiSampling:NO numberOfSamples:0];
 }
 
-- (id)initWithFrame:(CGRect)frame pixelFormat:(NSString*)format
-{
+- (id)initWithFrame:(CGRect)frame pixelFormat:(NSString*)format {
     return [self initWithFrame:frame pixelFormat:format depthFormat:0 preserveBackbuffer:NO sharegroup:nil multiSampling:NO numberOfSamples:0];
 }
 
@@ -146,8 +139,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     preserveBackbuffer:(BOOL)retained
             sharegroup:(EAGLSharegroup*)sharegroup
          multiSampling:(BOOL)sampling
-       numberOfSamples:(unsigned int)nSamples
-{
+       numberOfSamples:(unsigned int)nSamples {
     if ((self = [super initWithFrame:frame]))
     {
         isUseUITextField = YES;
@@ -175,8 +167,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     return self;
 }
 
-- (id)initWithCoder:(NSCoder*)aDecoder
-{
+- (id)initWithCoder:(NSCoder*)aDecoder {
     if ((self = [super initWithCoder:aDecoder]))
     {
         CAEAGLLayer* eaglLayer = (CAEAGLLayer*)[self layer];
@@ -198,8 +189,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     return self;
 }
 
-- (void)didMoveToWindow
-{
+- (void)didMoveToWindow {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUIKeyboardNotification:) name:UIKeyboardWillShowNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUIKeyboardNotification:) name:UIKeyboardDidShowNotification object:nil];
@@ -208,20 +198,17 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUIKeyboardNotification:) name:UIKeyboardDidHideNotification object:nil];
 }
 
-- (int)getWidth
-{
+- (int)getWidth {
     CGSize bound = [self bounds].size;
     return (int)bound.width * self.contentScaleFactor;
 }
 
-- (int)getHeight
-{
+- (int)getHeight {
     CGSize bound = [self bounds].size;
     return (int)bound.height * self.contentScaleFactor;
 }
 
-- (BOOL)setupSurfaceWithSharegroup:(EAGLSharegroup*)sharegroup
-{
+- (BOOL)setupSurfaceWithSharegroup:(EAGLSharegroup*)sharegroup {
     CAEAGLLayer* eaglLayer = (CAEAGLLayer*)self.layer;
 
     eaglLayer.opaque = YES;
@@ -251,16 +238,14 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     return YES;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self]; // remove keyboard notification
     [renderer_ release];
     self.keyboardShowNotification = nullptr; // implicit release
     [super dealloc];
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     if (!cocos2d::Director::getInstance()->isValid())
     {
         return;
@@ -285,8 +270,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     }
 }
 
-- (void)swapBuffers
-{
+- (void)swapBuffers {
     // IMPORTANT:
     // - preconditions
     //    -> context_ MUST be the OpenGL context
@@ -346,8 +330,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
         glBindFramebuffer(GL_FRAMEBUFFER, [renderer_ msaaFrameBuffer]);
 }
 
-- (unsigned int)convertPixelFormat:(NSString*)pixelFormat
-{
+- (unsigned int)convertPixelFormat:(NSString*)pixelFormat {
     // define the pixel format
     GLenum pFormat;
 
@@ -361,8 +344,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 #    pragma mark CCEAGLView - Point conversion
 
-- (CGPoint)convertPointFromViewToSurface:(CGPoint)point
-{
+- (CGPoint)convertPointFromViewToSurface:(CGPoint)point {
     CGRect bounds = [self bounds];
 
     CGPoint ret;
@@ -372,8 +354,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     return ret;
 }
 
-- (CGRect)convertRectFromViewToSurface:(CGRect)rect
-{
+- (CGRect)convertRectFromViewToSurface:(CGRect)rect {
     CGRect bounds = [self bounds];
 
     CGRect ret;
@@ -385,8 +366,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     return ret;
 }
 
-- (void)handleTouchesAfterKeyboardShow
-{
+- (void)handleTouchesAfterKeyboardShow {
     NSArray* subviews = self.subviews;
 
     for (UIView* view in subviews)
@@ -404,14 +384,13 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 // Pass the touches to the superview
 #    pragma mark CCEAGLView - Touch Delegate
-- (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event
-{
+- (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
     if (isKeyboardShown_)
     {
         [self handleTouchesAfterKeyboardShow];
     }
 
-    UITouch* ids[IOS_MAX_TOUCHES_COUNT] = {0};
+    UITouch* ids[IOS_MAX_TOUCHES_COUNT] = {nullptr};
     float xs[IOS_MAX_TOUCHES_COUNT] = {0.0f};
     float ys[IOS_MAX_TOUCHES_COUNT] = {0.0f};
 
@@ -428,9 +407,8 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     glview->handleTouchesBegin(i, (intptr_t*)ids, xs, ys);
 }
 
-- (void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event
-{
-    UITouch* ids[IOS_MAX_TOUCHES_COUNT] = {0};
+- (void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event {
+    UITouch* ids[IOS_MAX_TOUCHES_COUNT] = {nullptr};
     float xs[IOS_MAX_TOUCHES_COUNT] = {0.0f};
     float ys[IOS_MAX_TOUCHES_COUNT] = {0.0f};
     float fs[IOS_MAX_TOUCHES_COUNT] = {0.0f};
@@ -457,9 +435,8 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     glview->handleTouchesMove(i, (intptr_t*)ids, xs, ys, fs, ms);
 }
 
-- (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event
-{
-    UITouch* ids[IOS_MAX_TOUCHES_COUNT] = {0};
+- (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
+    UITouch* ids[IOS_MAX_TOUCHES_COUNT] = {nullptr};
     float xs[IOS_MAX_TOUCHES_COUNT] = {0.0f};
     float ys[IOS_MAX_TOUCHES_COUNT] = {0.0f};
 
@@ -476,9 +453,8 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     glview->handleTouchesEnd(i, (intptr_t*)ids, xs, ys);
 }
 
-- (void)touchesCancelled:(NSSet*)touches withEvent:(UIEvent*)event
-{
-    UITouch* ids[IOS_MAX_TOUCHES_COUNT] = {0};
+- (void)touchesCancelled:(NSSet*)touches withEvent:(UIEvent*)event {
+    UITouch* ids[IOS_MAX_TOUCHES_COUNT] = {nullptr};
     float xs[IOS_MAX_TOUCHES_COUNT] = {0.0f};
     float ys[IOS_MAX_TOUCHES_COUNT] = {0.0f};
 
@@ -497,8 +473,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 #    pragma mark - UIView - Responder
 
-- (BOOL)canBecomeFirstResponder
-{
+- (BOOL)canBecomeFirstResponder {
     if (nil != markedText_)
     {
         [markedText_ release];
@@ -511,27 +486,23 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     return YES;
 }
 
-- (BOOL)becomeFirstResponder
-{
+- (BOOL)becomeFirstResponder {
     isUseUITextField = NO;
     return [super becomeFirstResponder];
 }
 
-- (BOOL)resignFirstResponder
-{
+- (BOOL)resignFirstResponder {
     isUseUITextField = YES;
     return [super resignFirstResponder];
 }
 
 #    pragma mark - UIKeyInput protocol
 
-- (BOOL)hasText
-{
+- (BOOL)hasText {
     return NO;
 }
 
-- (void)insertText:(NSString*)text
-{
+- (void)insertText:(NSString*)text {
     if (nil != markedText_)
     {
         [markedText_ release];
@@ -541,8 +512,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     cocos2d::IMEDispatcher::sharedDispatcher()->dispatchInsertText(pszText, strlen(pszText));
 }
 
-- (void)deleteBackward
-{
+- (void)deleteBackward {
     if (nil != markedText_)
     {
         [markedText_ release];
@@ -553,8 +523,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 #    pragma mark - UITextInputTrait protocol
 
-- (UITextAutocapitalizationType)autocapitalizationType
-{
+- (UITextAutocapitalizationType)autocapitalizationType {
     return UITextAutocapitalizationTypeNone;
 }
 
@@ -572,24 +541,20 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 /* Text may have a selection, either zero-length (a caret) or ranged.  Editing operations are
  * always performed on the text from this selection.  nil corresponds to no selection. */
-- (void)setSelectedTextRange:(UITextRange*)aSelectedTextRange
-{
+- (void)setSelectedTextRange:(UITextRange*)aSelectedTextRange {
     CCLOG("UITextRange:setSelectedTextRange");
 }
-- (UITextRange*)selectedTextRange
-{
+- (UITextRange*)selectedTextRange {
     return [[[UITextRange alloc] init] autorelease];
 }
 
 #    pragma mark UITextInput - Replacing and Returning Text
 
-- (NSString*)textInRange:(UITextRange*)range
-{
+- (NSString*)textInRange:(UITextRange*)range {
     CCLOG("textInRange");
     return @"";
 }
-- (void)replaceRange:(UITextRange*)range withText:(NSString*)theText
-{
+- (void)replaceRange:(UITextRange*)range withText:(NSString*)theText {
     CCLOG("replaceRange");
 }
 
@@ -603,27 +568,22 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
  * Setting marked text either replaces the existing marked text or, if none is present,
  * inserts it from the current selection. */
 
-- (void)setMarkedTextRange:(UITextRange*)markedTextRange
-{
+- (void)setMarkedTextRange:(UITextRange*)markedTextRange {
     CCLOG("setMarkedTextRange");
 }
 
-- (UITextRange*)markedTextRange
-{
+- (UITextRange*)markedTextRange {
     CCLOG("markedTextRange");
     return nil; // Nil if no marked text.
 }
-- (void)setMarkedTextStyle:(NSDictionary*)markedTextStyle
-{
+- (void)setMarkedTextStyle:(NSDictionary*)markedTextStyle {
     CCLOG("setMarkedTextStyle");
 }
-- (NSDictionary*)markedTextStyle
-{
+- (NSDictionary*)markedTextStyle {
     CCLOG("markedTextStyle");
     return nil;
 }
-- (void)setMarkedText:(NSString*)markedText selectedRange:(NSRange)selectedRange
-{
+- (void)setMarkedText:(NSString*)markedText selectedRange:(NSRange)selectedRange {
     CCLOG("setMarkedText");
     if (markedText == markedText_)
     {
@@ -636,8 +596,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     markedText_ = markedText;
     [markedText_ retain];
 }
-- (void)unmarkText
-{
+- (void)unmarkText {
     CCLOG("unmarkText");
     if (nil == markedText_)
     {
@@ -651,67 +610,56 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 #    pragma mark Methods for creating ranges and positions.
 
-- (UITextRange*)textRangeFromPosition:(UITextPosition*)fromPosition toPosition:(UITextPosition*)toPosition
-{
+- (UITextRange*)textRangeFromPosition:(UITextPosition*)fromPosition toPosition:(UITextPosition*)toPosition {
     CCLOG("textRangeFromPosition");
     return nil;
 }
-- (UITextPosition*)positionFromPosition:(UITextPosition*)position offset:(NSInteger)offset
-{
+- (UITextPosition*)positionFromPosition:(UITextPosition*)position offset:(NSInteger)offset {
     CCLOG("positionFromPosition");
     return nil;
 }
-- (UITextPosition*)positionFromPosition:(UITextPosition*)position inDirection:(UITextLayoutDirection)direction offset:(NSInteger)offset
-{
+- (UITextPosition*)positionFromPosition:(UITextPosition*)position inDirection:(UITextLayoutDirection)direction offset:(NSInteger)offset {
     CCLOG("positionFromPosition");
     return nil;
 }
 
 /* Simple evaluation of positions */
-- (NSComparisonResult)comparePosition:(UITextPosition*)position toPosition:(UITextPosition*)other
-{
+- (NSComparisonResult)comparePosition:(UITextPosition*)position toPosition:(UITextPosition*)other {
     CCLOG("comparePosition");
     return (NSComparisonResult)0;
 }
-- (NSInteger)offsetFromPosition:(UITextPosition*)from toPosition:(UITextPosition*)toPosition
-{
+- (NSInteger)offsetFromPosition:(UITextPosition*)from toPosition:(UITextPosition*)toPosition {
     CCLOG("offsetFromPosition");
     return 0;
 }
 
-- (UITextPosition*)positionWithinRange:(UITextRange*)range farthestInDirection:(UITextLayoutDirection)direction
-{
+- (UITextPosition*)positionWithinRange:(UITextRange*)range farthestInDirection:(UITextLayoutDirection)direction {
     CCLOG("positionWithinRange");
     return nil;
 }
-- (UITextRange*)characterRangeByExtendingPosition:(UITextPosition*)position inDirection:(UITextLayoutDirection)direction
-{
+- (UITextRange*)characterRangeByExtendingPosition:(UITextPosition*)position inDirection:(UITextLayoutDirection)direction {
     CCLOG("characterRangeByExtendingPosition");
     return nil;
 }
 
 #    pragma mark Writing direction
 
-- (UITextWritingDirection)baseWritingDirectionForPosition:(UITextPosition*)position inDirection:(UITextStorageDirection)direction
-{
+- (UITextWritingDirection)baseWritingDirectionForPosition:(UITextPosition*)position inDirection:(UITextStorageDirection)direction {
     CCLOG("baseWritingDirectionForPosition");
     return UITextWritingDirectionNatural;
 }
-- (void)setBaseWritingDirection:(UITextWritingDirection)writingDirection forRange:(UITextRange*)range
-{
+- (void)setBaseWritingDirection:(UITextWritingDirection)writingDirection forRange:(UITextRange*)range {
     CCLOG("setBaseWritingDirection");
 }
 
 #    pragma mark Geometry
 
 /* Geometry used to provide, for example, a correction rect. */
-- (CGRect)firstRectForRange:(UITextRange*)range
-{
+- (CGRect)firstRectForRange:(UITextRange*)range {
     CCLOG("firstRectForRange");
     return CGRectNull;
 }
-- (CGRect)caretRectForPosition:(UITextPosition*)position
-{
+- (CGRect)caretRectForPosition:(UITextPosition*)position {
     CCLOG("caretRectForPosition");
     return caretRect_;
 }
@@ -719,32 +667,27 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 #    pragma mark Hit testing
 
 /* JS - Find the closest position to a given point */
-- (UITextPosition*)closestPositionToPoint:(CGPoint)point
-{
+- (UITextPosition*)closestPositionToPoint:(CGPoint)point {
     CCLOG("closestPositionToPoint");
     return nil;
 }
-- (UITextPosition*)closestPositionToPoint:(CGPoint)point withinRange:(UITextRange*)range
-{
+- (UITextPosition*)closestPositionToPoint:(CGPoint)point withinRange:(UITextRange*)range {
     CCLOG("closestPositionToPoint");
     return nil;
 }
-- (UITextRange*)characterRangeAtPoint:(CGPoint)point
-{
+- (UITextRange*)characterRangeAtPoint:(CGPoint)point {
     CCLOG("characterRangeAtPoint");
     return nil;
 }
 
-- (NSArray*)selectionRectsForRange:(UITextRange*)range
-{
+- (NSArray*)selectionRectsForRange:(UITextRange*)range {
     CCLOG("selectionRectsForRange");
     return nil;
 }
 
 #    pragma mark - UIKeyboard notification
 
-- (void)onUIKeyboardNotification:(NSNotification*)notif
-{
+- (void)onUIKeyboardNotification:(NSNotification*)notif {
     NSString* type = notif.name;
 
     NSDictionary* info = [notif userInfo];
@@ -875,8 +818,7 @@ UIInterfaceOrientation getFixedOrientation(UIInterfaceOrientation statusBarOrien
 }
 #    endif
 
-- (void)doAnimationWhenKeyboardMoveWithDuration:(float)duration distance:(float)dis
-{
+- (void)doAnimationWhenKeyboardMoveWithDuration:(float)duration distance:(float)dis {
     [UIView beginAnimations:nil context:nullptr];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:duration];
@@ -921,8 +863,7 @@ UIInterfaceOrientation getFixedOrientation(UIInterfaceOrientation statusBarOrien
     [UIView commitAnimations];
 }
 
-- (void)doAnimationWhenAnotherEditBeClicked
-{
+- (void)doAnimationWhenAnotherEditBeClicked {
     if (self.keyboardShowNotification != nil)
     {
         [[NSNotificationCenter defaultCenter] postNotification:self.keyboardShowNotification];

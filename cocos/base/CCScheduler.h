@@ -25,8 +25,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef COCOS2D_BASE_SCHEDULER_H
-#define COCOS2D_BASE_SCHEDULER_H
+#ifndef CC_BASE_SCHEDULER_H
+#define CC_BASE_SCHEDULER_H
 
 #include "base/CCRef.h"
 #include "base/CCVector.h"
@@ -84,7 +84,7 @@ protected:
     Timer& operator=(Timer const&) = delete;
     Timer(Timer&&) noexcept = delete;
     Timer& operator=(Timer&&) noexcept = delete;
-    ~Timer() override = default;
+    ~Timer() override;
 
 public:
     /** get interval in seconds */
@@ -224,8 +224,8 @@ public:
 
         Key() = default;
         explicit Key(std::string const& n, void* t)
-        : target(t)
-        , name(n)
+        : name(n)
+        , target(t)
         {
         }
         Key(Key const&) = delete;
@@ -567,4 +567,4 @@ protected:
 
 NS_CC_END
 
-#endif // COCOS2D_BASE_SCHEDULER_H
+#endif // CC_BASE_SCHEDULER_H

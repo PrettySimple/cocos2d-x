@@ -24,8 +24,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CCLABEL_ATLAS_H__
-#define __CCLABEL_ATLAS_H__
+#ifndef CC_2D_LABELATLAS_H
+#define CC_2D_LABELATLAS_H
 
 #include "2d/CCAtlasNode.h"
 #if CC_LABELATLAS_DEBUG_DRAW
@@ -82,32 +82,24 @@ public:
     /** Initializes the LabelAtlas with a string, a texture, the width and height in points of each element and the starting char of the atlas */
     bool initWithString(const std::string& string, Texture2D* texture, int itemWidth, int itemHeight, int startCharMap);
 
-    virtual void setString(const std::string& label) override;
-    virtual const std::string& getString(void) const override;
+    void setString(const std::string& label) override;
+    const std::string& getString(void) const override;
 
-    virtual void updateAtlasValues() override;
+    void updateAtlasValues() override;
     /**
      * @js NA
      */
-    virtual std::string getDescription() const override;
+    std::string getDescription() const override;
 
 #if CC_LABELATLAS_DEBUG_DRAW
-    virtual void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
+    void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
 #endif
 
-    CC_CONSTRUCTOR_ACCESS : LabelAtlas()
-    : _string("")
-    {
-#if CC_LABELATLAS_DEBUG_DRAW
-        _debugDrawNode = DrawNode::create();
-        addChild(_debugDrawNode);
-#endif
-    }
-
-    virtual ~LabelAtlas() { _string.clear(); }
+    CC_CONSTRUCTOR_ACCESS : LabelAtlas();
+    ~LabelAtlas() override = default;
 
 protected:
-    virtual void updateColor() override;
+    void updateColor() override;
 
 #if CC_LABELATLAS_DEBUG_DRAW
     DrawNode* _debugDrawNode;
@@ -124,4 +116,4 @@ protected:
 
 NS_CC_END
 
-#endif //__CCLABEL_ATLAS_H__
+#endif // CC_2D_LABELATLAS_H

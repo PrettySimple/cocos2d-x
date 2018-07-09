@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCANIMATE3D_H__
-#define __CCANIMATE3D_H__
+#ifndef CC_3D_ANIMATE3D_H
+#define CC_3D_ANIMATE3D_H
 
 #include <chrono>
 #include <map>
@@ -136,7 +136,7 @@ public:
     CC_CONSTRUCTOR_ACCESS :
 
         Animate3D();
-    virtual ~Animate3D();
+    ~Animate3D() override;
 
     void removeFromMap();
 
@@ -190,4 +190,4 @@ protected:
 
 NS_CC_END
 
-#endif // __CCANIMATE3D_H__
+#endif // CC_3D_ANIMATE3D_H

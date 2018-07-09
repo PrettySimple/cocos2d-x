@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_TRIANGLES_COMMAND__
-#define __CC_TRIANGLES_COMMAND__
+#ifndef CC_RENDERER_TRIANGLESCOMMAND_H
+#define CC_RENDERER_TRIANGLESCOMMAND_H
 
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCRenderCommand.h"
@@ -118,7 +118,7 @@ protected:
 
     /**Generated material id.*/
     std::size_t _materialID = std::numeric_limits<std::size_t>::max();
-    ;
+
     /**OpenGL handle for texture.*/
     GLuint _textureID = 0;
     /**GLprogramstate for the command. encapsulate shaders and uniforms.*/
@@ -141,4 +141,4 @@ NS_CC_END
  end of support group
  @}
  */
-#endif // defined(__CC_TRIANGLES_COMMAND__)
+#endif // CC_RENDERER_TRIANGLESCOMMAND_H

@@ -50,8 +50,8 @@
  wav files.
  */
 
-#ifndef __CD_OPENAL_H
-#define __CD_OPENAL_H
+#ifndef CC_AUDIO_MAC_CDOPENALSUPPORT_H
+#define CC_AUDIO_MAC_CDOPENALSUPPORT_H
 
 #ifdef __cplusplus
 extern "C"
@@ -71,4 +71,4 @@ extern "C"
 }
 #endif
 
-#endif
+#endif // CC_AUDIO_MAC_CDOPENALSUPPORT_H

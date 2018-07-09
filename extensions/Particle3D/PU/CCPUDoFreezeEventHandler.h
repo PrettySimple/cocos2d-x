@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_DO_FREEZE_EVENT_HANDLER_H__
-#define __CC_PU_PARTICLE_3D_DO_FREEZE_EVENT_HANDLER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_DOFREEZEEVENTHANDLER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_DOFREEZEEVENTHANDLER_H
 
 #include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUEventHandler.h"
@@ -45,15 +45,15 @@ public:
 
     /**
      */
-    virtual void handle(PUParticleSystem3D* particleSystem, PUParticle3D* particle, float timeElapsed) override;
+    void handle(PUParticleSystem3D* particleSystem, PUParticle3D* particle, float timeElapsed) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUDoFreezeEventHandler(void)
+    CC_CONSTRUCTOR_ACCESS : PUDoFreezeEventHandler()
     : PUEventHandler()
     {
     }
-    virtual ~PUDoFreezeEventHandler(void){};
+    ~PUDoFreezeEventHandler() override {}
 };
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_DOFREEZEEVENTHANDLER_H

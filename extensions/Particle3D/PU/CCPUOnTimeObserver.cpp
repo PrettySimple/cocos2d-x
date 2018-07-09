@@ -53,7 +53,7 @@ void PUOnTimeObserver::preUpdateObserver(float deltaTime)
     // perform an action on a particle.
     if (static_cast<PUParticleSystem3D*>(_particleSystem)->getAliveParticleCount() <= 0)
     {
-        handleObserve(0, deltaTime);
+        handleObserve(nullptr, deltaTime);
     }
 }
 //-----------------------------------------------------------------------
@@ -99,8 +99,6 @@ bool PUOnTimeObserver::observe(PUParticle3D* particle, float timeElapsed)
             return particle && almostEquals((particle->totalTimeToLive - particle->timeToLive), _threshold, 0.01f);
         }
     }
-
-    return false;
 }
 
 PUOnTimeObserver* PUOnTimeObserver::create()

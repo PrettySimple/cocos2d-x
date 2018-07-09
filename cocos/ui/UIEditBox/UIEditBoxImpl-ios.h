@@ -23,8 +23,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __UIEditBoxIMPLIOS_H__
-#define __UIEditBoxIMPLIOS_H__
+#ifndef CC_UI_EDITBOX_EDITBOXIMPLIOS_H
+#define CC_UI_EDITBOX_EDITBOXIMPLIOS_H
+
+#include "platform/CCPlatformConfig.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 
@@ -50,29 +52,29 @@ namespace ui
          * @js NA
          * @lua NA
          */
-        virtual ~EditBoxImplIOS();
+        ~EditBoxImplIOS() override;
 
-        virtual bool isEditing() override;
-        virtual void createNativeControl(const Rect& frame) override;
-        virtual void setNativeFont(const char* pFontName, int fontSize) override;
-        virtual void setNativeFontColor(const Color4B& color) override;
-        virtual void setNativePlaceholderFont(const char* pFontName, int fontSize) override;
-        virtual void setNativePlaceholderFontColor(const Color4B& color) override;
-        virtual void setNativeInputMode(EditBox::InputMode inputMode) override;
-        virtual void setNativeInputFlag(EditBox::InputFlag inputFlag) override;
-        virtual void setNativeReturnType(EditBox::KeyboardReturnType returnType) override;
-        virtual void setNativeText(const char* pText) override;
-        virtual void setNativePlaceHolder(const char* pText) override;
-        virtual void setNativeVisible(bool visible) override;
-        virtual void updateNativeFrame(const Rect& rect) override;
-        virtual const char* getNativeDefaultFontName() override;
-        virtual void nativeOpenKeyboard() override;
-        virtual void nativeCloseKeyboard() override;
+        bool isEditing() override;
+        void createNativeControl(const Rect& frame) override;
+        void setNativeFont(const char* pFontName, int fontSize) override;
+        void setNativeFontColor(const Color4B& color) override;
+        void setNativePlaceholderFont(const char* pFontName, int fontSize) override;
+        void setNativePlaceholderFontColor(const Color4B& color) override;
+        void setNativeInputMode(EditBox::InputMode inputMode) override;
+        void setNativeInputFlag(EditBox::InputFlag inputFlag) override;
+        void setNativeReturnType(EditBox::KeyboardReturnType returnType) override;
+        void setNativeText(const char* pText) override;
+        void setNativePlaceHolder(const char* pText) override;
+        void setNativeVisible(bool visible) override;
+        void updateNativeFrame(const Rect& rect) override;
+        const char* getNativeDefaultFontName() override;
+        void nativeOpenKeyboard() override;
+        void nativeCloseKeyboard() override;
 
         // need to remove siri text
-        virtual const char* getText(void) override;
+        const char* getText(void) override;
 
-        virtual void doAnimationWhenKeyboardMove(float duration, float distance) override;
+        void doAnimationWhenKeyboardMove(float duration, float distance) override;
 
     private:
         UIFont* constructFont(const char* fontName, int fontSize);
@@ -86,4 +88,4 @@ NS_CC_END
 
 #endif /* #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) */
 
-#endif /* __UIEditBoxIMPLIOS_H__ */
+#endif // CC_UI_EDITBOX_EDITBOXIMPLIOS_H

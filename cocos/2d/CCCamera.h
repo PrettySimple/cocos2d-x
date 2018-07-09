@@ -24,19 +24,27 @@ THE SOFTWARE.
  Code based GamePlay3D's Camera: http://gameplay3d.org
 
  ****************************************************************************/
-#ifndef _CCCAMERA_H__
-#define _CCCAMERA_H__
+#ifndef CC_2D_CAMERA_H
+#define CC_2D_CAMERA_H
 
 #include "2d/CCNode.h"
 #include "3d/CCFrustum.h"
-#include "renderer/CCCustomCommand.h"
+#include "math/Mat4.h"
+#include "math/Vec3.h"
+#include "platform/CCGL.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
 #include "renderer/CCFrameBuffer.h"
-#include "renderer/CCQuadCommand.h"
+
+#include <cstdint>
 
 NS_CC_BEGIN
 
-class Scene;
+class AABB;
 class CameraBackgroundBrush;
+class Renderer;
+class Scene;
+class Size;
 
 /**
  * Note:
@@ -46,7 +54,7 @@ class CameraBackgroundBrush;
  * Dedicate The DEFAULT camera for UI, because it is rendered at last. You can change the camera order to get different result when depth test is not enabled.
  * For each camera, transparent 3d sprite is rendered after opaque 3d sprite and other 2d objects.
  */
-enum class CameraFlag
+enum struct CameraFlag : std::uint16_t
 {
     DEFAULT = 1,
     USER1 = 1 << 1,
@@ -121,8 +129,8 @@ public:
     Camera::Type getType() const { return _type; }
 
     /**get & set Camera flag*/
-    CameraFlag getCameraFlag() const { return (CameraFlag)_cameraFlag; }
-    void setCameraFlag(CameraFlag flag) { _cameraFlag = (unsigned short)flag; }
+    CameraFlag getCameraFlag() const { return static_cast<CameraFlag>(_cameraFlag); }
+    void setCameraFlag(CameraFlag flag) { _cameraFlag = static_cast<unsigned short>(flag); }
 
     /**
      * Make Camera looks at target
@@ -216,13 +224,13 @@ public:
      * set depth, camera with larger depth is drawn on top of camera with smaller depth, the depth of camera with CameraFlag::DEFAULT is 0, user defined camera
      * is -1 by default
      */
-    void setDepth(int8_t depth);
+    void setDepth(std::int8_t depth);
 
     /**
      * get depth, camera with larger depth is drawn on top of camera with smaller depth, the depth of camera with CameraFlag::DEFAULT is 0, user defined camera
      * is -1 by default
      */
-    int8_t getDepth() const { return _depth; }
+    std::int8_t getDepth() const { return _depth; }
 
     /**
      get rendered order
@@ -283,12 +291,12 @@ public:
      */
     CameraBackgroundBrush* getBackgroundBrush() const { return _clearBrush; }
 
-    virtual void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
+    void visit(Renderer* renderer, const Mat4& parentTransform, std::uint32_t parentFlags) override;
 
     bool isBrushValid();
 
     CC_CONSTRUCTOR_ACCESS : Camera();
-    ~Camera();
+    ~Camera() override;
 
     /**
      * Set the scene,this method shall not be invoke manually
@@ -329,8 +337,8 @@ protected:
     unsigned short _cameraFlag; // camera flag
     mutable Frustum _frustum; // camera frustum
     mutable bool _frustumDirty;
-    int8_t _depth; // camera depth, the depth of camera with CameraFlag::DEFAULT flag is 0 by default, a camera with larger depth is drawn on top of camera with
-                   // smaller depth
+    std::int8_t _depth; // camera depth, the depth of camera with CameraFlag::DEFAULT flag is 0 by default, a camera with larger depth is drawn on top of camera
+                        // with smaller depth
 
     CameraBackgroundBrush* _clearBrush; // brush used to clear the back ground
 
@@ -341,4 +349,4 @@ protected:
 
 NS_CC_END
 
-#endif // __CCCAMERA_H_
+#endif // CC_2D_CAMERA_H

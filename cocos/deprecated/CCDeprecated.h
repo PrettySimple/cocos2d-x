@@ -28,8 +28,8 @@
 /** Add deprecated global functions and variables here
  */
 
-#ifndef __COCOS2D_CCDEPRECATED_H__
-#define __COCOS2D_CCDEPRECATED_H__
+#ifndef CC_DEPRECATED_DEPRECATED_H
+#define CC_DEPRECATED_DEPRECATED_H
 
 #include <math.h>
 
@@ -481,12 +481,12 @@ CC_DEPRECATED_ATTRIBUTE static inline Color4F ccc4FFromccc4B(Color4B c)
 
 CC_DEPRECATED_ATTRIBUTE static inline Color4B ccc4BFromccc4F(Color4F c)
 {
-    return Color4B((GLubyte)(c.r * 255), (GLubyte)(c.g * 255), (GLubyte)(c.b * 255), (GLubyte)(c.a * 255));
+    return Color4B(static_cast<GLubyte>(c.r * 255), static_cast<GLubyte>(c.g * 255), static_cast<GLubyte>(c.b * 255), static_cast<GLubyte>(c.a * 255));
 }
 
 CC_DEPRECATED_ATTRIBUTE static inline bool ccc4FEqual(Color4F a, Color4F b)
 {
-    return a.r == b.r && a.g == b.g && a.b == b.b && a.a == b.a;
+    return a == b;
 }
 
 CC_DEPRECATED_ATTRIBUTE static inline Vec2 vertex2(const float x, const float y)
@@ -1222,4 +1222,4 @@ CC_DEPRECATED_ATTRIBUTE CC_DLL Vec4* kmVec4Transform(Vec4* pOut, const Vec4* pV,
 NS_CC_END
 
 /// @endcond
-#endif // __COCOS2D_CCDEPRECATED_H__
+#endif // CC_DEPRECATED_DEPRECATED_H

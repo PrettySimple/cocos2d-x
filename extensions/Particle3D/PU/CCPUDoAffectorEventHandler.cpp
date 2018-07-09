@@ -42,7 +42,7 @@ void PUDoAffectorEventHandler::handle(PUParticleSystem3D* particleSystem, PUPart
 {
     /** Search for the affector.
      */
-    PUParticleSystem3D* technique = 0;
+    PUParticleSystem3D* technique = nullptr;
     PUAffector* affector = particleSystem->getAffector(_affectorName);
     if (!affector)
     {

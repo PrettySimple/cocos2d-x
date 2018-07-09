@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __UIRelativeBox_H__
-#define __UIRelativeBox_H__
+#ifndef CC_UI_RELATIVEBOX_H
+#define CC_UI_RELATIVEBOX_H
 
 #include "ui/GUIExport.h"
 #include "ui/UILayout.h"
@@ -55,7 +55,7 @@ namespace ui
          * @js NA
          * @lua NA
          */
-        virtual ~RelativeBox();
+        ~RelativeBox() override;
 
         /**
          * Create an empty RelativeBox instance.
@@ -73,7 +73,7 @@ namespace ui
 
         CC_CONSTRUCTOR_ACCESS :
             // initializes state of widget.
-            virtual bool
+            bool
             init() override;
         virtual bool initWithSize(const Size& size);
     };
@@ -84,4 +84,4 @@ namespace ui
 /// @}
 NS_CC_END
 
-#endif /* defined(__UIRelativeBox__) */
+#endif // CC_UI_RELATIVEBOX_H

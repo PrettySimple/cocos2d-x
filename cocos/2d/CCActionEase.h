@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __ACTION_CCEASE_ACTION_H__
-#define __ACTION_CCEASE_ACTION_H__
+#ifndef CC_2D_ACTIONEASE_H
+#define CC_2D_ACTIONEASE_H
 
 #include "2d/CCActionInterval.h"
 #include "2d/CCTweenFunction.h"
@@ -56,16 +56,16 @@ public:
     //
     // Overrides
     //
-    virtual void startWithTarget(Node* target) override;
-    virtual void stop() override;
-    virtual void update(float time) override;
+    void startWithTarget(Node* target) override;
+    void stop() override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : ActionEase()
     : _inner(nullptr)
     {
     }
 
-    virtual ~ActionEase();
+    ~ActionEase() override;
     /**
      @brief Initializes the action.
      @return Return true when the initialization success, otherwise return false.
@@ -77,7 +77,7 @@ protected:
     ActionInterval* _inner;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ActionEase);
+    CC_DISALLOW_COPY_AND_ASSIGN(ActionEase)
 };
 
 /**
@@ -101,8 +101,8 @@ public:
     */
     inline float getRate() const noexcept { return _rate; }
 
-    CC_CONSTRUCTOR_ACCESS : EaseRateAction() {}
-    virtual ~EaseRateAction() {}
+    CC_CONSTRUCTOR_ACCESS : EaseRateAction() = default;
+    ~EaseRateAction() override;
     /**
      @brief Initializes the action with the inner action and the rate parameter.
      @param pAction The pointer of the inner action.
@@ -115,7 +115,7 @@ protected:
     float _rate;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(EaseRateAction);
+    CC_DISALLOW_COPY_AND_ASSIGN(EaseRateAction)
 };
 
 //
@@ -125,7 +125,7 @@ private:
 #define EASE_TEMPLATE_DECL_CLASS(CLASSNAME)               \
     class CC_DLL CLASSNAME : public ActionEase            \
     {                                                     \
-        CC_CONSTRUCTOR_ACCESS : virtual ~CLASSNAME() {}   \
+        CC_CONSTRUCTOR_ACCESS : ~CLASSNAME() override {}  \
         CLASSNAME() {}                                    \
                                                           \
     public:                                               \
@@ -135,7 +135,7 @@ private:
         ActionEase* reverse() const override;             \
                                                           \
     private:                                              \
-        CC_DISALLOW_COPY_AND_ASSIGN(CLASSNAME);           \
+        CC_DISALLOW_COPY_AND_ASSIGN(CLASSNAME)            \
     };
 
 /**
@@ -145,7 +145,7 @@ private:
  \f${ 2 }^{ 10*(time-1) }-1*0.001\f$.
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseExponentialIn);
+EASE_TEMPLATE_DECL_CLASS(EaseExponentialIn)
 
 /**
  @class EaseExponentialOut
@@ -154,7 +154,7 @@ EASE_TEMPLATE_DECL_CLASS(EaseExponentialIn);
  \f$1-{ 2 }^{ -10*(time-1) }\f$.
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseExponentialOut);
+EASE_TEMPLATE_DECL_CLASS(EaseExponentialOut)
 
 /**
  @class EaseExponentialInOut
@@ -165,7 +165,7 @@ EASE_TEMPLATE_DECL_CLASS(EaseExponentialOut);
  \f$0.5*(2-{ 2 }^{ -10*(time-1) })\f$.
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseExponentialInOut);
+EASE_TEMPLATE_DECL_CLASS(EaseExponentialInOut)
 
 /**
  @class EaseSineIn
@@ -174,7 +174,7 @@ EASE_TEMPLATE_DECL_CLASS(EaseExponentialInOut);
  \f$1-cos(time*\frac { \pi  }{ 2 } )\f$.
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseSineIn);
+EASE_TEMPLATE_DECL_CLASS(EaseSineIn)
 
 /**
  @class EaseSineOut
@@ -183,7 +183,7 @@ EASE_TEMPLATE_DECL_CLASS(EaseSineIn);
  \f$sin(time*\frac { \pi  }{ 2 } )\f$.
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseSineOut);
+EASE_TEMPLATE_DECL_CLASS(EaseSineOut)
 
 /**
  @class EaseSineInOut
@@ -192,7 +192,7 @@ EASE_TEMPLATE_DECL_CLASS(EaseSineOut);
  \f$-0.5*(cos(\pi *time)-1)\f$.
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseSineInOut);
+EASE_TEMPLATE_DECL_CLASS(EaseSineInOut)
 
 /**
  @class EaseBounce
@@ -212,7 +212,7 @@ class CC_DLL EaseBounce : public ActionEase
  @since v0.8.2
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseBounceIn);
+EASE_TEMPLATE_DECL_CLASS(EaseBounceIn)
 
 /**
  @class EaseBounceOut
@@ -222,7 +222,7 @@ EASE_TEMPLATE_DECL_CLASS(EaseBounceIn);
  @since v0.8.2
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseBounceOut);
+EASE_TEMPLATE_DECL_CLASS(EaseBounceOut)
 
 /**
  @class EaseBounceInOut
@@ -232,7 +232,7 @@ EASE_TEMPLATE_DECL_CLASS(EaseBounceOut);
  @since v0.8.2
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseBounceInOut);
+EASE_TEMPLATE_DECL_CLASS(EaseBounceInOut)
 
 /**
  @class EaseBackIn
@@ -242,7 +242,7 @@ EASE_TEMPLATE_DECL_CLASS(EaseBounceInOut);
  @since v0.8.2
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseBackIn);
+EASE_TEMPLATE_DECL_CLASS(EaseBackIn)
 
 /**
  @class EaseBackOut
@@ -252,7 +252,7 @@ EASE_TEMPLATE_DECL_CLASS(EaseBackIn);
  @since v0.8.2
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseBackOut);
+EASE_TEMPLATE_DECL_CLASS(EaseBackOut)
 
 /**
  @class EaseBackInOut
@@ -262,112 +262,112 @@ EASE_TEMPLATE_DECL_CLASS(EaseBackOut);
  @since v0.8.2
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseBackInOut);
+EASE_TEMPLATE_DECL_CLASS(EaseBackInOut)
 
 /**
  @class EaseQuadraticActionIn
  @brief Ease Quadratic In
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseQuadraticActionIn);
+EASE_TEMPLATE_DECL_CLASS(EaseQuadraticActionIn)
 
 /**
  @class EaseQuadraticActionOut
  @brief Ease Quadratic Out
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseQuadraticActionOut);
+EASE_TEMPLATE_DECL_CLASS(EaseQuadraticActionOut)
 
 /**
  @class EaseQuadraticActionInOut
  @brief Ease Quadratic InOut
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseQuadraticActionInOut);
+EASE_TEMPLATE_DECL_CLASS(EaseQuadraticActionInOut)
 
 /**
  @class EaseQuarticActionIn
  @brief Ease Quartic In
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseQuarticActionIn);
+EASE_TEMPLATE_DECL_CLASS(EaseQuarticActionIn)
 
 /**
  @class EaseQuarticActionOut
  @brief Ease Quartic Out
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseQuarticActionOut);
+EASE_TEMPLATE_DECL_CLASS(EaseQuarticActionOut)
 
 /**
  @class EaseQuarticActionInOut
  @brief Ease Quartic InOut
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseQuarticActionInOut);
+EASE_TEMPLATE_DECL_CLASS(EaseQuarticActionInOut)
 
 /**
  @class EaseQuinticActionIn
  @brief Ease Quintic In
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseQuinticActionIn);
+EASE_TEMPLATE_DECL_CLASS(EaseQuinticActionIn)
 
 /**
  @class EaseQuinticActionOut
  @brief Ease Quintic Out
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseQuinticActionOut);
+EASE_TEMPLATE_DECL_CLASS(EaseQuinticActionOut)
 
 /**
  @class EaseQuinticActionInOut
  @brief Ease Quintic InOut
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseQuinticActionInOut);
+EASE_TEMPLATE_DECL_CLASS(EaseQuinticActionInOut)
 
 /**
  @class EaseCircleActionIn
  @brief Ease Circle In
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseCircleActionIn);
+EASE_TEMPLATE_DECL_CLASS(EaseCircleActionIn)
 
 /**
  @class EaseCircleActionOut
  @brief Ease Circle Out
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseCircleActionOut);
+EASE_TEMPLATE_DECL_CLASS(EaseCircleActionOut)
 
 /**
  @class EaseCircleActionInOut
  @brief Ease Circle InOut
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseCircleActionInOut);
+EASE_TEMPLATE_DECL_CLASS(EaseCircleActionInOut)
 
 /**
  @class EaseCubicActionIn
  @brief Ease Cubic In
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseCubicActionIn);
+EASE_TEMPLATE_DECL_CLASS(EaseCubicActionIn)
 
 /**
  @class EaseCubicActionOut
  @brief Ease Cubic Out
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseCubicActionOut);
+EASE_TEMPLATE_DECL_CLASS(EaseCubicActionOut)
 
 /**
  @class EaseCubicActionInOut
  @brief Ease Cubic InOut
  @ingroup Actions
  */
-EASE_TEMPLATE_DECL_CLASS(EaseCubicActionInOut);
+EASE_TEMPLATE_DECL_CLASS(EaseCubicActionInOut)
 
 //
 // NOTE: Converting these macros into Templates is desirable, but please see
@@ -377,7 +377,7 @@ EASE_TEMPLATE_DECL_CLASS(EaseCubicActionInOut);
 #define EASERATE_TEMPLATE_DECL_CLASS(CLASSNAME)                       \
     class CC_DLL CLASSNAME : public EaseRateAction                    \
     {                                                                 \
-        CC_CONSTRUCTOR_ACCESS : virtual ~CLASSNAME() {}               \
+        CC_CONSTRUCTOR_ACCESS : ~CLASSNAME() override {}              \
         CLASSNAME() {}                                                \
                                                                       \
     public:                                                           \
@@ -387,7 +387,7 @@ EASE_TEMPLATE_DECL_CLASS(EaseCubicActionInOut);
         EaseRateAction* reverse() const override;                     \
                                                                       \
     private:                                                          \
-        CC_DISALLOW_COPY_AND_ASSIGN(CLASSNAME);                       \
+        CC_DISALLOW_COPY_AND_ASSIGN(CLASSNAME)                        \
     };
 
 /**
@@ -397,7 +397,7 @@ EASE_TEMPLATE_DECL_CLASS(EaseCubicActionInOut);
  \f${ time }^{ rate }\f$.
  @ingroup Actions
  */
-EASERATE_TEMPLATE_DECL_CLASS(EaseIn);
+EASERATE_TEMPLATE_DECL_CLASS(EaseIn)
 
 /**
  @class EaseOut
@@ -406,7 +406,7 @@ EASERATE_TEMPLATE_DECL_CLASS(EaseIn);
  \f${ time }^ { (1/rate) }\f$.
  @ingroup Actions
  */
-EASERATE_TEMPLATE_DECL_CLASS(EaseOut);
+EASERATE_TEMPLATE_DECL_CLASS(EaseOut)
 
 /**
  @class EaseInOut
@@ -417,7 +417,7 @@ EASERATE_TEMPLATE_DECL_CLASS(EaseOut);
  \f$1.0-0.5*{ 2-time }^{ rate }\f$.
  @ingroup Actions
  */
-EASERATE_TEMPLATE_DECL_CLASS(EaseInOut);
+EASERATE_TEMPLATE_DECL_CLASS(EaseInOut)
 
 /**
  @class EaseElastic
@@ -439,8 +439,8 @@ public:
     */
     inline void setPeriod(float fPeriod) noexcept { _period = fPeriod; }
 
-    CC_CONSTRUCTOR_ACCESS : EaseElastic() {}
-    virtual ~EaseElastic() {}
+    CC_CONSTRUCTOR_ACCESS : EaseElastic() = default;
+    ~EaseElastic() override;
     /**
      @brief Initializes the action with the inner action and the period in radians.
      @param action The pointer of the inner action.
@@ -453,7 +453,7 @@ protected:
     float _period;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(EaseElastic);
+    CC_DISALLOW_COPY_AND_ASSIGN(EaseElastic)
 };
 
 //
@@ -463,7 +463,7 @@ private:
 #define EASEELASTIC_TEMPLATE_DECL_CLASS(CLASSNAME)                           \
     class CC_DLL CLASSNAME : public EaseElastic                              \
     {                                                                        \
-        CC_CONSTRUCTOR_ACCESS : virtual ~CLASSNAME() {}                      \
+        CC_CONSTRUCTOR_ACCESS : ~CLASSNAME() override {}                     \
         CLASSNAME() {}                                                       \
                                                                              \
     public:                                                                  \
@@ -473,7 +473,7 @@ private:
         EaseElastic* reverse() const override;                               \
                                                                              \
     private:                                                                 \
-        CC_DISALLOW_COPY_AND_ASSIGN(CLASSNAME);                              \
+        CC_DISALLOW_COPY_AND_ASSIGN(CLASSNAME)                               \
     };
 
 /**
@@ -488,7 +488,7 @@ private:
  @since v0.8.2
  @ingroup Actions
  */
-EASEELASTIC_TEMPLATE_DECL_CLASS(EaseElasticIn);
+EASEELASTIC_TEMPLATE_DECL_CLASS(EaseElasticIn)
 
 /**
  @class EaseElasticOut
@@ -501,7 +501,7 @@ EASEELASTIC_TEMPLATE_DECL_CLASS(EaseElasticIn);
  @since v0.8.2
  @ingroup Actions
  */
-EASEELASTIC_TEMPLATE_DECL_CLASS(EaseElasticOut);
+EASEELASTIC_TEMPLATE_DECL_CLASS(EaseElasticOut)
 
 /**
  @class EaseElasticInOut
@@ -511,7 +511,7 @@ EASEELASTIC_TEMPLATE_DECL_CLASS(EaseElasticOut);
  @since v0.8.2
  @ingroup Actions
  */
-EASEELASTIC_TEMPLATE_DECL_CLASS(EaseElasticInOut);
+EASEELASTIC_TEMPLATE_DECL_CLASS(EaseElasticInOut)
 
 /**
  @class EaseBezierAction
@@ -528,9 +528,9 @@ public:
     */
     static EaseBezierAction* create(cocos2d::ActionInterval* action);
 
-    virtual void update(float time) override;
-    virtual EaseBezierAction* clone() const override;
-    virtual EaseBezierAction* reverse() const override;
+    void update(float time) override;
+    EaseBezierAction* clone() const override;
+    EaseBezierAction* reverse() const override;
 
     /**
      @brief Set the bezier parameters.
@@ -538,7 +538,7 @@ public:
     virtual void setBezierParamer(float p0, float p1, float p2, float p3);
 
     CC_CONSTRUCTOR_ACCESS : EaseBezierAction() {}
-    virtual ~EaseBezierAction() {}
+    ~EaseBezierAction() override {}
 
 protected:
     float _p0;
@@ -547,7 +547,7 @@ protected:
     float _p3;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(EaseBezierAction);
+    CC_DISALLOW_COPY_AND_ASSIGN(EaseBezierAction)
 };
 
 // end of actions group
@@ -555,4 +555,4 @@ private:
 
 NS_CC_END
 
-#endif // __ACTION_CCEASE_ACTION_H__
+#endif // CC_2D_ACTIONEASE_H

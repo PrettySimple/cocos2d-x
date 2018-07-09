@@ -28,6 +28,10 @@
 
 NS_CC_EXT_BEGIN
 
+Invocation::~Invocation()
+{
+}
+
 Invocation* Invocation::create(Ref* target, Control::Handler action, Control::EventType controlEvent)
 {
     Invocation* pRet = new (std::nothrow) Invocation(target, action, controlEvent);

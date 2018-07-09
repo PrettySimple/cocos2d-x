@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __MISCNODE_CCGRID_NODE_H__
-#define __MISCNODE_CCGRID_NODE_H__
+#ifndef CC_2D_NODEGRID_H
+#define CC_2D_NODEGRID_H
 
 #include "2d/CCNode.h"
 #include "renderer/CCCustomCommand.h"
@@ -87,10 +87,10 @@ public:
     const Rect& getGridRect() const { return _gridRect; }
 
     // overrides
-    virtual void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
+    void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
 
     CC_CONSTRUCTOR_ACCESS : NodeGrid();
-    virtual ~NodeGrid();
+    ~NodeGrid() override;
 
 protected:
     void onGridBeginDraw();
@@ -105,9 +105,9 @@ protected:
     Rect _gridRect;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(NodeGrid);
+    CC_DISALLOW_COPY_AND_ASSIGN(NodeGrid)
 };
 /** @} */
 NS_CC_END
 
-#endif
+#endif // CC_2D_NODEGRID_H

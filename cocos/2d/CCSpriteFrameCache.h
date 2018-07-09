@@ -27,8 +27,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __SPRITE_CCSPRITE_FRAME_CACHE_H__
-#define __SPRITE_CCSPRITE_FRAME_CACHE_H__
+#ifndef CC_2D_SPRITEFRAMECACHE_H
+#define CC_2D_SPRITEFRAMECACHE_H
 
 #include "2d/CCSpriteFrame.h"
 #include "base/CCMap.h"
@@ -276,4 +276,4 @@ protected:
 
 NS_CC_END
 
-#endif // __SPRITE_CCSPRITE_FRAME_CACHE_H__
+#endif // CC_2D_SPRITEFRAMECACHE_H

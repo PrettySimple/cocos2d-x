@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_GRAVITY_AFFECTOR_H__
-#define __CC_PU_PARTICLE_3D_GRAVITY_AFFECTOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_GRAVITYAFFECTOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_GRAVITYAFFECTOR_H
 
 #include "base/ccTypes.h"
 #include "extensions/Particle3D/PU/CCPUAffector.h"
@@ -39,22 +39,22 @@ public:
 
     static PUGravityAffector* create();
 
-    virtual void preUpdateAffector(float deltaTime) override;
-    virtual void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
+    void preUpdateAffector(float deltaTime) override;
+    void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
 
     /**
      */
     float getGravity(void) const;
     void setGravity(float gravity);
 
-    virtual void copyAttributesTo(PUAffector* affector) override;
+    void copyAttributesTo(PUAffector* affector) override;
 
     CC_CONSTRUCTOR_ACCESS : PUGravityAffector(void);
-    virtual ~PUGravityAffector(void);
+    ~PUGravityAffector() override;
 
 protected:
     float _gravity;
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_GRAVITYAFFECTOR_H

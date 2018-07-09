@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __COCOS2D_UI_WEBVIEWIMPL_IOS_H_
-#define __COCOS2D_UI_WEBVIEWIMPL_IOS_H_
+#ifndef CC_UI_WEBVIEWIMPLIOS_H
+#define CC_UI_WEBVIEWIMPLIOS_H
 /// @cond DO_NOT_SHOW
 
 #include <cstdint>
@@ -92,4 +92,4 @@ namespace cocos2d
 } // namespace cocos2d
 
 /// @endcond
-#endif /* __COCOS2D_UI_WEBVIEWIMPL_IOS_H_ */
+#endif // CC_UI_WEBVIEWIMPLIOS_H

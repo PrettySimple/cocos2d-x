@@ -142,7 +142,7 @@ void CCPUMaterialTranslator::setMaterialSystem(PUMaterialCache* ms)
 void PUMaterialTechniqueTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode* node)
 {
     PUObjectAbstractNode* obj = reinterpret_cast<PUObjectAbstractNode*>(node);
-    PUObjectAbstractNode* parent = obj->parent ? reinterpret_cast<PUObjectAbstractNode*>(obj->parent) : 0;
+    PUObjectAbstractNode* parent = obj->parent ? reinterpret_cast<PUObjectAbstractNode*>(obj->parent) : nullptr;
 
     if (parent)
         obj->context = parent->context;
@@ -164,7 +164,7 @@ void PUMaterialTechniqueTranslator::translate(PUScriptCompiler* compiler, PUAbst
 void PUMaterialPassTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode* node)
 {
     PUObjectAbstractNode* obj = reinterpret_cast<PUObjectAbstractNode*>(node);
-    PUObjectAbstractNode* parent = obj->parent ? reinterpret_cast<PUObjectAbstractNode*>(obj->parent) : 0;
+    PUObjectAbstractNode* parent = obj->parent ? reinterpret_cast<PUObjectAbstractNode*>(obj->parent) : nullptr;
 
     if (parent)
         obj->context = parent->context;
@@ -383,7 +383,7 @@ void PUMaterialPassTranslator::translate(PUScriptCompiler* compiler, PUAbstractN
 void PUMaterialTextureUnitTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode* node)
 {
     PUObjectAbstractNode* obj = reinterpret_cast<PUObjectAbstractNode*>(node);
-    PUObjectAbstractNode* parent = obj->parent ? reinterpret_cast<PUObjectAbstractNode*>(obj->parent) : 0;
+    PUObjectAbstractNode* parent = obj->parent ? reinterpret_cast<PUObjectAbstractNode*>(obj->parent) : nullptr;
 
     PUMaterial* material = static_cast<PUMaterial*>(parent->context);
 

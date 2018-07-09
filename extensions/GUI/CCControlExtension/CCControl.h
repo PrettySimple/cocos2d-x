@@ -26,8 +26,8 @@
  * Converted to c++ / cocos2d-x by Angus C
  */
 
-#ifndef __CCCONTROL_H__
-#define __CCCONTROL_H__
+#ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_CONTROL_H
+#define CC_EXTENSIONS_GUI_CONTROLEXTENSION_CONTROL_H
 
 #include "2d/CCLayer.h"
 #include "CCControlUtils.h"
@@ -155,10 +155,10 @@ public:
      */
     virtual Vec2 getTouchLocation(Touch* touch);
 
-    virtual bool onTouchBegan(Touch* touch, Event* event) override { return false; };
-    virtual void onTouchMoved(Touch* touch, Event* event) override{};
-    virtual void onTouchEnded(Touch* touch, Event* event) override{};
-    virtual void onTouchCancelled(Touch* touch, Event* event) override{};
+    bool onTouchBegan(Touch* touch, Event* event) override { return false; }
+    void onTouchMoved(Touch* touch, Event* event) override {}
+    void onTouchEnded(Touch* touch, Event* event) override {}
+    void onTouchCancelled(Touch* touch, Event* event) override {}
 
     /**
      * Returns a boolean value that indicates whether a touch is inside the bounds
@@ -171,8 +171,8 @@ public:
     virtual bool isTouchInside(Touch* touch);
 
     // Overrides
-    virtual bool isOpacityModifyRGB() const override;
-    virtual void setOpacityModifyRGB(bool bOpacityModifyRGB) override;
+    bool isOpacityModifyRGB() const override;
+    void setOpacityModifyRGB(bool bOpacityModifyRGB) override;
 
     CC_CONSTRUCTOR_ACCESS :
         /**
@@ -183,9 +183,9 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~Control();
+    ~Control() override;
 
-    virtual bool init(void) override;
+    bool init(void) override;
 
 protected:
     /**
@@ -261,10 +261,10 @@ protected:
     bool _isOpacityModifyRGB;
 
     /** The current control state constant. */
-    CC_SYNTHESIZE_READONLY(State, _state, State);
+    CC_SYNTHESIZE_READONLY(State, _state, State)
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Control);
+    CC_DISALLOW_COPY_AND_ASSIGN(Control)
 };
 
 CC_EX_DLL Control::EventType operator|(Control::EventType a, Control::EventType b);
@@ -275,4 +275,4 @@ CC_EX_DLL Control::EventType operator|(Control::EventType a, Control::EventType 
 
 NS_CC_EXT_END
 
-#endif
+#endif // CC_EXTENSIONS_GUI_CONTROLEXTENSION_CONTROL_H

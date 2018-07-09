@@ -22,8 +22,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __EXPORT_COMMON__
-#define __EXPORT_COMMON__
+#ifndef CC_AUDIO_INCLUDE_EXPORT_H
+#define CC_AUDIO_INCLUDE_EXPORT_H
 
 #if defined(SHP)
 #    include <FBaseConfig.h>
@@ -48,4 +48,4 @@ THE SOFTWARE.
 #    endif
 #endif
 
-#endif // end of __EXPORT_COMMON__
+#endif // CC_AUDIO_INCLUDE_EXPORT_H

@@ -31,12 +31,16 @@ THE SOFTWARE.
 #include "platform/CCSAXParser.h"
 //#include "base/ccUtils.h"
 
-#include "tinyxml2.h"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <tinyxml2/tinyxml2.h>
+
 #ifdef MINIZIP_FROM_SYSTEM
 #    include <minizip/unzip.h>
 #else // from our embedded sources
-#    include "unzip.h"
+#    include <unzip/unzip.h>
 #endif
+#pragma clang diagnostic pop
 
 #include <stack>
 #include <stdexcept>
@@ -57,6 +61,30 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 // Implement DictMaker
+
+ResizableBuffer::~ResizableBuffer()
+{
+}
+
+ResizableBufferAdapter<Data>::ResizableBufferAdapter(BufferType* buffer)
+: _buffer(buffer)
+{
+}
+
+ResizableBufferAdapter<Data>::~ResizableBufferAdapter()
+{
+}
+
+void ResizableBufferAdapter<Data>::resize(size_t size)
+{
+    if (static_cast<size_t>(_buffer->getSize()) < size)
+    {
+        auto old = _buffer->getBytes();
+        void* buffer = realloc(old, size);
+        if (buffer)
+            _buffer->fastSet(reinterpret_cast<unsigned char*>(buffer), size);
+    }
+}
 
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_IOS) && (CC_TARGET_PLATFORM != CC_PLATFORM_MAC)
 
@@ -154,10 +182,8 @@ public:
         return _rootArray;
     }
 
-    void startElement(void* ctx, const char* name, const char** atts)
+    void startElement(void*, const char* name, const char**)
     {
-        CC_UNUSED_PARAM(ctx);
-        CC_UNUSED_PARAM(atts);
         const std::string sName(name);
         if (sName == "dict")
         {
@@ -253,9 +279,8 @@ public:
         }
     }
 
-    void endElement(void* ctx, const char* name)
+    void endElement(void*, const char* name)
     {
-        CC_UNUSED_PARAM(ctx);
         SAXState curState = _stateStack.empty() ? SAX_DICT : _stateStack.top();
         const std::string sName((char*)name);
         if (sName == "dict")
@@ -325,9 +350,8 @@ public:
         _state = SAX_NONE;
     }
 
-    void textHandler(void* ctx, const char* ch, size_t len) override
+    void textHandler(void*, const char* ch, size_t len) override
     {
-        CC_UNUSED_PARAM(ctx);
         if (_state == SAX_NONE)
         {
             return;
@@ -621,7 +645,7 @@ FileUtils::~FileUtils()
 bool FileUtils::writeStringToFile(const std::string& dataStr, const std::string& fullPath)
 {
     Data data;
-    data.fastSet((unsigned char*)dataStr.c_str(), dataStr.size());
+    data.fastSet(reinterpret_cast<unsigned char*>(const_cast<char*>(dataStr.c_str())), dataStr.size());
 
     bool rv = writeDataToFile(data, fullPath);
 
@@ -721,7 +745,7 @@ FileUtils::Status FileUtils::getContents(const std::string& filename, ResizableB
     return Status::OK;
 }
 
-unsigned char* FileUtils::getFileData(const std::string& filename, const char* mode, ssize_t* size)
+unsigned char* FileUtils::getFileData(const std::string& filename, const char* mode, std::size_t* size)
 {
     CCASSERT(!filename.empty() && size != nullptr && mode != nullptr, "Invalid parameters.");
     (void)(mode); // mode is unused, as we do not support text mode any more...
@@ -736,7 +760,7 @@ unsigned char* FileUtils::getFileData(const std::string& filename, const char* m
     return d.takeBuffer(size);
 }
 
-unsigned char* FileUtils::getFileDataFromZip(const std::string& zipFilePath, const std::string& filename, ssize_t* size)
+unsigned char* FileUtils::getFileDataFromZip(const std::string& zipFilePath, const std::string& filename, std::size_t* size)
 {
     unsigned char* buffer = nullptr;
     unzFile file = nullptr;
@@ -765,9 +789,9 @@ unsigned char* FileUtils::getFileDataFromZip(const std::string& zipFilePath, con
         ret = unzOpenCurrentFile(file);
         CC_BREAK_IF(UNZ_OK != ret);
 
-        buffer = (unsigned char*)malloc(fileInfo.uncompressed_size);
+        buffer = reinterpret_cast<unsigned char*>(malloc(fileInfo.uncompressed_size));
         int CC_UNUSED readedSize = unzReadCurrentFile(file, buffer, static_cast<unsigned>(fileInfo.uncompressed_size));
-        CCASSERT(readedSize == 0 || readedSize == (int)fileInfo.uncompressed_size, "the file size is wrong");
+        CCASSERT(readedSize == 0 || readedSize == static_cast<int>(fileInfo.uncompressed_size), "the file size is wrong");
 
         *size = fileInfo.uncompressed_size;
         unzCloseCurrentFile(file);
@@ -1184,11 +1208,11 @@ bool FileUtils::createDirectory(const std::string& path)
         }
     }
 
-    DIR* dir = NULL;
+    DIR* dir = nullptr;
 
     // Create path recursively
     subpath = "";
-    for (int i = 0; i < dirs.size(); ++i)
+    for (int i = 0; i < static_cast<int>(dirs.size()); ++i)
     {
         subpath += dirs[i];
         dir = opendir(subpath.c_str());
@@ -1221,7 +1245,7 @@ bool FileUtils::removeDirectory(const std::string& path)
     pid_t pid;
     const std::string cmd = "\"" + path + "\"";
     char* argv[] = {"rm -r", const_cast<char*>(cmd.c_str())};
-    if (posix_spawn(&pid, argv[0], NULL, NULL, argv, environ) == 0 && waitpid(pid, NULL, 0) >= 0)
+    if (posix_spawn(&pid, argv[0], nullptr, nullptr, argv, environ) == 0 && waitpid(pid, nullptr, 0) >= 0)
         return true;
     else
         return false;
@@ -1301,7 +1325,7 @@ long FileUtils::getFileSize(const std::string& filepath)
     }
     else
     {
-        return (long)(info.st_size);
+        return static_cast<long>(info.st_size);
     }
 }
 #endif

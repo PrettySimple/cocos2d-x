@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_EMITTER_TRANSLATOR_H__
-#define __CC_PU_PARTICLE_3D_EMITTER_TRANSLATOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_EMITTERTRANSLATOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_EMITTERTRANSLATOR_H
 
 #include "extensions/Particle3D/PU/CCPUEmitter.h"
 #include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
@@ -39,10 +39,10 @@ protected:
 
 public:
     PUEmitterTranslator();
-    virtual ~PUEmitterTranslator(){};
-    virtual void translate(PUScriptCompiler* compiler, PUAbstractNode* node);
+    ~PUEmitterTranslator() override = default;
+    void translate(PUScriptCompiler* compiler, PUAbstractNode* node) override;
 };
 
 NS_CC_END
 
-#endif /* defined(__cocos2d_libs__CCParticle3DAffectorTranslator__) */
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_EMITTERTRANSLATOR_H

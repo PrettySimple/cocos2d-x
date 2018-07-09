@@ -22,8 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "base/CCEventDispatcher.h"
-#include <algorithm>
 
+#include "2d/CCCamera.h"
+#include "2d/CCScene.h"
+#include "base/CCDirector.h"
 #include "base/CCEventCustom.h"
 #include "base/CCEventListenerAcceleration.h"
 #include "base/CCEventListenerCustom.h"
@@ -31,13 +33,15 @@
 #include "base/CCEventListenerKeyboard.h"
 #include "base/CCEventListenerMouse.h"
 #include "base/CCEventListenerTouch.h"
+#include "base/CCEventType.h"
+#include "base/CCTouch.h"
+#include "platform/CCPlatformConfig.h"
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 #    include "base/CCEventListenerController.h"
 #endif
-#include "2d/CCCamera.h"
-#include "2d/CCScene.h"
-#include "base/CCDirector.h"
-#include "base/CCEventType.h"
+
+#include <algorithm>
 
 #define DUMP_LISTENER_ITEM_PRIORITY_INFO 0
 
@@ -95,6 +99,8 @@ static EventListener::ListenerID __getListenerID(Event* event)
             ret = EventListenerController::LISTENER_ID;
             break;
 #endif
+        case Event::Type::NONE:
+            break;
         default:
             CCASSERT(false, "Invalid type!");
             break;
@@ -722,11 +728,11 @@ void EventDispatcher::dispatchEventToListeners(EventListenerVector* listeners, c
     auto fixedPriorityListeners = listeners->getFixedPriorityListeners();
     auto sceneGraphPriorityListeners = listeners->getSceneGraphPriorityListeners();
 
-    ssize_t i = 0;
+    std::size_t i = 0;
     // priority < 0
     if (fixedPriorityListeners)
     {
-        CCASSERT(listeners->getGt0Index() <= static_cast<ssize_t>(fixedPriorityListeners->size()), "Out of range exception!");
+        CCASSERT(listeners->getGt0Index() <= fixedPriorityListeners->size(), "Out of range exception!");
 
         if (!fixedPriorityListeners->empty())
         {
@@ -763,7 +769,7 @@ void EventDispatcher::dispatchEventToListeners(EventListenerVector* listeners, c
         if (!shouldStopPropagation)
         {
             // priority > 0
-            ssize_t size = fixedPriorityListeners->size();
+            std::size_t size = fixedPriorityListeners->size();
             for (; i < size; ++i)
             {
                 auto l = fixedPriorityListeners->at(i);
@@ -784,11 +790,11 @@ void EventDispatcher::dispatchTouchEventToListeners(EventListenerVector* listene
     auto fixedPriorityListeners = listeners->getFixedPriorityListeners();
     auto sceneGraphPriorityListeners = listeners->getSceneGraphPriorityListeners();
 
-    ssize_t i = 0;
+    std::size_t i = 0;
     // priority < 0
     if (fixedPriorityListeners)
     {
-        CCASSERT(listeners->getGt0Index() <= static_cast<ssize_t>(fixedPriorityListeners->size()), "Out of range exception!");
+        CCASSERT(listeners->getGt0Index() <= fixedPriorityListeners->size(), "Out of range exception!");
 
         if (!fixedPriorityListeners->empty())
         {
@@ -860,7 +866,7 @@ void EventDispatcher::dispatchTouchEventToListeners(EventListenerVector* listene
         if (!shouldStopPropagation)
         {
             // priority > 0
-            ssize_t size = fixedPriorityListeners->size();
+            std::size_t size = fixedPriorityListeners->size();
             for (; i < size; ++i)
             {
                 auto l = fixedPriorityListeners->at(i);

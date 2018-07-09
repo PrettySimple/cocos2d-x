@@ -23,8 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __PLATFOMR_CCNS_H__
-#define __PLATFOMR_CCNS_H__
+#ifndef CC_BASE_NS_H
+#define CC_BASE_NS_H
 
 #include "math/CCGeometry.h"
 
@@ -76,4 +76,4 @@ Size CC_DLL SizeFromString(const std::string& str);
 
 NS_CC_END
 
-#endif // __PLATFOMR_CCNS_H__
+#endif // CC_BASE_NS_H

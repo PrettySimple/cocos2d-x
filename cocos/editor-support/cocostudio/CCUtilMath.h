@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCUTILMATH_H__
-#define __CCUTILMATH_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_UTILMATH_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_UTILMATH_H
 
 #include "2d/CCSprite.h"
 #include "cocostudio/CCArmatureDefine.h"
@@ -51,4 +51,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif /*__CCUTILMATH_H__*/
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_UTILMATH_H

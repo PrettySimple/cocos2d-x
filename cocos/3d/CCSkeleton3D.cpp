@@ -146,7 +146,7 @@ void Bone3D::updateJointMatrix(Vec4* matrixPalette)
 {
     {
         static Mat4 t;
-        Mat4::multiply(_world, getInverseBindPose(), &t);
+        Mat4::multiply(_world, getInverseBindPose(), t);
 
         matrixPalette[0].set(t.m[0], t.m[4], t.m[8], t.m[12]);
         matrixPalette[1].set(t.m[1], t.m[5], t.m[9], t.m[13]);
@@ -158,7 +158,7 @@ Bone3D* Bone3D::getParentBone()
 {
     return _parent;
 }
-ssize_t Bone3D::getChildBoneCount() const
+std::size_t Bone3D::getChildBoneCount() const
 {
     return _children.size();
 }
@@ -240,7 +240,7 @@ void Bone3D::updateLocalMat()
             }
         }
 
-        Mat4::createTranslation(translate, &_local);
+        Mat4::createTranslation(translate, _local);
         _local.rotate(quat);
         _local.scale(scale);
 
@@ -272,7 +272,7 @@ Skeleton3D* Skeleton3D::create(const std::vector<NodeData*>& skeletondata)
     return skeleton;
 }
 
-ssize_t Skeleton3D::getBoneCount() const
+std::size_t Skeleton3D::getBoneCount() const
 {
     return _bones.size();
 }
@@ -297,7 +297,7 @@ Bone3D* Skeleton3D::getBoneByName(const std::string& id) const
     return nullptr;
 }
 
-ssize_t Skeleton3D::getRootCount() const
+std::size_t Skeleton3D::getRootCount() const
 {
     return _rootBones.size();
 }

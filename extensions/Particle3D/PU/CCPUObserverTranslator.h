@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_OBSERVER_TRANSLATOR_H__
-#define __CC_PU_PARTICLE_3D_OBSERVER_TRANSLATOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_OBSERVERTRANSLATOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_OBSERVERTRANSLATOR_H
 
 #include "extensions/Particle3D/PU/CCPUObserver.h"
 #include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
@@ -39,10 +39,10 @@ protected:
 
 public:
     PUObserverTranslator(void);
-    virtual ~PUObserverTranslator(void){};
-    virtual void translate(PUScriptCompiler* compiler, PUAbstractNode* node);
+    ~PUObserverTranslator() override = default;
+    void translate(PUScriptCompiler* compiler, PUAbstractNode* node) override;
 };
 
 NS_CC_END
 
-#endif /* defined(__cocos2d_libs__CCParticle3DAffectorTranslator__) */
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_OBSERVERTRANSLATOR_H

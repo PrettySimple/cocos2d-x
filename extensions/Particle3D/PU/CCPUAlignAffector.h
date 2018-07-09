@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_ALIGN_AFFECTOR_H__
-#define __CC_PU_PARTICLE_3D_ALIGN_AFFECTOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_ALIGNAFFECTOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_ALIGNAFFECTOR_H
 
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 
@@ -38,8 +38,8 @@ public:
 
     static PUAlignAffector* create();
 
-    virtual void firstParticleUpdate(PUParticle3D* particle, float deltaTime) override;
-    virtual void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
+    void firstParticleUpdate(PUParticle3D* particle, float deltaTime) override;
+    void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
 
     /** See setResize().
      */
@@ -50,10 +50,10 @@ public:
     */
     void setResize(bool resize);
 
-    virtual void copyAttributesTo(PUAffector* affector) override;
+    void copyAttributesTo(PUAffector* affector) override;
 
     CC_CONSTRUCTOR_ACCESS : PUAlignAffector();
-    virtual ~PUAlignAffector();
+    ~PUAlignAffector() override;
 
 protected:
     bool _resize;
@@ -61,4 +61,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_ALIGNAFFECTOR_H

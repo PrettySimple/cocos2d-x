@@ -22,11 +22,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __UIBUTTON_H__
-#define __UIBUTTON_H__
+#ifndef CC_UI_BUTTON_H
+#define CC_UI_BUTTON_H
 
+#include "math/CCGeometry.h"
+#include "platform/CCPlatformMacros.h"
+#include "ui/GUIDefine.h"
 #include "ui/GUIExport.h"
 #include "ui/UIWidget.h"
+
+#include <cstdint>
+#include <string>
 
 /**
  * @addtogroup ui
@@ -35,8 +41,13 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 class Label;
+class Node;
+class Scale9Sprite;
 class SpriteFrame;
-struct CC_DLL ResourceData;
+enum struct TextHAlignment : std::uint8_t;
+enum struct TextVAlignment : std::uint8_t;
+struct Color3B;
+struct ResourceData;
 
 namespace ui
 {
@@ -60,7 +71,7 @@ namespace ui
          *
          * @lua NA
          */
-        virtual ~Button();
+        ~Button() override;
 
         /**
          * Create a empty Button.
@@ -181,10 +192,10 @@ namespace ui
         void setPressedActionEnabled(bool enabled);
 
         // override methods
-        virtual void ignoreContentAdaptWithSize(bool ignore) override;
-        virtual Size getVirtualRendererSize() const override;
-        virtual Node* getVirtualRenderer() override;
-        virtual std::string getDescription() const override;
+        void ignoreContentAdaptWithSize(bool ignore) override;
+        Size getVirtualRendererSize() const override;
+        Node* getVirtualRenderer() override;
+        std::string getDescription() const override;
 
         /**
          * Return the inner title renderer of Button.
@@ -298,18 +309,18 @@ namespace ui
         ResourceData getPressedFile();
         ResourceData getDisabledFile();
 
-        CC_CONSTRUCTOR_ACCESS : virtual bool init() override;
+        CC_CONSTRUCTOR_ACCESS : bool init() override;
         virtual bool init(const std::string& normalImage, const std::string& selectedImage = "", const std::string& disableImage = "",
                           TextureResType texType = TextureResType::LOCAL);
 
         virtual Size getNormalTextureSize() const;
 
     protected:
-        virtual void initRenderer() override;
-        virtual void onPressStateChangedToNormal() override;
-        virtual void onPressStateChangedToPressed() override;
-        virtual void onPressStateChangedToDisabled() override;
-        virtual void onSizeChanged() override;
+        void initRenderer() override;
+        void onPressStateChangedToNormal() override;
+        void onPressStateChangedToPressed() override;
+        void onPressStateChangedToDisabled() override;
+        void onSizeChanged() override;
 
         void loadTextureNormal(SpriteFrame* normalSpriteFrame);
         void setupNormalTexture(bool textureLoaded);
@@ -322,13 +333,13 @@ namespace ui
         void pressedTextureScaleChangedWithSize();
         void disabledTextureScaleChangedWithSize();
 
-        virtual void adaptRenderers() override;
+        void adaptRenderers() override;
         void updateTitleLocation();
         void updateContentSize();
         void createTitleRenderer();
 
-        virtual Widget* createCloneInstance() override;
-        virtual void copySpecialProperties(Widget* model) override;
+        Widget* createCloneInstance() override;
+        void copySpecialProperties(Widget* model) override;
 
         virtual Size getNormalSize() const;
 
@@ -366,7 +377,7 @@ namespace ui
         TextureResType _disabledTexType;
 
     private:
-        enum class FontType
+        enum struct FontType : std::uint8_t
         {
             SYSTEM,
             TTF,
@@ -384,4 +395,4 @@ NS_CC_END
 // end of ui group
 /// @}
 
-#endif /* defined(__CocoGUI__Button__) */
+#endif // CC_UI_BUTTON_H

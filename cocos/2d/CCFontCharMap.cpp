@@ -94,6 +94,14 @@ FontCharMap* FontCharMap::create(Texture2D* texture, int itemWidth, int itemHeig
     return tempFont;
 }
 
+FontCharMap::FontCharMap(Texture2D* texture, int itemWidth, int itemHeight, int startCharMap)
+: _texture(texture)
+, _mapStartChar(startCharMap)
+, _itemWidth(itemWidth)
+, _itemHeight(itemHeight)
+{
+}
+
 FontCharMap::~FontCharMap()
 {
 }
@@ -110,8 +118,8 @@ FontAtlas* FontCharMap::createFontAtlas()
         return nullptr;
 
     Size s = _texture->getContentSizeInPixels();
-    int itemsPerColumn = (int)(s.height / _itemHeight);
-    int itemsPerRow = (int)(s.width / _itemWidth);
+    int itemsPerColumn = static_cast<int>(s.height / _itemHeight);
+    int itemsPerRow = static_cast<int>(s.width / _itemWidth);
 
     tempAtlas->setLineHeight(_itemHeight);
 

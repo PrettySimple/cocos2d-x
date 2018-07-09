@@ -23,8 +23,12 @@
  ****************************************************************************/
 
 #include "Manifest.h"
-#include "json/prettywriter.h"
-#include "json/stringbuffer.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <json/prettywriter.h>
+#include <json/stringbuffer.h>
+#pragma clang diagnostic pop
 
 #include <fstream>
 
@@ -60,6 +64,10 @@ Manifest::Manifest(const std::string& manifestUrl /* = ""*/)
     _fileUtils = FileUtils::getInstance();
     if (manifestUrl.size() > 0)
         parse(manifestUrl);
+}
+
+Manifest::~Manifest()
+{
 }
 
 void Manifest::loadJson(const std::string& url)

@@ -358,7 +358,7 @@ protected:
 
 protected:
     PhysicsShape();
-    virtual ~PhysicsShape() = 0;
+    virtual ~PhysicsShape();
 
 protected:
     PhysicsBody* _body;

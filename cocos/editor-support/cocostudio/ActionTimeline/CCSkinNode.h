@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCSKINNODE_H__
-#define __CCSKINNODE_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_SKINNODE_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_SKINNODE_H
 
 #include "2d/CCNode.h"
 #include "CCTimelineMacro.h"
@@ -34,4 +34,4 @@ typedef cocos2d::Node SkinNode;
 
 NS_TIMELINE_END
 
-#endif //__CCSKINNODE_H__
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_SKINNODE_H

@@ -30,6 +30,7 @@ THE SOFTWARE.
 #include "base/TGAlib.h"
 #include "base/ccUTF8.h"
 #include "platform/CCFileUtils.h"
+#include "renderer/CCTexture2D.h"
 #include "renderer/CCTextureAtlas.h"
 
 NS_CC_BEGIN
@@ -219,7 +220,7 @@ void TileMapAtlas::updateAtlasValueAt(const Vec2& pos, const Color3B& value, int
     quad->bl.colors = color;
 
     _textureAtlas->setDirty(true);
-    ssize_t totalQuads = _textureAtlas->getTotalQuads();
+    std::size_t totalQuads = _textureAtlas->getTotalQuads();
     if (index + 1 > totalQuads)
     {
         _textureAtlas->increaseTotalQuadsWith(index + 1 - totalQuads);

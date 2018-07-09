@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_ALLOCATOR_GLOBAL_H
-#define CC_ALLOCATOR_GLOBAL_H
+#ifndef CC_BASE_ALLOCATOR_ALLOCATORGLOBAL_H
+#define CC_BASE_ALLOCATOR_ALLOCATORGLOBAL_H
 /// @cond DO_NOT_SHOW
 
 #include "base/allocator/CCAllocatorMacros.h"
@@ -40,4 +40,4 @@ NS_CC_ALLOCATOR_END
 NS_CC_END
 
 /// @endcond
-#endif // CC_ALLOCATOR_GLOBAL_H
+#endif // CC_BASE_ALLOCATOR_ALLOCATORGLOBAL_H

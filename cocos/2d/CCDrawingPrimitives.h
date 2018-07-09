@@ -36,8 +36,8 @@ THE SOFTWARE.
  *
  */
 
-#ifndef __CCDRAWING_PRIMITIVES__
-#define __CCDRAWING_PRIMITIVES__
+#ifndef CC_2D_DRAWINGPRIMITIVES_H
+#define CC_2D_DRAWINGPRIMITIVES_H
 
 #include "base/ccMacros.h"
 #include "base/ccTypes.h"
@@ -270,4 +270,4 @@ namespace DrawPrimitives
 
 NS_CC_END
 
-#endif // __CCDRAWING_PRIMITIVES__
+#endif // CC_2D_DRAWINGPRIMITIVES_H

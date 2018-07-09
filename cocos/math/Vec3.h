@@ -19,11 +19,11 @@
  This file was modified to fit the cocos2d-x project
  */
 
-#ifndef MATH_VEC3_H
-#define MATH_VEC3_H
+#ifndef CC_MATH_VEC3_H
+#define CC_MATH_VEC3_H
 
 #include "math/CCMathBase.h"
-#include <cmath>
+#include "platform/CCPlatformDefine.h"
 
 /**
  * @addtogroup base
@@ -31,9 +31,6 @@
  */
 
 NS_CC_MATH_BEGIN
-
-class Mat4;
-class Quaternion;
 
 /**
  * Defines a 3-element floating point vector.
@@ -44,22 +41,17 @@ class Quaternion;
  * the magnitude of the vector intact. When used as a point,
  * the elements of the vector represent a position in 3D space.
  */
-class CC_DLL Vec3
+class CC_DLL Vec3 final
 {
 public:
-    /**
-     * The x-coordinate.
-     */
+#ifdef __ARM_NEON
+    using f32x4_t = __attribute__((neon_vector_type(4))) float;
+#else
+    using f32x4_t = __attribute__((ext_vector_type(4))) float;
+#endif
+
     float x = 0.f;
-
-    /**
-     * The y-coordinate.
-     */
     float y = 0.f;
-
-    /**
-     * The z-coordinate.
-     */
     float z = 0.f;
 
     /**
@@ -158,7 +150,7 @@ public:
      * @param v2 The second vector.
      * @param dst A vector to store the result in.
      */
-    static void add(const Vec3& v1, const Vec3& v2, Vec3* dst);
+    static void add(const Vec3& v1, const Vec3& v2, Vec3& dst);
 
     /**
      * Clamps this vector within the specified range.
@@ -176,7 +168,7 @@ public:
      * @param max The maximum value.
      * @param dst A vector to store the result in.
      */
-    static void clamp(const Vec3& v, const Vec3& min, const Vec3& max, Vec3* dst);
+    static void clamp(const Vec3& v, const Vec3& min, const Vec3& max, Vec3& dst);
 
     /**
      * Sets this vector to the cross product between itself and the specified vector.
@@ -192,7 +184,7 @@ public:
      * @param v2 The second vector.
      * @param dst A vector to store the result in.
      */
-    static void cross(const Vec3& v1, const Vec3& v2, Vec3* dst);
+    static void cross(const Vec3& v1, const Vec3& v2, Vec3& dst);
 
     /**
      * Returns the distance between this vector and v.
@@ -342,7 +334,7 @@ public:
      * @param v2 The second vector.
      * @param dst The destination vector.
      */
-    static void subtract(const Vec3& v1, const Vec3& v2, Vec3* dst);
+    static void subtract(const Vec3& v1, const Vec3& v2, Vec3& dst);
 
     /**
      * Updates this vector towards the given target using a smoothing function.
@@ -439,21 +431,19 @@ public:
     /** Returns true if the vector's scalar components are all greater
      that the ones of the vector it is compared against.
      */
-    inline bool operator<(const Vec3& rhs) const
+    inline bool operator<(const Vec3& other) const noexcept
     {
-        if (x < rhs.x && y < rhs.y && z < rhs.z)
-            return true;
-        return false;
+        auto const lt = f32x4_t{x, y, z, 0.f} < f32x4_t{other.x, other.y, other.z, 0.f};
+        return lt[0] == -1 && lt[1] == -1 && lt[2] == -1;
     }
 
     /** Returns true if the vector's scalar components are all smaller
      that the ones of the vector it is compared against.
      */
-    inline bool operator>(const Vec3& rhs) const
+    inline bool operator>(const Vec3& other) const noexcept
     {
-        if (x > rhs.x && y > rhs.y && z > rhs.z)
-            return true;
-        return false;
+        auto const gt = f32x4_t{x, y, z, 0.f} < f32x4_t{other.x, other.y, other.z, 0.f};
+        return gt[0] == -1 && gt[1] == -1 && gt[2] == -1;
     }
 
     /**
@@ -504,4 +494,4 @@ NS_CC_MATH_END
  */
 #include "math/Vec3.inl"
 
-#endif // MATH_VEC3_H
+#endif // CC_MATH_VEC3_H

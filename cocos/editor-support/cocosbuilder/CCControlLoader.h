@@ -1,5 +1,5 @@
-#ifndef _CCB_CCCONTROLLOADER_H_
-#define _CCB_CCCONTROLLOADER_H_
+#ifndef CC_EDITORSUPPORT_COCOSBUILDER_CONTROLLOADER_H
+#define CC_EDITORSUPPORT_COCOSBUILDER_CONTROLLOADER_H
 
 #include "CCNodeLoader.h"
 #include "extensions/GUI/CCControlExtension/CCControl.h"
@@ -28,4 +28,4 @@ namespace cocosbuilder
 
 } // namespace cocosbuilder
 
-#endif
+#endif // CC_EDITORSUPPORT_COCOSBUILDER_CONTROLLOADER_H

@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_ALLOCATOR_STRATEGY_DEFAULT_H
-#define CC_ALLOCATOR_STRATEGY_DEFAULT_H
+#ifndef CC_BASE_ALLOCATOR_ALLOCATORSTRATEGYDEFAULT_H
+#define CC_BASE_ALLOCATOR_ALLOCATORSTRATEGYDEFAULT_H
 /// @cond DO_NOT_SHOW
 
 #include "base/allocator/CCAllocatorBase.h"
@@ -52,4 +52,4 @@ NS_CC_ALLOCATOR_END
 NS_CC_END
 
 /// @endcond
-#endif // CC_ALLOCATOR_STRATEGY_DEFAULT_H
+#endif // CC_BASE_ALLOCATOR_ALLOCATORSTRATEGYDEFAULT_H

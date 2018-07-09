@@ -24,11 +24,9 @@
 
 #include "ui/UIRichText.h"
 
-#include <locale>
-#include <sstream>
-#include <vector>
-
+#include "2d/CCComponent.h"
 #include "2d/CCLabel.h"
+#include "2d/CCNode.h"
 #include "2d/CCSprite.h"
 #include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
@@ -36,9 +34,14 @@
 #include "base/ccUTF8.h"
 #include "platform/CCApplication.h"
 #include "platform/CCFileUtils.h"
+#include "platform/CCSAXParser.h"
 #include "ui/UIHelper.h"
 
-#include "platform/CCSAXParser.h"
+#include <cmath>
+#include <limits>
+#include <locale>
+#include <sstream>
+#include <vector>
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -63,13 +66,13 @@ public:
         setName(ListenerComponent::COMPONENT_NAME);
 
         _touchListener = cocos2d::EventListenerTouchAllAtOnce::create();
-        _touchListener->onTouchesEnded = CC_CALLBACK_2(ListenerComponent::onTouchesEnded, this);
+        _touchListener->onTouchesEnded = [this](std::vector<Touch*> const& touches, Event* evt) { onTouchesEnded(touches, evt); };
 
         Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_touchListener, _parent);
         _touchListener->retain();
     }
 
-    virtual ~ListenerComponent()
+    ~ListenerComponent() override
     {
         Director::getInstance()->getEventDispatcher()->removeEventListener(_touchListener);
         _touchListener->release();
@@ -102,6 +105,10 @@ private:
 };
 const std::string ListenerComponent::COMPONENT_NAME("cocos2d_ui_UIRichText_ListenerComponent");
 
+RichElement::~RichElement()
+{
+}
+
 bool RichElement::init(int tag, const Color3B& color, GLubyte opacity)
 {
     _tag = tag;
@@ -118,6 +125,10 @@ bool RichElement::equalType(Type type)
 void RichElement::setColor(const Color3B& color)
 {
     _color = color;
+}
+
+RichElementText::~RichElementText()
+{
 }
 
 RichElementText* RichElementText::create(int tag, const Color3B& color, GLubyte opacity, const std::string& text, const std::string& fontName, float fontSize,
@@ -155,6 +166,10 @@ bool RichElementText::init(int tag, const Color3B& color, GLubyte opacity, const
         return true;
     }
     return false;
+}
+
+RichElementImage::~RichElementImage()
+{
 }
 
 RichElementImage* RichElementImage::create(int tag, const Color3B& color, GLubyte opacity, const std::string& filePath, const std::string& url)
@@ -197,6 +212,11 @@ void RichElementImage::setUrl(const std::string& url)
     _url = url;
 }
 
+RichElementCustomNode::~RichElementCustomNode()
+{
+    CC_SAFE_RELEASE(_customNode);
+}
+
 RichElementCustomNode* RichElementCustomNode::create(int tag, const Color3B& color, GLubyte opacity, cocos2d::Node* customNode)
 {
     RichElementCustomNode* element = new (std::nothrow) RichElementCustomNode();
@@ -220,6 +240,10 @@ bool RichElementCustomNode::init(int tag, const Color3B& color, GLubyte opacity,
     return false;
 }
 
+RichElementNewLine::~RichElementNewLine()
+{
+}
+
 RichElementNewLine* RichElementNewLine::create(int tag, const Color3B& color, GLubyte opacity)
 {
     RichElementNewLine* element = new (std::nothrow) RichElementNewLine();
@@ -237,7 +261,7 @@ class MyXMLVisitor : public SAXDelegator
 {
 public:
     /** @brief underline or strikethrough */
-    enum class StyleLine
+    enum struct StyleLine : std::uint8_t
     {
         NONE,
         UNDERLINE, /*!< underline */
@@ -245,7 +269,7 @@ public:
     };
 
     /** @brief outline, shadow or glow */
-    enum class StyleEffect
+    enum struct StyleEffect : std::uint8_t
     {
         NONE,
         OUTLINE, /*!< outline effect enabled */
@@ -258,13 +282,13 @@ public:
     {
         std::string face; /*!< font name */
         std::string url; /*!< url is a attribute of a anchor tag */
-        float fontSize; /*!< font size */
+        float fontSize = -1; /*!< font size */
         Color3B color; /*!< font color */
-        bool hasColor; /*!< or color is specified? */
-        bool bold; /*!< bold text */
-        bool italics; /*!< italic text */
-        StyleLine line; /*!< underline or strikethrough */
-        StyleEffect effect; /*!< outline, shadow or glow */
+        bool hasColor = false; /*!< or color is specified? */
+        bool bold = false; /*!< bold text */
+        bool italics = false; /*!< italic text */
+        StyleLine line = StyleLine::NONE; /*!< underline or strikethrough */
+        StyleEffect effect = StyleEffect::NONE; /*!< outline, shadow or glow */
         Color3B outlineColor; /*!< the color of the outline */
         int outlineSize; /*!< the outline effect size value */
         Color3B shadowColor; /*!< the shadow effect color value */
@@ -276,15 +300,6 @@ public:
         {
             color = acolor;
             hasColor = true;
-        }
-        Attributes()
-        : bold(false)
-        , italics(false)
-        , line(StyleLine::NONE)
-        , hasColor(false)
-        , fontSize(-1)
-        , effect(StyleEffect::NONE)
-        {
         }
     };
 
@@ -304,7 +319,7 @@ private:
 
 public:
     explicit MyXMLVisitor(RichText* richText);
-    virtual ~MyXMLVisitor();
+    ~MyXMLVisitor() override;
 
     Color3B getColor() const;
 
@@ -351,8 +366,8 @@ private:
 MyXMLVisitor::TagTables MyXMLVisitor::_tagTables;
 
 MyXMLVisitor::MyXMLVisitor(RichText* richText)
-: _richText(richText)
-, _fontElements(20)
+: _fontElements(20)
+, _richText(richText)
 {
     MyXMLVisitor::setTagDescription("font", true, [](const ValueMap& tagAttrValueMap) {
         // supported attributes:
@@ -537,7 +552,7 @@ float MyXMLVisitor::getFontSize() const
 {
     for (auto i = _fontElements.rbegin(); i != _fontElements.rend(); ++i)
     {
-        if (i->fontSize != -1)
+        if (std::abs(i->fontSize + 1.f) >= std::numeric_limits<float>::epsilon())
             return i->fontSize;
     }
     return 12;
@@ -1408,7 +1423,7 @@ void RichText::formatText()
         if (_ignoreSize)
         {
             addNewLine();
-            for (ssize_t i = 0; i < _richElements.size(); i++)
+            for (std::size_t i = 0; i < _richElements.size(); i++)
             {
                 RichElement* element = _richElements.at(i);
                 Node* elementRenderer = nullptr;
@@ -1480,8 +1495,6 @@ void RichText::formatText()
                         addNewLine();
                         break;
                     }
-                    default:
-                        break;
                 }
 
                 if (elementRenderer)
@@ -1495,7 +1508,7 @@ void RichText::formatText()
         else
         {
             addNewLine();
-            for (ssize_t i = 0; i < _richElements.size(); i++)
+            for (std::size_t i = 0; i < _richElements.size(); i++)
             {
                 RichElement* element = static_cast<RichElement*>(_richElements.at(i));
                 switch (element->_type)
@@ -1525,8 +1538,6 @@ void RichText::formatText()
                         addNewLine();
                         break;
                     }
-                    default:
-                        break;
                 }
             }
         }
@@ -1560,15 +1571,15 @@ int RichText::findSplitPositionForWord(cocos2d::Label* label, const std::string&
 {
     auto originalLeftSpaceWidth = _leftSpaceWidth + label->getContentSize().width;
 
-    bool startingNewLine = (_customSize.width == originalLeftSpaceWidth);
+    bool startingNewLine = (std::abs(_customSize.width - originalLeftSpaceWidth) < std::numeric_limits<float>::epsilon());
     if (!isWrappable(text))
     {
         if (startingNewLine)
-            return (int)text.length();
+            return static_cast<int>(text.length());
         return 0;
     }
 
-    for (int idx = (int)text.size() - 1; idx >= 0;)
+    for (int idx = static_cast<int>(text.size()) - 1; idx >= 0;)
     {
         int newidx = getPrevWord(text, idx);
         if (newidx >= 0)
@@ -1589,7 +1600,7 @@ int RichText::findSplitPositionForWord(cocos2d::Label* label, const std::string&
 
     // no spaces... return the original label + size
     label->setString(text);
-    return (int)text.size();
+    return static_cast<int>(text.size());
 }
 
 int RichText::findSplitPositionForChar(cocos2d::Label* label, const std::string& text)
@@ -1649,7 +1660,7 @@ int RichText::findSplitPositionForChar(cocos2d::Label* label, const std::string&
     }
 
     if (leftLength < 0)
-        leftLength = (int)text.size() - 1;
+        leftLength = static_cast<int>(text.size()) - 1;
     return leftLength;
 }
 
@@ -1811,7 +1822,7 @@ void RichText::formarRenderers()
             Vector<Node*>* row = element;
             float nextPosX = 0.0f;
             float maxY = 0.0f;
-            for (ssize_t j = 0; j < row->size(); j++)
+            for (std::size_t j = 0; j < row->size(); j++)
             {
                 Node* l = row->at(j);
                 l->setAnchorPoint(Vec2::ZERO);
@@ -1835,7 +1846,7 @@ void RichText::formarRenderers()
         {
             Vector<Node*>* row = (_elementRenders[i]);
             float maxHeight = 0.0f;
-            for (ssize_t j = 0; j < row->size(); j++)
+            for (std::size_t j = 0; j < row->size(); j++)
             {
                 Node* l = row->at(j);
                 maxHeight = MAX(l->getContentSize().height, maxHeight);
@@ -1851,7 +1862,7 @@ void RichText::formarRenderers()
             float nextPosX = 0.0f;
             nextPosY -= (maxHeights[i] + _defaults.at(KEY_VERTICAL_SPACE).asFloat());
 
-            for (ssize_t j = 0; j < row->size(); j++)
+            for (std::size_t j = 0; j < row->size(); j++)
             {
                 Node* l = row->at(j);
                 l->setAnchorPoint(Vec2::ZERO);

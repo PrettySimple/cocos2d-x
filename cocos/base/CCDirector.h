@@ -25,8 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCDIRECTOR_H__
-#define __CCDIRECTOR_H__
+#ifndef CC_BASE_DIRECTOR_H
+#define CC_BASE_DIRECTOR_H
 
 #include <chrono>
 #include <stack>
@@ -522,7 +522,7 @@ protected:
     void showStats();
     void createStatsLabel();
     void calculateMPF();
-    void getFPSImageData(unsigned char** datapointer, ssize_t* length);
+    void getFPSImageData(unsigned char** datapointer, std::size_t* length);
 
     /** calculates delta time since last time it was called */
     void calculateDeltaTime();
@@ -650,4 +650,4 @@ class DisplayLinkDirector : public Director
 
 NS_CC_END
 
-#endif // __CCDIRECTOR_H__
+#endif // CC_BASE_DIRECTOR_H

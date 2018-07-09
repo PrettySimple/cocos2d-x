@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __TRIGGEREVENT_H__
-#define __TRIGGEREVENT_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_TRIGGERBASE_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_TRIGGERBASE_H
 
 #include "TriggerMng.h"
 #include "TriggerObj.h"
@@ -47,4 +47,4 @@ public:                                        \
 
 void CC_STUDIO_DLL sendEvent(unsigned int event);
 
-#endif
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_TRIGGERBASE_H

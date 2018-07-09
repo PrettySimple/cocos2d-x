@@ -28,6 +28,7 @@
  ****************************************************************************/
 
 #include "renderer/CCTechnique.h"
+
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCMaterial.h"
 #include "renderer/CCPass.h"
@@ -57,11 +58,6 @@ Technique* Technique::create(Material* material)
         return technique;
     }
     return nullptr;
-}
-
-Technique::Technique()
-: _name("")
-{
 }
 
 Technique::~Technique()
@@ -100,30 +96,10 @@ void Technique::addPass(Pass* pass)
     _passes.pushBack(pass);
 }
 
-std::string Technique::getName() const
-{
-    return _name;
-}
-
-void Technique::setName(const std::string& name)
-{
-    _name = name;
-}
-
-Pass* Technique::getPassByIndex(ssize_t index) const
+Pass* Technique::getPassByIndex(std::size_t index) const
 {
     CC_ASSERT(index >= 0 && index < _passes.size() && "Invalid index");
     return _passes.at(index);
-}
-
-ssize_t Technique::getPassCount() const
-{
-    return _passes.size();
-}
-
-const Vector<Pass*>& Technique::getPasses() const
-{
-    return _passes;
 }
 
 NS_CC_END

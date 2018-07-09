@@ -113,7 +113,8 @@ void Sprite3D::createAsync(const std::string& modelPath, const std::string& text
     sprite->_asyncLoadParam.meshdatas = new (std::nothrow) MeshDatas();
     sprite->_asyncLoadParam.nodeDatas = new (std::nothrow) NodeDatas();
     AsyncTaskPool::getInstance()->enqueue(
-        AsyncTaskPool::TaskType::TASK_IO, CC_CALLBACK_1(Sprite3D::afterAsyncLoad, sprite), (void*)(&sprite->_asyncLoadParam), [sprite]() {
+        AsyncTaskPool::TaskType::TASK_IO, [sprite](void* param) { sprite->afterAsyncLoad(param); }, reinterpret_cast<void*>(&sprite->_asyncLoadParam),
+        [sprite]() {
             sprite->_asyncLoadParam.result = sprite->loadFromFile(sprite->_asyncLoadParam.modlePath, sprite->_asyncLoadParam.nodeDatas,
                                                                   sprite->_asyncLoadParam.meshdatas, sprite->_asyncLoadParam.materialdatas);
         });
@@ -121,7 +122,7 @@ void Sprite3D::createAsync(const std::string& modelPath, const std::string& text
 
 void Sprite3D::afterAsyncLoad(void* param)
 {
-    Sprite3D::AsyncLoadParam* asyncParam = (Sprite3D::AsyncLoadParam*)param;
+    Sprite3D::AsyncLoadParam* asyncParam = reinterpret_cast<Sprite3D::AsyncLoadParam*>(param);
     autorelease();
     if (asyncParam)
     {
@@ -218,7 +219,7 @@ bool Sprite3D::loadFromCache(const std::string& path)
             }
         }
 
-        for (ssize_t i = 0; i < _meshes.size(); i++)
+        for (std::size_t i = 0; i < _meshes.size(); i++)
         {
             // cloning is needed in order to have one state per sprite
             auto glstate = spritedata->glProgramStates.at(i);
@@ -465,7 +466,7 @@ void Sprite3D::setMaterial(Material* material, int meshIndex)
 
     if (meshIndex == -1)
     {
-        for (ssize_t i = 0; i < _meshes.size(); i++)
+        for (std::size_t i = 0; i < _meshes.size(); i++)
         {
             _meshes.at(i)->setMaterial(i == 0 ? material : material->clone());
         }
@@ -878,7 +879,7 @@ void Sprite3D::setCullFace(GLenum cullFace)
 {
     for (auto& it : _meshes)
     {
-        it->getMaterial()->getStateBlock()->setCullFaceSide((RenderState::CullFaceSide)cullFace);
+        it->getMaterial()->getStateBlock()->setCullFaceSide(static_cast<RenderState::CullFaceSide>(cullFace));
         //        it->getMeshCommand().setCullFace(cullFace);
     }
 }

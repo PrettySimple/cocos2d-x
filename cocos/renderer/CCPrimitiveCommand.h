@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef COCOS2D_RENDERER_PRIMITIVE_COMMAND_H
-#define COCOS2D_RENDERER_PRIMITIVE_COMMAND_H
+#ifndef CC_RENDERER_PRIMITIVECOMMAND_H
+#define CC_RENDERER_PRIMITIVECOMMAND_H
 
 #include "base/ccTypes.h"
 #include "renderer/CCPrimitive.h"
@@ -86,4 +86,4 @@ private:
 
 NS_CC_END
 
-#endif // COCOS2D_RENDERER_PRIMITIVE_COMMAND_H
+#endif // CC_RENDERER_PRIMITIVECOMMAND_H

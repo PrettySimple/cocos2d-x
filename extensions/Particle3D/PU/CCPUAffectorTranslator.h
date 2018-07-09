@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_AFFECTOR_TRANSLATOR_H__
-#define __CC_PU_PARTICLE_3D_AFFECTOR_TRANSLATOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_AFFECTORTRANSLATOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_AFFECTORTRANSLATOR_H
 
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 #include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
@@ -35,14 +35,14 @@ NS_CC_BEGIN
 class PUAffectorTranslator : public PUScriptTranslator
 {
 protected:
-    PUAffector* _affector;
+    PUAffector* _affector = nullptr;
 
 public:
-    PUAffectorTranslator(void);
-    virtual ~PUAffectorTranslator(void){};
-    virtual void translate(PUScriptCompiler* compiler, PUAbstractNode* node);
+    PUAffectorTranslator() = default;
+    ~PUAffectorTranslator() override = default;
+    void translate(PUScriptCompiler* compiler, PUAbstractNode* node) override;
 };
 
 NS_CC_END
 
-#endif /* defined(__cocos2d_libs__CCParticle3DAffectorTranslator__) */
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_AFFECTORTRANSLATOR_H

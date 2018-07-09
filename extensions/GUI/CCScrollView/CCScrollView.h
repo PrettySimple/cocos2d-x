@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCSCROLLVIEW_H__
-#define __CCSCROLLVIEW_H__
+#ifndef CC_EXTENSIONS_GUI_SCROLLVIEW_SCROLLVIEW_H
+#define CC_EXTENSIONS_GUI_SCROLLVIEW_SCROLLVIEW_H
 
 #include "2d/CCActionTween.h"
 #include "2d/CCLayer.h"
@@ -49,17 +49,17 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ScrollViewDelegate() {}
+    virtual ~ScrollViewDelegate();
     /**
      * @js NA
      * @lua NA
      */
-    virtual void scrollViewDidScroll(ScrollView* view){};
+    virtual void scrollViewDidScroll(ScrollView* view) {}
     /**
      * @js NA
      * @lua NA
      */
-    virtual void scrollViewDidZoom(ScrollView* view){};
+    virtual void scrollViewDidZoom(ScrollView* view) {}
 };
 
 /**
@@ -83,7 +83,7 @@ public:
      * @param container parent object
      * @return autoreleased scroll view object
      */
-    static ScrollView* create(Size size, Node* container = NULL);
+    static ScrollView* create(Size size, Node* container = nullptr);
 
     /**
      * Returns an autoreleased scroll view object.
@@ -100,7 +100,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ScrollView();
+    ~ScrollView() override;
 
     bool init() override;
     /**
@@ -110,7 +110,7 @@ public:
      * @param container parent object
      * @return scroll view object
      */
-    bool initWithViewSize(Size size, Node* container = NULL);
+    bool initWithViewSize(Size size, Node* container = nullptr);
 
     /**
      * Sets a new content offset. It ignores max/min offset. It just sets what's given. (just like UIKit's UIScrollView)
@@ -374,9 +374,6 @@ protected:
     Rect _parentScissorRect;
     bool _scissorRestored;
 
-    /** Touch listener */
-    EventListenerTouchOneByOne* _touchListener;
-
     CustomCommand _beforeDrawCommand;
     CustomCommand _afterDrawCommand;
 
@@ -390,4 +387,4 @@ NS_CC_EXT_END
 // end of ui group
 /// @}
 
-#endif /* __CCSCROLLVIEW_H__ */
+#endif // CC_EXTENSIONS_GUI_SCROLLVIEW_SCROLLVIEW_H

@@ -470,7 +470,7 @@ namespace DrawPrimitives
 
         Vec2* vertices = new (std::nothrow) Vec2[segments + 1];
 
-        ssize_t p;
+        std::size_t p;
         float lt;
         float deltaT = 1.0f / config->count();
 

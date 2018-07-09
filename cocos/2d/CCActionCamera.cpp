@@ -28,7 +28,6 @@ THE SOFTWARE.
 #include "2d/CCActionCamera.h"
 
 #include "2d/CCNode.h"
-#include "platform/CCStdC.h"
 
 NS_CC_BEGIN
 //
@@ -98,7 +97,7 @@ void ActionCamera::setUp(const Vec3& up)
 void ActionCamera::updateTransform()
 {
     Mat4 lookupMatrix;
-    Mat4::createLookAt(_eye.x, _eye.y, _eye.z, _center.x, _center.y, _center.z, _up.x, _up.y, _up.z, &lookupMatrix);
+    Mat4::createLookAt(_eye.x, _eye.y, _eye.z, _center.x, _center.y, _center.z, _up.x, _up.y, _up.z, lookupMatrix);
 
     Vec2 anchorPoint = _target->getAnchorPointInPoints();
 
@@ -109,7 +108,7 @@ void ActionCamera::updateTransform()
     if (needsTranslation)
     {
         Mat4 t;
-        Mat4::createTranslation(anchorPoint.x, anchorPoint.y, 0, &t);
+        Mat4::createTranslation(anchorPoint.x, anchorPoint.y, 0, t);
         mv = mv * t;
     }
 
@@ -118,7 +117,7 @@ void ActionCamera::updateTransform()
     if (needsTranslation)
     {
         Mat4 t;
-        Mat4::createTranslation(-anchorPoint.x, -anchorPoint.y, 0, &t);
+        Mat4::createTranslation(-anchorPoint.x, -anchorPoint.y, 0, t);
         mv = mv * t;
     }
 
@@ -182,8 +181,8 @@ bool OrbitCamera::initWithDuration(std::chrono::milliseconds t, float radius, fl
         _angleX = angleX;
         _deltaAngleX = deltaAngleX;
 
-        _radDeltaZ = (float)CC_DEGREES_TO_RADIANS(deltaAngleZ);
-        _radDeltaX = (float)CC_DEGREES_TO_RADIANS(deltaAngleX);
+        _radDeltaZ = static_cast<float>(CC_DEGREES_TO_RADIANS(deltaAngleZ));
+        _radDeltaX = static_cast<float>(CC_DEGREES_TO_RADIANS(deltaAngleX));
         return true;
     }
     return false;
@@ -198,12 +197,12 @@ void OrbitCamera::startWithTarget(Node* target)
     if (std::isnan(_radius))
         _radius = r;
     if (std::isnan(_angleZ))
-        _angleZ = (float)CC_RADIANS_TO_DEGREES(zenith);
+        _angleZ = static_cast<float>(CC_RADIANS_TO_DEGREES(zenith));
     if (std::isnan(_angleX))
-        _angleX = (float)CC_RADIANS_TO_DEGREES(azimuth);
+        _angleX = static_cast<float>(CC_RADIANS_TO_DEGREES(azimuth));
 
-    _radZ = (float)CC_DEGREES_TO_RADIANS(_angleZ);
-    _radX = (float)CC_DEGREES_TO_RADIANS(_angleX);
+    _radZ = static_cast<float>(CC_DEGREES_TO_RADIANS(_angleZ));
+    _radX = static_cast<float>(CC_DEGREES_TO_RADIANS(_angleX));
 }
 
 void OrbitCamera::update(float dt)
@@ -237,7 +236,7 @@ void OrbitCamera::sphericalRadius(float* newRadius, float* zenith, float* azimut
 
     *zenith = acosf(z / r);
     if (x < 0)
-        *azimuth = (float)M_PI - asinf(y / s);
+        *azimuth = static_cast<float>(M_PI) - asinf(y / s);
     else
         *azimuth = asinf(y / s);
 

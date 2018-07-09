@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __UIEditBoxIMPL_H__
-#define __UIEditBoxIMPL_H__
+#ifndef CC_UI_EDITBOX_EDITBOXIMPL_H
+#define CC_UI_EDITBOX_EDITBOXIMPL_H
 
 #include "ui/UIEditBox/UIEditBox.h"
 
@@ -47,7 +47,7 @@ namespace cocos2d
              * @js NA
              * @lua NA
              */
-            virtual ~EditBoxImpl() {}
+            virtual ~EditBoxImpl();
 
             virtual bool initWithSize(const Size& size) = 0;
             virtual void setFont(const char* pFontName, int fontSize) = 0;
@@ -77,7 +77,7 @@ namespace cocos2d
             /**
              * check the editbox's position, update it when needed
              */
-            virtual void updatePosition(float dt){};
+            virtual void updatePosition(float dt) {}
             /**
              * @js NA
              * @lua NA
@@ -89,9 +89,9 @@ namespace cocos2d
              */
             virtual void onEnter(void) = 0;
 
-            void setDelegate(EditBoxDelegate* pDelegate) { _delegate = pDelegate; };
-            EditBoxDelegate* getDelegate() { return _delegate; };
-            EditBox* getEditBox() { return _editBox; };
+            void setDelegate(EditBoxDelegate* pDelegate) { _delegate = pDelegate; }
+            EditBoxDelegate* getDelegate() { return _delegate; }
+            EditBox* getEditBox() { return _editBox; }
 
         protected:
             EditBoxDelegate* _delegate;
@@ -104,4 +104,4 @@ namespace cocos2d
     } // namespace ui
 } // namespace cocos2d
 
-#endif /* __UIEditBoxIMPL_H__ */
+#endif // CC_UI_EDITBOX_EDITBOXIMPL_H

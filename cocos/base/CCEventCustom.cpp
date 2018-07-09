@@ -34,4 +34,8 @@ EventCustom::EventCustom(const std::string& eventName)
 {
 }
 
+EventCustom::~EventCustom()
+{
+}
+
 NS_CC_END

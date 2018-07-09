@@ -975,9 +975,9 @@ namespace cocosbuilder
             if (!ownerCallbackNames.empty() && !ownerCallbackNodes.empty())
             {
                 CCASSERT(ownerCallbackNames.size() == ownerCallbackNodes.size(), "ownerCallbackNames size should equal to ownerCallbackNodes size.");
-                ssize_t nCount = ownerCallbackNames.size();
+                std::size_t nCount = ownerCallbackNames.size();
 
-                for (ssize_t i = 0; i < nCount; i++)
+                for (std::size_t i = 0; i < nCount; i++)
                 {
                     pCCBReader->addOwnerCallbackName(ownerCallbackNames[i].asString());
                     pCCBReader->addOwnerCallbackNode(ownerCallbackNodes.at(i));
@@ -989,9 +989,9 @@ namespace cocosbuilder
             if (!ownerOutletNames.empty() && !ownerOutletNodes.empty())
             {
                 CCASSERT(ownerOutletNames.size() == ownerOutletNodes.size(), "ownerOutletNames size should be equal to ownerOutletNodes's size.");
-                ssize_t nCount = ownerOutletNames.size();
+                std::size_t nCount = ownerOutletNames.size();
 
-                for (ssize_t i = 0; i < nCount; i++)
+                for (std::size_t i = 0; i < nCount; i++)
                 {
                     pCCBReader->addOwnerOutletName(ownerOutletNames.at(i).asString());
                     pCCBReader->addOwnerOutletNode(ownerOutletNodes.at(i));

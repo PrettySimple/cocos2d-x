@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_SYSTEM_3D_H__
-#define __CC_PU_PARTICLE_SYSTEM_3D_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_PARTICLESYSTEM3D_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_PARTICLESYSTEM3D_H
 
 #include "2d/CCNode.h"
 #include "base/CCProtocols.h"
@@ -294,8 +294,8 @@ public:
      */
     void setMaxVelocity(float maxVelocity);
 
-    void setMaterialName(const std::string& name) { _matName = name; };
-    const std::string& getMaterialName() const { return _matName; };
+    void setMaterialName(const std::string& name) { _matName = name; }
+    const std::string& getMaterialName() const { return _matName; }
 
     /** Forces emission of particles.
      * @remarks The number of requested particles are the exact number that are emitted. No down-scaling is applied.
@@ -322,21 +322,21 @@ public:
     void addBehaviourTemplate(PUBehaviour* behaviour);
     void removeAllBehaviourTemplate();
 
-    bool isMarkedForEmission() const { return _isMarkedForEmission; };
-    void setMarkedForEmission(bool isMarked) { _isMarkedForEmission = isMarked; };
+    bool isMarkedForEmission() const { return _isMarkedForEmission; }
+    void setMarkedForEmission(bool isMarked) { _isMarkedForEmission = isMarked; }
 
     void clearAllParticles();
 
-    unsigned int getEmittedEmitterQuota() const { return _emittedEmitterQuota; };
-    void setEmittedEmitterQuota(unsigned int quota) { _emittedEmitterQuota = quota; };
+    unsigned int getEmittedEmitterQuota() const { return _emittedEmitterQuota; }
+    void setEmittedEmitterQuota(unsigned int quota) { _emittedEmitterQuota = quota; }
 
-    unsigned int getEmittedSystemQuota() const { return _emittedSystemQuota; };
-    void setEmittedSystemQuota(unsigned int quota) { _emittedSystemQuota = quota; };
+    unsigned int getEmittedSystemQuota() const { return _emittedSystemQuota; }
+    void setEmittedSystemQuota(unsigned int quota) { _emittedSystemQuota = quota; }
 
-    PUParticleSystem3D* getParentParticleSystem() const { return _parentParticleSystem; };
+    PUParticleSystem3D* getParentParticleSystem() const { return _parentParticleSystem; }
 
-    const ParticlePoolMap& getEmittedEmitterParticlePool() const { return _emittedEmitterParticlePool; };
-    const ParticlePoolMap& getEmittedSystemParticlePool() const { return _emittedSystemParticlePool; };
+    const ParticlePoolMap& getEmittedEmitterParticlePool() const { return _emittedEmitterParticlePool; }
+    const ParticlePoolMap& getEmittedSystemParticlePool() const { return _emittedSystemParticlePool; }
 
     bool makeParticleLocal(PUParticle3D* particle);
     void calulateRotationOffset(void);
@@ -347,7 +347,7 @@ public:
     bool initSystem(const std::string& filePath);
 
     CC_CONSTRUCTOR_ACCESS : PUParticleSystem3D();
-    virtual ~PUParticleSystem3D();
+    ~PUParticleSystem3D() override;
 
     bool initWithFilePath(const std::string& filePath);
     bool initWithFilePathAndMaterialPath(const std::string& filePath, const std::string& materialPath);
@@ -419,4 +419,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_PARTICLESYSTEM3D_H

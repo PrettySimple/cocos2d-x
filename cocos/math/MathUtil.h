@@ -19,129 +19,161 @@
  This file was modified to fit the cocos2d-x project
  */
 
-#ifndef MATHUTIL_H_
-#define MATHUTIL_H_
+#ifndef CC_MATH_MATHUTIL_H
+#define CC_MATH_MATHUTIL_H
 
-#ifdef __SSE__
-#    include <xmmintrin.h>
-#endif
-
-#include "base/ccMacros.h"
 #include "math/CCMathBase.h"
+#include "math/Mat4.h"
+#include "math/Vec3.h"
+#include "math/Vec4.h"
 
-/**
- * @addtogroup base
- * @{
- */
+#include <cmath>
+#include <limits>
 
 NS_CC_MATH_BEGIN
 
 /**
- * Defines a math utility class.
+ * Updates the given scalar towards the given target using a smoothing function.
+ * The given response time determines the amount of smoothing (lag). A longer
+ * response time yields a smoother result and more lag. To force the scalar to
+ * follow the target closely, provide a response time that is very small relative
+ * to the given elapsed time.
  *
- * This is primarily used for optimized internal math operations.
+ * @param x the scalar to update.
+ * @param target target value.
+ * @param elapsedTime elapsed time between calls.
+ * @param responseTime response time (in the same units as elapsedTime).
  */
-class CC_DLL MathUtil
+inline void smooth(float& x, float target, float elapsedTime, float responseTime)
 {
-    friend class Mat4;
-    friend class Vec3;
+    if (elapsedTime > 0.f)
+    {
+        x += (target - x) * elapsedTime / (elapsedTime + responseTime);
+    }
+}
 
-public:
-    /**
-     * Updates the given scalar towards the given target using a smoothing function.
-     * The given response time determines the amount of smoothing (lag). A longer
-     * response time yields a smoother result and more lag. To force the scalar to
-     * follow the target closely, provide a response time that is very small relative
-     * to the given elapsed time.
-     *
-     * @param x the scalar to update.
-     * @param target target value.
-     * @param elapsedTime elapsed time between calls.
-     * @param responseTime response time (in the same units as elapsedTime).
-     */
-    static void smooth(float* x, float target, float elapsedTime, float responseTime);
+/**
+ * Updates the given scalar towards the given target using a smoothing function.
+ * The given rise and fall times determine the amount of smoothing (lag). Longer
+ * rise and fall times yield a smoother result and more lag. To force the scalar to
+ * follow the target closely, provide rise and fall times that are very small relative
+ * to the given elapsed time.
+ *
+ * @param x the scalar to update.
+ * @param target target value.
+ * @param elapsedTime elapsed time between calls.
+ * @param riseTime response time for rising slope (in the same units as elapsedTime).
+ * @param fallTime response time for falling slope (in the same units as elapsedTime).
+ */
+inline void smooth(float& x, float target, float elapsedTime, float riseTime, float fallTime)
+{
+    if (elapsedTime > 0.f)
+    {
+        float const delta = target - x;
+        x += delta * elapsedTime / (elapsedTime + (delta > 0 ? riseTime : fallTime));
+    }
+}
 
-    /**
-     * Updates the given scalar towards the given target using a smoothing function.
-     * The given rise and fall times determine the amount of smoothing (lag). Longer
-     * rise and fall times yield a smoother result and more lag. To force the scalar to
-     * follow the target closely, provide rise and fall times that are very small relative
-     * to the given elapsed time.
-     *
-     * @param x the scalar to update.
-     * @param target target value.
-     * @param elapsedTime elapsed time between calls.
-     * @param riseTime response time for rising slope (in the same units as elapsedTime).
-     * @param fallTime response time for falling slope (in the same units as elapsedTime).
-     */
-    static void smooth(float* x, float target, float elapsedTime, float riseTime, float fallTime);
+/**
+ * Linearly interpolates between from value to to value by alpha which is in
+ * the range [0,1]
+ *
+ * @param from the from value.
+ * @param to the to value.
+ * @param alpha the alpha value between [0,1]
+ *
+ * @return interpolated float value
+ */
+inline float lerp(float from, float to, float alpha)
+{
+    return from * (1.0f - alpha) + to * alpha;
+}
 
-    /**
-     * Linearly interpolates between from value to to value by alpha which is in
-     * the range [0,1]
-     *
-     * @param from the from value.
-     * @param to the to value.
-     * @param alpha the alpha value between [0,1]
-     *
-     * @return interpolated float value
-     */
-    static float lerp(float from, float to, float alpha);
+inline void addMatrix(Mat4 const& m, float scalar, Mat4& dst)
+{
+    dst.col[0] = m.col[0] + scalar;
+    dst.col[1] = m.col[1] + scalar;
+    dst.col[2] = m.col[2] + scalar;
+    dst.col[3] = m.col[3] + scalar;
+}
 
-    /**
-     * Float equality check
-     */
-    static bool almostEqualRelative(float A, float B, float maxRelDiff = FLT_EPSILON);
+inline void addMatrix(Mat4 const& m1, Mat4 const& m2, Mat4& dst)
+{
+    dst.col[0] = m1.col[0] + m2.col[0];
+    dst.col[1] = m1.col[1] + m2.col[1];
+    dst.col[2] = m1.col[2] + m2.col[2];
+    dst.col[3] = m1.col[3] + m2.col[3];
+}
 
-private:
-    // Indicates that if neon is enabled
-    static bool isNeon32Enabled();
-    static bool isNeon64Enabled();
+inline void subtractMatrix(Mat4 const& m1, Mat4 const& m2, Mat4& dst)
+{
+    dst.col[0] = m1.col[0] - m2.col[0];
+    dst.col[1] = m1.col[1] - m2.col[1];
+    dst.col[2] = m1.col[2] - m2.col[2];
+    dst.col[3] = m1.col[3] - m2.col[3];
+}
 
-private:
-#ifdef __SSE__
-    static void addMatrix(const __m128 m[4], float scalar, __m128 dst[4]);
+inline void multiplyMatrix(Mat4 const& m, float scalar, Mat4& dst)
+{
+    dst.col[0] = m.col[0] * scalar;
+    dst.col[1] = m.col[1] * scalar;
+    dst.col[2] = m.col[2] * scalar;
+    dst.col[3] = m.col[3] * scalar;
+}
 
-    static void addMatrix(const __m128 m1[4], const __m128 m2[4], __m128 dst[4]);
+inline void multiplyMatrix(Mat4 const& m1, Mat4 const& m2, Mat4& dst)
+{
+    // Support the case where m1 or m2 is the same matrix as dst.
+    Mat4 tmp;
 
-    static void subtractMatrix(const __m128 m1[4], const __m128 m2[4], __m128 dst[4]);
+    tmp.col[0] = m1.col[0] * m2.col[0][0] + m1.col[1] * m2.col[0][1] + m1.col[2] * m2.col[0][2] + m1.col[3] * m2.col[0][3];
+    tmp.col[1] = m1.col[0] * m2.col[1][0] + m1.col[1] * m2.col[1][1] + m1.col[2] * m2.col[1][2] + m1.col[3] * m2.col[1][3];
+    tmp.col[2] = m1.col[0] * m2.col[2][0] + m1.col[1] * m2.col[2][1] + m1.col[2] * m2.col[2][2] + m1.col[3] * m2.col[2][3];
+    tmp.col[3] = m1.col[0] * m2.col[3][0] + m1.col[1] * m2.col[3][1] + m1.col[2] * m2.col[3][2] + m1.col[3] * m2.col[3][3];
 
-    static void multiplyMatrix(const __m128 m[4], float scalar, __m128 dst[4]);
+    dst = tmp;
+}
 
-    static void multiplyMatrix(const __m128 m1[4], const __m128 m2[4], __m128 dst[4]);
+inline void negateMatrix(Mat4 const& m, Mat4& dst)
+{
+    dst.col[0] = -m.col[0];
+    dst.col[1] = -m.col[1];
+    dst.col[2] = -m.col[2];
+    dst.col[3] = -m.col[3];
+}
 
-    static void negateMatrix(const __m128 m[4], __m128 dst[4]);
+inline void transposeMatrix(Mat4 const& other, Mat4& dst)
+{
+    dst.col[0] = {other.m[0], other.m[4], other.m[8], other.m[12]};
+    dst.col[1] = {other.m[1], other.m[5], other.m[9], other.m[13]};
+    dst.col[2] = {other.m[2], other.m[6], other.m[10], other.m[14]};
+    dst.col[3] = {other.m[3], other.m[7], other.m[11], other.m[15]};
+}
 
-    static void transposeMatrix(const __m128 m[4], __m128 dst[4]);
+inline void transformVec4(Mat4 const& m, float x, float y, float z, float w, Vec3& dst)
+{
+    auto const tmp = x * m.col[0] + y * m.col[1] + z * m.col[2] + w * m.col[3];
+    dst.x = tmp[0];
+    dst.y = tmp[1];
+    dst.z = tmp[2];
+}
 
-    static void transformVec4(const __m128 m[4], const __m128& v, __m128& dst);
-#endif
-    static void addMatrix(const float* m, float scalar, float* dst);
+inline void transformVec4(Mat4 const& m, Vec4 const& other, Vec4& dst)
+{
+    dst.v = other.v[0] * m.col[0] + other.v[1] * m.col[1] + other.v[2] * m.col[2] + other.v[3] * m.col[3];
+}
 
-    static void addMatrix(const float* m1, const float* m2, float* dst);
-
-    static void subtractMatrix(const float* m1, const float* m2, float* dst);
-
-    static void multiplyMatrix(const float* m, float scalar, float* dst);
-
-    static void multiplyMatrix(const float* m1, const float* m2, float* dst);
-
-    static void negateMatrix(const float* m, float* dst);
-
-    static void transposeMatrix(const float* m, float* dst);
-
-    static void transformVec4(const float* m, float x, float y, float z, float w, float* dst);
-
-    static void transformVec4(const float* m, const float* v, float* dst);
-
-    static void crossVec3(const float* v1, const float* v2, float* dst);
-};
+static void crossVec3(Vec3 const& v1, Vec3 const& v2, Vec3& dst)
+{
+    auto const d1 = Vec4::f32x4_t{v1.x, v1.y, v1.z, 0.f};
+    auto const d2 = Vec4::f32x4_t{v2.x, v2.y, v2.z, 0.f};
+    auto const tmp = (__builtin_shufflevector(d1, d1, 1, 2, 0, 3) * __builtin_shufflevector(d2, d2, 2, 0, 1, 3)) -
+        (__builtin_shufflevector(d1, d1, 2, 0, 1, 3) * __builtin_shufflevector(d2, d2, 1, 2, 0, 3)); // (d1.yzxw * d2.zxyw) - (d1.zxyw * d2.yzxw);
+    dst.x = tmp[0];
+    dst.y = tmp[1];
+    dst.z = tmp[2];
+}
 
 NS_CC_MATH_END
-/**
- end of base group
- @}
- */
-#define MATRIX_SIZE (sizeof(float) * 16)
 
-#endif
+#endif // CC_MATH_MATHUTIL_H

@@ -25,13 +25,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCGLSTATE_H__
-#define __CCGLSTATE_H__
-
-#include <cstdint>
+#ifndef CC_RENDERER_GLSTATECACHE_H
+#define CC_RENDERER_GLSTATECACHE_H
 
 #include "platform/CCGL.h"
+#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
+
+#include <cstdint>
 
 NS_CC_BEGIN
 
@@ -191,4 +192,4 @@ namespace GL
 } // Namespace GL
 NS_CC_END
 
-#endif /* __CCGLSTATE_H__ */
+#endif // CC_RENDERER_GLSTATECACHE_H

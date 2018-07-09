@@ -27,8 +27,12 @@ THE SOFTWARE.
 #include "cocostudio/CSParseBinary_generated.h"
 #include "cocostudio/WidgetReader/NodeReader/NodeReader.h"
 #include "cocostudio/WidgetReader/SkeletonReader/CSBoneBinary_generated.h"
-#include "flatbuffers/flatbuffers.h"
-#include "tinyxml2.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <flatbuffers/flatbuffers.h>
+#include <tinyxml2/tinyxml2.h>
+#pragma clang diagnostic pop
 
 USING_NS_CC;
 USING_NS_TIMELINE;

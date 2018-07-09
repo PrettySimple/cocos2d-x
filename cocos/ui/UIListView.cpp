@@ -44,7 +44,6 @@ namespace ui
     , _innerContainerDoLayoutDirty(true)
     , _listViewEventListener(nullptr)
     , _listViewEventSelector(nullptr)
-    , _eventCallback(nullptr)
     {
         this->setTouchEnabled(true);
     }
@@ -138,7 +137,7 @@ namespace ui
         }
     }
 
-    void ListView::remedyVerticalLayoutParameter(LinearLayoutParameter* layoutParameter, ssize_t itemIndex)
+    void ListView::remedyVerticalLayoutParameter(LinearLayoutParameter* layoutParameter, std::size_t itemIndex)
     {
         CCASSERT(nullptr != layoutParameter, "Layout parameter can't be nullptr!");
 
@@ -167,7 +166,7 @@ namespace ui
         }
     }
 
-    void ListView::remedyHorizontalLayoutParameter(LinearLayoutParameter* layoutParameter, ssize_t itemIndex)
+    void ListView::remedyHorizontalLayoutParameter(LinearLayoutParameter* layoutParameter, std::size_t itemIndex)
     {
         CCASSERT(nullptr != layoutParameter, "Layout parameter can't be nullptr!");
 
@@ -206,7 +205,7 @@ namespace ui
             linearLayoutParameter = LinearLayoutParameter::create();
             isLayoutParameterExists = false;
         }
-        ssize_t itemIndex = getIndex(item);
+        std::size_t itemIndex = getIndex(item);
 
         switch (_direction)
         {
@@ -241,7 +240,7 @@ namespace ui
         requestDoLayout();
     }
 
-    void ListView::insertDefaultItem(ssize_t index)
+    void ListView::insertDefaultItem(std::size_t index)
     {
         if (nullptr == _model)
         {
@@ -319,7 +318,7 @@ namespace ui
         onItemListChanged();
     }
 
-    void ListView::insertCustomItem(Widget* item, ssize_t index)
+    void ListView::insertCustomItem(Widget* item, std::size_t index)
     {
         if (-1 != _curSelectedIndex)
         {
@@ -337,7 +336,7 @@ namespace ui
         requestDoLayout();
     }
 
-    void ListView::removeItem(ssize_t index)
+    void ListView::removeItem(std::size_t index)
     {
         Widget* item = getItem(index);
         if (nullptr == item)
@@ -352,7 +351,7 @@ namespace ui
 
     void ListView::removeAllItems() { removeAllChildren(); }
 
-    Widget* ListView::getItem(ssize_t index) const
+    Widget* ListView::getItem(std::size_t index) const
     {
         if (index < 0 || index >= _items.size())
         {
@@ -363,7 +362,7 @@ namespace ui
 
     Vector<Widget*>& ListView::getItems() { return _items; }
 
-    ssize_t ListView::getIndex(Widget* item) const
+    std::size_t ListView::getIndex(Widget* item) const
     {
         if (nullptr == item)
         {
@@ -446,7 +445,7 @@ namespace ui
             return;
         }
 
-        ssize_t length = _items.size();
+        std::size_t length = _items.size();
         for (int i = 0; i < length; ++i)
         {
             Widget* item = _items.at(i);
@@ -479,7 +478,7 @@ namespace ui
                 }
                 if (_eventCallback)
                 {
-                    _eventCallback(this, EventType::ON_SELECTED_ITEM_START);
+                    _eventCallback(this, ScrollView::EventType::ON_SELECTED_ITEM_START);
                 }
                 if (_ccEventCallback)
                 {
@@ -495,11 +494,11 @@ namespace ui
                 }
                 if (_eventCallback)
                 {
-                    _eventCallback(this, EventType::ON_SELECTED_ITEM_END);
+                    _eventCallback(this, ScrollView::EventType::ON_SELECTED_ITEM_END);
                 }
                 if (_ccEventCallback)
                 {
-                    _ccEventCallback(this, static_cast<int>(EventType::ON_SELECTED_ITEM_END));
+                    _ccEventCallback(this, static_cast<int>(ScrollView::EventType::ON_SELECTED_ITEM_END));
                 }
             }
             break;
@@ -540,8 +539,8 @@ namespace ui
         return origin + Vec2(size.width * itemAnchorPoint.x, size.height * itemAnchorPoint.y);
     }
 
-    static Widget* findClosestItem(const Vec2& targetPosition, const Vector<Widget*>& items, const Vec2& itemAnchorPoint, ssize_t firstIndex,
-                                   float distanceFromFirst, ssize_t lastIndex, float distanceFromLast)
+    static Widget* findClosestItem(const Vec2& targetPosition, const Vector<Widget*>& items, const Vec2& itemAnchorPoint, std::size_t firstIndex,
+                                   float distanceFromFirst, std::size_t lastIndex, float distanceFromLast)
     {
         CCASSERT(firstIndex >= 0 && lastIndex < items.size() && firstIndex <= lastIndex, "");
         if (firstIndex == lastIndex)
@@ -561,7 +560,7 @@ namespace ui
         }
 
         // Binary search
-        ssize_t midIndex = (firstIndex + lastIndex) / 2;
+        std::size_t midIndex = (firstIndex + lastIndex) / 2;
         Vec2 itemPosition = calculateItemPositionWithAnchor(items.at(midIndex), itemAnchorPoint);
         float distanceFromMid = (targetPosition - itemPosition).length();
         if (distanceFromFirst <= distanceFromLast)
@@ -584,11 +583,11 @@ namespace ui
         }
 
         // Find the closest item through binary search
-        ssize_t firstIndex = 0;
+        std::size_t firstIndex = 0;
         Vec2 firstPosition = calculateItemPositionWithAnchor(_items.at(firstIndex), itemAnchorPoint);
         float distanceFromFirst = (targetPosition - firstPosition).length();
 
-        ssize_t lastIndex = _items.size() - 1;
+        std::size_t lastIndex = _items.size() - 1;
         Vec2 lastPosition = calculateItemPositionWithAnchor(_items.at(lastIndex), itemAnchorPoint);
         float distanceFromLast = (targetPosition - lastPosition).length();
 
@@ -720,7 +719,7 @@ namespace ui
         return -(itemPosition - positionInView);
     }
 
-    void ListView::jumpToItem(ssize_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint)
+    void ListView::jumpToItem(std::size_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint)
     {
         Widget* item = getItem(itemIndex);
         if (item == nullptr)
@@ -739,12 +738,12 @@ namespace ui
         jumpToDestination(destination);
     }
 
-    void ListView::scrollToItem(ssize_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint)
+    void ListView::scrollToItem(std::size_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint)
     {
         scrollToItem(itemIndex, positionRatioInView, itemAnchorPoint, _scrollTime);
     }
 
-    void ListView::scrollToItem(ssize_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint, float timeInSec)
+    void ListView::scrollToItem(std::size_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint, float timeInSec)
     {
         Widget* item = getItem(itemIndex);
         if (item == nullptr)
@@ -755,7 +754,7 @@ namespace ui
         startAutoScrollToDestination(destination, timeInSec, true);
     }
 
-    ssize_t ListView::getCurSelectedIndex() const { return _curSelectedIndex; }
+    std::size_t ListView::getCurSelectedIndex() const { return _curSelectedIndex; }
 
     void ListView::setCurSelectedIndex(int itemIndex)
     {
@@ -823,7 +822,7 @@ namespace ui
         float topBoundary = _topBoundary;
         float bottomBoundary = _bottomBoundary;
         {
-            ssize_t lastItemIndex = _items.size() - 1;
+            std::size_t lastItemIndex = _items.size() - 1;
             Size contentSize = getContentSize();
             Vec2 firstItemAdjustment, lastItemAdjustment;
             if (_magneticType == MagneticType::CENTER)

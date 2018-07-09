@@ -29,8 +29,8 @@
  * Converted to c++ / cocos2d-x by Angus C
  */
 
-#ifndef __CCCONTROL_SATURATION_PICKER_H__
-#define __CCCONTROL_SATURATION_PICKER_H__
+#ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_BRIGHTNESSPICKER_H
+#define CC_EXTENSIONS_GUI_CONTROLEXTENSION_BRIGHTNESSPICKER_H
 
 #include "CCControl.h"
 #include "CCInvocation.h"
@@ -48,16 +48,16 @@ NS_CC_EXT_BEGIN
 class CC_EX_DLL ControlSaturationBrightnessPicker : public Control
 {
     /** Contains the receiver's current saturation value. */
-    CC_SYNTHESIZE_READONLY(float, _saturation, Saturation);
+    CC_SYNTHESIZE_READONLY(float, _saturation, Saturation)
     /** Contains the receiver's current brightness value. */
-    CC_SYNTHESIZE_READONLY(float, _brightness, Brightness);
+    CC_SYNTHESIZE_READONLY(float, _brightness, Brightness)
 
     // not sure if these need to be there actually. I suppose someone might want to access the sprite?
-    CC_SYNTHESIZE_READONLY(Sprite*, _background, Background);
-    CC_SYNTHESIZE_READONLY(Sprite*, _overlay, Overlay);
-    CC_SYNTHESIZE_READONLY(Sprite*, _shadow, Shadow);
-    CC_SYNTHESIZE_READONLY(Sprite*, _slider, Slider);
-    CC_SYNTHESIZE_READONLY(Vec2, _startPos, StartPos);
+    CC_SYNTHESIZE_READONLY(Sprite*, _background, Background)
+    CC_SYNTHESIZE_READONLY(Sprite*, _overlay, Overlay)
+    CC_SYNTHESIZE_READONLY(Sprite*, _shadow, Shadow)
+    CC_SYNTHESIZE_READONLY(Sprite*, _slider, Slider)
+    CC_SYNTHESIZE_READONLY(Vec2, _startPos, StartPos)
 
 protected:
     int boxPos;
@@ -72,12 +72,12 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ControlSaturationBrightnessPicker();
+    ~ControlSaturationBrightnessPicker() override;
     virtual bool initWithTargetAndPos(Node* target, Vec2 pos);
 
     static ControlSaturationBrightnessPicker* create(Node* target, Vec2 pos);
 
-    virtual void setEnabled(bool enabled) override;
+    void setEnabled(bool enabled) override;
     /**
      * @js NA
      * @lua NA
@@ -93,8 +93,8 @@ protected:
     void updateSliderPosition(Vec2 location);
     bool checkSliderPosition(Vec2 location);
 
-    virtual bool onTouchBegan(Touch* touch, Event* pEvent) override;
-    virtual void onTouchMoved(Touch* pTouch, Event* pEvent) override;
+    bool onTouchBegan(Touch* touch, Event* pEvent) override;
+    void onTouchMoved(Touch* pTouch, Event* pEvent) override;
 };
 
 // end of GUI group
@@ -103,4 +103,4 @@ protected:
 
 NS_CC_EXT_END
 
-#endif
+#endif // CC_EXTENSIONS_GUI_CONTROLEXTENSION_BRIGHTNESSPICKER_H

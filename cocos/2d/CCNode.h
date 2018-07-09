@@ -26,44 +26,50 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCNODE_H__
-#define __CCNODE_H__
+#ifndef CC_2D_NODE_H
+#define CC_2D_NODE_H
 
-#include "2d/CCComponent.h"
-#include "2d/CCComponentContainer.h"
 #include "base/CCProtocols.h"
-#include "base/CCScriptSupport.h"
+#include "base/CCRef.h"
 #include "base/CCVector.h"
-#include "base/ccMacros.h"
+#include "base/ccConfig.h"
+#include "base/ccTypes.h"
 #include "math/CCAffineTransform.h"
-#include "math/CCMath.h"
+#include "math/CCGeometry.h"
+#include "math/Mat4.h"
+#include "math/Quaternion.h"
+#include "math/Vec2.h"
+#include "platform/CCGL.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
 
-#if CC_USE_PHYSICS
-#    include "physics/CCPhysicsBody.h"
-#endif
-
+#include <algorithm>
 #include <chrono>
+#include <cstddef>
 #include <cstdint>
+#include <functional>
+#include <string>
 
 NS_CC_BEGIN
 
-class GridBase;
-class Touch;
 class Action;
-class LabelProtocol;
-class Scheduler;
 class ActionManager;
+class Camera;
 class Component;
 class ComponentContainer;
-class EventDispatcher;
-class Scene;
-class Renderer;
 class Director;
+class EventDispatcher;
 class GLProgram;
 class GLProgramState;
-class Material;
-class Camera;
+class Renderer;
+class Scene;
+class Scheduler;
+class Touch;
+class Vec3;
+
+#if CC_USE_PHYSICS
 class PhysicsBody;
+#endif
 
 /**
  * @addtogroup _2d
@@ -78,8 +84,6 @@ enum
     kNodeOnExitTransitionDidStart,
     kNodeOnCleanup
 };
-
-class EventListener;
 
 /** @class Node
 * @brief Node is the base element of the Scene Graph. Elements of the Scene Graph must be Node objects or subclasses of it.
@@ -399,7 +403,7 @@ public:
      *
      * @return The x coordinate of the node.
      */
-    virtual float getPositionX(void) const;
+    virtual float getPositionX() const;
     /** Sets the y coordinate of the node in its parent's coordinate system.
      *
      * @param y The y coordinate of the node.
@@ -409,7 +413,7 @@ public:
      *
      * @return The y coordinate of the node.
      */
-    virtual float getPositionY(void) const;
+    virtual float getPositionY() const;
 
     /**
      * Sets the position (X, Y, and Z) in its parent's coordinate system.
@@ -679,7 +683,9 @@ public:
     /** @deprecated No longer needed
      * @lua NA
      */
-    CC_DEPRECATED_ATTRIBUTE void setGLServerState(int serverState){/* ignore */};
+    CC_DEPRECATED_ATTRIBUTE void setGLServerState(int serverState)
+    { /* ignore */
+    }
     /** @deprecated No longer needed
      * @lua NA
      */
@@ -837,7 +843,7 @@ public:
      *
      * @return The amount of children.
      */
-    virtual ssize_t getChildrenCount() const;
+    virtual std::size_t getChildrenCount() const;
 
     /**
      * Sets the parent node.
@@ -935,7 +941,7 @@ public:
     {
         static_assert(std::is_base_of<Node, _T>::value, "Node::sortNodes: Only accept derived of Node!");
 #if CC_64BITS
-        std::sort(std::begin(nodes), std::end(nodes), [](_T* n1, _T* n2) { return (n1->_localZOrder$Arrival < n2->_localZOrder$Arrival); });
+        std::sort(std::begin(nodes), std::end(nodes), [](_T* n1, _T* n2) { return (n1->_localZOrderArrival < n2->_localZOrderArrival); });
 #else
         std::sort(std::begin(nodes), std::end(nodes), [](_T* n1, _T* n2) {
             return (n1->_localZOrder == n2->_localZOrder && n1->_orderOfArrival < n2->_orderOfArrival) || n1->_localZOrder < n2->_localZOrder;
@@ -1148,7 +1154,7 @@ public:
      * @param transform A transform matrix.
      * @param flags Renderer flag.
      */
-    virtual void draw(Renderer* renderer, const Mat4& transform, uint32_t flags);
+    virtual void draw(Renderer* renderer, const Mat4& transform, std::uint32_t flags);
     virtual void draw() final;
 
     /**
@@ -1158,7 +1164,7 @@ public:
      * @param parentTransform A transform matrix.
      * @param parentFlags Renderer flag.
      */
-    virtual void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags);
+    virtual void visit(Renderer* renderer, const Mat4& parentTransform, std::uint32_t parentFlags);
     virtual void visit() final;
 
     /** Returns the Scene that contains the Node.
@@ -1189,7 +1195,7 @@ public:
      *
      * @return The event dispatcher of scene.
      */
-    virtual EventDispatcher* getEventDispatcher() const { return _eventDispatcher; };
+    virtual EventDispatcher* getEventDispatcher() const { return _eventDispatcher; }
 
     /// @{
     /// @name Actions
@@ -1264,10 +1270,10 @@ public:
      *
      * @return The number of actions that are running plus the ones that are schedule to run.
      */
-    ssize_t getNumberOfRunningActions() const;
+    std::size_t getNumberOfRunningActions() const;
 
     /** @deprecated Use getNumberOfRunningActions() instead */
-    CC_DEPRECATED_ATTRIBUTE ssize_t numberOfRunningActions() const { return getNumberOfRunningActions(); };
+    CC_DEPRECATED_ATTRIBUTE std::size_t numberOfRunningActions() const { return getNumberOfRunningActions(); }
 
     /// @} end of Actions
 
@@ -1318,7 +1324,7 @@ public:
      * Only one "update" method could be scheduled per node.
      * @lua NA
      */
-    void scheduleUpdate(void);
+    void scheduleUpdate();
 
     /**
      * Schedules the "update" method with a custom priority.
@@ -1336,7 +1342,7 @@ public:
      * Unschedules the "update" method.
      * @see scheduleUpdate();
      */
-    void unscheduleUpdate(void);
+    void unscheduleUpdate();
 
     /**
      * Schedules a custom selector.
@@ -1458,12 +1464,12 @@ public:
      * Resumes all scheduled selectors, actions and event listeners.
      * This method is called internally by onEnter.
      */
-    virtual void resume(void);
+    virtual void resume();
     /**
      * Pauses all scheduled selectors, actions and event listeners.
      * This method is called internally by onExit.
      */
-    virtual void pause(void);
+    virtual void pause();
 
     /**
      * Resumes all scheduled selectors, actions and event listeners.
@@ -1752,12 +1758,12 @@ public:
      *  If you want the opacity affect the color property, then set to true.
      * @param value A boolean value.
      */
-    virtual void setOpacityModifyRGB(bool value) { CC_UNUSED_PARAM(value); }
+    virtual void setOpacityModifyRGB(bool) {}
     /**
      * If node opacity will modify the RGB color value, then you should override this method and return true.
      * @return A boolean value, true indicates that opacity will modify color; false otherwise.
      */
-    virtual bool isOpacityModifyRGB() const { return false; };
+    virtual bool isOpacityModifyRGB() const { return false; }
 
     /**
      * Set the callback of event onEnter.
@@ -1823,19 +1829,19 @@ public:
 
 protected:
     /// lazy allocs
-    void childrenAlloc(void);
+    void childrenAlloc();
 
     /// helper that reorder a child
     void insertChild(Node* child, int z);
 
     /// Removes a child, call child->onExit(), do cleanup, remove it from children array.
-    void detachChild(Node* child, ssize_t index, bool doCleanup);
+    void detachChild(Node* child, std::size_t index, bool doCleanup);
 
     /// Convert cocos2d coordinates to UI windows coordinate.
     Vec2 convertToWindowSpace(const Vec2& nodePoint) const;
 
     Mat4 transform(const Mat4& parentTransform);
-    uint32_t processParentFlags(const Mat4& parentTransform, uint32_t parentFlags);
+    std::uint32_t processParentFlags(const Mat4& parentTransform, std::uint32_t parentFlags);
 
     virtual void updateCascadeOpacity();
     virtual void disableCascadeOpacity();
@@ -1898,6 +1904,9 @@ protected:
     mutable bool _additionalTransformDirty; ///< transform dirty ?
     bool _transformUpdated; ///< Whether or not the Transform object was updated since the last frame
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu-anonymous-struct"
+#pragma clang diagnostic ignored "-Wnested-anon-types"
 #if CC_LITTLE_ENDIAN
     union
     {
@@ -1906,7 +1915,7 @@ protected:
             std::uint32_t _orderOfArrival;
             std::int32_t _localZOrder;
         };
-        std::int64_t _localZOrder$Arrival;
+        std::int64_t _localZOrderArrival;
     };
 #else
     union
@@ -1916,9 +1925,10 @@ protected:
             std::int32_t _localZOrder;
             std::uint32_t _orderOfArrival;
         };
-        std::int64_t _localZOrder$Arrival;
+        std::int64_t _localZOrderArrival;
     };
 #endif
+#pragma clang diagnostic pop
 
     float _globalZOrder; ///< Global order used to sort the node
 
@@ -1930,7 +1940,7 @@ protected:
     int _tag; ///< a tag. Can be any number you assigned just to identify this node
 
     std::string _name; ///< a string label, an user defined string to identify this node
-    size_t _hashOfName; ///< hash value of _name, used for speed in getChildByName
+    std::size_t _hashOfName; ///< hash value of _name, used for speed in getChildByName
 
     void* _userData; ///< A user assigned void pointer, Can be point to any cpp object
     Ref* _userObject; ///< A user assigned Object
@@ -1997,7 +2007,7 @@ public:
 #endif
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Node);
+    CC_DISALLOW_COPY_AND_ASSIGN(Node)
 };
 
 /**
@@ -2034,28 +2044,28 @@ class CC_DLL __NodeRGBA : public Node, public __RGBAProtocol
 {
 public:
     // overrides
-    virtual GLubyte getOpacity() const override { return Node::getOpacity(); }
-    virtual GLubyte getDisplayedOpacity() const override { return Node::getDisplayedOpacity(); }
-    virtual void setOpacity(GLubyte opacity) override { return Node::setOpacity(opacity); }
-    virtual void updateDisplayedOpacity(GLubyte parentOpacity) override { return Node::updateDisplayedOpacity(parentOpacity); }
-    virtual bool isCascadeOpacityEnabled() const override { return Node::isCascadeOpacityEnabled(); }
-    virtual void setCascadeOpacityEnabled(bool cascadeOpacityEnabled) override { return Node::setCascadeOpacityEnabled(cascadeOpacityEnabled); }
+    GLubyte getOpacity() const override { return Node::getOpacity(); }
+    GLubyte getDisplayedOpacity() const override { return Node::getDisplayedOpacity(); }
+    void setOpacity(GLubyte opacity) override { return Node::setOpacity(opacity); }
+    void updateDisplayedOpacity(GLubyte parentOpacity) override { return Node::updateDisplayedOpacity(parentOpacity); }
+    bool isCascadeOpacityEnabled() const override { return Node::isCascadeOpacityEnabled(); }
+    void setCascadeOpacityEnabled(bool cascadeOpacityEnabled) override { return Node::setCascadeOpacityEnabled(cascadeOpacityEnabled); }
 
-    virtual const Color3B& getColor(void) const override { return Node::getColor(); }
-    virtual const Color3B& getDisplayedColor() const override { return Node::getDisplayedColor(); }
-    virtual void setColor(const Color3B& color) override { return Node::setColor(color); }
-    virtual void updateDisplayedColor(const Color3B& parentColor) override { return Node::updateDisplayedColor(parentColor); }
-    virtual bool isCascadeColorEnabled() const override { return Node::isCascadeColorEnabled(); }
-    virtual void setCascadeColorEnabled(bool cascadeColorEnabled) override { return Node::setCascadeColorEnabled(cascadeColorEnabled); }
+    const Color3B& getColor() const override { return Node::getColor(); }
+    const Color3B& getDisplayedColor() const override { return Node::getDisplayedColor(); }
+    void setColor(const Color3B& color) override { return Node::setColor(color); }
+    void updateDisplayedColor(const Color3B& parentColor) override { return Node::updateDisplayedColor(parentColor); }
+    bool isCascadeColorEnabled() const override { return Node::isCascadeColorEnabled(); }
+    void setCascadeColorEnabled(bool cascadeColorEnabled) override { return Node::setCascadeColorEnabled(cascadeColorEnabled); }
 
-    virtual void setOpacityModifyRGB(bool bValue) override { return Node::setOpacityModifyRGB(bValue); }
-    virtual bool isOpacityModifyRGB() const override { return Node::isOpacityModifyRGB(); }
+    void setOpacityModifyRGB(bool bValue) override { return Node::setOpacityModifyRGB(bValue); }
+    bool isOpacityModifyRGB() const override { return Node::isOpacityModifyRGB(); }
 
     CC_CONSTRUCTOR_ACCESS : __NodeRGBA();
-    virtual ~__NodeRGBA() {}
+    ~__NodeRGBA() override;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(__NodeRGBA);
+    CC_DISALLOW_COPY_AND_ASSIGN(__NodeRGBA)
 };
 
 // end of _2d group
@@ -2063,4 +2073,4 @@ private:
 
 NS_CC_END
 
-#endif // __CCNODE_H__
+#endif // CC_2D_NODE_H

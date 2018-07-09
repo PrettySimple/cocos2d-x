@@ -1,5 +1,5 @@
-#ifndef __CCB_CCSEQUENCE_H__
-#define __CCB_CCSEQUENCE_H__
+#ifndef CC_EDITORSUPPORT_COCOSBUILDER_SEQUENCE_H
+#define CC_EDITORSUPPORT_COCOSBUILDER_SEQUENCE_H
 
 #include "CCBSequenceProperty.h"
 #include "base/CCRef.h"
@@ -47,4 +47,4 @@ namespace cocosbuilder
 
 } // namespace cocosbuilder
 
-#endif // __CCB_CCSEQUENCE_H__
+#endif // CC_EDITORSUPPORT_COCOSBUILDER_SEQUENCE_H

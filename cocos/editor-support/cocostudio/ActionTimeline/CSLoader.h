@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CSLoader__
-#define __cocos2d_libs__CSLoader__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_CSLOADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_CSLOADER_H
 
 #include "base/ObjectFactory.h"
 #include "cocos2d.h"
@@ -171,4 +171,4 @@ protected:
 
 NS_CC_END
 
-#endif /* defined(__cocos2d_libs__CSLoader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_CSLOADER_H

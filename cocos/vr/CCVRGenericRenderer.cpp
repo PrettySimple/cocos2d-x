@@ -155,7 +155,7 @@ void VRGenericRenderer::renderDistortionMesh(DistortionMesh* mesh, GLint texture
     _glProgramState->apply(Mat4::IDENTITY);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->_elementBufferID);
-    glDrawElements(GL_TRIANGLE_STRIP, mesh->_indices, GL_UNSIGNED_SHORT, 0);
+    glDrawElements(GL_TRIANGLE_STRIP, mesh->_indices, GL_UNSIGNED_SHORT, nullptr);
 
     CHECK_GL_ERROR_DEBUG();
 }

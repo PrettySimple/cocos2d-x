@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCGLPROGRAMSTATECACHE_H__
-#define __CCGLPROGRAMSTATECACHE_H__
+#ifndef CC_RENDERER_GLPROGRAMSTATECACHE_H
+#define CC_RENDERER_GLPROGRAMSTATECACHE_H
 
 #include "base/CCMap.h"
 #include "base/CCVector.h"
@@ -75,4 +75,4 @@ NS_CC_END
  end of support group
  @}
  */
-#endif /* __CCGLPROGRAMSTATECACHE_H__ */
+#endif // CC_RENDERER_GLPROGRAMSTATECACHE_H

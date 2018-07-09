@@ -23,9 +23,12 @@
 ****************************************************************************/
 
 #include "base/CCValue.h"
+
 #include "base/ccUtils.h"
+
 #include <cmath>
 #include <iomanip>
+#include <limits>
 #include <sstream>
 
 NS_CC_BEGIN
@@ -222,6 +225,8 @@ Value& Value::operator=(Value&& other)
         clear();
         switch (other._type)
         {
+            case Type::NONE:
+                break;
             case Type::BYTE:
                 _field.byteVal = other._field.byteVal;
                 break;
@@ -251,8 +256,6 @@ Value& Value::operator=(Value&& other)
                 break;
             case Type::INT_KEY_MAP:
                 _field.intKeyMapVal = other._field.intKeyMapVal;
-                break;
-            default:
                 break;
         }
         _type = other._type;
@@ -397,9 +400,9 @@ bool Value::operator==(const Value& v) const
         case Type::STRING:
             return *v._field.strVal == *this->_field.strVal;
         case Type::FLOAT:
-            return std::abs(v._field.floatVal - this->_field.floatVal) <= FLT_EPSILON;
+            return std::abs(v._field.floatVal - this->_field.floatVal) < std::numeric_limits<float>::epsilon();
         case Type::DOUBLE:
-            return std::abs(v._field.doubleVal - this->_field.doubleVal) <= DBL_EPSILON;
+            return std::abs(v._field.doubleVal - this->_field.doubleVal) < std::numeric_limits<double>::epsilon();
         case Type::VECTOR:
         {
             const auto& v1 = *(this->_field.vectorVal);
@@ -856,9 +859,6 @@ static std::string visit(const Value& v, int depth)
         case Value::Type::INT_KEY_MAP:
             ret << visitMap(v.asIntKeyMap(), depth);
             break;
-        default:
-            CCASSERT(false, "Invalid type!");
-            break;
     }
 
     return ret.str();
@@ -876,6 +876,8 @@ void Value::clear()
     // Free memory the old value allocated
     switch (_type)
     {
+        case Type::NONE:
+            break;
         case Type::BYTE:
             _field.byteVal = 0;
             break;
@@ -905,8 +907,6 @@ void Value::clear()
             break;
         case Type::INT_KEY_MAP:
             CC_SAFE_DELETE(_field.intKeyMapVal);
-            break;
-        default:
             break;
     }
 

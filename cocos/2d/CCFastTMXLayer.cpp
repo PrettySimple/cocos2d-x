@@ -45,6 +45,7 @@ THE SOFTWARE.
 #include "renderer/CCRenderer.h"
 #include "renderer/CCTextureCache.h"
 #include "renderer/CCVertexIndexBuffer.h"
+#include "renderer/CCVertexIndexData.h"
 #include "renderer/ccGLStateCache.h"
 
 NS_CC_BEGIN
@@ -444,7 +445,7 @@ namespace experimental
                     auto& quad = _totalQuads[quadIndex];
 
                     Vec3 nodePos(float(x), float(y), 0);
-                    _tileToNodeTransform.transformPoint(&nodePos);
+                    _tileToNodeTransform.transformPoint(nodePos);
 
                     float left, right, top, bottom, z;
 

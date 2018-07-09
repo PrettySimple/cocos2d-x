@@ -337,7 +337,7 @@ void ParticleSystemQuad::updateParticleQuads()
     {
         Vec3 p1(currentPosition.x, currentPosition.y, 0);
         Mat4 worldToNodeTM = getWorldToNodeTransform();
-        worldToNodeTM.transformPoint(&p1);
+        worldToNodeTM.transformPoint(p1);
         Vec3 p2;
         Vec2 newPos;
         float* startX = _particleData.startPosX;
@@ -350,7 +350,7 @@ void ParticleSystemQuad::updateParticleQuads()
         for (int i = 0; i < _particleCount; ++i, ++startX, ++startY, ++x, ++y, ++quadStart, ++s, ++r)
         {
             p2.set(*startX, *startY, 0);
-            worldToNodeTM.transformPoint(&p2);
+            worldToNodeTM.transformPoint(p2);
             newPos.set(*x, *y);
             p2 = p1 - p2;
             newPos.x -= p2.x - pos.x;

@@ -22,11 +22,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_AABB_H__
-#define __CC_AABB_H__
+#ifndef CC_3D_AABB_H
+#define CC_3D_AABB_H
 
-#include "base/ccMacros.h"
-#include "math/CCMath.h"
+#include "math/Vec3.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
 
 NS_CC_BEGIN
 
@@ -38,25 +39,25 @@ NS_CC_BEGIN
 /**
  * Axis Aligned Bounding Box (AABB), usually calculate some rough but fast collision detection.
  */
-class CC_DLL AABB
+class CC_DLL AABB final
 {
 public:
-    /**
-     * Constructor.
-     * @lua new
-     */
-    AABB();
+    Vec3 _min = {99999.0f, 99999.0f, 99999.0f};
+    Vec3 _max = {-99999.0f, -99999.0f, -99999.0f};
+
+public:
+    AABB() = default;
+    AABB(AABB const&) = default;
+    AABB& operator=(AABB const&) = default;
+    AABB(AABB&&) noexcept = default;
+    AABB& operator=(AABB&&) noexcept = default;
+    ~AABB() = default;
 
     /**
      * Constructor.
      * @lua new
      */
     AABB(const Vec3& min, const Vec3& max);
-
-    /**
-     * Constructor.
-     */
-    AABB(const AABB& box);
 
     /**
      * Gets the center point of the bounding box.
@@ -111,16 +112,12 @@ public:
     /**
      * update the _min and _max from the given point.
      */
-    void updateMinMax(const Vec3* point, ssize_t num);
+    void updateMinMax(const Vec3* point, std::size_t num);
 
     /**
      * Transforms the bounding box by the given transformation matrix.
      */
     void transform(const Mat4& mat);
-
-public:
-    Vec3 _min;
-    Vec3 _max;
 };
 
 // end of 3d group
@@ -128,4 +125,4 @@ public:
 
 NS_CC_END
 
-#endif
+#endif // CC_3D_AABB_H

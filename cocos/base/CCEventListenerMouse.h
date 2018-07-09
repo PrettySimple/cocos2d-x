@@ -23,11 +23,11 @@
 
  ****************************************************************************/
 
+#ifndef CC_BASE_EVENTLISTENERMOUSE_H
+#define CC_BASE_EVENTLISTENERMOUSE_H
+
 #include "base/CCEventListener.h"
 #include "base/CCEventMouse.h"
-
-#ifndef __cocos2d_libs__CCMouseEventListener__
-#    define __cocos2d_libs__CCMouseEventListener__
 
 /**
  * @addtogroup base
@@ -72,4 +72,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif /* defined(__cocos2d_libs__CCMouseEventListener__) */
+#endif // CC_BASE_EVENTLISTENERMOUSE_H

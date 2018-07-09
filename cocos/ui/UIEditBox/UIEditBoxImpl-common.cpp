@@ -218,7 +218,7 @@ namespace ui
 
     void EditBoxImplCommon::setPlaceHolder(const char* pText)
     {
-        if (pText != NULL)
+        if (pText != nullptr)
         {
             _placeHolder = pText;
             _labelPlaceHolder->setString(_placeHolder);

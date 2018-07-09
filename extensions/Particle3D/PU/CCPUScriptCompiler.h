@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_SCRIPT_COMPILER_H__
-#define __CC_PU_SCRIPT_COMPILER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTCOMPILER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTCOMPILER_H
 #include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUScriptParser.h"
 
@@ -56,14 +56,8 @@ public:
     // contextd//
     //    Any context; // A holder for translation context data
 public:
-    PUAbstractNode(PUAbstractNode* ptr)
-    : line(0)
-    , type(ANT_UNKNOWN)
-    , parent(ptr)
-    , context(nullptr)
-    {
-    }
-    virtual ~PUAbstractNode() {}
+    PUAbstractNode(PUAbstractNode* ptr);
+    virtual ~PUAbstractNode();
     /// Returns a new AbstractNode which is a replica of this one.
     virtual PUAbstractNode* clone() const = 0;
     /// Returns a string value depending on the type of the AbstractNode.
@@ -164,4 +158,4 @@ private:
 
 NS_CC_END
 
-#endif /* defined(__ssaafsdf__CCScriptCompile__) */
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTCOMPILER_H

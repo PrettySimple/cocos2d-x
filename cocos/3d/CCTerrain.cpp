@@ -447,7 +447,7 @@ void Terrain::calculateNormal()
         Vec3 v1 = _vertices[Index1]._position - _vertices[Index0]._position;
         Vec3 v2 = _vertices[Index2]._position - _vertices[Index0]._position;
         Vec3 Normal;
-        Vec3::cross(v1, v2, &Normal);
+        Vec3::cross(v1, v2, Normal);
         Normal.normalize();
         _vertices[Index0]._normal += Normal;
         _vertices[Index1]._normal += Normal;
@@ -550,7 +550,7 @@ bool Terrain::getIntersectionPoint(const Ray& ray_, Vec3& intersectionPoint) con
 {
     // convert ray from world space to local space
     Ray ray(ray_);
-    getWorldToNodeTransform().transformPoint(&(ray._origin));
+    getWorldToNodeTransform().transformPoint(ray._origin);
 
     std::set<Chunk*> closeList;
     Vec2 start = Vec2(ray_._origin.x, ray_._origin.z);
@@ -986,7 +986,7 @@ void Terrain::Chunk::bindAndDraw()
     offset += sizeof(Tex2F);
     // normal
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(TerrainVertexData), (GLvoid*)offset);
-    glDrawElements(GL_TRIANGLES, (GLsizei)_chunkIndices._size, GL_UNSIGNED_SHORT, 0);
+    glDrawElements(GL_TRIANGLES, (GLsizei)_chunkIndices._size, GL_UNSIGNED_SHORT, nullptr);
     CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, _chunkIndices._size);
 }
 
@@ -1706,9 +1706,9 @@ Terrain::Triangle::Triangle(const Vec3& p1, const Vec3& p2, const Vec3& p3)
 
 void Terrain::Triangle::transform(const cocos2d::Mat4& matrix)
 {
-    matrix.transformPoint(&_p1);
-    matrix.transformPoint(&_p2);
-    matrix.transformPoint(&_p3);
+    matrix.transformPoint(_p1);
+    matrix.transformPoint(_p2);
+    matrix.transformPoint(_p3);
 }
 
 // Please refer to 3D Math Primer for Graphics and Game Development
@@ -1722,7 +1722,7 @@ bool Terrain::Triangle::getInsterctPoint(const Ray& ray, Vec3& interScetPoint) c
 
     // P
     Vec3 P;
-    Vec3::cross(ray._direction, E2, &P);
+    Vec3::cross(ray._direction, E2, P);
 
     // determinant
     float det = E1.dot(P);
@@ -1752,7 +1752,7 @@ bool Terrain::Triangle::getInsterctPoint(const Ray& ray, Vec3& interScetPoint) c
 
     // Q
     Vec3 Q;
-    Vec3::cross(T, E1, &Q);
+    Vec3::cross(T, E1, Q);
 
     // Calculate v and make sure u + v <= 1
     v = ray._direction.dot(Q);

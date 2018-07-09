@@ -5,8 +5,8 @@
 //  Created by Guilhem Vors on 20/03/2018.
 //
 
-#ifndef SimpleAudioPlayer_h
-#define SimpleAudioPlayer_h
+#ifndef CC_AUDIO_APPLE_SIMPLEAUDIOPLAYER_H
+#define CC_AUDIO_APPLE_SIMPLEAUDIOPLAYER_H
 
 #include "AudioPlayer.h"
 
@@ -22,7 +22,7 @@ namespace experimental
 
     public:
         SimpleAudioPlayer(std::string filePath);
-        virtual ~SimpleAudioPlayer();
+        ~SimpleAudioPlayer() override;
 
         void destroy() override;
         bool play2d() override;
@@ -40,4 +40,4 @@ namespace experimental
     };
 } // namespace experimental
 NS_CC_END
-#endif /* SimpleAudioPlayer_h */
+#endif // CC_AUDIO_APPLE_SIMPLEAUDIOPLAYER_H

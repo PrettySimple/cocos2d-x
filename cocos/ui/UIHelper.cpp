@@ -23,8 +23,12 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "ui/UIHelper.h"
+
+#include "2d/CCNode.h"
 #include "base/CCDirector.h"
 #include "base/ccUTF8.h"
+#include "math/CCGeometry.h"
+#include "ui/GUIDefine.h"
 #include "ui/UILayoutComponent.h"
 #include "ui/UIWidget.h"
 
@@ -45,8 +49,8 @@ namespace ui
             return root;
         }
         const auto& arrayRootChildren = root->getChildren();
-        ssize_t length = arrayRootChildren.size();
-        for (ssize_t i = 0; i < length; i++)
+        std::size_t length = arrayRootChildren.size();
+        for (std::size_t i = 0; i < length; i++)
         {
             Widget* child = dynamic_cast<Widget*>(arrayRootChildren.at(i));
             if (child)
@@ -146,11 +150,11 @@ namespace ui
 
         for (auto& node : rootNode->getChildren())
         {
-            auto com = node->getComponent(__LAYOUT_COMPONENT_NAME);
+            auto com = node->getComponent(LAYOUT_COMPONENT_NAME);
             Node* parent = node->getParent();
             if (nullptr != com && nullptr != parent)
             {
-                LayoutComponent* layoutComponent = (LayoutComponent*)com;
+                LayoutComponent* layoutComponent = static_cast<LayoutComponent*>(com);
 
                 layoutComponent->refreshLayout();
             }

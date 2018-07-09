@@ -26,12 +26,22 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CPROTECTEDCNODE_H__
-#define __CPROTECTEDCNODE_H__
+#ifndef CC_2D_PROTECTEDNODE_H
+#define CC_2D_PROTECTEDNODE_H
 
 #include "2d/CCNode.h"
+#include "base/CCVector.h"
+#include "base/ccConfig.h"
+#include "platform/CCGL.h"
+#include "platform/CCPlatformMacros.h"
+
+#include <cstdint>
 
 NS_CC_BEGIN
+
+class Mat4;
+class Renderer;
+struct Color3B;
 
 /**
  * @addtogroup _2d
@@ -49,7 +59,7 @@ public:
      * Creates a ProtectedNode with no argument.
      *@return A instance of ProtectedNode.
      */
-    static ProtectedNode* create(void);
+    static ProtectedNode* create();
 
     /// @{
     /// @name Children and Parent
@@ -143,11 +153,11 @@ public:
     /**
      * @js NA
      */
-    virtual void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
+    void visit(Renderer* renderer, const Mat4& parentTransform, std::uint32_t parentFlags) override;
 
-    virtual void cleanup() override;
+    void cleanup() override;
 
-    virtual void onEnter() override;
+    void onEnter() override;
 
     /** Event callback that is invoked when the Node enters in the 'stage'.
      * If the Node enters the 'stage' with a transition, this event is called when the transition finishes.
@@ -155,7 +165,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual void onEnterTransitionDidFinish() override;
+    void onEnterTransitionDidFinish() override;
 
     /**
      * Event callback that is invoked every time the Node leaves the 'stage'.
@@ -165,7 +175,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual void onExit() override;
+    void onExit() override;
 
     /**
      * Event callback that is called every time the Node leaves the 'stage'.
@@ -173,15 +183,15 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual void onExitTransitionDidStart() override;
+    void onExitTransitionDidStart() override;
 
-    virtual void updateDisplayedOpacity(GLubyte parentOpacity) override;
-    virtual void updateDisplayedColor(const Color3B& parentColor) override;
-    virtual void disableCascadeColor() override;
-    virtual void disableCascadeOpacity() override;
-    virtual void setCameraMask(unsigned short mask, bool applyChildren = true) override;
+    void updateDisplayedOpacity(GLubyte parentOpacity) override;
+    void updateDisplayedColor(const Color3B& parentColor) override;
+    void disableCascadeColor() override;
+    void disableCascadeOpacity() override;
+    void setCameraMask(unsigned short mask, bool applyChildren = true) override;
     CC_CONSTRUCTOR_ACCESS : ProtectedNode();
-    virtual ~ProtectedNode();
+    ~ProtectedNode() override;
 
 protected:
     /// helper that reorder a child
@@ -191,7 +201,7 @@ protected:
     bool _reorderProtectedChildDirty;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ProtectedNode);
+    CC_DISALLOW_COPY_AND_ASSIGN(ProtectedNode)
 };
 
 // end of 2d group
@@ -199,4 +209,4 @@ private:
 
 NS_CC_END
 
-#endif // __CPROTECTEDCNODE_H__
+#endif // CC_2D_PROTECTEDNODE_H

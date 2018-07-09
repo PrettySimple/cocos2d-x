@@ -24,17 +24,20 @@ THE SOFTWARE.
  Autobinding Interface from GamePlay3D: http://www.gameplay3d.org/
 ****************************************************************************/
 
-#ifndef __CCGLPROGRAMSTATE_H__
-#define __CCGLPROGRAMSTATE_H__
-
-#include <unordered_map>
+#ifndef CC_RENDERER_GLPROGRAMSTATE_H
+#define CC_RENDERER_GLPROGRAMSTATE_H
 
 #include "base/CCVector.h"
-#include "base/ccTypes.h"
-#include "math/Vec2.h"
-#include "math/Vec3.h"
-#include "math/Vec4.h"
-#include "platform/CCPlatformConfig.h"
+#include "platform/CCGL.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
+
+#include <cstddef>
+#include <cstdint>
+#include <functional>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 /**
  * @addtogroup renderer
@@ -43,29 +46,34 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
+class EventListenerCustom;
 class GLProgram;
+class Mat4;
+class Node;
 class Texture2D;
+class Vec2;
+class Vec3;
+class Vec4;
 struct Uniform;
 struct VertexAttrib;
-class EventListenerCustom;
-class EventCustom;
-class Node;
 
 /**
  * Uniform Value, which is used to store to value send to openGL pipe line by glUniformXXX.
  *
  * @lua NA
  */
-class CC_DLL UniformValue
+class CC_DLL UniformValue final
 {
     friend class GLProgram;
     friend class GLProgramState;
 
 public:
-    /**
-     Constructor. The Uniform and Glprogram will be nullptr.
-     */
-    UniformValue();
+    UniformValue() = default;
+    UniformValue(UniformValue const&) = default;
+    UniformValue& operator=(UniformValue const&) = default;
+    UniformValue(UniformValue&&) noexcept = default;
+    UniformValue& operator=(UniformValue&&) noexcept = default;
+    ~UniformValue();
     /**
      Constructor with uniform and glprogram.
      @param uniform Uniform to apply the value.
@@ -73,8 +81,6 @@ public:
      */
     UniformValue(Uniform* uniform, GLProgram* glprogram);
 
-    /**Destructor.*/
-    ~UniformValue();
     /**@{
      Set data to Uniform value. Generally, there are many type of data could be supported,
      including float, int, Vec2/3/4, Mat4.
@@ -82,13 +88,13 @@ public:
      */
     void setFloat(float value);
     void setInt(int value);
-    void setFloatv(ssize_t size, const float* pointer);
+    void setFloatv(std::size_t size, const float* pointer);
     void setVec2(const Vec2& value);
-    void setVec2v(ssize_t size, const Vec2* pointer);
+    void setVec2v(std::size_t size, const Vec2* pointer);
     void setVec3(const Vec3& value);
-    void setVec3v(ssize_t size, const Vec3* pointer);
+    void setVec3v(std::size_t size, const Vec3* pointer);
     void setVec4(const Vec4& value);
-    void setVec4v(ssize_t size, const Vec4* pointer);
+    void setVec4v(std::size_t size, const Vec4* pointer);
     void setMat4(const Mat4& value);
 
     /**
@@ -111,7 +117,7 @@ public:
     void apply();
 
 protected:
-    enum class Type
+    enum struct Type : std::uint8_t
     {
         VALUE,
         POINTER,
@@ -119,11 +125,11 @@ protected:
     };
 
     /**Weak reference to Uniform.*/
-    Uniform* _uniform;
+    Uniform* _uniform = nullptr;
     /**Weak reference to GLprogram.*/
-    GLProgram* _glprogram;
+    GLProgram* _glprogram = nullptr;
     /** What kind of type is the Uniform */
-    Type _type;
+    Type _type = Type::VALUE;
 
     /**
      @name Uniform Value Uniform
@@ -136,7 +142,7 @@ protected:
         float v2Value[2];
         float v3Value[3];
         float v4Value[4];
-        float matrixValue[16];
+        float matrixValue[16] = {0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f};
         struct
         {
             GLuint textureId;
@@ -163,21 +169,13 @@ protected:
             GLsizei size;
         } v4f;
         std::function<void(GLProgram*, Uniform*)>* callback;
-
-        U() { memset(this, 0, sizeof(*this)); }
-        ~U() {}
-        U& operator=(const U& other)
-        {
-            memcpy(this, &other, sizeof(*this));
-            return *this;
-        }
     } _value;
     /**
      @}
      */
 
 public:
-    const U& getValue() const { return _value; }
+    inline U const& getValue() const noexcept { return _value; }
 };
 
 /**
@@ -192,19 +190,17 @@ class CC_DLL VertexAttribValue
     friend class VertexAttribBinding;
 
 public:
+    VertexAttribValue() = default;
+    VertexAttribValue(VertexAttribValue const&) = default;
+    VertexAttribValue& operator=(VertexAttribValue const&) = default;
+    VertexAttribValue(VertexAttribValue&&) noexcept = default;
+    VertexAttribValue& operator=(VertexAttribValue&&) noexcept = default;
+    ~VertexAttribValue();
     /**
      Constructor.
      @param vertexAttrib VertexAttrib from shader.
     */
     VertexAttribValue(VertexAttrib* vertexAttrib);
-    /**
-     Constructor.
-     */
-    VertexAttribValue();
-    /**
-     Destructor.
-     */
-    ~VertexAttribValue();
 
     /**
      Set the data pointer, which is similar as glVertexAttribPointer.
@@ -221,9 +217,9 @@ public:
     void apply();
 
 protected:
-    VertexAttrib* _vertexAttrib; // weak ref
-    bool _useCallback;
-    bool _enabled;
+    VertexAttrib* _vertexAttrib = nullptr; // weak ref
+    bool _useCallback = false;
+    bool _enabled = false;
 
     union U
     {
@@ -234,16 +230,8 @@ protected:
             GLboolean normalized;
             GLsizei stride;
             GLvoid* pointer;
-        } pointer;
+        } pointer = {0, 0, false, 0, nullptr};
         std::function<void(VertexAttrib*)>* callback;
-
-        U() { memset(this, 0, sizeof(*this)); }
-        ~U() {}
-        U& operator=(const U& other)
-        {
-            memcpy(this, &other, sizeof(*this));
-            return *this;
-        }
     } _value;
 };
 
@@ -305,9 +293,9 @@ public:
     /**@}*/
 
     /** Get the flag of vertex attribs used by OR operation.*/
-    uint32_t getVertexAttribsFlags() const;
+    std::uint32_t getVertexAttribsFlags() const;
     /**Get the number of vertex attributes.*/
-    ssize_t getVertexAttribCount() const;
+    std::size_t getVertexAttribCount() const;
     /**@{
      Set the vertex attribute value.
      */
@@ -316,20 +304,20 @@ public:
     /**@}*/
 
     /**Get the number of user defined uniform count.*/
-    ssize_t getUniformCount() const { return _uniforms.size(); }
+    std::size_t getUniformCount() const { return _uniforms.size(); }
 
     /** @{
      Setting user defined uniforms by uniform string name in the shader.
      */
     void setUniformInt(const std::string& uniformName, int value);
     void setUniformFloat(const std::string& uniformName, float value);
-    void setUniformFloatv(const std::string& uniformName, ssize_t size, const float* pointer);
+    void setUniformFloatv(const std::string& uniformName, std::size_t size, const float* pointer);
     void setUniformVec2(const std::string& uniformName, const Vec2& value);
-    void setUniformVec2v(const std::string& uniformName, ssize_t size, const Vec2* pointer);
+    void setUniformVec2v(const std::string& uniformName, std::size_t size, const Vec2* pointer);
     void setUniformVec3(const std::string& uniformName, const Vec3& value);
-    void setUniformVec3v(const std::string& uniformName, ssize_t size, const Vec3* pointer);
+    void setUniformVec3v(const std::string& uniformName, std::size_t size, const Vec3* pointer);
     void setUniformVec4(const std::string& uniformName, const Vec4& value);
-    void setUniformVec4v(const std::string& uniformName, ssize_t size, const Vec4* pointer);
+    void setUniformVec4v(const std::string& uniformName, std::size_t size, const Vec4* pointer);
     void setUniformMat4(const std::string& uniformName, const Mat4& value);
     void setUniformCallback(const std::string& uniformName, const std::function<void(GLProgram*, Uniform*)>& callback);
     void setUniformTexture(const std::string& uniformName, Texture2D* texture);
@@ -341,13 +329,13 @@ public:
      */
     void setUniformInt(GLint uniformLocation, int value);
     void setUniformFloat(GLint uniformLocation, float value);
-    void setUniformFloatv(GLint uniformLocation, ssize_t size, const float* pointer);
+    void setUniformFloatv(GLint uniformLocation, std::size_t size, const float* pointer);
     void setUniformVec2(GLint uniformLocation, const Vec2& value);
-    void setUniformVec2v(GLint uniformLocation, ssize_t size, const Vec2* pointer);
+    void setUniformVec2v(GLint uniformLocation, std::size_t size, const Vec2* pointer);
     void setUniformVec3(GLint uniformLocation, const Vec3& value);
-    void setUniformVec3v(GLint uniformLocation, ssize_t size, const Vec3* pointer);
+    void setUniformVec3v(GLint uniformLocation, std::size_t size, const Vec3* pointer);
     void setUniformVec4(GLint uniformLocation, const Vec4& value);
-    void setUniformVec4v(GLint uniformLocation, ssize_t size, const Vec4* pointer);
+    void setUniformVec4v(GLint uniformLocation, std::size_t size, const Vec4* pointer);
     void setUniformMat4(GLint uniformLocation, const Mat4& value);
     void setUniformCallback(GLint uniformLocation, const std::function<void(GLProgram*, Uniform*)>& callback);
     void setUniformTexture(GLint uniformLocation, Texture2D* texture);
@@ -472,7 +460,7 @@ protected:
     std::unordered_map<std::string, int> _boundTextureUnits;
 
     int _textureUnitIndex;
-    uint32_t _vertexAttribsFlags;
+    std::uint32_t _vertexAttribsFlags;
     GLProgram* _glprogram;
 
     Node* _nodeBinding; // weak ref
@@ -494,4 +482,4 @@ NS_CC_END
  end of support group
  @}
  */
-#endif /* __CCGLPROGRAMSTATE_H__ */
+#endif // CC_RENDERER_GLPROGRAMSTATE_H

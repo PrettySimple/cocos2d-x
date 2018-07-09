@@ -97,7 +97,7 @@ void PURibbonTrailRender::render(Renderer* renderer, const Mat4& transform, Part
 
 PURibbonTrailRender::PURibbonTrailRender()
 : _quota(0)
-, _trail(0)
+, _trail(nullptr)
 , _useVertexColours(DEFAULT_USE_VERTEX_COLOURS)
 , _maxChainElements(DEFAULT_MAX_ELEMENTS)
 , _trailLength(DEFAULT_LENGTH)
@@ -107,7 +107,7 @@ PURibbonTrailRender::PURibbonTrailRender()
 , _setWidth(false)
 , _initialColor(DEFAULT_INITIAL_COLOUR)
 , _colorChange(DEFAULT_COLOUR_CHANGE)
-, _childNode(0)
+, _childNode(nullptr)
 {
     std::stringstream ss;
     ss << this;

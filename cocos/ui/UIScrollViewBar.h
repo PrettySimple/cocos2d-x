@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __UISCROLLVIEWBAR_H__
-#define __UISCROLLVIEWBAR_H__
+#ifndef CC_UI_SCROLLVIEWBAR_H
+#define CC_UI_SCROLLVIEWBAR_H
 
 #include "ui/UIScrollView.h"
 
@@ -55,7 +55,7 @@ namespace ui
          * @js NA
          * @lua NA
          */
-        virtual ~ScrollViewBar();
+        ~ScrollViewBar() override;
 
         /**
          * Create a scroll bar with its parent scroll view and direction.
@@ -129,10 +129,10 @@ namespace ui
         /**
          * @lua NA
          */
-        virtual void setOpacity(GLubyte opacity) override { _opacity = opacity; }
-        virtual GLubyte getOpacity() const override { return _opacity; }
-        virtual void onEnter() override;
-        virtual void update(float deltaTime) override;
+        void setOpacity(GLubyte opacity) override { _opacity = opacity; }
+        GLubyte getOpacity() const override { return _opacity; }
+        void onEnter() override;
+        void update(float deltaTime) override;
 
         /**
          * @brief This is called by parent ScrollView when a touch is began. Don't call this directly.
@@ -144,7 +144,7 @@ namespace ui
          */
         void onTouchEnded();
 
-        CC_CONSTRUCTOR_ACCESS : virtual bool init() override;
+        CC_CONSTRUCTOR_ACCESS : bool init() override;
 
     private:
         float calculateLength(float innerContainerMeasure, float scrollViewMeasure, float outOfBoundaryValue);
@@ -153,7 +153,6 @@ namespace ui
         void updateLength(float length);
         void processAutoHide(float deltaTime);
 
-        ScrollView* _parent;
         ScrollView::Direction _direction;
 
         Sprite* _upperHalfCircle;
@@ -177,4 +176,4 @@ namespace ui
 /// @}
 NS_CC_END
 
-#endif /* defined(__UISCROLLVIEWBAR_H__) */
+#endif // CC_UI_SCROLLVIEWBAR_H

@@ -18,7 +18,7 @@
  This file was modified to fit the cocos2d-x project
  */
 
-#include "math/Mat4.h"
+#include "math/Vec4.h"
 
 NS_CC_MATH_BEGIN
 
@@ -70,27 +70,27 @@ inline Mat4& Mat4::operator*=(const Mat4& mat)
 
 inline Vec3& operator*=(Vec3& v, const Mat4& m)
 {
-    m.transformVector(&v);
+    m.transformVector(v);
     return v;
 }
 
 inline const Vec3 operator*(const Mat4& m, const Vec3& v)
 {
     Vec3 x;
-    m.transformVector(v, &x);
+    m.transformVector(v, x);
     return x;
 }
 
 inline Vec4& operator*=(Vec4& v, const Mat4& m)
 {
-    m.transformVector(&v);
+    m.transformVector(v);
     return v;
 }
 
 inline const Vec4 operator*(const Mat4& m, const Vec4& v)
 {
     Vec4 x;
-    m.transformVector(v, &x);
+    m.transformVector(v, x);
     return x;
 }
 

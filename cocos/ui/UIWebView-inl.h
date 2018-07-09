@@ -36,11 +36,11 @@ namespace experimental
     namespace ui
     {
         WebView::WebView()
-        : _impl(new WebViewImpl(this))
-        , _onJSCallback(nullptr)
-        , _onShouldStartLoading(nullptr)
+        : _onShouldStartLoading(nullptr)
         , _onDidFinishLoading(nullptr)
         , _onDidFailLoading(nullptr)
+        , _onJSCallback(nullptr)
+        , _impl(new WebViewImpl(this))
         {
         }
 

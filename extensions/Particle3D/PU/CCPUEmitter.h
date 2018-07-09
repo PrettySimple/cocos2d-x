@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_EMITTER_H__
-#define __CC_PU_PARTICLE_3D_EMITTER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_EMITTER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_EMITTER_H
 
 #include "base/CCRef.h"
 #include "extensions/Particle3D/CCParticle3DEmitter.h"
@@ -75,7 +75,7 @@ public:
     static const float DEFAULT_DEPTH;
 
     PUEmitter();
-    virtual ~PUEmitter();
+    ~PUEmitter() override;
 
     virtual void notifyStart();
     virtual void notifyStop();
@@ -89,10 +89,10 @@ public:
     virtual void postUpdateEmitter(float deltaTime);
     virtual unsigned short calculateRequestedParticles(float timeElapsed);
 
-    virtual void emit(int count) override;
+    void emit(int count) override;
 
-    void setLocalPosition(const Vec3& pos) { _position = pos; };
-    const Vec3 getLocalPosition() const { return _position; };
+    void setLocalPosition(const Vec3& pos) { _position = pos; }
+    const Vec3 getLocalPosition() const { return _position; }
     /** Calculate the derived position of the affector.
 @remarks
     Note, that in script, the position is set as localspace, while if the affector is
@@ -112,12 +112,12 @@ public:
     /** Todo
      */
     const std::string& getEmitterType() const { return _emitterType; }
-    void setEmitterType(const std::string& emitterType) { _emitterType = emitterType; };
+    void setEmitterType(const std::string& emitterType) { _emitterType = emitterType; }
 
     /** Todo
      */
     const std::string& getName() const { return _name; }
-    void setName(const std::string& name) { _name = name; };
+    void setName(const std::string& name) { _name = name; }
 
     /** Todo
      */
@@ -190,10 +190,10 @@ public:
     const std::string& getEmitsName() const { return _emitsName; }
     void setEmitsName(const std::string& emitsName);
     PUParticle3D::ParticleType getEmitsType() const { return _emitsType; }
-    void setEmitsType(PUParticle3D::ParticleType type) { _emitsType = type; };
+    void setEmitsType(PUParticle3D::ParticleType type) { _emitsType = type; }
     Ref* getEmitsEntityPtr() const;
-    bool isMarkedForEmission() const { return _isMarkedForEmission; };
-    void setMarkedForEmission(bool isMarked) { _isMarkedForEmission = isMarked; };
+    bool isMarkedForEmission() const { return _isMarkedForEmission; }
+    void setMarkedForEmission(bool isMarked) { _isMarkedForEmission = isMarked; }
 
     /** Returns the base direction of the particle that is going to be emitted.
      */
@@ -575,4 +575,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_EMITTER_H

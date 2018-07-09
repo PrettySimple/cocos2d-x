@@ -1,5 +1,5 @@
-#ifndef _CCB_CCSPRITELOADER_H_
-#define _CCB_CCSPRITELOADER_H_
+#ifndef CC_EDITORSUPPORT_COCOSBUILDER_SPRITELOADER_H
+#define CC_EDITORSUPPORT_COCOSBUILDER_SPRITELOADER_H
 
 #include "CCNodeLoader.h"
 
@@ -37,4 +37,4 @@ namespace cocosbuilder
 
 } // namespace cocosbuilder
 
-#endif
+#endif // CC_EDITORSUPPORT_COCOSBUILDER_SPRITELOADER_H

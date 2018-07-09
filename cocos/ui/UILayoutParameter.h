@@ -22,11 +22,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __LAYOUTPARMETER_H__
-#define __LAYOUTPARMETER_H__
+#ifndef CC_UI_LAYOUTPARAMETER_H
+#define CC_UI_LAYOUTPARAMETER_H
 
 #include "base/CCRef.h"
 #include "ui/GUIExport.h"
+
+#include <cstdint>
 #include <string>
 
 /**
@@ -126,7 +128,7 @@ namespace ui
          * - Linear: Elements will  be arranged by margin.
          * - Relative: Elements will be arranged by margin and relative widget name.
          */
-        enum class Type
+        enum struct Type : std::uint8_t
         {
             NONE = 0,
             LINEAR,
@@ -147,7 +149,7 @@ namespace ui
          * Default destructor.
          * @lua NA
          */
-        virtual ~LayoutParameter(){};
+        ~LayoutParameter() override = default;
 
         /**
          * Create a empty LayoutParameter.
@@ -212,7 +214,7 @@ namespace ui
         /**
          * Default destructor.
          */
-        virtual ~LayoutParameterProtocol() {}
+        virtual ~LayoutParameterProtocol();
 
         /**
          *
@@ -258,7 +260,7 @@ namespace ui
          *
          * @lua NA
          */
-        virtual ~LinearLayoutParameter(){};
+        ~LinearLayoutParameter() override {}
 
         /**
          * Create a empty LinearLayoutParameter instance.
@@ -283,8 +285,8 @@ namespace ui
         LinearGravity getGravity() const;
 
         // override functions.
-        virtual LayoutParameter* createCloneInstance() override;
-        virtual void copyProperties(LayoutParameter* model) override;
+        LayoutParameter* createCloneInstance() override;
+        void copyProperties(LayoutParameter* model) override;
 
     protected:
         LinearGravity _linearGravity;
@@ -349,7 +351,7 @@ namespace ui
          *
          * @lua NA
          */
-        virtual ~RelativeLayoutParameter(){};
+        ~RelativeLayoutParameter() override {}
 
         /**
          * Create a RelativeLayoutParameter instance.
@@ -401,8 +403,8 @@ namespace ui
         const std::string& getRelativeName() const;
 
         // override functions.
-        virtual LayoutParameter* createCloneInstance() override;
-        virtual void copyProperties(LayoutParameter* model) override;
+        LayoutParameter* createCloneInstance() override;
+        void copyProperties(LayoutParameter* model) override;
 
     protected:
         RelativeAlign _relativeAlign;
@@ -417,4 +419,4 @@ NS_CC_END
 // end of ui group
 /// @}
 
-#endif /* defined(__LayoutParameter__) */
+#endif // CC_UI_LAYOUTPARAMETER_H

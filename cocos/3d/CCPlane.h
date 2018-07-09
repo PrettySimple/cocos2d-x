@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PLANE_H_
-#define __CC_PLANE_H_
+#ifndef CC_3D_PLANE_H
+#define CC_3D_PLANE_H
 
 #include "base/ccMacros.h"
 #include "math/CCMath.h"
@@ -107,4 +107,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_3D_PLANE_H

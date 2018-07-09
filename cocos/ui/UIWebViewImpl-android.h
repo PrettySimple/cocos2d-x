@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __COCOS2D__UI__WEBVIEWIMPL_ANDROID_H_
-#define __COCOS2D__UI__WEBVIEWIMPL_ANDROID_H_
+#ifndef CC_UI_WEBVIEWIMPLANDROID_H
+#define CC_UI_WEBVIEWIMPLANDROID_H
 /// @cond DO_NOT_SHOW
 
 #ifdef __ANDROID__
@@ -108,4 +108,4 @@ namespace cocos2d
 #endif // __ANDROID__
 
 /// @endcond
-#endif /* __COCOS2D__UI__WEBVIEWIMPL_ANDROID_H_ */
+#endif // CC_UI_WEBVIEWIMPLANDROID_H

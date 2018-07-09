@@ -94,8 +94,6 @@ bool PUOnCountObserver::observe(PUParticle3D* particle, float timeElapsed)
             return false;
         }
     }
-
-    return false;
 }
 
 PUOnCountObserver* PUOnCountObserver::create()

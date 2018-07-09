@@ -22,11 +22,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCDATAVISITOR_H__
-#define __CCDATAVISITOR_H__
+#ifndef CC_BASE_DATAVISITOR_H
+#define CC_BASE_DATAVISITOR_H
 /// @cond DO_NOT_SHOW
 
+#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
+
 #include <string>
 
 NS_CC_BEGIN
@@ -109,4 +111,4 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif // __CCDATAVISITOR_H__
+#endif // CC_BASE_DATAVISITOR_H

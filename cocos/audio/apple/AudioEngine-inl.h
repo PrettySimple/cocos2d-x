@@ -23,28 +23,28 @@
  THE SOFTWARE.
  ****************************************************************************/
 
+#ifndef CC_AUDIO_APPLE_AUDIOENGINEINL_H
+#define CC_AUDIO_APPLE_AUDIOENGINEINL_H
+
+#include "audio/apple/ALAudioPlayer.h"
+#include "audio/apple/AudioCache.h"
+#include "audio/apple/AudioPlayer.h"
+#include "audio/apple/SimpleAudioPlayer.h"
+#include "base/CCRef.h"
 #include "platform/CCPlatformConfig.h"
+
+#include <chrono>
+#include <list>
+#include <unordered_map>
+
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
-
-#    ifndef __AUDIO_ENGINE_INL_H_
-#        define __AUDIO_ENGINE_INL_H_
-
-#        include <chrono>
-#        include <list>
-#        include <unordered_map>
-
-#        include "audio/apple/ALAudioPlayer.h"
-#        include "audio/apple/AudioCache.h"
-#        include "audio/apple/AudioPlayer.h"
-#        include "audio/apple/SimpleAudioPlayer.h"
-#        include "base/CCRef.h"
 
 NS_CC_BEGIN
 class Scheduler;
 
 namespace experimental
 {
-#        define MAX_AUDIOINSTANCES 24
+#    define MAX_AUDIOINSTANCES 24
 
     class AudioEngineImpl : public cocos2d::Ref
     {
@@ -96,5 +96,5 @@ namespace experimental
     };
 } // namespace experimental
 NS_CC_END
-#    endif // __AUDIO_ENGINE_INL_H_
 #endif
+#endif // CC_AUDIO_APPLE_AUDIOENGINEINL_H

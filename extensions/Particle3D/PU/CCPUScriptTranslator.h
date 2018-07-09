@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_SCRIPT_TRANSLATOR_H__
-#define __CC_PU_SCRIPT_TRANSLATOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTTRANSLATOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTTRANSLATOR_H
 
 #include <iostream>
 
@@ -588,7 +588,7 @@ enum eDefineStaticToken
 };
 
 // Static tokens: Note, that the order must be the same as the enum
-static const std::string token[1000] = {
+static const std::string token[] = {
     // Generic
     "group_mask", "acceleration", "max_increment", "min_increment", "number_of_iterations", "colour_change", "initial_colour", "random_initial_colour",
     "use_vertex_colours", "use_own_rotation", "max_deviation", "time_step", "box_width", "box_height", "box_depth", "velocity", "speed", "rotation_speed",
@@ -983,4 +983,4 @@ public:
 };
 NS_CC_END
 
-#endif /* defined(__ssaafsdf__CCScriptTranslator__) */
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTTRANSLATOR_H

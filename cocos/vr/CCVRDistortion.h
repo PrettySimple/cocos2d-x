@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CCVRDistortion_h
-#define CCVRDistortion_h
+#ifndef CC_VR_DISTORTION_H
+#define CC_VR_DISTORTION_H
 
 #include "platform/CCPlatformMacros.h"
 
@@ -50,4 +50,4 @@ private:
 
 NS_CC_END
 
-#endif /* CCVRDistortion_h */
+#endif // CC_VR_DISTORTION_H

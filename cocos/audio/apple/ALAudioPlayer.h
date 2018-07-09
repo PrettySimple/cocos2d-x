@@ -49,7 +49,7 @@ namespace experimental
     {
     public:
         ALAudioPlayer(AudioCache& audioCache);
-        virtual ~ALAudioPlayer();
+        ~ALAudioPlayer() override;
 
         void destroy() override;
 

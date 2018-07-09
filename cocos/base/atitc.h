@@ -22,13 +22,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef COCOS2DX_PLATFORM_THIRDPARTY_ATITC_
-#define COCOS2DX_PLATFORM_THIRDPARTY_ATITC_
-/// @cond DO_NOT_SHOW
+#ifndef CC_BASE_ATITC_H
+#define CC_BASE_ATITC_H
 
-#include "platform/CCStdC.h"
+#include <cstdint>
 
-enum class ATITCDecodeFlag
+enum struct ATITCDecodeFlag : std::uint8_t
 {
     ATC_RGB = 1,
     ATC_EXPLICIT_ALPHA = 3,
@@ -36,7 +35,6 @@ enum class ATITCDecodeFlag
 };
 
 // Decode ATITC encode data to RGB32
-void atitc_decode(uint8_t* encode_data, uint8_t* decode_data, const int pixelsWidth, const int pixelsHeight, ATITCDecodeFlag decodeFlag);
+void atitc_decode(std::uint8_t* encode_data, std::uint8_t* decode_data, int pixelsWidth, int pixelsHeight, ATITCDecodeFlag decodeFlag);
 
-/// @endcond
-#endif /* defined(COCOS2DX_PLATFORM_THIRDPARTY_ATITC_) */
+#endif // CC_BASE_ATITC_H

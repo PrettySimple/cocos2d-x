@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__NodeReaderDefine__
-#define __cocos2d_libs__NodeReaderDefine__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_NODEREADERDEFINE_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_NODEREADERDEFINE_H
 
 #include "base/ObjectFactory.h"
 #include <string>
@@ -45,4 +45,4 @@ public:                                          \
 
 #define FLATSTR_TO_BOOL(str) (str.compare("True") == 0) ? true : false
 
-#endif /* defined(__cocos2d_libs__NodeReaderDefine__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_NODEREADERDEFINE_H

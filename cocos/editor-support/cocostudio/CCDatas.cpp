@@ -294,7 +294,7 @@ namespace cocostudio
 
     MovementData* AnimationData::getMovement(const std::string& movementName) { return movementDataDic.at(movementName); }
 
-    ssize_t AnimationData::getMovementCount() { return movementDataDic.size(); }
+    std::size_t AnimationData::getMovementCount() { return movementDataDic.size(); }
 
     ContourData::ContourData() {}
 

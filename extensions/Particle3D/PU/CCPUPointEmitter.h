@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_POINT_EMITTER_H__
-#define __CC_PU_PARTICLE_3D_POINT_EMITTER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_POINTEMITTER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_POINTEMITTER_H
 
 #include "extensions/Particle3D/PU/CCPUEmitter.h"
 
@@ -35,12 +35,12 @@ class CC_DLL PUPointEmitter : public PUEmitter
 public:
     static PUPointEmitter* create();
 
-    virtual PUPointEmitter* clone() override;
-    virtual void copyAttributesTo(PUEmitter* emitter) override;
+    PUPointEmitter* clone() override;
+    void copyAttributesTo(PUEmitter* emitter) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUPointEmitter(void);
-    virtual ~PUPointEmitter(void);
+    CC_CONSTRUCTOR_ACCESS : PUPointEmitter();
+    ~PUPointEmitter() override;
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_POINTEMITTER_H

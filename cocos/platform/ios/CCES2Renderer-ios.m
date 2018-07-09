@@ -56,8 +56,7 @@
           withPixelFormat:(unsigned int)pixelFormat
            withSharegroup:(EAGLSharegroup*)sharegroup
         withMultiSampling:(BOOL)multiSampling
-      withNumberOfSamples:(unsigned int)requestedSamples
-{
+      withNumberOfSamples:(unsigned int)requestedSamples {
     self = [super init];
     if (self)
     {
@@ -105,8 +104,7 @@
     return self;
 }
 
-- (BOOL)resizeFromLayer:(CAEAGLLayer*)layer
-{
+- (BOOL)resizeFromLayer:(CAEAGLLayer*)layer {
     // Allocate color buffer backing based on the current layer size
     glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer_);
 
@@ -190,38 +188,31 @@
     return YES;
 }
 
-- (CGSize)backingSize
-{
+- (CGSize)backingSize {
     return CGSizeMake(backingWidth_, backingHeight_);
 }
 
-- (NSString*)description
-{
+- (NSString*)description {
     return [NSString stringWithFormat:@"<%@ = %08X | size = %ix%i>", [self class], (unsigned int)self, backingWidth_, backingHeight_];
 }
 
-- (unsigned int)colorRenderBuffer
-{
+- (unsigned int)colorRenderBuffer {
     return colorRenderbuffer_;
 }
 
-- (unsigned int)defaultFrameBuffer
-{
+- (unsigned int)defaultFrameBuffer {
     return defaultFramebuffer_;
 }
 
-- (unsigned int)msaaFrameBuffer
-{
+- (unsigned int)msaaFrameBuffer {
     return msaaFramebuffer_;
 }
 
-- (unsigned int)msaaColorBuffer
-{
+- (unsigned int)msaaColorBuffer {
     return msaaColorbuffer_;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     //    CCLOGINFO("deallocing CCES2Renderer: %p", self);
 
     // Tear down GL

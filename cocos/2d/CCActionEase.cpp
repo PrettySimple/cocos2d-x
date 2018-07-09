@@ -104,6 +104,10 @@ ActionInterval* ActionEase::getInnerAction()
 // EaseRateAction
 //
 
+EaseRateAction::~EaseRateAction()
+{
+}
+
 EaseRateAction* EaseRateAction::create(ActionInterval* action, float rate)
 {
     CCASSERT(action != nullptr, "action cannot be nullptr!");
@@ -218,6 +222,10 @@ EASERATE_TEMPLATE_IMPL(EaseInOut, tweenfunc::easeInOut);
 //
 // EaseElastic
 //
+
+EaseElastic::~EaseElastic()
+{
+}
 
 bool EaseElastic::initWithAction(ActionInterval* action, float period /* = .3f*/)
 {

@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_RIBBON_TRAIL_RENDER_H__
-#define __CC_PU_PARTICLE_3D_RIBBON_TRAIL_RENDER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_RIBBONTRAILRENDER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_RIBBONTRAILRENDER_H
 
 #include "base/CCRef.h"
 #include "extensions/Particle3D/CCParticle3DRender.h"
@@ -45,7 +45,9 @@ public:
     : node(sceneNode)
     , addedToTrail(false)
     , trail(ribbonTrail)
-    , index(0){};
+    , index(0)
+    {
+    }
 
     Node* node;
     bool addedToTrail;
@@ -87,14 +89,14 @@ public:
 
     static PURibbonTrailRender* create(const std::string& texFile = "");
 
-    virtual void notifyRescaled(const Vec3& scale) override;
-    virtual void prepare() override;
-    virtual void unPrepare() override;
-    virtual void updateRender(PUParticle3D* particle, float deltaTime, bool firstParticle) override;
+    void notifyRescaled(const Vec3& scale) override;
+    void prepare() override;
+    void unPrepare() override;
+    void updateRender(PUParticle3D* particle, float deltaTime, bool firstParticle) override;
 
-    virtual void render(Renderer* renderer, const Mat4& transform, ParticleSystem3D* particleSystem) override;
-    virtual void particleEmitted(PUParticleSystem3D* particleSystem, PUParticle3D* particle) override;
-    virtual void particleExpired(PUParticleSystem3D* particleSystem, PUParticle3D* particle) override;
+    void render(Renderer* renderer, const Mat4& transform, ParticleSystem3D* particleSystem) override;
+    void particleEmitted(PUParticleSystem3D* particleSystem, PUParticle3D* particle) override;
+    void particleExpired(PUParticleSystem3D* particleSystem, PUParticle3D* particle) override;
 
     /** Getters and Setters
      */
@@ -123,11 +125,11 @@ public:
      */
     void destroyAll(void);
 
-    virtual PURibbonTrailRender* clone() override;
+    PURibbonTrailRender* clone() override;
     void copyAttributesTo(PURibbonTrailRender* render);
 
     CC_CONSTRUCTOR_ACCESS : PURibbonTrailRender();
-    virtual ~PURibbonTrailRender();
+    ~PURibbonTrailRender() override;
 
     void updateParticles(const ParticlePool& pool);
 
@@ -151,4 +153,4 @@ protected:
 };
 
 NS_CC_END
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_RIBBONTRAILRENDER_H

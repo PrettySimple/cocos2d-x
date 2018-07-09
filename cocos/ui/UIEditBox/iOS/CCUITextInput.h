@@ -22,8 +22,15 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef cocos2d_libs_CCUITextInput_h
-#define cocos2d_libs_CCUITextInput_h
+#ifndef CC_UI_EDITBOX_IOS_TEXTINPUT_H
+#define CC_UI_EDITBOX_IOS_TEXTINPUT_H
+
+#import <Foundation/NSObject.h>
+#import <Foundation/NSString.h>
+#import <UIKit/UIColor.h>
+#import <UIKit/UIFont.h>
+#import <UIKit/UITextField.h>
+#import <UIKit/UITextView.h>
 
 static const int CC_EDIT_BOX_PADDING = 5;
 
@@ -43,4 +50,4 @@ static const int CC_EDIT_BOX_PADDING = 5;
 
 @end
 
-#endif
+#endif // CC_UI_EDITBOX_IOS_TEXTINPUT_H

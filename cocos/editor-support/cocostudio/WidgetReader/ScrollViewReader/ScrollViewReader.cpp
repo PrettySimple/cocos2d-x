@@ -7,8 +7,11 @@
 #include "cocostudio/FlatBuffersSerialize.h"
 #include "ui/UIScrollView.h"
 
-#include "flatbuffers/flatbuffers.h"
-#include "tinyxml2.h"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <flatbuffers/flatbuffers.h>
+#include <tinyxml2/tinyxml2.h>
+#pragma clang diagnostic pop
 
 USING_NS_CC;
 using namespace ui;

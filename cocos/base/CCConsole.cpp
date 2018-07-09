@@ -260,7 +260,7 @@ bool Console::Utility::isFloat(const std::string& myString)
     return iss.eof() && !iss.fail();
 }
 
-ssize_t Console::Utility::sendToConsole(int fd, const void* buffer, size_t length, int flags)
+std::size_t Console::Utility::sendToConsole(int fd, const void* buffer, std::size_t length, int flags)
 {
     if (_prompt.length() == length)
     {
@@ -272,7 +272,7 @@ ssize_t Console::Utility::sendToConsole(int fd, const void* buffer, size_t lengt
     }
 
     const char* buf = static_cast<const char*>(buffer);
-    ssize_t retLen = 0;
+    std::size_t retLen = 0;
     for (size_t i = 0; i < length;)
     {
         size_t len = length - i;
@@ -286,7 +286,7 @@ ssize_t Console::Utility::sendToConsole(int fd, const void* buffer, size_t lengt
 
 // dprintf() is not defined in Android
 // so we add our own 'dpritnf'
-ssize_t Console::Utility::mydprintf(int sock, const char* format, ...)
+std::size_t Console::Utility::mydprintf(int sock, const char* format, ...)
 {
     va_list args;
     char buf[16386];
@@ -462,20 +462,20 @@ bool Console::listenOnTCP(int port)
         if (listenfd < 0)
             continue; /* error, try next one */
 
-        setsockopt(listenfd, SOL_SOCKET, SO_REUSEADDR, (const char*)&on, sizeof(on));
+        setsockopt(listenfd, SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<const char*>(&on), sizeof(on));
 
         // bind address
         if (!_bindAddress.empty())
         {
             if (res->ai_family == AF_INET)
             {
-                struct sockaddr_in* sin = (struct sockaddr_in*)res->ai_addr;
-                inet_pton(res->ai_family, _bindAddress.c_str(), (void*)&sin->sin_addr);
+                sockaddr_in* sin = reinterpret_cast<sockaddr_in*>(res->ai_addr);
+                inet_pton(res->ai_family, _bindAddress.c_str(), reinterpret_cast<void*>(&sin->sin_addr));
             }
             else if (res->ai_family == AF_INET6)
             {
-                struct sockaddr_in6* sin = (struct sockaddr_in6*)res->ai_addr;
-                inet_pton(res->ai_family, _bindAddress.c_str(), (void*)&sin->sin6_addr);
+                sockaddr_in6* sin = reinterpret_cast<sockaddr_in6*>(res->ai_addr);
+                inet_pton(res->ai_family, _bindAddress.c_str(), reinterpret_cast<void*>(&sin->sin6_addr));
             }
         }
 
@@ -502,7 +502,7 @@ bool Console::listenOnTCP(int port)
     if (res->ai_family == AF_INET)
     {
         char buf[INET_ADDRSTRLEN] = "";
-        struct sockaddr_in* sin = (struct sockaddr_in*)res->ai_addr;
+        sockaddr_in* sin = reinterpret_cast<sockaddr_in*>(res->ai_addr);
         if (inet_ntop(res->ai_family, &sin->sin_addr, buf, sizeof(buf)) != nullptr)
             cocos2d::log("Console: listening on  %s : %d", buf, ntohs(sin->sin_port));
         else
@@ -511,7 +511,7 @@ bool Console::listenOnTCP(int port)
     else if (res->ai_family == AF_INET6)
     {
         char buf[INET6_ADDRSTRLEN] = "";
-        struct sockaddr_in6* sin = (struct sockaddr_in6*)res->ai_addr;
+        sockaddr_in6* sin = reinterpret_cast<sockaddr_in6*>(res->ai_addr);
         if (inet_ntop(res->ai_family, &sin->sin6_addr, buf, sizeof(buf)) != nullptr)
             cocos2d::log("Console: listening on  %s : %d", buf, ntohs(sin->sin6_port));
         else
@@ -763,7 +763,7 @@ void Console::loop()
 // Helpers
 //
 
-ssize_t Console::readline(int fd, char* ptr, size_t maxlen)
+std::size_t Console::readline(int fd, char* ptr, size_t maxlen)
 {
     size_t n, rc;
     char c;
@@ -788,7 +788,7 @@ ssize_t Console::readline(int fd, char* ptr, size_t maxlen)
         }
         else
         {
-            return -1;
+            return std::numeric_limits<std::size_t>::max();
         }
     }
 
@@ -796,7 +796,7 @@ ssize_t Console::readline(int fd, char* ptr, size_t maxlen)
     return n;
 }
 
-ssize_t Console::readBytes(int fd, char* buffer, size_t maxlen, bool* more)
+std::size_t Console::readBytes(int fd, char* buffer, size_t maxlen, bool* more)
 {
     size_t n, rc;
     char c, *ptr = buffer;
@@ -821,7 +821,7 @@ ssize_t Console::readBytes(int fd, char* buffer, size_t maxlen, bool* more)
         }
         else
         {
-            return -1;
+            return std::numeric_limits<std::size_t>::max();
         }
     }
     *more = true;
@@ -833,7 +833,7 @@ bool Console::parseCommand(int fd)
     char buf[512];
     bool more_data;
     auto h = readBytes(fd, buf, 6, &more_data);
-    if (h < 0)
+    if (h == std::numeric_limits<std::size_t>::max())
     {
         return false;
     }
@@ -863,7 +863,7 @@ bool Console::parseCommand(int fd)
     {
         char* pb = buf + 6;
         auto r = readline(fd, pb, sizeof(buf) - 6);
-        if (r < 0)
+        if (r == std::numeric_limits<std::size_t>::max())
         {
             const char err[] = "Unknown error!\n";
             Console::Utility::sendPrompt(fd);
@@ -917,7 +917,7 @@ void Console::addClient()
 
     /* new client */
     client_len = sizeof(client);
-    int fd = accept(_listenfd, (struct sockaddr*)&client, &client_len);
+    int fd = accept(_listenfd, reinterpret_cast<sockaddr*>(&client), &client_len);
 
     // add fd to list of FD
     if (fd != -1)
@@ -936,7 +936,7 @@ void Console::addClient()
          */
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
         int set = 1;
-        setsockopt(fd, SOL_SOCKET, SO_NOSIGPIPE, (void*)&set, sizeof(int));
+        setsockopt(fd, SOL_SOCKET, SO_NOSIGPIPE, reinterpret_cast<void*>(&set), sizeof(int));
 #endif
     }
 }
@@ -947,20 +947,21 @@ void Console::addClient()
 
 void Console::createCommandAllocator()
 {
-    addCommand({"allocator", "Display allocator diagnostics for all allocators. Args: [-h | help | ]", CC_CALLBACK_2(Console::commandAllocator, this)});
+    addCommand({"allocator", "Display allocator diagnostics for all allocators. Args: [-h | help | ]",
+                [this](int fd, std::string const& args) { commandAllocator(fd, args); }});
 }
 
 void Console::createCommandConfig()
 {
-    addCommand({"config", "Print the Configuration object. Args: [-h | help | ]", CC_CALLBACK_2(Console::commandConfig, this)});
+    addCommand({"config", "Print the Configuration object. Args: [-h | help | ]", [this](int fd, std::string const& args) { commandConfig(fd, args); }});
 }
 
 void Console::createCommandDebugMsg()
 {
     addCommand({"debugmsg", "Whether or not to forward the debug messages on the console. Args: [-h | help | on | off | ]",
-                CC_CALLBACK_2(Console::commandDebugMsg, this)});
-    addSubCommand("debugmsg", {"on", "enable debug logging", CC_CALLBACK_2(Console::commandDebugMsgSubCommandOnOff, this)});
-    addSubCommand("debugmsg", {"off", "disable debug logging", CC_CALLBACK_2(Console::commandDebugMsgSubCommandOnOff, this)});
+                [this](int fd, std::string const& args) { commandDebugMsg(fd, args); }});
+    addSubCommand("debugmsg", {"on", "enable debug logging", [this](int fd, std::string const& args) { commandDebugMsgSubCommandOnOff(fd, args); }});
+    addSubCommand("debugmsg", {"off", "disable debug logging", [this](int fd, std::string const& args) { commandDebugMsgSubCommandOnOff(fd, args); }});
 }
 
 void Console::createCommandDirector()
@@ -968,80 +969,90 @@ void Console::createCommandDirector()
     addCommand({"director", "director commands, type -h or [director help] to list supported directives"});
     addSubCommand("director",
                   {"pause", "pause all scheduled timers, the draw rate will be 4 FPS to reduce CPU consumption",
-                   CC_CALLBACK_2(Console::commandDirectorSubCommandPause, this)});
-    addSubCommand("director", {"resume", "resume all scheduled timers", CC_CALLBACK_2(Console::commandDirectorSubCommandResume, this)});
-    addSubCommand("director", {"stop", "Stops the animation. Nothing will be drawn.", CC_CALLBACK_2(Console::commandDirectorSubCommandStop, this)});
+                   [this](int fd, std::string const& args) { commandDirectorSubCommandPause(fd, args); }});
+    addSubCommand("director", {"resume", "resume all scheduled timers", [this](int fd, std::string const& args) { commandDirectorSubCommandResume(fd, args); }});
+    addSubCommand("director",
+                  {"stop", "Stops the animation. Nothing will be drawn.", [this](int fd, std::string const& args) { commandDirectorSubCommandStop(fd, args); }});
     addSubCommand("director",
                   {"start", "Restart the animation again, Call this function only if [director stop] was called earlier",
-                   CC_CALLBACK_2(Console::commandDirectorSubCommandStart, this)});
-    addSubCommand("director", {"end", "exit this app.", CC_CALLBACK_2(Console::commandDirectorSubCommandEnd, this)});
+                   [this](int fd, std::string const& args) { commandDirectorSubCommandStart(fd, args); }});
+    addSubCommand("director", {"end", "exit this app.", [this](int fd, std::string const& args) { commandDirectorSubCommandEnd(fd, args); }});
 }
 
 void Console::createCommandExit()
 {
-    addCommand({"exit", "Close connection to the console. Args: [-h | help | ]", CC_CALLBACK_2(Console::commandExit, this)});
+    addCommand({"exit", "Close connection to the console. Args: [-h | help | ]", [this](int fd, std::string const& args) { commandExit(fd, args); }});
 }
 
 void Console::createCommandFileUtils()
 {
-    addCommand({"fileutils", "Flush or print the FileUtils info. Args: [-h | help | flush | ]", CC_CALLBACK_2(Console::commandFileUtils, this)});
-    addSubCommand("fileutils", {"flush", "Purges the file searching cache.", CC_CALLBACK_2(Console::commandFileUtilsSubCommandFlush, this)});
+    addCommand({"fileutils", "Flush or print the FileUtils info. Args: [-h | help | flush | ]",
+                [this](int fd, std::string const& args) { commandFileUtils(fd, args); }});
+    addSubCommand("fileutils",
+                  {"flush", "Purges the file searching cache.", [this](int fd, std::string const& args) { commandFileUtilsSubCommandFlush(fd, args); }});
 }
 
 void Console::createCommandFps()
 {
-    addCommand({"fps", "Turn on / off the FPS. Args: [-h | help | on | off | ]", CC_CALLBACK_2(Console::commandFps, this)});
-    addSubCommand("fps", {"on", "Display the FPS on the bottom-left corner.", CC_CALLBACK_2(Console::commandFpsSubCommandOnOff, this)});
-    addSubCommand("fps", {"off", "Hide the FPS on the bottom-left corner.", CC_CALLBACK_2(Console::commandFpsSubCommandOnOff, this)});
+    addCommand({"fps", "Turn on / off the FPS. Args: [-h | help | on | off | ]", [this](int fd, std::string const& args) { commandFps(fd, args); }});
+    addSubCommand("fps", {"on", "Display the FPS on the bottom-left corner.", [this](int fd, std::string const& args) { commandFpsSubCommandOnOff(fd, args); }});
+    addSubCommand("fps", {"off", "Hide the FPS on the bottom-left corner.", [this](int fd, std::string const& args) { commandFpsSubCommandOnOff(fd, args); }});
 }
 
 void Console::createCommandHelp()
 {
-    addCommand({"help", "Print this message. Args: [ ]", CC_CALLBACK_2(Console::commandHelp, this)});
+    addCommand({"help", "Print this message. Args: [ ]", [this](int fd, std::string const& args) { commandHelp(fd, args); }});
 }
 
 void Console::createCommandProjection()
 {
-    addCommand({"projection", "Change or print the current projection. Args: [-h | help | 2d | 3d | ]", CC_CALLBACK_2(Console::commandProjection, this)});
-    addSubCommand("projection", {"2d", "sets a 2D projection (orthogonal projection).", CC_CALLBACK_2(Console::commandProjectionSubCommand2d, this)});
+    addCommand({"projection", "Change or print the current projection. Args: [-h | help | 2d | 3d | ]",
+                [this](int fd, std::string const& args) { commandProjection(fd, args); }});
     addSubCommand("projection",
-                  {"3d", "sets a 3D projection with a fovy=60, znear=0.5f and zfar=1500.", CC_CALLBACK_2(Console::commandProjectionSubCommand3d, this)});
+                  {"2d", "sets a 2D projection (orthogonal projection).", [this](int fd, std::string const& args) { commandProjectionSubCommand2d(fd, args); }});
+    addSubCommand("projection", {"3d", "sets a 3D projection with a fovy=60, znear=0.5f and zfar=1500.", [this](int fd, std::string const& args) {
+                                     commandProjectionSubCommand3d(fd, args);
+                                 }});
 }
 
 void Console::createCommandResolution()
 {
     addCommand({"resolution", "Change or print the window resolution. Args: [-h | help | width height resolution_policy | ]",
-                CC_CALLBACK_2(Console::commandResolution, this)});
-    addSubCommand("resolution", {"", "", CC_CALLBACK_2(Console::commandResolutionSubCommandEmpty, this)});
+                [this](int fd, std::string const& args) { commandResolution(fd, args); }});
+    addSubCommand("resolution", {"", "", [this](int fd, std::string const& args) { commandResolutionSubCommandEmpty(fd, args); }});
 }
 
 void Console::createCommandSceneGraph()
 {
-    addCommand({"scenegraph", "Print the scene graph", CC_CALLBACK_2(Console::commandSceneGraph, this)});
+    addCommand({"scenegraph", "Print the scene graph", [this](int fd, std::string const& args) { commandSceneGraph(fd, args); }});
 }
 
 void Console::createCommandTexture()
 {
-    addCommand({"texture", "Flush or print the TextureCache info. Args: [-h | help | flush | ] ", CC_CALLBACK_2(Console::commandTextures, this)});
-    addSubCommand("texture", {"flush", "Purges the dictionary of loaded textures.", CC_CALLBACK_2(Console::commandTexturesSubCommandFlush, this)});
+    addCommand({"texture", "Flush or print the TextureCache info. Args: [-h | help | flush | ] ",
+                [this](int fd, std::string const& args) { commandTextures(fd, args); }});
+    addSubCommand("texture",
+                  {"flush", "Purges the dictionary of loaded textures.", [this](int fd, std::string const& args) { commandTexturesSubCommandFlush(fd, args); }});
 }
 
 void Console::createCommandTouch()
 {
     addCommand({"touch", "simulate touch event via console, type -h or [touch help] to list supported directives"});
-    addSubCommand("touch", {"tap", "touch tap x y: simulate touch tap at (x,y).", CC_CALLBACK_2(Console::commandTouchSubCommandTap, this)});
     addSubCommand("touch",
-                  {"swipe", "touch swipe x1 y1 x2 y2: simulate touch swipe from (x1,y1) to (x2,y2).", CC_CALLBACK_2(Console::commandTouchSubCommandSwipe, this)});
+                  {"tap", "touch tap x y: simulate touch tap at (x,y).", [this](int fd, std::string const& args) { commandTouchSubCommandTap(fd, args); }});
+    addSubCommand("touch", {"swipe", "touch swipe x1 y1 x2 y2: simulate touch swipe from (x1,y1) to (x2,y2).", [this](int fd, std::string const& args) {
+                                commandTouchSubCommandSwipe(fd, args);
+                            }});
 }
 
 void Console::createCommandUpload()
 {
-    addCommand({"upload", "upload file. Args: [filename base64_encoded_data]", CC_CALLBACK_1(Console::commandUpload, this)});
+    addCommand({"upload", "upload file. Args: [filename base64_encoded_data]", [this](int fd, const std::string&) { this->commandUpload(fd); }});
 }
 
 void Console::createCommandVersion()
 {
-    addCommand({"version", "print version string ", CC_CALLBACK_2(Console::commandVersion, this)});
+    addCommand({"version", "print version string ", [this](int fd, std::string const& args) { commandVersion(fd, args); }});
 }
 
 //
@@ -1165,10 +1176,6 @@ void Console::commandProjection(int fd, const std::string& args)
         case cocos2d::Director::Projection::CUSTOM:
             sprintf(buf, "custom");
             break;
-
-        default:
-            sprintf(buf, "unknown");
-            break;
     }
     Console::Utility::mydprintf(fd, "Current projection: %s\n", buf);
 }
@@ -1218,8 +1225,9 @@ void Console::commandResolutionSubCommandEmpty(int fd, const std::string& args)
                                 "Visible Rect:\n"
                                 "\torigin: %d x %d\n"
                                 "\tsize: %d x %d\n",
-                                (int)points.width, (int)points.height, (int)pixels.width, (int)pixels.height, (int)design.width, (int)design.height, (int)res,
-                                (int)visibleRect.origin.x, (int)visibleRect.origin.y, (int)visibleRect.size.width, (int)visibleRect.size.height);
+                                static_cast<int>(points.width), static_cast<int>(points.height), static_cast<int>(pixels.width), static_cast<int>(pixels.height),
+                                static_cast<int>(design.width), static_cast<int>(design.height), static_cast<int>(res), static_cast<int>(visibleRect.origin.x),
+                                static_cast<int>(visibleRect.origin.y), static_cast<int>(visibleRect.size.width), static_cast<int>(visibleRect.size.height));
 }
 
 void Console::commandSceneGraph(int fd, const std::string& args)
@@ -1252,7 +1260,7 @@ void Console::commandTouchSubCommandTap(int fd, const std::string& args)
         float x = utils::atof(argv[1].c_str());
         float y = utils::atof(argv[2].c_str());
 
-        std::srand((unsigned)time(nullptr));
+        std::srand(static_cast<unsigned>(time(nullptr)));
         _touchId = rand();
         Scheduler* sched = Director::getInstance()->getScheduler();
         sched->performFunctionInCocosThread([&]() {
@@ -1279,7 +1287,7 @@ void Console::commandTouchSubCommandSwipe(int fd, const std::string& args)
         float x2 = utils::atof(argv[3].c_str());
         float y2 = utils::atof(argv[4].c_str());
 
-        std::srand((unsigned)time(nullptr));
+        std::srand(static_cast<unsigned>(time(nullptr)));
         _touchId = rand();
 
         Scheduler* sched = Director::getInstance()->getScheduler();
@@ -1362,7 +1370,7 @@ static char invalid_filename_char[] = {':', '/', '\\', '?', '%', '*', '<', '>', 
 
 void Console::commandUpload(int fd)
 {
-    ssize_t n, rc;
+    std::size_t n, rc;
     char buf[512], c;
     char* ptr = buf;
     // read file name
@@ -1425,7 +1433,7 @@ void Console::commandUpload(int fd)
             break;
         }
         unsigned char* decode;
-        unsigned char* in = (unsigned char*)data;
+        unsigned char* in = reinterpret_cast<unsigned char*>(data);
         int dt = base64Decode(in, 4, &decode);
         for (int i = 0; i < dt; i++)
         {
@@ -1506,9 +1514,9 @@ void Console::sendHelp(int fd, const std::map<std::string, Command>& commands, c
             continue;
 
         Console::Utility::mydprintf(fd, "\t%s", command.name.c_str());
-        ssize_t tabs = strlen(command.name.c_str()) / 8;
+        std::size_t tabs = strlen(command.name.c_str()) / 8;
         tabs = 3 - tabs;
-        for (int j = 0; j < tabs; j++)
+        for (std::size_t j = 0; j < tabs; j++)
         {
             Console::Utility::mydprintf(fd, "\t");
         }

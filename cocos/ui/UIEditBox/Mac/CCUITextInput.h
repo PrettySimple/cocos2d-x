@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CCUITextInput_h
-#define CCUITextInput_h
+#ifndef CC_UI_EDITBOX_MAC_TEXTINPUT_H
+#define CC_UI_EDITBOX_MAC_TEXTINPUT_H
 
 /**
  This protocol provides a common interface for consolidating text input method calls
@@ -44,4 +44,4 @@
 
 @end
 
-#endif /* CCUITextInput_h */
+#endif // CC_UI_EDITBOX_MAC_TEXTINPUT_H

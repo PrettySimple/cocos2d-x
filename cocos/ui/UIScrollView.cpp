@@ -23,12 +23,14 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "ui/UIScrollView.h"
-#include "2d/CCCamera.h"
+
 #include "2d/CCTweenFunction.h"
 #include "base/CCDirector.h"
+#include "base/CCTouch.h"
 #include "base/ccUtils.h"
 #include "platform/CCDevice.h"
 #include "ui/UIScrollViewBar.h"
+
 NS_CC_BEGIN
 
 static const int NUMBER_OF_GATHERED_TOUCHES_FOR_MOVE_SPEED = 5;
@@ -257,7 +259,7 @@ namespace ui
 
     const Vector<Node*>& ScrollView::getChildren() const { return _innerContainer->getChildren(); }
 
-    ssize_t ScrollView::getChildrenCount() const { return _innerContainer->getChildrenCount(); }
+    std::size_t ScrollView::getChildrenCount() const { return _innerContainer->getChildrenCount(); }
 
     Node* ScrollView::getChildByTag(int tag) const { return _innerContainer->getChildByTag(tag); }
 

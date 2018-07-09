@@ -29,14 +29,11 @@
 NS_CC_BEGIN
 
 EventMouse::EventMouse(MouseEventType mouseEventCode)
-: Event(Type::MOUSE)
-, _mouseEventType(mouseEventCode)
-, _mouseButton(-1)
-, _x(0.0f)
-, _y(0.0f)
-, _scrollX(0.0f)
-, _scrollY(0.0f)
-, _startPointCaptured(false){};
+: Event(Type::MOUSE){};
+
+EventMouse::~EventMouse()
+{
+}
 
 // returns the current touch location in screen coordinates
 Vec2 EventMouse::getLocationInView() const

@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_BEHAVIOUR_H__
-#define __CC_PU_PARTICLE_3D_BEHAVIOUR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_BEHAVIOUR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_BEHAVIOUR_H
 
 #include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
@@ -44,31 +44,31 @@ class CC_DLL PUBehaviour : public Ref
 public:
     /** Todo
      */
-    const std::string& getBehaviourType(void) const { return _behaviourType; };
-    void setBehaviourType(const std::string& behaviourType) { _behaviourType = behaviourType; };
+    inline std::string const& getBehaviourType() const noexcept { return _behaviourType; }
+    inline void setBehaviourType(std::string const& behaviourType) { _behaviourType = behaviourType; }
 
     /** Notify that the Behaviour is rescaled.
      */
-    virtual void notifyRescaled(const Vec3& scale) { _behaviourScale = scale; };
+    inline virtual void notifyRescaled(Vec3 const& scale) { _behaviourScale = scale; }
 
-    virtual void prepare(){};
-    virtual void unPrepare(){};
+    inline virtual void prepare() {}
+    inline virtual void unPrepare() {}
 
-    virtual void updateBehaviour(PUParticle3D* particle, float deltaTime){};
+    inline virtual void updateBehaviour(PUParticle3D* particle, float deltaTime) {}
 
     /** Perform initialising activities as soon as the particle with which the ParticleBehaviour is
         associated, is emitted.
     */
-    virtual void initParticleForEmission(PUParticle3D* particle){/* No implementation */};
+    inline virtual void initParticleForEmission(PUParticle3D* particle) {}
     /** Perform some action if a particle expires.
      */
-    virtual void initParticleForExpiration(PUParticle3D* particle, float timeElapsed){/* No implementation */};
+    inline virtual void initParticleForExpiration(PUParticle3D* particle, float timeElapsed) {}
 
     virtual PUBehaviour* clone();
     virtual void copyAttributesTo(PUBehaviour* behaviour);
 
-    CC_CONSTRUCTOR_ACCESS : PUBehaviour(void);
-    virtual ~PUBehaviour(void);
+    CC_CONSTRUCTOR_ACCESS : PUBehaviour();
+    ~PUBehaviour() override;
 
 protected:
     PUParticleSystem3D* _particleSystem;
@@ -83,4 +83,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_BEHAVIOUR_H

@@ -35,6 +35,8 @@ NS_CC_BEGIN
 
 namespace ui
 {
+    EditBoxDelegate::~EditBoxDelegate() {}
+
     static constexpr auto const CHECK_EDITBOX_POSITION_INTERVAL = 100ms;
 
     EditBox::EditBox(void)
@@ -123,7 +125,7 @@ namespace ui
 
             this->setTouchEnabled(true);
 
-            this->addTouchEventListener(CC_CALLBACK_2(EditBox::touchDownAction, this));
+            this->addTouchEventListener([this](Ref* ref, Widget::TouchEventType event_type) { touchDownAction(ref, event_type); });
 
             return true;
         }
@@ -155,7 +157,7 @@ namespace ui
 
             this->setTouchEnabled(true);
 
-            this->addTouchEventListener(CC_CALLBACK_2(EditBox::touchDownAction, this));
+            this->addTouchEventListener([this](Ref* ref, Widget::TouchEventType event_type) { touchDownAction(ref, event_type); });
 
             return true;
         }

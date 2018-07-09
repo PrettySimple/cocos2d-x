@@ -22,8 +22,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CC_PU_PARTICLE_3D_EVENT_HANDLER_TRANSLATOR_H__
-#define __CC_PU_PARTICLE_3D_EVENT_HANDLER_TRANSLATOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_EVENTHANDLERTRANSLATOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_EVENTHANDLERTRANSLATOR_H
 
 #include "extensions/Particle3D/PU/CCPUEventHandler.h"
 #include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
@@ -37,11 +37,11 @@ protected:
     PUEventHandler* _handler;
 
 public:
-    PUEventHandlerTranslator(void);
-    virtual ~PUEventHandlerTranslator(void){};
-    virtual void translate(PUScriptCompiler* compiler, PUAbstractNode* node);
+    PUEventHandlerTranslator();
+    ~PUEventHandlerTranslator() override = default;
+    void translate(PUScriptCompiler* compiler, PUAbstractNode* node) override;
 };
 
 NS_CC_END
 
-#endif /* defined(__cocos2d_libs__CCParticle3DAffectorTranslator__) */
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_EVENTHANDLERTRANSLATOR_H

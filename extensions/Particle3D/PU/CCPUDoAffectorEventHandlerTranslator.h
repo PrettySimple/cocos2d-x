@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_DO_AFFECTOR_EVENT_HANDLER_TRANSLATOR_H__
-#define __CC_PU_PARTICLE_3D_DO_AFFECTOR_EVENT_HANDLER_TRANSLATOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_DOAFFECTOREVENTHANDLERTRANSLATOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_DOAFFECTOREVENTHANDLERTRANSLATOR_H
 
 #include "extensions/Particle3D/PU/CCPUDoAffectorEventHandler.h"
 #include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
@@ -36,12 +36,12 @@ class PUDoAffectorEventHandlerTranslator : public PUScriptTranslator
 {
 public:
     PUDoAffectorEventHandlerTranslator();
-    virtual ~PUDoAffectorEventHandlerTranslator(){};
+    ~PUDoAffectorEventHandlerTranslator() override = default;
 
-    virtual bool translateChildProperty(PUScriptCompiler* compiler, PUAbstractNode* node);
-    virtual bool translateChildObject(PUScriptCompiler* compiler, PUAbstractNode* node);
+    bool translateChildProperty(PUScriptCompiler* compiler, PUAbstractNode* node) override;
+    bool translateChildObject(PUScriptCompiler* compiler, PUAbstractNode* node) override;
 };
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_DOAFFECTOREVENTHANDLERTRANSLATOR_H

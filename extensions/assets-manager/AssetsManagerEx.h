@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __AssetsManagerEx__
-#define __AssetsManagerEx__
+#ifndef CC_EXTENSIONS_ASSETSMANAGER_ASSETSMANAGEREX_H
+#define CC_EXTENSIONS_ASSETSMANAGER_ASSETSMANAGEREX_H
 
 #include <string>
 #include <unordered_map>
@@ -269,4 +269,4 @@ private:
 
 NS_CC_EXT_END
 
-#endif /* defined(__AssetsManagerEx__) */
+#endif // CC_EXTENSIONS_ASSETSMANAGER_ASSETSMANAGEREX_H

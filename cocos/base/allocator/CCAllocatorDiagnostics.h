@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_ALLOCATOR_DIAGNOSTICS_H
-#define CC_ALLOCATOR_DIAGNOSTICS_H
+#ifndef CC_BASE_ALLOCATOR_ALLOCATORDIAGNOSTICS_H
+#define CC_BASE_ALLOCATOR_ALLOCATORDIAGNOSTICS_H
 /// @cond DO_NOT_SHOW
 
 #include <unordered_set>
@@ -57,4 +57,4 @@ NS_CC_ALLOCATOR_END
 NS_CC_END
 
 /// @endcond
-#endif // CC_ALLOCATOR_DIAGNOSTICS_H
+#endif // CC_BASE_ALLOCATOR_ALLOCATORDIAGNOSTICS_H

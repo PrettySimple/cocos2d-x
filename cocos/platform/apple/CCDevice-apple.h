@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CCDevice_apple_hpp
-#define CCDevice_apple_hpp
+#ifndef CC_PLATFORM_APPLE_DEVICEAPPLE_H
+#define CC_PLATFORM_APPLE_DEVICEAPPLE_H
 
 #include "platform/CCDevice.h"
 #include "platform/CCPlatformConfig.h"
@@ -42,4 +42,4 @@ namespace FontUtils
     CGFloat _calculateTextDrawStartWidth(cocos2d::Device::TextAlign align, CGSize realDimensions, CGSize dimensions);
 }
 
-#endif /* CCDevice_apple_hpp */
+#endif // CC_PLATFORM_APPLE_DEVICEAPPLE_H

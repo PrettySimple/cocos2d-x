@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __COCOS2D_UI_WEBVIEW_H
-#define __COCOS2D_UI_WEBVIEW_H
+#ifndef CC_UI_WEBVIEW_H
+#define CC_UI_WEBVIEW_H
 
 #include "platform/CCPlatformConfig.h"
 
@@ -201,18 +201,18 @@ namespace experimental
              */
             void setBounces(bool bounce);
 
-            virtual void draw(cocos2d::Renderer* renderer, cocos2d::Mat4 const& transform, uint32_t flags) override;
+            void draw(cocos2d::Renderer* renderer, cocos2d::Mat4 const& transform, uint32_t flags) override;
 
             /**
              * Toggle visibility of WebView.
              */
-            virtual void setVisible(bool visible) override;
-            virtual void onEnter() override;
-            virtual void onExit() override;
+            void setVisible(bool visible) override;
+            void onEnter() override;
+            void onExit() override;
 
         protected:
-            virtual cocos2d::ui::Widget* createCloneInstance() override;
-            virtual void copySpecialProperties(Widget* model) override;
+            cocos2d::ui::Widget* createCloneInstance() override;
+            void copySpecialProperties(Widget* model) override;
 
             std::function<bool(WebView* sender, const std::string& url)> _onShouldStartLoading;
 
@@ -231,7 +231,7 @@ namespace experimental
             /**
              * Default destructor.
              */
-            virtual ~WebView();
+            ~WebView() override;
 
         private:
             WebViewImpl* _impl;
@@ -245,4 +245,4 @@ namespace experimental
 #endif
 // end group
 /// @}
-#endif //__COCOS2D_UI_WEBVIEW_H
+#endif // CC_UI_WEBVIEW_H

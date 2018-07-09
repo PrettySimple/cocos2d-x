@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_ON_QUOTA_OBSERVER_H__
-#define __CC_PU_PARTICLE_3D_ON_QUOTA_OBSERVER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_ONQUOTAOBSERVER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_ONQUOTAOBSERVER_H
 
 #include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUObserver.h"
@@ -42,17 +42,17 @@ public:
     static PUOnQuotaObserver* create();
 
     /** @copydoc ParticleObserver::_notifyStart */
-    virtual bool observe(PUParticle3D* particle, float timeElapsed) override;
+    bool observe(PUParticle3D* particle, float timeElapsed) override;
 
     /** @copydoc ParticleObserver::_notifyStart */
-    virtual void postUpdateObserver(float deltaTime) override;
+    void postUpdateObserver(float deltaTime) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUOnQuotaObserver(void)
+    CC_CONSTRUCTOR_ACCESS : PUOnQuotaObserver()
     : PUObserver()
     , _result(false)
     {
     }
-    virtual ~PUOnQuotaObserver(void){};
+    ~PUOnQuotaObserver() override = default;
 
 protected:
     bool _result;
@@ -60,4 +60,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_ONQUOTAOBSERVER_H

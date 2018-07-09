@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef COCOS2D_RENDERER_BATCHCOMMAND_H
-#define COCOS2D_RENDERER_BATCHCOMMAND_H
+#ifndef CC_RENDERER_BATCHCOMMAND_H
+#define CC_RENDERER_BATCHCOMMAND_H
 
 #include "base/ccTypes.h"
 #include "renderer/CCRenderCommand.h"
@@ -44,7 +44,7 @@ public:
     BatchCommand& operator=(BatchCommand const&) = delete;
     BatchCommand(BatchCommand&&) noexcept = delete;
     BatchCommand& operator=(BatchCommand&&) noexcept = delete;
-    ~BatchCommand() final = default;
+    ~BatchCommand() final;
     /**Init the batch command.
     @param globalZOrder GlobalZOrder of the render command.
     @param shader Shader used for draw the texture atlas.
@@ -74,4 +74,4 @@ protected:
 
 NS_CC_END
 
-#endif // COCOS2D_RENDERER_BATCHCOMMAND_H
+#endif // CC_RENDERER_BATCHCOMMAND_H

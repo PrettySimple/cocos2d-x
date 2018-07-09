@@ -37,11 +37,11 @@ PUDoPlacementParticleEventHandler::PUDoPlacementParticleEventHandler(void)
 : PUEventHandler()
 , PUListener()
 , _numberOfParticles(DEFAULT_NUMBER_OF_PARTICLES)
-, _system(0)
-, _emitter(0)
+, _system(nullptr)
+, _emitter(nullptr)
 , _found(false)
 , _alwaysUsePosition(true)
-, _baseParticle(0)
+, _baseParticle(nullptr)
 , _inheritPosition(true)
 , _inheritDirection(false)
 , _inheritOrientation(false)
@@ -117,7 +117,7 @@ void PUDoPlacementParticleEventHandler::handle(PUParticleSystem3D* particleSyste
         _system->forceEmission(_emitter, _numberOfParticles);
     }
 
-    _baseParticle = 0;
+    _baseParticle = nullptr;
 }
 //-----------------------------------------------------------------------
 void PUDoPlacementParticleEventHandler::particleEmitted(PUParticleSystem3D* particleSystem, PUParticle3D* particle)
@@ -242,8 +242,8 @@ void PUDoPlacementParticleEventHandler::removeAsListener(void)
         _system->removeListener(this);
     }
     _found = false;
-    _emitter = 0;
-    _system = 0;
+    _emitter = nullptr;
+    _system = nullptr;
 }
 
 PUDoPlacementParticleEventHandler* PUDoPlacementParticleEventHandler::create()

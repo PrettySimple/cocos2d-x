@@ -34,13 +34,17 @@
 #include "network/HttpClient.h"
 #include "network/WebSocket.h"
 
-#include "json/document.h"
-#include "json/rapidjson.h"
-#include "json/stringbuffer.h"
-#include "json/writer.h"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <json/document.h>
+#include <json/rapidjson.h>
+#include <json/stringbuffer.h>
+#include <json/writer.h>
+#pragma clang diagnostic pop
 
 #include <algorithm>
 #include <chrono>
+#include <cstdint>
 #include <iterator>
 #include <sstream>
 
@@ -57,14 +61,14 @@ namespace network
     class SocketIOPacket
     {
     public:
-        enum class SocketIOVersion
+        enum struct SocketIOVersion : std::uint8_t
         {
             V09x,
             V10x
         };
 
         SocketIOPacket();
-        virtual ~SocketIOPacket();
+        virtual ~SocketIOPacket() = default;
         void initWithType(const std::string& packetType);
         void initWithTypeIndex(int index);
 
@@ -72,13 +76,13 @@ namespace network
         virtual int typeAsNumber() const;
         const std::string& typeForIndex(int index) const;
 
-        void setEndpoint(const std::string& endpoint) { _endpoint = endpoint; };
-        const std::string& getEndpoint() const { return _endpoint; };
-        void setEvent(const std::string& event) { _name = event; };
-        const std::string& getEvent() const { return _name; };
+        inline void setEndpoint(const std::string& endpoint) noexcept { _endpoint = endpoint; }
+        inline const std::string& getEndpoint() const noexcept { return _endpoint; }
+        inline void setEvent(const std::string& event) { _name = event; }
+        inline const std::string& getEvent() const noexcept { return _name; }
 
         void addData(const std::string& data);
-        std::vector<std::string> getData() const { return _args; };
+        inline std::vector<std::string> getData() const noexcept { return _args; }
         virtual std::string stringify() const;
 
         static SocketIOPacket* createPacketWithType(const std::string& type, SocketIOVersion version);
@@ -100,7 +104,7 @@ namespace network
     {
     public:
         SocketIOPacketV10x();
-        virtual ~SocketIOPacketV10x();
+        ~SocketIOPacketV10x() override;
         int typeAsNumber() const override;
         std::string stringify() const override;
 
@@ -122,8 +126,6 @@ namespace network
         _types.push_back("error");
         _types.push_back("noop");
     }
-
-    SocketIOPacket::~SocketIOPacket() { _types.clear(); }
 
     void SocketIOPacket::initWithType(const std::string& packetType) { _type = packetType; }
     void SocketIOPacket::initWithTypeIndex(int index) { _type = _types.at(index); }
@@ -176,7 +178,7 @@ namespace network
         {
             num = item - _types.begin();
         }
-        return (int)num;
+        return static_cast<int>(num);
     }
     const std::string& SocketIOPacket::typeForIndex(int index) const { return _types.at(index); }
 
@@ -252,7 +254,7 @@ namespace network
             item = std::find(_types.begin(), _types.end(), _type);
             num += item - _types.begin();
         }
-        return (int)num;
+        return static_cast<int>(num);
     }
 
     std::string SocketIOPacketV10x::stringify() const
@@ -402,7 +404,7 @@ namespace network
         request->setUrl(pre.str());
         request->setRequestType(HttpRequest::Type::GET);
 
-        request->setResponseCallback(CC_CALLBACK_2(SIOClientImpl::handshakeResponse, this));
+        request->setResponseCallback([this](HttpClient* client, HttpResponse* response) { handshakeResponse(client, response); });
         request->setTag("handshake");
 
         CCLOGINFO("SIOClientImpl::handshake() waiting");
@@ -414,10 +416,9 @@ namespace network
         return;
     }
 
-    void SIOClientImpl::handshakeResponse(HttpClient* sender, HttpResponse* response)
+    void SIOClientImpl::handshakeResponse(HttpClient*, HttpResponse* response)
     {
         CCLOGINFO("SIOClientImpl::handshakeResponse() called");
-        CC_UNUSED_PARAM(sender);
 
         if (0 != strlen(response->getHttpRequest()->getTag()))
         {
@@ -636,9 +637,8 @@ namespace network
         }
     }
 
-    void SIOClientImpl::heartbeat(float dt)
+    void SIOClientImpl::heartbeat(float)
     {
-        CC_UNUSED_PARAM(dt);
         SocketIOPacket* packet = SocketIOPacket::createPacketWithType("heartbeat", _version);
 
         this->send(packet);
@@ -688,9 +688,8 @@ namespace network
         this->send(packet);
     }
 
-    void SIOClientImpl::onOpen(WebSocket* ws)
+    void SIOClientImpl::onOpen(WebSocket*)
     {
-        CC_UNUSED_PARAM(ws);
         _connected = true;
 
         SocketIO::getInstance()->addSocket(_uri, this);
@@ -712,10 +711,9 @@ namespace network
         CCLOGINFO("SIOClientImpl::onOpen socket connected!");
     }
 
-    void SIOClientImpl::onMessage(WebSocket* ws, const WebSocket::Data& data)
+    void SIOClientImpl::onMessage(WebSocket*, const WebSocket::Data& data)
     {
         CCLOGINFO("SIOClientImpl::onMessage received: %s", data.bytes);
-        CC_UNUSED_PARAM(ws);
 
         std::string payload = data.bytes;
         int control = atoi(payload.substr(0, 1).c_str());
@@ -956,9 +954,8 @@ namespace network
         return;
     }
 
-    void SIOClientImpl::onClose(WebSocket* ws)
+    void SIOClientImpl::onClose(WebSocket*)
     {
-        CC_UNUSED_PARAM(ws);
         if (!_clients.empty())
         {
             for (auto iter = _clients.begin(); iter != _clients.end(); ++iter)
@@ -976,11 +973,7 @@ namespace network
         this->release();
     }
 
-    void SIOClientImpl::onError(WebSocket* ws, const WebSocket::ErrorCode& error)
-    {
-        CC_UNUSED_PARAM(ws);
-        CCLOGERROR("Websocket error received: %d", static_cast<int>(error));
-    }
+    void SIOClientImpl::onError(WebSocket*, const WebSocket::ErrorCode& error) { CCLOGERROR("Websocket error received: %d", static_cast<int>(error)); }
 
     // begin SIOClient methods
     SIOClient::SIOClient(const std::string& host, int port, const std::string& path, SIOClientImpl* impl, SocketIO::SIODelegate& delegate)

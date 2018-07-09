@@ -27,14 +27,15 @@
  - Qt3D: http://qt-project.org/
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCTechnique__
-#define __cocos2d_libs__CCTechnique__
+#ifndef CC_RENDERER_TECHNIQUE_H
+#define CC_RENDERER_TECHNIQUE_H
 
-#include "base/CCRef.h"
 #include "base/CCVector.h"
+#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
-#include "renderer/CCPass.h"
 #include "renderer/CCRenderState.h"
+
+#include <cstddef>
 #include <string>
 
 NS_CC_BEGIN
@@ -44,7 +45,7 @@ class GLProgramState;
 class Material;
 
 /// Technique
-class CC_DLL Technique : public RenderState
+class CC_DLL Technique final : public RenderState
 {
     friend class Material;
     friend class Renderer;
@@ -65,31 +66,30 @@ public:
     void addPass(Pass* pass);
 
     /** Returns the name of the Technique */
-    std::string getName() const;
+    inline std::string getName() const noexcept { return _name; }
 
     /** Returns the Pass at given index */
-    Pass* getPassByIndex(ssize_t index) const;
+    Pass* getPassByIndex(std::size_t index) const;
 
     /** Returns the number of Passes in the Technique */
-    ssize_t getPassCount() const;
+    inline std::size_t getPassCount() const noexcept { return _passes.size(); }
 
     /** Returns the list of passes */
-    const Vector<Pass*>& getPasses() const;
+    inline Vector<Pass*> const& getPasses() const noexcept { return _passes; }
 
     /** Returns a new clone of the Technique */
     Technique* clone() const;
 
 protected:
-    Technique();
-    ~Technique();
+    Technique() = default;
+    ~Technique() final;
     bool init(Material* parent);
 
-    void setName(const std::string& name);
+    inline void setName(const std::string& name) { _name = name; }
 
-    std::string _name;
     Vector<Pass*> _passes;
 };
 
 NS_CC_END
 
-#endif /* defined(__cocos2d_libs__CCTechnique__) */
+#endif // CC_RENDERER_TECHNIQUE_H

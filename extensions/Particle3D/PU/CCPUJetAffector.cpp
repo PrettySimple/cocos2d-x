@@ -46,7 +46,6 @@ PUJetAffector::~PUJetAffector(void)
         return;
 
     CC_SAFE_DELETE(_dynAcceleration);
-    _dynAcceleration = 0;
 }
 //-----------------------------------------------------------------------
 void PUJetAffector::setDynAcceleration(PUDynamicAttribute* dynAcceleration)

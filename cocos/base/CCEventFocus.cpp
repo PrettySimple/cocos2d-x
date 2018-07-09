@@ -34,4 +34,8 @@ EventFocus::EventFocus(ui::Widget* widgetLoseFocus, ui::Widget* widgetGetFocus)
 {
 }
 
+EventFocus::~EventFocus()
+{
+}
+
 NS_CC_END

@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef cocos2d_libs_UIDeprecated_h
-#define cocos2d_libs_UIDeprecated_h
+#ifndef CC_UI_DEPRECATED_H
+#define CC_UI_DEPRECATED_H
 /// @cond DO_NOT_SHOW
 
 #include "platform/CCPlatformMacros.h"
@@ -148,4 +148,4 @@ namespace ui
 NS_CC_END
 
 /// @endcond
-#endif
+#endif // CC_UI_DEPRECATED_H

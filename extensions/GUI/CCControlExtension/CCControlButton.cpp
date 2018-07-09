@@ -32,6 +32,8 @@
 #include "2d/CCLabel.h"
 
 #include <chrono>
+#include <cmath>
+#include <limits>
 
 using namespace std::chrono_literals;
 using namespace std;
@@ -227,7 +229,8 @@ bool ControlButton::getZoomOnTouchDown() const
 
 void ControlButton::setPreferredSize(const Size& size)
 {
-    if (size.width == 0 && size.height == 0)
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+    if (std::abs(size.width) < epsi && std::abs(size.height) < epsi)
     {
         _doesAdjustBackgroundImage = true;
     }
@@ -277,24 +280,24 @@ void ControlButton::setLabelAnchorPoint(const Vec2& labelAnchorPoint)
 
 std::string ControlButton::getTitleForState(State state)
 {
-    auto iter = _titleDispatchTable.find((int)state);
+    auto iter = _titleDispatchTable.find(static_cast<int>(state));
     if (iter != _titleDispatchTable.end())
     {
         return iter->second;
     }
 
-    iter = _titleDispatchTable.find((int)Control::State::NORMAL);
+    iter = _titleDispatchTable.find(static_cast<int>(Control::State::NORMAL));
 
     return iter != _titleDispatchTable.end() ? iter->second : "";
 }
 
 void ControlButton::setTitleForState(const std::string& title, State state)
 {
-    _titleDispatchTable.erase((int)state);
+    _titleDispatchTable.erase(static_cast<int>(state));
 
     if (!title.empty())
     {
-        _titleDispatchTable[(int)state] = title;
+        _titleDispatchTable[static_cast<int>(state)] = title;
     }
 
     // If the current state if equal to the given state we update the layout
@@ -308,14 +311,14 @@ Color3B ControlButton::getTitleColorForState(State state) const
 {
     Color3B returnColor = Color3B::WHITE;
 
-    auto iter = _titleColorDispatchTable.find((int)state);
+    auto iter = _titleColorDispatchTable.find(static_cast<int>(state));
     if (iter != _titleColorDispatchTable.end())
     {
         returnColor = iter->second;
     }
     else
     {
-        iter = _titleColorDispatchTable.find((int)Control::State::NORMAL);
+        iter = _titleColorDispatchTable.find(static_cast<int>(Control::State::NORMAL));
         if (iter != _titleColorDispatchTable.end())
         {
             returnColor = iter->second;
@@ -327,8 +330,8 @@ Color3B ControlButton::getTitleColorForState(State state) const
 
 void ControlButton::setTitleColorForState(const Color3B& color, State state)
 {
-    _titleColorDispatchTable.erase((int)state);
-    _titleColorDispatchTable[(int)state] = color;
+    _titleColorDispatchTable.erase(static_cast<int>(state));
+    _titleColorDispatchTable[static_cast<int>(state)] = color;
 
     // If the current state if equal to the given state we update the layout
     if (getState() == state)
@@ -339,24 +342,24 @@ void ControlButton::setTitleColorForState(const Color3B& color, State state)
 
 Node* ControlButton::getTitleLabelForState(State state)
 {
-    Node* titleLabel = _titleLabelDispatchTable.at((int)state);
+    Node* titleLabel = _titleLabelDispatchTable.at(static_cast<int>(state));
     if (titleLabel)
     {
         return titleLabel;
     }
-    return _titleLabelDispatchTable.at((int)Control::State::NORMAL);
+    return _titleLabelDispatchTable.at(static_cast<int>(Control::State::NORMAL));
 }
 
 void ControlButton::setTitleLabelForState(Node* titleLabel, State state)
 {
-    Node* previousLabel = _titleLabelDispatchTable.at((int)state);
+    Node* previousLabel = _titleLabelDispatchTable.at(static_cast<int>(state));
     if (previousLabel)
     {
         removeChild(previousLabel, true);
-        _titleLabelDispatchTable.erase((int)state);
+        _titleLabelDispatchTable.erase(static_cast<int>(state));
     }
 
-    _titleLabelDispatchTable.insert((int)state, titleLabel);
+    _titleLabelDispatchTable.insert(static_cast<int>(state), titleLabel);
     titleLabel->setVisible(false);
     titleLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
     addChild(titleLabel, 1);
@@ -377,7 +380,7 @@ const std::string& ControlButton::getTitleTTFForState(State state)
 {
     LabelProtocol* label = dynamic_cast<LabelProtocol*>(this->getTitleLabelForState(state));
     Label* labelTTF = dynamic_cast<Label*>(label);
-    if (labelTTF != 0)
+    if (labelTTF != nullptr)
     {
         return labelTTF->getSystemFontName();
     }
@@ -392,7 +395,7 @@ void ControlButton::setTitleTTFSizeForState(float size, State state)
     if (label)
     {
         Label* labelTTF = dynamic_cast<Label*>(label);
-        if (labelTTF != 0)
+        if (labelTTF != nullptr)
         {
             return labelTTF->setSystemFontSize(size);
         }
@@ -403,7 +406,7 @@ float ControlButton::getTitleTTFSizeForState(State state)
 {
     LabelProtocol* label = dynamic_cast<LabelProtocol*>(this->getTitleLabelForState(state));
     Label* labelTTF = dynamic_cast<Label*>(label);
-    if (labelTTF != 0)
+    if (labelTTF != nullptr)
     {
         return labelTTF->getSystemFontSize();
     }
@@ -423,7 +426,7 @@ const std::string& ControlButton::getTitleBMFontForState(State state)
 {
     LabelProtocol* label = dynamic_cast<LabelProtocol*>(this->getTitleLabelForState(state));
     auto labelBMFont = dynamic_cast<Label*>(label);
-    if (labelBMFont != 0)
+    if (labelBMFont != nullptr)
     {
         return labelBMFont->getBMFontFilePath();
     }
@@ -434,31 +437,32 @@ const std::string& ControlButton::getTitleBMFontForState(State state)
 
 ui::Scale9Sprite* ControlButton::getBackgroundSpriteForState(State state)
 {
-    auto backgroundSprite = _backgroundSpriteDispatchTable.at((int)state);
+    auto backgroundSprite = _backgroundSpriteDispatchTable.at(static_cast<int>(state));
     if (backgroundSprite)
     {
         return backgroundSprite;
     }
-    return _backgroundSpriteDispatchTable.at((int)Control::State::NORMAL);
+    return _backgroundSpriteDispatchTable.at(static_cast<int>(Control::State::NORMAL));
 }
 
 void ControlButton::setBackgroundSpriteForState(ui::Scale9Sprite* sprite, State state)
 {
     Size oldPreferredSize = _preferredSize;
 
-    auto previousBackgroundSprite = _backgroundSpriteDispatchTable.at((int)state);
+    auto previousBackgroundSprite = _backgroundSpriteDispatchTable.at(static_cast<int>(state));
     if (previousBackgroundSprite)
     {
         removeChild(previousBackgroundSprite, true);
-        _backgroundSpriteDispatchTable.erase((int)state);
+        _backgroundSpriteDispatchTable.erase(static_cast<int>(state));
     }
 
-    _backgroundSpriteDispatchTable.insert((int)state, sprite);
+    _backgroundSpriteDispatchTable.insert(static_cast<int>(state), sprite);
     sprite->setVisible(false);
     sprite->setAnchorPoint(Vec2(0.5f, 0.5f));
     addChild(sprite);
 
-    if (this->_preferredSize.width != 0 || this->_preferredSize.height != 0)
+    if (std::abs(this->_preferredSize.width) >= std::numeric_limits<float>::epsilon() ||
+        std::abs(this->_preferredSize.height) >= std::numeric_limits<float>::epsilon())
     {
         if (oldPreferredSize.equals(_preferredSize))
         {

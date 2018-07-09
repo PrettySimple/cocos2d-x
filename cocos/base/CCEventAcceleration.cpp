@@ -32,4 +32,8 @@ EventAcceleration::EventAcceleration(const Acceleration& acc)
 {
 }
 
+EventAcceleration::~EventAcceleration()
+{
+}
+
 NS_CC_END

@@ -25,8 +25,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CC_PARTICLE_SYSTEM_QUAD_H__
-#define __CC_PARTICLE_SYSTEM_QUAD_H__
+#ifndef CC_2D_PARTICLESYSTEMQUAD_H
+#define CC_2D_PARTICLESYSTEMQUAD_H
 
 #include "2d/CCParticleSystem.h"
 #include "renderer/CCQuadCommand.h"
@@ -152,7 +152,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ParticleSystemQuad();
+    ~ParticleSystemQuad() override;
 
     // Overrides
     /**
@@ -183,7 +183,7 @@ protected:
     QuadCommand _quadCommand; // quad command
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSystemQuad);
+    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSystemQuad)
 };
 
 // end of _2d group
@@ -191,4 +191,4 @@ private:
 
 NS_CC_END
 
-#endif //__CC_PARTICLE_SYSTEM_QUAD_H__
+#endif // CC_2D_PARTICLESYSTEMQUAD_H

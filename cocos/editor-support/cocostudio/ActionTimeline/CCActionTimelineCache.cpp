@@ -33,9 +33,12 @@ THE SOFTWARE.
 
 #include "cocostudio/CSParseBinary_generated.h"
 
-#include "flatbuffers/flatbuffers.h"
-#include "flatbuffers/util.h"
-#include "tinyxml2.h"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <flatbuffers/flatbuffers.h>
+#include <flatbuffers/util.h>
+#include <tinyxml2/tinyxml2.h>
+#pragma clang diagnostic pop
 
 #include "cocostudio/FlatBuffersSerialize.h"
 
@@ -354,9 +357,9 @@ namespace cocostudio
         {
             ColorFrame* frame = ColorFrame::create();
 
-            GLubyte red = (GLubyte)DICTOOL->getIntValue_json(json, RED);
-            GLubyte green = (GLubyte)DICTOOL->getIntValue_json(json, GREEN);
-            GLubyte blue = (GLubyte)DICTOOL->getIntValue_json(json, BLUE);
+            GLubyte red = static_cast<GLubyte>(DICTOOL->getIntValue_json(json, RED));
+            GLubyte green = static_cast<GLubyte>(DICTOOL->getIntValue_json(json, GREEN));
+            GLubyte blue = static_cast<GLubyte>(DICTOOL->getIntValue_json(json, BLUE));
 
             frame->setColor(Color3B(red, green, blue));
 
@@ -410,7 +413,7 @@ namespace cocostudio
         ActionTimeline* ActionTimelineCache::createActionWithFlatBuffersFile(const std::string& fileName)
         {
             ActionTimeline* action = _animationActions.at(fileName);
-            if (action == NULL)
+            if (action == nullptr)
             {
                 action = loadAnimationActionWithFlatBuffersFile(fileName);
             }
@@ -420,7 +423,7 @@ namespace cocostudio
         ActionTimeline* ActionTimelineCache::createActionWithDataBuffer(Data data, const std::string& fileName)
         {
             ActionTimeline* action = _animationActions.at(fileName);
-            if (action == NULL)
+            if (action == nullptr)
             {
                 action = loadAnimationWithDataBuffer(data, fileName);
             }

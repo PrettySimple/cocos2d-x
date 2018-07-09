@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_FRAME_BUFFER_H__
-#define __CC_FRAME_BUFFER_H__
+#ifndef CC_RENDERER_FRAMEBUFFER_H
+#define CC_RENDERER_FRAMEBUFFER_H
 
 #include "base/CCRef.h"
 #include "platform/CCGL.h"
@@ -209,4 +209,4 @@ namespace experimental
 
 NS_CC_END
 
-#endif /* defined(__CC_FRAME_BUFFER_H__) */
+#endif // CC_RENDERER_FRAMEBUFFER_H

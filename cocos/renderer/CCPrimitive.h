@@ -22,10 +22,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PRIMITIVE_H__
-#define __CC_PRIMITIVE_H__
+#ifndef CC_RENDERER_PRIMITIVE_H
+#define CC_RENDERER_PRIMITIVE_H
 
-#include "renderer/CCVertexIndexData.h"
+#include "base/CCRef.h"
+#include "platform/CCGL.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
 
 /**
  * @addtogroup renderer
@@ -35,6 +38,7 @@
 NS_CC_BEGIN
 
 class IndexBuffer;
+class VertexData;
 
 /**
  Primitive can support sending points, lines and triangles to glpipeline, which is an abstraction
@@ -70,17 +74,17 @@ public:
     void setCount(int count);
 
 protected:
-    Primitive();
-    virtual ~Primitive();
+    Primitive() = default;
+    ~Primitive() override;
 
     bool init(VertexData* verts, IndexBuffer* indices, int type);
 
 protected:
-    VertexData* _verts;
-    IndexBuffer* _indices;
-    int _start;
-    int _count;
-    int _type;
+    VertexData* _verts = nullptr;
+    IndexBuffer* _indices = nullptr;
+    int _start = 0;
+    int _count = 0;
+    int _type = GL_POINTS;
 };
 
 NS_CC_END
@@ -89,4 +93,4 @@ NS_CC_END
  end of support group
  @}
  */
-#endif //__CC_PRIMITIVE_H__
+#endif // CC_RENDERER_PRIMITIVE_H

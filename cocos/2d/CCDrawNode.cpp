@@ -629,7 +629,7 @@ void DrawNode::drawCardinalSpline(PointArray* config, float tension, unsigned in
     if (!vertices)
         return;
 
-    ssize_t p;
+    std::size_t p;
     float lt;
     float deltaT = 1.0f / config->count();
 

@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCMAP_H__
-#define __CCMAP_H__
+#ifndef CC_BASE_MAP_H
+#define CC_BASE_MAP_H
 
 #define USE_STD_UNORDERED_MAP 1
 
@@ -93,7 +93,7 @@ public:
     }
 
     /** Constructor with capacity. */
-    explicit Map<K, V, H>(ssize_t capacity)
+    explicit Map<K, V, H>(std::size_t capacity)
     : _data()
     {
         static_assert(std::is_convertible<V, Ref*>::value, "Invalid Type for cocos2d::Map<K, V>!");
@@ -129,7 +129,7 @@ public:
     }
 
     /** Sets capacity of the map. */
-    void reserve(ssize_t capacity)
+    void reserve(std::size_t capacity)
     {
 #if USE_STD_UNORDERED_MAP
         _data.reserve(capacity);
@@ -137,7 +137,7 @@ public:
     }
 
     /** Returns the number of buckets in the Map container. */
-    ssize_t bucketCount() const
+    std::size_t bucketCount() const
     {
 #if USE_STD_UNORDERED_MAP
         return _data.bucket_count();
@@ -147,7 +147,7 @@ public:
     }
 
     /** Returns the number of elements in bucket n. */
-    ssize_t bucketSize(ssize_t n) const
+    std::size_t bucketSize(std::size_t n) const
     {
 #if USE_STD_UNORDERED_MAP
         return _data.bucket_size(n);
@@ -157,7 +157,7 @@ public:
     }
 
     /** Returns the bucket number where the element with key k is located. */
-    ssize_t bucket(const K& k) const
+    std::size_t bucket(const K& k) const
     {
 #if USE_STD_UNORDERED_MAP
         return _data.bucket(k);
@@ -167,7 +167,7 @@ public:
     }
 
     /** The number of elements in the map. */
-    ssize_t size() const { return _data.size(); }
+    std::size_t size() const { return _data.size(); }
 
     /**
      * Returns a bool value indicating whether the map container is empty, i.e. whether its size is 0.
@@ -334,7 +334,7 @@ public:
     {
         if (!_data.empty())
         {
-            ssize_t randIdx = RandomHelper::random_int<int>(0, static_cast<int>(_data.size()) - 1);
+            std::size_t randIdx = RandomHelper::random_int<int>(0, static_cast<int>(_data.size()) - 1);
             const_iterator randIter = _data.begin();
             std::advance(randIter, randIdx);
             return randIter->second;
@@ -409,4 +409,4 @@ NS_CC_END
 // end group
 /// @}
 
-#endif /* __CCMAP_H__ */
+#endif // CC_BASE_MAP_H

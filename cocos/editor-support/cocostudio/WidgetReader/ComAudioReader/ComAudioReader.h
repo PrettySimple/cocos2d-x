@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__ComAudioReader__
-#define __cocos2d_libs__ComAudioReader__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_COMAUDIOREADER_COMAUDIOREADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_COMAUDIOREADER_COMAUDIOREADER_H
 
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -49,4 +49,4 @@ namespace cocostudio
     };
 } // namespace cocostudio
 
-#endif /* defined(__cocos2d_libs__ComAudioReader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_COMAUDIOREADER_COMAUDIOREADER_H

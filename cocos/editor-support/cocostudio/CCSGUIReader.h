@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCSGUIREADER_H__
-#define __CCSGUIREADER_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_SGUIREADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_SGUIREADER_H
 
 #include "WidgetReader/WidgetReaderProtocol.h"
 #include "base/ObjectFactory.h"
@@ -200,4 +200,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif /* defined(__CCSGUIReader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_SGUIREADER_H

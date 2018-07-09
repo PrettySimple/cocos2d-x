@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCMESH_H__
-#define __CCMESH_H__
+#ifndef CC_3D_MESH_H
+#define CC_3D_MESH_H
 
 #include <map>
 #include <string>
@@ -94,7 +94,7 @@ public:
      */
     bool hasVertexAttrib(int attrib) const;
     /**get mesh vertex attribute count*/
-    ssize_t getMeshVertexAttribCount() const;
+    std::size_t getMeshVertexAttribCount() const;
     /**get MeshVertexAttribute by index*/
     const MeshVertexAttrib& getMeshVertexAttribute(int idx);
     /**get per vertex size in bytes*/
@@ -180,7 +180,7 @@ public:
      *
      * @lua NA
      */
-    ssize_t getIndexCount() const;
+    std::size_t getIndexCount() const;
     /**
      * get index format
      *
@@ -237,7 +237,7 @@ public:
 
     CC_CONSTRUCTOR_ACCESS :
 
-        Mesh();
+        Mesh() = default;
     virtual ~Mesh();
 
 protected:
@@ -246,20 +246,20 @@ protected:
     void bindMeshCommand();
 
     std::map<NTextureData::Usage, Texture2D*> _textures; // textures that submesh is using
-    MeshSkin* _skin; // skin
-    bool _visible; // is the submesh visible
-    bool _isTransparent; // is this mesh transparent, it is a property of material in fact
-    bool _force2DQueue; // add this mesh to 2D render queue
+    MeshSkin* _skin = nullptr; // skin
+    bool _visible = true; // is the submesh visible
+    bool _isTransparent = false; // is this mesh transparent, it is a property of material in fact
+    bool _force2DQueue = false; // add this mesh to 2D render queue
 
     std::string _name;
     MeshCommand _meshCommand;
-    MeshIndexData* _meshIndexData;
-    GLProgramState* _glProgramState;
-    BlendFunc _blend;
-    bool _blendDirty;
-    Material* _material;
+    MeshIndexData* _meshIndexData = nullptr;
+    GLProgramState* _glProgramState = nullptr;
+    BlendFunc _blend = BlendFunc::ALPHA_NON_PREMULTIPLIED;
+    bool _blendDirty = true;
+    Material* _material = nullptr;
     AABB _aabb;
-    std::function<void()> _visibleChanged;
+    std::function<void()> _visibleChanged = nullptr;
 
     /// light parameters
     std::vector<Vec3> _dirLightUniformColorValues;
@@ -283,9 +283,9 @@ protected:
 /// @}
 
 /// @cond
-extern std::string CC_DLL s_uniformSamplerName[]; // uniform sampler names array
+extern char const* CC_DLL s_uniformSamplerName[]; // uniform sampler names array
 /// @endcond
 
 NS_CC_END
 
-#endif // __CCMESH_H__
+#endif // CC_3D_MESH_H

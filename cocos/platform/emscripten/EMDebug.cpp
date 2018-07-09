@@ -526,7 +526,7 @@ void* __attribute__((noinline)) malloc(size_t size)
             __alloc_retain = EM_ASM_INT({
                 try
                 {
-                    return window.localStorage.getItem('__EMS_retain') === '1';
+                    return window.localStorage.getItem('__EMS_retain') == = '1';
                 }
                 catch (e)
                 {

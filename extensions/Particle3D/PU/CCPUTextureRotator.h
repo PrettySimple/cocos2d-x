@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_TEXTURE_ROTATOR_H__
-#define __CC_PU_PARTICLE_3D_TEXTURE_ROTATOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_TEXTUREROTATOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_TEXTUREROTATOR_H
 
 #include "base/ccTypes.h"
 #include "extensions/Particle3D/PU/CCPUAffector.h"
@@ -42,12 +42,12 @@ public:
 
     static PUTextureRotator* create();
 
-    virtual void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
+    void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
 
     /** Returns an indication whether the 2D rotation speed is the same for all particles in this
         particle technique, or whether the 2D rotation speed of the particle itself is used.
     */
-    bool useOwnRotationSpeed(void) const;
+    bool useOwnRotationSpeed() const;
 
     /** Set the indication whether the 2D rotation speed of the particle itself is used.
      */
@@ -55,7 +55,7 @@ public:
 
     /** Returns the rotation speed. This is the speed controlled by the affector.
      */
-    PUDynamicAttribute* getRotationSpeed(void) const;
+    PUDynamicAttribute* getRotationSpeed() const;
 
     /**
      */
@@ -63,7 +63,7 @@ public:
 
     /** Returns the rotation defined in the affector.
      */
-    PUDynamicAttribute* getRotation(void) const;
+    PUDynamicAttribute* getRotation() const;
 
     /**
      */
@@ -78,12 +78,12 @@ public:
     float calculateRotationSpeed(PUParticle3D* particle);
 
     /** @copydoc ParticleAffector::_initParticleForEmission */
-    virtual void initParticleForEmission(PUParticle3D* particle) override;
+    void initParticleForEmission(PUParticle3D* particle) override;
 
-    virtual void copyAttributesTo(PUAffector* affector) override;
+    void copyAttributesTo(PUAffector* affector) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUTextureRotator(void);
-    virtual ~PUTextureRotator(void);
+    CC_CONSTRUCTOR_ACCESS : PUTextureRotator();
+    ~PUTextureRotator() override;
 
 protected:
     bool _useOwnRotationSpeed;
@@ -98,4 +98,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_TEXTUREROTATOR_H

@@ -29,6 +29,8 @@ NS_CC_BEGIN
 
 namespace ui
 {
+    LayoutManager::~LayoutManager() {}
+
     LinearHorizontalLayoutManager* LinearHorizontalLayoutManager::create()
     {
         LinearHorizontalLayoutManager* exe = new (std::nothrow) LinearHorizontalLayoutManager();
@@ -61,6 +63,9 @@ namespace ui
                     float finalPosY = layoutSize.height - (1.0f - ap.y) * cs.height;
                     switch (childGravity)
                     {
+                        case LinearLayoutParameter::LinearGravity::LEFT:
+                        case LinearLayoutParameter::LinearGravity::RIGHT:
+                        case LinearLayoutParameter::LinearGravity::CENTER_HORIZONTAL:
                         case LinearLayoutParameter::LinearGravity::NONE:
                         case LinearLayoutParameter::LinearGravity::TOP:
                             break;
@@ -69,8 +74,6 @@ namespace ui
                             break;
                         case LinearLayoutParameter::LinearGravity::CENTER_VERTICAL:
                             finalPosY = layoutSize.height / 2.0f - cs.height * (0.5f - ap.y);
-                            break;
-                        default:
                             break;
                     }
                     Margin mg = layoutParameter->getMargin();
@@ -118,6 +121,9 @@ namespace ui
                     float finalPosY = topBoundary - ((1.0f - ap.y) * cs.height);
                     switch (childGravity)
                     {
+                        case LinearLayoutParameter::LinearGravity::CENTER_VERTICAL:
+                        case LinearLayoutParameter::LinearGravity::TOP:
+                        case LinearLayoutParameter::LinearGravity::BOTTOM:
                         case LinearLayoutParameter::LinearGravity::NONE:
                         case LinearLayoutParameter::LinearGravity::LEFT:
                             break;
@@ -126,8 +132,6 @@ namespace ui
                             break;
                         case LinearLayoutParameter::LinearGravity::CENTER_HORIZONTAL:
                             finalPosX = layoutSize.width / 2.0f - cs.width * (0.5f - ap.x);
-                            break;
-                        default:
                             break;
                     }
                     Margin mg = layoutParameter->getMargin();
@@ -413,8 +417,6 @@ namespace ui
                     _finalPositionX = locationRight - (1.0f - ap.x) * cs.width;
                 }
                 break;
-            default:
-                break;
         }
         return true;
     }
@@ -508,8 +510,6 @@ namespace ui
                 break;
             case RelativeLayoutParameter::RelativeAlign::LOCATION_BELOW_CENTER:
                 _finalPositionY -= mg.top;
-                break;
-            default:
                 break;
         }
     }

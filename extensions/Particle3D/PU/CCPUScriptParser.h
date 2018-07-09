@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_SCRIPT_PARSER_H__
-#define __CC_PU_SCRIPT_PARSER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTPARSER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTPARSER_H
 
 #include <iostream>
 #include <list>
@@ -82,4 +82,4 @@ private:
 
 NS_CC_END
 
-#endif /* defined(__cocos2d_libs__CCScriptParser__) */
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTPARSER_H

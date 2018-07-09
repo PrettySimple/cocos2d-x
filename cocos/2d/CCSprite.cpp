@@ -308,13 +308,7 @@ bool Sprite::initWithTexture(Texture2D* texture, const Rect& rect, bool rotated)
     return result;
 }
 
-Sprite::Sprite(void)
-: _batchNode(nullptr)
-, _textureAtlas(nullptr)
-, _shouldBeHidden(false)
-, _texture(nullptr)
-, _spriteFrame(nullptr)
-, _insideBounds(true)
+Sprite::Sprite()
 {
 #if CC_SPRITE_DEBUG_DRAW
     _debugDrawNode = DrawNode::create();
@@ -473,8 +467,8 @@ void Sprite::setTextureCoords(const Rect& rectInPoint)
 
     auto rectInPixels = CC_RECT_POINTS_TO_PIXELS(rectInPoint);
 
-    float atlasWidth = (float)tex->getPixelsWide();
-    float atlasHeight = (float)tex->getPixelsHigh();
+    float atlasWidth = static_cast<float>(tex->getPixelsWide());
+    float atlasHeight = static_cast<float>(tex->getPixelsHigh());
 
     float left, right, top, bottom;
 
@@ -675,7 +669,7 @@ void Sprite::draw(Renderer* renderer, const Mat4& transform, uint32_t flags)
         auto count = _polyInfo.triangles.indexCount / 3;
         auto indices = _polyInfo.triangles.indices;
         auto verts = _polyInfo.triangles.verts;
-        for (ssize_t i = 0; i < count; i++)
+        for (std::size_t i = 0; i < count; i++)
         {
             // draw 3 lines
             Vec3 from = verts[indices[i * 3]].vertices;
@@ -766,7 +760,7 @@ void Sprite::removeChild(Node* child, bool cleanup)
 {
     if (_batchNode)
     {
-        _batchNode->removeSpriteFromAtlas((Sprite*)(child));
+        _batchNode->removeSpriteFromAtlas(static_cast<Sprite*>(child));
     }
 
     Node::removeChild(child, cleanup);
@@ -987,7 +981,7 @@ void Sprite::updateColor(void)
         color4.b *= _displayedOpacity / 255.0f;
     }
 
-    for (ssize_t i = 0; i < _polyInfo.triangles.vertCount; i++)
+    for (std::size_t i = 0; i < _polyInfo.triangles.vertCount; i++)
     {
         _polyInfo.triangles.verts[i].colors = color4;
     }
@@ -1013,7 +1007,7 @@ void Sprite::updateColor(void)
 
 void Sprite::updateFlipX(void)
 {
-    for (ssize_t i = 0; i < _polyInfo.triangles.vertCount; i++)
+    for (std::size_t i = 0; i < _polyInfo.triangles.vertCount; i++)
     {
         auto& v = _polyInfo.triangles.verts[i].vertices;
         v.x = _contentSize.width - v.x;
@@ -1026,7 +1020,7 @@ void Sprite::updateFlipX(void)
 
 void Sprite::updateFlipY(void)
 {
-    for (ssize_t i = 0; i < _polyInfo.triangles.vertCount; i++)
+    for (std::size_t i = 0; i < _polyInfo.triangles.vertCount; i++)
     {
         auto& v = _polyInfo.triangles.verts[i].vertices;
         v.y = _contentSize.height - v.y;
@@ -1115,7 +1109,7 @@ void Sprite::setSpriteFrame(SpriteFrame* spriteFrame)
     }
 }
 
-void Sprite::setDisplayFrameWithAnimationName(const std::string& animationName, ssize_t frameIndex)
+void Sprite::setDisplayFrameWithAnimationName(const std::string& animationName, std::size_t frameIndex)
 {
     CCASSERT(!animationName.empty(), "CCSprite#setDisplayFrameWithAnimationName. animationName must not be nullptr");
     if (animationName.empty())

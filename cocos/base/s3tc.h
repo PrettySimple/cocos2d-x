@@ -22,13 +22,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef COCOS2DX_PLATFORM_THIRDPARTY_S3TC_
-#define COCOS2DX_PLATFORM_THIRDPARTY_S3TC_
-/// @cond DO_NOT_SHOW
+#ifndef CC_BASE_S3TC_H
+#define CC_BASE_S3TC_H
 
-#include "platform/CCStdC.h"
+#include <cstdint>
 
-enum class S3TCDecodeFlag
+enum struct S3TCDecodeFlag : std::uint8_t
 {
     DXT1 = 1,
     DXT3 = 3,
@@ -36,7 +35,6 @@ enum class S3TCDecodeFlag
 };
 
 // Decode S3TC encode data to RGB32
-void s3tc_decode(uint8_t* encode_data, uint8_t* decode_data, const int pixelsWidth, const int pixelsHeight, S3TCDecodeFlag decodeFlag);
+void s3tc_decode(std::uint8_t* encode_data, std::uint8_t* decode_data, int pixelsWidth, int pixelsHeight, S3TCDecodeFlag decodeFlag);
 
-/// @endcond
-#endif /* defined(COCOS2DX_PLATFORM_THIRDPARTY_S3TC_) */
+#endif // CC_BASE_S3TC_H

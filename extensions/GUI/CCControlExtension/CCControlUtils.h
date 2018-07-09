@@ -31,8 +31,8 @@
  * Converted to c++ / cocos2d-x by Angus C
  */
 
-#ifndef __CCCONTROL_UTILS_H__
-#define __CCCONTROL_UTILS_H__
+#ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_UTILS_H
+#define CC_EXTENSIONS_GUI_CONTROLEXTENSION_UTILS_H
 
 #include "../../ExtensionMacros.h"
 #include "2d/CCSprite.h"
@@ -63,18 +63,18 @@ typedef struct
  */
 
 // helper class to store Color3B's in mutable arrays
-class CC_EX_DLL Color3bObject : public Ref
+class CC_EX_DLL Color3bObject final : public Ref
 {
 public:
     Color3B value;
-    /**
-     * @js NA
-     * @lua NA
-     */
-    Color3bObject(Color3B s_value)
-    : value(s_value)
-    {
-    }
+
+    Color3bObject() = default;
+    Color3bObject(Color3B const& s_value);
+    Color3bObject(Color3bObject const&) = default;
+    Color3bObject& operator=(Color3bObject const&) = default;
+    Color3bObject(Color3bObject&&) noexcept = default;
+    Color3bObject& operator=(Color3bObject&&) noexcept = default;
+    ~Color3bObject() final;
 };
 
 class CC_EX_DLL ControlUtils
@@ -108,4 +108,4 @@ public:
 
 NS_CC_EXT_END
 
-#endif
+#endif // CC_EXTENSIONS_GUI_CONTROLEXTENSION_UTILS_H

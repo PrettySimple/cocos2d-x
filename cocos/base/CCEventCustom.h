@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCCustomEvent__
-#define __cocos2d_libs__CCCustomEvent__
+#ifndef CC_BASE_EVENTCUSTOM_H
+#define CC_BASE_EVENTCUSTOM_H
 
 #include "base/CCEvent.h"
 #include <string>
@@ -41,6 +41,13 @@ NS_CC_BEGIN
 class CC_DLL EventCustom : public Event
 {
 public:
+    EventCustom() = default;
+    EventCustom(EventCustom const&) = default;
+    EventCustom& operator=(EventCustom const&) = default;
+    EventCustom(EventCustom&&) noexcept = default;
+    EventCustom& operator=(EventCustom&&) noexcept = default;
+    ~EventCustom() override;
+
     /** Constructor.
      *
      * @param eventName A given name of the custom event.
@@ -52,22 +59,22 @@ public:
      *
      * @param data The user data pointer, it's a void*.
      */
-    void setUserData(void* data) { _userData = data; }
+    inline void setUserData(void* data) noexcept { _userData = data; }
 
     /** Gets user data.
      *
      * @return The user data pointer, it's a void*.
      */
-    void* getUserData() const { return _userData; }
+    inline void* getUserData() const noexcept { return _userData; }
 
     /** Gets event name.
      *
      * @return The name of the event.
      */
-    const std::string& getEventName() const { return _eventName; }
+    inline std::string const& getEventName() const noexcept { return _eventName; }
 
 protected:
-    void* _userData; ///< User data
+    void* _userData = nullptr; ///< User data
     std::string _eventName;
 };
 
@@ -76,4 +83,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif /* defined(__cocos2d_libs__CCCustomEvent__) */
+#endif // CC_BASE_EVENTCUSTOM_H

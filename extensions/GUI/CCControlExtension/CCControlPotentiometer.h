@@ -24,8 +24,8 @@
  * THE SOFTWARE.
  *
  */
-#ifndef __CCCONTROLPOTENTIOMETER_H__
-#define __CCCONTROLPOTENTIOMETER_H__
+#ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_POTENTIOMETER_H
+#define CC_EXTENSIONS_GUI_CONTROLEXTENSION_POTENTIOMETER_H
 
 #include "2d/CCProgressTimer.h"
 #include "CCControl.h"
@@ -57,7 +57,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ControlPotentiometer();
+    ~ControlPotentiometer() override;
 
     /**
      * Initializes a potentiometer with a track sprite and a progress bar.
@@ -114,4 +114,4 @@ protected:
 
 NS_CC_EXT_END
 
-#endif /* __CCCONTROLPOTENTIOMETER_H__ */
+#endif // CC_EXTENSIONS_GUI_CONTROLEXTENSION_POTENTIOMETER_H

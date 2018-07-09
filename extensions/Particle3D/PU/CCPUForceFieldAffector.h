@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_FORCE_FIELD_AFFECTOR_H__
-#define __CC_PU_PARTICLE_3D_FORCE_FIELD_AFFECTOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_FORCEFIELDAFFECTOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_FORCEFIELDAFFECTOR_H
 
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 #include "extensions/Particle3D/PU/CCPUForceField.h"
@@ -128,7 +128,7 @@ public:
     virtual void copyAttributesTo(PUAffector* affector) override;
 
     CC_CONSTRUCTOR_ACCESS : PUForceFieldAffector();
-    ~PUForceFieldAffector();
+    ~PUForceFieldAffector() override;
 
 protected:
     PUForceField _forceField; // Local force field
@@ -156,4 +156,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_FORCEFIELDAFFECTOR_H

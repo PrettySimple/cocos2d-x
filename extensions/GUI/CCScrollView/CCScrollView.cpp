@@ -53,6 +53,10 @@ static float convertDistanceFromPointToInch(float pointDis)
     return pointDis * factor / Device::getDPI();
 }
 
+ScrollViewDelegate::~ScrollViewDelegate()
+{
+}
+
 ScrollView::ScrollView()
 : _delegate(nullptr)
 , _direction(Direction::BOTH)
@@ -65,7 +69,6 @@ ScrollView::ScrollView()
 , _minScale(0.0f)
 , _maxScale(0.0f)
 , _scissorRestored(false)
-, _touchListener(nullptr)
 , _animatedScrollAction(nullptr)
 {
 }
@@ -189,12 +192,13 @@ void ScrollView::setTouchEnabled(bool enabled)
 
     if (enabled)
     {
-        _touchListener = EventListenerTouchOneByOne::create();
-        _touchListener->setSwallowTouches(true);
-        _touchListener->onTouchBegan = CC_CALLBACK_2(ScrollView::onTouchBegan, this);
-        _touchListener->onTouchMoved = CC_CALLBACK_2(ScrollView::onTouchMoved, this);
-        _touchListener->onTouchEnded = CC_CALLBACK_2(ScrollView::onTouchEnded, this);
-        _touchListener->onTouchCancelled = CC_CALLBACK_2(ScrollView::onTouchCancelled, this);
+        EventListenerTouchOneByOne* evtListener = EventListenerTouchOneByOne::create();
+        _touchListener = evtListener;
+        evtListener->setSwallowTouches(true);
+        evtListener->onTouchBegan = [this](Touch* touch, Event* evt) -> bool { return onTouchBegan(touch, evt); };
+        evtListener->onTouchMoved = [this](Touch* touch, Event* evt) { onTouchMoved(touch, evt); };
+        evtListener->onTouchEnded = [this](Touch* touch, Event* evt) { onTouchEnded(touch, evt); };
+        evtListener->onTouchCancelled = [this](Touch* touch, Event* evt) { onTouchCancelled(touch, evt); };
 
         _eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, this);
     }
@@ -241,7 +245,7 @@ void ScrollView::setContentOffsetInDuration(Vec2 offset, std::chrono::millisecon
         stopAnimatedContentOffset();
     }
     scroll = MoveTo::create(dt, offset);
-    expire = CallFuncN::create(CC_CALLBACK_1(ScrollView::stoppedAnimatedScroll, this));
+    expire = CallFuncN::create([this](Node* node) { stoppedAnimatedScroll(node); });
     _animatedScrollAction = _container->runAction(Sequence::create({scroll, expire}));
     this->schedule(CC_SCHEDULE_SELECTOR(ScrollView::performedAnimatedScroll));
 }
@@ -260,7 +264,7 @@ Vec2 ScrollView::getContentOffset()
 
 void ScrollView::setZoomScale(float s)
 {
-    if (_container->getScale() != s)
+    if (std::abs(_container->getScale() - s) >= std::numeric_limits<float>::epsilon())
     {
         Vec2 oldCenter, newCenter;
         Vec2 center;
@@ -309,7 +313,7 @@ void ScrollView::setZoomScaleInDuration(float s, std::chrono::milliseconds dt)
 {
     if (dt > 0ms)
     {
-        if (_container->getScale() != s)
+        if (std::abs(_container->getScale() - s) >= std::numeric_limits<float>::epsilon())
         {
             ActionTween* scaleAction;
             scaleAction = ActionTween::create(dt, "zoomScale", _container->getScale(), s);
@@ -393,7 +397,8 @@ void ScrollView::relocateContainer(bool animated)
         newY = MAX(newY, min.y);
     }
 
-    if (newY != oldPoint.y || newX != oldPoint.x)
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+    if (std::abs(newY - oldPoint.y) >= epsi || std::abs(newX - oldPoint.x) >= epsi)
     {
         this->setContentOffset(Vec2(newX, newY), animated);
     }
@@ -652,7 +657,7 @@ void ScrollView::visit(Renderer* renderer, const Mat4& parentTransform, uint32_t
 
     if (!_children.empty())
     {
-        int i = 0;
+        std::size_t i = 0;
 
         // draw children zOrder < 0
         for (; i < _children.size(); i++)
@@ -808,7 +813,9 @@ void ScrollView::onTouchMoved(Touch* touch, Event* event)
                     case Direction::HORIZONTAL:
                         moveDistance.set(moveDistance.x, 0.0f);
                         break;
-                    default:
+                    case Direction::NONE:
+                        break;
+                    case Direction::BOTH:
                         break;
                 }
 

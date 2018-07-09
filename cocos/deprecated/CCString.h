@@ -23,13 +23,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCSTRING_H__
-#define __CCSTRING_H__
+#ifndef CC_DEPRECATED_STRING_H
+#define CC_DEPRECATED_STRING_H
 /// @cond DO_NOT_SHOW
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_BLACKBERRY)
-#    include <string.h>
-#endif
 
 #include "base/CCRef.h"
 #include "deprecated/CCArray.h"
@@ -75,7 +71,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~__String();
+    virtual ~__String() override;
 
     /* override assignment operator
      * @js NA
@@ -214,4 +210,4 @@ public:
 NS_CC_END
 
 /// @endcond
-#endif //__CCSTRING_H__
+#endif // CC_DEPRECATED_STRING_H

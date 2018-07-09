@@ -56,39 +56,43 @@ const Quaternion& Quaternion::zero()
 
 bool Quaternion::isIdentity() const
 {
-    return x == 0.0f && y == 0.0f && z == 0.0f && w == 1.0f;
+    static constexpr auto const identity = f32x4_t{0.f, 0.f, 0.f, 1.f};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+    auto const eq = (v == identity);
+#pragma clang diagnostic pop
+    return eq[0] == -1 && eq[1] == -1 && eq[2] == -1 && eq[3] == -1;
 }
 
 bool Quaternion::isZero() const
 {
-    return x == 0.0f && y == 0.0f && z == 0.0f && w == 0.0f;
+    static constexpr auto const zero = f32x4_t{0.f, 0.f, 0.f, 0.f};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+    auto const eq = (v == zero);
+#pragma clang diagnostic pop
+    return eq[0] == -1 && eq[1] == -1 && eq[2] == -1 && eq[3] == -1;
 }
 
-void Quaternion::createFromRotationMatrix(const Mat4& m, Quaternion* dst)
+void Quaternion::createFromRotationMatrix(const Mat4& m, Quaternion& dst)
 {
-    m.getRotation(dst);
+    m.getRotation(&dst);
 }
 
-void Quaternion::createFromAxisAngle(const Vec3& axis, float angle, Quaternion* dst)
+void Quaternion::createFromAxisAngle(const Vec3& axis, float angle, Quaternion& dst)
 {
-    GP_ASSERT(dst);
-
-    float halfAngle = angle * 0.5f;
-    float sinHalfAngle = sinf(halfAngle);
+    float const halfAngle = angle * 0.5f;
 
     Vec3 normal(axis);
     normal.normalize();
-    dst->x = normal.x * sinHalfAngle;
-    dst->y = normal.y * sinHalfAngle;
-    dst->z = normal.z * sinHalfAngle;
-    dst->w = cosf(halfAngle);
+    normal *= std::sin(halfAngle);
+    dst.v = {normal.x, normal.y, normal.z, std::cos(halfAngle)};
 }
 
 void Quaternion::conjugate()
 {
-    x = -x;
-    y = -y;
-    z = -z;
+    v = -v;
+    v[3] = -v[3];
     // w =  w;
 }
 
@@ -101,27 +105,26 @@ Quaternion Quaternion::getConjugated() const
 
 bool Quaternion::inverse()
 {
-    float n = x * x + y * y + z * z + w * w;
-    if (n == 1.0f)
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+    auto const mul = v * v;
+    float n = mul[0] + mul[1] + mul[2] + mul[3];
+    // Already normalized.
+    if (std::abs(n - 1.f) < epsi)
     {
-        x = -x;
-        y = -y;
-        z = -z;
+        v = -v;
+        v[3] = -v[3];
         // w = w;
-
         return true;
     }
 
     // Too close to zero.
-    if (n < 0.000001f)
+    if (std::abs(n) < epsi)
         return false;
 
     n = 1.0f / n;
-    x = -x * n;
-    y = -y * n;
-    z = -z * n;
-    w = w * n;
-
+    v = -v;
+    v[3] = -v[3];
+    v *= n;
     return true;
 }
 
@@ -134,42 +137,32 @@ Quaternion Quaternion::getInversed() const
 
 void Quaternion::multiply(const Quaternion& q)
 {
-    multiply(*this, q, this);
+    multiply(*this, q, *this);
 }
 
-void Quaternion::multiply(const Quaternion& q1, const Quaternion& q2, Quaternion* dst)
+void Quaternion::multiply(const Quaternion& q1, const Quaternion& q2, Quaternion& dst)
 {
-    GP_ASSERT(dst);
-
-    float x = q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y;
-    float y = q1.w * q2.y - q1.x * q2.z + q1.y * q2.w + q1.z * q2.x;
-    float z = q1.w * q2.z + q1.x * q2.y - q1.y * q2.x + q1.z * q2.w;
-    float w = q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z;
-
-    dst->x = x;
-    dst->y = y;
-    dst->z = z;
-    dst->w = w;
+    dst.v = q1.v[3] * q2.v + f32x4_t{1.f, -1.f, 1.f, -1.f} * q1.v[0] * __builtin_shufflevector(q2.v, q2.v, 3, 2, 1, 0) +
+        f32x4_t{1.f, 1.f, -1.f, -1.f} * q1.v[1] * __builtin_shufflevector(q2.v, q2.v, 2, 3, 0, 1) +
+        f32x4_t{-1.f, 1.f, 1.f, -1.f} * q1.v[2] * __builtin_shufflevector(q2.v, q2.v, 1, 0, 3, 2);
 }
 
 void Quaternion::normalize()
 {
-    float n = x * x + y * y + z * z + w * w;
-
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+    auto const mul = v * v;
+    float n = mul[0] + mul[1] + mul[2] + mul[3];
     // Already normalized.
-    if (n == 1.0f)
+    if (std::abs(n - 1.f) < epsi)
         return;
 
     n = std::sqrt(n);
     // Too close to zero.
-    if (n < 0.000001f)
+    if (std::abs(n) < epsi)
         return;
 
     n = 1.0f / n;
-    x *= n;
-    y *= n;
-    z *= n;
-    w *= n;
+    v *= n;
 }
 
 Quaternion Quaternion::getNormalized() const
@@ -181,101 +174,82 @@ Quaternion Quaternion::getNormalized() const
 
 void Quaternion::set(float xx, float yy, float zz, float ww)
 {
-    this->x = xx;
-    this->y = yy;
-    this->z = zz;
-    this->w = ww;
+    v = {xx, yy, zz, ww};
 }
 
 void Quaternion::set(float* array)
 {
     GP_ASSERT(array);
 
-    x = array[0];
-    y = array[1];
-    z = array[2];
-    w = array[3];
+    v = {array[0], array[1], array[2], array[3]};
 }
 
 void Quaternion::set(const Mat4& m)
 {
-    Quaternion::createFromRotationMatrix(m, this);
+    Quaternion::createFromRotationMatrix(m, *this);
 }
 
 void Quaternion::set(const Vec3& axis, float angle)
 {
-    Quaternion::createFromAxisAngle(axis, angle, this);
+    Quaternion::createFromAxisAngle(axis, angle, *this);
 }
 
 void Quaternion::set(const Quaternion& q)
 {
-    this->x = q.x;
-    this->y = q.y;
-    this->z = q.z;
-    this->w = q.w;
+    v = q.v;
 }
 
 void Quaternion::setIdentity()
 {
-    x = 0.0f;
-    y = 0.0f;
-    z = 0.0f;
-    w = 1.0f;
+    v = {0.f, 0.f, 0.f, 1.f};
 }
 
-float Quaternion::toAxisAngle(Vec3* axis) const
+float Quaternion::toAxisAngle(Vec3& axis) const
 {
-    GP_ASSERT(axis);
-
     Quaternion q(x, y, z, w);
     q.normalize();
-    axis->x = q.x;
-    axis->y = q.y;
-    axis->z = q.z;
-    axis->normalize();
+    axis.x = q.v[0];
+    axis.y = q.v[1];
+    axis.z = q.v[2];
+    axis.normalize();
 
     return (2.0f * std::acos(q.w));
 }
 
-void Quaternion::lerp(const Quaternion& q1, const Quaternion& q2, float t, Quaternion* dst)
+void Quaternion::lerp(const Quaternion& q1, const Quaternion& q2, float t, Quaternion& dst)
 {
-    GP_ASSERT(dst);
     GP_ASSERT(!(t < 0.0f || t > 1.0f));
 
-    if (t == 0.0f)
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+
+    if (std::abs(t) < epsi)
     {
-        memcpy(dst, &q1, sizeof(float) * 4);
+        dst.v = q1.v;
         return;
     }
-    else if (t == 1.0f)
+    else if (std::abs(t - 1.0f) < epsi)
     {
-        memcpy(dst, &q2, sizeof(float) * 4);
+        dst.v = q2.v;
         return;
     }
 
-    float t1 = 1.0f - t;
-
-    dst->x = t1 * q1.x + t * q2.x;
-    dst->y = t1 * q1.y + t * q2.y;
-    dst->z = t1 * q1.z + t * q2.z;
-    dst->w = t1 * q1.w + t * q2.w;
+    dst.v = (1.0f - t) * q1.v + t * q2.v;
 }
 
-void Quaternion::slerp(const Quaternion& q1, const Quaternion& q2, float t, Quaternion* dst)
+void Quaternion::slerp(const Quaternion& q1, const Quaternion& q2, float t, Quaternion& dst)
 {
-    GP_ASSERT(dst);
-    slerp(q1.x, q1.y, q1.z, q1.w, q2.x, q2.y, q2.z, q2.w, t, &dst->x, &dst->y, &dst->z, &dst->w);
+    slerp(q1.x, q1.y, q1.z, q1.w, q2.x, q2.y, q2.z, q2.w, t, &dst.x, &dst.y, &dst.z, &dst.w);
 }
 
-void Quaternion::squad(const Quaternion& q1, const Quaternion& q2, const Quaternion& s1, const Quaternion& s2, float t, Quaternion* dst)
+void Quaternion::squad(const Quaternion& q1, const Quaternion& q2, const Quaternion& s1, const Quaternion& s2, float t, Quaternion& dst)
 {
     GP_ASSERT(!(t < 0.0f || t > 1.0f));
 
     Quaternion dstQ(0.0f, 0.0f, 0.0f, 1.0f);
     Quaternion dstS(0.0f, 0.0f, 0.0f, 1.0f);
 
-    slerpForSquad(q1, q2, t, &dstQ);
-    slerpForSquad(s1, s2, t, &dstS);
+    slerpForSquad(q1, q2, t, dstQ);
+    slerpForSquad(s1, s2, t, dstS);
     slerpForSquad(dstQ, dstS, 2.0f * t * (1.0f - t), dst);
 }
 
@@ -289,7 +263,9 @@ void Quaternion::slerp(float q1x, float q1y, float q1z, float q1w, float q2x, fl
     GP_ASSERT(dstx && dsty && dstz && dstw);
     GP_ASSERT(!(t < 0.0f || t > 1.0f));
 
-    if (t == 0.0f)
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+
+    if (std::abs(t) < epsi)
     {
         *dstx = q1x;
         *dsty = q1y;
@@ -297,7 +273,7 @@ void Quaternion::slerp(float q1x, float q1y, float q1z, float q1w, float q2x, fl
         *dstw = q1w;
         return;
     }
-    else if (t == 1.0f)
+    if (std::abs(t - 1.f) < epsi)
     {
         *dstx = q2x;
         *dsty = q2y;
@@ -306,7 +282,7 @@ void Quaternion::slerp(float q1x, float q1y, float q1z, float q1w, float q2x, fl
         return;
     }
 
-    if (q1x == q2x && q1y == q2y && q1z == q2z && q1w == q2w)
+    if (std::abs(q1x - q2x) < epsi && std::abs(q1y - q2y) < epsi && std::abs(q1z - q2z) < epsi && std::abs(q1w - q2w) < epsi)
     {
         *dstx = q1x;
         *dsty = q1y;
@@ -379,42 +355,35 @@ void Quaternion::slerp(float q1x, float q1y, float q1z, float q1w, float q2x, fl
     *dstz = z * f1;
 }
 
-void Quaternion::slerpForSquad(const Quaternion& q1, const Quaternion& q2, float t, Quaternion* dst)
+void Quaternion::slerpForSquad(const Quaternion& q1, const Quaternion& q2, float t, Quaternion& dst)
 {
-    GP_ASSERT(dst);
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
 
     // cos(omega) = q1 * q2;
     // slerp(q1, q2, t) = (q1*sin((1-t)*omega) + q2*sin(t*omega))/sin(omega);
     // q1 = +- q2, slerp(q1,q2,t) = q1.
     // This is a straight-forward implementation of the formula of slerp. It does not do any sign switching.
-    float c = q1.x * q2.x + q1.y * q2.y + q1.z * q2.z + q1.w * q2.w;
+
+    auto const tmp = q1.v * q2.v;
+    float const c = tmp[0] + tmp[1] + tmp[2] + tmp[3];
 
     if (std::abs(c) >= 1.0f)
     {
-        dst->x = q1.x;
-        dst->y = q1.y;
-        dst->z = q1.z;
-        dst->w = q1.w;
+        dst.v = q1.v;
         return;
     }
 
-    float omega = std::acos(c);
-    float s = std::sqrt(1.0f - c * c);
-    if (std::abs(s) <= 0.00001f)
+    float const omega = std::acos(c);
+    float const s = std::sqrt(1.0f - c * c);
+    if (std::abs(s) < epsi)
     {
-        dst->x = q1.x;
-        dst->y = q1.y;
-        dst->z = q1.z;
-        dst->w = q1.w;
+        dst.v = q1.v;
         return;
     }
 
-    float r1 = std::sin((1 - t) * omega) / s;
-    float r2 = std::sin(t * omega) / s;
-    dst->x = (q1.x * r1 + q2.x * r2);
-    dst->y = (q1.y * r1 + q2.y * r2);
-    dst->z = (q1.z * r1 + q2.z * r2);
-    dst->w = (q1.w * r1 + q2.w * r2);
+    float const r1 = std::sin((1 - t) * omega) / s;
+    float const r2 = std::sin(t * omega) / s;
+    dst.v = q1.v * r1 + q2.v * r2;
 }
 
 NS_CC_MATH_END

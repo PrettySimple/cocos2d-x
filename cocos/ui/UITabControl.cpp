@@ -58,7 +58,7 @@ namespace ui
 
     void TabControl::insertTab(int index, TabHeader* header, Layout* container)
     {
-        int cellSize = (int)_tabItems.size();
+        int cellSize = static_cast<int>(_tabItems.size());
         if (index > cellSize)
         {
             CCLOG("%s", "insert index error");
@@ -70,7 +70,8 @@ namespace ui
 
         _tabItems.insert(_tabItems.begin() + index, new TabItem(header, container));
         header->_tabView = this;
-        header->_tabSelectedEvent = CC_CALLBACK_2(TabControl::dispatchSelectedTabChanged, this); // binding tab selected event
+        header->_tabSelectedEvent = [this](int tabindex, TabHeader::EventType eventType) { dispatchSelectedTabChanged(tabindex, eventType); }; // binding tab
+                                                                                                                                               // selected event
 
         initAfterInsert(index);
     }
@@ -117,7 +118,7 @@ namespace ui
 
     void TabControl::removeTab(int index)
     {
-        int cellSize = (int)_tabItems.size();
+        int cellSize = static_cast<int>(_tabItems.size());
         if (cellSize == 0 || index >= cellSize)
         {
             CCLOG("%s", "no tab or remove index error");
@@ -199,8 +200,6 @@ namespace ui
                 anpoint.x = 0.f;
                 anpoint.y = .5f;
                 break;
-            default:
-                break;
         }
         return anpoint;
     }
@@ -213,7 +212,7 @@ namespace ui
 
     void TabControl::initTabHeadersPos(int startIndex)
     {
-        int cellSize = (int)_tabItems.size();
+        int cellSize = static_cast<int>(_tabItems.size());
         if (startIndex >= cellSize)
             return;
 
@@ -238,8 +237,6 @@ namespace ui
                 originX = _contentSize.width - _headerWidth;
                 originY = _contentSize.height - _headerHeight * .5f;
                 deltaPos.y = 0 - _headerHeight;
-                break;
-            default:
                 break;
         }
 
@@ -270,8 +267,6 @@ namespace ui
                 _containerPosition = Vec2(0, 0);
                 _containerSize = Size(_contentSize.width - _headerWidth, _contentSize.height);
                 break;
-            default:
-                break;
         }
 
         for (auto& tabItem : _tabItems)
@@ -284,7 +279,7 @@ namespace ui
 
     TabHeader* TabControl::getTabHeader(int index) const
     {
-        if (index >= (int)getTabCount())
+        if (index >= static_cast<int>(getTabCount()))
             return nullptr;
 
         return _tabItems.at(index)->header;
@@ -292,7 +287,7 @@ namespace ui
 
     Layout* TabControl::getTabContainer(int index) const
     {
-        if (index >= (int)getTabCount())
+        if (index >= static_cast<int>(getTabCount()))
             return nullptr;
         return _tabItems.at(index)->container;
     }
@@ -301,7 +296,7 @@ namespace ui
     {
         if (eventType == TabHeader::EventType::SELECTED)
         {
-            if (tabIndex <= -1 || tabIndex >= (int)_tabItems.size())
+            if (tabIndex <= -1 || tabIndex >= static_cast<int>(_tabItems.size()))
             {
                 deactiveTabItem(_selectedItem);
                 _selectedItem = nullptr;
@@ -316,7 +311,7 @@ namespace ui
         }
         else if (eventType == TabHeader::EventType::UNSELECTED)
         {
-            if (tabIndex >= 0 && tabIndex < (int)_tabItems.size())
+            if (tabIndex >= 0 && tabIndex < static_cast<int>(_tabItems.size()))
             {
                 auto tabItem = _tabItems.at(tabIndex);
                 if (tabItem == _selectedItem)
@@ -338,7 +333,7 @@ namespace ui
 
     int TabControl::indexOfTabHeader(const TabHeader* tabCell) const
     {
-        int n = (int)_tabItems.size();
+        int n = static_cast<int>(_tabItems.size());
         for (auto i = 0; i < n; i++)
         {
             if (tabCell == _tabItems.at(i)->header)
@@ -373,7 +368,7 @@ namespace ui
 
     void TabControl::setHeaderSelectedZoom(float zoom)
     {
-        if (_currentHeaderZoom != zoom)
+        if (std::abs(_currentHeaderZoom - zoom) >= std::numeric_limits<float>::epsilon())
         {
             _currentHeaderZoom = zoom;
             if (_selectedItem != nullptr)
@@ -631,7 +626,6 @@ namespace ui
         {
             return _tabLabelRender->getBMFontFilePath();
         }
-        return "";
     }
 
     void TabHeader::onSizeChanged()

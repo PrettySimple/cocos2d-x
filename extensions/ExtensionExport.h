@@ -1,5 +1,5 @@
-#ifndef __CCEXTENSIONEXPORT_H__
-#define __CCEXTENSIONEXPORT_H__
+#ifndef CC_EXTENSIONS_EXPORT_H
+#define CC_EXTENSIONS_EXPORT_H
 
 #if (defined(WIN32) && defined(_WINDOWS)) || defined(WINRT) || defined(WP8)
 #    ifdef __MINGW32__
@@ -30,4 +30,4 @@
 #    define CC_EX_DLL
 #endif
 
-#endif /* __CCEXTENSIONEXPORT_H__*/
+#endif // CC_EXTENSIONS_EXPORT_H

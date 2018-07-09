@@ -22,8 +22,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CC_PU_PARTICLE_3D_ON_QUOTA_OBSERVER_TRANSLATOR_H__
-#define __CC_PU_PARTICLE_3D_ON_QUOTA_OBSERVER_TRANSLATOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_ONQUOTAOBSERVERTRANSLATOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_ONQUOTAOBSERVERTRANSLATOR_H
 
 #include "extensions/Particle3D/PU/CCPUOnQuotaObserver.h"
 #include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
@@ -35,12 +35,12 @@ class PUOnQuotaObserverTranslator : public PUScriptTranslator
 {
 public:
     PUOnQuotaObserverTranslator();
-    virtual ~PUOnQuotaObserverTranslator(){};
+    ~PUOnQuotaObserverTranslator() override = default;
 
-    virtual bool translateChildProperty(PUScriptCompiler* compiler, PUAbstractNode* node);
-    virtual bool translateChildObject(PUScriptCompiler* compiler, PUAbstractNode* node);
+    bool translateChildProperty(PUScriptCompiler* compiler, PUAbstractNode* node) override;
+    bool translateChildObject(PUScriptCompiler* compiler, PUAbstractNode* node) override;
 };
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_ONQUOTAOBSERVERTRANSLATOR_H

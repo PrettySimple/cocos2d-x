@@ -25,8 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCMENU_ITEM_H__
-#define __CCMENU_ITEM_H__
+#ifndef CC_2D_MENUITEM_H
+#define CC_2D_MENUITEM_H
 
 // cocos2d includes
 #include "2d/CCNode.h"
@@ -111,7 +111,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~MenuItem();
+    ~MenuItem() override;
 
     /** Initializes a MenuItem with a target/selector.
      * @lua NA
@@ -130,7 +130,7 @@ protected:
     ccMenuCallback _callback;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MenuItem);
+    CC_DISALLOW_COPY_AND_ASSIGN(MenuItem)
 };
 
 /** @brief An abstract class for "label" MenuItemLabel items.
@@ -190,7 +190,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~MenuItemLabel();
+    ~MenuItemLabel() override;
 
     /** Initializes a MenuItemLabel with a Label, target and selector. */
     bool initWithLabel(Node* label, const ccMenuCallback& callback);
@@ -208,7 +208,7 @@ protected:
     Node* _label;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MenuItemLabel);
+    CC_DISALLOW_COPY_AND_ASSIGN(MenuItemLabel)
 };
 
 /** @brief A MenuItemAtlasFont.
@@ -230,14 +230,12 @@ public:
         /**
          * @js ctor
          */
-        MenuItemAtlasFont()
-    {
-    }
+        MenuItemAtlasFont() = default;
     /**
      * @js NA
      * @lua NA
      */
-    virtual ~MenuItemAtlasFont() {}
+    ~MenuItemAtlasFont() override;
 
     /** Initializes a menu item from a string and atlas with a target/selector. */
     CC_DEPRECATED_ATTRIBUTE bool initWithString(const std::string& value, const std::string& charMapFile, int itemWidth, int itemHeight, char startCharMap,
@@ -247,7 +245,7 @@ public:
     bool initWithString(const std::string& value, const std::string& charMapFile, int itemWidth, int itemHeight, char startCharMap, const ccMenuCallback& callback);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MenuItemAtlasFont);
+    CC_DISALLOW_COPY_AND_ASSIGN(MenuItemAtlasFont)
 };
 
 /** @brief A MenuItemFont.
@@ -267,12 +265,12 @@ public:
     static void setFontSize(int size);
     /** Get default font size. */
     static int getFontSize();
-    CC_DEPRECATED_ATTRIBUTE static int fontSize() { return MenuItemFont::getFontSize(); };
+    CC_DEPRECATED_ATTRIBUTE static int fontSize() { return MenuItemFont::getFontSize(); }
     /** Set the default font name. */
     static void setFontName(const std::string& name);
     /** Get the default font name. */
     static const std::string& getFontName();
-    CC_DEPRECATED_ATTRIBUTE static const std::string& fontName() { return MenuItemFont::getFontName(); };
+    CC_DEPRECATED_ATTRIBUTE static const std::string& fontName() { return MenuItemFont::getFontName(); }
 
     /** Set font size.
      * c++ can not overload static and non-static member functions with the same parameter types.
@@ -287,7 +285,7 @@ public:
      * @js NA
      */
     int getFontSizeObj() const;
-    CC_DEPRECATED_ATTRIBUTE int fontSizeObj() const { return getFontSizeObj(); };
+    CC_DEPRECATED_ATTRIBUTE int fontSizeObj() const { return getFontSizeObj(); }
 
     /**
      * Set the font name .
@@ -331,7 +329,7 @@ protected:
     std::string _fontName;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MenuItemFont);
+    CC_DISALLOW_COPY_AND_ASSIGN(MenuItemFont)
 };
 
 /** @brief MenuItemSprite accepts Node<RGBAProtocol> objects as items.
@@ -410,7 +408,7 @@ protected:
     Node* _disabledImage;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MenuItemSprite);
+    CC_DISALLOW_COPY_AND_ASSIGN(MenuItemSprite)
 };
 
 /** @brief MenuItemImage accepts images as items.
@@ -472,7 +470,7 @@ public:
     bool initWithNormalImage(const std::string& normalImage, const std::string& selectedImage, const std::string& disabledImage, const ccMenuCallback& callback);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MenuItemImage);
+    CC_DISALLOW_COPY_AND_ASSIGN(MenuItemImage)
 };
 
 /** @brief A MenuItemToggle.
@@ -619,7 +617,7 @@ protected:
     Vector<MenuItem*> _subItems;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MenuItemToggle);
+    CC_DISALLOW_COPY_AND_ASSIGN(MenuItemToggle)
 };
 
 // end of 2d group
@@ -627,4 +625,4 @@ private:
 
 NS_CC_END
 
-#endif //__CCMENU_ITEM_H__
+#endif // CC_2D_MENUITEM_H

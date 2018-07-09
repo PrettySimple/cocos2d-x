@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_DYNAMIC_ATTRIBUTE_H__
-#define __CC_PU_PARTICLE_3D_DYNAMIC_ATTRIBUTE_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_DYNAMICATTRIBUTE_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_DYNAMICATTRIBUTE_H
 
 #include "CCPUSimpleSpline.h"
 #include "base/CCRef.h"
@@ -118,18 +118,18 @@ public:
 
     /** Destructor
      */
-    ~PUDynamicAttributeFixed(void);
+    ~PUDynamicAttributeFixed() override;
 
     /** Todo
      */
-    virtual float getValue(float x = 0) override;
+    float getValue(float x = 0) override;
 
     /** Todo
      */
     virtual void setValue(float value);
 
-    virtual PUDynamicAttributeFixed* clone() override;
-    virtual void copyAttributesTo(PUDynamicAttribute* dynamicAttribute) override;
+    PUDynamicAttributeFixed* clone() override;
+    void copyAttributesTo(PUDynamicAttribute* dynamicAttribute) override;
 
 protected:
     float _value;
@@ -142,7 +142,7 @@ class CC_DLL PUDynamicAttributeRandom : public PUDynamicAttribute
 public:
     /** Constructor
      */
-    PUDynamicAttributeRandom(void);
+    PUDynamicAttributeRandom();
 
     /** Copy constructor
      */
@@ -150,11 +150,11 @@ public:
 
     /** Destructor
      */
-    ~PUDynamicAttributeRandom(void);
+    ~PUDynamicAttributeRandom() override;
 
     /** Todo
      */
-    virtual float getValue(float x = 0) override;
+    float getValue(float x = 0) override;
 
     /** Todo
      */
@@ -164,8 +164,8 @@ public:
     float getMax(void) const;
     void setMinMax(float min, float max);
 
-    virtual PUDynamicAttributeRandom* clone() override;
-    virtual void copyAttributesTo(PUDynamicAttribute* dynamicAttribute) override;
+    PUDynamicAttributeRandom* clone() override;
+    void copyAttributesTo(PUDynamicAttribute* dynamicAttribute) override;
 
 protected:
     float _min, _max;
@@ -193,7 +193,7 @@ public:
 
     /** Destructor
      */
-    ~PUDynamicAttributeCurved(void);
+    ~PUDynamicAttributeCurved() override;
 
     /** Get and set the curve type
      */
@@ -202,7 +202,7 @@ public:
 
     /** Todo
      */
-    virtual float getValue(float x = 0) override;
+    float getValue(float x = 0) override;
 
     /** Todo
      */
@@ -224,8 +224,8 @@ public:
      */
     void removeAllControlPoints(void);
 
-    virtual PUDynamicAttributeCurved* clone() override;
-    virtual void copyAttributesTo(PUDynamicAttribute* dynamicAttribute) override;
+    PUDynamicAttributeCurved* clone() override;
+    void copyAttributesTo(PUDynamicAttribute* dynamicAttribute) override;
 
 protected:
     /** Todo
@@ -275,11 +275,11 @@ public:
 
     /** Destructor
      */
-    ~PUDynamicAttributeOscillate(void);
+    ~PUDynamicAttributeOscillate() override;
 
     /** Todo
      */
-    virtual float getValue(float x = 0) override;
+    float getValue(float x = 0) override;
 
     /** Get and set the OscillationType
      */
@@ -306,8 +306,8 @@ public:
     float getAmplitude(void) const;
     void setAmplitude(float amplitude);
 
-    virtual PUDynamicAttributeOscillate* clone() override;
-    virtual void copyAttributesTo(PUDynamicAttribute* dynamicAttribute) override;
+    PUDynamicAttributeOscillate* clone() override;
+    void copyAttributesTo(PUDynamicAttribute* dynamicAttribute) override;
 
 protected:
     OscillationType _oscillationType;
@@ -328,4 +328,4 @@ public:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_DYNAMICATTRIBUTE_H

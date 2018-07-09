@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _CC_QUADCOMMAND_H_
-#define _CC_QUADCOMMAND_H_
+#ifndef CC_RENDERER_QUADCOMMAND_H
+#define CC_RENDERER_QUADCOMMAND_H
 
 #include <vector>
 
@@ -52,8 +52,8 @@ public:
     QuadCommand& operator=(QuadCommand&&) noexcept = delete;
     ~QuadCommand() override;
 
-    void init(float globalOrder, Texture2D* textureID, GLProgramState* glProgramState, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, ssize_t quadCount,
-              const Mat4& mv, uint32_t flags);
+    void init(float globalOrder, Texture2D* textureID, GLProgramState* glProgramState, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads,
+              std::size_t quadCount, const Mat4& mv, uint32_t flags);
 
 private:
     /** Initializes the command.
@@ -66,12 +66,12 @@ private:
      @param mv ModelView matrix for the command.
      @param flags to indicate that the command is using 3D rendering or not.
      */
-    void init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, ssize_t quadCount,
+    void init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, std::size_t quadCount,
               const Mat4& mv, uint32_t flags);
 
     /**Deprecated function, the params is similar as the upper init function, with flags equals 0.*/
-    CC_DEPRECATED_ATTRIBUTE void
-    init(float globalOrder, GLuint textureID, GLProgramState* shader, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, ssize_t quadCount, const Mat4& mv);
+    CC_DEPRECATED_ATTRIBUTE void init(float globalOrder, GLuint textureID, GLProgramState* shader, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads,
+                                      std::size_t quadCount, const Mat4& mv);
 
     void reIndex(int indices);
 
@@ -89,4 +89,4 @@ NS_CC_END
  end of support group
  @}
  */
-#endif //_CC_QUADCOMMAND_H_
+#endif // CC_RENDERER_QUADCOMMAND_H

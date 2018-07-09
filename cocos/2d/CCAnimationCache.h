@@ -24,8 +24,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CC_ANIMATION_CACHE_H__
-#define __CC_ANIMATION_CACHE_H__
+#ifndef CC_2D_ANIMATIONCACHE_H
+#define CC_2D_ANIMATIONCACHE_H
 
 #include "2d/CCAnimation.h"
 #include "base/CCMap.h"
@@ -145,4 +145,4 @@ private:
 
 NS_CC_END
 
-#endif // __CC_ANIMATION_CACHE_H__
+#endif // CC_2D_ANIMATIONCACHE_H

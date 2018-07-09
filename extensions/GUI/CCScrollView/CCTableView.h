@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCTABLEVIEW_H__
-#define __CCTABLEVIEW_H__
+#ifndef CC_EXTENSIONS_GUI_SCROLLVIEW_TABLEVIEW_H
+#define CC_EXTENSIONS_GUI_SCROLLVIEW_TABLEVIEW_H
 
 #include "CCScrollView.h"
 #include "CCTableViewCell.h"
@@ -65,7 +65,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual void tableCellHighlight(TableView* table, TableViewCell* cell){};
+    virtual void tableCellHighlight(TableView* table, TableViewCell* cell) {}
 
     /**
      * Delegate to respond a table cell release event
@@ -75,7 +75,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual void tableCellUnhighlight(TableView* table, TableViewCell* cell){};
+    virtual void tableCellUnhighlight(TableView* table, TableViewCell* cell) {}
 
     /**
      * Delegate called when the cell is about to be recycled. Immediately
@@ -87,7 +87,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual void tableCellWillRecycle(TableView* table, TableViewCell* cell){};
+    virtual void tableCellWillRecycle(TableView* table, TableViewCell* cell) {}
 };
 
 /**
@@ -100,7 +100,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~TableViewDataSource() {}
+    virtual ~TableViewDataSource();
 
     /**
      * cell size for a given index
@@ -108,27 +108,27 @@ public:
      * @param idx the index of a cell to get a size
      * @return size of a cell at given index
      */
-    virtual Size tableCellSizeForIndex(TableView* table, ssize_t idx) { return cellSizeForTable(table); };
+    virtual Size tableCellSizeForIndex(TableView* table, std::size_t idx) { return cellSizeForTable(table); }
     /**
      * cell height for a given table.
      *
      * @param table table to hold the instances of Class
      * @return cell size
      */
-    virtual Size cellSizeForTable(TableView* table) { return Size::ZERO; };
+    virtual Size cellSizeForTable(TableView* table) { return Size::ZERO; }
     /**
      * a cell instance at a given index
      *
      * @param idx index to search for a cell
      * @return cell found at idx
      */
-    virtual TableViewCell* tableCellAtIndex(TableView* table, ssize_t idx) = 0;
+    virtual TableViewCell* tableCellAtIndex(TableView* table, std::size_t idx) = 0;
     /**
      * Returns number of cells in a given table view.
      *
      * @return number of cells
      */
-    virtual ssize_t numberOfCellsInTableView(TableView* table) = 0;
+    virtual std::size_t numberOfCellsInTableView(TableView* table) = 0;
 };
 
 /**
@@ -186,9 +186,9 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~TableView();
+    ~TableView() override;
 
-    bool initWithViewSize(Size size, Node* container = NULL);
+    bool initWithViewSize(Size size, Node* container = nullptr);
 
     /**
      * data source
@@ -229,19 +229,19 @@ public:
      *
      * @param idx index to find a cell
      */
-    void updateCellAtIndex(ssize_t idx);
+    void updateCellAtIndex(std::size_t idx);
     /**
      * Inserts a new cell at a given index
      *
      * @param idx location to insert
      */
-    void insertCellAtIndex(ssize_t idx);
+    void insertCellAtIndex(std::size_t idx);
     /**
      * Removes a cell at a given index
      *
      * @param idx index to find a cell
      */
-    void removeCellAtIndex(ssize_t idx);
+    void removeCellAtIndex(std::size_t idx);
     /**
      * reloads data from data source.  the view will be refreshed.
      */
@@ -259,7 +259,7 @@ public:
      * @param idx index
      * @return a cell at a given index
      */
-    TableViewCell* cellAtIndex(ssize_t idx);
+    TableViewCell* cellAtIndex(std::size_t idx);
 
     // Overrides
     virtual void scrollViewDidScroll(ScrollView* view) override;
@@ -272,11 +272,11 @@ public:
 protected:
     long __indexFromOffset(Vec2 offset);
     long _indexFromOffset(Vec2 offset);
-    Vec2 __offsetFromIndex(ssize_t index);
-    Vec2 _offsetFromIndex(ssize_t index);
+    Vec2 __offsetFromIndex(std::size_t index);
+    Vec2 _offsetFromIndex(std::size_t index);
 
     void _moveCellOutOfSight(TableViewCell* cell);
-    void _setIndexForCell(ssize_t index, TableViewCell* cell);
+    void _setIndexForCell(std::size_t index, TableViewCell* cell);
     void _addCellIfNecessary(TableViewCell* cell);
 
     void _updateCellPositions();
@@ -290,7 +290,7 @@ protected:
     /**
      * index set to query the indexes of the cells used.
      */
-    std::set<ssize_t>* _indices;
+    std::set<std::size_t>* _indices;
 
     /**
      * vector with all cell positions
@@ -326,4 +326,4 @@ NS_CC_EXT_END
 // end of ui group
 /// @}
 
-#endif /* __CCTABLEVIEW_H__ */
+#endif // CC_EXTENSIONS_GUI_SCROLLVIEW_TABLEVIEW_H

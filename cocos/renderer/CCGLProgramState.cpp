@@ -51,13 +51,6 @@ std::vector<GLProgramState::AutoBindingResolver*> GLProgramState::_customAutoBin
 //
 //
 
-UniformValue::UniformValue()
-: _uniform(nullptr)
-, _glprogram(nullptr)
-, _type(Type::VALUE)
-{
-}
-
 UniformValue::UniformValue(Uniform* uniform, GLProgram* glprogram)
 : _uniform(uniform)
 , _glprogram(glprogram)
@@ -137,7 +130,7 @@ void UniformValue::apply()
                 break;
 
             case GL_FLOAT_MAT4:
-                _glprogram->setUniformLocationWithMatrix4fv(_uniform->location, (GLfloat*)&_value.matrixValue, 1);
+                _glprogram->setUniformLocationWithMatrix4fv(_uniform->location, reinterpret_cast<GLfloat*>(&_value.matrixValue), 1);
                 break;
 
             default:
@@ -183,11 +176,11 @@ void UniformValue::setFloat(float value)
     _type = Type::VALUE;
 }
 
-void UniformValue::setFloatv(ssize_t size, const float* pointer)
+void UniformValue::setFloatv(std::size_t size, const float* pointer)
 {
     CCASSERT(_uniform->type == GL_FLOAT, "Wrong type: expecting GL_FLOAT");
-    _value.floatv.pointer = (const float*)pointer;
-    _value.floatv.size = (GLsizei)size;
+    _value.floatv.pointer = reinterpret_cast<float const*>(pointer);
+    _value.floatv.size = static_cast<GLsizei>(size);
     _type = Type::POINTER;
 }
 
@@ -198,11 +191,11 @@ void UniformValue::setVec2(const Vec2& value)
     _type = Type::VALUE;
 }
 
-void UniformValue::setVec2v(ssize_t size, const Vec2* pointer)
+void UniformValue::setVec2v(std::size_t size, const Vec2* pointer)
 {
     CCASSERT(_uniform->type == GL_FLOAT_VEC2, "Wrong type: expecting GL_FLOAT_VEC2");
-    _value.v2f.pointer = (const float*)pointer;
-    _value.v2f.size = (GLsizei)size;
+    _value.v2f.pointer = reinterpret_cast<float const*>(pointer);
+    _value.v2f.size = static_cast<GLsizei>(size);
     _type = Type::POINTER;
 }
 
@@ -213,11 +206,11 @@ void UniformValue::setVec3(const Vec3& value)
     _type = Type::VALUE;
 }
 
-void UniformValue::setVec3v(ssize_t size, const Vec3* pointer)
+void UniformValue::setVec3v(std::size_t size, const Vec3* pointer)
 {
     CCASSERT(_uniform->type == GL_FLOAT_VEC3, "Wrong type: expecting GL_FLOAT_VEC3");
-    _value.v3f.pointer = (const float*)pointer;
-    _value.v3f.size = (GLsizei)size;
+    _value.v3f.pointer = reinterpret_cast<float const*>(pointer);
+    _value.v3f.size = static_cast<GLsizei>(size);
     _type = Type::POINTER;
 }
 
@@ -228,11 +221,11 @@ void UniformValue::setVec4(const Vec4& value)
     _type = Type::VALUE;
 }
 
-void UniformValue::setVec4v(ssize_t size, const Vec4* pointer)
+void UniformValue::setVec4v(std::size_t size, const Vec4* pointer)
 {
     CCASSERT(_uniform->type == GL_FLOAT_VEC4, "Wrong type: expecting GL_FLOAT_VEC4");
-    _value.v4f.pointer = (const float*)pointer;
-    _value.v4f.size = (GLsizei)size;
+    _value.v4f.pointer = reinterpret_cast<float const*>(pointer);
+    _value.v4f.size = static_cast<GLsizei>(size);
     _type = Type::POINTER;
 }
 
@@ -248,13 +241,6 @@ void UniformValue::setMat4(const Mat4& value)
 // VertexAttribValue
 //
 //
-
-VertexAttribValue::VertexAttribValue()
-: _vertexAttrib(nullptr)
-, _useCallback(false)
-, _enabled(false)
-{
-}
 
 VertexAttribValue::VertexAttribValue(VertexAttrib* vertexAttrib)
 : _vertexAttrib(vertexAttrib)
@@ -548,7 +534,7 @@ uint32_t GLProgramState::getVertexAttribsFlags() const
     return _vertexAttribsFlags;
 }
 
-ssize_t GLProgramState::getVertexAttribCount() const
+std::size_t GLProgramState::getVertexAttribCount() const
 {
     return _attributes.size();
 }
@@ -653,14 +639,14 @@ void GLProgramState::setUniformInt(GLint uniformLocation, int value)
         v->setInt(value);
 }
 
-void GLProgramState::setUniformFloatv(const std::string& uniformName, ssize_t size, const float* pointer)
+void GLProgramState::setUniformFloatv(const std::string& uniformName, std::size_t size, const float* pointer)
 {
     auto v = getUniformValue(uniformName);
     if (v)
         v->setFloatv(size, pointer);
 }
 
-void GLProgramState::setUniformFloatv(GLint uniformLocation, ssize_t size, const float* pointer)
+void GLProgramState::setUniformFloatv(GLint uniformLocation, std::size_t size, const float* pointer)
 {
     auto v = getUniformValue(uniformLocation);
     if (v)
@@ -681,14 +667,14 @@ void GLProgramState::setUniformVec2(GLint uniformLocation, const Vec2& value)
         v->setVec2(value);
 }
 
-void GLProgramState::setUniformVec2v(const std::string& uniformName, ssize_t size, const Vec2* pointer)
+void GLProgramState::setUniformVec2v(const std::string& uniformName, std::size_t size, const Vec2* pointer)
 {
     auto v = getUniformValue(uniformName);
     if (v)
         v->setVec2v(size, pointer);
 }
 
-void GLProgramState::setUniformVec2v(GLint uniformLocation, ssize_t size, const Vec2* pointer)
+void GLProgramState::setUniformVec2v(GLint uniformLocation, std::size_t size, const Vec2* pointer)
 {
     auto v = getUniformValue(uniformLocation);
     if (v)
@@ -709,14 +695,14 @@ void GLProgramState::setUniformVec3(GLint uniformLocation, const Vec3& value)
         v->setVec3(value);
 }
 
-void GLProgramState::setUniformVec3v(const std::string& uniformName, ssize_t size, const Vec3* pointer)
+void GLProgramState::setUniformVec3v(const std::string& uniformName, std::size_t size, const Vec3* pointer)
 {
     auto v = getUniformValue(uniformName);
     if (v)
         v->setVec3v(size, pointer);
 }
 
-void GLProgramState::setUniformVec3v(GLint uniformLocation, ssize_t size, const Vec3* pointer)
+void GLProgramState::setUniformVec3v(GLint uniformLocation, std::size_t size, const Vec3* pointer)
 {
     auto v = getUniformValue(uniformLocation);
     if (v)
@@ -737,14 +723,14 @@ void GLProgramState::setUniformVec4(GLint uniformLocation, const Vec4& value)
         v->setVec4(value);
 }
 
-void GLProgramState::setUniformVec4v(const std::string& uniformName, ssize_t size, const Vec4* value)
+void GLProgramState::setUniformVec4v(const std::string& uniformName, std::size_t size, const Vec4* value)
 {
     auto v = getUniformValue(uniformName);
     if (v)
         v->setVec4v(size, value);
 }
 
-void GLProgramState::setUniformVec4v(GLint uniformLocation, ssize_t size, const Vec4* pointer)
+void GLProgramState::setUniformVec4v(GLint uniformLocation, std::size_t size, const Vec4* pointer)
 {
     auto v = getUniformValue(uniformLocation);
     if (v)
@@ -867,7 +853,7 @@ void GLProgramState::setNodeBinding(Node* target)
     // weak ref
     _nodeBinding = target;
 
-    for (const auto autobinding : _autoBindings)
+    for (auto const& autobinding : _autoBindings)
         applyAutoBinding(autobinding.first, autobinding.second);
 }
 

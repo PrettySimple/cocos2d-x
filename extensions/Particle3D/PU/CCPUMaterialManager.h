@@ -23,34 +23,36 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_MATERIAL_MANAGER_H__
-#define __CC_PU_PARTICLE_3D_MATERIAL_MANAGER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_MATERIALMANAGER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_MATERIALMANAGER_H
+
+#include "base/CCRef.h"
 #include "base/ccTypes.h"
-#include "math/CCMath.h"
+#include "math/Vec4.h"
+#include "platform/CCGL.h"
+
+#include <string>
 #include <vector>
 
 NS_CC_BEGIN
 
-class CC_DLL PUMaterial : public Ref
+struct CC_DLL PUMaterial : public Ref
 {
-public:
-    PUMaterial();
-
     std::string fileName;
     std::string name;
-    bool isEnabledLight;
-    Vec4 ambientColor;
-    Vec4 diffuseColor;
-    Vec4 specularColor;
-    Vec4 emissiveColor;
-    float shininess;
+    bool isEnabledLight = true;
+    Vec4 ambientColor = Vec4::ONE;
+    Vec4 diffuseColor = Vec4::ONE;
+    Vec4 specularColor = Vec4::ZERO;
+    Vec4 emissiveColor = Vec4::ZERO;
+    float shininess = 0.0f;
 
-    BlendFunc blendFunc;
-    bool depthTest;
-    bool depthWrite;
+    BlendFunc blendFunc = {GL_ONE, GL_ZERO};
+    bool depthTest = true;
+    bool depthWrite = true;
 
     std::string textureFile;
-    GLuint wrapMode;
+    GLuint wrapMode = GL_CLAMP_TO_EDGE;
 };
 
 class CC_DLL PUMaterialCache
@@ -67,10 +69,10 @@ public:
     void addMaterial(PUMaterial* material);
 
 protected:
-    typedef std::vector<PUMaterial*> MaterialVector;
+    using MaterialVector = std::vector<PUMaterial*>;
     MaterialVector _materialMap;
 };
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_MATERIALMANAGER_H

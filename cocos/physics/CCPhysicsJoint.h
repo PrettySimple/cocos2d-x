@@ -53,7 +53,7 @@ class CC_DLL PhysicsJoint
 {
 protected:
     PhysicsJoint();
-    virtual ~PhysicsJoint() = 0;
+    virtual ~PhysicsJoint();
 
 public:
     /**Get physics body a connected to this joint.*/

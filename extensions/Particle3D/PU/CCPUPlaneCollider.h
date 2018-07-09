@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_PLANE_COLLIDER_H__
-#define __CC_PU_PARTICLE_3D_PLANE_COLLIDER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_PLANECOLLIDER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_PLANECOLLIDER_H
 
 #include "CCPUBaseCollider.h"
 #include "base/ccTypes.h"
@@ -40,12 +40,12 @@ public:
 
     static PUPlaneCollider* create();
 
-    virtual void notifyRescaled(const Vec3& scale) override;
-    virtual void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
+    void notifyRescaled(const Vec3& scale) override;
+    void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
 
     /** Returns the normal of the plane
      */
-    const Vec3 getNormal(void) const;
+    const Vec3 getNormal() const;
 
     /** Sets the normal of the plane
      */
@@ -55,10 +55,10 @@ public:
      */
     void calculateDirectionAfterCollision(PUParticle3D* particle, float timeElapsed);
 
-    virtual void copyAttributesTo(PUAffector* affector) override;
+    void copyAttributesTo(PUAffector* affector) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUPlaneCollider(void);
-    virtual ~PUPlaneCollider(void);
+    CC_CONSTRUCTOR_ACCESS : PUPlaneCollider();
+    ~PUPlaneCollider() override;
 
 protected:
     Vec3 _normal;
@@ -67,4 +67,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_PLANECOLLIDER_H

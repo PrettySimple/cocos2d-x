@@ -29,7 +29,7 @@ THE SOFTWARE.
 
 namespace cocos2d
 {
-    unsigned char alphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    static unsigned char alphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
     int _base64Decode(const unsigned char* input, unsigned int input_len, unsigned char* output, unsigned int* output_len)
     {
@@ -160,7 +160,7 @@ namespace cocos2d
         unsigned int outLength = 0;
 
         // should be enough to store 6-bit buffers in 8-bit buffers
-        *out = (unsigned char*)malloc(inLength / 4 * 3 + 1);
+        *out = reinterpret_cast<unsigned char*>(malloc(inLength / 4 * 3 + 1));
         if (*out)
         {
             int ret = _base64Decode(in, inLength, *out, &outLength);
@@ -183,7 +183,7 @@ namespace cocos2d
         unsigned int outLength = (inLength + 2) / 3 * 4;
 
         // should be enough to store 8-bit buffers in 6-bit buffers
-        *out = (char*)malloc(outLength + 1);
+        *out = reinterpret_cast<char*>(malloc(outLength + 1));
         if (*out)
         {
             _base64Encode(in, inLength, *out);

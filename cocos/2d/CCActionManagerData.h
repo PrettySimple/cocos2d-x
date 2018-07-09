@@ -5,8 +5,8 @@
 //  Created by Mathieu Garaud on 02/02/2018.
 //
 
-#ifndef ACTION_CCACTION_MANAGERDATA_H
-#define ACTION_CCACTION_MANAGERDATA_H
+#ifndef CC_2D_ACTIONMANAGERDATA_H
+#define CC_2D_ACTIONMANAGERDATA_H
 
 #include "2d/CCAction.h"
 #include "2d/CCNode.h"
@@ -85,4 +85,4 @@ public:
 
 NS_CC_END
 
-#endif // ACTION_CCACTION_MANAGERDATA_H
+#endif // CC_2D_ACTIONMANAGERDATA_H

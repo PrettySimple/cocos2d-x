@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __UIEditBoxIMPLMAC_H__
-#define __UIEditBoxIMPLMAC_H__
+#ifndef CC_UI_EDITBOX_EDITBOXIMPLMAC_H
+#define CC_UI_EDITBOX_EDITBOXIMPLMAC_H
 
 #include "platform/CCPlatformConfig.h"
 
@@ -85,4 +85,4 @@ NS_CC_END
 
 #endif // #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 
-#endif /* __UIEditBoxIMPLMAC_H__ */
+#endif // CC_UI_EDITBOX_EDITBOXIMPLMAC_H

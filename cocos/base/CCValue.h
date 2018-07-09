@@ -22,11 +22,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCValue__
-#define __cocos2d_libs__CCValue__
+#ifndef CC_BASE_VALUE_H
+#define CC_BASE_VALUE_H
 
-#include "base/ccMacros.h"
+#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
+
+#include <cstdint>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -40,9 +42,9 @@ NS_CC_BEGIN
 
 class Value;
 
-typedef std::vector<Value> ValueVector;
-typedef std::unordered_map<std::string, Value> ValueMap;
-typedef std::unordered_map<int, Value> ValueMapIntKey;
+using ValueVector = std::vector<Value>;
+using ValueMap = std::unordered_map<std::string, Value>;
+using ValueMapIntKey = std::unordered_map<int, Value>;
 
 CC_DLL extern const ValueVector ValueVectorNull;
 CC_DLL extern const ValueMap ValueMapNull;
@@ -190,7 +192,7 @@ public:
     bool isNull() const { return _type == Type::NONE; }
 
     /** Value type wrapped by Value. */
-    enum class Type
+    enum struct Type : std::uint8_t
     {
         /// no value is wrapped, an empty Value
         NONE = 0,
@@ -248,4 +250,4 @@ private:
 
 NS_CC_END
 
-#endif /* defined(__cocos2d_libs__CCValue__) */
+#endif // CC_BASE_VALUE_H

@@ -28,9 +28,14 @@ THE SOFTWARE.
 #include "2d/CCAutoPolygon.h"
 
 #include "base/CCDirector.h"
-#include "clipper/clipper.hpp"
-#include "poly2tri/poly2tri.h"
 #include "renderer/CCTextureCache.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <clipper/clipper.hpp>
+#include <poly2tri/poly2tri.h>
+#pragma clang diagnostic pop
+
 #include <algorithm>
 #include <math.h>
 
@@ -645,7 +650,7 @@ TrianglesCommand::Triangles AutoPolygon::triangulate(const std::vector<Vec2>& po
     return triangles;
 }
 
-void AutoPolygon::calculateUV(const Rect& rect, V3F_C4B_T2F* verts, const ssize_t& count)
+void AutoPolygon::calculateUV(const Rect& rect, V3F_C4B_T2F* verts, const std::size_t& count)
 {
     /*
      whole texture UV coordination

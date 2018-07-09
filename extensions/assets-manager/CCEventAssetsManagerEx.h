@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCEventAssetsManagerEx__
-#define __cocos2d_libs__CCEventAssetsManagerEx__
+#ifndef CC_EXTENSIONS_ASSETSMANAGER_EVENTASSETSMANAGEREX_H
+#define CC_EXTENSIONS_ASSETSMANAGER_EVENTASSETSMANAGEREX_H
 
 #include "base/CCEvent.h"
 #include "base/CCEventCustom.h"
@@ -96,4 +96,4 @@ private:
 
 NS_CC_EXT_END
 
-#endif /* defined(__cocos2d_libs__CCEventAssetsManagerEx__) */
+#endif // CC_EXTENSIONS_ASSETSMANAGER_EVENTASSETSMANAGEREX_H

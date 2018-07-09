@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_COLLISION_AVOIDDANCE_AFFECTOR_H__
-#define __CC_PU_PARTICLE_3D_COLLISION_AVOIDDANCE_AFFECTOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_COLLISIONAVOIDANCEAFFECTOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_COLLISIONAVOIDANCEAFFECTOR_H
 
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 
@@ -38,7 +38,7 @@ public:
 
     static PUCollisionAvoidanceAffector* create();
 
-    virtual void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
+    void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
 
     /** Todo
      */
@@ -48,14 +48,14 @@ public:
      */
     void setRadius(float radius);
 
-    virtual void copyAttributesTo(PUAffector* affector) override;
+    void copyAttributesTo(PUAffector* affector) override;
 
     CC_CONSTRUCTOR_ACCESS : PUCollisionAvoidanceAffector();
-    virtual ~PUCollisionAvoidanceAffector();
+    ~PUCollisionAvoidanceAffector() override;
 
 protected:
     float _radius;
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_COLLISIONAVOIDANCEAFFECTOR_H

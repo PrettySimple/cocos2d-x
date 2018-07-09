@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__SliderReader__
-#define __TestCpp__SliderReader__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_SLIDERREADER_SLIDERREADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_SLIDERREADER_SLIDERREADER_H
 
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/WidgetReader/WidgetReader.h"
@@ -53,4 +53,4 @@ namespace cocostudio
     };
 } // namespace cocostudio
 
-#endif /* defined(__TestCpp__SliderReader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_SLIDERREADER_SLIDERREADER_H

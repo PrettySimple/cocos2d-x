@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PARTICLE_3D_EMITTER_H__
-#define __CC_PARTICLE_3D_EMITTER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_EMITTER_H
+#define CC_EXTENSIONS_PARTICLE3D_EMITTER_H
 
 #include "base/CCRef.h"
 #include <vector>
@@ -61,4 +61,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_EMITTER_H

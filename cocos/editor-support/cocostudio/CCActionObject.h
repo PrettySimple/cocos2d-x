@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __ActionObject_H__
-#define __ActionObject_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONOBJECT_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONOBJECT_H
 
 #include "2d/CCActionInstant.h"
 #include "cocostudio/CCActionNode.h"
@@ -190,4 +190,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONOBJECT_H

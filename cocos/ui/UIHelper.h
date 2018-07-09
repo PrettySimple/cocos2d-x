@@ -22,15 +22,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __UIHELPER_H__
-#define __UIHELPER_H__
+#ifndef CC_UI_HELPER_H
+#define CC_UI_HELPER_H
 
-#include "2d/CCNode.h"
 #include "platform/CCPlatformMacros.h"
 #include "ui/GUIExport.h"
+
 #include <string>
 
 NS_CC_BEGIN
+
+class Node;
+class Rect;
+class Size;
 
 /**
  * @addtogroup ui
@@ -125,4 +129,4 @@ namespace ui
 /// @}
 NS_CC_END
 
-#endif /* defined(__CocoGUI__UISystem__) */
+#endif // CC_UI_HELPER_H

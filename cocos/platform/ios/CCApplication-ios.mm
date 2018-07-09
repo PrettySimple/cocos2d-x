@@ -45,7 +45,7 @@ Application::Application()
 Application::~Application()
 {
     CC_ASSERT(this == sm_pSharedApplication);
-    sm_pSharedApplication = 0;
+    sm_pSharedApplication = nullptr;
 }
 
 int Application::run()

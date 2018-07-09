@@ -22,14 +22,17 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCBUNDLE3D_H__
-#define __CCBUNDLE3D_H__
+#ifndef CC_3D_BUNDLE3D_H
+#define CC_3D_BUNDLE3D_H
 
 #include "3d/CCBundle3DData.h"
 #include "3d/CCBundleReader.h"
 #include "base/CCData.h"
-#include "json/document.h"
-#include "json/rapidjson.h"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <json/document.h>
+#include <json/rapidjson.h>
+#pragma clang diagnostic pop
 
 NS_CC_BEGIN
 
@@ -192,4 +195,4 @@ protected:
 
 NS_CC_END
 
-#endif // __CCBUNDLE3D_H__
+#endif // CC_3D_BUNDLE3D_H

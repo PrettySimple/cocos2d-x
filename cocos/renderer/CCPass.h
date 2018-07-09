@@ -27,19 +27,19 @@
  - Qt3D: http://qt-project.org/
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCPass__
-#define __cocos2d_libs__CCPass__
+#ifndef CC_RENDERER_PASS_H
+#define CC_RENDERER_PASS_H
 
-#include <stdio.h>
-
+#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
 #include "renderer/CCRenderState.h"
 
 NS_CC_BEGIN
 
 class GLProgramState;
-class Technique;
+class Mat4;
 class Node;
+class Technique;
 class VertexAttribBinding;
 
 class CC_DLL Pass : public RenderState
@@ -105,4 +105,4 @@ protected:
 
 NS_CC_END
 
-#endif /* defined(__cocos2d_libs__CCPass__) */
+#endif // CC_RENDERER_PASS_H

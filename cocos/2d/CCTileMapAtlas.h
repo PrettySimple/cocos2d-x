@@ -24,8 +24,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CCTILE_MAP_ATLAS__
-#define __CCTILE_MAP_ATLAS__
+#ifndef CC_2D_TILEMAPATLAS_H
+#define CC_2D_TILEMAPATLAS_H
 
 #include "2d/CCAtlasNode.h"
 #include "base/CCValue.h"
@@ -82,7 +82,7 @@ public:
      * Returns a tile from position x,y.
      *For the moment only channel R is used
      */
-    CC_DEPRECATED_ATTRIBUTE Color3B tileAt(const Vec2& position) const { return getTileAt(position); };
+    CC_DEPRECATED_ATTRIBUTE Color3B tileAt(const Vec2& position) const { return getTileAt(position); }
     /** sets a tile at position x,y.
     For the moment only channel R is used
     */
@@ -120,4 +120,4 @@ protected:
 
 NS_CC_END
 
-#endif //__CCTILE_MAP_ATLAS__
+#endif // CC_2D_TILEMAPATLAS_H

@@ -40,18 +40,18 @@ static Pixel32 getColorA(uint32 u32ColorData)
     // Opaque Color Mode - RGB 554
     if ((u32ColorData & 0x8000) != 0)
     {
-        color.red = (uint8)((u32ColorData & 0x7c00) >> 10); // 5->5 bits
-        color.green = (uint8)((u32ColorData & 0x3e0) >> 5); // 5->5 bits
-        color.blue = (uint8)(u32ColorData & 0x1e) | ((u32ColorData & 0x1e) >> 4); // 4->5 bits
-        color.alpha = (uint8)0xf; // 0->4 bits
+        color.red = static_cast<uint8>((u32ColorData & 0x7c00) >> 10); // 5->5 bits
+        color.green = static_cast<uint8>((u32ColorData & 0x3e0) >> 5); // 5->5 bits
+        color.blue = static_cast<uint8>(u32ColorData & 0x1e) | ((u32ColorData & 0x1e) >> 4); // 4->5 bits
+        color.alpha = static_cast<uint8>(0xf); // 0->4 bits
     }
     // Transparent Color Mode - ARGB 3443
     else
     {
-        color.red = (uint8)((u32ColorData & 0xf00) >> 7) | ((u32ColorData & 0xf00) >> 11); // 4->5 bits
-        color.green = (uint8)((u32ColorData & 0xf0) >> 3) | ((u32ColorData & 0xf0) >> 7); // 4->5 bits
-        color.blue = (uint8)((u32ColorData & 0xe) << 1) | ((u32ColorData & 0xe) >> 2); // 3->5 bits
-        color.alpha = (uint8)((u32ColorData & 0x7000) >> 11); // 3->4 bits - note 0 at right
+        color.red = static_cast<uint8>((u32ColorData & 0xf00) >> 7) | ((u32ColorData & 0xf00) >> 11); // 4->5 bits
+        color.green = static_cast<uint8>((u32ColorData & 0xf0) >> 3) | ((u32ColorData & 0xf0) >> 7); // 4->5 bits
+        color.blue = static_cast<uint8>((u32ColorData & 0xe) << 1) | ((u32ColorData & 0xe) >> 2); // 3->5 bits
+        color.alpha = static_cast<uint8>((u32ColorData & 0x7000) >> 11); // 3->4 bits - note 0 at right
     }
 
     return color;
@@ -64,18 +64,18 @@ static Pixel32 getColorB(uint32 u32ColorData)
     // Opaque Color Mode - RGB 555
     if (u32ColorData & 0x80000000)
     {
-        color.red = (uint8)((u32ColorData & 0x7c000000) >> 26); // 5->5 bits
-        color.green = (uint8)((u32ColorData & 0x3e00000) >> 21); // 5->5 bits
-        color.blue = (uint8)((u32ColorData & 0x1f0000) >> 16); // 5->5 bits
-        color.alpha = (uint8)0xf; // 0 bits
+        color.red = static_cast<uint8>((u32ColorData & 0x7c000000) >> 26); // 5->5 bits
+        color.green = static_cast<uint8>((u32ColorData & 0x3e00000) >> 21); // 5->5 bits
+        color.blue = static_cast<uint8>((u32ColorData & 0x1f0000) >> 16); // 5->5 bits
+        color.alpha = static_cast<uint8>(0xf); // 0 bits
     }
     // Transparent Color Mode - ARGB 3444
     else
     {
-        color.red = (uint8)(((u32ColorData & 0xf000000) >> 23) | ((u32ColorData & 0xf000000) >> 27)); // 4->5 bits
-        color.green = (uint8)(((u32ColorData & 0xf00000) >> 19) | ((u32ColorData & 0xf00000) >> 23)); // 4->5 bits
-        color.blue = (uint8)(((u32ColorData & 0xf0000) >> 15) | ((u32ColorData & 0xf0000) >> 19)); // 4->5 bits
-        color.alpha = (uint8)((u32ColorData & 0x70000000) >> 27); // 3->4 bits - note 0 at right
+        color.red = static_cast<uint8>(((u32ColorData & 0xf000000) >> 23) | ((u32ColorData & 0xf000000) >> 27)); // 4->5 bits
+        color.green = static_cast<uint8>(((u32ColorData & 0xf00000) >> 19) | ((u32ColorData & 0xf00000) >> 23)); // 4->5 bits
+        color.blue = static_cast<uint8>(((u32ColorData & 0xf0000) >> 15) | ((u32ColorData & 0xf0000) >> 19)); // 4->5 bits
+        color.alpha = static_cast<uint8>((u32ColorData & 0x70000000) >> 27); // 3->4 bits - note 0 at right
     }
 
     return color;
@@ -91,10 +91,10 @@ static void interpolateColors(Pixel32 P, Pixel32 Q, Pixel32 R, Pixel32 S, Pixel1
     }
 
     // Convert to int 32.
-    Pixel128S hP = {(int32)P.red, (int32)P.green, (int32)P.blue, (int32)P.alpha};
-    Pixel128S hQ = {(int32)Q.red, (int32)Q.green, (int32)Q.blue, (int32)Q.alpha};
-    Pixel128S hR = {(int32)R.red, (int32)R.green, (int32)R.blue, (int32)R.alpha};
-    Pixel128S hS = {(int32)S.red, (int32)S.green, (int32)S.blue, (int32)S.alpha};
+    Pixel128S hP = {static_cast<int32>(P.red), static_cast<int32>(P.green), static_cast<int32>(P.blue), static_cast<int32>(P.alpha)};
+    Pixel128S hQ = {static_cast<int32>(Q.red), static_cast<int32>(Q.green), static_cast<int32>(Q.blue), static_cast<int32>(Q.alpha)};
+    Pixel128S hR = {static_cast<int32>(R.red), static_cast<int32>(R.green), static_cast<int32>(R.blue), static_cast<int32>(R.alpha)};
+    Pixel128S hS = {static_cast<int32>(S.red), static_cast<int32>(S.green), static_cast<int32>(S.blue), static_cast<int32>(S.alpha)};
 
     // Get vectors.
     Pixel128S QminusP = {hQ.red - hP.red, hQ.green - hP.green, hQ.blue - hP.blue, hQ.alpha - hP.alpha};
@@ -120,10 +120,10 @@ static void interpolateColors(Pixel32 P, Pixel32 Q, Pixel32 R, Pixel32 S, Pixel1
 
             for (unsigned int y = 0; y < ui32WordHeight; y++)
             {
-                pPixel[y * ui32WordWidth + x].red = (int32)((result.red >> 7) + (result.red >> 2));
-                pPixel[y * ui32WordWidth + x].green = (int32)((result.green >> 7) + (result.green >> 2));
-                pPixel[y * ui32WordWidth + x].blue = (int32)((result.blue >> 7) + (result.blue >> 2));
-                pPixel[y * ui32WordWidth + x].alpha = (int32)((result.alpha >> 5) + (result.alpha >> 1));
+                pPixel[y * ui32WordWidth + x].red = static_cast<int32>((result.red >> 7) + (result.red >> 2));
+                pPixel[y * ui32WordWidth + x].green = static_cast<int32>((result.green >> 7) + (result.green >> 2));
+                pPixel[y * ui32WordWidth + x].blue = static_cast<int32>((result.blue >> 7) + (result.blue >> 2));
+                pPixel[y * ui32WordWidth + x].alpha = static_cast<int32>((result.alpha >> 5) + (result.alpha >> 1));
 
                 result.red += dY.red;
                 result.green += dY.green;
@@ -152,10 +152,10 @@ static void interpolateColors(Pixel32 P, Pixel32 Q, Pixel32 R, Pixel32 S, Pixel1
 
             for (unsigned int x = 0; x < ui32WordWidth; x++)
             {
-                pPixel[y * ui32WordWidth + x].red = (int32)((result.red >> 6) + (result.red >> 1));
-                pPixel[y * ui32WordWidth + x].green = (int32)((result.green >> 6) + (result.green >> 1));
-                pPixel[y * ui32WordWidth + x].blue = (int32)((result.blue >> 6) + (result.blue >> 1));
-                pPixel[y * ui32WordWidth + x].alpha = (int32)((result.alpha >> 4) + (result.alpha));
+                pPixel[y * ui32WordWidth + x].red = static_cast<int32>((result.red >> 6) + (result.red >> 1));
+                pPixel[y * ui32WordWidth + x].green = static_cast<int32>((result.green >> 6) + (result.green >> 1));
+                pPixel[y * ui32WordWidth + x].blue = static_cast<int32>((result.blue >> 6) + (result.blue >> 1));
+                pPixel[y * ui32WordWidth + x].alpha = static_cast<int32>((result.alpha >> 4) + (result.alpha));
 
                 result.red += dY.red;
                 result.green += dY.green;
@@ -420,17 +420,17 @@ static void pvrtcGetDecompressedPixels(const PVRTCWord& P, const PVRTCWord& Q, c
             // Convert the 32bit precision Result to 8 bit per channel color.
             if (ui8Bpp == 2)
             {
-                pColorData[y * ui32WordWidth + x].red = (uint8)result.red;
-                pColorData[y * ui32WordWidth + x].green = (uint8)result.green;
-                pColorData[y * ui32WordWidth + x].blue = (uint8)result.blue;
-                pColorData[y * ui32WordWidth + x].alpha = (uint8)result.alpha;
+                pColorData[y * ui32WordWidth + x].red = static_cast<uint8>(result.red);
+                pColorData[y * ui32WordWidth + x].green = static_cast<uint8>(result.green);
+                pColorData[y * ui32WordWidth + x].blue = static_cast<uint8>(result.blue);
+                pColorData[y * ui32WordWidth + x].alpha = static_cast<uint8>(result.alpha);
             }
             else if (ui8Bpp == 4)
             {
-                pColorData[y + x * ui32WordHeight].red = (uint8)result.red;
-                pColorData[y + x * ui32WordHeight].green = (uint8)result.green;
-                pColorData[y + x * ui32WordHeight].blue = (uint8)result.blue;
-                pColorData[y + x * ui32WordHeight].alpha = (uint8)result.alpha;
+                pColorData[y + x * ui32WordHeight].red = static_cast<uint8>(result.red);
+                pColorData[y + x * ui32WordHeight].green = static_cast<uint8>(result.green);
+                pColorData[y + x * ui32WordHeight].blue = static_cast<uint8>(result.blue);
+                pColorData[y + x * ui32WordHeight].alpha = static_cast<uint8>(result.alpha);
             }
         }
     }
@@ -545,17 +545,17 @@ static int pvrtcDecompress(uint8* pCompressedData, Pixel32* pDecompressedData, u
         ui32WordWidth = 8;
     }
 
-    uint32* pWordMembers = (uint32*)pCompressedData;
+    uint32* pWordMembers = reinterpret_cast<uint32*>(pCompressedData);
     Pixel32* pOutData = pDecompressedData;
 
     // Calculate number of words
-    int i32NumXWords = (int)(ui32Width / ui32WordWidth);
-    int i32NumYWords = (int)(ui32Height / ui32WordHeight);
+    int i32NumXWords = static_cast<int>(ui32Width / ui32WordWidth);
+    int i32NumYWords = static_cast<int>(ui32Height / ui32WordHeight);
 
     // Structs used for decompression
     PVRTCWordIndices indices;
     Pixel32* pPixels;
-    pPixels = (Pixel32*)malloc(ui32WordWidth * ui32WordHeight * sizeof(Pixel32));
+    pPixels = reinterpret_cast<Pixel32*>(malloc(ui32WordWidth * ui32WordHeight * sizeof(Pixel32)));
 
     // For each row of words
     for (int wordY = -1; wordY < i32NumYWords - 1; wordY++)
@@ -600,13 +600,13 @@ static int pvrtcDecompress(uint8* pCompressedData, Pixel32* pDecompressedData, u
 
     free(pPixels);
     // Return the data size
-    return ui32Width * ui32Height / (uint32)(ui32WordWidth / 2);
+    return ui32Width * ui32Height / static_cast<uint32>(ui32WordWidth / 2);
 }
 
 int PVRTDecompressPVRTC(const void* pCompressedData, int Do2bitMode, int XDim, int YDim, unsigned char* pResultImage)
 {
     // Cast the output buffer to a Pixel32 pointer.
-    Pixel32* pDecompressedData = (Pixel32*)pResultImage;
+    Pixel32* pDecompressedData = reinterpret_cast<Pixel32*>(pResultImage);
 
     // Check the X and Y values are at least the minimum size.
     int XTrueDim = std::max(XDim, ((Do2bitMode == 1) ? 16 : 8));
@@ -615,11 +615,11 @@ int PVRTDecompressPVRTC(const void* pCompressedData, int Do2bitMode, int XDim, i
     // If the dimensions aren't correct, we need to create a new buffer instead of just using the provided one, as the buffer will overrun otherwise.
     if (XTrueDim != XDim || YTrueDim != YDim)
     {
-        pDecompressedData = (Pixel32*)malloc(XTrueDim * YTrueDim * sizeof(Pixel32));
+        pDecompressedData = reinterpret_cast<Pixel32*>(malloc(XTrueDim * YTrueDim * sizeof(Pixel32)));
     }
 
     // Decompress the surface.
-    int retval = pvrtcDecompress((uint8*)pCompressedData, pDecompressedData, XTrueDim, YTrueDim, (Do2bitMode == 1 ? 2 : 4));
+    int retval = pvrtcDecompress(reinterpret_cast<uint8*>(const_cast<void*>(pCompressedData)), pDecompressedData, XTrueDim, YTrueDim, (Do2bitMode == 1 ? 2 : 4));
 
     // If the dimensions were too small, then copy the new buffer back into the output buffer.
     if (XTrueDim != XDim || YTrueDim != YDim)
@@ -629,7 +629,7 @@ int PVRTDecompressPVRTC(const void* pCompressedData, int Do2bitMode, int XDim, i
         {
             for (int y = 0; y < YDim; ++y)
             {
-                ((Pixel32*)pResultImage)[x + y * XDim] = pDecompressedData[x + y * XTrueDim];
+                (reinterpret_cast<Pixel32*>(pResultImage))[x + y * XDim] = pDecompressedData[x + y * XTrueDim];
             }
         }
 

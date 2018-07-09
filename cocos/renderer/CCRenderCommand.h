@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCRENDERCOMMAND_H_
-#define __CCRENDERCOMMAND_H_
+#ifndef CC_RENDERER_RENDERCOMMAND_H
+#define CC_RENDERER_RENDERCOMMAND_H
 
 #include "base/ccTypes.h"
 #include "platform/CCPlatformMacros.h"
@@ -138,4 +138,4 @@ NS_CC_END
  end of support group
  @}
  */
-#endif //__CCRENDERCOMMAND_H_
+#endif // CC_RENDERER_RENDERCOMMAND_H

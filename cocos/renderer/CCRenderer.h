@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_RENDERER_H_
-#define __CC_RENDERER_H_
+#ifndef CC_RENDERER_RENDERER_H
+#define CC_RENDERER_RENDERER_H
 
 #include "platform/CCGL.h"
 #include "platform/CCPlatformMacros.h"
@@ -191,11 +191,11 @@ public:
     /* returns the number of drawn batches in the last frame */
     inline std::size_t getDrawnBatches() const noexcept { return _drawnBatches; }
     /* RenderCommands (except) TrianglesCommand should update this value */
-    inline void addDrawnBatches(std::size_t number) { _drawnBatches += number; };
+    inline void addDrawnBatches(std::size_t number) { _drawnBatches += number; }
     /* returns the number of drawn triangles in the last frame */
     inline std::size_t getDrawnVertices() const noexcept { return _drawnVertices; }
     /* RenderCommands (except) TrianglesCommand should update this value */
-    inline void addDrawnVertices(std::size_t number) noexcept { _drawnVertices += number; };
+    inline void addDrawnVertices(std::size_t number) noexcept { _drawnVertices += number; }
     /* clear draw stats */
     inline void clearDrawStats() noexcept
     {
@@ -285,4 +285,4 @@ NS_CC_END
  end of support group
  @}
  */
-#endif //__CC_RENDERER_H_
+#endif // CC_RENDERER_RENDERER_H

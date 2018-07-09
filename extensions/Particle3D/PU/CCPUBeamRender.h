@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_BEAM_RENDER_H__
-#define __CC_PU_PARTICLE_3D_BEAM_RENDER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_BEAMRENDER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_BEAMRENDER_H
 
 #include "base/CCRef.h"
 #include "extensions/Particle3D/CCParticle3DRender.h"
@@ -42,10 +42,14 @@ public:
     PUParticle3DBeamVisualData(size_t index, PUBillboardChain* bbChain)
     : chainIndex(index)
     , timeSinceLastUpdate(0.0f)
-    , billboardChain(bbChain){};
+    , billboardChain(bbChain)
+    {
+    }
 
     // Set the chain visible or invisible (PU 1.4)
-    void setVisible(bool visible){/* No implementation */};
+    void setVisible(bool visible)
+    { /* No implementation */
+    }
 
     /** The is no decent way to make the individual chains/elements invisible. The width of each element is set to 0 to make it invisible.
         PU 1.4
@@ -90,13 +94,13 @@ public:
 
     static PUBeamRender* create(const std::string& texFile = "");
 
-    virtual void prepare() override;
-    virtual void unPrepare() override;
-    virtual void updateRender(PUParticle3D* particle, float deltaTime, bool firstParticle) override;
+    void prepare() override;
+    void unPrepare() override;
+    void updateRender(PUParticle3D* particle, float deltaTime, bool firstParticle) override;
 
-    virtual void render(Renderer* renderer, const Mat4& transform, ParticleSystem3D* particleSystem) override;
-    virtual void particleEmitted(PUParticleSystem3D* particleSystem, PUParticle3D* particle) override;
-    virtual void particleExpired(PUParticleSystem3D* particleSystem, PUParticle3D* particle) override;
+    void render(Renderer* renderer, const Mat4& transform, ParticleSystem3D* particleSystem) override;
+    void particleEmitted(PUParticleSystem3D* particleSystem, PUParticle3D* particle) override;
+    void particleExpired(PUParticleSystem3D* particleSystem, PUParticle3D* particle) override;
 
     /** Getters and Setters
      */
@@ -125,11 +129,11 @@ public:
      */
     void destroyAll(void);
 
-    virtual PUBeamRender* clone() override;
+    PUBeamRender* clone() override;
     void copyAttributesTo(PUBeamRender* render);
 
     CC_CONSTRUCTOR_ACCESS : PUBeamRender();
-    virtual ~PUBeamRender();
+    ~PUBeamRender() override;
 
 protected:
     std::string _texFile;
@@ -148,4 +152,4 @@ protected:
 };
 
 NS_CC_END
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_BEAMRENDER_H

@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCCONTROL_EXTENSIONS_H__
-#define __CCCONTROL_EXTENSIONS_H__
+#ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_EXTENSIONS_H
+#define CC_EXTENSIONS_GUI_CONTROLEXTENSION_EXTENSIONS_H
 
 #include "CCControl.h"
 #include "CCControlButton.h"
@@ -33,4 +33,4 @@ THE SOFTWARE.
 #include "CCControlStepper.h"
 #include "CCControlSwitch.h"
 
-#endif
+#endif // CC_EXTENSIONS_GUI_CONTROLEXTENSION_EXTENSIONS_H

@@ -101,7 +101,7 @@ void AnimationCache::parseVersion1(const ValueMap& animations)
             continue;
         }
 
-        ssize_t frameNameSize = frameNames.size();
+        std::size_t frameNameSize = frameNames.size();
         Vector<AnimationFrame*> frames(frameNameSize);
 
         for (auto& frameName : frameNames)

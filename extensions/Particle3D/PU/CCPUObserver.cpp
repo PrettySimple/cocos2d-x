@@ -158,7 +158,7 @@ void PUObserver::removeEventHandler(PUEventHandler* eventHandler)
         }
     }
 
-    eventHandler->setParentObserver(0);
+    eventHandler->setParentObserver(nullptr);
 }
 //-----------------------------------------------------------------------
 PUEventHandler* PUObserver::getEventHandler(size_t index) const
@@ -331,7 +331,7 @@ void PUObserver::copyAttributesTo(PUObserver* observer)
 
     // Copy event handlers
     size_t i = 0;
-    PUEventHandler* eventHandler = 0;
+    PUEventHandler* eventHandler = nullptr;
     for (i = 0; i < getNumEventHandlers(); ++i)
     {
         eventHandler = getEventHandler(i);

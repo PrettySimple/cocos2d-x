@@ -21,8 +21,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __TRIGGERMNG_H__
-#define __TRIGGERMNG_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_TRIGGERMNG_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_TRIGGERMNG_H
 
 #include "CocoStudio.h"
 
@@ -92,4 +92,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_TRIGGERMNG_H

@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013 cocos2d-x.org
 
 http://www.cocos2d-x.org
@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCTIMELINE_ACTION_H__
-#define __CCTIMELINE_ACTION_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_ACTIONTIMELINE_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_ACTIONTIMELINE_H
 
 #include "2d/CCAction.h"
 #include "CCTimeLine.h"
@@ -78,7 +78,7 @@ public:
     static ActionTimeline* create();
 
     ActionTimeline();
-    virtual ~ActionTimeline();
+    ~ActionTimeline() override;
 
     virtual void play(std::string animationName, bool loop);
 
@@ -234,4 +234,4 @@ protected:
 
 NS_TIMELINE_END
 
-#endif /*__CCTIMELINE_ACTION_H__*/
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_ACTIONTIMELINE_H

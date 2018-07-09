@@ -32,7 +32,7 @@ NS_CC_BEGIN
 PUSlaveEmitter::PUSlaveEmitter(void)
 : PUEmitter()
 , PUListener()
-, _masterParticle(0)
+, _masterParticle(nullptr)
 , _masterTechniqueName()
 , _masterEmitterName()
 , _masterEmitterNameSet(false)

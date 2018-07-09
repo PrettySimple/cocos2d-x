@@ -27,21 +27,16 @@ Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 #include "base/ccTypes.h"
 
+#include <cmath>
+#include <limits>
+
 NS_CC_BEGIN
 
-const std::string STD_STRING_EMPTY("");
-const ssize_t CC_INVALID_INDEX = -1;
+const std::size_t CC_INVALID_INDEX = std::numeric_limits<std::size_t>::max();
 
 /**
  * Color3B
  */
-
-Color3B::Color3B()
-: r(0)
-, g(0)
-, b(0)
-{
-}
 
 Color3B::Color3B(const Color4B& color)
 : r(color.r)
@@ -90,22 +85,6 @@ bool Color3B::operator!=(const Color4F& right) const
 /**
  * Color4B
  */
-
-Color4B::Color4B()
-: r(0)
-, g(0)
-, b(0)
-, a(0)
-{
-}
-
-Color4B::Color4B(GLubyte _r, GLubyte _g, GLubyte _b, GLubyte _a)
-: r(_r)
-, g(_g)
-, b(_b)
-, a(_a)
-{
-}
 
 Color4B::Color4B(const Color3B& color, GLubyte _a)
 : r(color.r)
@@ -157,26 +136,10 @@ bool Color4B::operator!=(const Color4F& right) const
  * Color4F
  */
 
-Color4F::Color4F()
-: r(0.0f)
-, g(0.0f)
-, b(0.0f)
-, a(0.0f)
-{
-}
-
-Color4F::Color4F(float _r, float _g, float _b, float _a)
-: r(_r)
-, g(_g)
-, b(_b)
-, a(_a)
-{
-}
-
 Color4F::Color4F(const Color3B& color, float _a)
-: r(color.r / 255.0f)
-, g(color.g / 255.0f)
-, b(color.b / 255.0f)
+: r(static_cast<float>(color.r) / 255.0f)
+, g(static_cast<float>(color.g) / 255.0f)
+, b(static_cast<float>(color.b) / 255.0f)
 , a(_a)
 {
 }
@@ -191,7 +154,8 @@ Color4F::Color4F(const Color4B& color)
 
 bool Color4F::operator==(const Color4F& right) const
 {
-    return (r == right.r && g == right.g && b == right.b && a == right.a);
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+    return (std::abs(r - right.r) < epsi && std::abs(g - right.g) < epsi && std::abs(b - right.b) < epsi && std::abs(a - right.a) < epsi);
 }
 
 bool Color4F::operator==(const Color3B& right) const
@@ -257,5 +221,9 @@ const BlendFunc BlendFunc::DISABLE = {GL_ONE, GL_ZERO};
 const BlendFunc BlendFunc::ALPHA_PREMULTIPLIED = {GL_ONE, GL_ONE_MINUS_SRC_ALPHA};
 const BlendFunc BlendFunc::ALPHA_NON_PREMULTIPLIED = {GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA};
 const BlendFunc BlendFunc::ADDITIVE = {GL_SRC_ALPHA, GL_ONE};
+
+Acceleration::~Acceleration()
+{
+}
 
 NS_CC_END

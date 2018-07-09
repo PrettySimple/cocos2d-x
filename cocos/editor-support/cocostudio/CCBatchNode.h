@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCBATCHNODE_H__
-#define __CCBATCHNODE_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_BATCHNODE_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_BATCHNODE_H
 
 #include "2d/CCNode.h"
 #include "cocostudio/CCArmatureDefine.h"
@@ -70,4 +70,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif /*__CCBATCHNODE_H__*/
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_BATCHNODE_H

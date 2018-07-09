@@ -94,7 +94,7 @@ void PUBeamRender::render(Renderer* renderer, const Mat4& transform, ParticleSys
                 }
 
                 // 2. Set positions of the elements
-                element.position = spline.interpolate((float)j / (float)_maxChainElements);
+                element.position = spline.interpolate(static_cast<float>(j) / static_cast<float>(_maxChainElements));
 
                 // 3. Set the colour
                 element.color = particle->color;
@@ -110,7 +110,7 @@ void PUBeamRender::render(Renderer* renderer, const Mat4& transform, ParticleSys
 }
 
 PUBeamRender::PUBeamRender()
-: _billboardChain(0)
+: _billboardChain(nullptr)
 , _quota(0)
 , _useVertexColours(DEFAULT_USE_VERTEX_COLOURS)
 , _maxChainElements(DEFAULT_MAX_ELEMENTS)
@@ -299,12 +299,12 @@ void PUBeamRender::updateRender(PUParticle3D* particle, float deltaTime, bool fi
     {
         Vec3 end = particle->position - static_cast<PUParticleSystem3D*>(_particleSystem)->getDerivedPosition();
         Vec3 perpendicular;
-        float divide = (float)_numberOfSegments + 1.0f;
+        float divide = static_cast<float>(_numberOfSegments) + 1.0f;
         for (size_t numDev = 0; numDev < _numberOfSegments; ++numDev)
         {
             Vec3::cross(end, Vec3(CCRANDOM_MINUS1_1(), CCRANDOM_MINUS1_1(), CCRANDOM_MINUS1_1()), &perpendicular);
             perpendicular.normalize();
-            beamRendererVisualData->destinationHalf[numDev] = (((float)numDev + 1.0f) / divide) * end +
+            beamRendererVisualData->destinationHalf[numDev] = ((static_cast<float>(numDev) + 1.0f) / divide) * end +
                 Vec3(_rendererScale.x * _deviation * perpendicular.x, _rendererScale.y * _deviation * perpendicular.y,
                      _rendererScale.z * _deviation * perpendicular.z);
         }

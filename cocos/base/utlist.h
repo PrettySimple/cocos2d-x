@@ -21,8 +21,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef UTLIST_H
-#define UTLIST_H
+#ifndef CC_BASE_UTLIST_H
+#define CC_BASE_UTLIST_H
 /// @cond DO_NOT_SHOW
 
 #define UTLIST_VERSION 1.9.8
@@ -79,42 +79,42 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * namely, we always reassign our tmp variable to the list head if we need
  * to dereference its prev/next pointers, and save/restore the real head.*/
 #ifdef NO_DECLTYPE
-#    define _SV(elt, list)                   \
+#    define CC_SV(elt, list)                 \
         _tmp = (char*)(list);                \
         {                                    \
             char** _alias = (char**)&(list); \
             *_alias = (elt);                 \
         }
-#    define _NEXT(elt, list, next) ((char*)((list)->next))
-#    define _NEXTASGN(elt, list, to, next)           \
+#    define CC_NEXT(elt, list, next) ((char*)((list)->next))
+#    define CC_NEXTASGN(elt, list, to, next)         \
         {                                            \
             char** _alias = (char**)&((list)->next); \
             *_alias = (char*)(to);                   \
         }
 /* #define _PREV(elt,list,prev) ((char*)((list)->prev)) */
-#    define _PREVASGN(elt, list, to, prev)           \
+#    define CC_PREVASGN(elt, list, to, prev)         \
         {                                            \
             char** _alias = (char**)&((list)->prev); \
             *_alias = (char*)(to);                   \
         }
-#    define _RS(list)                        \
+#    define CC_RS(list)                      \
         {                                    \
             char** _alias = (char**)&(list); \
             *_alias = _tmp;                  \
         }
-#    define _CASTASGN(a, b)               \
+#    define CC_CASTASGN(a, b)             \
         {                                 \
             char** _alias = (char**)&(a); \
             *_alias = (char*)(b);         \
         }
 #else
-#    define _SV(elt, list)
-#    define _NEXT(elt, list, next) ((elt)->next)
-#    define _NEXTASGN(elt, list, to, next) ((elt)->next) = (to)
+#    define CC_SV(elt, list)
+#    define CC_NEXT(elt, list, next) ((elt)->next)
+#    define CC_NEXTASGN(elt, list, to, next) ((elt)->next) = (to)
 /* #define _PREV(elt,list,prev) ((elt)->prev) */
-#    define _PREVASGN(elt, list, to, prev) ((elt)->prev) = (to)
-#    define _RS(list)
-#    define _CASTASGN(a, b) (a) = (b)
+#    define CC_PREVASGN(elt, list, to, prev) ((elt)->prev) = (to)
+#    define CC_RS(list)
+#    define CC_CASTASGN(a, b) (a) = (b)
 #endif
 
 /******************************************************************************
@@ -137,7 +137,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             _ls_looping = 1;                                                   \
             while (_ls_looping)                                                \
             {                                                                  \
-                _CASTASGN(_ls_p, list);                                        \
+                CC_CASTASGN(_ls_p, list);                                      \
                 list = NULL;                                                   \
                 _ls_tail = NULL;                                               \
                 _ls_nmerges = 0;                                               \
@@ -149,9 +149,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     for (_ls_i = 0; _ls_i < _ls_insize; _ls_i++)               \
                     {                                                          \
                         _ls_psize++;                                           \
-                        _SV(_ls_q, list);                                      \
-                        _ls_q = _NEXT(_ls_q, list, next);                      \
-                        _RS(list);                                             \
+                        CC_SV(_ls_q, list);                                    \
+                        _ls_q = CC_NEXT(_ls_q, list, next);                    \
+                        CC_RS(list);                                           \
                         if (!_ls_q)                                            \
                             break;                                             \
                     }                                                          \
@@ -161,44 +161,44 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         if (_ls_psize == 0)                                    \
                         {                                                      \
                             _ls_e = _ls_q;                                     \
-                            _SV(_ls_q, list);                                  \
-                            _ls_q = _NEXT(_ls_q, list, next);                  \
-                            _RS(list);                                         \
+                            CC_SV(_ls_q, list);                                \
+                            _ls_q = CC_NEXT(_ls_q, list, next);                \
+                            CC_RS(list);                                       \
                             _ls_qsize--;                                       \
                         }                                                      \
                         else if (_ls_qsize == 0 || !_ls_q)                     \
                         {                                                      \
                             _ls_e = _ls_p;                                     \
-                            _SV(_ls_p, list);                                  \
-                            _ls_p = _NEXT(_ls_p, list, next);                  \
-                            _RS(list);                                         \
+                            CC_SV(_ls_p, list);                                \
+                            _ls_p = CC_NEXT(_ls_p, list, next);                \
+                            CC_RS(list);                                       \
                             _ls_psize--;                                       \
                         }                                                      \
                         else if (cmp(_ls_p, _ls_q) <= 0)                       \
                         {                                                      \
                             _ls_e = _ls_p;                                     \
-                            _SV(_ls_p, list);                                  \
-                            _ls_p = _NEXT(_ls_p, list, next);                  \
-                            _RS(list);                                         \
+                            CC_SV(_ls_p, list);                                \
+                            _ls_p = CC_NEXT(_ls_p, list, next);                \
+                            CC_RS(list);                                       \
                             _ls_psize--;                                       \
                         }                                                      \
                         else                                                   \
                         {                                                      \
                             _ls_e = _ls_q;                                     \
-                            _SV(_ls_q, list);                                  \
-                            _ls_q = _NEXT(_ls_q, list, next);                  \
-                            _RS(list);                                         \
+                            CC_SV(_ls_q, list);                                \
+                            _ls_q = CC_NEXT(_ls_q, list, next);                \
+                            CC_RS(list);                                       \
                             _ls_qsize--;                                       \
                         }                                                      \
                         if (_ls_tail)                                          \
                         {                                                      \
-                            _SV(_ls_tail, list);                               \
-                            _NEXTASGN(_ls_tail, list, _ls_e, next);            \
-                            _RS(list);                                         \
+                            CC_SV(_ls_tail, list);                             \
+                            CC_NEXTASGN(_ls_tail, list, _ls_e, next);          \
+                            CC_RS(list);                                       \
                         }                                                      \
                         else                                                   \
                         {                                                      \
-                            _CASTASGN(list, _ls_e);                            \
+                            CC_CASTASGN(list, _ls_e);                          \
                         }                                                      \
                         _ls_tail = _ls_e;                                      \
                     }                                                          \
@@ -206,9 +206,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 }                                                              \
                 if (_ls_tail)                                                  \
                 {                                                              \
-                    _SV(_ls_tail, list);                                       \
-                    _NEXTASGN(_ls_tail, list, NULL, next);                     \
-                    _RS(list);                                                 \
+                    CC_SV(_ls_tail, list);                                     \
+                    CC_NEXTASGN(_ls_tail, list, NULL, next);                   \
+                    CC_RS(list);                                               \
                 }                                                              \
                 if (_ls_nmerges <= 1)                                          \
                 {                                                              \
@@ -235,7 +235,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             _ls_looping = 1;                                                   \
             while (_ls_looping)                                                \
             {                                                                  \
-                _CASTASGN(_ls_p, list);                                        \
+                CC_CASTASGN(_ls_p, list);                                      \
                 list = NULL;                                                   \
                 _ls_tail = NULL;                                               \
                 _ls_nmerges = 0;                                               \
@@ -247,9 +247,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     for (_ls_i = 0; _ls_i < _ls_insize; _ls_i++)               \
                     {                                                          \
                         _ls_psize++;                                           \
-                        _SV(_ls_q, list);                                      \
-                        _ls_q = _NEXT(_ls_q, list, next);                      \
-                        _RS(list);                                             \
+                        CC_SV(_ls_q, list);                                    \
+                        _ls_q = CC_NEXT(_ls_q, list, next);                    \
+                        CC_RS(list);                                           \
                         if (!_ls_q)                                            \
                             break;                                             \
                     }                                                          \
@@ -259,56 +259,56 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         if (_ls_psize == 0)                                    \
                         {                                                      \
                             _ls_e = _ls_q;                                     \
-                            _SV(_ls_q, list);                                  \
-                            _ls_q = _NEXT(_ls_q, list, next);                  \
-                            _RS(list);                                         \
+                            CC_SV(_ls_q, list);                                \
+                            _ls_q = CC_NEXT(_ls_q, list, next);                \
+                            CC_RS(list);                                       \
                             _ls_qsize--;                                       \
                         }                                                      \
                         else if (_ls_qsize == 0 || !_ls_q)                     \
                         {                                                      \
                             _ls_e = _ls_p;                                     \
-                            _SV(_ls_p, list);                                  \
-                            _ls_p = _NEXT(_ls_p, list, next);                  \
-                            _RS(list);                                         \
+                            CC_SV(_ls_p, list);                                \
+                            _ls_p = CC_NEXT(_ls_p, list, next);                \
+                            CC_RS(list);                                       \
                             _ls_psize--;                                       \
                         }                                                      \
                         else if (cmp(_ls_p, _ls_q) <= 0)                       \
                         {                                                      \
                             _ls_e = _ls_p;                                     \
-                            _SV(_ls_p, list);                                  \
-                            _ls_p = _NEXT(_ls_p, list, next);                  \
-                            _RS(list);                                         \
+                            CC_SV(_ls_p, list);                                \
+                            _ls_p = CC_NEXT(_ls_p, list, next);                \
+                            CC_RS(list);                                       \
                             _ls_psize--;                                       \
                         }                                                      \
                         else                                                   \
                         {                                                      \
                             _ls_e = _ls_q;                                     \
-                            _SV(_ls_q, list);                                  \
-                            _ls_q = _NEXT(_ls_q, list, next);                  \
-                            _RS(list);                                         \
+                            CC_SV(_ls_q, list);                                \
+                            _ls_q = CC_NEXT(_ls_q, list, next);                \
+                            CC_RS(list);                                       \
                             _ls_qsize--;                                       \
                         }                                                      \
                         if (_ls_tail)                                          \
                         {                                                      \
-                            _SV(_ls_tail, list);                               \
-                            _NEXTASGN(_ls_tail, list, _ls_e, next);            \
-                            _RS(list);                                         \
+                            CC_SV(_ls_tail, list);                             \
+                            CC_NEXTASGN(_ls_tail, list, _ls_e, next);          \
+                            CC_RS(list);                                       \
                         }                                                      \
                         else                                                   \
                         {                                                      \
-                            _CASTASGN(list, _ls_e);                            \
+                            CC_CASTASGN(list, _ls_e);                          \
                         }                                                      \
-                        _SV(_ls_e, list);                                      \
-                        _PREVASGN(_ls_e, list, _ls_tail, prev);                \
-                        _RS(list);                                             \
+                        CC_SV(_ls_e, list);                                    \
+                        CC_PREVASGN(_ls_e, list, _ls_tail, prev);              \
+                        CC_RS(list);                                           \
                         _ls_tail = _ls_e;                                      \
                     }                                                          \
                     _ls_p = _ls_q;                                             \
                 }                                                              \
-                _CASTASGN(list->prev, _ls_tail);                               \
-                _SV(_ls_tail, list);                                           \
-                _NEXTASGN(_ls_tail, list, NULL, next);                         \
-                _RS(list);                                                     \
+                CC_CASTASGN(list->prev, _ls_tail);                             \
+                CC_SV(_ls_tail, list);                                         \
+                CC_NEXTASGN(_ls_tail, list, NULL, next);                       \
+                CC_RS(list);                                                   \
                 if (_ls_nmerges <= 1)                                          \
                 {                                                              \
                     _ls_looping = 0;                                           \
@@ -336,8 +336,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             _ls_looping = 1;                                                   \
             while (_ls_looping)                                                \
             {                                                                  \
-                _CASTASGN(_ls_p, list);                                        \
-                _CASTASGN(_ls_oldhead, list);                                  \
+                CC_CASTASGN(_ls_p, list);                                      \
+                CC_CASTASGN(_ls_oldhead, list);                                \
                 list = NULL;                                                   \
                 _ls_tail = NULL;                                               \
                 _ls_nmerges = 0;                                               \
@@ -349,16 +349,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     for (_ls_i = 0; _ls_i < _ls_insize; _ls_i++)               \
                     {                                                          \
                         _ls_psize++;                                           \
-                        _SV(_ls_q, list);                                      \
-                        if (_NEXT(_ls_q, list, next) == _ls_oldhead)           \
+                        CC_SV(_ls_q, list);                                    \
+                        if (CC_NEXT(_ls_q, list, next) == _ls_oldhead)         \
                         {                                                      \
                             _ls_q = NULL;                                      \
                         }                                                      \
                         else                                                   \
                         {                                                      \
-                            _ls_q = _NEXT(_ls_q, list, next);                  \
+                            _ls_q = CC_NEXT(_ls_q, list, next);                \
                         }                                                      \
-                        _RS(list);                                             \
+                        CC_RS(list);                                           \
                         if (!_ls_q)                                            \
                             break;                                             \
                     }                                                          \
@@ -368,9 +368,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         if (_ls_psize == 0)                                    \
                         {                                                      \
                             _ls_e = _ls_q;                                     \
-                            _SV(_ls_q, list);                                  \
-                            _ls_q = _NEXT(_ls_q, list, next);                  \
-                            _RS(list);                                         \
+                            CC_SV(_ls_q, list);                                \
+                            _ls_q = CC_NEXT(_ls_q, list, next);                \
+                            CC_RS(list);                                       \
                             _ls_qsize--;                                       \
                             if (_ls_q == _ls_oldhead)                          \
                             {                                                  \
@@ -380,9 +380,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         else if (_ls_qsize == 0 || !_ls_q)                     \
                         {                                                      \
                             _ls_e = _ls_p;                                     \
-                            _SV(_ls_p, list);                                  \
-                            _ls_p = _NEXT(_ls_p, list, next);                  \
-                            _RS(list);                                         \
+                            CC_SV(_ls_p, list);                                \
+                            _ls_p = CC_NEXT(_ls_p, list, next);                \
+                            CC_RS(list);                                       \
                             _ls_psize--;                                       \
                             if (_ls_p == _ls_oldhead)                          \
                             {                                                  \
@@ -392,9 +392,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         else if (cmp(_ls_p, _ls_q) <= 0)                       \
                         {                                                      \
                             _ls_e = _ls_p;                                     \
-                            _SV(_ls_p, list);                                  \
-                            _ls_p = _NEXT(_ls_p, list, next);                  \
-                            _RS(list);                                         \
+                            CC_SV(_ls_p, list);                                \
+                            _ls_p = CC_NEXT(_ls_p, list, next);                \
+                            CC_RS(list);                                       \
                             _ls_psize--;                                       \
                             if (_ls_p == _ls_oldhead)                          \
                             {                                                  \
@@ -404,9 +404,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         else                                                   \
                         {                                                      \
                             _ls_e = _ls_q;                                     \
-                            _SV(_ls_q, list);                                  \
-                            _ls_q = _NEXT(_ls_q, list, next);                  \
-                            _RS(list);                                         \
+                            CC_SV(_ls_q, list);                                \
+                            _ls_q = CC_NEXT(_ls_q, list, next);                \
+                            CC_RS(list);                                       \
                             _ls_qsize--;                                       \
                             if (_ls_q == _ls_oldhead)                          \
                             {                                                  \
@@ -415,26 +415,26 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         }                                                      \
                         if (_ls_tail)                                          \
                         {                                                      \
-                            _SV(_ls_tail, list);                               \
-                            _NEXTASGN(_ls_tail, list, _ls_e, next);            \
-                            _RS(list);                                         \
+                            CC_SV(_ls_tail, list);                             \
+                            CC_NEXTASGN(_ls_tail, list, _ls_e, next);          \
+                            CC_RS(list);                                       \
                         }                                                      \
                         else                                                   \
                         {                                                      \
-                            _CASTASGN(list, _ls_e);                            \
+                            CC_CASTASGN(list, _ls_e);                          \
                         }                                                      \
-                        _SV(_ls_e, list);                                      \
-                        _PREVASGN(_ls_e, list, _ls_tail, prev);                \
-                        _RS(list);                                             \
+                        CC_SV(_ls_e, list);                                    \
+                        CC_PREVASGN(_ls_e, list, _ls_tail, prev);              \
+                        CC_RS(list);                                           \
                         _ls_tail = _ls_e;                                      \
                     }                                                          \
                     _ls_p = _ls_q;                                             \
                 }                                                              \
-                _CASTASGN(list->prev, _ls_tail);                               \
-                _CASTASGN(_tmp, list);                                         \
-                _SV(_ls_tail, list);                                           \
-                _NEXTASGN(_ls_tail, list, _tmp, next);                         \
-                _RS(list);                                                     \
+                CC_CASTASGN(list->prev, _ls_tail);                             \
+                CC_CASTASGN(_tmp, list);                                       \
+                CC_SV(_ls_tail, list);                                         \
+                CC_NEXTASGN(_ls_tail, list, _tmp, next);                       \
+                CC_RS(list);                                                   \
                 if (_ls_nmerges <= 1)                                          \
                 {                                                              \
                     _ls_looping = 0;                                           \
@@ -947,4 +947,4 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     } while (0)
 
 /// @endcond
-#endif /* UTLIST_H */
+#endif // CC_BASE_UTLIST_H

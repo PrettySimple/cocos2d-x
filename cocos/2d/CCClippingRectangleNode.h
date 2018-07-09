@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef __MISCNODE_CCCLIPPING_RECTANGLE_NODE_H__
-#define __MISCNODE_CCCLIPPING_RECTANGLE_NODE_H__
+#ifndef CC_2D_CLIPPINGRECTANGLENODE_H
+#define CC_2D_CLIPPINGRECTANGLENODE_H
 
 #include "2d/CCNode.h"
 #include "platform/CCGL.h"
@@ -107,4 +107,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_2D_CLIPPINGRECTANGLENODE_H

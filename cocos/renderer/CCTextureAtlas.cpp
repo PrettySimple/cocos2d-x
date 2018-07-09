@@ -81,12 +81,12 @@ TextureAtlas::~TextureAtlas()
 #endif
 }
 
-ssize_t TextureAtlas::getTotalQuads() const
+std::size_t TextureAtlas::getTotalQuads() const
 {
     return _totalQuads;
 }
 
-ssize_t TextureAtlas::getCapacity() const
+std::size_t TextureAtlas::getCapacity() const
 {
     return _capacity;
 }
@@ -117,7 +117,7 @@ void TextureAtlas::setQuads(V3F_C4B_T2F_Quad* quads)
 
 // TextureAtlas - alloc & init
 
-TextureAtlas* TextureAtlas::create(const std::string& file, ssize_t capacity)
+TextureAtlas* TextureAtlas::create(const std::string& file, std::size_t capacity)
 {
     TextureAtlas* textureAtlas = new (std::nothrow) TextureAtlas();
     if (textureAtlas && textureAtlas->initWithFile(file, capacity))
@@ -129,7 +129,7 @@ TextureAtlas* TextureAtlas::create(const std::string& file, ssize_t capacity)
     return nullptr;
 }
 
-TextureAtlas* TextureAtlas::createWithTexture(Texture2D* texture, ssize_t capacity)
+TextureAtlas* TextureAtlas::createWithTexture(Texture2D* texture, std::size_t capacity)
 {
     TextureAtlas* textureAtlas = new (std::nothrow) TextureAtlas();
     if (textureAtlas && textureAtlas->initWithTexture(texture, capacity))
@@ -141,7 +141,7 @@ TextureAtlas* TextureAtlas::createWithTexture(Texture2D* texture, ssize_t capaci
     return nullptr;
 }
 
-bool TextureAtlas::initWithFile(const std::string& file, ssize_t capacity)
+bool TextureAtlas::initWithFile(const std::string& file, std::size_t capacity)
 {
     // retained in property
     Texture2D* texture = Director::getInstance()->getTextureCache()->addImage(file);
@@ -157,7 +157,7 @@ bool TextureAtlas::initWithFile(const std::string& file, ssize_t capacity)
     }
 }
 
-bool TextureAtlas::initWithTexture(Texture2D* texture, ssize_t capacity)
+bool TextureAtlas::initWithTexture(Texture2D* texture, std::size_t capacity)
 {
     CCASSERT(capacity >= 0, "Capacity must be >= 0");
 
@@ -172,8 +172,8 @@ bool TextureAtlas::initWithTexture(Texture2D* texture, ssize_t capacity)
     // Re-initialization is not allowed
     CCASSERT(_quads == nullptr && _indices == nullptr, "_quads and _indices should be nullptr.");
 
-    _quads = (V3F_C4B_T2F_Quad*)malloc(_capacity * sizeof(V3F_C4B_T2F_Quad));
-    _indices = (GLushort*)malloc(_capacity * 6 * sizeof(GLushort));
+    _quads = reinterpret_cast<V3F_C4B_T2F_Quad*>(malloc(_capacity * sizeof(V3F_C4B_T2F_Quad)));
+    _indices = reinterpret_cast<GLushort*>(malloc(_capacity * 6 * sizeof(GLushort)));
 
     if (!(_quads && _indices) && _capacity > 0)
     {
@@ -192,7 +192,7 @@ bool TextureAtlas::initWithTexture(Texture2D* texture, ssize_t capacity)
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     /** listen the event that renderer was recreated on Android/WP8 */
-    _rendererRecreatedListener = EventListenerCustom::create(EVENT_RENDERER_RECREATED, CC_CALLBACK_1(TextureAtlas::listenRendererRecreated, this));
+    _rendererRecreatedListener = EventListenerCustom::create(EVENT_RENDERER_RECREATED, [this](EventCustom* evt) { listenRendererRecreated(evt); });
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_rendererRecreatedListener, -1);
 #endif
 
@@ -312,7 +312,7 @@ void TextureAtlas::mapBuffers()
 
 // TextureAtlas - Update, Insert, Move & Remove
 
-void TextureAtlas::updateQuad(V3F_C4B_T2F_Quad* quad, ssize_t index)
+void TextureAtlas::updateQuad(V3F_C4B_T2F_Quad* quad, std::size_t index)
 {
     CCASSERT(index >= 0 && index < _capacity, "updateQuadWithTexture: Invalid index");
 
@@ -323,7 +323,7 @@ void TextureAtlas::updateQuad(V3F_C4B_T2F_Quad* quad, ssize_t index)
     _dirty = true;
 }
 
-void TextureAtlas::insertQuad(V3F_C4B_T2F_Quad* quad, ssize_t index)
+void TextureAtlas::insertQuad(V3F_C4B_T2F_Quad* quad, std::size_t index)
 {
     CCASSERT(index >= 0 && index < _capacity, "insertQuadWithTexture: Invalid index");
 
@@ -345,7 +345,7 @@ void TextureAtlas::insertQuad(V3F_C4B_T2F_Quad* quad, ssize_t index)
     _dirty = true;
 }
 
-void TextureAtlas::insertQuads(V3F_C4B_T2F_Quad* quads, ssize_t index, ssize_t amount)
+void TextureAtlas::insertQuads(V3F_C4B_T2F_Quad* quads, std::size_t index, std::size_t amount)
 {
     CCASSERT(index >= 0 && amount >= 0 && index + amount <= _capacity, "insertQuadWithTexture: Invalid index + amount");
 
@@ -365,7 +365,7 @@ void TextureAtlas::insertQuads(V3F_C4B_T2F_Quad* quads, ssize_t index, ssize_t a
 
     auto max = index + amount;
     int j = 0;
-    for (ssize_t i = index; i < max; i++)
+    for (std::size_t i = index; i < max; i++)
     {
         _quads[index] = quads[j];
         index++;
@@ -375,7 +375,7 @@ void TextureAtlas::insertQuads(V3F_C4B_T2F_Quad* quads, ssize_t index, ssize_t a
     _dirty = true;
 }
 
-void TextureAtlas::insertQuadFromIndex(ssize_t oldIndex, ssize_t newIndex)
+void TextureAtlas::insertQuadFromIndex(std::size_t oldIndex, std::size_t newIndex)
 {
     CCASSERT(newIndex >= 0 && newIndex < _totalQuads, "insertQuadFromIndex:atIndex: Invalid index");
     CCASSERT(oldIndex >= 0 && oldIndex < _totalQuads, "insertQuadFromIndex:atIndex: Invalid index");
@@ -403,7 +403,7 @@ void TextureAtlas::insertQuadFromIndex(ssize_t oldIndex, ssize_t newIndex)
     _dirty = true;
 }
 
-void TextureAtlas::removeQuadAtIndex(ssize_t index)
+void TextureAtlas::removeQuadAtIndex(std::size_t index)
 {
     CCASSERT(index >= 0 && index < _totalQuads, "removeQuadAtIndex: Invalid index");
 
@@ -421,7 +421,7 @@ void TextureAtlas::removeQuadAtIndex(ssize_t index)
     _dirty = true;
 }
 
-void TextureAtlas::removeQuadsAtIndex(ssize_t index, ssize_t amount)
+void TextureAtlas::removeQuadsAtIndex(std::size_t index, std::size_t amount)
 {
     CCASSERT(index >= 0 && amount >= 0 && index + amount <= _totalQuads, "removeQuadAtIndex: index + amount out of bounds");
 
@@ -443,7 +443,7 @@ void TextureAtlas::removeAllQuads()
 }
 
 // TextureAtlas - Resize
-bool TextureAtlas::resizeCapacity(ssize_t newCapacity)
+bool TextureAtlas::resizeCapacity(std::size_t newCapacity)
 {
     CCASSERT(newCapacity >= 0, "capacity >= 0");
     if (newCapacity == _capacity)
@@ -462,8 +462,8 @@ bool TextureAtlas::resizeCapacity(ssize_t newCapacity)
     // when calling initWithTexture(fileName, 0) on bada device, calloc(0, 1) will fail and return nullptr,
     // so here must judge whether _quads and _indices is nullptr.
 
-    ssize_t _quads_size = sizeof(_quads[0]);
-    ssize_t new_quads_size = _capacity * _quads_size;
+    std::size_t _quads_size = sizeof(_quads[0]);
+    std::size_t new_quads_size = _capacity * _quads_size;
     if (_quads == nullptr)
     {
         tmpQuads = (V3F_C4B_T2F_Quad*)malloc(new_quads_size);
@@ -482,8 +482,8 @@ bool TextureAtlas::resizeCapacity(ssize_t newCapacity)
         _quads = nullptr;
     }
 
-    ssize_t _indices_size = sizeof(_indices[0]);
-    ssize_t new_size = _capacity * 6 * _indices_size;
+    std::size_t _indices_size = sizeof(_indices[0]);
+    std::size_t new_size = _capacity * 6 * _indices_size;
 
     if (_indices == nullptr)
     {
@@ -525,13 +525,13 @@ bool TextureAtlas::resizeCapacity(ssize_t newCapacity)
     return true;
 }
 
-void TextureAtlas::increaseTotalQuadsWith(ssize_t amount)
+void TextureAtlas::increaseTotalQuadsWith(std::size_t amount)
 {
     CCASSERT(amount >= 0, "amount >= 0");
     _totalQuads += amount;
 }
 
-void TextureAtlas::moveQuadsFromIndex(ssize_t oldIndex, ssize_t amount, ssize_t newIndex)
+void TextureAtlas::moveQuadsFromIndex(std::size_t oldIndex, std::size_t amount, std::size_t newIndex)
 {
     CCASSERT(oldIndex >= 0 && amount >= 0 && newIndex >= 0, "values must be >= 0");
     CCASSERT(newIndex + amount <= _totalQuads, "insertQuadFromIndex:atIndex: Invalid index");
@@ -563,7 +563,7 @@ void TextureAtlas::moveQuadsFromIndex(ssize_t oldIndex, ssize_t amount, ssize_t 
     _dirty = true;
 }
 
-void TextureAtlas::moveQuadsFromIndex(ssize_t index, ssize_t newIndex)
+void TextureAtlas::moveQuadsFromIndex(std::size_t index, std::size_t newIndex)
 {
     CCASSERT(index >= 0 && newIndex >= 0, "values must be >= 0");
     CCASSERT(newIndex + (_totalQuads - index) <= _capacity, "moveQuadsFromIndex move is out of bounds");
@@ -571,14 +571,14 @@ void TextureAtlas::moveQuadsFromIndex(ssize_t index, ssize_t newIndex)
     memmove(_quads + newIndex, _quads + index, (_totalQuads - index) * sizeof(_quads[0]));
 }
 
-void TextureAtlas::fillWithEmptyQuadsFromIndex(ssize_t index, ssize_t amount)
+void TextureAtlas::fillWithEmptyQuadsFromIndex(std::size_t index, std::size_t amount)
 {
     CCASSERT(index >= 0 && amount >= 0, "values must be >= 0");
     V3F_C4B_T2F_Quad quad;
     memset(&quad, 0, sizeof(quad));
 
     auto to = index + amount;
-    for (ssize_t i = index; i < to; i++)
+    for (std::size_t i = index; i < to; i++)
     {
         _quads[i] = quad;
     }
@@ -591,13 +591,13 @@ void TextureAtlas::drawQuads()
     this->drawNumberOfQuads(_totalQuads, 0);
 }
 
-void TextureAtlas::drawNumberOfQuads(ssize_t numberOfQuads)
+void TextureAtlas::drawNumberOfQuads(std::size_t numberOfQuads)
 {
     CCASSERT(numberOfQuads >= 0, "numberOfQuads must be >= 0");
     this->drawNumberOfQuads(numberOfQuads, 0);
 }
 
-void TextureAtlas::drawNumberOfQuads(ssize_t numberOfQuads, ssize_t start)
+void TextureAtlas::drawNumberOfQuads(std::size_t numberOfQuads, std::size_t start)
 {
     CCASSERT(numberOfQuads >= 0 && start >= 0, "numberOfQuads and start must be >= 0");
 

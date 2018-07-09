@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_SLAVE_EMITTER_H__
-#define __CC_PU_PARTICLE_3D_SLAVE_EMITTER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SLAVEEMITTER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_SLAVEEMITTER_H
 
 #include "extensions/Particle3D/PU/CCPUEmitter.h"
 #include "extensions/Particle3D/PU/CCPUListener.h"
@@ -38,7 +38,7 @@ public:
 
     /**
      */
-    const std::string& getMasterTechniqueName(void) const;
+    const std::string& getMasterTechniqueName() const;
 
     /**
      */
@@ -46,45 +46,45 @@ public:
 
     /**
      */
-    const std::string& getMasterEmitterName(void) const;
+    const std::string& getMasterEmitterName() const;
 
     /** See ParticleEmitter.
      */
-    virtual void initParticlePosition(PUParticle3D* particle) override;
+    void initParticlePosition(PUParticle3D* particle) override;
 
     /** See ParticleEmitter.
      */
-    virtual void initParticleDirection(PUParticle3D* particle) override;
+    void initParticleDirection(PUParticle3D* particle) override;
 
     /** See ParticleEmitter.
      */
-    virtual void prepare() override;
+    void prepare() override;
 
     /** See ParticleEmitter.
      */
-    virtual void unPrepare() override;
+    void unPrepare() override;
 
     /** See ParticleEmitter.
      */
-    virtual void notifyStart(void) override;
+    void notifyStart() override;
 
     /** Initialise the emitted particle. This means that its position is set.
      */
-    virtual void particleEmitted(PUParticleSystem3D* particleSystem, PUParticle3D* particle) override;
+    void particleEmitted(PUParticleSystem3D* particleSystem, PUParticle3D* particle) override;
 
     /** No implementation.
      */
-    virtual void particleExpired(PUParticleSystem3D* particleSystem, PUParticle3D* particle) override{};
+    void particleExpired(PUParticleSystem3D* particleSystem, PUParticle3D* particle) override {}
 
     /**
      */
     void setMasterEmitterName(const std::string& masterEmitterName);
 
-    virtual PUSlaveEmitter* clone() override;
-    virtual void copyAttributesTo(PUEmitter* emitter) override;
+    PUSlaveEmitter* clone() override;
+    void copyAttributesTo(PUEmitter* emitter) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUSlaveEmitter(void);
-    virtual ~PUSlaveEmitter(void){};
+    CC_CONSTRUCTOR_ACCESS : PUSlaveEmitter();
+    ~PUSlaveEmitter() override {}
 
 protected:
     PUParticle3D* _masterParticle;
@@ -96,4 +96,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_SLAVEEMITTER_H

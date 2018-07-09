@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_SPHERE_SURFACE_EMITTER_H__
-#define __CC_PU_PARTICLE_3D_SPHERE_SURFACE_EMITTER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SPHERESURFACEEMITTER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_SPHERESURFACEEMITTER_H
 
 #include "extensions/Particle3D/PU/CCPUEmitter.h"
 
@@ -44,17 +44,17 @@ public:
 
     /**
      */
-    virtual void initParticlePosition(PUParticle3D* particle) override;
+    void initParticlePosition(PUParticle3D* particle) override;
 
     /**
      */
-    virtual void initParticleDirection(PUParticle3D* particle) override;
+    void initParticleDirection(PUParticle3D* particle) override;
 
-    virtual PUSphereSurfaceEmitter* clone() override;
-    virtual void copyAttributesTo(PUEmitter* emitter) override;
+    PUSphereSurfaceEmitter* clone() override;
+    void copyAttributesTo(PUEmitter* emitter) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUSphereSurfaceEmitter(void);
-    virtual ~PUSphereSurfaceEmitter(void){};
+    CC_CONSTRUCTOR_ACCESS : PUSphereSurfaceEmitter();
+    ~PUSphereSurfaceEmitter() override = default;
 
 protected:
     float _radius;
@@ -62,4 +62,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_SPHERESURFACEEMITTER_H

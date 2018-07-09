@@ -265,10 +265,8 @@ EventListenerPhysicsContact* EventListenerPhysicsContact::create()
     return nullptr;
 }
 
-bool EventListenerPhysicsContact::hitTest(PhysicsShape* shapeA, PhysicsShape* shapeB)
+bool EventListenerPhysicsContact::hitTest(PhysicsShape*, PhysicsShape*)
 {
-    CC_UNUSED_PARAM(shapeA);
-    CC_UNUSED_PARAM(shapeB);
     return true;
 }
 

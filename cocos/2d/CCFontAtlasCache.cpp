@@ -30,6 +30,7 @@
 #include "2d/CCFontFreeType.h"
 #include "2d/CCLabel.h"
 #include "base/CCDirector.h"
+#include "renderer/CCTexture2D.h"
 
 NS_CC_BEGIN
 

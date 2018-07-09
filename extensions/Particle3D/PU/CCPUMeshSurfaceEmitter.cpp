@@ -211,10 +211,10 @@ size_t MeshInfo::getRandomTriangleIndex()
     size_t index;
     if (mDistribution == MSD_HOMOGENEOUS || mDistribution == MSD_HETEROGENEOUS_1)
     {
-        index = (size_t)getGaussianRandom((float)_triangles.size() - 1);
+        index = static_cast<size_t>(getGaussianRandom(static_cast<float>(_triangles.size() - 1)));
     }
     else
-        index = (size_t)(CCRANDOM_0_1() * (float)(_triangles.size() - 1));
+        index = static_cast<size_t>(CCRANDOM_0_1() * static_cast<float>(_triangles.size() - 1));
 
     return index;
 }
@@ -399,7 +399,7 @@ PUMeshSurfaceEmitter::PUMeshSurfaceEmitter(void)
 , _orientation()
 , _scale(DEFAULT_SCALE)
 , _distribution(DEFAULT_DISTRIBUTION)
-, _meshInfo(0)
+, _meshInfo(nullptr)
 , _triangleIndex(0)
 , _directionSet(false)
 {

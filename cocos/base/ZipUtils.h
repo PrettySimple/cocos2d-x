@@ -23,21 +23,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __SUPPORT_ZIPUTILS_H__
-#define __SUPPORT_ZIPUTILS_H__
+#ifndef CC_BASE_ZIPUTILS_H
+#define CC_BASE_ZIPUTILS_H
 /// @cond DO_NOT_SHOW
 
 #include "platform/CCFileUtils.h"
 #include "platform/CCPlatformConfig.h"
 #include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
+
 #include <string>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #    include "platform/android/CCFileUtils-android.h"
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-// for import ssize_t on win32 platform
-#    include "platform/CCStdC.h"
 #endif
 
 /**
@@ -81,11 +79,11 @@ namespace cocos2d
          * @return The length of the deflated buffer.
          * @since v0.8.1
          */
-        CC_DEPRECATED_ATTRIBUTE static ssize_t ccInflateMemory(unsigned char* in, ssize_t inLength, unsigned char** out)
+        CC_DEPRECATED_ATTRIBUTE static std::size_t ccInflateMemory(unsigned char* in, std::size_t inLength, unsigned char** out)
         {
             return inflateMemory(in, inLength, out);
         }
-        static ssize_t inflateMemory(unsigned char* in, ssize_t inLength, unsigned char** out);
+        static std::size_t inflateMemory(unsigned char* in, std::size_t inLength, unsigned char** out);
 
         /**
          * Inflates either zlib or gzip deflated memory. The inflated memory is expected to be freed by the caller.
@@ -95,11 +93,11 @@ namespace cocos2d
          * @return The length of the deflated buffer.
          * @since v1.0.0
          */
-        CC_DEPRECATED_ATTRIBUTE static ssize_t ccInflateMemoryWithHint(unsigned char* in, ssize_t inLength, unsigned char** out, ssize_t outLengthHint)
+        CC_DEPRECATED_ATTRIBUTE static std::size_t ccInflateMemoryWithHint(unsigned char* in, std::size_t inLength, unsigned char** out, std::size_t outLengthHint)
         {
             return inflateMemoryWithHint(in, inLength, out, outLengthHint);
         }
-        static ssize_t inflateMemoryWithHint(unsigned char* in, ssize_t inLength, unsigned char** out, ssize_t outLengthHint);
+        static std::size_t inflateMemoryWithHint(unsigned char* in, std::size_t inLength, unsigned char** out, std::size_t outLengthHint);
 
         /**
          * Inflates a GZip file into memory.
@@ -125,8 +123,8 @@ namespace cocos2d
          * @return True is GZip format. false is not.
          * @since v3.0
          */
-        CC_DEPRECATED_ATTRIBUTE static bool ccIsGZipBuffer(const unsigned char* buffer, ssize_t len) { return isGZipBuffer(buffer, len); }
-        static bool isGZipBuffer(const unsigned char* buffer, ssize_t len);
+        CC_DEPRECATED_ATTRIBUTE static bool ccIsGZipBuffer(const unsigned char* buffer, std::size_t len) { return isGZipBuffer(buffer, len); }
+        static bool isGZipBuffer(const unsigned char* buffer, std::size_t len);
 
         /**
          * Inflates a CCZ file into memory.
@@ -143,11 +141,11 @@ namespace cocos2d
          * @return The length of the deflated buffer.
          * @since v3.0
          */
-        CC_DEPRECATED_ATTRIBUTE static int ccInflateCCZBuffer(const unsigned char* buffer, ssize_t len, unsigned char** out)
+        CC_DEPRECATED_ATTRIBUTE static int ccInflateCCZBuffer(const unsigned char* buffer, std::size_t len, unsigned char** out)
         {
             return inflateCCZBuffer(buffer, len, out);
         }
-        static int inflateCCZBuffer(const unsigned char* buffer, ssize_t len, unsigned char** out);
+        static int inflateCCZBuffer(const unsigned char* buffer, std::size_t len, unsigned char** out);
 
         /**
          * Test a file is a CCZ format file or not.
@@ -164,8 +162,8 @@ namespace cocos2d
          * @return True is CCZ format. false is not.
          * @since v3.0
          */
-        CC_DEPRECATED_ATTRIBUTE static bool ccIsCCZBuffer(const unsigned char* buffer, ssize_t len) { return isCCZBuffer(buffer, len); }
-        static bool isCCZBuffer(const unsigned char* buffer, ssize_t len);
+        CC_DEPRECATED_ATTRIBUTE static bool ccIsCCZBuffer(const unsigned char* buffer, std::size_t len) { return isCCZBuffer(buffer, len); }
+        static bool isCCZBuffer(const unsigned char* buffer, std::size_t len);
 
         /**
          * Sets the pvr.ccz encryption key parts separately for added security.
@@ -223,9 +221,9 @@ namespace cocos2d
         static void setPvrEncryptionKey(unsigned int keyPart1, unsigned int keyPart2, unsigned int keyPart3, unsigned int keyPart4);
 
     private:
-        static int inflateMemoryWithHint(unsigned char* in, ssize_t inLength, unsigned char** out, ssize_t* outLength, ssize_t outLengthHint);
-        static inline void decodeEncodedPvr(unsigned int* data, ssize_t len);
-        static inline unsigned int checksumPvr(const unsigned int* data, ssize_t len);
+        static int inflateMemoryWithHint(unsigned char* in, std::size_t inLength, unsigned char** out, std::size_t* outLength, std::size_t outLengthHint);
+        static inline void decodeEncodedPvr(unsigned int* data, std::size_t len);
+        static inline unsigned int checksumPvr(const unsigned int* data, std::size_t len);
 
         static unsigned int s_uEncryptedPvrKeyParts[4];
         static unsigned int s_uEncryptionKey[1024];
@@ -289,7 +287,7 @@ namespace cocos2d
          *
          * @since v2.0.5
          */
-        unsigned char* getFileData(const std::string& fileName, ssize_t* size);
+        unsigned char* getFileData(const std::string& fileName, std::size_t* size);
 
         /**
          * Get resource file data from a zip file.
@@ -320,4 +318,4 @@ namespace cocos2d
 /// @}
 
 /// @endcond
-#endif // __SUPPORT_ZIPUTILS_H__
+#endif // CC_BASE_ZIPUTILS_H

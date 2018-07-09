@@ -25,8 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __COCOS2D_H__
-#define __COCOS2D_H__
+#ifndef CC_COCOS2D_H
+#define CC_COCOS2D_H
 
 // 0x00 HI ME LO
 // 00   03 08 00
@@ -194,7 +194,6 @@ THE SOFTWARE.
 #    include "platform/ios/CCApplication-ios.h"
 #    include "platform/ios/CCGL-ios.h"
 #    include "platform/ios/CCGLViewImpl-ios.h"
-#    include "platform/ios/CCStdC-ios.h"
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -211,7 +210,6 @@ THE SOFTWARE.
 #    include "platform/blackberry/CCApplication.h"
 #    include "platform/blackberry/CCGL.h"
 #    include "platform/blackberry/CCGLViewImpl.h"
-#    include "platform/blackberry/CCStdC.h"
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_BLACKBERRY
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
@@ -239,7 +237,6 @@ THE SOFTWARE.
 #    include "platform/winrt/CCApplication.h"
 #    include "platform/winrt/CCGL.h"
 #    include "platform/winrt/CCGLViewImpl-winrt.h"
-#    include "platform/winrt/CCStdC.h"
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN)
@@ -323,4 +320,4 @@ CC_DLL const char* cocos2dVersion();
 
 NS_CC_END
 
-#endif // __COCOS2D_H__
+#endif // CC_COCOS2D_H

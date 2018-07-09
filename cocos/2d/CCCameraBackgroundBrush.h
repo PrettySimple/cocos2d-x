@@ -22,8 +22,8 @@
  THE SOFTWARE.
 
  ****************************************************************************/
-#ifndef _CCCAMERA_BACKGROUND_BRUSH_H__
-#define _CCCAMERA_BACKGROUND_BRUSH_H__
+#ifndef CC_2D_CAMERABACKGROUNDBRUSH_H
+#define CC_2D_CAMERABACKGROUNDBRUSH_H
 
 #include "3d/CCFrustum.h"
 #include "base/CCRef.h"
@@ -107,7 +107,7 @@ public:
     virtual bool isValid() { return true; }
 
     CC_CONSTRUCTOR_ACCESS : CameraBackgroundBrush();
-    virtual ~CameraBackgroundBrush();
+    ~CameraBackgroundBrush() override;
 
     virtual bool init() { return true; }
 
@@ -132,12 +132,12 @@ public:
      * Get brush type. Should be BrushType::DEPTH
      * @return brush type
      */
-    virtual BrushType getBrushType() const override { return BrushType::DEPTH; }
+    BrushType getBrushType() const override { return BrushType::DEPTH; }
 
     /**
      * Draw background
      */
-    virtual void drawBackground(Camera* camera) override;
+    void drawBackground(Camera* camera) override;
 
     /**
      * Set depth
@@ -146,9 +146,9 @@ public:
     void setDepth(float depth) { _depth = depth; }
 
     CC_CONSTRUCTOR_ACCESS : CameraBackgroundDepthBrush();
-    virtual ~CameraBackgroundDepthBrush();
+    ~CameraBackgroundDepthBrush() override;
 
-    virtual bool init() override;
+    bool init() override;
 
 protected:
     float _depth;
@@ -188,9 +188,9 @@ public:
     void setColor(const Color4F& color);
 
     CC_CONSTRUCTOR_ACCESS : CameraBackgroundColorBrush();
-    virtual ~CameraBackgroundColorBrush();
+    ~CameraBackgroundColorBrush() override;
 
-    virtual bool init() override;
+    bool init() override;
 
 protected:
     Color4F _color;
@@ -241,15 +241,15 @@ public:
     bool isActived() const;
     void setActived(bool actived);
     virtual void setTextureValid(bool valid);
-    virtual bool isValid() override;
+    bool isValid() override;
 
     CC_CONSTRUCTOR_ACCESS : CameraBackgroundSkyBoxBrush();
-    virtual ~CameraBackgroundSkyBoxBrush();
+    ~CameraBackgroundSkyBoxBrush() override;
 
     /**
      * init Skybox.
      */
-    virtual bool init() override;
+    bool init() override;
 
 protected:
     void initBuffer();
@@ -271,4 +271,4 @@ private:
 
 NS_CC_END
 
-#endif // _CCCAMERA_BACKGROUND_BRUSH_H__
+#endif // CC_2D_CAMERABACKGROUNDBRUSH_H

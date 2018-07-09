@@ -22,8 +22,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __SUPPORT_CC_UTILS_H__
-#define __SUPPORT_CC_UTILS_H__
+#ifndef CC_BASE_UTILS_H
+#define CC_BASE_UTILS_H
 
 #include "2d/CCNode.h"
 #include "base/ccMacros.h"
@@ -166,4 +166,4 @@ namespace utils
 
 NS_CC_END
 
-#endif // __SUPPORT_CC_UTILS_H__
+#endif // CC_BASE_UTILS_H

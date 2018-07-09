@@ -23,34 +23,27 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_ON_EMISSION_OBSERVER_H__
-#define __CC_PU_PARTICLE_3D_ON_EMISSION_OBSERVER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_ONEMISSIONOBSERVER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_ONEMISSIONOBSERVER_H
 
-#include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUObserver.h"
-#include "math/CCMath.h"
-#include <string>
-#include <vector>
 
 NS_CC_BEGIN
 
 struct PUParticle3D;
-class PUParticleSystem3D;
+
 class CC_DLL PUOnEmissionObserver : public PUObserver
 {
 public:
     static PUOnEmissionObserver* create();
     /**
      */
-    virtual bool observe(PUParticle3D* particle, float timeElapsed) override;
+    bool observe(PUParticle3D* particle, float timeElapsed) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUOnEmissionObserver(void)
-    : PUObserver()
-    {
-    }
-    virtual ~PUOnEmissionObserver(void){};
+    CC_CONSTRUCTOR_ACCESS : PUOnEmissionObserver() = default;
+    ~PUOnEmissionObserver() override = default;
 };
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_ONEMISSIONOBSERVER_H

@@ -34,4 +34,8 @@ EventKeyboard::EventKeyboard(KeyCode keyCode, bool isPressed)
 {
 }
 
+EventKeyboard::~EventKeyboard()
+{
+}
+
 NS_CC_END

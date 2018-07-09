@@ -25,8 +25,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CCTMX_OBJECT_GROUP_H__
-#define __CCTMX_OBJECT_GROUP_H__
+#ifndef CC_2D_TMXOBJECTGROUP_H
+#define CC_2D_TMXOBJECTGROUP_H
 
 #include "base/CCRef.h"
 #include "base/CCValue.h"
@@ -75,7 +75,7 @@ public:
      */
     Value getProperty(const std::string& propertyName) const;
 
-    CC_DEPRECATED_ATTRIBUTE Value propertyNamed(const std::string& propertyName) const { return getProperty(propertyName); };
+    CC_DEPRECATED_ATTRIBUTE Value propertyNamed(const std::string& propertyName) const { return getProperty(propertyName); }
 
     /** Return the dictionary for the specific object name.
      * It will return the 1st object found on the array for the given name.
@@ -84,7 +84,7 @@ public:
      */
     ValueMap getObject(const std::string& objectName) const;
 
-    CC_DEPRECATED_ATTRIBUTE ValueMap objectNamed(const std::string& objectName) const { return getObject(objectName); };
+    CC_DEPRECATED_ATTRIBUTE ValueMap objectNamed(const std::string& objectName) const { return getObject(objectName); }
 
     /** Gets the offset position of child objects.
      *
@@ -140,4 +140,4 @@ protected:
 
 NS_CC_END
 
-#endif //__CCTMX_OBJECT_GROUP_H__
+#endif // CC_2D_TMXOBJECTGROUP_H

@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_LINE_AFFECTOR_H__
-#define __CC_PU_PARTICLE_3D_LINE_AFFECTOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_LINEAFFECTOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_LINEAFFECTOR_H
 
 #include "base/ccTypes.h"
 #include "extensions/Particle3D/PU/CCPUAffector.h"
@@ -44,35 +44,35 @@ public:
 
     /**
      */
-    virtual void notifyRescaled(const Vec3& scale) override;
-    virtual void preUpdateAffector(float deltaTime) override;
-    virtual void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
-    virtual void postUpdateAffector(float deltaTime) override;
-    virtual void firstParticleUpdate(PUParticle3D* particle, float deltaTime) override;
+    void notifyRescaled(const Vec3& scale) override;
+    void preUpdateAffector(float deltaTime) override;
+    void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
+    void postUpdateAffector(float deltaTime) override;
+    void firstParticleUpdate(PUParticle3D* particle, float deltaTime) override;
     /**
      */
-    float getMaxDeviation(void) const;
+    float getMaxDeviation() const;
     void setMaxDeviation(float maxDeviation);
 
     /**
      */
-    const Vec3& getEnd(void) const;
+    const Vec3& getEnd() const;
     void setEnd(const Vec3& end);
 
     /**
      */
-    float getTimeStep(void) const;
+    float getTimeStep() const;
     void setTimeStep(float timeStep);
 
     /**
      */
-    float getDrift(void) const;
+    float getDrift() const;
     void setDrift(float drift);
 
-    virtual void copyAttributesTo(PUAffector* affector) override;
+    void copyAttributesTo(PUAffector* affector) override;
 
-    CC_CONSTRUCTOR_ACCESS : PULineAffector(void);
-    virtual ~PULineAffector(void);
+    CC_CONSTRUCTOR_ACCESS : PULineAffector();
+    ~PULineAffector() override;
 
 protected:
     float _maxDeviation;
@@ -87,4 +87,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_LINEAFFECTOR_H

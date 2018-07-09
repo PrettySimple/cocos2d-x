@@ -37,8 +37,7 @@ CGFloat const UI_PLACEHOLDER_TEXT_CHANGED_ANIMATION_DURATION = 0.25;
 
 #pragma mark - Init & Dealloc
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self)
     {
@@ -47,8 +46,7 @@ CGFloat const UI_PLACEHOLDER_TEXT_CHANGED_ANIMATION_DURATION = 0.25;
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     [_placeHolderLabel release];
@@ -58,25 +56,21 @@ CGFloat const UI_PLACEHOLDER_TEXT_CHANGED_ANIMATION_DURATION = 0.25;
 
 #pragma mark - Properties
 
-- (NSString*)placeholder
-{
+- (NSString*)placeholder {
     return self.placeHolderLabel.text;
 }
 
-- (void)setPlaceholder:(NSString*)placeholder
-{
+- (void)setPlaceholder:(NSString*)placeholder {
     self.placeHolderLabel.text = placeholder;
     [self.placeHolderLabel sizeToFit];
 }
 
-- (void)setText:(NSString*)text
-{
+- (void)setText:(NSString*)text {
     [super setText:text];
     [self textChanged:nil];
 }
 
-- (UILabel*)placeHolderLabel
-{
+- (UILabel*)placeHolderLabel {
     if (_placeHolderLabel == nil)
     {
         _placeHolderLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 8, self.bounds.size.width - 16, 0)];
@@ -95,21 +89,18 @@ CGFloat const UI_PLACEHOLDER_TEXT_CHANGED_ANIMATION_DURATION = 0.25;
 
 #pragma mark - Public methods
 
-- (CGRect)textRectForBounds:(CGRect)bounds
-{
+- (CGRect)textRectForBounds:(CGRect)bounds {
     auto glview = cocos2d::Director::getInstance()->getOpenGLView();
 
     float padding = CC_EDIT_BOX_PADDING * glview->getScaleX() / glview->getContentScaleFactor();
     return CGRectInset(bounds, padding, padding);
 }
 
-- (CGRect)editingRectForBounds:(CGRect)bounds
-{
+- (CGRect)editingRectForBounds:(CGRect)bounds {
     return [self textRectForBounds:bounds];
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
 
     if (self.placeholder.length > 0)
@@ -118,8 +109,7 @@ CGFloat const UI_PLACEHOLDER_TEXT_CHANGED_ANIMATION_DURATION = 0.25;
     }
 }
 
-- (void)drawRect:(CGRect)rect
-{
+- (void)drawRect:(CGRect)rect {
     if (self.text.length == 0 && self.placeholder.length > 0)
     {
         self.placeHolderLabel.alpha = 1;
@@ -130,8 +120,7 @@ CGFloat const UI_PLACEHOLDER_TEXT_CHANGED_ANIMATION_DURATION = 0.25;
 
 #pragma mark - NSNotification Observers
 
-- (void)textChanged:(NSNotification*)notification
-{
+- (void)textChanged:(NSNotification*)notification {
     if (self.placeholder.length == 0)
     {
         return;

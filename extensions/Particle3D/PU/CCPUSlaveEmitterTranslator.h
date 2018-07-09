@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_SLAVE_TRANSLATOR_H__
-#define __CC_PU_PARTICLE_3D_SLAVE_TRANSLATOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SLAVEEMITTERTRANSLATOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_SLAVEEMITTERTRANSLATOR_H
 
 #include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
 #include "extensions/Particle3D/PU/CCPUScriptTranslator.h"
@@ -36,7 +36,7 @@ class PUSlaveEmitterTranslator : public PUScriptTranslator
 {
 public:
     PUSlaveEmitterTranslator();
-    virtual ~PUSlaveEmitterTranslator(){};
+    ~PUSlaveEmitterTranslator() override {}
 
     virtual bool translateChildProperty(PUScriptCompiler* compiler, PUAbstractNode* node);
     virtual bool translateChildObject(PUScriptCompiler* compiler, PUAbstractNode* node);
@@ -44,4 +44,4 @@ public:
 
 NS_CC_END
 
-#endif /* defined(__cocos2d_libs__CCParticle3DAffectorTranslator__) */
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_SLAVEEMITTERTRANSLATOR_H

@@ -274,8 +274,8 @@ namespace GL
             glBlendFunc(sfactor, dfactor);
 
             RenderState::StateBlock::_defaultState->setBlend(true);
-            RenderState::StateBlock::_defaultState->setBlendSrc((RenderState::Blend)sfactor);
-            RenderState::StateBlock::_defaultState->setBlendDst((RenderState::Blend)dfactor);
+            RenderState::StateBlock::_defaultState->setBlendSrc(static_cast<RenderState::Blend>(sfactor));
+            RenderState::StateBlock::_defaultState->setBlendDst(static_cast<RenderState::Blend>(dfactor));
         }
     }
 

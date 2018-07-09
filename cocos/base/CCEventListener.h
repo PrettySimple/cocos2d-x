@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCEVENTLISTENER_H__
-#define __CCEVENTLISTENER_H__
+#ifndef CC_BASE_EVENTLISTENER_H
+#define CC_BASE_EVENTLISTENER_H
 
 #include <functional>
 #include <memory>
@@ -181,4 +181,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif // __CCEVENTLISTENER_H__
+#endif // CC_BASE_EVENTLISTENER_H

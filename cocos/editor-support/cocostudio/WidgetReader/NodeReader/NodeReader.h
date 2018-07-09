@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__NodeReader__
-#define __cocos2d_libs__NodeReader__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_NODEREADER_NODEREADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_NODEREADER_NODEREADER_H
 
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -52,4 +52,4 @@ namespace cocostudio
     };
 } // namespace cocostudio
 
-#endif /* defined(__cocos2d_libs__NodeReader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_NODEREADER_NODEREADER_H

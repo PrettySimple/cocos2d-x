@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_SLAVE_BEHAVIOUR_H__
-#define __CC_PU_PARTICLE_3D_SLAVE_BEHAVIOUR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SLAVEBEHAVIOUR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_SLAVEBEHAVIOUR_H
 
 #include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUBehaviour.h"
@@ -47,15 +47,15 @@ public:
 
     /** See ParticleBehaviour.
      */
-    virtual void updateBehaviour(PUParticle3D* particle, float deltaTime) override;
+    void updateBehaviour(PUParticle3D* particle, float deltaTime) override;
 
-    virtual PUSlaveBehaviour* clone() override;
-    virtual void copyAttributesTo(PUBehaviour* behaviour) override;
+    PUSlaveBehaviour* clone() override;
+    void copyAttributesTo(PUBehaviour* behaviour) override;
 
     CC_CONSTRUCTOR_ACCESS : PUSlaveBehaviour();
-    virtual ~PUSlaveBehaviour();
+    ~PUSlaveBehaviour() override;
 };
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_SLAVEBEHAVIOUR_H

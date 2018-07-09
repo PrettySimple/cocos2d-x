@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_TEXTURE_ANIMATOR_H__
-#define __CC_PU_PARTICLE_3D_TEXTURE_ANIMATOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_TEXTUREANIMATOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_TEXTUREANIMATOR_H
 
 #include "base/ccTypes.h"
 #include "extensions/Particle3D/PU/CCPUAffector.h"
@@ -50,9 +50,9 @@ public:
 
     static PUTextureAnimator* create();
 
-    virtual void preUpdateAffector(float deltaTime) override;
-    virtual void initParticleForEmission(PUParticle3D* particle) override;
-    virtual void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
+    void preUpdateAffector(float deltaTime) override;
+    void initParticleForEmission(PUParticle3D* particle) override;
+    void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
 
     /** Returns the AnimationTimeStep. The AnimationTimeStep defines the time between each animation frame. */
     float getAnimationTimeStep(void) const;
@@ -84,10 +84,10 @@ public:
     /** Todo */
     void setStartRandom(bool startRandom);
 
-    virtual void copyAttributesTo(PUAffector* affector) override;
+    void copyAttributesTo(PUAffector* affector) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUTextureAnimator(void);
-    virtual ~PUTextureAnimator(void);
+    CC_CONSTRUCTOR_ACCESS : PUTextureAnimator();
+    ~PUTextureAnimator() override;
 
 protected:
     /** Todo.
@@ -106,4 +106,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_TEXTUREANIMATOR_H

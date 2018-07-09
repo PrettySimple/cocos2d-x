@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_SCALE_AFFECTOR_H__
-#define __CC_PU_PARTICLE_3D_SCALE_AFFECTOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SCALEAFFECTOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_SCALEAFFECTOR_H
 
 #include "base/ccTypes.h"
 #include "extensions/Particle3D/PU/CCPUAffector.h"
@@ -43,41 +43,41 @@ public:
 
     static PUScaleAffector* create();
 
-    virtual void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
+    void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
 
     /**
      */
-    PUDynamicAttribute* getDynScaleX(void) const { return _dynScaleX; };
+    PUDynamicAttribute* getDynScaleX(void) const { return _dynScaleX; }
     void setDynScaleX(PUDynamicAttribute* dynScaleX);
     void resetDynScaleX(bool resetToDefault = true);
 
     /**
      */
-    PUDynamicAttribute* getDynScaleY(void) const { return _dynScaleY; };
+    PUDynamicAttribute* getDynScaleY(void) const { return _dynScaleY; }
     void setDynScaleY(PUDynamicAttribute* dynScaleY);
     void resetDynScaleY(bool resetToDefault = true);
 
     /**
      */
-    PUDynamicAttribute* getDynScaleZ(void) const { return _dynScaleZ; };
+    PUDynamicAttribute* getDynScaleZ(void) const { return _dynScaleZ; }
     void setDynScaleZ(PUDynamicAttribute* dynScaleZ);
     void resetDynScaleZ(bool resetToDefault = true);
 
     /**
      */
-    PUDynamicAttribute* getDynScaleXYZ(void) const { return _dynScaleXYZ; };
+    PUDynamicAttribute* getDynScaleXYZ(void) const { return _dynScaleXYZ; }
     void setDynScaleXYZ(PUDynamicAttribute* dynScaleXYZ);
     void resetDynScaleXYZ(bool resetToDefault = true);
 
     /**
      */
-    bool isSinceStartSystem(void) const { return _sinceStartSystem; };
-    void setSinceStartSystem(bool sinceStartSystem) { _sinceStartSystem = sinceStartSystem; };
+    bool isSinceStartSystem(void) const { return _sinceStartSystem; }
+    void setSinceStartSystem(bool sinceStartSystem) { _sinceStartSystem = sinceStartSystem; }
 
-    virtual void copyAttributesTo(PUAffector* affector) override;
+    void copyAttributesTo(PUAffector* affector) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUScaleAffector(void);
-    virtual ~PUScaleAffector(void);
+    CC_CONSTRUCTOR_ACCESS : PUScaleAffector();
+    ~PUScaleAffector() override;
 
 protected:
     /** Returns the scale value for the dynamic Scale.
@@ -100,4 +100,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_SCALEAFFECTOR_H

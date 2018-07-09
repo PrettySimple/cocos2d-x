@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_SCRIPT_LEXER_H__
-#define __CC_PU_SCRIPT_LEXER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTLEXER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTLEXER_H
 
 #include "base/CCRef.h"
 #include <string>
@@ -77,4 +77,4 @@ private: // Private utility operations
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTLEXER_H

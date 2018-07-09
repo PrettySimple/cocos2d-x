@@ -63,7 +63,7 @@ void PUOnClearObserver::postUpdateObserver(float timeElapsed)
                 result in an exception. Handlers such as the DoEnableComponentEventHandler and the
                 DoStopSystemEventHandler however can be used without any problem.
             */
-            handleEvent(0, timeElapsed);
+            handleEvent(nullptr, timeElapsed);
             _continue = false;
         }
     }

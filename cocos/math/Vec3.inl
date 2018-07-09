@@ -25,19 +25,29 @@ NS_CC_MATH_BEGIN
 
 inline bool Vec3::isZero() const
 {
-    return x == 0.0f && y == 0.0f && z == 0.0f;
+    static constexpr auto const zero = f32x4_t{0.f, 0.f, 0.f, 0.f};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+    auto const eq = (f32x4_t{x, y, z, 0.f} == zero);
+#pragma clang diagnostic pop
+    return eq[0] == -1 && eq[1] == -1 && eq[2] == -1;
 }
 
 inline bool Vec3::isOne() const
 {
-    return x == 1.0f && y == 1.0f && z == 1.0f;
+    static constexpr auto const one = f32x4_t{1.f, 1.f, 1.f, 1.f};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+    auto const eq = (f32x4_t{x, y, z, 1.f} == one);
+#pragma clang diagnostic pop
+    return eq[0] == -1 && eq[1] == -1 && eq[2] == -1;
 }
 
-inline void Vec3::add(const Vec3& v)
+inline void Vec3::add(const Vec3& other)
 {
-    x += v.x;
-    y += v.y;
-    z += v.z;
+    x += other.x;
+    y += other.y;
+    z += other.z;
 }
 
 inline void Vec3::add(float xx, float yy, float zz)
@@ -49,12 +59,14 @@ inline void Vec3::add(float xx, float yy, float zz)
 
 inline float Vec3::length() const
 {
-    return std::sqrt(x * x + y * y + z * z);
+    auto const mul = f32x4_t{x, y, z, 1.f} * f32x4_t{x, y, z, 1.f};
+    return std::sqrt(mul[0] + mul[1] + mul[2]);
 }
 
 inline float Vec3::lengthSquared() const
 {
-    return (x * x + y * y + z * z);
+    auto const mul = f32x4_t{x, y, z, 1.f} * f32x4_t{x, y, z, 1.f};
+    return mul[0] + mul[1] + mul[2];
 }
 
 inline void Vec3::negate()
@@ -78,9 +90,9 @@ inline Vec3 Vec3::lerp(const Vec3& target, float alpha) const
 
 inline void Vec3::set(float xx, float yy, float zz)
 {
-    this->x = xx;
-    this->y = yy;
-    this->z = zz;
+    x = xx;
+    y = yy;
+    z = zz;
 }
 
 inline void Vec3::set(const float* array)
@@ -92,11 +104,11 @@ inline void Vec3::set(const float* array)
     z = array[2];
 }
 
-inline void Vec3::set(const Vec3& v)
+inline void Vec3::set(const Vec3& other)
 {
-    this->x = v.x;
-    this->y = v.y;
-    this->z = v.z;
+    x = other.x;
+    y = other.y;
+    z = other.z;
 }
 
 inline void Vec3::set(const Vec3& p1, const Vec3& p2)
@@ -108,14 +120,16 @@ inline void Vec3::set(const Vec3& p1, const Vec3& p2)
 
 inline void Vec3::setZero()
 {
-    x = y = z = 0.0f;
+    x = 0.f;
+    y = 0.f;
+    z = 0.f;
 }
 
-inline void Vec3::subtract(const Vec3& v)
+inline void Vec3::subtract(const Vec3& other)
 {
-    x -= v.x;
-    y -= v.y;
-    z -= v.z;
+    x -= other.x;
+    y -= other.y;
+    z -= other.z;
 }
 
 inline const Vec3 Vec3::operator+(const Vec3& v) const
@@ -164,19 +178,23 @@ inline Vec3& Vec3::operator*=(float s)
     return *this;
 }
 
-inline const Vec3 Vec3::operator/(const float s) const
+inline const Vec3 Vec3::operator/(float s) const
 {
-    return Vec3(this->x / s, this->y / s, this->z / s);
+    return Vec3(x / s, y / s, z / s);
 }
 
-inline bool Vec3::operator==(const Vec3& v) const
+inline bool Vec3::operator==(const Vec3& other) const
 {
-    return x == v.x && y == v.y && z == v.z;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+    auto const eq = (f32x4_t{x, y, z, 0.f} == f32x4_t{other.x, other.y, other.z, 0.f});
+#pragma clang diagnostic pop
+    return eq[0] == -1 && eq[1] == -1 && eq[2] == -1;
 }
 
 inline bool Vec3::operator!=(const Vec3& v) const
 {
-    return x != v.x || y != v.y || z != v.z;
+    return !operator==(v);
 }
 
 inline const Vec3 operator*(float x, const Vec3& v)

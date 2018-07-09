@@ -27,17 +27,21 @@
 
 NS_CC_EXT_BEGIN
 
+TableViewCell::~TableViewCell()
+{
+}
+
 void TableViewCell::reset()
 {
     _idx = CC_INVALID_INDEX;
 }
 
-ssize_t TableViewCell::getIdx() const
+std::size_t TableViewCell::getIdx() const
 {
     return _idx;
 }
 
-void TableViewCell::setIdx(ssize_t idx)
+void TableViewCell::setIdx(std::size_t idx)
 {
     _idx = idx;
 }

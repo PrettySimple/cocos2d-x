@@ -23,8 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __PLATFORM_IPHONE_PLATFORM_CCLOCK_H__
-#define __PLATFORM_IPHONE_PLATFORM_CCLOCK_H__
+#ifndef CC_PLATFORM_APPLE_LOCKAPPLE_H
+#define CC_PLATFORM_APPLE_LOCKAPPLE_H
 
 #include "platform/CCPlatformMacros.h"
 
@@ -49,4 +49,4 @@ public:
 
 NS_CC_END
 
-#endif // __PLATFORM_IPHONE_PLATFORM_CCLOCK_H__
+#endif // CC_PLATFORM_APPLE_LOCKAPPLE_H

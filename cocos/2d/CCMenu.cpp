@@ -31,7 +31,6 @@ THE SOFTWARE.
 #include "base/CCEventListenerTouch.h"
 #include "base/CCTouch.h"
 #include "base/ccUTF8.h"
-#include "platform/CCStdC.h"
 
 #include <vector>
 
@@ -159,10 +158,10 @@ bool Menu::initWithArray(const Vector<MenuItem*>& arrayOfItems)
         auto touchListener = EventListenerTouchOneByOne::create();
         touchListener->setSwallowTouches(true);
 
-        touchListener->onTouchBegan = CC_CALLBACK_2(Menu::onTouchBegan, this);
-        touchListener->onTouchMoved = CC_CALLBACK_2(Menu::onTouchMoved, this);
-        touchListener->onTouchEnded = CC_CALLBACK_2(Menu::onTouchEnded, this);
-        touchListener->onTouchCancelled = CC_CALLBACK_2(Menu::onTouchCancelled, this);
+        touchListener->onTouchBegan = [this](Touch* touch, Event* evt) -> bool { return onTouchBegan(touch, evt); };
+        touchListener->onTouchMoved = [this](Touch* touch, Event* evt) { onTouchMoved(touch, evt); };
+        touchListener->onTouchEnded = [this](Touch* touch, Event* evt) { onTouchEnded(touch, evt); };
+        touchListener->onTouchCancelled = [this](Touch* touch, Event* evt) { onTouchCancelled(touch, evt); };
 
         _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 

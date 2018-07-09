@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__EventListenerController__
-#define __cocos2d_libs__EventListenerController__
+#ifndef CC_BASE_EVENTLISTENERCONTROLLER_H
+#define CC_BASE_EVENTLISTENERCONTROLLER_H
 
 #include "base/CCEventListener.h"
 #include "platform/CCPlatformMacros.h"
@@ -76,4 +76,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif /* defined(__cocos2d_libs__EventListenerController__) */
+#endif // CC_BASE_EVENTLISTENERCONTROLLER_H

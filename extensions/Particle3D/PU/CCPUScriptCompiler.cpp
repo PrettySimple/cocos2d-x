@@ -28,6 +28,20 @@
 #include "platform/CCFileUtils.h"
 NS_CC_BEGIN
 
+// PUAbstractNode
+
+PUAbstractNode::PUAbstractNode(PUAbstractNode* ptr)
+: line(0)
+, type(ANT_UNKNOWN)
+, parent(ptr)
+, context(nullptr)
+{
+}
+
+PUAbstractNode::~PUAbstractNode()
+{
+}
+
 // ObjectAbstractNode
 PUObjectAbstractNode::PUObjectAbstractNode(PUAbstractNode* ptr)
 : PUAbstractNode(ptr)
@@ -96,7 +110,7 @@ std::pair<bool, std::string> PUObjectAbstractNode::getVariable(const std::string
     return std::make_pair(false, "");
 }
 
-const map<std::string, std::string>& PUObjectAbstractNode::getVariables() const
+const std::map<std::string, std::string>& PUObjectAbstractNode::getVariables() const
 {
     return _env;
 }
@@ -264,7 +278,7 @@ const PUAbstractNodeList* PUScriptCompiler::compile(const std::string& file, boo
 
 void PUScriptCompiler::convertToAST(const PUConcreteNodeList& nodes, PUAbstractNodeList& aNodes)
 {
-    _current = NULL;
+    _current = nullptr;
     _nodes = &aNodes;
     visitList(nodes);
 }
@@ -288,14 +302,14 @@ void PUScriptCompiler::visitList(const PUConcreteNodeList& nodes)
 
 void PUScriptCompiler::visit(PUConcreteNode* node)
 {
-    PUAbstractNode* asn = NULL;
+    PUAbstractNode* asn = nullptr;
 
     // Handle properties and objects here
     if (!node->children.empty())
     {
         // Grab the last two nodes
-        PUConcreteNode* temp1 = NULL;
-        PUConcreteNode* temp2 = NULL;
+        PUConcreteNode* temp1 = nullptr;
+        PUConcreteNode* temp2 = nullptr;
         PUConcreteNodeList::reverse_iterator iter = node->children.rbegin();
         if (iter != node->children.rend())
         {
@@ -318,7 +332,7 @@ void PUScriptCompiler::visit(PUConcreteNode* node)
             impl->file = node->file;
             impl->abstract = false;
 
-            list<PUConcreteNode*> temp;
+            std::list<PUConcreteNode*> temp;
             temp.push_back(node);
             for (PUConcreteNodeList::const_iterator i = node->children.begin(); i != node->children.end(); i++)
             {

@@ -19,8 +19,8 @@
  This file was modified to fit the cocos2d-x project
  */
 
-#ifndef __cocos2d_libs__CCProperties__
-#define __cocos2d_libs__CCProperties__
+#ifndef CC_BASE_PROPERTIES_H
+#define CC_BASE_PROPERTIES_H
 
 #include <cstdint>
 #include <functional>
@@ -258,7 +258,7 @@ public:
      *
      * @return The type of the property.
      */
-    Type getType(const char* name = NULL) const;
+    Type getType(const char* name = nullptr) const;
 
     /**
      * Get the value of the given property as a string. This can always be retrieved,
@@ -269,7 +269,7 @@ public:
      *
      * @return The value of the given property as a string, or the empty string if no property with that name exists.
      */
-    const char* getString(const char* name = NULL, const char* defaultValue = NULL) const;
+    const char* getString(const char* name = nullptr, const char* defaultValue = nullptr) const;
 
     /**
      * Sets the value of the property with the specified name.
@@ -297,7 +297,7 @@ public:
      *
      * @return true if the property exists and its value is "true", otherwise false.
      */
-    bool getBool(const char* name = NULL, bool defaultValue = false) const;
+    bool getBool(const char* name = nullptr, bool defaultValue = false) const;
 
     /**
      * Interpret the value of the given property as an integer.
@@ -309,7 +309,7 @@ public:
      * @return The value of the given property interpreted as an integer.
      *   Zero if the property does not exist or could not be scanned.
      */
-    int getInt(const char* name = NULL) const;
+    int getInt(const char* name = nullptr) const;
 
     /**
      * Interpret the value of the given property as a floating-point number.
@@ -321,7 +321,7 @@ public:
      * @return The value of the given property interpreted as a float.
      *   Zero if the property does not exist or could not be scanned.
      */
-    float getFloat(const char* name = NULL) const;
+    float getFloat(const char* name = nullptr) const;
 
     /**
      * Interpret the value of the given property as a long integer.
@@ -333,7 +333,7 @@ public:
      * @return The value of the given property interpreted as a long.
      *   Zero if the property does not exist or could not be scanned.
      */
-    long getLong(const char* name = NULL) const;
+    long getLong(const char* name = nullptr) const;
 
     /**
      * Interpret the value of the given property as a Matrix.
@@ -453,7 +453,7 @@ public:
      *
      * @return The value of the specified variable, or defaultValue if not found.
      */
-    const char* getVariable(const char* name, const char* defaultValue = NULL) const;
+    const char* getVariable(const char* name, const char* defaultValue = nullptr) const;
 
     /**
      * Sets the value of the specified variable.
@@ -560,13 +560,13 @@ private:
      *
      * @param stream The stream used for reading the properties from file.
      */
-    Properties(Data* data, ssize_t* dataIdx);
+    Properties(Data* data, std::size_t* dataIdx);
     Properties(const Properties& copy);
 
     /**
      * Constructor. Read from the beginning of namespace specified.
      */
-    Properties(Data* data, ssize_t* dataIdx, const std::string& name, const char* id, const char* parentID, Properties* parent);
+    Properties(Data* data, std::size_t* dataIdx, const std::string& name, const char* id, const char* parentID, Properties* parent);
 
     // Data manipulation methods
     void readProperties();
@@ -578,7 +578,7 @@ private:
     bool eof();
 
     // Called after createNonRefCounted(); copies info from parents into derived namespaces.
-    void resolveInheritance(const char* id = NULL);
+    void resolveInheritance(const char* id = nullptr);
 
     // Called by resolveInheritance().
     void mergeWith(Properties* overrides);
@@ -594,7 +594,7 @@ private:
      */
 
     // XXX: hack in order to simulate GamePlay's Stream with Cocos2d's Data
-    ssize_t* _dataIdx;
+    std::size_t* _dataIdx;
     Data* _data;
 
     std::string _namespace;
@@ -610,4 +610,4 @@ private:
 };
 }
 
-#endif // __cocos2d_libs__CCProperties__
+#endif // CC_BASE_PROPERTIES_H

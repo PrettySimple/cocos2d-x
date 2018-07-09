@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef __etc1_h__
-#define __etc1_h__
+#ifndef CC_BASE_ETC1_H
+#define CC_BASE_ETC1_H
 /// @cond DO_NOT_SHOW
 
 #define ETC1_ENCODED_BLOCK_SIZE 8
@@ -103,4 +103,4 @@ extern "C"
 #endif
 
 /// @endcond
-#endif
+#endif // CC_BASE_ETC1_H

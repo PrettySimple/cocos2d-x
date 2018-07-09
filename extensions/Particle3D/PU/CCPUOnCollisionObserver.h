@@ -23,14 +23,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_ON_COLLISION_OBSERVER_H__
-#define __CC_PU_PARTICLE_3D_ON_COLLISION_OBSERVER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_ONCOLLISIONOBSERVER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_ONCOLLISIONOBSERVER_H
 
-#include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUObserver.h"
-#include "math/CCMath.h"
-#include <string>
-#include <vector>
 
 NS_CC_BEGIN
 
@@ -41,15 +37,12 @@ public:
     static PUOnCollisionObserver* create();
     /**
      */
-    virtual bool observe(PUParticle3D* particle, float timeElapsed) override;
+    bool observe(PUParticle3D* particle, float timeElapsed) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUOnCollisionObserver(void)
-    : PUObserver()
-    {
-    }
-    virtual ~PUOnCollisionObserver(void){};
+    CC_CONSTRUCTOR_ACCESS : PUOnCollisionObserver() = default;
+    ~PUOnCollisionObserver() override = default;
 };
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_ONCOLLISIONOBSERVER_H

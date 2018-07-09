@@ -50,13 +50,13 @@ MeshCommand::MeshCommand()
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     // listen the event that renderer was recreated on Android/WP8
-    _rendererRecreatedListener = EventListenerCustom::create(EVENT_RENDERER_RECREATED, CC_CALLBACK_1(MeshCommand::listenRendererRecreated, this));
+    _rendererRecreatedListener = EventListenerCustom::create(EVENT_RENDERER_RECREATED, [this](EventCustom* evt) { listenRendererRecreated(evt); });
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_rendererRecreatedListener, -1);
 #endif
 }
 
 void MeshCommand::init(float globalZOrder, Material* material, GLuint vertexBuffer, GLuint indexBuffer, GLenum primitive, GLenum indexFormat,
-                       ssize_t indexCount, const cocos2d::Mat4& mv, uint32_t flags)
+                       std::size_t indexCount, const cocos2d::Mat4& mv, uint32_t flags)
 {
     CCASSERT(material, "material cannot be null");
 
@@ -76,7 +76,7 @@ void MeshCommand::init(float globalZOrder, Material* material, GLuint vertexBuff
 }
 
 void MeshCommand::init(float globalZOrder, GLuint textureID, GLProgramState* glProgramState, RenderState::StateBlock* stateBlock, GLuint vertexBuffer,
-                       GLuint indexBuffer, GLenum primitive, GLenum indexFormat, ssize_t indexCount, const cocos2d::Mat4& mv, uint32_t flags)
+                       GLuint indexBuffer, GLenum primitive, GLenum indexFormat, std::size_t indexCount, const cocos2d::Mat4& mv, uint32_t flags)
 {
     CCASSERT(glProgramState, "GLProgramState cannot be null");
     CCASSERT(stateBlock, "StateBlock cannot be null");
@@ -200,7 +200,7 @@ void MeshCommand::batchDraw()
         {
             pass->bind(_mv);
 
-            glDrawElements(_primitive, (GLsizei)_indexCount, _indexFormat, 0);
+            glDrawElements(_primitive, (GLsizei)_indexCount, _indexFormat, nullptr);
             CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, _indexCount);
 
             pass->unbind();
@@ -214,7 +214,7 @@ void MeshCommand::batchDraw()
         applyRenderState();
 
         // Draw
-        glDrawElements(_primitive, (GLsizei)_indexCount, _indexFormat, 0);
+        glDrawElements(_primitive, (GLsizei)_indexCount, _indexFormat, nullptr);
         CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, _indexCount);
     }
 }
@@ -251,7 +251,7 @@ void MeshCommand::execute()
         {
             pass->bind(_mv, true);
 
-            glDrawElements(_primitive, (GLsizei)_indexCount, _indexFormat, 0);
+            glDrawElements(_primitive, (GLsizei)_indexCount, _indexFormat, nullptr);
             CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, _indexCount);
 
             pass->unbind();
@@ -265,7 +265,7 @@ void MeshCommand::execute()
         applyRenderState();
 
         // Draw
-        glDrawElements(_primitive, (GLsizei)_indexCount, _indexFormat, 0);
+        glDrawElements(_primitive, (GLsizei)_indexCount, _indexFormat, nullptr);
 
         CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, _indexCount);
     }

@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __SKYBOX_H__
-#define __SKYBOX_H__
+#ifndef CC_3D_SKYBOX_H
+#define CC_3D_SKYBOX_H
 
 #include "2d/CCNode.h"
 #include "base/ccTypes.h"
@@ -45,7 +45,7 @@ class TextureCube;
 class CC_DLL Skybox : public Node
 {
 public:
-    CREATE_FUNC(Skybox);
+    CREATE_FUNC(Skybox)
 
     /** create skybox from 6 textures.
      @param positive_x texture for the right side of the texture cube face.
@@ -77,12 +77,12 @@ public:
     /**
      * Destructor.
      */
-    virtual ~Skybox();
+    ~Skybox() override;
 
     /**
      * init Skybox.
      */
-    virtual bool init() override;
+    bool init() override;
 
     /**
      * initialize with texture path
@@ -107,7 +107,7 @@ protected:
     TextureCube* _texture;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Skybox);
+    CC_DISALLOW_COPY_AND_ASSIGN(Skybox)
 };
 
 // end of 3d group
@@ -115,4 +115,4 @@ private:
 
 NS_CC_END
 
-#endif // __SKYBOX_H__
+#endif // CC_3D_SKYBOX_H

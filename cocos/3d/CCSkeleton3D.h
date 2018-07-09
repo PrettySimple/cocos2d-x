@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCSKELETON3D_H__
-#define __CCSKELETON3D_H__
+#ifndef CC_3D_SKELETON3D_H
+#define CC_3D_SKELETON3D_H
 
 #include "3d/CCBundle3DData.h"
 #include "base/CCRef.h"
@@ -108,7 +108,7 @@ public:
     /**bone tree, we do not inherit from Node, Node has too many properties that we do not need. A clean Node is needed.*/
     Bone3D* getParentBone();
     /**get child bone count*/
-    ssize_t getChildBoneCount() const;
+    std::size_t getChildBoneCount() const;
     /**get child bone by index*/
     Bone3D* getChildBoneByIndex(int index) const;
     /**add child bone*/
@@ -190,14 +190,14 @@ public:
     static Skeleton3D* create(const std::vector<NodeData*>& skeletondata);
 
     /**get total bone count*/
-    ssize_t getBoneCount() const;
+    std::size_t getBoneCount() const;
 
     /**get bone*/
     Bone3D* getBoneByIndex(unsigned int index) const;
     Bone3D* getBoneByName(const std::string& id) const;
 
     /**get & set root bone*/
-    ssize_t getRootCount() const;
+    std::size_t getRootCount() const;
     Bone3D* getRootBone(int index) const;
 
     /**get bone index*/
@@ -232,4 +232,4 @@ protected:
 
 NS_CC_END
 
-#endif // __CCSKELETON3D_H__
+#endif // CC_3D_SKELETON3D_H

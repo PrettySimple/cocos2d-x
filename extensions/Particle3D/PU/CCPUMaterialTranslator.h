@@ -23,21 +23,21 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_MATERIAL_TRANSLATOR_H__
-#define __CC_PU_PARTICLE_3D_MATERIAL_TRANSLATOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_MATERIALTRANSLATOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_MATERIALTRANSLATOR_H
 
 #include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
 #include "extensions/Particle3D/PU/CCPUScriptTranslator.h"
 
 NS_CC_BEGIN
-class PUMaterial;
+struct PUMaterial;
 class PUMaterialCache;
 class CCPUMaterialTranslator : public PUScriptTranslator
 {
 public:
     CCPUMaterialTranslator();
-    virtual ~CCPUMaterialTranslator();
-    virtual void translate(PUScriptCompiler* compiler, PUAbstractNode* node);
+    ~CCPUMaterialTranslator() override;
+    void translate(PUScriptCompiler* compiler, PUAbstractNode* node) override;
     void setMaterialSystem(PUMaterialCache* ms);
 
 protected:
@@ -48,24 +48,24 @@ protected:
 class PUMaterialTechniqueTranslator : public PUScriptTranslator
 {
 public:
-    PUMaterialTechniqueTranslator(){};
+    PUMaterialTechniqueTranslator() {}
     virtual void translate(PUScriptCompiler* compiler, PUAbstractNode* node);
 };
 
 class PUMaterialPassTranslator : public PUScriptTranslator
 {
 public:
-    PUMaterialPassTranslator(){};
+    PUMaterialPassTranslator() {}
     virtual void translate(PUScriptCompiler* compiler, PUAbstractNode* node);
 };
 
 class PUMaterialTextureUnitTranslator : public PUScriptTranslator
 {
 public:
-    PUMaterialTextureUnitTranslator(){};
+    PUMaterialTextureUnitTranslator() {}
     virtual void translate(PUScriptCompiler* compiler, PUAbstractNode* node);
 };
 
 NS_CC_END
 
-#endif /* defined(__cocos2d_libs__CCParticle3DTechniqueTranslator__) */
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_MATERIALTRANSLATOR_H

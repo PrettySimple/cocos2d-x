@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_AFFECTOR_H__
-#define __CC_PU_PARTICLE_3D_AFFECTOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_AFFECTOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_AFFECTOR_H
 
 #include "base/CCRef.h"
 #include "extensions/Particle3D/CCParticle3DAffector.h"
@@ -67,8 +67,8 @@ public:
     virtual void initParticleForEmission(PUParticle3D* particle);
     void process(PUParticle3D* particle, float delta, bool firstParticle);
 
-    void setLocalPosition(const Vec3& pos) { _position = pos; };
-    const Vec3 getLocalPosition() const { return _position; };
+    void setLocalPosition(const Vec3& pos) { _position = pos; }
+    const Vec3 getLocalPosition() const { return _position; }
     void setMass(float mass);
     float getMass() const;
 
@@ -82,13 +82,13 @@ public:
 
     /** Todo
      */
-    const AffectSpecialisation& getAffectSpecialisation(void) const { return _affectSpecialisation; };
-    void setAffectSpecialisation(const AffectSpecialisation& affectSpecialisation) { _affectSpecialisation = affectSpecialisation; };
+    const AffectSpecialisation& getAffectSpecialisation(void) const { return _affectSpecialisation; }
+    void setAffectSpecialisation(const AffectSpecialisation& affectSpecialisation) { _affectSpecialisation = affectSpecialisation; }
 
     /** Todo
      */
-    const std::string& getAffectorType(void) const { return _affectorType; };
-    void setAffectorType(const std::string& affectorType) { _affectorType = affectorType; };
+    const std::string& getAffectorType(void) const { return _affectorType; }
+    void setAffectorType(const std::string& affectorType) { _affectorType = affectorType; }
 
     /** Add a ParticleEmitter name that excludes Particles emitted by this ParticleEmitter from being
         affected.
@@ -101,8 +101,8 @@ public:
 
     /** Todo
      */
-    const std::string& getName(void) const { return _name; };
-    void setName(const std::string& name) { _name = name; };
+    const std::string& getName(void) const { return _name; }
+    void setName(const std::string& name) { _name = name; }
 
     virtual void copyAttributesTo(PUAffector* affector);
 
@@ -141,4 +141,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_AFFECTOR_H

@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__LoadingBarReader__
-#define __TestCpp__LoadingBarReader__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_LOADINGBARREADER_LOADINGBARREADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_LOADINGBARREADER_LOADINGBARREADER_H
 
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/WidgetReader/WidgetReader.h"
@@ -53,4 +53,4 @@ namespace cocostudio
     };
 } // namespace cocostudio
 
-#endif /* defined(__TestCpp__LoadingBarReader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_LOADINGBARREADER_LOADINGBARREADER_H

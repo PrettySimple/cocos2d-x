@@ -65,7 +65,7 @@ bool TMXLayer::initWithTilesetInfo(TMXTilesetInfo* tilesetInfo, TMXLayerInfo* la
     if (nullptr == texture)
         return false;
 
-    if (SpriteBatchNode::initWithTexture(texture, static_cast<ssize_t>(capacity)))
+    if (SpriteBatchNode::initWithTexture(texture, static_cast<std::size_t>(capacity)))
     {
         // layerInfo
         _layerName = layerInfo->_name;
@@ -380,7 +380,7 @@ Sprite* TMXLayer::getTileAt(const Vec2& pos)
             tile->setAnchorPoint(Vec2::ZERO);
             tile->setOpacity(_opacity);
 
-            ssize_t indexForZ = atlasIndexForExistantZ(z);
+            std::size_t indexForZ = atlasIndexForExistantZ(z);
             this->addSpriteWithoutQuad(tile, static_cast<int>(indexForZ), z);
         }
     }
@@ -393,7 +393,7 @@ uint32_t TMXLayer::getTileGIDAt(const Vec2& pos, TMXTileFlags* flags /* = nullpt
     CCASSERT(pos.x < _layerSize.width && pos.y < _layerSize.height && pos.x >= 0 && pos.y >= 0, "TMXLayer: invalid position");
     CCASSERT(_tiles && _atlasIndexArray, "TMXLayer: the tiles map has been released");
 
-    ssize_t idx = static_cast<int>(((int)pos.x + (int)pos.y * _layerSize.width));
+    std::size_t idx = static_cast<int>(((int)pos.x + (int)pos.y * _layerSize.width));
     // Bits on the far end of the 32-bit global tile ID are used for tile flags
     uint32_t tile = _tiles[idx];
 
@@ -421,7 +421,7 @@ Sprite* TMXLayer::insertTileForGID(uint32_t gid, const Vec2& pos)
         setupTileSprite(tile, pos, gid);
 
         // get atlas index
-        ssize_t indexForZ = atlasIndexForNewZ(static_cast<int>(z));
+        std::size_t indexForZ = atlasIndexForNewZ(static_cast<int>(z));
 
         // Optimization: add the quad without adding a child
         this->insertQuadFromSprite(tile, indexForZ);
@@ -434,7 +434,7 @@ Sprite* TMXLayer::insertTileForGID(uint32_t gid, const Vec2& pos)
         for (const auto& child : _children)
         {
             Sprite* sp = static_cast<Sprite*>(child);
-            ssize_t ai = sp->getAtlasIndex();
+            std::size_t ai = sp->getAtlasIndex();
             if (ai >= indexForZ)
             {
                 sp->setAtlasIndex(ai + 1);
@@ -460,7 +460,7 @@ Sprite* TMXLayer::updateTileForGID(uint32_t gid, const Vec2& pos)
     setupTileSprite(tile, pos, gid);
 
     // get atlas index
-    ssize_t indexForZ = atlasIndexForExistantZ(z);
+    std::size_t indexForZ = atlasIndexForExistantZ(z);
     tile->setAtlasIndex(indexForZ);
     tile->setDirty(true);
     tile->updateTransform();
@@ -523,7 +523,7 @@ Sprite* TMXLayer::appendTileForGID(uint32_t gid, const Vec2& pos)
         // optimization:
         // The difference between appendTileForGID and insertTileforGID is that append is faster, since
         // it appends the tile at the end of the texture atlas
-        ssize_t indexForZ = _atlasIndexArray->num;
+        std::size_t indexForZ = _atlasIndexArray->num;
 
         // don't add it using the "standard" way.
         insertQuadFromSprite(tile, indexForZ);
@@ -549,24 +549,24 @@ static inline int compareInts(const void* a, const void* b)
     return (ia - ib);
 }
 
-ssize_t TMXLayer::atlasIndexForExistantZ(int z)
+std::size_t TMXLayer::atlasIndexForExistantZ(int z)
 {
     int key = z;
     int* item = (int*)bsearch((void*)&key, (void*)&_atlasIndexArray->arr[0], _atlasIndexArray->num, sizeof(void*), compareInts);
 
     CCASSERT(item, "TMX atlas index not found. Shall not happen");
 
-    ssize_t index = ((size_t)item - (size_t)_atlasIndexArray->arr) / sizeof(void*);
+    std::size_t index = ((size_t)item - (size_t)_atlasIndexArray->arr) / sizeof(void*);
     return index;
 }
 
-ssize_t TMXLayer::atlasIndexForNewZ(int z)
+std::size_t TMXLayer::atlasIndexForNewZ(int z)
 {
     // FIXME:: This can be improved with a sort of binary search
-    ssize_t i = 0;
+    std::size_t i = 0;
     for (i = 0; i < _atlasIndexArray->num; i++)
     {
-        ssize_t val = (size_t)_atlasIndexArray->arr[i];
+        std::size_t val = (size_t)_atlasIndexArray->arr[i];
         if (z < val)
         {
             break;
@@ -630,11 +630,8 @@ void TMXLayer::setTileGID(uint32_t gid, const Vec2& pos, TMXTileFlags flags)
     }
 }
 
-void TMXLayer::addChild(Node* child, int zOrder, int tag)
+void TMXLayer::addChild(Node*, int, int)
 {
-    CC_UNUSED_PARAM(child);
-    CC_UNUSED_PARAM(zOrder);
-    CC_UNUSED_PARAM(tag);
     CCASSERT(0, "addChild: is not supported on TMXLayer. Instead use setTileGID:at:/tileAt:");
 }
 
@@ -649,8 +646,8 @@ void TMXLayer::removeChild(Node* node, bool cleanup)
 
     CCASSERT(_children.contains(sprite), "Tile does not belong to TMXLayer");
 
-    ssize_t atlasIndex = sprite->getAtlasIndex();
-    ssize_t zz = (ssize_t)_atlasIndexArray->arr[atlasIndex];
+    std::size_t atlasIndex = sprite->getAtlasIndex();
+    std::size_t zz = (std::size_t)_atlasIndexArray->arr[atlasIndex];
     _tiles[zz] = 0;
     ccCArrayRemoveValueAtIndex(_atlasIndexArray, atlasIndex);
     SpriteBatchNode::removeChild(sprite, cleanup);
@@ -666,7 +663,7 @@ void TMXLayer::removeTileAt(const Vec2& pos)
     if (gid)
     {
         int z = pos.x + pos.y * _layerSize.width;
-        ssize_t atlasIndex = atlasIndexForExistantZ(z);
+        std::size_t atlasIndex = atlasIndexForExistantZ(z);
 
         // remove tile from GID map
         _tiles[z] = 0;
@@ -688,7 +685,7 @@ void TMXLayer::removeTileAt(const Vec2& pos)
             for (const auto& obj : _children)
             {
                 Sprite* child = static_cast<Sprite*>(obj);
-                ssize_t ai = child->getAtlasIndex();
+                std::size_t ai = child->getAtlasIndex();
                 if (ai >= atlasIndex)
                 {
                     child->setAtlasIndex(ai - 1);

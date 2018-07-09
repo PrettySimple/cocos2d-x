@@ -27,8 +27,8 @@
  - Qt3D: http://qt-project.org/
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCMaterial__
-#define __cocos2d_libs__CCMaterial__
+#ifndef CC_RENDERER_MATERIAL_H
+#define CC_RENDERER_MATERIAL_H
 
 #include <string>
 
@@ -100,7 +100,7 @@ public:
     /** Returns a Technique by index.
      returns `nullptr` if the index is invalid.
      */
-    Technique* getTechniqueByIndex(ssize_t index);
+    Technique* getTechniqueByIndex(std::size_t index);
 
     /** Returns the Technique used by the Material */
     Technique* getTechnique() const;
@@ -109,7 +109,7 @@ public:
     const Vector<Technique*>& getTechniques() const;
 
     /** Returns the number of Techniques in the Material. */
-    ssize_t getTechniqueCount() const;
+    std::size_t getTechniqueCount() const;
 
     /** Adds a Technique into the Material */
     void addTechnique(Technique* technique);
@@ -121,7 +121,7 @@ public:
     virtual Material* clone() const;
 
 protected:
-    Material();
+    Material() = default;
     ~Material();
     bool initWithGLProgramState(GLProgramState* state);
     bool initWithFile(const std::string& file);
@@ -137,19 +137,16 @@ protected:
     bool parseUniform(GLProgramState* programState, Properties* properties, const char* uniformName);
     bool parseRenderState(RenderState* renderState, Properties* properties);
 
-    // material name
-    std::string _name;
-
     // array of techniques
     Vector<Technique*> _techniques;
 
     // weak pointer since it is being help by _techniques
-    Technique* _currentTechnique;
+    Technique* _currentTechnique = nullptr;
 
     // weak reference
-    Node* _target;
+    Node* _target = nullptr;
 };
 
 NS_CC_END
 
-#endif /* defined(__cocos2d_libs__CCMaterial__) */
+#endif // CC_RENDERER_MATERIAL_H

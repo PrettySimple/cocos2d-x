@@ -54,9 +54,12 @@
 #include "WidgetReader/TextFieldReader/TextFieldReader.h"
 #include "WidgetReader/TextReader/TextReader.h"
 
-#include "flatbuffers/flatbuffers.h"
-#include "flatbuffers/util.h"
-#include "tinyxml2.h"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <flatbuffers/flatbuffers.h>
+#include <flatbuffers/util.h>
+#include <tinyxml2/tinyxml2.h>
+#pragma clang diagnostic pop
 
 USING_NS_CC;
 using namespace cocos2d::ui;

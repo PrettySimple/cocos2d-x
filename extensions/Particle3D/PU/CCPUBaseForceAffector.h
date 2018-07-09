@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_BASE_FORCE_AFFECTOR_H__
-#define __CC_PU_PARTICLE_3D_BASE_FORCE_AFFECTOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_BASEFORCEAFFECTOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_BASEFORCEAFFECTOR_H
 
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 #include "math/CCMath.h"
@@ -54,10 +54,10 @@ public:
     ForceApplication getForceApplication() const;
     void setForceApplication(ForceApplication forceApplication);
 
-    virtual void copyAttributesTo(PUAffector* affector) override;
+    void copyAttributesTo(PUAffector* affector) override;
 
     CC_CONSTRUCTOR_ACCESS : PUBaseForceAffector();
-    virtual ~PUBaseForceAffector();
+    ~PUBaseForceAffector() override;
 
 protected:
     Vec3 _forceVector;
@@ -66,4 +66,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_BASEFORCEAFFECTOR_H

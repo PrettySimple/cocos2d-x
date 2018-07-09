@@ -637,7 +637,7 @@ namespace ui
                 auto count = polyInfo.triangles.indexCount / 3;
                 auto indices = polyInfo.triangles.indices;
                 auto verts = polyInfo.triangles.verts;
-                for (ssize_t i = 0; i < count; i++)
+                for (std::size_t i = 0; i < count; i++)
                 {
                     // draw 3 lines
                     Vec3 from = verts[indices[i * 3]].vertices;

@@ -25,6 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
+#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
 
 NS_CC_BEGIN

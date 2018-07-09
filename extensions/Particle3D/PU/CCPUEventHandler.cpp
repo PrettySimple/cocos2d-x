@@ -29,7 +29,7 @@
 NS_CC_BEGIN
 
 PUEventHandler::PUEventHandler()
-: _parentObserver(0)
+: _parentObserver(nullptr)
 , _eventHandlerScale(Vec3::ONE){
       // mAliasType = AT_HANDLER;
   };

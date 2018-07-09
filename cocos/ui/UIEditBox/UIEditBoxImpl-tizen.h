@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __UIEDITBOXIMPLTIZEN_H__
-#define __UIEDITBOXIMPLTIZEN_H__
+#ifndef CC_UI_EDITBOX_EDITBOXIMPLTIZEN_H
+#define CC_UI_EDITBOX_EDITBOXIMPLTIZEN_H
 
 #include "platform/CCPlatformConfig.h"
 
@@ -112,4 +112,4 @@ NS_CC_END
 
 #endif /* #if (CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN) */
 
-#endif /* __UIEDITBOXIMPLTIZEN_H__ */
+#endif // CC_UI_EDITBOX_EDITBOXIMPLTIZEN_H

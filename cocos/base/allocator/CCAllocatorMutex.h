@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_ALLOCATOR_MUTEX_H
-#define CC_ALLOCATOR_MUTEX_H
+#ifndef CC_BASE_ALLOCATOR_ALLOCATORMUTEX_H
+#define CC_BASE_ALLOCATOR_ALLOCATORMUTEX_H
 /// @cond DO_NOT_SHOW
 
 #include "platform/CCPlatformConfig.h"
@@ -99,4 +99,4 @@ NS_CC_ALLOCATOR_END
 NS_CC_END
 
 /// @endcond
-#endif // CC_ALLOCATOR_MUTEX_H
+#endif // CC_BASE_ALLOCATOR_ALLOCATORMUTEX_H

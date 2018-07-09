@@ -3,15 +3,18 @@
 #include "WidgetReader.h"
 
 #include "../ActionTimeline/CCActionTimeline.h"
+#include "cocostudio/ActionTimeline/CSLoader.h"
 #include "cocostudio/CCComExtensionData.h"
 #include "cocostudio/CSParseBinary_generated.h"
 #include "cocostudio/CocoLoader.h"
 #include "ui/UIButton.h"
-
-#include "cocostudio/ActionTimeline/CSLoader.h"
-#include "flatbuffers/flatbuffers.h"
-#include "tinyxml2.h"
 #include "ui/UILayoutComponent.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <flatbuffers/flatbuffers.h>
+#include <tinyxml2/tinyxml2.h>
+#pragma clang diagnostic pop
 
 USING_NS_CC;
 using namespace ui;

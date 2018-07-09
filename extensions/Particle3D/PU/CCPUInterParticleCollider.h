@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_INNER_PARTICLE_COLLIDER_H__
-#define __CC_PU_PARTICLE_3D_INNER_PARTICLE_COLLIDER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_INTERPARTICLECOLLIDER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_INTERPARTICLECOLLIDER_H
 
 #include "CCPUBaseCollider.h"
 #include "base/ccTypes.h"
@@ -52,7 +52,7 @@ public:
 
     /** Todo
      */
-    float getAdjustment(void) const;
+    float getAdjustment() const;
 
     /** Todo
      */
@@ -60,16 +60,16 @@ public:
 
     /** Todo
      */
-    InterParticleCollisionResponse getInterParticleCollisionResponse(void) const;
+    InterParticleCollisionResponse getInterParticleCollisionResponse() const;
 
     /** Todo
      */
     void setInterParticleCollisionResponse(InterParticleCollisionResponse interParticleCollisionResponse);
 
-    virtual void copyAttributesTo(PUAffector* affector) override;
+    void copyAttributesTo(PUAffector* affector) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUParticle3DInterParticleCollider(void);
-    virtual ~PUParticle3DInterParticleCollider(void);
+    CC_CONSTRUCTOR_ACCESS : PUParticle3DInterParticleCollider();
+    ~PUParticle3DInterParticleCollider() override;
 
 protected:
     /** Todo
@@ -82,4 +82,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_INTERPARTICLECOLLIDER_H

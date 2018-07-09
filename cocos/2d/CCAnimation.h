@@ -24,8 +24,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CC_ANIMATION_H__
-#define __CC_ANIMATION_H__
+#ifndef CC_2D_ANIMATION_H
+#define CC_2D_ANIMATION_H
 
 #include "2d/CCSpriteFrame.h"
 #include "base/CCRef.h"
@@ -80,7 +80,7 @@ public:
      *
      * @return a SpriteFrameName to be used.
      */
-    inline SpriteFrame* getSpriteFrame() const noexcept { return _spriteFrame; };
+    inline SpriteFrame* getSpriteFrame() const noexcept { return _spriteFrame; }
     /** Set the SpriteFrame.
      *
      * @param frame A SpriteFrame will be used.
@@ -96,13 +96,13 @@ public:
      *
      * @return The units of time the frame takes.
      */
-    inline std::chrono::milliseconds getDelayUnits() const noexcept { return _delayUnits; };
+    inline std::chrono::milliseconds getDelayUnits() const noexcept { return _delayUnits; }
 
     /** Sets the units of time the frame takes.
      *
      * @param delayUnits The units of time the frame takes.
      */
-    inline void setDelayUnits(std::chrono::milliseconds delayUnits) noexcept { _delayUnits = delayUnits; };
+    inline void setDelayUnits(std::chrono::milliseconds delayUnits) noexcept { _delayUnits = delayUnits; }
 
     /** @brief Gets user information
      * A AnimationFrameDisplayedNotification notification will be broadcast when the frame is displayed with this dictionary as UserInfo.
@@ -110,8 +110,8 @@ public:
      *
      * @return A dictionary as UserInfo
      */
-    inline ValueMap const& getUserInfo() const noexcept { return _userInfo; };
-    inline ValueMap& getUserInfo() noexcept { return _userInfo; };
+    inline ValueMap const& getUserInfo() const noexcept { return _userInfo; }
+    inline ValueMap& getUserInfo() noexcept { return _userInfo; }
 
     /** Sets user information.
      * @param userInfo A dictionary as UserInfo.
@@ -130,7 +130,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~AnimationFrame();
+    ~AnimationFrame() override;
 
     /** initializes the animation frame with a spriteframe, number of delay units and a notification user info */
     bool initWithSpriteFrame(SpriteFrame* spriteFrame, std::chrono::milliseconds delayUnits, const ValueMap& userInfo);
@@ -147,7 +147,7 @@ protected:
     ValueMap _userInfo;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(AnimationFrame);
+    CC_DISALLOW_COPY_AND_ASSIGN(AnimationFrame)
 };
 
 /** @class Animation
@@ -214,19 +214,19 @@ public:
      *
      * @return The total Delay units of the Animation.
      */
-    inline std::chrono::milliseconds getTotalDelayUnits() const noexcept { return _totalDelayUnits; };
+    inline std::chrono::milliseconds getTotalDelayUnits() const noexcept { return _totalDelayUnits; }
 
     /** Sets the delay in seconds of the "delay unit".
      *
      * @param delayPerUnit The delay in seconds of the "delay unit".
      */
-    inline void setDelayPerUnit(std::chrono::milliseconds delayPerUnit) noexcept { _delayPerUnit = delayPerUnit; };
+    inline void setDelayPerUnit(std::chrono::milliseconds delayPerUnit) noexcept { _delayPerUnit = delayPerUnit; }
 
     /** Gets the delay in seconds of the "delay unit".
      *
      * @return The delay in seconds of the "delay unit".
      */
-    inline std::chrono::milliseconds getDelayPerUnit() const noexcept { return _delayPerUnit; };
+    inline std::chrono::milliseconds getDelayPerUnit() const noexcept { return _delayPerUnit; }
 
     /** Gets the duration in seconds of the whole animation. It is the result of totalDelayUnits * delayPerUnit.
      *
@@ -238,7 +238,7 @@ public:
      *
      * @return The array of AnimationFrames.
      */
-    inline Vector<AnimationFrame*> const& getFrames() const noexcept { return _frames; };
+    inline Vector<AnimationFrame*> const& getFrames() const noexcept { return _frames; }
 
     /** Sets the array of AnimationFrames.
      *
@@ -250,31 +250,31 @@ public:
      *
      * @return Restore the original frame when animation finishes.
      */
-    inline bool getRestoreOriginalFrame() const noexcept { return _restoreOriginalFrame; };
+    inline bool getRestoreOriginalFrame() const noexcept { return _restoreOriginalFrame; }
 
     /** Sets whether to restore the original frame when animation finishes.
      *
      * @param restoreOriginalFrame Whether to restore the original frame when animation finishes.
      */
-    inline void setRestoreOriginalFrame(bool restoreOriginalFrame) noexcept { _restoreOriginalFrame = restoreOriginalFrame; };
+    inline void setRestoreOriginalFrame(bool restoreOriginalFrame) noexcept { _restoreOriginalFrame = restoreOriginalFrame; }
 
     /** Gets the times the animation is going to loop. 0 means animation is not animated. 1, animation is executed one time, ...
      *
      * @return The times the animation is going to loop.
      */
-    inline unsigned int getLoops() const noexcept { return _loops; };
+    inline unsigned int getLoops() const noexcept { return _loops; }
 
     /** Sets the times the animation is going to loop. 0 means animation is not animated. 1, animation is executed one time, ...
      *
      * @param loops The times the animation is going to loop.
      */
-    inline void setLoops(unsigned int loops) noexcept { _loops = loops; };
+    inline void setLoops(unsigned int loops) noexcept { _loops = loops; }
 
     // overrides
     virtual Animation* clone() const override;
 
     CC_CONSTRUCTOR_ACCESS : Animation();
-    virtual ~Animation(void);
+    ~Animation() override;
 
     /** Initializes a Animation. */
     bool init();
@@ -310,7 +310,7 @@ protected:
     unsigned int _loops;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Animation);
+    CC_DISALLOW_COPY_AND_ASSIGN(Animation)
 };
 
 // end of sprite_nodes group
@@ -318,4 +318,4 @@ private:
 
 NS_CC_END
 
-#endif // __CC_ANIMATION_H__
+#endif // CC_2D_ANIMATION_H

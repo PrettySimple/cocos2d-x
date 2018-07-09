@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_BUNDLE_READER_H__
-#define __CC_BUNDLE_READER_H__
+#ifndef CC_3D_BUNDLEREADER_H
+#define CC_3D_BUNDLEREADER_H
 
 #include <string>
 #include <vector>
@@ -62,7 +62,7 @@ public:
      * @param buffer The data buffer pointer
      * @param length The data buffer size
      */
-    void init(char* buffer, ssize_t length);
+    void init(char* buffer, std::size_t length);
 
     /**
      * Reads an array of elements.
@@ -74,7 +74,7 @@ public:
      *
      * @return The number of elements read.
      */
-    ssize_t read(void* ptr, ssize_t size, ssize_t count);
+    std::size_t read(void* ptr, std::size_t size, std::size_t count);
 
     /**
      * Reads a line from the buffer.
@@ -89,12 +89,12 @@ public:
     /**
      * Returns the length of the buffer in bytes.
      */
-    ssize_t length();
+    std::size_t length();
 
     /**
      * Returns the position of the file pointer.
      */
-    ssize_t tell();
+    std::size_t tell();
 
     /**
      * Sets the position of the file pointer.
@@ -126,8 +126,8 @@ public:
     bool readMatrix(float* m);
 
 private:
-    ssize_t _position;
-    ssize_t _length;
+    std::size_t _position;
+    std::size_t _length;
     char* _buffer;
 };
 
@@ -204,7 +204,7 @@ inline bool BundleReader::readArray<std::string>(unsigned int* length, std::vect
     values->clear();
     if (*length > 0 && values)
     {
-        for (int i = 0; i < (int)*length; ++i)
+        for (int i = 0; i < static_cast<int>(*length); ++i)
         {
             values->push_back(readString());
         }
@@ -219,4 +219,4 @@ inline bool BundleReader::readArray<std::string>(unsigned int* length, std::vect
 
 NS_CC_END
 
-#endif
+#endif // CC_3D_BUNDLEREADER_H

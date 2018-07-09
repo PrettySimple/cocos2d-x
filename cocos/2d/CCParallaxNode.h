@@ -24,8 +24,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CCPARALLAX_NODE_H__
-#define __CCPARALLAX_NODE_H__
+#ifndef CC_2D_PARALLAXNODE_H
+#define CC_2D_PARALLAXNODE_H
 
 #include "2d/CCNode.h"
 /*#include "ccArray.h"*/
@@ -81,11 +81,11 @@ public:
     //
     // Overrides
     //
-    virtual void addChild(Node* child, int zOrder, int tag) override;
-    virtual void addChild(Node* child, int zOrder, const std::string& name) override;
-    virtual void removeChild(Node* child, bool cleanup) override;
-    virtual void removeAllChildrenWithCleanup(bool cleanup) override;
-    virtual void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
+    void addChild(Node* child, int zOrder, int tag) override;
+    void addChild(Node* child, int zOrder, const std::string& name) override;
+    void removeChild(Node* child, bool cleanup) override;
+    void removeAllChildrenWithCleanup(bool cleanup) override;
+    void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
 
     CC_CONSTRUCTOR_ACCESS :
         /** Adds a child to the container with a z-order, a parallax ratio and a position offset
@@ -98,7 +98,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ParallaxNode();
+    ~ParallaxNode() override;
 
 protected:
     Vec2 absolutePosition();
@@ -107,7 +107,7 @@ protected:
     struct _ccArray* _parallaxArray;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParallaxNode);
+    CC_DISALLOW_COPY_AND_ASSIGN(ParallaxNode)
 };
 
 // end of _2d group
@@ -115,4 +115,4 @@ private:
 
 NS_CC_END
 
-#endif //__CCPARALLAX_NODE_H__
+#endif // CC_2D_PARALLAXNODE_H

@@ -72,7 +72,7 @@ namespace experimental
             _isSkipReadDataTask = isSkip;
             if (_isSkipReadDataTask)
                 _isLoadingFinished = true;
-        };
+        }
         void readDataTask(unsigned int selfId);
 
         void invokingPlayCallbacks();

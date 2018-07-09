@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef COCOS2D_2D_FONTFNT_H
-#define COCOS2D_2D_FONTFNT_H
+#ifndef CC_2D_FONTFNT_H
+#define CC_2D_FONTFNT_H
 
 #include "2d/CCFont.h"
 #include "math/Vec2.h"
@@ -70,4 +70,4 @@ private:
 
 NS_CC_END
 
-#endif // COCOS2D_2D_FONTFNT_H
+#endif // CC_2D_FONTFNT_H

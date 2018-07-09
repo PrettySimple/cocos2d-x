@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__LayoutReader__
-#define __TestCpp__LayoutReader__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_LAYOUTREADER_LAYOUTREADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_LAYOUTREADER_LAYOUTREADER_H
 
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/WidgetReader/WidgetReader.h"
@@ -54,4 +54,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif /* defined(__TestCpp__LayoutReader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_LAYOUTREADER_LAYOUTREADER_H

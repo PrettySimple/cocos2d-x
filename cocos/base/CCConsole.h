@@ -22,22 +22,20 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCCONSOLE_H__
-#define __CCCONSOLE_H__
+#ifndef CC_BASE_CONSOLE_H
+#define CC_BASE_CONSOLE_H
 /// @cond DO_NOT_SHOW
 
 #if defined(_MSC_VER) || defined(__MINGW32__)
 #    include <BaseTsd.h>
 #    include <WinSock2.h>
-
-#    ifndef __SSIZE_T
-#        define __SSIZE_T
-typedef SSIZE_T ssize_t;
-#    endif // __SSIZE_T
-
 #else
 #    include <sys/select.h>
 #endif
+
+#include "base/CCRef.h"
+#include "base/ccMacros.h"
+#include "platform/CCPlatformMacros.h"
 
 #include <functional>
 #include <map>
@@ -47,9 +45,8 @@ typedef SSIZE_T ssize_t;
 #include <thread>
 #include <vector>
 
-#include "base/CCRef.h"
-#include "base/ccMacros.h"
-#include "platform/CCPlatformMacros.h"
+#include <string_view>
+#include <type_traits>
 
 NS_CC_BEGIN
 
@@ -60,6 +57,16 @@ static const int MAX_LOG_LENGTH = 16 * 1024;
  @brief Output Debug message.
  */
 void CC_DLL log(const char* format, ...) CC_FORMAT_PRINTF(1, 2);
+
+template <typename... Args>
+typename std::enable_if<sizeof...(Args) == 0>::type log2(std::string_view format)
+{
+}
+
+template <typename... Args>
+void log2(std::string_view format, Args... args)
+{
+}
 
 /** Console is helper class that lets the developer control the game from TCP connection.
  Console will spawn a new thread that will listen to a specified TCP port.
@@ -91,10 +98,10 @@ public:
         static bool isFloat(const std::string& myString);
 
         /** send a message to console */
-        static ssize_t sendToConsole(int fd, const void* buffer, size_t length, int flags = 0);
+        static std::size_t sendToConsole(int fd, const void* buffer, size_t length, int flags = 0);
 
         /** my dprintf() */
-        static ssize_t mydprintf(int sock, const char* format, ...);
+        static std::size_t mydprintf(int sock, const char* format, ...);
 
         /** send prompt string to console */
         static void sendPrompt(int fd);
@@ -122,11 +129,15 @@ public:
         Command() {}
         Command(std::string name_, std::string help_)
         : name(name_)
-        , help(help_){};
+        , help(help_)
+        {
+        }
         Command(std::string name_, std::string help_, Callback callback_)
         : name(name_)
         , help(help_)
-        , callback(callback_){};
+        , callback(callback_)
+        {
+        }
 
         /** add callback */
         void addCallback(const Callback& callback);
@@ -192,8 +203,8 @@ protected:
     void loop();
 
     // Helpers
-    ssize_t readline(int fd, char* buf, size_t maxlen);
-    ssize_t readBytes(int fd, char* buffer, size_t maxlen, bool* more);
+    std::size_t readline(int fd, char* buf, std::size_t maxlen);
+    std::size_t readBytes(int fd, char* buffer, std::size_t maxlen, bool* more);
     bool parseCommand(int fd);
 
     void addClient();
@@ -266,7 +277,7 @@ protected:
     std::string _bindAddress;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Console);
+    CC_DISALLOW_COPY_AND_ASSIGN(Console)
 
     // helper functions
     int printSceneGraph(int fd, Node* node, int level);
@@ -280,4 +291,4 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif /* defined(__CCCONSOLE_H__) */
+#endif // CC_BASE_CONSOLE_H

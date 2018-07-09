@@ -28,21 +28,13 @@
 
 NS_CC_BEGIN
 
-std::string s_attributeNames[] = {GLProgram::ATTRIBUTE_NAME_POSITION,   GLProgram::ATTRIBUTE_NAME_COLOR,        GLProgram::ATTRIBUTE_NAME_TEX_COORD,
+char const* s_attributeNames[] = {GLProgram::ATTRIBUTE_NAME_POSITION,   GLProgram::ATTRIBUTE_NAME_COLOR,        GLProgram::ATTRIBUTE_NAME_TEX_COORD,
                                   GLProgram::ATTRIBUTE_NAME_TEX_COORD1, GLProgram::ATTRIBUTE_NAME_TEX_COORD2,   GLProgram::ATTRIBUTE_NAME_TEX_COORD3,
                                   GLProgram::ATTRIBUTE_NAME_NORMAL,     GLProgram::ATTRIBUTE_NAME_BLEND_WEIGHT, GLProgram::ATTRIBUTE_NAME_BLEND_INDEX,
                                   GLProgram::ATTRIBUTE_NAME_TANGENT,    GLProgram::ATTRIBUTE_NAME_BINORMAL};
 
 static GLuint __maxVertexAttribs = 0;
 static std::vector<VertexAttribBinding*> __vertexAttribBindingCache;
-
-VertexAttribBinding::VertexAttribBinding()
-: _handle(0)
-, _attributes()
-, _meshIndexData(nullptr)
-, _glProgramState(nullptr)
-{
-}
 
 VertexAttribBinding::~VertexAttribBinding()
 {
@@ -124,7 +116,7 @@ bool VertexAttribBinding::init(MeshIndexData* meshIndexData, GLProgramState* glP
     {
         auto meshattribute = meshVertexData->getMeshVertexAttrib(k);
         setVertexAttribPointer(s_attributeNames[meshattribute.vertexAttrib], meshattribute.size, meshattribute.type, GL_FALSE,
-                               meshVertexData->getVertexBuffer()->getSizePerVertex(), (GLvoid*)offset);
+                               meshVertexData->getVertexBuffer()->getSizePerVertex(), reinterpret_cast<GLvoid*>(offset));
         offset += meshattribute.attribSizeBytes;
     }
 

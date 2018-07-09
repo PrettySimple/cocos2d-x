@@ -43,21 +43,6 @@
 #endif
 NS_CC_BEGIN
 
-PUMaterial::PUMaterial()
-: isEnabledLight(true)
-, ambientColor(Vec4::ONE)
-, diffuseColor(Vec4::ONE)
-, specularColor(Vec4::ZERO)
-, emissiveColor(Vec4::ZERO)
-, shininess(0.0f)
-, depthTest(true)
-, depthWrite(true)
-, wrapMode(GL_CLAMP_TO_EDGE)
-{
-    blendFunc.src = GL_ONE;
-    blendFunc.dst = GL_ZERO;
-}
-
 PUMaterialCache::PUMaterialCache()
 {
 }

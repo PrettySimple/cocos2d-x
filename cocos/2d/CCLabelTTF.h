@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCLABELTTF_H__
-#define __CCLABELTTF_H__
+#ifndef CC_2D_LABELTTF_H
+#define CC_2D_LABELTTF_H
 
 /// @cond DO_NOT_SHOW
 
@@ -75,7 +75,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~LabelTTF();
+    ~LabelTTF() override;
 
     /** creates a Label from a fontname, alignment, dimension in points and font size in points
      @since v2.0.1
@@ -121,8 +121,8 @@ public:
     /** changes the string to render
      * @warning Changing the string is as expensive as creating a new LabelTTF. To obtain better performance use LabelAtlas
      */
-    virtual void setString(const std::string& label) override;
-    virtual const std::string& getString(void) const override;
+    void setString(const std::string& label) override;
+    const std::string& getString(void) const override;
 
     TextHAlignment getHorizontalAlignment() const;
     void setHorizontalAlignment(TextHAlignment alignment);
@@ -139,22 +139,22 @@ public:
     const std::string& getFontName() const;
     void setFontName(const std::string& fontName);
 
-    virtual void setBlendFunc(const BlendFunc& blendFunc) override;
+    void setBlendFunc(const BlendFunc& blendFunc) override;
 
-    virtual const BlendFunc& getBlendFunc() const override;
+    const BlendFunc& getBlendFunc() const override;
 
     virtual void setFlippedX(bool flippedX);
     virtual void setFlippedY(bool flippedY);
 
-    virtual Rect getBoundingBox() const override;
+    Rect getBoundingBox() const override;
 
     /**
      * @js NA
      * @lua NA
      */
-    virtual std::string getDescription() const override;
-    virtual void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
-    virtual const Size& getContentSize() const override;
+    std::string getDescription() const override;
+    void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
+    const Size& getContentSize() const override;
 
 protected:
     Label* _renderLabel;
@@ -173,4 +173,4 @@ protected:
 NS_CC_END
 
 /// @endcond
-#endif //__CCLABEL_H__
+#endif // CC_2D_LABELTTF_H

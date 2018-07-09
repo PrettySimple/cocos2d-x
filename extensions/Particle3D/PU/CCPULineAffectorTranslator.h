@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_LINE_AFFECTOR_TRANSLATOR_H__
-#define __CC_PU_PARTICLE_3D_LINE_AFFECTOR_TRANSLATOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_LINEAFFECTORTRANSLATOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_LINEAFFECTORTRANSLATOR_H
 
 #include "extensions/Particle3D/PU/CCPULineAffector.h"
 #include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
@@ -36,12 +36,12 @@ class PULineAffectorTranslator : public PUScriptTranslator
 {
 public:
     PULineAffectorTranslator();
-    virtual ~PULineAffectorTranslator(){};
+    ~PULineAffectorTranslator() override = default;
 
-    virtual bool translateChildProperty(PUScriptCompiler* compiler, PUAbstractNode* node);
-    virtual bool translateChildObject(PUScriptCompiler* compiler, PUAbstractNode* node);
+    bool translateChildProperty(PUScriptCompiler* compiler, PUAbstractNode* node) override;
+    bool translateChildObject(PUScriptCompiler* compiler, PUAbstractNode* node) override;
 };
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_LINEAFFECTORTRANSLATOR_H

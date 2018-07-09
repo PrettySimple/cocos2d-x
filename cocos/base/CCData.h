@@ -23,13 +23,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCDATA_H__
-#define __CCDATA_H__
+#ifndef CC_BASE_DATA_H
+#define CC_BASE_DATA_H
 
+#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
-#include "platform/CCStdC.h" // for ssize_t on window
-#include <stdint.h> // for ssize_t on android
-#include <string> // for ssize_t on linux
+
+#include <cstddef>
 
 /**
  * @addtogroup base
@@ -90,14 +90,14 @@ public:
      *
      * @return The size of bytes of Data.
      */
-    ssize_t getSize() const;
+    std::size_t getSize() const;
 
     /** Copies the buffer pointer and its size.
      *  @note This method will copy the whole buffer.
      *        Developer should free the pointer after invoking this method.
      *  @see Data::fastSet
      */
-    void copy(const unsigned char* bytes, const ssize_t size);
+    void copy(const unsigned char* bytes, const std::size_t size);
 
     /** Fast set the buffer pointer and its size. Please use it carefully.
      *  @param bytes The buffer pointer, note that it have to be allocated by 'malloc' or 'calloc',
@@ -106,7 +106,7 @@ public:
      *        2. The pointer should not be used outside after it was passed to this method.
      *  @see Data::copy
      */
-    void fastSet(unsigned char* bytes, const ssize_t size);
+    void fastSet(unsigned char* bytes, const std::size_t size);
 
     /**
      * Clears data, free buffer and reset data size.
@@ -131,7 +131,7 @@ public:
      * @code
      *  Data d;
      *  // ...
-     *  ssize_t size;
+     *  std::size_t size;
      *  unsigned char* buffer = d.takeBuffer(&size);
      *  // use buffer and size
      *  free(buffer);
@@ -140,17 +140,17 @@ public:
      * @param size Will fill with the data buffer size in bytes, if you do not care buffer size, pass nullptr.
      * @return the internal data buffer, free it after use.
      */
-    unsigned char* takeBuffer(ssize_t* size);
+    unsigned char* takeBuffer(std::size_t* size);
 
 private:
     void move(Data& other);
 
 private:
     unsigned char* _bytes;
-    ssize_t _size;
+    std::size_t _size;
 };
 
 NS_CC_END
 
 /** @} */
-#endif // __CCDATA_H__
+#endif // CC_BASE_DATA_H

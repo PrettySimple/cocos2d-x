@@ -23,38 +23,29 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_DO_STOP_SYSTEM_EVENT_HANDLER_H__
-#define __CC_PU_PARTICLE_3D_DO_STOP_SYSTEM_EVENT_HANDLER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_DOSTOPSYSTEMEVENTHANDLER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_DOSTOPSYSTEMEVENTHANDLER_H
 
-#include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUEventHandler.h"
-#include "math/CCMath.h"
-#include <string>
-#include <vector>
 
 NS_CC_BEGIN
 
 struct PUParticle3D;
-class PUObserver;
 class PUParticleSystem3D;
 
 class CC_DLL PUDoStopSystemEventHandler : public PUEventHandler
 {
-protected:
 public:
     static PUDoStopSystemEventHandler* create();
 
     /**
      */
-    virtual void handle(PUParticleSystem3D* particleSystem, PUParticle3D* particle, float timeElapsed) override;
+    void handle(PUParticleSystem3D* particleSystem, PUParticle3D* particle, float timeElapsed) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUDoStopSystemEventHandler(void)
-    : PUEventHandler()
-    {
-    }
-    virtual ~PUDoStopSystemEventHandler(void){};
+    CC_CONSTRUCTOR_ACCESS : PUDoStopSystemEventHandler() = default;
+    ~PUDoStopSystemEventHandler() override = default;
 };
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_DOSTOPSYSTEMEVENTHANDLER_H

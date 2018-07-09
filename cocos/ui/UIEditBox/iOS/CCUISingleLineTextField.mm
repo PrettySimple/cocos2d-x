@@ -31,16 +31,14 @@
 
 @implementation CCUISingleLineTextField
 
-- (CGRect)textRectForBounds:(CGRect)bounds
-{
+- (CGRect)textRectForBounds:(CGRect)bounds {
     auto glview = cocos2d::Director::getInstance()->getOpenGLView();
 
     float padding = CC_EDIT_BOX_PADDING * glview->getScaleX() / glview->getContentScaleFactor();
     return CGRectInset(bounds, padding, padding);
 }
 
-- (CGRect)editingRectForBounds:(CGRect)bounds
-{
+- (CGRect)editingRectForBounds:(CGRect)bounds {
     return [self textRectForBounds:bounds];
 }
 

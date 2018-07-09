@@ -23,12 +23,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCDICTIONARY_H__
-#define __CCDICTIONARY_H__
+#ifndef CC_DEPRECATED_DICTIONARY_H
+#define CC_DEPRECATED_DICTIONARY_H
 /// @cond DO_NOT_SHOW
 
 #include "base/CCRef.h"
+extern "C"
+{
 #include "base/uthash.h"
+}
 #include "deprecated/CCArray.h"
 #include "deprecated/CCString.h"
 
@@ -185,7 +188,7 @@ public:
      * @js NA
      * @lua NA
      */
-    ~__Dictionary();
+    ~__Dictionary() override;
 
     /** Initializes the dictionary. It returns true if the initializations was successful.
      * @js NA
@@ -455,4 +458,4 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif /* __CCDICTIONARY_H__ */
+#endif // CC_DEPRECATED_DICTIONARY_H

@@ -45,8 +45,7 @@ namespace ui
     static const float DEFAULT_SCROLLBAR_OPACITY = 0.4f;
 
     ScrollViewBar::ScrollViewBar(ScrollView* parent, ScrollView::Direction direction)
-    : _parent(parent)
-    , _direction(direction)
+    : _direction(direction)
     , _upperHalfCircle(nullptr)
     , _lowerHalfCircle(nullptr)
     , _body(nullptr)
@@ -233,7 +232,7 @@ namespace ui
             ProtectedNode::setOpacity(_opacity);
         }
 
-        Layout* innerContainer = _parent->getInnerContainer();
+        Layout* innerContainer = static_cast<ScrollView*>(_parent)->getInnerContainer();
 
         float innerContainerMeasure = 0;
         float scrollViewMeasure = 0;

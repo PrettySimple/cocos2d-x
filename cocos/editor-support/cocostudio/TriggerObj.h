@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __TRIGGEROBJ_H__
-#define __TRIGGEROBJ_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_TRIGGEROBJ_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_TRIGGEROBJ_H
 
 #include "CocoStudio.h"
 #include "base/CCVector.h"
@@ -89,4 +89,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_TRIGGEROBJ_H

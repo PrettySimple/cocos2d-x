@@ -40,6 +40,15 @@ NS_CC_BEGIN
 
 // CCLabelAtlas - Creation & Init
 
+LabelAtlas::LabelAtlas()
+: _string("")
+{
+#if CC_LABELATLAS_DEBUG_DRAW
+    _debugDrawNode = DrawNode::create();
+    addChild(_debugDrawNode);
+#endif
+}
+
 LabelAtlas* LabelAtlas::create()
 {
     LabelAtlas* ret = new (std::nothrow) LabelAtlas();
@@ -130,13 +139,13 @@ void LabelAtlas::updateAtlasValues()
         return;
     }
 
-    ssize_t n = _string.length();
+    std::size_t n = _string.length();
 
-    const unsigned char* s = (unsigned char*)_string.c_str();
+    const unsigned char* s = reinterpret_cast<unsigned char const*>(_string.c_str());
 
     Texture2D* texture = _textureAtlas->getTexture();
-    float textureWide = (float)texture->getPixelsWide();
-    float textureHigh = (float)texture->getPixelsHigh();
+    float textureWide = static_cast<float>(texture->getPixelsWide());
+    float textureHigh = static_cast<float>(texture->getPixelsHigh());
     float itemWidthInPixels = _itemWidth * CC_CONTENT_SCALE_FACTOR();
     float itemHeightInPixels = _itemHeight * CC_CONTENT_SCALE_FACTOR();
     if (_ignoreContentScaleFactor)
@@ -147,11 +156,11 @@ void LabelAtlas::updateAtlasValues()
 
     CCASSERT(n <= _textureAtlas->getCapacity(), "updateAtlasValues: Invalid String length");
     V3F_C4B_T2F_Quad* quads = _textureAtlas->getQuads();
-    for (ssize_t i = 0; i < n; i++)
+    for (std::size_t i = 0; i < n; i++)
     {
         unsigned char a = s[i] - _mapStartChar;
-        float row = (float)(a % _itemsPerRow);
-        float col = (float)(a / _itemsPerRow);
+        float row = static_cast<float>(a % _itemsPerRow);
+        float col = static_cast<float>(a / _itemsPerRow);
 
 #if CC_FIX_ARTIFACTS_BY_STRECHING_TEXEL
         // Issue #938. Don't use texStepX & texStepY
@@ -175,17 +184,17 @@ void LabelAtlas::updateAtlasValues()
         quads[i].br.texCoords.u = right;
         quads[i].br.texCoords.v = bottom;
 
-        quads[i].bl.vertices.x = (float)(i * _itemWidth);
+        quads[i].bl.vertices.x = static_cast<float>(i * _itemWidth);
         quads[i].bl.vertices.y = 0;
         quads[i].bl.vertices.z = 0.0f;
-        quads[i].br.vertices.x = (float)(i * _itemWidth + _itemWidth);
+        quads[i].br.vertices.x = static_cast<float>(i * _itemWidth + _itemWidth);
         quads[i].br.vertices.y = 0;
         quads[i].br.vertices.z = 0.0f;
-        quads[i].tl.vertices.x = (float)(i * _itemWidth);
-        quads[i].tl.vertices.y = (float)(_itemHeight);
+        quads[i].tl.vertices.x = static_cast<float>(i * _itemWidth);
+        quads[i].tl.vertices.y = static_cast<float>(_itemHeight);
         quads[i].tl.vertices.z = 0.0f;
-        quads[i].tr.vertices.x = (float)(i * _itemWidth + _itemWidth);
-        quads[i].tr.vertices.y = (float)(_itemHeight);
+        quads[i].tr.vertices.x = static_cast<float>(i * _itemWidth + _itemWidth);
+        quads[i].tr.vertices.y = static_cast<float>(_itemHeight);
         quads[i].tr.vertices.z = 0.0f;
         Color4B c(_displayedColor.r, _displayedColor.g, _displayedColor.b, _displayedOpacity);
         quads[i].tl.colors = c;
@@ -196,7 +205,7 @@ void LabelAtlas::updateAtlasValues()
     if (n > 0)
     {
         _textureAtlas->setDirty(true);
-        ssize_t totalQuads = _textureAtlas->getTotalQuads();
+        std::size_t totalQuads = _textureAtlas->getTotalQuads();
         if (n > totalQuads)
         {
             _textureAtlas->increaseTotalQuadsWith(static_cast<int>(n - totalQuads));
@@ -207,7 +216,7 @@ void LabelAtlas::updateAtlasValues()
 // CCLabelAtlas - LabelProtocol
 void LabelAtlas::setString(const std::string& label)
 {
-    ssize_t len = label.size();
+    std::size_t len = label.size();
     if (len > _textureAtlas->getTotalQuads())
     {
         _textureAtlas->resizeCapacity(len);
@@ -240,7 +249,7 @@ void LabelAtlas::updateColor()
             color4.b *= _displayedOpacity / 255.0f;
         }
         auto quads = _textureAtlas->getQuads();
-        ssize_t length = _string.length();
+        std::size_t length = _string.length();
         for (int index = 0; index < length; index++)
         {
             quads[index].bl.colors = color4;

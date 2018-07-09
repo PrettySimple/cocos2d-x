@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_VELOCITY_MATCHING_AFFECTOR_H__
-#define __CC_PU_PARTICLE_3D_VELOCITY_MATCHING_AFFECTOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_VELOCITYMATCHINGAFFECTOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_VELOCITYMATCHINGAFFECTOR_H
 
 #include "base/ccTypes.h"
 #include "extensions/Particle3D/PU/CCPUAffector.h"
@@ -39,16 +39,16 @@ public:
 
     static PUVelocityMatchingAffector* create();
 
-    virtual void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
+    void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
     /** Todo
      */
-    float getRadius(void) const;
+    float getRadius() const;
 
     /** Todo
      */
     void setRadius(float radius);
 
-    virtual void copyAttributesTo(PUAffector* affector) override;
+    void copyAttributesTo(PUAffector* affector) override;
 
     /** @copydoc ParticleAffector::_prepare */
     // virtual void _prepare(ParticleTechnique* particleTechnique);
@@ -56,12 +56,12 @@ public:
     /** @copydoc ParticleAffector::_unprepare */
     // virtual void _unprepare(ParticleTechnique* particleTechnique);
 
-    CC_CONSTRUCTOR_ACCESS : PUVelocityMatchingAffector(void);
-    virtual ~PUVelocityMatchingAffector(void);
+    CC_CONSTRUCTOR_ACCESS : PUVelocityMatchingAffector();
+    ~PUVelocityMatchingAffector() override;
 
 protected:
     float _radius;
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_VELOCITYMATCHINGAFFECTOR_H

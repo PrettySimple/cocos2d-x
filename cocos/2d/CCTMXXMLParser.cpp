@@ -216,9 +216,8 @@ bool TMXMapInfo::parseXMLFile(const std::string& xmlFilename)
 }
 
 // the XML parser calls here with all the elements
-void TMXMapInfo::startElement(void* ctx, const char* name, const char** atts)
+void TMXMapInfo::startElement(void*, const char* name, const char** atts)
 {
-    CC_UNUSED_PARAM(ctx);
     TMXMapInfo* tmxMapInfo = this;
     std::string elementName = name;
     ValueMap attributeDict;
@@ -672,9 +671,8 @@ void TMXMapInfo::startElement(void* ctx, const char* name, const char** atts)
     }
 }
 
-void TMXMapInfo::endElement(void* ctx, const char* name)
+void TMXMapInfo::endElement(void*, const char* name)
 {
-    CC_UNUSED_PARAM(ctx);
     TMXMapInfo* tmxMapInfo = this;
     std::string elementName = name;
 
@@ -700,9 +698,9 @@ void TMXMapInfo::endElement(void* ctx, const char* name)
                 unsigned char* deflated = nullptr;
                 Size s = layer->_layerSize;
                 // int sizeHint = s.width * s.height * sizeof(uint32_t);
-                ssize_t sizeHint = s.width * s.height * sizeof(unsigned int);
+                std::size_t sizeHint = s.width * s.height * sizeof(unsigned int);
 
-                ssize_t CC_UNUSED inflatedLen = ZipUtils::inflateMemoryWithHint(buffer, len, &deflated, sizeHint);
+                std::size_t CC_UNUSED inflatedLen = ZipUtils::inflateMemoryWithHint(buffer, len, &deflated, sizeHint);
                 CCASSERT(inflatedLen == sizeHint, "inflatedLen should be equal to sizeHint!");
 
                 free(buffer);
@@ -796,9 +794,8 @@ void TMXMapInfo::endElement(void* ctx, const char* name)
     }
 }
 
-void TMXMapInfo::textHandler(void* ctx, const char* ch, size_t len)
+void TMXMapInfo::textHandler(void*, const char* ch, size_t len)
 {
-    CC_UNUSED_PARAM(ctx);
     TMXMapInfo* tmxMapInfo = this;
     std::string text(ch, 0, len);
 

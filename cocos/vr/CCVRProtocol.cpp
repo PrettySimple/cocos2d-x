@@ -5,4 +5,16 @@
 //  Created by Mathieu Garaud on 09/07/2018.
 //
 
-#include <stdio.h>
+#include "CCVRProtocol.h"
+
+NS_CC_BEGIN
+
+VRIHeadTracker::~VRIHeadTracker()
+{
+}
+
+VRIRenderer::~VRIRenderer()
+{
+}
+
+NS_CC_END

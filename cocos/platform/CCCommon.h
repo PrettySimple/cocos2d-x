@@ -23,11 +23,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_COMMON_H__
-#define __CC_COMMON_H__
+#ifndef CC_PLATFORM_COMMON_H
+#define CC_PLATFORM_COMMON_H
 /// @cond DO_NOT_SHOW
 
+#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
+
+#include <cstdint>
 
 NS_CC_BEGIN
 
@@ -49,7 +52,7 @@ void CC_DLL MessageBox(const char* msg, const char* title);
 /**
 @brief Enum the language type supported now
 */
-enum class LanguageType
+enum struct LanguageType : std::uint8_t
 {
     ENGLISH = 0,
     CHINESE,
@@ -78,4 +81,4 @@ enum class LanguageType
 NS_CC_END
 
 /// @endcond
-#endif // __CC_COMMON_H__
+#endif // CC_PLATFORM_COMMON_H

@@ -80,7 +80,7 @@ bool SimpleAudioPlayer::setTime(float time)
 
 std::chrono::milliseconds SimpleAudioPlayer::getDuration()
 {
-    return std::chrono::milliseconds(static_cast<std::size_t>(CocosDenshion::SimpleAudioEngine::getInstance()->getBackgroundMusicDuration() * 1000.f));
+    return std::chrono::milliseconds(static_cast<std::size_t>(CocosDenshion::SimpleAudioEngine::getInstance()->getBackgroundMusicDuration() * 1000.0));
 }
 
 bool SimpleAudioPlayer::isStopped()

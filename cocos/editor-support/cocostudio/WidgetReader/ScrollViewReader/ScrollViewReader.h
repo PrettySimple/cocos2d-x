@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__ScrollViewReader__
-#define __TestCpp__ScrollViewReader__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_SCROLLVIEWREADER_SCROLLVIEWREADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_SCROLLVIEWREADER_SCROLLVIEWREADER_H
 
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/WidgetReader/LayoutReader/LayoutReader.h"
@@ -53,4 +53,4 @@ namespace cocostudio
     };
 } // namespace cocostudio
 
-#endif /* defined(__TestCpp__ScrollViewReader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_SCROLLVIEWREADER_SCROLLVIEWREADER_H

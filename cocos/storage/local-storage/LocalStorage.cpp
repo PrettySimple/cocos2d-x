@@ -28,7 +28,8 @@
  */
 
 #include "storage/local-storage/LocalStorage.h"
-#include "platform/CCPlatformMacros.h"
+
+#include "platform/CCPlatformConfig.h"
 
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID)
 
@@ -147,7 +148,7 @@ bool localStorageGetItem(const std::string& key, std::string* outItem)
     }
     else
     {
-        outItem->assign((const char*)text);
+        outItem->assign(reinterpret_cast<const char*>(text));
         return true;
     }
 }

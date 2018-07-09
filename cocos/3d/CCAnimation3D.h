@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCANIMATION3D_H__
-#define __CCANIMATION3D_H__
+#ifndef CC_3D_ANIMATION3D_H
+#define CC_3D_ANIMATION3D_H
 
 #include "3d/CCAnimationCurve.h"
 #include "3d/CCBundle3DData.h"
@@ -137,4 +137,4 @@ protected:
 /// @}
 NS_CC_END
 
-#endif // __CCANIMATION3D_H__
+#endif // CC_3D_ANIMATION3D_H

@@ -154,7 +154,7 @@ Action* ActionManager::getActionByTag(int tag, Node* target) const
     return _actions.get_action_from_target_by_tag(target, tag);
 }
 
-ssize_t ActionManager::getNumberOfRunningActionsInTarget(Node* target) const
+std::size_t ActionManager::getNumberOfRunningActionsInTarget(Node* target) const
 {
     return _actions.get_number_of_running_action_from_target(target);
 }

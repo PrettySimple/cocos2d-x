@@ -22,8 +22,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CC_FILEUTILS_H__
-#define __CC_FILEUTILS_H__
+#ifndef CC_PLATFORM_FILEUTILS_H
+#define CC_PLATFORM_FILEUTILS_H
 
 #include <string>
 #include <type_traits>
@@ -45,7 +45,7 @@ NS_CC_BEGIN
 class ResizableBuffer
 {
 public:
-    virtual ~ResizableBuffer() {}
+    virtual ~ResizableBuffer();
     virtual void resize(size_t size) = 0;
     virtual void* buffer() const = 0;
 };
@@ -58,7 +58,7 @@ class ResizableBufferAdapter
 template <typename CharT, typename Traits, typename Allocator>
 class ResizableBufferAdapter<std::basic_string<CharT, Traits, Allocator>> : public ResizableBuffer
 {
-    typedef std::basic_string<CharT, Traits, Allocator> BufferType;
+    using BufferType = std::basic_string<CharT, Traits, Allocator>;
     BufferType* _buffer;
 
 public:
@@ -66,8 +66,9 @@ public:
     : _buffer(buffer)
     {
     }
-    virtual void resize(size_t size) override { _buffer->resize((size + sizeof(CharT) - 1) / sizeof(CharT)); }
-    virtual void* buffer() const override
+
+    void resize(size_t size) override { _buffer->resize((size + sizeof(CharT) - 1) / sizeof(CharT)); }
+    void* buffer() const override
     {
         // can not invoke string::front() if it is empty
 
@@ -89,8 +90,9 @@ public:
     : _buffer(buffer)
     {
     }
-    virtual void resize(size_t size) override { _buffer->resize((size + sizeof(T) - 1) / sizeof(T)); }
-    virtual void* buffer() const override
+
+    void resize(size_t size) override { _buffer->resize((size + sizeof(T) - 1) / sizeof(T)); }
+    void* buffer() const override
     {
         // can not invoke vector::front() if it is empty
 
@@ -104,25 +106,15 @@ public:
 template <>
 class ResizableBufferAdapter<Data> : public ResizableBuffer
 {
-    typedef Data BufferType;
+    using BufferType = Data;
     BufferType* _buffer;
 
 public:
-    explicit ResizableBufferAdapter(BufferType* buffer)
-    : _buffer(buffer)
-    {
-    }
-    virtual void resize(size_t size) override
-    {
-        if (static_cast<size_t>(_buffer->getSize()) < size)
-        {
-            auto old = _buffer->getBytes();
-            void* buffer = realloc(old, size);
-            if (buffer)
-                _buffer->fastSet((unsigned char*)buffer, size);
-        }
-    }
-    virtual void* buffer() const override { return _buffer->getBytes(); }
+    explicit ResizableBufferAdapter(BufferType* buffer);
+    ~ResizableBufferAdapter() override;
+
+    void resize(size_t size) override;
+    inline void* buffer() const noexcept override { return _buffer->getBytes(); }
 };
 
 /** Helper class to handle file operations. */
@@ -266,7 +258,7 @@ public:
      *  @return Upon success, a pointer to the data is returned, otherwise NULL.
      *  @warning Recall: you are responsible for calling free() on any Non-NULL pointer returned.
      */
-    CC_DEPRECATED_ATTRIBUTE virtual unsigned char* getFileData(const std::string& filename, const char* mode, ssize_t* size);
+    CC_DEPRECATED_ATTRIBUTE virtual unsigned char* getFileData(const std::string& filename, const char* mode, std::size_t* size);
 
     /**
      *  Gets resource file data from a zip file.
@@ -276,7 +268,7 @@ public:
      *  @return Upon success, a pointer to the data is returned, otherwise nullptr.
      *  @warning Recall: you are responsible for calling free() on any Non-nullptr pointer returned.
      */
-    virtual unsigned char* getFileDataFromZip(const std::string& zipFilePath, const std::string& filename, ssize_t* size);
+    virtual unsigned char* getFileDataFromZip(const std::string& zipFilePath, const std::string& filename, std::size_t* size);
 
     /** Returns the fullpath for a given filename.
 
@@ -755,4 +747,4 @@ protected:
 
 NS_CC_END
 
-#endif // __CC_FILEUTILS_H__
+#endif // CC_PLATFORM_FILEUTILS_H

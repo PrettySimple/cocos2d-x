@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __HTTP_REQUEST_H__
-#define __HTTP_REQUEST_H__
+#ifndef CC_NETWORK_HTTPREQUEST_H
+#define CC_NETWORK_HTTPREQUEST_H
 
 #include "base/CCRef.h"
 #include "base/ccMacros.h"
@@ -169,9 +169,9 @@ namespace network
         /**
          * Get the size of request data
          *
-         * @return ssize_t the size of request data
+         * @return std::size_t the size of request data
          */
-        ssize_t getRequestDataSize() const { return _requestData.size(); }
+        std::size_t getRequestDataSize() const { return _requestData.size(); }
 
         /**
          * Set a string tag to identify your request.
@@ -246,7 +246,7 @@ namespace network
          *
          * @lua NA
          */
-        class _prxy
+        class _prxy final
         {
         public:
             /** Constructor. */
@@ -255,9 +255,9 @@ namespace network
             {
             }
             /** Destructor. */
-            ~_prxy(){};
+            ~_prxy() = default;
             /** Destructor. */
-            operator SEL_HttpResponse() const { return _cb; }
+            inline operator SEL_HttpResponse() const noexcept { return _cb; }
             CC_DEPRECATED_ATTRIBUTE operator SEL_CallFuncND() const { return (SEL_CallFuncND)_cb; }
 
         protected:
@@ -269,28 +269,28 @@ namespace network
          *
          * @return _prxy the _prxy object
          */
-        _prxy getSelector() const { return _prxy(_pSelector); }
+        inline _prxy getSelector() const { return _prxy(_pSelector); }
 
         /**
          * Get ccHttpRequestCallback callback function.
          *
          * @return const ccHttpRequestCallback& ccHttpRequestCallback callback function.
          */
-        const ccHttpRequestCallback& getCallback() const { return _pCallback; }
+        inline const ccHttpRequestCallback& getCallback() const noexcept { return _pCallback; }
 
         /**
          * Set custom-defined headers.
          *
          * @param headers The string vector of custom-defined headers.
          */
-        void setHeaders(const std::vector<std::string>& headers) { _headers = headers; }
+        inline void setHeaders(const std::vector<std::string>& headers) { _headers = headers; }
 
         /**
          * Get custom headers.
          *
          * @return std::vector<std::string> the string vector of custom-defined headers.
          */
-        std::vector<std::string> getHeaders() const { return _headers; }
+        inline std::vector<std::string> getHeaders() const noexcept { return _headers; }
 
     private:
         void doSetResponseCallback(Ref* pTarget, SEL_HttpResponse pSelector)
@@ -328,4 +328,4 @@ NS_CC_END
 // end group
 /// @}
 
-#endif //__HTTP_REQUEST_H__
+#endif // CC_NETWORK_HTTPREQUEST_H

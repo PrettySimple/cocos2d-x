@@ -45,6 +45,10 @@ NS_CC_BEGIN
 
 const unsigned int kSceneFade = 0xFADEFADE;
 
+TransitionEaseScene::~TransitionEaseScene()
+{
+}
+
 TransitionScene::TransitionScene()
 : _inScene(nullptr)
 , _outScene(nullptr)
@@ -149,10 +153,8 @@ void TransitionScene::finish()
     this->schedule(CC_SCHEDULE_SELECTOR(TransitionScene::setNewScene), 0ms);
 }
 
-void TransitionScene::setNewScene(float dt)
+void TransitionScene::setNewScene(float)
 {
-    CC_UNUSED_PARAM(dt);
-
     this->unschedule(CC_SCHEDULE_SELECTOR(TransitionScene::setNewScene));
 
     // Before replacing, save the "send cleanup to scene"
@@ -1170,7 +1172,8 @@ void TransitionCrossFade::onEnter()
     LayerColor* layer = LayerColor::create(color);
 
     // create the first render texture for inScene
-    RenderTexture* inTexture = RenderTexture::create((int)size.width, (int)size.height, Texture2D::PixelFormat::RGBA8888, GL_DEPTH24_STENCIL8);
+    RenderTexture* inTexture =
+        RenderTexture::create(static_cast<int>(size.width), static_cast<int>(size.height), Texture2D::PixelFormat::RGBA8888, GL_DEPTH24_STENCIL8);
 
     if (nullptr == inTexture)
     {
@@ -1187,7 +1190,8 @@ void TransitionCrossFade::onEnter()
     inTexture->end();
 
     // create the second render texture for outScene
-    RenderTexture* outTexture = RenderTexture::create((int)size.width, (int)size.height, Texture2D::PixelFormat::RGBA8888, GL_DEPTH24_STENCIL8);
+    RenderTexture* outTexture =
+        RenderTexture::create(static_cast<int>(size.width), static_cast<int>(size.height), Texture2D::PixelFormat::RGBA8888, GL_DEPTH24_STENCIL8);
     outTexture->getSprite()->setAnchorPoint(Vec2(0.5f, 0.5f));
     outTexture->setPosition(size.width / 2, size.height / 2);
     outTexture->setAnchorPoint(Vec2(0.5f, 0.5f));
@@ -1273,7 +1277,7 @@ void TransitionTurnOffTiles::onEnter()
 
     Size s = Director::getInstance()->getWinSize();
     float aspect = s.width / s.height;
-    int x = (int)(12 * aspect);
+    int x = static_cast<int>(12 * aspect);
     int y = 12;
 
     TurnOffTiles* toff = TurnOffTiles::create(_duration, Size(x, y));
@@ -1442,7 +1446,7 @@ void TransitionFadeTR::onEnter()
 
     Size s = Director::getInstance()->getWinSize();
     float aspect = s.width / s.height;
-    int x = (int)(12 * aspect);
+    int x = static_cast<int>(12 * aspect);
     int y = 12;
 
     ActionInterval* action = actionWithSize(Size(x, y));

@@ -23,8 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCGLVIEW_H__
-#define __CCGLVIEW_H__
+#ifndef CC_PLATFORM_GLVIEW_H
+#define CC_PLATFORM_GLVIEW_H
 
 #include "base/CCEventTouch.h"
 #include "base/ccTypes.h"
@@ -133,7 +133,7 @@ public:
      *
      * @return In ios and android it will return false,if in windows or Mac it will return true.
      */
-    virtual bool windowShouldClose() { return false; };
+    virtual bool windowShouldClose() { return false; }
 
     /** Static method and member so that we can modify it on all platforms before create OpenGL context.
      *
@@ -447,4 +447,4 @@ protected:
 
 NS_CC_END
 
-#endif /* __CCGLVIEW_H__ */
+#endif // CC_PLATFORM_GLVIEW_H

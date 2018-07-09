@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_EXTENTIONS_CCCOMAUDIO_H__
-#define __CC_EXTENTIONS_CCCOMAUDIO_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_COMAUDIO_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_COMAUDIO_H
 
 #include "2d/CCComponent.h"
 #include "CCComBase.h"
@@ -128,4 +128,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif // __CC_EXTENTIONS_CCCOMAUDIO_H__
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_COMAUDIO_H

@@ -23,8 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_APPLICATION_MAC_H__
-#define __CC_APPLICATION_MAC_H__
+#ifndef CC_PLATFORM_MAC_APPLICATIONMAC_H
+#define CC_PLATFORM_MAC_APPLICATIONMAC_H
 
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
@@ -127,4 +127,4 @@ NS_CC_END
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#endif // end of __CC_APPLICATION_MAC_H__;
+#endif // CC_PLATFORM_MAC_APPLICATIONMAC_H

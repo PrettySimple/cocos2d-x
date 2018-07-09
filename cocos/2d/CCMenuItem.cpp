@@ -304,6 +304,10 @@ void MenuItemLabel::setEnabled(bool enabled)
 // CCMenuItemAtlasFont
 //
 
+MenuItemAtlasFont::~MenuItemAtlasFont()
+{
+}
+
 MenuItemAtlasFont* MenuItemAtlasFont::create(const std::string& value, const std::string& charMapFile, int itemWidth, int itemHeight, char startCharMap)
 {
     return MenuItemAtlasFont::create(value, charMapFile, itemWidth, itemHeight, startCharMap, (const ccMenuCallback&)nullptr);

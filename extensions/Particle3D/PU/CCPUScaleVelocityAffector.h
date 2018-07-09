@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_SCALE_VELOCITY_AFFECTOR_H__
-#define __CC_PU_PARTICLE_3D_SCALE_VELOCITY_AFFECTOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SCALEVELOCITYAFFECTOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_SCALEVELOCITYAFFECTOR_H
 
 #include "base/ccTypes.h"
 #include "extensions/Particle3D/PU/CCPUAffector.h"
@@ -40,28 +40,28 @@ public:
 
     static PUScaleVelocityAffector* create();
 
-    virtual void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
+    void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
 
     /**
      */
-    PUDynamicAttribute* getDynScaleVelocity(void) const { return _dynScaleVelocity; };
+    inline PUDynamicAttribute* getDynScaleVelocity() const noexcept { return _dynScaleVelocity; }
     void setDynScaleVelocity(PUDynamicAttribute* dynScaleVelocity);
     void resetDynScaleVelocity(bool resetToDefault = true);
 
     /**
      */
-    bool isSinceStartSystem(void) const { return _sinceStartSystem; };
-    void setSinceStartSystem(bool sinceStartSystem) { _sinceStartSystem = sinceStartSystem; };
+    inline bool isSinceStartSystem() const noexcept { return _sinceStartSystem; }
+    inline void setSinceStartSystem(bool sinceStartSystem) noexcept { _sinceStartSystem = sinceStartSystem; }
 
     /**
      */
-    bool isStopAtFlip(void) const { return _stopAtFlip; };
-    void setStopAtFlip(bool stopAtFlip) { _stopAtFlip = stopAtFlip; };
+    inline bool isStopAtFlip() const noexcept { return _stopAtFlip; }
+    void setStopAtFlip(bool stopAtFlip) noexcept { _stopAtFlip = stopAtFlip; }
 
-    virtual void copyAttributesTo(PUAffector* affector) override;
+    void copyAttributesTo(PUAffector* affector) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUScaleVelocityAffector(void);
-    virtual ~PUScaleVelocityAffector(void);
+    CC_CONSTRUCTOR_ACCESS : PUScaleVelocityAffector();
+    ~PUScaleVelocityAffector() override;
 
 protected:
     PUDynamicAttribute* _dynScaleVelocity;
@@ -71,4 +71,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_SCALEVELOCITYAFFECTOR_H

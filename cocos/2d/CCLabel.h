@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _COCOS2D_CCLABEL_H_
-#define _COCOS2D_CCLABEL_H_
+#ifndef CC_2D_LABEL_H
+#define CC_2D_LABEL_H
 
 #include "2d/CCFontAtlas.h"
 #include "2d/CCNode.h"
@@ -564,33 +564,33 @@ public:
 
     FontAtlas* getFontAtlas() { return _fontAtlas; }
 
-    virtual const BlendFunc& getBlendFunc() const override { return _blendFunc; }
-    virtual void setBlendFunc(const BlendFunc& blendFunc) override;
+    const BlendFunc& getBlendFunc() const override { return _blendFunc; }
+    void setBlendFunc(const BlendFunc& blendFunc) override;
 
-    virtual bool isOpacityModifyRGB() const override { return _isOpacityModifyRGB; }
-    virtual void setOpacityModifyRGB(bool isOpacityModifyRGB) override;
-    virtual void updateDisplayedColor(const Color3B& parentColor) override;
-    virtual void updateDisplayedOpacity(GLubyte parentOpacity) override;
+    bool isOpacityModifyRGB() const override { return _isOpacityModifyRGB; }
+    void setOpacityModifyRGB(bool isOpacityModifyRGB) override;
+    void updateDisplayedColor(const Color3B& parentColor) override;
+    void updateDisplayedOpacity(GLubyte parentOpacity) override;
 
-    virtual std::string getDescription() const override;
+    std::string getDescription() const override;
 
-    virtual const Size& getContentSize() const override;
-    virtual Rect getBoundingBox() const override;
+    const Size& getContentSize() const override;
+    Rect getBoundingBox() const override;
 
-    virtual void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
-    virtual void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
+    void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
+    void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
 
-    virtual void setCameraMask(unsigned short mask, bool applyChildren = true) override;
+    void setCameraMask(unsigned short mask, bool applyChildren = true) override;
 
-    virtual void removeAllChildrenWithCleanup(bool cleanup) override;
-    virtual void removeChild(Node* child, bool cleanup = true) override;
-    virtual void setGlobalZOrder(float globalZOrder) override;
+    void removeAllChildrenWithCleanup(bool cleanup) override;
+    void removeChild(Node* child, bool cleanup = true) override;
+    void setGlobalZOrder(float globalZOrder) override;
 
     CC_DEPRECATED_ATTRIBUTE static Label* create(const std::string& text, const std::string& font, float fontSize, const Size& dimensions = Size::ZERO,
                                                  TextHAlignment hAlignment = TextHAlignment::LEFT, TextVAlignment vAlignment = TextVAlignment::TOP);
     CC_DEPRECATED_ATTRIBUTE virtual void setFontDefinition(const FontDefinition& textDefinition);
     CC_DEPRECATED_ATTRIBUTE FontDefinition getFontDefinition() const { return _getFontDefinition(); }
-    CC_DEPRECATED_ATTRIBUTE int getCommonLineHeight() const { return (int)getLineHeight(); }
+    CC_DEPRECATED_ATTRIBUTE int getCommonLineHeight() const { return static_cast<int>(getLineHeight()); }
 
     CC_CONSTRUCTOR_ACCESS :
         /**
@@ -604,7 +604,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~Label();
+    ~Label() override;
 
     bool initWithTTF(const std::string& text, const std::string& fontFilePath, float fontSize, const Size& dimensions = Size::ZERO,
                      TextHAlignment hAlignment = TextHAlignment::LEFT, TextVAlignment vAlignment = TextVAlignment::TOP);
@@ -773,7 +773,7 @@ protected:
     bool _strikethroughEnabled;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Label);
+    CC_DISALLOW_COPY_AND_ASSIGN(Label)
 };
 
 // end group
@@ -781,4 +781,4 @@ private:
 
 NS_CC_END
 
-#endif /*__COCOS2D_CCLABEL_H */
+#endif // CC_2D_LABEL_H

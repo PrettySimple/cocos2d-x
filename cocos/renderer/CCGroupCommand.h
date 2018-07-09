@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _CC_GROUPCOMMAND_H_
-#define _CC_GROUPCOMMAND_H_
+#ifndef CC_RENDERER_GROUPCOMMAND_H
+#define CC_RENDERER_GROUPCOMMAND_H
 
 #include "base/CCRef.h"
 #include "renderer/CCRenderCommand.h"
@@ -66,4 +66,4 @@ NS_CC_END
  end of support group
  @}
  */
-#endif //_CC_GROUPCOMMAND_H_
+#endif // CC_RENDERER_GROUPCOMMAND_H

@@ -21,8 +21,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CC_MOTION_STREAK3D_H__
-#define __CC_MOTION_STREAK3D_H__
+#ifndef CC_3D_MOTIONSTREAK3D_H
+#define CC_3D_MOTIONSTREAK3D_H
 
 #include "2d/CCNode.h"
 #include "base/CCProtocols.h"
@@ -97,44 +97,44 @@ public:
     void setStartingPositionInitialized(bool bStartingPositionInitialized) { _startingPositionInitialized = bStartingPositionInitialized; }
 
     // Overrides
-    virtual void setPosition(const Vec2& position) override;
-    virtual void setPosition(float x, float y) override;
-    virtual void setPosition3D(const Vec3& position) override;
-    virtual void setRotation3D(const Vec3& rotation) override {}
-    virtual void setRotationQuat(const Quaternion& quat) override {}
+    void setPosition(const Vec2& position) override;
+    void setPosition(float x, float y) override;
+    void setPosition3D(const Vec3& position) override;
+    void setRotation3D(const Vec3& rotation) override {}
+    void setRotationQuat(const Quaternion& quat) override {}
 
-    virtual const Vec2& getPosition() const override;
-    virtual void getPosition(float* x, float* y) const override;
-    virtual void setPositionX(float x) override;
-    virtual void setPositionY(float y) override;
-    virtual float getPositionX(void) const override;
-    virtual float getPositionY(void) const override;
-    virtual Vec3 getPosition3D() const override;
+    const Vec2& getPosition() const override;
+    void getPosition(float* x, float* y) const override;
+    void setPositionX(float x) override;
+    void setPositionY(float y) override;
+    float getPositionX(void) const override;
+    float getPositionY(void) const override;
+    Vec3 getPosition3D() const override;
     /**
      * @js NA
      * @lua NA
      */
-    virtual void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
+    void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
     /**
      * @lua NA
      */
-    virtual void update(float delta) override;
-    virtual Texture2D* getTexture() const override;
-    virtual void setTexture(Texture2D* texture) override;
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual void setBlendFunc(const BlendFunc& blendFunc) override;
+    void update(float delta) override;
+    Texture2D* getTexture() const override;
+    void setTexture(Texture2D* texture) override;
     /**
      * @js NA
      * @lua NA
      */
-    virtual const BlendFunc& getBlendFunc() const override;
-    virtual GLubyte getOpacity() const override;
-    virtual void setOpacity(GLubyte opacity) override;
-    virtual void setOpacityModifyRGB(bool value) override;
-    virtual bool isOpacityModifyRGB() const override;
+    void setBlendFunc(const BlendFunc& blendFunc) override;
+    /**
+     * @js NA
+     * @lua NA
+     */
+    const BlendFunc& getBlendFunc() const override;
+    GLubyte getOpacity() const override;
+    void setOpacity(GLubyte opacity) override;
+    void setOpacityModifyRGB(bool value) override;
+    bool isOpacityModifyRGB() const override;
 
     /**
      * Set the direction of sweeping line segment.
@@ -148,7 +148,7 @@ public:
     const Vec3& getSweepAxis() const { return _sweepAxis; }
 
     CC_CONSTRUCTOR_ACCESS : MotionStreak3D();
-    virtual ~MotionStreak3D();
+    ~MotionStreak3D() override;
 
     /** initializes a motion streak with fade in seconds, minimum segments, stroke's width, color and texture filename */
     bool initWithFade(float fade, float minSeg, float stroke, const Color3B& color, const std::string& path);
@@ -189,7 +189,7 @@ protected:
     CustomCommand _customCommand;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MotionStreak3D);
+    CC_DISALLOW_COPY_AND_ASSIGN(MotionStreak3D)
 };
 
 // end of _3d group
@@ -197,4 +197,4 @@ private:
 
 NS_CC_END
 
-#endif //__CC_MOTION_STREAK3D_H__
+#endif // CC_3D_MOTIONSTREAK3D_H

@@ -23,15 +23,23 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __MISC_NODE_CCPROGRESS_TIMER_H__
-#define __MISC_NODE_CCPROGRESS_TIMER_H__
+#ifndef CC_2D_PROGRESSTIMER_H
+#define CC_2D_PROGRESSTIMER_H
 
 #include "2d/CCNode.h"
+#include "base/ccTypes.h"
+#include "math/Vec2.h"
+#include "platform/CCGL.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
 #include "renderer/CCCustomCommand.h"
 
 NS_CC_BEGIN
 
 class Sprite;
+class Renderer;
+class Mat4;
+struct Color3B;
 
 /**
  * @addtogroup _2d
@@ -50,7 +58,7 @@ public:
     /** Types of progress
      * @since v0.99.1
      */
-    enum class Type
+    enum struct Type : std::uint8_t
     {
         RADIAL, /** Radial Counter-Clockwise. */
         BAR, /** Bar. */
@@ -103,7 +111,7 @@ public:
      *
      * @return If the direction is Anti-clockwise,it will return true.
      */
-    bool isReverseDirection() { return _reverseDirection; };
+    bool isReverseDirection() { return _reverseDirection; }
 
     /** Set the Reverse direction.
      *
@@ -153,12 +161,12 @@ public:
     Vec2 getBarChangeRate() const { return _barChangeRate; }
 
     // Overrides
-    virtual void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
-    virtual void setAnchorPoint(const Vec2& anchorPoint) override;
-    virtual void setColor(const Color3B& color) override;
-    virtual const Color3B& getColor() const override;
-    virtual void setOpacity(GLubyte opacity) override;
-    virtual GLubyte getOpacity() const override;
+    void draw(Renderer* renderer, const Mat4& transform, std::uint32_t flags) override;
+    void setAnchorPoint(const Vec2& anchorPoint) override;
+    void setColor(const Color3B& color) override;
+    const Color3B& getColor() const override;
+    void setOpacity(GLubyte opacity) override;
+    GLubyte getOpacity() const override;
 
     CC_CONSTRUCTOR_ACCESS :
         /**
@@ -169,20 +177,20 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ProgressTimer();
+    ~ProgressTimer() override;
 
     /** Initializes a progress timer with the sprite as the shape the timer goes through */
     bool initWithSprite(Sprite* sp);
 
 protected:
-    void onDraw(const Mat4& transform, uint32_t flags);
+    void onDraw(const Mat4& transform, std::uint32_t flags);
 
     Tex2F textureCoordFromAlphaPoint(Vec2 alpha);
     Vec2 vertexFromAlphaPoint(Vec2 alpha);
     void updateProgress(void);
     void updateBar(void);
     void updateRadial(void);
-    virtual void updateColor(void) override;
+    void updateColor(void) override;
     Vec2 boundaryTexCoord(char index);
 
     Type _type;
@@ -198,7 +206,7 @@ protected:
     bool _reverseDirection;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ProgressTimer);
+    CC_DISALLOW_COPY_AND_ASSIGN(ProgressTimer)
 };
 
 // end of misc_nodes group
@@ -206,4 +214,4 @@ private:
 
 NS_CC_END
 
-#endif //__MISC_NODE_CCPROGRESS_TIMER_H__
+#endif // CC_2D_PROGRESSTIMER_H

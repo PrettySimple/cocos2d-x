@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__UIScale9Sprite__
-#define __cocos2d_libs__UIScale9Sprite__
+#ifndef CC_UI_SCALE9SPRITE_H
+#define CC_UI_SCALE9SPRITE_H
 
 #include "2d/CCNode.h"
 #include "2d/CCSpriteBatchNode.h"
@@ -68,7 +68,7 @@ namespace ui
          * @js NA
          * @lua NA
          */
-        virtual ~Scale9Sprite();
+        ~Scale9Sprite() override;
 
         /**
          * Builtin shader state.
@@ -718,4 +718,4 @@ namespace ui
 // end of ui group
 /// @}
 
-#endif /* defined(__cocos2d_libs__UIScale9Sprite__) */
+#endif // CC_UI_SCALE9SPRITE_H

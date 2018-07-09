@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_ON_TIME_OBSERVER_H__
-#define __CC_PU_PARTICLE_3D_ON_TIME_OBSERVER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_ONTIMEOBSERVER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_ONTIMEOBSERVER_H
 
 #include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUObserver.h"
@@ -48,31 +48,31 @@ public:
     /** In case there are no particles, but the observation returns true, the event handlers must still be
         called.
     */
-    virtual void preUpdateObserver(float deltaTime) override;
+    void preUpdateObserver(float deltaTime) override;
 
     /**
      */
-    virtual bool observe(PUParticle3D* particle, float timeElapsed) override;
+    bool observe(PUParticle3D* particle, float timeElapsed) override;
 
     /**
      */
-    float getThreshold(void) const { return _threshold; };
-    void setThreshold(float threshold) { _threshold = threshold; };
+    float getThreshold(void) const { return _threshold; }
+    void setThreshold(float threshold) { _threshold = threshold; }
 
     /**
      */
-    PUComparisionOperator getCompare() const { return _compare; };
-    void setCompare(PUComparisionOperator op) { _compare = op; };
+    PUComparisionOperator getCompare() const { return _compare; }
+    void setCompare(PUComparisionOperator op) { _compare = op; }
 
     /**
      */
-    bool isSinceStartSystem(void) const { return _sinceStartSystem; };
-    void setSinceStartSystem(bool sinceStartSystem) { _sinceStartSystem = sinceStartSystem; };
+    bool isSinceStartSystem(void) const { return _sinceStartSystem; }
+    void setSinceStartSystem(bool sinceStartSystem) { _sinceStartSystem = sinceStartSystem; }
 
-    virtual void copyAttributesTo(PUObserver* observer) override;
+    void copyAttributesTo(PUObserver* observer) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUOnTimeObserver(void);
-    virtual ~PUOnTimeObserver(void){};
+    CC_CONSTRUCTOR_ACCESS : PUOnTimeObserver();
+    ~PUOnTimeObserver() override {}
 
 protected:
     float _threshold;
@@ -82,4 +82,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_ONTIMEOBSERVER_H

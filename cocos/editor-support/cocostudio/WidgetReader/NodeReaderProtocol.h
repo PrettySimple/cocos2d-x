@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
  Copyright (c) 2014 cocos2d-x.org
 
  http://www.cocos2d-x.org
@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__NodeReaderProtocol__
-#define __cocos2d_libs__NodeReaderProtocol__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_NODEREADERPROTOCOL_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_NODEREADERPROTOCOL_H
 
 #include "cocostudio/CocosStudioExport.h"
 
@@ -52,7 +52,7 @@ namespace cocostudio
     {
     public:
         NodeReaderProtocol(){};
-        virtual ~NodeReaderProtocol(){};
+        virtual ~NodeReaderProtocol() {}
 
         virtual flatbuffers::Offset<flatbuffers::Table>
         createOptionsWithFlatBuffers(const tinyxml2::XMLElement* objectData, flatbuffers::FlatBufferBuilder* builder) = 0;
@@ -61,4 +61,4 @@ namespace cocostudio
     };
 } // namespace cocostudio
 
-#endif /* defined(__cocos2d_libs__NodeReaderProtocol__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_NODEREADERPROTOCOL_H

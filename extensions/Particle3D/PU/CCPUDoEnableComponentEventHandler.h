@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_DO_ENABLE_COMPONENT_EVENT_HANDLER_H__
-#define __CC_PU_PARTICLE_3D_DO_ENABLE_COMPONENT_EVENT_HANDLER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_DOENABLECOMPONENTEVENTHANDLER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_DOENABLECOMPONENTEVENTHANDLER_H
 
 #include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUEventHandler.h"
@@ -46,27 +46,27 @@ public:
 
     /** Get the name of the component that must be enabled or disabled.
      */
-    const std::string& getComponentName(void) const { return _componentName; };
+    const std::string& getComponentName(void) const { return _componentName; }
 
     /** Set the name of the component that must be enabled or disables.
      */
-    void setComponentName(const std::string& componentName) { _componentName = componentName; };
+    void setComponentName(const std::string& componentName) { _componentName = componentName; }
 
     /** Get the value that identifies whether the component must be enabled or disabled.
      */
-    bool isComponentEnabled(void) const { return _componentEnabled; };
+    bool isComponentEnabled(void) const { return _componentEnabled; }
 
     /** Set the value that identifies whether the component must be enabled or disabled.
      */
-    void setComponentEnabled(bool enabled) { _componentEnabled = enabled; };
+    void setComponentEnabled(bool enabled) { _componentEnabled = enabled; }
 
     /** Get the value that identifies whether the component must be enabled or disabled.
      */
-    PUComponentType getComponentType(void) const { return _componentType; };
+    PUComponentType getComponentType(void) const { return _componentType; }
 
     /** Set the value that identifies whether the component must be enabled or disabled.
      */
-    void setComponentType(PUComponentType componentType) { _componentType = componentType; };
+    void setComponentType(PUComponentType componentType) { _componentType = componentType; }
 
     /** If the _handle() function of this class is invoked (by an Observer), it searches the
         ParticleEmitter, ParticleAffector or ParticleTechnique defined by the its name.
@@ -74,12 +74,12 @@ public:
         DoEnableComponentEventHandler is defined, or if the ParticleEmitter/Affector is not
         found, other ParticleTechniques are searched.
     */
-    virtual void handle(PUParticleSystem3D* particleSystem, PUParticle3D* particle, float timeElapsed) override;
+    void handle(PUParticleSystem3D* particleSystem, PUParticle3D* particle, float timeElapsed) override;
 
-    virtual void copyAttributesTo(PUEventHandler* eventHandler) override;
+    void copyAttributesTo(PUEventHandler* eventHandler) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUDoEnableComponentEventHandler(void);
-    virtual ~PUDoEnableComponentEventHandler(void){};
+    CC_CONSTRUCTOR_ACCESS : PUDoEnableComponentEventHandler();
+    ~PUDoEnableComponentEventHandler() override {}
 
 protected:
     // Identifies the name of component
@@ -95,4 +95,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_DOENABLECOMPONENTEVENTHANDLER_H

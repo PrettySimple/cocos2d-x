@@ -23,8 +23,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CCACTIONTWEEN_H__
-#define __CCACTIONTWEEN_H__
+#ifndef CC_2D_ACTIONTWEEN_H
+#define CC_2D_ACTIONTWEEN_H
 
 #include "2d/CCActionInterval.h"
 
@@ -53,7 +53,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ActionTweenDelegate() {}
+    virtual ~ActionTweenDelegate();
 
     /**
     @brief The callback function when ActionTween is running.
@@ -125,4 +125,4 @@ protected:
 
 NS_CC_END
 
-#endif /* __CCACTIONTWEEN_H__ */
+#endif // CC_2D_ACTIONTWEEN_H

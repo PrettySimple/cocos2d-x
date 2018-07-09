@@ -23,7 +23,9 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "ui/UILoadingBar.h"
+
 #include "2d/CCSprite.h"
+#include "2d/CCSpriteFrame.h"
 #include "editor-support/cocostudio/CocosStudioExtension.h"
 #include "ui/UIHelper.h"
 #include "ui/UIScale9Sprite.h"

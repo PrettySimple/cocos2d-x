@@ -23,11 +23,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __MATH_CCGEOMETRY_H__
-#define __MATH_CCGEOMETRY_H__
+#ifndef CC_MATH_GEOMETRY_H
+#define CC_MATH_GEOMETRY_H
 
 #include "base/ccMacros.h"
-#include "math/CCMath.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
 
 /**
@@ -37,27 +38,34 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-class CC_DLL Size
+class CC_DLL Size final
 {
 public:
-    /**Width of the Size.*/
-    float width = 0.f;
-    /**Height of the Size.*/
-    float height = 0.f;
+#ifdef __ARM_NEON
+    using f32x2_t = __attribute__((neon_vector_type(2))) float;
+#else
+    using f32x2_t = __attribute__((ext_vector_type(2))) float;
+#endif
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu-anonymous-struct"
+#pragma clang diagnostic ignored "-Wnested-anon-types"
+    union
+    {
+        f32x2_t v = {0.f, 0.f};
+        struct
+        {
+            float width;
+            float height;
+        };
+    };
+#pragma clang diagnostic pop
 
 public:
     /**Conversion from Vec2 to Size.*/
-    operator Vec2() const { return Vec2(width, height); }
+    inline operator Vec2() const noexcept { return Vec2(f32x2_t{width, height}); }
 
 public:
-    /**
-    @{
-    Constructor.
-    @param width Width of the size.
-    @param height Height of the size.
-    @param other Copy constructor.
-    @param point Conversion from a point.
-     */
     Size() = default;
     Size(Size const&) = default;
     Size& operator=(Size const&) = default;
@@ -65,57 +73,80 @@ public:
     Size& operator=(Size&&) noexcept = default;
     ~Size() = default;
 
-    constexpr Size(float w, float h)
-    : width(w)
-    , height(h)
+    /**
+     * Constructs a new vector initialized to the specified values.
+     *
+     * @param xx The x coordinate.
+     * @param yy The y coordinate.
+     */
+    constexpr Size(float xx, float yy) noexcept
+    : v{xx, yy}
     {
     }
 
-    explicit Size(const Vec2& point);
-    /**@}*/
+    constexpr Size(Vec2 const& other) noexcept
+    : v(other.v)
+    {
+    }
+
+    constexpr Size(Vec2&& other) noexcept
+    : v(std::move(other.v))
+    {
+    }
+
+    constexpr Size(f32x2_t&& other) noexcept
+    : v(std::move(other))
+    {
+    }
 
     /**
      * @js NA
      * @lua NA
      */
-    Size& operator=(const Vec2& point);
+    inline Size operator+(const Size& right) const noexcept { return Size(v + right.v); }
     /**
      * @js NA
      * @lua NA
      */
-    Size operator+(const Size& right) const;
+    inline Size operator-(const Size& right) const noexcept { return Size(v - right.v); }
     /**
      * @js NA
      * @lua NA
      */
-    Size operator-(const Size& right) const;
+    inline Size operator*(float a) const noexcept { return Size(v * a); }
     /**
      * @js NA
      * @lua NA
      */
-    Size operator*(float a) const;
-    /**
-     * @js NA
-     * @lua NA
-     */
-    Size operator/(float a) const;
+    inline Size operator/(float a) const noexcept
+    {
+        CCASSERT(std::abs(a) >= std::numeric_limits<float>::epsilon(), "CCSize division by 0.");
+        return Size(v / a);
+    }
     /**
     Set the width and height of Size.
      * @js NA
      * @lua NA
      */
-    void setSize(float width, float height);
+    inline void setSize(float width, float height) noexcept { v = {width, height}; }
     /**
     Check if two size is the same.
      * @js NA
      */
-    bool equals(const Size& target) const;
+    inline bool equals(const Size& other) const noexcept
+    {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+        auto const eq = (v == other.v);
+#pragma clang diagnostic pop
+        return eq[0] == -1 && eq[1] == -1;
+    }
     /**Size(0,0).*/
     static const Size ZERO;
 };
 
 /**Rectangle area.*/
-class CC_DLL Rect
+class CC_DLL Rect final
 {
 public:
     /**Low left point of rect.*/
@@ -222,4 +253,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif // __MATH_CCGEOMETRY_H__
+#endif // CC_MATH_GEOMETRY_H

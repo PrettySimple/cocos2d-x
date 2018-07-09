@@ -30,14 +30,14 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /** Allocates and initializes a new array with specified capacity */
-ccArray* ccArrayNew(ssize_t capacity)
+ccArray* ccArrayNew(std::size_t capacity)
 {
     if (capacity == 0)
         capacity = 7;
 
-    ccArray* arr = (ccArray*)malloc(sizeof(ccArray));
+    ccArray* arr = reinterpret_cast<ccArray*>(malloc(sizeof(ccArray)));
     arr->num = 0;
-    arr->arr = (Ref**)calloc(capacity, sizeof(Ref*));
+    arr->arr = reinterpret_cast<Ref**>(calloc(capacity, sizeof(Ref*)));
     arr->max = capacity;
 
     return arr;
@@ -61,13 +61,13 @@ void ccArrayFree(ccArray*& arr)
 void ccArrayDoubleCapacity(ccArray* arr)
 {
     arr->max *= 2;
-    Ref** newArr = (Ref**)realloc(arr->arr, arr->max * sizeof(Ref*));
+    Ref** newArr = reinterpret_cast<Ref**>(realloc(arr->arr, arr->max * sizeof(Ref*)));
     // will fail when there's not enough memory
-    CCASSERT(newArr != 0, "ccArrayDoubleCapacity failed. Not enough memory");
+    CCASSERT(newArr != nullptr, "ccArrayDoubleCapacity failed. Not enough memory");
     arr->arr = newArr;
 }
 
-void ccArrayEnsureExtraCapacity(ccArray* arr, ssize_t extra)
+void ccArrayEnsureExtraCapacity(ccArray* arr, std::size_t extra)
 {
     while (arr->max < arr->num + extra)
     {
@@ -79,7 +79,7 @@ void ccArrayEnsureExtraCapacity(ccArray* arr, ssize_t extra)
 
 void ccArrayShrink(ccArray* arr)
 {
-    ssize_t newSize = 0;
+    std::size_t newSize = 0;
 
     // only resize when necessary
     if (arr->max > arr->num && !(arr->num == 0 && arr->max == 1))
@@ -95,17 +95,17 @@ void ccArrayShrink(ccArray* arr)
             arr->max = 1;
         }
 
-        arr->arr = (Ref**)realloc(arr->arr, newSize * sizeof(Ref*));
+        arr->arr = reinterpret_cast<Ref**>(realloc(arr->arr, newSize * sizeof(Ref*)));
         CCASSERT(arr->arr != nullptr, "could not reallocate the memory");
     }
 }
 
 /** Returns index of first occurrence of object, CC_INVALID_INDEX if object not found. */
-ssize_t ccArrayGetIndexOfObject(ccArray* arr, Ref* object)
+std::size_t ccArrayGetIndexOfObject(ccArray* arr, Ref* object)
 {
     const auto arrNum = arr->num;
     Ref** ptr = arr->arr;
-    for (ssize_t i = 0; i < arrNum; ++i, ++ptr)
+    for (std::size_t i = 0; i < arrNum; ++i, ++ptr)
     {
         if (*ptr == object)
             return i;
@@ -140,7 +140,7 @@ void ccArrayAppendObjectWithResize(ccArray* arr, Ref* object)
  enough capacity. */
 void ccArrayAppendArray(ccArray* arr, ccArray* plusArr)
 {
-    for (ssize_t i = 0; i < plusArr->num; i++)
+    for (std::size_t i = 0; i < plusArr->num; i++)
     {
         ccArrayAppendObject(arr, plusArr->arr[i]);
     }
@@ -154,17 +154,17 @@ void ccArrayAppendArrayWithResize(ccArray* arr, ccArray* plusArr)
 }
 
 /** Inserts an object at index */
-void ccArrayInsertObjectAtIndex(ccArray* arr, Ref* object, ssize_t index)
+void ccArrayInsertObjectAtIndex(ccArray* arr, Ref* object, std::size_t index)
 {
     CCASSERT(index <= arr->num, "Invalid index. Out of bounds");
     CCASSERT(object != nullptr, "Invalid parameter!");
 
     ccArrayEnsureExtraCapacity(arr, 1);
 
-    ssize_t remaining = arr->num - index;
+    std::size_t remaining = arr->num - index;
     if (remaining > 0)
     {
-        memmove((void*)&arr->arr[index + 1], (void*)&arr->arr[index], sizeof(Ref*) * remaining);
+        memmove(reinterpret_cast<void*>(&arr->arr[index + 1]), reinterpret_cast<void*>(&arr->arr[index]), sizeof(Ref*) * remaining);
     }
 
     object->retain();
@@ -173,7 +173,7 @@ void ccArrayInsertObjectAtIndex(ccArray* arr, Ref* object, ssize_t index)
 }
 
 /** Swaps two objects */
-void ccArraySwapObjectsAtIndexes(ccArray* arr, ssize_t index1, ssize_t index2)
+void ccArraySwapObjectsAtIndexes(ccArray* arr, std::size_t index1, std::size_t index2)
 {
     CCASSERT(index1 >= 0 && index1 < arr->num, "(1) Invalid index. Out of bounds");
     CCASSERT(index2 >= 0 && index2 < arr->num, "(2) Invalid index. Out of bounds");
@@ -195,7 +195,7 @@ void ccArrayRemoveAllObjects(ccArray* arr)
 
 /** Removes object at specified index and pushes back all subsequent objects.
  Behavior undefined if index outside [0, num-1]. */
-void ccArrayRemoveObjectAtIndex(ccArray* arr, ssize_t index, bool releaseObj /* = true*/)
+void ccArrayRemoveObjectAtIndex(ccArray* arr, std::size_t index, bool releaseObj /* = true*/)
 {
     CCASSERT(arr && arr->num > 0 && index >= 0 && index < arr->num, "Invalid index. Out of bounds");
     if (releaseObj)
@@ -205,17 +205,17 @@ void ccArrayRemoveObjectAtIndex(ccArray* arr, ssize_t index, bool releaseObj /* 
 
     arr->num--;
 
-    ssize_t remaining = arr->num - index;
+    std::size_t remaining = arr->num - index;
     if (remaining > 0)
     {
-        memmove((void*)&arr->arr[index], (void*)&arr->arr[index + 1], remaining * sizeof(Ref*));
+        memmove(reinterpret_cast<void*>(&arr->arr[index]), reinterpret_cast<void*>(&arr->arr[index + 1]), remaining * sizeof(Ref*));
     }
 }
 
 /** Removes object at specified index and fills the gap with the last object,
  thereby avoiding the need to push back subsequent objects.
  Behavior undefined if index outside [0, num-1]. */
-void ccArrayFastRemoveObjectAtIndex(ccArray* arr, ssize_t index)
+void ccArrayFastRemoveObjectAtIndex(ccArray* arr, std::size_t index)
 {
     CC_SAFE_RELEASE(arr->arr[index]);
     auto last = --arr->num;
@@ -246,7 +246,7 @@ void ccArrayRemoveObject(ccArray* arr, Ref* object, bool releaseObj /* = true*/)
  first matching instance in arr will be removed. */
 void ccArrayRemoveArray(ccArray* arr, ccArray* minusArr)
 {
-    for (ssize_t i = 0; i < minusArr->num; i++)
+    for (std::size_t i = 0; i < minusArr->num; i++)
     {
         ccArrayRemoveObject(arr, minusArr->arr[i]);
     }
@@ -256,9 +256,9 @@ void ccArrayRemoveArray(ccArray* arr, ccArray* minusArr)
  matching instances in arr will be removed. */
 void ccArrayFullRemoveArray(ccArray* arr, ccArray* minusArr)
 {
-    ssize_t back = 0;
+    std::size_t back = 0;
 
-    for (ssize_t i = 0; i < arr->num; i++)
+    for (std::size_t i = 0; i < arr->num; i++)
     {
         if (ccArrayContainsObject(minusArr, arr->arr[i]))
         {
@@ -278,16 +278,16 @@ void ccArrayFullRemoveArray(ccArray* arr, ccArray* minusArr)
 // // ccCArray for Values (c structures)
 
 /** Allocates and initializes a new C array with specified capacity */
-ccCArray* ccCArrayNew(ssize_t capacity)
+ccCArray* ccCArrayNew(std::size_t capacity)
 {
     if (capacity == 0)
     {
         capacity = 7;
     }
 
-    ccCArray* arr = (ccCArray*)malloc(sizeof(ccCArray));
+    ccCArray* arr = reinterpret_cast<ccCArray*>(malloc(sizeof(ccCArray)));
     arr->num = 0;
-    arr->arr = (void**)malloc(capacity * sizeof(void*));
+    arr->arr = reinterpret_cast<void**>(malloc(capacity * sizeof(void*)));
     arr->max = capacity;
 
     return arr;
@@ -309,19 +309,19 @@ void ccCArrayFree(ccCArray* arr)
 /** Doubles C array capacity */
 void ccCArrayDoubleCapacity(ccCArray* arr)
 {
-    ccArrayDoubleCapacity((ccArray*)arr);
+    ccArrayDoubleCapacity(reinterpret_cast<ccArray*>(arr));
 }
 
 /** Increases array capacity such that max >= num + extra. */
-void ccCArrayEnsureExtraCapacity(ccCArray* arr, ssize_t extra)
+void ccCArrayEnsureExtraCapacity(ccCArray* arr, std::size_t extra)
 {
-    ccArrayEnsureExtraCapacity((ccArray*)arr, extra);
+    ccArrayEnsureExtraCapacity(reinterpret_cast<ccArray*>(arr), extra);
 }
 
 /** Returns index of first occurrence of value, CC_INVALID_INDEX if value not found. */
-ssize_t ccCArrayGetIndexOfValue(ccCArray* arr, void* value)
+std::size_t ccCArrayGetIndexOfValue(ccCArray* arr, void* value)
 {
-    for (ssize_t i = 0; i < arr->num; i++)
+    for (std::size_t i = 0; i < arr->num; i++)
     {
         if (arr->arr[i] == value)
             return i;
@@ -336,7 +336,7 @@ bool ccCArrayContainsValue(ccCArray* arr, void* value)
 }
 
 /** Inserts a value at a certain position. Behavior undefined if array doesn't have enough capacity */
-void ccCArrayInsertValueAtIndex(ccCArray* arr, void* value, ssize_t index)
+void ccCArrayInsertValueAtIndex(ccCArray* arr, void* value, std::size_t index)
 {
     CCASSERT(index < arr->max, "ccCArrayInsertValueAtIndex: invalid index");
 
@@ -350,7 +350,7 @@ void ccCArrayInsertValueAtIndex(ccCArray* arr, void* value, ssize_t index)
     if (remaining > 0)
     {
         // tex coordinates
-        memmove((void*)&arr->arr[index + 1], (void*)&arr->arr[index], sizeof(void*) * remaining);
+        memmove(reinterpret_cast<void*>(&arr->arr[index + 1]), reinterpret_cast<void*>(&arr->arr[index]), sizeof(void*) * remaining);
     }
 
     arr->num++;
@@ -381,7 +381,7 @@ void ccCArrayAppendValueWithResize(ccCArray* arr, void* value)
  enough capacity. */
 void ccCArrayAppendArray(ccCArray* arr, ccCArray* plusArr)
 {
-    for (ssize_t i = 0; i < plusArr->num; i++)
+    for (std::size_t i = 0; i < plusArr->num; i++)
     {
         ccCArrayAppendValue(arr, plusArr->arr[i]);
     }
@@ -404,9 +404,9 @@ void ccCArrayRemoveAllValues(ccCArray* arr)
  Behavior undefined if index outside [0, num-1].
  @since v0.99.4
  */
-void ccCArrayRemoveValueAtIndex(ccCArray* arr, ssize_t index)
+void ccCArrayRemoveValueAtIndex(ccCArray* arr, std::size_t index)
 {
-    for (ssize_t last = --arr->num; index < last; index++)
+    for (std::size_t last = --arr->num; index < last; index++)
     {
         arr->arr[index] = arr->arr[index + 1];
     }
@@ -417,9 +417,9 @@ void ccCArrayRemoveValueAtIndex(ccCArray* arr, ssize_t index)
  Behavior undefined if index outside [0, num-1].
  @since v0.99.4
  */
-void ccCArrayFastRemoveValueAtIndex(ccCArray* arr, ssize_t index)
+void ccCArrayFastRemoveValueAtIndex(ccCArray* arr, std::size_t index)
 {
-    ssize_t last = --arr->num;
+    std::size_t last = --arr->num;
     arr->arr[index] = arr->arr[last];
 }
 
@@ -440,7 +440,7 @@ void ccCArrayRemoveValue(ccCArray* arr, void* value)
  */
 void ccCArrayRemoveArray(ccCArray* arr, ccCArray* minusArr)
 {
-    for (ssize_t i = 0; i < minusArr->num; i++)
+    for (std::size_t i = 0; i < minusArr->num; i++)
     {
         ccCArrayRemoveValue(arr, minusArr->arr[i]);
     }
@@ -451,9 +451,9 @@ void ccCArrayRemoveArray(ccCArray* arr, ccCArray* minusArr)
  */
 void ccCArrayFullRemoveArray(ccCArray* arr, ccCArray* minusArr)
 {
-    ssize_t back = 0;
+    std::size_t back = 0;
 
-    for (ssize_t i = 0; i < arr->num; i++)
+    for (std::size_t i = 0; i < arr->num; i++)
     {
         if (ccCArrayContainsValue(minusArr, arr->arr[i]))
         {

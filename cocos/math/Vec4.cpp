@@ -38,7 +38,7 @@ Vec4::Vec4(const Vec4& p1, const Vec4& p2)
 
 Vec4 Vec4::fromColor(unsigned int color)
 {
-    float components[4];
+    f32x4_t components = {0.f, 0.f, 0.f, 0.f};
     int componentIndex = 0;
     for (int i = 3; i >= 0; --i)
     {
@@ -46,176 +46,158 @@ Vec4 Vec4::fromColor(unsigned int color)
 
         components[componentIndex++] = static_cast<float>(component) / 255.0f;
     }
-
-    Vec4 value(components);
-    return value;
+    return Vec4(std::move(components));
+    ;
 }
 
 bool Vec4::isZero() const
 {
-    return x == 0.0f && y == 0.0f && z == 0.0f && w == 0.0f;
+    static constexpr auto const zero = f32x4_t{0.f, 0.f, 0.f, 0.f};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+    auto const eq = (v == zero);
+#pragma clang diagnostic pop
+    return eq[0] == -1 && eq[1] == -1 && eq[2] == -1 && eq[3] == -1;
 }
 
 bool Vec4::isOne() const
 {
-    return x == 1.0f && y == 1.0f && z == 1.0f && w == 1.0f;
+    static constexpr auto const one = f32x4_t{1.f, 1.f, 1.f, 1.f};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+    auto const eq = (v == one);
+#pragma clang diagnostic pop
+    return eq[0] == -1 && eq[1] == -1 && eq[2] == -1 && eq[3] == -1;
 }
 
 float Vec4::angle(const Vec4& v1, const Vec4& v2)
 {
-    float dx = v1.w * v2.x - v1.x * v2.w - v1.y * v2.z + v1.z * v2.y;
-    float dy = v1.w * v2.y - v1.y * v2.w - v1.z * v2.x + v1.x * v2.z;
-    float dz = v1.w * v2.z - v1.z * v2.w - v1.x * v2.y + v1.y * v2.x;
-
-    return std::atan2(std::sqrt(dx * dx + dy * dy + dz * dz) + MATH_FLOAT_SMALL, dot(v1, v2));
+    auto const tmp = v1.v[3] * v2.v - v1.v * v2.v[3] - __builtin_shufflevector(v1.v, v1.v, 1, 2, 0, 3) * __builtin_shufflevector(v2.v, v2.v, 2, 0, 1, 3) +
+        __builtin_shufflevector(v1.v, v1.v, 2, 0, 1, 3) * __builtin_shufflevector(v2.v, v2.v, 1, 2, 0, 3);
+    return std::atan2(std::sqrt(tmp[0] + tmp[1] + tmp[2]) + std::numeric_limits<float>::epsilon(), dot(v1, v2));
 }
 
-void Vec4::add(const Vec4& v)
+void Vec4::add(const Vec4& other)
 {
-    x += v.x;
-    y += v.y;
-    z += v.z;
-    w += v.w;
+    v += other.v;
 }
 
 void Vec4::add(const Vec4& v1, const Vec4& v2, Vec4* dst)
 {
     GP_ASSERT(dst);
 
-    dst->x = v1.x + v2.x;
-    dst->y = v1.y + v2.y;
-    dst->z = v1.z + v2.z;
-    dst->w = v1.w + v2.w;
+    dst->v = v1.v + v2.v;
 }
 
 void Vec4::clamp(const Vec4& min, const Vec4& max)
 {
-    GP_ASSERT(!(min.x > max.x || min.y > max.y || min.z > max.z || min.w > max.w));
+    GP_ASSERT(!(min > max));
 
     // Clamp the x value.
-    if (x < min.x)
-        x = min.x;
-    if (x > max.x)
-        x = max.x;
+    if (v[0] < min.v[0])
+        v[0] = min.v[0];
+    if (v[1] < min.v[1])
+        v[1] = min.v[1];
+    if (v[2] < min.v[2])
+        v[2] = min.v[2];
+    if (v[3] < min.v[3])
+        v[3] = min.v[3];
 
-    // Clamp the y value.
-    if (y < min.y)
-        y = min.y;
-    if (y > max.y)
-        y = max.y;
-
-    // Clamp the z value.
-    if (z < min.z)
-        z = min.z;
-    if (z > max.z)
-        z = max.z;
-
-    // Clamp the z value.
-    if (w < min.w)
-        w = min.w;
-    if (w > max.w)
-        w = max.w;
+    if (v[0] > max.v[0])
+        v[0] = max.v[0];
+    if (v[1] > max.v[1])
+        v[1] = max.v[1];
+    if (v[2] > max.v[2])
+        v[2] = max.v[2];
+    if (v[3] > max.v[3])
+        v[3] = max.v[3];
 }
 
-void Vec4::clamp(const Vec4& v, const Vec4& min, const Vec4& max, Vec4* dst)
+void Vec4::clamp(const Vec4& other, const Vec4& min, const Vec4& max, Vec4* dst)
 {
     GP_ASSERT(dst);
-    GP_ASSERT(!(min.x > max.x || min.y > max.y || min.z > max.z || min.w > max.w));
+    GP_ASSERT(!(min > max));
 
     // Clamp the x value.
-    dst->x = v.x;
-    if (dst->x < min.x)
-        dst->x = min.x;
-    if (dst->x > max.x)
-        dst->x = max.x;
+    dst->v = other.v;
+    if (dst->v[0] < min.v[0])
+        dst->v[0] = min.v[0];
+    if (dst->v[1] < min.v[1])
+        dst->v[1] = min.v[1];
+    if (dst->v[2] < min.v[2])
+        dst->v[2] = min.v[2];
+    if (dst->v[3] < min.v[3])
+        dst->v[3] = min.v[3];
 
-    // Clamp the y value.
-    dst->y = v.y;
-    if (dst->y < min.y)
-        dst->y = min.y;
-    if (dst->y > max.y)
-        dst->y = max.y;
-
-    // Clamp the z value.
-    dst->z = v.z;
-    if (dst->z < min.z)
-        dst->z = min.z;
-    if (dst->z > max.z)
-        dst->z = max.z;
-
-    // Clamp the w value.
-    dst->w = v.w;
-    if (dst->w < min.w)
-        dst->w = min.w;
-    if (dst->w > max.w)
-        dst->w = max.w;
+    if (dst->v[0] > max.v[0])
+        dst->v[0] = max.v[0];
+    if (dst->v[1] > max.v[1])
+        dst->v[1] = max.v[1];
+    if (dst->v[2] > max.v[2])
+        dst->v[2] = max.v[2];
+    if (dst->v[3] > max.v[3])
+        dst->v[3] = max.v[3];
 }
 
-float Vec4::distance(const Vec4& v) const
+float Vec4::distance(const Vec4& other) const
 {
-    float dx = v.x - x;
-    float dy = v.y - y;
-    float dz = v.z - z;
-    float dw = v.w - w;
-
-    return std::sqrt(dx * dx + dy * dy + dz * dz + dw * dw);
+    auto const sub = other.v - v;
+    auto const mul = sub * sub;
+    return std::sqrt(mul[0] + mul[1] + mul[2] + mul[3]);
 }
 
-float Vec4::distanceSquared(const Vec4& v) const
+float Vec4::distanceSquared(const Vec4& other) const
 {
-    float dx = v.x - x;
-    float dy = v.y - y;
-    float dz = v.z - z;
-    float dw = v.w - w;
-
-    return (dx * dx + dy * dy + dz * dz + dw * dw);
+    auto const sub = other.v - v;
+    auto const mul = sub * sub;
+    return mul[0] + mul[1] + mul[2] + mul[3];
 }
 
-float Vec4::dot(const Vec4& v) const
+float Vec4::dot(const Vec4& other) const
 {
-    return (x * v.x + y * v.y + z * v.z + w * v.w);
+    auto const mul = v * other.v;
+    return mul[0] + mul[1] + mul[2] + mul[3];
 }
 
 float Vec4::dot(const Vec4& v1, const Vec4& v2)
 {
-    return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w);
+    auto const mul = v1.v * v2.v;
+    return mul[0] + mul[1] + mul[2] + mul[3];
 }
 
 float Vec4::length() const
 {
-    return std::sqrt(x * x + y * y + z * z + w * w);
+    auto const mul = v * v;
+    return std::sqrt(mul[0] + mul[1] + mul[2] + mul[3]);
 }
 
 float Vec4::lengthSquared() const
 {
-    return (x * x + y * y + z * z + w * w);
+    auto const mul = v * v;
+    return mul[0] + mul[1] + mul[2] + mul[3];
 }
 
 void Vec4::negate()
 {
-    x = -x;
-    y = -y;
-    z = -z;
-    w = -w;
+    v = -v;
 }
 
 void Vec4::normalize()
 {
-    float n = x * x + y * y + z * z + w * w;
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+    auto const mul = v * v;
+    float n = mul[0] + mul[1] + mul[2] + mul[3];
     // Already normalized.
-    if (n == 1.0f)
+    if (std::abs(n - 1.f) < epsi)
         return;
 
     n = std::sqrt(n);
     // Too close to zero.
-    if (n < MATH_TOLERANCE)
+    if (n < epsi)
         return;
 
     n = 1.0f / n;
-    x *= n;
-    y *= n;
-    z *= n;
-    w *= n;
+    v *= n;
 }
 
 Vec4 Vec4::getNormalized() const
@@ -227,62 +209,40 @@ Vec4 Vec4::getNormalized() const
 
 void Vec4::scale(float scalar)
 {
-    x *= scalar;
-    y *= scalar;
-    z *= scalar;
-    w *= scalar;
+    v *= scalar;
 }
 
 void Vec4::set(float xx, float yy, float zz, float ww)
 {
-    this->x = xx;
-    this->y = yy;
-    this->z = zz;
-    this->w = ww;
+    v = {xx, yy, zz, ww};
 }
 
 void Vec4::set(const float* array)
 {
     GP_ASSERT(array);
 
-    x = array[0];
-    y = array[1];
-    z = array[2];
-    w = array[3];
+    v = {array[0], array[1], array[2], array[3]};
 }
 
-void Vec4::set(const Vec4& v)
+void Vec4::set(const Vec4& other)
 {
-    this->x = v.x;
-    this->y = v.y;
-    this->z = v.z;
-    this->w = v.w;
+    v = other.v;
 }
 
 void Vec4::set(const Vec4& p1, const Vec4& p2)
 {
-    x = p2.x - p1.x;
-    y = p2.y - p1.y;
-    z = p2.z - p1.z;
-    w = p2.w - p1.w;
+    v = p2.v - p1.v;
 }
 
-void Vec4::subtract(const Vec4& v)
+void Vec4::subtract(const Vec4& other)
 {
-    x -= v.x;
-    y -= v.y;
-    z -= v.z;
-    w -= v.w;
+    v -= other.v;
 }
 
 void Vec4::subtract(const Vec4& v1, const Vec4& v2, Vec4* dst)
 {
     GP_ASSERT(dst);
-
-    dst->x = v1.x - v2.x;
-    dst->y = v1.y - v2.y;
-    dst->z = v1.z - v2.z;
-    dst->w = v1.w - v2.w;
+    dst->v = v1.v - v2.v;
 }
 
 const Vec4 Vec4::ZERO = Vec4(0.0f, 0.0f, 0.0f, 0.0f);

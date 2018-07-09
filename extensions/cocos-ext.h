@@ -1,5 +1,5 @@
-#ifndef __COCOS2D_EXT_H__
-#define __COCOS2D_EXT_H__
+#ifndef CC_EXTENSIONS_EXT_H
+#define CC_EXTENSIONS_EXT_H
 
 #include "extensions/ExtensionMacros.h"
 
@@ -24,4 +24,4 @@
 #include "Particle3D/CCParticleSystem3D.h"
 #include "Particle3D/PU/CCPUParticleSystem3D.h"
 
-#endif /* __COCOS2D_EXT_H__ */
+#endif // CC_EXTENSIONS_EXT_H

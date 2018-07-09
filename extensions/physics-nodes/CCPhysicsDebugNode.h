@@ -20,8 +20,8 @@
  * SOFTWARE.
  */
 
-#ifndef __PHYSICSNODES_DEBUGNODE_H__
-#define __PHYSICSNODES_DEBUGNODE_H__
+#ifndef CC_EXTENSIONS_PHYSICSNODES_DEBUGNODE_H
+#define CC_EXTENSIONS_PHYSICSNODES_DEBUGNODE_H
 
 #include "2d/CCDrawNode.h"
 #include "extensions/ExtensionExport.h"
@@ -53,13 +53,13 @@ public:
     /**
      * @js NA
      */
-    virtual ~PhysicsDebugNode();
+    ~PhysicsDebugNode() override;
 
     cpSpace* getSpace() const;
     void setSpace(cpSpace* space);
 
     // Overrides
-    virtual void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
+    void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
 
 protected:
     cpSpace* _spacePtr;
@@ -67,4 +67,4 @@ protected:
 
 NS_CC_EXT_END
 
-#endif // __PHYSICSNODES_DEBUGNODE_H__
+#endif // CC_EXTENSIONS_PHYSICSNODES_DEBUGNODE_H

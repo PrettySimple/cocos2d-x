@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCEventListenerFocus__
-#define __cocos2d_libs__CCEventListenerFocus__
+#ifndef CC_BASE_EVENTLISTENERFOCUS_H
+#define CC_BASE_EVENTLISTENERFOCUS_H
 
 #include "base/CCEventListener.h"
 
@@ -57,11 +57,11 @@ public:
     /** Destructor.
      * @js NA
      */
-    virtual ~EventListenerFocus();
+    ~EventListenerFocus() override;
 
     /// Overrides
-    virtual EventListenerFocus* clone() override;
-    virtual bool checkAvailable() override;
+    EventListenerFocus* clone() override;
+    bool checkAvailable() override;
     //
 
 public:
@@ -78,4 +78,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif /* defined(__cocos2d_libs__CCEventListenerFocus__) */
+#endif // CC_BASE_EVENTLISTENERFOCUS_H

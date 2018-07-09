@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_ON_COUNT_OBSERVER_H__
-#define __CC_PU_PARTICLE_3D_ON_COUNT_OBSERVER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_ONCOUNTOBSERVER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_ONCOUNTOBSERVER_H
 
 #include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUObserver.h"
@@ -60,20 +60,20 @@ public:
 
     /**
      */
-    unsigned int getThreshold(void) const { return _threshold; };
-    void setThreshold(unsigned int threshold) { _threshold = threshold; };
+    unsigned int getThreshold(void) const { return _threshold; }
+    void setThreshold(unsigned int threshold) { _threshold = threshold; }
 
     /**
      */
-    PUComparisionOperator getCompare() const { return _compare; };
-    void setCompare(PUComparisionOperator op) { _compare = op; };
+    PUComparisionOperator getCompare() const { return _compare; }
+    void setCompare(PUComparisionOperator op) { _compare = op; }
 
-    virtual void copyAttributesTo(PUObserver* observer) override;
+    void copyAttributesTo(PUObserver* observer) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUOnCountObserver(void);
-    virtual ~PUOnCountObserver(void){};
+    CC_CONSTRUCTOR_ACCESS : PUOnCountObserver();
+    ~PUOnCountObserver() override {}
 };
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_ONCOUNTOBSERVER_H

@@ -25,8 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __ACTIONS_CCACTION_H__
-#define __ACTIONS_CCACTION_H__
+#ifndef CC_2D_ACTION_H
+#define CC_2D_ACTION_H
 
 #include "base/CCRef.h"
 #include "base/CCScriptSupport.h"
@@ -423,4 +423,4 @@ public:
 
 NS_CC_END
 
-#endif // __ACTIONS_CCACTION_H__
+#endif // CC_2D_ACTION_H

@@ -35,6 +35,10 @@ BatchCommand::BatchCommand()
 {
 }
 
+BatchCommand::~BatchCommand()
+{
+}
+
 void BatchCommand::init(float globalOrder, GLProgram* shader, BlendFunc blendType, TextureAtlas* textureAtlas, const Mat4& modelViewTransform, uint32_t flags)
 {
     CCASSERT(shader, "shader cannot be null");

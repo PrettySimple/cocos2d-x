@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_EVENT_HANDLER_H__
-#define __CC_PU_PARTICLE_3D_EVENT_HANDLER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_EVENTHANDLER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_EVENTHANDLER_H
 
 #include "base/CCRef.h"
 #include "math/CCMath.h"
@@ -42,22 +42,22 @@ class CC_DLL PUEventHandler : public Ref
 public:
     /** Todo
      */
-    const std::string& getName(void) const { return _name; };
-    void setName(const std::string& name) { _name = name; };
+    const std::string& getName(void) const { return _name; }
+    void setName(const std::string& name) { _name = name; }
 
     /** Todo
      */
-    PUObserver* getParentObserver(void) const { return _parentObserver; };
-    void setParentObserver(PUObserver* parentObserver) { _parentObserver = parentObserver; };
+    PUObserver* getParentObserver(void) const { return _parentObserver; }
+    void setParentObserver(PUObserver* parentObserver) { _parentObserver = parentObserver; }
 
     /** Todo
      */
-    const std::string& getEventHandlerType(void) const { return _eventHandlerType; };
-    void setEventHandlerType(const std::string& eventHandlerType) { _eventHandlerType = eventHandlerType; };
+    const std::string& getEventHandlerType(void) const { return _eventHandlerType; }
+    void setEventHandlerType(const std::string& eventHandlerType) { _eventHandlerType = eventHandlerType; }
 
     /** Notify that the event handler is rescaled.
      */
-    virtual void notifyRescaled(const Vec3& scale) { _eventHandlerScale = scale; };
+    virtual void notifyRescaled(const Vec3& scale) { _eventHandlerScale = scale; }
 
     /** Todo
      */
@@ -85,4 +85,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_EVENTHANDLER_H

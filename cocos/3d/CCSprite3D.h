@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCSPRITE3D_H__
-#define __CCSPRITE3D_H__
+#ifndef CC_3D_SPRITE3D_H
+#define CC_3D_SPRITE3D_H
 
 #include <unordered_map>
 
@@ -101,7 +101,7 @@ public:
     Mesh* getMesh() const { return _meshes.at(0); }
 
     /** get mesh count */
-    ssize_t getMeshCount() const { return _meshes.size(); }
+    std::size_t getMeshCount() const { return _meshes.size(); }
 
     /**get skin*/
     CC_DEPRECATED_ATTRIBUTE MeshSkin* getSkin() const;
@@ -157,7 +157,7 @@ public:
      * Force to write to depth buffer, this is useful if you want to achieve effects like fading.
      */
     void setForceDepthWrite(bool value) { _forceDepthWrite = value; }
-    bool isForceDepthWrite() const { return _forceDepthWrite; };
+    bool isForceDepthWrite() const { return _forceDepthWrite; }
 
     /**
      * Returns 2d bounding-box
@@ -208,7 +208,7 @@ public:
     CC_CONSTRUCTOR_ACCESS :
 
         Sprite3D();
-    virtual ~Sprite3D();
+    ~Sprite3D() override;
 
     virtual bool init() override;
 
@@ -340,4 +340,4 @@ protected:
 /// @}
 
 NS_CC_END
-#endif // __SPRITE3D_H_
+#endif // CC_3D_SPRITE3D_H

@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef _SIMPLE_AUDIO_ENGINE_H_
-#define _SIMPLE_AUDIO_ENGINE_H_
+#ifndef CC_AUDIO_INCLUDE_SIMPLEAUDIOENGINE_H
+#define CC_AUDIO_INCLUDE_SIMPLEAUDIOENGINE_H
 
 #include "audio/include/Export.h"
 
@@ -273,4 +273,4 @@ namespace CocosDenshion
 // end audio group
 /// @}
 
-#endif // _SIMPLE_AUDIO_ENGINE_H_
+#endif // CC_AUDIO_INCLUDE_SIMPLEAUDIOENGINE_H

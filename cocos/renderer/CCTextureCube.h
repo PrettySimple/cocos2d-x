@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCTEXTURECUBE_H__
-#define __CCTEXTURECUBE_H__
+#ifndef CC_RENDERER_TEXTURECUBE_H
+#define CC_RENDERER_TEXTURECUBE_H
 
 #include "renderer/CCTexture2D.h"
 
@@ -88,4 +88,4 @@ private:
 
 NS_CC_END
 
-#endif // __CCTEXTURECUBE_H__
+#endif // CC_RENDERER_TEXTURECUBE_H

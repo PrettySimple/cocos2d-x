@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __UIEDITBOXIMPLLINUX_H__
-#define __UIEDITBOXIMPLLINUX_H__
+#ifndef CC_UI_EDITBOX_EDITBOXIMPLLINUX_H
+#define CC_UI_EDITBOX_EDITBOXIMPLLINUX_H
 
 #include "platform/CCPlatformConfig.h"
 
@@ -81,4 +81,4 @@ NS_CC_END
 
 #endif /* #if (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX) */
 
-#endif /* __UIEDITBOXIMPLLINUX_H__ */
+#endif // CC_UI_EDITBOX_EDITBOXIMPLLINUX_H

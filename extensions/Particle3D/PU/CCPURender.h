@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_RENDER_H__
-#define __CC_PU_PARTICLE_3D_RENDER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_RENDER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_RENDER_H
 
 #include <vector>
 
@@ -41,12 +41,12 @@ struct PUParticle3D;
 class CC_DLL PURender : public Particle3DRender
 {
 public:
-    virtual void prepare(){};
-    virtual void unPrepare(){};
-    virtual void updateRender(PUParticle3D* particle, float deltaTime, bool firstParticle){};
+    virtual void prepare() {}
+    virtual void unPrepare() {}
+    virtual void updateRender(PUParticle3D* particle, float deltaTime, bool firstParticle) {}
 
-    const std::string& getRenderType(void) const { return _renderType; };
-    void setRenderType(const std::string& observerType) { _renderType = observerType; };
+    const std::string& getRenderType(void) const { return _renderType; }
+    void setRenderType(const std::string& observerType) { _renderType = observerType; }
 
     virtual PURender* clone() = 0;
     void copyAttributesTo(PURender* render);
@@ -62,9 +62,9 @@ class CC_DLL PUParticle3DEntityRender : public PURender
 {
 public:
     void copyAttributesTo(PUParticle3DEntityRender* render);
-    virtual void reset() override;
+    void reset() override;
     CC_CONSTRUCTOR_ACCESS : PUParticle3DEntityRender();
-    virtual ~PUParticle3DEntityRender();
+    ~PUParticle3DEntityRender() override;
 
 protected:
     bool initRender(const std::string& texFile);
@@ -140,13 +140,13 @@ public:
     void setTextureCoordsColumns(unsigned short textureCoordsColumns);
     unsigned int getNumTextureCoords();
 
-    virtual void render(Renderer* renderer, const Mat4& transform, ParticleSystem3D* particleSystem) override;
+    void render(Renderer* renderer, const Mat4& transform, ParticleSystem3D* particleSystem) override;
 
-    virtual PUParticle3DQuadRender* clone() override;
+    PUParticle3DQuadRender* clone() override;
     void copyAttributesTo(PUParticle3DQuadRender* render);
 
     CC_CONSTRUCTOR_ACCESS : PUParticle3DQuadRender();
-    virtual ~PUParticle3DQuadRender();
+    ~PUParticle3DQuadRender() override;
 
 protected:
     void getOriginOffset(int& offsetX, int& offsetY);
@@ -173,14 +173,14 @@ class CC_DLL PUParticle3DModelRender : public PURender
 public:
     static PUParticle3DModelRender* create(const std::string& modelFile, const std::string& texFile = "");
 
-    virtual void render(Renderer* renderer, const Mat4& transform, ParticleSystem3D* particleSystem) override;
+    void render(Renderer* renderer, const Mat4& transform, ParticleSystem3D* particleSystem) override;
 
-    virtual PUParticle3DModelRender* clone() override;
+    PUParticle3DModelRender* clone() override;
     void copyAttributesTo(PUParticle3DModelRender* render);
 
-    virtual void reset() override;
+    void reset() override;
     CC_CONSTRUCTOR_ACCESS : PUParticle3DModelRender();
-    virtual ~PUParticle3DModelRender();
+    ~PUParticle3DModelRender() override;
 
 protected:
     std::vector<Sprite3D*> _spriteList;
@@ -194,12 +194,12 @@ class CC_DLL PUParticle3DBoxRender : public PUParticle3DEntityRender
 public:
     static PUParticle3DBoxRender* create(const std::string& texFile = "");
 
-    virtual void render(Renderer* renderer, const Mat4& transform, ParticleSystem3D* particleSystem) override;
+    void render(Renderer* renderer, const Mat4& transform, ParticleSystem3D* particleSystem) override;
 
-    virtual PUParticle3DBoxRender* clone() override;
+    PUParticle3DBoxRender* clone() override;
 
     CC_CONSTRUCTOR_ACCESS : PUParticle3DBoxRender();
-    virtual ~PUParticle3DBoxRender();
+    ~PUParticle3DBoxRender() override;
 
 protected:
     void reBuildIndices(unsigned short count);
@@ -210,13 +210,13 @@ class CC_DLL PUSphereRender : public PUParticle3DEntityRender
 public:
     static PUSphereRender* create(const std::string& texFile = "");
 
-    virtual void render(Renderer* renderer, const Mat4& transform, ParticleSystem3D* particleSystem) override;
+    void render(Renderer* renderer, const Mat4& transform, ParticleSystem3D* particleSystem) override;
 
-    virtual PUSphereRender* clone() override;
+    PUSphereRender* clone() override;
     void copyAttributesTo(PUSphereRender* render);
 
     CC_CONSTRUCTOR_ACCESS : PUSphereRender();
-    virtual ~PUSphereRender();
+    ~PUSphereRender() override;
 
 protected:
     void buildBuffers(unsigned short count);
@@ -228,4 +228,4 @@ protected:
 };
 
 NS_CC_END
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_RENDER_H

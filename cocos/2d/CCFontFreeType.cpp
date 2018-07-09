@@ -104,15 +104,15 @@ FontFreeType::FontFreeType(bool distanceFieldEnabled /* = false */, int outline 
 , _distanceFieldEnabled(distanceFieldEnabled)
 , _outlineSize(0.0f)
 , _lineHeight(0)
-, _fontAtlas(nullptr)
 , _encoding(FT_ENCODING_UNICODE)
+, _fontAtlas(nullptr)
 , _usedGlyphs(GlyphCollection::ASCII)
 {
     if (outline > 0)
     {
         _outlineSize = outline * CC_CONTENT_SCALE_FACTOR();
         FT_Stroker_New(FontFreeType::getFTLibrary(), &_stroker);
-        FT_Stroker_Set(_stroker, (int)(_outlineSize * 64), FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
+        FT_Stroker_Set(_stroker, static_cast<int>(_outlineSize * 64), FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
     }
 }
 
@@ -167,7 +167,7 @@ bool FontFreeType::createFontObject(const std::string& fontName, float fontSize)
 
     // set the requested font size
     int dpi = 72;
-    int fontSizePoints = (int)(64.f * fontSize * CC_CONTENT_SCALE_FACTOR());
+    int fontSizePoints = static_cast<int>(64.f * fontSize * CC_CONTENT_SCALE_FACTOR());
     if (FT_Set_Char_Size(face, fontSizePoints, fontSizePoints, dpi, dpi))
         return false;
 
@@ -424,9 +424,9 @@ unsigned char* FontFreeType::getGlyphBitmapWithOutline(unsigned short theChar, F
                     FT_Bitmap bmp;
                     bmp.buffer = new (std::nothrow) unsigned char[width * rows];
                     memset(bmp.buffer, 0, width * rows);
-                    bmp.width = (int)width;
-                    bmp.rows = (int)rows;
-                    bmp.pitch = (int)width;
+                    bmp.width = static_cast<int>(width);
+                    bmp.rows = static_cast<int>(rows);
+                    bmp.pitch = static_cast<int>(width);
                     bmp.pixel_mode = FT_PIXEL_MODE_GRAY;
                     bmp.num_grays = 256;
 
@@ -452,13 +452,13 @@ unsigned char* makeDistanceMap(unsigned char* img, long width, long height)
 {
     long pixelAmount = (width + 2 * FontFreeType::DistanceMapSpread) * (height + 2 * FontFreeType::DistanceMapSpread);
 
-    short* xdist = (short*)malloc(pixelAmount * sizeof(short));
-    short* ydist = (short*)malloc(pixelAmount * sizeof(short));
-    double* gx = (double*)calloc(pixelAmount, sizeof(double));
-    double* gy = (double*)calloc(pixelAmount, sizeof(double));
-    double* data = (double*)calloc(pixelAmount, sizeof(double));
-    double* outside = (double*)calloc(pixelAmount, sizeof(double));
-    double* inside = (double*)calloc(pixelAmount, sizeof(double));
+    short* xdist = reinterpret_cast<short*>(malloc(pixelAmount * sizeof(short)));
+    short* ydist = reinterpret_cast<short*>(malloc(pixelAmount * sizeof(short)));
+    double* gx = reinterpret_cast<double*>(calloc(pixelAmount, sizeof(double)));
+    double* gy = reinterpret_cast<double*>(calloc(pixelAmount, sizeof(double)));
+    double* data = reinterpret_cast<double*>(calloc(pixelAmount, sizeof(double)));
+    double* outside = reinterpret_cast<double*>(calloc(pixelAmount, sizeof(double)));
+    double* inside = reinterpret_cast<double*>(calloc(pixelAmount, sizeof(double)));
     long i, j;
 
     // Convert img into double (data) rescale image levels between 0 and 1
@@ -475,8 +475,8 @@ unsigned char* makeDistanceMap(unsigned char* img, long width, long height)
     height += 2 * FontFreeType::DistanceMapSpread;
 
     // Transform background (outside contour, in areas of 0's)
-    computegradient(data, (int)width, (int)height, gx, gy);
-    edtaa3(data, gx, gy, (int)width, (int)height, xdist, ydist, outside);
+    computegradient(data, static_cast<int>(width), static_cast<int>(height), gx, gy);
+    edtaa3(data, gx, gy, static_cast<int>(width), static_cast<int>(height), xdist, ydist, outside);
     for (i = 0; i < pixelAmount; i++)
         if (outside[i] < 0.0)
             outside[i] = 0.0;
@@ -484,8 +484,8 @@ unsigned char* makeDistanceMap(unsigned char* img, long width, long height)
     // Transform foreground (inside contour, in areas of 1's)
     for (i = 0; i < pixelAmount; i++)
         data[i] = 1 - data[i];
-    computegradient(data, (int)width, (int)height, gx, gy);
-    edtaa3(data, gx, gy, (int)width, (int)height, xdist, ydist, inside);
+    computegradient(data, static_cast<int>(width), static_cast<int>(height), gx, gy);
+    edtaa3(data, gx, gy, static_cast<int>(width), static_cast<int>(height), xdist, ydist, inside);
     for (i = 0; i < pixelAmount; i++)
         if (inside[i] < 0.0)
             inside[i] = 0.0;
@@ -493,7 +493,7 @@ unsigned char* makeDistanceMap(unsigned char* img, long width, long height)
     // The bipolar distance field is now outside-inside
     double dist;
     /* Single channel 8-bit output (bad precision and range, but simple) */
-    unsigned char* out = (unsigned char*)malloc(pixelAmount * sizeof(unsigned char));
+    unsigned char* out = reinterpret_cast<unsigned char*>(malloc(pixelAmount * sizeof(unsigned char)));
     for (i = 0; i < pixelAmount; i++)
     {
         dist = outside[i] - inside[i];
@@ -502,7 +502,7 @@ unsigned char* makeDistanceMap(unsigned char* img, long width, long height)
             dist = 0;
         if (dist > 255)
             dist = 255;
-        out[i] = (unsigned char)dist;
+        out[i] = static_cast<unsigned char>(dist);
     }
     /* Dual channel 16-bit output (more complicated, but good precision and range) */
     /*unsigned char *out = (unsigned char *) malloc( pixelAmount * 3 * sizeof(unsigned char) );
@@ -635,8 +635,6 @@ const char* FontFreeType::getGlyphCollection() const
             break;
         case cocos2d::GlyphCollection::CUSTOM:
             glyphCollection = _customGlyphs.c_str();
-            break;
-        default:
             break;
     }
 

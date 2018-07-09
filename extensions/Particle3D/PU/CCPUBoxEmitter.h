@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_BOX_EMITTER_H__
-#define __CC_PU_PARTICLE_3D_BOX_EMITTER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_BOXEMITTER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_BOXEMITTER_H
 
 #include "extensions/Particle3D/PU/CCPUEmitter.h"
 
@@ -55,16 +55,16 @@ public:
     float getDepth() const;
     void setDepth(const float depth);
 
-    virtual CCPUBoxEmitter* clone() override;
-    virtual void copyAttributesTo(PUEmitter* emitter) override;
+    CCPUBoxEmitter* clone() override;
+    void copyAttributesTo(PUEmitter* emitter) override;
 
-    CC_CONSTRUCTOR_ACCESS : CCPUBoxEmitter(void);
-    virtual ~CCPUBoxEmitter(void){};
+    CC_CONSTRUCTOR_ACCESS : CCPUBoxEmitter();
+    ~CCPUBoxEmitter() override = default;
 
 protected:
     /**
      */
-    virtual void initParticlePosition(PUParticle3D* particle) override;
+    void initParticlePosition(PUParticle3D* particle) override;
 
 protected:
     float _height;
@@ -77,4 +77,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_BOXEMITTER_H

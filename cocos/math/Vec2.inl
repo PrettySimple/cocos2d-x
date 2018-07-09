@@ -22,138 +22,168 @@
 
 NS_CC_MATH_BEGIN
 
-inline Vec2::Vec2(const float* array)
+inline Vec2::Vec2(float const* array)
 {
     set(array);
 }
 
-inline Vec2::Vec2(const Vec2& p1, const Vec2& p2)
+inline Vec2::Vec2(Vec2 const& p1, Vec2 const& p2)
 {
     set(p1, p2);
 }
 
 inline bool Vec2::isZero() const
 {
-    return x == 0.0f && y == 0.0f;
+    static constexpr auto const zero = f32x2_t{0.f, 0.f};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+    auto const eq = (v == zero);
+#pragma clang diagnostic pop
+    return eq[0] == -1 && eq[1] == -1;
 }
 
 bool Vec2::isOne() const
 {
-    return x == 1.0f && y == 1.0f;
+    static constexpr auto const one = f32x2_t{1.f, 1.f};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+    auto const eq = (v == one);
+#pragma clang diagnostic pop
+    return eq[0] == -1 && eq[1] == -1;
 }
 
-inline void Vec2::add(const Vec2& v)
+inline void Vec2::add(Vec2 const& other)
 {
-    x += v.x;
-    y += v.y;
+    v += other.v;
 }
 
-inline float Vec2::distanceSquared(const Vec2& v) const
+inline float Vec2::distanceSquared(Vec2 const& other) const
 {
-    float dx = v.x - x;
-    float dy = v.y - y;
-    return (dx * dx + dy * dy);
+    auto const diff = other.v - v;
+    auto const mul = diff * diff;
+    return mul[0] + mul[1];
 }
 
-inline float Vec2::dot(const Vec2& v) const
+inline float Vec2::dot(Vec2 const& other) const
 {
-    return (x * v.x + y * v.y);
+    auto const mul = v * other.v;
+    return mul[0] + mul[1];
 }
 
 inline float Vec2::lengthSquared() const
 {
-    return (x * x + y * y);
+    auto const mul = v * v;
+    return mul[0] + mul[1];
 }
 
 inline void Vec2::negate()
 {
-    x = -x;
-    y = -y;
+    v = -v;
 }
 
 inline void Vec2::scale(float scalar)
 {
-    x *= scalar;
-    y *= scalar;
+    v *= scalar;
 }
 
-inline void Vec2::scale(const Vec2& scale)
+inline void Vec2::scale(Vec2 const& scale)
 {
-    x *= scale.x;
-    y *= scale.y;
+    v *= scale.v;
 }
 
 inline void Vec2::set(float xx, float yy)
 {
-    this->x = xx;
-    this->y = yy;
+    v = {xx, yy};
 }
 
-inline void Vec2::set(const Vec2& v)
+inline void Vec2::set(Vec2 const& other)
 {
-    this->x = v.x;
-    this->y = v.y;
+    v = other.v;
 }
 
-inline void Vec2::set(const Vec2& p1, const Vec2& p2)
+inline void Vec2::set(Vec2 const& p1, Vec2 const& p2)
 {
-    x = p2.x - p1.x;
-    y = p2.y - p1.y;
+    v = p2.v - p1.v;
 }
 
 void Vec2::setZero()
 {
-    x = y = 0.0f;
+    v = {0.0f, 0.f};
 }
 
-inline void Vec2::subtract(const Vec2& v)
+inline void Vec2::subtract(Vec2 const& other)
 {
-    x -= v.x;
-    y -= v.y;
+    //    auto const t1 = std::chrono::high_resolution_clock::now();
+    //    auto const t2 = std::chrono::high_resolution_clock::now();
+    //    std::cout << "exec= " << (t2 - t1).count() << " ns\n";
+
+    /*
+     Options #1: Plain
+        x -= v.x;
+        y -= v.y;
+
+     Options #2: SSE
+        auto const l = _mm_movelh_ps(_mm_load_ss(&x), _mm_load_ss(&y));
+        auto const o = _mm_movelh_ps(_mm_load_ss(&other.x), _mm_load_ss(&other.y));
+        auto const diff = _mm_sub_ps(l, o);
+        x = _mm_cvtss_f32(_mm_shuffle_ps(diff, diff, _MM_SHUFFLE(0, 0, 0, 0)));
+        y = _mm_cvtss_f32(_mm_shuffle_ps(diff, diff, _MM_SHUFFLE(0, 0, 0, 2)));
+
+     Options #3: Vectors
+        v -= other.v;
+
+     Benchmark (in ns)
+                    |     avg | min |  max |          σ |
+         Vectors #3 |  90.440 |  40 |  606 |   4419.921 |
+         SSE     #2 | 459.133 | 103 | 2869 | 295263.971 |
+         Plain   #1 | 246.056 |  63 | 1824 |  79086.153 |
+     */
+
+    v -= other.v;
 }
 
-inline void Vec2::smooth(const Vec2& target, float elapsedTime, float responseTime)
+inline void Vec2::smooth(Vec2 const& target, float elapsedTime, float responseTime)
 {
-    if (elapsedTime > 0)
+    if (elapsedTime > 0.f)
     {
         *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
     }
 }
 
-inline const Vec2 Vec2::operator+(const Vec2& v) const
+inline Vec2 const Vec2::operator+(Vec2 const& v) const
 {
     Vec2 result(*this);
     result.add(v);
     return result;
 }
 
-inline Vec2& Vec2::operator+=(const Vec2& v)
+inline Vec2& Vec2::operator+=(Vec2 const& v)
 {
     add(v);
     return *this;
 }
 
-inline const Vec2 Vec2::operator-(const Vec2& v) const
+inline Vec2 const Vec2::operator-(Vec2 const& v) const
 {
     Vec2 result(*this);
     result.subtract(v);
     return result;
 }
 
-inline Vec2& Vec2::operator-=(const Vec2& v)
+inline Vec2& Vec2::operator-=(Vec2 const& v)
 {
     subtract(v);
     return *this;
 }
 
-inline const Vec2 Vec2::operator-() const
+inline Vec2 const Vec2::operator-() const
 {
     Vec2 result(*this);
     result.negate();
     return result;
 }
 
-inline const Vec2 Vec2::operator*(float s) const
+inline Vec2 const Vec2::operator*(float s) const
 {
     Vec2 result(*this);
     result.scale(s);
@@ -166,40 +196,38 @@ inline Vec2& Vec2::operator*=(float s)
     return *this;
 }
 
-inline const Vec2 Vec2::operator/(const float s) const
+inline Vec2 const Vec2::operator/(float s) const
 {
-    return Vec2(this->x / s, this->y / s);
+    return Vec2(v / s);
 }
 
-inline bool Vec2::operator<(const Vec2& v) const
+inline bool Vec2::operator<(Vec2 const& other) const
 {
-    if (x == v.x)
-    {
-        return y < v.y;
-    }
-    return x < v.x;
+    auto const lt = v < other.v;
+    return lt[0] == -1 && lt[1] == -1;
 }
 
-inline bool Vec2::operator>(const Vec2& v) const
+inline bool Vec2::operator>(Vec2 const& other) const
 {
-    if (x == v.x)
-    {
-        return y > v.y;
-    }
-    return x > v.x;
+    auto const gt = v > other.v;
+    return gt[0] == -1 && gt[1] == -1;
 }
 
-inline bool Vec2::operator==(const Vec2& v) const
+inline bool Vec2::operator==(Vec2 const& other) const
 {
-    return x == v.x && y == v.y;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+    auto const eq = (v == other.v);
+#pragma clang diagnostic pop
+    return eq[0] == -1 && eq[1] == -1;
 }
 
-inline bool Vec2::operator!=(const Vec2& v) const
+inline bool Vec2::operator!=(Vec2 const& v) const
 {
-    return x != v.x || y != v.y;
+    return !operator==(v);
 }
 
-inline const Vec2 operator*(float x, const Vec2& v)
+inline Vec2 const operator*(float x, Vec2 const& v)
 {
     Vec2 result(v);
     result.scale(x);
@@ -208,8 +236,7 @@ inline const Vec2 operator*(float x, const Vec2& v)
 
 void Vec2::setPoint(float xx, float yy)
 {
-    this->x = xx;
-    this->y = yy;
+    v = {xx, yy};
 }
 
 NS_CC_MATH_END

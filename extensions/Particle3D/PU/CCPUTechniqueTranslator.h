@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_TECHNIQUE_TRANSLATOR_H__
-#define __CC_PU_PARTICLE_3D_TECHNIQUE_TRANSLATOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_TECHNIQUETRANSLATOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_TECHNIQUETRANSLATOR_H
 
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 #include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
@@ -45,4 +45,4 @@ public:
 
 NS_CC_END
 
-#endif /* defined(__cocos2d_libs__CCParticle3DTechniqueTranslator__) */
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_TECHNIQUETRANSLATOR_H

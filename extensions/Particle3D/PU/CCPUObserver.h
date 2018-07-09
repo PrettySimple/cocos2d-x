@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_OBSERVER_H__
-#define __CC_PU_PARTICLE_3D_OBSERVER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_OBSERVER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_OBSERVER_H
 
 #include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
@@ -62,8 +62,8 @@ public:
 
     /** Todo
      */
-    const std::string& getObserverType(void) const { return _observerType; };
-    void setObserverType(const std::string& observerType) { _observerType = observerType; };
+    const std::string& getObserverType(void) const { return _observerType; }
+    void setObserverType(const std::string& observerType) { _observerType = observerType; }
 
     /** Todo
      */
@@ -90,16 +90,18 @@ public:
 
     /** Todo
      */
-    const std::string& getName(void) const { return _name; };
-    void setName(const std::string& name) { _name = name; };
+    const std::string& getName(void) const { return _name; }
+    void setName(const std::string& name) { _name = name; }
 
     /** Todo
      */
-    const PUParticle3D::ParticleType& getParticleTypeToObserve(void) const { return _particleTypeToObserve; };
+    const PUParticle3D::ParticleType& getParticleTypeToObserve(void) const { return _particleTypeToObserve; }
     void setParticleTypeToObserve(const PUParticle3D::ParticleType particleTypeToObserve);
 
-    virtual void notifyStart(void);
-    virtual void notifyStop(void){/* Do nothing */};
+    virtual void notifyStart();
+    virtual void notifyStop()
+    { /* Do nothing */
+    }
     virtual void notifyRescaled(const Vec3& scale);
     virtual void preUpdateObserver(float deltaTime);
     virtual void updateObserver(PUParticle3D* particle, float deltaTime, bool firstParticle);
@@ -238,4 +240,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_OBSERVER_H

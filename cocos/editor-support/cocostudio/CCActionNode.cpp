@@ -575,7 +575,7 @@ namespace cocostudio
                 continue;
             }
             bFindFrame = true;
-            ssize_t lastInex = cArray->size() - 1;
+            std::size_t lastInex = cArray->size() - 1;
             auto frame = cArray->at(lastInex);
             int iFrameIndex = frame->getFrameIndex();
 
@@ -603,7 +603,7 @@ namespace cocostudio
             {
                 continue;
             }
-            ssize_t frameCount = cArray->size();
+            std::size_t frameCount = cArray->size();
             for (int i = 0; i < frameCount; i++)
             {
                 auto frame = cArray->at(i);

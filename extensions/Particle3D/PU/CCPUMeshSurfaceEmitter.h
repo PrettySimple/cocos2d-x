@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_MESH_SURFACE_EMITTER_H__
-#define __CC_PU_PARTICLE_MESH_SURFACE_EMITTER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_MESHSURFACEEMITTER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_MESHSURFACEEMITTER_H
 
 #include "extensions/Particle3D/PU/CCPUEmitter.h"
 
@@ -57,7 +57,7 @@ public:
     Vec3 en3; // Normal of edge v3-v1
 
     /** Constructor **/
-    PUTriangle(void){};
+    PUTriangle() {}
 
     /** Calculate the (square) surface of the triangle **/
     void calculateSquareSurface(void);
@@ -170,7 +170,7 @@ public:
 
     /** Returns the mesh name.
      */
-    const std::string& getMeshName(void) const;
+    const std::string& getMeshName() const;
 
     /** Sets the mesh name.
      */
@@ -178,7 +178,7 @@ public:
 
     /** Returns true if normals are used for the particle direction.
      */
-    bool useNormals(void) const;
+    bool useNormals() const;
 
     /** Set indication whether normals are used for the particle direction.
      */
@@ -197,7 +197,7 @@ public:
 
     /** Returns the scale of the mesh.
      */
-    const Vec3& getScale(void) const;
+    const Vec3& getScale() const;
 
     /** Set the scale of the mesh.
     @remarks
@@ -207,33 +207,33 @@ public:
 
     /** Build all the data needed to generate the particles.
      */
-    void build(void);
+    void build();
 
     /** Build the data if the mesh name has been set.
      */
-    virtual void prepare() override;
+    void prepare() override;
 
     /** Reverse it.
      */
-    virtual void unPrepare() override;
+    void unPrepare() override;
 
     /** Determine a particle position on the mesh surface.
      */
-    virtual void initParticlePosition(PUParticle3D* particle) override;
+    void initParticlePosition(PUParticle3D* particle) override;
 
     /** See ParticleEmitter.
      */
-    virtual unsigned short calculateRequestedParticles(float timeElapsed) override;
+    unsigned short calculateRequestedParticles(float timeElapsed) override;
 
     /** Determine the particle direction.
      */
-    virtual void initParticleDirection(PUParticle3D* particle) override;
+    void initParticleDirection(PUParticle3D* particle) override;
 
-    virtual PUMeshSurfaceEmitter* clone() override;
-    virtual void copyAttributesTo(PUEmitter* emitter) override;
+    PUMeshSurfaceEmitter* clone() override;
+    void copyAttributesTo(PUEmitter* emitter) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUMeshSurfaceEmitter(void);
-    virtual ~PUMeshSurfaceEmitter(void);
+    CC_CONSTRUCTOR_ACCESS : PUMeshSurfaceEmitter();
+    ~PUMeshSurfaceEmitter() override;
 
 protected:
     std::string _meshName;
@@ -247,4 +247,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_MESHSURFACEEMITTER_H

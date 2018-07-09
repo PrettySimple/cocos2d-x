@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_PARTICLE_FOLLOWER_H__
-#define __CC_PU_PARTICLE_3D_PARTICLE_FOLLOWER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_PARTICLEFOLLOWER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_PARTICLEFOLLOWER_H
 
 #include "base/ccTypes.h"
 #include "extensions/Particle3D/PU/CCPUAffector.h"
@@ -40,23 +40,23 @@ public:
 
     static PUParticleFollower* create();
 
-    virtual void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
-    virtual void firstParticleUpdate(PUParticle3D* particle, float deltaTime) override;
+    void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
+    void firstParticleUpdate(PUParticle3D* particle, float deltaTime) override;
 
     /**
      */
-    float getMaxDistance(void) const;
+    float getMaxDistance() const;
     void setMaxDistance(float maxDistance);
 
     /**
      */
-    float getMinDistance(void) const;
+    float getMinDistance() const;
     void setMinDistance(float minDistance);
 
-    virtual void copyAttributesTo(PUAffector* affector) override;
+    void copyAttributesTo(PUAffector* affector) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUParticleFollower(void);
-    virtual ~PUParticleFollower(void);
+    CC_CONSTRUCTOR_ACCESS : PUParticleFollower();
+    ~PUParticleFollower() override;
 
 protected:
     float _minDistance;
@@ -66,4 +66,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_PARTICLEFOLLOWER_H
