@@ -23,8 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __BASE_CCFPSIMAGES__H
-#define __BASE_CCFPSIMAGES__H
+#ifndef CC_BASE_FPSIMAGE_H
+#define CC_BASE_FPSIMAGE_H
 /// @cond DO_NOT_SHOW
 
 #ifdef __cplusplus
@@ -40,4 +40,4 @@ extern "C"
 #endif
 
 /// @endcond
-#endif // __BASE_CCFPSIMAGES__H
+#endif // CC_BASE_FPSIMAGE_H

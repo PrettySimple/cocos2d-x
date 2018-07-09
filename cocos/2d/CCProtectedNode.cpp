@@ -151,7 +151,7 @@ void ProtectedNode::removeProtectedChild(cocos2d::Node* child, bool cleanup)
         return;
     }
 
-    ssize_t index = _protectedChildren.getIndex(child);
+    std::size_t index = _protectedChildren.getIndex(child);
     if (index != CC_INVALID_INDEX)
     {
         // IMPORTANT:
@@ -269,7 +269,7 @@ void ProtectedNode::reorderProtectedChild(cocos2d::Node* child, int localZOrder)
     child->setLocalZOrder(localZOrder);
 }
 
-void ProtectedNode::visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags)
+void ProtectedNode::visit(Renderer* renderer, const Mat4& parentTransform, std::uint32_t parentFlags)
 {
     // quick return if not visible. children won't be drawn.
     if (!_visible)
@@ -277,7 +277,7 @@ void ProtectedNode::visit(Renderer* renderer, const Mat4& parentTransform, uint3
         return;
     }
 
-    uint32_t flags = processParentFlags(parentTransform, parentFlags);
+    std::uint32_t flags = processParentFlags(parentTransform, parentFlags);
 
     // IMPORTANT:
     // To ease the migration to v3.0, we still support the Mat4 stack,
@@ -287,8 +287,8 @@ void ProtectedNode::visit(Renderer* renderer, const Mat4& parentTransform, uint3
     director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
     director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
 
-    int i = 0; // used by _children
-    int j = 0; // used by _protectedChildren
+    std::size_t i = 0; // used by _children
+    std::size_t j = 0; // used by _protectedChildren
 
     sortAllChildren();
     sortAllProtectedChildren();

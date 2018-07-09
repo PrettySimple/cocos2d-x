@@ -27,8 +27,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCGLPROGRAM_H__
-#define __CCGLPROGRAM_H__
+#ifndef CC_RENDERER_GLPROGRAM_H
+#define CC_RENDERER_GLPROGRAM_H
 
 #include "base/CCRef.h"
 #include "base/ccMacros.h"
@@ -628,4 +628,4 @@ NS_CC_END
  end of support group
  @}
  */
-#endif /* __CCGLPROGRAM_H__ */
+#endif // CC_RENDERER_GLPROGRAM_H

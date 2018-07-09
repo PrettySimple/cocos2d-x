@@ -1,5 +1,5 @@
-#ifndef _CCB_CCBREADER_H_
-#define _CCB_CCBREADER_H_
+#ifndef CC_EDITORSUPPORT_COCOSBUILDER_READER_H
+#define CC_EDITORSUPPORT_COCOSBUILDER_READER_H
 
 #include "2d/CCNode.h"
 #include "CCBSequence.h"
@@ -420,4 +420,4 @@ namespace cocosbuilder
 
 } // namespace cocosbuilder
 
-#endif
+#endif // CC_EDITORSUPPORT_COCOSBUILDER_READER_H

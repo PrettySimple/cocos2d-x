@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_FRUSTUM_H_
-#define __CC_FRUSTUM_H_
+#ifndef CC_3D_FRUSTUM_H
+#define CC_3D_FRUSTUM_H
 
 #include "3d/CCAABB.h"
 #include "3d/CCOBB.h"
@@ -89,4 +89,4 @@ protected:
 
 NS_CC_END
 
-#endif //__CC_FRUSTUM_H_
+#endif // CC_3D_FRUSTUM_H

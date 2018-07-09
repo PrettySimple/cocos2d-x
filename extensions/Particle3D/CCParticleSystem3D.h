@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PARTICLE_SYSTEM_3D_H__
-#define __CC_PARTICLE_SYSTEM_3D_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_SYSTEM3D_H
+#define CC_EXTENSIONS_PARTICLE3D_SYSTEM3D_H
 
 #include "2d/CCNode.h"
 #include "math/CCMath.h"
@@ -59,14 +59,14 @@ struct CC_DLL Particle3D
 };
 
 template <typename T>
-class CC_DLL DataPool
+class CC_DLL DataPool final
 {
 public:
     typedef typename std::list<T*> PoolList;
     typedef typename std::list<T*>::iterator PoolIterator;
 
-    DataPool(){};
-    ~DataPool(){};
+    DataPool() {}
+    ~DataPool() {}
 
     T* createData()
     {
@@ -130,12 +130,12 @@ public:
         return *_releasedIter;
     }
 
-    const PoolList& getActiveDataList() const { return _released; };
-    const PoolList& getUnActiveDataList() const { return _locked; };
+    const PoolList& getActiveDataList() const { return _released; }
+    const PoolList& getUnActiveDataList() const { return _locked; }
 
     void addData(T* data) { _locked.push_back(data); }
 
-    bool empty() const { return _released.empty(); };
+    bool empty() const { return _released.empty(); }
 
     void removeAllDatas()
     {
@@ -275,7 +275,7 @@ public:
     bool isEnabled(void) const { return _isEnabled; }
 
     CC_CONSTRUCTOR_ACCESS : ParticleSystem3D();
-    virtual ~ParticleSystem3D();
+    ~ParticleSystem3D() override;
 
 protected:
     State _state;
@@ -296,4 +296,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_SYSTEM3D_H

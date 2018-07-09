@@ -23,8 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __BASE_CC_PLATFORM_CONFIG_H__
-#define __BASE_CC_PLATFORM_CONFIG_H__
+#ifndef CC_PLATFORM_PLATFORMCONFIG_H
+#define CC_PLATFORM_PLATFORMCONFIG_H
 /// @cond DO_NOT_SHOW
 
 /**
@@ -150,4 +150,4 @@ THE SOFTWARE.
 #endif // CC_PLATFORM_WIN32
 
 /// @endcond
-#endif // __BASE_CC_PLATFORM_CONFIG_H__
+#endif // CC_PLATFORM_PLATFORMCONFIG_H

@@ -23,8 +23,6 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#define LOG_TAG "ALAudioPlayer"
-
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
@@ -256,7 +254,7 @@ void ALAudioPlayer::rotateBufferThread(int offsetFrame)
                 uint32_t framesRead = 0;
                 const uint32_t framesToRead = _audioCache._queBufferFrames;
                 const uint32_t bufferSize = framesToRead * decoder.getBytesPerFrame();
-                tmpBuffer = (char*)malloc(bufferSize);
+                tmpBuffer = reinterpret_cast<char*>(malloc(bufferSize));
                 memset(tmpBuffer, 0, bufferSize);
 
                 if (offsetFrame != 0)

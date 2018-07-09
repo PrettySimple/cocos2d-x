@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __COCOS2D__UI__WEBVIEWIMPL_TIZEN_H_
-#define __COCOS2D__UI__WEBVIEWIMPL_TIZEN_H_
+#ifndef CC_UI_WEBVIEWIMPLTIZEN_H
+#define CC_UI_WEBVIEWIMPLTIZEN_H
 
 #include "platform/CCPlatformConfig.h"
 
@@ -105,4 +105,4 @@ namespace cocos2d
 
 #endif // #if (CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN)
 
-#endif /* __COCOS2D__UI__WEBVIEWIMPL_TIZEN_H_ */
+#endif // CC_UI_WEBVIEWIMPLTIZEN_H

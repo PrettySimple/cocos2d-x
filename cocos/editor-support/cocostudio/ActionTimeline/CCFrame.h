@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCFRAME_H__
-#define __CCFRAME_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_FRAME_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_FRAME_H
 
 #include "2d/CCNode.h"
 #include "2d/CCSprite.h"
@@ -431,4 +431,4 @@ private:
 };
 NS_TIMELINE_END
 
-#endif /*__CCFRAME_H__*/
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_FRAME_H

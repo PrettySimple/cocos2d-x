@@ -23,8 +23,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CCRENDER_TEXTURE_H__
-#define __CCRENDER_TEXTURE_H__
+#ifndef CC_2D_RENDERTEXTURE_H
+#define CC_2D_RENDERTEXTURE_H
 
 #include "2d/CCNode.h"
 #include "2d/CCSprite.h"
@@ -148,7 +148,7 @@ public:
      */
     Image* newImage(bool flipImage = true);
 
-    CC_DEPRECATED_ATTRIBUTE Image* newCCImage(bool flipImage = true) { return newImage(flipImage); };
+    CC_DEPRECATED_ATTRIBUTE Image* newCCImage(bool flipImage = true) { return newImage(flipImage); }
 
     /** Saves the texture into a file using JPEG format. The file will be saved in the Documents folder.
      * Returns true if the operation is successful.
@@ -302,7 +302,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~RenderTexture();
+    ~RenderTexture() override;
     /** Initializes a RenderTexture object with width and height in Points and a pixel format, only RGB and RGBA formats are valid.
      *
      * @param w The RenderTexture object width.
@@ -385,7 +385,7 @@ protected:
     Mat4 _transformMatrix, _projectionMatrix;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(RenderTexture);
+    CC_DISALLOW_COPY_AND_ASSIGN(RenderTexture)
 };
 
 // end of textures group
@@ -393,4 +393,4 @@ private:
 
 NS_CC_END
 
-#endif //__CCRENDER_TEXTURE_H__
+#endif // CC_2D_RENDERTEXTURE_H

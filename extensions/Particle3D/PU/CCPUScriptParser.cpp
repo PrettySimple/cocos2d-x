@@ -63,9 +63,9 @@ void PUScriptParser::parse(PUConcreteNodeList& nodes, const PUScriptTokenList& t
     };
     unsigned int state = READY;
 
-    PUConcreteNode* parent = 0;
+    PUConcreteNode* parent = nullptr;
     PUConcreteNode* node;
-    PUScriptToken* token = 0;
+    PUScriptToken* token = nullptr;
     PUScriptTokenList::const_iterator i = tokens.begin(), end = tokens.end();
     //  int kkkk = 0;
     while (i != end)
@@ -134,7 +134,7 @@ void PUScriptParser::parse(PUConcreteNodeList& nodes, const PUScriptTokenList& t
                         }
                         else
                         {
-                            node->parent = 0;
+                            node->parent = nullptr;
                             nodes.push_back(node);
                         }
                         node = nullptr;
@@ -189,7 +189,7 @@ void PUScriptParser::parse(PUConcreteNodeList& nodes, const PUScriptTokenList& t
                         }
                         else
                         {
-                            node->parent = 0;
+                            node->parent = nullptr;
                             nodes.push_back(node);
                         }
                         node = nullptr;
@@ -213,7 +213,7 @@ void PUScriptParser::parse(PUConcreteNodeList& nodes, const PUScriptTokenList& t
                         }
                         else
                         {
-                            node->parent = 0;
+                            node->parent = nullptr;
                             nodes.push_back(node);
                         }
 
@@ -249,7 +249,7 @@ void PUScriptParser::parse(PUConcreteNodeList& nodes, const PUScriptTokenList& t
                     }
                     else
                     {
-                        node->parent = 0;
+                        node->parent = nullptr;
                         nodes.push_back(node);
                     }
 
@@ -315,7 +315,7 @@ void PUScriptParser::parse(PUConcreteNodeList& nodes, const PUScriptTokenList& t
                     }
                     else
                     {
-                        node->parent = 0;
+                        node->parent = nullptr;
                         nodes.push_back(node);
                     }
                     node = nullptr;
@@ -339,7 +339,7 @@ void PUScriptParser::parse(PUConcreteNodeList& nodes, const PUScriptTokenList& t
                     }
                     else
                     {
-                        node->parent = 0;
+                        node->parent = nullptr;
                         nodes.push_back(node);
                     }
 
@@ -378,7 +378,7 @@ void PUScriptParser::parse(PUConcreteNodeList& nodes, const PUScriptTokenList& t
                     }
                     else
                     {
-                        node->parent = 0;
+                        node->parent = nullptr;
                         nodes.push_back(node);
                     }
 
@@ -405,7 +405,7 @@ void PUScriptParser::parse(PUConcreteNodeList& nodes, const PUScriptTokenList& t
                     }
                     else
                     {
-                        node->parent = 0;
+                        node->parent = nullptr;
                         nodes.push_back(node);
                     }
                     node = nullptr;
@@ -426,7 +426,7 @@ void PUScriptParser::parse(PUConcreteNodeList& nodes, const PUScriptTokenList& t
                     }
                     else
                     {
-                        node->parent = 0;
+                        node->parent = nullptr;
                         nodes.push_back(node);
                     }
                     node = nullptr;
@@ -447,7 +447,7 @@ void PUScriptParser::parse(PUConcreteNodeList& nodes, const PUScriptTokenList& t
                     }
                     else
                     {
-                        node->parent = 0;
+                        node->parent = nullptr;
                         nodes.push_back(node);
                     }
                     node = nullptr;
@@ -465,7 +465,7 @@ void PUScriptParser::parse(PUConcreteNodeList& nodes, const PUScriptTokenList& t
 void PUScriptParser::parseChunk(PUConcreteNodeList& nodes, const PUScriptTokenList& tokens)
 {
     PUConcreteNode* node = nullptr;
-    PUScriptToken* token = 0;
+    PUScriptToken* token = nullptr;
     for (PUScriptTokenList::const_iterator i = tokens.begin(); i != tokens.end(); ++i)
     {
         token = *i;
@@ -477,7 +477,7 @@ void PUScriptParser::parseChunk(PUConcreteNodeList& nodes, const PUScriptTokenLi
                 node = new (std::nothrow) PUConcreteNode;
                 node->file = token->file;
                 node->line = token->line;
-                node->parent = 0;
+                node->parent = nullptr;
                 node->token = token->lexeme;
                 node->type = CNT_VARIABLE;
                 break;
@@ -485,7 +485,7 @@ void PUScriptParser::parseChunk(PUConcreteNodeList& nodes, const PUScriptTokenLi
                 node = new (std::nothrow) PUConcreteNode;
                 node->file = token->file;
                 node->line = token->line;
-                node->parent = 0;
+                node->parent = nullptr;
                 node->token = token->lexeme;
                 node->type = CNT_WORD;
                 break;
@@ -493,7 +493,7 @@ void PUScriptParser::parseChunk(PUConcreteNodeList& nodes, const PUScriptTokenLi
                 node = new (std::nothrow) PUConcreteNode;
                 node->file = token->file;
                 node->line = token->line;
-                node->parent = 0;
+                node->parent = nullptr;
                 node->token = token->lexeme.substr(1, token->lexeme.size() - 2);
                 node->type = CNT_QUOTE;
             default:
@@ -507,7 +507,7 @@ void PUScriptParser::parseChunk(PUConcreteNodeList& nodes, const PUScriptTokenLi
 
 PUScriptToken* PUScriptParser::getToken(PUScriptTokenList::iterator i, PUScriptTokenList::iterator end, int offset)
 {
-    PUScriptToken* token = 0;
+    PUScriptToken* token = nullptr;
     PUScriptTokenList::iterator iter = i + offset;
     if (iter != end)
         token = (*i);

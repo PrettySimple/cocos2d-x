@@ -22,8 +22,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __AUTORELEASEPOOL_H__
-#define __AUTORELEASEPOOL_H__
+#ifndef CC_BASE_AUTORELEASEPOOL_H
+#define CC_BASE_AUTORELEASEPOOL_H
 
 #include "base/CCRef.h"
 #include <string>
@@ -97,7 +97,7 @@ public:
      * @js NA
      * @lua NA
      */
-    bool isClearing() const { return _isClearing; };
+    bool isClearing() const { return _isClearing; }
 #endif
 
     /**
@@ -184,4 +184,4 @@ private:
 
 NS_CC_END
 
-#endif //__AUTORELEASEPOOL_H__
+#endif // CC_BASE_AUTORELEASEPOOL_H

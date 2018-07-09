@@ -35,7 +35,6 @@
 #include "base/CCEventCustom.h"
 #include "base/CCEventDispatcher.h"
 #include "base/CCScriptSupport.h"
-#include "platform/CCStdC.h"
 
 #include <cmath>
 #include <cstdarg>
@@ -213,6 +212,7 @@ void Sequence::update(float p)
                 {
                     action->update(0.f);
                 }
+                [[clang::fallthrough]];
             case Action::Status::RUNNING:
                 if (d == 0ms || (duration > 0ms && duration >= d))
                 {
@@ -631,6 +631,7 @@ void Spawn::update(float p)
                 {
                     action->update(0.f);
                 }
+                [[clang::fallthrough]];
             case Action::Status::RUNNING:
                 if (d == 0ms || (duration > 0ms && duration >= d))
                 {
@@ -2100,7 +2101,7 @@ void FadeTo::update(float time)
 {
     if (_target)
     {
-        _target->setOpacity((GLubyte)(_fromOpacity + (_toOpacity - _fromOpacity) * time));
+        _target->setOpacity(static_cast<GLubyte>(_fromOpacity + (_toOpacity - _fromOpacity) * time));
     }
 }
 
@@ -2161,8 +2162,8 @@ void TintTo::update(float time)
 {
     if (_target)
     {
-        _target->setColor(
-            Color3B(GLubyte(_from.r + (_to.r - _from.r) * time), (GLubyte)(_from.g + (_to.g - _from.g) * time), (GLubyte)(_from.b + (_to.b - _from.b) * time)));
+        _target->setColor(Color3B(GLubyte(_from.r + (_to.r - _from.r) * time), static_cast<GLubyte>(_from.g + (_to.g - _from.g) * time),
+                                  static_cast<GLubyte>(_from.b + (_to.b - _from.b) * time)));
     }
 }
 
@@ -2220,7 +2221,8 @@ void TintBy::update(float time)
 {
     if (_target)
     {
-        _target->setColor(Color3B((GLubyte)(_fromR + _deltaR * time), (GLubyte)(_fromG + _deltaG * time), (GLubyte)(_fromB + _deltaB * time)));
+        _target->setColor(Color3B(static_cast<GLubyte>(_fromR + _deltaR * time), static_cast<GLubyte>(_fromG + _deltaG * time),
+                                  static_cast<GLubyte>(_fromB + _deltaB * time)));
     }
 }
 
@@ -2251,10 +2253,8 @@ DelayTime* DelayTime::clone() const
     return DelayTime::create(_duration);
 }
 
-void DelayTime::update(float time)
+void DelayTime::update(float)
 {
-    CC_UNUSED_PARAM(time);
-    return;
 }
 
 DelayTime* DelayTime::reverse() const
@@ -2343,7 +2343,7 @@ void ReverseTime::update(float p)
 ReverseTime* ReverseTime::reverse() const
 {
     // FIXME: This looks like a bug
-    return (ReverseTime*)_other->clone();
+    return static_cast<ReverseTime*>(_other->clone());
 }
 
 //
@@ -2362,22 +2362,10 @@ Animate* Animate::create(Animation* animation)
     return nullptr;
 }
 
-Animate::Animate()
-: _splitTimes(new std::vector<float>)
-, _nextFrame(0)
-, _origFrame(nullptr)
-, _executedLoops(0)
-, _animation(nullptr)
-, _frameDisplayedEvent(nullptr)
-, _currFrameIndex(0)
-{
-}
-
 Animate::~Animate()
 {
     CC_SAFE_RELEASE(_animation);
     CC_SAFE_RELEASE(_origFrame);
-    CC_SAFE_DELETE(_splitTimes);
     CC_SAFE_RELEASE(_frameDisplayedEvent);
 }
 
@@ -2399,7 +2387,7 @@ bool Animate::initWithAnimation(Animation* animation)
         _origFrame = nullptr;
         _executedLoops = 0;
 
-        _splitTimes->reserve(animation->getFrames().size());
+        _splitTimes.reserve(animation->getFrames().size());
 
         auto accumUnitsOfTime = 0ms;
         float newUnitOfTimeValue = static_cast<float>(singleDuration.count()) / animation->getTotalDelayUnits().count();
@@ -2409,7 +2397,7 @@ bool Animate::initWithAnimation(Animation* animation)
         {
             float value = static_cast<float>((accumUnitsOfTime * newUnitOfTimeValue).count()) / singleDuration.count();
             accumUnitsOfTime += frame->getDelayUnits();
-            _splitTimes->push_back(value);
+            _splitTimes.emplace_back(value);
         }
         return true;
     }
@@ -2468,7 +2456,7 @@ void Animate::update(float t)
         t *= _animation->getLoops();
 
         // new loop?  If so, reset frame counter
-        unsigned int loopNumber = (unsigned int)t;
+        unsigned int loopNumber = static_cast<unsigned int>(t);
         if (loopNumber > _executedLoops)
         {
             _nextFrame = 0;
@@ -2483,9 +2471,9 @@ void Animate::update(float t)
     auto numberOfFrames = frames.size();
     SpriteFrame* frameToDisplay = nullptr;
 
-    for (int i = _nextFrame; i < numberOfFrames; i++)
+    for (std::size_t i = _nextFrame; i < numberOfFrames; i++)
     {
-        float splitTime = _splitTimes->at(i);
+        float splitTime = _splitTimes.at(i);
 
         if (splitTime <= t)
         {

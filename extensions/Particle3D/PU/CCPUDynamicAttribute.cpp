@@ -25,7 +25,6 @@
 
 #include "CCPUDynamicAttribute.h"
 #include "base/ccRandom.h"
-#include "platform/CCStdC.h"
 
 NS_CC_BEGIN
 //-----------------------------------------------------------------------

@@ -22,7 +22,6 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#define LOG_TAG "AudioCache"
 
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
@@ -64,7 +63,7 @@ static ALvoid alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* dat
 
     if (proc == nullptr)
     {
-        proc = (alBufferDataStaticProcPtr)alcGetProcAddress(nullptr, (const ALCchar*)"alBufferDataStatic");
+        proc = reinterpret_cast<alBufferDataStaticProcPtr>(alcGetProcAddress(nullptr, static_cast<const ALCchar*>("alBufferDataStatic")));
     }
 
     if (proc)
@@ -83,9 +82,8 @@ static ALvoid alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* dat
 
 @implementation NSTimerWrapper
 
-- (id)initWithTimeInterval:(double)seconds callback:(const std::function<void()>&)cb
-{
-    if (self = [super init])
+- (id)initWithTimeInterval:(double)seconds callback:(const std::function<void()>&)cb {
+    if ((self = [super init]))
     {
         _timeoutCallback = cb;
         NSTimer* timer = [NSTimer timerWithTimeInterval:seconds target:self selector:@selector(onTimeoutCallback:) userInfo:nil repeats:NO];
@@ -95,8 +93,7 @@ static ALvoid alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* dat
     return self;
 }
 
-- (void)onTimeoutCallback:(NSTimer*)timer
-{
+- (void)onTimeoutCallback:(NSTimer*)timer {
     if (_timeoutCallback != nullptr)
     {
         _timeoutCallback();
@@ -104,8 +101,7 @@ static ALvoid alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* dat
     }
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [super dealloc];
 }
 
@@ -222,7 +218,7 @@ void AudioCache::readDataTask(unsigned int selfId)
         uint32_t adjustFrames = 0;
 
         _format = channelCount > 1 ? AL_FORMAT_STEREO16 : AL_FORMAT_MONO16;
-        _sampleRate = (ALsizei)sampleRate;
+        _sampleRate = static_cast<ALsizei>(sampleRate);
         _duration = std::chrono::milliseconds(static_cast<std::size_t>(1000.0f * static_cast<float>(totalFrames) / sampleRate));
         _totalFrames = totalFrames;
 
@@ -233,7 +229,7 @@ void AudioCache::readDataTask(unsigned int selfId)
 
             BREAK_IF_ERR_LOG(!decoder.seek(totalFrames), "AudioDecoder::seek(%u) error", totalFrames);
 
-            char* tmpBuf = (char*)malloc(framesToReadOnce * bytesPerFrame);
+            char* tmpBuf = reinterpret_cast<char*>(malloc(framesToReadOnce * bytesPerFrame));
             std::vector<char> adjustFrameBuf;
             adjustFrameBuf.reserve(framesToReadOnce * bytesPerFrame);
 
@@ -265,7 +261,7 @@ void AudioCache::readDataTask(unsigned int selfId)
             // Reset to frame 0
             BREAK_IF_ERR_LOG(!decoder.seek(0), "AudioDecoder::seek(0) failed!");
 
-            _pcmData = (char*)malloc(dataSize);
+            _pcmData = reinterpret_cast<char*>(malloc(dataSize));
             memset(_pcmData, 0x00, dataSize);
 
             if (adjustFrames > 0)
@@ -284,7 +280,7 @@ void AudioCache::readDataTask(unsigned int selfId)
             if (*_isDestroyed)
                 break;
 
-            alBufferDataStaticProc(_alBufferId, _format, _pcmData, (ALsizei)dataSize, (ALsizei)sampleRate);
+            alBufferDataStaticProc(_alBufferId, _format, _pcmData, static_cast<ALsizei>(dataSize), static_cast<ALsizei>(sampleRate));
 
             framesRead = decoder.readFixedFrames(std::min(framesToReadOnce, remainingFrames), _pcmData + _framesRead * bytesPerFrame);
             _framesRead += framesRead;
@@ -330,7 +326,7 @@ void AudioCache::readDataTask(unsigned int selfId)
 
             for (int index = 0; index < QUEUEBUFFER_NUM; ++index)
             {
-                _queBuffers[index] = (char*)malloc(queBufferBytes);
+                _queBuffers[index] = reinterpret_cast<char*>(malloc(queBufferBytes));
                 _queBufferSize[index] = queBufferBytes;
 
                 decoder.readFixedFrames(_queBufferFrames, _queBuffers[index]);
@@ -378,10 +374,6 @@ void AudioCache::addPlayCallback(const std::function<void()>& callback)
         case State::FAILED:
             callback();
             break;
-
-        default:
-            ALOGE("Invalid state: %d", _state);
-            break;
     }
 }
 
@@ -411,10 +403,6 @@ void AudioCache::addLoadCallback(const std::function<void(bool)>& callback)
             break;
         case State::FAILED:
             callback(false);
-            break;
-
-        default:
-            ALOGE("Invalid state: %d", _state);
             break;
     }
 }

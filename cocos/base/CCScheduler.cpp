@@ -41,6 +41,10 @@ NS_CC_BEGIN
 
 // Timer
 
+Timer::~Timer()
+{
+}
+
 void Timer::setupTimerWithInterval(std::chrono::milliseconds seconds, std::uint32_t repeat, std::chrono::milliseconds delay)
 {
     _elapsed = std::chrono::milliseconds::max();

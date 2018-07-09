@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__PageViewReader__
-#define __TestCpp__PageViewReader__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_PAGEVIEWREADER_PAGEVIEWREADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_PAGEVIEWREADER_PAGEVIEWREADER_H
 
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/WidgetReader/LayoutReader/LayoutReader.h"
@@ -53,4 +53,4 @@ namespace cocostudio
     };
 } // namespace cocostudio
 
-#endif /* defined(__TestCpp__PageViewReader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_PAGEVIEWREADER_PAGEVIEWREADER_H

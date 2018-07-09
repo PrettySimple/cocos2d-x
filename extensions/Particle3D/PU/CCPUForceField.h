@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_FORCE_FIELD_H__
-#define __CC_PU_PARTICLE_3D_FORCE_FIELD_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_FORCEFIELD_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_FORCEFIELD_H
 
 #include "CCPUNoise.h"
 #include "base/CCRef.h"
@@ -40,15 +40,8 @@ public:
     // Const
     static const Vec3 DEFAULT_WORLDSIZE;
 
-    PUForceFieldCalculationFactory(void)
-    : _octaves(2)
-    , _frequency(1.0f)
-    , _amplitude(1.0f)
-    , _persistence(1.0f)
-    , _worldSize(DEFAULT_WORLDSIZE)
-    {
-    }
-    virtual ~PUForceFieldCalculationFactory(void){};
+    PUForceFieldCalculationFactory() = default;
+    virtual ~PUForceFieldCalculationFactory() = default;
 
     /** Generates the force field
     @remarks
@@ -83,12 +76,12 @@ public:
 
 protected:
     PUNoise3D _noise3D;
-    unsigned short _octaves;
-    double _frequency;
-    double _amplitude;
-    double _persistence;
+    unsigned short _octaves = 2;
+    double _frequency = 1.0;
+    double _amplitude = 1.0;
+    double _persistence = 1.0;
     Vec3 _mapScale;
-    Vec3 _worldSize;
+    Vec3 _worldSize = DEFAULT_WORLDSIZE;
     Vec3 _mappedPosition;
 };
 //-------------------------------------------------------------------------
@@ -100,17 +93,16 @@ protected:
 class PURealTimeForceFieldCalculationFactory : public PUForceFieldCalculationFactory
 {
 public:
-    PURealTimeForceFieldCalculationFactory(void)
-    : PUForceFieldCalculationFactory(){};
-    virtual ~PURealTimeForceFieldCalculationFactory(void){};
+    PURealTimeForceFieldCalculationFactory() = default;
+    ~PURealTimeForceFieldCalculationFactory() override = default;
 
     /** Override from ForceFieldCalculationFactory
      */
-    virtual void generate(unsigned int forceFieldSize, unsigned short octaves, double frequency, double amplitude, double persistence, const Vec3& worldSize);
+    void generate(unsigned int forceFieldSize, unsigned short octaves, double frequency, double amplitude, double persistence, const Vec3& worldSize) override;
 
     /** Override from ForceFieldCalculationFactory
      */
-    virtual void determineForce(const Vec3& position, Vec3& force, float delta);
+    void determineForce(const Vec3& position, Vec3& force, float delta) override;
 };
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
@@ -190,4 +182,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_FORCEFIELD_H

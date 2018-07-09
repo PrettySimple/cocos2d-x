@@ -23,8 +23,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __ACTION_CCGRID_ACTION_H__
-#define __ACTION_CCGRID_ACTION_H__
+#ifndef CC_2D_ACTIONGRID_H
+#define CC_2D_ACTIONGRID_H
 
 #include "2d/CCActionInstant.h"
 #include "2d/CCActionInterval.h"
@@ -56,16 +56,16 @@ public:
     virtual GridBase* getGrid();
 
     // overrides
-    virtual GridAction* clone() const override
+    GridAction* clone() const override
     {
         CC_ASSERT(0);
         return nullptr;
     }
-    virtual GridAction* reverse() const override;
-    virtual void startWithTarget(Node* target) override;
+    GridAction* reverse() const override;
+    void startWithTarget(Node* target) override;
 
     CC_CONSTRUCTOR_ACCESS : GridAction() {}
-    virtual ~GridAction() {}
+    ~GridAction() override {}
     /**
      * @brief Initializes the action with size and duration.
      * @param duration The duration of the GridAction. It's a value in seconds.
@@ -82,7 +82,7 @@ protected:
     void cacheTargetAsGridNode();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(GridAction);
+    CC_DISALLOW_COPY_AND_ASSIGN(GridAction)
 };
 
 /**
@@ -133,7 +133,7 @@ public:
     void setVertex(const Vec2& position, const Vec3& vertex);
 
     // Overrides
-    virtual Grid3DAction* clone() const override
+    Grid3DAction* clone() const override
     {
         CC_ASSERT(0);
         return nullptr;
@@ -237,13 +237,13 @@ public:
     inline void setRate(float rate) noexcept { _rate = rate; }
 
     // Overrides
-    virtual void startWithTarget(Node* target) override;
-    virtual void update(float time) override;
-    virtual AccelDeccelAmplitude* clone() const override;
-    virtual AccelDeccelAmplitude* reverse() const override;
+    void startWithTarget(Node* target) override;
+    void update(float time) override;
+    AccelDeccelAmplitude* clone() const override;
+    AccelDeccelAmplitude* reverse() const override;
 
     CC_CONSTRUCTOR_ACCESS : AccelDeccelAmplitude() {}
-    virtual ~AccelDeccelAmplitude();
+    ~AccelDeccelAmplitude() override;
 
     /**
     @brief Initializes the action with an inner action that has the amplitude property, and a duration time.
@@ -258,7 +258,7 @@ protected:
     ActionInterval* _other = nullptr;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(AccelDeccelAmplitude);
+    CC_DISALLOW_COPY_AND_ASSIGN(AccelDeccelAmplitude)
 };
 
 /**
@@ -288,13 +288,13 @@ public:
     void setRate(float rate) { _rate = rate; }
 
     // Overrides
-    virtual void startWithTarget(Node* target) override;
-    virtual void update(float time) override;
-    virtual AccelAmplitude* clone() const override;
-    virtual AccelAmplitude* reverse() const override;
+    void startWithTarget(Node* target) override;
+    void update(float time) override;
+    AccelAmplitude* clone() const override;
+    AccelAmplitude* reverse() const override;
 
     CC_CONSTRUCTOR_ACCESS : AccelAmplitude() {}
-    virtual ~AccelAmplitude();
+    ~AccelAmplitude() override;
 
     bool initWithAction(Action* action, std::chrono::milliseconds duration);
 
@@ -303,7 +303,7 @@ protected:
     ActionInterval* _other;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(AccelAmplitude);
+    CC_DISALLOW_COPY_AND_ASSIGN(AccelAmplitude)
 };
 
 /**
@@ -333,13 +333,13 @@ public:
     void setRate(float rate) { _rate = rate; }
 
     // overrides
-    virtual void startWithTarget(Node* target) override;
-    virtual void update(float time) override;
-    virtual DeccelAmplitude* clone() const override;
-    virtual DeccelAmplitude* reverse() const override;
+    void startWithTarget(Node* target) override;
+    void update(float time) override;
+    DeccelAmplitude* clone() const override;
+    DeccelAmplitude* reverse() const override;
 
     CC_CONSTRUCTOR_ACCESS : DeccelAmplitude() {}
-    virtual ~DeccelAmplitude();
+    ~DeccelAmplitude() override;
 
     /**
     @brief Initializes the action with an inner action that has the amplitude property, and a duration time.
@@ -354,7 +354,7 @@ protected:
     ActionInterval* _other;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(DeccelAmplitude);
+    CC_DISALLOW_COPY_AND_ASSIGN(DeccelAmplitude)
 };
 
 /**
@@ -375,12 +375,12 @@ public:
     static StopGrid* create();
 
     // Overrides
-    virtual void startWithTarget(Node* target) override;
-    virtual StopGrid* clone() const override;
-    virtual StopGrid* reverse() const override;
+    void startWithTarget(Node* target) override;
+    StopGrid* clone() const override;
+    StopGrid* reverse() const override;
 
     CC_CONSTRUCTOR_ACCESS : StopGrid() {}
-    virtual ~StopGrid() {}
+    ~StopGrid() override {}
 
 protected:
     NodeGrid* _gridNodeTarget;
@@ -388,7 +388,7 @@ protected:
     void cacheTargetAsGridNode();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(StopGrid);
+    CC_DISALLOW_COPY_AND_ASSIGN(StopGrid)
 };
 
 /**
@@ -405,12 +405,12 @@ public:
     static ReuseGrid* create(int times);
 
     // Override
-    virtual void startWithTarget(Node* target) override;
-    virtual ReuseGrid* clone() const override;
-    virtual ReuseGrid* reverse() const override;
+    void startWithTarget(Node* target) override;
+    ReuseGrid* clone() const override;
+    ReuseGrid* reverse() const override;
 
     CC_CONSTRUCTOR_ACCESS : ReuseGrid() {}
-    virtual ~ReuseGrid() {}
+    ~ReuseGrid() override {}
 
     /**
     @brief Initializes an action with the number of times that the current grid will be reused.
@@ -427,7 +427,7 @@ protected:
     int _times;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ReuseGrid);
+    CC_DISALLOW_COPY_AND_ASSIGN(ReuseGrid)
 };
 
 // end of actions group
@@ -435,4 +435,4 @@ private:
 
 NS_CC_END
 
-#endif // __ACTION_CCGRID_ACTION_H__
+#endif // CC_2D_ACTIONGRID_H

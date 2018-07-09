@@ -22,16 +22,17 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCINTEGER_H__
-#define __CCINTEGER_H__
+#ifndef CC_DEPRECATED_INTEGER_H
+#define CC_DEPRECATED_INTEGER_H
 /// @cond DO_NOT_SHOW
 
-#include "base/CCConsole.h"
-#include "base/CCDataVisitor.h"
 #include "base/CCRef.h"
-#include "platform/CCCommon.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
 
 NS_CC_BEGIN
+
+class DataVisitor;
 
 /**
  * @addtogroup data_structures
@@ -40,35 +41,28 @@ NS_CC_BEGIN
 
 class CC_DLL __Integer : public Ref, public Clonable
 {
+    int _value = 0;
+
 public:
-    static __Integer* create(int v)
-    {
-        __Integer* pRet = new (std::nothrow) __Integer(v);
-        pRet->autorelease();
-        return pRet;
-    }
-    /**
-     * @js NA
-     */
-    __Integer(int v)
+    __Integer() = default;
+    __Integer(__Integer const&) = default;
+    __Integer& operator=(__Integer const&) = default;
+    __Integer(__Integer&&) noexcept = default;
+    __Integer& operator=(__Integer&&) noexcept = default;
+    ~__Integer() final;
+
+    inline __Integer(int v)
     : _value(v)
     {
     }
-    int getValue() const { return _value; }
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~__Integer() { CCLOGINFO("deallocing ~__Integer: %p", this); }
+    inline int getValue() const noexcept { return _value; }
+
+    static __Integer* create(int v);
 
     /* override functions */
-    virtual void acceptVisitor(DataVisitor& visitor) { visitor.visit(this); }
+    void acceptVisitor(DataVisitor& visitor);
 
-    // overrides
-    virtual __Integer* clone() const override { return __Integer::create(_value); }
-
-private:
-    int _value;
+    __Integer* clone() const final;
 };
 
 // end of data_structure group
@@ -77,4 +71,4 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif /* __CCINTEGER_H__ */
+#endif // CC_DEPRECATED_INTEGER_H

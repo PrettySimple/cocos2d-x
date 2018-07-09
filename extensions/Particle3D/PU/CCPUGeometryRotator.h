@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_GEOMETRY_ROTATOR_H__
-#define __CC_PU_PARTICLE_3D_GEOMETRY_ROTATOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_GEOMETRYROTATOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_GEOMETRYROTATOR_H
 
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 #include "extensions/Particle3D/PU/CCPUDynamicAttribute.h"
@@ -48,7 +48,7 @@ public:
     /** Returns the rotation speed. This is the speed controlled by the affector. Besides
         the default rotation speed, it is also possible to use the particles own rotation speed.
     */
-    PUDynamicAttribute* getRotationSpeed(void) const;
+    PUDynamicAttribute* getRotationSpeed() const;
 
     /**
      */
@@ -57,7 +57,7 @@ public:
     /** Returns an indication whether the rotation speed is the same for all particles in this
         particle technique, or whether the rotation speed of the particle itself is used.
     */
-    bool useOwnRotationSpeed(void) const;
+    bool useOwnRotationSpeed() const;
 
     /** Set the indication whether rotation speed of the particle itself is used.
      */
@@ -73,12 +73,12 @@ public:
 
     /**
      */
-    void resetRotationAxis(void);
+    void resetRotationAxis();
 
-    virtual void copyAttributesTo(PUAffector* affector) override;
+    void copyAttributesTo(PUAffector* affector) override;
 
     CC_CONSTRUCTOR_ACCESS : PUGeometryRotator();
-    virtual ~PUGeometryRotator();
+    ~PUGeometryRotator() override;
 
 protected:
     /** Returns a rotation speed value, depending on the type of dynamic attribute.
@@ -99,4 +99,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_GEOMETRYROTATOR_H

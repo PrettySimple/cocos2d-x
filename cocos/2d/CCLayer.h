@@ -25,16 +25,32 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCLAYER_H__
-#define __CCLAYER_H__
+#ifndef CC_2D_LAYER_H
+#define CC_2D_LAYER_H
 
 #include "2d/CCNode.h"
+#include "base/CCEventKeyboard.h"
+#include "base/CCEventTouch.h"
 #include "base/CCProtocols.h"
+#include "base/CCTouch.h"
+#include "base/ccConfig.h"
+#include "base/ccTypes.h"
+#include "math/Vec2.h"
+#include "math/Vec3.h"
+#include "platform/CCGL.h"
+#include "platform/CCPlatformConfig.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
 #include "renderer/CCCustomCommand.h"
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 #    include "2d/CCGLBufferedNode.h"
 #endif
+
+#include <cstdarg>
+#include <cstdint>
+#include <string>
+#include <vector>
 
 NS_CC_BEGIN
 
@@ -43,14 +59,16 @@ NS_CC_BEGIN
  * @{
  */
 
-class __Set;
-class TouchScriptHandlerEntry;
-
-class EventListenerTouch;
-class EventListenerKeyboard;
+class Event;
+class EventListener;
 class EventListenerAcceleration;
-
-class Touch;
+class EventListenerKeyboard;
+class Mat4;
+class Renderer;
+template <typename T>
+class Vector;
+class __Set;
+struct Acceleration;
 
 //
 // Layer
@@ -76,48 +94,15 @@ public:
     static Layer* create();
 
     // Deprecated touch callbacks.
-    CC_DEPRECATED_ATTRIBUTE virtual bool ccTouchBegan(Touch* pTouch, Event* pEvent) final
-    {
-        CC_UNUSED_PARAM(pTouch);
-        CC_UNUSED_PARAM(pEvent);
-        return false;
-    };
-    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchMoved(Touch* pTouch, Event* pEvent) final
-    {
-        CC_UNUSED_PARAM(pTouch);
-        CC_UNUSED_PARAM(pEvent);
-    }
-    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchEnded(Touch* pTouch, Event* pEvent) final
-    {
-        CC_UNUSED_PARAM(pTouch);
-        CC_UNUSED_PARAM(pEvent);
-    }
-    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchCancelled(Touch* pTouch, Event* pEvent) final
-    {
-        CC_UNUSED_PARAM(pTouch);
-        CC_UNUSED_PARAM(pEvent);
-    }
+    CC_DEPRECATED_ATTRIBUTE virtual bool ccTouchBegan(Touch*, Event*) final { return false; }
+    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchMoved(Touch*, Event*) final {}
+    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchEnded(Touch*, Event*) final {}
+    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchCancelled(Touch*, Event*) final {}
 
-    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchesBegan(__Set* pTouches, Event* pEvent) final
-    {
-        CC_UNUSED_PARAM(pTouches);
-        CC_UNUSED_PARAM(pEvent);
-    }
-    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchesMoved(__Set* pTouches, Event* pEvent) final
-    {
-        CC_UNUSED_PARAM(pTouches);
-        CC_UNUSED_PARAM(pEvent);
-    }
-    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchesEnded(__Set* pTouches, Event* pEvent) final
-    {
-        CC_UNUSED_PARAM(pTouches);
-        CC_UNUSED_PARAM(pEvent);
-    }
-    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchesCancelled(__Set* pTouches, Event* pEvent) final
-    {
-        CC_UNUSED_PARAM(pTouches);
-        CC_UNUSED_PARAM(pEvent);
-    }
+    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchesBegan(__Set*, Event*) final {}
+    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchesMoved(__Set*, Event*) final {}
+    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchesEnded(__Set*, Event*) final {}
+    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchesCancelled(__Set*, Event*) final {}
 
     /* Callback function should not be deprecated, it will generate lots of warnings.
        Since 'setTouchEnabled' was deprecated, it will make warnings if developer overrides onTouchXXX and invokes setTouchEnabled(true) instead of using
@@ -185,7 +170,7 @@ public:
       @deprecated Please override onAcceleration
       @js NA
      */
-    CC_DEPRECATED_ATTRIBUTE virtual void didAccelerate(Acceleration* accelerationValue) final{};
+    CC_DEPRECATED_ATTRIBUTE virtual void didAccelerate(Acceleration* accelerationValue) final {}
 
     /* Callback function should not be deprecated, it will generate lots of warnings.
     Since 'setAccelerometerEnabled' was deprecated, it will make warnings if developer overrides onAcceleration and invokes setAccelerometerEnabled(true)
@@ -209,7 +194,7 @@ public:
     @since v0.8.0
     @js NA
     */
-    CC_DEPRECATED_ATTRIBUTE virtual void registerWithTouchDispatcher() final{};
+    CC_DEPRECATED_ATTRIBUTE virtual void registerWithTouchDispatcher() final {}
 
     /** whether or not it will receive Touch events.
     You can enable / disable touch events with this property.
@@ -245,20 +230,20 @@ public:
     @js NA
     */
 
-    CC_DEPRECATED_ATTRIBUTE virtual bool isKeyboardEnabled() const;
-    CC_DEPRECATED_ATTRIBUTE virtual void setKeyboardEnabled(bool value);
+    CC_DEPRECATED_ATTRIBUTE bool isKeyboardEnabled() const;
+    CC_DEPRECATED_ATTRIBUTE void setKeyboardEnabled(bool value);
 
     /**
       Please use onKeyPressed instead.
       @js NA
      */
-    CC_DEPRECATED_ATTRIBUTE virtual void keyPressed(int keyCode) final{};
+    CC_DEPRECATED_ATTRIBUTE virtual void keyPressed(int keyCode) final {}
 
     /**
       Please use onKeyReleased instead.
       @js NA
      */
-    CC_DEPRECATED_ATTRIBUTE virtual void keyReleased(int keyCode) final{};
+    CC_DEPRECATED_ATTRIBUTE virtual void keyReleased(int keyCode) final {}
 
     /* Callback function should not be deprecated, it will generate lots of warnings.
     Since 'setKeyboardEnabled' was deprecated, it will make warnings if developer overrides onKeyXXX and invokes setKeyboardEnabled(true) instead of using
@@ -278,22 +263,22 @@ public:
     virtual void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
 
     CC_DEPRECATED_ATTRIBUTE virtual bool isKeypadEnabled() const final { return _keyboardEnabled; }
-    CC_DEPRECATED_ATTRIBUTE virtual void setKeypadEnabled(bool value);
+    CC_DEPRECATED_ATTRIBUTE void setKeypadEnabled(bool value);
 
     /**
       @deprecated Please override onKeyReleased and check the keycode of KeyboardEvent::KeyCode::Menu(KEY_BACKSPACE) instead.
       @js NA
      */
-    CC_DEPRECATED_ATTRIBUTE virtual void keyBackClicked() final{};
-    CC_DEPRECATED_ATTRIBUTE virtual void keyMenuClicked() final{};
+    CC_DEPRECATED_ATTRIBUTE virtual void keyBackClicked() final {}
+    CC_DEPRECATED_ATTRIBUTE virtual void keyMenuClicked() final {}
 
     // Overrides
-    virtual std::string getDescription() const override;
+    std::string getDescription() const override;
 
     CC_CONSTRUCTOR_ACCESS : Layer();
-    virtual ~Layer();
+    ~Layer() override;
 
-    virtual bool init() override;
+    bool init() override;
 
 protected:
     // add the api for avoid use deprecated api
@@ -314,7 +299,7 @@ protected:
     bool _swallowsTouches;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Layer);
+    CC_DISALLOW_COPY_AND_ASSIGN(Layer)
 };
 
 /** @class __LayerRGBA
@@ -329,33 +314,33 @@ private:
 class CC_DLL __LayerRGBA : public Layer, public __RGBAProtocol
 {
 public:
-    CREATE_FUNC(__LayerRGBA);
+    CREATE_FUNC(__LayerRGBA)
 
     //
     // Overrides
     //
-    virtual GLubyte getOpacity() const override { return Layer::getOpacity(); }
-    virtual GLubyte getDisplayedOpacity() const override { return Layer::getDisplayedOpacity(); }
-    virtual void setOpacity(GLubyte opacity) override { Layer::setOpacity(opacity); }
-    virtual void updateDisplayedOpacity(GLubyte parentOpacity) override { Layer::updateDisplayedOpacity(parentOpacity); }
-    virtual bool isCascadeOpacityEnabled() const override { return Layer::isCascadeOpacityEnabled(); }
-    virtual void setCascadeOpacityEnabled(bool cascadeOpacityEnabled) override { Layer::setCascadeOpacityEnabled(cascadeOpacityEnabled); }
+    inline GLubyte getOpacity() const override { return Layer::getOpacity(); }
+    inline GLubyte getDisplayedOpacity() const override { return Layer::getDisplayedOpacity(); }
+    inline void setOpacity(GLubyte opacity) override { Layer::setOpacity(opacity); }
+    inline void updateDisplayedOpacity(GLubyte parentOpacity) override { Layer::updateDisplayedOpacity(parentOpacity); }
+    inline bool isCascadeOpacityEnabled() const override { return Layer::isCascadeOpacityEnabled(); }
+    inline void setCascadeOpacityEnabled(bool cascadeOpacityEnabled) override { Layer::setCascadeOpacityEnabled(cascadeOpacityEnabled); }
 
-    virtual const Color3B& getColor() const override { return Layer::getColor(); }
-    virtual const Color3B& getDisplayedColor() const override { return Layer::getDisplayedColor(); }
-    virtual void setColor(const Color3B& color) override { Layer::setColor(color); }
-    virtual void updateDisplayedColor(const Color3B& parentColor) override { Layer::updateDisplayedColor(parentColor); }
-    virtual bool isCascadeColorEnabled() const override { return Layer::isCascadeOpacityEnabled(); }
-    virtual void setCascadeColorEnabled(bool cascadeColorEnabled) override { Layer::setCascadeColorEnabled(cascadeColorEnabled); }
+    inline const Color3B& getColor() const override { return Layer::getColor(); }
+    inline const Color3B& getDisplayedColor() const override { return Layer::getDisplayedColor(); }
+    inline void setColor(const Color3B& color) override { Layer::setColor(color); }
+    inline void updateDisplayedColor(const Color3B& parentColor) override { Layer::updateDisplayedColor(parentColor); }
+    inline bool isCascadeColorEnabled() const override { return Layer::isCascadeOpacityEnabled(); }
+    inline void setCascadeColorEnabled(bool cascadeColorEnabled) override { Layer::setCascadeColorEnabled(cascadeColorEnabled); }
 
-    virtual void setOpacityModifyRGB(bool bValue) override { Layer::setOpacityModifyRGB(bValue); }
-    virtual bool isOpacityModifyRGB() const override { return Layer::isOpacityModifyRGB(); }
+    inline void setOpacityModifyRGB(bool bValue) override { Layer::setOpacityModifyRGB(bValue); }
+    inline bool isOpacityModifyRGB() const override { return Layer::isOpacityModifyRGB(); }
 
     CC_CONSTRUCTOR_ACCESS : __LayerRGBA();
-    virtual ~__LayerRGBA() {}
+    ~__LayerRGBA() override;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(__LayerRGBA);
+    CC_DISALLOW_COPY_AND_ASSIGN(__LayerRGBA)
 };
 
 //
@@ -412,14 +397,14 @@ public:
     //
     // Overrides
     //
-    virtual void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
+    void draw(Renderer* renderer, const Mat4& transform, std::uint32_t flags) override;
 
-    virtual void setContentSize(const Size& var) override;
+    void setContentSize(const Size& var) override;
     /** BlendFunction. Conforms to BlendProtocol protocol */
     /**
      * @lua NA
      */
-    virtual const BlendFunc& getBlendFunc() const override;
+    const BlendFunc& getBlendFunc() const override;
     /**
      *@code
      *When this function bound into js or lua,the parameter will be changed
@@ -427,21 +412,21 @@ public:
      *In lua: local setBlendFunc(local src, local dst)
      *@endcode
      */
-    virtual void setBlendFunc(const BlendFunc& blendFunc) override;
+    void setBlendFunc(const BlendFunc& blendFunc) override;
 
-    virtual std::string getDescription() const override;
+    std::string getDescription() const override;
 
     CC_CONSTRUCTOR_ACCESS : LayerColor();
-    virtual ~LayerColor();
+    ~LayerColor() override;
 
     bool init() override;
     bool initWithColor(const Color4B& color, GLfloat width, GLfloat height);
     bool initWithColor(const Color4B& color);
 
 protected:
-    void onDraw(const Mat4& transform, uint32_t flags);
+    void onDraw(const Mat4& transform, std::uint32_t flags);
 
-    virtual void updateColor() override;
+    void updateColor() override;
 
     BlendFunc _blendFunc;
     Vec2 _squareVertices[4];
@@ -450,7 +435,7 @@ protected:
     Vec3 _noMVPVertices[4];
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(LayerColor);
+    CC_DISALLOW_COPY_AND_ASSIGN(LayerColor)
 };
 
 //
@@ -570,12 +555,12 @@ public:
      */
     const Vec2& getVector() const;
 
-    virtual std::string getDescription() const override;
+    std::string getDescription() const override;
 
     CC_CONSTRUCTOR_ACCESS : LayerGradient();
-    virtual ~LayerGradient();
+    ~LayerGradient() override;
 
-    virtual bool init() override;
+    bool init() override;
     /** Initializes the Layer with a gradient between start and end.
      * @js init
      * @lua init
@@ -589,7 +574,7 @@ public:
     bool initWithColor(const Color4B& start, const Color4B& end, const Vec2& v);
 
 protected:
-    virtual void updateColor() override;
+    void updateColor() override;
 
     Color3B _startColor;
     Color3B _endColor;
@@ -690,7 +675,7 @@ public:
      */
     void switchToAndReleaseMe(int n);
 
-    virtual std::string getDescription() const override;
+    std::string getDescription() const override;
 
     CC_CONSTRUCTOR_ACCESS :
         /**
@@ -701,9 +686,9 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~LayerMultiplex();
+    ~LayerMultiplex() override;
 
-    virtual bool init() override;
+    bool init() override;
     /** initializes a MultiplexLayer with one or more layers using a variable argument list.
      * @js NA
      * @lua NA
@@ -720,7 +705,7 @@ protected:
     Vector<Layer*> _layers;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(LayerMultiplex);
+    CC_DISALLOW_COPY_AND_ASSIGN(LayerMultiplex)
 };
 
 // end of _2d group
@@ -728,4 +713,4 @@ private:
 
 NS_CC_END
 
-#endif // __CCLAYER_H__
+#endif // CC_2D_LAYER_H

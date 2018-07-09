@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCNAV_MESH_DEBUG_DRAW_H__
-#define __CCNAV_MESH_DEBUG_DRAW_H__
+#ifndef CC_NAVMESH_NAVMESHDEBUGDRAW_H
+#define CC_NAVMESH_NAVMESHDEBUGDRAW_H
 
 #include "base/ccConfig.h"
 #if CC_USE_NAVMESH
@@ -104,4 +104,4 @@ NS_CC_END
 
 #endif // CC_USE_NAVMESH
 
-#endif // __CCNAV_MESH_DEBUG_DRAW_H__
+#endif // CC_NAVMESH_NAVMESHDEBUGDRAW_H

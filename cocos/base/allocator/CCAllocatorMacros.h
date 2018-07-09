@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_ALLOCATOR_MACROS_H
-#define CC_ALLOCATOR_MACROS_H
+#ifndef CC_BASE_ALLOCATOR_ALLOCATORMACROS_H
+#define CC_BASE_ALLOCATOR_ALLOCATORMACROS_H
 /// @cond DO_NOT_SHOW
 
 #include "base/ccConfig.h"
@@ -124,4 +124,4 @@
     }
 
 /// @endcond
-#endif // CC_ALLOCATOR_MACROS_H
+#endif // CC_BASE_ALLOCATOR_ALLOCATORMACROS_H

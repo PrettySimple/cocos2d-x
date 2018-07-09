@@ -26,8 +26,8 @@
  * Converted to c++ / cocos2d-x by Angus C
  */
 
-#ifndef __CCCONTROL_SLIDER_H__
-#define __CCCONTROL_SLIDER_H__
+#ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_SLIDER_H
+#define CC_EXTENSIONS_GUI_CONTROLEXTENSION_SLIDER_H
 
 #include "CCControl.h"
 #include "CCInvocation.h"
@@ -81,7 +81,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ControlSlider();
+    ~ControlSlider() override;
 
     /**
      * Initializes a slider with a background sprite, a progress bar and a thumb
@@ -127,24 +127,24 @@ protected:
 
     // manually put in the setters
     /** Contains the receiver's current value. */
-    CC_SYNTHESIZE_READONLY(float, _value, Value);
+    CC_SYNTHESIZE_READONLY(float, _value, Value)
 
     /** Contains the minimum value of the receiver.
      * The default value of this property is 0.0. */
-    CC_SYNTHESIZE_READONLY(float, _minimumValue, MinimumValue);
+    CC_SYNTHESIZE_READONLY(float, _minimumValue, MinimumValue)
 
     /** Contains the maximum value of the receiver.
      * The default value of this property is 1.0. */
-    CC_SYNTHESIZE_READONLY(float, _maximumValue, MaximumValue);
+    CC_SYNTHESIZE_READONLY(float, _maximumValue, MaximumValue)
 
-    CC_SYNTHESIZE(float, _minimumAllowedValue, MinimumAllowedValue);
-    CC_SYNTHESIZE(float, _maximumAllowedValue, MaximumAllowedValue);
+    CC_SYNTHESIZE(float, _minimumAllowedValue, MinimumAllowedValue)
+    CC_SYNTHESIZE(float, _maximumAllowedValue, MaximumAllowedValue)
 
     // maybe this should be read-only
-    CC_SYNTHESIZE_RETAIN(Sprite*, _thumbSprite, ThumbSprite);
-    CC_SYNTHESIZE_RETAIN(Sprite*, _selectedThumbSprite, SelectedThumbSprite);
-    CC_SYNTHESIZE_RETAIN(Sprite*, _progressSprite, ProgressSprite);
-    CC_SYNTHESIZE_RETAIN(Sprite*, _backgroundSprite, BackgroundSprite);
+    CC_SYNTHESIZE_RETAIN(Sprite*, _thumbSprite, ThumbSprite)
+    CC_SYNTHESIZE_RETAIN(Sprite*, _selectedThumbSprite, SelectedThumbSprite)
+    CC_SYNTHESIZE_RETAIN(Sprite*, _progressSprite, ProgressSprite)
+    CC_SYNTHESIZE_RETAIN(Sprite*, _backgroundSprite, BackgroundSprite)
 };
 
 // end of GUI group
@@ -153,4 +153,4 @@ protected:
 
 NS_CC_EXT_END
 
-#endif
+#endif // CC_EXTENSIONS_GUI_CONTROLEXTENSION_SLIDER_H

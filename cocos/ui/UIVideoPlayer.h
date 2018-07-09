@@ -22,12 +22,15 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __COCOS2D_UI_VIDEOWEIGTH_H_
-#define __COCOS2D_UI_VIDEOWEIGTH_H_
+#ifndef CC_UI_VIDEOPLAYER_H
+#define CC_UI_VIDEOPLAYER_H
+
+#include "platform/CCPlatformConfig.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN) && \
     !defined(CC_PLATFORM_OS_TVOS)
 
+#    include "ui/GUIDefine.h"
 #    include "ui/UIWidget.h"
 
 /**
@@ -70,7 +73,7 @@ namespace experimental
             /**
              *Static create method for instancing a VideoPlayer.
              */
-            CREATE_FUNC(VideoPlayer);
+            CREATE_FUNC(VideoPlayer)
 
             /**
              * Sets a file path as a video source for VideoPlayer.
@@ -181,7 +184,7 @@ namespace experimental
             virtual void copySpecialProperties(Widget* model) override;
 
             CC_CONSTRUCTOR_ACCESS : VideoPlayer();
-            virtual ~VideoPlayer();
+            ~VideoPlayer() override;
 
         protected:
 #    if CC_VIDEOPLAYER_DEBUG_DRAW
@@ -214,4 +217,4 @@ NS_CC_END
 // end group
 /// @}
 #endif
-#endif
+#endif // CC_UI_VIDEOPLAYER_H

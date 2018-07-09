@@ -93,7 +93,7 @@ void AutoreleasePool::dump()
     for (const auto& obj : _managedObjectArray)
     {
         CC_UNUSED_PARAM(obj);
-        CCLOG("%20p%20u\n", obj, obj->getReferenceCount());
+        CCLOG("%20p%20u\n", reinterpret_cast<void*>(obj), obj->getReferenceCount());
     }
 }
 

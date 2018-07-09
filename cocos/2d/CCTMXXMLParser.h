@@ -25,8 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_TM_XML_PARSER__
-#define __CC_TM_XML_PARSER__
+#ifndef CC_2D_TMXXMLPARSER_H
+#define CC_2D_TMXXMLPARSER_H
 
 /// @cond DO_NOT_SHOW
 
@@ -180,12 +180,12 @@ public:
     static TMXMapInfo* createWithXML(const std::string& tmxString, const std::string& resourcePath);
 
     /** creates a TMX Format with a tmx file */
-    CC_DEPRECATED_ATTRIBUTE static TMXMapInfo* formatWithTMXFile(const char* tmxFile) { return TMXMapInfo::create(tmxFile); };
+    CC_DEPRECATED_ATTRIBUTE static TMXMapInfo* formatWithTMXFile(const char* tmxFile) { return TMXMapInfo::create(tmxFile); }
     /** creates a TMX Format with an XML string and a TMX resource path */
     CC_DEPRECATED_ATTRIBUTE static TMXMapInfo* formatWithXML(const char* tmxString, const char* resourcePath)
     {
         return TMXMapInfo::createWithXML(tmxString, resourcePath);
-    };
+    }
     /**
      * @js ctor
      */
@@ -194,7 +194,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~TMXMapInfo();
+    ~TMXMapInfo() override;
 
     /** initializes a TMX format with a  tmx file */
     bool initWithTMXFile(const std::string& tmxFile);
@@ -205,7 +205,7 @@ public:
     /* initializes parsing of an XML string, either a tmx (Map) string or tsx (Tileset) string */
     bool parseXMLString(const std::string& xmlString);
 
-    ValueMapIntKey& getTileProperties() { return _tileProperties; };
+    ValueMapIntKey& getTileProperties() { return _tileProperties; }
     void setTileProperties(const ValueMapIntKey& tileProperties) { _tileProperties = tileProperties; }
 
     /// map orientation
@@ -345,4 +345,4 @@ protected:
 NS_CC_END
 
 /// @endcond
-#endif
+#endif // CC_2D_TMXXMLPARSER_H

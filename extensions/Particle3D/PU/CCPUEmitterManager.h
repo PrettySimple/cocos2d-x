@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_EMITTER_MANAGER_H__
-#define __CC_PU_PARTICLE_3D_EMITTER_MANAGER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_EMITTERMANAGER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_EMITTERMANAGER_H
 
 #include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUBoxEmitterTranslator.h"
@@ -38,7 +38,6 @@
 #include "extensions/Particle3D/PU/CCPUSlaveEmitterTranslator.h"
 #include "extensions/Particle3D/PU/CCPUSphereSurfaceEmitterTranslator.h"
 
-using namespace std;
 NS_CC_BEGIN
 
 class PUEmitterManager
@@ -67,4 +66,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_EMITTERMANAGER_H

@@ -19,14 +19,11 @@
  This file was modified to fit the cocos2d-x project
  */
 
-#ifndef MATH_VEC4_H
-#define MATH_VEC4_H
-
-#ifdef __SSE__
-#    include <xmmintrin.h>
-#endif
+#ifndef CC_MATH_VEC4_H
+#define CC_MATH_VEC4_H
 
 #include "math/CCMathBase.h"
+#include "platform/CCPlatformDefine.h"
 
 /**
  * @addtogroup base
@@ -40,12 +37,21 @@ class Mat4;
 /**
  * Defines 4-element floating point vector.
  */
-class CC_DLL Vec4
+class CC_DLL Vec4 final
 {
 public:
-#ifdef __SSE__
+#ifdef __ARM_NEON
+    using f32x4_t = __attribute__((neon_vector_type(4))) float;
+#else
+    using f32x4_t = __attribute__((ext_vector_type(4))) float;
+#endif
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu-anonymous-struct"
+#pragma clang diagnostic ignored "-Wnested-anon-types"
     union
     {
+        f32x4_t v = {0.f, 0.f, 0.f, 0.f};
         struct
         {
             float x;
@@ -53,29 +59,8 @@ public:
             float z;
             float w;
         };
-        __m128 v = {0.f, 0.f, 0.f, 0.f};
     };
-#else
-    /**
-     * The x-coordinate.
-     */
-    float x = 0.f;
-
-    /**
-     * The y-coordinate.
-     */
-    float y = 0.f;
-
-    /**
-     * The z-coordinate.
-     */
-    float z = 0.f;
-
-    /**
-     * The w-coordinate.
-     */
-    float w = 0.f;
-#endif
+#pragma clang diagnostic pop
     /**
      * Constructs a new vector initialized to all zeros.
      */
@@ -92,13 +77,14 @@ public:
      * @param xx The x coordinate.
      * @param yy The y coordinate.
      * @param zz The z coordinate.
-     * @param ww The w coordinate.
      */
     constexpr Vec4(float xx, float yy, float zz, float ww)
-    : x(xx)
-    , y(yy)
-    , z(zz)
-    , w(ww)
+    : v{xx, yy, zz, ww}
+    {
+    }
+
+    constexpr Vec4(f32x4_t&& other)
+    : v(std::move(other))
     {
     }
 
@@ -416,6 +402,12 @@ public:
      */
     inline bool operator<(const Vec4& v) const;
 
+    inline bool operator>(const Vec4& other) const noexcept
+    {
+        auto const gt = v > other.v;
+        return gt[0] == -1 && gt[1] == -1 && gt[2] == -1 && gt[3] == -1;
+    }
+
     /**
      * Determines if this vector is equal to the given vector.
      *
@@ -464,4 +456,4 @@ NS_CC_MATH_END
  */
 #include "math/Vec4.inl"
 
-#endif // MATH_VEC4_H
+#endif // CC_MATH_VEC4_H

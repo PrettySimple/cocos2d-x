@@ -22,11 +22,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCEVENT_H__
-#define __CCEVENT_H__
+#ifndef CC_BASE_EVENT_H
+#define CC_BASE_EVENT_H
 
 #include "base/CCRef.h"
+#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
+
+#include <cstdint>
 
 /**
  * @addtogroup base
@@ -44,8 +47,9 @@ class CC_DLL Event : public Ref
 {
 public:
     /** Type Event type.*/
-    enum class Type
+    enum struct Type : std::uint8_t
     {
+        NONE,
         TOUCH,
         KEYBOARD,
         ACCELERATION,
@@ -60,8 +64,11 @@ public:
         Event(Type type);
 
 public:
-    /** Destructor.
-     */
+    Event() = default;
+    Event(Event const&) = default;
+    Event& operator=(Event const&) = default;
+    Event(Event&&) noexcept;
+    Event& operator=(Event&&) noexcept;
     virtual ~Event();
 
     /** Gets the event type.
@@ -89,12 +96,12 @@ public:
 
 protected:
     /** Sets current target */
-    void setCurrentTarget(Node* target) { _currentTarget = target; }
+    inline void setCurrentTarget(Node* target) noexcept { _currentTarget = target; }
 
-    Type _type; ///< Event type
+    Type _type = Type::NONE; ///< Event type
 
-    bool _isStopped; ///< whether the event has been stopped.
-    Node* _currentTarget; ///< Current target
+    bool _isStopped = false; ///< whether the event has been stopped.
+    Node* _currentTarget = nullptr; ///< Current target
 
     friend class EventDispatcher;
 };
@@ -104,4 +111,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif // __CCEVENT_H__
+#endif // CC_BASE_EVENT_H

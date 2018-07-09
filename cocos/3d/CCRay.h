@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_RAY_H_
-#define __CC_RAY_H_
+#ifndef CC_3D_RAY_H
+#define CC_3D_RAY_H
 
 #include "3d/CCAABB.h"
 #include "3d/CCOBB.h"
@@ -109,4 +109,4 @@ public:
 
 NS_CC_END
 
-#endif
+#endif // CC_3D_RAY_H

@@ -68,6 +68,8 @@ void PUSphereCollider::calculateDirectionAfterCollision(PUParticle3D* particle, 
 {
     switch (_collisionType)
     {
+        case PUBaseCollider::CT_NONE:
+            break;
         case PUBaseCollider::CT_BOUNCE:
         {
             /** If the particle is on the surface (or just inside the sphere); bounce it
@@ -98,8 +100,6 @@ void PUSphereCollider::calculateDirectionAfterCollision(PUParticle3D* particle, 
             particle->position = _derivedPosition + distance * (scaledRadius / distanceLength);
         }
         break;
-        default:
-            break;
     }
 }
 

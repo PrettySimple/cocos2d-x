@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_VERTEX_EMITTER_H__
-#define __CC_PU_PARTICLE_3D_VERTEX_EMITTER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_VERTEXEMITTER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_VERTEXEMITTER_H
 
 #include "extensions/Particle3D/PU/CCPUEmitter.h"
 #include <list>
@@ -167,4 +167,4 @@ NS_CC_BEGIN
 //};
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_VERTEXEMITTER_H

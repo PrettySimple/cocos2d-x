@@ -49,8 +49,8 @@ RenderTexture::RenderTexture()
 , _depthRenderBufffer(0)
 , _stencilRenderBufffer(0)
 , _oldFBO(0)
-, _texture(0)
-, _textureCopy(0)
+, _texture(nullptr)
+, _textureCopy(nullptr)
 , _UITextureImage(nullptr)
 , _pixelFormat(Texture2D::PixelFormat::RGBA8888)
 #if CC_ENABLE_CACHE_TEXTURE_DATA
@@ -208,8 +208,8 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
         _fullRect = _rtTextureRect = Rect(0, 0, w, h);
         // Size size = Director::getInstance()->getWinSizeInPixels();
         //_fullviewPort = Rect(0,0,size.width,size.height);
-        w = (int)(w * CC_CONTENT_SCALE_FACTOR());
-        h = (int)(h * CC_CONTENT_SCALE_FACTOR());
+        w = static_cast<int>(w * CC_CONTENT_SCALE_FACTOR());
+        h = static_cast<int>(h * CC_CONTENT_SCALE_FACTOR());
         _fullviewPort = Rect(0, 0, w, h);
 
         glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_oldFBO);
@@ -242,7 +242,8 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
         _texture = new (std::nothrow) Texture2D();
         if (_texture)
         {
-            _texture->initWithData(data, dataLen, (Texture2D::PixelFormat)_pixelFormat, powW, powH, Size((float)w, (float)h));
+            _texture->initWithData(data, dataLen, static_cast<Texture2D::PixelFormat>(_pixelFormat), powW, powH,
+                                   Size(static_cast<float>(w), static_cast<float>(h)));
         }
         else
         {
@@ -256,7 +257,8 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
             _textureCopy = new (std::nothrow) Texture2D();
             if (_textureCopy)
             {
-                _textureCopy->initWithData(data, dataLen, (Texture2D::PixelFormat)_pixelFormat, powW, powH, Size((float)w, (float)h));
+                _textureCopy->initWithData(data, dataLen, static_cast<Texture2D::PixelFormat>(_pixelFormat), powW, powH,
+                                           Size(static_cast<float>(w), static_cast<float>(h)));
             }
             else
             {
@@ -329,7 +331,7 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
             // create and attach depth buffer
             glGenRenderbuffers(1, &_depthRenderBufffer);
             glBindRenderbuffer(GL_RENDERBUFFER, _depthRenderBufffer);
-            glRenderbufferStorage(GL_RENDERBUFFER, depthStencilFormat, (GLsizei)powW, (GLsizei)powH);
+            glRenderbufferStorage(GL_RENDERBUFFER, depthStencilFormat, static_cast<GLsizei>(powW), static_cast<GLsizei>(powH));
             glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthRenderBufffer);
 
             // if depth format is the one with stencil part, bind same render buffer as stencil attachment
@@ -597,8 +599,8 @@ Image* RenderTexture::newImage(bool fliimage)
     // to get the image size to save
     //        if the saving image domain exceeds the buffer texture domain,
     //        it should be cut
-    int savedBufferWidth = (int)s.width;
-    int savedBufferHeight = (int)s.height;
+    int savedBufferWidth = static_cast<int>(s.width);
+    int savedBufferHeight = static_cast<int>(s.height);
 
     GLubyte* buffer = nullptr;
     GLubyte* tempData = nullptr;
@@ -677,9 +679,8 @@ void RenderTexture::onBegin()
         const Size& texSize = _texture->getContentSizeInPixels();
 
         // Calculate the texture ortho matrix
-        Size size = director->getWinSizeInPixels();
         Mat4 orthoMatrix;
-        Mat4::createOrthographicOffCenter(0, texSize.width, 0, texSize.height, -1, 1, &orthoMatrix);
+        Mat4::createOrthographicOffCenter(0, texSize.width, 0, texSize.height, -1, 1, orthoMatrix);
         director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, orthoMatrix);
     }
 
@@ -693,7 +694,7 @@ void RenderTexture::onBegin()
         viewport.origin.x = (_fullRect.origin.x - _rtTextureRect.origin.x) * viewPortRectWidthRatio;
         viewport.origin.y = (_fullRect.origin.y - _rtTextureRect.origin.y) * viewPortRectHeightRatio;
         // glViewport(_fullviewPort.origin.x, _fullviewPort.origin.y, (GLsizei)_fullviewPort.size.width, (GLsizei)_fullviewPort.size.height);
-        glViewport(viewport.origin.x, viewport.origin.y, (GLsizei)viewport.size.width, (GLsizei)viewport.size.height);
+        glViewport(viewport.origin.x, viewport.origin.y, static_cast<GLsizei>(viewport.size.width), static_cast<GLsizei>(viewport.size.height));
     }
 
     // Adjust the orthographic projection and viewport
@@ -836,9 +837,8 @@ void RenderTexture::begin()
         const Size& texSize = _texture->getContentSizeInPixels();
 
         // Calculate the adjustment ratios based on the old and new projections
-        Size size = director->getWinSizeInPixels();
         Mat4 orthoMatrix;
-        Mat4::createOrthographicOffCenter(0, texSize.width, 0, texSize.height, -1, 1, &orthoMatrix);
+        Mat4::createOrthographicOffCenter(0, texSize.width, 0, texSize.height, -1, 1, orthoMatrix);
         director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, orthoMatrix);
     }
 

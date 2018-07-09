@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__WidgetReader__
-#define __TestCpp__WidgetReader__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_WIDGETREADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_WIDGETREADER_H
 
 #include "WidgetReaderProtocol.h"
 #include "cocostudio/CCSGUIReader.h"
@@ -292,4 +292,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif /* defined(__TestCpp__WidgetReader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_WIDGETREADER_H

@@ -24,9 +24,12 @@ THE SOFTWARE.
 
 #include "2d/CCTweenFunction.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wreserved-id-macro"
 #define _USE_MATH_DEFINES // needed for M_PI and M_PI2
 #include <cmath> // M_PI
 #undef _USE_MATH_DEFINES
+#pragma clang diagnostic pop
 
 #include <limits>
 
@@ -171,6 +174,9 @@ namespace tweenfunc
                 break;
             case Bounce_EaseInOut:
                 delta = bounceEaseInOut(time);
+                break;
+
+            case TWEEN_EASING_MAX:
                 break;
 
             default:

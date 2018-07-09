@@ -216,8 +216,8 @@ void Ray::set(const Vec3& origin, const Vec3& direction)
 
 void Ray::transform(const Mat4& matrix)
 {
-    matrix.transformPoint(&_origin);
-    matrix.transformVector(&_direction);
+    matrix.transformPoint(_origin);
+    matrix.transformVector(_direction);
     _direction.normalize();
 }
 

@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __UIVBox_H__
-#define __UIVBox_H__
+#ifndef CC_UI_VBOX_H
+#define CC_UI_VBOX_H
 
 #include "ui/GUIExport.h"
 #include "ui/UILayout.h"
@@ -55,7 +55,7 @@ namespace ui
          * @js NA
          * @lua NA
          */
-        virtual ~VBox();
+        ~VBox() override;
 
         /**
          * Create a empty VBox instance.
@@ -72,9 +72,9 @@ namespace ui
 
         CC_CONSTRUCTOR_ACCESS :
             // initializes state of widget.
-            virtual bool
+            bool
             init() override;
-        virtual bool initWithSize(const Size& size);
+        virtual bool initWithSize(Size const& size);
     };
 
 } // namespace ui
@@ -83,4 +83,4 @@ namespace ui
 /// @}
 NS_CC_END
 
-#endif /* defined(__UIVBox__) */
+#endif // CC_UI_VBOX_H

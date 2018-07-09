@@ -113,7 +113,7 @@ protected:
     bool initWithMaskSprite(Sprite* maskSprite, Sprite* onSprite, Sprite* offSprite, Sprite* thumbSprite, Label* onLabel, Label* offLabel);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ControlSwitchSprite);
+    CC_DISALLOW_COPY_AND_ASSIGN(ControlSwitchSprite)
 };
 
 ControlSwitchSprite* ControlSwitchSprite::create(Sprite* maskSprite, Sprite* onSprite, Sprite* offSprite, Sprite* thumbSprite, Label* onLabel, Label* offLabel)

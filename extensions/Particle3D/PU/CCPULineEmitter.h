@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_LINE_EMITTER_H__
-#define __CC_PU_PARTICLE_3D_LINE_EMITTER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_LINEEMITTER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_LINEEMITTER_H
 
 #include "extensions/Particle3D/PU/CCPUEmitter.h"
 
@@ -43,13 +43,13 @@ public:
     static PULineEmitter* create();
     /**
      */
-    virtual void notifyStart(void) override;
+    void notifyStart(void) override;
 
     /** Override the default implementation, to allow that no particles are emitted if there
         is an incremental emission of particles (along a path), and the end of the line has
         been reached.
     */
-    virtual unsigned short calculateRequestedParticles(float timeElapsed) override;
+    unsigned short calculateRequestedParticles(float timeElapsed) override;
 
     /**
      */
@@ -76,21 +76,21 @@ public:
 
     /**
      */
-    virtual void notifyRescaled(const Vec3& scale) override;
+    void notifyRescaled(const Vec3& scale) override;
 
     /**
      */
-    virtual void initParticlePosition(PUParticle3D* particle) override;
+    void initParticlePosition(PUParticle3D* particle) override;
 
     /**
      */
-    virtual void initParticleDirection(PUParticle3D* particle) override;
+    void initParticleDirection(PUParticle3D* particle) override;
 
-    virtual PULineEmitter* clone() override;
-    virtual void copyAttributesTo(PUEmitter* emitter) override;
+    PULineEmitter* clone() override;
+    void copyAttributesTo(PUEmitter* emitter) override;
 
-    CC_CONSTRUCTOR_ACCESS : PULineEmitter(void);
-    virtual ~PULineEmitter(void){};
+    CC_CONSTRUCTOR_ACCESS : PULineEmitter();
+    ~PULineEmitter() override = default;
 
 protected:
     Vec3 _end; // End point of the line (startpoint is determined by means of position)
@@ -116,4 +116,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_LINEEMITTER_H

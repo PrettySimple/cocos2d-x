@@ -272,7 +272,7 @@ void AudioEngine::setVolume(int audioID, float volume)
             volume = 1.0f;
         }
 
-        if (it->second.volume != volume)
+        if (std::abs(it->second.volume - volume) >= std::numeric_limits<float>::epsilon())
         {
             _audioEngineImpl->setVolume(audioID, volume);
             it->second.volume = volume;

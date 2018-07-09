@@ -25,8 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCGLPROGRAMCACHE_H__
-#define __CCGLPROGRAMCACHE_H__
+#ifndef CC_RENDERER_GLPROGRAMCACHE_H
+#define CC_RENDERER_GLPROGRAMCACHE_H
 
 #include "base/CCRef.h"
 
@@ -121,4 +121,4 @@ NS_CC_END
 // end of shaders group
 /// @}
 
-#endif /* __CCGLPROGRAMCACHE_H__ */
+#endif // CC_RENDERER_GLPROGRAMCACHE_H

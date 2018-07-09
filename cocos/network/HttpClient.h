@@ -24,8 +24,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCHTTPCLIENT_H__
-#define __CCHTTPCLIENT_H__
+#ifndef CC_NETWORK_HTTPCLIENT_H
+#define CC_NETWORK_HTTPCLIENT_H
 
 #include "base/CCScheduler.h"
 #include "base/CCVector.h"
@@ -210,4 +210,4 @@ NS_CC_END
 // end group
 /// @}
 
-#endif //__CCHTTPCLIENT_H__
+#endif // CC_NETWORK_HTTPCLIENT_H

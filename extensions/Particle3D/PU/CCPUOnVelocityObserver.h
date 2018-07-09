@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_ON_VELOCITY_OBSERVER_H__
-#define __CC_PU_PARTICLE_3D_ON_VELOCITY_OBSERVER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_ONVELOCITYOBSERVER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_ONVELOCITYOBSERVER_H
 
 #include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUObserver.h"
@@ -50,18 +50,18 @@ public:
 
     /**
      */
-    float getThreshold(void) const { return _threshold; };
-    void setThreshold(float threshold) { _threshold = threshold; };
+    float getThreshold(void) const { return _threshold; }
+    void setThreshold(float threshold) { _threshold = threshold; }
 
     /**
      */
-    PUComparisionOperator getCompare() const { return _compare; };
-    void setCompare(PUComparisionOperator op) { _compare = op; };
+    PUComparisionOperator getCompare() const { return _compare; }
+    void setCompare(PUComparisionOperator op) { _compare = op; }
 
-    virtual void copyAttributesTo(PUObserver* observer) override;
+    void copyAttributesTo(PUObserver* observer) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUOnVelocityObserver(void);
-    virtual ~PUOnVelocityObserver(void){};
+    CC_CONSTRUCTOR_ACCESS : PUOnVelocityObserver();
+    ~PUOnVelocityObserver() override {}
 
 protected:
     float _threshold;
@@ -70,4 +70,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_ONVELOCITYOBSERVER_H

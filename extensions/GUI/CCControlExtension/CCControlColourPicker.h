@@ -29,8 +29,8 @@
  * Converted to c++ / cocos2d-x by Angus C
  */
 
-#ifndef __CCCONTROL_COLOUR_PICKER_H__
-#define __CCCONTROL_COLOUR_PICKER_H__
+#ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_COLOURPICKER_H
+#define CC_EXTENSIONS_GUI_CONTROLEXTENSION_COLOURPICKER_H
 
 #include "CCControl.h"
 #include "CCControlHuePicker.h"
@@ -60,12 +60,12 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ControlColourPicker();
+    ~ControlColourPicker() override;
 
-    virtual bool init() override;
+    bool init() override;
 
-    virtual void setColor(const Color3B& colorValue) override;
-    virtual void setEnabled(bool bEnabled) override;
+    void setColor(const Color3B& colorValue) override;
+    void setEnabled(bool bEnabled) override;
 
     // virtual ~ControlColourPicker();
     void hueSliderValueChanged(Ref* sender, Control::EventType controlEvent);
@@ -74,7 +74,7 @@ public:
 protected:
     void updateControlPicker();
     void updateHueAndControlPicker();
-    virtual bool onTouchBegan(Touch* touch, Event* pEvent) override;
+    bool onTouchBegan(Touch* touch, Event* pEvent) override;
 
     HSV _hsv;
     CC_SYNTHESIZE_RETAIN(ControlSaturationBrightnessPicker*, _colourPicker, colourPicker)
@@ -88,4 +88,4 @@ protected:
 
 NS_CC_EXT_END
 
-#endif
+#endif // CC_EXTENSIONS_GUI_CONTROLEXTENSION_COLOURPICKER_H

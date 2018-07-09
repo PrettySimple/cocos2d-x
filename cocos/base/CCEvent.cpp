@@ -24,17 +24,36 @@
 
 #include "base/CCEvent.h"
 
+#include <utility>
+
 NS_CC_BEGIN
 
 Event::Event(Type type)
 : _type(type)
-, _isStopped(false)
-, _currentTarget(nullptr)
 {
 }
 
 Event::~Event()
 {
+}
+
+Event::Event(Event&& other) noexcept
+: Ref(std::move(other))
+, _type(other._type)
+, _isStopped(other._isStopped)
+, _currentTarget(other._currentTarget)
+{
+    other._currentTarget = nullptr;
+}
+Event& Event::operator=(Event&& other) noexcept
+{
+    Ref::operator=(std::move(other));
+    _type = other._type;
+    _isStopped = other._isStopped;
+    _currentTarget = other._currentTarget;
+    other._currentTarget = nullptr;
+
+    return *this;
 }
 
 NS_CC_END

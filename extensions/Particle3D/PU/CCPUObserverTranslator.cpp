@@ -38,7 +38,7 @@ PUObserverTranslator::PUObserverTranslator()
 void PUObserverTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode* node)
 {
     PUObjectAbstractNode* obj = reinterpret_cast<PUObjectAbstractNode*>(node);
-    PUObjectAbstractNode* parent = obj->parent ? reinterpret_cast<PUObjectAbstractNode*>(obj->parent) : 0;
+    PUObjectAbstractNode* parent = obj->parent ? reinterpret_cast<PUObjectAbstractNode*>(obj->parent) : nullptr;
 
     // The name of the obj is the type of the Observer
     // Remark: This can be solved by using a listener, so that obj->values is filled with type + name. Something for later

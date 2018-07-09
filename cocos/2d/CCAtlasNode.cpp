@@ -243,12 +243,12 @@ TextureAtlas* AtlasNode::getTextureAtlas() const
     return _textureAtlas;
 }
 
-ssize_t AtlasNode::getQuadsToDraw() const
+std::size_t AtlasNode::getQuadsToDraw() const
 {
     return _quadsToDraw;
 }
 
-void AtlasNode::setQuadsToDraw(ssize_t quadsToDraw)
+void AtlasNode::setQuadsToDraw(std::size_t quadsToDraw)
 {
     _quadsToDraw = quadsToDraw;
 }

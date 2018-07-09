@@ -51,14 +51,14 @@ namespace ui
     , _actived(true)
     , _isPercentOnly(false)
     {
-        _name = __LAYOUT_COMPONENT_NAME;
+        _name = LAYOUT_COMPONENT_NAME;
     }
 
     LayoutComponent::~LayoutComponent() {}
 
     LayoutComponent* LayoutComponent::bindLayoutComponent(Node* node)
     {
-        LayoutComponent* layout = (LayoutComponent*)node->getComponent(__LAYOUT_COMPONENT_NAME);
+        LayoutComponent* layout = (LayoutComponent*)node->getComponent(LAYOUT_COMPONENT_NAME);
         if (layout != nullptr)
             return layout;
 

@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
@@ -22,12 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __DICTIONARYHELPER_H__
-#define __DICTIONARYHELPER_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_DICTIONARYHELPER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_DICTIONARYHELPER_H
 
 #include "cocostudio/CocosStudioExport.h"
-#include "json/document.h"
-#include "json/rapidjson.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <json/document.h>
+#include <json/rapidjson.h>
+#pragma clang diagnostic pop
 
 #define DICTOOL DictionaryHelper::getInstance()
 
@@ -67,4 +71,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif /* defined(__CocoGUI__DictionaryHelper__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_DICTIONARYHELPER_H

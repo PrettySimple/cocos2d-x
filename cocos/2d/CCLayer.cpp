@@ -309,105 +309,38 @@ void Layer::setKeypadEnabled(bool enabled)
 }
 /// Callbacks
 
-bool Layer::onTouchBegan(Touch* touch, Event* event)
+bool Layer::onTouchBegan(Touch*, Event*)
 {
-#if CC_ENABLE_SCRIPT_BINDING
-    if (kScriptTypeLua == _scriptType)
-    {
-        return executeScriptTouchHandler(EventTouch::EventCode::BEGAN, touch, event) == 0 ? false : true;
-    }
-#endif
-    CC_UNUSED_PARAM(event);
     CCASSERT(false, "Layer#ccTouchBegan override me");
     return true;
 }
 
-void Layer::onTouchMoved(Touch* touch, Event* event)
+void Layer::onTouchMoved(Touch*, Event*)
 {
-#if CC_ENABLE_SCRIPT_BINDING
-    if (kScriptTypeLua == _scriptType)
-    {
-        executeScriptTouchHandler(EventTouch::EventCode::MOVED, touch, event);
-        return;
-    }
-#endif
-
-    CC_UNUSED_PARAM(event);
 }
 
-void Layer::onTouchEnded(Touch* touch, Event* event)
+void Layer::onTouchEnded(Touch*, Event*)
 {
-#if CC_ENABLE_SCRIPT_BINDING
-    if (kScriptTypeLua == _scriptType)
-    {
-        executeScriptTouchHandler(EventTouch::EventCode::ENDED, touch, event);
-        return;
-    }
-#endif
-
-    CC_UNUSED_PARAM(event);
 }
 
-void Layer::onTouchCancelled(Touch* touch, Event* event)
+void Layer::onTouchCancelled(Touch*, Event*)
 {
-#if CC_ENABLE_SCRIPT_BINDING
-    if (kScriptTypeLua == _scriptType)
-    {
-        executeScriptTouchHandler(EventTouch::EventCode::CANCELLED, touch, event);
-        return;
-    }
-#endif
-
-    CC_UNUSED_PARAM(event);
 }
 
-void Layer::onTouchesBegan(const std::vector<Touch*>& touches, Event* event)
+void Layer::onTouchesBegan(const std::vector<Touch*>&, Event*)
 {
-#if CC_ENABLE_SCRIPT_BINDING
-    if (kScriptTypeLua == _scriptType)
-    {
-        executeScriptTouchesHandler(EventTouch::EventCode::BEGAN, touches, event);
-        return;
-    }
-#endif
-    CC_UNUSED_PARAM(event);
 }
 
-void Layer::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
+void Layer::onTouchesMoved(const std::vector<Touch*>&, Event*)
 {
-#if CC_ENABLE_SCRIPT_BINDING
-    if (kScriptTypeLua == _scriptType)
-    {
-        executeScriptTouchesHandler(EventTouch::EventCode::MOVED, touches, event);
-        return;
-    }
-#endif
-
-    CC_UNUSED_PARAM(event);
 }
 
-void Layer::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
+void Layer::onTouchesEnded(const std::vector<Touch*>&, Event*)
 {
-#if CC_ENABLE_SCRIPT_BINDING
-    if (kScriptTypeLua == _scriptType)
-    {
-        executeScriptTouchesHandler(EventTouch::EventCode::ENDED, touches, event);
-        return;
-    }
-#endif
-    CC_UNUSED_PARAM(event);
 }
 
-void Layer::onTouchesCancelled(const std::vector<Touch*>& touches, Event* event)
+void Layer::onTouchesCancelled(const std::vector<Touch*>&, Event*)
 {
-#if CC_ENABLE_SCRIPT_BINDING
-    if (kScriptTypeLua == _scriptType)
-    {
-        executeScriptTouchesHandler(EventTouch::EventCode::CANCELLED, touches, event);
-        return;
-    }
-#endif
-    CC_UNUSED_PARAM(event);
 }
 
 std::string Layer::getDescription() const
@@ -418,6 +351,10 @@ std::string Layer::getDescription() const
 __LayerRGBA::__LayerRGBA()
 {
     CCLOG("LayerRGBA deprecated.");
+}
+
+__LayerRGBA::~__LayerRGBA()
+{
 }
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
@@ -575,7 +512,7 @@ void LayerColor::draw(Renderer* renderer, Mat4 const& transform, uint32_t flags)
         pos.y = _squareVertices[i].y;
         pos.z = _positionZ;
         pos.w = 1;
-        _modelViewTransform.transformVector(&pos);
+        _modelViewTransform.transformVector(pos);
         _noMVPVertices[i] = Vec3(pos.x, pos.y, pos.z) / pos.w;
     }
 }

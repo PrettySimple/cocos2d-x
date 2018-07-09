@@ -25,6 +25,8 @@ THE SOFTWARE.
 
 #include "platform/CCThread.h"
 
+#include "platform/CCPlatformConfig.h"
+
 NS_CC_BEGIN
 
 // iOS and Mac already has a Thread.mm

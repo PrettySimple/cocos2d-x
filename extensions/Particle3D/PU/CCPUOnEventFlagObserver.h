@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_ON_EVENT_FLAG_OBSERVER_H__
-#define __CC_PU_PARTICLE_3D_ON_EVENT_FLAG_OBSERVER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_ONEVENTFLAGOBSERVER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_ONEVENTFLAGOBSERVER_H
 
 #include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUObserver.h"
@@ -53,15 +53,15 @@ public:
 
     /**
      */
-    unsigned int getEventFlag(void) const { return _eventFlag; };
-    void setEventFlag(unsigned int eventFlag) { _eventFlag = eventFlag; };
+    unsigned int getEventFlag(void) const { return _eventFlag; }
+    void setEventFlag(unsigned int eventFlag) { _eventFlag = eventFlag; }
 
-    virtual void copyAttributesTo(PUObserver* observer) override;
+    void copyAttributesTo(PUObserver* observer) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUOnEventFlagObserver(void);
-    virtual ~PUOnEventFlagObserver(void){};
+    CC_CONSTRUCTOR_ACCESS : PUOnEventFlagObserver();
+    ~PUOnEventFlagObserver() override {}
 };
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_ONEVENTFLAGOBSERVER_H

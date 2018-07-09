@@ -32,6 +32,7 @@ THE SOFTWARE.
 #include "renderer/ccGLStateCache.h"
 
 #include <algorithm>
+#include <limits>
 
 NS_CC_BEGIN
 
@@ -309,7 +310,7 @@ void ProgressTimer::updateRadial(void)
         //    intersection point
         //    We loop through five points since the top is split in half
 
-        float min_t = FLT_MAX;
+        float min_t = std::numeric_limits<float>::max();
 
         for (int i = 0; i <= kProgressTextureCoordsCount; ++i)
         {

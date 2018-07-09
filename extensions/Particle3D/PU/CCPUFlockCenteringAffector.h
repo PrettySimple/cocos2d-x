@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_FLOCK_CENTERING_AFFECTOR_H__
-#define __CC_PU_PARTICLE_3D_FLOCK_CENTERING_AFFECTOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_FLOCKCENTERINGAFFECTOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_FLOCKCENTERINGAFFECTOR_H
 
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 
@@ -35,13 +35,13 @@ class CC_DLL PUFlockCenteringAffector : public PUAffector
 public:
     static PUFlockCenteringAffector* create();
 
-    virtual void preUpdateAffector(float deltaTime) override;
-    virtual void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
+    void preUpdateAffector(float deltaTime) override;
+    void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
 
-    virtual void copyAttributesTo(PUAffector* affector) override;
+    void copyAttributesTo(PUAffector* affector) override;
 
     CC_CONSTRUCTOR_ACCESS : PUFlockCenteringAffector();
-    virtual ~PUFlockCenteringAffector();
+    ~PUFlockCenteringAffector() override;
 
 protected:
     Vec3 _sum;
@@ -50,4 +50,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_FLOCKCENTERINGAFFECTOR_H

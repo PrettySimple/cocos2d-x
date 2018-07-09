@@ -30,6 +30,9 @@ THE SOFTWARE.
 #include "2d/CCNodeGrid.h"
 #include "base/CCDirector.h"
 
+#include <cmath>
+#include <limits>
+
 NS_CC_BEGIN
 // implementation of GridAction
 
@@ -54,7 +57,9 @@ void GridAction::startWithTarget(Node* target)
 
     if (targetGrid && targetGrid->getReuseGrid() > 0)
     {
-        if (targetGrid->isActive() && targetGrid->getGridSize().width == _gridSize.width && targetGrid->getGridSize().height == _gridSize.height)
+        static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+        if (targetGrid->isActive() && std::abs(targetGrid->getGridSize().width - _gridSize.width) < epsi &&
+            std::abs(targetGrid->getGridSize().height - _gridSize.height) < epsi)
         {
             targetGrid->reuse();
         }
@@ -105,25 +110,25 @@ GridBase* Grid3DAction::getGrid()
 
 Vec3 Grid3DAction::getVertex(const Vec2& position) const
 {
-    Grid3D* g = (Grid3D*)_gridNodeTarget->getGrid();
+    Grid3D* g = static_cast<Grid3D*>(_gridNodeTarget->getGrid());
     return g->getVertex(position);
 }
 
 Vec3 Grid3DAction::getOriginalVertex(const Vec2& position) const
 {
-    Grid3D* g = (Grid3D*)_gridNodeTarget->getGrid();
+    Grid3D* g = static_cast<Grid3D*>(_gridNodeTarget->getGrid());
     return g->getOriginalVertex(position);
 }
 
 void Grid3DAction::setVertex(const Vec2& position, const Vec3& vertex)
 {
-    Grid3D* g = (Grid3D*)_gridNodeTarget->getGrid();
+    Grid3D* g = static_cast<Grid3D*>(_gridNodeTarget->getGrid());
     g->setVertex(position, vertex);
 }
 
 Rect Grid3DAction::getGridRect() const
 {
-    Grid3D* g = (Grid3D*)_gridNodeTarget->getGrid();
+    Grid3D* g = static_cast<Grid3D*>(_gridNodeTarget->getGrid());
     return g->getGridRect();
 }
 
@@ -136,19 +141,19 @@ GridBase* TiledGrid3DAction::getGrid(void)
 
 Quad3 TiledGrid3DAction::getTile(const Vec2& pos) const
 {
-    TiledGrid3D* g = (TiledGrid3D*)_gridNodeTarget->getGrid();
+    TiledGrid3D* g = static_cast<TiledGrid3D*>(_gridNodeTarget->getGrid());
     return g->getTile(pos);
 }
 
 Quad3 TiledGrid3DAction::getOriginalTile(const Vec2& pos) const
 {
-    TiledGrid3D* g = (TiledGrid3D*)_gridNodeTarget->getGrid();
+    TiledGrid3D* g = static_cast<TiledGrid3D*>(_gridNodeTarget->getGrid());
     return g->getOriginalTile(pos);
 }
 
 void TiledGrid3DAction::setTile(const Vec2& pos, const Quad3& coords)
 {
-    TiledGrid3D* g = (TiledGrid3D*)_gridNodeTarget->getGrid();
+    TiledGrid3D* g = static_cast<TiledGrid3D*>(_gridNodeTarget->getGrid());
     return g->setTile(pos, coords);
 }
 
@@ -246,7 +251,7 @@ bool AccelAmplitude::initWithAction(Action* action, std::chrono::milliseconds du
     if (ActionInterval::initWithDuration(duration))
     {
         _rate = 1.0f;
-        _other = (ActionInterval*)(action);
+        _other = static_cast<ActionInterval*>(action);
         action->retain();
 
         return true;
@@ -277,7 +282,7 @@ void AccelAmplitude::startWithTarget(Node* target)
 
 void AccelAmplitude::update(float time)
 {
-    ((AccelAmplitude*)(_other))->setAmplitudeRate(powf(time, _rate));
+    static_cast<AccelAmplitude*>(_other)->setAmplitudeRate(powf(time, _rate));
     _other->update(time);
 }
 
@@ -309,7 +314,7 @@ bool DeccelAmplitude::initWithAction(Action* action, std::chrono::milliseconds d
     if (ActionInterval::initWithDuration(duration))
     {
         _rate = 1.0f;
-        _other = (ActionInterval*)(action);
+        _other = static_cast<ActionInterval*>(action);
         action->retain();
 
         return true;
@@ -331,7 +336,7 @@ void DeccelAmplitude::startWithTarget(Node* target)
 
 void DeccelAmplitude::update(float time)
 {
-    ((DeccelAmplitude*)(_other))->setAmplitudeRate(powf((1 - time), _rate));
+    static_cast<DeccelAmplitude*>(_other)->setAmplitudeRate(powf((1 - time), _rate));
     _other->update(time);
 }
 

@@ -21,8 +21,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef CC_TERRAIN_H
-#define CC_TERRAIN_H
+#ifndef CC_3D_TERRAIN_H
+#define CC_3D_TERRAIN_H
 
 #include <vector>
 
@@ -183,7 +183,7 @@ private:
     struct CC_DLL TerrainVertexData
     {
         /*constructor*/
-        TerrainVertexData(){};
+        TerrainVertexData() {}
         TerrainVertexData(const Vec3& v1, const Tex2F& v2)
         {
             _position = v1;
@@ -438,7 +438,7 @@ public:
     std::vector<float> getHeightData() const;
 
     CC_CONSTRUCTOR_ACCESS : Terrain();
-    virtual ~Terrain();
+    ~Terrain() override;
     bool initWithTerrainData(TerrainData& parameter, CrackFixedType fixedType);
 
 protected:
@@ -461,7 +461,7 @@ protected:
     void calculateNormal();
 
     // override
-    virtual void onEnter() override;
+    void onEnter() override;
 
     /**
      * cache all uniform locations in GLSL.
@@ -531,4 +531,4 @@ protected:
 /// @}
 
 NS_CC_END
-#endif
+#endif // CC_3D_TERRAIN_H

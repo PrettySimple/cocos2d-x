@@ -23,15 +23,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_BEHAVIOUR_MANAGER_H__
-#define __CC_PU_PARTICLE_3D_BEHAVIOUR_MANAGER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_BEHAVIOURMANAGER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_BEHAVIOURMANAGER_H
 
 #include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUBehaviour.h"
 #include "extensions/Particle3D/PU/CCPUScriptTranslator.h"
 #include "extensions/Particle3D/PU/CCPUSlaveBehaviourTranslator.h"
 
-using namespace std;
 NS_CC_BEGIN
 
 class PUBehaviourManager
@@ -53,4 +52,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_BEHAVIOURMANAGER_H

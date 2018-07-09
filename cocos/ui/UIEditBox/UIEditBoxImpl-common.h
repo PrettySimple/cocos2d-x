@@ -24,8 +24,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __UIEditBoxIMPLICOMMON_H__
-#define __UIEditBoxIMPLICOMMON_H__
+#ifndef CC_UI_EDITBOX_EDITBOXIMPLCOMMON_H
+#define CC_UI_EDITBOX_EDITBOXIMPLCOMMON_H
 
 #include "platform/CCPlatformConfig.h"
 #include "ui/UIEditBox/UIEditBoxImpl-common.h"
@@ -48,7 +48,7 @@ namespace ui
          * @js NA
          * @lua NA
          */
-        virtual ~EditBoxImplCommon();
+        ~EditBoxImplCommon() override;
 
         virtual bool initWithSize(const Size& size) override;
 
@@ -109,13 +109,13 @@ namespace ui
         virtual const char* getNativeDefaultFontName() = 0;
         virtual void nativeOpenKeyboard() = 0;
         virtual void nativeCloseKeyboard() = 0;
-        virtual void setNativeMaxLength(int maxLength){};
+        virtual void setNativeMaxLength(int maxLength) {}
 
     private:
         void initInactiveLabels(const Size& size);
         void setInactiveText(const char* pText);
         void placeInactiveLabels();
-        virtual void doAnimationWhenKeyboardMove(float duration, float distance) override{};
+        void doAnimationWhenKeyboardMove(float duration, float distance) override {}
 
         Label* _label;
         Label* _labelPlaceHolder;
@@ -137,4 +137,4 @@ namespace ui
 
 NS_CC_END
 
-#endif /* __UIEditBoxIMPLICOMMON_H__ */
+#endif // CC_UI_EDITBOX_EDITBOXIMPLCOMMON_H

@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _CC_MESHCOMMAND_H_
-#define _CC_MESHCOMMAND_H_
+#ifndef CC_RENDERER_MESHCOMMAND_H
+#define CC_RENDERER_MESHCOMMAND_H
 
 #include "math/CCMath.h"
 #include "platform/CCPlatformConfig.h"
@@ -52,11 +52,11 @@ public:
     MeshCommand& operator=(MeshCommand&&) noexcept = delete;
     ~MeshCommand() final;
 
-    void init(float globalZOrder, Material* material, GLuint vertexBuffer, GLuint indexBuffer, GLenum primitive, GLenum indexFormat, ssize_t indexCount,
+    void init(float globalZOrder, Material* material, GLuint vertexBuffer, GLuint indexBuffer, GLenum primitive, GLenum indexFormat, std::size_t indexCount,
               const Mat4& mv, uint32_t flags);
 
     void init(float globalZOrder, GLuint textureID, GLProgramState* glProgramState, RenderState::StateBlock* stateBlock, GLuint vertexBuffer,
-              GLuint indexBuffer, GLenum primitive, GLenum indexFormat, ssize_t indexCount, const Mat4& mv, uint32_t flags);
+              GLuint indexBuffer, GLenum primitive, GLenum indexFormat, std::size_t indexCount, const Mat4& mv, uint32_t flags);
 
     void setDisplayColor(const Vec4& color);
     void setMatrixPalette(const Vec4* matrixPalette);
@@ -124,4 +124,4 @@ private:
 
 NS_CC_END
 
-#endif //_CC_MESHCOMMAND_H_
+#endif // CC_RENDERER_MESHCOMMAND_H

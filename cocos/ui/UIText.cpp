@@ -23,7 +23,10 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "ui/UIText.h"
+
 #include "2d/CCLabel.h"
+#include "2d/CCNode.h"
+#include "math/CCGeometry.h"
 #include "platform/CCFileUtils.h"
 
 NS_CC_BEGIN
@@ -118,7 +121,7 @@ namespace ui
 
     const std::string& Text::getString() const { return _labelRenderer->getString(); }
 
-    ssize_t Text::getStringLength() const { return _labelRenderer->getStringLength(); }
+    std::size_t Text::getStringLength() const { return _labelRenderer->getStringLength(); }
 
     void Text::setFontSize(float size)
     {

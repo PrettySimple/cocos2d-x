@@ -23,8 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_IME_DISPATCHER_H__
-#define __CC_IME_DISPATCHER_H__
+#ifndef CC_BASE_IMEDISPATCHER_H
+#define CC_BASE_IMEDISPATCHER_H
 
 #include "base/CCIMEDelegate.h"
 
@@ -75,7 +75,7 @@ public:
      * @brief Get the content text from IMEDelegate, retrieved previously from IME.
      * @lua NA
      */
-    const std::string& getContentText();
+    std::string const& getContentText() const;
 
     //////////////////////////////////////////////////////////////////////////
     // dispatch keyboard notification
@@ -139,4 +139,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif // __CC_IME_DISPATCHER_H__
+#endif // CC_BASE_IMEDISPATCHER_H

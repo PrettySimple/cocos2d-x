@@ -23,8 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_SET_H__
-#define __CC_SET_H__
+#ifndef CC_DEPRECATED_SET_H
+#define CC_DEPRECATED_SET_H
 /// @cond DO_NOT_SHOW
 
 #include "base/CCDataVisitor.h"
@@ -119,4 +119,4 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif // __CC_SET_H__
+#endif // CC_DEPRECATED_SET_H

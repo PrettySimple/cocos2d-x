@@ -25,8 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCCAMERA_ACTION_H__
-#define __CCCAMERA_ACTION_H__
+#ifndef CC_2D_ACTIONCAMERA_H
+#define CC_2D_ACTIONCAMERA_H
 
 #include "2d/CCActionInterval.h"
 #include "math/CCMath.h"
@@ -58,12 +58,12 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ActionCamera(){};
+    ~ActionCamera() override {}
 
     // Overrides
-    virtual void startWithTarget(Node* target) override;
-    virtual ActionCamera* reverse() const override;
-    virtual ActionCamera* clone() const override;
+    void startWithTarget(Node* target) override;
+    ActionCamera* reverse() const override;
+    ActionCamera* clone() const override;
 
     /* Sets the Eye value of the Camera.
      *
@@ -144,8 +144,8 @@ public:
 
     // Overrides
     OrbitCamera* clone() const override;
-    virtual void startWithTarget(Node* target) override;
-    virtual void update(float time) override;
+    void startWithTarget(Node* target) override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS :
         /**
@@ -156,7 +156,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~OrbitCamera();
+    ~OrbitCamera() override;
 
     /** Initializes a OrbitCamera action with radius, delta-radius,  z, deltaZ, x, deltaX. */
     bool initWithDuration(std::chrono::milliseconds t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX);
@@ -180,4 +180,4 @@ protected:
 
 NS_CC_END
 
-#endif //__CCCAMERA_ACTION_H__
+#endif // CC_2D_ACTIONCAMERA_H

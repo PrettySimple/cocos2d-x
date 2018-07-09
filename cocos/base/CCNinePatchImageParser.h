@@ -21,6 +21,10 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 ****************************************************************************/
+
+#ifndef CC_BASE_NINEPATCHIMAGEPARSER_H
+#define CC_BASE_NINEPATCHIMAGEPARSER_H
+
 #include "math/CCGeometry.h"
 #include "platform/CCPlatformMacros.h"
 
@@ -116,3 +120,5 @@ private:
 };
 
 NS_CC_END
+
+#endif // CC_BASE_NINEPATCHIMAGEPARSER_H

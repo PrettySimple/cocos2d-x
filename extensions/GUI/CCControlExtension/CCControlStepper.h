@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef __CCCONTROLSTEPPER_H__
-#define __CCCONTROLSTEPPER_H__
+#ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_STEPPER_H
+#define CC_EXTENSIONS_GUI_CONTROLEXTENSION_STEPPER_H
 
 #include "2d/CCLabel.h"
 #include "CCControl.h"
@@ -61,7 +61,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ControlStepper();
+    ~ControlStepper() override;
 
     bool initWithMinusSpriteAndPlusSprite(Sprite* minusSprite, Sprite* plusSprite);
 
@@ -123,4 +123,4 @@ protected:
 
 NS_CC_EXT_END
 
-#endif /* __CCCONTROLSTEPPER_H__ */
+#endif // CC_EXTENSIONS_GUI_CONTROLEXTENSION_STEPPER_H

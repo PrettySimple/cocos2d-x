@@ -24,6 +24,10 @@
 
 #include "3d/CCOBB.h"
 
+#include "3d/CCAABB.h"
+#include "math/Mat4.h"
+#include "math/Quaternion.h"
+
 NS_CC_BEGIN
 
 #define ROTATE(a, i, j, k, l)                        \
@@ -390,19 +394,19 @@ Vec3 OBB::getFaceDirection(int index) const
         case 0: // front and back
             v0 = corners[2] - corners[1];
             v1 = corners[0] - corners[1];
-            Vec3::cross(v0, v1, &faceDirection);
+            Vec3::cross(v0, v1, faceDirection);
             faceDirection.normalize();
             break;
         case 1: // left and right
             v0 = corners[5] - corners[2];
             v1 = corners[3] - corners[2];
-            Vec3::cross(v0, v1, &faceDirection);
+            Vec3::cross(v0, v1, faceDirection);
             faceDirection.normalize();
             break;
         case 2: // top and bottom
             v0 = corners[1] - corners[2];
             v1 = corners[5] - corners[2];
-            Vec3::cross(v0, v1, &faceDirection);
+            Vec3::cross(v0, v1, faceDirection);
             faceDirection.normalize();
             break;
         default:
@@ -436,7 +440,7 @@ bool OBB::intersects(const OBB& box) const
         for (int j = 0; j < 3; j++)
         {
             Vec3 axis;
-            Vec3::cross(getEdgeDirection(i), box.getEdgeDirection(j), &axis);
+            Vec3::cross(getEdgeDirection(i), box.getEdgeDirection(j), axis);
             getInterval(*this, axis, min1, max1);
             getInterval(box, axis, min2, max2);
             if (max1 < min2 || max2 < min1)

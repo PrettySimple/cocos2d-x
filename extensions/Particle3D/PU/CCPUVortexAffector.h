@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_VORTEX_AFFECTOR_H__
-#define __CC_PU_PARTICLE_3D_VORTEX_AFFECTOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_VORTEXAFFECTOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_VORTEXAFFECTOR_H
 
 #include "base/ccTypes.h"
 #include "extensions/Particle3D/PU/CCPUAffector.h"
@@ -41,11 +41,11 @@ public:
 
     static PUVortexAffector* create();
 
-    virtual void preUpdateAffector(float deltaTime) override;
-    virtual void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
+    void preUpdateAffector(float deltaTime) override;
+    void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
     /**
      */
-    const Vec3& getRotationVector(void) const;
+    const Vec3& getRotationVector() const;
 
     /**
      */
@@ -53,21 +53,21 @@ public:
 
     /**
      */
-    PUDynamicAttribute* getRotationSpeed(void) const;
+    PUDynamicAttribute* getRotationSpeed() const;
 
     /**
      */
     void setRotationSpeed(PUDynamicAttribute* dynRotationSpeed);
 
-    virtual void copyAttributesTo(PUAffector* affector) override;
+    void copyAttributesTo(PUAffector* affector) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUVortexAffector(void);
-    virtual ~PUVortexAffector(void);
+    CC_CONSTRUCTOR_ACCESS : PUVortexAffector();
+    ~PUVortexAffector() override;
 
 protected:
     /**
      */
-    float calculateRotationSpeed(void);
+    float calculateRotationSpeed();
 
 protected:
     Vec3 _rotationVector;
@@ -77,4 +77,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_VORTEXAFFECTOR_H

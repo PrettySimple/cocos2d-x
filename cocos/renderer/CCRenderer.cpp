@@ -692,7 +692,7 @@ void Renderer::fillVerticesAndIndices(TrianglesCommand const* cmd)
         if (std::abs(modelView.m[15] - 1.0f) >= std::numeric_limits<float>::epsilon())
         {
             Vec4 vec4 = Vec4(vec1.x, vec1.y, vec1.z, 1.0f);
-            modelView.transformVector(&vec4);
+            modelView.transformVector(vec4);
             vec4 = vec4 / vec4.w;
             vec1.x = vec4.x;
             vec1.y = vec4.y;
@@ -700,7 +700,7 @@ void Renderer::fillVerticesAndIndices(TrianglesCommand const* cmd)
         }
         else
         {
-            modelView.transformPoint(&vec1);
+            modelView.transformPoint(vec1);
         }
     }
 
@@ -760,7 +760,7 @@ void Renderer::drawBatchedTriangles()
             }
 
             _triBatchesToDraw[batchesTotal].cmd = cmd;
-            _triBatchesToDraw[batchesTotal].indicesToDraw = cmd->getIndexCount();
+            _triBatchesToDraw[batchesTotal].indicesToDraw = static_cast<GLsizei>(cmd->getIndexCount());
 
             // is this a single batch ? Prevent creating a batch group then
             if (!batchable)
@@ -899,7 +899,7 @@ bool Renderer::checkVisibility(const Mat4& transform, const Size& size)
     float hSizeX = size.width / 2;
     float hSizeY = size.height / 2;
     Vec3 v3p(hSizeX, hSizeY, 0);
-    transform.transformPoint(&v3p);
+    transform.transformPoint(v3p);
     Vec2 v2p = Camera::getVisitingCamera()->projectGL(v3p);
 
     // convert content size to world coordinates

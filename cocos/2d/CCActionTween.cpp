@@ -28,6 +28,10 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
+ActionTweenDelegate::~ActionTweenDelegate()
+{
+}
+
 ActionTween* ActionTween::create(std::chrono::milliseconds duration, const std::string& key, float from, float to)
 {
     ActionTween* ret = new (std::nothrow) ActionTween();

@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PARTICLE_3D_RENDER_H__
-#define __CC_PARTICLE_3D_RENDER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_RENDER_H
+#define CC_EXTENSIONS_PARTICLE3D_RENDER_H
 
 #include <vector>
 
@@ -75,7 +75,7 @@ public:
     virtual void reset() {}
 
     CC_CONSTRUCTOR_ACCESS : Particle3DRender();
-    virtual ~Particle3DRender();
+    ~Particle3DRender() override;
 
 protected:
     ParticleSystem3D* _particleSystem;
@@ -92,11 +92,11 @@ class CC_DLL Particle3DQuadRender : public Particle3DRender
 public:
     static Particle3DQuadRender* create(const std::string& texFile = "");
 
-    virtual void render(Renderer* renderer, const Mat4& transform, ParticleSystem3D* particleSystem) override;
+    void render(Renderer* renderer, const Mat4& transform, ParticleSystem3D* particleSystem) override;
 
-    virtual void reset() override;
+    void reset() override;
     CC_CONSTRUCTOR_ACCESS : Particle3DQuadRender();
-    virtual ~Particle3DQuadRender();
+    ~Particle3DQuadRender() override;
 
 protected:
     bool initQuadRender(const std::string& texFile);
@@ -126,11 +126,11 @@ class CC_DLL Particle3DModelRender : public Particle3DRender
 public:
     static Particle3DModelRender* create(const std::string& modelFile, const std::string& texFile = "");
 
-    virtual void render(Renderer* renderer, const Mat4& transform, ParticleSystem3D* particleSystem) override;
+    void render(Renderer* renderer, const Mat4& transform, ParticleSystem3D* particleSystem) override;
 
-    virtual void reset() override;
+    void reset() override;
     CC_CONSTRUCTOR_ACCESS : Particle3DModelRender();
-    virtual ~Particle3DModelRender();
+    ~Particle3DModelRender() override;
 
 protected:
     std::vector<Sprite3D*> _spriteList;
@@ -141,4 +141,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_RENDER_H

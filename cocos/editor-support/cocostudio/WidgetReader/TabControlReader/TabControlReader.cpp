@@ -29,10 +29,14 @@
 #include "editor-support/cocostudio/CSParseBinary_generated.h"
 #include "editor-support/cocostudio/FlatBuffersSerialize.h"
 #include "editor-support/cocostudio/WidgetReader/WidgetReader.h"
-#include "flatbuffers/flatbuffers.h"
 #include "platform/CCFileUtils.h"
-#include "tinyxml2.h"
 #include "ui/UITabControl.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <flatbuffers/flatbuffers.h>
+#include <tinyxml2/tinyxml2.h>
+#pragma clang diagnostic pop
 
 USING_NS_CC;
 using namespace cocostudio;

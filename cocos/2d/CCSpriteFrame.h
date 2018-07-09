@@ -25,8 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __SPRITE_CCSPRITE_FRAME_H__
-#define __SPRITE_CCSPRITE_FRAME_H__
+#ifndef CC_2D_SPRITEFRAME_H
+#define CC_2D_SPRITEFRAME_H
 
 #include "2d/CCAutoPolygon.h"
 #include "2d/CCNode.h"
@@ -231,7 +231,7 @@ public:
     /**
      * @lua NA
      */
-    virtual ~SpriteFrame();
+    ~SpriteFrame() override;
 
     /** Initializes a SpriteFrame with a texture, rect in points.
      It is assumed that the frame was not trimmed.
@@ -274,4 +274,4 @@ protected:
 
 NS_CC_END
 
-#endif //__SPRITE_CCSPRITE_FRAME_H__
+#endif // CC_2D_SPRITEFRAME_H

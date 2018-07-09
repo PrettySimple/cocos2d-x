@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_RIBBON_TRAIL_H__
-#define __CC_PU_PARTICLE_3D_RIBBON_TRAIL_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_RIBBONTRAIL_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_RIBBONTRAIL_H
 
 #include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUBillboardChain.h"
@@ -48,7 +48,7 @@ public:
     PURibbonTrail(const std::string& name, const std::string& texFile = "", size_t maxElements = 20, size_t numberOfChains = 1, bool useTextureCoords = true,
                   bool useColours = true);
     /// destructor
-    virtual ~PURibbonTrail();
+    ~PURibbonTrail() override;
 
     typedef std::vector<Node*> NodeList;
 
@@ -185,4 +185,4 @@ protected:
 };
 
 NS_CC_END
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_RIBBONTRAIL_H

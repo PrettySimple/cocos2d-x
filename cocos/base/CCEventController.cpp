@@ -45,4 +45,8 @@ EventController::EventController(ControllerEventType type, Controller* controlle
 {
 }
 
+EventController::~EventController()
+{
+}
+
 NS_CC_END

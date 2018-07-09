@@ -29,8 +29,8 @@
  * Converted to c++ / cocos2d-x by Angus C
  */
 
-#ifndef __CCCONTROL_HUE_PICKER_H__
-#define __CCCONTROL_HUE_PICKER_H__
+#ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_HUEPICKER_H
+#define CC_EXTENSIONS_GUI_CONTROLEXTENSION_HUEPICKER_H
 
 #include "CCControl.h"
 #include "CCInvocation.h"
@@ -57,29 +57,29 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ControlHuePicker();
+    ~ControlHuePicker() override;
     virtual bool initWithTargetAndPos(Node* target, Vec2 pos);
 
-    virtual void setEnabled(bool enabled) override;
+    void setEnabled(bool enabled) override;
 
     // overrides
-    virtual bool onTouchBegan(Touch* touch, Event* pEvent) override;
-    virtual void onTouchMoved(Touch* pTouch, Event* pEvent) override;
+    bool onTouchBegan(Touch* touch, Event* pEvent) override;
+    void onTouchMoved(Touch* pTouch, Event* pEvent) override;
 
 protected:
     void updateSliderPosition(Vec2 location);
     bool checkSliderPosition(Vec2 location);
 
     // manually put in the setters
-    CC_SYNTHESIZE_READONLY(float, _hue, Hue);
+    CC_SYNTHESIZE_READONLY(float, _hue, Hue)
     virtual void setHue(float val);
-    CC_SYNTHESIZE_READONLY(float, _huePercentage, HuePercentage);
+    CC_SYNTHESIZE_READONLY(float, _huePercentage, HuePercentage)
     virtual void setHuePercentage(float val);
 
     // not sure if these need to be there actually. I suppose someone might want to access the sprite?
-    CC_SYNTHESIZE_RETAIN(Sprite*, _background, Background);
-    CC_SYNTHESIZE_RETAIN(Sprite*, _slider, Slider);
-    CC_SYNTHESIZE_READONLY(Vec2, _startPos, StartPos);
+    CC_SYNTHESIZE_RETAIN(Sprite*, _background, Background)
+    CC_SYNTHESIZE_RETAIN(Sprite*, _slider, Slider)
+    CC_SYNTHESIZE_READONLY(Vec2, _startPos, StartPos)
 };
 
 // end of GUI group
@@ -88,4 +88,4 @@ protected:
 
 NS_CC_EXT_END
 
-#endif
+#endif // CC_EXTENSIONS_GUI_CONTROLEXTENSION_HUEPICKER_H

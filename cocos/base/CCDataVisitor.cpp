@@ -93,7 +93,7 @@ std::string PrettyPrinter::getResult()
 void PrettyPrinter::visitObject(const Ref* p)
 {
     char buf[50] = {0};
-    sprintf(buf, "%p", p);
+    sprintf(buf, "%p", reinterpret_cast<void const*>(p));
     _result += buf;
 }
 
@@ -114,7 +114,7 @@ void PrettyPrinter::visit(const __Integer* p)
 void PrettyPrinter::visit(const __Float* p)
 {
     char buf[50] = {0};
-    sprintf(buf, "%f", p->getValue());
+    sprintf(buf, "%f", static_cast<double>(p->getValue()));
     _result += buf;
 }
 

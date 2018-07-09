@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCAccelerometerEvent__
-#define __cocos2d_libs__CCAccelerometerEvent__
+#ifndef CC_BASE_EVENTACCELERATION_H
+#define CC_BASE_EVENTACCELERATION_H
 
 #include "base/CCEvent.h"
 #include "base/ccTypes.h"
@@ -38,14 +38,16 @@ NS_CC_BEGIN
 /** @class EventAcceleration
  * @brief Accelerometer event.
  */
-class CC_DLL EventAcceleration : public Event
+class CC_DLL EventAcceleration final : public Event
 {
 public:
-    /** Constructor.
-     *
-     * @param acc A given Acceleration.
-     */
+    EventAcceleration() = default;
     EventAcceleration(const Acceleration& acc);
+    EventAcceleration(EventAcceleration const&) = default;
+    EventAcceleration& operator=(EventAcceleration const&) = default;
+    EventAcceleration(EventAcceleration&&) noexcept = default;
+    EventAcceleration& operator=(EventAcceleration&&) noexcept = default;
+    ~EventAcceleration() final;
 
 private:
     Acceleration _acc;
@@ -57,4 +59,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif /* defined(__cocos2d_libs__CCAccelerometerEvent__) */
+#endif // CC_BASE_EVENTACCELERATION_H

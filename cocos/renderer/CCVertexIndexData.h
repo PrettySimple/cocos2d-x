@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_VERTEX_INDEX_DATA_H__
-#define __CC_VERTEX_INDEX_DATA_H__
+#ifndef CC_RENDERER_VERTEXINDEXDATA_H
+#define CC_RENDERER_VERTEXINDEXDATA_H
 
 #include "base/CCRef.h"
 #include <map>
@@ -198,4 +198,4 @@ NS_CC_END
  end of support group
  @}
  */
-#endif //__CC_VERTEX_INDEX_DATA_H__
+#endif // CC_RENDERER_VERTEXINDEXDATA_H

@@ -148,7 +148,7 @@ Ref* __Set::anyObject()
 {
     if (!_set || _set->empty())
     {
-        return 0;
+        return nullptr;
     }
 
     __SetIterator it;
@@ -161,7 +161,7 @@ Ref* __Set::anyObject()
         }
     }
 
-    return 0;
+    return nullptr;
 }
 
 NS_CC_END

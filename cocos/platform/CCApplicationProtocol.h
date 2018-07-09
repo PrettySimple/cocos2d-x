@@ -23,13 +23,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_APPLICATION_PROTOCOL_H__
-#define __CC_APPLICATION_PROTOCOL_H__
+#ifndef CC_PLATFORM_APPLICATIONPROTOCOL_H
+#define CC_PLATFORM_APPLICATIONPROTOCOL_H
 
-#include "base/CCAutoreleasePool.h"
-#include "base/CCScriptSupport.h"
+#include "platform/CCCommon.h"
+#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
-#include "renderer/ccGLStateCache.h"
+
+#include <cstdint>
+#include <string>
 
 NS_CC_BEGIN
 
@@ -44,7 +46,7 @@ public:
     /** Since WINDOWS and ANDROID are defined as macros, we could not just use these keywords in enumeration(Platform).
      *  Therefore, 'OS_' prefix is added to avoid conflicts with the definitions of system macros.
      */
-    enum class Platform
+    enum struct Platform : std::uint8_t
     {
         OS_WINDOWS, /**< Windows */
         OS_LINUX, /**< Linux */
@@ -60,23 +62,13 @@ public:
         OS_WP8 /**< Windows Phone 8 Applications */
     };
 
-    ApplicationProtocol()
-    {
-        GL::initialize(); // Make sure that static cache variables are created first to be deleted last.
-    }
+    ApplicationProtocol();
 
     /**
      * @js NA
      * @lua NA
      */
-    virtual ~ApplicationProtocol()
-    {
-#if CC_ENABLE_SCRIPT_BINDING
-        ScriptEngineManager::destroyInstance();
-#endif
-        /** clean auto release pool. */
-        PoolManager::destroyInstance();
-    }
+    virtual ~ApplicationProtocol();
 
     /**
      * @brief    Implement Director and Scene init code here.
@@ -164,4 +156,4 @@ public:
 
 NS_CC_END
 
-#endif // __CC_APPLICATION_PROTOCOL_H__
+#endif // CC_PLATFORM_APPLICATIONPROTOCOL_H

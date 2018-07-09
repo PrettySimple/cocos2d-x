@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __SUPPORT_CCPROFILING_H__
-#define __SUPPORT_CCPROFILING_H__
+#ifndef CC_BASE_PROFILLING_H
+#define CC_BASE_PROFILLING_H
 /// @cond DO_NOT_SHOW
 
 #include "base/CCMap.h"
@@ -164,4 +164,4 @@ extern bool kProfilerCategoryParticles;
 NS_CC_END
 
 /// @endcond
-#endif // __SUPPORT_CCPROFILING_H__
+#endif // CC_BASE_PROFILLING_H

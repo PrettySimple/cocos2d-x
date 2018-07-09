@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CCVRDistortionMesh_hpp
-#define CCVRDistortionMesh_hpp
+#ifndef CC_VR_DISTORTIONMESH_H
+#define CC_VR_DISTORTIONMESH_H
 
 #include "platform/CCPlatformMacros.h"
 
@@ -47,4 +47,4 @@ public:
 
 NS_CC_END
 
-#endif /* CCVRDistortionMesh_h */
+#endif // CC_VR_DISTORTIONMESH_H

@@ -44,9 +44,9 @@ void AnimationCurve<componentSize>::evaluate(float time, float* dst, EvaluateTyp
             // Evaluate.
             Quaternion quat;
             if (t >= 0)
-                Quaternion::slerp(Quaternion(fromValue), Quaternion(toValue), t, &quat);
+                Quaternion::slerp(Quaternion(fromValue), Quaternion(toValue), t, quat);
             else
-                Quaternion::slerp(Quaternion(toValue), Quaternion(fromValue), t, &quat);
+                Quaternion::slerp(Quaternion(toValue), Quaternion(fromValue), t, quat);
 
             dst[0] = quat.x;
             dst[1] = quat.y;
@@ -60,9 +60,6 @@ void AnimationCurve<componentSize>::evaluate(float time, float* dst, EvaluateTyp
                 _evaluateFun(time, dst);
         }
         break;
-
-        default:
-            break;
     }
 }
 

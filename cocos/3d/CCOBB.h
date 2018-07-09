@@ -22,12 +22,16 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_OBB_H__
-#define __CC_OBB_H__
+#ifndef CC_3D_OBB_H
+#define CC_3D_OBB_H
 
-#include "3d/CCAABB.h"
+#include "math/Vec3.h"
+#include "platform/CCPlatformMacros.h"
 
 NS_CC_BEGIN
+
+class AABB;
+class Mat4;
 
 /**
  * @addtogroup _3d
@@ -39,10 +43,15 @@ NS_CC_BEGIN
  * @brief the OBB is similar to the AABB but the bounding box has the same direction as Sprite3D. so it's collision detection more precise than AABB
  * @js NA
  */
-class CC_DLL OBB
+class CC_DLL OBB final
 {
 public:
     OBB();
+    OBB(OBB const&) = default;
+    OBB& operator=(OBB const&) = default;
+    OBB(OBB&&) noexcept = default;
+    OBB& operator=(OBB&&) noexcept = default;
+    ~OBB() = default;
 
     /*
      * Construct obb from oriented bounding box
@@ -144,4 +153,4 @@ public:
 
 NS_CC_END
 
-#endif
+#endif // CC_3D_OBB_H

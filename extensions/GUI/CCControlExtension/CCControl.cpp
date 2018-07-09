@@ -75,10 +75,10 @@ bool Control::init()
         auto dispatcher = Director::getInstance()->getEventDispatcher();
         auto touchListener = EventListenerTouchOneByOne::create();
         touchListener->setSwallowTouches(true);
-        touchListener->onTouchBegan = CC_CALLBACK_2(Control::onTouchBegan, this);
-        touchListener->onTouchMoved = CC_CALLBACK_2(Control::onTouchMoved, this);
-        touchListener->onTouchEnded = CC_CALLBACK_2(Control::onTouchEnded, this);
-        touchListener->onTouchCancelled = CC_CALLBACK_2(Control::onTouchCancelled, this);
+        touchListener->onTouchBegan = [this](Touch* touch, Event* evt) -> bool { return onTouchBegan(touch, evt); };
+        touchListener->onTouchMoved = [this](Touch* touch, Event* evt) { onTouchMoved(touch, evt); };
+        touchListener->onTouchEnded = [this](Touch* touch, Event* evt) { onTouchEnded(touch, evt); };
+        touchListener->onTouchCancelled = [this](Touch* touch, Event* evt) { onTouchCancelled(touch, evt); };
 
         dispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
@@ -107,10 +107,10 @@ void Control::sendActionsForControlEvents(EventType controlEvents)
     for (int i = 0; i < kControlEventTotalNumber; i++)
     {
         // If the given controlEvents bitmask contains the current event
-        if (((int)controlEvents & (1 << i)))
+        if ((static_cast<int>(controlEvents) & (1 << i)))
         {
             // Call invocations
-            const auto& invocationList = this->dispatchListforControlEvent((Control::EventType)(1 << i));
+            const auto& invocationList = this->dispatchListforControlEvent(static_cast<Control::EventType>(1 << i));
 
             for (const auto& invocation : invocationList)
             {
@@ -136,9 +136,9 @@ void Control::addTargetWithActionForControlEvents(Ref* target, Handler action, E
     for (int i = 0; i < kControlEventTotalNumber; i++)
     {
         // If the given controlEvents bitmask contains the current event
-        if (((int)controlEvents & (1 << i)))
+        if ((static_cast<int>(controlEvents) & (1 << i)))
         {
-            this->addTargetWithActionForControlEvent(target, action, (EventType)(1 << i));
+            this->addTargetWithActionForControlEvent(target, action, static_cast<EventType>(1 << i));
         }
     }
 }
@@ -172,9 +172,9 @@ void Control::removeTargetWithActionForControlEvents(Ref* target, Handler action
     for (int i = 0; i < kControlEventTotalNumber; i++)
     {
         // If the given controlEvents bitmask contains the current event
-        if (((int)controlEvents & (1 << i)))
+        if ((static_cast<int>(controlEvents) & (1 << i)))
         {
-            this->removeTargetWithActionForControlEvent(target, action, (EventType)(1 << i));
+            this->removeTargetWithActionForControlEvent(target, action, static_cast<EventType>(1 << i));
         }
     }
 }
@@ -258,13 +258,13 @@ bool Control::isTouchInside(Touch* touch)
 Vector<Invocation*>& Control::dispatchListforControlEvent(EventType controlEvent)
 {
     Vector<Invocation*>* invocationList = nullptr;
-    auto iter = _dispatchTable.find((int)controlEvent);
+    auto iter = _dispatchTable.find(static_cast<int>(controlEvent));
 
     // If the invocation list does not exist for the  dispatch table, we create it
     if (iter == _dispatchTable.end())
     {
         invocationList = new (std::nothrow) Vector<Invocation*>();
-        _dispatchTable[(int)controlEvent] = invocationList;
+        _dispatchTable[static_cast<std::size_t>(controlEvent)] = invocationList;
     }
     else
     {

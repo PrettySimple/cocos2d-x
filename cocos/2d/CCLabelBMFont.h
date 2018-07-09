@@ -31,8 +31,8 @@ Use any of these editors to generate BMFonts:
   http://www.angelcode.com/products/bmfont/ (Free, Windows only)
 
 ****************************************************************************/
-#ifndef __CCBITMAP_FONT_ATLAS_H__
-#define __CCBITMAP_FONT_ATLAS_H__
+#ifndef CC_2D_LABELBMFONT_H
+#define CC_2D_LABELBMFONT_H
 
 /// @cond DO_NOT_SHOW
 
@@ -91,7 +91,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~LabelBMFont();
+    ~LabelBMFont() override;
 
     /** creates a bitmap font atlas with an initial string and the FNT file */
     static LabelBMFont* create(const std::string& str, const std::string& fntFile, float width = 0, TextHAlignment alignment = TextHAlignment::LEFT,
@@ -161,4 +161,4 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif //__CCBITMAP_FONT_ATLAS_H__
+#endif // CC_2D_LABELBMFONT_H

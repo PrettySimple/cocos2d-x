@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCMESHSKIN_H__
-#define __CCMESHSKIN_H__
+#ifndef CC_3D_MESHSKIN_H
+#define CC_3D_MESHSKIN_H
 
 #include "3d/CCBundle3DData.h"
 #include "base/CCRef.h"
@@ -57,7 +57,7 @@ public:
     static MeshSkin* create(Skeleton3D* skeleton, const std::vector<std::string>& boneNames, const std::vector<Mat4>& invBindPose);
 
     /**get total bone count, skin bone + node bone*/
-    ssize_t getBoneCount() const;
+    std::size_t getBoneCount() const;
 
     /**get bone*/
     Bone3D* getBoneByIndex(unsigned int index) const;
@@ -70,7 +70,7 @@ public:
     Vec4* getMatrixPalette();
 
     /**getSkinBoneCount() * 3*/
-    ssize_t getMatrixPaletteSize() const;
+    std::size_t getMatrixPaletteSize() const;
 
     /**get root bone of the skin*/
     Bone3D* getRootBone() const;
@@ -109,4 +109,4 @@ protected:
 
 NS_CC_END
 
-#endif // __CCSKIN_H__
+#endif // CC_3D_MESHSKIN_H

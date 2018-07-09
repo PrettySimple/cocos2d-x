@@ -23,15 +23,22 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _FontFreetype_h_
-#define _FontFreetype_h_
+#ifndef CC_2D_FONTFREETYPE_H
+#define CC_2D_FONTFREETYPE_H
 
 /// @cond DO_NOT_SHOW
 
 #include "2d/CCFont.h"
+#include "base/ccTypes.h"
+#include "platform/CCPlatformConfig.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
 
-#include <ft2build.h>
 #include <string>
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <ft2build.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 #    define generic GenericFromFreeTypeLibrary
@@ -45,8 +52,11 @@
 #    undef generic
 #    undef internal
 #endif
+#pragma clang diagnostic pop
 
 NS_CC_BEGIN
+
+class FontAtlas;
 
 class CC_DLL FontFreeType : public Font
 {
@@ -58,13 +68,13 @@ public:
 
     static void shutdownFreeType();
 
-    bool isDistanceFieldEnabled() const { return _distanceFieldEnabled; }
+    inline bool isDistanceFieldEnabled() const noexcept { return _distanceFieldEnabled; }
 
-    float getOutlineSize() const { return _outlineSize; }
+    inline float getOutlineSize() const noexcept { return _outlineSize; }
 
     void renderCharAt(unsigned char* dest, int posX, int posY, unsigned char* bitmap, long bitmapWidth, long bitmapHeight);
 
-    FT_Encoding getEncoding() const { return _encoding; }
+    inline FT_Encoding getEncoding() const noexcept { return _encoding; }
 
     int* getHorizontalKerningForTextUTF16(const std::u16string& text, int& outNumLetters) const override;
 
@@ -73,8 +83,8 @@ public:
     int getFontAscender() const;
     const char* getFontFamily() const;
 
-    virtual FontAtlas* createFontAtlas() override;
-    virtual int getFontMaxHeight() const override { return _lineHeight; }
+    FontAtlas* createFontAtlas() override;
+    inline int getFontMaxHeight() const override { return _lineHeight; }
 
     static void releaseFont(const std::string& fontName);
 
@@ -85,7 +95,7 @@ private:
     static bool _FTInitialized;
 
     FontFreeType(bool distanceFieldEnabled = false, int outline = 0);
-    virtual ~FontFreeType();
+    ~FontFreeType() override;
 
     bool createFontObject(const std::string& fontName, float fontSize);
 
@@ -116,4 +126,4 @@ private:
 
 NS_CC_END
 
-#endif
+#endif // CC_2D_FONTFREETYPE_H

@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCEventListenerAssetsManagerEx__
-#define __cocos2d_libs__CCEventListenerAssetsManagerEx__
+#ifndef CC_EXTENSIONS_ASSETSMANAGER_EVENTLISTENERASSETSMANAGEREX_H
+#define CC_EXTENSIONS_ASSETSMANAGER_EVENTLISTENERASSETSMANAGEREX_H
 
 #include "base/CCEventListener.h"
 #include "base/CCEventListenerCustom.h"
@@ -83,4 +83,4 @@ protected:
 
 NS_CC_EXT_END
 
-#endif /* defined(__cocos2d_libs__CCEventListenerAssetsManagerEx__) */
+#endif // CC_EXTENSIONS_ASSETSMANAGER_EVENTLISTENERASSETSMANAGEREX_H

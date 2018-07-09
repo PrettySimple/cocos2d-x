@@ -37,7 +37,7 @@ PUBehaviourTranslator::PUBehaviourTranslator()
 void PUBehaviourTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode* node)
 {
     PUObjectAbstractNode* obj = reinterpret_cast<PUObjectAbstractNode*>(node);
-    PUObjectAbstractNode* parent = obj->parent ? reinterpret_cast<PUObjectAbstractNode*>(obj->parent) : 0;
+    PUObjectAbstractNode* parent = obj->parent ? reinterpret_cast<PUObjectAbstractNode*>(obj->parent) : nullptr;
 
     // The name of the obj is the type of the Behaviour
     std::string type;

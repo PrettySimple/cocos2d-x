@@ -25,17 +25,20 @@
 
 #include "2d/CCFontAtlas.h"
 
-#if CC_TARGET_PLATFORM != CC_PLATFORM_WIN32 && CC_TARGET_PLATFORM != CC_PLATFORM_WINRT && CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID
-#    include <iconv.h>
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-#    include "platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxHelper.h"
-#endif
 #include "2d/CCFontFreeType.h"
 #include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
 #include "base/CCEventListenerCustom.h"
 #include "base/CCEventType.h"
 #include "base/ccUTF8.h"
+#include "platform/CCPlatformConfig.h"
+#include "renderer/CCTexture2D.h"
+
+#if CC_TARGET_PLATFORM != CC_PLATFORM_WIN32 && CC_TARGET_PLATFORM != CC_PLATFORM_WINRT && CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID
+#    include <iconv.h>
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#    include "platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxHelper.h"
+#endif
 
 NS_CC_BEGIN
 

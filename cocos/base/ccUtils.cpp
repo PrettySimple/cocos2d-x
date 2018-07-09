@@ -30,18 +30,19 @@ THE SOFTWARE.
 #include <ratio>
 #include <stdlib.h>
 
+#include "2d/CCRenderTexture.h"
+#include "2d/CCSprite.h"
 #include "base/CCAsyncTaskPool.h"
 #include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
+#include "base/CCEventListener.h"
+#include "base/CCEventListenerCustom.h"
 #include "base/base64.h"
+#include "platform/CCFileUtils.h"
+#include "platform/CCImage.h"
 #include "renderer/CCCustomCommand.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/CCTextureCache.h"
-
-#include "2d/CCRenderTexture.h"
-#include "2d/CCSprite.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCImage.h"
 
 NS_CC_BEGIN
 
@@ -170,7 +171,7 @@ namespace utils
         s_captureScreenCommand.setFunc([afterCaptured, filename]() { onCaptureScreen(afterCaptured, filename); });
         s_captureScreenListener = Director::getInstance()->getEventDispatcher()->addCustomEventListener(Director::EVENT_AFTER_DRAW, [](EventCustom* event) {
             auto director = Director::getInstance();
-            director->getEventDispatcher()->removeEventListener((EventListener*)(s_captureScreenListener));
+            director->getEventDispatcher()->removeEventListener(static_cast<EventListener*>(s_captureScreenListener));
             s_captureScreenListener = nullptr;
             director->getRenderer()->addCommand(&s_captureScreenCommand);
             director->getRenderer()->render();
@@ -320,7 +321,7 @@ namespace utils
         if (texture == nullptr)
         {
             unsigned char* decoded;
-            int length = base64Decode((const unsigned char*)base64String, (unsigned int)strlen(base64String), &decoded);
+            int length = base64Decode(reinterpret_cast<unsigned char const*>(base64String), static_cast<unsigned int>(strlen(base64String)), &decoded);
 
             Image* image = new (std::nothrow) Image();
             bool imageResult = image->initWithImageData(decoded, length);
@@ -345,7 +346,7 @@ namespace utils
     Sprite* createSpriteFromBase64(const char* base64String)
     {
         unsigned char* decoded;
-        int length = base64Decode((const unsigned char*)base64String, (unsigned int)strlen(base64String), &decoded);
+        int length = base64Decode(reinterpret_cast<unsigned char const*>(base64String), static_cast<unsigned int>(strlen(base64String)), &decoded);
 
         Image* image = new (std::nothrow) Image();
         bool imageResult = image->initWithImageData(decoded, length);

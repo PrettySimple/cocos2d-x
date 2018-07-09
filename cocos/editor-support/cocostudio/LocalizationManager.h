@@ -1,9 +1,14 @@
-#ifndef __LOCALLIZATION_MANAGER_H__
-#define __LOCALLIZATION_MANAGER_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_LOCALIZATIONMANAGER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_LOCALIZATIONMANAGER_H
 
 #include "editor-support/cocostudio/CocosStudioExport.h"
-#include "json/document.h"
-#include "json/rapidjson.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <json/document.h>
+#include <json/rapidjson.h>
+#pragma clang diagnostic pop
+
 #include <string>
 #include <unordered_map>
 
@@ -105,4 +110,4 @@ namespace cocostudio
     };
 } // namespace cocostudio
 
-#endif //__LOCALLIZATION_MANAGER_H__
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_LOCALIZATIONMANAGER_H

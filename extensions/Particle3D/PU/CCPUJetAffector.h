@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_JET_AFFECTOR_H__
-#define __CC_PU_PARTICLE_3D_JET_AFFECTOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_JETAFFECTOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_JETAFFECTOR_H
 
 #include "base/ccTypes.h"
 #include "extensions/Particle3D/PU/CCPUAffector.h"
@@ -40,17 +40,17 @@ public:
 
     static PUJetAffector* create();
 
-    virtual void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
+    void updatePUAffector(PUParticle3D* particle, float deltaTime) override;
 
     /**
      */
-    PUDynamicAttribute* getDynAcceleration(void) const { return _dynAcceleration; };
+    inline PUDynamicAttribute* getDynAcceleration() const noexcept { return _dynAcceleration; }
     void setDynAcceleration(PUDynamicAttribute* dynAcceleration);
 
-    virtual void copyAttributesTo(PUAffector* affector) override;
+    void copyAttributesTo(PUAffector* affector) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUJetAffector(void);
-    virtual ~PUJetAffector(void);
+    CC_CONSTRUCTOR_ACCESS : PUJetAffector();
+    ~PUJetAffector() override;
 
 protected:
     float _scaled;
@@ -61,4 +61,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_JETAFFECTOR_H

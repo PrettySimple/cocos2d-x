@@ -22,14 +22,17 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCFLOAT_H__
-#define __CCFLOAT_H__
+#ifndef CC_DEPRECATED_FLOAT_H
+#define CC_DEPRECATED_FLOAT_H
 /// @cond DO_NOT_SHOW
 
-#include "base/CCDataVisitor.h"
 #include "base/CCRef.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
 
 NS_CC_BEGIN
+
+class DataVisitor;
 
 /**
  * @addtogroup data_structures
@@ -38,30 +41,28 @@ NS_CC_BEGIN
 
 class CC_DLL __Float : public Ref, public Clonable
 {
+    float _value = 0.f;
+
 public:
-    __Float(float v)
+    __Float() = default;
+    __Float(__Float const&) = default;
+    __Float& operator=(__Float const&) = default;
+    __Float(__Float&&) noexcept = default;
+    __Float& operator=(__Float&&) noexcept = default;
+    ~__Float() final;
+
+    inline __Float(float v)
     : _value(v)
     {
     }
-    float getValue() const { return _value; }
+    inline float getValue() const noexcept { return _value; }
 
-    static __Float* create(float v)
-    {
-        __Float* pRet = new (std::nothrow) __Float(v);
-        if (pRet)
-        {
-            pRet->autorelease();
-        }
-        return pRet;
-    }
+    static __Float* create(float v);
 
     /* override functions */
-    virtual void acceptVisitor(DataVisitor& visitor) { visitor.visit(this); }
+    void acceptVisitor(DataVisitor& visitor);
 
-    virtual __Float* clone() const override { return __Float::create(_value); }
-
-private:
-    float _value;
+    __Float* clone() const final;
 };
 
 // end of data_structure group
@@ -70,4 +71,4 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif /* __CCFLOAT_H__ */
+#endif // CC_DEPRECATED_FLOAT_H

@@ -23,8 +23,11 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "ui/UITextAtlas.h"
+
 #include "2d/CCLabel.h"
+#include "2d/CCNode.h"
 #include "editor-support/cocostudio/CocosStudioExtension.h"
+#include "math/CCGeometry.h"
 
 NS_CC_BEGIN
 
@@ -87,7 +90,7 @@ namespace ui
         _itemHeight = itemHeight;
         _startCharMap = startCharMap;
 
-        _labelAtlasRenderer->setCharMap(_charMapFileName, _itemWidth, _itemHeight, (int)(_startCharMap[0]));
+        _labelAtlasRenderer->setCharMap(_charMapFileName, _itemWidth, _itemHeight, static_cast<int>(_startCharMap[0]));
         _labelAtlasRenderer->setString(stringValue);
 
         updateContentSizeWithTextureSize(_labelAtlasRenderer->getContentSize());
@@ -110,7 +113,7 @@ namespace ui
 
     const std::string& TextAtlas::getString() const { return _labelAtlasRenderer->getString(); }
 
-    ssize_t TextAtlas::getStringLength() const { return _labelAtlasRenderer->getStringLength(); }
+    std::size_t TextAtlas::getStringLength() const { return _labelAtlasRenderer->getStringLength(); }
 
     void TextAtlas::onSizeChanged()
     {

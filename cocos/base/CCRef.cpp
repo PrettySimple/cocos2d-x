@@ -24,18 +24,17 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "base/CCRef.h"
+
 #include "base/CCAutoreleasePool.h"
-#include "base/CCScriptSupport.h"
 #include "base/ccMacros.h"
 
-#if CC_REF_LEAK_DETECTION
-#    include <algorithm> // std::find
+#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
+#    include <algorithm>
+#    include <cstddef>
 #    include <mutex>
 #    include <thread>
 #    include <vector>
-#endif
 
-#if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
 #    ifdef __APPLE__
 #        include <execinfo.h> // For backtrace on IOS
 #    endif
@@ -45,25 +44,23 @@ THE SOFTWARE.
 #    endif
 #    include <cxxabi.h> // For demagling
 
-using namespace std;
+static constexpr std::size_t const MAX_CALLSTACK_SIZE = 32;
+static constexpr std::size_t const MAX_FUNC_SIZE = 4096;
 
-static constexpr size_t MAX_CALLSTACK_SIZE = 32;
-static constexpr size_t MAX_FUNC_SIZE = 4096;
-
-string demangle(string call)
+std::string demangle(std::string const& call)
 {
-    size_t funcnamesize = MAX_FUNC_SIZE;
+    std::size_t funcnamesize = MAX_FUNC_SIZE;
     char funcname[MAX_FUNC_SIZE];
     int status;
     char* ret = abi::__cxa_demangle(call.c_str(), funcname, &funcnamesize, &status);
 
     if (status == 0)
-        call = string(ret);
-    return call;
+        return std::string(ret);
+    return "";
 }
 
 #    ifdef __APPLE__
-string demangle_ios(string call);
+std::string demangle_ios(std::string const& call);
 #    endif
 
 #    ifdef __ANDROID__
@@ -88,9 +85,9 @@ _Unwind_Reason_Code android_unwind_callback(struct _Unwind_Context* context, voi
 }
 #    endif
 
-vector<string> currentCallStack()
+std::vector<std::string> currentCallStack()
 {
-    vector<string> stack;
+    std::vector<std::string> stack;
     void* callstack[MAX_CALLSTACK_SIZE];
 
 #    ifdef __APPLE__
@@ -100,6 +97,7 @@ vector<string> currentCallStack()
         stack.push_back(demangle_ios(strs[i]));
     free(strs);
 #    endif
+
 #    ifdef __ANDROID__
     android_backtrace_state state;
     state.current = callstack;
@@ -123,16 +121,17 @@ vector<string> currentCallStack()
         stack.push_back(to_string(idx) + " " + demangle(string(symbol)));
     }
 #    endif
+
     return stack;
 }
 
 #    ifdef __APPLE__
-string demangle_ios(string call)
+std::string demangle_ios(std::string const& call)
 {
     auto mangled = call;
     auto endName = mangled.find_last_of(" + ");
 
-    if (endName != string::npos)
+    if (endName != std::string::npos)
     {
         mangled = call.substr(0, endName - 2);
         auto beginName = mangled.find_last_of(" ");
@@ -150,28 +149,26 @@ string demangle_ios(string call)
 
 NS_CC_BEGIN
 
+Clonable::~Clonable()
+{
+}
+
 #if CC_ENABLE_SCRIPT_BINDING
 static unsigned int uObjectCount = 0;
 #endif
 
-#if CC_REF_LEAK_DETECTION
+#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
 static void trackRef(Ref* ref);
 static void untrackRef(Ref* ref);
 #endif
 
 Ref::Ref()
-: _referenceCount(1) // when the Ref is created, the reference count of it is 1
-#if CC_ENABLE_SCRIPT_BINDING
-, _luaID(0)
-, _scriptObject(nullptr)
-, _rooted(false)
-#endif
 {
 #if CC_ENABLE_SCRIPT_BINDING
     _ID = ++uObjectCount;
 #endif
 
-#if CC_REF_LEAK_DETECTION
+#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
     trackRef(this);
 #endif
 }
@@ -196,15 +193,15 @@ Ref::~Ref()
 #    endif // !CC_ENABLE_GC_FOR_NATIVE_OBJECTS
 #endif // CC_ENABLE_SCRIPT_BINDING
 
-#if CC_REF_LEAK_DETECTION
+#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
     if (_referenceCount != 0)
         untrackRef(this);
 #endif
 }
 
 Ref::Ref(const Ref& other)
+: _referenceCount(1)
 {
-    _referenceCount = 1;
 #if CC_ENABLE_SCRIPT_BINDING
     _ID = ++uObjectCount;
     _luaID = 0;
@@ -212,6 +209,7 @@ Ref::Ref(const Ref& other)
     _rooted = false;
 #endif
 }
+
 Ref& Ref::operator=(const Ref& other)
 {
     _referenceCount = 1;
@@ -226,7 +224,7 @@ Ref& Ref::operator=(const Ref& other)
 
 void Ref::retain()
 {
-#if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
+#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
     if (_trackRetainRelease)
         _retainList.emplace_back(currentCallStack());
 #endif
@@ -236,7 +234,7 @@ void Ref::retain()
 
 void Ref::release()
 {
-#if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
+#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
     if (_trackRetainRelease)
         _releaseList.emplace_back(currentCallStack());
 #endif
@@ -280,7 +278,7 @@ void Ref::release()
         }
 #endif
 
-#if CC_REF_LEAK_DETECTION
+#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
         untrackRef(this);
 #endif
         delete this;
@@ -298,7 +296,7 @@ unsigned int Ref::getReferenceCount() const
     return _referenceCount;
 }
 
-#if CC_REF_LEAK_DETECTION
+#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
 
 static std::vector<Ref*> __refAllocationList;
 static std::mutex __refMutex;
@@ -346,6 +344,6 @@ static void untrackRef(Ref* ref)
     __refAllocationList.erase(iter);
 }
 
-#endif // #if CC_REF_LEAK_DETECTION
+#endif // CC_REF_LEAK_DETECTION
 
 NS_CC_END

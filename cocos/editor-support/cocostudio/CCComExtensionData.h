@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
  Copyright (c) 2015 cocos2d-x.org
 
  http://www.cocos2d-x.org
@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCObjectExtensionData__
-#define __cocos2d_libs__CCObjectExtensionData__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_COMEXTENSIONDATA_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_COMEXTENSIONDATA_H
 
 #include "2d/CCComponent.h"
 #include "CCComBase.h"
@@ -50,34 +50,34 @@ namespace cocostudio
          * @js NA
          * @lua NA
          */
-        virtual void onEnter() override;
+        void onEnter() override;
         /**
          * @js NA
          * @lua NA
          */
-        virtual void onExit() override;
+        void onExit() override;
         /**
          * @js NA
          * @lua NA
          */
-        virtual void onAdd() override;
+        void onAdd() override;
         /**
          * @js NA
          * @lua NA
          */
-        virtual void onRemove() override;
+        void onRemove() override;
         static ComExtensionData* create();
-        virtual bool init() override;
+        bool init() override;
 
         virtual void setCustomProperty(const std::string& customProperty) { _customProperty = customProperty; }
         virtual std::string getCustomProperty() const { return _customProperty; };
 
         virtual void setActionTag(int actionTag);
-        virtual const int getActionTag() const;
+        virtual int getActionTag() const;
 
     public:
         ComExtensionData();
-        ~ComExtensionData();
+        ~ComExtensionData() override;
 
     protected:
         std::string _customProperty;
@@ -85,4 +85,4 @@ namespace cocostudio
     };
 } // namespace cocostudio
 
-#endif /* defined(__cocos2d_libs__CCObjectExtensionData__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_COMEXTENSIONDATA_H

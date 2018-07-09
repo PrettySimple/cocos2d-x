@@ -248,9 +248,8 @@ GLubyte MotionStreak::getOpacity(void) const
     return 0;
 }
 
-void MotionStreak::setOpacityModifyRGB(bool bValue)
+void MotionStreak::setOpacityModifyRGB(bool)
 {
-    CC_UNUSED_PARAM(bValue);
 }
 
 bool MotionStreak::isOpacityModifyRGB(void) const

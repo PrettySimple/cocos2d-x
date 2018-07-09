@@ -315,7 +315,7 @@ namespace cocostudio
         pause();
     }
 
-    ssize_t ArmatureAnimation::getMovementCount() const { return _animationData->getMovementCount(); }
+    std::size_t ArmatureAnimation::getMovementCount() const { return _animationData->getMovementCount(); }
 
     void ArmatureAnimation::update(float dt)
     {

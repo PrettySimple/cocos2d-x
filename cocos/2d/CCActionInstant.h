@@ -25,8 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCINSTANT_ACTION_H__
-#define __CCINSTANT_ACTION_H__
+#ifndef CC_2D_ACTIONINSTANT_H
+#define CC_2D_ACTIONINSTANT_H
 
 #include "2d/CCAction.h"
 
@@ -77,15 +77,15 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
-    virtual ActionInstant* reverse() const override;
-    virtual Show* clone() const override;
+    void update(float time) override;
+    ActionInstant* reverse() const override;
+    Show* clone() const override;
 
     CC_CONSTRUCTOR_ACCESS : Show() {}
-    virtual ~Show() {}
+    ~Show() override {}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Show);
+    CC_DISALLOW_COPY_AND_ASSIGN(Show)
 };
 
 /** @class Hide
@@ -106,15 +106,15 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
-    virtual ActionInstant* reverse() const override;
-    virtual Hide* clone() const override;
+    void update(float time) override;
+    ActionInstant* reverse() const override;
+    Hide* clone() const override;
 
     CC_CONSTRUCTOR_ACCESS : Hide() {}
-    virtual ~Hide() {}
+    ~Hide() override {}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Hide);
+    CC_DISALLOW_COPY_AND_ASSIGN(Hide)
 };
 
 /** @class ToggleVisibility
@@ -135,15 +135,15 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
-    virtual ToggleVisibility* reverse() const override;
-    virtual ToggleVisibility* clone() const override;
+    void update(float time) override;
+    ToggleVisibility* reverse() const override;
+    ToggleVisibility* clone() const override;
 
     CC_CONSTRUCTOR_ACCESS : ToggleVisibility() {}
-    virtual ~ToggleVisibility() {}
+    ~ToggleVisibility() override {}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ToggleVisibility);
+    CC_DISALLOW_COPY_AND_ASSIGN(ToggleVisibility)
 };
 
 /** @class RemoveSelf
@@ -165,15 +165,15 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
-    virtual RemoveSelf* clone() const override;
-    virtual RemoveSelf* reverse() const override;
+    void update(float time) override;
+    RemoveSelf* clone() const override;
+    RemoveSelf* reverse() const override;
 
     CC_CONSTRUCTOR_ACCESS : RemoveSelf()
     : _isNeedCleanUp(true)
     {
     }
-    virtual ~RemoveSelf() {}
+    ~RemoveSelf() override {}
 
     /** init the action */
     bool init(bool isNeedCleanUp);
@@ -182,7 +182,7 @@ protected:
     bool _isNeedCleanUp;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(RemoveSelf);
+    CC_DISALLOW_COPY_AND_ASSIGN(RemoveSelf)
 };
 
 /** @class FlipX
@@ -205,15 +205,15 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
-    virtual FlipX* reverse() const override;
-    virtual FlipX* clone() const override;
+    void update(float time) override;
+    FlipX* reverse() const override;
+    FlipX* clone() const override;
 
     CC_CONSTRUCTOR_ACCESS : FlipX()
     : _flipX(false)
     {
     }
-    virtual ~FlipX() {}
+    ~FlipX() override {}
 
     /** init the action */
     bool initWithFlipX(bool x);
@@ -222,7 +222,7 @@ protected:
     bool _flipX;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FlipX);
+    CC_DISALLOW_COPY_AND_ASSIGN(FlipX)
 };
 
 /** @class FlipY
@@ -245,15 +245,15 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
-    virtual FlipY* reverse() const override;
-    virtual FlipY* clone() const override;
+    void update(float time) override;
+    FlipY* reverse() const override;
+    FlipY* clone() const override;
 
     CC_CONSTRUCTOR_ACCESS : FlipY()
     : _flipY(false)
     {
     }
-    virtual ~FlipY() {}
+    ~FlipY() override {}
 
     /** init the action */
     bool initWithFlipY(bool y);
@@ -262,7 +262,7 @@ protected:
     bool _flipY;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FlipY);
+    CC_DISALLOW_COPY_AND_ASSIGN(FlipY)
 };
 
 /** @class Place
@@ -284,12 +284,12 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
-    virtual Place* reverse() const override;
-    virtual Place* clone() const override;
+    void update(float time) override;
+    Place* reverse() const override;
+    Place* clone() const override;
 
     CC_CONSTRUCTOR_ACCESS : Place() {}
-    virtual ~Place() {}
+    ~Place() override {}
 
     /** Initializes a Place action with a position */
     bool initWithPosition(const Vec2& pos);
@@ -298,7 +298,7 @@ protected:
     Vec2 _position;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Place);
+    CC_DISALLOW_COPY_AND_ASSIGN(Place)
 };
 
 /** @class CallFunc
@@ -357,9 +357,9 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
-    virtual CallFunc* reverse() const override;
-    virtual CallFunc* clone() const override;
+    void update(float time) override;
+    CallFunc* reverse() const override;
+    CallFunc* clone() const override;
 
     CC_CONSTRUCTOR_ACCESS : CallFunc()
     : _selectorTarget(nullptr)
@@ -367,7 +367,7 @@ public:
     , _function(nullptr)
     {
     }
-    virtual ~CallFunc();
+    ~CallFunc() override;
 
     /** initializes the action with the callback
      typedef void (Ref::*SEL_CallFunc)();
@@ -394,7 +394,7 @@ protected:
     std::function<void()> _function;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(CallFunc);
+    CC_DISALLOW_COPY_AND_ASSIGN(CallFunc)
 };
 
 /** @class CallFuncN
@@ -422,14 +422,14 @@ public:
     //
     // Overrides
     //
-    virtual CallFuncN* clone() const override;
-    virtual void execute() override;
+    CallFuncN* clone() const override;
+    void execute() override;
 
     CC_CONSTRUCTOR_ACCESS : CallFuncN()
     : _functionN(nullptr)
     {
     }
-    virtual ~CallFuncN() {}
+    ~CallFuncN() override {}
 
     /** initializes the action with the std::function<void(Node*)> */
     bool initWithFunction(const std::function<void(Node*)>& func);
@@ -446,7 +446,7 @@ protected:
     std::function<void(Node*)> _functionN;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(CallFuncN);
+    CC_DISALLOW_COPY_AND_ASSIGN(CallFuncN)
 };
 
 /** @class __CCCallFuncND
@@ -470,11 +470,11 @@ public:
     //
     // Overrides
     //
-    virtual __CCCallFuncND* clone() const override;
-    virtual void execute() override;
+    __CCCallFuncND* clone() const override;
+    void execute() override;
 
     CC_CONSTRUCTOR_ACCESS : __CCCallFuncND() {}
-    virtual ~__CCCallFuncND() {}
+    ~__CCCallFuncND() override {}
 
     /** initializes the action with the callback and the data to pass as an argument */
     bool initWithTarget(Ref* target, SEL_CallFuncND selector, void* d);
@@ -484,7 +484,7 @@ protected:
     void* _data;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(__CCCallFuncND);
+    CC_DISALLOW_COPY_AND_ASSIGN(__CCCallFuncND)
 };
 
 /** @class __CCCallFuncO
@@ -509,14 +509,14 @@ public:
     //
     // Overrides
     //
-    virtual __CCCallFuncO* clone() const override;
-    virtual void execute() override;
+    __CCCallFuncO* clone() const override;
+    void execute() override;
 
     Ref* getObject() const;
     void setObject(Ref* obj);
 
     CC_CONSTRUCTOR_ACCESS : __CCCallFuncO();
-    virtual ~__CCCallFuncO();
+    ~__CCCallFuncO() override;
     /** initializes the action with the callback
 
      typedef void (Ref::*SEL_CallFuncO)(Ref*);
@@ -529,7 +529,7 @@ protected:
     SEL_CallFuncO _callFuncO;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(__CCCallFuncO);
+    CC_DISALLOW_COPY_AND_ASSIGN(__CCCallFuncO)
 };
 
 // end of actions group
@@ -537,4 +537,4 @@ private:
 
 NS_CC_END
 
-#endif //__CCINSTANT_ACTION_H__
+#endif // CC_2D_ACTIONINSTANT_H

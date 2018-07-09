@@ -26,8 +26,6 @@ THE SOFTWARE.
 
 #include "renderer/ccShaders.h"
 
-#define STRINGIFY(A) #A
-
 NS_CC_BEGIN
 //
 

@@ -136,29 +136,29 @@ void PURealTimeForceFieldCalculationFactory::determineForce(const Vec3& position
         return;
     }
 
-    force.x = (float)(_noise3D.noise(_mappedPosition.x + delta, _mappedPosition.y, _mappedPosition.z) -
-                      _noise3D.noise(_mappedPosition.x - delta, _mappedPosition.y, _mappedPosition.z));
-    force.y = (float)(_noise3D.noise(_mappedPosition.x, _mappedPosition.y + delta, _mappedPosition.z) -
-                      _noise3D.noise(_mappedPosition.x, _mappedPosition.y - delta, _mappedPosition.z));
-    force.z = (float)(_noise3D.noise(_mappedPosition.x, _mappedPosition.y, _mappedPosition.z + delta) -
-                      _noise3D.noise(_mappedPosition.x, _mappedPosition.y, _mappedPosition.z - delta));
+    force.x = static_cast<float>(_noise3D.noise(_mappedPosition.x + delta, _mappedPosition.y, _mappedPosition.z) -
+                                 _noise3D.noise(_mappedPosition.x - delta, _mappedPosition.y, _mappedPosition.z));
+    force.y = static_cast<float>(_noise3D.noise(_mappedPosition.x, _mappedPosition.y + delta, _mappedPosition.z) -
+                                 _noise3D.noise(_mappedPosition.x, _mappedPosition.y - delta, _mappedPosition.z));
+    force.z = static_cast<float>(_noise3D.noise(_mappedPosition.x, _mappedPosition.y, _mappedPosition.z + delta) -
+                                 _noise3D.noise(_mappedPosition.x, _mappedPosition.y, _mappedPosition.z - delta));
 }
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
-PUForceField::PUForceField(void)
+PUForceField::PUForceField()
 : _octaves(2)
-, _frequency(1.0f)
-, _amplitude(1.0f)
-, _persistence(1.0f)
+, _frequency(1.0)
+, _amplitude(1.0)
+, _persistence(1.0)
 , _worldSize(PUForceFieldCalculationFactory::DEFAULT_WORLDSIZE)
 , _forceFieldSize(64)
-, _forceFieldCalculationFactory(0)
+, _forceFieldCalculationFactory(nullptr)
 , _forceFieldType(FF_REALTIME_CALC)
 {
 }
 //-----------------------------------------------------------------------
-PUForceField::~PUForceField(void)
+PUForceField::~PUForceField()
 {
     if (_forceFieldCalculationFactory)
     {

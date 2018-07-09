@@ -33,6 +33,9 @@ THE SOFTWARE.
 #include "base/ccMacros.h"
 #include "base/ccUTF8.h"
 
+#include <cmath>
+#include <limits>
+
 NS_CC_BEGIN
 //
 // Action Base Class
@@ -169,7 +172,7 @@ void Speed::startWithTarget(Node* target)
     }
     else
     {
-        log("Speed::startWithTarget error: target(%p) or _innerAction(%p) is nullptr!", target, _innerAction);
+        log("Speed::startWithTarget error: target(%p) or _innerAction(%p) is nullptr!", reinterpret_cast<void*>(target), reinterpret_cast<void*>(_innerAction));
     }
 }
 
@@ -298,7 +301,9 @@ bool Follow::initWithTargetAndOffset(Node* followedNode, float xOffset, float yO
             _topBoundary = _bottomBoundary = (_topBoundary + _bottomBoundary) / 2;
         }
 
-        if ((_topBoundary == _bottomBoundary) && (_leftBoundary == _rightBoundary))
+        static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+
+        if (std::abs(_topBoundary - _bottomBoundary) < epsi && std::abs(_leftBoundary - _rightBoundary) < epsi)
         {
             _boundaryFullyCovered = true;
         }

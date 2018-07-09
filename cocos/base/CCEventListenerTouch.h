@@ -23,8 +23,8 @@
 
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCTouchEventListener__
-#define __cocos2d_libs__CCTouchEventListener__
+#ifndef CC_BASE_EVENTLISTENERTOUCH_H
+#define CC_BASE_EVENTLISTENERTOUCH_H
 
 #include "base/CCEventListener.h"
 #include <vector>
@@ -55,7 +55,7 @@ public:
      * Destructor.
      * @js NA
      */
-    virtual ~EventListenerTouchOneByOne();
+    ~EventListenerTouchOneByOne() override;
 
     /** Whether or not to swall touches.
      *
@@ -69,8 +69,8 @@ public:
     bool isSwallowTouches();
 
     /// Overrides
-    virtual EventListenerTouchOneByOne* clone() override;
-    virtual bool checkAvailable() override;
+    EventListenerTouchOneByOne* clone() override;
+    bool checkAvailable() override;
     //
 
 public:
@@ -108,11 +108,11 @@ public:
     /** Destructor.
      * @js NA
      */
-    virtual ~EventListenerTouchAllAtOnce();
+    ~EventListenerTouchAllAtOnce() override;
 
     /// Overrides
-    virtual EventListenerTouchAllAtOnce* clone() override;
-    virtual bool checkAvailable() override;
+    EventListenerTouchAllAtOnce* clone() override;
+    bool checkAvailable() override;
     //
 public:
     typedef std::function<void(const std::vector<Touch*>&, Event*)> ccTouchesCallback;
@@ -134,4 +134,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif /* defined(__cocos2d_libs__CCTouchEventListener__) */
+#endif // CC_BASE_EVENTLISTENERTOUCH_H

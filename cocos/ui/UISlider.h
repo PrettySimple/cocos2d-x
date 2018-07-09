@@ -22,11 +22,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __UISLIDER_H__
-#define __UISLIDER_H__
+#ifndef CC_UI_SLIDER_H
+#define CC_UI_SLIDER_H
 
+#include "base/ccConfig.h"
+#include "math/CCGeometry.h"
+#include "ui/GUIDefine.h"
 #include "ui/GUIExport.h"
 #include "ui/UIWidget.h"
+
+#include <functional>
+#include <string>
 
 NS_CC_BEGIN
 
@@ -35,8 +41,15 @@ NS_CC_BEGIN
  * @{
  */
 
+class Camera;
+class Event;
+class Node;
+class Ref;
 class Sprite;
-struct CC_DLL ResourceData;
+class SpriteFrame;
+class Touch;
+class Vec2;
+struct ResourceData;
 
 namespace ui
 {
@@ -60,7 +73,7 @@ namespace ui
     public:
         /** EventType Slider event type.
          */
-        enum class EventType
+        enum class EventType : std::uint8_t
         {
             ON_PERCENTAGE_CHANGED,
             //@since v3.7
@@ -68,7 +81,7 @@ namespace ui
             ON_SLIDEBALL_UP,
             ON_SLIDEBALL_CANCEL
         };
-        typedef std::function<void(Ref*, EventType)> ccSliderCallback;
+        using ccSliderCallback = std::function<void(Ref*, EventType)>;
         /**
          * Default constructor.
          * @js ctor
@@ -81,7 +94,7 @@ namespace ui
          * @js NA
          * @lua NA
          */
-        virtual ~Slider();
+        ~Slider() override;
 
         /** Create a slider widget.
          *
@@ -228,26 +241,26 @@ namespace ui
          */
         void addEventListener(const ccSliderCallback& callback);
 
-        virtual bool onTouchBegan(Touch* touch, Event* unusedEvent) override;
-        virtual void onTouchMoved(Touch* touch, Event* unusedEvent) override;
-        virtual void onTouchEnded(Touch* touch, Event* unusedEvent) override;
-        virtual void onTouchCancelled(Touch* touch, Event* unusedEvent) override;
+        bool onTouchBegan(Touch* touch, Event* unusedEvent) override;
+        void onTouchMoved(Touch* touch, Event* unusedEvent) override;
+        void onTouchEnded(Touch* touch, Event* unusedEvent) override;
+        void onTouchCancelled(Touch* touch, Event* unusedEvent) override;
 
         // override "getVirtualRendererSize" method of widget.
-        virtual Size getVirtualRendererSize() const override;
+        Size getVirtualRendererSize() const override;
 
         // override "getVirtualRenderer" method of widget.
-        virtual Node* getVirtualRenderer() override;
+        Node* getVirtualRenderer() override;
 
         // override "ignoreContentAdaptWithSize" method of widget.
-        virtual void ignoreContentAdaptWithSize(bool ignore) override;
+        void ignoreContentAdaptWithSize(bool ignore) override;
 
         // override the widget's hitTest function to perform its own
-        virtual bool hitTest(const Vec2& pt, const Camera* camera, Vec3* p) const override;
+        bool hitTest(const Vec2& pt, const Camera* camera, Vec3* p) const override;
         /**
          * Returns the "class name" of widget.
          */
-        virtual std::string getDescription() const override;
+        std::string getDescription() const override;
 
         /** When user pressed the button, the button will zoom to a scale.
          * The final scale of the button  equals (button original scale + _zoomScale)
@@ -277,10 +290,10 @@ namespace ui
         virtual void initRenderer() override;
         float getPercentWithBallPos(const Vec2& pt) const;
         void percentChangedEvent(EventType event);
-        virtual void onPressStateChangedToNormal() override;
-        virtual void onPressStateChangedToPressed() override;
-        virtual void onPressStateChangedToDisabled() override;
-        virtual void onSizeChanged() override;
+        void onPressStateChangedToNormal() override;
+        void onPressStateChangedToPressed() override;
+        void onPressStateChangedToDisabled() override;
+        void onSizeChanged() override;
 
         void setupBarTexture();
         void loadBarTexture(SpriteFrame* spriteframe);
@@ -292,9 +305,9 @@ namespace ui
 
         void barRendererScaleChangedWithSize();
         void progressBarRendererScaleChangedWithSize();
-        virtual Widget* createCloneInstance() override;
-        virtual void copySpecialProperties(Widget* model) override;
-        virtual void adaptRenderers() override;
+        Widget* createCloneInstance() override;
+        void copySpecialProperties(Widget* model) override;
+        void adaptRenderers() override;
 
     protected:
         Scale9Sprite* _barRenderer;
@@ -362,4 +375,4 @@ namespace ui
 
 NS_CC_END
 
-#endif /* defined(__CocoGUI__Slider__) */
+#endif // CC_UI_SLIDER_H

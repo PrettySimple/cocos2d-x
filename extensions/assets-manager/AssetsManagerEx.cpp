@@ -47,8 +47,6 @@ NS_CC_EXT_BEGIN
 #define BUFFER_SIZE 8192
 #define MAX_FILENAME 512
 
-#define DEFAULT_CONNECTION_TIMEOUT 8
-
 const std::string AssetsManagerEx::VERSION_ID = "@version";
 const std::string AssetsManagerEx::MANIFEST_ID = "@manifest";
 
@@ -313,7 +311,7 @@ bool AssetsManagerEx::decompress(const std::string& zip)
         // Get info about current file.
         unz_file_info fileInfo;
         char fileName[MAX_FILENAME];
-        if (unzGetCurrentFileInfo(zipfile, &fileInfo, fileName, MAX_FILENAME, NULL, 0, NULL, 0) != UNZ_OK)
+        if (unzGetCurrentFileInfo(zipfile, &fileInfo, fileName, MAX_FILENAME, nullptr, 0, nullptr, 0) != UNZ_OK)
         {
             CCLOG("AssetsManagerEx : can not read compressed file info\n");
             unzClose(zipfile);
@@ -563,7 +561,7 @@ void AssetsManagerEx::startUpdate()
     if (_tempManifest->isLoaded() && _tempManifest->versionEquals(_remoteManifest))
     {
         _tempManifest->genResumeAssetsList(&_downloadUnits);
-        _totalWaitToDownload = _totalToDownload = (int)_downloadUnits.size();
+        _totalWaitToDownload = _totalToDownload = static_cast<int>(_downloadUnits.size());
         this->batchDownload();
 
         std::string msg = StringUtils::format("Resuming from previous unfinished update, %d files remains to be finished.", _totalToDownload);
@@ -619,7 +617,7 @@ void AssetsManagerEx::startUpdate()
                     _tempManifest->setAssetDownloadState(key, Manifest::DownloadState::SUCCESSED);
                 }
             }
-            _totalWaitToDownload = _totalToDownload = (int)_downloadUnits.size();
+            _totalWaitToDownload = _totalToDownload = static_cast<int>(_downloadUnits.size());
             this->batchDownload();
 
             std::string msg = StringUtils::format("Start to update %d files from remote package.", _totalToDownload);
@@ -674,7 +672,7 @@ void AssetsManagerEx::updateSucceed()
 
         delete asyncDataInner;
     };
-    AsyncTaskPool::getInstance()->enqueue(AsyncTaskPool::TaskType::TASK_OTHER, mainThread, (void*)asyncData, [this, asyncData]() {
+    AsyncTaskPool::getInstance()->enqueue(AsyncTaskPool::TaskType::TASK_OTHER, mainThread, reinterpret_cast<void*>(asyncData), [this, asyncData]() {
         // Decompress all compressed files
         for (auto& zipFile : asyncData->compressedFiles)
         {
@@ -750,6 +748,7 @@ void AssetsManagerEx::update()
         {
             _updateState = State::PREDOWNLOAD_VERSION;
         }
+            [[clang::fallthrough]];
         case State::PREDOWNLOAD_VERSION:
         {
             downloadVersion();
@@ -807,13 +806,13 @@ void AssetsManagerEx::updateAssets(const DownloadUnits& assets)
 
     if (_updateState != State::UPDATING && _localManifest->isLoaded() && _remoteManifest->isLoaded())
     {
-        int size = (int)(assets.size());
+        int size = static_cast<int>(assets.size());
         if (size > 0)
         {
             _updateState = State::UPDATING;
             _downloadUnits.clear();
             _downloadUnits = assets;
-            _totalWaitToDownload = _totalToDownload = (int)_downloadUnits.size();
+            _totalWaitToDownload = _totalToDownload = static_cast<int>(_downloadUnits.size());
             this->batchDownload();
         }
         else if (size == 0 && _totalWaitToDownload == 0)
@@ -910,7 +909,7 @@ void AssetsManagerEx::onProgress(double total, double downloaded, const std::str
         {
             float currentPercent = 100 * totalDownloaded / _totalSize;
             // Notify at integer level change
-            if ((int)currentPercent != (int)_percent)
+            if (static_cast<int>(currentPercent) != static_cast<int>(_percent))
             {
                 _percent = currentPercent;
                 // Notify progression event

@@ -23,8 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __PLATFORM_CCPLATFORMDEFINE_H__
-#define __PLATFORM_CCPLATFORMDEFINE_H__
+#ifndef CC_PLATFORM_PLATFORMDEFINE_H
+#define CC_PLATFORM_PLATFORMDEFINE_H
 /// @cond DO_NOT_SHOW
 
 #include "platform/CCPlatformConfig.h"
@@ -48,4 +48,4 @@ THE SOFTWARE.
 #endif
 
 /// @endcond
-#endif /* __PLATFORM_CCPLATFORMDEFINE_H__*/
+#endif // CC_PLATFORM_PLATFORMDEFINE_H

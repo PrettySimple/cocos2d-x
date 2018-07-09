@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCCONFIGURATION_H__
-#define __CCCONFIGURATION_H__
+#ifndef CC_BASE_CONFIGURATION_H
+#define CC_BASE_CONFIGURATION_H
 
 #include "3d/CCAnimate3D.h"
 #include "base/CCRef.h"
@@ -284,4 +284,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif // __CCCONFIGURATION_H__
+#endif // CC_BASE_CONFIGURATION_H

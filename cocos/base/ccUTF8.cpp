@@ -24,9 +24,14 @@
  ****************************************************************************/
 
 #include "base/ccUTF8.h"
-#include "ConvertUTF.h"
+
 #include "base/CCConsole.h"
 #include "platform/CCCommon.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <ConvertUTF/ConvertUTF.h>
+#pragma clang diagnostic pop
 
 NS_CC_BEGIN
 
@@ -41,7 +46,7 @@ namespace StringUtils
         va_list ap;
         va_start(ap, format);
 
-        char* buf = (char*)malloc(CC_MAX_STRING_LENGTH);
+        char* buf = reinterpret_cast<char*>(malloc(CC_MAX_STRING_LENGTH));
         if (buf != nullptr)
         {
             vsnprintf(buf, CC_MAX_STRING_LENGTH, format, ap);
@@ -259,7 +264,7 @@ namespace StringUtils
 
     std::vector<char16_t> getChar16VectorFromUTF16String(const std::u16string& utf16) { return std::vector<char16_t>(utf16.begin(), utf16.end()); }
 
-    long getCharacterCountInUTF8String(const std::string& utf8) { return getUTF8StringLength((const UTF8*)utf8.c_str()); }
+    long getCharacterCountInUTF8String(const std::string& utf8) { return getUTF8StringLength(reinterpret_cast<UTF8 const*>(utf8.c_str())); }
 
     StringUTF8::StringUTF8() {}
 
@@ -274,7 +279,7 @@ namespace StringUtils
         _str.clear();
         if (!newStr.empty())
         {
-            UTF8* sequenceUtf8 = (UTF8*)newStr.c_str();
+            UTF8* sequenceUtf8 = reinterpret_cast<UTF8*>(const_cast<char*>(newStr.c_str()));
 
             int lengthString = getUTF8StringLength(sequenceUtf8);
 
@@ -289,7 +294,7 @@ namespace StringUtils
                 std::size_t lengthChar = getNumBytesForUTF8(*sequenceUtf8);
 
                 CharUTF8 charUTF8;
-                charUTF8._char.append((char*)sequenceUtf8, lengthChar);
+                charUTF8._char.append(reinterpret_cast<char*>(sequenceUtf8), lengthChar);
                 sequenceUtf8 += lengthChar;
 
                 _str.push_back(charUTF8);
@@ -382,9 +387,8 @@ bool iscjk_unicode(unsigned short ch)
     return StringUtils::isCJKUnicode(ch);
 }
 
-long cc_utf8_strlen(const char* p, int max)
+long cc_utf8_strlen(const char* p, int)
 {
-    CC_UNUSED_PARAM(max);
     if (p == nullptr)
         return -1;
     return StringUtils::getCharacterCountInUTF8String(p);

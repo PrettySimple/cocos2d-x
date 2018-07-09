@@ -27,8 +27,8 @@
  *
  * Helper class to store targets and selectors (and eventually, params?) in the same MutableArray. Basically a very crude form of a NSInvocation
  */
-#ifndef __CCINVOCATION_H__
-#define __CCINVOCATION_H__
+#ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_INVOCATION_H
+#define CC_EXTENSIONS_GUI_CONTROLEXTENSION_INVOCATION_H
 
 #include "../../ExtensionMacros.h"
 #include "CCControl.h"
@@ -65,10 +65,17 @@ public:
      */
     void invoke(Ref* sender);
 
+    Invocation() = default;
+    Invocation(Invocation const&) = default;
+    Invocation& operator=(Invocation const&) = default;
+    Invocation(Invocation&&) noexcept = default;
+    Invocation& operator=(Invocation&&) noexcept = default;
+    ~Invocation() override;
+
 protected:
-    CC_SYNTHESIZE_READONLY(Control::Handler, _action, Action);
-    CC_SYNTHESIZE_READONLY(Ref*, _target, Target);
-    CC_SYNTHESIZE_READONLY(Control::EventType, _controlEvent, ControlEvent);
+    CC_SYNTHESIZE_READONLY(Control::Handler, _action, Action)
+    CC_SYNTHESIZE_READONLY(Ref*, _target, Target)
+    CC_SYNTHESIZE_READONLY(Control::EventType, _controlEvent, ControlEvent)
 };
 
 // end of GUI group
@@ -77,4 +84,4 @@ protected:
 
 NS_CC_EXT_END
 
-#endif
+#endif // CC_EXTENSIONS_GUI_CONTROLEXTENSION_INVOCATION_H

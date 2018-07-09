@@ -25,8 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __SPRITE_NODE_CCSPRITE_H__
-#define __SPRITE_NODE_CCSPRITE_H__
+#ifndef CC_2D_SPRITE_H
+#define CC_2D_SPRITE_H
 
 #include "2d/CCAutoPolygon.h"
 #include "2d/CCDrawNode.h"
@@ -87,7 +87,7 @@ class CC_DLL Sprite : public Node, public TextureProtocol
 {
 public:
     /** Sprite invalid index on the SpriteBatchNode. */
-    static const int INDEX_NOT_INITIALIZED = -1;
+    static const std::size_t INDEX_NOT_INITIALIZED = std::numeric_limits<std::size_t>::max();
 
     /// @name Creators
     /// @{
@@ -270,7 +270,7 @@ public:
      */
     CC_DEPRECATED_ATTRIBUTE virtual SpriteFrame* getDisplayFrame() const { return getSpriteFrame(); }
     /** @deprecated Use `getSpriteFrame()` instead. */
-    CC_DEPRECATED_ATTRIBUTE virtual SpriteFrame* displayFrame() const { return getSpriteFrame(); };
+    CC_DEPRECATED_ATTRIBUTE virtual SpriteFrame* displayFrame() const { return getSpriteFrame(); }
 
     /// @} End of frames methods
 
@@ -280,7 +280,7 @@ public:
      * Changes the display frame with animation name and index.
      * The animation name will be get from the AnimationCache.
      */
-    virtual void setDisplayFrameWithAnimationName(const std::string& animationName, ssize_t frameIndex);
+    virtual void setDisplayFrameWithAnimationName(const std::string& animationName, std::size_t frameIndex);
     /// @}
 
     /// @{
@@ -313,14 +313,14 @@ public:
     /**
      * Returns the index used on the TextureAtlas.
      */
-    ssize_t getAtlasIndex() const { return _atlasIndex; }
+    std::size_t getAtlasIndex() const { return _atlasIndex; }
 
     /**
      * Sets the index used on the TextureAtlas.
      *
      * @warning Don't modify this value unless you know what you are doing.
      */
-    void setAtlasIndex(ssize_t atlasIndex) { _atlasIndex = atlasIndex; }
+    void setAtlasIndex(std::size_t atlasIndex) { _atlasIndex = atlasIndex; }
 
     /**
      * Returns the rect of the Sprite in points.
@@ -364,11 +364,11 @@ public:
      * @js NA
      * @lua NA
      */
-    CC_DEPRECATED_ATTRIBUTE bool isFlipX() { return isFlippedX(); };
+    CC_DEPRECATED_ATTRIBUTE bool isFlipX() { return isFlippedX(); }
     /** @deprecated Use setFlippedX() instead
      * @js NA
      */
-    CC_DEPRECATED_ATTRIBUTE void setFlipX(bool flippedX) { setFlippedX(flippedX); };
+    CC_DEPRECATED_ATTRIBUTE void setFlipX(bool flippedX) { setFlippedX(flippedX); }
 
     /**
      * Return the flag which indicates whether the sprite is flipped vertically or not.
@@ -393,11 +393,11 @@ public:
     /** @deprecated Use isFlippedY() instead.
      * @js NA
      */
-    CC_DEPRECATED_ATTRIBUTE bool isFlipY() { return isFlippedY(); };
+    CC_DEPRECATED_ATTRIBUTE bool isFlipY() { return isFlippedY(); }
     /** @deprecated Use setFlippedY() instead.
      * @js NA
      */
-    CC_DEPRECATED_ATTRIBUTE void setFlipY(bool flippedY) { setFlippedY(flippedY); };
+    CC_DEPRECATED_ATTRIBUTE void setFlipY(bool flippedY) { setFlippedY(flippedY); }
 
     /**
      * returns a reference of the polygon information associated with this sprite
@@ -480,7 +480,7 @@ public:
          * @js ctor
          */
         Sprite();
-    virtual ~Sprite();
+    ~Sprite() override;
 
     /* Initializes an empty sprite with no parameters. */
     virtual bool init() override;
@@ -589,24 +589,24 @@ protected:
     //
     // Data used when the sprite is rendered using a SpriteSheet
     //
-    TextureAtlas* _textureAtlas; /// SpriteBatchNode texture atlas (weak reference)
-    ssize_t _atlasIndex; /// Absolute (real) Index on the SpriteSheet
-    SpriteBatchNode* _batchNode; /// Used batch node (weak reference)
+    TextureAtlas* _textureAtlas = nullptr; /// SpriteBatchNode texture atlas (weak reference)
+    std::size_t _atlasIndex = INDEX_NOT_INITIALIZED; /// Absolute (real) Index on the SpriteSheet
+    SpriteBatchNode* _batchNode = nullptr; /// Used batch node (weak reference)
 
-    bool _dirty; /// Whether the sprite needs to be updated
-    bool _recursiveDirty; /// Whether all of the sprite's children needs to be updated
-    bool _shouldBeHidden; /// should not be drawn because one of the ancestors is not visible
+    bool _dirty = false; /// Whether the sprite needs to be updated
+    bool _recursiveDirty = false; /// Whether all of the sprite's children needs to be updated
+    bool _shouldBeHidden = false; /// should not be drawn because one of the ancestors is not visible
     Mat4 _transformToBatch;
 
     //
     // Data used when the sprite is self-rendered
     //
-    BlendFunc _blendFunc; /// It's required for TextureProtocol inheritance
-    Texture2D* _texture; /// Texture2D object that is used to render the sprite
-    SpriteFrame* _spriteFrame;
+    BlendFunc _blendFunc = BlendFunc::ALPHA_PREMULTIPLIED; /// It's required for TextureProtocol inheritance
+    Texture2D* _texture = nullptr; /// Texture2D object that is used to render the sprite
+    SpriteFrame* _spriteFrame = nullptr;
     TrianglesCommand _trianglesCommand; ///
 #if CC_SPRITE_DEBUG_DRAW
-    DrawNode* _debugDrawNode;
+    DrawNode* _debugDrawNode = nullptr;
 #endif // CC_SPRITE_DEBUG_DRAW
     //
     // Shared data
@@ -614,7 +614,7 @@ protected:
 
     // texture
     Rect _rect; /// Rectangle of Texture2D
-    bool _rectRotated; /// Whether the texture is rotated
+    bool _rectRotated = false; /// Whether the texture is rotated
 
     // Offset Position (used by Zwoptex)
     Vec2 _offsetPosition;
@@ -625,19 +625,19 @@ protected:
     PolygonInfo _polyInfo;
 
     // opacity and RGB protocol
-    bool _opacityModifyRGB;
+    bool _opacityModifyRGB = false;
 
     // image is flipped
-    bool _flippedX; /// Whether the sprite is flipped horizontally or not
-    bool _flippedY; /// Whether the sprite is flipped vertically or not
+    bool _flippedX = false; /// Whether the sprite is flipped horizontally or not
+    bool _flippedY = false; /// Whether the sprite is flipped vertically or not
 
-    bool _insideBounds; /// whether or not the sprite was inside bounds the previous frame
+    bool _insideBounds = true; /// whether or not the sprite was inside bounds the previous frame
 
     std::string _fileName;
-    int _fileType;
+    int _fileType = -1;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Sprite);
+    CC_DISALLOW_COPY_AND_ASSIGN(Sprite)
 };
 
 // end of sprite_nodes group
@@ -645,4 +645,4 @@ private:
 
 NS_CC_END
 
-#endif // __SPRITE_NODE_CCSPRITE_H__
+#endif // CC_2D_SPRITE_H

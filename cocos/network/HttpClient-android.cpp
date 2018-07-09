@@ -210,7 +210,7 @@ namespace network
             if (JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/lib/Cocos2dxHttpURLConnection", "sendRequest", "(Ljava/net/HttpURLConnection;[B)V"))
             {
                 jbyteArray bytearray;
-                ssize_t dataSize = request->getRequestDataSize();
+                std::size_t dataSize = request->getRequestDataSize();
                 bytearray = methodInfo.env->NewByteArray(dataSize);
                 methodInfo.env->SetByteArrayRegion(bytearray, 0, dataSize, (const jbyte*)request->getRequestData());
                 methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, _httpURLConnection, bytearray);

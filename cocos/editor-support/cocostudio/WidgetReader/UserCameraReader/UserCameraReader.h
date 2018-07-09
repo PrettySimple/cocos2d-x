@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__UserCameraReader__
-#define __cocos2d_libs__UserCameraReader__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_USERCAMERAREADER_USERCAMERAREADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_USERCAMERAREADER_USERCAMERAREADER_H
 
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -60,4 +60,4 @@ namespace cocostudio
     };
 } // namespace cocostudio
 
-#endif /* defined(__cocos2d_libs__UserCameraReader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_USERCAMERAREADER_USERCAMERAREADER_H

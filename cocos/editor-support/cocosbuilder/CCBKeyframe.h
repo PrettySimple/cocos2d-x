@@ -1,5 +1,5 @@
-#ifndef __CCB_KEYFRAME_H__
-#define __CCB_KEYFRAME_H__
+#ifndef CC_EDITORSUPPORT_COCOSBUILDER_KEYFRAME_H
+#define CC_EDITORSUPPORT_COCOSBUILDER_KEYFRAME_H
 
 #include "base/CCRef.h"
 #include "base/CCValue.h"
@@ -68,4 +68,4 @@ namespace cocosbuilder
 
 } // namespace cocosbuilder
 
-#endif // __CCB_KEYFRAME_H__
+#endif // CC_EDITORSUPPORT_COCOSBUILDER_KEYFRAME_H

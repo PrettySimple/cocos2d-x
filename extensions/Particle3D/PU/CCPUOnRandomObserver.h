@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_ON_RANDOM_OBSERVER_H__
-#define __CC_PU_PARTICLE_3D_ON_RANDOM_OBSERVER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_ONRANDOMOBSERVER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_ONRANDOMOBSERVER_H
 
 #include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUObserver.h"
@@ -46,25 +46,25 @@ public:
 
     /** See ParticleObserver::_preProcessParticles()
      */
-    virtual void preUpdateObserver(float deltaTime) override;
+    void preUpdateObserver(float deltaTime) override;
 
     /** See ParticleObserver::_processParticle()
      */
-    virtual void updateObserver(PUParticle3D* particle, float deltaTime, bool firstParticle) override;
+    void updateObserver(PUParticle3D* particle, float deltaTime, bool firstParticle) override;
 
     /**
      */
-    virtual bool observe(PUParticle3D* particle, float timeElapsed) override;
+    bool observe(PUParticle3D* particle, float timeElapsed) override;
 
     /**
      */
-    float getThreshold(void) const { return _threshold; };
-    void setThreshold(float threshold) { _threshold = threshold; };
+    inline float getThreshold(void) const noexcept { return _threshold; }
+    inline void setThreshold(float threshold) noexcept { _threshold = threshold; }
 
-    virtual void copyAttributesTo(PUObserver* observer) override;
+    void copyAttributesTo(PUObserver* observer) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUOnRandomObserver(void);
-    virtual ~PUOnRandomObserver(void){};
+    CC_CONSTRUCTOR_ACCESS : PUOnRandomObserver();
+    ~PUOnRandomObserver() override = default;
 
 protected:
     float _threshold; // Value between 0..1
@@ -72,4 +72,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_ONRANDOMOBSERVER_H

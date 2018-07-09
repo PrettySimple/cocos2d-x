@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __Manifest__
-#define __Manifest__
+#ifndef CC_EXTENSIONS_ASSETSMANAGER_MANIFEST_H
+#define CC_EXTENSIONS_ASSETSMANAGER_MANIFEST_H
 
 #include <string>
 #include <unordered_map>
@@ -34,8 +34,11 @@
 #include "network/CCDownloader.h"
 #include "platform/CCFileUtils.h"
 
-#include "json/document.h"
-#include "json/rapidjson.h"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <json/document.h>
+#include <json/rapidjson.h>
+#pragma clang diagnostic pop
 
 NS_CC_EXT_BEGIN
 
@@ -54,14 +57,14 @@ public:
     friend class AssetsManagerEx;
 
     //! The type of difference
-    enum class DiffType
+    enum struct DiffType : std::uint8_t
     {
         ADDED,
         DELETED,
         MODIFIED
     };
 
-    enum class DownloadState
+    enum struct DownloadState : uint8_t
     {
         UNSTARTED,
         DOWNLOADING,
@@ -117,6 +120,7 @@ protected:
      * @param manifestUrl Url of the local manifest
      */
     Manifest(const std::string& manifestUrl = "");
+    ~Manifest() override;
 
     /** @brief Load the json file into local json object
      * @param url Url of the json file
@@ -231,4 +235,4 @@ private:
 };
 
 NS_CC_EXT_END
-#endif /* defined(__Manifest__) */
+#endif // CC_EXTENSIONS_ASSETSMANAGER_MANIFEST_H

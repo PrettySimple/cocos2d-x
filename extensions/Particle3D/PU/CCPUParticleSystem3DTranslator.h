@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_SYSTEM_3D_TRANSLATOR_H__
-#define __CC_PU_PARTICLE_SYSTEM_3D_TRANSLATOR_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_PARTICLESYSTEM3DTRANSLATOR_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_PARTICLESYSTEM3DTRANSLATOR_H
 
 //#include <iostream>
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
@@ -37,14 +37,14 @@ class PUParticleSystem3DTranslator : public PUScriptTranslator
 {
 public:
     PUParticleSystem3DTranslator();
-    ~PUParticleSystem3DTranslator();
+    ~PUParticleSystem3DTranslator() override;
 
-    void setParticleSystem3D(PUParticleSystem3D* pu) { _system = pu; };
+    inline void setParticleSystem3D(PUParticleSystem3D* pu) noexcept { _system = pu; }
 
-    virtual bool isParticleSystemTranslator() const override { return true; }
+    bool isParticleSystemTranslator() const override { return true; }
 
 public:
-    virtual void translate(PUScriptCompiler* compiler, PUAbstractNode* node) override;
+    void translate(PUScriptCompiler* compiler, PUAbstractNode* node) override;
 
 protected:
     PUParticleSystem3D* _system;
@@ -52,4 +52,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_PARTICLESYSTEM3DTRANSLATOR_H

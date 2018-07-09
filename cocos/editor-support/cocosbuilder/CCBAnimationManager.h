@@ -1,5 +1,5 @@
-#ifndef __CCB_CCBANIMATION_MANAGER_H__
-#define __CCB_CCBANIMATION_MANAGER_H__
+#ifndef CC_EDITORSUPPORT_COCOSBUILDER_ANIMATIONMANAGER_H
+#define CC_EDITORSUPPORT_COCOSBUILDER_ANIMATIONMANAGER_H
 
 #include "2d/CCActionEase.h"
 #include "2d/CCActionInstant.h"
@@ -267,4 +267,4 @@ namespace cocosbuilder
 
 } // namespace cocosbuilder
 
-#endif // __CCB_CCBANIMATION_MANAGER_H__
+#endif // CC_EDITORSUPPORT_COCOSBUILDER_ANIMATIONMANAGER_H

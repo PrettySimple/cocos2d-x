@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_PLANE_H__
-#define __CC_PU_PARTICLE_3D_PLANE_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_PLANE_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_PLANE_H
 
 #include "3d/CCAABB.h"
 #include "base/CCRef.h"
@@ -134,4 +134,4 @@ public:
 typedef std::vector<PUPlane> PlaneList;
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_PLANE_H

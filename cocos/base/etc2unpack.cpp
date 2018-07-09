@@ -36,10 +36,11 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
 */
-
 #include "etc2types.h"
-#include <assert.h>
-#include <stdlib.h>
+#include "platform/CCGL.h"
+
+#include <cassert>
+#include <cstdlib>
 
 #define CC_ETC2_DECODE_USE_THREAD (1) // 1 : CPU decode by thread
 #if CC_ETC2_DECODE_USE_THREAD
@@ -80,7 +81,7 @@ ETC2_error_code _unpackETC(const GLubyte* __restrict srcETC, const GLenum srcFor
     unsigned int block_part1, block_part2;
 #endif
     unsigned int x, y;
-    /*const*/ GLubyte* src = (GLubyte*)srcETC;
+    /*const*/ GLubyte* src = const_cast<GLubyte*>(srcETC);
     // AF_11BIT is used to compress R11 & RG11 though its not alpha data.
     enum
     {
@@ -345,7 +346,7 @@ ETC2_error_code _unpackETC(const GLubyte* __restrict srcETC, const GLenum srcFor
                         srcth += 4;
                         readBigEndian4byteWord(&th_block_part2, srcth);
                         srcth += 4;
-                        decompressBlockETC21BitAlphaC(th_block_part1, th_block_part2, *dstImage, 0, width, height, 4 * tx, 4 * ty, dstChannels);
+                        decompressBlockETC21BitAlphaC(th_block_part1, th_block_part2, *dstImage, nullptr, width, height, 4 * tx, 4 * ty, dstChannels);
                     }
                 }
             };
@@ -360,7 +361,7 @@ ETC2_error_code _unpackETC(const GLubyte* __restrict srcETC, const GLenum srcFor
 #endif
         }
         break;
-        default:
+        case AF_NONE:
         {
 #if !CC_ETC2_DECODE_USE_THREAD
             for (y = 0; y < height / 4; y++)
@@ -415,7 +416,7 @@ ETC2_error_code _unpackETC(const GLubyte* __restrict srcETC, const GLenum srcFor
         int dstPixelBytes = dstChannels * dstChannelBytes;
         int dstRowBytes = dstPixelBytes * width;
         int activeRowBytes = activeWidth * dstPixelBytes;
-        GLubyte* newimg = (GLubyte*)malloc(dstPixelBytes * activeWidth * activeHeight);
+        GLubyte* newimg = reinterpret_cast<GLubyte*>(malloc(dstPixelBytes * activeWidth * activeHeight));
         unsigned int xx, yy;
         int zz;
 

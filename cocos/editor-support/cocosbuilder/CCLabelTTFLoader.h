@@ -1,5 +1,5 @@
-#ifndef _CCB_CCLABELTTFLOADER_H_
-#define _CCB_CCLABELTTFLOADER_H_
+#ifndef CC_EDITORSUPPORT_COCOSBUILDER_LABELTTFLOADER_H
+#define CC_EDITORSUPPORT_COCOSBUILDER_LABELTTFLOADER_H
 
 #include "2d/CCLabel.h"
 #include "base/CCRef.h"
@@ -39,4 +39,4 @@ namespace cocosbuilder
 
 } // namespace cocosbuilder
 
-#endif
+#endif // CC_EDITORSUPPORT_COCOSBUILDER_LABELTTFLOADER_H

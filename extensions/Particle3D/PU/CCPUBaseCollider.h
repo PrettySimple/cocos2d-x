@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_BASE_COLLIDER_H__
-#define __CC_PU_PARTICLE_3D_BASE_COLLIDER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_BASECOLLIDER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_BASECOLLIDER_H
 
 #include "3d/CCAABB.h"
 #include "extensions/Particle3D/PU/CCPUAffector.h"
@@ -111,10 +111,10 @@ public:
     */
     void calculateRotationSpeedAfterCollision(PUParticle3D* particle);
 
-    virtual void copyAttributesTo(PUAffector* affector) override;
+    void copyAttributesTo(PUAffector* affector) override;
 
     CC_CONSTRUCTOR_ACCESS : PUBaseCollider();
-    virtual ~PUBaseCollider();
+    ~PUBaseCollider() override;
 
 protected:
     float _friction; // Physics characteristic that influences particle rotation speed.
@@ -125,4 +125,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_BASECOLLIDER_H

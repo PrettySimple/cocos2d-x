@@ -5,8 +5,8 @@
 //  Created by Mathieu Garaud on 06/02/2018.
 //
 
-#ifndef CCACTION_ITERATOR_PAIR_H
-#define CCACTION_ITERATOR_PAIR_H
+#ifndef CC_BASE_ITERATORPAIR_H
+#define CC_BASE_ITERATORPAIR_H
 
 #include "platform/CCPlatformMacros.h"
 #include <type_traits>
@@ -51,4 +51,4 @@ inline iterator_pair<PairIter> make_iterator_pair(PairIter&& p)
 
 NS_CC_END
 
-#endif // CCACTION_ITERATOR_PAIR_H
+#endif // CC_BASE_ITERATORPAIR_H

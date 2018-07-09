@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_SPHERE_H__
-#define __CC_PU_PARTICLE_3D_SPHERE_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SPHERE_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_SPHERE_H
 
 #include "3d/CCAABB.h"
 #include "base/CCRef.h"
@@ -84,4 +84,4 @@ public:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_SPHERE_H

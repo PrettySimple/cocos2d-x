@@ -22,13 +22,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __LAYOUT_H__
-#define __LAYOUT_H__
+#ifndef CC_UI_LAYOUT_H
+#define CC_UI_LAYOUT_H
 
+#include "base/CCVector.h"
+#include "base/ccTypes.h"
+#include "editor-support/cocostudio/CocosStudioExtension.h"
+#include "math/CCGeometry.h"
+#include "math/Mat4.h"
+#include "math/Vec2.h"
+#include "platform/CCGL.h"
+#include "platform/CCPlatformConfig.h"
+#include "platform/CCPlatformMacros.h"
 #include "renderer/CCCustomCommand.h"
 #include "renderer/CCGroupCommand.h"
+#include "ui/GUIDefine.h"
 #include "ui/GUIExport.h"
 #include "ui/UIWidget.h"
+
+#include <cstddef>
+#include <cstdint>
+#include <functional>
+#include <string>
 
 /**
  * @addtogroup ui
@@ -39,8 +54,9 @@ NS_CC_BEGIN
 class DrawNode;
 class LayerColor;
 class LayerGradient;
+class Node;
+class Renderer;
 class StencilStateManager;
-struct CC_DLL ResourceData;
 
 namespace ui
 {
@@ -55,13 +71,9 @@ namespace ui
     {
     public:
         /**
-         *@brief Default constructor.
-         */
-        LayoutProtocol() {}
-        /**
          *@brief Default destructor.
          */
-        virtual ~LayoutProtocol() {}
+        virtual ~LayoutProtocol();
 
         /**
          * @brief Create a custom layout manager.
@@ -118,7 +130,7 @@ namespace ui
         /**
          * Layout type, default is ABSOLUTE.
          */
-        enum class Type
+        enum struct Type : std::uint8_t
         {
             ABSOLUTE,
             VERTICAL,
@@ -129,7 +141,7 @@ namespace ui
         /**
          * Clipping Type, default is STENCIL.
          */
-        enum class ClippingType
+        enum struct ClippingType : std::uint8_t
         {
             STENCIL,
             SCISSOR
@@ -138,7 +150,7 @@ namespace ui
         /**
          * Background color type, default is NONE.
          */
-        enum class BackGroundColorType
+        enum struct BackGroundColorType : std::uint8_t
         {
             NONE,
             SOLID,
@@ -157,7 +169,7 @@ namespace ui
          * @js NA
          * @lua NA
          */
-        virtual ~Layout();
+        ~Layout() override;
 
         /**
          * Create a empty layout.
@@ -357,8 +369,8 @@ namespace ui
          */
         virtual Type getLayoutType() const;
 
-        virtual void addChild(Node* child) override;
-        virtual void addChild(Node* child, int localZOrder) override;
+        void addChild(Node* child) override;
+        void addChild(Node* child, int localZOrder) override;
         /**
          * Adds a child to the container with z order and tag
          *
@@ -368,19 +380,19 @@ namespace ui
          * @param localZOrder    Z order for drawing priority. Please refer to setLocalZOrder(int)
          * @param tag       A integer to identify the node easily. Please refer to setTag(int)
          */
-        virtual void addChild(Node* child, int localZOrder, int tag) override;
-        virtual void addChild(Node* child, int localZOrder, const std::string& name) override;
+        void addChild(Node* child, int localZOrder, int tag) override;
+        void addChild(Node* child, int localZOrder, const std::string& name) override;
 
-        virtual void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
+        void visit(Renderer* renderer, const Mat4& parentTransform, std::uint32_t parentFlags) override;
 
-        virtual void removeChild(Node* child, bool cleanup = true) override;
+        void removeChild(Node* child, bool cleanup = true) override;
 
         /**
          * Removes all children from the container with a cleanup.
          *
          * @see `removeAllChildrenWithCleanup(bool)`
          */
-        virtual void removeAllChildren() override;
+        void removeAllChildren() override;
         /**
          * Removes all children from the container, and do a cleanup to all running actions depending on the cleanup parameter.
          *
@@ -388,7 +400,7 @@ namespace ui
          * @js removeAllChildren
          * @lua removeAllChildren
          */
-        virtual void removeAllChildrenWithCleanup(bool cleanup) override;
+        void removeAllChildrenWithCleanup(bool cleanup) override;
 
         /**
          * force refresh widget layout
@@ -403,12 +415,12 @@ namespace ui
         /**
          * @lua NA
          */
-        virtual void onEnter() override;
+        void onEnter() override;
 
         /**
          * @lua NA
          */
-        virtual void onExit() override;
+        void onExit() override;
 
         /**
          * If a layout is loop focused which means that the focus movement will be inside the layout
@@ -446,7 +458,7 @@ namespace ui
          * @param this previous focused widget
          * @return return the index of widget in the layout
          */
-        std::function<int(FocusDirection, Widget*)> onPassFocusToChild;
+        std::function<std::size_t(FocusDirection, Widget*)> onPassFocusToChild;
 
         /**
          * Override function. Set camera mask, the node is visible by the camera whose camera flag & node's camera mask is true.
@@ -464,26 +476,26 @@ namespace ui
 
     protected:
         // override "onSizeChanged" method of widget.
-        virtual void onSizeChanged() override;
+        void onSizeChanged() override;
 
         // init background image renderer.
         void addBackGroundImage();
 
         void supplyTheLayoutParameterLackToChild(Widget* child);
-        virtual Widget* createCloneInstance() override;
-        virtual void copySpecialProperties(Widget* model) override;
-        virtual void copyClonedWidgetChildren(Widget* model) override;
+        Widget* createCloneInstance() override;
+        void copySpecialProperties(Widget* model) override;
+        void copyClonedWidgetChildren(Widget* model) override;
 
-        void stencilClippingVisit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags);
-        void scissorClippingVisit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags);
+        void stencilClippingVisit(Renderer* renderer, const Mat4& parentTransform, std::uint32_t parentFlags);
+        void scissorClippingVisit(Renderer* renderer, const Mat4& parentTransform, std::uint32_t parentFlags);
 
         void setStencilClippingSize(const Size& size);
         const Rect& getClippingRect();
 
-        virtual void doLayout() override;
-        virtual LayoutManager* createLayoutManager() override;
-        virtual Size getLayoutContentSize() const override;
-        virtual const Vector<Node*>& getLayoutElements() const override;
+        void doLayout() override;
+        LayoutManager* createLayoutManager() override;
+        Size getLayoutContentSize() const override;
+        const Vector<Node*>& getLayoutElements() const override;
 
         // clipping
 
@@ -504,7 +516,7 @@ namespace ui
          *@param direction The next focused widget direction
          *@return The index of child widget in the container
          */
-        int findNearestChildWidgetIndex(FocusDirection direction, Widget* baseWidget);
+        std::size_t findNearestChildWidgetIndex(FocusDirection direction, Widget* baseWidget);
 
         /**
          * When the layout get focused, it the layout pass the focus to its child, it will use this method to determine which child
@@ -512,7 +524,7 @@ namespace ui
          *@param direction The next focused widget direction
          *@return The index of child widget in the container
          */
-        int findFarthestChildWidgetIndex(FocusDirection direction, Widget* baseWidget);
+        std::size_t findFarthestChildWidgetIndex(FocusDirection direction, Widget* baseWidget);
 
         /**
          * calculate the nearest distance between the baseWidget and the children of the layout
@@ -547,7 +559,7 @@ namespace ui
         /**
          * find a focus enabled child Widget in the layout by index
          */
-        Widget* findFocusEnabledChildWidgetByIndex(ssize_t index);
+        Widget* findFocusEnabledChildWidgetByIndex(std::size_t index);
 
         /**
          * get the center point of a widget in world space
@@ -574,7 +586,7 @@ namespace ui
          * find the nth element in the _children array. Only the Widget descendant object will be returned
          *@param index  The index of a element in the _children array
          */
-        Widget* getChildWidgetByIndex(ssize_t index) const;
+        Widget* getChildWidgetByIndex(std::size_t index) const;
         /**
          * whether it is the last element according to all their parents
          */
@@ -652,4 +664,4 @@ namespace ui
 NS_CC_END
 // end of ui group
 /// @}
-#endif /* defined(__Layout__) */
+#endif // CC_UI_LAYOUT_H

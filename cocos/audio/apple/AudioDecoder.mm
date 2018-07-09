@@ -28,8 +28,6 @@
 
 #import <Foundation/Foundation.h>
 
-#define LOG_TAG "AudioDecoder"
-
 namespace cocos2d
 {
     namespace experimental
@@ -56,7 +54,7 @@ namespace cocos2d
                 BREAK_IF_ERR_LOG(path == nullptr || strlen(path) == 0, "Invalid path!");
 
                 NSString* fileFullPath = [[NSString alloc] initWithCString:path encoding:NSUTF8StringEncoding];
-                fileURL = (CFURLRef)[[NSURL alloc] initFileURLWithPath:fileFullPath];
+                fileURL = reinterpret_cast<CFURLRef>([[NSURL alloc] initFileURLWithPath:fileFullPath]);
                 [fileFullPath release];
                 BREAK_IF_ERR_LOG(fileURL == nil, "Converting path to CFURLRef failed!");
 

@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_EGLVIEWIMPL_IPHONE_H__
-#define __CC_EGLVIEWIMPL_IPHONE_H__
+#ifndef CC_PLATFORM_IOS_VIEWIMPLIOS_H
+#define CC_PLATFORM_IOS_VIEWIMPLIOS_H
 
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
@@ -32,6 +32,9 @@
 #    include "base/CCRef.h"
 #    include "platform/CCCommon.h"
 #    include "platform/CCGLView.h"
+
+#    include <cmath>
+#    include <limits>
 
 NS_CC_BEGIN
 
@@ -57,26 +60,26 @@ public:
     static int _depthFormat;
 
     /** sets the content scale factor */
-    virtual bool setContentScaleFactor(float contentScaleFactor) override;
+    bool setContentScaleFactor(float contentScaleFactor) override;
 
     /** returns the content scale factor */
-    virtual float getContentScaleFactor() const override;
+    float getContentScaleFactor() const override;
 
     /** returns whether or not the view is in Retina Display mode */
-    virtual bool isRetinaDisplay() const override { return getContentScaleFactor() == 2.0; }
+    bool isRetinaDisplay() const override { return std::abs(getContentScaleFactor() - 2.0f) < std::numeric_limits<float>::epsilon(); }
 
     /** returns the objective-c CCEAGLView instance */
-    virtual void* getEAGLView() const override { return _eaglview; }
+    void* getEAGLView() const override { return _eaglview; }
 
     // overrides
-    virtual bool isOpenGLReady() override;
-    virtual void end() override;
-    virtual void swapBuffers() override;
-    virtual void setIMEKeyboardState(bool bOpen) override;
+    bool isOpenGLReady() override;
+    void end() override;
+    void swapBuffers() override;
+    void setIMEKeyboardState(bool bOpen) override;
 
 protected:
     GLViewImpl();
-    virtual ~GLViewImpl();
+    ~GLViewImpl() override;
 
     bool initWithEAGLView(void* eaGLView);
     bool initWithRect(const std::string& viewName, const Rect& rect, float frameZoomFactor);
@@ -90,4 +93,4 @@ NS_CC_END
 
 #endif // CC_PLATFORM_IOS
 
-#endif // end of __CC_EGLViewImpl_IPHONE_H__
+#endif // CC_PLATFORM_IOS_VIEWIMPLIOS_H

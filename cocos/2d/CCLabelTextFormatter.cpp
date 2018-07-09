@@ -52,8 +52,6 @@ void Label::computeAlignmentOffset()
                 _linesOffsetX.push_back(_contentSize.width - lineWidth);
             }
             break;
-        default:
-            break;
     }
 
     switch (_vAlignment)
@@ -67,8 +65,6 @@ void Label::computeAlignmentOffset()
         case cocos2d::TextVAlignment::BOTTOM:
             _letterOffsetY = _textDesiredHeight;
             break;
-        default:
-            break;
     }
 }
 
@@ -80,7 +76,7 @@ int Label::getFirstCharLen(const std::u16string& utf16Text, int startIndex, int 
 int Label::getFirstWordLen(const std::u16string& utf16Text, int startIndex, int textLen)
 {
     auto character = utf16Text[startIndex];
-    if (StringUtils::isCJKUnicode(character) || StringUtils::isUnicodeSpace(character) || character == (char16_t)TextFormatter::NewLine)
+    if (StringUtils::isCJKUnicode(character) || StringUtils::isUnicodeSpace(character) || character == static_cast<char16_t>(TextFormatter::NewLine))
     {
         return 1;
     }
@@ -108,7 +104,7 @@ int Label::getFirstWordLen(const std::u16string& utf16Text, int startIndex, int 
 
         nextLetterX += letterDef.xAdvance * _bmfontScale + _additionalKerning;
 
-        if (character == (char16_t)TextFormatter::NewLine || StringUtils::isUnicodeSpace(character) || StringUtils::isCJKUnicode(character))
+        if (character == static_cast<char16_t>(TextFormatter::NewLine) || StringUtils::isUnicodeSpace(character) || StringUtils::isCJKUnicode(character))
         {
             break;
         }
@@ -123,7 +119,7 @@ void Label::updateBMFontScale()
     auto font = _fontAtlas->getFont();
     if (_currentLabelType == LabelType::BMFONT)
     {
-        FontFNT* bmFont = (FontFNT*)font;
+        FontFNT const* bmFont = static_cast<FontFNT const*>(font);
         float originalFontSize = bmFont->getOriginalFontSize();
         _bmfontScale = _bmFontSize * CC_CONTENT_SCALE_FACTOR() / originalFontSize;
     }
@@ -155,7 +151,7 @@ bool Label::multilineTextWrap(const std::function<int(const std::u16string&, int
     for (int index = 0; index < textLen;)
     {
         auto character = _utf16Text[index];
-        if (character == (char16_t)TextFormatter::NewLine)
+        if (character == static_cast<char16_t>(TextFormatter::NewLine))
         {
             _linesWidth.push_back(letterRight);
             letterRight = 0.f;
@@ -177,13 +173,13 @@ bool Label::multilineTextWrap(const std::function<int(const std::u16string&, int
         {
             int letterIndex = index + tmp;
             character = _utf16Text[letterIndex];
-            if (character == (char16_t)TextFormatter::CarriageReturn)
+            if (character == static_cast<char16_t>(TextFormatter::CarriageReturn))
             {
                 recordPlaceholderInfo(letterIndex, character);
                 continue;
             }
             // \b - Next char not change x position
-            if (character == (char16_t)TextFormatter::NextCharNoChangeX)
+            if (character == static_cast<char16_t>(TextFormatter::NextCharNoChangeX))
             {
                 nextChangeSize = false;
                 recordPlaceholderInfo(letterIndex, character);
@@ -273,12 +269,14 @@ bool Label::multilineTextWrap(const std::function<int(const std::u16string&, int
 
 bool Label::multilineTextWrapByWord()
 {
-    return multilineTextWrap(CC_CALLBACK_3(Label::getFirstWordLen, this));
+    return multilineTextWrap(
+        [this](const std::u16string& utf16Text, int startIndex, int textLen) -> int { return getFirstWordLen(utf16Text, startIndex, textLen); });
 }
 
 bool Label::multilineTextWrapByChar()
 {
-    return multilineTextWrap(CC_CALLBACK_3(Label::getFirstCharLen, this));
+    return multilineTextWrap(
+        [this](const std::u16string& utf16Text, int startIndex, int textLen) -> int { return getFirstCharLen(utf16Text, startIndex, textLen); });
 }
 
 bool Label::isVerticalClamp()

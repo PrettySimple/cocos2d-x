@@ -23,10 +23,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2dx__ccUTF8__
-#define __cocos2dx__ccUTF8__
+#ifndef CC_BASE_UTF8_H
+#define CC_BASE_UTF8_H
 
+#include "platform/CCPlatformConfig.h"
+#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
+
 #include <sstream>
 #include <string>
 #include <vector>
@@ -301,4 +304,4 @@ CC_DEPRECATED_ATTRIBUTE CC_DLL char* cc_utf16_to_utf8(const unsigned short* str,
 
 NS_CC_END
 
-#endif /** defined(__cocos2dx__ccUTF8__) */
+#endif // CC_BASE_UTF8_H

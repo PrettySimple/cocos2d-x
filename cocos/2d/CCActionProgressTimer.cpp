@@ -73,12 +73,12 @@ ProgressTo* ProgressTo::reverse() const
 void ProgressTo::startWithTarget(Node* target)
 {
     ActionInterval::startWithTarget(target);
-    _from = ((kProgressTimerCast)(target))->getPercentage();
+    _from = static_cast<kProgressTimerCast>(target)->getPercentage();
 }
 
 void ProgressTo::update(float time)
 {
-    ((kProgressTimerCast)(_target))->setPercentage(_from + (_to - _from) * time);
+    static_cast<kProgressTimerCast>(_target)->setPercentage(_from + (_to - _from) * time);
 }
 
 // implementation of ProgressFromTo
@@ -127,7 +127,7 @@ void ProgressFromTo::startWithTarget(Node* target)
 
 void ProgressFromTo::update(float time)
 {
-    ((kProgressTimerCast)(_target))->setPercentage(_from + (_to - _from) * time);
+    static_cast<kProgressTimerCast>(_target)->setPercentage(_from + (_to - _from) * time);
 }
 
 NS_CC_END

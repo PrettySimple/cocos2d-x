@@ -675,7 +675,6 @@ std::string TextureCache::getTextureFilePath(cocos2d::Texture2D* texture) const
         if (item.second == texture)
         {
             return item.first;
-            break;
         }
     }
     return "";

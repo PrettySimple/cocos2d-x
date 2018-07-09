@@ -21,8 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCANIMATIONCURVE_H__
-#define __CCANIMATIONCURVE_H__
+#ifndef CC_3D_ANIMATIONCURVE_H
+#define CC_3D_ANIMATIONCURVE_H
 
 #include <cmath>
 #include <functional>
@@ -108,4 +108,4 @@ NS_CC_END
 
 #include "3d/CCAnimationCurve.inl"
 
-#endif
+#endif // CC_3D_ANIMATIONCURVE_H

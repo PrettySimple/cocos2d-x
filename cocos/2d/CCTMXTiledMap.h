@@ -24,8 +24,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CCTMX_TILE_MAP_H__
-#define __CCTMX_TILE_MAP_H__
+#ifndef CC_2D_TMXTILEDMAP_H
+#define CC_2D_TMXTILEDMAP_H
 
 #include "2d/CCNode.h"
 #include "2d/CCTMXObjectGroup.h"
@@ -159,7 +159,7 @@ public:
      * @js NA
      * @lua NA
      */
-    CC_DEPRECATED_ATTRIBUTE TMXLayer* layerNamed(const std::string& layerName) const { return getLayer(layerName); };
+    CC_DEPRECATED_ATTRIBUTE TMXLayer* layerNamed(const std::string& layerName) const { return getLayer(layerName); }
 
     /** Return the TMXObjectGroup for the specific group.
      *
@@ -171,7 +171,7 @@ public:
      * @js NA
      * @lua NA
      */
-    CC_DEPRECATED_ATTRIBUTE TMXObjectGroup* objectGroupNamed(const std::string& groupName) const { return getObjectGroup(groupName); };
+    CC_DEPRECATED_ATTRIBUTE TMXObjectGroup* objectGroupNamed(const std::string& groupName) const { return getObjectGroup(groupName); }
 
     /** Return the value for the specific property name.
      *
@@ -183,7 +183,7 @@ public:
      * @js NA
      * @lua NA
      */
-    CC_DEPRECATED_ATTRIBUTE Value propertyNamed(const char* propertyName) const { return getProperty(propertyName); };
+    CC_DEPRECATED_ATTRIBUTE Value propertyNamed(const char* propertyName) const { return getProperty(propertyName); }
 
     /** Return properties dictionary for tile GID.
      *
@@ -191,7 +191,7 @@ public:
      * @return Return properties dictionary for tile GID.
      */
     Value getPropertiesForGID(int GID) const;
-    CC_DEPRECATED_ATTRIBUTE Value propertiesForGID(int GID) const { return getPropertiesForGID(GID); };
+    CC_DEPRECATED_ATTRIBUTE Value propertiesForGID(int GID) const { return getPropertiesForGID(GID); }
 
     /** Assigns properties to argument value, returns true if it did found properties
      * for that GID and did assigned a value, else it returns false.
@@ -266,7 +266,7 @@ public:
     /** Get the description.
      * @js NA
      */
-    virtual std::string getDescription() const override;
+    std::string getDescription() const override;
 
     int getLayerNum();
     const std::string& getResourceFile() const { return _tmxFile; }
@@ -280,7 +280,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~TMXTiledMap();
+    ~TMXTiledMap() override;
 
     /** initializes a TMX Tiled Map with a TMX file */
     bool initWithTMXFile(const std::string& tmxFile);
@@ -313,7 +313,7 @@ protected:
     static const int TMXLayerTag = 32768;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TMXTiledMap);
+    CC_DISALLOW_COPY_AND_ASSIGN(TMXTiledMap)
 };
 
 // end of tilemap_parallax_nodes group
@@ -321,4 +321,4 @@ private:
 
 NS_CC_END
 
-#endif //__CCTMX_TILE_MAP_H__
+#endif // CC_2D_TMXTILEDMAP_H

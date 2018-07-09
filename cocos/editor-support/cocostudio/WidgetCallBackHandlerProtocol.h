@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
  Copyright (c) 2014 cocos2d-x.org
 
  http://www.cocos2d-x.org
@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__WidgetCallBackHandlerProtocol__
-#define __cocos2d_libs__WidgetCallBackHandlerProtocol__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETCALLBACKHANDLERPROTOCOL_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETCALLBACKHANDLERPROTOCOL_H
 
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -44,4 +44,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif /* defined(__cocos2d_libs__WidgetCallBackHandlerProtocol__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETCALLBACKHANDLERPROTOCOL_H

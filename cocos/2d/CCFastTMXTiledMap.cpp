@@ -28,6 +28,7 @@ THE SOFTWARE.
 
 #include "2d/CCFastTMXLayer.h"
 #include "base/ccUTF8.h"
+#include "renderer/CCVertexIndexBuffer.h"
 
 NS_CC_BEGIN
 namespace experimental

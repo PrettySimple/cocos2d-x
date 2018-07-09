@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCCustomEventListener__
-#define __cocos2d_libs__CCCustomEventListener__
+#ifndef CC_BASE_EVENTLISTENERCUSTOM_H
+#define CC_BASE_EVENTLISTENERCUSTOM_H
 
 #include "base/CCEventListener.h"
 
@@ -89,4 +89,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif /* defined(__cocos2d_libs__CCCustomEventListener__) */
+#endif // CC_BASE_EVENTLISTENERCUSTOM_H

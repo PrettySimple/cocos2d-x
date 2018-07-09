@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_ON_POSITION_OBSERVER_H__
-#define __CC_PU_PARTICLE_3D_ON_POSITION_OBSERVER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_ONPOSITIONOBSERVER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_ONPOSITIONOBSERVER_H
 
 #include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUObserver.h"
@@ -54,52 +54,52 @@ public:
     {
         _positionXThreshold = threshold;
         _positionXThresholdSet = true;
-    };
+    }
     void setPositionYThreshold(float threshold)
     {
         _positionYThreshold = threshold;
         _positionYThresholdSet = true;
-    };
+    }
     void setPositionZThreshold(float threshold)
     {
         _positionZThreshold = threshold;
         _positionZThresholdSet = true;
-    };
+    }
 
     /**
      */
-    float getPositionXThreshold(void) const { return _positionXThreshold; };
-    float getPositionYThreshold(void) const { return _positionYThreshold; };
-    float getPositionZThreshold(void) const { return _positionZThreshold; };
+    float getPositionXThreshold(void) const { return _positionXThreshold; }
+    float getPositionYThreshold(void) const { return _positionYThreshold; }
+    float getPositionZThreshold(void) const { return _positionZThreshold; }
 
     /**
      */
-    bool isPositionXThresholdSet(void) const { return _positionXThresholdSet; };
-    bool isPositionYThresholdSet(void) const { return _positionYThresholdSet; };
-    bool isPositionZThresholdSet(void) const { return _positionZThresholdSet; };
+    bool isPositionXThresholdSet(void) const { return _positionXThresholdSet; }
+    bool isPositionYThresholdSet(void) const { return _positionYThresholdSet; }
+    bool isPositionZThresholdSet(void) const { return _positionZThresholdSet; }
 
     /**
      */
-    void resetPositionXThreshold(void) { _positionXThresholdSet = false; };
-    void resetPositionYThreshold(void) { _positionYThresholdSet = false; };
-    void resetPositionZThreshold(void) { _positionZThresholdSet = false; };
+    void resetPositionXThreshold(void) { _positionXThresholdSet = false; }
+    void resetPositionYThreshold(void) { _positionYThresholdSet = false; }
+    void resetPositionZThreshold(void) { _positionZThresholdSet = false; }
 
     /**
      */
-    void setComparePositionX(PUComparisionOperator op) { _comparePositionX = op; };
-    void setComparePositionY(PUComparisionOperator op) { _comparePositionY = op; };
-    void setComparePositionZ(PUComparisionOperator op) { _comparePositionZ = op; };
+    void setComparePositionX(PUComparisionOperator op) { _comparePositionX = op; }
+    void setComparePositionY(PUComparisionOperator op) { _comparePositionY = op; }
+    void setComparePositionZ(PUComparisionOperator op) { _comparePositionZ = op; }
 
     /**
      */
-    PUComparisionOperator getComparePositionX() const { return _comparePositionX; };
-    PUComparisionOperator getComparePositionY() const { return _comparePositionY; };
-    PUComparisionOperator getComparePositionZ() const { return _comparePositionZ; };
+    PUComparisionOperator getComparePositionX() const { return _comparePositionX; }
+    PUComparisionOperator getComparePositionY() const { return _comparePositionY; }
+    PUComparisionOperator getComparePositionZ() const { return _comparePositionZ; }
 
-    virtual void copyAttributesTo(PUObserver* observer) override;
+    void copyAttributesTo(PUObserver* observer) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUOnPositionObserver(void);
-    virtual ~PUOnPositionObserver(void){};
+    CC_CONSTRUCTOR_ACCESS : PUOnPositionObserver();
+    ~PUOnPositionObserver() override {}
 
 protected:
     float _positionXThreshold;
@@ -115,4 +115,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_ONPOSITIONOBSERVER_H

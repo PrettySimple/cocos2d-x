@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __SCRIPT_SUPPORT_H__
-#define __SCRIPT_SUPPORT_H__
+#ifndef CC_BASE_SCRIPTSUPPORT_H
+#define CC_BASE_SCRIPTSUPPORT_H
 
 #include "base/CCEventKeyboard.h"
 #include "base/CCEventTouch.h"
@@ -750,7 +750,7 @@ public:
      * @lua NA
      * @js NA
      */
-    virtual void setCalledFromScript(bool callFromScript) { CC_UNUSED_PARAM(callFromScript); };
+    virtual void setCalledFromScript(bool){};
 
     /**
      * Useless for Lua.
@@ -913,4 +913,4 @@ NS_CC_END
 // end group
 /// @}
 
-#endif // __SCRIPT_SUPPORT_H__
+#endif // CC_BASE_SCRIPTSUPPORT_H

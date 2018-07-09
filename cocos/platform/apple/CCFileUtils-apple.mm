@@ -205,7 +205,9 @@ FileUtilsApple::FileUtilsApple()
 {
 }
 
-FileUtilsApple::~FileUtilsApple() = default;
+FileUtilsApple::~FileUtilsApple()
+{
+}
 
 #if CC_FILEUTILS_APPLE_ENABLE_OBJC
 void FileUtilsApple::setBundle(NSBundle* bundle)
@@ -511,8 +513,10 @@ bool FileUtilsApple::createDirectory(const std::string& path)
 
     NSError* error;
 
-    bool result =
-        [s_fileManager createDirectoryAtPath:[NSString stringWithUTF8String:path.c_str()] withIntermediateDirectories:YES attributes:nil error:&error];
+    bool result = [s_fileManager createDirectoryAtPath:[NSString stringWithUTF8String:path.c_str()]
+                           withIntermediateDirectories:YES
+                                            attributes:nil
+                                                 error:&error];
 
     if (!result && error != nil)
     {

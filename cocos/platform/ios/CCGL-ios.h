@@ -23,8 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __PLATFORM_IOS_CCGL_H__
-#define __PLATFORM_IOS_CCGL_H__
+#ifndef CC_PLATFORM_IOS_GLIOS_H
+#define CC_PLATFORM_IOS_GLIOS_H
 
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
@@ -48,4 +48,4 @@ THE SOFTWARE.
 
 #endif // CC_PLATFORM_IOS
 
-#endif // __PLATFORM_IOS_CCGL_H__
+#endif // CC_PLATFORM_IOS_GLIOS_H

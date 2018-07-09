@@ -23,9 +23,11 @@
  ****************************************************************************/
 
 #include "base/CCEventListenerTouch.h"
+
 #include "base/CCEventDispatcher.h"
 #include "base/CCEventTouch.h"
 #include "base/CCTouch.h"
+#include "base/ccMacros.h"
 
 #include <algorithm>
 

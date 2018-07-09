@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCBILLBOARD_H__
-#define __CCBILLBOARD_H__
+#ifndef CC_3D_BILLBOARD_H
+#define CC_3D_BILLBOARD_H
 
 #include "2d/CCSprite.h"
 
@@ -103,7 +103,7 @@ public:
     virtual void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
 
     CC_CONSTRUCTOR_ACCESS : BillBoard();
-    virtual ~BillBoard();
+    ~BillBoard() override;
 
 protected:
     /**
@@ -118,7 +118,7 @@ protected:
     bool _modeDirty;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(BillBoard);
+    CC_DISALLOW_COPY_AND_ASSIGN(BillBoard)
 };
 
 // end of 3d group
@@ -126,4 +126,4 @@ private:
 
 NS_CC_END
 
-#endif // __CCBILLBOARD_H__
+#endif // CC_3D_BILLBOARD_H

@@ -416,13 +416,6 @@ std::string Material::getName() const
     return _name;
 }
 
-Material::Material()
-: _name("")
-, _target(nullptr)
-, _currentTechnique(nullptr)
-{
-}
-
 Material::~Material()
 {
 }
@@ -470,7 +463,7 @@ Technique* Material::getTechniqueByName(const std::string& name)
     return nullptr;
 }
 
-Technique* Material::getTechniqueByIndex(ssize_t index)
+Technique* Material::getTechniqueByIndex(std::size_t index)
 {
     CC_ASSERT(index >= 0 && index < _techniques.size() && "Invalid size");
 
@@ -489,7 +482,7 @@ void Material::setTechnique(const std::string& techniqueName)
         _currentTechnique = technique;
 }
 
-ssize_t Material::getTechniqueCount() const
+std::size_t Material::getTechniqueCount() const
 {
     return _techniques.size();
 }

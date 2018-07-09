@@ -32,6 +32,7 @@ THE SOFTWARE.
 #include "2d/CCActionManager.h"
 #include "2d/CCCamera.h"
 #include "2d/CCComponent.h"
+#include "2d/CCComponentContainer.h"
 #include "2d/CCScene.h"
 #include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
@@ -42,6 +43,10 @@ THE SOFTWARE.
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCMaterial.h"
+
+#if CC_USE_PHYSICS
+#    include "physics/CCPhysicsBody.h"
+#endif
 
 #include <algorithm>
 #include <regex>
@@ -84,7 +89,7 @@ Node::Node()
 , _transformUpdated(true)
 // children (lazy allocs)
 // lazy alloc
-, _localZOrder$Arrival(0LL)
+, _localZOrderArrival(0LL)
 , _globalZOrder(0)
 , _parent(nullptr)
 // "whole screen" objects. like Scenes and Layers, should set _ignoreAnchorPointForPosition to true
@@ -405,9 +410,9 @@ void Node::setRotationSkewY(float rotationY)
 }
 
 /// scale getter
-float Node::getScale(void) const
+float Node::getScale() const
 {
-    CCASSERT(MathUtil::almostEqualRelative(_scaleX, _scaleY), "CCNode#scale. ScaleX != ScaleY. Don't know which one to return");
+    CCASSERT(std::abs(_scaleX - _scaleY) < std::numeric_limits<float>::epsilon(), "CCNode#scale. ScaleX != ScaleY. Don't know which one to return");
     return _scaleX;
 }
 
@@ -574,7 +579,7 @@ void Node::setNormalizedPosition(const Vec2& position)
     _transformUpdated = _transformDirty = _inverseDirty = true;
 }
 
-ssize_t Node::getChildrenCount() const
+std::size_t Node::getChildrenCount() const
 {
     return _children.size();
 }
@@ -1002,7 +1007,7 @@ void Node::removeChild(Node* child, bool cleanup /* = true */)
         return;
     }
 
-    ssize_t index = _children.getIndex(child);
+    std::size_t index = _children.getIndex(child);
     if (index != CC_INVALID_INDEX)
         this->detachChild(child, index, cleanup);
 }
@@ -1076,7 +1081,7 @@ void Node::removeAllChildrenWithCleanup(bool cleanup)
     _children.clear();
 }
 
-void Node::detachChild(Node* child, ssize_t childIndex, bool doCleanup)
+void Node::detachChild(Node* child, std::size_t childIndex, bool doCleanup)
 {
     // IMPORTANT:
     //  -1st do onExit
@@ -1437,7 +1442,7 @@ Action* Node::getActionByTag(int tag) const
     return _actionManager->getActionByTag(tag, const_cast<Node*>(this));
 }
 
-ssize_t Node::getNumberOfRunningActions() const
+std::size_t Node::getNumberOfRunningActions() const
 {
     return _actionManager->getNumberOfRunningActionsInTarget(const_cast<Node*>(this));
 }
@@ -1665,9 +1670,9 @@ const Mat4& Node::getNodeToParentTransform() const
         // Build Transform Matrix = translation * rotation * scale
         Mat4 translation;
         // move to anchor point first, then rotate
-        Mat4::createTranslation(x + anchorPoint.x, y + anchorPoint.y, z, &translation);
+        Mat4::createTranslation(x + anchorPoint.x, y + anchorPoint.y, z, translation);
 
-        Mat4::createRotation(_rotationQuat, &_transform);
+        Mat4::createRotation(_rotationQuat, _transform);
 
         if (_rotationZ_X != _rotationZ_Y)
         {
@@ -1835,7 +1840,7 @@ Vec2 Node::convertToNodeSpace(const Vec2& worldPoint) const
     Mat4 tmp = getWorldToNodeTransform();
     Vec3 vec3(worldPoint.x, worldPoint.y, 0);
     Vec3 ret;
-    tmp.transformPoint(vec3, &ret);
+    tmp.transformPoint(vec3, ret);
     return Vec2(ret.x, ret.y);
 }
 
@@ -1844,7 +1849,7 @@ Vec2 Node::convertToWorldSpace(const Vec2& nodePoint) const
     Mat4 tmp = getNodeToWorldTransform();
     Vec3 vec3(nodePoint.x, nodePoint.y, 0);
     Vec3 ret;
-    tmp.transformPoint(vec3, &ret);
+    tmp.transformPoint(vec3, ret);
     return Vec2(ret.x, ret.y);
 }
 
@@ -1932,7 +1937,7 @@ void Node::removeAllComponents()
 
 // MARK: Opacity and Color
 
-GLubyte Node::getOpacity(void) const
+GLubyte Node::getOpacity() const
 {
     return _realOpacity;
 }
@@ -1963,7 +1968,7 @@ void Node::updateDisplayedOpacity(GLubyte parentOpacity)
     }
 }
 
-bool Node::isCascadeOpacityEnabled(void) const
+bool Node::isCascadeOpacityEnabled() const
 {
     return _cascadeOpacityEnabled;
 }
@@ -2009,7 +2014,7 @@ void Node::disableCascadeOpacity()
     }
 }
 
-const Color3B& Node::getColor(void) const
+const Color3B& Node::getColor() const
 {
     return _realColor;
 }
@@ -2042,7 +2047,7 @@ void Node::updateDisplayedColor(const Color3B& parentColor)
     }
 }
 
-bool Node::isCascadeColorEnabled(void) const
+bool Node::isCascadeColorEnabled() const
 {
     return _cascadeColorEnabled;
 }
@@ -2098,8 +2103,8 @@ bool isScreenPointInRect(const Vec2& pt, const Camera* camera, const Mat4& w2l, 
     Pf = camera->unprojectGL(Pf);
 
     //  then convert Pn and Pf to node space
-    w2l.transformPoint(&Pn);
-    w2l.transformPoint(&Pf);
+    w2l.transformPoint(Pn);
+    w2l.transformPoint(Pf);
 
     // Pn and Pf define a line Q(t) = D + t * E which D = Pn
     auto E = Pf - Pn;
@@ -2118,7 +2123,7 @@ bool isScreenPointInRect(const Vec2& pt, const Camera* camera, const Mat4& w2l, 
     //  t = -----------------
     //          (BxC).E
     Vec3 BxC;
-    Vec3::cross(B, C, &BxC);
+    Vec3::cross(B, C, BxC);
     auto BxCdotE = BxC.dot(E);
     if (BxCdotE == 0)
     {
@@ -2151,6 +2156,10 @@ void Node::setCameraMask(unsigned short mask, bool applyChildren)
 __NodeRGBA::__NodeRGBA()
 {
     CCLOG("NodeRGBA deprecated.");
+}
+
+__NodeRGBA::~__NodeRGBA()
+{
 }
 
 NS_CC_END

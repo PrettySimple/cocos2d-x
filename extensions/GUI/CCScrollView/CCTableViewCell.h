@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCTABLEVIEWCELL_H__
-#define __CCTABLEVIEWCELL_H__
+#ifndef CC_EXTENSIONS_GUI_SCROLLVIEW_TABLEVIEWCELL_H
+#define CC_EXTENSIONS_GUI_SCROLLVIEW_TABLEVIEWCELL_H
 
 #include "2d/CCNode.h"
 #include "extensions/ExtensionExport.h"
@@ -42,25 +42,26 @@ NS_CC_EXT_BEGIN
 class CC_EX_DLL TableViewCell : public Node
 {
 public:
-    CREATE_FUNC(TableViewCell);
+    CREATE_FUNC(TableViewCell)
 
-    TableViewCell() {}
+    TableViewCell() = default;
+    ~TableViewCell() override;
     /**
      * The index used internally by SWTableView and its subclasses
      */
-    ssize_t getIdx() const;
-    void setIdx(ssize_t uIdx);
+    std::size_t getIdx() const;
+    void setIdx(std::size_t uIdx);
     /**
      * Cleans up any resources linked to this cell and resets <code>idx</code> property.
      */
     void reset();
 
 private:
-    ssize_t _idx;
+    std::size_t _idx;
 };
 
 NS_CC_EXT_END
 // end of ui group
 /// @}
 
-#endif /* __CCTABLEVIEWCELL_H__ */
+#endif // CC_EXTENSIONS_GUI_SCROLLVIEW_TABLEVIEWCELL_H

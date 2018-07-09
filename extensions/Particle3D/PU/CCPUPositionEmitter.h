@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_POSITION_EMITTER_H__
-#define __CC_PU_PARTICLE_3D_POSITION_EMITTER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_POSITIONEMITTER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_POSITIONEMITTER_H
 
 #include "extensions/Particle3D/PU/CCPUEmitter.h"
 
@@ -39,7 +39,7 @@ public:
     static PUPositionEmitter* create();
     /**
      */
-    bool isRandomized(void) const;
+    bool isRandomized() const;
 
     /**
      */
@@ -47,7 +47,7 @@ public:
 
     /** Returns a list with positions
      */
-    const std::vector<Vec3>& getPositions(void) const;
+    const std::vector<Vec3>& getPositions() const;
 
     /** Add a new position to this emitter
      */
@@ -55,25 +55,25 @@ public:
 
     /** Remove all positions from this emitter
      */
-    void removeAllPositions(void);
+    void removeAllPositions();
 
     /** See ParticleEmitter
      */
-    void notifyStart(void) override;
+    void notifyStart() override;
 
     /** See ParticleEmitter
      */
-    virtual unsigned short calculateRequestedParticles(float timeElapsed) override;
+    unsigned short calculateRequestedParticles(float timeElapsed) override;
 
     /** Generate a particle position based on the added positions.
      */
-    virtual void initParticlePosition(PUParticle3D* particle) override;
+    void initParticlePosition(PUParticle3D* particle) override;
 
-    virtual PUPositionEmitter* clone() override;
-    virtual void copyAttributesTo(PUEmitter* emitter) override;
+    PUPositionEmitter* clone() override;
+    void copyAttributesTo(PUEmitter* emitter) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUPositionEmitter(void);
-    virtual ~PUPositionEmitter(void){};
+    CC_CONSTRUCTOR_ACCESS : PUPositionEmitter();
+    ~PUPositionEmitter() override = default;
 
 protected:
     std::vector<Vec3> _positionList;
@@ -82,4 +82,4 @@ protected:
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_POSITIONEMITTER_H

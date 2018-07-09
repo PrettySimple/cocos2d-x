@@ -22,8 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __cocos2d_libs__LayoutComponent__
-#define __cocos2d_libs__LayoutComponent__
+#ifndef CC_UI_LAYOUTCOMPONENT_H
+#define CC_UI_LAYOUTCOMPONENT_H
+
 #include "2d/CCComponent.h"
 #include "ui/GUIExport.h"
 
@@ -54,18 +55,18 @@ namespace ui
          *
          * @lua NA
          */
-        ~LayoutComponent();
+        ~LayoutComponent() override;
 
-        virtual bool init() override;
+        bool init() override;
 
         /**
          * Create a LayoutComponent instance with default settings.
          */
-        CREATE_FUNC(LayoutComponent);
+        CREATE_FUNC(LayoutComponent)
 
         /**
          * Bind a LayoutComponent to a specified node.
-         * If the node has already binded a LayoutComponent named __LAYOUT_COMPONENT_NAME, just return the LayoutComponent.
+         * If the node has already binded a LayoutComponent named LAYOUT_COMPONENT_NAME, just return the LayoutComponent.
          * Otherwise, create a new LayoutComponent and bind the LayoutComponent to the node.
          *@param node A Node* instance pointer.
          *@return The binded LayoutComponent instance pointer.
@@ -427,4 +428,4 @@ namespace ui
 // end of ui group
 /// @}
 NS_CC_END
-#endif /* defined(__cocos2d_libs__LayoutComponent__) */
+#endif // CC_UI_LAYOUTCOMPONENT_H

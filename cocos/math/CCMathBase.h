@@ -1,5 +1,5 @@
-#ifndef __CCMATHBASE_H__
-#define __CCMATHBASE_H__
+#ifndef CC_MATH_MATHBASE_H
+#define CC_MATH_MATHBASE_H
 
 #include "platform/CCPlatformMacros.h"
 #include <memory>
@@ -51,4 +51,4 @@
  * @}
  */
 
-#endif // __CCMATHBASE_H__
+#endif // CC_MATH_MATHBASE_H

@@ -23,8 +23,12 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "TriggerMng.h"
-#include "json/prettywriter.h"
-#include "json/stringbuffer.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <json/prettywriter.h>
+#include <json/stringbuffer.h>
+#pragma clang diagnostic pop
 
 using namespace cocos2d;
 

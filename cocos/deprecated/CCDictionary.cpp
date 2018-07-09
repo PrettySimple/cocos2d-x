@@ -50,7 +50,7 @@ DictElement::DictElement(const char* pszKey, Ref* pObject)
     size_t len = strlen(pszKey);
     if (len > MAX_KEY_LEN)
     {
-        char* pEnd = (char*)&pszKey[len - 1];
+        char* pEnd = const_cast<char*>(&pszKey[len - 1]);
         pStart = pEnd - (MAX_KEY_LEN - 1);
     }
 

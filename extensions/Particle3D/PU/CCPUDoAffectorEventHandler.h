@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_DO_AFFECTOR_EVENT_HANDLER_H__
-#define __CC_PU_PARTICLE_3D_DO_AFFECTOR_EVENT_HANDLER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_DOAFFECTOREVENTHANDLER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_DOAFFECTOREVENTHANDLER_H
 
 #include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUEventHandler.h"
@@ -48,19 +48,19 @@ public:
 
     /** Get the indication whether pre- and postprocessing must be done.
      */
-    bool getPrePost() const { return _prePost; };
+    inline bool getPrePost() const noexcept { return _prePost; }
 
     /** Set the indication whether pre- and postprocessing must be done.
      */
-    void setPrePost(const bool prePost) { _prePost = prePost; };
+    inline void setPrePost(const bool prePost) noexcept { _prePost = prePost; }
 
     /** Get the name of the affector that must be enabled or disabled.
      */
-    const std::string& getAffectorName(void) const { return _affectorName; };
+    inline const std::string& getAffectorName() const noexcept { return _affectorName; }
 
     /** Set the name of the affector.
      */
-    void setAffectorName(const std::string& affectorName) { _affectorName = affectorName; };
+    inline void setAffectorName(const std::string& affectorName) noexcept { _affectorName = affectorName; }
 
     /** If the _handle() function of this class is invoked (by an Observer), it searches the
         ParticleAffector defined by the its name.
@@ -68,12 +68,12 @@ public:
         DoAffectorEventHandler is defined, or if the Affector is not found, other
         ParticleTechniques are searched.
     */
-    virtual void handle(PUParticleSystem3D* particleSystem, PUParticle3D* particle, float timeElapsed) override;
+    void handle(PUParticleSystem3D* particleSystem, PUParticle3D* particle, float timeElapsed) override;
 
-    virtual void copyAttributesTo(PUEventHandler* eventHandler) override;
+    void copyAttributesTo(PUEventHandler* eventHandler) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUDoAffectorEventHandler(void);
-    virtual ~PUDoAffectorEventHandler(void){};
+    CC_CONSTRUCTOR_ACCESS : PUDoAffectorEventHandler();
+    ~PUDoAffectorEventHandler() override = default;
 
 protected:
     // Identifies the name of affector
@@ -85,4 +85,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_DOAFFECTOREVENTHANDLER_H

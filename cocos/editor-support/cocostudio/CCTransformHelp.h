@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCTRANSFORMHELP_H__
-#define __CCTRANSFORMHELP_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_TRANSFORMHELP_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_TRANSFORMHELP_H
 
 #include "cocostudio/CCArmatureDefine.h"
 #include "cocostudio/CCDatas.h"
@@ -65,4 +65,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif /*__CCTRANSFORMHELP_H__*/
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_TRANSFORMHELP_H

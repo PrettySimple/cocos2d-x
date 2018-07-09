@@ -23,8 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_IME_DELEGATE_H__
-#define __CC_IME_DELEGATE_H__
+#ifndef CC_BASE_IMEDELEGATE_H
+#define CC_BASE_IMEDELEGATE_H
 
 #include "base/CCEventKeyboard.h"
 #include "math/CCGeometry.h"
@@ -35,11 +35,6 @@ THE SOFTWARE.
  * @{
  */
 NS_CC_BEGIN
-
-/**
- * A static global empty std::string install.
- */
-extern const std::string CC_DLL STD_STRING_EMPTY;
 
 /**
  * Keyboard notification event type.
@@ -115,11 +110,7 @@ protected:
     * @js NA
     * @lua NA
     */
-    virtual void insertText(const char* text, size_t len)
-    {
-        CC_UNUSED_PARAM(text);
-        CC_UNUSED_PARAM(len);
-    }
+    virtual void insertText(const char*, size_t) {}
 
     /**
     @brief    Called by IMEDispatcher after the user clicks the backward key.
@@ -140,7 +131,11 @@ protected:
     * @js NA
     * @lua NA
     */
-    virtual const std::string& getContentText() { return STD_STRING_EMPTY; }
+    inline virtual std::string const& getContentText() const
+    {
+        static std::string const empty = "";
+        return empty;
+    }
 
     //////////////////////////////////////////////////////////////////////////
     // keyboard show/hide notification
@@ -149,22 +144,22 @@ protected:
      * @js NA
      * @lua NA
      */
-    virtual void keyboardWillShow(IMEKeyboardNotificationInfo& info) { CC_UNUSED_PARAM(info); }
+    virtual void keyboardWillShow(IMEKeyboardNotificationInfo&) {}
     /**
      * @js NA
      * @lua NA
      */
-    virtual void keyboardDidShow(IMEKeyboardNotificationInfo& info) { CC_UNUSED_PARAM(info); }
+    virtual void keyboardDidShow(IMEKeyboardNotificationInfo&) {}
     /**
      * @js NA
      * @lua NA
      */
-    virtual void keyboardWillHide(IMEKeyboardNotificationInfo& info) { CC_UNUSED_PARAM(info); }
+    virtual void keyboardWillHide(IMEKeyboardNotificationInfo&) {}
     /**
      * @js NA
      * @lua NA
      */
-    virtual void keyboardDidHide(IMEKeyboardNotificationInfo& info) { CC_UNUSED_PARAM(info); }
+    virtual void keyboardDidHide(IMEKeyboardNotificationInfo&) {}
 
 protected:
     /**
@@ -178,4 +173,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif // __CC_IME_DELEGATE_H__
+#endif // CC_BASE_IMEDELEGATE_H

@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_PARTICLE_3D_PATH_FOLLOWER_H__
-#define __CC_PU_PARTICLE_3D_PATH_FOLLOWER_H__
+#ifndef CC_EXTENSIONS_PARTICLE3D_PU_PATHFOLLOWER_H
+#define CC_EXTENSIONS_PARTICLE3D_PU_PATHFOLLOWER_H
 
 #include "base/ccTypes.h"
 #include "extensions/Particle3D/PU/CCPUAffector.h"
@@ -48,20 +48,20 @@ public:
 
     /**
      */
-    unsigned short getNumPoints(void) const { return _spline.getNumPoints(); };
+    unsigned short getNumPoints(void) const { return _spline.getNumPoints(); }
 
     /**
      */
-    const Vec3& getPoint(unsigned short index) const { return _spline.getPoint(index); };
+    const Vec3& getPoint(unsigned short index) const { return _spline.getPoint(index); }
 
-    virtual void copyAttributesTo(PUAffector* affector) override;
+    void copyAttributesTo(PUAffector* affector) override;
 
-    CC_CONSTRUCTOR_ACCESS : PUPathFollower(void);
-    virtual ~PUPathFollower(void);
+    CC_CONSTRUCTOR_ACCESS : PUPathFollower();
+    ~PUPathFollower() override;
 
 protected:
     PUSimpleSpline _spline;
 };
 NS_CC_END
 
-#endif
+#endif // CC_EXTENSIONS_PARTICLE3D_PU_PATHFOLLOWER_H

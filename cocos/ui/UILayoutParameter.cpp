@@ -100,6 +100,8 @@ namespace ui
 
     void LayoutParameter::copyProperties(LayoutParameter* model) { _margin = model->_margin; }
 
+    LayoutParameterProtocol::~LayoutParameterProtocol() {}
+
     LinearLayoutParameter* LinearLayoutParameter::create()
     {
         LinearLayoutParameter* parameter = new (std::nothrow) LinearLayoutParameter();
