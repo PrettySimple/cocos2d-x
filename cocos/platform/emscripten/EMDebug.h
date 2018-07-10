@@ -1,6 +1,7 @@
 //
 // EMDebug.h
 //
+#pragma once
 
 #include "platform/CCPlatformConfig.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN) && defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
