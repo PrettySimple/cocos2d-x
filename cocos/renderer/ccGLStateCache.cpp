@@ -43,23 +43,27 @@ NS_CC_BEGIN
 
 static const int MAX_ATTRIBUTES = 16;
 static const int MAX_ACTIVE_TEXTURE = 16;
-std::mutex currentBoundProjectionMatrixMutex;
-#if CC_ENABLE_GL_STATE_CACHE
-std::mutex currentBoundTextureMutex;
-std::mutex currentBoundShaderMutex;
-std::mutex currentBlendingSourceMutex;
-std::mutex currentBlendingTestMutex;
-std::mutex GLServerStateMutex;
-std::mutex VAOMutex;
-std::mutex activeTextureMutex;
-#endif
+
+namespace GL
+{
+    std::mutex currentBoundProjectionMatrixMutex;
+    #if CC_ENABLE_GL_STATE_CACHE
+    std::mutex currentBoundTextureMutex;
+    std::mutex currentBoundShaderMutex;
+    std::mutex currentBlendingSourceMutex;
+    std::mutex currentBlendingTestMutex;
+    std::mutex GLServerStateMutex;
+    std::mutex VAOMutex;
+    std::mutex activeTextureMutex;
+    #endif
+}
 
 GLuint& s_currentProjectionMatrix()
 {
     static std::unordered_map<std::thread::id, GLuint> currentProjectionMatrix;
 
     const auto tId = std::this_thread::get_id();
-    std::lock_guard<std::mutex> lock(currentBoundProjectionMatrixMutex);
+    std::lock_guard<std::mutex> lock(GL::currentBoundProjectionMatrixMutex);
     auto search = currentProjectionMatrix.find(tId);
     if (search != currentProjectionMatrix.end())
     {
@@ -85,7 +89,7 @@ GLuint& s_currentShaderProgram()
     auto& shaderProgram = currentShaderProgram();
 
     const auto tId = std::this_thread::get_id();
-    std::lock_guard<std::mutex> lock(currentBoundShaderMutex);
+    std::lock_guard<std::mutex> lock(GL::currentBoundShaderMutex);
     auto search = shaderProgram.find(tId);
     if (search != shaderProgram.end())
     {
@@ -107,7 +111,7 @@ std::array<GLuint, MAX_ACTIVE_TEXTURE>& s_currentBoundTexture()
     auto& boundTexture = currentBoundTexture();
 
     const auto tId = std::this_thread::get_id();
-    std::lock_guard<std::mutex> lock(currentBoundTextureMutex);
+    std::lock_guard<std::mutex> lock(GL::currentBoundTextureMutex);
     auto search = boundTexture.find(tId);
     if (search != boundTexture.end())
     {
@@ -125,7 +129,7 @@ GLenum& s_blendingSource()
 {
     static std::unordered_map<std::thread::id, GLenum> blendingSource;
 
-    std::lock_guard<std::mutex> lock(currentBlendingSourceMutex);
+    std::lock_guard<std::mutex> lock(GL::currentBlendingSourceMutex);
     const auto tId = std::this_thread::get_id();
     auto search = blendingSource.find(tId);
     if (search != blendingSource.end())
@@ -141,7 +145,7 @@ GLenum& s_blendingDest()
 {
     static std::unordered_map<std::thread::id, GLenum> blendingDest;
 
-    std::lock_guard<std::mutex> lock(currentBlendingTestMutex);
+    std::lock_guard<std::mutex> lock(GL::currentBlendingTestMutex);
     const auto tId = std::this_thread::get_id();
     auto search = blendingDest.find(tId);
     if (search != blendingDest.end())
@@ -157,7 +161,7 @@ int& s_GLServerState()
 {
     static std::unordered_map<std::thread::id, int> GLServerState;
 
-    std::lock_guard<std::mutex> lock(GLServerStateMutex);
+    std::lock_guard<std::mutex> lock(GL::GLServerStateMutex);
     const auto tId = std::this_thread::get_id();
     auto search = GLServerState.find(tId);
     if (search != GLServerState.end())
@@ -173,7 +177,7 @@ GLuint& s_VAO()
 {
     static std::unordered_map<std::thread::id, GLuint> VAO;
 
-    std::lock_guard<std::mutex> lock(VAOMutex);
+    std::lock_guard<std::mutex> lock(GL::VAOMutex);
     const auto tId = std::this_thread::get_id();
     auto search = VAO.find(tId);
     if (search != VAO.end())
@@ -189,7 +193,7 @@ GLenum& s_activeTexture()
 {
     static std::unordered_map<std::thread::id, GLenum> activeTexture;
 
-    std::lock_guard<std::mutex> lock(activeTextureMutex);
+    std::lock_guard<std::mutex> lock(GL::activeTextureMutex);
     const auto tId = std::this_thread::get_id();
     auto search = activeTexture.find(tId);
     if (search != activeTexture.end())
