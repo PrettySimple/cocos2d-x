@@ -394,14 +394,14 @@ AudioCache& AudioEngineImpl::preload(std::string const& filePath, std::function<
     if (it == _audioCaches.end())
     {
         auto& audioCache = _audioCaches[filePath];
-        audioCache._askedAsPreload = true;
+        audioCache.setAskedAsPreload(true);
         if (callback != nullptr)
         {
             audioCache.addLoadCallback(callback);
         }
-        audioCache._fileFullPath = FileUtils::getInstance()->fullPathForFilename(filePath);
+        audioCache.setFileFullPath(FileUtils::getInstance()->fullPathForFilename(filePath));
 
-        AudioEngine::addTask([&audioCache, cacheId = audioCache._id, isCacheDestroyed = audioCache._isDestroyed]() {
+        AudioEngine::addTask([&audioCache, cacheId = audioCache.getId(), isCacheDestroyed = audioCache.isDestroyed()]() {
             if (*isCacheDestroyed)
             {
                 ALOGV("AudioCache (id=%u) was destroyed, no need to launch readDataTask.", cacheId);
@@ -416,7 +416,7 @@ AudioCache& AudioEngineImpl::preload(std::string const& filePath, std::function<
     }
     else
     {
-        it->second._askedAsPreload = true;
+        it->second.setAskedAsPreload(true);
         if (callback != nullptr)
         {
             it->second.addLoadCallback(callback);
@@ -439,7 +439,7 @@ void AudioEngineImpl::_play2d(AudioPlayer* player, AudioCache& audioCache, bool 
     _audioPlayers[_currentAudioID] = player;
     _threadMutex.unlock();
 
-    audioCache.addPlayCallback([this, &audioCache, audioId = _currentAudioID, isCacheDestroyed = audioCache._isDestroyed]() { _play2d(audioCache, audioId, *isCacheDestroyed); });
+    audioCache.addPlayCallback([this, &audioCache, audioId = _currentAudioID, isCacheDestroyed = audioCache.isDestroyed()]() { _play2d(audioCache, audioId, *isCacheDestroyed); });
 
     if (_lazyInitLoop)
     {
@@ -457,7 +457,7 @@ int AudioEngineImpl::play2d(std::string const& filePath, bool loop, float volume
 
     // sound is a music and was not preloaded, we use the hardware accelerated
     // player, otherwise just use openAL
-    if (isMusic && (_audioCaches.count(filePath) == 0 || !(_audioCaches.find(filePath)->second._askedAsPreload)))
+    if (isMusic && (_audioCaches.count(filePath) == 0 || !(_audioCaches.find(filePath)->second.isAskedAsPreload())))
     {
         AudioPlayer* player = new (std::nothrow) SimpleAudioPlayer(filePath);
 
@@ -465,9 +465,9 @@ int AudioEngineImpl::play2d(std::string const& filePath, bool loop, float volume
         if (it == _audioCaches.end())
         {
             auto& audioCache = _audioCaches[filePath];
-            audioCache._fileFullPath = FileUtils::getInstance()->fullPathForFilename(filePath);
+            audioCache.setFileFullPath(FileUtils::getInstance()->fullPathForFilename(filePath));
             audioCache.setState(AudioCache::State::READY);
-            audioCache._isLoadingFinished = true;
+            audioCache.setLoadingFinished(true);
 
             _play2d(player, audioCache, loop, volume);
         }
@@ -475,7 +475,7 @@ int AudioEngineImpl::play2d(std::string const& filePath, bool loop, float volume
         {
             auto& audioCache = it->second;
             audioCache.setState(AudioCache::State::READY);
-            audioCache._isLoadingFinished = true;
+            audioCache.setLoadingFinished(true);
 
             _play2d(player, audioCache, loop, volume);
         }
