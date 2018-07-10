@@ -65,20 +65,49 @@ namespace experimental
         void addPlayCallback(const std::function<void()>& callback);
 
         void addLoadCallback(const std::function<void(bool)>& callback);
+        
+        void setSkipReadDataTask(bool isSkip);
+        void readDataTask(unsigned int selfId);
+        
+        State getState();
+        void setState(const State& p_state);
+        
+        bool isAskedAsPreload();
+        void setAskedAsPreload(bool p_askedAsPreload);
+        
+        void setFileFullPath(std::string p_fileFullPath);
+        std::string getFileFullPath();
+        
+        void setLoadingFinished(bool p_finished);
+        bool isLoadingFinished();
+        
+        std::shared_ptr<std::atomic_bool> isDestroyed();
+        void setDestroyed(bool p_destroyed);
+        
+        int getId();
+        
+        ALuint getAlBufferId();
+        
+        uint32_t getQueBufferFrames();
+        
+        ALenum getFormat();
+        
+        char* getQueBuffer(int p_pos);
+        uint32_t getQueBufferSize(int p_pos);
+        
+        ALsizei getSampleRate();
+        std::chrono::milliseconds getDuration();
+        
+        uint32_t getFramesRead();
+        uint32_t getTotalFrames();
 
     protected:
-        void setSkipReadDataTask(bool isSkip)
-        {
-            _isSkipReadDataTask = isSkip;
-            if (_isSkipReadDataTask)
-                _isLoadingFinished = true;
-        };
-        void readDataTask(unsigned int selfId);
 
         void invokingPlayCallbacks();
 
         void invokingLoadCallbacks();
 
+        
         // pcm data related stuff
         ALenum _format;
         ALsizei _sampleRate;
@@ -108,17 +137,15 @@ namespace experimental
         std::mutex _readDataTaskMutex;
 
         State _state;
+        std::mutex _stateMutex;
 
-        std::shared_ptr<bool> _isDestroyed;
+        std::mutex _isDestroyedMutex;
+        std::shared_ptr<std::atomic_bool> _isDestroyed;
         std::string _fileFullPath;
         unsigned int _id;
-        bool _isLoadingFinished;
-        bool _isSkipReadDataTask;
-        bool _askedAsPreload;
-
-        friend class AudioEngineImpl;
-        friend class ALAudioPlayer;
-        friend class SimpleAudioPlayer;
+        std::atomic_bool _isLoadingFinished;
+        std::atomic_bool _isSkipReadDataTask;
+        std::atomic_bool _askedAsPreload;
     };
 
 } // namespace experimental
