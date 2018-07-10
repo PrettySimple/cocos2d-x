@@ -306,7 +306,7 @@ void Mat4::createTranslation(const Vec3& translation, Mat4& dst)
 {
     dst.setIdentity();
 
-    dst.col[3] = {translation.x, translation.y, translation.z};
+    dst.col[3] = {translation.x, translation.y, translation.z, 1.f};
 }
 
 void Mat4::createTranslation(float xTranslation, float yTranslation, float zTranslation, Mat4& dst)
