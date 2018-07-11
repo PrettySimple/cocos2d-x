@@ -50,9 +50,9 @@ namespace experimental
         virtual void setFinishCallback(const std::function<void(int, const std::string&)>& callback) {}
 
     protected:
-        bool _isDestroyed;
-        bool _removeByAudioEngine;
-        bool _ready;
+        std::atomic_bool _isDestroyed;
+        std::atomic_bool _removeByAudioEngine;
+        std::atomic_bool _ready;
 
         float _volume;
         bool _loop;

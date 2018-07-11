@@ -86,13 +86,13 @@ void ALAudioPlayer::destroy()
 
     do
     {
-        if (_audioCache._state == AudioCache::State::INITIAL)
+        if (_audioCache.getState() == AudioCache::State::INITIAL)
         {
             ALOGV("ALAudioPlayer::destroy, id=%u, cache isn't ready!", _id);
             break;
         }
 
-        while (!_audioCache._isLoadingFinished)
+        while (!_audioCache.isLoadingFinished())
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(5));
         }
@@ -129,7 +129,7 @@ void ALAudioPlayer::destroy()
     ALOGVV("Before alSourcei");
     alSourcei(_alSource, AL_BUFFER, 0);
     CHECK_AL_ERROR_DEBUG();
-    ALOGVV("unbinding buffer %u from cache id %d", _audioCache._alBufferId, _audioCache._id);
+    ALOGVV("unbinding buffer %u from cache id %d", _audioCache.getAlBufferId(), _audioCache.getId());
 
     _removeByAudioEngine = true;
 
@@ -148,7 +148,7 @@ bool ALAudioPlayer::play2d()
     bool ret = false;
     do
     {
-        if (_audioCache._state != AudioCache::State::READY)
+        if (_audioCache.getState() != AudioCache::State::READY)
         {
             ALOGE("alBuffer isn't ready for play!");
             break;
@@ -163,7 +163,7 @@ bool ALAudioPlayer::play2d()
         alSourcei(_alSource, AL_LOOPING, AL_FALSE);
         CHECK_AL_ERROR_DEBUG();
 
-        if (_audioCache._queBufferFrames == 0)
+        if (_audioCache.getQueBufferFrames() == 0)
         {
             if (_loop)
             {
@@ -180,8 +180,8 @@ bool ALAudioPlayer::play2d()
             {
                 for (int index = 0; index < QUEUEBUFFER_NUM; ++index)
                 {
-                    alBufferData(_bufferIds[index], _audioCache._format, _audioCache._queBuffers[index], _audioCache._queBufferSize[index],
-                                 _audioCache._sampleRate);
+                    alBufferData(_bufferIds[index], _audioCache.getFormat(), _audioCache.getQueBuffer(index), _audioCache.getQueBufferSize(index),
+                                 _audioCache.getSampleRate());
                 }
                 CHECK_AL_ERROR_DEBUG();
             }
@@ -202,13 +202,13 @@ bool ALAudioPlayer::play2d()
             {
                 alSourceQueueBuffers(_alSource, QUEUEBUFFER_NUM, _bufferIds);
                 CHECK_AL_ERROR_DEBUG();
-                _rotateBufferThread = new std::thread(&ALAudioPlayer::rotateBufferThread, this, _audioCache._queBufferFrames * QUEUEBUFFER_NUM + 1);
+                _rotateBufferThread = new std::thread(&ALAudioPlayer::rotateBufferThread, this, _audioCache.getQueBufferFrames() * QUEUEBUFFER_NUM + 1);
             }
             else
             {
-                alSourcei(_alSource, AL_BUFFER, _audioCache._alBufferId);
+                alSourcei(_alSource, AL_BUFFER, _audioCache.getAlBufferId());
 
-                ALOGE("%s:alSource %u bind buffer :%u", __PRETTY_FUNCTION__, _alSource, _audioCache->_alBufferId);
+                ALOGE("%s:alSource %u bind buffer :%u", __PRETTY_FUNCTION__, _alSource, _audioCache.getAlBufferId());
 
                 CHECK_AL_ERROR_DEBUG();
             }
@@ -249,10 +249,10 @@ void ALAudioPlayer::rotateBufferThread(int offsetFrame)
         {
             @autoreleasepool
             {
-                BREAK_IF(!decoder.open(_audioCache._fileFullPath.c_str()));
+                BREAK_IF(!decoder.open(_audioCache.getFileFullPath().c_str()));
 
                 uint32_t framesRead = 0;
-                const uint32_t framesToRead = _audioCache._queBufferFrames;
+                const uint32_t framesToRead = _audioCache.getQueBufferFrames();
                 const uint32_t bufferSize = framesToRead * decoder.getBytesPerFrame();
                 tmpBuffer = reinterpret_cast<char*>(malloc(bufferSize));
                 memset(tmpBuffer, 0, bufferSize);
@@ -284,7 +284,7 @@ void ALAudioPlayer::rotateBufferThread(int offsetFrame)
                             else
                             {
                                 _currTime += QUEUEBUFFER_TIME_STEP;
-                                if (_currTime > static_cast<float>(_audioCache._duration.count()) / 1000.f)
+                                if (_currTime > static_cast<float>(_audioCache.getDuration().count()) / 1000.f)
                                 {
                                     if (_loop)
                                     {
@@ -292,7 +292,7 @@ void ALAudioPlayer::rotateBufferThread(int offsetFrame)
                                     }
                                     else
                                     {
-                                        _currTime = static_cast<float>(_audioCache._duration.count()) / 1000.f;
+                                        _currTime = static_cast<float>(_audioCache.getDuration().count()) / 1000.f;
                                     }
                                 }
                             }
@@ -315,7 +315,7 @@ void ALAudioPlayer::rotateBufferThread(int offsetFrame)
 
                             ALuint bid;
                             alSourceUnqueueBuffers(_alSource, 1, &bid);
-                            alBufferData(bid, _audioCache._format, tmpBuffer, framesRead * decoder.getBytesPerFrame(), decoder.getSampleRate());
+                            alBufferData(bid, _audioCache.getFormat(), tmpBuffer, framesRead * decoder.getBytesPerFrame(), decoder.getSampleRate());
                             alSourceQueueBuffers(_alSource, 1, &bid);
                         }
                     }
@@ -415,7 +415,7 @@ bool ALAudioPlayer::setTime(float time)
     {
         if (!_streamingSource)
         {
-            if (_audioCache._framesRead != _audioCache._totalFrames && (time * _audioCache._sampleRate) > _audioCache._framesRead)
+            if (_audioCache.getFramesRead() != _audioCache.getTotalFrames() && (time * _audioCache.getSampleRate()) > _audioCache.getFramesRead())
                 ALOGE("%s: audio id = %d", __PRETTY_FUNCTION__, _id);
             else
             {
@@ -431,7 +431,7 @@ bool ALAudioPlayer::setTime(float time)
         }
         else
         {
-            if (!_isDestroyed && time >= 0.0f && time < static_cast<float>(_audioCache._duration.count()) / 1000.f)
+            if (!_isDestroyed && time >= 0.0f && time < static_cast<float>(_audioCache.getDuration().count()) / 1000.f)
             {
                 _currTime = time;
                 _timeDirty = true;
@@ -500,7 +500,7 @@ bool ALAudioPlayer::isStopped()
 
 std::chrono::milliseconds ALAudioPlayer::getDuration()
 {
-    return _audioCache._duration;
+    return _audioCache.getDuration();
 }
 
 ALuint ALAudioPlayer::getAlSource()
