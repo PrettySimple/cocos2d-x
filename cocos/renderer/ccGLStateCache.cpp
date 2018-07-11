@@ -35,9 +35,9 @@ THE SOFTWARE.
 
 #include <array>
 #include <limits>
+#include <mutex>
 #include <thread>
 #include <unordered_map>
-#include <mutex>
 
 NS_CC_BEGIN
 
@@ -47,7 +47,7 @@ static const int MAX_ACTIVE_TEXTURE = 16;
 namespace GL
 {
     std::mutex currentBoundProjectionMatrixMutex;
-    #if CC_ENABLE_GL_STATE_CACHE
+#if CC_ENABLE_GL_STATE_CACHE
     std::mutex currentBoundTextureMutex;
     std::mutex currentBoundShaderMutex;
     std::mutex currentBlendingSourceMutex;
@@ -55,8 +55,8 @@ namespace GL
     std::mutex GLServerStateMutex;
     std::mutex VAOMutex;
     std::mutex activeTextureMutex;
-    #endif
-}
+#endif
+} // namespace GL
 
 GLuint& s_currentProjectionMatrix()
 {

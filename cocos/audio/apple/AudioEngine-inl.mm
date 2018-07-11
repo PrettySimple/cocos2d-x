@@ -436,7 +436,8 @@ void AudioEngineImpl::_play2d(AudioPlayer* player, AudioCache& audioCache, bool 
     _audioPlayers[_currentAudioID] = player;
     _threadMutex.unlock();
 
-    audioCache.addPlayCallback([this, &audioCache, audioId = _currentAudioID, isCacheDestroyed = audioCache.isDestroyed()]() { _play2d(audioCache, audioId, *isCacheDestroyed); });
+    audioCache.addPlayCallback(
+        [this, &audioCache, audioId = _currentAudioID, isCacheDestroyed = audioCache.isDestroyed()]() { _play2d(audioCache, audioId, *isCacheDestroyed); });
 
     if (_lazyInitLoop)
     {

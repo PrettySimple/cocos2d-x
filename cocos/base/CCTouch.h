@@ -48,8 +48,8 @@ public:
     Touch() = default;
     Touch(Touch const&) = default;
     Touch& operator=(Touch const&) = default;
-    Touch(Touch &&) noexcept = default;
-    Touch& operator=(Touch &&) noexcept = default;
+    Touch(Touch&&) noexcept = default;
+    Touch& operator=(Touch&&) noexcept = default;
     ~Touch() final;
 
     /**

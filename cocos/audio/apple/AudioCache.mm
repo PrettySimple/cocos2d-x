@@ -179,8 +179,8 @@ AudioCache::~AudioCache()
         // then 'CrashIfClientProvidedBogusAudioBufferList' may be triggered.
         // 'cpp-tests/NewAudioEngineTest/AudioSwitchStateTest' can reproduce this issue without the following fix.
         // The workaround is delaying 200ms to free pcm data.
-//        char* data = _pcmData;
-//        setTimeout(0.2, [data]() { free(data); });
+        //        char* data = _pcmData;
+        //        setTimeout(0.2, [data]() { free(data); });
         free(_pcmData);
     }
 

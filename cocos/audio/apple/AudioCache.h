@@ -68,45 +68,43 @@ namespace experimental
 
         void setSkipReadDataTask(bool isSkip);
         void readDataTask(unsigned int selfId);
-        
+
         State getState();
         void setState(const State& p_state);
-        
+
         bool isAskedAsPreload();
         void setAskedAsPreload(bool p_askedAsPreload);
-        
+
         void setFileFullPath(std::string p_fileFullPath);
         std::string getFileFullPath();
-        
+
         void setLoadingFinished(bool p_finished);
         bool isLoadingFinished();
-        
+
         std::shared_ptr<std::atomic_bool> isDestroyed();
         void setDestroyed(bool p_destroyed);
-        
+
         int getId();
-        
+
         ALuint getAlBufferId();
-        
+
         uint32_t getQueBufferFrames();
-        
+
         ALenum getFormat();
-        
+
         char* getQueBuffer(int p_pos);
         uint32_t getQueBufferSize(int p_pos);
-        
+
         ALsizei getSampleRate();
         std::chrono::milliseconds getDuration();
-        
+
         uint32_t getFramesRead();
         uint32_t getTotalFrames();
 
     protected:
-
         void invokingPlayCallbacks();
 
         void invokingLoadCallbacks();
-
 
         // pcm data related stuff
         ALenum _format;
