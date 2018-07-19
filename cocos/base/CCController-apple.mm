@@ -24,17 +24,23 @@
  ****************************************************************************/
 
 #include "base/CCController.h"
+
 #include "platform/CCPlatformConfig.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 
-#    include "2d/CCLabel.h"
-#    include "base/CCDirector.h"
-#    include "base/CCEventController.h"
-#    include "base/CCEventDispatcher.h"
-#    include "base/CCEventListenerController.h"
-#    include "base/ccMacros.h"
+#include "base/CCConsole.h"
+#include "base/CCController.h"
+#include "base/CCEventController.h"
+#include "platform/CCPlatformConfig.h"
+#include "platform/CCPlatformMacros.h"
 
-#    import <GameController/GameController.h>
+#include <Foundation/NSObjCRuntime.h>
+#include <GameController/GCController.h>
+
+#include <algorithm>
+#include <iosfwd>
+#include <new>
+#include <vector>
 
 @interface GCControllerConnectionEventHandler : NSObject
 

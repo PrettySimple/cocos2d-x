@@ -20,10 +20,13 @@
  */
 
 #include "renderer/CCVertexAttribBinding.h"
+
 #include "3d/CCMeshVertexIndexData.h"
 #include "base/CCConfiguration.h"
 #include "platform/CCGL.h"
+#include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramState.h"
+#include "renderer/CCVertexIndexBuffer.h"
 #include "renderer/ccGLStateCache.h"
 
 NS_CC_BEGIN

@@ -40,13 +40,18 @@ THE SOFTWARE.
 
 #include "2d/CCActionCatmullRom.h"
 #include "base/CCDirector.h"
-#include "platform/CCGL.h"
+#include "base/ccMacros.h"
+#include "base/ccTypes.h"
+#include "platform/CCPlatformConfig.h"
+#include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramCache.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/ccGLStateCache.h"
 
+#include <cstdlib>
+#include <cstring>
 #include <cmath>
-#include <string.h>
+#include <new>
 
 NS_CC_BEGIN
 

@@ -22,8 +22,13 @@
  THE SOFTWARE.
 ****************************************************************************/
 #include "base/CCNinePatchImageParser.h"
+
 #include "base/CCDirector.h"
+#include "base/ccMacros.h"
 #include "platform/CCImage.h"
+#include "renderer/CCTexture2D.h"
+
+#include <cstddef>
 
 NS_CC_BEGIN
 

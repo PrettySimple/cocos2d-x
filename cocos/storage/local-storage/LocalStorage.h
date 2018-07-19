@@ -27,7 +27,6 @@ THE SOFTWARE.
 #define CC_STORAGE_LOCALSTORAGE_LOCALSTORAGE_H
 
 #include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
 
 #include <string>
 

@@ -26,12 +26,18 @@
 #include "base/ccUTF8.h"
 
 #include "base/CCConsole.h"
-#include "platform/CCCommon.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"
 #include <ConvertUTF/ConvertUTF.h>
 #pragma clang diagnostic pop
+
+#include <cstdarg>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <new>
+#include <type_traits>
 
 NS_CC_BEGIN
 

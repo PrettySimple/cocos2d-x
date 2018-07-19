@@ -27,6 +27,11 @@ THE SOFTWARE.
 #define CC_BASE_NS_H
 
 #include "math/CCGeometry.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <iosfwd>
 
 NS_CC_BEGIN
 

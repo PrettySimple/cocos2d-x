@@ -29,8 +29,7 @@
 #include "base/CCEvent.h"
 #include "math/Vec2.h"
 #include "platform/CCPlatformMacros.h"
-
-#include <cstdint>
+#include "platform/CCPlatformDefine.h"
 
 #define MOUSE_BUTTON_LEFT 0
 #define MOUSE_BUTTON_RIGHT 1

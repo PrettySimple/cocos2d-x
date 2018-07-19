@@ -25,15 +25,20 @@
 #ifndef CC_RENDERER_PRIMITIVECOMMAND_H
 #define CC_RENDERER_PRIMITIVECOMMAND_H
 
+#include "platform/CCGL.h"
 #include "base/ccTypes.h"
-#include "renderer/CCPrimitive.h"
+#include "math/Mat4.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 #include "renderer/CCRenderCommand.h"
 
+#include <cstdint>
 #include <cstddef>
 #include <limits>
 
 NS_CC_BEGIN
 class GLProgramState;
+class Primitive;
 /**
  Command used to render primitive, similar to QuadCommand.
  Every QuadCommand will have generate material ID by give textureID, glProgramState, Blend function.

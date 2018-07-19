@@ -27,8 +27,10 @@ THE SOFTWARE.
 #define CC_DEPRECATED_SET_H
 /// @cond DO_NOT_SHOW
 
-#include "base/CCDataVisitor.h"
 #include "base/CCRef.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
 #include <set>
 
 NS_CC_BEGIN
@@ -39,6 +41,8 @@ NS_CC_BEGIN
  */
 
 typedef std::set<Ref*>::iterator __SetIterator;
+
+class DataVisitor;
 
 class CC_DLL __Set : public Ref
 {

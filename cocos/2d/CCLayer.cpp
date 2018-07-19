@@ -38,6 +38,7 @@ THE SOFTWARE.
 #include "base/CCScriptSupport.h"
 #include "base/ccUTF8.h"
 #include "platform/CCDevice.h"
+#include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/ccGLStateCache.h"

@@ -28,7 +28,12 @@ THE SOFTWARE.
 /// @cond DO_NOT_SHOW
 
 #include "base/CCRef.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 #include "renderer/CCTexture2D.h"
+
+#include <cstddef>
+#include <iosfwd>
 
 #ifdef CC_USE_WIC
 #    include "platform/winrt/WICImageLoader-winrt.h"

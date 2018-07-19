@@ -23,6 +23,7 @@
  ****************************************************************************/
 
 #include "3d/CCMesh.h"
+
 #include "2d/CCLight.h"
 #include "2d/CCScene.h"
 #include "3d/CCMeshSkin.h"
@@ -32,6 +33,7 @@
 #include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
 #include "math/Mat4.h"
+#include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCMaterial.h"
 #include "renderer/CCPass.h"
@@ -39,6 +41,7 @@
 #include "renderer/CCTechnique.h"
 #include "renderer/CCTextureCache.h"
 #include "renderer/CCVertexAttribBinding.h"
+#include "renderer/CCVertexIndexBuffer.h"
 
 using namespace std;
 

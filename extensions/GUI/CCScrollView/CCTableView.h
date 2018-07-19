@@ -27,9 +27,13 @@
 #define CC_EXTENSIONS_GUI_SCROLLVIEW_TABLEVIEW_H
 
 #include "CCScrollView.h"
-#include "CCTableViewCell.h"
+#include "ExtensionMacros.h"
+#include "base/CCVector.h"
 #include "extensions/ExtensionExport.h"
+#include "math/CCGeometry.h"
+#include "math/Vec2.h"
 
+#include <cstddef>
 #include <set>
 #include <vector>
 
@@ -37,9 +41,18 @@
  * @addtogroup ui
  * @{
  */
+
+namespace cocos2d
+{
+    class Event;
+    class Node;
+    class Touch;
+}
+
 NS_CC_EXT_BEGIN
 
 class TableView;
+class TableViewCell;
 
 /**
  * Sole purpose of this delegate is to single touch event in this version.

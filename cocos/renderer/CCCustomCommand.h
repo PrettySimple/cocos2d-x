@@ -25,6 +25,8 @@
 #ifndef CC_RENDERER_CUSTOMCOMMAND_H
 #define CC_RENDERER_CUSTOMCOMMAND_H
 
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 #include "renderer/CCRenderCommand.h"
 
 #include <cstdint>

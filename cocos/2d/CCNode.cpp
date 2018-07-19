@@ -37,6 +37,7 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
 #include "base/CCScheduler.h"
+#include "base/CCTouch.h"
 #include "base/ccUTF8.h"
 #include "math/MathUtil.h"
 #include "math/TransformUtils.h"

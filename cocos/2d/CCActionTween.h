@@ -26,11 +26,16 @@ THE SOFTWARE.
 #ifndef CC_2D_ACTIONTWEEN_H
 #define CC_2D_ACTIONTWEEN_H
 
-#include "2d/CCActionInterval.h"
-
 #include <chrono>
+#include <iosfwd>
+#include "2d/CCActionInterval.h"
+#include "base/ccConfig.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 NS_CC_BEGIN
+
+class Node;
 
 /**
  * @addtogroup actions

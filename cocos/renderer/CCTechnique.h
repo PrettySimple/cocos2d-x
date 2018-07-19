@@ -31,12 +31,12 @@
 #define CC_RENDERER_TECHNIQUE_H
 
 #include "base/CCVector.h"
-#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 #include "renderer/CCRenderState.h"
 
 #include <cstddef>
-#include <string>
+#include <iosfwd>
 
 NS_CC_BEGIN
 

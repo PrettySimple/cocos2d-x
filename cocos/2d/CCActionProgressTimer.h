@@ -27,10 +27,15 @@ THE SOFTWARE.
 #define CC_2D_ACTIONPROGRESSTIMER_H
 
 #include "2d/CCActionInterval.h"
+#include "base/ccConfig.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 #include <chrono>
 
 NS_CC_BEGIN
+
+class Node;
 
 /**
  * @addtogroup actions

@@ -27,17 +27,21 @@ THE SOFTWARE.
 #ifndef CC_2D_ANIMATION_H
 #define CC_2D_ANIMATION_H
 
-#include "2d/CCSpriteFrame.h"
 #include "base/CCRef.h"
 #include "base/CCValue.h"
 #include "base/CCVector.h"
-#include "platform/CCPlatformConfig.h"
+#include "base/ccConfig.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 #include <chrono>
-#include <string>
+#include <iosfwd>
+#include <vector>
 
 NS_CC_BEGIN
 
+class Node;
+class Rect;
 class Texture2D;
 class SpriteFrame;
 
@@ -85,12 +89,7 @@ public:
      *
      * @param frame A SpriteFrame will be used.
      */
-    inline void setSpriteFrame(SpriteFrame* frame)
-    {
-        CC_SAFE_RETAIN(frame);
-        CC_SAFE_RELEASE(_spriteFrame);
-        _spriteFrame = frame;
-    }
+    void setSpriteFrame(SpriteFrame* frame);
 
     /** Gets the units of time the frame takes.
      *

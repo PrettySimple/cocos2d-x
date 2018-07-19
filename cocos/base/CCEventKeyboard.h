@@ -28,6 +28,7 @@
 
 #include "base/CCEvent.h"
 #include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 #include <cstdint>
 

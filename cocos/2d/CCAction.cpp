@@ -29,12 +29,14 @@ THE SOFTWARE.
 
 #include "2d/CCActionInterval.h"
 #include "2d/CCNode.h"
+#include "base/CCConsole.h"
 #include "base/CCDirector.h"
 #include "base/ccMacros.h"
 #include "base/ccUTF8.h"
 
 #include <cmath>
 #include <limits>
+#include <new>
 
 NS_CC_BEGIN
 //

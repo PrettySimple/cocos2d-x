@@ -26,15 +26,19 @@
 #include "platform/CCPlatformConfig.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 
-#    import <Foundation/Foundation.h>
+#include "base/CCUserDefault.h"
 
-#    include <string>
+#include "base/CCConsole.h"
+#include "base/CCData.h"
+#include "platform/CCPlatformMacros.h"
 
-#    import "base/CCUserDefault.h"
-#    import "base/base64.h"
-#    import "platform/CCFileUtils.h"
-#    import "platform/CCPlatformConfig.h"
-#    import "platform/CCPlatformMacros.h"
+#include <Foundation/NSString.h>
+#include <Foundation/NSUserDefaults.h>
+#include <Foundation/NSValue.h>
+#include <Foundation/NSData.h>
+
+#include <iosfwd>
+#include <new>
 
 using namespace std;
 

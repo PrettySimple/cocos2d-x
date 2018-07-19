@@ -31,6 +31,22 @@
 
 #include "CCControlHuePicker.h"
 
+#include "2d/CCSprite.h"
+#include "GUI/CCControlExtension/CCControl.h"
+#include "GUI/CCControlExtension/CCControlUtils.h"
+#include "base/ccMacros.h"
+#include "math/CCGeometry.h"
+
+#include <cmath>
+#include <new>
+
+namespace cocos2d
+{
+    class Event;
+    class Node;
+    class Touch;
+}
+
 NS_CC_EXT_BEGIN
 
 ControlHuePicker::ControlHuePicker()
@@ -183,6 +199,26 @@ void ControlHuePicker::onTouchMoved(Touch* touch, Event* event)
     //     sendActionsForControlEvents(Control::EventType::VALUE_CHANGED);
     // Check the touch position on the slider
     checkSliderPosition(touchLocation);
+}
+
+void ControlHuePicker::setBackground(Sprite* background) noexcept
+{
+    if (_background != background)
+    {
+        CC_SAFE_RETAIN(background);
+        CC_SAFE_RELEASE(_background);
+        _background = background;
+    }
+}
+
+void ControlHuePicker::setSlider(Sprite* slider) noexcept
+{
+    if (_slider != slider)
+    {
+        CC_SAFE_RETAIN(slider);
+        CC_SAFE_RELEASE(_slider);
+        _slider = slider;
+    }
 }
 
 NS_CC_EXT_END

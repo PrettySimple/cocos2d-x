@@ -28,13 +28,20 @@
 #include "base/CCConfiguration.h"
 #include "base/CCDirector.h"
 #include "base/ccMacros.h"
+#include "math/Mat4.h"
+#include "math/Vec3.h"
+#include "math/Vec4.h"
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramCache.h"
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCRenderState.h"
 #include "renderer/CCRenderer.h"
+#include "renderer/CCTexture2D.h"
 #include "renderer/CCTextureCube.h"
 #include "renderer/ccGLStateCache.h"
+
+#include <cstddef>
+#include <new>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
 #    include "base/CCEventCustom.h"

@@ -24,12 +24,16 @@ Copyright (c) 2013-2014 Chukong Technologies
  ****************************************************************************/
 
 #include "deprecated/CCString.h"
-#include "base/ccMacros.h"
+
+#include "base/CCDataVisitor.h"
 #include "base/ccUtils.h"
 #include "deprecated/CCArray.h"
 #include "platform/CCFileUtils.h"
-#include <stdio.h>
-#include <stdlib.h>
+
+#include <cstdio>
+#include <cstdlib>
+#include <new>
+#include <type_traits>
 
 NS_CC_BEGIN
 

@@ -24,17 +24,16 @@ THE SOFTWARE.
 
 #include "ui/UISlider.h"
 
-#include "2d/CCCamera.h"
 #include "2d/CCNode.h"
 #include "2d/CCSprite.h"
-#include "2d/CCSpriteFrame.h"
-#include "base/CCEvent.h"
-#include "base/CCRef.h"
 #include "base/CCTouch.h"
 #include "editor-support/cocostudio/CocosStudioExtension.h"
 #include "math/Vec2.h"
+#include "math/Vec3.h"
 #include "ui/UIHelper.h"
 #include "ui/UIScale9Sprite.h"
+
+#include <new>
 
 NS_CC_BEGIN
 

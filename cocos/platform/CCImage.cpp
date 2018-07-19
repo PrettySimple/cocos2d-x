@@ -25,9 +25,14 @@ THE SOFTWARE.
 
 #include "platform/CCImage.h"
 
-#include "base/CCData.h"
-#include "base/ccConfig.h" // CC_USE_JPEG, CC_USE_TIFF, CC_USE_WEBP
-#include "platform/CCPlatformConfig.h"
+#include "base/CCConfiguration.h"       // for Configuration
+#include "base/CCData.h"                // for Data
+#include "base/ZipUtils.h"              // for ZipUtils
+#include "base/ccConfig.h"              // for CC_USE_JPEG, CC_USE_PNG, CC_E...
+#include "base/ccMacros.h"              // for CC_SWAP_INT32_LITTLE_TO_HOST
+#include "base/ccUtils.h"               // for ccNextPOT
+#include "platform/CCFileUtils.h"       // for FileUtils
+#include "platform/CCPlatformConfig.h"  // for CC_TARGET_PLATFORM, CC_PLATFO...
 
 extern "C"
 {
@@ -63,14 +68,6 @@ extern "C"
 #endif // CC_USE_WEBP
 #pragma clang diagnostic pop
 
-#include "base/CCConfiguration.h"
-#include "base/ZipUtils.h"
-#include "base/ccMacros.h"
-#include "base/ccUtils.h"
-#include "platform/CCCommon.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCPlatformConfig.h"
-
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #    include "platform/android/CCFileUtils-android.h"
 #endif
@@ -79,10 +76,17 @@ extern "C"
 #define CC_GL_ATC_RGBA_EXPLICIT_ALPHA_AMD 0x8C93
 #define CC_GL_ATC_RGBA_INTERPOLATED_ALPHA_AMD 0x87EE
 
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <algorithm>
 #include <csetjmp>
-#include <cstdint>
+#include <map>
+#include <new>
 #include <string>
+#include <utility>
+#include <vector>
 
 NS_CC_BEGIN
 

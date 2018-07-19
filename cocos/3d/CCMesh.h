@@ -25,15 +25,14 @@
 #ifndef CC_3D_MESH_H
 #define CC_3D_MESH_H
 
-#include <map>
-#include <string>
-
 #include "3d/CCAABB.h"
 #include "3d/CCBundle3DData.h"
-
 #include "base/CCRef.h"
 #include "math/CCMath.h"
 #include "renderer/CCMeshCommand.h"
+
+#include <map>
+#include <string>
 
 NS_CC_BEGIN
 

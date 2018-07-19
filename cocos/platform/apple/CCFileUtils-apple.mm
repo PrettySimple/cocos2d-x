@@ -23,18 +23,34 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#import <Foundation/Foundation.h>
 
 #include "platform/apple/CCFileUtils-apple.h"
 
-#include <ftw.h>
-
-#include <stack>
-#include <string>
-
-#include "base/CCDirector.h"
+#include "base/CCConsole.h"
+#include "base/CCData.h"
+#include "base/CCValue.h"
+#include "base/ccConfig.h"
+#include "base/ccMacros.h"
 #include "platform/CCFileUtils.h"
-#include "platform/CCSAXParser.h"
+#include "platform/CCPlatformMacros.h"
+
+#include <CoreFoundation/CFNumber.h>
+#include <Foundation/NSBundle.h>
+#include <Foundation/NSException.h>
+#include <Foundation/NSFileManager.h>
+#include <Foundation/NSPathUtilities.h>
+#include <Foundation/NSPropertyList.h>
+#include <Foundation/NSString.h>
+
+#include <cstdio>
+#include <cstring>
+#include <ftw.h>
+#include <iosfwd>
+#include <memory>
+#include <new>
+#include <string>
+#include <unordered_map>
+#include <utility>
 
 NS_CC_BEGIN
 

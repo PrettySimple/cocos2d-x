@@ -28,11 +28,18 @@ THE SOFTWARE.
 #define CC_2D_PARALLAXNODE_H
 
 #include "2d/CCNode.h"
-/*#include "ccArray.h"*/
+#include "base/ccConfig.h"
+#include "math/Mat4.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <cstdint>
+#include <iosfwd>
 
 NS_CC_BEGIN
 
-struct _ccArray;
+class Renderer;
 
 /**
  * @addtogroup _2d

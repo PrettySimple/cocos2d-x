@@ -25,10 +25,9 @@
 #ifndef CC_BASE_STENCILSTATEMANAGER_H
 #define CC_BASE_STENCILSTATEMANAGER_H
 
-#include "base/ccConfig.h"
 #include "platform/CCGL.h"
-#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 /**
  * @addtogroup base

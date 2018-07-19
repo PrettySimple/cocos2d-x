@@ -25,8 +25,10 @@
 #ifndef CC_RENDERER_GROUPCOMMAND_H
 #define CC_RENDERER_GROUPCOMMAND_H
 
-#include "base/CCRef.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 #include "renderer/CCRenderCommand.h"
+
 #include <cstddef>
 #include <limits>
 

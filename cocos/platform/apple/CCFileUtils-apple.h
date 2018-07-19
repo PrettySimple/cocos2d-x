@@ -34,6 +34,10 @@
 #include "platform/CCFileUtils.h"
 #include "platform/CCPlatformMacros.h"
 
+#if CC_FILEUTILS_APPLE_ENABLE_OBJC
+@class NSBundle;
+#endif
+
 NS_CC_BEGIN
 
 /**

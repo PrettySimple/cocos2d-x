@@ -33,10 +33,9 @@
 
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID)
 
-#    include <assert.h>
+#    include <cassert>
+#    include <cstdio>
 #    include <sqlite3.h>
-#    include <stdio.h>
-#    include <stdlib.h>
 
 static int _initialized = 0;
 static sqlite3* _db;

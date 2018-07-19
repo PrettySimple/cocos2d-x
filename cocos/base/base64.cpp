@@ -24,8 +24,11 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "base/base64.h"
-#include <stdio.h>
-#include <stdlib.h>
+
+#include "platform/CCPlatformConfig.h"
+
+#include <cstdio>
+#include <cstdlib>
 
 namespace cocos2d
 {

@@ -23,11 +23,12 @@
  ****************************************************************************/
 
 #include "renderer/CCVertexIndexBuffer.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/CCEventType.h"
+
 #include "platform/CCPlatformConfig.h"
+#include "base/CCConsole.h"
+
+#include <cstring>
+#include <new>
 
 NS_CC_BEGIN
 

@@ -28,20 +28,16 @@ THE SOFTWARE.
 // cocos2d includes
 #include "base/CCDirector.h"
 
-// standard includes
-#include <string>
-
-#include "2d/CCDrawingPrimitives.h"
-#include "2d/CCSpriteFrameCache.h"
-#include "platform/CCFileUtils.h"
-
 #include "2d/CCActionManager.h"
 #include "2d/CCAnimationCache.h"
 #include "2d/CCCamera.h"
+#include "2d/CCDrawingPrimitives.h"
 #include "2d/CCFontAtlasCache.h"
 #include "2d/CCFontFNT.h"
 #include "2d/CCFontFreeType.h"
 #include "2d/CCLabelAtlas.h"
+#include "2d/CCSpriteFrame.h"
+#include "2d/CCSpriteFrameCache.h"
 #include "2d/CCTransition.h"
 #include "base/CCAsyncTaskPool.h"
 #include "base/CCAutoreleasePool.h"
@@ -54,6 +50,7 @@ THE SOFTWARE.
 #include "base/ccFPSImages.h"
 #include "base/ccMacros.h"
 #include "platform/CCApplication.h"
+#include "platform/CCFileUtils.h"
 #include "renderer/CCFrameBuffer.h"
 #include "renderer/CCGLProgramCache.h"
 #include "renderer/CCGLProgramStateCache.h"
@@ -65,6 +62,8 @@ THE SOFTWARE.
 #if CC_ENABLE_SCRIPT_BINDING
 #    include "base/CCScriptSupport.h"
 #endif
+
+#include <string>
 
 /**
  Position of the FPS

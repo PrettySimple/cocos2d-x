@@ -26,11 +26,16 @@ THE SOFTWARE.
 #ifndef CC_2D_ACTIONPAGETURN3D_H
 #define CC_2D_ACTIONPAGETURN3D_H
 
-#include "2d/CCActionGrid3D.h"
+#include "2d/CCActionGrid.h"
+#include "math/CCGeometry.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 #include <chrono>
 
 NS_CC_BEGIN
+
+class GridBase;
 
 /**
  * @addtogroup actions

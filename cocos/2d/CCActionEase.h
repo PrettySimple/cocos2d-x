@@ -28,9 +28,46 @@ THE SOFTWARE.
 #define CC_2D_ACTIONEASE_H
 
 #include "2d/CCActionInterval.h"
-#include "2d/CCTweenFunction.h"
+#include "base/ccConfig.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 NS_CC_BEGIN
+
+class EaseBackIn;
+class EaseBackInOut;
+class EaseBackOut;
+class EaseBounceIn;
+class EaseBounceInOut;
+class EaseBounceOut;
+class EaseCircleActionIn;
+class EaseCircleActionInOut;
+class EaseCircleActionOut;
+class EaseCubicActionIn;
+class EaseCubicActionInOut;
+class EaseCubicActionOut;
+class EaseElasticIn;
+class EaseElasticInOut;
+class EaseElasticOut;
+class EaseExponentialIn;
+class EaseExponentialInOut;
+class EaseExponentialOut;
+class EaseIn;
+class EaseInOut;
+class EaseOut;
+class EaseQuadraticActionIn;
+class EaseQuadraticActionInOut;
+class EaseQuadraticActionOut;
+class EaseQuarticActionIn;
+class EaseQuarticActionInOut;
+class EaseQuarticActionOut;
+class EaseQuinticActionIn;
+class EaseQuinticActionInOut;
+class EaseQuinticActionOut;
+class EaseSineIn;
+class EaseSineInOut;
+class EaseSineOut;
+class Node;
 
 /**
  * @addtogroup actions

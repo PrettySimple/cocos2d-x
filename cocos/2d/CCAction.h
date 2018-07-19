@@ -29,11 +29,13 @@ THE SOFTWARE.
 #define CC_2D_ACTION_H
 
 #include "base/CCRef.h"
-#include "base/CCScriptSupport.h"
 #include "math/CCGeometry.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 #include <chrono>
-#include <cstdint>
+#include <iosfwd>
 
 NS_CC_BEGIN
 

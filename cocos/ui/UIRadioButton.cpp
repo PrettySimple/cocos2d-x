@@ -24,6 +24,11 @@ THE SOFTWARE.
 
 #include "ui/UIRadioButton.h"
 
+#include "base/ccMacros.h"
+#include "base/ccTypes.h"
+
+#include <new>
+
 NS_CC_BEGIN
 
 namespace ui

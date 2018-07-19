@@ -35,8 +35,17 @@
 #define CC_EXTENSIONS_GUI_CONTROLEXTENSION_UTILS_H
 
 #include "../../ExtensionMacros.h"
-#include "2d/CCSprite.h"
+#include "base/CCRef.h"
+#include "base/ccTypes.h"
 #include "extensions/ExtensionExport.h"
+#include "math/CCGeometry.h"
+#include "math/Vec2.h"
+
+namespace cocos2d
+{
+    class Node;
+    class Sprite;
+}
 
 NS_CC_EXT_BEGIN
 

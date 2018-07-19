@@ -30,14 +30,19 @@
 
 #include "2d/CCParticleBatchNode.h"
 
-#include "2d/CCGrid.h"
 #include "2d/CCParticleSystem.h"
-#include "base/CCProfiling.h"
-#include "base/ccUTF8.h"
-#include "renderer/CCQuadCommand.h"
+#include "base/CCDirector.h"
+#include "base/CCVector.h"
+#include "base/ccMacros.h"
+#include "math/Vec3.h"
+#include "renderer/CCGLProgram.h"
+#include "renderer/CCGLProgramState.h"
 #include "renderer/CCRenderer.h"
+#include "renderer/CCTexture2D.h"
 #include "renderer/CCTextureAtlas.h"
 #include "renderer/CCTextureCache.h"
+
+#include <new>
 
 NS_CC_BEGIN
 

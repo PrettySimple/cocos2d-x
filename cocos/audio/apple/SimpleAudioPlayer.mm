@@ -5,11 +5,17 @@
 //  Created by Guilhem Vors on 20/03/2018.
 //
 
-#define LOG_TAG "SimpleAudioPlayer.mm"
-
 #include "SimpleAudioPlayer.h"
-#include "AudioCache.h"
+
+#include "audio/apple/AudioMacros.h"
+#include "audio/apple/AudioPlayer.h"
 #include "audio/include/SimpleAudioEngine.h"
+
+#include <cstddef>
+#include <atomic>
+#include <chrono>
+#include <iosfwd>
+#include <string>
 
 using namespace cocos2d;
 using namespace cocos2d::experimental;

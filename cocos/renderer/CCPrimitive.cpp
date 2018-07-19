@@ -27,6 +27,9 @@
 #include "renderer/CCVertexIndexBuffer.h"
 #include "renderer/CCVertexIndexData.h"
 
+#include <cstddef>
+#include <new>
+
 NS_CC_BEGIN
 
 Primitive* Primitive::create(VertexData* verts, IndexBuffer* indices, int type)

@@ -25,12 +25,16 @@
 #ifndef CC_3D_RAY_H
 #define CC_3D_RAY_H
 
-#include "3d/CCAABB.h"
 #include "3d/CCOBB.h"
-#include "3d/CCPlane.h"
-#include "math/CCMath.h"
+#include "math/Mat4.h"
+#include "math/Vec3.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 NS_CC_BEGIN
+
+class AABB;
+class Plane;
 
 /**
  * @addtogroup _3d

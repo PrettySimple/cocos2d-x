@@ -28,6 +28,9 @@ THE SOFTWARE.
 #define CC_2D_PARTICLEEXAMPLE_H
 
 #include "2d/CCParticleSystemQuad.h"
+#include "base/ccConfig.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 NS_CC_BEGIN
 

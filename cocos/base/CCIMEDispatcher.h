@@ -26,7 +26,13 @@ THE SOFTWARE.
 #ifndef CC_BASE_IMEDISPATCHER_H
 #define CC_BASE_IMEDISPATCHER_H
 
+#include "base/CCEventKeyboard.h"
 #include "base/CCIMEDelegate.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <cstddef>
+#include <iosfwd>
 
 /**
  * @addtogroup base

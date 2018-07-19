@@ -28,13 +28,27 @@ THE SOFTWARE.
 #ifndef CC_2D_PARTICLESYSTEMQUAD_H
 #define CC_2D_PARTICLESYSTEMQUAD_H
 
+#include "platform/CCGL.h"
 #include "2d/CCParticleSystem.h"
+#include "base/CCValue.h"
+#include "base/ccConfig.h"
+#include "math/Mat4.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 #include "renderer/CCQuadCommand.h"
+
+#include <cstdint>
+#include <iosfwd>
 
 NS_CC_BEGIN
 
-class SpriteFrame;
 class EventCustom;
+class ParticleBatchNode;
+class Rect;
+class Renderer;
+class SpriteFrame;
+class Texture2D;
+struct V3F_C4B_T2F_Quad;
 
 /**
  * @addtogroup _2d

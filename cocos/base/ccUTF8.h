@@ -27,9 +27,10 @@
 #define CC_BASE_UTF8_H
 
 #include "platform/CCPlatformConfig.h"
-#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
+#include <cstddef>
 #include <sstream>
 #include <string>
 #include <vector>

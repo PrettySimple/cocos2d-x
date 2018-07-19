@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
 
-#include <string>
+#include <iosfwd>
 
 NS_CC_BEGIN
 

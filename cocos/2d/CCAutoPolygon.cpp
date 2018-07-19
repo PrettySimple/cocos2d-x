@@ -27,17 +27,27 @@ THE SOFTWARE.
 
 #include "2d/CCAutoPolygon.h"
 
+#include "base/CCConsole.h"
 #include "base/CCDirector.h"
-#include "renderer/CCTextureCache.h"
+#include "base/ccMacros.h"
+#include "base/ccTypes.h"
+#include "math/Vec3.h"
+#include "platform/CCImage.h"
+#include "renderer/CCTexture2D.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"
 #include <clipper/clipper.hpp>
-#include <poly2tri/poly2tri.h>
+
+#include <poly2tri/common/shapes.h>
+#include <poly2tri/sweep/cdt.h>
 #pragma clang diagnostic pop
 
 #include <algorithm>
-#include <math.h>
+#include <cmath>
+#include <cstring>
+#include <new>
+#include <type_traits>
 
 USING_NS_CC;
 

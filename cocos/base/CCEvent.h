@@ -26,8 +26,9 @@
 #define CC_BASE_EVENT_H
 
 #include "base/CCRef.h"
-#include "platform/CCPlatformDefine.h"
+#include "base/ccConfig.h"
 #include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 #include <cstdint>
 

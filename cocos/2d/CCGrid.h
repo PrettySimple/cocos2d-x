@@ -26,16 +26,22 @@ THE SOFTWARE.
 #ifndef CC_2D_GRID_H
 #define CC_2D_GRID_H
 
+#include "platform/CCGL.h"
 #include "base/CCDirector.h"
 #include "base/CCRef.h"
 #include "base/ccTypes.h"
+#include "math/CCGeometry.h"
+#include "math/Vec2.h"
+#include "math/Vec3.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 NS_CC_BEGIN
 
-class Texture2D;
-class Grabber;
 class GLProgram;
+class Grabber;
 class Node;
+class Texture2D;
 
 /**
  * @addtogroup _2d

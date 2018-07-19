@@ -25,10 +25,13 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "2d/CCActionGrid3D.h"
 
-#include "base/CCDirector.h"
+#include "base/ccMacros.h"
+#include "math/Vec3.h"
 
+#include <cstdlib>
 #include <cmath>
 #include <limits>
+#include <new>
 
 NS_CC_BEGIN
 // implementation of Waves3D

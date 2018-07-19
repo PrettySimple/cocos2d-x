@@ -27,16 +27,21 @@ THE SOFTWARE.
 
 #include "2d/CCCamera.h"
 #include "2d/CCGrabber.h"
-#include "2d/CCNode.h"
+#include "base/CCDirector.h"
 #include "base/ccMacros.h"
 #include "base/ccUtils.h"
-#include "platform/CCGL.h"
+#include "math/Mat4.h"
+#include "renderer/CCFrameBuffer.h"
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramCache.h"
 #include "renderer/CCRenderState.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/CCTexture2D.h"
 #include "renderer/ccGLStateCache.h"
+
+#include <cstdlib>
+#include <cstring>
+#include <new>
 
 NS_CC_BEGIN
 // implementation of GridBase

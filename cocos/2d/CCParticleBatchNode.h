@@ -32,7 +32,21 @@
 
 #include "2d/CCNode.h"
 #include "base/CCProtocols.h"
+#include "base/ccConfig.h"
+#include "base/ccTypes.h"
+#include "math/Mat4.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
 #include "renderer/CCBatchCommand.h"
+
+#include <cstdint>
+#include <cstddef>
+#include <iosfwd>
+
+namespace cocos2d { class ParticleSystem; }  // lines 41-41
+namespace cocos2d { class Renderer; }
+namespace cocos2d { class Texture2D; }  // lines 39-39
+namespace cocos2d { class TextureAtlas; }  // lines 40-40
 
 NS_CC_BEGIN
 

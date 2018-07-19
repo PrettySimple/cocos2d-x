@@ -28,8 +28,13 @@
 
 #include "2d/CCProtectedNode.h"
 
-#include "2d/CCScene.h"
 #include "base/CCDirector.h"
+#include "base/ccMacros.h"
+#include "base/ccTypes.h"
+#include "math/Mat4.h"
+
+#include <cstddef>
+#include <new>
 
 NS_CC_BEGIN
 

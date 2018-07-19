@@ -30,11 +30,14 @@ THE SOFTWARE.
 
 #include "base/CCRef.h"
 #include "math/CCGeometry.h"
-#include "math/CCMath.h"
+#include "math/Vec2.h"
+#include "math/Vec3.h"
 #include "platform/CCGL.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
 
-#include <cstdint>
-#include <string>
+#include <cstddef>
+#include <iosfwd>
 
 /**
  * @addtogroup base

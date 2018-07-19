@@ -30,14 +30,17 @@ THE SOFTWARE.
 #include "base/CCConfiguration.h"
 #include "base/CCDirector.h"
 #include "base/ccConfig.h"
-#include "renderer/CCGLProgram.h"
+#include "base/ccMacros.h"
 #include "renderer/CCRenderState.h"
+#include "renderer/CCTexture2D.h"
 
+#include <cstddef>
+#include <mutex>
 #include <array>
 #include <limits>
-#include <mutex>
 #include <thread>
 #include <unordered_map>
+#include <utility>
 
 NS_CC_BEGIN
 
@@ -46,15 +49,15 @@ static const int MAX_ACTIVE_TEXTURE = 16;
 
 namespace GL
 {
-    std::mutex currentBoundProjectionMatrixMutex;
+    static std::mutex currentBoundProjectionMatrixMutex;
 #if CC_ENABLE_GL_STATE_CACHE
-    std::mutex currentBoundTextureMutex;
-    std::mutex currentBoundShaderMutex;
-    std::mutex currentBlendingSourceMutex;
-    std::mutex currentBlendingTestMutex;
-    std::mutex GLServerStateMutex;
-    std::mutex VAOMutex;
-    std::mutex activeTextureMutex;
+    static std::mutex currentBoundTextureMutex;
+    static std::mutex currentBoundShaderMutex;
+    static std::mutex currentBlendingSourceMutex;
+    static std::mutex currentBlendingTestMutex;
+    static std::mutex GLServerStateMutex;
+    static std::mutex VAOMutex;
+    static std::mutex activeTextureMutex;
 #endif
 } // namespace GL
 

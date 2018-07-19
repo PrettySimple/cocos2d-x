@@ -25,9 +25,14 @@
 #ifndef CC_RENDERER_TRIANGLESCOMMAND_H
 #define CC_RENDERER_TRIANGLESCOMMAND_H
 
-#include "renderer/CCGLProgramState.h"
+#include "base/ccTypes.h"
+#include "math/Mat4.h"
+#include "platform/CCGL.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
 #include "renderer/CCRenderCommand.h"
 
+#include <cstdint>
 #include <cstddef>
 #include <limits>
 
@@ -41,6 +46,10 @@
  */
 
 NS_CC_BEGIN
+
+class GLProgramState;
+class Texture2D;
+
 /**
  Command used to render one or more Triangles, which is similar to QuadCommand.
  Every TrianglesCommand will have generate material ID by give textureID, glProgramState, Blend function

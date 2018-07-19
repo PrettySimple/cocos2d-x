@@ -29,9 +29,10 @@
 
 #include "renderer/CCTechnique.h"
 
-#include "renderer/CCGLProgramState.h"
 #include "renderer/CCMaterial.h"
 #include "renderer/CCPass.h"
+
+#include <new>
 
 NS_CC_BEGIN
 

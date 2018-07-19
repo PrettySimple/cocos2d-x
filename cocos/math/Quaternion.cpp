@@ -21,7 +21,9 @@
 #include "math/Quaternion.h"
 
 #include "base/ccMacros.h"
+
 #include <cmath>
+#include <limits>
 
 NS_CC_MATH_BEGIN
 

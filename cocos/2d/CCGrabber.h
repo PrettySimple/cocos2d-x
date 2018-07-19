@@ -26,8 +26,9 @@ THE SOFTWARE.
 #ifndef CC_2D_GRABBER_H
 #define CC_2D_GRABBER_H
 
-#include "base/CCRef.h"
 #include "platform/CCGL.h"
+#include "base/CCRef.h"
+#include "platform/CCPlatformMacros.h"
 
 NS_CC_BEGIN
 

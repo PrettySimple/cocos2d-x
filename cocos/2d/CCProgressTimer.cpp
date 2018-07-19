@@ -28,6 +28,8 @@ THE SOFTWARE.
 #include "2d/CCSprite.h"
 #include "base/CCDirector.h"
 #include "base/ccMacros.h"
+#include "renderer/CCGLProgram.h"
+#include "renderer/CCGLProgramState.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/ccGLStateCache.h"
 

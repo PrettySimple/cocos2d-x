@@ -25,15 +25,17 @@ THE SOFTWARE.
 #ifndef CC_PLATFORM_FILEUTILS_H
 #define CC_PLATFORM_FILEUTILS_H
 
+#include "base/CCData.h"
+#include "base/CCValue.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <cstddef>
+#include <iosfwd>
 #include <string>
 #include <type_traits>
 #include <unordered_map>
 #include <vector>
-
-#include "base/CCData.h"
-#include "base/CCValue.h"
-#include "base/ccTypes.h"
-#include "platform/CCPlatformMacros.h"
 
 NS_CC_BEGIN
 

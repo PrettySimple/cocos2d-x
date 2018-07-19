@@ -25,9 +25,11 @@ THE SOFTWARE.
 #include "ui/UIText.h"
 
 #include "2d/CCLabel.h"
-#include "2d/CCNode.h"
 #include "math/CCGeometry.h"
 #include "platform/CCFileUtils.h"
+
+#include <new>
+#include <string>
 
 NS_CC_BEGIN
 

@@ -23,9 +23,18 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "ui/UIScrollViewBar.h"
+
+#include "2d/CCNode.h"
 #include "2d/CCSprite.h"
+#include "base/ccMacros.h"
+#include "base/ccTypes.h"
 #include "base/ccUtils.h"
-#include "platform/CCImage.h"
+#include "math/CCGeometry.h"
+#include "ui/UILayout.h"
+
+#include <algorithm>
+#include <cmath>
+#include <new>
 
 NS_CC_BEGIN
 

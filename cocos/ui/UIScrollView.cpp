@@ -24,12 +24,21 @@ THE SOFTWARE.
 
 #include "ui/UIScrollView.h"
 
+#include "2d/CCNode.h"
 #include "2d/CCTweenFunction.h"
 #include "base/CCDirector.h"
 #include "base/CCTouch.h"
+#include "base/ccMacros.h"
+#include "base/ccTypes.h"
 #include "base/ccUtils.h"
+#include "math/Vec3.h"
 #include "platform/CCDevice.h"
+#include "platform/CCGLView.h"
 #include "ui/UIScrollViewBar.h"
+
+#include <algorithm>
+#include <cmath>
+#include <new>
 
 NS_CC_BEGIN
 

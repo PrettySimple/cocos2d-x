@@ -29,15 +29,17 @@
 #define CC_EXTENSIONS_GUI_CONTROLEXTENSION_SWITCH_H
 
 #include "CCControl.h"
+
+#include "extensions/ExtensionMacros.h"
 #include "extensions/ExtensionExport.h"
+#include "math/Vec2.h"
 
 namespace cocos2d
 {
-    class Sprite;
-}
-namespace cocos2d
-{
+    class Event;
     class Label;
+    class Sprite;
+    class Touch;
 }
 
 NS_CC_EXT_BEGIN

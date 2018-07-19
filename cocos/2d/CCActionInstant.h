@@ -29,10 +29,17 @@ THE SOFTWARE.
 #define CC_2D_ACTIONINSTANT_H
 
 #include "2d/CCAction.h"
+#include "base/CCRef.h"
+#include "base/ccConfig.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 #include <functional>
 
 NS_CC_BEGIN
+
+class Node;
 
 /**
  * @addtogroup actions

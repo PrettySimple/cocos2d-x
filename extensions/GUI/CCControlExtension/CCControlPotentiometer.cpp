@@ -27,6 +27,22 @@
 
 #include "CCControlPotentiometer.h"
 
+#include "2d/CCProgressTimer.h"
+#include "2d/CCSprite.h"
+#include "GUI/CCControlExtension/CCControl.h"
+#include "base/ccTypes.h"
+#include "math/CCGeometry.h"
+
+#include <cmath>
+#include <algorithm>
+#include <new>
+
+namespace cocos2d
+{
+    class Event;
+    class Touch;
+}
+
 NS_CC_EXT_BEGIN
 
 ControlPotentiometer::ControlPotentiometer()
@@ -250,6 +266,26 @@ void ControlPotentiometer::potentiometerEnded(Vec2 location)
 {
     getThumbSprite()->setColor(Color3B::WHITE);
     setSelected(false);
+}
+
+void ControlPotentiometer::setThumbSprite(Sprite* thumbSprite) noexcept
+{
+    if (_thumbSprite != thumbSprite)
+    {
+        CC_SAFE_RETAIN(thumbSprite);
+        CC_SAFE_RELEASE(_thumbSprite);
+        _thumbSprite = thumbSprite;
+    }
+}
+
+void ControlPotentiometer::setProgressTimer(ProgressTimer* progressTimer) noexcept
+{
+    if (_progressTimer != progressTimer)
+    {
+        CC_SAFE_RETAIN(progressTimer);
+        CC_SAFE_RELEASE(_progressTimer);
+        _progressTimer = progressTimer;
+    }
 }
 
 NS_CC_EXT_END

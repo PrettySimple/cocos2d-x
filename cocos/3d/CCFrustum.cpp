@@ -23,7 +23,11 @@
  ****************************************************************************/
 
 #include "3d/CCFrustum.h"
+
 #include "2d/CCCamera.h"
+#include "3d/CCAABB.h"
+#include "math/Mat4.h"
+#include "math/Vec3.h"
 
 NS_CC_BEGIN
 

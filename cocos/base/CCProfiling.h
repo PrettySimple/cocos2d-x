@@ -30,8 +30,11 @@ THE SOFTWARE.
 
 #include "base/CCMap.h"
 #include "base/CCRef.h"
-#include "base/ccConfig.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
 #include <chrono>
+#include <iosfwd>
 #include <string>
 
 NS_CC_BEGIN

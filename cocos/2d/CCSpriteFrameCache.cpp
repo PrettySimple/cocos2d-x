@@ -30,16 +30,26 @@ THE SOFTWARE.
 #include "2d/CCSpriteFrameCache.h"
 
 #include "2d/CCAutoPolygon.h"
-#include "2d/CCSprite.h"
+#include "2d/CCSpriteFrame.h"
 #include "base/CCDirector.h"
 #include "base/CCNS.h"
 #include "base/CCNinePatchImageParser.h"
 #include "base/ccMacros.h"
-#include "base/ccUTF8.h"
+#include "base/ccTypes.h"
+#include "math/Vec2.h"
+#include "math/Vec3.h"
 #include "platform/CCFileUtils.h"
+#include "platform/CCImage.h"
 #include "renderer/CCTexture2D.h"
 #include "renderer/CCTextureCache.h"
+#include "renderer/CCTrianglesCommand.h"
 
+#include <cstdlib>
+#include <algorithm>
+#include <cmath>
+#include <new>
+#include <unordered_map>
+#include <utility>
 #include <vector>
 
 using namespace std;

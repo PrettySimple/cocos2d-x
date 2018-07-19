@@ -27,18 +27,29 @@ THE SOFTWARE.
 
 #include "2d/CCSprite.h"
 
+#include "2d/CCAnimation.h"
 #include "2d/CCAnimationCache.h"
 #include "2d/CCCamera.h"
 #include "2d/CCSpriteBatchNode.h"
 #include "2d/CCSpriteFrame.h"
 #include "2d/CCSpriteFrameCache.h"
 #include "base/CCDirector.h"
+#include "base/CCVector.h"
+#include "base/ccMacros.h"
 #include "base/ccUTF8.h"
+#include "math/Vec3.h"
+#include "platform/CCImage.h"
+#include "renderer/CCGLProgram.h"
+#include "renderer/CCGLProgramState.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/CCTexture2D.h"
+#include "renderer/CCTextureAtlas.h"
 #include "renderer/CCTextureCache.h"
 
-#include <algorithm>
+#include <cstdio>
+#include <cstring>
+#include <new>
+#include <type_traits>
 
 NS_CC_BEGIN
 

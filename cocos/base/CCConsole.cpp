@@ -26,14 +26,14 @@
 
 #include <algorithm>
 #include <cctype>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
 #include <fcntl.h>
 #include <functional>
 #include <locale>
 #include <sstream>
-#include <stdio.h>
-#include <stdlib.h>
 #include <thread>
-#include <time.h>
 
 #if defined(_MSC_VER) || defined(__MINGW32__)
 #    include <WS2tcpip.h>
@@ -54,6 +54,7 @@
 #    include <netinet/in.h>
 #    include <sys/ioctl.h>
 #    include <sys/socket.h>
+#    include <sys/time.h>
 #    include <sys/un.h>
 #    include <unistd.h>
 #endif

@@ -27,11 +27,10 @@ THE SOFTWARE.
 #define CC_PLATFORM_APPLICATIONPROTOCOL_H
 
 #include "platform/CCCommon.h"
-#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
-#include <cstdint>
-#include <string>
+#include <iosfwd>
 
 NS_CC_BEGIN
 

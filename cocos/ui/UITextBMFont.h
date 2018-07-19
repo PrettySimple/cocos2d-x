@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "ui/UIWidget.h"
 
 #include <cstddef>
-#include <string>
+#include <iosfwd>
 
 /**
  * @addtogroup ui

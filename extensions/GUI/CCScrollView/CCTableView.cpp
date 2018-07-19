@@ -24,7 +24,21 @@
  ****************************************************************************/
 
 #include "CCTableView.h"
+
+#include "2d/CCNode.h"
 #include "CCTableViewCell.h"
+#include "GUI/CCScrollView/CCScrollView.h"
+#include "base/CCTouch.h"
+#include "base/ccTypes.h"
+#include "platform/CCPlatformMacros.h"
+
+#include <algorithm>
+#include <new>
+
+namespace cocos2d
+{
+    class Event;
+}
 
 NS_CC_EXT_BEGIN
 

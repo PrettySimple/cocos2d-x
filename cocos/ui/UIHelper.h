@@ -28,7 +28,8 @@ THE SOFTWARE.
 #include "platform/CCPlatformMacros.h"
 #include "ui/GUIExport.h"
 
-#include <string>
+#include <iosfwd>
+#include <cstddef>
 
 NS_CC_BEGIN
 
@@ -89,7 +90,7 @@ namespace ui
          * @return a UTF8 substring
          * @js NA
          */
-        static std::string getSubStringOfUTF8String(const std::string& str, std::string::size_type start, std::string::size_type length);
+        static std::string getSubStringOfUTF8String(const std::string& str, std::size_t start, std::size_t length);
 
         /**
          * Refresh object and it's children layout state

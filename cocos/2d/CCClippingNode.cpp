@@ -30,6 +30,7 @@
 #include "2d/CCDrawingPrimitives.h"
 #include "base/CCDirector.h"
 #include "base/CCStencilStateManager.hpp"
+#include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramCache.h"
 #include "renderer/CCRenderState.h"
 #include "renderer/CCRenderer.h"

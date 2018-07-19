@@ -29,16 +29,9 @@
 #include "2d/CCActionManager.h"
 
 #include "2d/CCAction.h"
+#include "2d/CCActionManagerData.h"
 #include "2d/CCNode.h"
 #include "base/ccMacros.h"
-#include "platform/CCPlatformDefine.h"
-
-#include <algorithm>
-#include <functional>
-#include <iterator>
-#include <type_traits>
-#include <unordered_set>
-#include <utility>
 
 NS_CC_BEGIN
 

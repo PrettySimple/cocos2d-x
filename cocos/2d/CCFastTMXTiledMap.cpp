@@ -27,8 +27,15 @@ THE SOFTWARE.
 #include "2d/CCFastTMXTiledMap.h"
 
 #include "2d/CCFastTMXLayer.h"
+#include "2d/CCTMXXMLParser.h"
+#include "base/ccMacros.h"
 #include "base/ccUTF8.h"
-#include "renderer/CCVertexIndexBuffer.h"
+
+#include <cstdint>
+#include <algorithm>
+#include <new>
+#include <string>
+#include <unordered_map>
 
 NS_CC_BEGIN
 namespace experimental

@@ -27,11 +27,13 @@ THE SOFTWARE.
 #ifndef CC_2D_ANIMATIONCACHE_H
 #define CC_2D_ANIMATIONCACHE_H
 
-#include "2d/CCAnimation.h"
 #include "base/CCMap.h"
 #include "base/CCRef.h"
 #include "base/CCValue.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
+#include <iosfwd>
 #include <string>
 
 NS_CC_BEGIN

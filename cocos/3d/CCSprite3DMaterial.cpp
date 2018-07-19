@@ -33,6 +33,7 @@
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCGLProgramStateCache.h"
 #include "renderer/CCPass.h"
+#include "renderer/CCTechnique.h"
 #include "renderer/CCTexture2D.h"
 
 NS_CC_BEGIN

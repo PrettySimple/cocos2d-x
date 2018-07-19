@@ -25,15 +25,16 @@ THE SOFTWARE.
 #ifndef CC_UI_TEXT_H
 #define CC_UI_TEXT_H
 
+#include "base/ccConfig.h"
 #include "base/ccTypes.h"
+#include "math/CCGeometry.h"
 #include "platform/CCPlatformMacros.h"
 #include "ui/GUIDefine.h"
 #include "ui/GUIExport.h"
 #include "ui/UIWidget.h"
 
 #include <cstddef>
-#include <cstdint>
-#include <string>
+#include <iosfwd>
 
 /**
  * @addtogroup ui
@@ -44,7 +45,6 @@ NS_CC_BEGIN
 
 class Label;
 class Node;
-class Size;
 enum struct TextHAlignment : std::uint8_t;
 enum struct TextVAlignment : std::uint8_t;
 

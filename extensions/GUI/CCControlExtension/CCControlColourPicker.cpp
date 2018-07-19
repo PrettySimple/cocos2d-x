@@ -30,8 +30,29 @@
  */
 
 #include "CCControlColourPicker.h"
+
+#include "2d/CCSprite.h"
 #include "2d/CCSpriteBatchNode.h"
+#include "2d/CCSpriteFrame.h"
 #include "2d/CCSpriteFrameCache.h"
+#include "GUI/CCControlExtension/CCControl.h"
+#include "GUI/CCControlExtension/CCControlHuePicker.h"
+#include "GUI/CCControlExtension/CCControlSaturationBrightnessPicker.h"
+#include "GUI/CCControlExtension/CCControlUtils.h"
+#include "GUI/CCControlExtension/CCInvocation.h"
+#include "base/ccTypes.h"
+#include "math/CCGeometry.h"
+#include "math/Vec2.h"
+#include "platform/CCGL.h"
+
+#include <new>
+
+namespace cocos2d
+{
+    class Event;
+    class Ref;
+    class Touch;
+}
 
 NS_CC_EXT_BEGIN
 
@@ -191,6 +212,36 @@ void ControlColourPicker::colourSliderValueChanged(Ref* sender, Control::EventTy
 bool ControlColourPicker::onTouchBegan(Touch* touch, Event* pEvent)
 {
     return false;
+}
+
+void ControlColourPicker::setcolourPicker(ControlSaturationBrightnessPicker* colourPicker) noexcept
+{
+    if (_colourPicker != colourPicker)
+    {
+        CC_SAFE_RETAIN(colourPicker);
+        CC_SAFE_RELEASE(_colourPicker);
+        _colourPicker = colourPicker;
+    }
+}
+
+void ControlColourPicker::setHuePicker(ControlHuePicker* huePicker) noexcept
+{
+    if (_huePicker != huePicker)
+    {
+        CC_SAFE_RETAIN(huePicker);
+        CC_SAFE_RELEASE(_huePicker);
+        _huePicker = huePicker;
+    }
+}
+
+void ControlColourPicker::setBackground(Sprite* background) noexcept
+{
+    if (_background != background)
+    {
+        CC_SAFE_RETAIN(background);
+        CC_SAFE_RELEASE(_background);
+        _background = background;
+    }
 }
 
 NS_CC_EXT_END

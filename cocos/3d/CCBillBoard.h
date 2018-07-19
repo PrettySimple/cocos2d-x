@@ -26,8 +26,20 @@
 #define CC_3D_BILLBOARD_H
 
 #include "2d/CCSprite.h"
+#include "base/ccConfig.h"
+#include "math/Mat4.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <cstdint>
+#include <iosfwd>
 
 NS_CC_BEGIN
+
+class Rect;
+class Renderer;
+class Texture2D;
+
 /**
  * @addtogroup _3d
  * @{

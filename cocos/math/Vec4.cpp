@@ -21,8 +21,9 @@
 #include "math/Vec4.h"
 
 #include "base/ccMacros.h"
-#include "math/MathUtil.h"
+
 #include <cmath>
+#include <limits>
 
 NS_CC_MATH_BEGIN
 

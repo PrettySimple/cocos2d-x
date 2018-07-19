@@ -27,10 +27,20 @@ THE SOFTWARE.
 #include "2d/CCLabelAtlas.h"
 
 #include "base/CCDirector.h"
+#include "base/CCValue.h"
+#include "base/ccMacros.h"
+#include "base/ccTypes.h"
 #include "base/ccUTF8.h"
+#include "math/CCGeometry.h"
+#include "math/Vec3.h"
 #include "platform/CCFileUtils.h"
+#include "renderer/CCTexture2D.h"
 #include "renderer/CCTextureAtlas.h"
 #include "renderer/CCTextureCache.h"
+
+#include <cstddef>
+#include <new>
+#include <string>
 
 #if CC_LABELATLAS_DEBUG_DRAW
 #    include "renderer/CCRenderer.h"

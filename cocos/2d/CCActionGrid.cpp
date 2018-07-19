@@ -26,12 +26,16 @@ THE SOFTWARE.
 
 #include "2d/CCActionGrid.h"
 
+#include "2d/CCAction.h"
 #include "2d/CCGrid.h"
+#include "2d/CCNode.h"
 #include "2d/CCNodeGrid.h"
-#include "base/CCDirector.h"
+#include "base/ccMacros.h"
 
+#include <cstddef>
 #include <cmath>
 #include <limits>
+#include <new>
 
 NS_CC_BEGIN
 // implementation of GridAction

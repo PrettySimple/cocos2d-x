@@ -27,8 +27,14 @@
 
 #include "2d/CCFontAtlas.h"
 #include "base/CCDirector.h"
+#include "base/CCValue.h"
+#include "base/ccMacros.h"
+#include "math/CCGeometry.h"
 #include "platform/CCFileUtils.h"
+#include "renderer/CCTexture2D.h"
 #include "renderer/CCTextureCache.h"
+
+#include <new>
 
 NS_CC_BEGIN
 

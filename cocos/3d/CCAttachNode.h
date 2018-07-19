@@ -26,7 +26,12 @@
 #define CC_3D_ATTACHNODE_H
 
 #include "2d/CCNode.h"
-#include "math/CCMath.h"
+#include "base/ccConfig.h"
+#include "math/Mat4.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <cstdint>
 
 NS_CC_BEGIN
 /**
@@ -34,6 +39,7 @@ NS_CC_BEGIN
  * @{
  */
 class Bone3D;
+class Renderer;
 
 /**
  * @brief attach a node to a bone

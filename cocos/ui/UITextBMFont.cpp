@@ -23,8 +23,13 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "ui/UITextBMFont.h"
+
 #include "2d/CCLabel.h"
 #include "editor-support/cocostudio/CocosStudioExtension.h"
+#include "math/CCGeometry.h"
+
+#include <new>
+#include <string>
 
 NS_CC_BEGIN
 

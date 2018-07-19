@@ -26,7 +26,16 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "2d/CCParallaxNode.h"
 
+#include "base/CCRef.h"
 #include "base/ccCArray.h"
+#include "base/ccMacros.h"
+
+#include <new>
+
+namespace cocos2d
+{
+    class Renderer;
+}
 
 NS_CC_BEGIN
 

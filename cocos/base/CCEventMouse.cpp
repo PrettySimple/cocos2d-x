@@ -24,6 +24,7 @@
  ****************************************************************************/
 
 #include "base/CCEventMouse.h"
+
 #include "base/CCDirector.h"
 
 NS_CC_BEGIN

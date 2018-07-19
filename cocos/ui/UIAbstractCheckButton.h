@@ -25,17 +25,24 @@ THE SOFTWARE.
 #ifndef CC_UI_ABSTRACTCHECKBUTTON_H
 #define CC_UI_ABSTRACTCHECKBUTTON_H
 
+#include "base/ccConfig.h"
+#include "math/CCGeometry.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 #include "ui/GUIExport.h"
 #include "ui/UIWidget.h"
+
+#include <iosfwd>
 
 /**
  * @addtogroup ui
  * @{
  */
 NS_CC_BEGIN
+class Node;
 class Sprite;
-class SpriteFrame;
-struct CC_DLL ResourceData;
+ class SpriteFrame;
+struct ResourceData;
 
 namespace ui
 {

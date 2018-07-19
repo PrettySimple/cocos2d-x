@@ -25,10 +25,15 @@
 #ifndef CC_RENDERER_QUADCOMMAND_H
 #define CC_RENDERER_QUADCOMMAND_H
 
-#include <vector>
-
-#include "renderer/CCGLProgramState.h"
+#include "math/Mat4.h"
+#include "platform/CCGL.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
 #include "renderer/CCTrianglesCommand.h"
+
+#include <cstdint>
+#include <cstddef>
+#include <vector>
 
 /**
  * @addtogroup renderer
@@ -36,6 +41,11 @@
  */
 
 NS_CC_BEGIN
+
+class GLProgramState;
+class Texture2D;
+struct BlendFunc;
+struct V3F_C4B_T2F_Quad;
 
 /**
  Command used to render one or more Quads, similar to TrianglesCommand.

@@ -29,24 +29,29 @@ THE SOFTWARE.
 #define CC_2D_SPRITE_H
 
 #include "2d/CCAutoPolygon.h"
-#include "2d/CCDrawNode.h"
 #include "2d/CCNode.h"
 #include "base/CCProtocols.h"
-#include "renderer/CCCustomCommand.h"
-#include "renderer/CCTextureAtlas.h"
+#include "base/ccConfig.h"
+#include "base/ccTypes.h"
+#include "math/CCGeometry.h"
+#include "math/Mat4.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 #include "renderer/CCTrianglesCommand.h"
 
-#include <string>
+#include <cstdint>
+#include <cstddef>
+#include <iosfwd>
+#include <limits>
 
 NS_CC_BEGIN
 
+class Renderer;
 class SpriteBatchNode;
 class SpriteFrame;
-class Animation;
-class Rect;
-class Size;
 class Texture2D;
-struct transformValues_;
+class TextureAtlas;
 
 #ifdef SPRITE_RENDER_IN_SUBPIXEL
 #    undef SPRITE_RENDER_IN_SUBPIXEL

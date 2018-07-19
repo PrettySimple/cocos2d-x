@@ -19,12 +19,23 @@
  */
 
 #include "math/Vec2.h"
-#include "base/ccMacros.h"
-#include "math/MathUtil.h"
 
-#include <cstdint>
+#include "base/ccMacros.h"
+
+#include <algorithm>
+#include <limits>
 
 NS_CC_MATH_BEGIN
+
+Vec2::Vec2(float const* array)
+{
+    set(array);
+}
+
+Vec2::Vec2(Vec2 const& p1, Vec2 const& p2)
+{
+    set(p1, p2);
+}
 
 // returns true if segment A-B intersects with segment C-D. S->E is the overlap part
 bool isOneDimensionSegmentOverlap(float A, float B, float C, float D, float* S, float* E)

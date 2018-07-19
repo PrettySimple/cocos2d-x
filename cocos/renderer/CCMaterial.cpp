@@ -28,15 +28,26 @@
  ****************************************************************************/
 
 #include "renderer/CCMaterial.h"
+
 #include "base/CCDirector.h"
 #include "base/CCProperties.h"
+#include "base/ccMacros.h"
+#include "math/Mat4.h"
+#include "math/Vec2.h"
+#include "math/Vec3.h"
+#include "math/Vec4.h"
 #include "platform/CCFileUtils.h"
-#include "renderer/CCGLProgram.h"
+#include "platform/CCGL.h"
+#include "platform/CCPlatformConfig.h"
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCPass.h"
 #include "renderer/CCTechnique.h"
 #include "renderer/CCTexture2D.h"
 #include "renderer/CCTextureCache.h"
+
+#include <cstring>
+#include <new>
+#include <string>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 #    define strcasecmp _stricmp

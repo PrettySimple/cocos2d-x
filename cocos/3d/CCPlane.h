@@ -25,8 +25,9 @@
 #ifndef CC_3D_PLANE_H
 #define CC_3D_PLANE_H
 
-#include "base/ccMacros.h"
-#include "math/CCMath.h"
+#include "math/Vec3.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 NS_CC_BEGIN
 

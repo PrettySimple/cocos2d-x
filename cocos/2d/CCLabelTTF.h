@@ -30,6 +30,15 @@ THE SOFTWARE.
 /// @cond DO_NOT_SHOW
 
 #include "2d/CCNode.h"
+#include "base/CCProtocols.h"
+#include "base/ccTypes.h"
+#include "math/CCGeometry.h"
+#include "math/Mat4.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <cstdint>
+#include <iosfwd>
 
 NS_CC_BEGIN
 
@@ -43,6 +52,7 @@ NS_CC_BEGIN
 /// @cond
 
 class Label;
+class Renderer;
 
 /**
  * @addtogroup _2d

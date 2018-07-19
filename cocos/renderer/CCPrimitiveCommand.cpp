@@ -25,8 +25,9 @@
 #include "renderer/CCPrimitiveCommand.h"
 
 #include "base/CCDirector.h"
-#include "renderer/CCGLProgram.h"
+#include "base/ccMacros.h"
 #include "renderer/CCGLProgramState.h"
+#include "renderer/CCPrimitive.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/ccGLStateCache.h"
 

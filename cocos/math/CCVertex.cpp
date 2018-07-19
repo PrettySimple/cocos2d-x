@@ -25,7 +25,11 @@
  ****************************************************************************/
 
 #include "math/CCVertex.h"
+
 #include "base/ccMacros.h"
+#include "math/Vec2.h"
+
+#include <cmath>
 
 NS_CC_BEGIN
 

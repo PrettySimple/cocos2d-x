@@ -29,20 +29,22 @@
 #define CC_BASE_SCHEDULER_H
 
 #include "base/CCRef.h"
-#include "base/CCVector.h"
 #include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
+#include <cstdint>
+#include <mutex>
 #include <chrono>
 #include <cstddef>
-#include <cstdint>
 #include <functional>
+#include <iosfwd>
 #include <limits>
 #include <list>
-#include <mutex>
 #include <set>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
 NS_CC_BEGIN
 

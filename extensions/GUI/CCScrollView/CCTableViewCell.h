@@ -29,6 +29,9 @@
 #include "2d/CCNode.h"
 #include "extensions/ExtensionExport.h"
 #include "extensions/ExtensionMacros.h"
+#include "platform/CCPlatformMacros.h"
+
+#include <cstddef>
 
 /**
  * @addtogroup ui

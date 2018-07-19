@@ -27,6 +27,7 @@
 
 #include "math/Vec3.h"
 #include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 NS_CC_BEGIN
 

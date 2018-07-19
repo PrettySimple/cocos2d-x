@@ -28,6 +28,8 @@ THE SOFTWARE.
 
 #include "base/CCEventKeyboard.h"
 #include "math/CCGeometry.h"
+
+#include <cstdint>
 #include <string>
 
 /**
@@ -35,6 +37,8 @@ THE SOFTWARE.
  * @{
  */
 NS_CC_BEGIN
+
+enum class KeyCode : std::uint16_t;
 
 /**
  * Keyboard notification event type.

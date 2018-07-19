@@ -36,7 +36,21 @@ Use any of these editors to generate BMFonts:
 
 /// @cond DO_NOT_SHOW
 
-#include "2d/CCLabel.h"
+
+#include "2d/CCNode.h"
+#include "base/CCProtocols.h"
+#include "base/ccConfig.h"
+#include "base/ccTypes.h"
+#include "math/CCGeometry.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <iosfwd>
+
+namespace cocos2d { class Label; }
+namespace cocos2d { class Sprite; }
+
 #if CC_LABELBMFONT_DEBUG_DRAW
 #    include "2d/CCDrawNode.h"
 #    include "renderer/CCCustomCommand.h"

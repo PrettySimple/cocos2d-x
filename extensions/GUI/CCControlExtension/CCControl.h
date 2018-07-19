@@ -33,6 +33,8 @@
 #include "CCControlUtils.h"
 #include "extensions/ExtensionExport.h"
 
+#include <unordered_map>
+
 NS_CC_EXT_BEGIN
 
 class Invocation;

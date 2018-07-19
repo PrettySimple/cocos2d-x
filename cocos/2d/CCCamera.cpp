@@ -29,13 +29,16 @@
 #include "2d/CCCameraBackgroundBrush.h"
 #include "2d/CCScene.h"
 #include "base/CCDirector.h"
-#include "platform/CCGLView.h"
+#include "base/ccMacros.h"
+#include "math/CCGeometry.h"
+#include "math/Quaternion.h"
+#include "math/Vec4.h"
 #include "renderer/CCFrameBuffer.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCQuadCommand.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccGLStateCache.h"
+
+#include <cstring>
+#include <algorithm>
+#include <new>
+#include <vector>
 
 NS_CC_BEGIN
 

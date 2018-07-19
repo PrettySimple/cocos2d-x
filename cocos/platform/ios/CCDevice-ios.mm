@@ -26,22 +26,47 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    include "base/CCDirector.h"
-#    include "base/CCEventAcceleration.h"
-#    include "base/CCEventDispatcher.h"
-#    include "base/ccTypes.h"
-#    include "platform/CCDevice.h"
-#    include "platform/apple/CCDevice-apple.h"
-#    import <UIKit/UIKit.h>
+#include "2d/CCActionManager.h"
+#include "base/CCData.h"
+#include "base/CCDirector.h"
+#include "base/CCEventAcceleration.h"
+#include "base/CCEventDispatcher.h"
+#include "base/ccTypes.h"
+#include "math/CCGeometry.h"
+#include "platform/CCDevice.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/apple/CCDevice-apple.h"
+
+#include <AudioToolbox/AudioServices.h>
+#include <CoreFoundation/CFAttributedString.h>
+#include <CoreFoundation/CFBase.h>
+#include <CoreGraphics/CGBase.h>
+#include <CoreGraphics/CGBitmapContext.h>
+#include <CoreGraphics/CGColorSpace.h>
+#include <CoreGraphics/CGContext.h>
+#include <CoreGraphics/CGGeometry.h>
+#include <CoreGraphics/CGImage.h>
+#include <CoreText/CTFramesetter.h>
+#include <Foundation/NSException.h>
+#include <Foundation/NSRange.h>
+#include <UIKit/NSAttributedString.h>
+#include <UIKit/NSStringDrawing.h>
+#include <UIKit/NSText.h>
+#include <UIKit/UIApplication.h>
+#include <UIKit/UIDevice.h>
+#include <UIKit/UIGraphics.h>
+
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include <iosfwd>
+#include <new>
 
 // Accelerometer
 #    if !defined(CC_TARGET_OS_TVOS)
-#        import <CoreMotion/CoreMotion.h>
+#        include <CoreMotion/CMAccelerometer.h>
+#        include <CoreMotion/CMMotionManager.h>
 #    endif
-#    import <CoreFoundation/CoreFoundation.h>
-#    import <CoreText/CoreText.h>
-// Vibrate
-#    import <AudioToolbox/AudioToolbox.h>
 
 static NSAttributedString* __attributedStringWithFontSize(NSMutableAttributedString* attributedString, CGFloat fontSize)
 {

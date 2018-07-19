@@ -25,15 +25,16 @@
 #ifndef CC_RENDERER_RENDERER_H
 #define CC_RENDERER_RENDERER_H
 
+#include "base/ccTypes.h"
+#include "math/CCGeometry.h"
+#include "math/Mat4.h"
 #include "platform/CCGL.h"
+#include "platform/CCPlatformConfig.h"
+#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGroupCommand.h"
-#include "renderer/CCRenderCommand.h"
 
 #include <array>
 #include <cstddef>
-#include <cstdint>
 #include <stack>
 #include <vector>
 
@@ -61,9 +62,9 @@
 
 NS_CC_BEGIN
 
-class EventListenerCustom;
-class TrianglesCommand;
 class MeshCommand;
+class RenderCommand;
+class TrianglesCommand;
 
 /** Class that knows how to sort `RenderCommand` objects.
  Since the commands that have `z == 0` are "pushed back" in

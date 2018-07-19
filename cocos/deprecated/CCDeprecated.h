@@ -31,8 +31,6 @@
 #ifndef CC_DEPRECATED_DEPRECATED_H
 #define CC_DEPRECATED_DEPRECATED_H
 
-#include <math.h>
-
 #include "2d/CCActionCamera.h"
 #include "2d/CCActionCatmullRom.h"
 #include "2d/CCActionEase.h"
@@ -88,10 +86,14 @@
 #include "math/CCGeometry.h"
 #include "platform/CCApplication.h"
 #include "platform/CCFileUtils.h"
+#include "platform/CCImage.h"
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramCache.h"
+#include "renderer/CCTexture2D.h"
 #include "renderer/CCTextureAtlas.h"
 #include "renderer/ccGLStateCache.h"
+
+#include <cmath>
 
 NS_CC_BEGIN
 

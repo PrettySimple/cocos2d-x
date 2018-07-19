@@ -24,8 +24,11 @@ THE SOFTWARE.
 
 #include "renderer/CCGLProgramStateCache.h"
 
-#include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramState.h"
+
+#include <new>
+#include <unordered_map>
+#include <utility>
 
 NS_CC_BEGIN
 

@@ -27,6 +27,8 @@
 #define CC_BASE_EVENTFOCUS_H
 
 #include "base/CCEvent.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 /**
  * @addtogroup base

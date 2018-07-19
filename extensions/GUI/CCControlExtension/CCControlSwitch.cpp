@@ -30,11 +30,24 @@
 #include "2d/CCActionTween.h"
 #include "2d/CCClippingNode.h"
 #include "2d/CCLabel.h"
-#include "2d/CCRenderTexture.h"
 #include "2d/CCSprite.h"
-#include "renderer/ccShaders.h"
+#include "GUI/CCControlExtension/CCControl.h"
+#include "base/CCTouch.h"
+#include "base/ccMacros.h"
+#include "base/ccTypes.h"
+#include "math/CCGeometry.h"
+#include "platform/CCGL.h"
+#include "platform/CCPlatformMacros.h"
+#include "renderer/CCTexture2D.h"
 
 #include <chrono>
+#include <iosfwd>
+#include <new>
+
+namespace cocos2d
+{
+    class Event;
+}
 
 using namespace std::chrono_literals;
 

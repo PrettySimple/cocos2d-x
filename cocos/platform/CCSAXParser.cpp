@@ -24,14 +24,20 @@
 
 #include "platform/CCSAXParser.h"
 
-#include <vector> // because its based on windows 8 build :P
-
+#include "base/CCConsole.h"
+#include "base/CCData.h"
 #include "platform/CCFileUtils.h"
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"
+#include <rapidxml/rapidxml.hpp>
 #include <rapidxml/rapidxml_sax3.hpp>
+
 #include <tinyxml2/tinyxml2.h>
 #pragma clang diagnostic pop
+
+#include <cstring>
+#include <vector>
 
 NS_CC_BEGIN
 

@@ -22,10 +22,11 @@
 #ifndef CC_MATH_MAT4_H
 #define CC_MATH_MAT4_H
 
-#include "base/ccMacros.h"
 #include "math/CCMathBase.h"
 #include "math/Vec3.h"
 #include "platform/CCPlatformDefine.h"
+
+#include <cstdint>
 
 /**
  * @addtogroup base

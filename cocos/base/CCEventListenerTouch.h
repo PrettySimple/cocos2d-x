@@ -27,6 +27,12 @@
 #define CC_BASE_EVENTLISTENERTOUCH_H
 
 #include "base/CCEventListener.h"
+#include "base/ccConfig.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <functional>
+#include <iosfwd>
 #include <vector>
 
 /**
@@ -36,6 +42,7 @@
 
 NS_CC_BEGIN
 
+class Event;
 class Touch;
 
 /** @class EventListenerTouchOneByOne

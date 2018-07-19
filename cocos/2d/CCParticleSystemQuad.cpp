@@ -32,15 +32,25 @@ THE SOFTWARE.
 #include "2d/CCSpriteFrame.h"
 #include "base/CCConfiguration.h"
 #include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/CCEventType.h"
+#include "base/ccMacros.h"
+#include "base/ccTypes.h"
 #include "base/ccUTF8.h"
+#include "math/CCGeometry.h"
+#include "math/Vec2.h"
+#include "math/Vec3.h"
+#include "renderer/CCGLProgram.h"
+#include "renderer/CCGLProgramState.h"
 #include "renderer/CCRenderer.h"
+#include "renderer/CCTexture2D.h"
 #include "renderer/CCTextureAtlas.h"
 #include "renderer/ccGLStateCache.h"
 
-#include <algorithm>
+#include <cmath>
+#include <cstddef>
+#include <cstdlib>
+#include <cstring>
+#include <new>
+#include <type_traits>
 
 NS_CC_BEGIN
 

@@ -24,9 +24,17 @@
  ****************************************************************************/
 
 #include "audio/apple/AudioDecoder.h"
+
+#include "audio/apple/AudioDecoder.h"
 #include "audio/apple/AudioMacros.h"
 
-#import <Foundation/Foundation.h>
+#include <AudioToolbox/ExtendedAudioFile.h>
+#include <CoreAudio/CoreAudioTypes.h>
+#include <CoreFoundation/CFBase.h>
+#include <CoreFoundation/CFURL.h>
+#include <Foundation/NSString.h>
+
+#include <cstring>
 
 namespace cocos2d
 {

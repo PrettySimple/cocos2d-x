@@ -28,9 +28,18 @@ THE SOFTWARE.
 #include "2d/CCGrid.h"
 #include "2d/CCNodeGrid.h"
 #include "base/CCDirector.h"
-#include "base/ccMacros.h"
+#include "base/ccTypes.h"
+#include "math/Vec3.h"
+
+#include <cstring>
+#include <cmath>
+#include <cstdlib>
+#include <limits>
+#include <new>
 
 NS_CC_BEGIN
+
+class Node;
 
 struct Tile
 {

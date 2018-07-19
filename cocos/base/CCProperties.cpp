@@ -21,10 +21,9 @@
 
 #include "base/CCProperties.h"
 
-#include <string.h>
-
 #include "base/CCData.h"
-#include "base/ccUTF8.h"
+#include "base/ccMacros.h"
+#include "math/CCMathBase.h"
 #include "math/Mat4.h"
 #include "math/Quaternion.h"
 #include "math/Vec2.h"
@@ -32,6 +31,11 @@
 #include "math/Vec4.h"
 #include "platform/CCFileUtils.h"
 #include "platform/CCPlatformMacros.h"
+
+#include <cctype>
+#include <cstdio>
+#include <cstring>
+#include <new>
 
 USING_NS_CC;
 

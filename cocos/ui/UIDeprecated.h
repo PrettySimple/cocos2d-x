@@ -28,10 +28,12 @@
 
 #include "platform/CCPlatformMacros.h"
 #include "ui/UILayout.h"
+#include "ui/UILayoutParameter.h"
 #include "ui/UIListView.h"
 #include "ui/UILoadingBar.h"
 #include "ui/UIPageView.h"
 #include "ui/UIRichText.h"
+#include "ui/UIScrollView.h"
 #include "ui/UIWidget.h"
 
 NS_CC_BEGIN

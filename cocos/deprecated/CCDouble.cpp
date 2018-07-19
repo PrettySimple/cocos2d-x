@@ -9,6 +9,8 @@
 
 #include "base/CCDataVisitor.h"
 
+#include <new>
+
 NS_CC_BEGIN
 
 __Double::~__Double()

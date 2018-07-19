@@ -23,12 +23,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 #include "base/CCNS.h"
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
 
 #include "base/ccUtils.h"
+
+#include <cstdlib>
+#include <string>
+#include <vector>
 
 using namespace std;
 

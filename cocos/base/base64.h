@@ -28,7 +28,6 @@ THE SOFTWARE.
 /// @cond DO_NOT_SHOW
 
 #include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
 
 #ifdef __cplusplus
 extern "C"

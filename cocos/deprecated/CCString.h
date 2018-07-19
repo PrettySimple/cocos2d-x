@@ -28,16 +28,18 @@ THE SOFTWARE.
 /// @cond DO_NOT_SHOW
 
 #include "base/CCRef.h"
-#include "deprecated/CCArray.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <cstdarg>
+#include <cstring>
 #include <functional>
-#include <stdarg.h>
 #include <string>
 
-// We need to include `StringUtils::format()` and `StringUtils::toString()`
-// for keeping the backward compatibility
-#include "base/ccUTF8.h"
-
 NS_CC_BEGIN
+
+class DataVisitor;
+class __Array;
 
 /**
  * @addtogroup data_structures

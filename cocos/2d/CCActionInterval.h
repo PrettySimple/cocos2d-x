@@ -30,14 +30,20 @@ THE SOFTWARE.
 
 #include "2d/CCAction.h"
 #include "2d/CCAnimation.h"
-#include "base/CCProtocols.h"
 #include "base/CCVector.h"
+#include "base/ccConfig.h"
 #include "base/ccMacros.h"
+#include "base/ccTypes.h"
+#include "math/CCGeometry.h"
+#include "math/Vec2.h"
+#include "math/Vec3.h"
+#include "platform/CCGL.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
 
 #include <chrono>
-#include <cstdint>
+#include <functional>
 #include <initializer_list>
-#include <unordered_set>
 #include <vector>
 
 NS_CC_BEGIN

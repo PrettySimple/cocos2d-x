@@ -30,17 +30,21 @@ THE SOFTWARE.
 #ifndef CC_2D_SPRITEFRAMECACHE_H
 #define CC_2D_SPRITEFRAMECACHE_H
 
-#include "2d/CCSpriteFrame.h"
 #include "base/CCMap.h"
 #include "base/CCRef.h"
 #include "base/CCValue.h"
+#include "math/CCGeometry.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
+#include <iosfwd>
 #include <set>
 #include <string>
+#include <vector>
 
 NS_CC_BEGIN
 
-class Sprite;
+class SpriteFrame;
 class Texture2D;
 class PolygonInfo;
 

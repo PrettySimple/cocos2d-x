@@ -26,7 +26,9 @@
 #define CC_EXTENSIONS_DEPRECATED_H
 
 #include "ExtensionMacros.h"
+#include "platform/CCPlatformMacros.h"
 #include "ui/UIEditBox/UIEditBox.h"
+#include "ui/UIScale9Sprite.h"
 
 NS_CC_EXT_BEGIN
 

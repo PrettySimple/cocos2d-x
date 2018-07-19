@@ -27,7 +27,11 @@
 
 #include "base/CCRef.h"
 #include "base/CCVector.h"
+#include "platform/CCPlatformMacros.h"
 #include "ui/GUIExport.h"
+#include "ui/UIWidget.h"
+
+#include <cstddef>
 
 /**
  * @addtogroup ui
@@ -38,7 +42,6 @@ NS_CC_BEGIN
 namespace ui
 {
     class LayoutProtocol;
-    class Widget;
     class RelativeLayoutParameter;
 
     /**

@@ -28,12 +28,16 @@
 
 #include "2d/CCFont.h"
 #include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
+#include <iosfwd>
 #include <string>
 
 NS_CC_BEGIN
 
 class BMFontConfiguration;
+class FontAtlas;
 
 class CC_DLL FontFNT final : public Font
 {

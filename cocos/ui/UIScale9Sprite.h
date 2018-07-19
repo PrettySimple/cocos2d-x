@@ -26,18 +26,35 @@
 #define CC_UI_SCALE9SPRITE_H
 
 #include "2d/CCNode.h"
-#include "2d/CCSpriteBatchNode.h"
-#include "2d/CCSpriteFrame.h"
+#include "base/CCProtocols.h"
+#include "base/ccConfig.h"
+#include "base/ccTypes.h"
+#include "math/CCGeometry.h"
+#include "math/Mat4.h"
+#include "math/Vec2.h"
+#include "math/Vec4.h"
+#include "platform/CCGL.h"
 #include "platform/CCPlatformMacros.h"
 #include "renderer/CCTrianglesCommand.h"
 #include "ui/GUIExport.h"
+
+#include <cstdint>
+#include <iosfwd>
+#include <vector>
 
 /**
  * @addtogroup ui
  * @{
  */
 NS_CC_BEGIN
-class DrawNode;
+
+class GLProgram;
+class GLProgramState;
+class Renderer;
+class Sprite;
+class SpriteBatchNode;
+class SpriteFrame;
+class Texture2D;
 
 namespace ui
 {

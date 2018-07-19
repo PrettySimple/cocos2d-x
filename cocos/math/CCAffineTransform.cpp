@@ -25,6 +25,8 @@ THE SOFTWARE.
 
 #include "math/CCAffineTransform.h"
 
+#include "math/Vec3.h"
+
 #include <algorithm>
 #include <cmath>
 

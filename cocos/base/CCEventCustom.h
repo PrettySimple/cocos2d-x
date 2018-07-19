@@ -26,6 +26,10 @@
 #define CC_BASE_EVENTCUSTOM_H
 
 #include "base/CCEvent.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <iosfwd>
 #include <string>
 
 /**

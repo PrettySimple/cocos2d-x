@@ -28,11 +28,21 @@ THE SOFTWARE.
 #define CC_2D_LABELATLAS_H
 
 #include "2d/CCAtlasNode.h"
+#include "base/CCProtocols.h"
+#include "base/ccConfig.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <iosfwd>
+
 #if CC_LABELATLAS_DEBUG_DRAW
 #    include "2d/CCDrawNode.h"
 #    include "renderer/CCCustomCommand.h"
 #endif
+
 NS_CC_BEGIN
+
+class Texture2D;
 
 /**
  * @addtogroup _2d

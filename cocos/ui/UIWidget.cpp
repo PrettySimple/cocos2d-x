@@ -33,6 +33,7 @@ THE SOFTWARE.
 #include "base/CCEventKeyboard.h"
 #include "base/CCEventListenerKeyboard.h"
 #include "base/CCEventListenerTouch.h"
+#include "base/CCTouch.h"
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCTexture2D.h"

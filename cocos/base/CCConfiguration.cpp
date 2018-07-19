@@ -29,8 +29,16 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "base/CCEventCustom.h"
 #include "base/CCEventDispatcher.h"
+#include "base/ccConfig.h"
+#include "base/ccMacros.h"
 #include "base/etc2types.h"
 #include "platform/CCFileUtils.h"
+#include "platform/CCPlatformConfig.h"
+
+#include <new>
+#include <string>
+#include <unordered_map>
+#include <utility>
 
 NS_CC_BEGIN
 

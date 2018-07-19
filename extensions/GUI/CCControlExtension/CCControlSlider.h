@@ -30,8 +30,17 @@
 #define CC_EXTENSIONS_GUI_CONTROLEXTENSION_SLIDER_H
 
 #include "CCControl.h"
-#include "CCInvocation.h"
+#include "extensions/ExtensionMacros.h"
 #include "extensions/ExtensionExport.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+
+namespace cocos2d
+{
+    class Event;
+    class Sprite;
+    class Touch;
+}
 
 NS_CC_EXT_BEGIN
 
@@ -113,6 +122,15 @@ public:
     virtual void setValue(float val);
     virtual void setMinimumValue(float val);
 
+    virtual Sprite* getThumbSprite() const noexcept { return _thumbSprite; }
+    virtual void setThumbSprite(Sprite* thumbSprite) noexcept;
+    virtual Sprite* getSelectedThumbSprite() const noexcept { return _selectedThumbSprite; }
+    virtual void setSelectedThumbSprite(Sprite* selectedThumbSprite) noexcept;
+    virtual Sprite* getProgressSprite() const noexcept { return _progressSprite; }
+    virtual void setProgressSprite(Sprite* progressSprite) noexcept;
+    virtual Sprite* getBackgroundSprite() const noexcept { return _backgroundSprite; }
+    virtual void setBackgroundSprite(Sprite* backgroundSprite) noexcept;
+
 protected:
     void sliderBegan(Vec2 location);
     void sliderMoved(Vec2 location);
@@ -141,10 +159,10 @@ protected:
     CC_SYNTHESIZE(float, _maximumAllowedValue, MaximumAllowedValue)
 
     // maybe this should be read-only
-    CC_SYNTHESIZE_RETAIN(Sprite*, _thumbSprite, ThumbSprite)
-    CC_SYNTHESIZE_RETAIN(Sprite*, _selectedThumbSprite, SelectedThumbSprite)
-    CC_SYNTHESIZE_RETAIN(Sprite*, _progressSprite, ProgressSprite)
-    CC_SYNTHESIZE_RETAIN(Sprite*, _backgroundSprite, BackgroundSprite)
+    Sprite* _thumbSprite;
+    Sprite* _selectedThumbSprite;
+    Sprite* _progressSprite;
+    Sprite* _backgroundSprite;
 };
 
 // end of GUI group

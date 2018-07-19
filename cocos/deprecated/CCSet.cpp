@@ -25,6 +25,10 @@ THE SOFTWARE.
 
 #include "deprecated/CCSet.h"
 
+#include "base/CCDataVisitor.h"
+
+#include <new>
+
 using namespace std;
 
 NS_CC_BEGIN

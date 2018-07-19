@@ -33,6 +33,7 @@
 #include "base/CCVector.h"
 #include "base/ccConfig.h"
 #include "platform/CCGL.h"
+#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
 
 #include <cstdint>

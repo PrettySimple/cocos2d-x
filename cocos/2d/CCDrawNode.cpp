@@ -30,6 +30,7 @@
 #include "base/CCEventListenerCustom.h"
 #include "base/CCEventType.h"
 #include "platform/CCGL.h"
+#include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramCache.h"
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCRenderer.h"

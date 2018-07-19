@@ -22,6 +22,9 @@ THE SOFTWARE.
 
 #include "3d/CCRay.h"
 
+#include "3d/CCAABB.h"
+#include "3d/CCPlane.h"
+
 NS_CC_BEGIN
 
 Ray::Ray()

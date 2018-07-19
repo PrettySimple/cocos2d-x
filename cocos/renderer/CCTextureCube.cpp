@@ -23,10 +23,15 @@
  ****************************************************************************/
 
 #include "renderer/CCTextureCube.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCImage.h"
 
+#include "base/ccMacros.h"
+#include "platform/CCFileUtils.h"
+#include "platform/CCGL.h"
+#include "platform/CCImage.h"
 #include "renderer/ccGLStateCache.h"
+
+#include <cstddef>
+#include <new>
 
 NS_CC_BEGIN
 

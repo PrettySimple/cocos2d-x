@@ -30,11 +30,25 @@ THE SOFTWARE.
 #include "2d/CCSprite.h"
 #include "2d/CCTMXTiledMap.h"
 #include "base/CCDirector.h"
+#include "base/CCVector.h"
+#include "base/ccMacros.h"
 #include "base/ccUTF8.h"
+#include "platform/CCGL.h"
 #include "renderer/CCGLProgram.h"
+#include "renderer/CCGLProgramState.h"
+#include "renderer/CCTexture2D.h"
+#include "renderer/CCTextureAtlas.h"
 #include "renderer/CCTextureCache.h"
 
+#include <cmath>
+#include <cstdlib>
+#include <new>
+#include <string>
+#include <unordered_map>
+
 NS_CC_BEGIN
+
+class Node;
 
 // TMXLayer - init & alloc & dealloc
 

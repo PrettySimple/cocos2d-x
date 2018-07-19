@@ -22,7 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCRef.h"
+#include "base/CCDataVisitor.h"
+
 #include "deprecated/CCArray.h"
 #include "deprecated/CCBool.h"
 #include "deprecated/CCDictionary.h"
@@ -31,6 +32,23 @@
 #include "deprecated/CCInteger.h"
 #include "deprecated/CCSet.h"
 #include "deprecated/CCString.h"
+#include "platform/CCPlatformMacros.h"
+
+extern "C"
+{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include "base/uthash.h"
+#pragma clang diagnostic pop
+}
+
+#include <cstdio>
+#include <iosfwd>
+
+namespace cocos2d
+{
+    class Ref;
+}
 
 NS_CC_BEGIN
 

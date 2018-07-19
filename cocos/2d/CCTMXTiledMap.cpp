@@ -26,10 +26,16 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "2d/CCTMXTiledMap.h"
 
-#include "2d/CCSprite.h"
 #include "2d/CCTMXLayer.h"
 #include "2d/CCTMXXMLParser.h"
+#include "base/ccMacros.h"
 #include "base/ccUTF8.h"
+
+#include <cstdint>
+#include <algorithm>
+#include <new>
+#include <string>
+#include <unordered_map>
 
 NS_CC_BEGIN
 

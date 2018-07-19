@@ -30,13 +30,20 @@ THE SOFTWARE.
 
 /// @cond DO_NOT_SHOW
 
-#include "2d/CCTMXObjectGroup.h" // needed for Vector<TMXObjectGroup*> for binding
+#include "2d/CCTMXObjectGroup.h"
+#include "base/CCRef.h"
 #include "base/CCValue.h"
 #include "base/CCVector.h"
 #include "math/CCGeometry.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
 #include "platform/CCSAXParser.h"
+#include "platform/CCPlatformDefine.h"
 
-#include <string>
+#include <cstdint>
+#include <cstddef>
+#include <iosfwd>
+#include <vector>
 
 NS_CC_BEGIN
 

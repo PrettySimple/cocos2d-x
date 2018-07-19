@@ -25,6 +25,12 @@ THE SOFTWARE.
 #ifndef CC_UI_SCROLLVIEWBAR_H
 #define CC_UI_SCROLLVIEWBAR_H
 
+#include "2d/CCProtectedNode.h"
+#include "base/ccConfig.h"
+#include "math/Vec2.h"
+#include "platform/CCGL.h"
+#include "platform/CCPlatformMacros.h"
+#include "ui/GUIExport.h"
 #include "ui/UIScrollView.h"
 
 NS_CC_BEGIN

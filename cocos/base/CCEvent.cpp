@@ -24,7 +24,7 @@
 
 #include "base/CCEvent.h"
 
-#include <utility>
+#include <type_traits>
 
 NS_CC_BEGIN
 

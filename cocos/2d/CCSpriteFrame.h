@@ -29,9 +29,14 @@ THE SOFTWARE.
 #define CC_2D_SPRITEFRAME_H
 
 #include "2d/CCAutoPolygon.h"
-#include "2d/CCNode.h"
 #include "base/CCRef.h"
+#include "base/ccConfig.h"
 #include "math/CCGeometry.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform//CCPlatformDefine.h"
+
+#include <iosfwd>
 
 NS_CC_BEGIN
 

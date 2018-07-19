@@ -23,7 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 #include "base/CCAutoreleasePool.h"
-#include "base/ccMacros.h"
+
+#include "base/CCConsole.h"
+#include "base/CCRef.h"
+
+#include <new>
 
 NS_CC_BEGIN
 

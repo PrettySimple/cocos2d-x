@@ -31,6 +31,22 @@
 
 #include "CCControlSaturationBrightnessPicker.h"
 
+#include "2d/CCSprite.h"
+#include "GUI/CCControlExtension/CCControl.h"
+#include "base/ccTypes.h"
+#include "math/CCGeometry.h"
+#include "platform/CCGL.h"
+
+#include <cmath>
+#include <new>
+
+namespace cocos2d
+{
+    class Event;
+    class Node;
+    class Touch;
+}
+
 NS_CC_EXT_BEGIN
 
 ControlSaturationBrightnessPicker::ControlSaturationBrightnessPicker()

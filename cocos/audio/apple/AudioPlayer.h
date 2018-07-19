@@ -5,6 +5,7 @@
 #include "platform/CCPlatformMacros.h"
 
 #include <OpenAL/al.h>
+#include <atomic>
 #include <chrono>
 #include <functional>
 #include <string>

@@ -32,7 +32,13 @@
 #include "2d/CCActionCatmullRom.h"
 
 #include "2d/CCNode.h"
+#include "base/ccConfig.h"
 #include "base/ccMacros.h"
+
+#include <algorithm>
+#include <cmath>
+#include <limits>
+#include <new>
 
 using namespace std;
 

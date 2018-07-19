@@ -24,21 +24,16 @@
 
 #include "renderer/CCMeshCommand.h"
 
-#include "2d/CCLight.h"
 #include "base/CCConfiguration.h"
 #include "base/CCDirector.h"
-#include "base/CCEventCustom.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/CCEventType.h"
+#include "base/CCVector.h"
 #include "base/ccMacros.h"
+#include "base/ccTypes.h"
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCMaterial.h"
 #include "renderer/CCPass.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/CCTechnique.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCTextureAtlas.h"
 #include "renderer/ccGLStateCache.h"
 
 #include <utility>

@@ -28,13 +28,21 @@ THE SOFTWARE.
 #ifndef CC_2D_AUTOPOLYGON_H
 #define CC_2D_AUTOPOLYGON_H
 
-#include "platform/CCImage.h"
+#include "math/CCGeometry.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 #include "renderer/CCTrianglesCommand.h"
 
-#include <string>
+#include <cstddef>
+#include <iosfwd>
 #include <vector>
 
 NS_CC_BEGIN
+
+class Image;
+struct V3F_C4B_T2F;
+struct V3F_C4B_T2F_Quad;
 
 /**
  * @addtogroup _2d

@@ -25,7 +25,12 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "base/ccCArray.h"
+
+#include "base/CCRef.h"
+#include "base/ccMacros.h"
 #include "base/ccTypes.h"
+
+#include <cstring>
 
 NS_CC_BEGIN
 

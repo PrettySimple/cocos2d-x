@@ -25,8 +25,9 @@
 #ifndef CC_RENDERER_RENDERCOMMAND_H
 #define CC_RENDERER_RENDERCOMMAND_H
 
-#include "base/ccTypes.h"
+#include "math/Mat4.h"
 #include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 #include <cstdint>
 

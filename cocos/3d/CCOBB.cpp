@@ -25,8 +25,14 @@
 #include "3d/CCOBB.h"
 
 #include "3d/CCAABB.h"
+#include "base/ccMacros.h"
 #include "math/Mat4.h"
 #include "math/Quaternion.h"
+#include "math/Vec4.h"
+
+#include <cmath>
+#include <cstring>
+#include <algorithm>
 
 NS_CC_BEGIN
 

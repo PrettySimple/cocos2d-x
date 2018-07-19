@@ -24,7 +24,12 @@ THE SOFTWARE.
 
 #include "ui/UICheckBox.h"
 
+#include <new>
+
 NS_CC_BEGIN
+
+class Event;
+class Touch;
 
 namespace ui
 {

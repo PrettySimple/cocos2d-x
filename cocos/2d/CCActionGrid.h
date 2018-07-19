@@ -26,15 +26,23 @@ THE SOFTWARE.
 #ifndef CC_2D_ACTIONGRID_H
 #define CC_2D_ACTIONGRID_H
 
+#include <chrono>
 #include "2d/CCActionInstant.h"
 #include "2d/CCActionInterval.h"
-
-#include <chrono>
+#include "base/ccConfig.h"
+#include "base/ccTypes.h"
+#include "math/CCGeometry.h"
+#include "math/Vec2.h"
+#include "math/Vec3.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 NS_CC_BEGIN
 
+class Action;
 class GridBase;
 class NodeGrid;
+class Node;
 
 /**
  * @addtogroup actions

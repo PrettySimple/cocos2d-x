@@ -25,13 +25,14 @@ THE SOFTWARE.
 #ifndef CC_UI_IMAGEVIEW_H
 #define CC_UI_IMAGEVIEW_H
 
+#include "base/ccConfig.h"
 #include "math/CCGeometry.h"
 #include "platform/CCPlatformMacros.h"
 #include "ui/GUIDefine.h"
 #include "ui/GUIExport.h"
 #include "ui/UIWidget.h"
 
-#include <string>
+#include <iosfwd>
 
 /**
  * @addtogroup ui
@@ -39,7 +40,9 @@ THE SOFTWARE.
  */
 NS_CC_BEGIN
 
-class Node;
+class GLProgram;
+class GLProgramState;
+struct Node;
 class SpriteFrame;
 struct ResourceData;
 

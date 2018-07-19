@@ -25,6 +25,13 @@
 
 #include "platform/apple/CCDevice-apple.h"
 
+#include "platform/CCDevice.h"
+
+#include <CoreGraphics/CGBase.h>
+#include <CoreGraphics/CGGeometry.h>
+#include <UIKit/NSParagraphStyle.h>
+#include <UIKit/NSText.h>
+
 namespace FontUtils
 {
     NSMutableParagraphStyle* _calculateParagraphStyle(bool enableWrap, int overflow)

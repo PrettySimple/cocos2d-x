@@ -26,6 +26,11 @@ THE SOFTWARE.
 
 #include "2d/CCActionTween.h"
 
+#include "2d/CCNode.h"
+#include "base/ccMacros.h"
+
+#include <new>
+
 NS_CC_BEGIN
 
 ActionTweenDelegate::~ActionTweenDelegate()

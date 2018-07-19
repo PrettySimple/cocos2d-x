@@ -25,6 +25,8 @@
 #include "math/CCMathBase.h"
 #include "platform/CCPlatformDefine.h"
 
+#include <type_traits>
+
 /**
  * @addtogroup base
  * @{
@@ -328,7 +330,12 @@ public:
      * @param v The vector to add.
      * @return The vector sum.
      */
-    inline const Vec4 operator+(const Vec4& v) const;
+    inline const Vec4 operator+(const Vec4& v) const noexcept
+    {
+        Vec4 result(*this);
+        result.add(v);
+        return result;
+    }
 
     /**
      * Adds the given vector to this vector.
@@ -336,7 +343,11 @@ public:
      * @param v The vector to add.
      * @return This vector, after the addition occurs.
      */
-    inline Vec4& operator+=(const Vec4& v);
+    inline Vec4& operator+=(const Vec4& v) noexcept
+    {
+        add(v);
+        return *this;
+    }
 
     /**
      * Calculates the sum of this vector with the given vector.
@@ -346,7 +357,12 @@ public:
      * @param v The vector to add.
      * @return The vector sum.
      */
-    inline const Vec4 operator-(const Vec4& v) const;
+    inline const Vec4 operator-(const Vec4& v) const noexcept
+    {
+        Vec4 result(*this);
+        result.subtract(v);
+        return result;
+    }
 
     /**
      * Subtracts the given vector from this vector.
@@ -354,7 +370,11 @@ public:
      * @param v The vector to subtract.
      * @return This vector, after the subtraction occurs.
      */
-    inline Vec4& operator-=(const Vec4& v);
+    inline Vec4& operator-=(const Vec4& v) noexcept
+    {
+        subtract(v);
+        return *this;
+    }
 
     /**
      * Calculates the negation of this vector.
@@ -363,7 +383,12 @@ public:
      *
      * @return The negation of this vector.
      */
-    inline const Vec4 operator-() const;
+    inline const Vec4 operator-() const noexcept
+    {
+        Vec4 result(*this);
+        result.negate();
+        return result;
+    }
 
     /**
      * Calculates the scalar product of this vector with the given value.
@@ -373,7 +398,12 @@ public:
      * @param s The value to scale by.
      * @return The scaled vector.
      */
-    inline const Vec4 operator*(float s) const;
+    inline const Vec4 operator*(float s) const noexcept
+    {
+        Vec4 result(*this);
+        result.scale(s);
+        return result;
+    }
 
     /**
      * Scales this vector by the given value.
@@ -381,7 +411,11 @@ public:
      * @param s The value to scale by.
      * @return This vector, after the scale occurs.
      */
-    inline Vec4& operator*=(float s);
+    inline Vec4& operator*=(float s) noexcept
+    {
+        scale(s);
+        return *this;
+    }
 
     /**
      * Returns the components of this vector divided by the given constant
@@ -391,7 +425,10 @@ public:
      * @param s the constant to divide this vector with
      * @return a smaller vector
      */
-    inline const Vec4 operator/(float s) const;
+    inline const Vec4 operator/(float s) const
+    {
+        return Vec4(v / s);
+    }
 
     /**
      * Determines if this vector is less than the given vector.
@@ -400,7 +437,11 @@ public:
      *
      * @return True if this vector is less than the given vector, false otherwise.
      */
-    inline bool operator<(const Vec4& v) const;
+    inline bool operator<(const Vec4& other) const noexcept
+    {
+        auto const lt = v < other.v;
+        return lt[0] == -1 && lt[1] == -1 && lt[2] == -1 && lt[3] == -1;
+    }
 
     inline bool operator>(const Vec4& other) const noexcept
     {
@@ -415,7 +456,14 @@ public:
      *
      * @return True if this vector is equal to the given vector, false otherwise.
      */
-    inline bool operator==(const Vec4& v) const;
+    inline bool operator==(const Vec4& other) const noexcept
+    {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+        auto const eq = (v == other.v);
+#pragma clang diagnostic pop
+        return eq[0] == -1 && eq[1] == -1 && eq[2] == -1 && eq[3] == -1;
+    }
 
     /**
      * Determines if this vector is not equal to the given vector.
@@ -424,7 +472,10 @@ public:
      *
      * @return True if this vector is not equal to the given vector, false otherwise.
      */
-    inline bool operator!=(const Vec4& v) const;
+    inline bool operator!=(const Vec4& v) const noexcept
+    {
+        return !operator==(v);
+    }
 
     /** equals to Vec4(0,0,0,0) */
     static const Vec4 ZERO;
@@ -447,13 +498,17 @@ public:
  * @param v The vector to scale.
  * @return The scaled vector.
  */
-inline const Vec4 operator*(float x, const Vec4& v);
+inline Vec4 const operator*(float x, Vec4 const& v) noexcept
+{
+    Vec4 result(v);
+    result.scale(x);
+    return result;
+}
 
 NS_CC_MATH_END
 /**
  end of base group
  @}
  */
-#include "math/Vec4.inl"
 
 #endif // CC_MATH_VEC4_H

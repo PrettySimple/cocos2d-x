@@ -25,12 +25,13 @@
 #ifndef CC_3D_BUNDLEREADER_H
 #define CC_3D_BUNDLEREADER_H
 
-#include <string>
-#include <vector>
-
 #include "base/CCConsole.h"
 #include "base/CCRef.h"
 #include "platform/CCPlatformMacros.h"
+
+#include <cstddef>
+#include <string>
+#include <vector>
 
 NS_CC_BEGIN
 

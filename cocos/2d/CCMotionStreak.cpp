@@ -28,6 +28,7 @@ THE SOFTWARE.
 
 #include "base/CCDirector.h"
 #include "math/CCVertex.h"
+#include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/CCTexture2D.h"

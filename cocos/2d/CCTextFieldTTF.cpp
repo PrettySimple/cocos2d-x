@@ -25,10 +25,23 @@ THE SOFTWARE.
 
 #include "2d/CCTextFieldTTF.h"
 
+#include "2d/CCNode.h"
 #include "2d/CCSprite.h"
 #include "base/CCDirector.h"
 #include "base/ccUTF8.h"
 #include "platform/CCFileUtils.h"
+#include "platform/CCGLView.h"
+#include "platform/CCPlatformConfig.h"
+
+#include <new>
+#include <string>
+#include <vector>
+
+namespace cocos2d
+{
+    class Camera;
+    class Renderer;
+}
 
 NS_CC_BEGIN
 

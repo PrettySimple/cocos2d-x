@@ -23,10 +23,18 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "ui/UITextField.h"
-#include "2d/CCCamera.h"
+
+#include "2d/CCLabel.h"
+#include "2d/CCNode.h"
+#include "base/ccTypes.h"
 #include "base/ccUTF8.h"
+#include "math/CCGeometry.h"
+#include "math/Vec2.h"
 #include "platform/CCFileUtils.h"
 #include "ui/UIHelper.h"
+
+#include <cstring>
+#include <new>
 
 NS_CC_BEGIN
 

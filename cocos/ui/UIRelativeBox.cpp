@@ -24,6 +24,8 @@
 
 #include "ui/UIRelativeBox.h"
 
+#include <new>
+
 NS_CC_BEGIN
 
 namespace ui

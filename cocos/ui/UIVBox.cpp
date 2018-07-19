@@ -24,6 +24,8 @@
 
 #include "ui/UIVBox.h"
 
+#include <new>
+
 NS_CC_BEGIN
 
 namespace ui

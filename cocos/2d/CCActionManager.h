@@ -32,7 +32,10 @@
 #include "CCActionManagerData.h"
 #include "base/CCRef.h"
 #include "base/CCVector.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
 
+#include <cstddef>
 #include <list>
 #include <vector>
 

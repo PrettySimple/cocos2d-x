@@ -25,16 +25,21 @@ THE SOFTWARE.
 #ifndef CC_UI_SCROLLVIEW_H
 #define CC_UI_SCROLLVIEW_H
 
+#include "base/CCRef.h"
+#include "base/CCVector.h"
 #include "base/ccConfig.h"
 #include "math/CCGeometry.h"
 #include "math/Vec2.h"
+#include "platform/CCGL.h"
+#include "platform/CCPlatformMacros.h"
 #include "ui/GUIDefine.h"
 #include "ui/GUIExport.h"
 #include "ui/UILayout.h"
+#include "ui/UIWidget.h"
 
 #include <cstddef>
-#include <cstdint>
 #include <functional>
+#include <iosfwd>
 #include <list>
 
 NS_CC_BEGIN
@@ -47,8 +52,8 @@ class Event;
 class Node;
 class Ref;
 class Touch;
-template <typename T>
-class Vector;
+class Vec3;
+struct Color3B;
 
 namespace ui
 {

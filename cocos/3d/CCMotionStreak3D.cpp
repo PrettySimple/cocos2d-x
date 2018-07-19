@@ -25,8 +25,10 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "3d/CCMotionStreak3D.h"
+
 #include "base/CCDirector.h"
 #include "math/CCVertex.h"
+#include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCRenderState.h"
 #include "renderer/CCRenderer.h"

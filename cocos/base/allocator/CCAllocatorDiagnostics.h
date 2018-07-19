@@ -27,11 +27,9 @@
 #define CC_BASE_ALLOCATOR_ALLOCATORDIAGNOSTICS_H
 /// @cond DO_NOT_SHOW
 
-#include <unordered_set>
-
-#include "base/allocator/CCAllocatorBase.h"
 #include "base/allocator/CCAllocatorMacros.h"
-#include "base/allocator/CCAllocatorMutex.h"
+#include "base/ccConfig.h"
+#include "platform/CCPlatformMacros.h"
 
 NS_CC_BEGIN
 NS_CC_ALLOCATOR_BEGIN

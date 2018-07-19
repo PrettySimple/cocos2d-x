@@ -28,8 +28,9 @@ THE SOFTWARE.
 #define CC_MATH_TRANSFORMUTILS_H
 
 // TODO: when in MAC or windows, it includes <OpenGL/gl.h>
-#include "base/ccMacros.h"
+
 #include "platform/CCGL.h"
+#include "platform/CCPlatformDefine.h"
 
 /**
  * @addtogroup base

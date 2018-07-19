@@ -25,8 +25,17 @@ THE SOFTWARE.
 #ifndef CC_UI_PAGEVIEWINDICATOR_H
 #define CC_UI_PAGEVIEWINDICATOR_H
 
+#include "2d/CCProtectedNode.h"
 #include "2d/CCSprite.h"
+#include "base/CCVector.h"
+#include "base/ccTypes.h"
+#include "platform/CCPlatformMacros.h"
 #include "ui/UIPageView.h"
+#include "ui/UIScrollView.h"
+#include "ui/UIWidget.h"
+
+#include <cstddef>
+#include <iosfwd>
 
 NS_CC_BEGIN
 /**

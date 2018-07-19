@@ -29,6 +29,9 @@
 
 #include "base/CCRef.h"
 #include "base/ccMacros.h"
+
+#include <functional>
+#include <type_traits>
 #include <vector>
 
 #if USE_STD_UNORDERED_MAP

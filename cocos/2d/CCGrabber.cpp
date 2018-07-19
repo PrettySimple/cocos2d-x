@@ -28,6 +28,8 @@ THE SOFTWARE.
 #include "base/ccMacros.h"
 #include "renderer/CCTexture2D.h"
 
+#include <cstring>
+
 NS_CC_BEGIN
 
 Grabber::Grabber(void)

@@ -27,9 +27,19 @@
 #ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_POTENTIOMETER_H
 #define CC_EXTENSIONS_GUI_CONTROLEXTENSION_POTENTIOMETER_H
 
-#include "2d/CCProgressTimer.h"
 #include "CCControl.h"
+#include "extensions/ExtensionMacros.h"
 #include "extensions/ExtensionExport.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+
+namespace cocos2d
+{
+    class Event;
+    class ProgressTimer;
+    class Sprite;
+    class Touch;
+}
 
 NS_CC_EXT_BEGIN
 
@@ -93,6 +103,11 @@ public:
     /** Returns the angle in degree between line1 and line2. */
     float angleInDegreesBetweenLineFromPoint_toPoint_toLineFromPoint_toPoint(Vec2 beginLineA, Vec2 endLineA, Vec2 beginLineB, Vec2 endLineB);
 
+    virtual Sprite* getThumbSprite() const noexcept { return _thumbSprite; }
+    virtual void setThumbSprite(Sprite* thumbSprite) noexcept;
+    virtual ProgressTimer* getProgressTimer() const noexcept { return _progressTimer; }
+    virtual void setProgressTimer(ProgressTimer* progressTimer) noexcept;
+
 protected:
     /** Contains the receiver’s current value. */
     float _value;
@@ -103,8 +118,9 @@ protected:
      * The default value of this property is 1.0. */
     float _maximumValue;
 
-    CC_SYNTHESIZE_RETAIN(Sprite*, _thumbSprite, ThumbSprite)
-    CC_SYNTHESIZE_RETAIN(ProgressTimer*, _progressTimer, ProgressTimer)
+    Sprite* _thumbSprite = nullptr;
+    ProgressTimer* _progressTimer = nullptr;
+
     CC_SYNTHESIZE(Vec2, _previousLocation, PreviousLocation)
 };
 

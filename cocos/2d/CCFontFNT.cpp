@@ -28,18 +28,31 @@
 #include "2d/CCFontAtlas.h"
 #include "base/CCConfiguration.h"
 #include "base/CCDirector.h"
-#include "base/CCMap.h"
+#include "base/CCRef.h"
+#include "base/ccMacros.h"
 #include "base/ccUTF8.h"
+#include "math/CCGeometry.h"
 #include "platform/CCFileUtils.h"
 #include "renderer/CCTextureCache.h"
 
+#include <cstdint>
+#include <cstdio>
+#include <cstring>
 #include <array>
 #include <cmath>
 #include <limits>
+#include <new>
 #include <sstream>
 #include <string_view>
+#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
+
+namespace cocos2d
+{
+    class Texture2D;
+}
 
 NS_CC_BEGIN
 

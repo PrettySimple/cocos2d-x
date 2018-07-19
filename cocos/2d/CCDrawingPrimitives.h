@@ -39,9 +39,10 @@ THE SOFTWARE.
 #ifndef CC_2D_DRAWINGPRIMITIVES_H
 #define CC_2D_DRAWINGPRIMITIVES_H
 
-#include "base/ccMacros.h"
-#include "base/ccTypes.h"
-#include "math/CCMath.h"
+#include "platform/CCGL.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 /**
  @file
@@ -74,6 +75,7 @@ NS_CC_BEGIN
  */
 
 class PointArray;
+struct Color4F;
 
 /**
  * @js cc.DrawingPrimitiveCanvas/cc.DrawingPrimitiveWebGL

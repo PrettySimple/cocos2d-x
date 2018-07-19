@@ -26,8 +26,13 @@ THE SOFTWARE.
 #include "2d/CCActionProgressTimer.h"
 
 #include "2d/CCProgressTimer.h"
+#include "base/ccMacros.h"
+
+#include <new>
 
 NS_CC_BEGIN
+
+class Node;
 
 #define kProgressTimerCast ProgressTimer*
 

@@ -24,6 +24,8 @@ THE SOFTWARE.
 
 #include "2d/CCComponent.h"
 
+#include <new>
+
 NS_CC_BEGIN
 
 Component::Component()

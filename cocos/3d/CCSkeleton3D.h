@@ -25,11 +25,23 @@
 #ifndef CC_3D_SKELETON3D_H
 #define CC_3D_SKELETON3D_H
 
-#include "3d/CCBundle3DData.h"
 #include "base/CCRef.h"
 #include "base/CCVector.h"
+#include "base/ccConfig.h"
+#include "math/Mat4.h"
+#include "math/Quaternion.h"
+#include "math/Vec3.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <cstddef>
+#include <iosfwd>
+#include <vector>
 
 NS_CC_BEGIN
+
+class Vec4;
+struct NodeData;
 
 /**
  * @addtogroup _3d

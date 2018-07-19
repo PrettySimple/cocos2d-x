@@ -25,10 +25,11 @@
 #ifndef CC_VR_PROTOCOL_H
 #define CC_VR_PROTOCOL_H
 
-#include <string>
+#include "math/Mat4.h"
+#include "math/Vec3.h"
 
-#include "base/ccTypes.h"
-#include "renderer/CCTexture2D.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 NS_CC_BEGIN
 

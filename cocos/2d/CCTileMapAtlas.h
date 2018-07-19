@@ -29,6 +29,12 @@ THE SOFTWARE.
 
 #include "2d/CCAtlasNode.h"
 #include "base/CCValue.h"
+#include "base/ccTypes.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <iosfwd>
 
 NS_CC_BEGIN
 

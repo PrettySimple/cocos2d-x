@@ -25,12 +25,14 @@
 #ifndef CC_BASE_EVENTLISTENER_H
 #define CC_BASE_EVENTLISTENER_H
 
-#include <functional>
-#include <memory>
-#include <string>
-
 #include "base/CCRef.h"
+#include "base/ccConfig.h"
 #include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <functional>
+#include <iosfwd>
+#include <string>
 
 /**
  * @addtogroup base

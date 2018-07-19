@@ -27,6 +27,9 @@
 
 #include "base/CCConsole.h"
 
+#include <cstdlib>
+#include <cstring>
+
 NS_CC_BEGIN
 
 const Data Data::Null;

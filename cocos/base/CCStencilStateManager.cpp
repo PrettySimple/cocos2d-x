@@ -26,7 +26,11 @@
 #include "base/CCStencilStateManager.hpp"
 
 #include "base/CCDirector.h"
+#include "base/ccMacros.h"
+#include "base/ccTypes.h"
+#include "math/Vec2.h"
 #include "platform/CCPlatformConfig.h"
+#include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramCache.h"
 #include "renderer/CCRenderState.h"
 #include "renderer/CCRenderer.h"

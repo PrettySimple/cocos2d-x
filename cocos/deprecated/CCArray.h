@@ -28,6 +28,18 @@ THE SOFTWARE.
 #define CC_DEPRECATED_ARRAY_H
 /// @cond DO_NOT_SHOW
 
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <cstddef>
+#include <iosfwd>
+#include <type_traits>
+
+namespace cocos2d
+{
+    class DataVisitor;
+}
+
 #define CC_USE_ARRAY_VECTOR 0
 
 #if CC_USE_ARRAY_VECTOR
@@ -36,10 +48,10 @@ THE SOFTWARE.
 #    include <algorithm>
 #    include <vector>
 #else
+#    include "base/CCRef.h"
 #    include "base/ccCArray.h"
+#    include "base/ccMacros.h"
 #endif
-
-#include "base/CCDataVisitor.h"
 
 #if CC_USE_ARRAY_VECTOR
 /**

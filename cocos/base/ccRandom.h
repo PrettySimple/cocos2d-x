@@ -26,9 +26,10 @@ THE SOFTWARE.
 #ifndef CC_BASE_RANDOM_H
 #define CC_BASE_RANDOM_H
 
-#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
+#include <algorithm>
 #include <cstdlib>
 #include <random>
 

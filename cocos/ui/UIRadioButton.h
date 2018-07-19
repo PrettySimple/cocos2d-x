@@ -25,6 +25,7 @@ THE SOFTWARE.
 #ifndef CC_UI_RADIOBUTTON_H
 #define CC_UI_RADIOBUTTON_H
 
+
 #include "base/CCVector.h"
 #include "platform/CCPlatformMacros.h"
 #include "ui/GUIDefine.h"
@@ -32,9 +33,9 @@ THE SOFTWARE.
 #include "ui/UIAbstractCheckButton.h"
 #include "ui/UIWidget.h"
 
-#include <cstdint>
+#include <cstddef>
 #include <functional>
-#include <string>
+#include <iosfwd>
 
 /**
  * @addtogroup ui

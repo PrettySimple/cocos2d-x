@@ -27,9 +27,9 @@ THE SOFTWARE.
 #define CC_BASE_TOUCH_H
 
 #include "base/CCRef.h"
-#include "math/CCGeometry.h"
-
-#include <cstdint>
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 NS_CC_BEGIN
 

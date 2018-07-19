@@ -22,9 +22,12 @@
 #ifndef CC_MATH_QUATERNION_H
 #define CC_MATH_QUATERNION_H
 
+#include "math/CCMathBase.h"
 #include "math/Mat4.h"
 #include "math/Vec3.h"
-//#include "Plane.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <type_traits>
 
 /**
  * @addtogroup base

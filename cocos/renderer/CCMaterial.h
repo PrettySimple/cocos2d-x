@@ -30,25 +30,21 @@
 #ifndef CC_RENDERER_MATERIAL_H
 #define CC_RENDERER_MATERIAL_H
 
-#include <string>
-
-#include "base/CCRef.h"
 #include "base/CCVector.h"
-#include "math/Mat4.h"
-#include "math/Vec2.h"
-#include "math/Vec3.h"
-#include "math/Vec4.h"
 #include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 #include "renderer/CCRenderState.h"
-#include "renderer/CCTechnique.h"
+
+#include <cstddef>
+#include <iosfwd>
 
 NS_CC_BEGIN
 
-class Technique;
-class Pass;
 class GLProgramState;
 class Node;
+class Pass;
 class Properties;
+class Technique;
 
 /// Material
 class CC_DLL Material : public RenderState

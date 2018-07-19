@@ -26,9 +26,13 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "2d/CCAnimation.h"
 
+#include "2d/CCSpriteFrame.h"
 #include "base/CCDirector.h"
+#include "math/CCGeometry.h"
 #include "renderer/CCTexture2D.h"
 #include "renderer/CCTextureCache.h"
+
+#include <new> 
 
 using namespace std::chrono_literals;
 
@@ -78,6 +82,13 @@ AnimationFrame* AnimationFrame::clone() const
 
     frame->autorelease();
     return frame;
+}
+
+void AnimationFrame::setSpriteFrame(SpriteFrame* frame)
+{
+    CC_SAFE_RETAIN(frame);
+    CC_SAFE_RELEASE(_spriteFrame);
+    _spriteFrame = frame;
 }
 
 // implementation of Animation

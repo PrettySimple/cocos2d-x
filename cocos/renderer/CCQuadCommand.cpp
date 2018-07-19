@@ -24,16 +24,15 @@
 
 #include "renderer/CCQuadCommand.h"
 
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCMaterial.h"
-#include "renderer/CCPass.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTechnique.h"
+#include "base/ccMacros.h"
+#include "base/ccTypes.h"
+#include "math/Vec2.h"
+#include "renderer/CCGLProgramState.h"
 #include "renderer/CCTexture2D.h"
-#include "renderer/ccGLStateCache.h"
 
 #include <algorithm>
 #include <limits>
+#include <new>
 
 NS_CC_BEGIN
 

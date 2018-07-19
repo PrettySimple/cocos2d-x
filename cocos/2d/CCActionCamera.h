@@ -29,13 +29,16 @@ THE SOFTWARE.
 #define CC_2D_ACTIONCAMERA_H
 
 #include "2d/CCActionInterval.h"
-#include "math/CCMath.h"
+#include "base/ccConfig.h"
+#include "math/Vec3.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 #include <chrono>
 
 NS_CC_BEGIN
 
-class Camera;
+class Node;
 
 /**
  * @addtogroup actions

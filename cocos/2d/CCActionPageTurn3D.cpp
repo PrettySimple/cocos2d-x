@@ -27,6 +27,12 @@ THE SOFTWARE.
 
 #include "2d/CCGrid.h"
 #include "2d/CCNodeGrid.h"
+#include "math/Vec2.h"
+#include "math/Vec3.h"
+
+#include <cmath>
+#include <algorithm>
+#include <new>
 
 NS_CC_BEGIN
 

@@ -27,7 +27,23 @@
 
 #include "CCControlStepper.h"
 
+#include "2d/CCLabel.h"
+#include "2d/CCSprite.h"
+#include "GUI/CCControlExtension/CCControl.h"
+#include "GUI/CCControlExtension/CCControlUtils.h"
+#include "base/CCRef.h"
+#include "base/ccMacros.h"
+#include "base/ccTypes.h"
+#include "math/CCGeometry.h"
+
 #include <chrono>
+#include <new>
+
+namespace cocos2d
+{
+    class Event;
+    class Touch;
+}
 
 using namespace std::chrono_literals;
 
@@ -344,6 +360,46 @@ void ControlStepper::onTouchEnded(Touch* pTouch, Event* pEvent)
         Vec2 location = this->getTouchLocation(pTouch);
 
         this->setValue(_value + ((location.x < _minusSprite->getContentSize().width) ? (0.0 - _stepValue) : _stepValue));
+    }
+}
+
+void ControlStepper::setMinusSprite(Sprite* minusSprite) noexcept
+{
+    if (_minusSprite != minusSprite)
+    {
+        CC_SAFE_RETAIN(minusSprite);
+        CC_SAFE_RELEASE(_minusSprite);
+        _minusSprite = minusSprite;
+    }
+}
+
+void ControlStepper::setPlusSprite(Sprite* plusSprite) noexcept
+{
+    if (_plusSprite != plusSprite)
+    {
+        CC_SAFE_RETAIN(plusSprite);
+        CC_SAFE_RELEASE(_plusSprite);
+        _plusSprite = plusSprite;
+    }
+}
+
+void ControlStepper::setMinusLabel(Label* minusLabel) noexcept
+{
+    if (_minusLabel != minusLabel)
+    {
+        CC_SAFE_RETAIN(minusLabel);
+        CC_SAFE_RELEASE(_minusLabel);
+        _minusLabel = minusLabel;
+    }
+}
+
+void ControlStepper::setPlusLabel(Label* plusLabel) noexcept
+{
+    if (_plusLabel != plusLabel)
+    {
+        CC_SAFE_RETAIN(plusLabel);
+        CC_SAFE_RELEASE(_plusLabel);
+        _plusLabel = plusLabel;
     }
 }
 

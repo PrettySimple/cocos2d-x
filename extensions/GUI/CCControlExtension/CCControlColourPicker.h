@@ -33,12 +33,24 @@
 #define CC_EXTENSIONS_GUI_CONTROLEXTENSION_COLOURPICKER_H
 
 #include "CCControl.h"
-#include "CCControlHuePicker.h"
-#include "CCControlSaturationBrightnessPicker.h"
 #include "CCControlUtils.h"
+#include "extensions//ExtensionMacros.h"
 #include "extensions/ExtensionExport.h"
+#include "platform/CCPlatformMacros.h"
+
+namespace cocos2d
+{
+    class Event;
+    class Ref;
+    class Sprite;
+    class Touch;
+    struct Color3B;
+}
 
 NS_CC_EXT_BEGIN
+
+class ControlHuePicker;
+class ControlSaturationBrightnessPicker;
 
 /**
  * @addtogroup GUI
@@ -71,15 +83,24 @@ public:
     void hueSliderValueChanged(Ref* sender, Control::EventType controlEvent);
     void colourSliderValueChanged(Ref* sender, Control::EventType controlEvent);
 
+    virtual ControlSaturationBrightnessPicker* getcolourPicker() const noexcept { return _colourPicker; }
+    virtual void setcolourPicker(ControlSaturationBrightnessPicker* colourPicker) noexcept;
+
+    virtual ControlHuePicker* getHuePicker() const noexcept { return _huePicker; }
+    virtual void setHuePicker(ControlHuePicker* huePicker) noexcept;
+
+    virtual Sprite* getBackground() const noexcept { return _background; }
+    virtual void setBackground(Sprite* background) noexcept;
+
 protected:
     void updateControlPicker();
     void updateHueAndControlPicker();
     bool onTouchBegan(Touch* touch, Event* pEvent) override;
 
     HSV _hsv;
-    CC_SYNTHESIZE_RETAIN(ControlSaturationBrightnessPicker*, _colourPicker, colourPicker)
-    CC_SYNTHESIZE_RETAIN(ControlHuePicker*, _huePicker, HuePicker)
-    CC_SYNTHESIZE_RETAIN(Sprite*, _background, Background)
+    ControlSaturationBrightnessPicker* _colourPicker = nullptr;
+    ControlHuePicker* _huePicker = nullptr;
+    Sprite* _background = nullptr;
 };
 
 // end of GUI group

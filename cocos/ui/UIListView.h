@@ -25,8 +25,19 @@ THE SOFTWARE.
 #ifndef CC_UI_LISTVIEW_H
 #define CC_UI_LISTVIEW_H
 
+#include "base/CCRef.h"
+#include "base/CCVector.h"
+#include "base/ccConfig.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+#include "ui/GUIDefine.h"
 #include "ui/GUIExport.h"
 #include "ui/UIScrollView.h"
+#include "ui/UIWidget.h"
+
+#include <cstddef>
+#include <functional>
+#include <iosfwd>
 
 /**
  * @addtogroup ui
@@ -34,8 +45,13 @@ THE SOFTWARE.
  */
 NS_CC_BEGIN
 
+class Node;
+class Touch;
+
 namespace ui
 {
+    class LinearLayoutParameter;
+
     /**
      * ListView click item event type.
      */

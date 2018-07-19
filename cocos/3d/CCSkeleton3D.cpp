@@ -24,6 +24,12 @@
 
 #include "3d/CCSkeleton3D.h"
 
+#include "3d/CCBundle3DData.h"
+#include "math/Vec4.h"
+
+#include <new>
+#include <string>
+
 NS_CC_BEGIN
 
 /**

@@ -30,8 +30,17 @@ THE SOFTWARE.
 
 #include "2d/CCNode.h"
 #include "base/CCProtocols.h"
+#include "base/ccConfig.h"
 #include "base/ccTypes.h"
+#include "math/Mat4.h"
+#include "platform/CCGL.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
 #include "renderer/CCQuadCommand.h"
+
+#include <cstdint>
+#include <cstddef>
+#include <iosfwd>
 
 NS_CC_BEGIN
 
@@ -40,6 +49,8 @@ NS_CC_BEGIN
  * @{
  */
 
+class Renderer;
+class Texture2D;
 class TextureAtlas;
 
 /** @brief AtlasNode is a subclass of Node that implements the RGBAProtocol and TextureProtocol protocol.

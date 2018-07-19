@@ -25,9 +25,11 @@
 #define CC_PLATFORM_SAXPARSER_H
 /// @cond DO_NOT_SHOW
 
-#include "platform/CCCommon.h"
-#include "platform/CCPlatformConfig.h"
-#include <string>
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <cstddef>
+#include <iosfwd>
 
 NS_CC_BEGIN
 

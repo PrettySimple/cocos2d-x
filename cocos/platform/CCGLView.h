@@ -27,8 +27,15 @@ THE SOFTWARE.
 #define CC_PLATFORM_GLVIEW_H
 
 #include "base/CCEventTouch.h"
-#include "base/ccTypes.h"
+#include "base/CCRef.h"
+#include "math/CCGeometry.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformConfig.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
+#include <cstdint>
+#include <iosfwd>
 #include <vector>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
@@ -86,8 +93,9 @@ struct GLContextAttrs
 
 NS_CC_BEGIN
 
-class Scene;
 class Renderer;
+class Scene;
+class Touch;
 class VRIRenderer;
 
 /**

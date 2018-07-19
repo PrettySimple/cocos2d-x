@@ -23,13 +23,28 @@
  ****************************************************************************/
 
 #include "3d/CCBillBoard.h"
+
+#include "2d/CCAutoPolygon.h"
 #include "2d/CCCamera.h"
-#include "2d/CCSpriteFrameCache.h"
+#include "2d/CCNode.h"
 #include "base/CCDirector.h"
-#include "renderer/CCGLProgramCache.h"
+#include "base/CCVector.h"
+#include "base/ccMacros.h"
+#include "math/CCMathBase.h"
+#include "math/Quaternion.h"
+#include "math/Vec2.h"
+#include "math/Vec3.h"
 #include "renderer/CCRenderer.h"
+#include "renderer/CCTrianglesCommand.h"
+
+#include <cmath>
+#include <cstring>
+#include <new>
 
 NS_CC_BEGIN
+
+class Rect;
+class Texture2D;
 
 BillBoard::BillBoard()
 : _mode(Mode::VIEW_POINT_ORIENTED)

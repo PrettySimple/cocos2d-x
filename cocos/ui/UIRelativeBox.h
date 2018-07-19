@@ -25,6 +25,9 @@
 #ifndef CC_UI_RELATIVEBOX_H
 #define CC_UI_RELATIVEBOX_H
 
+#include "base/ccConfig.h"
+#include "math/CCGeometry.h"
+#include "platform/CCPlatformMacros.h"
 #include "ui/GUIExport.h"
 #include "ui/UILayout.h"
 

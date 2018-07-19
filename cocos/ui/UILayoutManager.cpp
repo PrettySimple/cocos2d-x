@@ -23,7 +23,17 @@
  ****************************************************************************/
 
 #include "ui/UILayoutManager.h"
+
+#include "2d/CCNode.h"
+#include "math/CCGeometry.h"
+#include "math/Vec2.h"
 #include "ui/UILayout.h"
+#include "ui/UILayoutParameter.h"
+
+#include <iosfwd>
+#include <new>
+#include <string>
+#include <vector>
 
 NS_CC_BEGIN
 

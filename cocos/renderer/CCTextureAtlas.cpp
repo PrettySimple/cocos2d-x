@@ -27,21 +27,23 @@ THE SOFTWARE.
 
 #include "renderer/CCTextureAtlas.h"
 
-#include <stdlib.h>
-
 #include "base/CCConfiguration.h"
 #include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/CCEventType.h"
 #include "base/ccMacros.h"
+#include "base/ccTypes.h"
 #include "base/ccUTF8.h"
 #include "platform/CCGL.h"
+#include "platform/CCPlatformConfig.h"
+#include "platform/ios/CCGL-ios.h"
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/CCTexture2D.h"
 #include "renderer/CCTextureCache.h"
 #include "renderer/ccGLStateCache.h"
+
+#include <cstdlib>
+#include <cstring>
+#include <new>
 
 // According to some tests GL_TRIANGLE_STRIP is slower, MUCH slower. Probably I'm doing something very wrong
 

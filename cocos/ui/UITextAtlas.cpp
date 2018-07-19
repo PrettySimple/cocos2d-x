@@ -25,9 +25,12 @@ THE SOFTWARE.
 #include "ui/UITextAtlas.h"
 
 #include "2d/CCLabel.h"
-#include "2d/CCNode.h"
 #include "editor-support/cocostudio/CocosStudioExtension.h"
 #include "math/CCGeometry.h"
+#include "math/Vec2.h"
+
+#include <new>
+#include <string>
 
 NS_CC_BEGIN
 

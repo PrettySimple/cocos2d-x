@@ -20,9 +20,16 @@
 
 #include "math/Mat4.h"
 
+#include "base/ccMacros.h"
 #include "math/MathUtil.h"
 #include "math/Quaternion.h"
+#include "math/Vec3.h"
+#include "math/Vec4.h"
+#include "platform/CCPlatformMacros.h"
+
+#include <cstring>
 #include <cmath>
+#include <limits>
 
 NS_CC_MATH_BEGIN
 

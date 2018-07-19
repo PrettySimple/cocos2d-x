@@ -27,6 +27,8 @@
 
 #include "base/CCEvent.h"
 #include "base/ccTypes.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 /**
  * @addtogroup base

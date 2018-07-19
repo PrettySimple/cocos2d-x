@@ -22,10 +22,10 @@
 #ifndef CC_RENDERER_VERTEXATTRIBBINDING_H
 #define CC_RENDERER_VERTEXATTRIBBINDING_H
 
-#include <unordered_map>
-
 #include "base/CCRef.h"
 #include "renderer/CCGLProgramState.h"
+
+#include <unordered_map>
 
 NS_CC_BEGIN
 

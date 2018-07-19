@@ -29,10 +29,16 @@
 /// @cond DO_NOT_SHOW
 
 #include "2d/CCFont.h"
+#include "platform/CCPlatformMacros.h"
+
+#include <iosfwd>
+#include <string>
 
 NS_CC_BEGIN
 
 class Texture2D;
+class FontAtlas;
+
 class FontCharMap : public Font
 {
 public:

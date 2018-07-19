@@ -25,14 +25,16 @@ THE SOFTWARE.
 #ifndef CC_UI_SLIDER_H
 #define CC_UI_SLIDER_H
 
+#include "base/CCRef.h"
 #include "base/ccConfig.h"
 #include "math/CCGeometry.h"
+#include "platform/CCPlatformMacros.h"
 #include "ui/GUIDefine.h"
 #include "ui/GUIExport.h"
 #include "ui/UIWidget.h"
 
 #include <functional>
-#include <string>
+#include <iosfwd>
 
 NS_CC_BEGIN
 
@@ -44,11 +46,11 @@ NS_CC_BEGIN
 class Camera;
 class Event;
 class Node;
-class Ref;
 class Sprite;
 class SpriteFrame;
 class Touch;
 class Vec2;
+class Vec3;
 struct ResourceData;
 
 namespace ui

@@ -25,6 +25,7 @@
 #include "deprecated/CCDeprecated.h"
 
 #include "2d/CCDrawingPrimitives.h"
+#include "2d/CCSpriteFrame.h"
 #include "base/CCDirector.h"
 #include "base/ccTypes.h"
 #include "math/CCGeometry.h"

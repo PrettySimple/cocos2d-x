@@ -25,7 +25,9 @@ THE SOFTWARE.
 #ifndef CC_BASE_AUTORELEASEPOOL_H
 #define CC_BASE_AUTORELEASEPOOL_H
 
-#include "base/CCRef.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
 #include <string>
 #include <vector>
 
@@ -34,6 +36,8 @@ THE SOFTWARE.
  * @{
  */
 NS_CC_BEGIN
+
+class Ref;
 
 /**
  * A pool for managing autorelease objects.

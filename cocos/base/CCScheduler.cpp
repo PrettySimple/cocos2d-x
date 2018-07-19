@@ -27,15 +27,14 @@ THE SOFTWARE.
 
 #include "base/CCScheduler.h"
 
-#include "base/CCDirector.h"
-#include "base/CCScriptSupport.h"
-#include "base/ccCArray.h"
 #include "base/ccMacros.h"
 #include "base/iterator_pair.h"
-#include "base/utlist.h"
 
 #include <algorithm>
-#include <memory>
+#include <cmath>
+#include <new>
+#include <type_traits>
+#include <utility>
 
 NS_CC_BEGIN
 

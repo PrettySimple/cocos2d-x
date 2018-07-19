@@ -27,9 +27,23 @@ THE SOFTWARE.
 
 #include "2d/CCParticleExamples.h"
 
+#include "2d/CCParticleSystem.h"
 #include "base/CCDirector.h"
+#include "base/ccTypes.h"
 #include "base/firePngData.h"
+#include "math/CCGeometry.h"
+#include "math/Vec2.h"
+#include "platform/CCImage.h"
 #include "renderer/CCTextureCache.h"
+
+#include <chrono>
+#include <iosfwd>
+#include <new>
+
+namespace cocos2d
+{
+    class Texture2D;
+}
 
 using namespace std::chrono_literals;
 

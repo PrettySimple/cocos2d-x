@@ -26,7 +26,8 @@
 #ifndef CC_MATH_VERTEX_H
 #define CC_MATH_VERTEX_H
 
-#include "base/ccTypes.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 /**
  * @addtogroup base
@@ -34,6 +35,8 @@
  */
 
 NS_CC_BEGIN
+
+class Vec2;
 
 /** @file CCVertex.h */
 

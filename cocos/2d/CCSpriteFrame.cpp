@@ -28,7 +28,12 @@ THE SOFTWARE.
 #include "2d/CCSpriteFrame.h"
 
 #include "base/CCDirector.h"
+#include "base/ccMacros.h"
 #include "renderer/CCTextureCache.h"
+#include "renderer/CCTrianglesCommand.h"
+
+#include <cmath>
+#include <new>
 
 NS_CC_BEGIN
 

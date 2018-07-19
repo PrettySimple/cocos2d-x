@@ -26,21 +26,23 @@ THE SOFTWARE.
 #define CC_UI_TEXTFIELD_H
 
 #include "2d/CCTextFieldTTF.h"
+#include "base/CCRef.h"
+#include "base/ccConfig.h"
 #include "platform/CCPlatformMacros.h"
 #include "ui/GUIDefine.h"
 #include "ui/GUIExport.h"
 #include "ui/UIWidget.h"
 
 #include <cstddef>
-#include <cstdint>
 #include <functional>
-#include <string>
+#include <iosfwd>
+
 
 NS_CC_BEGIN
 
 class Camera;
 class Event;
-class Ref;
+class Node;
 class Size;
 class Touch;
 class Vec2;

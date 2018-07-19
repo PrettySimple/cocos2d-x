@@ -25,21 +25,24 @@
 #ifndef CC_RENDERER_MESHCOMMAND_H
 #define CC_RENDERER_MESHCOMMAND_H
 
-#include "math/CCMath.h"
+#include "math/Mat4.h"
+#include "math/Vec4.h"
+#include "platform/CCGL.h"
 #include "platform/CCPlatformConfig.h"
-#include "renderer/CCGLProgram.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
 #include "renderer/CCRenderCommand.h"
 #include "renderer/CCRenderState.h"
 
+#include <cstdint>
+#include <cstddef>
 #include <limits>
-#include <unordered_map>
 
 NS_CC_BEGIN
 
 class GLProgramState;
-class EventListenerCustom;
-class EventCustom;
 class Material;
+struct BlendFunc;
 
 // it is a common mesh
 class CC_DLL MeshCommand final : public RenderCommand

@@ -29,6 +29,14 @@ THE SOFTWARE.
 
 #include "2d/CCNode.h"
 #include "2d/CCTMXObjectGroup.h"
+#include "base/CCValue.h"
+#include "base/CCVector.h"
+#include "math/CCGeometry.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <iosfwd>
+#include <vector>
 
 NS_CC_BEGIN
 

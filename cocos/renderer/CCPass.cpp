@@ -28,18 +28,18 @@
  ****************************************************************************/
 
 #include "renderer/CCPass.h"
+
+#include "2d/CCNode.h"
+#include "base/ccMacros.h"
+#include "math/Mat4.h"
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCMaterial.h"
 #include "renderer/CCTechnique.h"
 #include "renderer/CCTexture2D.h"
 #include "renderer/CCVertexAttribBinding.h"
-#include "renderer/ccGLStateCache.h"
 
-#include "2d/CCNode.h"
-#include "base/ccTypes.h"
-
-#include <xxhash/xxhash.h>
+#include <new>
 
 NS_CC_BEGIN
 

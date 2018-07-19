@@ -25,10 +25,16 @@
 #ifndef CC_3D_MESHSKIN_H
 #define CC_3D_MESHSKIN_H
 
-#include "3d/CCBundle3DData.h"
 #include "base/CCRef.h"
 #include "base/CCVector.h"
-#include "math/CCMath.h"
+#include "base/ccConfig.h"
+#include "math/Mat4.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <cstddef>
+#include <iosfwd>
+#include <vector>
 
 NS_CC_BEGIN
 
@@ -39,6 +45,7 @@ NS_CC_BEGIN
 
 class Bone3D;
 class Skeleton3D;
+class Vec4;
 
 /**
  * @brief MeshSkin, A class maintain a collection of bones that affect Mesh vertex.

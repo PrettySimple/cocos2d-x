@@ -23,9 +23,14 @@
  ****************************************************************************/
 
 #include "3d/CCAttachNode.h"
+
 #include "3d/CCSkeleton3D.h"
 
+#include <new>
+
 NS_CC_BEGIN
+
+class Renderer;
 
 AttachNode* AttachNode::create(Bone3D* attachBone)
 {

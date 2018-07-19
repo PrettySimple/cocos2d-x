@@ -39,7 +39,10 @@
 #include "base/CCEventListenerCustom.h"
 #include "base/ccUTF8.h"
 #include "platform/CCFileUtils.h"
+#include "renderer/CCGLProgram.h"
+#include "renderer/CCGLProgramState.h"
 #include "renderer/CCRenderer.h"
+#include "renderer/CCTextureAtlas.h"
 #include "renderer/ccGLStateCache.h"
 
 #include <algorithm>

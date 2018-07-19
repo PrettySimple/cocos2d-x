@@ -26,9 +26,15 @@
 
 #include "renderer/CCRenderState.h"
 
-#include "renderer/CCPass.h"
+#include "base/ccMacros.h"
+#include "base/ccTypes.h"
+#include "platform/CCPlatformConfig.h"
 #include "renderer/CCTexture2D.h"
 #include "renderer/ccGLStateCache.h"
+
+#include <algorithm>
+#include <new>
+#include <string>
 
 NS_CC_BEGIN
 

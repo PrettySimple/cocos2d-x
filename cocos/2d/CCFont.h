@@ -29,8 +29,8 @@
 /// @cond DO_NOT_SHOW
 
 #include "base/CCRef.h"
-#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 #include <string>
 

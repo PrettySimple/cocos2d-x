@@ -30,13 +30,24 @@ THE SOFTWARE.
 
 #include "2d/CCSprite.h"
 #include "base/CCDirector.h"
-#include "base/CCProfiling.h"
+#include "base/CCVector.h"
+#include "base/ccMacros.h"
 #include "base/ccUTF8.h"
-#include "renderer/CCQuadCommand.h"
+#include "renderer/CCGLProgram.h"
+#include "renderer/CCGLProgramState.h"
 #include "renderer/CCRenderer.h"
+#include "renderer/CCTexture2D.h"
+#include "renderer/CCTextureAtlas.h"
 #include "renderer/CCTextureCache.h"
 
+#include <algorithm>
+#include <iterator>
+#include <new>
+#include <type_traits>
+
 NS_CC_BEGIN
+
+class Ref;
 
 /*
  * creation with Texture2D
@@ -394,6 +405,16 @@ void SpriteBatchNode::draw(Renderer* renderer, const Mat4& transform, uint32_t f
 
     _batchCommand.init(_globalZOrder, getGLProgram(), _blendFunc, _textureAtlas, transform, flags);
     renderer->addCommand(&_batchCommand);
+}
+
+void SpriteBatchNode::setTextureAtlas(TextureAtlas* textureAtlas)
+{
+    if (textureAtlas != _textureAtlas)
+    {
+        CC_SAFE_RETAIN(textureAtlas);
+        CC_SAFE_RELEASE(_textureAtlas);
+        _textureAtlas = textureAtlas;
+    }
 }
 
 void SpriteBatchNode::increaseAtlasCapacity()

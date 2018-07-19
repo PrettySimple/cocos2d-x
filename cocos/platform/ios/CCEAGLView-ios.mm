@@ -64,16 +64,34 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    import "platform/ios/CCEAGLView-ios.h"
+#include "platform/ios/CCEAGLView-ios.h"
 
-#    import <QuartzCore/QuartzCore.h>
+#include "base/CCDirector.h"
+#include "base/CCIMEDelegate.h"
+#include "base/CCIMEDispatcher.h"
+#include "math/CCGeometry.h"
+#include "math/Vec2.h"
+#include "platform/CCGL.h"
+#include "platform/CCGLView.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/ios/CCES2Renderer-ios.h"
+#include "platform/ios/OpenGL_Internal-ios.h"
 
-#    import "base/CCDirector.h"
-#    import "base/CCIMEDispatcher.h"
-#    import "base/CCTouch.h"
-#    import "platform/ios/CCES2Renderer-ios.h"
-#    import "platform/ios/CCGLViewImpl-ios.h"
-#    import "platform/ios/OpenGL_Internal-ios.h"
+#include <CoreGraphics/CGAffineTransform.h>
+#include <CoreGraphics/CGBase.h>
+#include <CoreGraphics/CGGeometry.h>
+#include <Foundation/NSException.h>
+#include <Foundation/NSObjCRuntime.h>
+#include <Foundation/NSRange.h>
+#include <Foundation/NSString.h>
+#include <UIKit/UIApplication.h>
+#include <UIKit/UITextInput.h>
+#include <UIKit/UITextInputTraits.h>
+#include <UIKit/UIWindow.h>
+
+#include <cstdint>
+#include <cstring>
+#include <type_traits>
 
 // CLASS IMPLEMENTATIONS:
 

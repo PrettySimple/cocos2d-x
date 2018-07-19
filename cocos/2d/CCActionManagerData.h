@@ -8,15 +8,17 @@
 #ifndef CC_2D_ACTIONMANAGERDATA_H
 #define CC_2D_ACTIONMANAGERDATA_H
 
-#include "2d/CCAction.h"
-#include "2d/CCNode.h"
 #include "platform/CCPlatformMacros.h"
 
+#include <cstddef>
 #include <set>
 #include <unordered_map>
 #include <vector>
 
 NS_CC_BEGIN
+
+class Action;
+class Node;
 
 class ActionManagerData
 {

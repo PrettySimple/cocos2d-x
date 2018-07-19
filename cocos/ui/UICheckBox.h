@@ -25,13 +25,15 @@ THE SOFTWARE.
 #ifndef CC_UI_CHECKBOX_H
 #define CC_UI_CHECKBOX_H
 
+#include "base/CCRef.h"
 #include "platform/CCPlatformMacros.h"
 #include "ui/GUIDefine.h"
 #include "ui/GUIExport.h"
 #include "ui/UIAbstractCheckButton.h"
+#include "ui/UIWidget.h"
 
-#include <cstdint>
 #include <functional>
+#include <iosfwd>
 
 /**
  * @addtogroup ui
@@ -39,7 +41,8 @@ THE SOFTWARE.
  */
 NS_CC_BEGIN
 
-class Ref;
+class Event;
+class Touch;
 
 namespace ui
 {

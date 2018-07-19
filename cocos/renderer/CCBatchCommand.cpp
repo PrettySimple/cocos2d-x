@@ -23,6 +23,8 @@
  ****************************************************************************/
 
 #include "renderer/CCBatchCommand.h"
+
+#include "base/ccMacros.h"
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCTexture2D.h"
 #include "renderer/CCTextureAtlas.h"

@@ -25,11 +25,9 @@ THE SOFTWARE.
 
 #include "platform/CCFileUtils.h"
 
+#include "CCPlatformConfig.h"
 #include "base/CCData.h"
-#include "base/CCDirector.h"
 #include "base/ccMacros.h"
-#include "platform/CCSAXParser.h"
-//#include "base/ccUtils.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"
@@ -42,11 +40,13 @@ THE SOFTWARE.
 #endif
 #pragma clang diagnostic pop
 
-#include <stack>
-#include <stdexcept>
+#include <algorithm>
+#include <cctype>
+#include <cstdio>
+#include <cstdlib>
 #include <sys/stat.h>
+#include <utility>
 
-#include "CCPlatformConfig.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 #    include <spawn.h>
 #endif
@@ -54,8 +54,9 @@ THE SOFTWARE.
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32) && (CC_TARGET_PLATFORM != CC_PLATFORM_WINRT)
 // default implements for unix like os
 #    include <dirent.h>
-#    include <errno.h>
+#    include <sys/errno.h>
 #    include <sys/types.h>
+#    include <sys/wait.h>
 #endif
 
 NS_CC_BEGIN

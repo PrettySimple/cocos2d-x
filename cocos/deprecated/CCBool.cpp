@@ -6,7 +6,10 @@
 //
 
 #include "CCBool.h"
+
 #include "base/CCDataVisitor.h"
+
+#include <new>
 
 NS_CC_BEGIN
 

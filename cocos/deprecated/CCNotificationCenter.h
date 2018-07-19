@@ -29,12 +29,14 @@ THE SOFTWARE.
 /// @cond DO_NOT_SHOW
 
 #include "base/CCRef.h"
-#include "base/ccTypes.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <string>
 
 NS_CC_BEGIN
 
 class __Array;
-class ScriptHandlerMgr;
 
 /**
  * @cond DO_NOT_SHOW

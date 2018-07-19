@@ -28,8 +28,23 @@
  */
 
 #include "CCControlSlider.h"
-#include "base/CCDirector.h"
+
+#include "2d/CCNode.h"
+#include "2d/CCSprite.h"
+#include "GUI/CCControlExtension/CCControl.h"
+#include "GUI/CCControlExtension/CCControlUtils.h"
 #include "base/CCTouch.h"
+#include "base/ccMacros.h"
+#include "base/ccTypes.h"
+#include "math/CCGeometry.h"
+
+#include <algorithm>
+#include <new>
+
+namespace cocos2d
+{
+    class Event;
+}
 
 NS_CC_EXT_BEGIN
 
@@ -311,6 +326,46 @@ float ControlSlider::valueForLocation(Vec2 location)
 {
     float percent = location.x / _backgroundSprite->getContentSize().width;
     return MAX(MIN(_minimumValue + percent * (_maximumValue - _minimumValue), _maximumAllowedValue), _minimumAllowedValue);
+}
+
+void ControlSlider::setThumbSprite(Sprite* thumbSprite) noexcept
+{
+    if (_thumbSprite != thumbSprite)
+    {
+        CC_SAFE_RETAIN(thumbSprite);
+        CC_SAFE_RELEASE(_thumbSprite);
+        _thumbSprite = thumbSprite;
+    }
+}
+
+void ControlSlider::setSelectedThumbSprite(Sprite* selectedThumbSprite) noexcept
+{
+    if (_selectedThumbSprite != selectedThumbSprite)
+    {
+        CC_SAFE_RETAIN(selectedThumbSprite);
+        CC_SAFE_RELEASE(_selectedThumbSprite);
+        _selectedThumbSprite = selectedThumbSprite;
+    }
+}
+
+void ControlSlider::setProgressSprite(Sprite* progressSprite) noexcept
+{
+    if (_progressSprite != progressSprite)
+    {
+        CC_SAFE_RETAIN(progressSprite);
+        CC_SAFE_RELEASE(_progressSprite);
+        _progressSprite = progressSprite;
+    }
+}
+
+void ControlSlider::setBackgroundSprite(Sprite* backgroundSprite) noexcept
+{
+    if (_backgroundSprite != backgroundSprite)
+    {
+        CC_SAFE_RETAIN(backgroundSprite);
+        CC_SAFE_RELEASE(_backgroundSprite);
+        _backgroundSprite = backgroundSprite;
+    }
 }
 
 NS_CC_EXT_END

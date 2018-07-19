@@ -28,9 +28,19 @@
 #ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_STEPPER_H
 #define CC_EXTENSIONS_GUI_CONTROLEXTENSION_STEPPER_H
 
-#include "2d/CCLabel.h"
 #include "CCControl.h"
+#include "extensions/ExtensionMacros.h"
 #include "extensions/ExtensionExport.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+
+namespace cocos2d
+{
+    class Event;
+    class Label;
+    class Sprite;
+    class Touch;
+}
 
 NS_CC_EXT_BEGIN
 
@@ -91,6 +101,15 @@ public:
     /** Stop the autorepeat. */
     void stopAutorepeat();
 
+    virtual Sprite* getMinusSprite() const noexcept { return _minusSprite; }
+    virtual void setMinusSprite(Sprite* minusSprite) noexcept;
+    virtual Sprite* getPlusSprite() const noexcept { return _plusSprite; }
+    virtual void setPlusSprite(Sprite* plusSprite) noexcept;
+    virtual Label* getMinusLabel() const noexcept { return _minusLabel; }
+    virtual void setMinusLabel(Label* minusLabel) noexcept;
+    virtual Label* getPlusLabel() const noexcept { return _plusLabel; }
+    virtual void setPlusLabel(Label* plusLabel) noexcept;
+
 protected:
     /** The numeric value of the stepper. */
     double _value;
@@ -111,10 +130,10 @@ protected:
     int _autorepeatCount;
 
     // Weak links to children
-    CC_SYNTHESIZE_RETAIN(Sprite*, _minusSprite, MinusSprite)
-    CC_SYNTHESIZE_RETAIN(Sprite*, _plusSprite, PlusSprite)
-    CC_SYNTHESIZE_RETAIN(Label*, _minusLabel, MinusLabel)
-    CC_SYNTHESIZE_RETAIN(Label*, _plusLabel, PlusLabel)
+    Sprite* _minusSprite;
+    Sprite* _plusSprite;
+    Label* _minusLabel;
+    Label* _plusLabel;
 };
 
 // end of GUI group

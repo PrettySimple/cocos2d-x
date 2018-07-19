@@ -24,6 +24,12 @@ THE SOFTWARE.
 
 #include "CCControlUtils.h"
 
+#include "2d/CCNode.h"
+#include "2d/CCSprite.h"
+
+#include <algorithm>
+#include <cmath>
+
 NS_CC_EXT_BEGIN
 
 Color3bObject::Color3bObject(Color3B const& s_value)
@@ -169,10 +175,10 @@ Rect ControlUtils::RectUnion(const Rect& src1, const Rect& src2)
 {
     Rect result;
 
-    float x1 = MIN(src1.getMinX(), src2.getMinX());
-    float y1 = MIN(src1.getMinY(), src2.getMinY());
-    float x2 = MAX(src1.getMaxX(), src2.getMaxX());
-    float y2 = MAX(src1.getMaxY(), src2.getMaxY());
+    float x1 = std::min(src1.getMinX(), src2.getMinX());
+    float y1 = std::min(src1.getMinY(), src2.getMinY());
+    float x2 = std::max(src1.getMaxX(), src2.getMaxX());
+    float y2 = std::max(src1.getMaxY(), src2.getMaxY());
 
     result.origin = Vec2(x1, y1);
     result.size = Size(x2 - x1, y2 - y1);

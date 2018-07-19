@@ -35,8 +35,13 @@
 #define CC_2D_ACTIONCATMULLROM_H
 
 #include "2d/CCActionInterval.h"
-#include "math/CCGeometry.h"
+#include "base/CCRef.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
+#include <cstddef>
+#include <chrono>
 #include <vector>
 
 NS_CC_BEGIN;

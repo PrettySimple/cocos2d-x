@@ -30,7 +30,11 @@ THE SOFTWARE.
 
 #include "base/CCRef.h"
 #include "base/CCValue.h"
-#include "math/CCGeometry.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <iosfwd>
 
 NS_CC_BEGIN
 

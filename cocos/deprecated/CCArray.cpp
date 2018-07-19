@@ -25,9 +25,17 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "deprecated/CCArray.h"
-#include "base/ccUTF8.h"
+
+#include "base/CCDataVisitor.h"
+#include "base/CCValue.h"
+#include "base/ccTypes.h"
 #include "deprecated/CCString.h"
 #include "platform/CCFileUtils.h"
+
+#include <cmath>
+#include <cstdarg>
+#include <new>
+#include <typeinfo>
 
 NS_CC_BEGIN
 

@@ -25,6 +25,16 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "base/CCProfiling.h"
 
+#include "base/CCConsole.h"
+#include "base/ccMacros.h"
+
+#include <cstdio>
+#include <algorithm>
+#include <new>
+#include <type_traits>
+#include <unordered_map>
+#include <utility>
+
 using namespace std;
 
 NS_CC_BEGIN

@@ -24,12 +24,18 @@
 
 #include "base/CCValue.h"
 
+#include "base/ccMacros.h"
 #include "base/ccUtils.h"
 
 #include <cmath>
+#include <cstdlib>
+#include <cstring>
 #include <iomanip>
 #include <limits>
+#include <new>
 #include <sstream>
+#include <type_traits>
+#include <utility>
 
 NS_CC_BEGIN
 
@@ -507,7 +513,7 @@ int Value::asInt() const
 
     if (_type == Type::UNSIGNED)
     {
-        CCASSERT(_field.unsignedVal < INT_MAX, "Can only convert values < INT_MAX");
+        CCASSERT(_field.unsignedVal < std::numeric_limits<unsigned int>::max(), "Can only convert values < INT_MAX");
         return (int)_field.unsignedVal;
     }
 

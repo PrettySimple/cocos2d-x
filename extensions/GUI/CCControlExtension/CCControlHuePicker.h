@@ -33,8 +33,18 @@
 #define CC_EXTENSIONS_GUI_CONTROLEXTENSION_HUEPICKER_H
 
 #include "CCControl.h"
-#include "CCInvocation.h"
+#include "extensions/ExtensionMacros.h"
 #include "extensions/ExtensionExport.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+
+namespace cocos2d
+{
+    class Event;
+    class Node;
+    class Sprite;
+    class Touch;
+}
 
 NS_CC_EXT_BEGIN
 
@@ -66,6 +76,11 @@ public:
     bool onTouchBegan(Touch* touch, Event* pEvent) override;
     void onTouchMoved(Touch* pTouch, Event* pEvent) override;
 
+    virtual Sprite* getBackground() const noexcept { return _background; }
+    virtual void setBackground(Sprite* background) noexcept;
+    virtual Sprite* getSlider() const noexcept { return _slider; }
+    virtual void setSlider(Sprite* slider) noexcept;
+
 protected:
     void updateSliderPosition(Vec2 location);
     bool checkSliderPosition(Vec2 location);
@@ -77,8 +92,8 @@ protected:
     virtual void setHuePercentage(float val);
 
     // not sure if these need to be there actually. I suppose someone might want to access the sprite?
-    CC_SYNTHESIZE_RETAIN(Sprite*, _background, Background)
-    CC_SYNTHESIZE_RETAIN(Sprite*, _slider, Slider)
+    Sprite* _background = nullptr;
+    Sprite* _slider = nullptr;
     CC_SYNTHESIZE_READONLY(Vec2, _startPos, StartPos)
 };
 

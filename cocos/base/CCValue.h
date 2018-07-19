@@ -25,10 +25,10 @@
 #ifndef CC_BASE_VALUE_H
 #define CC_BASE_VALUE_H
 
-#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
-#include <cstdint>
+#include <iosfwd>
 #include <string>
 #include <unordered_map>
 #include <vector>

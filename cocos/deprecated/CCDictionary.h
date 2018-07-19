@@ -28,16 +28,27 @@ THE SOFTWARE.
 /// @cond DO_NOT_SHOW
 
 #include "base/CCRef.h"
+#include "base/ccMacros.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
 extern "C"
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
 #include "base/uthash.h"
+#pragma clang diagnostic pop
 }
-#include "deprecated/CCArray.h"
-#include "deprecated/CCString.h"
+
+#include <cstdint>
+#include <iosfwd>
 
 NS_CC_BEGIN
 
+class DataVisitor;
+class __Array;
 class __Dictionary;
+class __String;
 
 /**
  * @addtogroup data_structures

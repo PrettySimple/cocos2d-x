@@ -25,6 +25,9 @@
 
 #include "CCTableViewCell.h"
 
+#include "ExtensionMacros.h"
+#include "base/ccTypes.h"
+
 NS_CC_EXT_BEGIN
 
 TableViewCell::~TableViewCell()

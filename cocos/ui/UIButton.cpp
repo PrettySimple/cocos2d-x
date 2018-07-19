@@ -26,18 +26,26 @@ THE SOFTWARE.
 
 #include "2d/CCActionInterval.h"
 #include "2d/CCLabel.h"
+#include "2d/CCProtectedNode.h"
 #include "2d/CCSprite.h"
+#include "base/ccTypes.h"
 #include "editor-support/cocostudio/CocosStudioExtension.h"
+#include "math/Vec2.h"
 #include "platform/CCFileUtils.h"
 #include "ui/UIHelper.h"
 #include "ui/UIScale9Sprite.h"
 
+#include <locale>
 #include <algorithm>
 #include <chrono>
+#include <new>
+#include <string>
 
 using namespace std::chrono_literals;
 
 NS_CC_BEGIN
+
+class Action;
 
 namespace ui
 {

@@ -28,6 +28,12 @@ THE SOFTWARE.
 #include "2d/CCActionCamera.h"
 
 #include "2d/CCNode.h"
+#include "base/ccMacros.h"
+#include "math/Mat4.h"
+#include "math/Vec2.h"
+
+#include <cmath>
+#include <new>
 
 NS_CC_BEGIN
 //

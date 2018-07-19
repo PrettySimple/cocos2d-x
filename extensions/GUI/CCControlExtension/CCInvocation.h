@@ -34,6 +34,7 @@
 #include "CCControl.h"
 #include "base/CCRef.h"
 #include "extensions/ExtensionExport.h"
+#include "platform/CCPlatformMacros.h"
 
 NS_CC_EXT_BEGIN
 

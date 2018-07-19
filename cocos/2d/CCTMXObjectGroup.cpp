@@ -27,7 +27,8 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "2d/CCTMXObjectGroup.h"
 
-#include "base/ccMacros.h"
+#include <string>
+#include <unordered_map>
 
 NS_CC_BEGIN
 

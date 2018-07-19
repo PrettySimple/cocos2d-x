@@ -27,6 +27,9 @@
 
 #include "base/CCRef.h"
 #include "platform/CCGL.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
+
 #include <vector>
 
 /**

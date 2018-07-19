@@ -7,17 +7,22 @@
 
 #include "CCActionManagerData.h"
 
+#include "2d/CCAction.h"
+#include "2d/CCNode.h"
 #include "base/ccMacros.h"
 #include "base/iterator_pair.h"
 
+#include <functional>
 #include <algorithm>
 #include <cstddef>
-#include <functional>
-#include <memory>
+#include <iterator>
 #include <type_traits>
 #include <unordered_set>
+#include <utility>
 
 NS_CC_BEGIN
+
+class Node;
 
 ActionManagerData::Element::Element(Node* t, Action* a, bool p, std::size_t i)
 : target(t)

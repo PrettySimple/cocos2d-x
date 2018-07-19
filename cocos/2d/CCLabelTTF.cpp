@@ -27,8 +27,14 @@ THE SOFTWARE.
 
 #include "2d/CCLabel.h"
 #include "base/ccUTF8.h"
+#include "math/Vec2.h"
+
+#include <cstring>
+#include <new>
 
 NS_CC_BEGIN
+
+class Renderer;
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
 #    pragma GCC diagnostic ignored "-Wdeprecated-declarations"

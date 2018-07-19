@@ -31,9 +31,16 @@ THE SOFTWARE.
 
 #include "2d/CCNode.h"
 #include "base/CCProtocols.h"
+#include "base/ccConfig.h"
+#include "base/ccTypes.h"
+#include "math/Mat4.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 #include "renderer/CCBatchCommand.h"
-#include "renderer/CCTextureAtlas.h"
 
+#include <cstdint>
+#include <cstddef>
+#include <iosfwd>
 #include <vector>
 
 NS_CC_BEGIN
@@ -43,7 +50,10 @@ NS_CC_BEGIN
  * @{
  */
 
+class Renderer;
 class Sprite;
+class Texture2D;
+class TextureAtlas;
 
 /** SpriteBatchNode is like a batch node: if it contains children, it will draw them in 1 single OpenGL call
  * (often known as "batch draw").
@@ -96,15 +106,7 @@ public:
      *
      * @param textureAtlas The TextureAtlas object.
      */
-    void setTextureAtlas(TextureAtlas* textureAtlas)
-    {
-        if (textureAtlas != _textureAtlas)
-        {
-            CC_SAFE_RETAIN(textureAtlas);
-            CC_SAFE_RELEASE(_textureAtlas);
-            _textureAtlas = textureAtlas;
-        }
-    }
+    void setTextureAtlas(TextureAtlas* textureAtlas);
 
     /** Returns an array with the descendants (children, gran children, etc.).
      * This is specific to BatchNode. In order to use the children, use getChildren() instead.

@@ -30,8 +30,9 @@
 #ifndef CC_RENDERER_PASS_H
 #define CC_RENDERER_PASS_H
 
-#include "platform/CCPlatformDefine.h"
+#include <cstdint>
 #include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 #include "renderer/CCRenderState.h"
 
 NS_CC_BEGIN

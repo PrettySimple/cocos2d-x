@@ -23,12 +23,18 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "ui/UIImageView.h"
+
 #include "2d/CCSprite.h"
 #include "editor-support/cocostudio/CocosStudioExtension.h"
 #include "ui/UIHelper.h"
 #include "ui/UIScale9Sprite.h"
 
+#include <new>
+
 NS_CC_BEGIN
+
+class GLProgram;
+class GLProgramState;
 
 namespace ui
 {

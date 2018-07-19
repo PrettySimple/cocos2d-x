@@ -22,10 +22,18 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "ui/UILayoutComponent.h"
+
 #include "2d/CCNode.h"
+#include "base/CCVector.h"
 #include "ui/GUIDefine.h"
 #include "ui/UIHelper.h"
 #include "ui/UIPageView.h"
+#include "ui/UIWidget.h"
+
+#include <iosfwd>
+#include <new>
+#include <typeinfo>
+#include <vector>
 
 NS_CC_BEGIN
 

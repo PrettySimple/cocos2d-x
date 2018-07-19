@@ -34,8 +34,14 @@ THE SOFTWARE.
 #include "2d/CCActionEase.h"
 
 #include "2d/CCTweenFunction.h"
+#include "base/CCConsole.h"
+#include "base/ccMacros.h"
+
+#include <new>
 
 NS_CC_BEGIN
+
+class Node;
 
 //
 // EaseAction

@@ -44,14 +44,13 @@ THE SOFTWARE.
 #define CC_BASE_ARRAY_H
 /// @cond DO_NOT_SHOW
 
-#include "base/CCRef.h"
-#include "base/ccMacros.h"
+#include "platform/CCPlatformMacros.h"
 
-#include <limits.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstddef>
 
 NS_CC_BEGIN
+
+class Ref;
 
 // Easy integration
 #define CCARRAYDATA_FOREACH(__array__, __object__) \

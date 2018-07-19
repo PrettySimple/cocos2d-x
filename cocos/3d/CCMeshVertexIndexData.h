@@ -25,18 +25,18 @@
 #ifndef CC_3D_MESHVERTEXINDEXDATA_H
 #define CC_3D_MESHVERTEXINDEXDATA_H
 
-#include <string>
-#include <vector>
-
 #include "3d/CCAABB.h"
 #include "3d/CCBundle3DData.h"
-
 #include "base/CCRef.h"
 #include "base/CCVector.h"
-#include "math/CCMath.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCVertexIndexBuffer.h"
-#include "renderer/CCVertexIndexData.h"
+#include "base/ccConfig.h"
+#include "platform/CCGL.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
+
+#include <cstddef>
+#include <iosfwd>
+#include <vector>
 
 NS_CC_BEGIN
 
@@ -45,7 +45,10 @@ NS_CC_BEGIN
  * @{
  */
 
+class IndexBuffer;
 class MeshVertexData;
+class VertexBuffer;
+class VertexData;
 
 /**
  * the MeshIndexData class.

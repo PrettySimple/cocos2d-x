@@ -26,6 +26,8 @@
 
 #include "CCInvocation.h"
 
+#include <new>
+
 NS_CC_EXT_BEGIN
 
 Invocation::~Invocation()

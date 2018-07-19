@@ -23,18 +23,26 @@
 ****************************************************************************/
 
 #include "ui/UIScale9Sprite.h"
+
+#include "2d/CCAutoPolygon.h"
 #include "2d/CCCamera.h"
-#include "2d/CCDrawNode.h"
 #include "2d/CCSprite.h"
+#include "2d/CCSpriteBatchNode.h"
+#include "2d/CCSpriteFrame.h"
 #include "2d/CCSpriteFrameCache.h"
+#include "base/CCConsole.h"
 #include "base/CCDirector.h"
-#include "base/CCNinePatchImageParser.h"
 #include "base/CCVector.h"
-#include "base/ccUTF8.h"
-#include "platform/CCImage.h"
+#include "base/ccMacros.h"
+#include "math/Vec3.h"
 #include "renderer/CCGLProgram.h"
+#include "renderer/CCGLProgramState.h"
 #include "renderer/CCRenderer.h"
-#include "renderer/ccShaders.h"
+#include "renderer/CCTexture2D.h"
+
+#include <cmath>
+#include <cstring>
+#include <new>
 
 NS_CC_BEGIN
 namespace ui

@@ -26,11 +26,17 @@ THE SOFTWARE.
 
 #include "2d/CCNode.h"
 #include "base/CCDirector.h"
+#include "base/CCVector.h"
 #include "base/ccUTF8.h"
 #include "math/CCGeometry.h"
+#include "math/Vec2.h"
+#include "platform/CCGLView.h"
 #include "ui/GUIDefine.h"
 #include "ui/UILayoutComponent.h"
 #include "ui/UIWidget.h"
+
+#include <cstddef>
+#include <string>
 
 NS_CC_BEGIN
 
@@ -118,7 +124,7 @@ namespace ui
         return nullptr;
     }
 
-    std::string Helper::getSubStringOfUTF8String(const std::string& str, std::string::size_type start, std::string::size_type length)
+    std::string Helper::getSubStringOfUTF8String(const std::string& str, std::size_t start, std::size_t length)
     {
         std::u32string utf32;
         if (!StringUtils::UTF8ToUTF32(str, utf32))

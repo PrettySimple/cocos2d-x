@@ -25,15 +25,14 @@ THE SOFTWARE.
 #ifndef CC_UI_LOADINGBAR_H
 #define CC_UI_LOADINGBAR_H
 
+
 #include "math/CCGeometry.h"
-#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
 #include "ui/GUIDefine.h"
 #include "ui/GUIExport.h"
 #include "ui/UIWidget.h"
 
-#include <cstdint>
-#include <string>
+#include <iosfwd>
 
 NS_CC_BEGIN
 /**

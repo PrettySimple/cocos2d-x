@@ -26,7 +26,13 @@
 #define CC_RENDERER_BATCHCOMMAND_H
 
 #include "base/ccTypes.h"
+#include "math/Mat4.h"
+#include "platform/CCGL.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
 #include "renderer/CCRenderCommand.h"
+
+#include <cstdint>
 
 NS_CC_BEGIN
 

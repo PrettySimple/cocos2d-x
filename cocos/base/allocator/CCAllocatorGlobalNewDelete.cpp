@@ -24,13 +24,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/allocator/CCAllocatorStrategyGlobalSmallBlock.h"
-#include <exception>
-#include <new>
+#include "base/allocator/CCAllocatorMacros.h"
 
-#include <assert.h>
-
-USING_NS_CC_ALLOCATOR;
+#include "base/ccConfig.h"
 
 #if CC_ENABLE_ALLOCATOR
 #    if CC_ENABLE_ALLOCATOR_GLOBAL_NEW_DELETE

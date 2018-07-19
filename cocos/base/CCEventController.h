@@ -27,10 +27,7 @@
 #define CC_BASE_EVENTCONTROLLER_H
 
 #include "base/CCEvent.h"
-#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
-
-#include <cstdint>
 
 /**
  * @addtogroup base

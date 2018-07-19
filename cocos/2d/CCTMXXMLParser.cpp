@@ -32,9 +32,16 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "base/ZipUtils.h"
 #include "base/base64.h"
+#include "base/ccMacros.h"
 #include "platform/CCFileUtils.h"
+
+#include <cstdlib>
+#include <cstring>
+#include <new>
 #include <sstream>
+#include <string>
 #include <unordered_map>
+#include <utility>
 
 using namespace std;
 

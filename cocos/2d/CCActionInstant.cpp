@@ -31,6 +31,8 @@
 #include "2d/CCSprite.h"
 #include "base/ccMacros.h"
 
+#include <new>
+
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
 #    pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #elif _MSC_VER >= 1400 // vs 2005 or higher

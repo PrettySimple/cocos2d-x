@@ -24,9 +24,9 @@
 
 #include "renderer/CCTrianglesCommand.h"
 
+#include "base/ccMacros.h"
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramState.h"
-#include "renderer/CCRenderer.h"
 #include "renderer/CCTexture2D.h"
 #include "renderer/ccGLStateCache.h"
 

@@ -25,9 +25,9 @@
 #include "math/CCMathBase.h"
 #include "platform/CCPlatformDefine.h"
 
-#include <algorithm>
 #include <cmath>
 #include <functional>
+#include <type_traits>
 
 /**
  * @addtogroup base
@@ -124,14 +124,30 @@ public:
      *
      * @return true if this vector contains all zeros, false otherwise.
      */
-    inline bool isZero() const;
+    inline bool isZero() const noexcept
+    {
+        static constexpr auto const zero = f32x2_t{0.f, 0.f};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+        auto const eq = (v == zero);
+#pragma clang diagnostic pop
+        return eq[0] == -1 && eq[1] == -1;
+    }
 
     /**
      * Indicates whether this vector contains all ones.
      *
      * @return true if this vector contains all ones, false otherwise.
      */
-    inline bool isOne() const;
+    inline bool isOne() const noexcept
+    {
+        static constexpr auto const one = f32x2_t{1.f, 1.f};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+        auto const eq = (v == one);
+#pragma clang diagnostic pop
+        return eq[0] == -1 && eq[1] == -1;
+    }
 
     /**
      * Returns the angle (in radians) between the specified vectors.
@@ -148,7 +164,10 @@ public:
      *
      * @param v The vector to add.
      */
-    inline void add(Vec2 const& v);
+    inline void add(Vec2 const& other) noexcept
+    {
+        v += other.v;
+    }
 
     /**
      * Adds the specified vectors and stores the result in dst.
@@ -202,7 +221,12 @@ public:
      *
      * @see distance
      */
-    inline float distanceSquared(Vec2 const& v) const;
+    inline float distanceSquared(Vec2 const& other) const noexcept
+    {
+        auto const diff = other.v - v;
+        auto const mul = diff * diff;
+        return mul[0] + mul[1];
+    }
 
     /**
      * Returns the dot product of this vector and the specified vector.
@@ -211,7 +235,11 @@ public:
      *
      * @return The dot product.
      */
-    inline float dot(Vec2 const& v) const;
+    inline float dot(Vec2 const& other) const noexcept
+    {
+        auto const mul = v * other.v;
+        return mul[0] + mul[1];
+    }
 
     /**
      * Returns the dot product between the specified vectors.
@@ -244,12 +272,19 @@ public:
      *
      * @see length
      */
-    inline float lengthSquared() const;
+    inline float lengthSquared() const noexcept
+    {
+        auto const mul = v * v;
+        return mul[0] + mul[1];
+    }
 
     /**
      * Negates this vector.
      */
-    inline void negate();
+    inline void negate() noexcept
+    {
+        v = -v;
+    }
 
     /**
      * Normalizes this vector.
@@ -274,14 +309,20 @@ public:
      *
      * @param scalar The scalar value.
      */
-    inline void scale(float scalar);
+    inline void scale(float scalar) noexcept
+    {
+        v *= scalar;
+    }
 
     /**
      * Scales each element of this vector by the matching component of scale.
      *
      * @param scale The vector to scale by.
      */
-    inline void scale(Vec2 const& scale);
+    inline void scale(Vec2 const& scale) noexcept
+    {
+        v *= scale.v;
+    }
 
     /**
      * Rotates this vector by angle (specified in radians) around the given point.
@@ -297,7 +338,10 @@ public:
      * @param xx The new x coordinate.
      * @param yy The new y coordinate.
      */
-    inline void set(float xx, float yy);
+    inline void set(float xx, float yy) noexcept
+    {
+        v = {xx, yy};
+    }
 
     /**
      * Sets the elements of this vector from the values in the specified array.
@@ -311,7 +355,10 @@ public:
      *
      * @param v The vector to copy.
      */
-    inline void set(Vec2 const& v);
+    inline void set(Vec2 const& other) noexcept
+    {
+        v = other.v;
+    }
 
     /**
      * Sets this vector to the directional vector between the specified points.
@@ -319,12 +366,18 @@ public:
      * @param p1 The first point.
      * @param p2 The second point.
      */
-    inline void set(Vec2 const& p1, Vec2 const& p2);
+    inline void set(Vec2 const& p1, Vec2 const& p2) noexcept
+    {
+        v = p2.v - p1.v;
+    }
 
     /**
      * Sets the elements of this vector to zero.
      */
-    inline void setZero();
+    inline void setZero() noexcept
+    {
+        v = {0.0f, 0.f};
+    }
 
     /**
      * Subtracts this vector and the specified vector as (this - v)
@@ -332,7 +385,32 @@ public:
      *
      * @param v The vector to subtract.
      */
-    inline void subtract(Vec2 const& v);
+    inline void subtract(Vec2 const& other) noexcept
+    {
+        /*
+         Options #1: Plain
+            x -= v.x;
+            y -= v.y;
+
+         Options #2: SSE
+             auto const l = _mm_movelh_ps(_mm_load_ss(&x), _mm_load_ss(&y));
+             auto const o = _mm_movelh_ps(_mm_load_ss(&other.x), _mm_load_ss(&other.y));
+             auto const diff = _mm_sub_ps(l, o);
+             x = _mm_cvtss_f32(_mm_shuffle_ps(diff, diff, _MM_SHUFFLE(0, 0, 0, 0)));
+             y = _mm_cvtss_f32(_mm_shuffle_ps(diff, diff, _MM_SHUFFLE(0, 0, 0, 2)));
+
+         Options #3: Vectors
+            v -= other.v;
+
+         Benchmark (in ns)
+                        |     avg | min |  max |          σ |
+             Vectors #3 |  90.440 |  40 |  606 |   4419.921 |
+             SSE     #2 | 459.133 | 103 | 2869 | 295263.971 |
+             Plain   #1 | 246.056 |  63 | 1824 |  79086.153 |
+         */
+
+        v -= other.v;
+    }
 
     /**
      * Subtracts the specified vectors and stores the result in dst.
@@ -355,7 +433,13 @@ public:
      * @param elapsedTime elapsed time between calls.
      * @param responseTime response time (in the same units as elapsedTime).
      */
-    inline void smooth(Vec2 const& target, float elapsedTime, float responseTime);
+    inline void smooth(Vec2 const& target, float elapsedTime, float responseTime) noexcept
+    {
+        if (elapsedTime > 0.f)
+        {
+            *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
+        }
+    }
 
     /**
      * Calculates the sum of this vector with the given vector.
@@ -365,7 +449,12 @@ public:
      * @param v The vector to add.
      * @return The vector sum.
      */
-    inline Vec2 const operator+(Vec2 const& v) const;
+    inline Vec2 const operator+(Vec2 const& v) const noexcept
+    {
+        Vec2 result(*this);
+        result.add(v);
+        return result;
+    }
 
     /**
      * Adds the given vector to this vector.
@@ -373,7 +462,11 @@ public:
      * @param v The vector to add.
      * @return This vector, after the addition occurs.
      */
-    inline Vec2& operator+=(Vec2 const& v);
+    inline Vec2& operator+=(Vec2 const& v) noexcept
+    {
+        add(v);
+        return *this;
+    }
 
     /**
      * Calculates the sum of this vector with the given vector.
@@ -383,7 +476,12 @@ public:
      * @param v The vector to add.
      * @return The vector sum.
      */
-    inline Vec2 const operator-(Vec2 const& v) const;
+    inline Vec2 const operator-(Vec2 const& v) const noexcept
+    {
+        Vec2 result(*this);
+        result.subtract(v);
+        return result;
+    }
 
     /**
      * Subtracts the given vector from this vector.
@@ -391,7 +489,11 @@ public:
      * @param v The vector to subtract.
      * @return This vector, after the subtraction occurs.
      */
-    inline Vec2& operator-=(Vec2 const& v);
+    inline Vec2& operator-=(Vec2 const& v) noexcept
+    {
+        subtract(v);
+        return *this;
+    }
 
     /**
      * Calculates the negation of this vector.
@@ -400,7 +502,12 @@ public:
      *
      * @return The negation of this vector.
      */
-    inline Vec2 const operator-() const;
+    inline Vec2 const operator-() const noexcept
+    {
+        Vec2 result(*this);
+        result.negate();
+        return result;
+    }
 
     /**
      * Calculates the scalar product of this vector with the given value.
@@ -410,7 +517,12 @@ public:
      * @param s The value to scale by.
      * @return The scaled vector.
      */
-    inline Vec2 const operator*(float s) const;
+    inline Vec2 const operator*(float s) const noexcept
+    {
+        Vec2 result(*this);
+        result.scale(s);
+        return result;
+    }
 
     /**
      * Scales this vector by the given value.
@@ -418,7 +530,11 @@ public:
      * @param s The value to scale by.
      * @return This vector, after the scale occurs.
      */
-    inline Vec2& operator*=(float s);
+    inline Vec2& operator*=(float s) noexcept
+    {
+        scale(s);
+        return *this;
+    }
 
     /**
      * Returns the components of this vector divided by the given constant
@@ -428,7 +544,10 @@ public:
      * @param s the constant to divide this vector with
      * @return a smaller vector
      */
-    inline Vec2 const operator/(float s) const;
+    inline Vec2 const operator/(float s) const
+    {
+        return Vec2(v / s);
+    }
 
     /**
      * Determines if this vector is less than the given vector.
@@ -437,7 +556,11 @@ public:
      *
      * @return True if this vector is less than the given vector, false otherwise.
      */
-    inline bool operator<(Vec2 const& v) const;
+    inline bool operator<(Vec2 const& other) const noexcept
+    {
+        auto const lt = v < other.v;
+        return lt[0] == -1 && lt[1] == -1;
+    }
 
     /**
      * Determines if this vector is greater than the given vector.
@@ -446,7 +569,11 @@ public:
      *
      * @return True if this vector is greater than the given vector, false otherwise.
      */
-    inline bool operator>(Vec2 const& v) const;
+    inline bool operator>(Vec2 const& other) const noexcept
+    {
+        auto const gt = v > other.v;
+        return gt[0] == -1 && gt[1] == -1;
+    }
 
     /**
      * Determines if this vector is equal to the given vector.
@@ -455,7 +582,14 @@ public:
      *
      * @return True if this vector is equal to the given vector, false otherwise.
      */
-    inline bool operator==(Vec2 const& v) const;
+    inline bool operator==(Vec2 const& other) const noexcept
+    {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+        auto const eq = (v == other.v);
+#pragma clang diagnostic pop
+        return eq[0] == -1 && eq[1] == -1;
+    }
 
     /**
      * Determines if this vector is not equal to the given vector.
@@ -464,7 +598,10 @@ public:
      *
      * @return True if this vector is not equal to the given vector, false otherwise.
      */
-    inline bool operator!=(Vec2 const& v) const;
+    inline bool operator!=(Vec2 const& v) const noexcept
+    {
+        return !operator==(v);
+    }
 
     // code added compatible for Point
 public:
@@ -472,7 +609,10 @@ public:
      * @js NA
      * @lua NA
      */
-    inline void setPoint(float xx, float yy);
+    inline void setPoint(float xx, float yy) noexcept
+    {
+        v = {xx, yy};
+    }
     /**
      * @js NA
      */
@@ -742,7 +882,12 @@ public:
  * @param v The vector to scale.
  * @return The scaled vector.
  */
-inline Vec2 const operator*(float x, Vec2 const& v);
+inline Vec2 const operator*(float x, Vec2 const& v) noexcept
+{
+    Vec2 result(v);
+    result.scale(x);
+    return result;
+}
 
 using Point = Vec2;
 
@@ -752,7 +897,5 @@ NS_CC_MATH_END
  end of base group
  @}
  */
-
-#include "math/Vec2.inl"
 
 #endif // CC_MATH_VEC2_H

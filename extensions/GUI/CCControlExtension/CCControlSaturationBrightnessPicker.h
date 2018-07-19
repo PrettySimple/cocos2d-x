@@ -33,8 +33,19 @@
 #define CC_EXTENSIONS_GUI_CONTROLEXTENSION_BRIGHTNESSPICKER_H
 
 #include "CCControl.h"
-#include "CCInvocation.h"
+#include "extensions/ExtensionMacros.h"
+#include "GUI/CCControlExtension/CCControlUtils.h"
 #include "extensions/ExtensionExport.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+
+namespace cocos2d
+{
+    class Event;
+    class Node;
+    class Sprite;
+    class Touch;
+}
 
 NS_CC_EXT_BEGIN
 

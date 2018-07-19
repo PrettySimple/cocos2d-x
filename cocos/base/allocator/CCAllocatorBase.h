@@ -27,10 +27,12 @@
 #define CC_BASE_ALLOCATOR_ALLOCATORBASE_H
 /// @cond DO_NOT_SHOW
 
-#include <string>
-
 #include "base/allocator/CCAllocatorMacros.h"
+#include "base/ccConfig.h"
 #include "platform/CCPlatformMacros.h"
+
+#include <cstddef>
+#include <cstdint>
 
 NS_CC_BEGIN
 NS_CC_ALLOCATOR_BEGIN

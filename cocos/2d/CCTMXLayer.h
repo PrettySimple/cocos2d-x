@@ -29,14 +29,21 @@ THE SOFTWARE.
 
 #include "2d/CCSpriteBatchNode.h"
 #include "2d/CCTMXXMLParser.h"
+#include "base/CCValue.h"
 #include "base/ccCArray.h"
+#include "math/CCGeometry.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <cstdint>
+#include <cstddef>
+#include <iosfwd>
 
 NS_CC_BEGIN
 
-class TMXMapInfo;
-class TMXLayerInfo;
-class TMXTilesetInfo;
-struct _ccCArray;
+class Node;
+class Sprite;
 
 /**
  * @addtogroup _2d

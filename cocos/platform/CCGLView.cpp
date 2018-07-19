@@ -30,9 +30,16 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
 #include "base/CCTouch.h"
-#include "renderer/CCRenderer.h"
-#include "vr/CCVRGenericRenderer.h"
+#include "base/ccMacros.h"
+#include "math/Mat4.h"
+#include "platform/CCGL.h"
+#include "renderer/CCFrameBuffer.h"
 #include "vr/CCVRProtocol.h"
+
+#include <cmath>
+#include <map>
+#include <new>
+#include <utility>
 
 NS_CC_BEGIN
 

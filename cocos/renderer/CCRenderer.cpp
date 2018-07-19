@@ -28,23 +28,24 @@
 #include "2d/CCScene.h"
 #include "base/CCConfiguration.h"
 #include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/CCEventType.h"
+#include "base/ccMacros.h"
+#include "math/Vec2.h"
+#include "math/Vec3.h"
+#include "math/Vec4.h"
 #include "platform/CCPlatformMacros.h"
 #include "renderer/CCBatchCommand.h"
 #include "renderer/CCCustomCommand.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCMaterial.h"
+#include "renderer/CCGLProgram.h"
+#include "renderer/CCGroupCommand.h"
 #include "renderer/CCMeshCommand.h"
-#include "renderer/CCPass.h"
 #include "renderer/CCPrimitiveCommand.h"
+#include "renderer/CCRenderCommand.h"
 #include "renderer/CCRenderState.h"
-#include "renderer/CCTechnique.h"
 #include "renderer/CCTrianglesCommand.h"
 #include "renderer/ccGLStateCache.h"
 
 #include <algorithm>
+#include <cmath>
 #include <limits>
 
 NS_CC_BEGIN

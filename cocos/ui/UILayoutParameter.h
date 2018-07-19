@@ -26,6 +26,8 @@
 #define CC_UI_LAYOUTPARAMETER_H
 
 #include "base/CCRef.h"
+#include "platform/CCPlatformConfig.h"
+#include "platform/CCPlatformMacros.h"
 #include "ui/GUIExport.h"
 
 #include <cstdint>
@@ -43,31 +45,38 @@ namespace ui
      *@brief Margin of widget's in point. Margin value should be positive.
      *@lua NA
      */
-    class CC_GUI_DLL Margin
+    class CC_GUI_DLL Margin final
     {
     public:
-        /**
-         * Left margin.
-         */
-        float left;
-        /**
-         * Top margin.
-         */
-        float top;
-        /**
-         * Right margin.
-         */
-        float right;
-        /**
-         * Bottom margin.
-         */
-        float bottom;
+#ifdef __ARM_NEON
+        using f32x4_t = __attribute__((neon_vector_type(4))) float;
+#else
+        using f32x4_t = __attribute__((ext_vector_type(4))) float;
+#endif
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu-anonymous-struct"
+#pragma clang diagnostic ignored "-Wnested-anon-types"
+        union
+        {
+            f32x4_t v = {0.f, 0.f, 0.f, 0.f};
+            struct
+            {
+                float left;
+                float top;
+                float right;
+                float bottom;
+            };
+        };
+#pragma clang diagnostic pop
 
     public:
-        /**
-         * Default constructor.
-         */
-        Margin();
+        Margin() = default;
+        Margin(Margin const&) = default;
+        Margin& operator=(Margin const&) = default;
+        Margin(Margin&&) noexcept = default;
+        Margin& operator=(Margin&&) noexcept = default;
+        ~Margin() = default;
 
         /**
          * Construct a Margin instance with left, top, right and bottom margins.
@@ -76,17 +85,10 @@ namespace ui
          *@param r Right margin in float.
          *@param b Bottom margin in float.
          */
-        Margin(float l, float t, float r, float b);
-
-        /**
-         * Copy constructor.
-         */
-        Margin(const Margin& other);
-
-        /**
-         * Copy assignment operator.
-         */
-        Margin& operator=(const Margin& other);
+        constexpr Margin(float l, float t, float r, float b) noexcept
+        : v{l, t, r, b}
+        {
+        }
 
         /**
          * Change margin with left, top, right and bottom margin.
@@ -95,14 +97,14 @@ namespace ui
          *@param r Right margin in float.
          *@param b Bottom margin in float.
          */
-        void setMargin(float l, float t, float r, float b);
+        void setMargin(float l, float t, float r, float b) noexcept;
 
         /**
          * Test equality of two margins.
          *@param target A Margin instance.
          *@return True if two margins are equal, false otherwise.
          */
-        bool equals(const Margin& target) const;
+        bool equals(const Margin& other) const noexcept;
 
         /**
          * A margin constant with all margins equal zero.
@@ -260,7 +262,7 @@ namespace ui
          *
          * @lua NA
          */
-        ~LinearLayoutParameter() override {}
+        ~LinearLayoutParameter() override = default;
 
         /**
          * Create a empty LinearLayoutParameter instance.
@@ -351,7 +353,7 @@ namespace ui
          *
          * @lua NA
          */
-        ~RelativeLayoutParameter() override {}
+        ~RelativeLayoutParameter() override = default;
 
         /**
          * Create a RelativeLayoutParameter instance.

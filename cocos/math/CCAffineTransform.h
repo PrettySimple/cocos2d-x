@@ -26,10 +26,11 @@ THE SOFTWARE.
 #ifndef CC_MATH_AFFINETRANSFORM_H
 #define CC_MATH_AFFINETRANSFORM_H
 
-#include "platform/CCPlatformMacros.h"
-
 #include "math/CCGeometry.h"
-#include "math/CCMath.h"
+#include "math/Mat4.h"
+#include "math/Vec2.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 /**
  * @addtogroup base

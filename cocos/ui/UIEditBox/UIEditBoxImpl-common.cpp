@@ -28,9 +28,12 @@
 #define kLabelZOrder 9999
 
 #include "2d/CCLabel.h"
-#include "base/CCDirector.h"
+#include "math/CCAffineTransform.h"
+#include "platform/CCPlatformConfig.h"
 #include "ui/UIEditBox/UIEditBox.h"
 #include "ui/UIHelper.h"
+
+#include <cstring>
 
 static const int CC_EDIT_BOX_PADDING = 5;
 
@@ -41,6 +44,8 @@ static const int CC_EDIT_BOX_PADDING = 5;
 #endif
 
 NS_CC_BEGIN
+
+class Renderer;
 
 namespace ui
 {

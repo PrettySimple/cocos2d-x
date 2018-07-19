@@ -46,17 +46,25 @@ THE SOFTWARE.
 
 #include "2d/CCParticleBatchNode.h"
 #include "base/CCDirector.h"
-#include "base/CCProfiling.h"
 #include "base/ZipUtils.h"
 #include "base/base64.h"
-#include "base/ccUTF8.h"
+#include "base/ccMacros.h"
+#include "math/CCMathBase.h"
 #include "platform/CCFileUtils.h"
-#include "renderer/CCTextureAtlas.h"
+#include "platform/CCGL.h"
+#include "platform/CCImage.h"
+#include "renderer/CCTexture2D.h"
 #include "renderer/CCTextureCache.h"
 
+#include <cstdint>
+#include <cstdlib>
+#include <cstring>
 #include <cmath>
 #include <limits>
+#include <new>
 #include <string>
+#include <type_traits>
+#include <unordered_map>
 
 using namespace std;
 using namespace std::chrono_literals;

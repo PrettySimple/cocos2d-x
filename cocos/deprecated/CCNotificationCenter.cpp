@@ -26,10 +26,10 @@ THE SOFTWARE.
 
 #include "deprecated/CCNotificationCenter.h"
 
-#include <string>
-
-#include "base/CCScriptSupport.h"
 #include "deprecated/CCArray.h"
+
+#include <new>
+#include <string>
 
 using namespace std;
 

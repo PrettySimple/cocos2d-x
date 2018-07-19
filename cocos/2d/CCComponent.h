@@ -26,8 +26,11 @@ THE SOFTWARE.
 #define CC_2D_COMPONENT_H
 
 /// @cond DO_NOT_SHOW
+
 #include "base/CCRef.h"
-#include "base/CCScriptSupport.h"
+#include "base/ccConfig.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 #include <string>
 

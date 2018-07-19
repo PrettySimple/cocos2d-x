@@ -22,26 +22,22 @@
 #ifndef CC_BASE_PROPERTIES_H
 #define CC_BASE_PROPERTIES_H
 
-#include <cstdint>
-#include <functional>
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <cstddef>
+#include <iosfwd>
 #include <string>
 #include <vector>
 
-#include "base/CCRef.h"
-#include "base/CCVector.h"
-#include "base/ccTypes.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCTexture2D.h"
-
 NS_CC_BEGIN
 
-class Properties;
+class Data;
+class Mat4;
+class Quaternion;
 class Vec2;
 class Vec3;
 class Vec4;
-class Mat4;
-class Quaternion;
-class Data;
 
 /**
  * Defines a properties file for loading text files.

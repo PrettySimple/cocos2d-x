@@ -1,6 +1,18 @@
 #include "2d/CCLight.h"
 
 #include "2d/CCScene.h"
+#include "base/ccMacros.h"
+#include "math/Mat4.h"
+
+#include <cmath>
+#include <algorithm>
+#include <new>
+#include <vector>
+
+namespace cocos2d
+{
+    struct Color3B;
+}
 
 NS_CC_BEGIN
 

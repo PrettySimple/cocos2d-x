@@ -26,13 +26,26 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "2d/CCAnimationCache.h"
 
+#include "2d/CCAnimation.h"
+#include "2d/CCSpriteFrame.h"
 #include "2d/CCSpriteFrameCache.h"
+#include "base/CCConsole.h"
+#include "base/CCVector.h"
+#include "base/ccMacros.h"
 #include "platform/CCFileUtils.h"
+
+#include <cstddef>
+#include <chrono>
+#include <new>
+#include <unordered_map>
+#include <utility>
 
 using namespace std::chrono_literals;
 using namespace std;
 
 NS_CC_BEGIN
+
+class SpriteFrame;
 
 AnimationCache* AnimationCache::s_sharedAnimationCache = nullptr;
 

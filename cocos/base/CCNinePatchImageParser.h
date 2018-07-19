@@ -26,12 +26,15 @@
 #define CC_BASE_NINEPATCHIMAGEPARSER_H
 
 #include "math/CCGeometry.h"
+#include "math/Vec2.h"
 #include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <iosfwd>
 
 NS_CC_BEGIN
 
 class Image;
-class SpriteFrame;
 
 /**
  * A class for paring Android .9 patch image.

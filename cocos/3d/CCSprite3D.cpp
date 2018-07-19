@@ -38,6 +38,7 @@
 #include "base/ccUTF8.h"
 #include "platform/CCFileUtils.h"
 #include "platform/CCPlatformMacros.h"
+#include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramCache.h"
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCMaterial.h"

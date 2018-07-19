@@ -28,8 +28,12 @@ THE SOFTWARE.
 
 #include "base/ccMacros.h"
 #include "math/Vec2.h"
-#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <cmath>
+#include <limits>
+#include <type_traits>
 
 /**
  * @addtogroup base

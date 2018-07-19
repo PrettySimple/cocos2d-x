@@ -28,10 +28,19 @@ THE SOFTWARE.
 
 #include "base/CCDirector.h"
 #include "base/TGAlib.h"
+#include "base/ccConfig.h"
+#include "base/ccMacros.h"
 #include "base/ccUTF8.h"
+#include "math/CCGeometry.h"
+#include "math/Vec3.h"
 #include "platform/CCFileUtils.h"
 #include "renderer/CCTexture2D.h"
 #include "renderer/CCTextureAtlas.h"
+
+#include <cstddef>
+#include <new>
+#include <string>
+#include <unordered_map>
 
 NS_CC_BEGIN
 

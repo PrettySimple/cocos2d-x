@@ -26,8 +26,14 @@
 #define CC_RENDERER_FRAMEBUFFER_H
 
 #include "base/CCRef.h"
+#include "base/ccConfig.h"
+#include "base/ccTypes.h"
 #include "platform/CCGL.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
 #include "renderer/CCTexture2D.h"
+
+#include <cstdint>
 #include <set>
 
 NS_CC_BEGIN

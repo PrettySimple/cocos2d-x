@@ -23,14 +23,24 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#import "platform/CCApplication.h"
-
+#include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    import <UIKit/UIKit.h>
+#include "platform/ios/CCApplication-ios.h"
 
-#    import "math/CCGeometry.h"
-#    import "platform/ios/CCDirectorCaller-ios.h"
+#include "platform/CCApplication.h"
+#include "platform/CCApplicationProtocol.h"
+#include "platform/CCCommon.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/ios/CCDirectorCaller-ios.h"
+
+#include <Foundation/NSLocale.h>
+#include <Foundation/NSString.h>
+#include <UIKit/UIApplication.h>
+#include <UIKit/UIDevice.h>
+
+#include <string>
 
 NS_CC_BEGIN
 

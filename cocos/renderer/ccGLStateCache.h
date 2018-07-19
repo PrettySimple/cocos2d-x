@@ -29,8 +29,8 @@ THE SOFTWARE.
 #define CC_RENDERER_GLSTATECACHE_H
 
 #include "platform/CCGL.h"
-#include "platform/CCPlatformDefine.h"
 #include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 #include <cstdint>
 
@@ -41,8 +41,8 @@ NS_CC_BEGIN
  * @{
  */
 
-class GLProgram;
 class Texture2D;
+
 namespace GL
 {
     /** Vertex attrib flags. */

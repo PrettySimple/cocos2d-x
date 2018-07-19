@@ -26,11 +26,8 @@ THE SOFTWARE.
 #define CC_RENDERER_GLPROGRAMSTATECACHE_H
 
 #include "base/CCMap.h"
-#include "base/CCVector.h"
-#include "base/ccTypes.h"
-#include "math/Vec2.h"
-#include "math/Vec3.h"
-#include "math/Vec4.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
 
 /**
  * @addtogroup renderer

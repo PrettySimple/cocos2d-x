@@ -28,17 +28,19 @@ THE SOFTWARE.
 #ifndef CC_RENDERER_TEXTUREATLAS_H
 #define CC_RENDERER_TEXTUREATLAS_H
 
-#include <string>
-
+#include "platform/CCGL.h"
 #include "base/CCRef.h"
-#include "base/ccConfig.h"
-#include "base/ccTypes.h"
+#include "platform/CCPlatformMacros.h"
+#include "platform/CCPlatformDefine.h"
+
+#include <cstddef>
+#include <iosfwd>
 
 NS_CC_BEGIN
 
 class Texture2D;
 class EventCustom;
-class EventListenerCustom;
+struct V3F_C4B_T2F_Quad;
 
 /**
  * @addtogroup _2d

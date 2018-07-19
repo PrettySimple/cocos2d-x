@@ -24,7 +24,9 @@
  ****************************************************************************/
 
 #include "deprecated/CCDictionary.h"
-#include "base/ccUTF8.h"
+
+#include "base/CCDataVisitor.h"
+#include "base/CCValue.h"
 #include "deprecated/CCArray.h"
 #include "deprecated/CCBool.h"
 #include "deprecated/CCDouble.h"
@@ -32,7 +34,13 @@
 #include "deprecated/CCInteger.h"
 #include "deprecated/CCString.h"
 #include "platform/CCFileUtils.h"
+
+#include <cstring>
+#include <new>
 #include <type_traits>
+#include <typeinfo>
+#include <unordered_map>
+#include <utility>
 
 using namespace std;
 

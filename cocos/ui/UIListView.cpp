@@ -23,9 +23,18 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "ui/UIListView.h"
-#include "ui/UIHelper.h"
+
+#include "2d/CCNode.h"
+#include "base/ccMacros.h"
+#include "math/CCGeometry.h"
+#include "ui/UILayout.h"
+#include "ui/UILayoutParameter.h"
+
+#include <new>
 
 NS_CC_BEGIN
+
+class Touch;
 
 static const float DEFAULT_TIME_IN_SEC_FOR_SCROLL_TO_ITEM = 1.0f;
 

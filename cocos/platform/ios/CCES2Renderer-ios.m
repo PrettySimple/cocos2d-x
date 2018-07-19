@@ -29,12 +29,16 @@
 // But in case they are included, it won't be compiled.
 
 #include "platform/CCPlatformConfig.h"
-
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    import "platform/CCPlatformMacros.h"
-#    import "platform/ios/CCES2Renderer-ios.h"
-#    import "platform/ios/OpenGL_Internal-ios.h"
+#include "platform/ios/CCES2Renderer-ios.h"
+
+#include "platform/CCGL.h"
+#include "platform/ios/OpenGL_Internal-ios.h"
+
+#include <CoreGraphics/CGGeometry.h>
+#include <Foundation/NSException.h>
+#include <Foundation/NSObjCRuntime.h>
 
 #    if !defined(COCOS2D_DEBUG) || COCOS2D_DEBUG == 0
 #        define NSLog(...) \

@@ -19,8 +19,11 @@
  */
 
 #include "math/Vec3.h"
-#include "base/ccMacros.h"
+
 #include "math/MathUtil.h"
+
+#include <cstddef>
+#include <limits>
 
 NS_CC_MATH_BEGIN
 

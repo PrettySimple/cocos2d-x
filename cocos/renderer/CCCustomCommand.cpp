@@ -24,6 +24,8 @@
 
 #include "renderer/CCCustomCommand.h"
 
+#include "math/Mat4.h"
+
 NS_CC_BEGIN
 
 CustomCommand::CustomCommand()

@@ -25,13 +25,15 @@
 #ifndef CC_2D_CAMERABACKGROUNDBRUSH_H
 #define CC_2D_CAMERABACKGROUNDBRUSH_H
 
-#include "3d/CCFrustum.h"
 #include "base/CCRef.h"
+#include "base/ccConfig.h"
 #include "base/ccTypes.h"
+#include "platform/CCGL.h"
 #include "platform/CCPlatformConfig.h"
-#include "renderer/CCCustomCommand.h"
-#include "renderer/CCFrameBuffer.h"
-#include "renderer/CCQuadCommand.h"
+#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformMacros.h"
+
+#include <iosfwd>
 
 NS_CC_BEGIN
 

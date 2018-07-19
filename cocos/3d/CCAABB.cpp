@@ -24,6 +24,9 @@
 
 #include "3d/CCAABB.h"
 
+#include <algorithm>
+#include <cassert>
+
 NS_CC_BEGIN
 
 AABB::AABB(const Vec3& min, const Vec3& max)

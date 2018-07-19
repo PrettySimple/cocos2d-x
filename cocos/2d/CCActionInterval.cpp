@@ -31,14 +31,17 @@
 #include "2d/CCNode.h"
 #include "2d/CCSprite.h"
 #include "2d/CCSpriteFrame.h"
+#include "base/CCConsole.h"
 #include "base/CCDirector.h"
 #include "base/CCEventCustom.h"
 #include "base/CCEventDispatcher.h"
-#include "base/CCScriptSupport.h"
+#include "base/CCValue.h"
 
+#include <cstddef>
+#include <algorithm>
 #include <cmath>
-#include <cstdarg>
-#include <limits>
+#include <new>
+#include <type_traits>
 
 using namespace std::chrono_literals;
 
