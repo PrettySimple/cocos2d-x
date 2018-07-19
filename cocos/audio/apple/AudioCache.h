@@ -115,14 +115,16 @@ namespace experimental
         uint32_t _totalFrames;
         uint32_t _framesRead;
 
-        /*Cache related stuff;
+        /*
+         * Cache related stuff;
          * Cache pcm data when sizeInBytes less than PCMDATA_CACHEMAXSIZE
          */
         ALuint _alBufferId;
         char* _pcmData;
 
-        /*Queue buffer related stuff
-         *  Streaming in openal when sizeInBytes greater then PCMDATA_CACHEMAXSIZE
+        /*
+         * Queue buffer related stuff
+         * Streaming in openal when sizeInBytes greater then PCMDATA_CACHEMAXSIZE
          */
         char* _queBuffers[QUEUEBUFFER_NUM];
         ALsizei _queBufferSize[QUEUEBUFFER_NUM];

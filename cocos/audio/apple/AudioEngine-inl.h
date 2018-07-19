@@ -72,7 +72,7 @@ namespace experimental
 
     private:
         void _play2d(AudioPlayer* player, AudioCache& audioCache, bool loop, float volume);
-        void _play2d(AudioCache& cache, int audioID, bool isCacheDestroyed);
+        void _play2d(AudioCache& cache, int audioID, std::shared_ptr<std::atomic_bool> isCacheDestroyed);
         ALuint findValidSource();
 
         static ALvoid myAlSourceNotificationCallback(ALuint sid, ALuint notificationID, ALvoid* userData);
