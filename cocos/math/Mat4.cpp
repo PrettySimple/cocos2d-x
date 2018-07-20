@@ -72,7 +72,7 @@ void Mat4::createLookAt(float eyePositionX, float eyePositionY, float eyePositio
 void Mat4::createPerspective(float fieldOfView, float aspectRatio, float zNearPlane, float zFarPlane, Mat4& dst)
 {
     static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
-    GP_ASSERT(std::abs(zFarPlane - zNearPlane) >= epsi);
+    GP_ASSERT(std::abs(zFarPlane - zNearPlane) > epsi);
 
     float const f_n = 1.0f / (zFarPlane - zNearPlane);
     float const theta = MATH_DEG_TO_RAD(fieldOfView) * 0.5f;
@@ -235,12 +235,12 @@ void Mat4::createRotation(const Vec3& axis, float angle, Mat4& dst)
 
     // Make sure the input axis is normalized.
     float n = square_axis[0] + square_axis[1] + square_axis[2];
-    if (std::abs(n - 1.0f) >= epsi)
+    if (std::abs(n - 1.0f) > epsi)
     {
         // Not normalized.
         n = std::sqrt(n);
         // Prevent divide too close to zero.
-        if (std::abs(n) >= epsi)
+        if (std::abs(n) > epsi)
         {
             n = 1.0f / n;
             a *= n;
@@ -375,7 +375,7 @@ bool Mat4::decompose(Vec3* scale, Quaternion* rotation, Vec3* translation) const
     if (det < 0.f)
         scaleZ = -scaleZ;
 
-    if (scale)
+    if (scale != nullptr)
     {
         scale->x = scaleX;
         scale->y = scaleY;
@@ -409,7 +409,7 @@ bool Mat4::decompose(Vec3* scale, Quaternion* rotation, Vec3* translation) const
     // Now calculate the rotation from the resulting matrix (axes).
     float const trace = xaxis.x + yaxis.y + zaxis.z + 1.0f;
 
-    if (std::abs(trace) >= epsi)
+    if (std::abs(trace) > epsi)
     {
         float const s = 0.5f / std::sqrt(trace);
         rotation->v = (f32x4_t{yaxis.z, zaxis.x, xaxis.y, 0.f} - f32x4_t{zaxis.y, xaxis.z, yaxis.x, 0.f}) * s;

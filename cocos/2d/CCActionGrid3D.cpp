@@ -109,7 +109,7 @@ bool FlipX3D::initWithDuration(std::chrono::milliseconds duration)
 bool FlipX3D::initWithSize(const Size& gridSize, std::chrono::milliseconds duration)
 {
     static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
-    if (std::abs(gridSize.width - 1.f) >= epsi || std::abs(gridSize.height - 1.f) >= epsi)
+    if (std::abs(gridSize.width - 1.f) > epsi || std::abs(gridSize.height - 1.f) > epsi)
     {
         // Grid size must be (1,1)
         CCASSERT(0, "Grid size must be (1,1)");

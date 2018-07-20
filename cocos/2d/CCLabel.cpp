@@ -691,7 +691,7 @@ void Label::setAlignment(TextHAlignment hAlignment, TextVAlignment vAlignment)
 void Label::setMaxLineWidth(float maxLineWidth)
 {
     static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
-    if (std::abs(_labelWidth) < epsi && std::abs(_maxLineWidth - maxLineWidth) >= epsi)
+    if (std::abs(_labelWidth) < epsi && std::abs(_maxLineWidth - maxLineWidth) > epsi)
     {
         _maxLineWidth = maxLineWidth;
         _contentDirty = true;
@@ -705,7 +705,7 @@ void Label::setDimensions(float width, float height)
         height = 0;
     }
     static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
-    if (std::abs(height - _labelHeight) >= epsi || (width - _labelWidth) >= epsi)
+    if (std::abs(height - _labelHeight) > epsi || (width - _labelWidth) > epsi)
     {
         _labelWidth = width;
         _labelHeight = height;

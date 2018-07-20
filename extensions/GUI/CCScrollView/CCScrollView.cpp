@@ -398,7 +398,7 @@ void ScrollView::relocateContainer(bool animated)
     }
 
     static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
-    if (std::abs(newY - oldPoint.y) >= epsi || std::abs(newX - oldPoint.x) >= epsi)
+    if (std::abs(newY - oldPoint.y) > epsi || std::abs(newX - oldPoint.x) > epsi)
     {
         this->setContentOffset(Vec2(newX, newY), animated);
     }
