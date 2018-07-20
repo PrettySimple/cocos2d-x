@@ -241,6 +241,12 @@ if(EMSCRIPTEN)
 	endif()
 
 	add_custom_command(
+		OUTPUT platform/emscripten/CCApplication-emscripten.cpp.js
+		COMMAND ../tools/emscripten/build-cpp-js.js --source platform/emscripten/CCApplication-emscripten.src.js ${BUILD_CPP_JS_OPTS}
+		WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+	)
+
+	add_custom_command(
 		OUTPUT platform/emscripten/CCUserDefault-emscripten.cpp.js
 		COMMAND ../tools/emscripten/build-cpp-js.js --source platform/emscripten/CCUserDefault-emscripten.src.js ${BUILD_CPP_JS_OPTS}
 		WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
@@ -254,6 +260,7 @@ if(EMSCRIPTEN)
 
 	add_custom_target(
 		build_cpp_js_cocos
+		DEPENDS platform/emscripten/CCApplication-emscripten.cpp.js
 		DEPENDS platform/emscripten/CCUserDefault-emscripten.cpp.js
 		DEPENDS audio/emscripten/AudioEngine-emscripten.cpp.js
 	)

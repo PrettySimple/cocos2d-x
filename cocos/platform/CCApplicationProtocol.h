@@ -101,6 +101,11 @@ public:
      */
     virtual void applicationWillEnterForeground() = 0;
 
+    // Could not make these pure virtuals as they're not implemented in the Florida project
+    virtual void applicationDidBecomeInactive() {}
+    virtual void applicationDidBecomeActive() {}
+
+
     /**
      * @brief    Callback by Director for limit FPS.
      * @param interval The time, expressed in seconds, between current frame and next.

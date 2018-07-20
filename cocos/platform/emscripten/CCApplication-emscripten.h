@@ -46,12 +46,14 @@ public:
     CC_DEPRECATED_ATTRIBUTE static Application* sharedApplication();
 
     /* override functions */
+    [[noreturn]]
     virtual LanguageType getCurrentLanguage() override;
 
     /**
     @brief Get current language iso 639-1 code
     @return Current language iso 639-1 code
     */
+    [[noreturn]]
     virtual const char* getCurrentLanguageCode() override;
 
     /**
@@ -87,6 +89,16 @@ protected:
     long _animationInterval; // micro second
     std::string _resourceRootPath;
     static Application* sm_pSharedApplication;
+
+
+/* EMBIND - must be public */
+public:
+
+    static void js2cpp_onBackground();
+    static void js2cpp_onInactive();
+    static void js2cpp_onForeground();
+    static void js2cpp_onActive();
+
 };
 
 NS_CC_END
