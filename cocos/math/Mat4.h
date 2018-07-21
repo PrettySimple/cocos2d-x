@@ -24,6 +24,7 @@
 
 #include "math/CCMathBase.h"
 #include "math/Vec3.h"
+#include "math/Vec4.h"
 #include "platform/CCPlatformDefine.h"
 
 #include <cstdint>
@@ -876,7 +877,12 @@ public:
      * @param mat The matrix to add.
      * @return The matrix sum.
      */
-    inline const Mat4 operator+(const Mat4& mat) const;
+    inline const Mat4 operator+(const Mat4& mat) const
+    {
+        Mat4 result(*this);
+        result.add(mat);
+        return result;
+    }
 
     /**
      * Adds the given matrix to this matrix.
@@ -884,7 +890,11 @@ public:
      * @param mat The matrix to add.
      * @return This matrix, after the addition occurs.
      */
-    inline Mat4& operator+=(const Mat4& mat);
+    inline Mat4& operator+=(const Mat4& mat)
+    {
+        add(mat);
+        return *this;
+    }
 
     /**
      * Calculates the difference of this matrix with the given matrix.
@@ -894,7 +904,12 @@ public:
      * @param mat The matrix to subtract.
      * @return The matrix difference.
      */
-    inline const Mat4 operator-(const Mat4& mat) const;
+    inline const Mat4 operator-(const Mat4& mat) const
+    {
+        Mat4 result(*this);
+        result.subtract(mat);
+        return result;
+    }
 
     /**
      * Subtracts the given matrix from this matrix.
@@ -902,7 +917,11 @@ public:
      * @param mat The matrix to subtract.
      * @return This matrix, after the subtraction occurs.
      */
-    inline Mat4& operator-=(const Mat4& mat);
+    inline Mat4& operator-=(const Mat4& mat)
+    {
+        subtract(mat);
+        return *this;
+    }
 
     /**
      * Calculates the negation of this matrix.
@@ -911,7 +930,12 @@ public:
      *
      * @return The negation of this matrix.
      */
-    inline const Mat4 operator-() const;
+    inline const Mat4 operator-() const
+    {
+        Mat4 mat(*this);
+        mat.negate();
+        return mat;
+    }
 
     /**
      * Calculates the matrix product of this matrix with the given matrix.
@@ -921,7 +945,12 @@ public:
      * @param mat The matrix to multiply by.
      * @return The matrix product.
      */
-    inline const Mat4 operator*(const Mat4& mat) const;
+    inline const Mat4 operator*(const Mat4& mat) const
+    {
+        Mat4 result(*this);
+        result.multiply(mat);
+        return result;
+    }
 
     /**
      * Right-multiplies this matrix by the given matrix.
@@ -929,7 +958,11 @@ public:
      * @param mat The matrix to multiply by.
      * @return This matrix, after the multiplication occurs.
      */
-    inline Mat4& operator*=(const Mat4& mat);
+    inline Mat4& operator*=(const Mat4& mat)
+    {
+        multiply(mat);
+        return *this;
+    }
 
     /** equals to a matrix full of zeros */
     static const Mat4 ZERO;
@@ -950,7 +983,11 @@ private:
  * @param m The matrix to transform by.
  * @return This vector, after the transformation occurs.
  */
-inline Vec3& operator*=(Vec3& v, const Mat4& m);
+inline Vec3& operator*=(Vec3& v, const Mat4& m)
+{
+    m.transformVector(v);
+    return v;
+}
 
 /**
  * Transforms the given vector by the given matrix.
@@ -961,7 +998,12 @@ inline Vec3& operator*=(Vec3& v, const Mat4& m);
  * @param v The vector to transform.
  * @return The resulting transformed vector.
  */
-inline const Vec3 operator*(const Mat4& m, const Vec3& v);
+inline const Vec3 operator*(const Mat4& m, const Vec3& v)
+{
+    Vec3 x;
+    m.transformVector(v, x);
+    return x;
+}
 
 /**
  * Transforms the given vector by the given matrix.
@@ -972,7 +1014,11 @@ inline const Vec3 operator*(const Mat4& m, const Vec3& v);
  * @param m The matrix to transform by.
  * @return This vector, after the transformation occurs.
  */
-inline Vec4& operator*=(Vec4& v, const Mat4& m);
+inline Vec4& operator*=(Vec4& v, const Mat4& m)
+{
+    m.transformVector(v);
+    return v;
+}
 
 /**
  * Transforms the given vector by the given matrix.
@@ -983,13 +1029,17 @@ inline Vec4& operator*=(Vec4& v, const Mat4& m);
  * @param v The vector to transform.
  * @return The resulting transformed vector.
  */
-inline const Vec4 operator*(const Mat4& m, const Vec4& v);
+inline const Vec4 operator*(const Mat4& m, const Vec4& v)
+{
+    Vec4 x;
+    m.transformVector(v, x);
+    return x;
+}
 
 NS_CC_MATH_END
 /**
  end of base group
  @}
  */
-#include "math/Mat4.inl"
 
 #endif // CC_MATH_MAT4_H
