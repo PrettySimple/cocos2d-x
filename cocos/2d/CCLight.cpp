@@ -1,8 +1,8 @@
-#include "2d/CCLight.h"
+#include <cocos/2d/CCLight.h>
 
-#include "2d/CCScene.h"
-#include "base/ccMacros.h"
-#include "math/Mat4.h"
+#include <cocos/2d/CCScene.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/Mat4.h>
 
 #include <cmath>
 #include <algorithm>

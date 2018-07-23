@@ -24,7 +24,7 @@
 
 #include "GameMapReader.h"
 
-#include "2d/CCTMXXMLParser.h"
+#include <cocos/2d/CCTMXXMLParser.h>
 
 #include "cocostudio/CSParseBinary_generated.h"
 #include "cocostudio/WidgetReader/NodeReader/NodeReader.h"

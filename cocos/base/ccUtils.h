@@ -25,8 +25,9 @@ THE SOFTWARE.
 #ifndef CC_BASE_UTILS_H
 #define CC_BASE_UTILS_H
 
-#include "2d/CCNode.h"
-#include "base/ccMacros.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccMacros.h>
+
 #include <string>
 #include <vector>
 

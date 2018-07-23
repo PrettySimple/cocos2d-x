@@ -23,19 +23,20 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#include "2d/CCActionManager.h"
-#include "base/CCData.h"
-#include "base/CCDirector.h"
-#include "base/CCEventAcceleration.h"
-#include "base/CCEventDispatcher.h"
-#include "base/ccTypes.h"
-#include "math/CCGeometry.h"
-#include "platform/CCDevice.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/apple/CCDevice-apple.h"
+#include <cocos/platform/CCDevice.h>
+
+#include <cocos/2d/CCActionManager.h>
+#include <cocos/base/CCData.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventAcceleration.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/apple/CCDevice-apple.h>
 
 #include <AudioToolbox/AudioServices.h>
 #include <CoreFoundation/CFAttributedString.h>

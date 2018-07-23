@@ -1,8 +1,8 @@
 #ifndef CC_EDITORSUPPORT_COCOSBUILDER_PARTICLESYSTEMQUADLOADER_H
 #define CC_EDITORSUPPORT_COCOSBUILDER_PARTICLESYSTEMQUADLOADER_H
 
-#include "2d/CCParticleSystemQuad.h"
-#include "base/CCRef.h"
+#include <cocos/2d/CCParticleSystemQuad.h>
+#include <cocos/base/CCRef.h>
 
 #include "CCNodeLoader.h"
 

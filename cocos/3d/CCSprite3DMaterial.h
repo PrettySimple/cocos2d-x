@@ -25,9 +25,10 @@
 #ifndef CC_3D_SPRITE3DMATERIAL_H
 #define CC_3D_SPRITE3DMATERIAL_H
 
-#include "3d/CCBundle3DData.h"
-#include "base/ccTypes.h"
-#include "renderer/CCMaterial.h"
+#include <cocos/3d/CCBundle3DData.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/renderer/CCMaterial.h>
+
 #include <string>
 #include <unordered_map>
 

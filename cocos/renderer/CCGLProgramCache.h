@@ -28,7 +28,7 @@ THE SOFTWARE.
 #ifndef CC_RENDERER_GLPROGRAMCACHE_H
 #define CC_RENDERER_GLPROGRAMCACHE_H
 
-#include "base/CCRef.h"
+#include <cocos/base/CCRef.h>
 
 #include <string>
 #include <unordered_map>

@@ -25,9 +25,9 @@
 #ifndef CC_2D_NODEGRID_H
 #define CC_2D_NODEGRID_H
 
-#include "2d/CCNode.h"
-#include "renderer/CCCustomCommand.h"
-#include "renderer/CCGroupCommand.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/renderer/CCCustomCommand.h>
+#include <cocos/renderer/CCGroupCommand.h>
 
 NS_CC_BEGIN
 

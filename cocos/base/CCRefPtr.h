@@ -27,8 +27,9 @@
 #define CC_BASE_REFPTR_H
 /// @cond DO_NOT_SHOW
 
-#include "base/CCRef.h"
-#include "base/ccMacros.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccMacros.h>
+
 #include <functional>
 #include <type_traits>
 

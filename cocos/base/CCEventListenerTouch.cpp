@@ -22,9 +22,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCEventListenerTouch.h"
+#include <cocos/base/CCEventListenerTouch.h>
 
-#include "base/ccMacros.h"
+#include <cocos/base/ccMacros.h>
 
 #include <new>
 

@@ -23,17 +23,17 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "deprecated/CCDictionary.h"
+#include <cocos/deprecated/CCDictionary.h>
 
-#include "base/CCDataVisitor.h"
-#include "base/CCValue.h"
-#include "deprecated/CCArray.h"
-#include "deprecated/CCBool.h"
-#include "deprecated/CCDouble.h"
-#include "deprecated/CCFloat.h"
-#include "deprecated/CCInteger.h"
-#include "deprecated/CCString.h"
-#include "platform/CCFileUtils.h"
+#include <cocos/base/CCDataVisitor.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/deprecated/CCArray.h>
+#include <cocos/deprecated/CCBool.h>
+#include <cocos/deprecated/CCDouble.h>
+#include <cocos/deprecated/CCFloat.h>
+#include <cocos/deprecated/CCInteger.h>
+#include <cocos/deprecated/CCString.h>
+#include <cocos/platform/CCFileUtils.h>
 
 #include <cstring>
 #include <new>

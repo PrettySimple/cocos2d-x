@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCConsole.h"
+#include <cocos/base/CCConsole.h>
 
 #include <algorithm>
 #include <cctype>
@@ -59,16 +59,16 @@
 #    include <unistd.h>
 #endif
 
-#include "2d/CCScene.h"
-#include "base/CCConfiguration.h"
-#include "base/CCDirector.h"
-#include "base/CCScheduler.h"
+#include <cocos/2d/CCScene.h>
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCScheduler.h>
 #include "base/allocator/CCAllocatorDiagnostics.h"
-#include "base/base64.h"
-#include "base/ccUtils.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCPlatformConfig.h"
-#include "renderer/CCTextureCache.h"
+#include <cocos/base/base64.h>
+#include <cocos/base/ccUtils.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/renderer/CCTextureCache.h>
 NS_CC_BEGIN
 
 extern const char* cocos2dVersion(void);

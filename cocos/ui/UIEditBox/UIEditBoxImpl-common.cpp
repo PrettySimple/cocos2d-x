@@ -27,11 +27,11 @@
 
 #define kLabelZOrder 9999
 
-#include "2d/CCLabel.h"
-#include "math/CCAffineTransform.h"
-#include "platform/CCPlatformConfig.h"
-#include "ui/UIEditBox/UIEditBox.h"
-#include "ui/UIHelper.h"
+#include <cocos/2d/CCLabel.h>
+#include <cocos/math/CCAffineTransform.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/ui/UIEditBox/UIEditBox.h>
+#include <cocos/ui/UIHelper.h>
 
 #include <cstring>
 

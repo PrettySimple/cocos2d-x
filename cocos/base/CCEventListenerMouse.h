@@ -26,8 +26,8 @@
 #ifndef CC_BASE_EVENTLISTENERMOUSE_H
 #define CC_BASE_EVENTLISTENERMOUSE_H
 
-#include "base/CCEventListener.h"
-#include "base/CCEventMouse.h"
+#include <cocos/base/CCEventListener.h>
+#include <cocos/base/CCEventMouse.h>
 
 /**
  * @addtogroup base

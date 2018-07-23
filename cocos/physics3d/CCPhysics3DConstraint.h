@@ -25,9 +25,9 @@
 #ifndef __PHYSICS_3D_CONSTRAINT_H__
 #define __PHYSICS_3D_CONSTRAINT_H__
 
-#include "base/CCRef.h"
-#include "base/ccConfig.h"
-#include "math/CCMath.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/CCMath.h>
 
 #if CC_USE_3D_PHYSICS
 

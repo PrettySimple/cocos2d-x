@@ -26,8 +26,8 @@
 #ifndef CC_BASE_EVENTLISTENERKEYBOARD_H
 #define CC_BASE_EVENTLISTENERKEYBOARD_H
 
-#include "base/CCEventKeyboard.h"
-#include "base/CCEventListener.h"
+#include <cocos/base/CCEventKeyboard.h>
+#include <cocos/base/CCEventListener.h>
 
 /**
  * @addtogroup base

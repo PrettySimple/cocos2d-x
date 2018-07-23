@@ -31,11 +31,11 @@ THE SOFTWARE.
  * by http://github.com/NikhilK
  */
 
-#include "2d/CCActionEase.h"
+#include <cocos/2d/CCActionEase.h>
 
-#include "2d/CCTweenFunction.h"
-#include "base/CCConsole.h"
-#include "base/ccMacros.h"
+#include <cocos/2d/CCTweenFunction.h>
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/ccMacros.h>
 
 #include <new>
 

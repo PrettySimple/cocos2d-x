@@ -26,9 +26,9 @@ THE SOFTWARE.
 #include "audio/include/SimpleAudioEngine.h"
 
 #include "audio/ios/SimpleAudioEngine_objc.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <iosfwd>
 #include <new>

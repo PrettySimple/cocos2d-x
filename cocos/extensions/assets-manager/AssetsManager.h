@@ -29,9 +29,9 @@
 
 #include <mutex>
 
-#include "2d/CCNode.h"
-#include "extensions/ExtensionExport.h"
-#include "extensions/ExtensionMacros.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/extensions/ExtensionExport.h>
+#include <cocos/extensions/ExtensionMacros.h>
 
 namespace cocos2d
 {

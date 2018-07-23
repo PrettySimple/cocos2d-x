@@ -23,15 +23,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCTextFieldTTF.h"
+#include <cocos/2d/CCTextFieldTTF.h>
 
-#include "2d/CCNode.h"
-#include "2d/CCSprite.h"
-#include "base/CCDirector.h"
-#include "base/ccUTF8.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCGLView.h"
-#include "platform/CCPlatformConfig.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCGLView.h>
+#include <cocos/platform/CCPlatformConfig.h>
 
 #include <new>
 #include <string>

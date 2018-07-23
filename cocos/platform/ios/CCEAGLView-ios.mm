@@ -61,21 +61,21 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 */
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#include "platform/ios/CCEAGLView-ios.h"
+#include <cocos/platform/ios/CCEAGLView-ios.h>
 
-#include "base/CCDirector.h"
-#include "base/CCIMEDelegate.h"
-#include "base/CCIMEDispatcher.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
-#include "platform/CCGL.h"
-#include "platform/CCGLView.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/ios/CCES2Renderer-ios.h"
-#include "platform/ios/OpenGL_Internal-ios.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCIMEDelegate.h>
+#include <cocos/base/CCIMEDispatcher.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCGLView.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/ios/CCES2Renderer-ios.h>
+#include <cocos/platform/ios/OpenGL_Internal-ios.h>
 
 #include <CoreGraphics/CGAffineTransform.h>
 #include <CoreGraphics/CGBase.h>

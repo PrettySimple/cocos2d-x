@@ -27,9 +27,9 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
 
-#    include "2d/CCLabel.h"
-#    include "base/ccUTF8.h"
-#    include "ui/UIEditBox/UIEditBox.h"
+#    include <cocos/2d/CCLabel.h>
+#    include <cocos/base/ccUTF8.h>
+#    include <cocos/ui/UIEditBox/UIEditBox.h>
 #    include <gtk/gtk.h>
 
 // destroy dialog when lost focus

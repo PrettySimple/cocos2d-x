@@ -25,14 +25,14 @@ THE SOFTWARE.
 #ifndef CC_UI_PAGEVIEWINDICATOR_H
 #define CC_UI_PAGEVIEWINDICATOR_H
 
-#include "2d/CCProtectedNode.h"
-#include "2d/CCSprite.h"
-#include "base/CCVector.h"
-#include "base/ccTypes.h"
-#include "platform/CCPlatformMacros.h"
-#include "ui/UIPageView.h"
-#include "ui/UIScrollView.h"
-#include "ui/UIWidget.h"
+#include <cocos/2d/CCProtectedNode.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/UIPageView.h>
+#include <cocos/ui/UIScrollView.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <cstddef>
 #include <iosfwd>

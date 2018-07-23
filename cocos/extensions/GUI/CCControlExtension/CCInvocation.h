@@ -30,11 +30,11 @@
 #ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_INVOCATION_H
 #define CC_EXTENSIONS_GUI_CONTROLEXTENSION_INVOCATION_H
 
-#include "CCControl.h"
-#include "base/CCRef.h"
-#include "extensions/ExtensionExport.h"
-#include "extensions/ExtensionMacros.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/extensions/ExtensionExport.h>
+#include <cocos/extensions/ExtensionMacros.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_EXT_BEGIN
 

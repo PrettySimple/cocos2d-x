@@ -25,7 +25,7 @@ THE SOFTWARE.
 #ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONOBJECT_H
 #define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONOBJECT_H
 
-#include "2d/CCActionInstant.h"
+#include <cocos/2d/CCActionInstant.h>
 #include "cocostudio/CCActionNode.h"
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/DictionaryHelper.h"

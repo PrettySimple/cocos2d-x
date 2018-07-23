@@ -27,14 +27,14 @@ THE SOFTWARE.
 #ifndef CC_2D_TMXLAYER_H
 #define CC_2D_TMXLAYER_H
 
-#include "2d/CCSpriteBatchNode.h"
-#include "2d/CCTMXXMLParser.h"
-#include "base/CCValue.h"
+#include <cocos/2d/CCSpriteBatchNode.h>
+#include <cocos/2d/CCTMXXMLParser.h>
+#include <cocos/base/CCValue.h>
 #include "base/ccCArray.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <cstdint>
 #include <cstddef>

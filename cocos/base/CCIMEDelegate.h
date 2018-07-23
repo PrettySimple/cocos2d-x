@@ -26,8 +26,8 @@ THE SOFTWARE.
 #ifndef CC_BASE_IMEDELEGATE_H
 #define CC_BASE_IMEDELEGATE_H
 
-#include "base/CCEventKeyboard.h"
-#include "math/CCGeometry.h"
+#include <cocos/base/CCEventKeyboard.h>
+#include <cocos/math/CCGeometry.h>
 
 #include <cstdint>
 #include <string>

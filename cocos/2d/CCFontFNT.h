@@ -27,9 +27,9 @@
 #define CC_2D_FONTFNT_H
 
 #include "2d/CCFont.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <iosfwd>
 #include <string>

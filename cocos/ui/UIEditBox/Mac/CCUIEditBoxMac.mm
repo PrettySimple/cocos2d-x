@@ -24,7 +24,7 @@
  ****************************************************************************/
 
 #import "ui/UIEditBox/Mac/CCUIEditBoxMac.h"
-#include "base/CCDirector.h"
+#include <cocos/base/CCDirector.h>
 #include "ui/UIEditBox/Mac/CCUIMultilineTextField.h"
 #include "ui/UIEditBox/Mac/CCUIPasswordTextField.h"
 #include "ui/UIEditBox/Mac/CCUISingleLineTextField.h"

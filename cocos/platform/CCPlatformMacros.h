@@ -29,8 +29,8 @@ Copyright (c) 2013-2015 Chukong Technologies
 /**
  * Define some platform specific macros.
  */
-#include "base/ccConfig.h"
-#include "platform/CCPlatformConfig.h"
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformConfig.h>
 
 /** @def CREATE_FUNC(__TYPE__)
  * Define a create function for a specific type, such as Layer.

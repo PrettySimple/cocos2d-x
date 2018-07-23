@@ -27,17 +27,17 @@
  - Qt3D: http://qt-project.org/
  ****************************************************************************/
 
-#include "renderer/CCPass.h"
+#include <cocos/renderer/CCPass.h>
 
-#include "2d/CCNode.h"
-#include "base/ccMacros.h"
-#include "math/Mat4.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCMaterial.h"
-#include "renderer/CCTechnique.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCVertexAttribBinding.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCMaterial.h>
+#include <cocos/renderer/CCTechnique.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCVertexAttribBinding.h>
 
 #include <new>
 
@@ -131,7 +131,7 @@ uint32_t Pass::getHash() const
 {
     if (_hashDirty || _state->isDirty())
     {
-        uint32_t glProgram = (uint32_t)_glProgramState->getGLProgram()->getProgram();
+        uint32_t glProgram = static_cast<std::uint32_t>(_glProgramState->getGLProgram()->getProgram());
         uint32_t textureid = _texture ? _texture->getName() : -1;
         uint32_t stateblockid = _state->getHash();
 

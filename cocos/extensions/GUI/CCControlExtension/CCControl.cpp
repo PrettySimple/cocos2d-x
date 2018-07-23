@@ -27,14 +27,14 @@
  * converted to c++ / cocos2d-x by Angus C
  */
 
-#include "extensions/GUI/CCControlExtension/CCControl.h"
+#include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
 
-#include "2d/CCMenu.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerTouch.h"
-#include "base/CCTouch.h"
-#include "extensions/GUI/CCControlExtension/CCInvocation.h"
+#include <cocos/2d/CCMenu.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventListenerTouch.h>
+#include <cocos/base/CCTouch.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCInvocation.h>
 
 NS_CC_EXT_BEGIN
 

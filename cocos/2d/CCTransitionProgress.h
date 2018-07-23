@@ -28,7 +28,7 @@ THE SOFTWARE.
 #ifndef CC_2D_TRANSITIONPROGRESS_H
 #define CC_2D_TRANSITIONPROGRESS_H
 
-#include "2d/CCTransition.h"
+#include <cocos/2d/CCTransition.h>
 
 #include <chrono>
 

@@ -29,8 +29,8 @@
 
 #include "network/SocketIO.h"
 
-#include "base/CCDirector.h"
-#include "base/CCScheduler.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCScheduler.h>
 #include "network/HttpClient.h"
 #include "network/WebSocket.h"
 

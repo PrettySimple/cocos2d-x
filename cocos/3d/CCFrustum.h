@@ -25,10 +25,10 @@
 #ifndef CC_3D_FRUSTUM_H
 #define CC_3D_FRUSTUM_H
 
-#include "3d/CCOBB.h"
-#include "3d/CCPlane.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/3d/CCOBB.h>
+#include <cocos/3d/CCPlane.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 NS_CC_BEGIN
 

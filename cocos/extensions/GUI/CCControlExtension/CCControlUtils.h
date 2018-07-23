@@ -34,12 +34,12 @@
 #ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_UTILS_H
 #define CC_EXTENSIONS_GUI_CONTROLEXTENSION_UTILS_H
 
-#include "base/CCRef.h"
-#include "base/ccTypes.h"
-#include "extensions/ExtensionExport.h"
-#include "extensions/ExtensionMacros.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/extensions/ExtensionExport.h>
+#include <cocos/extensions/ExtensionMacros.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
 
 namespace cocos2d
 {

@@ -25,13 +25,13 @@
 
 #include "extensions/GUI/CCScrollView/CCScrollView.h"
 
-#include "2d/CCActionInstant.h"
-#include "2d/CCActionInterval.h"
-#include "2d/CCActionTween.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "platform/CCDevice.h"
-#include "renderer/CCRenderer.h"
+#include <cocos/2d/CCActionInstant.h>
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/2d/CCActionTween.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/platform/CCDevice.h>
+#include <cocos/renderer/CCRenderer.h>
 
 #include <algorithm>
 

@@ -23,14 +23,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCFontFreeType.h"
+#include <cocos/2d/CCFontFreeType.h>
 
 #include FT_BBOX_H
-#include "2d/CCFontAtlas.h"
-#include "base/CCDirector.h"
-#include "base/ccUTF8.h"
+#include <cocos/2d/CCFontAtlas.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccUTF8.h>
 #include "edtaa3func.h"
-#include "platform/CCFileUtils.h"
+#include <cocos/platform/CCFileUtils.h>
 
 NS_CC_BEGIN
 

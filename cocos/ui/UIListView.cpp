@@ -22,13 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIListView.h"
+#include <cocos/ui/UIListView.h>
 
-#include "2d/CCNode.h"
-#include "base/ccMacros.h"
-#include "math/CCGeometry.h"
-#include "ui/UILayout.h"
-#include "ui/UILayoutParameter.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/ui/UILayout.h>
+#include <cocos/ui/UILayoutParameter.h>
 
 #include <new>
 

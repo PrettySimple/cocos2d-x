@@ -24,13 +24,13 @@
 
  ****************************************************************************/
 
-#include "renderer/CCRenderState.h"
+#include <cocos/renderer/CCRenderState.h>
 
-#include "base/ccMacros.h"
-#include "base/ccTypes.h"
-#include "platform/CCPlatformConfig.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #include <algorithm>
 #include <new>

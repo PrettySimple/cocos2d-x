@@ -44,7 +44,7 @@ THE SOFTWARE.
 #define CC_BASE_ARRAY_H
 /// @cond DO_NOT_SHOW
 
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstddef>
 

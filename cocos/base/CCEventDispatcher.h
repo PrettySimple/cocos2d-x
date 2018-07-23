@@ -25,10 +25,10 @@
 #ifndef CC_BASE_EVENTDISPATCHER_H
 #define CC_BASE_EVENTDISPATCHER_H
 
-#include "base/CCEventListener.h"
-#include "base/CCRef.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCEventListener.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstddef>
 #include <cstdint>

@@ -25,12 +25,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCActionCamera.h"
+#include <cocos/2d/CCActionCamera.h>
 
-#include "2d/CCNode.h"
-#include "base/ccMacros.h"
-#include "math/Mat4.h"
-#include "math/Vec2.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
 
 #include <cmath>
 #include <new>

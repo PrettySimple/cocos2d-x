@@ -30,15 +30,15 @@ THE SOFTWARE.
 
 /// @cond DO_NOT_SHOW
 
-#include "2d/CCTMXObjectGroup.h"
-#include "base/CCRef.h"
-#include "base/CCValue.h"
-#include "base/CCVector.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCSAXParser.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/2d/CCTMXObjectGroup.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCSAXParser.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <cstdint>
 #include <cstddef>

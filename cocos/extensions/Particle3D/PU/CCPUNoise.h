@@ -26,8 +26,8 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_NOISE_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_NOISE_H
 
-#include "base/CCRef.h"
-#include "math/CCMath.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/math/CCMath.h>
 
 NS_CC_BEGIN
 

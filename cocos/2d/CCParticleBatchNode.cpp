@@ -28,19 +28,19 @@
  *
  */
 
-#include "2d/CCParticleBatchNode.h"
+#include <cocos/2d/CCParticleBatchNode.h>
 
-#include "2d/CCParticleSystem.h"
-#include "base/CCDirector.h"
-#include "base/CCVector.h"
-#include "base/ccMacros.h"
-#include "math/Vec3.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCTextureAtlas.h"
-#include "renderer/CCTextureCache.h"
+#include <cocos/2d/CCParticleSystem.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureAtlas.h>
+#include <cocos/renderer/CCTextureCache.h>
 
 #include <new>
 
@@ -275,8 +275,8 @@ void ParticleBatchNode::reorderChild(Node* aChild, int zOrder)
             updateAllAtlasIndexes();
 
             // Find new AtlasIndex
-            int newAtlasIndex = 0;
-            for (int i = 0; i < _children.size(); i++)
+            std::size_t newAtlasIndex = 0;
+            for (std::size_t i = 0; i < _children.size(); i++)
             {
                 ParticleSystem* node = static_cast<ParticleSystem*>(_children.at(i));
                 if (node == child)
@@ -302,7 +302,7 @@ void ParticleBatchNode::getCurrentIndex(int* oldIndex, int* newIndex, Node* chil
     bool foundNewIdx = false;
 
     int minusOne = 0;
-    auto count = _children.size();
+    auto count = static_cast<int>(_children.size());
 
     for (int i = 0; i < count; i++)
     {
@@ -348,7 +348,7 @@ void ParticleBatchNode::getCurrentIndex(int* oldIndex, int* newIndex, Node* chil
 
 int ParticleBatchNode::searchNewPositionInChildrenForZ(int z)
 {
-    auto count = _children.size();
+    auto count = static_cast<int>(_children.size());
 
     for (int i = 0; i < count; i++)
     {
@@ -416,7 +416,7 @@ void ParticleBatchNode::draw(Renderer* renderer, const Mat4& transform, uint32_t
 
 void ParticleBatchNode::increaseAtlasCapacityTo(std::size_t quantity)
 {
-    CCLOG("cocos2d: ParticleBatchNode: resizing TextureAtlas capacity from [%lu] to [%lu].", (long)_textureAtlas->getCapacity(), (long)quantity);
+    CCLOG("cocos2d: ParticleBatchNode: resizing TextureAtlas capacity from [%lu] to [%lu].", static_cast<long>(_textureAtlas->getCapacity()), static_cast<long>(quantity));
 
     if (!_textureAtlas->resizeCapacity(quantity))
     {
@@ -450,7 +450,7 @@ void ParticleBatchNode::insertChild(ParticleSystem* system, int index)
     }
 
     // make room for quads, not necessary for last child
-    if (system->getAtlasIndex() + system->getTotalParticles() != _textureAtlas->getTotalQuads())
+    if ((system->getAtlasIndex() + system->getTotalParticles()) != static_cast<int>(_textureAtlas->getTotalQuads()))
     {
         _textureAtlas->moveQuadsFromIndex(index, index + system->getTotalParticles());
     }

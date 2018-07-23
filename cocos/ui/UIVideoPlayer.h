@@ -25,13 +25,13 @@
 #ifndef CC_UI_VIDEOPLAYER_H
 #define CC_UI_VIDEOPLAYER_H
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN) && \
     !defined(CC_PLATFORM_OS_TVOS)
 
-#    include "ui/GUIDefine.h"
-#    include "ui/UIWidget.h"
+#    include <cocos/ui/GUIDefine.h>
+#    include <cocos/ui/UIWidget.h>
 
 /**
  * @addtogroup ui

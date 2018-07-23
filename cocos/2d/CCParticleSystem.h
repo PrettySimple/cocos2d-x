@@ -27,16 +27,16 @@ THE SOFTWARE.
 #ifndef CC_2D_PARTICLESYSTEM_H
 #define CC_2D_PARTICLESYSTEM_H
 
-#include "2d/CCNode.h"
-#include "base/CCProtocols.h"
-#include "base/CCValue.h"
-#include "base/ccConfig.h"
-#include "base/ccTypes.h"
-#include "math/Mat4.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformConfig.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCProtocols.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <chrono>
 #include <iosfwd>

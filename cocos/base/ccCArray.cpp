@@ -26,9 +26,9 @@ THE SOFTWARE.
 
 #include "base/ccCArray.h"
 
-#include "base/CCRef.h"
-#include "base/ccMacros.h"
-#include "base/ccTypes.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
 
 #include <cstring>
 

@@ -23,7 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
 #    include "AudioCache.h"
@@ -31,8 +31,8 @@
 #    import <Foundation/Foundation.h>
 
 #    include "AudioDecoder.h"
-#    include "base/CCDirector.h"
-#    include "base/CCScheduler.h"
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/base/CCScheduler.h>
 
 #    import <OpenAL/alc.h>
 #    include <thread>

@@ -26,24 +26,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCParticleSystemQuad.h"
+#include <cocos/2d/CCParticleSystemQuad.h>
 
-#include "2d/CCParticleBatchNode.h"
-#include "2d/CCSpriteFrame.h"
-#include "base/CCConfiguration.h"
-#include "base/CCDirector.h"
-#include "base/ccMacros.h"
-#include "base/ccTypes.h"
-#include "base/ccUTF8.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
-#include "math/Vec3.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCTextureAtlas.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/2d/CCParticleBatchNode.h>
+#include <cocos/2d/CCSpriteFrame.h>
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureAtlas.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #include <cmath>
 #include <cstddef>
@@ -163,13 +163,13 @@ void ParticleSystemQuad::initTexCoordsWithRect(const Rect& pointRect)
     Rect rect = Rect(pointRect.origin.x * CC_CONTENT_SCALE_FACTOR(), pointRect.origin.y * CC_CONTENT_SCALE_FACTOR(),
                      pointRect.size.width * CC_CONTENT_SCALE_FACTOR(), pointRect.size.height * CC_CONTENT_SCALE_FACTOR());
 
-    GLfloat wide = (GLfloat)pointRect.size.width;
-    GLfloat high = (GLfloat)pointRect.size.height;
+    GLfloat wide = static_cast<GLfloat>(pointRect.size.width);
+    GLfloat high = static_cast<GLfloat>(pointRect.size.height);
 
     if (_texture)
     {
-        wide = (GLfloat)_texture->getPixelsWide();
-        high = (GLfloat)_texture->getPixelsHigh();
+        wide = static_cast<GLfloat>(_texture->getPixelsWide());
+        high = static_cast<GLfloat>(_texture->getPixelsHigh());
     }
 
 #if CC_FIX_ARTIFACTS_BY_STRECHING_TEXEL
@@ -262,13 +262,13 @@ void ParticleSystemQuad::initIndices()
     {
         const unsigned int i6 = i * 6;
         const unsigned int i4 = i * 4;
-        _indices[i6 + 0] = (GLushort)i4 + 0;
-        _indices[i6 + 1] = (GLushort)i4 + 1;
-        _indices[i6 + 2] = (GLushort)i4 + 2;
+        _indices[i6 + 0] = static_cast<GLushort>(i4) + 0;
+        _indices[i6 + 1] = static_cast<GLushort>(i4) + 1;
+        _indices[i6 + 2] = static_cast<GLushort>(i4) + 2;
 
-        _indices[i6 + 5] = (GLushort)i4 + 1;
-        _indices[i6 + 4] = (GLushort)i4 + 2;
-        _indices[i6 + 3] = (GLushort)i4 + 3;
+        _indices[i6 + 5] = static_cast<GLushort>(i4) + 1;
+        _indices[i6 + 4] = static_cast<GLushort>(i4) + 2;
+        _indices[i6 + 3] = static_cast<GLushort>(i4) + 3;
     }
 }
 
@@ -284,9 +284,9 @@ inline void updatePosWithParticle(V3F_C4B_T2F_Quad* quad, const Vec2& newPositio
     GLfloat x = newPosition.x;
     GLfloat y = newPosition.y;
 
-    GLfloat r = (GLfloat)-CC_DEGREES_TO_RADIANS(rotation);
-    GLfloat cr = cosf(r);
-    GLfloat sr = sinf(r);
+    GLfloat r = static_cast<GLfloat>(-CC_DEGREES_TO_RADIANS(rotation));
+    GLfloat cr = std::cos(r);
+    GLfloat sr = std::sin(r);
     GLfloat ax = x1 * cr - y1 * sr + x;
     GLfloat ay = x1 * sr + y1 * cr + y;
     GLfloat bx = x2 * cr - y1 * sr + x;
@@ -510,8 +510,8 @@ void ParticleSystemQuad::setTotalParticles(int tp)
             CCLOG("Particle system: not enough memory");
             return;
         }
-        V3F_C4B_T2F_Quad* quadsNew = (V3F_C4B_T2F_Quad*)realloc(_quads, quadsSize);
-        GLushort* indicesNew = (GLushort*)realloc(_indices, indicesSize);
+        V3F_C4B_T2F_Quad* quadsNew = static_cast<V3F_C4B_T2F_Quad*>(realloc(_quads, quadsSize));
+        GLushort* indicesNew = static_cast<GLushort*>(realloc(_indices, indicesSize));
 
         if (quadsNew && indicesNew)
         {
@@ -593,13 +593,13 @@ void ParticleSystemQuad::setupVBOandVAO()
 
     GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POS_COLOR_TEX, _VAOname);
     // vertices
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*)offsetof(V3F_C4B_T2F, vertices));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, kQuadSize, reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, vertices)));
 
     // colors
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (GLvoid*)offsetof(V3F_C4B_T2F, colors));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, colors)));
 
     // tex coords
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*)offsetof(V3F_C4B_T2F, texCoords));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, kQuadSize, reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, texCoords)));
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffersVBO[1]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(_indices[0]) * _totalParticles * 6, _indices, GL_STATIC_DRAW);
@@ -652,8 +652,8 @@ bool ParticleSystemQuad::allocMemory()
     CC_SAFE_FREE(_quads);
     CC_SAFE_FREE(_indices);
 
-    _quads = (V3F_C4B_T2F_Quad*)malloc(_totalParticles * sizeof(V3F_C4B_T2F_Quad));
-    _indices = (GLushort*)malloc(_totalParticles * 6 * sizeof(GLushort));
+    _quads = static_cast<V3F_C4B_T2F_Quad*>(malloc(_totalParticles * sizeof(V3F_C4B_T2F_Quad)));
+    _indices = static_cast<GLushort*>(malloc(_totalParticles * 6 * sizeof(GLushort)));
 
     if (!_quads || !_indices)
     {

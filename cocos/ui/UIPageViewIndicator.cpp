@@ -22,12 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIPageViewIndicator.h"
+#include <cocos/ui/UIPageViewIndicator.h>
 
-#include "2d/CCSprite.h"
-#include "base/ccUtils.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/ccUtils.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
 
 #include <new>
 

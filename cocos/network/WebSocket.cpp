@@ -28,10 +28,10 @@
  ****************************************************************************/
 
 #include "network/WebSocket.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/CCScheduler.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventListenerCustom.h>
+#include <cocos/base/CCScheduler.h>
 
 #include <errno.h>
 #include <list>

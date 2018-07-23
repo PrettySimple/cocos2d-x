@@ -26,11 +26,11 @@ THE SOFTWARE.
 #ifndef CC_2D_RENDERTEXTURE_H
 #define CC_2D_RENDERTEXTURE_H
 
-#include "2d/CCNode.h"
-#include "2d/CCSprite.h"
-#include "platform/CCImage.h"
-#include "renderer/CCCustomCommand.h"
-#include "renderer/CCGroupCommand.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/platform/CCImage.h>
+#include <cocos/renderer/CCCustomCommand.h>
+#include <cocos/renderer/CCGroupCommand.h>
 
 NS_CC_BEGIN
 

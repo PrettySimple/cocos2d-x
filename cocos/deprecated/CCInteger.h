@@ -26,9 +26,9 @@
 #define CC_DEPRECATED_INTEGER_H
 /// @cond DO_NOT_SHOW
 
-#include "base/CCRef.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 

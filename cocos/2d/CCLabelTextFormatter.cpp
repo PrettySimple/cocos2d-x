@@ -23,11 +23,11 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "2d/CCFontAtlas.h"
-#include "2d/CCFontFNT.h"
-#include "2d/CCLabel.h"
-#include "base/CCDirector.h"
-#include "base/ccUTF8.h"
+#include <cocos/2d/CCFontAtlas.h>
+#include <cocos/2d/CCFontFNT.h>
+#include <cocos/2d/CCLabel.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccUTF8.h>
 #include <vector>
 
 NS_CC_BEGIN

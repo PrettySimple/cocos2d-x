@@ -25,10 +25,10 @@
 #ifndef CC_EXTENSIONS_DEPRECATED_H
 #define CC_EXTENSIONS_DEPRECATED_H
 
-#include "ExtensionMacros.h"
-#include "platform/CCPlatformMacros.h"
-#include "ui/UIEditBox/UIEditBox.h"
-#include "ui/UIScale9Sprite.h"
+#include <cocos/extensions/ExtensionMacros.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/UIEditBox/UIEditBox.h>
+#include <cocos/ui/UIScale9Sprite.h>
 
 NS_CC_EXT_BEGIN
 

@@ -2,11 +2,11 @@
 #ifndef CCAPLICATION_H_
 #define CCAPLICATION_H_
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 
-#    include "platform/CCApplicationProtocol.h"
-#    include "platform/CCCommon.h"
+#    include <cocos/platform/CCApplicationProtocol.h>
+#    include <cocos/platform/CCCommon.h>
 #    include <string>
 
 NS_CC_BEGIN

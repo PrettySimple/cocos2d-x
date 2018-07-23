@@ -22,13 +22,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "renderer/CCBatchCommand.h"
+#include <cocos/renderer/CCBatchCommand.h>
 
-#include "base/ccMacros.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCTextureAtlas.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/base/ccMacros.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureAtlas.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 NS_CC_BEGIN
 

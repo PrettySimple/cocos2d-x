@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "ui/UILayoutParameter.h"
+#include <cocos/ui/UILayoutParameter.h>
 
 #include <new>
 

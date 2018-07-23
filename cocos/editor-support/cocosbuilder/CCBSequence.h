@@ -2,7 +2,7 @@
 #define CC_EDITORSUPPORT_COCOSBUILDER_SEQUENCE_H
 
 #include "CCBSequenceProperty.h"
-#include "base/CCRef.h"
+#include <cocos/base/CCRef.h>
 
 #include <chrono>
 #include <string>

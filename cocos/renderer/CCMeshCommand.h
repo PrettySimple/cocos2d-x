@@ -25,14 +25,14 @@
 #ifndef CC_RENDERER_MESHCOMMAND_H
 #define CC_RENDERER_MESHCOMMAND_H
 
-#include "math/Mat4.h"
-#include "math/Vec4.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformConfig.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCRenderCommand.h"
-#include "renderer/CCRenderState.h"
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCRenderCommand.h>
+#include <cocos/renderer/CCRenderState.h>
 
 #include <cstdint>
 #include <cstddef>

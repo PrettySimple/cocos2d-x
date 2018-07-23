@@ -38,7 +38,7 @@
 #include "base/allocator/CCAllocatorGlobal.h"
 #include "base/allocator/CCAllocatorMacros.h"
 #include "base/allocator/CCAllocatorMutex.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <cstddef>
 #include <cstdint>

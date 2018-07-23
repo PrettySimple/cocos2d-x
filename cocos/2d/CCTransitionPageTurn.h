@@ -27,8 +27,8 @@ THE SOFTWARE.
 #ifndef CC_2D_TRANSITIONPAGETURN_H
 #define CC_2D_TRANSITIONPAGETURN_H
 
-#include "2d/CCTransition.h"
-#include "renderer/CCCustomCommand.h"
+#include <cocos/2d/CCTransition.h>
+#include <cocos/renderer/CCCustomCommand.h>
 
 #include <chrono>
 

@@ -25,13 +25,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCMenuItem.h"
+#include <cocos/2d/CCMenuItem.h>
 
-#include "2d/CCActionInterval.h"
-#include "2d/CCLabel.h"
-#include "2d/CCLabelAtlas.h"
-#include "2d/CCSprite.h"
-#include "base/ccUTF8.h"
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/2d/CCLabel.h>
+#include <cocos/2d/CCLabelAtlas.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/ccUTF8.h>
 
 #include <cstdarg>
 

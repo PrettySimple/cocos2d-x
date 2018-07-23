@@ -2,8 +2,8 @@
 #define CC_EDITORSUPPORT_COCOSBUILDER_SEQUENCEPROPERTY_H
 
 #include "CCBKeyframe.h"
-#include "base/CCRef.h"
-#include "base/CCVector.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCVector.h>
 
 namespace cocosbuilder
 {

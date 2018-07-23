@@ -31,7 +31,7 @@ MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
 #ifndef CC_BASE_ETC2TYPES_H
 #define CC_BASE_ETC2TYPES_H
 
-#include "platform/CCGL.h"
+#include <cocos/platform/CCGL.h>
 
 /*
    typedefs

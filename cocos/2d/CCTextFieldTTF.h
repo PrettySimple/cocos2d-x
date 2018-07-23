@@ -26,15 +26,15 @@ THE SOFTWARE.
 #ifndef CC_2D_TEXTFIELDTTF_H
 #define CC_2D_TEXTFIELDTTF_H
 
-#include "2d/CCLabel.h"
-#include "base/CCEventKeyboard.h"
-#include "base/CCIMEDelegate.h"
-#include "base/ccTypes.h"
-#include "math/CCGeometry.h"
-#include "math/Mat4.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/2d/CCLabel.h>
+#include <cocos/base/CCEventKeyboard.h>
+#include <cocos/base/CCIMEDelegate.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <cstdint>
 #include <cstddef>

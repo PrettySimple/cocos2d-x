@@ -39,10 +39,10 @@ THE SOFTWARE.
 #ifndef CC_2D_DRAWINGPRIMITIVES_H
 #define CC_2D_DRAWINGPRIMITIVES_H
 
-#include "platform/CCGL.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/platform/CCGL.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 /**
  @file

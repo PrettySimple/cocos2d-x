@@ -25,15 +25,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCAutoPolygon.h"
+#include <cocos/2d/CCAutoPolygon.h>
 
-#include "base/CCConsole.h"
-#include "base/CCDirector.h"
-#include "base/ccMacros.h"
-#include "base/ccTypes.h"
-#include "math/Vec3.h"
-#include "platform/CCImage.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCImage.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"

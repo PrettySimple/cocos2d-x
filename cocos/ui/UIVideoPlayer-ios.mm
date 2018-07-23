@@ -22,9 +22,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "ui/UIVideoPlayer.h"
+#include <cocos/ui/UIVideoPlayer.h>
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 
 // No Available on tvOS
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS && !defined(CC_TARGET_OS_TVOS)
@@ -32,10 +32,11 @@
 using namespace cocos2d::experimental::ui;
 //-------------------------------------------------------------------------------------
 
-#    include "base/CCDirector.h"
-#    include "platform/CCFileUtils.h"
-#    include "platform/ios/CCEAGLView-ios.h"
-#    import <MediaPlayer/MediaPlayer.h>
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/platform/CCFileUtils.h>
+#    include <cocos/platform/ios/CCEAGLView-ios.h>
+
+#    include <MediaPlayer/MediaPlayer.h>
 
 @interface UIVideoViewWrapperIos : NSObject
 

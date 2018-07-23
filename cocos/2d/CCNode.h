@@ -29,19 +29,19 @@
 #ifndef CC_2D_NODE_H
 #define CC_2D_NODE_H
 
-#include "base/CCProtocols.h"
-#include "base/CCRef.h"
-#include "base/CCVector.h"
-#include "base/ccConfig.h"
-#include "base/ccTypes.h"
-#include "math/CCAffineTransform.h"
-#include "math/CCGeometry.h"
-#include "math/Mat4.h"
-#include "math/Quaternion.h"
-#include "math/Vec2.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCProtocols.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCAffineTransform.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Quaternion.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <algorithm>
 #include <chrono>

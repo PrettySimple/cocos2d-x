@@ -26,17 +26,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "renderer/CCGLProgram.h"
+#include <cocos/renderer/CCGLProgram.h>
 
 #ifndef WIN32
 #    include <alloca.h>
 #endif
 
-#include "base/CCDirector.h"
-#include "base/ccUTF8.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCPlatformConfig.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #include <cstring>
 #include <utility>

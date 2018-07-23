@@ -26,24 +26,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCNode.h"
+#include <cocos/2d/CCNode.h>
 
-#include "2d/CCAction.h"
-#include "2d/CCActionManager.h"
-#include "2d/CCCamera.h"
-#include "2d/CCComponent.h"
+#include <cocos/2d/CCAction.h>
+#include <cocos/2d/CCActionManager.h>
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCComponent.h>
 #include "2d/CCComponentContainer.h"
-#include "2d/CCScene.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCScheduler.h"
-#include "base/CCTouch.h"
-#include "base/ccUTF8.h"
+#include <cocos/2d/CCScene.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCScheduler.h>
+#include <cocos/base/CCTouch.h>
+#include <cocos/base/ccUTF8.h>
 #include "math/MathUtil.h"
 #include "math/TransformUtils.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCMaterial.h"
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCMaterial.h>
 
 #if CC_USE_PHYSICS
 #    include "physics/CCPhysicsBody.h"

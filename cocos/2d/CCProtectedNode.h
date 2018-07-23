@@ -29,12 +29,12 @@
 #ifndef CC_2D_PROTECTEDNODE_H
 #define CC_2D_PROTECTEDNODE_H
 
-#include "2d/CCNode.h"
-#include "base/CCVector.h"
-#include "base/ccConfig.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstdint>
 

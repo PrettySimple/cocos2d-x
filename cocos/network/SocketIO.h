@@ -59,8 +59,8 @@ in the onClose method the pointer should be set to NULL or used to connect to a 
 #ifndef CC_NETWORK_SOCKETIO_H
 #define CC_NETWORK_SOCKETIO_H
 
-#include "base/CCMap.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCMap.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <string>
 
 /**

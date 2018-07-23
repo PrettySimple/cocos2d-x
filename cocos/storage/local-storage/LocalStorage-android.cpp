@@ -27,13 +27,13 @@
  Works on cocos2d-iphone and cocos2d-x.
  */
 
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformMacros.h>
 #include "storage/local-storage/LocalStorage.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
 #    include "jni.h"
-#    include "platform/android/jni/JniHelper.h"
+#    include <cocos/platform/android/jni/JniHelper.h>
 #    include <assert.h>
 #    include <stdio.h>
 #    include <stdlib.h>

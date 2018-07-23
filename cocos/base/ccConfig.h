@@ -28,7 +28,7 @@ THE SOFTWARE.
 #ifndef CC_BASE_CONFIG_H
 #define CC_BASE_CONFIG_H
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 
 /**
  * @file

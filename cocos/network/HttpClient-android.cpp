@@ -24,7 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
 #    include "network/HttpClient.h"
@@ -34,11 +34,11 @@
 #    include <sstream>
 #    include <stdio.h>
 
-#    include "base/CCDirector.h"
-#    include "platform/CCFileUtils.h"
-#    include "platform/android/jni/JniHelper.h"
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/platform/CCFileUtils.h>
+#    include <cocos/platform/android/jni/JniHelper.h>
 
-#    include "base/ccUTF8.h"
+#    include <cocos/base/ccUTF8.h>
 
 NS_CC_BEGIN
 

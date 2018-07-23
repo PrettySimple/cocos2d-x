@@ -22,10 +22,10 @@
 #ifndef CC_MATH_MAT4_H
 #define CC_MATH_MAT4_H
 
-#include "math/CCMathBase.h"
-#include "math/Vec3.h"
-#include "math/Vec4.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/math/CCMathBase.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <cstdint>
 

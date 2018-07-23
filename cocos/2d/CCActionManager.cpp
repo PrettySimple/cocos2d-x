@@ -26,12 +26,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "2d/CCActionManager.h"
+#include <cocos/2d/CCActionManager.h>
 
-#include "2d/CCAction.h"
+#include <cocos/2d/CCAction.h>
 #include "2d/CCActionManagerData.h"
-#include "2d/CCNode.h"
-#include "base/ccMacros.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccMacros.h>
 
 NS_CC_BEGIN
 

@@ -25,9 +25,9 @@
 #ifndef CC_3D_BUNDLEREADER_H
 #define CC_3D_BUNDLEREADER_H
 
-#include "base/CCConsole.h"
-#include "base/CCRef.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstddef>
 #include <string>

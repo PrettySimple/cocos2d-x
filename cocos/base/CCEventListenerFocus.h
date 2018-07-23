@@ -26,7 +26,7 @@
 #ifndef CC_BASE_EVENTLISTENERFOCUS_H
 #define CC_BASE_EVENTLISTENERFOCUS_H
 
-#include "base/CCEventListener.h"
+#include <cocos/base/CCEventListener.h>
 
 /**
  * @addtogroup base

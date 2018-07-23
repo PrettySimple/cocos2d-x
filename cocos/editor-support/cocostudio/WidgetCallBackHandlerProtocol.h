@@ -27,7 +27,7 @@
 
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
-#include "ui/UIWidget.h"
+#include <cocos/ui/UIWidget.h>
 
 namespace cocostudio
 {

@@ -22,13 +22,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCOBB.h"
+#include <cocos/3d/CCOBB.h>
 
-#include "3d/CCAABB.h"
-#include "base/ccMacros.h"
-#include "math/Mat4.h"
-#include "math/Quaternion.h"
-#include "math/Vec4.h"
+#include <cocos/3d/CCAABB.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Quaternion.h>
+#include <cocos/math/Vec4.h>
 
 #include <cmath>
 #include <cstring>
@@ -58,19 +58,19 @@ static Mat4 _getConvarianceMatrix(const Vec3* vertPos, int vertCount)
     // get center of mass
     for (i = 0; i < vertCount; i++)
     {
-        S1[0] += vertPos[i].x;
-        S1[1] += vertPos[i].y;
-        S1[2] += vertPos[i].z;
+        S1[0] += static_cast<double>(vertPos[i].x);
+        S1[1] += static_cast<double>(vertPos[i].y);
+        S1[2] += static_cast<double>(vertPos[i].z);
 
-        S2[0][0] += vertPos[i].x * vertPos[i].x;
-        S2[1][1] += vertPos[i].y * vertPos[i].y;
-        S2[2][2] += vertPos[i].z * vertPos[i].z;
-        S2[0][1] += vertPos[i].x * vertPos[i].y;
-        S2[0][2] += vertPos[i].x * vertPos[i].z;
-        S2[1][2] += vertPos[i].y * vertPos[i].z;
+        S2[0][0] += static_cast<double>(vertPos[i].x * vertPos[i].x);
+        S2[1][1] += static_cast<double>(vertPos[i].y * vertPos[i].y);
+        S2[2][2] += static_cast<double>(vertPos[i].z * vertPos[i].z);
+        S2[0][1] += static_cast<double>(vertPos[i].x * vertPos[i].y);
+        S2[0][2] += static_cast<double>(vertPos[i].x * vertPos[i].z);
+        S2[1][2] += static_cast<double>(vertPos[i].y * vertPos[i].z);
     }
 
-    float n = (float)vertCount;
+    float n = static_cast<float>(vertCount);
     // now get covariances
     Cov.m[0] = (float)(S2[0][0] - S1[0] * S1[0] / n) / n;
     Cov.m[5] = (float)(S2[1][1] - S1[1] * S1[1] / n) / n;
@@ -124,8 +124,8 @@ static void _getEigenVectors(Mat4* vout, Vec3* dout, Mat4 a)
         sm = 0.0;
         for (ip = 0; ip < n; ip++)
             for (iq = ip + 1; iq < n; iq++)
-                sm += fabs(a.m[ip + 4 * iq]);
-        if (fabs(sm) < FLT_EPSILON)
+                sm += static_cast<double>(std::abs(a.m[ip + 4 * iq]));
+        if (std::abs(sm) < std::numeric_limits<double>::epsilon())
         {
             v.transpose();
             *vout = v;
@@ -142,36 +142,36 @@ static void _getEigenVectors(Mat4* vout, Vec3* dout, Mat4 a)
         {
             for (iq = ip + 1; iq < n; iq++)
             {
-                g = 100.0 * fabs(a.m[ip + iq * 4]);
+                g = 100.0 * static_cast<double>(std::abs(a.m[ip + iq * 4]));
                 float dmip = _getElement(d, ip);
                 float dmiq = _getElement(d, iq);
 
-                if (i > 3 && fabs(dmip) + g == fabs(dmip) && fabs(dmiq) + g == fabs(dmiq))
+                if (i > 3 && std::abs(dmip) + g == std::abs(dmip) && std::abs(dmiq) + g == std::abs(dmiq))
                 {
                     a.m[ip + 4 * iq] = 0.0;
                 }
-                else if (fabs(a.m[ip + 4 * iq]) > tresh)
+                else if (std::abs(static_cast<double>(a.m[ip + 4 * iq])) > tresh)
                 {
-                    h = dmiq - dmip;
-                    if (fabs(h) + g == fabs(h))
+                    h = static_cast<double>(dmiq - dmip);
+                    if (std::abs(h) + g == std::abs(h))
                     {
-                        t = (a.m[ip + 4 * iq]) / h;
+                        t = static_cast<double>(a.m[ip + 4 * iq]) / h;
                     }
                     else
                     {
-                        theta = 0.5 * h / (a.m[ip + 4 * iq]);
-                        t = 1.0 / (fabs(theta) + sqrt(1.0 + theta * theta));
+                        theta = 0.5 * h / static_cast<double>(a.m[ip + 4 * iq]);
+                        t = 1.0 / (std::abs(theta) + std::sqrt(1.0 + theta * theta));
                         if (theta < 0.0)
                             t = -t;
                     }
-                    c = 1.0 / sqrt(1 + t * t);
+                    c = 1.0 / std::sqrt(1 + t * t);
                     s = t * c;
                     tau = s / (1.0 + c);
-                    h = t * a.m[ip + 4 * iq];
-                    _getElement(z, ip) -= (float)h;
-                    _getElement(z, iq) += (float)h;
-                    _getElement(d, ip) -= (float)h;
-                    _getElement(d, iq) += (float)h;
+                    h = t * static_cast<double>(a.m[ip + 4 * iq]);
+                    _getElement(z, ip) -= static_cast<float>(h);
+                    _getElement(z, iq) += static_cast<float>(h);
+                    _getElement(d, ip) -= static_cast<float>(h);
+                    _getElement(d, iq) += static_cast<float>(h);
                     a.m[ip + 4 * iq] = 0.0;
                     for (j = 0; j < ip; j++)
                     {

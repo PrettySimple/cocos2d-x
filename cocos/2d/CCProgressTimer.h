@@ -26,13 +26,13 @@ THE SOFTWARE.
 #ifndef CC_2D_PROGRESSTIMER_H
 #define CC_2D_PROGRESSTIMER_H
 
-#include "2d/CCNode.h"
-#include "base/ccTypes.h"
-#include "math/Vec2.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCCustomCommand.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCCustomCommand.h>
 
 NS_CC_BEGIN
 

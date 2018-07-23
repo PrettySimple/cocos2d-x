@@ -25,16 +25,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCParticleExamples.h"
+#include <cocos/2d/CCParticleExamples.h>
 
-#include "2d/CCParticleSystem.h"
-#include "base/CCDirector.h"
-#include "base/ccTypes.h"
+#include <cocos/2d/CCParticleSystem.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccTypes.h>
 #include "base/firePngData.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
-#include "platform/CCImage.h"
-#include "renderer/CCTextureCache.h"
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCImage.h>
+#include <cocos/renderer/CCTextureCache.h>
 
 #include <chrono>
 #include <iosfwd>

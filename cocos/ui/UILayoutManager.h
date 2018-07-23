@@ -25,11 +25,11 @@
 #ifndef CC_UI_LAYOUTMANAGER_H
 #define CC_UI_LAYOUTMANAGER_H
 
-#include "base/CCRef.h"
-#include "base/CCVector.h"
-#include "platform/CCPlatformMacros.h"
-#include "ui/GUIExport.h"
-#include "ui/UIWidget.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <cstddef>
 

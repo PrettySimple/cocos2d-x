@@ -22,16 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UISlider.h"
+#include <cocos/ui/UISlider.h>
 
-#include "2d/CCNode.h"
-#include "2d/CCSprite.h"
-#include "base/CCTouch.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCTouch.h>
 #include "editor-support/cocostudio/CocosStudioExtension.h"
-#include "math/Vec2.h"
-#include "math/Vec3.h"
-#include "ui/UIHelper.h"
-#include "ui/UIScale9Sprite.h"
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/ui/UIHelper.h>
+#include <cocos/ui/UIScale9Sprite.h>
 
 #include <new>
 

@@ -22,14 +22,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "base/CCUserDefault.h"
-#include "base/base64.h"
-#include "base/ccUtils.h"
-#include "platform/CCCommon.h"
-#include "platform/CCPlatformConfig.h"
+#include <cocos/base/CCUserDefault.h>
+#include <cocos/base/base64.h>
+#include <cocos/base/ccUtils.h>
+#include <cocos/platform/CCCommon.h>
+#include <cocos/platform/CCPlatformConfig.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#    include "platform/android/jni/JniHelper.h"
+#    include <cocos/platform/android/jni/JniHelper.h>
 
 static const std::string helperClassName = "org/cocos2dx/lib/Cocos2dxHelper";
 

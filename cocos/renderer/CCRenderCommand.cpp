@@ -22,10 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "renderer/CCRenderCommand.h"
+#include <cocos/renderer/CCRenderCommand.h>
 
-#include "2d/CCCamera.h"
-#include "2d/CCNode.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCNode.h>
 
 #include <cstdio>
 

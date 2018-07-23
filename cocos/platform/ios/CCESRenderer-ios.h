@@ -28,14 +28,14 @@
 // Only compile this code on iOS. These files should NOT be included on your Mac project.
 // But in case they are included, it won't be compiled.
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    include "platform/CCPlatformMacros.h"
-#    import <QuartzCore/QuartzCore.h>
+#    include <cocos/platform/CCPlatformMacros.h>
 
-#    import <OpenGLES/EAGL.h>
-#    import <OpenGLES/EAGLDrawable.h>
+#    include <QuartzCore/QuartzCore.h>
+#    include <OpenGLES/EAGL.h>
+#    include <OpenGLES/EAGLDrawable.h>
 
 @protocol CCESRenderer <NSObject>
 

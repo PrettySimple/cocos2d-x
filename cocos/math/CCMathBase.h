@@ -1,7 +1,7 @@
 #ifndef CC_MATH_MATHBASE_H
 #define CC_MATH_MATHBASE_H
 
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformMacros.h>
 #include <memory>
 #include <string.h>
 /**

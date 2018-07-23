@@ -25,12 +25,12 @@ THE SOFTWARE.
 #ifndef CC_UI_ABSTRACTCHECKBUTTON_H
 #define CC_UI_ABSTRACTCHECKBUTTON_H
 
-#include "base/ccConfig.h"
-#include "math/CCGeometry.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
-#include "ui/GUIExport.h"
-#include "ui/UIWidget.h"
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <iosfwd>
 

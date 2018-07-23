@@ -36,8 +36,8 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
 */
-#include "etc2types.h"
-#include "platform/CCGL.h"
+#include <cocos/base/etc2types.h>
+#include <cocos/platform/CCGL.h>
 
 #include <cassert>
 #include <cstdlib>

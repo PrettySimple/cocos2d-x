@@ -25,19 +25,19 @@
 #ifndef CC_RENDERER_TRIANGLESCOMMAND_H
 #define CC_RENDERER_TRIANGLESCOMMAND_H
 
-#include "base/ccTypes.h"
-#include "math/Mat4.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCRenderCommand.h"
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCRenderCommand.h>
 
 #include <cstdint>
 #include <cstddef>
 #include <limits>
 
 #ifdef DEBUG_TEXTURE_SIZE
-#    include "math/Vec2.h"
+#    include <cocos/math/Vec2.h>
 #endif
 
 /**

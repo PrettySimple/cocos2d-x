@@ -23,9 +23,9 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "audio/include/SimpleAudioEngine.h"
-#include "base/ObjectFactory.h"
+#include <cocos/base/ObjectFactory.h>
 #include "cocostudio/CocoStudio.h"
-#include "ui/CocosGUI.h"
+#include <cocos/ui/CocosGUI.h>
 
 using namespace cocos2d;
 using namespace ui;

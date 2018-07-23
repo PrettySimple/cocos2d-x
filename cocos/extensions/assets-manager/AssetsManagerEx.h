@@ -29,15 +29,15 @@
 #include <unordered_map>
 #include <vector>
 
-#include "base/CCEventDispatcher.h"
+#include <cocos/base/CCEventDispatcher.h>
 #include "network/CCDownloader.h"
-#include "platform/CCFileUtils.h"
+#include <cocos/platform/CCFileUtils.h>
 
 #include "CCEventAssetsManagerEx.h"
 
 #include "Manifest.h"
-#include "extensions/ExtensionExport.h"
-#include "extensions/ExtensionMacros.h"
+#include <cocos/extensions/ExtensionExport.h>
+#include <cocos/extensions/ExtensionMacros.h>
 
 NS_CC_EXT_BEGIN
 

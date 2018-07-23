@@ -24,7 +24,7 @@
  ****************************************************************************/
 
 #include "extensions/Particle3D/PU/CCPUObserver.h"
-#include "base/ccMacros.h"
+#include <cocos/base/ccMacros.h>
 #include "extensions/Particle3D/PU/CCPUEventHandler.h"
 #include "extensions/Particle3D/PU/CCPUEventHandlerManager.h"
 

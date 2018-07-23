@@ -23,26 +23,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "base/ccUtils.h"
+#include <cocos/base/ccUtils.h>
+
+#include <cocos/2d/CCRenderTexture.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCAsyncTaskPool.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventListener.h>
+#include <cocos/base/CCEventListenerCustom.h>
+#include <cocos/base/base64.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCImage.h>
+#include <cocos/renderer/CCCustomCommand.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTextureCache.h>
 
 #include <chrono>
 #include <cmath>
 #include <ratio>
 #include <stdlib.h>
-
-#include "2d/CCRenderTexture.h"
-#include "2d/CCSprite.h"
-#include "base/CCAsyncTaskPool.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListener.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/base64.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCImage.h"
-#include "renderer/CCCustomCommand.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTextureCache.h"
 
 NS_CC_BEGIN
 

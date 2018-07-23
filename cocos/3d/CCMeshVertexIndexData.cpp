@@ -22,11 +22,11 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCMeshVertexIndexData.h"
+#include <cocos/3d/CCMeshVertexIndexData.h>
 
-#include "3d/CCBundle3D.h"
-#include "renderer/CCVertexIndexBuffer.h"
-#include "renderer/CCVertexIndexData.h"
+#include <cocos/3d/CCBundle3D.h>
+#include <cocos/renderer/CCVertexIndexBuffer.h>
+#include <cocos/renderer/CCVertexIndexData.h>
 
 #include <fstream>
 #include <new>
@@ -71,7 +71,7 @@ MeshVertexData* MeshVertexData::create(const MeshData& meshdata)
 {
     auto vertexdata = new (std::nothrow) MeshVertexData();
     int pervertexsize = meshdata.getPerVertexSize();
-    vertexdata->_vertexBuffer = VertexBuffer::create(pervertexsize, (int)(meshdata.vertex.size() / (pervertexsize / 4)));
+    vertexdata->_vertexBuffer = VertexBuffer::create(pervertexsize, static_cast<int>(meshdata.vertex.size() / (pervertexsize / 4)));
     vertexdata->_vertexData = VertexData::create();
     CC_SAFE_RETAIN(vertexdata->_vertexData);
     CC_SAFE_RETAIN(vertexdata->_vertexBuffer);
@@ -87,15 +87,15 @@ MeshVertexData* MeshVertexData::create(const MeshData& meshdata)
 
     if (vertexdata->_vertexBuffer)
     {
-        vertexdata->_vertexBuffer->updateVertices((void*)&meshdata.vertex[0], (int)meshdata.vertex.size() * 4 / vertexdata->_vertexBuffer->getSizePerVertex(), 0);
+        vertexdata->_vertexBuffer->updateVertices(reinterpret_cast<void const*>(&meshdata.vertex[0]), static_cast<int>(meshdata.vertex.size()) * 4 / vertexdata->_vertexBuffer->getSizePerVertex(), 0);
     }
 
     bool needCalcAABB = (meshdata.subMeshAABB.size() != meshdata.subMeshIndices.size());
     for (size_t i = 0; i < meshdata.subMeshIndices.size(); i++)
     {
         auto& index = meshdata.subMeshIndices[i];
-        auto indexBuffer = IndexBuffer::create(IndexBuffer::IndexType::INDEX_TYPE_SHORT_16, (int)(index.size()));
-        indexBuffer->updateIndices(&index[0], (int)index.size(), 0);
+        auto indexBuffer = IndexBuffer::create(IndexBuffer::IndexType::INDEX_TYPE_SHORT_16, static_cast<int>(index.size()));
+        indexBuffer->updateIndices(&index[0], static_cast<int>(index.size()), 0);
         std::string id = (i < meshdata.subMeshIds.size() ? meshdata.subMeshIds[i] : "");
         MeshIndexData* indexdata = nullptr;
         if (needCalcAABB)

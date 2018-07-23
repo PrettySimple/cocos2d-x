@@ -26,11 +26,11 @@
 #ifndef CC_EXTENSIONS_GUI_SCROLLVIEW_SCROLLVIEW_H
 #define CC_EXTENSIONS_GUI_SCROLLVIEW_SCROLLVIEW_H
 
-#include "2d/CCActionTween.h"
-#include "2d/CCLayer.h"
-#include "base/CCEventListenerTouch.h"
-#include "extensions/ExtensionExport.h"
-#include "extensions/ExtensionMacros.h"
+#include <cocos/2d/CCActionTween.h>
+#include <cocos/2d/CCLayer.h>
+#include <cocos/base/CCEventListenerTouch.h>
+#include <cocos/extensions/ExtensionExport.h>
+#include <cocos/extensions/ExtensionMacros.h>
 
 #include <chrono>
 

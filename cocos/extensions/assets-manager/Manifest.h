@@ -29,10 +29,10 @@
 #include <unordered_map>
 #include <vector>
 
-#include "extensions/ExtensionExport.h"
-#include "extensions/ExtensionMacros.h"
+#include <cocos/extensions/ExtensionExport.h>
+#include <cocos/extensions/ExtensionMacros.h>
 #include "network/CCDownloader.h"
-#include "platform/CCFileUtils.h"
+#include <cocos/platform/CCFileUtils.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"

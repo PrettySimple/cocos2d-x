@@ -23,14 +23,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "2d/CCMenu.h"
+#include <cocos/2d/CCMenu.h>
 
-#include "2d/CCCamera.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerTouch.h"
-#include "base/CCTouch.h"
-#include "base/ccUTF8.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventListenerTouch.h>
+#include <cocos/base/CCTouch.h>
+#include <cocos/base/ccUTF8.h>
 
 #include <vector>
 

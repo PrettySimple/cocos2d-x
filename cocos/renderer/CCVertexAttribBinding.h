@@ -22,8 +22,8 @@
 #ifndef CC_RENDERER_VERTEXATTRIBBINDING_H
 #define CC_RENDERER_VERTEXATTRIBBINDING_H
 
-#include "base/CCRef.h"
-#include "renderer/CCGLProgramState.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/renderer/CCGLProgramState.h>
 
 #include <unordered_map>
 

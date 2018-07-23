@@ -4,7 +4,7 @@
 #include "editor-support/cocostudio/CSParseBinary_generated.h"
 #include "editor-support/cocostudio/WidgetReader/ArmatureNodeReader/CSArmatureNode_generated.h"
 #include "editor-support/cocostudio/WidgetReader/NodeReader/NodeReader.h"
-#include "platform/CCFileUtils.h"
+#include <cocos/platform/CCFileUtils.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"

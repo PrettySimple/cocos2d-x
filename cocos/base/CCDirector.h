@@ -32,13 +32,13 @@ THE SOFTWARE.
 #include <stack>
 #include <thread>
 
-#include "2d/CCScene.h"
-#include "base/CCRef.h"
-#include "base/CCVector.h"
-#include "math/CCMath.h"
-#include "platform/CCGL.h"
-#include "platform/CCGLView.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/2d/CCScene.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/math/CCMath.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCGLView.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 

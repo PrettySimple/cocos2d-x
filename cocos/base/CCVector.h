@@ -26,10 +26,10 @@ THE SOFTWARE.
 #ifndef CC_BASE_VECTOR_H
 #define CC_BASE_VECTOR_H
 
-#include "base/CCRef.h"
-#include "base/ccMacros.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <algorithm> // for std::find
 #include <functional>

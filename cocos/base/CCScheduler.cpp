@@ -25,10 +25,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "base/CCScheduler.h"
+#include <cocos/base/CCScheduler.h>
 
-#include "base/ccMacros.h"
-#include "base/iterator_pair.h"
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/iterator_pair.h>
 
 #include <algorithm>
 #include <cmath>

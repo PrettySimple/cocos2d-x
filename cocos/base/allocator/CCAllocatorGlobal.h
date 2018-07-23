@@ -29,8 +29,8 @@
 
 #include "base/allocator/CCAllocatorMacros.h"
 #include "base/allocator/CCAllocatorStrategyDefault.h"
-#include "base/ccConfig.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 NS_CC_ALLOCATOR_BEGIN

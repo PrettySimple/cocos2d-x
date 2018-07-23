@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
@@ -25,7 +25,7 @@ THE SOFTWARE.
 #ifndef CC_EDITORSUPPORT_COCOSSTUDIO_BATCHNODE_H
 #define CC_EDITORSUPPORT_COCOSSTUDIO_BATCHNODE_H
 
-#include "2d/CCNode.h"
+#include <cocos/2d/CCNode.h>
 #include "cocostudio/CCArmatureDefine.h"
 #include "cocostudio/CocosStudioExport.h"
 

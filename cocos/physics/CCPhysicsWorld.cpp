@@ -34,9 +34,9 @@
 #    include "physics/CCPhysicsJoint.h"
 #    include "physics/CCPhysicsShape.h"
 
-#    include "2d/CCDrawNode.h"
-#    include "2d/CCScene.h"
-#    include "base/CCDirector.h"
+#    include <cocos/2d/CCDrawNode.h>
+#    include <cocos/2d/CCScene.h>
+#    include <cocos/base/CCDirector.h>
 #    include "base/CCEventCustom.h"
 #    include "base/CCEventDispatcher.h"
 

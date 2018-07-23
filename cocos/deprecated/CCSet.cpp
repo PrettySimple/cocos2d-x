@@ -23,9 +23,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "deprecated/CCSet.h"
+#include <cocos/deprecated/CCSet.h>
 
-#include "base/CCDataVisitor.h"
+#include <cocos/base/CCDataVisitor.h>
 
 #include <new>
 

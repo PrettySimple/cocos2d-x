@@ -22,12 +22,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCFrustum.h"
+#include <cocos/3d/CCFrustum.h>
 
-#include "2d/CCCamera.h"
-#include "3d/CCAABB.h"
-#include "math/Mat4.h"
-#include "math/Vec3.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/3d/CCAABB.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec3.h>
 
 NS_CC_BEGIN
 

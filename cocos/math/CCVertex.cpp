@@ -26,8 +26,8 @@
 
 #include "math/CCVertex.h"
 
-#include "base/ccMacros.h"
-#include "math/Vec2.h"
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/Vec2.h>
 
 #include <cmath>
 

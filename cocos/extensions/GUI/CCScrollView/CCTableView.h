@@ -26,12 +26,12 @@
 #ifndef CC_EXTENSIONS_GUI_SCROLLVIEW_TABLEVIEW_H
 #define CC_EXTENSIONS_GUI_SCROLLVIEW_TABLEVIEW_H
 
-#include "base/CCVector.h"
-#include "extensions/ExtensionExport.h"
-#include "extensions/ExtensionMacros.h"
+#include <cocos/base/CCVector.h>
+#include <cocos/extensions/ExtensionExport.h>
+#include <cocos/extensions/ExtensionMacros.h>
 #include "extensions/GUI/CCScrollView/CCScrollView.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
 
 #include <cstddef>
 #include <set>

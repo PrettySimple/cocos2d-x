@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
  Copyright (c) 2013 cocos2d-x.org
 
  http://www.cocos2d-x.org
@@ -25,7 +25,7 @@
 #ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_CSLOADER_H
 #define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_CSLOADER_H
 
-#include "base/ObjectFactory.h"
+#include <cocos/base/ObjectFactory.h>
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/DictionaryHelper.h"

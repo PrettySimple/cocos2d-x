@@ -26,8 +26,8 @@
 #ifndef CC_PLATFORM_APPLE_DEVICEAPPLE_H
 #define CC_PLATFORM_APPLE_DEVICEAPPLE_H
 
-#include "platform/CCDevice.h"
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCDevice.h>
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 #    import <UIKit/UIKit.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_MAC

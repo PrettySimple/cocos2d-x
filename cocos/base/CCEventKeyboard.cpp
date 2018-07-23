@@ -23,7 +23,7 @@
 
  ****************************************************************************/
 
-#include "base/CCEventKeyboard.h"
+#include <cocos/base/CCEventKeyboard.h>
 
 NS_CC_BEGIN
 

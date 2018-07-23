@@ -2,7 +2,7 @@
 #define CC_EDITORSUPPORT_COCOSBUILDER_CONTROLBUTTONLOADER_H
 
 #include "CCControlLoader.h"
-#include "extensions/GUI/CCControlExtension/CCControlButton.h"
+#include <cocos/extensions/GUI/CCControlExtension/CCControlButton.h>
 
 namespace cocosbuilder
 {

@@ -25,7 +25,7 @@
 #ifndef CC_BASE_EVENTLISTENERCUSTOM_H
 #define CC_BASE_EVENTLISTENERCUSTOM_H
 
-#include "base/CCEventListener.h"
+#include <cocos/base/CCEventListener.h>
 
 /**
  * @addtogroup base

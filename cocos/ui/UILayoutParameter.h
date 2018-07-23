@@ -25,10 +25,10 @@
 #ifndef CC_UI_LAYOUTPARAMETER_H
 #define CC_UI_LAYOUTPARAMETER_H
 
-#include "base/CCRef.h"
-#include "platform/CCPlatformConfig.h"
-#include "platform/CCPlatformMacros.h"
-#include "ui/GUIExport.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIExport.h>
 
 #include <cstdint>
 #include <string>

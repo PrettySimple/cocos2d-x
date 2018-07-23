@@ -1,6 +1,6 @@
-#include "ui/UIEditBox/UIEditBox.h"
+#include <cocos/ui/UIEditBox/UIEditBox.h>
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID) && (CC_TARGET_PLATFORM != CC_PLATFORM_IOS) && (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32) && \
     (CC_TARGET_PLATFORM != CC_PLATFORM_MAC) && (CC_TARGET_PLATFORM != CC_PLATFORM_TIZEN) && (CC_TARGET_PLATFORM != CC_PLATFORM_WINRT) &&   \

@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIPageView.h"
-#include "ui/UIPageViewIndicator.h"
+#include <cocos/ui/UIPageView.h>
+#include <cocos/ui/UIPageViewIndicator.h>
 
 NS_CC_BEGIN
 

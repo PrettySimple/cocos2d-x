@@ -26,13 +26,13 @@
 #include "CCPUMaterialManager.h"
 #include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
 #include "extensions/Particle3D/PU/CCPUTranslateManager.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 #    include <io.h>
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#    include "platform/android/CCFileUtils-android.h"
+#    include <cocos/platform/android/CCFileUtils-android.h>
 #    include <android/asset_manager.h>
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 #    include <ftw.h>

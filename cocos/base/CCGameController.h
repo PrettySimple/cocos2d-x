@@ -26,9 +26,9 @@
 #define CC_BASE_GAMECONTROLLER_H
 /// @cond DO_NOT_SHOW
 
-#include "base/CCController.h"
-#include "base/CCEventController.h"
-#include "base/CCEventListenerController.h"
+#include <cocos/base/CCController.h>
+#include <cocos/base/CCEventController.h>
+#include <cocos/base/CCEventListenerController.h>
 
 /// @endcond
 #endif // CC_BASE_GAMECONTROLLER_H

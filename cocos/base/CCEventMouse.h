@@ -26,10 +26,10 @@
 #ifndef CC_BASE_EVENTMOUSE_H
 #define CC_BASE_EVENTMOUSE_H
 
-#include "base/CCEvent.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/base/CCEvent.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #define MOUSE_BUTTON_LEFT 0
 #define MOUSE_BUTTON_RIGHT 1

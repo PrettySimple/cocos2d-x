@@ -27,14 +27,14 @@ THE SOFTWARE.
 #ifndef CC_2D_TMXTILEDMAP_H
 #define CC_2D_TMXTILEDMAP_H
 
-#include "2d/CCNode.h"
-#include "2d/CCTMXObjectGroup.h"
-#include "base/CCValue.h"
-#include "base/CCVector.h"
-#include "base/ccConfig.h"
-#include "math/CCGeometry.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCTMXObjectGroup.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <iosfwd>
 #include <vector>

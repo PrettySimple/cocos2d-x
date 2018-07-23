@@ -24,13 +24,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCActionGrid.h"
+#include <cocos/2d/CCActionGrid.h>
 
-#include "2d/CCAction.h"
-#include "2d/CCGrid.h"
-#include "2d/CCNode.h"
+#include <cocos/2d/CCAction.h>
+#include <cocos/2d/CCGrid.h>
+#include <cocos/2d/CCNode.h>
 #include "2d/CCNodeGrid.h"
-#include "base/ccMacros.h"
+#include <cocos/base/ccMacros.h>
 
 #include <cstddef>
 #include <cmath>

@@ -1,11 +1,11 @@
 #ifndef CC_EXTENSIONS_EXT_H
 #define CC_EXTENSIONS_EXT_H
 
-#include "extensions/ExtensionMacros.h"
+#include <cocos/extensions/ExtensionMacros.h>
 
-#include "GUI/CCControlExtension/CCControlExtensions.h"
-#include "GUI/CCScrollView/CCScrollView.h"
-#include "GUI/CCScrollView/CCTableView.h"
+#include <cocos/extensions/GUI/CCControlExtension/CCControlExtensions.h>
+#include <cocos/extensions/GUI/CCScrollView/CCScrollView.h>
+#include <cocos/extensions/GUI/CCScrollView/CCTableView.h>
 
 // Physics integration
 #include "physics-nodes/CCPhysicsDebugNode.h"
@@ -17,7 +17,7 @@
 #include "assets-manager/CCEventListenerAssetsManagerEx.h"
 #include "assets-manager/Manifest.h"
 
-#include "ExtensionDeprecated.h"
+#include <cocos/extensions/ExtensionDeprecated.h>
 
 // Particle System, include Particle Universe Particle System
 #include "Particle3D/CCParticle3DRender.h"

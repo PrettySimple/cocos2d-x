@@ -25,8 +25,8 @@ THE SOFTWARE.
 
 #include "2d/CCGLBufferedNode.h"
 
-#include "base/CCEventListenerCustom.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCEventListenerCustom.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 using namespace cocos2d;
 

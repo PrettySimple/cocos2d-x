@@ -26,7 +26,7 @@
 
 #import "ui/UIEditBox/iOS/CCUIMultilineTextField.h"
 
-#include "base/CCDirector.h"
+#include <cocos/base/CCDirector.h>
 
 /**
  * http://stackoverflow.com/questions/1328638/placeholder-in-uitextview

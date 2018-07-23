@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCEventTouch.h"
+#include <cocos/base/CCEventTouch.h>
 
 NS_CC_BEGIN
 

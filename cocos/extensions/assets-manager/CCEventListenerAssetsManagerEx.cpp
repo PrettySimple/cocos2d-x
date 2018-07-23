@@ -25,7 +25,7 @@
 #include "CCEventListenerAssetsManagerEx.h"
 #include "AssetsManagerEx.h"
 #include "CCEventAssetsManagerEx.h"
-#include "base/ccUTF8.h"
+#include <cocos/base/ccUTF8.h>
 
 NS_CC_EXT_BEGIN
 

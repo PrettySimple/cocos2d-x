@@ -26,7 +26,7 @@ THE SOFTWARE.
 #ifndef __PLATFORM_EMSCRIPTEN_CCGL_H__
 #define __PLATFORM_EMSCRIPTEN_CCGL_H__
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
 
 #    define GL_GLEXT_PROTOTYPES 1

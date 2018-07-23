@@ -27,7 +27,7 @@ THE SOFTWARE.
 #define CC_BASE_BASE64_H
 /// @cond DO_NOT_SHOW
 
-#include "platform/CCPlatformDefine.h"
+#include <cocos/platform/CCPlatformDefine.h>
 
 #ifdef __cplusplus
 extern "C"

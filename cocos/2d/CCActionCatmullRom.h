@@ -34,11 +34,11 @@
 #ifndef CC_2D_ACTIONCATMULLROM_H
 #define CC_2D_ACTIONCATMULLROM_H
 
-#include "2d/CCActionInterval.h"
-#include "base/CCRef.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <cstddef>
 #include <chrono>

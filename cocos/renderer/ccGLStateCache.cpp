@@ -25,14 +25,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "renderer/ccGLStateCache.h"
+#include <cocos/renderer/ccGLStateCache.h>
 
-#include "base/CCConfiguration.h"
-#include "base/CCDirector.h"
-#include "base/ccConfig.h"
-#include "base/ccMacros.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 #include <cstddef>
 #include <mutex>

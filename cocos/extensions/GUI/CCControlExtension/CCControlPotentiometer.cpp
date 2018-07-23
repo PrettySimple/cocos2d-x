@@ -25,13 +25,13 @@
  *
  */
 
-#include "extensions/GUI/CCControlExtension/CCControlPotentiometer.h"
+#include <cocos/extensions/GUI/CCControlExtension/CCControlPotentiometer.h>
 
-#include "2d/CCProgressTimer.h"
-#include "2d/CCSprite.h"
-#include "base/ccTypes.h"
-#include "extensions/GUI/CCControlExtension/CCControl.h"
-#include "math/CCGeometry.h"
+#include <cocos/2d/CCProgressTimer.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
+#include <cocos/math/CCGeometry.h>
 
 #include <cmath>
 #include <algorithm>

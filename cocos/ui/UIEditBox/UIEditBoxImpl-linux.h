@@ -26,7 +26,7 @@
 #ifndef CC_UI_EDITBOX_EDITBOXIMPLLINUX_H
 #define CC_UI_EDITBOX_EDITBOXIMPLLINUX_H
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
 

@@ -27,7 +27,7 @@
 
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
-#include "extensions/ExtensionMacros.h"
+#include <cocos/extensions/ExtensionMacros.h>
 
 namespace flatbuffers
 {

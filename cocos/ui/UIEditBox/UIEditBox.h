@@ -26,10 +26,10 @@
 #ifndef CC_UI_EDITBOX_EDITBOX_H
 #define CC_UI_EDITBOX_EDITBOX_H
 
-#include "base/CCIMEDelegate.h"
-#include "ui/GUIDefine.h"
-#include "ui/UIButton.h"
-#include "ui/UIScale9Sprite.h"
+#include <cocos/base/CCIMEDelegate.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/UIButton.h>
+#include <cocos/ui/UIScale9Sprite.h>
 
 NS_CC_BEGIN
 

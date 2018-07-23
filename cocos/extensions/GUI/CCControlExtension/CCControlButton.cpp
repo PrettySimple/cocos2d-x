@@ -25,11 +25,11 @@
  *
  */
 
-#include "extensions/GUI/CCControlExtension/CCControlButton.h"
+#include <cocos/extensions/GUI/CCControlExtension/CCControlButton.h>
 
-#include "2d/CCAction.h"
-#include "2d/CCActionInterval.h"
-#include "2d/CCLabel.h"
+#include <cocos/2d/CCAction.h>
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/2d/CCLabel.h>
 
 #include <chrono>
 #include <cmath>

@@ -36,17 +36,17 @@ THE SOFTWARE.
  *
  */
 
-#include "2d/CCDrawingPrimitives.h"
+#include <cocos/2d/CCDrawingPrimitives.h>
 
-#include "2d/CCActionCatmullRom.h"
-#include "base/CCDirector.h"
-#include "base/ccMacros.h"
-#include "base/ccTypes.h"
-#include "platform/CCPlatformConfig.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/2d/CCActionCatmullRom.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #include <cstdlib>
 #include <cstring>

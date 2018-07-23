@@ -22,10 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "extensions/GUI/CCControlExtension/CCControlUtils.h"
+#include <cocos/extensions/GUI/CCControlExtension/CCControlUtils.h>
 
-#include "2d/CCNode.h"
-#include "2d/CCSprite.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCSprite.h>
 
 #include <algorithm>
 #include <cmath>

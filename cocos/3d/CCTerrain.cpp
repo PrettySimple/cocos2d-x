@@ -22,20 +22,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "3d/CCTerrain.h"
+#include <cocos/3d/CCTerrain.h>
 
 USING_NS_CC;
-#include "2d/CCCamera.h"
-#include "base/CCDirector.h"
-#include "base/CCEventType.h"
-#include "platform/CCImage.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCGLProgramStateCache.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventType.h>
+#include <cocos/platform/CCImage.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCGLProgramStateCache.h>
+#include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/ccGLStateCache.h>
 #include <float.h>
 #include <set>
 #include <stdlib.h>

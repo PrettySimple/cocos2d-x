@@ -18,14 +18,14 @@
  This file was modified to fit the cocos2d-x project
  */
 
-#include "math/Mat4.h"
+#include <cocos/math/Mat4.h>
 
-#include "base/ccMacros.h"
+#include <cocos/base/ccMacros.h>
 #include "math/MathUtil.h"
-#include "math/Quaternion.h"
-#include "math/Vec3.h"
-#include "math/Vec4.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/math/Quaternion.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstring>
 #include <cmath>

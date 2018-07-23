@@ -25,10 +25,10 @@
 #ifndef CC_EXTENSIONS_ASSETSMANAGER_EVENTLISTENERASSETSMANAGEREX_H
 #define CC_EXTENSIONS_ASSETSMANAGER_EVENTLISTENERASSETSMANAGEREX_H
 
-#include "base/CCEventListener.h"
-#include "base/CCEventListenerCustom.h"
-#include "extensions/ExtensionExport.h"
-#include "extensions/ExtensionMacros.h"
+#include <cocos/base/CCEventListener.h>
+#include <cocos/base/CCEventListenerCustom.h>
+#include <cocos/extensions/ExtensionExport.h>
+#include <cocos/extensions/ExtensionMacros.h>
 
 NS_CC_EXT_BEGIN
 

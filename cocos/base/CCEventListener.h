@@ -25,10 +25,10 @@
 #ifndef CC_BASE_EVENTLISTENER_H
 #define CC_BASE_EVENTLISTENER_H
 
-#include "base/CCRef.h"
-#include "base/ccConfig.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <functional>
 #include <iosfwd>

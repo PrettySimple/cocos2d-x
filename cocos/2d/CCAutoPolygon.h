@@ -28,11 +28,11 @@ THE SOFTWARE.
 #ifndef CC_2D_AUTOPOLYGON_H
 #define CC_2D_AUTOPOLYGON_H
 
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
-#include "renderer/CCTrianglesCommand.h"
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/renderer/CCTrianglesCommand.h>
 
 #include <cstddef>
 #include <iosfwd>

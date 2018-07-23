@@ -25,9 +25,9 @@
 #ifndef CC_BASE_EVENTCUSTOM_H
 #define CC_BASE_EVENTCUSTOM_H
 
-#include "base/CCEvent.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/base/CCEvent.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <iosfwd>
 #include <string>

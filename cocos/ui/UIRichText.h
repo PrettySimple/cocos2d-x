@@ -25,15 +25,15 @@
 #ifndef CC_UI_RICHTEXT_H
 #define CC_UI_RICHTEXT_H
 
-#include "base/CCRef.h"
-#include "base/CCValue.h"
-#include "base/CCVector.h"
-#include "base/ccTypes.h"
-#include "math/CCGeometry.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformMacros.h"
-#include "ui/GUIExport.h"
-#include "ui/UIWidget.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <cstdint>
 #include <string>

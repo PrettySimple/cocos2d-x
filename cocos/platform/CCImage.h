@@ -27,16 +27,16 @@ THE SOFTWARE.
 #define CC_PLATFORM_IMAGE_H
 /// @cond DO_NOT_SHOW
 
-#include "base/CCRef.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 #include <cstddef>
 #include <iosfwd>
 
 #ifdef CC_USE_WIC
-#    include "platform/winrt/WICImageLoader-winrt.h"
+#    include <cocos/platform/winrt/WICImageLoader-winrt.h>
 #endif
 
 // premultiply alpha, or the effect will wrong when want to use other pixel format in Texture2D,

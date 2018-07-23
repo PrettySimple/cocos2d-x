@@ -25,8 +25,8 @@ THE SOFTWARE.
 #ifndef CC_UI_HELPER_H
 #define CC_UI_HELPER_H
 
-#include "platform/CCPlatformMacros.h"
-#include "ui/GUIExport.h"
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIExport.h>
 
 #include <iosfwd>
 #include <cstddef>

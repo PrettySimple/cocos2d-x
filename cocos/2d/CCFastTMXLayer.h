@@ -27,17 +27,17 @@ THE SOFTWARE.
 #ifndef CC_2D_FASTTMXLAYER_H
 #define CC_2D_FASTTMXLAYER_H
 
-#include "2d/CCNode.h"
-#include "2d/CCTMXXMLParser.h"
-#include "base/CCMap.h"
-#include "base/CCValue.h"
-#include "base/ccTypes.h"
-#include "math/CCGeometry.h"
-#include "math/Mat4.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCPrimitiveCommand.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCTMXXMLParser.h>
+#include <cocos/base/CCMap.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCPrimitiveCommand.h>
 
 #include <cstdint>
 #include <map>

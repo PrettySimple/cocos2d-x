@@ -27,8 +27,8 @@ THE SOFTWARE.
 
 /// @cond DO_NOT_SHOW
 
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 NS_CC_BEGIN
 

@@ -28,15 +28,15 @@
 // Only compile this code on iOS. These files should NOT be included on your Mac project.
 // But in case they are included, it won't be compiled.
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    import "platform/ios/CCESRenderer-ios.h"
+#    include <cocos/platform/ios/CCESRenderer-ios.h>
 
-#    import <OpenGLES/ES2/gl.h>
-#    import <OpenGLES/ES2/glext.h>
+#    include <OpenGLES/ES2/gl.h>
+#    include <OpenGLES/ES2/glext.h>
 
-#    import "platform/CCPlatformMacros.h"
+#    include <cocos/platform/CCPlatformMacros.h>
 
 @interface CCES2Renderer : NSObject <CCESRenderer> {
     // The pixel dimensions of the CAEAGLLayer

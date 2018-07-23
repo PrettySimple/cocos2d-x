@@ -22,17 +22,17 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCDataVisitor.h"
+#include <cocos/base/CCDataVisitor.h>
 
-#include "deprecated/CCArray.h"
-#include "deprecated/CCBool.h"
-#include "deprecated/CCDictionary.h"
-#include "deprecated/CCDouble.h"
-#include "deprecated/CCFloat.h"
-#include "deprecated/CCInteger.h"
-#include "deprecated/CCSet.h"
-#include "deprecated/CCString.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/deprecated/CCArray.h>
+#include <cocos/deprecated/CCBool.h>
+#include <cocos/deprecated/CCDictionary.h>
+#include <cocos/deprecated/CCDouble.h>
+#include <cocos/deprecated/CCFloat.h>
+#include <cocos/deprecated/CCInteger.h>
+#include <cocos/deprecated/CCSet.h>
+#include <cocos/deprecated/CCString.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 extern "C"
 {

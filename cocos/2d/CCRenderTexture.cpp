@@ -24,18 +24,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCRenderTexture.h"
+#include <cocos/2d/CCRenderTexture.h>
 
-#include "2d/CCCamera.h"
-#include "base/CCConfiguration.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/CCEventType.h"
-#include "base/ccUtils.h"
-#include "platform/CCFileUtils.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTextureCache.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventListenerCustom.h>
+#include <cocos/base/CCEventType.h>
+#include <cocos/base/ccUtils.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTextureCache.h>
 
 NS_CC_BEGIN
 

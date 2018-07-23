@@ -26,10 +26,10 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_MATERIALMANAGER_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_MATERIALMANAGER_H
 
-#include "base/CCRef.h"
-#include "base/ccTypes.h"
-#include "math/Vec4.h"
-#include "platform/CCGL.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/platform/CCGL.h>
 
 #include <string>
 #include <vector>

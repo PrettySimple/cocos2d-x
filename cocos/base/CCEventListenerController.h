@@ -26,8 +26,8 @@
 #ifndef CC_BASE_EVENTLISTENERCONTROLLER_H
 #define CC_BASE_EVENTLISTENERCONTROLLER_H
 
-#include "base/CCEventListener.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCEventListener.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 /**
  * @addtogroup base

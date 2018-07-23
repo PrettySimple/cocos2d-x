@@ -27,7 +27,7 @@
 #import "ui/UIEditBox/iOS/CCUISingleLineTextField.h"
 #import "ui/UIEditBox/iOS/CCUITextInput.h"
 
-#include "base/CCDirector.h"
+#include <cocos/base/CCDirector.h>
 
 @implementation CCUISingleLineTextField
 

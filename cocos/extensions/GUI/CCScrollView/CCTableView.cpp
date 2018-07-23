@@ -25,12 +25,12 @@
 
 #include "extensions/GUI/CCScrollView/CCTableView.h"
 
-#include "2d/CCNode.h"
+#include <cocos/2d/CCNode.h>
 #include "CCTableViewCell.h"
-#include "base/CCTouch.h"
-#include "base/ccTypes.h"
+#include <cocos/base/CCTouch.h>
+#include <cocos/base/ccTypes.h>
 #include "extensions/GUI/CCScrollView/CCScrollView.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <algorithm>
 #include <new>

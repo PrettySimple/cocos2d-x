@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "cocostudio/CCBone.h"
 #include "cocostudio/CCSpriteFrameCacheHelper.h"
 #include "cocostudio/CocosStudioExport.h"
-#include "math/CCMath.h"
+#include <cocos/math/CCMath.h>
 
 class b2Body;
 struct cpBody;

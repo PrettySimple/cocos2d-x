@@ -31,7 +31,7 @@
 #include <typeinfo>
 #include <vector>
 
-#include "base/CCConfiguration.h"
+#include <cocos/base/CCConfiguration.h>
 #include "base/allocator/CCAllocatorDiagnostics.h"
 #include "base/allocator/CCAllocatorGlobal.h"
 #include "base/allocator/CCAllocatorMacros.h"

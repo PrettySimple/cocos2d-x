@@ -27,17 +27,17 @@ THE SOFTWARE.
 #ifndef CC_2D_LABELATLAS_H
 #define CC_2D_LABELATLAS_H
 
-#include "2d/CCAtlasNode.h"
-#include "base/CCProtocols.h"
-#include "base/ccConfig.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/2d/CCAtlasNode.h>
+#include <cocos/base/CCProtocols.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <iosfwd>
 
 #if CC_LABELATLAS_DEBUG_DRAW
-#    include "2d/CCDrawNode.h"
-#    include "renderer/CCCustomCommand.h"
+#    include <cocos/2d/CCDrawNode.h>
+#    include <cocos/renderer/CCCustomCommand.h>
 #endif
 
 NS_CC_BEGIN

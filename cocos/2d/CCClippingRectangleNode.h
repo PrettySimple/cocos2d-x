@@ -28,9 +28,9 @@
 #ifndef CC_2D_CLIPPINGRECTANGLENODE_H
 #define CC_2D_CLIPPINGRECTANGLENODE_H
 
-#include "2d/CCNode.h"
-#include "platform/CCGL.h"
-#include "renderer/CCCustomCommand.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/renderer/CCCustomCommand.h>
 
 NS_CC_BEGIN
 

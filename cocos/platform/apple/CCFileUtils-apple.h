@@ -26,13 +26,13 @@
 #ifndef CC_PLATFORM_APPLE_FILEUTILSAPPLE_H
 #define CC_PLATFORM_APPLE_FILEUTILSAPPLE_H
 
+#include <cocos/base/ccTypes.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <memory>
 #include <string>
 #include <vector>
-
-#include "base/ccTypes.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCPlatformMacros.h"
 
 #if CC_FILEUTILS_APPLE_ENABLE_OBJC
 @class NSBundle;

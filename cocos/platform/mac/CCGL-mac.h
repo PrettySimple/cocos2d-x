@@ -26,7 +26,7 @@ THE SOFTWARE.
 #ifndef CC_PLATFORM_MAC_GLMAC_H
 #define CC_PLATFORM_MAC_GLMAC_H
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
 #    import <OpenGL/gl.h>

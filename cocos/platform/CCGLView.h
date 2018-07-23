@@ -26,13 +26,13 @@ THE SOFTWARE.
 #ifndef CC_PLATFORM_GLVIEW_H
 #define CC_PLATFORM_GLVIEW_H
 
-#include "base/CCEventTouch.h"
-#include "base/CCRef.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformConfig.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/base/CCEventTouch.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <cstdint>
 #include <iosfwd>

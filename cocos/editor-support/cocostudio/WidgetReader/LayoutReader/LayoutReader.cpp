@@ -5,10 +5,10 @@
 #include "cocostudio/CSParseBinary_generated.h"
 #include "cocostudio/CocoLoader.h"
 #include "cocostudio/FlatBuffersSerialize.h"
-#include "ui/UILayout.h"
-#include "ui/UIListView.h"
-#include "ui/UIPageView.h"
-#include "ui/UIScrollView.h"
+#include <cocos/ui/UILayout.h>
+#include <cocos/ui/UIListView.h>
+#include <cocos/ui/UIPageView.h>
+#include <cocos/ui/UIScrollView.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"

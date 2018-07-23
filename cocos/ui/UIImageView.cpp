@@ -22,12 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIImageView.h"
+#include <cocos/ui/UIImageView.h>
 
-#include "2d/CCSprite.h"
+#include <cocos/2d/CCSprite.h>
 #include "editor-support/cocostudio/CocosStudioExtension.h"
-#include "ui/UIHelper.h"
-#include "ui/UIScale9Sprite.h"
+#include <cocos/ui/UIHelper.h>
+#include <cocos/ui/UIScale9Sprite.h>
 
 #include <new>
 

@@ -26,9 +26,9 @@
 #ifndef CC_BASE_UTF8_H
 #define CC_BASE_UTF8_H
 
-#include "platform/CCPlatformConfig.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <cstddef>
 #include <sstream>
@@ -36,7 +36,7 @@
 #include <vector>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#    include "platform/android/jni/JniHelper.h"
+#    include <cocos/platform/android/jni/JniHelper.h>
 #endif
 
 NS_CC_BEGIN

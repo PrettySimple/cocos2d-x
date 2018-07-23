@@ -32,11 +32,11 @@
 #ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_COLOURPICKER_H
 #define CC_EXTENSIONS_GUI_CONTROLEXTENSION_COLOURPICKER_H
 
-#include "extensions/ExtensionExport.h"
-#include "extensions/ExtensionMacros.h"
-#include "extensions/GUI/CCControlExtension/CCControl.h"
-#include "extensions/GUI/CCControlExtension/CCControlUtils.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/extensions/ExtensionExport.h>
+#include <cocos/extensions/ExtensionMacros.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControlUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 namespace cocos2d
 {

@@ -26,11 +26,11 @@
 #ifndef CC_2D_LABEL_H
 #define CC_2D_LABEL_H
 
-#include "2d/CCFontAtlas.h"
-#include "2d/CCNode.h"
-#include "base/ccTypes.h"
-#include "renderer/CCCustomCommand.h"
-#include "renderer/CCQuadCommand.h"
+#include <cocos/2d/CCFontAtlas.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/renderer/CCCustomCommand.h>
+#include <cocos/renderer/CCQuadCommand.h>
 
 NS_CC_BEGIN
 

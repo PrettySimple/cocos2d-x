@@ -19,15 +19,15 @@
  This file was modified to fit the cocos2d-x project
  */
 
-#include "renderer/CCVertexAttribBinding.h"
+#include <cocos/renderer/CCVertexAttribBinding.h>
 
-#include "3d/CCMeshVertexIndexData.h"
-#include "base/CCConfiguration.h"
-#include "platform/CCGL.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCVertexIndexBuffer.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/3d/CCMeshVertexIndexData.h>
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCVertexIndexBuffer.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 NS_CC_BEGIN
 

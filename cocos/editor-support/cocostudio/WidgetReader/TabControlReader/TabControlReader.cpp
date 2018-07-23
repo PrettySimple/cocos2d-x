@@ -24,13 +24,13 @@
 
 #include "editor-support/cocostudio/WidgetReader/TabControlReader/TabControlReader.h"
 
-#include "2d/CCSpriteFrameCache.h"
+#include <cocos/2d/CCSpriteFrameCache.h>
 #include "editor-support/cocostudio/ActionTimeline/CSLoader.h"
 #include "editor-support/cocostudio/CSParseBinary_generated.h"
 #include "editor-support/cocostudio/FlatBuffersSerialize.h"
 #include "editor-support/cocostudio/WidgetReader/WidgetReader.h"
-#include "platform/CCFileUtils.h"
-#include "ui/UITabControl.h"
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/ui/UITabControl.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"

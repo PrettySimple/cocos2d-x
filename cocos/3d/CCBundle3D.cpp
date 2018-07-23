@@ -22,14 +22,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "3d/CCBundle3D.h"
-#include "3d/CCObjLoader.h"
+#include <cocos/3d/CCBundle3D.h>
+#include <cocos/3d/CCObjLoader.h>
 
-#include "3d/CCBundleReader.h"
-#include "base/CCData.h"
-#include "base/ccMacros.h"
-#include "platform/CCFileUtils.h"
-#include "renderer/CCGLProgram.h"
+#include <cocos/3d/CCBundleReader.h>
+#include <cocos/base/CCData.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/renderer/CCGLProgram.h>
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"
 #include <json/document.h>

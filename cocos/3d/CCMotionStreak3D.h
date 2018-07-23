@@ -24,9 +24,9 @@ THE SOFTWARE.
 #ifndef CC_3D_MOTIONSTREAK3D_H
 #define CC_3D_MOTIONSTREAK3D_H
 
-#include "2d/CCNode.h"
-#include "base/CCProtocols.h"
-#include "renderer/CCCustomCommand.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCProtocols.h>
+#include <cocos/renderer/CCCustomCommand.h>
 
 NS_CC_BEGIN
 

@@ -30,12 +30,12 @@ THE SOFTWARE.
 #ifndef CC_2D_SPRITEFRAMECACHE_H
 #define CC_2D_SPRITEFRAMECACHE_H
 
-#include "base/CCMap.h"
-#include "base/CCRef.h"
-#include "base/CCValue.h"
-#include "math/CCGeometry.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/base/CCMap.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <iosfwd>
 #include <set>

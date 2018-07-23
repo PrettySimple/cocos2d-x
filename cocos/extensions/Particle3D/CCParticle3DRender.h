@@ -27,9 +27,9 @@
 
 #include <vector>
 
-#include "base/CCRef.h"
-#include "math/CCMath.h"
-#include "renderer/CCRenderState.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/math/CCMath.h>
+#include <cocos/renderer/CCRenderState.h>
 
 NS_CC_BEGIN
 

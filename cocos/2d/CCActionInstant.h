@@ -28,12 +28,12 @@ THE SOFTWARE.
 #ifndef CC_2D_ACTIONINSTANT_H
 #define CC_2D_ACTIONINSTANT_H
 
-#include "2d/CCAction.h"
-#include "base/CCRef.h"
-#include "base/ccConfig.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/2d/CCAction.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <functional>
 

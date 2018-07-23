@@ -26,7 +26,7 @@
 #ifndef CC_VR_DISTORTIONMESH_H
 #define CC_VR_DISTORTIONMESH_H
 
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 

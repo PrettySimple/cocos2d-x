@@ -23,21 +23,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "2d/CCGrid.h"
+#include <cocos/2d/CCGrid.h>
 
-#include "2d/CCCamera.h"
+#include <cocos/2d/CCCamera.h>
 #include "2d/CCGrabber.h"
-#include "base/CCDirector.h"
-#include "base/ccMacros.h"
-#include "base/ccUtils.h"
-#include "math/Mat4.h"
-#include "renderer/CCFrameBuffer.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccUtils.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/renderer/CCFrameBuffer.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #include <cstdlib>
 #include <cstring>

@@ -22,15 +22,15 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "2d/CCFontAtlasCache.h"
+#include <cocos/2d/CCFontAtlasCache.h>
 
-#include "2d/CCFontAtlas.h"
+#include <cocos/2d/CCFontAtlas.h>
 #include "2d/CCFontCharMap.h"
-#include "2d/CCFontFNT.h"
-#include "2d/CCFontFreeType.h"
-#include "2d/CCLabel.h"
-#include "base/CCDirector.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/2d/CCFontFNT.h>
+#include <cocos/2d/CCFontFreeType.h>
+#include <cocos/2d/CCLabel.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 NS_CC_BEGIN
 

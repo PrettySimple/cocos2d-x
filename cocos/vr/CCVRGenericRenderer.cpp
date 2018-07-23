@@ -23,15 +23,15 @@
  ****************************************************************************/
 
 #include "vr/CCVRGenericRenderer.h"
-#include "2d/CCCamera.h"
-#include "2d/CCScene.h"
-#include "2d/CCSprite.h"
-#include "base/CCDirector.h"
-#include "platform/CCGLView.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCScene.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/platform/CCGLView.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/ccGLStateCache.h>
 #include "vr/CCVRDistortion.h"
 #include "vr/CCVRDistortionMesh.h"
 #include "vr/CCVRGenericHeadTracker.h"

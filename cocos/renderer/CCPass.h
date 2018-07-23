@@ -30,10 +30,11 @@
 #ifndef CC_RENDERER_PASS_H
 #define CC_RENDERER_PASS_H
 
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/renderer/CCRenderState.h>
+
 #include <cstdint>
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
-#include "renderer/CCRenderState.h"
 
 NS_CC_BEGIN
 

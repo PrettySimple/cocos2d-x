@@ -25,15 +25,15 @@ THE SOFTWARE.
 #ifndef CC_UI_LISTVIEW_H
 #define CC_UI_LISTVIEW_H
 
-#include "base/CCRef.h"
-#include "base/CCVector.h"
-#include "base/ccConfig.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformMacros.h"
-#include "ui/GUIDefine.h"
-#include "ui/GUIExport.h"
-#include "ui/UIScrollView.h"
-#include "ui/UIWidget.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIScrollView.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <cstddef>
 #include <functional>

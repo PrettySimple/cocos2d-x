@@ -22,7 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "base/ObjectFactory.h"
+#include <cocos/base/ObjectFactory.h>
+
 #include <functional>
 
 NS_CC_BEGIN

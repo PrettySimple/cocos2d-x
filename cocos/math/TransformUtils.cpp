@@ -25,7 +25,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "math/TransformUtils.h"
-#include "math/CCAffineTransform.h"
+#include <cocos/math/CCAffineTransform.h>
 
 namespace cocos2d
 {

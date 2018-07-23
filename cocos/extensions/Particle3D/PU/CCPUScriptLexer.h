@@ -26,7 +26,7 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTLEXER_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTLEXER_H
 
-#include "base/CCRef.h"
+#include <cocos/base/CCRef.h>
 #include <string>
 #include <vector>
 

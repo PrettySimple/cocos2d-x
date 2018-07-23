@@ -25,12 +25,12 @@ THE SOFTWARE.
 #ifndef CC_UI_CHECKBOX_H
 #define CC_UI_CHECKBOX_H
 
-#include "base/CCRef.h"
-#include "platform/CCPlatformMacros.h"
-#include "ui/GUIDefine.h"
-#include "ui/GUIExport.h"
-#include "ui/UIAbstractCheckButton.h"
-#include "ui/UIWidget.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIAbstractCheckButton.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <functional>
 #include <iosfwd>

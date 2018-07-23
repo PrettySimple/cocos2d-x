@@ -24,13 +24,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "deprecated/CCArray.h"
+#include <cocos/deprecated/CCArray.h>
 
-#include "base/CCDataVisitor.h"
-#include "base/CCValue.h"
-#include "base/ccTypes.h"
-#include "deprecated/CCString.h"
-#include "platform/CCFileUtils.h"
+#include <cocos/base/CCDataVisitor.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/deprecated/CCString.h>
+#include <cocos/platform/CCFileUtils.h>
 
 #include <cmath>
 #include <cstdarg>
@@ -588,7 +588,7 @@ Ref* __Array::getRandomObject()
 
     float r = CCRANDOM_0_1();
 
-    if (r == 1) // to prevent from accessing data-arr[data->num], out of range.
+    if (std::abs(r - 1.f) < std::numeric_limits<float>::epsilon()) // to prevent from accessing data-arr[data->num], out of range.
     {
         r = 0;
     }
@@ -603,7 +603,7 @@ bool __Array::containsObject(Ref* object) const
 
 bool __Array::isEqualToArray(__Array* otherArray)
 {
-    for (int i = 0; i < this->count(); ++i)
+    for (std::size_t i = 0; i < this->count(); ++i)
     {
         // FIXME:james
         if (this->getObjectAtIndex(i) != otherArray->getObjectAtIndex(i))

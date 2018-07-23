@@ -22,10 +22,10 @@
  THE SOFTWARE.
 ****************************************************************************/
 
-#include "base/CCValue.h"
+#include <cocos/base/CCValue.h>
 
-#include "base/ccMacros.h"
-#include "base/ccUtils.h"
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccUtils.h>
 
 #include <cmath>
 #include <cstdlib>

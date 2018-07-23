@@ -28,8 +28,8 @@ THE SOFTWARE.
 #define CC_DEPRECATED_ARRAY_H
 /// @cond DO_NOT_SHOW
 
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <cstddef>
 #include <iosfwd>
@@ -43,12 +43,12 @@ namespace cocos2d
 #define CC_USE_ARRAY_VECTOR 0
 
 #if CC_USE_ARRAY_VECTOR
-#    include "base/CCRef.h"
+#    include <cocos/base/CCRef.h>
 #    include "base/ccMacros.h"
 #    include <algorithm>
 #    include <vector>
 #else
-#    include "base/CCRef.h"
+#    include <cocos/base/CCRef.h>
 #    include "base/ccCArray.h"
 #    include "base/ccMacros.h"
 #endif

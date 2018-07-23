@@ -23,13 +23,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 
-#    include "base/CCDirector.h"
-#    include "base/ccUTF8.h"
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/base/ccUTF8.h>
 #    include "ui/UIEditBox/Mac/CCUIEditBoxMac.h"
-#    include "ui/UIEditBox/UIEditBox.h"
+#    include <cocos/ui/UIEditBox/UIEditBox.h>
 #    include "ui/UIEditBox/UIEditBoxImpl-mac.h"
 
 NS_CC_BEGIN

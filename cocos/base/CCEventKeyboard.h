@@ -26,9 +26,9 @@
 #ifndef CC_BASE_EVENTKEYBOARD_H
 #define CC_BASE_EVENTKEYBOARD_H
 
-#include "base/CCEvent.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/base/CCEvent.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <cstdint>
 

@@ -25,8 +25,8 @@
 #pragma once
 
 #include "audio/include/Export.h"
-#include "platform/CCPlatformConfig.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <chrono>
 #include <functional>

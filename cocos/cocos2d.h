@@ -35,143 +35,143 @@ THE SOFTWARE.
 //
 // all cocos2d include files
 //
-#include "base/ccConfig.h"
+#include <cocos/base/ccConfig.h>
 
 // base
-#include "base/CCAsyncTaskPool.h"
-#include "base/CCAutoreleasePool.h"
-#include "base/CCConfiguration.h"
-#include "base/CCConsole.h"
-#include "base/CCData.h"
-#include "base/CCDirector.h"
-#include "base/CCIMEDelegate.h"
-#include "base/CCIMEDispatcher.h"
-#include "base/CCMap.h"
-#include "base/CCNS.h"
-#include "base/CCProfiling.h"
-#include "base/CCProperties.h"
-#include "base/CCRef.h"
+#include <cocos/base/CCAsyncTaskPool.h>
+#include <cocos/base/CCAutoreleasePool.h>
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/CCData.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCIMEDelegate.h>
+#include <cocos/base/CCIMEDispatcher.h>
+#include <cocos/base/CCMap.h>
+#include <cocos/base/CCNS.h>
+#include <cocos/base/CCProfiling.h>
+#include <cocos/base/CCProperties.h>
+#include <cocos/base/CCRef.h>
 #include "base/CCRefPtr.h"
-#include "base/CCScheduler.h"
-#include "base/CCUserDefault.h"
-#include "base/CCValue.h"
-#include "base/CCVector.h"
-#include "base/ZipUtils.h"
-#include "base/base64.h"
-#include "base/ccConfig.h"
-#include "base/ccMacros.h"
-#include "base/ccTypes.h"
-#include "base/ccUTF8.h"
-#include "base/ccUtils.h"
+#include <cocos/base/CCScheduler.h>
+#include <cocos/base/CCUserDefault.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ZipUtils.h>
+#include <cocos/base/base64.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/base/ccUtils.h>
 
 // EventDispatcher
-#include "base/CCEventAcceleration.h"
-#include "base/CCEventCustom.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventFocus.h"
-#include "base/CCEventKeyboard.h"
-#include "base/CCEventListenerAcceleration.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/CCEventListenerFocus.h"
-#include "base/CCEventListenerKeyboard.h"
-#include "base/CCEventListenerMouse.h"
-#include "base/CCEventListenerTouch.h"
-#include "base/CCEventMouse.h"
-#include "base/CCEventTouch.h"
-#include "base/CCEventType.h"
+#include <cocos/base/CCEventAcceleration.h>
+#include <cocos/base/CCEventCustom.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventFocus.h>
+#include <cocos/base/CCEventKeyboard.h>
+#include <cocos/base/CCEventListenerAcceleration.h>
+#include <cocos/base/CCEventListenerCustom.h>
+#include <cocos/base/CCEventListenerFocus.h>
+#include <cocos/base/CCEventListenerKeyboard.h>
+#include <cocos/base/CCEventListenerMouse.h>
+#include <cocos/base/CCEventListenerTouch.h>
+#include <cocos/base/CCEventMouse.h>
+#include <cocos/base/CCEventTouch.h>
+#include <cocos/base/CCEventType.h>
 
 // math
-#include "math/CCAffineTransform.h"
-#include "math/CCGeometry.h"
+#include <cocos/math/CCAffineTransform.h>
+#include <cocos/math/CCGeometry.h>
 #include "math/CCVertex.h"
-#include "math/Mat4.h"
+#include <cocos/math/Mat4.h>
 #include "math/MathUtil.h"
-#include "math/Quaternion.h"
-#include "math/Vec2.h"
-#include "math/Vec3.h"
-#include "math/Vec4.h"
+#include <cocos/math/Quaternion.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/math/Vec4.h>
 
 // actions
-#include "2d/CCAction.h"
-#include "2d/CCActionCamera.h"
-#include "2d/CCActionCatmullRom.h"
-#include "2d/CCActionEase.h"
-#include "2d/CCActionGrid.h"
-#include "2d/CCActionGrid3D.h"
-#include "2d/CCActionInstant.h"
-#include "2d/CCActionInterval.h"
-#include "2d/CCActionManager.h"
-#include "2d/CCActionPageTurn3D.h"
-#include "2d/CCActionProgressTimer.h"
-#include "2d/CCActionTiledGrid.h"
-#include "2d/CCActionTween.h"
-#include "2d/CCTweenFunction.h"
+#include <cocos/2d/CCAction.h>
+#include <cocos/2d/CCActionCamera.h>
+#include <cocos/2d/CCActionCatmullRom.h>
+#include <cocos/2d/CCActionEase.h>
+#include <cocos/2d/CCActionGrid.h>
+#include <cocos/2d/CCActionGrid3D.h>
+#include <cocos/2d/CCActionInstant.h>
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/2d/CCActionManager.h>
+#include <cocos/2d/CCActionPageTurn3D.h>
+#include <cocos/2d/CCActionProgressTimer.h>
+#include <cocos/2d/CCActionTiledGrid.h>
+#include <cocos/2d/CCActionTween.h>
+#include <cocos/2d/CCTweenFunction.h>
 
 // 2d nodes
-#include "2d/CCAtlasNode.h"
-#include "2d/CCClippingNode.h"
+#include <cocos/2d/CCAtlasNode.h>
+#include <cocos/2d/CCClippingNode.h>
 #include "2d/CCClippingRectangleNode.h"
-#include "2d/CCDrawNode.h"
-#include "2d/CCDrawingPrimitives.h"
-#include "2d/CCFontFNT.h"
-#include "2d/CCLabel.h"
-#include "2d/CCLabelAtlas.h"
-#include "2d/CCLabelBMFont.h"
-#include "2d/CCLabelTTF.h"
-#include "2d/CCLayer.h"
-#include "2d/CCMenu.h"
-#include "2d/CCMenuItem.h"
-#include "2d/CCMotionStreak.h"
-#include "2d/CCNode.h"
+#include <cocos/2d/CCDrawNode.h>
+#include <cocos/2d/CCDrawingPrimitives.h>
+#include <cocos/2d/CCFontFNT.h>
+#include <cocos/2d/CCLabel.h>
+#include <cocos/2d/CCLabelAtlas.h>
+#include <cocos/2d/CCLabelBMFont.h>
+#include <cocos/2d/CCLabelTTF.h>
+#include <cocos/2d/CCLayer.h>
+#include <cocos/2d/CCMenu.h>
+#include <cocos/2d/CCMenuItem.h>
+#include <cocos/2d/CCMotionStreak.h>
+#include <cocos/2d/CCNode.h>
 #include "2d/CCNodeGrid.h"
-#include "2d/CCParticleBatchNode.h"
-#include "2d/CCParticleExamples.h"
-#include "2d/CCParticleSystem.h"
-#include "2d/CCParticleSystemQuad.h"
-#include "2d/CCProgressTimer.h"
-#include "2d/CCProtectedNode.h"
-#include "2d/CCRenderTexture.h"
-#include "2d/CCScene.h"
-#include "2d/CCTransition.h"
-#include "2d/CCTransitionPageTurn.h"
-#include "2d/CCTransitionProgress.h"
+#include <cocos/2d/CCParticleBatchNode.h>
+#include <cocos/2d/CCParticleExamples.h>
+#include <cocos/2d/CCParticleSystem.h>
+#include <cocos/2d/CCParticleSystemQuad.h>
+#include <cocos/2d/CCProgressTimer.h>
+#include <cocos/2d/CCProtectedNode.h>
+#include <cocos/2d/CCRenderTexture.h>
+#include <cocos/2d/CCScene.h>
+#include <cocos/2d/CCTransition.h>
+#include <cocos/2d/CCTransitionPageTurn.h>
+#include <cocos/2d/CCTransitionProgress.h>
 
 // 2d utils
-#include "2d/CCCamera.h"
+#include <cocos/2d/CCCamera.h>
 #include "2d/CCCameraBackgroundBrush.h"
 #include "2d/CCGrabber.h"
-#include "2d/CCGrid.h"
-#include "2d/CCLight.h"
+#include <cocos/2d/CCGrid.h>
+#include <cocos/2d/CCLight.h>
 
 // include
-#include "base/CCProtocols.h"
+#include <cocos/base/CCProtocols.h>
 
 // renderer
-#include "renderer/CCCustomCommand.h"
-#include "renderer/CCFrameBuffer.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCGroupCommand.h"
-#include "renderer/CCMaterial.h"
-#include "renderer/CCPass.h"
-#include "renderer/CCPrimitive.h"
-#include "renderer/CCPrimitiveCommand.h"
-#include "renderer/CCQuadCommand.h"
-#include "renderer/CCRenderCommand.h"
+#include <cocos/renderer/CCCustomCommand.h>
+#include <cocos/renderer/CCFrameBuffer.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCGroupCommand.h>
+#include <cocos/renderer/CCMaterial.h>
+#include <cocos/renderer/CCPass.h>
+#include <cocos/renderer/CCPrimitive.h>
+#include <cocos/renderer/CCPrimitiveCommand.h>
+#include <cocos/renderer/CCQuadCommand.h>
+#include <cocos/renderer/CCRenderCommand.h>
 #include "renderer/CCRenderCommandPool.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTechnique.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCTextureCache.h"
-#include "renderer/CCTextureCube.h"
-#include "renderer/CCTrianglesCommand.h"
-#include "renderer/CCVertexAttribBinding.h"
-#include "renderer/CCVertexIndexBuffer.h"
-#include "renderer/CCVertexIndexData.h"
-#include "renderer/ccGLStateCache.h"
-#include "renderer/ccShaders.h"
+#include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTechnique.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureCache.h>
+#include <cocos/renderer/CCTextureCube.h>
+#include <cocos/renderer/CCTrianglesCommand.h>
+#include <cocos/renderer/CCVertexAttribBinding.h>
+#include <cocos/renderer/CCVertexIndexBuffer.h>
+#include <cocos/renderer/CCVertexIndexData.h>
+#include <cocos/renderer/ccGLStateCache.h>
+#include <cocos/renderer/ccShaders.h>
 
 // physics
 #include "physics/CCPhysicsBody.h"
@@ -181,24 +181,24 @@ THE SOFTWARE.
 #include "physics/CCPhysicsWorld.h"
 
 // platform
-#include "platform/CCCommon.h"
-#include "platform/CCDevice.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCImage.h"
-#include "platform/CCPlatformConfig.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCSAXParser.h"
-#include "platform/CCThread.h"
+#include <cocos/platform/CCCommon.h>
+#include <cocos/platform/CCDevice.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCImage.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCSAXParser.h>
+#include <cocos/platform/CCThread.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-#    include "platform/ios/CCApplication-ios.h"
-#    include "platform/ios/CCGL-ios.h"
-#    include "platform/ios/CCGLViewImpl-ios.h"
+#    include <cocos/platform/ios/CCApplication-ios.h>
+#    include <cocos/platform/ios/CCGL-ios.h>
+#    include <cocos/platform/ios/CCGLViewImpl-ios.h>
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#    include "platform/android/CCApplication-android.h"
-#    include "platform/android/CCGL-android.h"
+#    include <cocos/platform/android/CCApplication-android.h>
+#    include <cocos/platform/android/CCGL-android.h>
 #    include "platform/android/CCGLViewImpl-android.h"
 #    include "platform/android/CCStdC-android.h"
 // Enhance modification begin
@@ -214,96 +214,96 @@ THE SOFTWARE.
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 #    include "platform/desktop/CCGLViewImpl-desktop.h"
-#    include "platform/win32/CCApplication-win32.h"
-#    include "platform/win32/CCGL-win32.h"
+#    include <cocos/platform/win32/CCApplication-win32.h>
+#    include <cocos/platform/win32/CCGL-win32.h>
 #    include "platform/win32/CCStdC-win32.h"
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 #    include "platform/desktop/CCGLViewImpl-desktop.h"
-#    include "platform/mac/CCApplication-mac.h"
-#    include "platform/mac/CCGL-mac.h"
+#    include <cocos/platform/mac/CCApplication-mac.h>
+#    include <cocos/platform/mac/CCGL-mac.h>
 #    include "platform/mac/CCStdC-mac.h"
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
 #    include "platform/desktop/CCGLViewImpl-desktop.h"
-#    include "platform/linux/CCApplication-linux.h"
-#    include "platform/linux/CCGL-linux.h"
+#    include <cocos/platform/linux/CCApplication-linux.h>
+#    include <cocos/platform/linux/CCGL-linux.h>
 #    include "platform/linux/CCStdC-linux.h"
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-#    include "platform/winrt/CCApplication.h"
-#    include "platform/winrt/CCGL.h"
+#    include <cocos/platform/winrt/CCApplication.h>
+#    include <cocos/platform/winrt/CCGL.h>
 #    include "platform/winrt/CCGLViewImpl-winrt.h"
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN)
-#    include "platform/tizen/CCApplication-tizen.h"
-#    include "platform/tizen/CCGL-tizen.h"
+#    include <cocos/platform/tizen/CCApplication-tizen.h>
+#    include <cocos/platform/tizen/CCGL-tizen.h>
 #    include "platform/tizen/CCGLViewImpl-tizen.h"
 #    include "platform/tizen/CCStdC-tizen.h"
 #endif
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
-#    include "platform/emscripten/CCApplication-emscripten.h"
-#    include "platform/emscripten/CCGL-emscripten.h"
+#    include <cocos/platform/emscripten/CCApplication-emscripten.h>
+#    include <cocos/emscripten/CCGL-emscripten.h>
 #    include "platform/emscripten/CCGLViewImpl-emscripten.h"
 #    include "platform/emscripten/CCStdC-emscripten.h"
 #endif
 
 // script_support
-#include "base/CCScriptSupport.h"
+#include <cocos/base/CCScriptSupport.h>
 
 // sprite_nodes
-#include "2d/CCAnimation.h"
-#include "2d/CCAnimationCache.h"
-#include "2d/CCAutoPolygon.h"
-#include "2d/CCSprite.h"
-#include "2d/CCSpriteBatchNode.h"
-#include "2d/CCSpriteFrame.h"
-#include "2d/CCSpriteFrameCache.h"
+#include <cocos/2d/CCAnimation.h>
+#include <cocos/2d/CCAnimationCache.h>
+#include <cocos/2d/CCAutoPolygon.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/2d/CCSpriteBatchNode.h>
+#include <cocos/2d/CCSpriteFrame.h>
+#include <cocos/2d/CCSpriteFrameCache.h>
 
 // text_input_node
-#include "2d/CCTextFieldTTF.h"
+#include <cocos/2d/CCTextFieldTTF.h>
 
 // textures
-#include "renderer/CCTextureAtlas.h"
+#include <cocos/renderer/CCTextureAtlas.h>
 
 // tilemap_parallax_nodes
 #include "2d/CCFastTMXLayer.h"
 #include "2d/CCFastTMXTiledMap.h"
-#include "2d/CCParallaxNode.h"
-#include "2d/CCTMXLayer.h"
-#include "2d/CCTMXObjectGroup.h"
-#include "2d/CCTMXTiledMap.h"
-#include "2d/CCTMXXMLParser.h"
-#include "2d/CCTileMapAtlas.h"
+#include <cocos/2d/CCParallaxNode.h>
+#include <cocos/2d/CCTMXLayer.h>
+#include <cocos/2d/CCTMXObjectGroup.h>
+#include <cocos/2d/CCTMXTiledMap.h>
+#include <cocos/2d/CCTMXXMLParser.h>
+#include <cocos/2d/CCTileMapAtlas.h>
 
 // component
-#include "2d/CCComponent.h"
+#include <cocos/2d/CCComponent.h>
 #include "2d/CCComponentContainer.h"
 
 // 3d
-#include "3d/CCAABB.h"
-#include "3d/CCAnimate3D.h"
-#include "3d/CCAnimation3D.h"
-#include "3d/CCAttachNode.h"
-#include "3d/CCBillBoard.h"
-#include "3d/CCFrustum.h"
-#include "3d/CCMesh.h"
-#include "3d/CCMeshSkin.h"
-#include "3d/CCMeshVertexIndexData.h"
+#include <cocos/3d/CCAABB.h>
+#include <cocos/3d/CCAnimate3D.h>
+#include <cocos/3d/CCAnimation3D.h>
+#include <cocos/3d/CCAttachNode.h>
+#include <cocos/3d/CCBillBoard.h>
+#include <cocos/3d/CCFrustum.h>
+#include <cocos/3d/CCMesh.h>
+#include <cocos/3d/CCMeshSkin.h>
+#include <cocos/3d/CCMeshVertexIndexData.h>
 #include "3d/CCMotionStreak3D.h"
-#include "3d/CCOBB.h"
-#include "3d/CCPlane.h"
-#include "3d/CCRay.h"
-#include "3d/CCSkeleton3D.h"
-#include "3d/CCSkybox.h"
-#include "3d/CCSprite3D.h"
-#include "3d/CCSprite3DMaterial.h"
-#include "3d/CCTerrain.h"
+#include <cocos/3d/CCOBB.h>
+#include <cocos/3d/CCPlane.h>
+#include <cocos/3d/CCRay.h>
+#include <cocos/3d/CCSkeleton3D.h>
+#include <cocos/3d/CCSkybox.h>
+#include <cocos/3d/CCSprite3D.h>
+#include <cocos/3d/CCSprite3DMaterial.h>
+#include <cocos/3d/CCTerrain.h>
 
 // vr
 #include "vr/CCVRGenericRenderer.h"
@@ -311,8 +311,8 @@ THE SOFTWARE.
 // Deprecated
 // All deprecated features are include inside deprecated/CCDeprecated.h.
 // It is recommended that you just include what is needed.
-// eg. #include "deprecated/CCString.h" if you only need cocos2d::__String.
-#include "deprecated/CCDeprecated.h"
+// eg. #include <cocos/deprecated/CCString.h> if you only need cocos2d::__String.
+#include <cocos/deprecated/CCDeprecated.h>
 
 NS_CC_BEGIN
 

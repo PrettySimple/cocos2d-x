@@ -25,7 +25,7 @@
 
 #pragma once
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
 #    import <OpenAL/al.h>
@@ -36,7 +36,7 @@
 #    include <vector>
 
 #    include "audio/apple/AudioMacros.h"
-#    include "platform/CCPlatformMacros.h"
+#    include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 namespace experimental

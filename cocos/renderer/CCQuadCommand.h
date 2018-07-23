@@ -25,11 +25,11 @@
 #ifndef CC_RENDERER_QUADCOMMAND_H
 #define CC_RENDERER_QUADCOMMAND_H
 
-#include "math/Mat4.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCTrianglesCommand.h"
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCTrianglesCommand.h>
 
 #include <cstdint>
 #include <cstddef>

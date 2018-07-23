@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "ui/UIVBox.h"
+#include <cocos/ui/UIVBox.h>
 
 #include <new>
 

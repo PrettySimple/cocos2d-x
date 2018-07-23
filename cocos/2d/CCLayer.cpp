@@ -25,23 +25,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCLayer.h"
+#include <cocos/2d/CCLayer.h>
 
-#include "base/CCDirector.h"
-#include "base/CCEventAcceleration.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventKeyboard.h"
-#include "base/CCEventListenerAcceleration.h"
-#include "base/CCEventListenerKeyboard.h"
-#include "base/CCEventListenerTouch.h"
-#include "base/CCEventTouch.h"
-#include "base/CCScriptSupport.h"
-#include "base/ccUTF8.h"
-#include "platform/CCDevice.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventAcceleration.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventKeyboard.h>
+#include <cocos/base/CCEventListenerAcceleration.h>
+#include <cocos/base/CCEventListenerKeyboard.h>
+#include <cocos/base/CCEventListenerTouch.h>
+#include <cocos/base/CCEventTouch.h>
+#include <cocos/base/CCScriptSupport.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/platform/CCDevice.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #include <stdarg.h>
 

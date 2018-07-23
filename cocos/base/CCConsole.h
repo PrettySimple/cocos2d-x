@@ -33,20 +33,19 @@
 #    include <sys/select.h>
 #endif
 
-#include "base/CCRef.h"
-#include "base/ccMacros.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <functional>
 #include <map>
 #include <mutex>
 #include <stdarg.h>
 #include <string>
-#include <thread>
-#include <vector>
-
 #include <string_view>
+#include <thread>
 #include <type_traits>
+#include <vector>
 
 NS_CC_BEGIN
 

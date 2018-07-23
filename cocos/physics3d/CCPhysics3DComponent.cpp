@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCNode.h"
-#include "2d/CCScene.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCScene.h>
 #include "physics3d/CCPhysics3D.h"
 
 #if CC_USE_3D_PHYSICS

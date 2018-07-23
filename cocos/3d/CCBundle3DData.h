@@ -25,10 +25,10 @@
 #ifndef CC_3D_BUNDLE3DDATA_H
 #define CC_3D_BUNDLE3DDATA_H
 
-#include "3d/CCAABB.h"
-#include "base/CCRef.h"
-#include "base/ccTypes.h"
-#include "math/CCMath.h"
+#include <cocos/3d/CCAABB.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCMath.h>
 
 #include <chrono>
 #include <map>

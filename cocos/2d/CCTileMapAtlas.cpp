@@ -24,18 +24,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "2d/CCTileMapAtlas.h"
+#include <cocos/2d/CCTileMapAtlas.h>
 
-#include "base/CCDirector.h"
-#include "base/TGAlib.h"
-#include "base/ccConfig.h"
-#include "base/ccMacros.h"
-#include "base/ccUTF8.h"
-#include "math/CCGeometry.h"
-#include "math/Vec3.h"
-#include "platform/CCFileUtils.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCTextureAtlas.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/TGAlib.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureAtlas.h>
 
 #include <cstddef>
 #include <new>

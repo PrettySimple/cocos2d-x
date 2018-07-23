@@ -22,13 +22,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "renderer/CCFrameBuffer.h"
-#include "base/CCDirector.h"
-#include "base/CCEventCustom.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/CCEventType.h"
-#include "renderer/CCRenderer.h"
+#include <cocos/renderer/CCFrameBuffer.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventCustom.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventListenerCustom.h>
+#include <cocos/base/CCEventType.h>
+#include <cocos/renderer/CCRenderer.h>
 
 NS_CC_BEGIN
 namespace experimental

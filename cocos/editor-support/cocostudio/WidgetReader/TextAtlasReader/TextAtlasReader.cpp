@@ -5,7 +5,7 @@
 #include "cocostudio/CSParseBinary_generated.h"
 #include "cocostudio/CocoLoader.h"
 #include "cocostudio/FlatBuffersSerialize.h"
-#include "ui/UITextAtlas.h"
+#include <cocos/ui/UITextAtlas.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"

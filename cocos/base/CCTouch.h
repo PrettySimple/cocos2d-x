@@ -26,10 +26,10 @@ THE SOFTWARE.
 #ifndef CC_BASE_TOUCH_H
 #define CC_BASE_TOUCH_H
 
-#include "base/CCRef.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 NS_CC_BEGIN
 

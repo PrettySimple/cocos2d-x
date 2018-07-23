@@ -26,7 +26,7 @@
 
 #include "base/allocator/CCAllocatorMacros.h"
 
-#include "base/ccConfig.h"
+#include <cocos/base/ccConfig.h>
 
 #if CC_ENABLE_ALLOCATOR
 #    if CC_ENABLE_ALLOCATOR_GLOBAL_NEW_DELETE

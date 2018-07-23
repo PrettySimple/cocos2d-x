@@ -22,9 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIAbstractCheckButton.h"
+#include <cocos/ui/UIAbstractCheckButton.h>
 
-#include "2d/CCSprite.h"
+#include <cocos/2d/CCSprite.h>
 #include "editor-support/cocostudio/CocosStudioExtension.h"
 
 NS_CC_BEGIN

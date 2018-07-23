@@ -28,9 +28,9 @@ THE SOFTWARE.
 #ifndef CC_RENDERER_TEXTURECACHE_H
 #define CC_RENDERER_TEXTURECACHE_H
 
-#include "base/CCRef.h"
-#include "platform/CCImage.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCImage.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 #include <condition_variable>
 #include <functional>

@@ -8,7 +8,8 @@
 #ifndef CC_BASE_ITERATORPAIR_H
 #define CC_BASE_ITERATORPAIR_H
 
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <type_traits>
 #include <utility>
 

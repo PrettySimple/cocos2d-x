@@ -25,10 +25,10 @@ THE SOFTWARE.
 #ifndef CC_UI_TEXTATLAS_H
 #define CC_UI_TEXTATLAS_H
 
-#include "platform/CCPlatformMacros.h"
-#include "ui/GUIDefine.h"
-#include "ui/GUIExport.h"
-#include "ui/UIWidget.h"
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <cstddef>
 #include <iosfwd>

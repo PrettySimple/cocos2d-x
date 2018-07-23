@@ -26,12 +26,12 @@
 #ifndef CC_PLATFORM_IOS_VIEWIMPLIOS_H
 #define CC_PLATFORM_IOS_VIEWIMPLIOS_H
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    include "base/CCRef.h"
-#    include "platform/CCCommon.h"
-#    include "platform/CCGLView.h"
+#    include <cocos/base/CCRef.h>
+#    include <cocos/platform/CCCommon.h>
+#    include <cocos/platform/CCGLView.h>
 
 #    include <cmath>
 #    include <limits>

@@ -27,8 +27,8 @@
 #define CC_BASE_ALLOCATOR_ALLOCATORMACROS_H
 /// @cond DO_NOT_SHOW
 
-#include "base/ccConfig.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 // namespace allocator {}
 #ifdef __cplusplus

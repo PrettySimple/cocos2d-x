@@ -5,9 +5,9 @@
 //  Created by Mathieu Garaud on 20/06/2018.
 //
 
-#include "CCBool.h"
+#include <cocos/deprecated/CCBool.h>
 
-#include "base/CCDataVisitor.h"
+#include <cocos/base/CCDataVisitor.h>
 
 #include <new>
 

@@ -27,13 +27,13 @@ THE SOFTWARE.
 #ifndef CC_RENDERER_TEXTURE2D_H
 #define CC_RENDERER_TEXTURE2D_H
 
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+
 #include <map>
 #include <string>
 #include <unordered_map>
-
-#include "base/CCRef.h"
-#include "base/ccTypes.h"
-#include "math/CCGeometry.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
 #    include "2d/CCGLBufferedNode.h"

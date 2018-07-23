@@ -25,9 +25,9 @@ THE SOFTWARE.
 #ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_ACTIONTIMELINE_H
 #define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_ACTIONTIMELINE_H
 
-#include "2d/CCAction.h"
+#include <cocos/2d/CCAction.h>
 #include "CCTimeLine.h"
-#include "base/CCProtocols.h"
+#include <cocos/base/CCProtocols.h>
 #include "cocostudio/CocosStudioExport.h"
 
 NS_TIMELINE_BEGIN

@@ -26,8 +26,8 @@
 #ifndef CC_MATH_VERTEX_H
 #define CC_MATH_VERTEX_H
 
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 /**
  * @addtogroup base

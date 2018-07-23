@@ -23,16 +23,16 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCController.h"
+#include <cocos/base/CCController.h>
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 
-#include "base/CCConsole.h"
-#include "base/CCController.h"
-#include "base/CCEventController.h"
-#include "platform/CCPlatformConfig.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/CCController.h>
+#include <cocos/base/CCEventController.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <Foundation/NSObjCRuntime.h>
 #include <GameController/GCController.h>

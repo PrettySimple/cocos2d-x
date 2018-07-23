@@ -23,9 +23,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCTouch.h"
+#include <cocos/base/CCTouch.h>
 
-#include "base/CCDirector.h"
+#include <cocos/base/CCDirector.h>
 
 NS_CC_BEGIN
 

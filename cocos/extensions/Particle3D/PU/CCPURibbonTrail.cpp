@@ -24,16 +24,16 @@
  ****************************************************************************/
 
 #include "extensions/Particle3D/PU/CCPURibbonTrail.h"
-#include "2d/CCCamera.h"
-#include "3d/CCSprite3D.h"
-#include "base/CCDirector.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/3d/CCSprite3D.h>
+#include <cocos/base/CCDirector.h>
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCMeshCommand.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTextureCache.h"
-#include "renderer/CCVertexIndexBuffer.h"
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCMeshCommand.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTextureCache.h>
+#include <cocos/renderer/CCVertexIndexBuffer.h>
 
 NS_CC_BEGIN
 

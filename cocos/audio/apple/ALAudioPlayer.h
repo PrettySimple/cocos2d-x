@@ -25,13 +25,13 @@
 
 #pragma once
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
 #    include "AudioCache.h"
 #    include "audio/apple/AudioMacros.h"
 #    include "audio/apple/AudioPlayer.h"
-#    include "platform/CCPlatformMacros.h"
+#    include <cocos/platform/CCPlatformMacros.h>
 
 #    include <OpenAL/al.h>
 #    include <chrono>

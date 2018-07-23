@@ -2,8 +2,8 @@
 #define CC_EDITORSUPPORT_COCOSBUILDER_NODELOADER_H
 
 #include "CCBReader.h"
-#include "extensions/GUI/CCControlExtension/CCControl.h"
-#include "extensions/GUI/CCControlExtension/CCInvocation.h"
+#include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCInvocation.h>
 
 namespace cocosbuilder
 {

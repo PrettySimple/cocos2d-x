@@ -25,11 +25,11 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "2d/CCActionInstant.h"
+#include <cocos/2d/CCActionInstant.h>
 
-#include "2d/CCNode.h"
-#include "2d/CCSprite.h"
-#include "base/ccMacros.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/ccMacros.h>
 
 #include <new>
 

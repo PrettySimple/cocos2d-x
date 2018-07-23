@@ -26,7 +26,7 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_OBSERVERMANAGER_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_OBSERVERMANAGER_H
 
-#include "base/CCRef.h"
+#include <cocos/base/CCRef.h>
 #include "extensions/Particle3D/PU/CCPUObserver.h"
 #include "extensions/Particle3D/PU/CCPUOnClearObserverTranslator.h"
 #include "extensions/Particle3D/PU/CCPUOnCollisionObserverTranslator.h"

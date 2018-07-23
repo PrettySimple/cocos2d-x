@@ -25,16 +25,16 @@
  *
  */
 
-#include "2d/CCClippingNode.h"
+#include <cocos/2d/CCClippingNode.h>
 
-#include "2d/CCDrawingPrimitives.h"
-#include "base/CCDirector.h"
-#include "base/CCStencilStateManager.hpp"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/2d/CCDrawingPrimitives.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCStencilStateManager.hpp>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
 #    define CC_CLIPPING_NODE_OPENGLES 0

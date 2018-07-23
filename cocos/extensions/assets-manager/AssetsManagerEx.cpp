@@ -23,8 +23,8 @@
  ****************************************************************************/
 #include "AssetsManagerEx.h"
 #include "CCEventListenerAssetsManagerEx.h"
-#include "base/CCDirector.h"
-#include "base/ccUTF8.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccUTF8.h>
 
 #include <stdio.h>
 
@@ -33,7 +33,7 @@
 #else // from our embedded sources
 #    include "unzip.h"
 #endif
-#include "base/CCAsyncTaskPool.h"
+#include <cocos/base/CCAsyncTaskPool.h>
 
 using namespace cocos2d;
 using namespace std;

@@ -25,7 +25,7 @@ Copyright (c) 2013-2016 Chukong Technologies Inc.
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/ccTypes.h"
+#include <cocos/base/ccTypes.h>
 
 #include <cmath>
 #include <limits>

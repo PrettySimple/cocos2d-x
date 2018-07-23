@@ -1,12 +1,12 @@
 #ifndef CC_EDITORSUPPORT_COCOSBUILDER_READER_H
 #define CC_EDITORSUPPORT_COCOSBUILDER_READER_H
 
-#include "2d/CCNode.h"
+#include <cocos/2d/CCNode.h>
 #include "CCBSequence.h"
-#include "base/CCData.h"
-#include "base/CCMap.h"
+#include <cocos/base/CCData.h>
+#include <cocos/base/CCMap.h>
 #include "cocosbuilder/CCBAnimationManager.h"
-#include "extensions/GUI/CCControlExtension/CCControl.h"
+#include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
 
 #include <set>
 #include <string>

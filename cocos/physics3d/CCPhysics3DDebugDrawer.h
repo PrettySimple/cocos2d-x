@@ -25,11 +25,11 @@
 #ifndef __PHYSICS_3D_VIEWER_H__
 #define __PHYSICS_3D_VIEWER_H__
 
-#include "base/CCRef.h"
-#include "base/ccConfig.h"
-#include "base/ccTypes.h"
-#include "math/CCMath.h"
-#include "renderer/CCCustomCommand.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCMath.h>
+#include <cocos/renderer/CCCustomCommand.h>
 
 #if CC_USE_3D_PHYSICS
 

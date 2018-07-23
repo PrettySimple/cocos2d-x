@@ -27,7 +27,7 @@ THE SOFTWARE.
 
 /// @cond DO_NOT_SHOW
 
-#include "base/CCMap.h"
+#include <cocos/base/CCMap.h>
 
 #include <string>
 

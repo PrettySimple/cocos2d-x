@@ -25,12 +25,12 @@ THE SOFTWARE.
 #ifndef CC_UI_BUTTON_H
 #define CC_UI_BUTTON_H
 
-#include "base/ccConfig.h"
-#include "math/CCGeometry.h"
-#include "platform/CCPlatformMacros.h"
-#include "ui/GUIDefine.h"
-#include "ui/GUIExport.h"
-#include "ui/UIWidget.h"
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <iosfwd>
 

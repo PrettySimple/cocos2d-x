@@ -28,10 +28,10 @@
 
 #include <vector>
 
-#include "base/CCRef.h"
+#include <cocos/base/CCRef.h>
 #include "extensions/Particle3D/CCParticle3DRender.h"
-#include "math/CCMath.h"
-#include "renderer/CCRenderState.h"
+#include <cocos/math/CCMath.h>
+#include <cocos/renderer/CCRenderState.h>
 
 NS_CC_BEGIN
 

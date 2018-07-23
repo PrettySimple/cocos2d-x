@@ -22,8 +22,8 @@
 #ifndef CC_BASE_PROPERTIES_H
 #define CC_BASE_PROPERTIES_H
 
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <cstddef>
 #include <iosfwd>
@@ -590,8 +590,8 @@ private:
      */
 
     // XXX: hack in order to simulate GamePlay's Stream with Cocos2d's Data
-    std::size_t* _dataIdx;
-    Data* _data;
+    std::size_t* _dataIdx = nullptr;
+    Data* _data = nullptr;
 
     std::string _namespace;
     std::string _id;
@@ -600,9 +600,9 @@ private:
     std::vector<Property>::iterator _propertiesItr;
     std::vector<Properties*> _namespaces;
     std::vector<Properties*>::const_iterator _namespacesItr;
-    std::vector<Property>* _variables;
-    std::string* _dirPath;
-    Properties* _parent;
+    std::vector<Property>* _variables = nullptr;
+    std::string* _dirPath = nullptr;
+    Properties* _parent = nullptr;
 };
 }
 

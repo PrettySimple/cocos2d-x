@@ -3,7 +3,7 @@
 
 #include "CCNodeLoader.h"
 #include "CCScale9SpriteLoader.h"
-#include "ui/UIScale9Sprite.h"
+#include <cocos/ui/UIScale9Sprite.h>
 
 namespace cocosbuilder
 {

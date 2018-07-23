@@ -25,14 +25,14 @@
 #ifndef CC_UI_WEBVIEW_H
 #define CC_UI_WEBVIEW_H
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN) && \
     !defined(CC_PLATFORM_OS_TVOS)
 
-#    include "base/CCData.h"
-#    include "ui/GUIExport.h"
-#    include "ui/UIWidget.h"
+#    include <cocos/base/CCData.h>
+#    include <cocos/ui/GUIExport.h>
+#    include <cocos/ui/UIWidget.h>
 
 /**
  * @addtogroup ui

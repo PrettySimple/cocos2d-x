@@ -8,7 +8,7 @@
 #ifndef CC_2D_ACTIONMANAGERDATA_H
 #define CC_2D_ACTIONMANAGERDATA_H
 
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstddef>
 #include <set>

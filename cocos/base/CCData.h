@@ -26,8 +26,8 @@
 #ifndef CC_BASE_DATA_H
 #define CC_BASE_DATA_H
 
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstddef>
 

@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCEventAcceleration.h"
+#include <cocos/base/CCEventAcceleration.h>
 
 NS_CC_BEGIN
 

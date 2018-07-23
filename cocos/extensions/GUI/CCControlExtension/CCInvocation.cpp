@@ -24,7 +24,7 @@
  * Converted to c++ / cocos2d-x by Angus C
  */
 
-#include "extensions/GUI/CCControlExtension/CCInvocation.h"
+#include <cocos/extensions/GUI/CCControlExtension/CCInvocation.h>
 
 #include <new>
 

@@ -26,9 +26,9 @@ THE SOFTWARE.
 #ifndef CC_PLATFORM_DEVICE_H
 #define CC_PLATFORM_DEVICE_H
 
-#include "base/CCData.h"
-#include "base/ccMacros.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCData.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 

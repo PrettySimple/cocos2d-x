@@ -24,21 +24,21 @@
  ****************************************************************************/
 #include "2d/CCCameraBackgroundBrush.h"
 
-#include "2d/CCCamera.h"
-#include "base/CCConfiguration.h"
-#include "base/CCDirector.h"
-#include "base/ccMacros.h"
-#include "math/Mat4.h"
-#include "math/Vec3.h"
-#include "math/Vec4.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCTextureCube.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureCube.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #include <cstddef>
 #include <new>
@@ -46,8 +46,8 @@
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
 #    include "base/CCEventCustom.h"
 #    include "base/CCEventDispatcher.h"
-#    include "base/CCEventListenerCustom.h"
-#    include "base/CCEventType.h"
+#    include <cocos/base/CCEventListenerCustom.h>
+#    include <cocos/base/CCEventType.h>
 #endif
 
 NS_CC_BEGIN

@@ -25,7 +25,7 @@
 #ifndef CC_RENDERER_VERTEXINDEXDATA_H
 #define CC_RENDERER_VERTEXINDEXDATA_H
 
-#include "base/CCRef.h"
+#include <cocos/base/CCRef.h>
 #include <map>
 
 /**

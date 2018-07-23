@@ -25,8 +25,9 @@ THE SOFTWARE.
 #ifndef CC_BASE_OBJECTFACTORY_H
 #define CC_BASE_OBJECTFACTORY_H
 
-#include "base/CCRef.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <functional>
 #include <string>
 #include <unordered_map>

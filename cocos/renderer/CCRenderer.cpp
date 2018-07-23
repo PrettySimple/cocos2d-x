@@ -22,27 +22,27 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "renderer/CCRenderer.h"
+#include <cocos/renderer/CCRenderer.h>
 
-#include "2d/CCCamera.h"
-#include "2d/CCScene.h"
-#include "base/CCConfiguration.h"
-#include "base/CCDirector.h"
-#include "base/ccMacros.h"
-#include "math/Vec2.h"
-#include "math/Vec3.h"
-#include "math/Vec4.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCBatchCommand.h"
-#include "renderer/CCCustomCommand.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGroupCommand.h"
-#include "renderer/CCMeshCommand.h"
-#include "renderer/CCPrimitiveCommand.h"
-#include "renderer/CCRenderCommand.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/CCTrianglesCommand.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCScene.h>
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCBatchCommand.h>
+#include <cocos/renderer/CCCustomCommand.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGroupCommand.h>
+#include <cocos/renderer/CCMeshCommand.h>
+#include <cocos/renderer/CCPrimitiveCommand.h>
+#include <cocos/renderer/CCRenderCommand.h>
+#include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCTrianglesCommand.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #include <algorithm>
 #include <cmath>
@@ -265,13 +265,13 @@ void Renderer::setupVBOAndVAO()
     GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POSITION | GL::VERTEX_ATTRIB_FLAG_COLOR | GL::VERTEX_ATTRIB_FLAG_TEX_COORD, _buffersVAO);
 
     // vertices
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(V3F_C4B_T2F), (GLvoid*)offsetof(V3F_C4B_T2F, vertices));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(V3F_C4B_T2F), reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, vertices)));
 
     // colors
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(V3F_C4B_T2F), (GLvoid*)offsetof(V3F_C4B_T2F, colors));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(V3F_C4B_T2F), reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, colors)));
 
     // tex coords
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(V3F_C4B_T2F), (GLvoid*)offsetof(V3F_C4B_T2F, texCoords));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(V3F_C4B_T2F), reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, texCoords)));
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffersVBO[1]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(sizeof(GLushort) * INDEX_VBO_SIZE), reinterpret_cast<GLvoid*>(_indices.data()), GL_STATIC_DRAW);

@@ -28,7 +28,7 @@ THE SOFTWARE.
 #ifndef CC_2D_TRANSITION_H
 #define CC_2D_TRANSITION_H
 
-#include "2d/CCScene.h"
+#include <cocos/2d/CCScene.h>
 
 #include <chrono>
 #include <cstdint>

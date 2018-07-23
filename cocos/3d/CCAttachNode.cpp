@@ -22,9 +22,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCAttachNode.h"
+#include <cocos/3d/CCAttachNode.h>
 
-#include "3d/CCSkeleton3D.h"
+#include <cocos/3d/CCSkeleton3D.h>
 
 #include <new>
 

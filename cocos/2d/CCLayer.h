@@ -28,20 +28,20 @@ THE SOFTWARE.
 #ifndef CC_2D_LAYER_H
 #define CC_2D_LAYER_H
 
-#include "2d/CCNode.h"
-#include "base/CCEventKeyboard.h"
-#include "base/CCEventTouch.h"
-#include "base/CCProtocols.h"
-#include "base/CCTouch.h"
-#include "base/ccConfig.h"
-#include "base/ccTypes.h"
-#include "math/Vec2.h"
-#include "math/Vec3.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformConfig.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCCustomCommand.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCEventKeyboard.h>
+#include <cocos/base/CCEventTouch.h>
+#include <cocos/base/CCProtocols.h>
+#include <cocos/base/CCTouch.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCCustomCommand.h>
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 #    include "2d/CCGLBufferedNode.h"

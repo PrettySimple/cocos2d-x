@@ -23,15 +23,15 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
 #    import <UIKit/UIKit.h>
 
-#    include "base/CCTouch.h"
-#    include "platform/ios/CCDirectorCaller-ios.h"
-#    include "platform/ios/CCEAGLView-ios.h"
-#    include "platform/ios/CCGLViewImpl-ios.h"
+#    include <cocos/base/CCTouch.h>
+#    include <cocos/platform/ios/CCDirectorCaller-ios.h>
+#    include <cocos/platform/ios/CCEAGLView-ios.h>
+#    include <cocos/platform/ios/CCGLViewImpl-ios.h>
 
 NS_CC_BEGIN
 

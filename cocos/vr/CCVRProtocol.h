@@ -25,11 +25,11 @@
 #ifndef CC_VR_PROTOCOL_H
 #define CC_VR_PROTOCOL_H
 
-#include "math/Mat4.h"
-#include "math/Vec3.h"
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec3.h>
 
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 NS_CC_BEGIN
 

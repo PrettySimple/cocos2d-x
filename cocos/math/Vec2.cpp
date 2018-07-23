@@ -18,9 +18,9 @@
  This file was modified to fit the cocos2d-x project
  */
 
-#include "math/Vec2.h"
+#include <cocos/math/Vec2.h>
 
-#include "base/ccMacros.h"
+#include <cocos/base/ccMacros.h>
 
 #include <algorithm>
 #include <limits>

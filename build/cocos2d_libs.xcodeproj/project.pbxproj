@@ -252,6 +252,7 @@
 		1AAF5851180E40B9000584C8 /* LocalStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AAF584D180E40B9000584C8 /* LocalStorage.h */; };
 		1ABA68AE1888D700007D1BB4 /* CCFontCharMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1ABA68AC1888D700007D1BB4 /* CCFontCharMap.cpp */; };
 		1ABA68B01888D700007D1BB4 /* CCFontCharMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 1ABA68AD1888D700007D1BB4 /* CCFontCharMap.h */; };
+		221C98382103D3D8009F8E9A /* GUIExport.h in Copy Files: ui */ = {isa = PBXBuildFile; fileRef = 221C98372103D3C3009F8E9A /* GUIExport.h */; };
 		22374C01207F720F00193041 /* CCActionManagerData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 22374C00207F720F00193041 /* CCActionManagerData.cpp */; };
 		22374C03207F720F00193041 /* CCActionManagerData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 22374C00207F720F00193041 /* CCActionManagerData.cpp */; };
 		224337D120D93AAD00E43D73 /* btAxisSweep3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6CAB0081AF9AA1900B9B856 /* btAxisSweep3.cpp */; };
@@ -1588,10 +1589,8 @@
 		2257D2B02102A275001D9557 /* CCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C68218F57BE800EFE3A6 /* CCString.cpp */; };
 		2257D3062102B05F001D9557 /* cocos2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50272539190BF1B900AAF4ED /* cocos2d.cpp */; };
 		2257D32921031FC5001D9557 /* module.modulemap in Copy Files: Modules */ = {isa = PBXBuildFile; fileRef = 2257D32721031FC1001D9557 /* module.modulemap */; };
-		2257D32A21031FCA001D9557 /* cocos2d.h in Copy Files */ = {isa = PBXBuildFile; fileRef = 2257D32821031FC1001D9557 /* cocos2d.h */; };
+		2257D32A21031FCA001D9557 /* cocos.h in Copy Files */ = {isa = PBXBuildFile; fileRef = 2257D32821031FC1001D9557 /* cocos.h */; };
 		2257D36321032BAF001D9557 /* EMDebug.h in Copy Files: platform/emscripten */ = {isa = PBXBuildFile; fileRef = 2257D36121032B3D001D9557 /* EMDebug.h */; };
-		2257D4CC21032F73001D9557 /* Android.mk in Resources */ = {isa = PBXBuildFile; fileRef = 2257D36521032F72001D9557 /* Android.mk */; };
-		2257D4CD21032F73001D9557 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2257D36621032F72001D9557 /* CMakeLists.txt */; };
 		2257D56C21032F73001D9557 /* CCControlUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4AC21032F73001D9557 /* CCControlUtils.cpp */; };
 		2257D56D21032F73001D9557 /* CCControlColourPicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4AD21032F73001D9557 /* CCControlColourPicker.cpp */; };
 		2257D56E21032F73001D9557 /* CCControlSwitch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4AE21032F73001D9557 /* CCControlSwitch.cpp */; };
@@ -2007,6 +2006,7 @@
 		229965C920DA5C8F00E33342 /* cdt.cc in Sources */ = {isa = PBXBuildFile; fileRef = 15FB20811AE7C57D00C31518 /* cdt.cc */; };
 		229965CA20DA5C8F00E33342 /* sweep.cc in Sources */ = {isa = PBXBuildFile; fileRef = 15FB20831AE7C57D00C31518 /* sweep.cc */; };
 		229965CB20DA5C8F00E33342 /* sweep_context.cc in Sources */ = {isa = PBXBuildFile; fileRef = 15FB20851AE7C57D00C31518 /* sweep_context.cc */; };
+		22E477FC2103A8F800C3B0B1 /* ccConfig.h in Copy Files: base */ = {isa = PBXBuildFile; fileRef = 50ABBDC91925AB6E00A911A9 /* ccConfig.h */; };
 		22EC95D720A83FD200135849 /* iterator_pair.h in Headers */ = {isa = PBXBuildFile; fileRef = 22EC95D620A83FD100135849 /* iterator_pair.h */; };
 		22EC95D920A83FD200135849 /* iterator_pair.h in Headers */ = {isa = PBXBuildFile; fileRef = 22EC95D620A83FD100135849 /* iterator_pair.h */; };
 		291901431B05895600F8B4BA /* CCNinePatchImageParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 291901411B05895600F8B4BA /* CCNinePatchImageParser.h */; };
@@ -3234,6 +3234,7 @@
 				22491D0921024FD6002D77F5 /* CCAllocatorGlobal.h in Copy Files: base */,
 				22491D0A21024FD6002D77F5 /* CCAllocatorMacros.h in Copy Files: base */,
 				22491D0B21024FD6002D77F5 /* CCAllocatorMutex.h in Copy Files: base */,
+				22E477FC2103A8F800C3B0B1 /* ccConfig.h in Copy Files: base */,
 				22491D0C21024FD6002D77F5 /* CCAllocatorStrategyDefault.h in Copy Files: base */,
 				22491D0D21024FD6002D77F5 /* CCAllocatorStrategyFixedBlock.h in Copy Files: base */,
 				22491D0E21024FD6002D77F5 /* CCAllocatorStrategyGlobalSmallBlock.h in Copy Files: base */,
@@ -3461,6 +3462,7 @@
 			dstPath = Headers/ui;
 			dstSubfolderSpec = 7;
 			files = (
+				221C98382103D3D8009F8E9A /* GUIExport.h in Copy Files: ui */,
 				2257D27521029B7F001D9557 /* UIWebView.h in Copy Files: ui */,
 				2257D27621029B7F001D9557 /* UIWebViewImpl-ios.h in Copy Files: ui */,
 				2257D27721029B7F001D9557 /* UIVideoPlayer.h in Copy Files: ui */,
@@ -3557,7 +3559,7 @@
 			dstPath = Headers;
 			dstSubfolderSpec = 7;
 			files = (
-				2257D32A21031FCA001D9557 /* cocos2d.h in Copy Files */,
+				2257D32A21031FCA001D9557 /* cocos.h in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4043,6 +4045,7 @@
 		1AD71D2A180E26E600808F54 /* CCSpriteLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSpriteLoader.cpp; sourceTree = "<group>"; };
 		1AD71D2B180E26E600808F54 /* CCSpriteLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSpriteLoader.h; sourceTree = "<group>"; };
 		1AD71D2C180E26E600808F54 /* CocosBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocosBuilder.h; sourceTree = "<group>"; };
+		221C98372103D3C3009F8E9A /* GUIExport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GUIExport.h; sourceTree = "<group>"; };
 		22374C00207F720F00193041 /* CCActionManagerData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CCActionManagerData.cpp; sourceTree = "<group>"; };
 		224337C520D9398C00E43D73 /* libbullet_ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libbullet_ios.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		224337D820D93B3500E43D73 /* libbullet_macos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libbullet_macos.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -4063,7 +4066,7 @@
 		22491C6721024B28002D77F5 /* cocos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = cocos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2257D32621031FC0001D9557 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ios/Info.plist; sourceTree = SOURCE_ROOT; };
 		2257D32721031FC1001D9557 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = ios/module.modulemap; sourceTree = SOURCE_ROOT; };
-		2257D32821031FC1001D9557 /* cocos2d.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = cocos2d.h; path = ios/cocos2d.h; sourceTree = SOURCE_ROOT; };
+		2257D32821031FC1001D9557 /* cocos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = cocos.h; path = ios/cocos.h; sourceTree = SOURCE_ROOT; };
 		2257D34E21032B3D001D9557 /* CCCommon-emscripten.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "CCCommon-emscripten.cpp"; sourceTree = "<group>"; };
 		2257D34F21032B3D001D9557 /* CCInjectMouseMove-emscripten.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "CCInjectMouseMove-emscripten.cpp"; sourceTree = "<group>"; };
 		2257D35021032B3D001D9557 /* CCUserDefault-emscripten.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "CCUserDefault-emscripten.cpp"; sourceTree = "<group>"; };
@@ -4990,7 +4993,7 @@
 		50ABBDFC1925AB6E00A911A9 /* CCProfiling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCProfiling.h; path = ../base/CCProfiling.h; sourceTree = "<group>"; };
 		50ABBDFD1925AB6E00A911A9 /* CCProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCProtocols.h; path = ../base/CCProtocols.h; sourceTree = "<group>"; };
 		50ABBDFE1925AB6E00A911A9 /* CCRef.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCRef.cpp; path = ../base/CCRef.cpp; sourceTree = "<group>"; };
-		50ABBDFF1925AB6E00A911A9 /* CCRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCRef.h; path = ../base/CCRef.h; sourceTree = "<group>"; };
+		50ABBDFF1925AB6E00A911A9 /* CCRef.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; name = CCRef.h; path = ../base/CCRef.h; sourceTree = "<group>"; };
 		50ABBE001925AB6E00A911A9 /* CCRefPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCRefPtr.h; path = ../base/CCRefPtr.h; sourceTree = "<group>"; };
 		50ABBE011925AB6E00A911A9 /* CCScheduler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCScheduler.cpp; path = ../base/CCScheduler.cpp; sourceTree = "<group>"; };
 		50ABBE021925AB6E00A911A9 /* CCScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCScheduler.h; path = ../base/CCScheduler.h; sourceTree = "<group>"; };
@@ -7489,12 +7492,13 @@
 		2905F9E618CF08D000240AA3 /* ui */ = {
 			isa = PBXGroup;
 			children = (
-				29CB8F531929D67D00C841D6 /* widgets */,
-				29CB8F521929D65500C841D6 /* experimental */,
 				29CB8F511929D64500C841D6 /* base */,
-				29CB8F501929D63600C841D6 /* layout */,
 				2905F9E918CF08D000240AA3 /* CocosGUI.cpp */,
 				2905F9EA18CF08D000240AA3 /* CocosGUI.h */,
+				29CB8F521929D65500C841D6 /* experimental */,
+				221C98372103D3C3009F8E9A /* GUIExport.h */,
+				29CB8F501929D63600C841D6 /* layout */,
+				29CB8F531929D67D00C841D6 /* widgets */,
 			);
 			name = ui;
 			path = ../cocos/ui;
@@ -8199,7 +8203,7 @@
 		503DD8CD1926736A00CD74DD /* ios */ = {
 			isa = PBXGroup;
 			children = (
-				2257D32821031FC1001D9557 /* cocos2d.h */,
+				2257D32821031FC1001D9557 /* cocos.h */,
 				2257D32621031FC0001D9557 /* Info.plist */,
 				2257D32721031FC1001D9557 /* module.modulemap */,
 				503DD8CE1926736A00CD74DD /* CCApplication-ios.h */,
@@ -11338,8 +11342,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2257D4CD21032F73001D9557 /* CMakeLists.txt in Resources */,
-				2257D4CC21032F73001D9557 /* Android.mk in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13186,9 +13188,10 @@
 					"$(SRCROOT)/../external/poly2tri/common",
 					"$(SRCROOT)/../external/poly2tri/sweep",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				WARNING_CFLAGS = (
 					"-Weverything",
@@ -13277,9 +13280,10 @@
 					"$(SRCROOT)/../external/poly2tri/common",
 					"$(SRCROOT)/../external/poly2tri/sweep",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
 				VALIDATE_PRODUCT = YES;
 				WARNING_CFLAGS = (
 					"-Weverything",
@@ -13874,7 +13878,6 @@
 		22491C6D21024B29002D77F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -13902,8 +13905,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.prettysimple.cocos;
 				PRODUCT_NAME = cocos;
 				SDKROOT = iphoneos;
@@ -13917,7 +13918,6 @@
 		22491C6E21024B29002D77F5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -13945,7 +13945,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
-				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.prettysimple.cocos;
 				PRODUCT_NAME = cocos;
 				SDKROOT = iphoneos;

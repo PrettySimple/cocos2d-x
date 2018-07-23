@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
@@ -27,7 +27,7 @@ THE SOFTWARE.
 
 #include "TriggerMng.h"
 #include "TriggerObj.h"
-#include "base/ObjectFactory.h"
+#include <cocos/base/ObjectFactory.h>
 #include "cocostudio/CocoStudio.h"
 #include "cocostudio/CocosStudioExport.h"
 

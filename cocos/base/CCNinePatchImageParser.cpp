@@ -21,12 +21,12 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 ****************************************************************************/
-#include "base/CCNinePatchImageParser.h"
+#include <cocos/base/CCNinePatchImageParser.h>
 
-#include "base/CCDirector.h"
-#include "base/ccMacros.h"
-#include "platform/CCImage.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCImage.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 #include <cstddef>
 
@@ -83,7 +83,7 @@ int NinePatchImageParser::getPixelOriginOffset(Direction direction) const
     int imageWidth = _image->getWidth();
     int frameWidth = this->getFrameWidth();
 
-    int topLineLeftOffset = (int)_imageFrame.origin.y * imageWidth * 4 + (int)_imageFrame.origin.x * 4;
+    int topLineLeftOffset = static_cast<int>(_imageFrame.origin.y) * imageWidth * 4 + static_cast<int>(_imageFrame.origin.x) * 4;
     if (direction == Direction::HORIZONTAL)
     {
         return topLineLeftOffset;
@@ -111,18 +111,18 @@ Vec2 NinePatchImageParser::parseHorizontalMargin() const
     int x2 = 0;
 
     int length = _imageFrame.origin.x + this->getFrameWidth();
-    for (int i = (int)_imageFrame.origin.x; i <= length; i++)
+    for (int i = static_cast<int>(_imageFrame.origin.x); i <= length; i++)
     {
-        unsigned char pixel = *(data + (i - (int)_imageFrame.origin.x) * 4 + 3);
+        unsigned char pixel = *(data + (i - static_cast<int>(_imageFrame.origin.x)) * 4 + 3);
         if (pixel != lastPixel)
         {
             if (pixel > 0)
             {
-                x1 = (i - (int)_imageFrame.origin.x);
+                x1 = (i - static_cast<int>(_imageFrame.origin.x));
             }
             else
             {
-                x2 = (i - (int)_imageFrame.origin.x);
+                x2 = (i - static_cast<int>(_imageFrame.origin.x));
                 break;
             }
         }
@@ -142,19 +142,19 @@ Vec2 NinePatchImageParser::parseVerticalMargin() const
     data = data + this->getPixelOriginOffset(Direction::VERTICAL);
     unsigned char lastPixel = *(data + 3);
 
-    int length = (int)(_imageFrame.origin.y + this->getFrameHeight());
+    int length = static_cast<int>(_imageFrame.origin.y + this->getFrameHeight());
     for (int i = _imageFrame.origin.y; i <= length; i++)
     {
-        unsigned char pixel = *(data + (i - (int)_imageFrame.origin.y) * imageWidth * 4 + 3);
+        unsigned char pixel = *(data + (i - static_cast<int>(_imageFrame.origin.y)) * imageWidth * 4 + 3);
         if (pixel != lastPixel)
         {
             if (pixel > 0)
             {
-                y1 = (i - (int)_imageFrame.origin.y);
+                y1 = (i - static_cast<int>(_imageFrame.origin.y));
             }
             else
             {
-                y2 = (i - (int)_imageFrame.origin.y);
+                y2 = (i - static_cast<int>(_imageFrame.origin.y));
                 break;
             }
         }

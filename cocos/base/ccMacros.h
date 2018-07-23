@@ -35,7 +35,7 @@ THE SOFTWARE.
 #endif
 #pragma clang diagnostic pop
 
-#include "base/CCConsole.h"
+#include <cocos/base/CCConsole.h>
 
 #ifndef CCASSERT
 #    if COCOS2D_DEBUG > 0
@@ -61,7 +61,7 @@ extern bool CC_DLL cc_assert_script_compatible(const char* msg);
 #    define GP_ASSERT(cond) CCASSERT(cond, "")
 #endif // CCASSERT
 
-#include "base/ccConfig.h"
+#include <cocos/base/ccConfig.h>
 
 /** @def CC_SWAP
 simple macro that swaps 2 variables
@@ -74,7 +74,7 @@ simple macro that swaps 2 variables
         y = temp;           \
     }
 
-#include "base/ccRandom.h"
+#include <cocos/base/ccRandom.h>
 
 /** @def CCRANDOM_MINUS1_1
  returns a random float between -1 and 1

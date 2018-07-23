@@ -23,17 +23,17 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "2d/CCFontFNT.h"
+#include <cocos/2d/CCFontFNT.h>
 
-#include "2d/CCFontAtlas.h"
-#include "base/CCConfiguration.h"
-#include "base/CCDirector.h"
-#include "base/CCRef.h"
-#include "base/ccMacros.h"
-#include "base/ccUTF8.h"
-#include "math/CCGeometry.h"
-#include "platform/CCFileUtils.h"
-#include "renderer/CCTextureCache.h"
+#include <cocos/2d/CCFontAtlas.h>
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/renderer/CCTextureCache.h>
 
 #include <cstdint>
 #include <cstdio>

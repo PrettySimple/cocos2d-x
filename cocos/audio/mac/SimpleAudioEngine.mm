@@ -26,7 +26,7 @@ THE SOFTWARE.
 #include "audio/mac/SimpleAudioEngine_objc.h"
 #include <string>
 
-#include "platform/CCFileUtils.h"
+#include <cocos/platform/CCFileUtils.h>
 using namespace cocos2d;
 
 static void static_end()

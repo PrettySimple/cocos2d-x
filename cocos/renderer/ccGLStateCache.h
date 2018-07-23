@@ -28,9 +28,9 @@ THE SOFTWARE.
 #ifndef CC_RENDERER_GLSTATECACHE_H
 #define CC_RENDERER_GLSTATECACHE_H
 
-#include "platform/CCGL.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <cstdint>
 

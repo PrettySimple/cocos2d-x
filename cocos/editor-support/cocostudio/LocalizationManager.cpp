@@ -1,7 +1,7 @@
 #include "editor-support/cocostudio/LocalizationManager.h"
 #include "editor-support/cocostudio/CSLanguageDataBinary_generated.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 using namespace cocostudio;
 using namespace cocos2d;

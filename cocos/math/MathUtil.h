@@ -22,10 +22,10 @@
 #ifndef CC_MATH_MATHUTIL_H
 #define CC_MATH_MATHUTIL_H
 
-#include "math/CCMathBase.h"
-#include "math/Mat4.h"
-#include "math/Vec3.h"
-#include "math/Vec4.h"
+#include <cocos/math/CCMathBase.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/math/Vec4.h>
 
 #include <cmath>
 #include <limits>

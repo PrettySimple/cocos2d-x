@@ -26,7 +26,7 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_TRANSLATEMANAGER_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_TRANSLATEMANAGER_H
 
-#include "base/CCRef.h"
+#include <cocos/base/CCRef.h>
 #include "extensions/Particle3D/PU/CCPUAffectorTranslator.h"
 #include "extensions/Particle3D/PU/CCPUBehaviourTranslator.h"
 #include "extensions/Particle3D/PU/CCPUEmitterTranslator.h"

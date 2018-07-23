@@ -22,19 +22,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UILayout.h"
+#include <cocos/ui/UILayout.h>
 
-#include "2d/CCDrawNode.h"
-#include "2d/CCLayer.h"
-#include "2d/CCNode.h"
-#include "base/CCDirector.h"
-#include "base/CCStencilStateManager.hpp"
-#include "base/ccMacros.h"
-#include "math/CCAffineTransform.h"
-#include "renderer/CCRenderer.h"
-#include "ui/UILayout.h"
-#include "ui/UILayoutManager.h"
-#include "ui/UIScale9Sprite.h"
+#include <cocos/2d/CCDrawNode.h>
+#include <cocos/2d/CCLayer.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCStencilStateManager.hpp>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/CCAffineTransform.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/ui/UILayout.h>
+#include <cocos/ui/UILayoutManager.h>
+#include <cocos/ui/UIScale9Sprite.h>
 
 #include <limits>
 

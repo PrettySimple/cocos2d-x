@@ -25,19 +25,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCTransition.h"
+#include <cocos/2d/CCTransition.h>
 
-#include "2d/CCActionCamera.h"
-#include "2d/CCActionEase.h"
-#include "2d/CCActionGrid.h"
-#include "2d/CCActionInstant.h"
-#include "2d/CCActionInterval.h"
-#include "2d/CCActionTiledGrid.h"
-#include "2d/CCLayer.h"
+#include <cocos/2d/CCActionCamera.h>
+#include <cocos/2d/CCActionEase.h>
+#include <cocos/2d/CCActionGrid.h>
+#include <cocos/2d/CCActionInstant.h>
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/2d/CCActionTiledGrid.h>
+#include <cocos/2d/CCLayer.h>
 #include "2d/CCNodeGrid.h"
-#include "2d/CCRenderTexture.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
+#include <cocos/2d/CCRenderTexture.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventDispatcher.h>
 
 using namespace std::chrono_literals;
 

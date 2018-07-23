@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "ui/UIRelativeBox.h"
+#include <cocos/ui/UIRelativeBox.h>
 
 #include <new>
 

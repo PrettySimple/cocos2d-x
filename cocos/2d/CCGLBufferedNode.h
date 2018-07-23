@@ -25,8 +25,8 @@ THE SOFTWARE.
 #ifndef CC_2D_GLBUFFEREDNODE_H
 #define CC_2D_GLBUFFEREDNODE_H
 
-#include "platform/CCGL.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 /**
  * @js NA

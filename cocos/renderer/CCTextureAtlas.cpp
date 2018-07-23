@@ -25,21 +25,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "renderer/CCTextureAtlas.h"
+#include <cocos/renderer/CCTextureAtlas.h>
 
-#include "base/CCConfiguration.h"
-#include "base/CCDirector.h"
-#include "base/ccMacros.h"
-#include "base/ccTypes.h"
-#include "base/ccUTF8.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformConfig.h"
-#include "platform/ios/CCGL-ios.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCTextureCache.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/ios/CCGL-ios.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureCache.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #include <cstdlib>
 #include <cstring>

@@ -22,13 +22,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "ui/UILayoutManager.h"
+#include <cocos/ui/UILayoutManager.h>
 
-#include "2d/CCNode.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
-#include "ui/UILayout.h"
-#include "ui/UILayoutParameter.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/ui/UILayout.h>
+#include <cocos/ui/UILayoutParameter.h>
 
 #include <iosfwd>
 #include <new>

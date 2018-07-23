@@ -22,14 +22,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "renderer/CCPrimitiveCommand.h"
+#include <cocos/renderer/CCPrimitiveCommand.h>
 
-#include "base/CCDirector.h"
-#include "base/ccMacros.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCPrimitive.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCPrimitive.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 NS_CC_BEGIN
 

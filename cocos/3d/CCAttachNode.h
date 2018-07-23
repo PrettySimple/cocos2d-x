@@ -25,11 +25,11 @@
 #ifndef CC_3D_ATTACHNODE_H
 #define CC_3D_ATTACHNODE_H
 
-#include "2d/CCNode.h"
-#include "base/ccConfig.h"
-#include "math/Mat4.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <cstdint>
 

@@ -38,7 +38,7 @@ THE SOFTWARE.
 #include "WidgetReader/TextReader/TextReader.h"
 #include "cocostudio/CCActionManagerEx.h"
 #include "cocostudio/CocoLoader.h"
-#include "ui/CocosGUI.h"
+#include <cocos/ui/CocosGUI.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"

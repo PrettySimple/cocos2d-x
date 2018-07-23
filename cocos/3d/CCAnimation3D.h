@@ -25,10 +25,10 @@
 #ifndef CC_3D_ANIMATION3D_H
 #define CC_3D_ANIMATION3D_H
 
-#include "3d/CCAnimationCurve.h"
-#include "3d/CCBundle3DData.h"
-#include "base/CCRef.h"
-#include "base/ccMacros.h"
+#include <cocos/3d/CCAnimationCurve.h>
+#include <cocos/3d/CCBundle3DData.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccMacros.h>
 
 #include <chrono>
 #include <unordered_map>

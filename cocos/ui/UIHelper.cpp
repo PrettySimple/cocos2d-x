@@ -22,18 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIHelper.h"
+#include <cocos/ui/UIHelper.h>
 
-#include "2d/CCNode.h"
-#include "base/CCDirector.h"
-#include "base/CCVector.h"
-#include "base/ccUTF8.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
-#include "platform/CCGLView.h"
-#include "ui/GUIDefine.h"
-#include "ui/UILayoutComponent.h"
-#include "ui/UIWidget.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCGLView.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/UILayoutComponent.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <cstddef>
 #include <string>

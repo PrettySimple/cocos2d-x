@@ -29,7 +29,7 @@
 
 #include "storage/local-storage/LocalStorage.h"
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID)
 

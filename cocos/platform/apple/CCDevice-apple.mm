@@ -23,9 +23,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/apple/CCDevice-apple.h"
+#include <cocos/platform/apple/CCDevice-apple.h>
 
-#include "platform/CCDevice.h"
+#include <cocos/platform/CCDevice.h>
 
 #include <CoreGraphics/CGBase.h>
 #include <CoreGraphics/CGGeometry.h>

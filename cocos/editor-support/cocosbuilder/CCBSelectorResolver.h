@@ -1,7 +1,7 @@
 #ifndef CC_EDITORSUPPORT_COCOSBUILDER_SELECTORRESOLVER_H
 #define CC_EDITORSUPPORT_COCOSBUILDER_SELECTORRESOLVER_H
 
-#include "extensions/GUI/CCControlExtension/CCInvocation.h"
+#include <cocos/extensions/GUI/CCControlExtension/CCInvocation.h>
 
 namespace cocosbuilder
 {

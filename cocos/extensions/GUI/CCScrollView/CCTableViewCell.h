@@ -26,10 +26,10 @@
 #ifndef CC_EXTENSIONS_GUI_SCROLLVIEW_TABLEVIEWCELL_H
 #define CC_EXTENSIONS_GUI_SCROLLVIEW_TABLEVIEWCELL_H
 
-#include "2d/CCNode.h"
-#include "extensions/ExtensionExport.h"
-#include "extensions/ExtensionMacros.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/extensions/ExtensionExport.h>
+#include <cocos/extensions/ExtensionMacros.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstddef>
 

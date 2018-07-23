@@ -26,15 +26,15 @@
 #define CC_UI_DEPRECATED_H
 /// @cond DO_NOT_SHOW
 
-#include "platform/CCPlatformMacros.h"
-#include "ui/UILayout.h"
-#include "ui/UILayoutParameter.h"
-#include "ui/UIListView.h"
-#include "ui/UILoadingBar.h"
-#include "ui/UIPageView.h"
-#include "ui/UIRichText.h"
-#include "ui/UIScrollView.h"
-#include "ui/UIWidget.h"
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/UILayout.h>
+#include <cocos/ui/UILayoutParameter.h>
+#include <cocos/ui/UIListView.h>
+#include <cocos/ui/UILoadingBar.h>
+#include <cocos/ui/UIPageView.h>
+#include <cocos/ui/UIRichText.h>
+#include <cocos/ui/UIScrollView.h>
+#include <cocos/ui/UIWidget.h>
 
 NS_CC_BEGIN
 

@@ -25,13 +25,13 @@
 #ifndef CC_NAVMESH_NAVMESHOBSTACLE_H
 #define CC_NAVMESH_NAVMESHOBSTACLE_H
 
-#include "base/ccConfig.h"
+#include <cocos/base/ccConfig.h>
 #if CC_USE_NAVMESH
 
-#    include "2d/CCComponent.h"
+#    include <cocos/2d/CCComponent.h>
 
-#    include "base/CCRef.h"
-#    include "math/Vec3.h"
+#    include <cocos/base/CCRef.h>
+#    include <cocos/math/Vec3.h>
 #    include "recast/Detour/DetourNavMesh.h"
 #    include "recast/DetourTileCache/DetourTileCache.h"
 

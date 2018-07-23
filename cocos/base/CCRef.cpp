@@ -23,10 +23,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "base/CCRef.h"
+#include <cocos/base/CCRef.h>
 
-#include "base/CCAutoreleasePool.h"
-#include "base/ccMacros.h"
+#include <cocos/base/CCAutoreleasePool.h>
+#include <cocos/base/ccMacros.h>
 
 #if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
 #    include <algorithm>

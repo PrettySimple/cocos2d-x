@@ -26,7 +26,7 @@
 #if CC_USE_PHYSICS
 #    include "chipmunk/chipmunk.h"
 
-#    include "2d/CCNode.h"
+#    include <cocos/2d/CCNode.h>
 #    include "physics/CCPhysicsBody.h"
 #    include "physics/CCPhysicsHelper.h"
 #    include "physics/CCPhysicsWorld.h"

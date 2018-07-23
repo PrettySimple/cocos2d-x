@@ -28,9 +28,9 @@
 #ifndef CC_BASE_SCHEDULER_H
 #define CC_BASE_SCHEDULER_H
 
-#include "base/CCRef.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <cstdint>
 #include <mutex>

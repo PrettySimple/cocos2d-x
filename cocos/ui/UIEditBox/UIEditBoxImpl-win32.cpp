@@ -24,13 +24,13 @@
  ****************************************************************************/
 #include "ui/UIEditBox/UIEditBoxImpl-win32.h"
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 
-#    include "2d/CCLabel.h"
-#    include "base/CCDirector.h"
-#    include "base/ccUTF8.h"
-#    include "ui/UIEditBox/UIEditBox.h"
+#    include <cocos/2d/CCLabel.h>
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/base/ccUTF8.h>
+#    include <cocos/ui/UIEditBox/UIEditBox.h>
 #    include <stdio.h>
 #    include <tchar.h>
 #    include <windows.h>

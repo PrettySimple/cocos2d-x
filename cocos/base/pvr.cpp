@@ -1,5 +1,5 @@
 
-#include "pvr.h"
+#include <cocos/base/pvr.h>
 
 #include <algorithm>
 #include <cassert>

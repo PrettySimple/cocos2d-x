@@ -25,8 +25,8 @@
 #ifndef CC_BASE_EVENTLISTENERACCELERATION_H
 #define CC_BASE_EVENTLISTENERACCELERATION_H
 
-#include "base/CCEventListener.h"
-#include "base/ccTypes.h"
+#include <cocos/base/CCEventListener.h>
+#include <cocos/base/ccTypes.h>
 
 /**
  * @addtogroup base

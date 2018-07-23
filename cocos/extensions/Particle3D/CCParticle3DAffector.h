@@ -25,7 +25,7 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_AFFECTOR_H
 #define CC_EXTENSIONS_PARTICLE3D_AFFECTOR_H
 
-#include "base/CCRef.h"
+#include <cocos/base/CCRef.h>
 #include <vector>
 
 NS_CC_BEGIN

@@ -29,10 +29,10 @@
 #include <map>
 #include <unordered_map>
 
-#include "2d/CCActionInterval.h"
-#include "3d/CCAnimation3D.h"
-#include "base/CCRef.h"
-#include "base/ccMacros.h"
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/3d/CCAnimation3D.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccMacros.h>
 
 NS_CC_BEGIN
 

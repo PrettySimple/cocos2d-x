@@ -9,16 +9,16 @@
 #define COCOS2D_COCOS2D_H
 
 #ifdef __cplusplus
-#define FUTURE_EXTERN extern "C"
+#define COCOS_EXTERN extern "C"
 #else
-#define FUTURE_EXTERN
+#define COCOS_EXTERN
 #endif
 
 //! Project version number for future.
-FUTURE_EXTERN double cocosVersionNumber;
+COCOS_EXTERN double cocosVersionNumber;
 
 //! Project version string for future.
-FUTURE_EXTERN const unsigned char cocosVersionString[];
+COCOS_EXTERN const unsigned char cocosVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <cocos/PublicHeader.h>
 

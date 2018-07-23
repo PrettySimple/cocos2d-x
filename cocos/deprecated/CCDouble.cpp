@@ -7,7 +7,7 @@
 
 #include "CCDouble.h"
 
-#include "base/CCDataVisitor.h"
+#include <cocos/base/CCDataVisitor.h>
 
 #include <new>
 

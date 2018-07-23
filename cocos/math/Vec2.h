@@ -22,8 +22,8 @@
 #ifndef CC_MATH_VEC2_H
 #define CC_MATH_VEC2_H
 
-#include "math/CCMathBase.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/math/CCMathBase.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <cmath>
 #include <functional>

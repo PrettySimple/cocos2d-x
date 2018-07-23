@@ -22,30 +22,30 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCSprite3D.h"
-#include "3d/CCAttachNode.h"
-#include "3d/CCBundle3D.h"
-#include "3d/CCMesh.h"
-#include "3d/CCMeshSkin.h"
-#include "3d/CCObjLoader.h"
-#include "3d/CCSprite3DMaterial.h"
+#include <cocos/3d/CCSprite3D.h>
 
-#include "2d/CCCamera.h"
-#include "2d/CCLight.h"
-#include "base/CCAsyncTaskPool.h"
-#include "base/CCDirector.h"
-#include "base/ccMacros.h"
-#include "base/ccUTF8.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCMaterial.h"
-#include "renderer/CCPass.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTechnique.h"
-#include "renderer/CCTextureCache.h"
+#include <cocos/3d/CCAttachNode.h>
+#include <cocos/3d/CCBundle3D.h>
+#include <cocos/3d/CCMesh.h>
+#include <cocos/3d/CCMeshSkin.h>
+#include <cocos/3d/CCObjLoader.h>
+#include <cocos/3d/CCSprite3DMaterial.h>
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCLight.h>
+#include <cocos/base/CCAsyncTaskPool.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCMaterial.h>
+#include <cocos/renderer/CCPass.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTechnique.h>
+#include <cocos/renderer/CCTextureCache.h>
 
 NS_CC_BEGIN
 
@@ -463,7 +463,7 @@ void Sprite3D::setMaterial(Material* material)
 void Sprite3D::setMaterial(Material* material, int meshIndex)
 {
     CCASSERT(material, "Invalid Material");
-    CCASSERT(meshIndex == -1 || (meshIndex >= 0 && meshIndex < _meshes.size()), "Invalid meshIndex");
+    CCASSERT(meshIndex == -1 || (meshIndex >= 0 && meshIndex < static_cast<int>(_meshes.size())), "Invalid meshIndex");
 
     if (meshIndex == -1)
     {
@@ -483,7 +483,7 @@ void Sprite3D::setMaterial(Material* material, int meshIndex)
 
 Material* Sprite3D::getMaterial(int meshIndex) const
 {
-    CCASSERT(meshIndex >= 0 && meshIndex < _meshes.size(), "Invalid meshIndex");
+    CCASSERT(meshIndex >= 0 && meshIndex < static_cast<int>(_meshes.size()), "Invalid meshIndex");
     return _meshes.at(meshIndex)->getMaterial();
 }
 

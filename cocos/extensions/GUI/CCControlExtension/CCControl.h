@@ -29,9 +29,9 @@
 #ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_CONTROL_H
 #define CC_EXTENSIONS_GUI_CONTROLEXTENSION_CONTROL_H
 
-#include "2d/CCLayer.h"
-#include "extensions/ExtensionExport.h"
-#include "extensions/GUI/CCControlExtension/CCControlUtils.h"
+#include <cocos/2d/CCLayer.h>
+#include <cocos/extensions/ExtensionExport.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControlUtils.h>
 
 #include <unordered_map>
 

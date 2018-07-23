@@ -25,11 +25,11 @@
 #ifndef CC_3D_MESH_H
 #define CC_3D_MESH_H
 
-#include "3d/CCAABB.h"
-#include "3d/CCBundle3DData.h"
-#include "base/CCRef.h"
-#include "math/CCMath.h"
-#include "renderer/CCMeshCommand.h"
+#include <cocos/3d/CCAABB.h>
+#include <cocos/3d/CCBundle3DData.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/math/CCMath.h>
+#include <cocos/renderer/CCMeshCommand.h>
 
 #include <map>
 #include <string>

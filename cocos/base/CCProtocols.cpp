@@ -5,7 +5,7 @@
 //  Created by Mathieu Garaud on 20/06/2018.
 //
 
-#include "CCProtocols.h"
+#include <cocos/base/CCProtocols.h>
 
 NS_CC_BEGIN
 

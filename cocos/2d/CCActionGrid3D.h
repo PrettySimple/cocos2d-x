@@ -26,12 +26,12 @@ THE SOFTWARE.
 #ifndef CC_2D_ACTIONGRID3D_H
 #define CC_2D_ACTIONGRID3D_H
 
-#include "2d/CCActionGrid.h"
-#include "base/ccConfig.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/2d/CCActionGrid.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <chrono>
 

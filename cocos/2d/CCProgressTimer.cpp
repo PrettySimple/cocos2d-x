@@ -23,15 +23,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "2d/CCProgressTimer.h"
+#include <cocos/2d/CCProgressTimer.h>
 
-#include "2d/CCSprite.h"
-#include "base/CCDirector.h"
-#include "base/ccMacros.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #include <algorithm>
 #include <limits>
@@ -93,7 +93,7 @@ ProgressTimer::~ProgressTimer(void)
 
 void ProgressTimer::setPercentage(float percentage)
 {
-    if (_percentage != percentage)
+    if (std::abs(_percentage - percentage) > std::numeric_limits<float>::epsilon())
     {
         _percentage = clampf(percentage, 0, 100);
         updateProgress();
@@ -222,8 +222,6 @@ void ProgressTimer::updateProgress(void)
         case Type::BAR:
             updateBar();
             break;
-        default:
-            break;
     }
 }
 
@@ -281,7 +279,7 @@ void ProgressTimer::updateRadial(void)
     }
     float alpha = _percentage / 100.f;
 
-    float angle = 2.f * ((float)M_PI) * (_reverseDirection ? alpha : 1.0f - alpha);
+    float angle = 2.f * static_cast<float>(M_PI) * (_reverseDirection ? alpha : 1.0f - alpha);
 
     //    We find the vector to do a hit detection based on the percentage
     //    We know the first vector is the one @ 12 o'clock (top,mid) so we rotate
@@ -379,7 +377,7 @@ void ProgressTimer::updateRadial(void)
     if (!_vertexData)
     {
         _vertexDataCount = index + 3;
-        _vertexData = (V2F_C4B_T2F*)malloc(_vertexDataCount * sizeof(V2F_C4B_T2F));
+        _vertexData = static_cast<V2F_C4B_T2F*>(malloc(_vertexDataCount * sizeof(V2F_C4B_T2F)));
         CCASSERT(_vertexData, "CCProgressTimer. Not enough memory");
     }
     updateColor();
@@ -456,7 +454,7 @@ void ProgressTimer::updateBar(void)
         if (!_vertexData)
         {
             _vertexDataCount = 4;
-            _vertexData = (V2F_C4B_T2F*)malloc(_vertexDataCount * sizeof(V2F_C4B_T2F));
+            _vertexData = static_cast<V2F_C4B_T2F*>(malloc(_vertexDataCount * sizeof(V2F_C4B_T2F)));
             CCASSERT(_vertexData, "CCProgressTimer. Not enough memory");
         }
         //    TOPLEFT
@@ -480,7 +478,7 @@ void ProgressTimer::updateBar(void)
         if (!_vertexData)
         {
             _vertexDataCount = 8;
-            _vertexData = (V2F_C4B_T2F*)malloc(_vertexDataCount * sizeof(V2F_C4B_T2F));
+            _vertexData = static_cast<V2F_C4B_T2F*>(malloc(_vertexDataCount * sizeof(V2F_C4B_T2F)));
             CCASSERT(_vertexData, "CCProgressTimer. Not enough memory");
             //    TOPLEFT 1
             _vertexData[0].texCoords = textureCoordFromAlphaPoint(Vec2(0, 1));

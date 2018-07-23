@@ -22,15 +22,15 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCAnimate3D.h"
+#include <cocos/3d/CCAnimate3D.h>
 
-#include "3d/CCSkeleton3D.h"
-#include "3d/CCSprite3D.h"
-#include "base/CCConfiguration.h"
-#include "base/CCDirector.h"
-#include "base/CCEventCustom.h"
-#include "base/CCEventDispatcher.h"
-#include "platform/CCFileUtils.h"
+#include <cocos/3d/CCSkeleton3D.h>
+#include <cocos/3d/CCSprite3D.h>
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventCustom.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/platform/CCFileUtils.h>
 
 using namespace std::chrono_literals;
 
@@ -409,7 +409,7 @@ void Animate3D::update(float t)
                             eventInfo->frame = keyFrame.first;
                             eventInfo->userInfo = &_keyFrameUserInfos[keyFrame.first];
                             eventInfos.push_back(eventInfo);
-                            frameEvent->setUserData((void*)eventInfo);
+                            frameEvent->setUserData(static_cast<void*>(eventInfo));
                         }
                     }
                     std::sort(eventInfos.begin(), eventInfos.end(), _playReverse ? cmpEventInfoDes : cmpEventInfoAsc);

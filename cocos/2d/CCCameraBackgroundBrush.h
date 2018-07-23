@@ -25,13 +25,13 @@
 #ifndef CC_2D_CAMERABACKGROUNDBRUSH_H
 #define CC_2D_CAMERABACKGROUNDBRUSH_H
 
-#include "base/CCRef.h"
-#include "base/ccConfig.h"
-#include "base/ccTypes.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformConfig.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <iosfwd>
 

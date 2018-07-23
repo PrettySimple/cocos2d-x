@@ -61,17 +61,17 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 */
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    import <CoreFoundation/CoreFoundation.h>
-#    import <OpenGLES/EAGL.h>
-#    import <OpenGLES/EAGLDrawable.h>
-#    import <OpenGLES/ES2/gl.h>
-#    import <OpenGLES/ES2/glext.h>
-#    import <UIKit/UIKit.h>
+#    include <CoreFoundation/CoreFoundation.h>
+#    include <OpenGLES/EAGL.h>
+#    include <OpenGLES/EAGLDrawable.h>
+#    include <OpenGLES/ES2/gl.h>
+#    include <OpenGLES/ES2/glext.h>
+#    include <UIKit/UIKit.h>
 
-#    import "platform/ios/CCESRenderer-ios.h"
+#    include <cocos/platform/ios/CCESRenderer-ios.h>
 
 // CLASS INTERFACE:
 

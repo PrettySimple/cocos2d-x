@@ -27,22 +27,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCSpriteFrameCache.h"
+#include <cocos/2d/CCSpriteFrameCache.h>
 
-#include "2d/CCAutoPolygon.h"
-#include "2d/CCSpriteFrame.h"
-#include "base/CCDirector.h"
-#include "base/CCNS.h"
-#include "base/CCNinePatchImageParser.h"
-#include "base/ccMacros.h"
-#include "base/ccTypes.h"
-#include "math/Vec2.h"
-#include "math/Vec3.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCImage.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCTextureCache.h"
-#include "renderer/CCTrianglesCommand.h"
+#include <cocos/2d/CCAutoPolygon.h>
+#include <cocos/2d/CCSpriteFrame.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCNS.h>
+#include <cocos/base/CCNinePatchImageParser.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCImage.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureCache.h>
+#include <cocos/renderer/CCTrianglesCommand.h>
 
 #include <cstdlib>
 #include <algorithm>

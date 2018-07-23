@@ -25,13 +25,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCTransitionProgress.h"
+#include <cocos/2d/CCTransitionProgress.h>
 
-#include "2d/CCActionInstant.h"
-#include "2d/CCActionProgressTimer.h"
-#include "2d/CCProgressTimer.h"
-#include "2d/CCRenderTexture.h"
-#include "base/CCDirector.h"
+#include <cocos/2d/CCActionInstant.h>
+#include <cocos/2d/CCActionProgressTimer.h>
+#include <cocos/2d/CCProgressTimer.h>
+#include <cocos/2d/CCRenderTexture.h>
+#include <cocos/base/CCDirector.h>
 
 NS_CC_BEGIN
 

@@ -25,13 +25,13 @@ THE SOFTWARE.
 #ifndef CC_UI_TEXTFIELD_H
 #define CC_UI_TEXTFIELD_H
 
-#include "2d/CCTextFieldTTF.h"
-#include "base/CCRef.h"
-#include "base/ccConfig.h"
-#include "platform/CCPlatformMacros.h"
-#include "ui/GUIDefine.h"
-#include "ui/GUIExport.h"
-#include "ui/UIWidget.h"
+#include <cocos/2d/CCTextFieldTTF.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <cstddef>
 #include <functional>

@@ -25,10 +25,10 @@
 #ifndef CC_BASE_NINEPATCHIMAGEPARSER_H
 #define CC_BASE_NINEPATCHIMAGEPARSER_H
 
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <iosfwd>
 

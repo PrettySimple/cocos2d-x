@@ -22,8 +22,8 @@
 #ifndef CC_MATH_VEC4_H
 #define CC_MATH_VEC4_H
 
-#include "math/CCMathBase.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/math/CCMathBase.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <type_traits>
 

@@ -24,7 +24,7 @@
 
 #include "network/CCDownloader-apple.h"
 
-#include "base/ccUTF8.h"
+#include <cocos/base/ccUTF8.h>
 #include "network/CCDownloader.h"
 #include <queue>
 

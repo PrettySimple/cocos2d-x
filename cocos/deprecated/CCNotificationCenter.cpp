@@ -24,9 +24,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "deprecated/CCNotificationCenter.h"
+#include <cocos/deprecated/CCNotificationCenter.h>
 
-#include "deprecated/CCArray.h"
+#include <cocos/deprecated/CCArray.h>
 
 #include <new>
 #include <string>
@@ -83,7 +83,7 @@ bool __NotificationCenter::observerExisted(Ref* target, const std::string& name,
     Ref* obj = nullptr;
     CCARRAY_FOREACH(_observers, obj)
     {
-        NotificationObserver* observer = (NotificationObserver*)obj;
+        NotificationObserver* observer = static_cast<NotificationObserver*>(obj);
         if (!observer)
             continue;
 
@@ -220,7 +220,6 @@ int __NotificationCenter::getObserverHandlerByName(const std::string& name)
         if (observer->getName() == name)
         {
             return observer->getHandler();
-            break;
         }
     }
 

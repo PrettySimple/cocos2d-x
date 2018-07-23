@@ -22,19 +22,19 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCSprite3DMaterial.h"
+#include <cocos/3d/CCSprite3DMaterial.h>
 
-#include "3d/CCMesh.h"
-#include "base/CCDirector.h"
-#include "base/CCEventType.h"
-#include "platform/CCFileUtils.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCGLProgramStateCache.h"
-#include "renderer/CCPass.h"
-#include "renderer/CCTechnique.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/3d/CCMesh.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventType.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCGLProgramStateCache.h>
+#include <cocos/renderer/CCPass.h>
+#include <cocos/renderer/CCTechnique.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 NS_CC_BEGIN
 

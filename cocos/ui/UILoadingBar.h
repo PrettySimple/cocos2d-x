@@ -26,11 +26,11 @@ THE SOFTWARE.
 #define CC_UI_LOADINGBAR_H
 
 
-#include "math/CCGeometry.h"
-#include "platform/CCPlatformMacros.h"
-#include "ui/GUIDefine.h"
-#include "ui/GUIExport.h"
-#include "ui/UIWidget.h"
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <iosfwd>
 

@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013 cocos2d-x.org
 
 http://www.cocos2d-x.org
@@ -25,7 +25,7 @@ THE SOFTWARE.
 #ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_ACTIONTIMELINECACHE_H
 #define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_ACTIONTIMELINECACHE_H
 
-#include "base/CCMap.h"
+#include <cocos/base/CCMap.h>
 #include <unordered_map>
 
 #include "CCTimelineMacro.h"

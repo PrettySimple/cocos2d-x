@@ -26,9 +26,9 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_PLANE_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_PLANE_H
 
-#include "3d/CCAABB.h"
-#include "base/CCRef.h"
-#include "math/CCMath.h"
+#include <cocos/3d/CCAABB.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/math/CCMath.h>
 #include <vector>
 
 NS_CC_BEGIN

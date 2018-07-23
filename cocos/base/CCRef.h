@@ -26,8 +26,8 @@ THE SOFTWARE.
 #ifndef CC_BASE_REF_H
 #define CC_BASE_REF_H
 
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
 #    include <string>

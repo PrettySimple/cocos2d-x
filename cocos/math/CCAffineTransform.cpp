@@ -23,9 +23,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "math/CCAffineTransform.h"
+#include <cocos/math/CCAffineTransform.h>
 
-#include "math/Vec3.h"
+#include <cocos/math/Vec3.h>
 
 #include <algorithm>
 #include <cmath>

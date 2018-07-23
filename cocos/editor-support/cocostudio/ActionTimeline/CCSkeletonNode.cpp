@@ -23,11 +23,11 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "CCSkeletonNode.h"
 
-#include "base/CCDirector.h"
+#include <cocos/base/CCDirector.h>
 #include "math/TransformUtils.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/ccGLStateCache.h>
 #include <stack>
 
 using namespace cocos2d::GL;

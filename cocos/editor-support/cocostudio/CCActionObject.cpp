@@ -24,10 +24,10 @@ THE SOFTWARE.
 
 #include "cocostudio/CCActionObject.h"
 
-#include "2d/CCActionInstant.h"
-#include "base/CCDirector.h"
-#include "base/CCScheduler.h"
-#include "base/ccUtils.h"
+#include <cocos/2d/CCActionInstant.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCScheduler.h>
+#include <cocos/base/ccUtils.h>
 #include "cocostudio/CocoLoader.h"
 
 using namespace cocos2d;

@@ -24,13 +24,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "2d/CCAnimation.h"
+#include <cocos/2d/CCAnimation.h>
 
-#include "2d/CCSpriteFrame.h"
-#include "base/CCDirector.h"
-#include "math/CCGeometry.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCTextureCache.h"
+#include <cocos/2d/CCSpriteFrame.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureCache.h>
 
 #include <new> 
 

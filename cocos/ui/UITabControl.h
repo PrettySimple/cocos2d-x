@@ -25,8 +25,8 @@
 #ifndef CC_UI_TABCONTROL_H
 #define CC_UI_TABCONTROL_H
 
-#include "ui/UIAbstractCheckButton.h"
-#include "ui/UIWidget.h"
+#include <cocos/ui/UIAbstractCheckButton.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <cstdint>
 

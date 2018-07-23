@@ -22,11 +22,11 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "ui/UITabControl.h"
-#include "2d/CCLabel.h"
-#include "2d/CCSprite.h"
-#include "platform/CCFileUtils.h"
-#include "ui/UILayout.h"
+#include <cocos/ui/UITabControl.h>
+#include <cocos/2d/CCLabel.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/ui/UILayout.h>
 
 NS_CC_BEGIN
 

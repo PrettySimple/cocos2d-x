@@ -26,7 +26,7 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_MANAGER_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_MANAGER_H
 
-#include "base/CCRef.h"
+#include <cocos/base/CCRef.h>
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 #include "extensions/Particle3D/PU/CCPUAlignAffectorTranslator.h"
 #include "extensions/Particle3D/PU/CCPUBaseColliderTranslator.h"

@@ -22,9 +22,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "renderer/CCCustomCommand.h"
+#include <cocos/renderer/CCCustomCommand.h>
 
-#include "math/Mat4.h"
+#include <cocos/math/Mat4.h>
 
 NS_CC_BEGIN
 

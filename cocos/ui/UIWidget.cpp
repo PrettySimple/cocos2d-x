@@ -22,25 +22,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIWidget.h"
+#include <cocos/ui/UIWidget.h>
 
-#include "2d/CCCamera.h"
-#include "2d/CCNode.h"
-#include "2d/CCSprite.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventFocus.h"
-#include "base/CCEventKeyboard.h"
-#include "base/CCEventListenerKeyboard.h"
-#include "base/CCEventListenerTouch.h"
-#include "base/CCTouch.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCTexture2D.h"
-#include "ui/GUIDefine.h"
-#include "ui/UILayout.h"
-#include "ui/UILayoutComponent.h"
-#include "ui/UIScale9Sprite.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventFocus.h>
+#include <cocos/base/CCEventKeyboard.h>
+#include <cocos/base/CCEventListenerKeyboard.h>
+#include <cocos/base/CCEventListenerTouch.h>
+#include <cocos/base/CCTouch.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/UILayout.h>
+#include <cocos/ui/UILayoutComponent.h>
+#include <cocos/ui/UIScale9Sprite.h>
 
 #include <cmath>
 #include <limits>

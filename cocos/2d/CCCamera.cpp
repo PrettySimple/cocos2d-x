@@ -24,16 +24,16 @@
  Code based GamePlay3D's Camera: http://gameplay3d.org
 
  ****************************************************************************/
-#include "2d/CCCamera.h"
+#include <cocos/2d/CCCamera.h>
 
 #include "2d/CCCameraBackgroundBrush.h"
-#include "2d/CCScene.h"
-#include "base/CCDirector.h"
-#include "base/ccMacros.h"
-#include "math/CCGeometry.h"
-#include "math/Quaternion.h"
-#include "math/Vec4.h"
-#include "renderer/CCFrameBuffer.h"
+#include <cocos/2d/CCScene.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Quaternion.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/renderer/CCFrameBuffer.h>
 
 #include <cstring>
 #include <algorithm>

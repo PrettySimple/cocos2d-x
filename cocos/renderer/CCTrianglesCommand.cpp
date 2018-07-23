@@ -22,13 +22,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "renderer/CCTrianglesCommand.h"
+#include <cocos/renderer/CCTrianglesCommand.h>
 
-#include "base/ccMacros.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/base/ccMacros.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #include <utility>
 

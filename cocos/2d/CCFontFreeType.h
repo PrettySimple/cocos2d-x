@@ -29,10 +29,10 @@
 /// @cond DO_NOT_SHOW
 
 #include "2d/CCFont.h"
-#include "base/ccTypes.h"
-#include "platform/CCPlatformConfig.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/ccTypes.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <string>
 

@@ -30,10 +30,10 @@
 #ifndef CC_RENDERER_MATERIAL_H
 #define CC_RENDERER_MATERIAL_H
 
-#include "base/CCVector.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
-#include "renderer/CCRenderState.h"
+#include <cocos/base/CCVector.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/renderer/CCRenderState.h>
 
 #include <cstddef>
 #include <iosfwd>

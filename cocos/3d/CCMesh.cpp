@@ -22,26 +22,26 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCMesh.h"
+#include <cocos/3d/CCMesh.h>
 
-#include "2d/CCLight.h"
-#include "2d/CCScene.h"
-#include "3d/CCMeshSkin.h"
-#include "3d/CCMeshVertexIndexData.h"
-#include "3d/CCSkeleton3D.h"
-#include "base/CCConfiguration.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "math/Mat4.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCMaterial.h"
-#include "renderer/CCPass.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTechnique.h"
-#include "renderer/CCTextureCache.h"
-#include "renderer/CCVertexAttribBinding.h"
-#include "renderer/CCVertexIndexBuffer.h"
+#include <cocos/2d/CCLight.h>
+#include <cocos/2d/CCScene.h>
+#include <cocos/3d/CCMeshSkin.h>
+#include <cocos/3d/CCMeshVertexIndexData.h>
+#include <cocos/3d/CCSkeleton3D.h>
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCMaterial.h>
+#include <cocos/renderer/CCPass.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTechnique.h>
+#include <cocos/renderer/CCTextureCache.h>
+#include <cocos/renderer/CCVertexAttribBinding.h>
+#include <cocos/renderer/CCVertexIndexBuffer.h>
 
 using namespace std;
 

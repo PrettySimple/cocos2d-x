@@ -22,18 +22,18 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 
 // Webview not available on tvOS
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) && !defined(CC_TARGET_OS_TVOS)
 
-#    include "base/CCDirector.h"
-#    include "platform/CCFileUtils.h"
-#    include "platform/CCGLView.h"
-#    include "platform/ios/CCEAGLView-ios.h"
-#    include "renderer/CCRenderer.h"
-#    include "ui/UIWebView.h"
-#    include "ui/UIWebViewImpl-ios.h"
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/platform/CCFileUtils.h>
+#    include <cocos/platform/CCGLView.h>
+#    include <cocos/platform/ios/CCEAGLView-ios.h>
+#    include <cocos/renderer/CCRenderer.h>
+#    include <cocos/ui/UIWebView.h>
+#    include <cocos/ui/UIWebViewImpl-ios.h>
 
 static std::string getFixedBaseUrl(const std::string& baseUrl)
 {

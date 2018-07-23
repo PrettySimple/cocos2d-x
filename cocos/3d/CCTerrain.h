@@ -26,16 +26,16 @@ THE SOFTWARE.
 
 #include <vector>
 
-#include "2d/CCCamera.h"
-#include "2d/CCNode.h"
-#include "3d/CCAABB.h"
-#include "3d/CCRay.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerCustom.h"
-#include "platform/CCPlatformConfig.h"
-#include "renderer/CCCustomCommand.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/3d/CCAABB.h>
+#include <cocos/3d/CCRay.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventListenerCustom.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/renderer/CCCustomCommand.h>
+#include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 NS_CC_BEGIN
 

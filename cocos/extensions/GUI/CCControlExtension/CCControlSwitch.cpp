@@ -25,20 +25,20 @@
  *
  */
 
-#include "extensions/GUI/CCControlExtension/CCControlSwitch.h"
+#include <cocos/extensions/GUI/CCControlExtension/CCControlSwitch.h>
 
-#include "2d/CCActionTween.h"
-#include "2d/CCClippingNode.h"
-#include "2d/CCLabel.h"
-#include "2d/CCSprite.h"
-#include "base/CCTouch.h"
-#include "base/ccMacros.h"
-#include "base/ccTypes.h"
-#include "extensions/GUI/CCControlExtension/CCControl.h"
-#include "math/CCGeometry.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/2d/CCActionTween.h>
+#include <cocos/2d/CCClippingNode.h>
+#include <cocos/2d/CCLabel.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCTouch.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 #include <chrono>
 #include <iosfwd>

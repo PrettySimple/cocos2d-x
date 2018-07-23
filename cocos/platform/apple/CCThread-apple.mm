@@ -23,9 +23,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#import <Foundation/Foundation.h>
+#include <cocos/platform/CCThread.h>
 
-#include "platform/CCThread.h"
+#import <Foundation/NSAutoreleasePool.h>
 
 NS_CC_BEGIN
 

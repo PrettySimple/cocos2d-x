@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCAABB.h"
+#include <cocos/3d/CCAABB.h>
 
 #include <algorithm>
 #include <cassert>

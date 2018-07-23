@@ -25,7 +25,7 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_EVENTHANDLERMANAGER_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_EVENTHANDLERMANAGER_H
 
-#include "base/CCRef.h"
+#include <cocos/base/CCRef.h>
 #include "extensions/Particle3D/PU/CCPUDoAffectorEventHandlerTranslator.h"
 #include "extensions/Particle3D/PU/CCPUDoEnableComponentEventHandlerTranslator.h"
 #include "extensions/Particle3D/PU/CCPUDoExpireEventHandlerTranslator.h"

@@ -29,13 +29,13 @@
  * Converted to c++ / cocos2d-x by Angus C
  */
 
-#include "extensions/GUI/CCControlExtension/CCControlSaturationBrightnessPicker.h"
+#include <cocos/extensions/GUI/CCControlExtension/CCControlSaturationBrightnessPicker.h>
 
-#include "2d/CCSprite.h"
-#include "base/ccTypes.h"
-#include "extensions/GUI/CCControlExtension/CCControl.h"
-#include "math/CCGeometry.h"
-#include "platform/CCGL.h"
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCGL.h>
 
 #include <cmath>
 #include <new>

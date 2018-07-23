@@ -1,9 +1,9 @@
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 
-#    include "base/CCDirector.h"
-#    include "platform/CCFileUtils.h"
-#    include "platform/emscripten/CCApplication-emscripten.h"
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/platform/CCFileUtils.h>
+#    include <cocos/platform/emscripten/CCApplication-emscripten.h>
 #    include <emscripten/emscripten.h>
 
 NS_CC_BEGIN

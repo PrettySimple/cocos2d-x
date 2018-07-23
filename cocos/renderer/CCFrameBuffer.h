@@ -25,13 +25,13 @@
 #ifndef CC_RENDERER_FRAMEBUFFER_H
 #define CC_RENDERER_FRAMEBUFFER_H
 
-#include "base/CCRef.h"
-#include "base/ccConfig.h"
-#include "base/ccTypes.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 #include <cstdint>
 #include <set>

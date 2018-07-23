@@ -25,9 +25,9 @@ THE SOFTWARE.
 #ifndef CC_RENDERER_GLPROGRAMSTATECACHE_H
 #define CC_RENDERER_GLPROGRAMSTATECACHE_H
 
-#include "base/CCMap.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/base/CCMap.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 /**
  * @addtogroup renderer

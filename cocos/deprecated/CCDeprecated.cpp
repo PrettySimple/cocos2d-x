@@ -22,16 +22,16 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "deprecated/CCDeprecated.h"
+#include <cocos/deprecated/CCDeprecated.h>
 
-#include "2d/CCDrawingPrimitives.h"
-#include "2d/CCSpriteFrame.h"
-#include "base/CCDirector.h"
-#include "base/ccTypes.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCGLProgram.h"
+#include <cocos/2d/CCDrawingPrimitives.h>
+#include <cocos/2d/CCSpriteFrame.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCGLProgram.h>
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
 #    pragma GCC diagnostic ignored "-Wdeprecated-declarations"

@@ -23,12 +23,12 @@ Copyright (c) 2013-2014 Chukong Technologies
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "deprecated/CCString.h"
+#include <cocos/deprecated/CCString.h>
 
-#include "base/CCDataVisitor.h"
-#include "base/ccUtils.h"
-#include "deprecated/CCArray.h"
-#include "platform/CCFileUtils.h"
+#include <cocos/base/CCDataVisitor.h>
+#include <cocos/base/ccUtils.h>
+#include <cocos/deprecated/CCArray.h>
+#include <cocos/platform/CCFileUtils.h>
 
 #include <cstdio>
 #include <cstdlib>

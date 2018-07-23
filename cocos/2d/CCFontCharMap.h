@@ -29,7 +29,7 @@
 /// @cond DO_NOT_SHOW
 
 #include "2d/CCFont.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <iosfwd>
 #include <string>

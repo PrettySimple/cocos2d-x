@@ -27,10 +27,10 @@
  - Qt3D: http://qt-project.org/
  ****************************************************************************/
 
-#include "renderer/CCTechnique.h"
+#include <cocos/renderer/CCTechnique.h>
 
-#include "renderer/CCMaterial.h"
-#include "renderer/CCPass.h"
+#include <cocos/renderer/CCMaterial.h>
+#include <cocos/renderer/CCPass.h>
 
 #include <new>
 

@@ -25,11 +25,11 @@
 #ifndef CC_2D_LIGHT_H
 #define CC_2D_LIGHT_H
 
-#include "2d/CCNode.h"
-#include "base/ccConfig.h"
-#include "math/Vec3.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 NS_CC_BEGIN
 

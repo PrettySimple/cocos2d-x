@@ -25,17 +25,17 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "2d/CCActionInterval.h"
+#include <cocos/2d/CCActionInterval.h>
 
-#include "2d/CCActionInstant.h"
-#include "2d/CCNode.h"
-#include "2d/CCSprite.h"
-#include "2d/CCSpriteFrame.h"
-#include "base/CCConsole.h"
-#include "base/CCDirector.h"
-#include "base/CCEventCustom.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCValue.h"
+#include <cocos/2d/CCActionInstant.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/2d/CCSpriteFrame.h>
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventCustom.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCValue.h>
 
 #include <cstddef>
 #include <algorithm>

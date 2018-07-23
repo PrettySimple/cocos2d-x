@@ -31,7 +31,7 @@
 #include <map>
 #include <string>
 
-#include "base/CCRef.h"
+#include <cocos/base/CCRef.h>
 #include "extensions/Particle3D/PU/CCPUScriptLexer.h"
 
 NS_CC_BEGIN

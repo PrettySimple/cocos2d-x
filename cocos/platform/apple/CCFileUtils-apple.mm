@@ -26,13 +26,13 @@ THE SOFTWARE.
 
 #include "platform/apple/CCFileUtils-apple.h"
 
-#include "base/CCConsole.h"
-#include "base/CCData.h"
-#include "base/CCValue.h"
-#include "base/ccConfig.h"
-#include "base/ccMacros.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/CCData.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <CoreFoundation/CFNumber.h>
 #include <Foundation/NSBundle.h>

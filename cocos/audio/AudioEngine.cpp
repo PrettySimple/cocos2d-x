@@ -24,9 +24,9 @@
 
 #include "audio/include/AudioEngine.h"
 
-#include "base/ccUtils.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCPlatformConfig.h"
+#include <cocos/base/ccUtils.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformConfig.h>
 
 #include <condition_variable>
 #include <queue>

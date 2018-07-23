@@ -25,12 +25,12 @@ THE SOFTWARE.
 #ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_EXTENSIONS_H
 #define CC_EXTENSIONS_GUI_CONTROLEXTENSION_EXTENSIONS_H
 
-#include "extensions/GUI/CCControlExtension/CCControl.h"
-#include "extensions/GUI/CCControlExtension/CCControlButton.h"
-#include "extensions/GUI/CCControlExtension/CCControlColourPicker.h"
-#include "extensions/GUI/CCControlExtension/CCControlPotentiometer.h"
-#include "extensions/GUI/CCControlExtension/CCControlSlider.h"
-#include "extensions/GUI/CCControlExtension/CCControlStepper.h"
-#include "extensions/GUI/CCControlExtension/CCControlSwitch.h"
+#include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControlButton.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControlColourPicker.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControlPotentiometer.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControlSlider.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControlStepper.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControlSwitch.h>
 
 #endif // CC_EXTENSIONS_GUI_CONTROLEXTENSION_EXTENSIONS_H

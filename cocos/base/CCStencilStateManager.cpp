@@ -23,18 +23,18 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCStencilStateManager.hpp"
+#include <cocos/base/CCStencilStateManager.hpp>
 
-#include "base/CCDirector.h"
-#include "base/ccMacros.h"
-#include "base/ccTypes.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformConfig.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
 #    define CC_CLIPPING_NODE_OPENGLES 0
@@ -44,8 +44,8 @@
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
 #    include "base/CCEventDispatcher.h"
-#    include "base/CCEventListenerCustom.h"
-#    include "base/CCEventType.h"
+#    include <cocos/base/CCEventListenerCustom.h>
+#    include <cocos/base/CCEventType.h>
 #endif
 
 NS_CC_BEGIN

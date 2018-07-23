@@ -25,15 +25,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "renderer/CCGLProgramCache.h"
+#include <cocos/renderer/CCGLProgramCache.h>
 
-#include "base/CCConfiguration.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/ccMacros.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/ccShaders.h"
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventListenerCustom.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/ccShaders.h>
 
 NS_CC_BEGIN
 

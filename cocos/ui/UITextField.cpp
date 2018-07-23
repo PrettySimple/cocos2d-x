@@ -22,16 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UITextField.h"
+#include <cocos/ui/UITextField.h>
 
-#include "2d/CCLabel.h"
-#include "2d/CCNode.h"
-#include "base/ccTypes.h"
-#include "base/ccUTF8.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
-#include "platform/CCFileUtils.h"
-#include "ui/UIHelper.h"
+#include <cocos/2d/CCLabel.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/ui/UIHelper.h>
 
 #include <cstring>
 #include <new>

@@ -25,14 +25,14 @@
 
 #include "2d/CCFontCharMap.h"
 
-#include "2d/CCFontAtlas.h"
-#include "base/CCDirector.h"
-#include "base/CCValue.h"
-#include "base/ccMacros.h"
-#include "math/CCGeometry.h"
-#include "platform/CCFileUtils.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCTextureCache.h"
+#include <cocos/2d/CCFontAtlas.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureCache.h>
 
 #include <new>
 

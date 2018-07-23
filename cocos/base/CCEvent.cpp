@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCEvent.h"
+#include <cocos/base/CCEvent.h>
 
 #include <type_traits>
 

@@ -26,9 +26,9 @@ THE SOFTWARE.
 #ifndef CC_PLATFORM_APPLICATIONPROTOCOL_H
 #define CC_PLATFORM_APPLICATIONPROTOCOL_H
 
-#include "platform/CCCommon.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/platform/CCCommon.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <iosfwd>
 

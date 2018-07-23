@@ -23,7 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/ZipUtils.h"
+#include <cocos/base/ZipUtils.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"
@@ -35,9 +35,9 @@
 #include <zlib.h>
 #pragma clang diagnostic pop
 
-#include "base/CCData.h"
-#include "base/ccMacros.h"
-#include "platform/CCFileUtils.h"
+#include <cocos/base/CCData.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCFileUtils.h>
 
 #include <cassert>
 #include <cstdlib>

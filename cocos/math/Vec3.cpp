@@ -18,7 +18,7 @@
  This file was modified to fit the cocos2d-x project
  */
 
-#include "math/Vec3.h"
+#include <cocos/math/Vec3.h>
 
 #include "math/MathUtil.h"
 

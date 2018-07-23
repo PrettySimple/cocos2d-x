@@ -27,7 +27,7 @@
 #define CC_EXTENSIONS_PARTICLE3D_PU_PLANECOLLIDER_H
 
 #include "CCPUBaseCollider.h"
-#include "base/ccTypes.h"
+#include <cocos/base/ccTypes.h>
 #include "extensions/Particle3D/PU/CCPUPlane.h"
 
 NS_CC_BEGIN

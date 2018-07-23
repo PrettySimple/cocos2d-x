@@ -27,16 +27,16 @@
  *
  */
 
-#include "extensions/GUI/CCControlExtension/CCControlSlider.h"
+#include <cocos/extensions/GUI/CCControlExtension/CCControlSlider.h>
 
-#include "2d/CCNode.h"
-#include "2d/CCSprite.h"
-#include "base/CCTouch.h"
-#include "base/ccMacros.h"
-#include "base/ccTypes.h"
-#include "extensions/GUI/CCControlExtension/CCControl.h"
-#include "extensions/GUI/CCControlExtension/CCControlUtils.h"
-#include "math/CCGeometry.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCTouch.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControlUtils.h>
+#include <cocos/math/CCGeometry.h>
 
 #include <algorithm>
 #include <new>

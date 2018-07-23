@@ -26,41 +26,41 @@ THE SOFTWARE.
 ****************************************************************************/
 
 // cocos2d includes
-#include "base/CCDirector.h"
+#include <cocos/base/CCDirector.h>
 
-#include "2d/CCActionManager.h"
-#include "2d/CCAnimationCache.h"
-#include "2d/CCCamera.h"
-#include "2d/CCDrawingPrimitives.h"
-#include "2d/CCFontAtlasCache.h"
-#include "2d/CCFontFNT.h"
-#include "2d/CCFontFreeType.h"
-#include "2d/CCLabelAtlas.h"
-#include "2d/CCSpriteFrame.h"
-#include "2d/CCSpriteFrameCache.h"
-#include "2d/CCTransition.h"
-#include "base/CCAsyncTaskPool.h"
-#include "base/CCAutoreleasePool.h"
-#include "base/CCConfiguration.h"
-#include "base/CCConsole.h"
-#include "base/CCEventCustom.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCScheduler.h"
-#include "base/CCUserDefault.h"
-#include "base/ccFPSImages.h"
-#include "base/ccMacros.h"
-#include "platform/CCApplication.h"
-#include "platform/CCFileUtils.h"
-#include "renderer/CCFrameBuffer.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCGLProgramStateCache.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTextureCache.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/2d/CCActionManager.h>
+#include <cocos/2d/CCAnimationCache.h>
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCDrawingPrimitives.h>
+#include <cocos/2d/CCFontAtlasCache.h>
+#include <cocos/2d/CCFontFNT.h>
+#include <cocos/2d/CCFontFreeType.h>
+#include <cocos/2d/CCLabelAtlas.h>
+#include <cocos/2d/CCSpriteFrame.h>
+#include <cocos/2d/CCSpriteFrameCache.h>
+#include <cocos/2d/CCTransition.h>
+#include <cocos/base/CCAsyncTaskPool.h>
+#include <cocos/base/CCAutoreleasePool.h>
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/CCEventCustom.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCScheduler.h>
+#include <cocos/base/CCUserDefault.h>
+#include <cocos/base/ccFPSImages.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCApplication.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/renderer/CCFrameBuffer.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCGLProgramStateCache.h>
+#include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTextureCache.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #if CC_ENABLE_SCRIPT_BINDING
-#    include "base/CCScriptSupport.h"
+#    include <cocos/base/CCScriptSupport.h>
 #endif
 
 #include <string>

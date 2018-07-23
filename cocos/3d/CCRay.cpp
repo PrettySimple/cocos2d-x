@@ -20,10 +20,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "3d/CCRay.h"
+#include <cocos/3d/CCRay.h>
 
-#include "3d/CCAABB.h"
-#include "3d/CCPlane.h"
+#include <cocos/3d/CCAABB.h>
+#include <cocos/3d/CCPlane.h>
 
 NS_CC_BEGIN
 

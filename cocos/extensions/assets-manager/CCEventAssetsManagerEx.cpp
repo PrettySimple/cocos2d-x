@@ -24,7 +24,7 @@
 
 #include "CCEventAssetsManagerEx.h"
 #include "AssetsManagerEx.h"
-#include "base/ccMacros.h"
+#include <cocos/base/ccMacros.h>
 #include <functional>
 
 NS_CC_EXT_BEGIN

@@ -22,15 +22,15 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCConfiguration.h"
-#include "base/CCDirector.h"
-#include "base/ccMacros.h"
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
 #include "physics3d/CCPhysics3D.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #if CC_USE_3D_PHYSICS
 

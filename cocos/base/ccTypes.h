@@ -28,13 +28,13 @@ THE SOFTWARE.
 #ifndef CC_BASE_TYPES_H
 #define CC_BASE_TYPES_H
 
-#include "base/CCRef.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
-#include "math/Vec3.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstddef>
 #include <iosfwd>

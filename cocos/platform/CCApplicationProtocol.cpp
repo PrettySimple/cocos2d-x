@@ -7,8 +7,8 @@
 
 #include "CCApplicationProtocol.h"
 
-#include "base/CCAutoreleasePool.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/base/CCAutoreleasePool.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 NS_CC_BEGIN
 

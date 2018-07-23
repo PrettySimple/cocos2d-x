@@ -22,9 +22,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCBundleReader.h"
+#include <cocos/3d/CCBundleReader.h>
 
-#include "platform/CCFileUtils.h"
+#include <cocos/platform/CCFileUtils.h>
 
 NS_CC_BEGIN
 

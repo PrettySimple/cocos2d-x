@@ -18,9 +18,9 @@
  This file was modified to fit the cocos2d-x project
  */
 
-#include "math/Quaternion.h"
+#include <cocos/math/Quaternion.h>
 
-#include "base/ccMacros.h"
+#include <cocos/base/ccMacros.h>
 
 #include <cmath>
 #include <limits>

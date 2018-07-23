@@ -24,8 +24,8 @@
 
 #pragma once
 
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstdint>
 #include <functional>

@@ -21,24 +21,24 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "base/CCEventDispatcher.h"
+#include <cocos/base/CCEventDispatcher.h>
 
-#include "2d/CCCamera.h"
-#include "2d/CCScene.h"
-#include "base/CCDirector.h"
-#include "base/CCEventCustom.h"
-#include "base/CCEventListenerAcceleration.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/CCEventListenerFocus.h"
-#include "base/CCEventListenerKeyboard.h"
-#include "base/CCEventListenerMouse.h"
-#include "base/CCEventListenerTouch.h"
-#include "base/CCEventType.h"
-#include "base/CCTouch.h"
-#include "platform/CCPlatformConfig.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCScene.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventCustom.h>
+#include <cocos/base/CCEventListenerAcceleration.h>
+#include <cocos/base/CCEventListenerCustom.h>
+#include <cocos/base/CCEventListenerFocus.h>
+#include <cocos/base/CCEventListenerKeyboard.h>
+#include <cocos/base/CCEventListenerMouse.h>
+#include <cocos/base/CCEventListenerTouch.h>
+#include <cocos/base/CCEventType.h>
+#include <cocos/base/CCTouch.h>
+#include <cocos/platform/CCPlatformConfig.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
-#    include "base/CCEventListenerController.h"
+#    include <cocos/base/CCEventListenerController.h>
 #endif
 
 #include <algorithm>

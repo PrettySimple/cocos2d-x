@@ -23,9 +23,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/ccUTF8.h"
+#include <cocos/base/ccUTF8.h>
 
-#include "base/CCConsole.h"
+#include <cocos/base/CCConsole.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"

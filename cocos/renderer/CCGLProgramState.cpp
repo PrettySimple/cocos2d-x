@@ -26,19 +26,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "renderer/CCGLProgramState.h"
+#include <cocos/renderer/CCGLProgramState.h>
 
-#include "2d/CCCamera.h"
-#include "base/CCDirector.h"
-#include "base/CCEventCustom.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/CCEventType.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCGLProgramStateCache.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventCustom.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventListenerCustom.h>
+#include <cocos/base/CCEventType.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCGLProgramStateCache.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 NS_CC_BEGIN
 

@@ -25,11 +25,11 @@ THE SOFTWARE.
 #ifndef CC_UI_LAYOUTCOMPONENT_H
 #define CC_UI_LAYOUTCOMPONENT_H
 
-#include "2d/CCComponent.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformMacros.h"
-#include "ui/GUIExport.h"
+#include <cocos/2d/CCComponent.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIExport.h>
 
 NS_CC_BEGIN
 /**

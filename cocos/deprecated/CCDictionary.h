@@ -27,10 +27,10 @@ THE SOFTWARE.
 #define CC_DEPRECATED_DICTIONARY_H
 /// @cond DO_NOT_SHOW
 
-#include "base/CCRef.h"
-#include "base/ccMacros.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 extern "C"
 {

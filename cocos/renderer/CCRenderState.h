@@ -27,10 +27,10 @@
 #ifndef CC_RENDERER_RENDERSTATE_H
 #define CC_RENDERER_RENDERSTATE_H
 
-#include "base/CCRef.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstdint>
 #include <string>

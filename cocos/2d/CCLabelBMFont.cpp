@@ -31,18 +31,18 @@ http://slick.cokeandcode.com/demos/hiero.jnlp (Free, Java)
 http://www.angelcode.com/products/bmfont/ (Free, Windows only)
 
 ****************************************************************************/
-#include "2d/CCLabelBMFont.h"
+#include <cocos/2d/CCLabelBMFont.h>
 
-#include "2d/CCLabel.h"
-#include "2d/CCSprite.h"
-#include "base/CCVector.h"
-#include "base/ccUTF8.h"
+#include <cocos/2d/CCLabel.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccUTF8.h>
 
 #include <new>
 
 #if CC_LABELBMFONT_DEBUG_DRAW
-#    include "base/CCDirector.h"
-#    include "renderer/CCRenderer.h"
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/renderer/CCRenderer.h>
 #endif
 
 using namespace std;

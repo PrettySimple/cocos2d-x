@@ -29,13 +29,13 @@
  * Converted to c++ / cocos2d-x by Angus C
  */
 
-#include "extensions/GUI/CCControlExtension/CCControlHuePicker.h"
+#include <cocos/extensions/GUI/CCControlExtension/CCControlHuePicker.h>
 
-#include "2d/CCSprite.h"
-#include "base/ccMacros.h"
-#include "extensions/GUI/CCControlExtension/CCControl.h"
-#include "extensions/GUI/CCControlExtension/CCControlUtils.h"
-#include "math/CCGeometry.h"
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControlUtils.h>
+#include <cocos/math/CCGeometry.h>
 
 #include <cmath>
 #include <new>

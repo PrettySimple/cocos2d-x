@@ -24,7 +24,7 @@
  ****************************************************************************/
 
 #include "CCPUCircleEmitter.h"
-#include "base/ccRandom.h"
+#include <cocos/base/ccRandom.h>
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 #include "extensions/Particle3D/PU/CCPUUtil.h"
 

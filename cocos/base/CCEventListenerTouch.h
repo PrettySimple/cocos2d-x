@@ -26,10 +26,10 @@
 #ifndef CC_BASE_EVENTLISTENERTOUCH_H
 #define CC_BASE_EVENTLISTENERTOUCH_H
 
-#include "base/CCEventListener.h"
-#include "base/ccConfig.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/base/CCEventListener.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <functional>
 #include <iosfwd>

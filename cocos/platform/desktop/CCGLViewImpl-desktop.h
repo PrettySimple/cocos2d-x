@@ -26,10 +26,10 @@ THE SOFTWARE.
 #ifndef CC_PLATFORM_DESKTOP_GLVIEWIMPLDESKTOP_H
 #define CC_PLATFORM_DESKTOP_GLVIEWIMPLDESKTOP_H
 
-#include "base/CCRef.h"
+#include <cocos/base/CCRef.h>
 #include "glfw3.h"
-#include "platform/CCCommon.h"
-#include "platform/CCGLView.h"
+#include <cocos/platform/CCCommon.h>
+#include <cocos/platform/CCGLView.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 #    ifndef GLFW_EXPOSE_NATIVE_WIN32

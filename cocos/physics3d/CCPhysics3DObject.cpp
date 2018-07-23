@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/ccUTF8.h"
+#include <cocos/base/ccUTF8.h>
 #include "physics3d/CCPhysics3D.h"
 
 #if CC_USE_3D_PHYSICS

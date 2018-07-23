@@ -25,18 +25,18 @@
 #ifndef CC_UI_SCALE9SPRITE_H
 #define CC_UI_SCALE9SPRITE_H
 
-#include "2d/CCNode.h"
-#include "base/CCProtocols.h"
-#include "base/ccConfig.h"
-#include "base/ccTypes.h"
-#include "math/CCGeometry.h"
-#include "math/Mat4.h"
-#include "math/Vec2.h"
-#include "math/Vec4.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCTrianglesCommand.h"
-#include "ui/GUIExport.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCProtocols.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCTrianglesCommand.h>
+#include <cocos/ui/GUIExport.h>
 
 #include <cstdint>
 #include <iosfwd>

@@ -25,26 +25,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCSprite.h"
+#include <cocos/2d/CCSprite.h>
 
-#include "2d/CCAnimation.h"
-#include "2d/CCAnimationCache.h"
-#include "2d/CCCamera.h"
-#include "2d/CCSpriteBatchNode.h"
-#include "2d/CCSpriteFrame.h"
-#include "2d/CCSpriteFrameCache.h"
-#include "base/CCDirector.h"
-#include "base/CCVector.h"
-#include "base/ccMacros.h"
-#include "base/ccUTF8.h"
-#include "math/Vec3.h"
-#include "platform/CCImage.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCTextureAtlas.h"
-#include "renderer/CCTextureCache.h"
+#include <cocos/2d/CCAnimation.h>
+#include <cocos/2d/CCAnimationCache.h>
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCSpriteBatchNode.h>
+#include <cocos/2d/CCSpriteFrame.h>
+#include <cocos/2d/CCSpriteFrameCache.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCImage.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureAtlas.h>
+#include <cocos/renderer/CCTextureCache.h>
 
 #include <cstdio>
 #include <cstring>

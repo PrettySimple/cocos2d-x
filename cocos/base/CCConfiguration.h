@@ -27,12 +27,12 @@ THE SOFTWARE.
 #ifndef CC_BASE_CONFIGURATION_H
 #define CC_BASE_CONFIGURATION_H
 
-#include "platform/CCGL.h"
-#include "3d/CCAnimate3D.h"
-#include "base/CCRef.h"
-#include "base/CCValue.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/platform/CCGL.h>
+#include <cocos/3d/CCAnimate3D.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <iosfwd>
 

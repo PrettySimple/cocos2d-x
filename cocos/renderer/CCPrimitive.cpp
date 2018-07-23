@@ -22,10 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "renderer/CCPrimitive.h"
+#include <cocos/renderer/CCPrimitive.h>
 
-#include "renderer/CCVertexIndexBuffer.h"
-#include "renderer/CCVertexIndexData.h"
+#include <cocos/renderer/CCVertexIndexBuffer.h>
+#include <cocos/renderer/CCVertexIndexData.h>
 
 #include <cstddef>
 #include <new>
@@ -93,8 +93,8 @@ void Primitive::draw()
         {
             GLenum type = (_indices->getType() == IndexBuffer::IndexType::INDEX_TYPE_SHORT_16) ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT;
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indices->getVBO());
-            size_t offset = _start * _indices->getSizePerIndex();
-            glDrawElements(static_cast<GLenum>(_type), _count, type, (GLvoid*)offset);
+            std::size_t offset = _start * _indices->getSizePerIndex();
+            glDrawElements(static_cast<GLenum>(_type), _count, type, reinterpret_cast<GLvoid*>(offset));
         }
         else
         {

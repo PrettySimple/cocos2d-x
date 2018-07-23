@@ -27,8 +27,8 @@
 #ifndef CC_NETWORK_HTTPCLIENT_H
 #define CC_NETWORK_HTTPCLIENT_H
 
-#include "base/CCScheduler.h"
-#include "base/CCVector.h"
+#include <cocos/base/CCScheduler.h>
+#include <cocos/base/CCVector.h>
 #include "network/HttpCookie.h"
 #include "network/HttpRequest.h"
 #include "network/HttpResponse.h"

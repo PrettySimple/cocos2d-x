@@ -22,19 +22,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIScrollView.h"
+#include <cocos/ui/UIScrollView.h>
 
-#include "2d/CCNode.h"
-#include "2d/CCTweenFunction.h"
-#include "base/CCDirector.h"
-#include "base/CCTouch.h"
-#include "base/ccMacros.h"
-#include "base/ccTypes.h"
-#include "base/ccUtils.h"
-#include "math/Vec3.h"
-#include "platform/CCDevice.h"
-#include "platform/CCGLView.h"
-#include "ui/UIScrollViewBar.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCTweenFunction.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCTouch.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/base/ccUtils.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCDevice.h>
+#include <cocos/platform/CCGLView.h>
+#include <cocos/ui/UIScrollViewBar.h>
 
 #include <algorithm>
 #include <cmath>

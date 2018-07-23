@@ -27,8 +27,8 @@
 #define CC_BASE_ALLOCATOR_ALLOCATORMUTEX_H
 /// @cond DO_NOT_SHOW
 
-#include "platform/CCPlatformConfig.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC || \
     CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 #    include "pthread.h"

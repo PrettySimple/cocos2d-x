@@ -13,8 +13,8 @@ This class serves two purposes:
 
 */
 
-#include "2d/CCNode.h"
-#include "base/CCEventMouse.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCEventMouse.h>
 
 NS_CC_BEGIN
 

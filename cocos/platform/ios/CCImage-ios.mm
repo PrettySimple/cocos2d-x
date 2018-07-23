@@ -23,15 +23,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    import "platform/CCCommon.h"
-#    import "platform/CCImage.h"
-#    import <string>
+#    include <cocos/platform/CCCommon.h>
+#    include <cocos/platform/CCImage.h>
+#    include <string>
 
-#    import <Foundation/Foundation.h>
-#    import <UIKit/UIKit.h>
+#    include <Foundation/Foundation.h>
+#    include <UIKit/UIKit.h>
 
 #    include <math.h>
 

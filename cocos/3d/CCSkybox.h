@@ -25,10 +25,10 @@
 #ifndef CC_3D_SKYBOX_H
 #define CC_3D_SKYBOX_H
 
-#include "2d/CCNode.h"
-#include "base/ccTypes.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCCustomCommand.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCCustomCommand.h>
 
 NS_CC_BEGIN
 

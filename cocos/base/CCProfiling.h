@@ -28,10 +28,10 @@ THE SOFTWARE.
 #define CC_BASE_PROFILLING_H
 /// @cond DO_NOT_SHOW
 
-#include "base/CCMap.h"
-#include "base/CCRef.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/base/CCMap.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <chrono>
 #include <iosfwd>

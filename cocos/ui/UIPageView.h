@@ -25,8 +25,8 @@ THE SOFTWARE.
 #ifndef CC_UI_PAGEVIEW_H
 #define CC_UI_PAGEVIEW_H
 
-#include "ui/GUIExport.h"
-#include "ui/UIListView.h"
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIListView.h>
 
 #include <cstdint>
 

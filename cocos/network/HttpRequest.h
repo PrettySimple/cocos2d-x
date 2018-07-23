@@ -26,8 +26,8 @@
 #ifndef CC_NETWORK_HTTPREQUEST_H
 #define CC_NETWORK_HTTPREQUEST_H
 
-#include "base/CCRef.h"
-#include "base/ccMacros.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccMacros.h>
 #include <string>
 #include <vector>
 

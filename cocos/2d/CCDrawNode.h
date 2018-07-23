@@ -31,10 +31,10 @@
 #ifndef CC_2D_DRAWNODE_H
 #define CC_2D_DRAWNODE_H
 
-#include "2d/CCNode.h"
-#include "base/ccTypes.h"
-#include "math/CCMath.h"
-#include "renderer/CCCustomCommand.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCMath.h>
+#include <cocos/renderer/CCCustomCommand.h>
 
 NS_CC_BEGIN
 

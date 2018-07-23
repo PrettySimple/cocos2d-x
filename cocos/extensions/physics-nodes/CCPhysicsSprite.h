@@ -23,10 +23,10 @@
 #ifndef CC_EXTENSIONS_PHYSICSNODES_SPRITE_H
 #define CC_EXTENSIONS_PHYSICSNODES_SPRITE_H
 
-#include "2d/CCSprite.h"
-#include "base/CCEventListenerCustom.h"
-#include "extensions/ExtensionExport.h"
-#include "extensions/ExtensionMacros.h"
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCEventListenerCustom.h>
+#include <cocos/extensions/ExtensionExport.h>
+#include <cocos/extensions/ExtensionMacros.h>
 
 #if (CC_ENABLE_CHIPMUNK_INTEGRATION || CC_ENABLE_BOX2D_INTEGRATION)
 

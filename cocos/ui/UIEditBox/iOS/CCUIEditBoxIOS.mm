@@ -27,8 +27,8 @@
 
 #import "ui/UIEditBox/iOS/CCUIEditBoxIOS.h"
 
-#include "base/CCDirector.h"
-#include "platform/ios/CCEAGLView-ios.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/platform/ios/CCEAGLView-ios.h>
 #include "ui/UIEditBox/iOS/CCUIMultilineTextField.h"
 #include "ui/UIEditBox/iOS/CCUISingleLineTextField.h"
 

@@ -29,13 +29,13 @@
 
 #include <cstdint>
 #include <iosfwd>
-#include "base/ccTypes.h"
-#include "math/CCGeometry.h"
-#include "math/Mat4.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformMacros.h"
-#include "ui/GUIExport.h"
-#include "ui/UIEditBox/UIEditBox.h"
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIEditBox/UIEditBox.h>
 #include "ui/UIEditBox/UIEditBoxImpl-common.h"
 #include "ui/UIEditBox/UIEditBoxImpl.h"
 

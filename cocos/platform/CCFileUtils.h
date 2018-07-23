@@ -25,10 +25,10 @@ THE SOFTWARE.
 #ifndef CC_PLATFORM_FILEUTILS_H
 #define CC_PLATFORM_FILEUTILS_H
 
-#include "base/CCData.h"
-#include "base/CCValue.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/base/CCData.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <cstddef>
 #include <iosfwd>

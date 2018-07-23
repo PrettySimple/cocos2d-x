@@ -30,8 +30,8 @@
 #include "audio/apple/AudioCache.h"
 #include "audio/apple/AudioPlayer.h"
 #include "audio/apple/SimpleAudioPlayer.h"
-#include "base/CCRef.h"
-#include "platform/CCPlatformConfig.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformConfig.h>
 
 #include <chrono>
 #include <list>

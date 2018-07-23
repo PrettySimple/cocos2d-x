@@ -26,12 +26,12 @@ THE SOFTWARE.
 #define CC_UI_RADIOBUTTON_H
 
 
-#include "base/CCVector.h"
-#include "platform/CCPlatformMacros.h"
-#include "ui/GUIDefine.h"
-#include "ui/GUIExport.h"
-#include "ui/UIAbstractCheckButton.h"
-#include "ui/UIWidget.h"
+#include <cocos/base/CCVector.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIAbstractCheckButton.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <cstddef>
 #include <functional>

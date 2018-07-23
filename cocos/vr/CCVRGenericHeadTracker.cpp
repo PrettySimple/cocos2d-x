@@ -29,8 +29,8 @@
 
 #include "vr/CCVRGenericHeadTracker.h"
 
-#include "platform/CCDevice.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCDevice.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cmath>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -38,7 +38,7 @@
 #    import <Foundation/Foundation.h>
 #    import <UIKit/UIKit.h>
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#    include "platform/android/jni/JniHelper.h"
+#    include <cocos/platform/android/jni/JniHelper.h>
 #    include <jni.h>
 #endif
 

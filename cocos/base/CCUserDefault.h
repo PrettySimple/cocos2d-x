@@ -25,8 +25,9 @@ THE SOFTWARE.
 #ifndef CC_BASE_USERDEFAULT_H
 #define CC_BASE_USERDEFAULT_H
 
-#include "base/CCData.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCData.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <string>
 
 /**

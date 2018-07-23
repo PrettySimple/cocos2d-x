@@ -27,16 +27,16 @@ THE SOFTWARE.
 #ifndef CC_2D_CAMERA_H
 #define CC_2D_CAMERA_H
 
-#include "2d/CCNode.h"
-#include "3d/CCFrustum.h"
-#include "base/ccConfig.h"
-#include "math/Mat4.h"
-#include "math/Vec2.h"
-#include "math/Vec3.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCFrameBuffer.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/3d/CCFrustum.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCFrameBuffer.h>
 
 #include <cstdint>
 

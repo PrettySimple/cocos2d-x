@@ -26,7 +26,7 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_EMITTERMANAGER_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_EMITTERMANAGER_H
 
-#include "base/CCRef.h"
+#include <cocos/base/CCRef.h>
 #include "extensions/Particle3D/PU/CCPUBoxEmitterTranslator.h"
 #include "extensions/Particle3D/PU/CCPUCircleEmitterTranslator.h"
 #include "extensions/Particle3D/PU/CCPUEmitter.h"

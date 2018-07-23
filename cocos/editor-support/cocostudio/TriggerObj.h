@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
@@ -26,7 +26,7 @@ THE SOFTWARE.
 #define CC_EDITORSUPPORT_COCOSSTUDIO_TRIGGEROBJ_H
 
 #include "CocoStudio.h"
-#include "base/CCVector.h"
+#include <cocos/base/CCVector.h>
 
 namespace cocos2d
 {

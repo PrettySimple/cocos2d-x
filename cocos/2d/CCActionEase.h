@@ -27,10 +27,10 @@ THE SOFTWARE.
 #ifndef CC_2D_ACTIONEASE_H
 #define CC_2D_ACTIONEASE_H
 
-#include "2d/CCActionInterval.h"
-#include "base/ccConfig.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 NS_CC_BEGIN
 

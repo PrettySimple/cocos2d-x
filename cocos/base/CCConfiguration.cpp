@@ -24,16 +24,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "base/CCConfiguration.h"
+#include <cocos/base/CCConfiguration.h>
 
-#include "base/CCDirector.h"
-#include "base/CCEventCustom.h"
-#include "base/CCEventDispatcher.h"
-#include "base/ccConfig.h"
-#include "base/ccMacros.h"
-#include "base/etc2types.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCPlatformConfig.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventCustom.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/etc2types.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformConfig.h>
 
 #include <new>
 #include <string>

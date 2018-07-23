@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
@@ -25,9 +25,9 @@ THE SOFTWARE.
 #ifndef CC_EDITORSUPPORT_COCOSSTUDIO_COMATTRIBUTE_H
 #define CC_EDITORSUPPORT_COCOSSTUDIO_COMATTRIBUTE_H
 
-#include "2d/CCComponent.h"
+#include <cocos/2d/CCComponent.h>
 #include "CCComBase.h"
-#include "base/CCValue.h"
+#include <cocos/base/CCValue.h>
 #include "cocostudio/CocosStudioExport.h"
 
 namespace cocostudio

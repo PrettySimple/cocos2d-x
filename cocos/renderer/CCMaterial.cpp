@@ -27,23 +27,23 @@
  - Qt3D: http://qt-project.org/
  ****************************************************************************/
 
-#include "renderer/CCMaterial.h"
+#include <cocos/renderer/CCMaterial.h>
 
-#include "base/CCDirector.h"
-#include "base/CCProperties.h"
-#include "base/ccMacros.h"
-#include "math/Mat4.h"
-#include "math/Vec2.h"
-#include "math/Vec3.h"
-#include "math/Vec4.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformConfig.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCPass.h"
-#include "renderer/CCTechnique.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCTextureCache.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCProperties.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCPass.h>
+#include <cocos/renderer/CCTechnique.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureCache.h>
 
 #include <cstring>
 #include <new>

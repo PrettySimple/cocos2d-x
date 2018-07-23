@@ -25,9 +25,9 @@
 #ifndef CC_BASE_STENCILSTATEMANAGER_H
 #define CC_BASE_STENCILSTATEMANAGER_H
 
-#include "platform/CCGL.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 /**
  * @addtogroup base

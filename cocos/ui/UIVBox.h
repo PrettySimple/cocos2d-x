@@ -25,11 +25,11 @@
 #ifndef CC_UI_VBOX_H
 #define CC_UI_VBOX_H
 
-#include "base/ccConfig.h"
-#include "math/CCGeometry.h"
-#include "platform/CCPlatformMacros.h"
-#include "ui/GUIExport.h"
-#include "ui/UILayout.h"
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UILayout.h>
 
 NS_CC_BEGIN
 /**

@@ -2,7 +2,7 @@
 #define CC_EDITORSUPPORT_COCOSBUILDER_CONTROLLOADER_H
 
 #include "CCNodeLoader.h"
-#include "extensions/GUI/CCControlExtension/CCControl.h"
+#include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
 
 namespace cocosbuilder
 {

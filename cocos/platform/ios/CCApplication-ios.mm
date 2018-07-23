@@ -23,17 +23,17 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#include "platform/ios/CCApplication-ios.h"
+#include <cocos/platform/ios/CCApplication-ios.h>
 
-#include "platform/CCApplication.h"
-#include "platform/CCApplicationProtocol.h"
-#include "platform/CCCommon.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/ios/CCDirectorCaller-ios.h"
+#include <cocos/platform/CCApplication.h>
+#include <cocos/platform/CCApplicationProtocol.h>
+#include <cocos/platform/CCCommon.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/ios/CCDirectorCaller-ios.h>
 
 #include <Foundation/NSLocale.h>
 #include <Foundation/NSString.h>

@@ -25,9 +25,10 @@
 #ifndef CC_3D_BUNDLE3D_H
 #define CC_3D_BUNDLE3D_H
 
-#include "3d/CCBundle3DData.h"
-#include "3d/CCBundleReader.h"
-#include "base/CCData.h"
+#include <cocos/3d/CCBundle3DData.h>
+#include <cocos/3d/CCBundleReader.h>
+#include <cocos/base/CCData.h>
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"
 #include <json/document.h>

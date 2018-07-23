@@ -22,10 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "renderer/CCVertexIndexBuffer.h"
+#include <cocos/renderer/CCVertexIndexBuffer.h>
 
-#include "platform/CCPlatformConfig.h"
-#include "base/CCConsole.h"
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/base/CCConsole.h>
 
 #include <cstring>
 #include <new>

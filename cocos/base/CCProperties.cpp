@@ -19,18 +19,18 @@
  This file was modified to fit the cocos2d-x project
  */
 
-#include "base/CCProperties.h"
+#include <cocos/base/CCProperties.h>
 
-#include "base/CCData.h"
-#include "base/ccMacros.h"
-#include "math/CCMathBase.h"
-#include "math/Mat4.h"
-#include "math/Quaternion.h"
-#include "math/Vec2.h"
-#include "math/Vec3.h"
-#include "math/Vec4.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCData.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/CCMathBase.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Quaternion.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cctype>
 #include <cstdio>
@@ -46,25 +46,20 @@ void calculateNamespacePath(const std::string& urlString, std::string& fileStrin
 Properties* getPropertiesFromNamespacePath(Properties* properties, const std::vector<std::string>& namespacePath);
 
 Properties::Properties()
-: _variables(nullptr)
-, _dirPath(nullptr)
-, _parent(nullptr)
-, _dataIdx(nullptr)
-, _data(nullptr)
 {
     _properties.reserve(32);
 }
 
 Properties::Properties(const Properties& copy)
-: _namespace(copy._namespace)
+: _dataIdx(copy._dataIdx)
+, _data(copy._data)
+, _namespace(copy._namespace)
 , _id(copy._id)
 , _parentID(copy._parentID)
 , _properties(copy._properties)
 , _variables(nullptr)
 , _dirPath(nullptr)
 , _parent(copy._parent)
-, _dataIdx(copy._dataIdx)
-, _data(copy._data)
 {
     setDirectoryPath(copy._dirPath);
 
@@ -76,10 +71,7 @@ Properties::Properties(const Properties& copy)
 }
 
 Properties::Properties(Data* data, std::size_t* dataIdx)
-: _variables(nullptr)
-, _dirPath(nullptr)
-, _parent(nullptr)
-, _dataIdx(dataIdx)
+: _dataIdx(dataIdx)
 , _data(data)
 {
     readProperties();
@@ -87,12 +79,10 @@ Properties::Properties(Data* data, std::size_t* dataIdx)
 }
 
 Properties::Properties(Data* data, std::size_t* dataIdx, const std::string& name, const char* id, const char* parentID, Properties* parent)
-: _namespace(name)
-, _variables(nullptr)
-, _dirPath(nullptr)
-, _parent(parent)
-, _dataIdx(dataIdx)
+: _dataIdx(dataIdx)
 , _data(data)
+, _namespace(name)
+, _parent(parent)
 {
     if (id)
     {

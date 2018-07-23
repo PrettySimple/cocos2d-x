@@ -23,7 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
 #    import <Foundation/Foundation.h>
@@ -31,7 +31,7 @@
 #    include "audio/apple/ALAudioPlayer.h"
 #    include "audio/apple/AudioCache.h"
 #    include "audio/apple/AudioDecoder.h"
-#    include "platform/CCFileUtils.h"
+#    include <cocos/platform/CCFileUtils.h>
 
 #    ifdef VERY_VERY_VERBOSE_LOGGING
 #        define ALOGVV ALOGV

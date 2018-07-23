@@ -25,8 +25,8 @@
 #    include "chipmunk/chipmunk_private.h"
 #endif
 
-#include "base/ccTypes.h"
-#include "math/CCGeometry.h"
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
 
 #include <limits.h>
 #include <math.h>

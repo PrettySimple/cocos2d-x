@@ -29,10 +29,10 @@
 #ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_BUTTON_H
 #define CC_EXTENSIONS_GUI_CONTROLEXTENSION_BUTTON_H
 
-#include "base/CCMap.h"
-#include "extensions/GUI/CCControlExtension/CCControl.h"
-#include "extensions/GUI/CCControlExtension/CCInvocation.h"
-#include "ui/UIScale9Sprite.h"
+#include <cocos/base/CCMap.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCInvocation.h>
+#include <cocos/ui/UIScale9Sprite.h>
 
 NS_CC_EXT_BEGIN
 

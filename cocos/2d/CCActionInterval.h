@@ -28,18 +28,18 @@ THE SOFTWARE.
 #ifndef CC_2D_ACTIONINTERVAL_H
 #define CC_2D_ACTIONINTERVAL_H
 
-#include "2d/CCAction.h"
-#include "2d/CCAnimation.h"
-#include "base/CCVector.h"
-#include "base/ccConfig.h"
-#include "base/ccMacros.h"
-#include "base/ccTypes.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
-#include "math/Vec3.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/2d/CCAction.h>
+#include <cocos/2d/CCAnimation.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <chrono>
 #include <functional>

@@ -25,10 +25,10 @@
 #ifndef CC_RENDERER_TEXTURECUBE_H
 #define CC_RENDERER_TEXTURECUBE_H
 
-#include "base/ccConfig.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 #include <iosfwd>
 #include <vector>

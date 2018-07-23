@@ -28,10 +28,10 @@ THE SOFTWARE.
 
 #include <chrono>
 #include <iosfwd>
-#include "2d/CCActionInterval.h"
-#include "base/ccConfig.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 NS_CC_BEGIN
 

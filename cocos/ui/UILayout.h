@@ -25,20 +25,20 @@ THE SOFTWARE.
 #ifndef CC_UI_LAYOUT_H
 #define CC_UI_LAYOUT_H
 
-#include "base/CCVector.h"
-#include "base/ccTypes.h"
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccTypes.h>
 #include "editor-support/cocostudio/CocosStudioExtension.h"
-#include "math/CCGeometry.h"
-#include "math/Mat4.h"
-#include "math/Vec2.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformConfig.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCCustomCommand.h"
-#include "renderer/CCGroupCommand.h"
-#include "ui/GUIDefine.h"
-#include "ui/GUIExport.h"
-#include "ui/UIWidget.h"
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCCustomCommand.h>
+#include <cocos/renderer/CCGroupCommand.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <cstddef>
 #include <cstdint>

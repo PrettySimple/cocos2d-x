@@ -27,15 +27,15 @@ THE SOFTWARE.
 #define CC_2D_ACTIONGRID_H
 
 #include <chrono>
-#include "2d/CCActionInstant.h"
-#include "2d/CCActionInterval.h"
-#include "base/ccConfig.h"
-#include "base/ccTypes.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
-#include "math/Vec3.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/2d/CCActionInstant.h>
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 NS_CC_BEGIN
 

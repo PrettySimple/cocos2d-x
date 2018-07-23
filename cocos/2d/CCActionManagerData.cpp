@@ -7,10 +7,10 @@
 
 #include "CCActionManagerData.h"
 
-#include "2d/CCAction.h"
-#include "2d/CCNode.h"
-#include "base/ccMacros.h"
-#include "base/iterator_pair.h"
+#include <cocos/2d/CCAction.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/iterator_pair.h>
 
 #include <functional>
 #include <algorithm>

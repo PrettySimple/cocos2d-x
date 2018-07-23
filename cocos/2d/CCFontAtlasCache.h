@@ -28,7 +28,7 @@
 
 /// @cond DO_NOT_SHOW
 
-#include "base/ccTypes.h"
+#include <cocos/base/ccTypes.h>
 
 #include <unordered_map>
 

@@ -24,12 +24,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCTransitionPageTurn.h"
+#include <cocos/2d/CCTransitionPageTurn.h>
 
-#include "2d/CCActionPageTurn3D.h"
+#include <cocos/2d/CCActionPageTurn3D.h>
 #include "2d/CCNodeGrid.h"
-#include "base/CCDirector.h"
-#include "renderer/CCRenderer.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/renderer/CCRenderer.h>
 
 NS_CC_BEGIN
 

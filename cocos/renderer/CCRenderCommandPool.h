@@ -28,7 +28,7 @@
 
 #include <list>
 
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 

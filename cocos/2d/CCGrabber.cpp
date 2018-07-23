@@ -25,8 +25,8 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "2d/CCGrabber.h"
 
-#include "base/ccMacros.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/base/ccMacros.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 #include <cstring>
 

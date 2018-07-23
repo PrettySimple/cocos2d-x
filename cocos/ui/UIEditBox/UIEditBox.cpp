@@ -23,7 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "ui/UIEditBox/UIEditBox.h"
+#include <cocos/ui/UIEditBox/UIEditBox.h>
 
 #include "ui/UIEditBox/UIEditBoxImpl.h"
 

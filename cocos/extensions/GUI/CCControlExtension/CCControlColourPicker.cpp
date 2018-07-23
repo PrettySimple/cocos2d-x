@@ -29,21 +29,21 @@
  * converted to c++ / cocos2d-x by Angus C
  */
 
-#include "extensions/GUI/CCControlExtension/CCControlColourPicker.h"
+#include <cocos/extensions/GUI/CCControlExtension/CCControlColourPicker.h>
 
-#include "2d/CCSprite.h"
-#include "2d/CCSpriteBatchNode.h"
-#include "2d/CCSpriteFrame.h"
-#include "2d/CCSpriteFrameCache.h"
-#include "base/ccTypes.h"
-#include "extensions/GUI/CCControlExtension/CCControl.h"
-#include "extensions/GUI/CCControlExtension/CCControlHuePicker.h"
-#include "extensions/GUI/CCControlExtension/CCControlSaturationBrightnessPicker.h"
-#include "extensions/GUI/CCControlExtension/CCControlUtils.h"
-#include "extensions/GUI/CCControlExtension/CCInvocation.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
-#include "platform/CCGL.h"
+#include <cocos/2d/CCSprite.h>
+#include <cocos/2d/CCSpriteBatchNode.h>
+#include <cocos/2d/CCSpriteFrame.h>
+#include <cocos/2d/CCSpriteFrameCache.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControlHuePicker.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControlSaturationBrightnessPicker.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControlUtils.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCInvocation.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCGL.h>
 
 #include <new>
 

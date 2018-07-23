@@ -23,9 +23,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCData.h"
+#include <cocos/base/CCData.h>
 
-#include "base/CCConsole.h"
+#include <cocos/base/CCConsole.h>
 
 #include <cstdlib>
 #include <cstring>

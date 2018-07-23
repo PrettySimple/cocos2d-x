@@ -28,13 +28,13 @@
 // Only compile this code on iOS. These files should NOT be included on your Mac project.
 // But in case they are included, it won't be compiled.
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#include "platform/ios/CCES2Renderer-ios.h"
+#include <cocos/platform/ios/CCES2Renderer-ios.h>
 
-#include "platform/CCGL.h"
-#include "platform/ios/OpenGL_Internal-ios.h"
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/ios/OpenGL_Internal-ios.h>
 
 #include <CoreGraphics/CGGeometry.h>
 #include <Foundation/NSException.h>

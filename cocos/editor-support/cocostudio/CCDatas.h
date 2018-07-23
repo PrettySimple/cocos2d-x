@@ -25,13 +25,13 @@ THE SOFTWARE.
 #ifndef CC_EDITORSUPPORT_COCOSSTUDIO_DATAS_H
 #define CC_EDITORSUPPORT_COCOSSTUDIO_DATAS_H
 
-#include "base/CCMap.h"
-#include "base/CCRef.h"
-#include "base/CCVector.h"
-#include "base/ccTypes.h"
-#include "math/CCAffineTransform.h"
+#include <cocos/base/CCMap.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCAffineTransform.h>
 
-#include "2d/CCTweenFunction.h"
+#include <cocos/2d/CCTweenFunction.h>
 #include "cocostudio/CCArmatureDefine.h"
 #include "cocostudio/CocosStudioExport.h"
 

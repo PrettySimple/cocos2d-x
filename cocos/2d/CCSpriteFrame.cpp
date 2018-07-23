@@ -25,12 +25,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCSpriteFrame.h"
+#include <cocos/2d/CCSpriteFrame.h>
 
-#include "base/CCDirector.h"
-#include "base/ccMacros.h"
-#include "renderer/CCTextureCache.h"
-#include "renderer/CCTrianglesCommand.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/renderer/CCTextureCache.h>
+#include <cocos/renderer/CCTrianglesCommand.h>
 
 #include <cmath>
 #include <new>

@@ -26,10 +26,10 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_PARTICLESYSTEM3D_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_PARTICLESYSTEM3D_H
 
-#include "2d/CCNode.h"
-#include "base/CCProtocols.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCProtocols.h>
 #include "extensions/Particle3D/CCParticleSystem3D.h"
-#include "math/CCMath.h"
+#include <cocos/math/CCMath.h>
 #include <map>
 #include <vector>
 

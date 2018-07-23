@@ -30,10 +30,10 @@
 #define CC_2D_ACTIONMANAGER_H
 
 #include "CCActionManagerData.h"
-#include "base/CCRef.h"
-#include "base/CCVector.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstddef>
 #include <list>

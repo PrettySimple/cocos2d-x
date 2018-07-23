@@ -25,8 +25,8 @@
 #ifndef CC_BASE_VALUE_H
 #define CC_BASE_VALUE_H
 
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <iosfwd>
 #include <string>

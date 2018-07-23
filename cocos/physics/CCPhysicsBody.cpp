@@ -30,7 +30,7 @@
 
 #    include "chipmunk/chipmunk_private.h"
 
-#    include "2d/CCScene.h"
+#    include <cocos/2d/CCScene.h>
 #    include "physics/CCPhysicsHelper.h"
 #    include "physics/CCPhysicsJoint.h"
 #    include "physics/CCPhysicsShape.h"

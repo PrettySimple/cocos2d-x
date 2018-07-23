@@ -27,10 +27,10 @@ THE SOFTWARE.
 #ifndef CC_2D_PARTICLEEXAMPLE_H
 #define CC_2D_PARTICLEEXAMPLE_H
 
-#include "2d/CCParticleSystemQuad.h"
-#include "base/ccConfig.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/2d/CCParticleSystemQuad.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 NS_CC_BEGIN
 

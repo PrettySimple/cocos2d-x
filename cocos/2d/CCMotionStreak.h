@@ -26,9 +26,9 @@ THE SOFTWARE.
 #ifndef CC_2D_MOTIONSTREAK_H
 #define CC_2D_MOTIONSTREAK_H
 
-#include "2d/CCNode.h"
-#include "base/CCProtocols.h"
-#include "renderer/CCCustomCommand.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCProtocols.h>
+#include <cocos/renderer/CCCustomCommand.h>
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 #    include "2d/CCGLBufferedNode.h"

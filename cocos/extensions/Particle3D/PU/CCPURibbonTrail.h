@@ -26,9 +26,9 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_RIBBONTRAIL_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_RIBBONTRAIL_H
 
-#include "base/CCRef.h"
+#include <cocos/base/CCRef.h>
 #include "extensions/Particle3D/PU/CCPUBillboardChain.h"
-#include "math/CCMath.h"
+#include <cocos/math/CCMath.h>
 #include <vector>
 
 NS_CC_BEGIN

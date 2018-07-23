@@ -29,11 +29,11 @@ THE SOFTWARE.
 #include "cocostudio/CCDatas.h"
 #include "cocostudio/CCSkin.h"
 
-#include "2d/CCDrawingPrimitives.h"
-#include "base/CCDirector.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCGroupCommand.h"
-#include "renderer/CCRenderer.h"
+#include <cocos/2d/CCDrawingPrimitives.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCGroupCommand.h>
+#include <cocos/renderer/CCRenderer.h>
 
 #if ENABLE_PHYSICS_BOX2D_DETECT
 #    include "Box2D/Box2D.h"

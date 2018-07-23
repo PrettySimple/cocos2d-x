@@ -25,18 +25,18 @@
 #ifndef CC_3D_SPRITE3D_H
 #define CC_3D_SPRITE3D_H
 
-#include <unordered_map>
+#include <cocos/2d/CCNode.h>
+#include <cocos/3d/CCAABB.h>
+#include <cocos/3d/CCBundle3DData.h>
+#include <cocos/3d/CCMeshVertexIndexData.h>
+#include <cocos/3d/CCSkeleton3D.h> // need to include for lua-binding
+#include <cocos/base/CCProtocols.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCMeshCommand.h>
 
-#include "2d/CCNode.h"
-#include "3d/CCAABB.h"
-#include "3d/CCBundle3DData.h"
-#include "3d/CCMeshVertexIndexData.h"
-#include "3d/CCSkeleton3D.h" // need to include for lua-binding
-#include "base/CCProtocols.h"
-#include "base/CCVector.h"
-#include "base/ccTypes.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCMeshCommand.h"
+#include <unordered_map>
 
 NS_CC_BEGIN
 

@@ -26,7 +26,7 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_SCALEAFFECTOR_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_SCALEAFFECTOR_H
 
-#include "base/ccTypes.h"
+#include <cocos/base/ccTypes.h>
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 #include "extensions/Particle3D/PU/CCPUDynamicAttribute.h"
 

@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/atitc.h"
+#include <cocos/base/atitc.h>
 
 #include <cstring>
 

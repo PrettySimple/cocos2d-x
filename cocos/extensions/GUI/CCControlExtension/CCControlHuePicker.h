@@ -32,11 +32,11 @@
 #ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_HUEPICKER_H
 #define CC_EXTENSIONS_GUI_CONTROLEXTENSION_HUEPICKER_H
 
-#include "extensions/ExtensionExport.h"
-#include "extensions/ExtensionMacros.h"
-#include "extensions/GUI/CCControlExtension/CCControl.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/extensions/ExtensionExport.h>
+#include <cocos/extensions/ExtensionMacros.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 namespace cocos2d
 {

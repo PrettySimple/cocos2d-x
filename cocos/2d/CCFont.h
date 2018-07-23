@@ -28,9 +28,9 @@
 
 /// @cond DO_NOT_SHOW
 
-#include "base/CCRef.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <string>
 

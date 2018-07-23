@@ -6,12 +6,12 @@
 //
 //
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
 
 #    include "base/CCUserDefault.h"
-#    include "base/base64.h"
-#    include "base/ccUtils.h"
+#    include <cocos/base/base64.h>
+#    include <cocos/base/ccUtils.h>
 #    include <emscripten.h>
 #    include <mutex>
 #    include <stdlib.h>

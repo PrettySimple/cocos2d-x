@@ -22,20 +22,20 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "ui/UIRichText.h"
+#include <cocos/ui/UIRichText.h>
 
-#include "2d/CCComponent.h"
-#include "2d/CCLabel.h"
-#include "2d/CCNode.h"
-#include "2d/CCSprite.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerTouch.h"
-#include "base/ccUTF8.h"
-#include "platform/CCApplication.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCSAXParser.h"
-#include "ui/UIHelper.h"
+#include <cocos/2d/CCComponent.h>
+#include <cocos/2d/CCLabel.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventListenerTouch.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/platform/CCApplication.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCSAXParser.h>
+#include <cocos/ui/UIHelper.h>
 
 #include <cmath>
 #include <limits>

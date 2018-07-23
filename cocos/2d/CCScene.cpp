@@ -25,15 +25,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCScene.h"
+#include <cocos/2d/CCScene.h>
 
-#include "2d/CCCamera.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/ccUTF8.h"
-#include "renderer/CCFrameBuffer.h"
-#include "renderer/CCRenderer.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventListenerCustom.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/renderer/CCFrameBuffer.h>
+#include <cocos/renderer/CCRenderer.h>
 
 #if CC_USE_PHYSICS
 #    include "physics/CCPhysicsWorld.h"

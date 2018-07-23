@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/s3tc.h"
+#include <cocos/base/s3tc.h>
 
 #include <cstring>
 

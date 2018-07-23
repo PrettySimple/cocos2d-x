@@ -26,9 +26,9 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_BILLBOARDCHAIN_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_BILLBOARDCHAIN_H
 
-#include "base/CCRef.h"
-#include "math/CCMath.h"
-#include "renderer/CCRenderState.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/math/CCMath.h>
+#include <cocos/renderer/CCRenderState.h>
 #include <vector>
 
 NS_CC_BEGIN

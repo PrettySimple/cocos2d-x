@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCEventCustom.h"
-#include "base/CCEvent.h"
+#include <cocos/base/CCEventCustom.h>
+#include <cocos/base/CCEvent.h>
 
 NS_CC_BEGIN
 

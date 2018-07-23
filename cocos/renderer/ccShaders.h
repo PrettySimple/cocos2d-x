@@ -28,9 +28,9 @@ THE SOFTWARE.
 #define CC_RENDERER_SHADERS_H
 /// @cond DO_NOT_SHOW
 
-#include "platform/CCGL.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 /**
  * @addtogroup renderer

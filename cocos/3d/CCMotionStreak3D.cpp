@@ -26,15 +26,15 @@ THE SOFTWARE.
 
 #include "3d/CCMotionStreak3D.h"
 
-#include "base/CCDirector.h"
+#include <cocos/base/CCDirector.h>
 #include "math/CCVertex.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCTextureCache.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureCache.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 NS_CC_BEGIN
 
@@ -110,20 +110,20 @@ bool MotionStreak3D::initWithFade(float fade, float minSeg, float stroke, const 
     _startingPositionInitialized = false;
 
     _positionR.setZero();
-    _minSeg = (minSeg == -1.0f) ? stroke / 5.0f : minSeg;
+    _minSeg = (std::abs(minSeg + 1.f) < std::numeric_limits<float>::epsilon()) ? stroke / 5.0f : minSeg;
     _minSeg *= _minSeg;
 
     _stroke = stroke;
     _fadeDelta = 1.0f / fade;
 
-    _maxPoints = (int)(fade * 60.0f) + 2;
+    _maxPoints = static_cast<int>(fade * 60.0f) + 2;
     _nuPoints = 0;
-    _pointState = (float*)malloc(sizeof(float) * _maxPoints);
-    _pointVertexes = (Vec3*)malloc(sizeof(Vec3) * _maxPoints);
+    _pointState = static_cast<float*>(malloc(sizeof(float) * _maxPoints));
+    _pointVertexes = static_cast<Vec3*>(malloc(sizeof(Vec3) * _maxPoints));
 
-    _vertices = (Vec3*)malloc(sizeof(Vec3) * _maxPoints * 2);
-    _texCoords = (Tex2F*)malloc(sizeof(Tex2F) * _maxPoints * 2);
-    _colorPointer = (GLubyte*)malloc(sizeof(GLubyte) * _maxPoints * 2 * 4);
+    _vertices = static_cast<Vec3*>(malloc(sizeof(Vec3) * _maxPoints * 2));
+    _texCoords = static_cast<Tex2F*>(malloc(sizeof(Tex2F) * _maxPoints * 2));
+    _colorPointer = static_cast<GLubyte*>(malloc(sizeof(GLubyte) * _maxPoints * 2 * 4));
 
     // Set blend mode
     _blendFunc = BlendFunc::ALPHA_NON_PREMULTIPLIED;
@@ -219,7 +219,7 @@ void MotionStreak3D::tintWithColor(const Color3B& colors)
     // Fast assignation
     for (unsigned int i = 0; i < _nuPoints * 2; i++)
     {
-        *((Color3B*)(_colorPointer + i * 4)) = colors;
+        *(reinterpret_cast<Color3B*>(_colorPointer + i * 4)) = colors;
     }
 }
 
@@ -318,7 +318,7 @@ void MotionStreak3D::update(float delta)
             else
                 newIdx2 = newIdx * 8;
 
-            const GLubyte op = (GLubyte)(_pointState[newIdx] * 255.0f);
+            const GLubyte op = static_cast<GLubyte>(_pointState[newIdx] * 255.0f);
             _colorPointer[newIdx2 + 3] = op;
             _colorPointer[newIdx2 + 7] = op;
         }
@@ -349,8 +349,8 @@ void MotionStreak3D::update(float delta)
 
         // Color assignment
         const unsigned int offset = _nuPoints * 8;
-        *((Color3B*)(_colorPointer + offset)) = _displayedColor;
-        *((Color3B*)(_colorPointer + offset + 4)) = _displayedColor;
+        *(reinterpret_cast<Color3B*>(_colorPointer + offset)) = _displayedColor;
+        *(reinterpret_cast<Color3B*>(_colorPointer + offset + 4)) = _displayedColor;
 
         // Opacity
         _colorPointer[offset + 3] = 255;
@@ -404,7 +404,7 @@ void MotionStreak3D::onDraw(const Mat4& transform, uint32_t flags)
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, 0, _texCoords);
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, _colorPointer);
 
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, (GLsizei)_nuPoints * 2);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, static_cast<GLsizei>(_nuPoints) * 2);
     CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, _nuPoints * 2);
 }
 

@@ -22,23 +22,23 @@
  THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIScale9Sprite.h"
+#include <cocos/ui/UIScale9Sprite.h>
 
-#include "2d/CCAutoPolygon.h"
-#include "2d/CCCamera.h"
-#include "2d/CCSprite.h"
-#include "2d/CCSpriteBatchNode.h"
-#include "2d/CCSpriteFrame.h"
-#include "2d/CCSpriteFrameCache.h"
-#include "base/CCConsole.h"
-#include "base/CCDirector.h"
-#include "base/CCVector.h"
-#include "base/ccMacros.h"
-#include "math/Vec3.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/2d/CCAutoPolygon.h>
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/2d/CCSpriteBatchNode.h>
+#include <cocos/2d/CCSpriteFrame.h>
+#include <cocos/2d/CCSpriteFrameCache.h>
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 #include <cmath>
 #include <cstring>

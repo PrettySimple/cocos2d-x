@@ -22,20 +22,20 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCBillBoard.h"
+#include <cocos/3d/CCBillBoard.h>
 
-#include "2d/CCAutoPolygon.h"
-#include "2d/CCCamera.h"
-#include "2d/CCNode.h"
-#include "base/CCDirector.h"
-#include "base/CCVector.h"
-#include "base/ccMacros.h"
-#include "math/CCMathBase.h"
-#include "math/Quaternion.h"
-#include "math/Vec2.h"
-#include "math/Vec3.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTrianglesCommand.h"
+#include <cocos/2d/CCAutoPolygon.h>
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/CCMathBase.h>
+#include <cocos/math/Quaternion.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTrianglesCommand.h>
 
 #include <cmath>
 #include <cstring>

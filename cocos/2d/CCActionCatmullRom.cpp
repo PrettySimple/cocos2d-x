@@ -29,11 +29,11 @@
  *
  * Adapted from cocos2d-x to cocos2d-iphone by Ricardo Quesada
  */
-#include "2d/CCActionCatmullRom.h"
+#include <cocos/2d/CCActionCatmullRom.h>
 
-#include "2d/CCNode.h"
-#include "base/ccConfig.h"
-#include "base/ccMacros.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccMacros.h>
 
 #include <algorithm>
 #include <cmath>

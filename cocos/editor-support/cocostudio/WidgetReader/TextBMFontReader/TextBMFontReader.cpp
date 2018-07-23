@@ -2,10 +2,10 @@
 
 #include "TextBMFontReader.h"
 
-#include "2d/CCFontAtlasCache.h"
+#include <cocos/2d/CCFontAtlasCache.h>
 #include "cocostudio/CSParseBinary_generated.h"
 #include "cocostudio/CocoLoader.h"
-#include "ui/UITextBMFont.h"
+#include <cocos/ui/UITextBMFont.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"

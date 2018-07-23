@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "ui/UIDeprecated.h"
+#include <cocos/ui/UIDeprecated.h>
 
 NS_CC_BEGIN
 

@@ -27,8 +27,8 @@ THE SOFTWARE.
 #define CC_PLATFORM_COMMON_H
 /// @cond DO_NOT_SHOW
 
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstdint>
 

@@ -22,9 +22,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCEventListenerAcceleration.h"
-#include "base/CCEventAcceleration.h"
-//#include "base/CCConsole.h"
+#include <cocos/base/CCEventListenerAcceleration.h>
+#include <cocos/base/CCEventAcceleration.h>
+//#include <cocos/base/CCConsole.h>
 
 NS_CC_BEGIN
 

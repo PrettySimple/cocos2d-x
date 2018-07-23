@@ -25,7 +25,7 @@ THE SOFTWARE.
 #ifndef CC_UI_EDITBOX_EDITBOXIMPLWINRT_H
 #define CC_UI_EDITBOX_EDITBOXIMPLWINRT_H
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8 || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 #    include "ui/UIEditBox/UIEditBoxImpl-common.h"
 

@@ -28,15 +28,15 @@ THE SOFTWARE.
 #ifndef CC_2D_ATLASNODE_H
 #define CC_2D_ATLASNODE_H
 
-#include "2d/CCNode.h"
-#include "base/CCProtocols.h"
-#include "base/ccConfig.h"
-#include "base/ccTypes.h"
-#include "math/Mat4.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCQuadCommand.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCProtocols.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCQuadCommand.h>
 
 #include <cstdint>
 #include <cstddef>

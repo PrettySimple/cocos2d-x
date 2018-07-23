@@ -25,7 +25,7 @@
 #ifndef CC_UI_GUIDEFINE_H
 #define CC_UI_GUIDEFINE_H
 
-#include "base/ObjectFactory.h"
+#include <cocos/base/ObjectFactory.h>
 #include <string>
 
 ///@cond DO_NOT_SHOW

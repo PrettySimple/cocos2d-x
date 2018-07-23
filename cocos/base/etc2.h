@@ -6,7 +6,7 @@
 #ifndef CC_BASE_ETC2_H
 #define CC_BASE_ETC2_H
 
-#include "platform/CCGL.h"
+#include <cocos/platform/CCGL.h>
 
 typedef unsigned char etc2_byte;
 typedef int etc2_bool;

@@ -27,7 +27,7 @@
 #define CC_EXTENSIONS_PARTICLE3D_PU_INTERPARTICLECOLLIDER_H
 
 #include "CCPUBaseCollider.h"
-#include "base/ccTypes.h"
+#include <cocos/base/ccTypes.h>
 
 NS_CC_BEGIN
 struct PUParticle3D;

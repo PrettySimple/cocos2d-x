@@ -22,13 +22,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "renderer/CCQuadCommand.h"
+#include <cocos/renderer/CCQuadCommand.h>
 
-#include "base/ccMacros.h"
-#include "base/ccTypes.h"
-#include "math/Vec2.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 #include <algorithm>
 #include <limits>

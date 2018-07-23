@@ -25,7 +25,8 @@
 #ifndef CC_BASE_CONTROLLER_H
 #define CC_BASE_CONTROLLER_H
 
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <string>
 #include <unordered_map>
 #include <vector>

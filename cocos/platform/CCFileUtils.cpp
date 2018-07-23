@@ -23,11 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "platform/CCFileUtils.h"
+#include <cocos/platform/CCFileUtils.h>
 
 #include "CCPlatformConfig.h"
-#include "base/CCData.h"
-#include "base/ccMacros.h"
+#include <cocos/base/CCData.h>
+#include <cocos/base/ccMacros.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"

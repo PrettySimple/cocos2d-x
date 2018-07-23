@@ -27,15 +27,15 @@ THE SOFTWARE.
 #define CC_BASE_ZIPUTILS_H
 /// @cond DO_NOT_SHOW
 
-#include "platform/CCFileUtils.h"
-#include "platform/CCPlatformConfig.h"
-#include "platform/CCPlatformDefine.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <string>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#    include "platform/android/CCFileUtils-android.h"
+#    include <cocos/platform/android/CCFileUtils-android.h>
 #endif
 
 /**

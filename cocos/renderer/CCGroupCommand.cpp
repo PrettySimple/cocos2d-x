@@ -22,10 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "renderer/CCGroupCommand.h"
+#include <cocos/renderer/CCGroupCommand.h>
 
-#include "base/CCDirector.h"
-#include "renderer/CCRenderer.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/renderer/CCRenderer.h>
 
 #include <unordered_set>
 

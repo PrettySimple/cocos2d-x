@@ -25,12 +25,12 @@
 #ifndef CC_3D_MESHSKIN_H
 #define CC_3D_MESHSKIN_H
 
-#include "base/CCRef.h"
-#include "base/CCVector.h"
-#include "base/ccConfig.h"
-#include "math/Mat4.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <cstddef>
 #include <iosfwd>

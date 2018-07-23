@@ -23,13 +23,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "2d/CCActionTiledGrid.h"
+#include <cocos/2d/CCActionTiledGrid.h>
 
-#include "2d/CCGrid.h"
+#include <cocos/2d/CCGrid.h>
 #include "2d/CCNodeGrid.h"
-#include "base/CCDirector.h"
-#include "base/ccTypes.h"
-#include "math/Vec3.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Vec3.h>
 
 #include <cstring>
 #include <cmath>

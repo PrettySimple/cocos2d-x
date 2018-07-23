@@ -22,11 +22,11 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCSAXParser.h"
+#include <cocos/platform/CCSAXParser.h>
 
-#include "base/CCConsole.h"
-#include "base/CCData.h"
-#include "platform/CCFileUtils.h"
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/CCData.h>
+#include <cocos/platform/CCFileUtils.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"

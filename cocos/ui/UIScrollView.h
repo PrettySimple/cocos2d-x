@@ -25,17 +25,17 @@ THE SOFTWARE.
 #ifndef CC_UI_SCROLLVIEW_H
 #define CC_UI_SCROLLVIEW_H
 
-#include "base/CCRef.h"
-#include "base/CCVector.h"
-#include "base/ccConfig.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
-#include "platform/CCGL.h"
-#include "platform/CCPlatformMacros.h"
-#include "ui/GUIDefine.h"
-#include "ui/GUIExport.h"
-#include "ui/UILayout.h"
-#include "ui/UIWidget.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UILayout.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <cstddef>
 #include <functional>

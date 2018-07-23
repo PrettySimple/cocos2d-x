@@ -22,4 +22,4 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "ExtensionDeprecated.h"
+#include <cocos/extensions/ExtensionDeprecated.h>

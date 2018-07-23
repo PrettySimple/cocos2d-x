@@ -25,10 +25,10 @@
 #ifndef __PHYSICS_3D_COMPONENT_H__
 #define __PHYSICS_3D_COMPONENT_H__
 
-#include "base/ccConfig.h"
-#include "math/CCMath.h"
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/CCMath.h>
 
-#include "2d/CCComponent.h"
+#include <cocos/2d/CCComponent.h>
 
 #if CC_USE_3D_PHYSICS
 

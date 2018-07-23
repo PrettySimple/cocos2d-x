@@ -25,12 +25,12 @@
 #ifndef CC_RENDERER_PRIMITIVECOMMAND_H
 #define CC_RENDERER_PRIMITIVECOMMAND_H
 
-#include "platform/CCGL.h"
-#include "base/ccTypes.h"
-#include "math/Mat4.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
-#include "renderer/CCRenderCommand.h"
+#include <cocos/platform/CCGL.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/renderer/CCRenderCommand.h>
 
 #include <cstdint>
 #include <cstddef>

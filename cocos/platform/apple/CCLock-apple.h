@@ -26,7 +26,7 @@ THE SOFTWARE.
 #ifndef CC_PLATFORM_APPLE_LOCKAPPLE_H
 #define CC_PLATFORM_APPLE_LOCKAPPLE_H
 
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 

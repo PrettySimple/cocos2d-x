@@ -26,7 +26,7 @@ THE SOFTWARE.
 #ifndef CC_STORAGE_LOCALSTORAGE_LOCALSTORAGE_H
 #define CC_STORAGE_LOCALSTORAGE_LOCALSTORAGE_H
 
-#include "platform/CCPlatformDefine.h"
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <string>
 

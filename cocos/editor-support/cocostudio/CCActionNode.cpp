@@ -24,12 +24,12 @@ THE SOFTWARE.
 
 #include "cocostudio/CCActionNode.h"
 
-#include "base/ccUtils.h"
+#include <cocos/base/ccUtils.h>
 #include "cocostudio/CCActionFrameEasing.h"
 #include "cocostudio/CocoLoader.h"
-#include "ui/UIHelper.h"
-#include "ui/UILayout.h"
-#include "ui/UIWidget.h"
+#include <cocos/ui/UIHelper.h>
+#include <cocos/ui/UILayout.h>
+#include <cocos/ui/UIWidget.h>
 
 using namespace cocos2d;
 using namespace std::chrono_literals;

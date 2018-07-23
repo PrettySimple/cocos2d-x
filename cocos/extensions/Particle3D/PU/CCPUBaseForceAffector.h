@@ -27,7 +27,7 @@
 #define CC_EXTENSIONS_PARTICLE3D_PU_BASEFORCEAFFECTOR_H
 
 #include "extensions/Particle3D/PU/CCPUAffector.h"
-#include "math/CCMath.h"
+#include <cocos/math/CCMath.h>
 
 NS_CC_BEGIN
 

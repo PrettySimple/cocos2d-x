@@ -25,9 +25,10 @@ THE SOFTWARE.
 #ifndef CC_BASE_ASYNCTASKPOOL_H
 #define CC_BASE_ASYNCTASKPOOL_H
 
-#include "base/CCDirector.h"
-#include "base/CCScheduler.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCScheduler.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <condition_variable>
 #include <functional>
 #include <future>

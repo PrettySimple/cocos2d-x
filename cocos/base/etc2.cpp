@@ -3,9 +3,10 @@
     @note   etc2 cpu decode
 */
 
-#include "etc2.h"
-#include "etc2types.h"
-#include "platform/CCGL.h"
+#include <cocos/base/etc2.h>
+
+#include <cocos/base/etc2types.h>
+#include <cocos/platform/CCGL.h>
 
 extern ETC2_error_code _unpackETC(const GLubyte* __restrict srcETC, const GLenum srcFormat, etc2_uint32_t activeWidth, etc2_uint32_t activeHeight,
                                   GLubyte** __restrict dstImage, GLenum* __restrict format, GLenum* __restrict internalFormat, GLenum* __restrict type,

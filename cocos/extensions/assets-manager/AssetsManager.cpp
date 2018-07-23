@@ -25,11 +25,11 @@
 
 #include <thread>
 
-#include "base/CCDirector.h"
-#include "base/CCScheduler.h"
-#include "base/CCUserDefault.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCScheduler.h>
+#include <cocos/base/CCUserDefault.h>
 #include "network/CCDownloader.h"
-#include "platform/CCFileUtils.h"
+#include <cocos/platform/CCFileUtils.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"

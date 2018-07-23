@@ -1,5 +1,5 @@
 framework module cocos {
-  umbrella header "cocos2d.h"
+  umbrella header "cocos.h"
 
   export *
   module * { export * }

@@ -23,7 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCEventController.h"
+#include <cocos/base/CCEventController.h>
 
 NS_CC_BEGIN
 

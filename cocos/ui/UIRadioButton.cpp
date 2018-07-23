@@ -22,10 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIRadioButton.h"
+#include <cocos/ui/UIRadioButton.h>
 
-#include "base/ccMacros.h"
-#include "base/ccTypes.h"
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
 
 #include <new>
 

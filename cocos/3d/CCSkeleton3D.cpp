@@ -22,10 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCSkeleton3D.h"
+#include <cocos/3d/CCSkeleton3D.h>
 
-#include "3d/CCBundle3DData.h"
-#include "math/Vec4.h"
+#include <cocos/3d/CCBundle3DData.h>
+#include <cocos/math/Vec4.h>
 
 #include <new>
 #include <string>

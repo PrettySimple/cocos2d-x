@@ -29,23 +29,23 @@ THE SOFTWARE.
  * https://devforums.apple.com/message/37855#37855 by a1studmuffin
  */
 
-#include "renderer/CCTexture2D.h"
+#include <cocos/renderer/CCTexture2D.h>
 
-#include "base/CCConfiguration.h"
-#include "base/CCDirector.h"
-#include "base/CCNinePatchImageParser.h"
-#include "base/ccConfig.h"
-#include "base/ccMacros.h"
-#include "base/ccUTF8.h"
-#include "base/ccUtils.h"
-#include "base/etc2types.h"
-#include "platform/CCDevice.h"
-#include "platform/CCGL.h"
-#include "platform/CCImage.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCNinePatchImageParser.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/base/ccUtils.h>
+#include <cocos/base/etc2types.h>
+#include <cocos/platform/CCDevice.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCImage.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
 #    include "renderer/CCTextureCache.h"

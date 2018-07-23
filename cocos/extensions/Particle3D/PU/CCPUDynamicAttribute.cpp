@@ -24,7 +24,7 @@
  ****************************************************************************/
 
 #include "CCPUDynamicAttribute.h"
-#include "base/ccRandom.h"
+#include <cocos/base/ccRandom.h>
 
 NS_CC_BEGIN
 //-----------------------------------------------------------------------

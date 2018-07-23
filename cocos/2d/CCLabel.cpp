@@ -23,27 +23,27 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "2d/CCLabel.h"
+#include <cocos/2d/CCLabel.h>
 
-#include "2d/CCCamera.h"
-#include "2d/CCDrawNode.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCDrawNode.h>
 #include "2d/CCFont.h"
-#include "2d/CCFontAtlas.h"
-#include "2d/CCFontAtlasCache.h"
-#include "2d/CCFontFNT.h"
-#include "2d/CCSprite.h"
-#include "2d/CCSpriteBatchNode.h"
-#include "base/CCDirector.h"
-#include "base/CCEventCustom.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/ccUTF8.h"
-#include "platform/CCFileUtils.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTextureAtlas.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/2d/CCFontAtlas.h>
+#include <cocos/2d/CCFontAtlasCache.h>
+#include <cocos/2d/CCFontFNT.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/2d/CCSpriteBatchNode.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventCustom.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventListenerCustom.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTextureAtlas.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #include <algorithm>
 

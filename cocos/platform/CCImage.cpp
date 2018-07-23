@@ -23,53 +23,53 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "platform/CCImage.h"
+#include <cocos/platform/CCImage.h>
 
-#include "base/CCConfiguration.h"       // for Configuration
-#include "base/CCData.h"                // for Data
-#include "base/ZipUtils.h"              // for ZipUtils
-#include "base/ccConfig.h"              // for CC_USE_JPEG, CC_USE_PNG, CC_E...
-#include "base/ccMacros.h"              // for CC_SWAP_INT32_LITTLE_TO_HOST
-#include "base/ccUtils.h"               // for ccNextPOT
-#include "platform/CCFileUtils.h"       // for FileUtils
-#include "platform/CCPlatformConfig.h"  // for CC_TARGET_PLATFORM, CC_PLATFO...
+#include <cocos/base/CCConfiguration.h>       // for Configuration
+#include <cocos/base/CCData.h>                // for Data
+#include <cocos/base/ZipUtils.h>              // for ZipUtils
+#include <cocos/base/ccConfig.h>              // for CC_USE_JPEG, CC_USE_PNG, CC_E...
+#include <cocos/base/ccMacros.h>              // for CC_SWAP_INT32_LITTLE_TO_HOST
+#include <cocos/base/ccUtils.h>               // for ccNextPOT
+#include <cocos/platform/CCFileUtils.h>       // for FileUtils
+#include <cocos/platform/CCPlatformConfig.h>  // for CC_TARGET_PLATFORM, CC_PLATFO...
 
 extern "C"
 {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"
 #if CC_USE_PNG
-#    include "png.h"
+#    include <png.h>
 #endif // CC_USE_PNG
 
 #if CC_USE_TIFF
-#    include "tiffio.h"
+#    include <tiffio.h>
 #endif // CC_USE_TIFF
 
 #if CC_USE_JPEG
-#    include "jpeglib.h"
+#    include <jpeglib.h>
 #endif // CC_USE_JPEG
 
 #pragma clang diagnostic pop
 
-#include "base/etc1.h"
+#include <cocos/base/etc1.h>
 }
 
-#include "base/TGAlib.h"
-#include "base/atitc.h"
-#include "base/etc2.h"
-#include "base/pvr.h"
-#include "base/s3tc.h"
+#include <cocos/base/TGAlib.h>
+#include <cocos/base/atitc.h>
+#include <cocos/base/etc2.h>
+#include <cocos/base/pvr.h>
+#include <cocos/base/s3tc.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"
 #if CC_USE_WEBP
-#    include "decode.h"
+#    include <decode.h>
 #endif // CC_USE_WEBP
 #pragma clang diagnostic pop
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#    include "platform/android/CCFileUtils-android.h"
+#    include <cocos/platform/android/CCFileUtils-android.h>
 #endif
 
 #define CC_GL_ATC_RGB_AMD 0x8C92

@@ -25,13 +25,13 @@
 #ifndef CC_NAVMESH_NAVMESHDEBUGDRAW_H
 #define CC_NAVMESH_NAVMESHDEBUGDRAW_H
 
-#include "base/ccConfig.h"
+#include <cocos/base/ccConfig.h>
 #if CC_USE_NAVMESH
 
-#    include "math/Vec3.h"
+#    include <cocos/math/Vec3.h>
 #    include "recast/DebugUtils/DebugDraw.h"
-#    include "renderer/CCCustomCommand.h"
-#    include "renderer/CCGLProgram.h"
+#    include <cocos/renderer/CCCustomCommand.h>
+#    include <cocos/renderer/CCGLProgram.h>
 #    include "renderer/CCRenderState.h"
 #    include <string>
 #    include <vector>

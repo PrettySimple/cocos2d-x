@@ -29,10 +29,10 @@
 
 #    define kLabelZOrder 9999
 
-#    include "2d/CCLabel.h"
-#    include "base/CCDirector.h"
+#    include <cocos/2d/CCLabel.h>
+#    include <cocos/base/CCDirector.h>
 #    import "platform/ios/CCEAGLView-ios.h"
-#    include "ui/UIEditBox/UIEditBox.h"
+#    include <cocos/ui/UIEditBox/UIEditBox.h>
 
 #    import <Foundation/Foundation.h>
 #    import <UIKit/UIKit.h>

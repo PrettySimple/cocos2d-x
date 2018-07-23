@@ -27,9 +27,9 @@ THE SOFTWARE.
 #include "2d/CCFastTMXTiledMap.h"
 
 #include "2d/CCFastTMXLayer.h"
-#include "2d/CCTMXXMLParser.h"
-#include "base/ccMacros.h"
-#include "base/ccUTF8.h"
+#include <cocos/2d/CCTMXXMLParser.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccUTF8.h>
 
 #include <cstdint>
 #include <algorithm>

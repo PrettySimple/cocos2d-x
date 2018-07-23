@@ -22,12 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UITextAtlas.h"
+#include <cocos/ui/UITextAtlas.h>
 
-#include "2d/CCLabel.h"
+#include <cocos/2d/CCLabel.h>
 #include "editor-support/cocostudio/CocosStudioExtension.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
 
 #include <new>
 #include <string>

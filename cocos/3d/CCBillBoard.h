@@ -25,11 +25,11 @@
 #ifndef CC_3D_BILLBOARD_H
 #define CC_3D_BILLBOARD_H
 
-#include "2d/CCSprite.h"
-#include "base/ccConfig.h"
-#include "math/Mat4.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <cstdint>
 #include <iosfwd>

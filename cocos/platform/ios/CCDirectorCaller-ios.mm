@@ -23,16 +23,16 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    import "platform/ios/CCDirectorCaller-ios.h"
+#    include <cocos/platform/ios/CCDirectorCaller-ios.h>
 
-#    import <Foundation/Foundation.h>
-#    import <OpenGLES/EAGL.h>
+#    include <Foundation/Foundation.h>
+#    include <OpenGLES/EAGL.h>
 
-#    import "base/CCDirector.h"
-#    import "platform/ios/CCEAGLView-ios.h"
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/platform/ios/CCEAGLView-ios.h>
 
 static id s_sharedDirectorCaller;
 

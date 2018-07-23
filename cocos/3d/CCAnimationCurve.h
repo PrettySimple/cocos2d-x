@@ -24,9 +24,9 @@
 #ifndef CC_3D_ANIMATIONCURVE_H
 #define CC_3D_ANIMATIONCURVE_H
 
-#include "base/CCRef.h"
-#include "math/CCMath.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/math/CCMath.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cmath>
 #include <functional>

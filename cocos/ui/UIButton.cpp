@@ -22,18 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIButton.h"
+#include <cocos/ui/UIButton.h>
 
-#include "2d/CCActionInterval.h"
-#include "2d/CCLabel.h"
-#include "2d/CCProtectedNode.h"
-#include "2d/CCSprite.h"
-#include "base/ccTypes.h"
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/2d/CCLabel.h>
+#include <cocos/2d/CCProtectedNode.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/ccTypes.h>
 #include "editor-support/cocostudio/CocosStudioExtension.h"
-#include "math/Vec2.h"
-#include "platform/CCFileUtils.h"
-#include "ui/UIHelper.h"
-#include "ui/UIScale9Sprite.h"
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/ui/UIHelper.h>
+#include <cocos/ui/UIScale9Sprite.h>
 
 #include <locale>
 #include <algorithm>

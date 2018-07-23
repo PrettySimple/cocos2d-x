@@ -24,21 +24,21 @@
 // version 0.9.0 : Initial
 //
 
+#include <cocos/3d/CCObjLoader.h>
+
+#include <cocos/base/ccUtils.h>
+#include <cocos/platform/CCFileUtils.h>
+
 #include <cassert>
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
 #include <cstring>
-
-#include "base/ccUtils.h"
-#include "platform/CCFileUtils.h"
 #include <fstream>
 #include <map>
 #include <sstream>
 #include <string>
 #include <vector>
-
-#include "3d/CCObjLoader.h"
 
 namespace tinyobj
 {
@@ -342,7 +342,7 @@ namespace tinyobj
             return it->second;
         }
 
-        assert(in_positions.size() > (unsigned int)(3 * i.v_idx + 2));
+        assert(in_positions.size() > static_cast<unsigned int>(3 * i.v_idx + 2));
 
         positions.push_back(in_positions[3 * i.v_idx + 0]);
         positions.push_back(in_positions[3 * i.v_idx + 1]);

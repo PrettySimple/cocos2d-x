@@ -4,7 +4,7 @@
 
 #include "cocostudio/CSParseBinary_generated.h"
 #include "cocostudio/CocoLoader.h"
-#include "ui/UITextField.h"
+#include <cocos/ui/UITextField.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"

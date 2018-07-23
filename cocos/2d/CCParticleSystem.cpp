@@ -42,19 +42,19 @@ THE SOFTWARE.
 //  cocos2d uses a another approach, but the results are almost identical.
 //
 
-#include "2d/CCParticleSystem.h"
+#include <cocos/2d/CCParticleSystem.h>
 
-#include "2d/CCParticleBatchNode.h"
-#include "base/CCDirector.h"
-#include "base/ZipUtils.h"
-#include "base/base64.h"
-#include "base/ccMacros.h"
-#include "math/CCMathBase.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCGL.h"
-#include "platform/CCImage.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCTextureCache.h"
+#include <cocos/2d/CCParticleBatchNode.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ZipUtils.h>
+#include <cocos/base/base64.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/CCMathBase.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCImage.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureCache.h>
 
 #include <cstdint>
 #include <cstdlib>

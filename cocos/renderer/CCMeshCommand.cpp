@@ -22,19 +22,19 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "renderer/CCMeshCommand.h"
+#include <cocos/renderer/CCMeshCommand.h>
 
-#include "base/CCConfiguration.h"
-#include "base/CCDirector.h"
-#include "base/CCVector.h"
-#include "base/ccMacros.h"
-#include "base/ccTypes.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCMaterial.h"
-#include "renderer/CCPass.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTechnique.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCMaterial.h>
+#include <cocos/renderer/CCPass.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTechnique.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #include <utility>
 

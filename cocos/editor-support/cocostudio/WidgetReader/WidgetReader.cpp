@@ -7,8 +7,8 @@
 #include "cocostudio/CCComExtensionData.h"
 #include "cocostudio/CSParseBinary_generated.h"
 #include "cocostudio/CocoLoader.h"
-#include "ui/UIButton.h"
-#include "ui/UILayoutComponent.h"
+#include <cocos/ui/UIButton.h>
+#include <cocos/ui/UILayoutComponent.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"

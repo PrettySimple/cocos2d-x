@@ -27,8 +27,8 @@
 
 #define USE_STD_UNORDERED_MAP 1
 
-#include "base/CCRef.h"
-#include "base/ccMacros.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccMacros.h>
 
 #include <functional>
 #include <type_traits>

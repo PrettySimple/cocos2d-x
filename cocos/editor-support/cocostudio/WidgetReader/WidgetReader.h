@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
  Copyright (c) 2014 cocos2d-x.org
 
  http://www.cocos2d-x.org
@@ -30,7 +30,7 @@
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/WidgetReader/NodeReaderDefine.h"
 #include "cocostudio/WidgetReader/NodeReaderProtocol.h"
-#include "ui/GUIDefine.h"
+#include <cocos/ui/GUIDefine.h>
 
 namespace cocostudio
 {

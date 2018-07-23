@@ -29,8 +29,8 @@ THE SOFTWARE.
 #define CC_2D_MENUITEM_H
 
 // cocos2d includes
-#include "2d/CCNode.h"
-#include "base/CCProtocols.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCProtocols.h>
 
 // C++ includes
 #include <functional>

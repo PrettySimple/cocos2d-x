@@ -27,8 +27,8 @@
 #define CC_EXTENSIONS_PARTICLE3D_PU_FORCEFIELD_H
 
 #include "CCPUNoise.h"
-#include "base/CCRef.h"
-#include "math/CCMath.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/math/CCMath.h>
 
 NS_CC_BEGIN
 

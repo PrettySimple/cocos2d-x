@@ -22,9 +22,9 @@
 #ifndef CC_MATH_VEC3_H
 #define CC_MATH_VEC3_H
 
-#include "base/ccMacros.h"
-#include "math/CCMathBase.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/CCMathBase.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <cmath>
 

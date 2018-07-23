@@ -2,11 +2,11 @@
 //  CCInjectMouseMove-emscripten.cpp
 //
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
 
 #    include "CCInjectMouseMove-emscripten.h"
-#    include "base/CCDirector.h"
+#    include <cocos/base/CCDirector.h>
 #    include "base/CCEventDispatcher.h"
 
 #    include <chrono>

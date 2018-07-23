@@ -25,8 +25,8 @@
 
 #include "extensions/GUI/CCScrollView/CCTableViewCell.h"
 
-#include "base/ccTypes.h"
-#include "extensions/ExtensionMacros.h"
+#include <cocos/base/ccTypes.h>
+#include <cocos/extensions/ExtensionMacros.h>
 
 NS_CC_EXT_BEGIN
 

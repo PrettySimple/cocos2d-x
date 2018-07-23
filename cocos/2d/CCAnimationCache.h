@@ -27,11 +27,11 @@ THE SOFTWARE.
 #ifndef CC_2D_ANIMATIONCACHE_H
 #define CC_2D_ANIMATIONCACHE_H
 
-#include "base/CCMap.h"
-#include "base/CCRef.h"
-#include "base/CCValue.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/base/CCMap.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <iosfwd>
 #include <string>

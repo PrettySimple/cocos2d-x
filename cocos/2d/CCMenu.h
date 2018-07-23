@@ -26,9 +26,9 @@ THE SOFTWARE.
 #ifndef CC_2D_MENU_H
 #define CC_2D_MENU_H
 
-#include "2d/CCLayer.h"
-#include "2d/CCMenuItem.h"
-#include "base/CCValue.h"
+#include <cocos/2d/CCLayer.h>
+#include <cocos/2d/CCMenuItem.h>
+#include <cocos/base/CCValue.h>
 
 NS_CC_BEGIN
 class Touch;

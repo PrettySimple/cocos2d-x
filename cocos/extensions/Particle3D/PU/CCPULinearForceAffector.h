@@ -27,7 +27,7 @@
 #define CC_EXTENSIONS_PARTICLE3D_PU_LINEARFORCEAFFECTOR_H
 
 #include "CCPUBaseForceAffector.h"
-#include "base/ccTypes.h"
+#include <cocos/base/ccTypes.h>
 
 NS_CC_BEGIN
 

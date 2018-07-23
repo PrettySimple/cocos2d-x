@@ -29,8 +29,8 @@ THE SOFTWARE.
 
 // TODO: when in MAC or windows, it includes <OpenGL/gl.h>
 
-#include "platform/CCGL.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 /**
  * @addtogroup base

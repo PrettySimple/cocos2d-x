@@ -25,9 +25,9 @@
 #ifndef CC_RENDERER_RENDERCOMMAND_H
 #define CC_RENDERER_RENDERCOMMAND_H
 
-#include "math/Mat4.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 #include <cstdint>
 

@@ -23,9 +23,9 @@
 
  ****************************************************************************/
 
-#include "base/CCEventMouse.h"
+#include <cocos/base/CCEventMouse.h>
 
-#include "base/CCDirector.h"
+#include <cocos/base/CCDirector.h>
 
 NS_CC_BEGIN
 

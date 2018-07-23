@@ -25,14 +25,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCAction.h"
+#include <cocos/2d/CCAction.h>
 
-#include "2d/CCActionInterval.h"
-#include "2d/CCNode.h"
-#include "base/CCConsole.h"
-#include "base/CCDirector.h"
-#include "base/ccMacros.h"
-#include "base/ccUTF8.h"
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccUTF8.h>
 
 #include <cmath>
 #include <limits>

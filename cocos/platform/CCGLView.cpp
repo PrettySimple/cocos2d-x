@@ -23,18 +23,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "platform/CCGLView.h"
+#include <cocos/platform/CCGLView.h>
 
-#include "2d/CCCamera.h"
-#include "2d/CCScene.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCTouch.h"
-#include "base/ccMacros.h"
-#include "math/Mat4.h"
-#include "platform/CCGL.h"
-#include "renderer/CCFrameBuffer.h"
-#include "vr/CCVRProtocol.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCScene.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCTouch.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/renderer/CCFrameBuffer.h>
+#include <cocos/vr/CCVRProtocol.h>
 
 #include <cmath>
 #include <map>

@@ -25,10 +25,10 @@
 #ifndef CC_BASE_EVENTACCELERATION_H
 #define CC_BASE_EVENTACCELERATION_H
 
-#include "base/CCEvent.h"
-#include "base/ccTypes.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/base/CCEvent.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 /**
  * @addtogroup base
