@@ -38,8 +38,8 @@ THE SOFTWARE.
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCQuadCommand.h>
 
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 #include <iosfwd>
 
 NS_CC_BEGIN

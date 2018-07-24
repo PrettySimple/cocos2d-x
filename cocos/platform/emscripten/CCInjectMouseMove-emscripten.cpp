@@ -7,7 +7,7 @@
 
 #    include "CCInjectMouseMove-emscripten.h"
 #    include <cocos/base/CCDirector.h>
-#    include "base/CCEventDispatcher.h"
+#    include <cocos/base/CCEventDispatcher.h>
 
 #    include <chrono>
 

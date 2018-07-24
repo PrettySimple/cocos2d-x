@@ -23,12 +23,12 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "CCActionTimelineCache.h"
-#include <cocos/2d/CCSpriteFrame.h>
-#include <cocos/2d/CCSpriteFrameCache.h>
 #include "CCActionTimeline.h"
 #include "CCFrame.h"
 #include "CCTimeLine.h"
 #include "CSLoader.h"
+#include <cocos/2d/CCSpriteFrame.h>
+#include <cocos/2d/CCSpriteFrameCache.h>
 #include <cocos/platform/CCFileUtils.h>
 
 #include "cocostudio/CSParseBinary_generated.h"

@@ -26,8 +26,8 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_SLAVEEMITTER_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_SLAVEEMITTER_H
 
-#include "extensions/Particle3D/PU/CCPUEmitter.h"
-#include "extensions/Particle3D/PU/CCPUListener.h"
+#include <cocos/extensions/Particle3D/PU/CCPUEmitter.h>
+#include <cocos/extensions/Particle3D/PU/CCPUListener.h>
 
 NS_CC_BEGIN
 // FIXME

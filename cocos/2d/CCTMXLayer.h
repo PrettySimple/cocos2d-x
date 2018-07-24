@@ -33,11 +33,11 @@ THE SOFTWARE.
 #include <cocos/base/ccCArray.h>
 #include <cocos/math/CCGeometry.h>
 #include <cocos/math/Vec2.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 #include <iosfwd>
 
 NS_CC_BEGIN

@@ -26,7 +26,7 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTCOMPILER_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTCOMPILER_H
 #include <cocos/base/CCRef.h>
-#include "extensions/Particle3D/PU/CCPUScriptParser.h"
+#include <cocos/extensions/Particle3D/PU/CCPUScriptParser.h>
 
 NS_CC_BEGIN
 

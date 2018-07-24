@@ -22,10 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
+#include "physics3d/CCPhysics3D.h"
 #include <cocos/base/CCConfiguration.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/ccMacros.h>
-#include "physics3d/CCPhysics3D.h"
 #include <cocos/renderer/CCGLProgram.h>
 #include <cocos/renderer/CCGLProgramCache.h>
 #include <cocos/renderer/CCRenderState.h>

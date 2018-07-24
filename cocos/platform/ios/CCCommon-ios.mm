@@ -26,14 +26,14 @@
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#include <cocos/platform/CCCommon.h>
+#    include <cocos/platform/CCCommon.h>
 
-#include <cocos/platform/CCPlatformMacros.h>
+#    include <cocos/platform/CCPlatformMacros.h>
 
-#import <Foundation/NSString.h>
-#import <UIKit/UIAlertView.h>
+#    import <Foundation/NSString.h>
+#    import <UIKit/UIAlertView.h>
 
-#include <cstdio>
+#    include <cstdio>
 
 NS_CC_BEGIN
 

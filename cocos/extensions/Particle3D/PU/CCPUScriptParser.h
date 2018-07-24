@@ -32,7 +32,7 @@
 #include <string>
 
 #include <cocos/base/CCRef.h>
-#include "extensions/Particle3D/PU/CCPUScriptLexer.h"
+#include <cocos/extensions/Particle3D/PU/CCPUScriptLexer.h>
 
 NS_CC_BEGIN
 

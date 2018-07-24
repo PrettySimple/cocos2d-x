@@ -27,7 +27,7 @@
 #define CC_EXTENSIONS_PARTICLE3D_PU_AFFECTOR_H
 
 #include <cocos/base/CCRef.h>
-#include "extensions/Particle3D/CCParticle3DAffector.h"
+#include <cocos/extensions/Particle3D/CCParticle3DAffector.h>
 #include <cocos/math/CCMath.h>
 #include <string>
 #include <vector>

@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include <cocos/base/CCEventListenerFocus.h>
 #include <cocos/base/CCEventFocus.h>
+#include <cocos/base/CCEventListenerFocus.h>
 #include <cocos/base/ccMacros.h>
 
 NS_CC_BEGIN

@@ -30,7 +30,7 @@
 
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/CCScheduler.h>
-#include "network/CCDownloader.h"
+#include <cocos/network/CCDownloader.h>
 #include <cocos/platform/CCFileUtils.h>
 
 // **NOTE**

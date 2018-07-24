@@ -24,9 +24,9 @@
  ****************************************************************************/
 
 #include "CCPUObserverTranslator.h"
-#include "extensions/Particle3D/PU/CCPUObserver.h"
-#include "extensions/Particle3D/PU/CCPUObserverManager.h"
-#include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
+#include <cocos/extensions/Particle3D/PU/CCPUObserver.h>
+#include <cocos/extensions/Particle3D/PU/CCPUObserverManager.h>
+#include <cocos/extensions/Particle3D/PU/CCPUParticleSystem3D.h>
 
 NS_CC_BEGIN
 

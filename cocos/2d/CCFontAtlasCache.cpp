@@ -25,7 +25,7 @@
 #include <cocos/2d/CCFontAtlasCache.h>
 
 #include <cocos/2d/CCFontAtlas.h>
-#include "2d/CCFontCharMap.h"
+#include <cocos/2d/CCFontCharMap.h>
 #include <cocos/2d/CCFontFNT.h>
 #include <cocos/2d/CCFontFreeType.h>
 #include <cocos/2d/CCLabel.h>

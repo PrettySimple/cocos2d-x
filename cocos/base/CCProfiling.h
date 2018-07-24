@@ -30,8 +30,8 @@ THE SOFTWARE.
 
 #include <cocos/base/CCMap.h>
 #include <cocos/base/CCRef.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <chrono>
 #include <iosfwd>

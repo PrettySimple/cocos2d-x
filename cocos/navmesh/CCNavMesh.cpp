@@ -24,9 +24,9 @@
 #include "navmesh/CCNavMesh.h"
 #if CC_USE_NAVMESH
 
-#    include <cocos/platform/CCFileUtils.h>
 #    include "recast/DebugUtils/DetourDebugDraw.h"
 #    include "recast/Detour/DetourCommon.h"
+#    include <cocos/platform/CCFileUtils.h>
 #    include <cocos/renderer/CCRenderer.h>
 #    include <sstream>
 

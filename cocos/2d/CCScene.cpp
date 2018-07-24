@@ -36,7 +36,7 @@ THE SOFTWARE.
 #include <cocos/renderer/CCRenderer.h>
 
 #if CC_USE_PHYSICS
-#    include "physics/CCPhysicsWorld.h"
+#    include <cocos/physics/CCPhysicsWorld.h>
 #endif
 
 #if CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION

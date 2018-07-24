@@ -23,19 +23,19 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
-#include "extensions/Particle3D/CCParticle3DRender.h"
-#include "extensions/Particle3D/PU/CCPUAffector.h"
-#include "extensions/Particle3D/PU/CCPUAffectorManager.h"
-#include "extensions/Particle3D/PU/CCPUBehaviour.h"
-#include "extensions/Particle3D/PU/CCPUEmitter.h"
-#include "extensions/Particle3D/PU/CCPUEmitterManager.h"
-#include "extensions/Particle3D/PU/CCPUListener.h"
-#include "extensions/Particle3D/PU/CCPUMaterialManager.h"
-#include "extensions/Particle3D/PU/CCPUObserver.h"
-#include "extensions/Particle3D/PU/CCPUObserverManager.h"
-#include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
-#include "extensions/Particle3D/PU/CCPUTranslateManager.h"
+#include <cocos/extensions/Particle3D/CCParticle3DRender.h>
+#include <cocos/extensions/Particle3D/PU/CCPUAffector.h>
+#include <cocos/extensions/Particle3D/PU/CCPUAffectorManager.h>
+#include <cocos/extensions/Particle3D/PU/CCPUBehaviour.h>
+#include <cocos/extensions/Particle3D/PU/CCPUEmitter.h>
+#include <cocos/extensions/Particle3D/PU/CCPUEmitterManager.h>
+#include <cocos/extensions/Particle3D/PU/CCPUListener.h>
+#include <cocos/extensions/Particle3D/PU/CCPUMaterialManager.h>
+#include <cocos/extensions/Particle3D/PU/CCPUObserver.h>
+#include <cocos/extensions/Particle3D/PU/CCPUObserverManager.h>
+#include <cocos/extensions/Particle3D/PU/CCPUParticleSystem3D.h>
+#include <cocos/extensions/Particle3D/PU/CCPUScriptCompiler.h>
+#include <cocos/extensions/Particle3D/PU/CCPUTranslateManager.h>
 #include <cocos/platform/CCFileUtils.h>
 
 NS_CC_BEGIN

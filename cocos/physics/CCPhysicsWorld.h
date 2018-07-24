@@ -30,7 +30,7 @@
 
 #    include <cocos/base/CCVector.h>
 #    include <cocos/math/CCGeometry.h>
-#    include "physics/CCPhysicsBody.h"
+#    include <cocos/physics/CCPhysicsBody.h>
 #    include <list>
 
 struct cpSpace;

@@ -25,13 +25,13 @@ THE SOFTWARE.
 #ifndef CC_EDITORSUPPORT_COCOSSTUDIO_BONE_H
 #define CC_EDITORSUPPORT_COCOSSTUDIO_BONE_H
 
-#include <cocos/2d/CCNode.h>
 #include "cocostudio/CCArmatureDefine.h"
 #include "cocostudio/CCDatas.h"
 #include "cocostudio/CCDecorativeDisplay.h"
 #include "cocostudio/CCDisplayManager.h"
 #include "cocostudio/CCTween.h"
 #include "cocostudio/CocosStudioExport.h"
+#include <cocos/2d/CCNode.h>
 #include <cocos/math/CCMath.h>
 
 namespace cocostudio

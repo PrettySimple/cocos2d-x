@@ -27,11 +27,11 @@
 #define CC_EXTENSIONS_PARTICLE3D_PU_RIBBONTRAILRENDER_H
 
 #include <cocos/base/CCRef.h>
-#include "extensions/Particle3D/CCParticle3DRender.h"
-#include "extensions/Particle3D/PU/CCPUListener.h"
-#include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
-#include "extensions/Particle3D/PU/CCPURender.h"
-#include "extensions/Particle3D/PU/CCPURibbonTrail.h"
+#include <cocos/extensions/Particle3D/CCParticle3DRender.h>
+#include <cocos/extensions/Particle3D/PU/CCPUListener.h>
+#include <cocos/extensions/Particle3D/PU/CCPUParticleSystem3D.h>
+#include <cocos/extensions/Particle3D/PU/CCPURender.h>
+#include <cocos/extensions/Particle3D/PU/CCPURibbonTrail.h>
 #include <cocos/math/CCMath.h>
 #include <vector>
 

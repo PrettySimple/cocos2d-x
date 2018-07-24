@@ -24,8 +24,8 @@
 
 #include <cocos/renderer/CCVertexIndexBuffer.h>
 
-#include <cocos/platform/CCPlatformConfig.h>
 #include <cocos/base/CCConsole.h>
+#include <cocos/platform/CCPlatformConfig.h>
 
 #include <cstring>
 #include <new>

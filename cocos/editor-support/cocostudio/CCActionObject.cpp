@@ -24,11 +24,11 @@ THE SOFTWARE.
 
 #include "cocostudio/CCActionObject.h"
 
+#include "cocostudio/CocoLoader.h"
 #include <cocos/2d/CCActionInstant.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/CCScheduler.h>
 #include <cocos/base/ccUtils.h>
-#include "cocostudio/CocoLoader.h"
 
 using namespace cocos2d;
 using namespace std::chrono_literals;

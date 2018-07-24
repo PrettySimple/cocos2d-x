@@ -34,10 +34,10 @@ THE SOFTWARE.
 #include <cocos/renderer/CCRenderState.h>
 #include <cocos/renderer/CCTexture2D.h>
 
-#include <cstddef>
-#include <mutex>
 #include <array>
+#include <cstddef>
 #include <limits>
+#include <mutex>
 #include <thread>
 #include <unordered_map>
 #include <utility>

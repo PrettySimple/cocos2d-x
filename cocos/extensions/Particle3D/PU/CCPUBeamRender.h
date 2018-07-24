@@ -27,10 +27,10 @@
 #define CC_EXTENSIONS_PARTICLE3D_PU_BEAMRENDER_H
 
 #include <cocos/base/CCRef.h>
-#include "extensions/Particle3D/CCParticle3DRender.h"
-#include "extensions/Particle3D/PU/CCPUBillboardChain.h"
-#include "extensions/Particle3D/PU/CCPUListener.h"
-#include "extensions/Particle3D/PU/CCPURender.h"
+#include <cocos/extensions/Particle3D/CCParticle3DRender.h>
+#include <cocos/extensions/Particle3D/PU/CCPUBillboardChain.h>
+#include <cocos/extensions/Particle3D/PU/CCPUListener.h>
+#include <cocos/extensions/Particle3D/PU/CCPURender.h>
 #include <cocos/math/CCMath.h>
 #include <vector>
 

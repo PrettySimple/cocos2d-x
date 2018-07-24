@@ -26,7 +26,7 @@ THE SOFTWARE.
 #include <cocos/2d/CCGrid.h>
 
 #include <cocos/2d/CCCamera.h>
-#include "2d/CCGrabber.h"
+#include <cocos/2d/CCGrabber.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/ccUtils.h>

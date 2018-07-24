@@ -26,7 +26,7 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_DOSTOPSYSTEMEVENTHANDLER_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_DOSTOPSYSTEMEVENTHANDLER_H
 
-#include "extensions/Particle3D/PU/CCPUEventHandler.h"
+#include <cocos/extensions/Particle3D/PU/CCPUEventHandler.h>
 
 NS_CC_BEGIN
 

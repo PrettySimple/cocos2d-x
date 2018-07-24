@@ -28,7 +28,7 @@ THE SOFTWARE.
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 
 #    include "network/HttpConnection-winrt.h"
-#    include "network/HttpCookie.h"
+#    include <cocos/network/HttpCookie.h>
 
 NS_CC_BEGIN
 

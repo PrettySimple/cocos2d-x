@@ -27,7 +27,7 @@ THE SOFTWARE.
 #include <cocos/2d/CCMotionStreak.h>
 
 #include <cocos/base/CCDirector.h>
-#include "math/CCVertex.h"
+#include <cocos/math/CCVertex.h>
 #include <cocos/renderer/CCGLProgram.h>
 #include <cocos/renderer/CCGLProgramState.h>
 #include <cocos/renderer/CCRenderer.h>

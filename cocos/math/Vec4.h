@@ -425,10 +425,7 @@ public:
      * @param s the constant to divide this vector with
      * @return a smaller vector
      */
-    inline const Vec4 operator/(float s) const
-    {
-        return Vec4(v / s);
-    }
+    inline const Vec4 operator/(float s) const { return Vec4(v / s); }
 
     /**
      * Determines if this vector is less than the given vector.
@@ -472,10 +469,7 @@ public:
      *
      * @return True if this vector is not equal to the given vector, false otherwise.
      */
-    inline bool operator!=(const Vec4& v) const noexcept
-    {
-        return !operator==(v);
-    }
+    inline bool operator!=(const Vec4& v) const noexcept { return !operator==(v); }
 
     /** equals to Vec4(0,0,0,0) */
     static const Vec4 ZERO;

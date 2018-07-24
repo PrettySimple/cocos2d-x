@@ -36,9 +36,9 @@
 
 #    include <cocos/platform/CCPlatformMacros.h>
 
-#    include <QuartzCore/QuartzCore.h>
 #    import <OpenGLES/EAGL.h>
 #    import <OpenGLES/EAGLDrawable.h>
+#    import <QuartzCore/QuartzCore.h>
 
 @protocol CCESRenderer <NSObject>
 

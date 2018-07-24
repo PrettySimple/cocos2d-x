@@ -28,8 +28,8 @@ THE SOFTWARE.
 
 #include <cocos/2d/CCActionInterval.h>
 #include <cocos/base/ccConfig.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <chrono>
 

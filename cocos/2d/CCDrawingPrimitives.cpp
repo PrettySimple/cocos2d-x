@@ -48,9 +48,9 @@ THE SOFTWARE.
 #include <cocos/renderer/CCRenderer.h>
 #include <cocos/renderer/ccGLStateCache.h>
 
+#include <cmath>
 #include <cstdlib>
 #include <cstring>
-#include <cmath>
 #include <new>
 
 NS_CC_BEGIN

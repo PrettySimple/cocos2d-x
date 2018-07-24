@@ -23,9 +23,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "extensions/Particle3D/PU/CCPUDoExpireEventHandler.h"
-#include "extensions/Particle3D/PU/CCPUAffector.h"
-#include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
+#include <cocos/extensions/Particle3D/PU/CCPUAffector.h>
+#include <cocos/extensions/Particle3D/PU/CCPUDoExpireEventHandler.h>
+#include <cocos/extensions/Particle3D/PU/CCPUParticleSystem3D.h>
 
 NS_CC_BEGIN
 

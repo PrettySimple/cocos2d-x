@@ -41,7 +41,7 @@ namespace cocos2d
 {
     class Camera;
     class Renderer;
-}
+} // namespace cocos2d
 
 NS_CC_BEGIN
 

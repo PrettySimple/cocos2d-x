@@ -34,8 +34,8 @@
 #include <cocos/renderer/CCRenderCommand.h>
 #include <cocos/renderer/CCRenderState.h>
 
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 #include <limits>
 
 NS_CC_BEGIN

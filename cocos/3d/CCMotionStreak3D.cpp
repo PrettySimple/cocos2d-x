@@ -24,10 +24,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "3d/CCMotionStreak3D.h"
+#include <cocos/3d/CCMotionStreak3D.h>
 
 #include <cocos/base/CCDirector.h>
-#include "math/CCVertex.h"
+#include <cocos/math/CCVertex.h>
 #include <cocos/renderer/CCGLProgram.h>
 #include <cocos/renderer/CCGLProgramState.h>
 #include <cocos/renderer/CCRenderState.h>

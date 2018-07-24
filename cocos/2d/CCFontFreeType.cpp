@@ -25,11 +25,15 @@ THE SOFTWARE.
 
 #include <cocos/2d/CCFontFreeType.h>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
 #include FT_BBOX_H
+#include "edtaa3func.h"
+#pragma clang diagnostic pop
+
 #include <cocos/2d/CCFontAtlas.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/ccUTF8.h>
-#include "edtaa3func.h"
 #include <cocos/platform/CCFileUtils.h>
 
 NS_CC_BEGIN

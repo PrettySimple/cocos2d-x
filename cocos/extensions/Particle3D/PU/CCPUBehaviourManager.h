@@ -27,9 +27,9 @@
 #define CC_EXTENSIONS_PARTICLE3D_PU_BEHAVIOURMANAGER_H
 
 #include <cocos/base/CCRef.h>
-#include "extensions/Particle3D/PU/CCPUBehaviour.h"
-#include "extensions/Particle3D/PU/CCPUScriptTranslator.h"
-#include "extensions/Particle3D/PU/CCPUSlaveBehaviourTranslator.h"
+#include <cocos/extensions/Particle3D/PU/CCPUBehaviour.h>
+#include <cocos/extensions/Particle3D/PU/CCPUScriptTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUSlaveBehaviourTranslator.h>
 
 NS_CC_BEGIN
 

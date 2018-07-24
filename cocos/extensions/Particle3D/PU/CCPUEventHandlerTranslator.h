@@ -25,9 +25,9 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_EVENTHANDLERTRANSLATOR_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_EVENTHANDLERTRANSLATOR_H
 
-#include "extensions/Particle3D/PU/CCPUEventHandler.h"
-#include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
-#include "extensions/Particle3D/PU/CCPUScriptTranslator.h"
+#include <cocos/extensions/Particle3D/PU/CCPUEventHandler.h>
+#include <cocos/extensions/Particle3D/PU/CCPUScriptCompiler.h>
+#include <cocos/extensions/Particle3D/PU/CCPUScriptTranslator.h>
 
 NS_CC_BEGIN
 

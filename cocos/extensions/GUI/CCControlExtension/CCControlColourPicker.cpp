@@ -52,7 +52,7 @@ namespace cocos2d
     class Event;
     class Ref;
     class Touch;
-}
+} // namespace cocos2d
 
 NS_CC_EXT_BEGIN
 

@@ -29,7 +29,7 @@
 #include <vector>
 
 #include <cocos/base/CCRef.h>
-#include "extensions/Particle3D/CCParticle3DRender.h"
+#include <cocos/extensions/Particle3D/CCParticle3DRender.h>
 #include <cocos/math/CCMath.h>
 #include <cocos/renderer/CCRenderState.h>
 

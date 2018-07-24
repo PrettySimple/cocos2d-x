@@ -26,14 +26,14 @@ THE SOFTWARE.
 #include <cocos/2d/CCActionTiledGrid.h>
 
 #include <cocos/2d/CCGrid.h>
-#include "2d/CCNodeGrid.h"
+#include <cocos/2d/CCNodeGrid.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/ccTypes.h>
 #include <cocos/math/Vec3.h>
 
-#include <cstring>
 #include <cmath>
 #include <cstdlib>
+#include <cstring>
 #include <limits>
 #include <new>
 

@@ -31,8 +31,8 @@
 #define CC_RENDERER_TECHNIQUE_H
 
 #include <cocos/base/CCVector.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCRenderState.h>
 
 #include <cstddef>

@@ -24,14 +24,14 @@
 
 #include <cocos/3d/CCSprite3D.h>
 
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCLight.h>
 #include <cocos/3d/CCAttachNode.h>
 #include <cocos/3d/CCBundle3D.h>
 #include <cocos/3d/CCMesh.h>
 #include <cocos/3d/CCMeshSkin.h>
 #include <cocos/3d/CCObjLoader.h>
 #include <cocos/3d/CCSprite3DMaterial.h>
-#include <cocos/2d/CCCamera.h>
-#include <cocos/2d/CCLight.h>
 #include <cocos/base/CCAsyncTaskPool.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/ccMacros.h>

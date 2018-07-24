@@ -24,8 +24,8 @@
  ****************************************************************************/
 
 #include "CCPUSphereSurfaceEmitter.h"
-#include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
-#include "extensions/Particle3D/PU/CCPUUtil.h"
+#include <cocos/extensions/Particle3D/PU/CCPUParticleSystem3D.h>
+#include <cocos/extensions/Particle3D/PU/CCPUUtil.h>
 
 NS_CC_BEGIN
 // Constants

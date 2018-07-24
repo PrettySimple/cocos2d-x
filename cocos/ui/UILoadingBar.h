@@ -25,7 +25,6 @@ THE SOFTWARE.
 #ifndef CC_UI_LOADINGBAR_H
 #define CC_UI_LOADINGBAR_H
 
-
 #include <cocos/math/CCGeometry.h>
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/ui/GUIDefine.h>

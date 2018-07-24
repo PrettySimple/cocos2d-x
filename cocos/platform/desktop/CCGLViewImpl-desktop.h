@@ -26,8 +26,8 @@ THE SOFTWARE.
 #ifndef CC_PLATFORM_DESKTOP_GLVIEWIMPLDESKTOP_H
 #define CC_PLATFORM_DESKTOP_GLVIEWIMPLDESKTOP_H
 
-#include <cocos/base/CCRef.h>
 #include "glfw3.h"
+#include <cocos/base/CCRef.h>
 #include <cocos/platform/CCCommon.h>
 #include <cocos/platform/CCGLView.h>
 

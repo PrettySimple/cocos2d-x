@@ -32,8 +32,8 @@
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCRenderCommand.h>
 
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 #include <limits>
 
 #ifdef DEBUG_TEXTURE_SIZE

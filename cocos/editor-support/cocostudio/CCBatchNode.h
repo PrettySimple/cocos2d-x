@@ -25,9 +25,9 @@ THE SOFTWARE.
 #ifndef CC_EDITORSUPPORT_COCOSSTUDIO_BATCHNODE_H
 #define CC_EDITORSUPPORT_COCOSSTUDIO_BATCHNODE_H
 
-#include <cocos/2d/CCNode.h>
 #include "cocostudio/CCArmatureDefine.h"
 #include "cocostudio/CocosStudioExport.h"
+#include <cocos/2d/CCNode.h>
 
 namespace cocos2d
 {

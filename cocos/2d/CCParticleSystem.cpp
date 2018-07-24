@@ -56,10 +56,10 @@ THE SOFTWARE.
 #include <cocos/renderer/CCTexture2D.h>
 #include <cocos/renderer/CCTextureCache.h>
 
+#include <cmath>
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
-#include <cmath>
 #include <limits>
 #include <new>
 #include <string>

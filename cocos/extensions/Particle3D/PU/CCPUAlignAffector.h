@@ -26,7 +26,7 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_ALIGNAFFECTOR_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_ALIGNAFFECTOR_H
 
-#include "extensions/Particle3D/PU/CCPUAffector.h"
+#include <cocos/extensions/Particle3D/PU/CCPUAffector.h>
 
 NS_CC_BEGIN
 

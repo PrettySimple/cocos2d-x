@@ -22,8 +22,8 @@
 #ifndef CC_BASE_PROPERTIES_H
 #define CC_BASE_PROPERTIES_H
 
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstddef>
 #include <iosfwd>

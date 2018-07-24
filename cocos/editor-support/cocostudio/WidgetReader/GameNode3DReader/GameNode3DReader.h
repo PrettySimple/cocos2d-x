@@ -25,11 +25,11 @@
 #ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_GAMENODE3DREADER_GAMENODE3DREADER_H
 #define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_GAMENODE3DREADER_GAMENODE3DREADER_H
 
-#include "2d/CCCameraBackgroundBrush.h"
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/WidgetReader/NodeReaderDefine.h"
 #include "cocostudio/WidgetReader/NodeReaderProtocol.h"
+#include <cocos/2d/CCCameraBackgroundBrush.h>
 
 namespace tinyxml2
 {

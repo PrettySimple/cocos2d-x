@@ -22,12 +22,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include <cocos/renderer/CCFrameBuffer.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/CCEventCustom.h>
 #include <cocos/base/CCEventDispatcher.h>
 #include <cocos/base/CCEventListenerCustom.h>
 #include <cocos/base/CCEventType.h>
+#include <cocos/renderer/CCFrameBuffer.h>
 #include <cocos/renderer/CCRenderer.h>
 
 NS_CC_BEGIN

@@ -27,7 +27,7 @@
 #define CC_EXTENSIONS_PARTICLE3D_PU_BASECOLLIDER_H
 
 #include <cocos/3d/CCAABB.h>
-#include "extensions/Particle3D/PU/CCPUAffector.h"
+#include <cocos/extensions/Particle3D/PU/CCPUAffector.h>
 
 NS_CC_BEGIN
 

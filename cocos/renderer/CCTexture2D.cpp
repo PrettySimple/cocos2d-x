@@ -48,7 +48,7 @@ THE SOFTWARE.
 #include <cocos/renderer/ccGLStateCache.h>
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
-#    include "renderer/CCTextureCache.h"
+#    include <cocos/renderer/CCTextureCache.h>
 #endif
 
 NS_CC_BEGIN

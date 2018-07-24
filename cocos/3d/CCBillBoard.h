@@ -28,8 +28,8 @@
 #include <cocos/2d/CCSprite.h>
 #include <cocos/base/ccConfig.h>
 #include <cocos/math/Mat4.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstdint>
 #include <iosfwd>

@@ -23,18 +23,18 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "extensions/Particle3D/PU/CCPUObserverManager.h"
-#include "extensions/Particle3D/PU/CCPUOnClearObserver.h"
-#include "extensions/Particle3D/PU/CCPUOnCollisionObserver.h"
-#include "extensions/Particle3D/PU/CCPUOnCountObserver.h"
-#include "extensions/Particle3D/PU/CCPUOnEmissionObserver.h"
-#include "extensions/Particle3D/PU/CCPUOnEventFlagObserver.h"
-#include "extensions/Particle3D/PU/CCPUOnExpireObserver.h"
-#include "extensions/Particle3D/PU/CCPUOnPositionObserver.h"
-#include "extensions/Particle3D/PU/CCPUOnQuotaObserver.h"
-#include "extensions/Particle3D/PU/CCPUOnRandomObserver.h"
-#include "extensions/Particle3D/PU/CCPUOnTimeObserver.h"
-#include "extensions/Particle3D/PU/CCPUOnVelocityObserver.h"
+#include <cocos/extensions/Particle3D/PU/CCPUObserverManager.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnClearObserver.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnCollisionObserver.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnCountObserver.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnEmissionObserver.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnEventFlagObserver.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnExpireObserver.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnPositionObserver.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnQuotaObserver.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnRandomObserver.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnTimeObserver.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnVelocityObserver.h>
 
 NS_CC_BEGIN
 PUObserverManager::PUObserverManager()

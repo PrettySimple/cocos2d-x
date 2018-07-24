@@ -35,11 +35,11 @@
 #include <cocos/platform/CCFileUtils.h>
 #include <cocos/renderer/CCTextureCache.h>
 
+#include <array>
+#include <cmath>
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
-#include <array>
-#include <cmath>
 #include <limits>
 #include <new>
 #include <sstream>

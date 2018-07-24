@@ -29,9 +29,9 @@
 
 #include <cocos/base/CCScheduler.h>
 #include <cocos/base/CCVector.h>
-#include "network/HttpCookie.h"
-#include "network/HttpRequest.h"
-#include "network/HttpResponse.h"
+#include <cocos/network/HttpCookie.h>
+#include <cocos/network/HttpRequest.h>
+#include <cocos/network/HttpResponse.h>
 #include <condition_variable>
 #include <thread>
 

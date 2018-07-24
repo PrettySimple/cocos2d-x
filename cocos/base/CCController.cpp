@@ -23,13 +23,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include <cocos/base/CCController.h>
-
+#include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+
+#    include <cocos/base/CCController.h>
 
 #    include <cocos/base/CCDirector.h>
 #    include <cocos/base/CCEventController.h>
-#    include "base/CCEventDispatcher.h"
+#    include <cocos/base/CCEventDispatcher.h>
 
 NS_CC_BEGIN
 

@@ -30,7 +30,7 @@
 #include <vector>
 
 #include <cocos/base/CCEventDispatcher.h>
-#include "network/CCDownloader.h"
+#include <cocos/network/CCDownloader.h>
 #include <cocos/platform/CCFileUtils.h>
 
 #include "CCEventAssetsManagerEx.h"

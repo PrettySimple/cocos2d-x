@@ -44,9 +44,9 @@ THE SOFTWARE.
 #include <cocos/renderer/CCTextureCache.h>
 #include <cocos/renderer/CCTrianglesCommand.h>
 
-#include <cstdlib>
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 #include <new>
 #include <unordered_map>
 #include <utility>

@@ -21,7 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "physics/CCPhysicsBody.h"
+#include <cocos/physics/CCPhysicsBody.h>
 #if CC_USE_PHYSICS
 
 #    include <algorithm>
@@ -30,11 +30,11 @@
 
 #    include "chipmunk/chipmunk_private.h"
 
-#    include <cocos/2d/CCScene.h>
 #    include "physics/CCPhysicsHelper.h"
-#    include "physics/CCPhysicsJoint.h"
-#    include "physics/CCPhysicsShape.h"
-#    include "physics/CCPhysicsWorld.h"
+#    include <cocos/2d/CCScene.h>
+#    include <cocos/physics/CCPhysicsJoint.h>
+#    include <cocos/physics/CCPhysicsShape.h>
+#    include <cocos/physics/CCPhysicsWorld.h>
 
 static void internalBodySetMass(cpBody* body, cpFloat mass)
 {

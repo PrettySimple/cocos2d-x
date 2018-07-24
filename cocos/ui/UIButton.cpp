@@ -35,9 +35,9 @@ THE SOFTWARE.
 #include <cocos/ui/UIHelper.h>
 #include <cocos/ui/UIScale9Sprite.h>
 
-#include <locale>
 #include <algorithm>
 #include <chrono>
+#include <locale>
 #include <new>
 #include <string>
 

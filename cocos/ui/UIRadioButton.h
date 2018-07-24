@@ -25,7 +25,6 @@ THE SOFTWARE.
 #ifndef CC_UI_RADIOBUTTON_H
 #define CC_UI_RADIOBUTTON_H
 
-
 #include <cocos/base/CCVector.h>
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/ui/GUIDefine.h>

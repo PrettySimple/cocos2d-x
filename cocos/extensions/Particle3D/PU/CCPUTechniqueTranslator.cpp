@@ -24,7 +24,7 @@
  ****************************************************************************/
 
 #include "CCPUTechniqueTranslator.h"
-#include "extensions/Particle3D/PU/CCPUMaterialManager.h"
+#include <cocos/extensions/Particle3D/PU/CCPUMaterialManager.h>
 
 NS_CC_BEGIN
 

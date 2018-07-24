@@ -26,13 +26,15 @@ THE SOFTWARE.
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#    import <Cocoa/Cocoa.h>
-#    include <algorithm>
+#    include <cocos/platform/CCApplication.h>
 
 #    include <cocos/base/CCDirector.h>
 #    include <cocos/math/CCGeometry.h>
-#    import "platform/CCApplication.h"
 #    include <cocos/platform/CCFileUtils.h>
+
+#    import <Cocoa/Cocoa.h>
+
+#    include <algorithm>
 
 NS_CC_BEGIN
 

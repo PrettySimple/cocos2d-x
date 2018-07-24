@@ -25,13 +25,13 @@ THE SOFTWARE.
 #ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_FRAME_H
 #define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_FRAME_H
 
+#include "CCTimelineMacro.h"
+#include "cocostudio/CocosStudioExport.h"
 #include <cocos/2d/CCNode.h>
 #include <cocos/2d/CCSprite.h>
 #include <cocos/2d/CCTweenFunction.h>
-#include "CCTimelineMacro.h"
 #include <cocos/base/CCRef.h>
 #include <cocos/base/CCVector.h>
-#include "cocostudio/CocosStudioExport.h"
 #include <string>
 
 NS_TIMELINE_BEGIN

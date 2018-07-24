@@ -43,7 +43,7 @@
 #endif
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
-#    include "base/CCEventDispatcher.h"
+#    include <cocos/base/CCEventDispatcher.h>
 #    include <cocos/base/CCEventListenerCustom.h>
 #    include <cocos/base/CCEventType.h>
 #endif

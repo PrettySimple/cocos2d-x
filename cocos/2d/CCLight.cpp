@@ -4,8 +4,8 @@
 #include <cocos/base/ccMacros.h>
 #include <cocos/math/Mat4.h>
 
-#include <cmath>
 #include <algorithm>
+#include <cmath>
 #include <new>
 #include <vector>
 

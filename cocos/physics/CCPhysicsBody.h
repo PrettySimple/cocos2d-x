@@ -31,7 +31,7 @@
 #    include <cocos/2d/CCComponent.h>
 #    include <cocos/base/CCVector.h>
 #    include <cocos/math/CCGeometry.h>
-#    include "physics/CCPhysicsShape.h"
+#    include <cocos/physics/CCPhysicsShape.h>
 
 struct cpBody;
 

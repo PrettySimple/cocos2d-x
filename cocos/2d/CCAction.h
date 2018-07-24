@@ -31,8 +31,8 @@ THE SOFTWARE.
 #include <cocos/base/CCRef.h>
 #include <cocos/math/CCGeometry.h>
 #include <cocos/math/Vec2.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <chrono>
 #include <iosfwd>

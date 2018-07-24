@@ -24,14 +24,14 @@
  ****************************************************************************/
 
 #include "CCPUEmitterManager.h"
-#include "extensions/Particle3D/PU/CCPUBoxEmitter.h"
-#include "extensions/Particle3D/PU/CCPUCircleEmitter.h"
-#include "extensions/Particle3D/PU/CCPULineEmitter.h"
-#include "extensions/Particle3D/PU/CCPUMeshSurfaceEmitter.h"
-#include "extensions/Particle3D/PU/CCPUPointEmitter.h"
-#include "extensions/Particle3D/PU/CCPUPositionEmitter.h"
-#include "extensions/Particle3D/PU/CCPUSlaveEmitter.h"
-#include "extensions/Particle3D/PU/CCPUSphereSurfaceEmitter.h"
+#include <cocos/extensions/Particle3D/PU/CCPUBoxEmitter.h>
+#include <cocos/extensions/Particle3D/PU/CCPUCircleEmitter.h>
+#include <cocos/extensions/Particle3D/PU/CCPULineEmitter.h>
+#include <cocos/extensions/Particle3D/PU/CCPUMeshSurfaceEmitter.h>
+#include <cocos/extensions/Particle3D/PU/CCPUPointEmitter.h>
+#include <cocos/extensions/Particle3D/PU/CCPUPositionEmitter.h>
+#include <cocos/extensions/Particle3D/PU/CCPUSlaveEmitter.h>
+#include <cocos/extensions/Particle3D/PU/CCPUSphereSurfaceEmitter.h>
 
 NS_CC_BEGIN
 PUEmitterManager::PUEmitterManager()

@@ -34,12 +34,12 @@ THE SOFTWARE.
 #include <cocos/base/ccConfig.h>
 #include <cocos/base/ccTypes.h>
 #include <cocos/math/Mat4.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCBatchCommand.h>
 
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 #include <iosfwd>
 #include <vector>
 

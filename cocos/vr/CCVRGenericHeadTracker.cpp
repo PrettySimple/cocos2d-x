@@ -29,9 +29,9 @@
 
 #include "vr/CCVRGenericHeadTracker.h"
 
+#include <cmath>
 #include <cocos/platform/CCDevice.h>
 #include <cocos/platform/CCPlatformMacros.h>
-#include <cmath>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #    import <CoreMotion/CoreMotion.h>

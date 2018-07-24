@@ -20,7 +20,7 @@
 
 #include <cocos/math/Vec3.h>
 
-#include "math/MathUtil.h"
+#include <cocos/math/MathUtil.h>
 
 #include <cstddef>
 #include <limits>

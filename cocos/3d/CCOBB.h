@@ -26,8 +26,8 @@
 #define CC_3D_OBB_H
 
 #include <cocos/math/Vec3.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 

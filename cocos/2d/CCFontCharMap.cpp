@@ -23,7 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "2d/CCFontCharMap.h"
+#include <cocos/2d/CCFontCharMap.h>
 
 #include <cocos/2d/CCFontAtlas.h>
 #include <cocos/base/CCDirector.h>

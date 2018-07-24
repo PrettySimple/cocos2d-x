@@ -30,8 +30,8 @@
 #ifndef CC_RENDERER_PASS_H
 #define CC_RENDERER_PASS_H
 
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCRenderState.h>
 
 #include <cstdint>

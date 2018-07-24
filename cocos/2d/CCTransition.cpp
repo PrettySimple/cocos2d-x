@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include <cocos/2d/CCActionInterval.h>
 #include <cocos/2d/CCActionTiledGrid.h>
 #include <cocos/2d/CCLayer.h>
-#include "2d/CCNodeGrid.h"
+#include <cocos/2d/CCNodeGrid.h>
 #include <cocos/2d/CCRenderTexture.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/CCEventDispatcher.h>

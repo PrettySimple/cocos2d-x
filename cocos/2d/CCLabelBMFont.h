@@ -36,20 +36,25 @@ Use any of these editors to generate BMFonts:
 
 /// @cond DO_NOT_SHOW
 
-
 #include <cocos/2d/CCNode.h>
 #include <cocos/base/CCProtocols.h>
 #include <cocos/base/ccConfig.h>
 #include <cocos/base/ccTypes.h>
 #include <cocos/math/CCGeometry.h>
 #include <cocos/math/Vec2.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <iosfwd>
 
-namespace cocos2d { class Label; }
-namespace cocos2d { class Sprite; }
+namespace cocos2d
+{
+    class Label;
+}
+namespace cocos2d
+{
+    class Sprite;
+}
 
 #if CC_LABELBMFONT_DEBUG_DRAW
 #    include <cocos/2d/CCDrawNode.h>

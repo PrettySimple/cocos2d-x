@@ -34,10 +34,10 @@ THE SOFTWARE.
  It was rewritten again, and only a small part of the original HK ideas/code remains in this implementation
 
  */
-#include "2d/CCFastTMXLayer.h"
+#include <cocos/2d/CCFastTMXLayer.h>
 
 #include <cocos/2d/CCCamera.h>
-#include "2d/CCFastTMXTiledMap.h"
+#include <cocos/2d/CCFastTMXTiledMap.h>
 #include <cocos/2d/CCSprite.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/ccUTF8.h>

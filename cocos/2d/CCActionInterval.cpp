@@ -37,9 +37,9 @@
 #include <cocos/base/CCEventDispatcher.h>
 #include <cocos/base/CCValue.h>
 
-#include <cstddef>
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <new>
 #include <type_traits>
 

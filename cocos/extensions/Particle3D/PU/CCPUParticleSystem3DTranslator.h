@@ -27,9 +27,9 @@
 #define CC_EXTENSIONS_PARTICLE3D_PU_PARTICLESYSTEM3DTRANSLATOR_H
 
 //#include <iostream>
-#include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
-#include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
-#include "extensions/Particle3D/PU/CCPUScriptTranslator.h"
+#include <cocos/extensions/Particle3D/PU/CCPUParticleSystem3D.h>
+#include <cocos/extensions/Particle3D/PU/CCPUScriptCompiler.h>
+#include <cocos/extensions/Particle3D/PU/CCPUScriptTranslator.h>
 
 NS_CC_BEGIN
 

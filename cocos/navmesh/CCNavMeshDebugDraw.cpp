@@ -24,12 +24,12 @@
 #include "navmesh/CCNavMeshDebugDraw.h"
 #if CC_USE_NAVMESH
 
+#    include "renderer/CCRenderState.h"
 #    include <cocos/base/CCDirector.h>
 #    include <cocos/base/ccMacros.h>
-#    include "renderer/CCGLProgramCache.h"
-#    include "renderer/CCRenderState.h"
+#    include <cocos/renderer/CCGLProgramCache.h>
 #    include <cocos/renderer/CCRenderer.h>
-#    include "renderer/ccGLStateCache.h"
+#    include <cocos/renderer/ccGLStateCache.h>
 
 NS_CC_BEGIN
 

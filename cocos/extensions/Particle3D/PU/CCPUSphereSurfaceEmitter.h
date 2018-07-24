@@ -26,7 +26,7 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_SPHERESURFACEEMITTER_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_SPHERESURFACEEMITTER_H
 
-#include "extensions/Particle3D/PU/CCPUEmitter.h"
+#include <cocos/extensions/Particle3D/PU/CCPUEmitter.h>
 
 NS_CC_BEGIN
 

@@ -26,7 +26,7 @@
  ****************************************************************************/
 #include <cocos/2d/CCCamera.h>
 
-#include "2d/CCCameraBackgroundBrush.h"
+#include <cocos/2d/CCCameraBackgroundBrush.h>
 #include <cocos/2d/CCScene.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/ccMacros.h>
@@ -35,8 +35,8 @@
 #include <cocos/math/Vec4.h>
 #include <cocos/renderer/CCFrameBuffer.h>
 
-#include <cstring>
 #include <algorithm>
+#include <cstring>
 #include <new>
 #include <vector>
 

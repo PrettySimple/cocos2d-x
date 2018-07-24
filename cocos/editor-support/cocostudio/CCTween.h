@@ -25,9 +25,9 @@ THE SOFTWARE.
 #ifndef CC_EDITORSUPPORT_COCOSSTUDIO_TWEEN_H
 #define CC_EDITORSUPPORT_COCOSSTUDIO_TWEEN_H
 
-#include <cocos/2d/CCTweenFunction.h>
 #include "cocostudio/CCProcessBase.h"
 #include "cocostudio/CocosStudioExport.h"
+#include <cocos/2d/CCTweenFunction.h>
 
 namespace cocostudio
 {

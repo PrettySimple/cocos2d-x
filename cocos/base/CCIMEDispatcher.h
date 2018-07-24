@@ -28,8 +28,8 @@ THE SOFTWARE.
 
 #include <cocos/base/CCEventKeyboard.h>
 #include <cocos/base/CCIMEDelegate.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstddef>
 #include <iosfwd>

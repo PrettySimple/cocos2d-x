@@ -26,9 +26,9 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_SPHERESURFACEEMITTERTRANSLATOR_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_SPHERESURFACEEMITTERTRANSLATOR_H
 
-#include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
-#include "extensions/Particle3D/PU/CCPUScriptTranslator.h"
-#include "extensions/Particle3D/PU/CCPUSphereSurfaceEmitter.h"
+#include <cocos/extensions/Particle3D/PU/CCPUScriptCompiler.h>
+#include <cocos/extensions/Particle3D/PU/CCPUScriptTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUSphereSurfaceEmitter.h>
 
 NS_CC_BEGIN
 

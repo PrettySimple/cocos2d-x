@@ -31,9 +31,9 @@ THE SOFTWARE.
 #include <cocos/base/ccTypes.h>
 #include <cocos/math/CCAffineTransform.h>
 
-#include <cocos/2d/CCTweenFunction.h>
 #include "cocostudio/CCArmatureDefine.h"
 #include "cocostudio/CocosStudioExport.h"
+#include <cocos/2d/CCTweenFunction.h>
 
 #define CC_CREATE_NO_PARAM_NO_INIT(varType)          \
 public:                                              \

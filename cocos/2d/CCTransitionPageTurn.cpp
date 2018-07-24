@@ -27,7 +27,7 @@ THE SOFTWARE.
 #include <cocos/2d/CCTransitionPageTurn.h>
 
 #include <cocos/2d/CCActionPageTurn3D.h>
-#include "2d/CCNodeGrid.h"
+#include <cocos/2d/CCNodeGrid.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/renderer/CCRenderer.h>
 

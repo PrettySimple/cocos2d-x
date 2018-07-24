@@ -27,8 +27,8 @@
 #define CC_BASE_EVENTFOCUS_H
 
 #include <cocos/base/CCEvent.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 /**
  * @addtogroup base

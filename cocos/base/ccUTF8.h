@@ -27,8 +27,8 @@
 #define CC_BASE_UTF8_H
 
 #include <cocos/platform/CCPlatformConfig.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstddef>
 #include <sstream>

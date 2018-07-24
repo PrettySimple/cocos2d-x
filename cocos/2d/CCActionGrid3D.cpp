@@ -28,8 +28,8 @@ THE SOFTWARE.
 #include <cocos/base/ccMacros.h>
 #include <cocos/math/Vec3.h>
 
-#include <cstdlib>
 #include <cmath>
+#include <cstdlib>
 #include <limits>
 #include <new>
 

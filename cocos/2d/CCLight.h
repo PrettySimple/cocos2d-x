@@ -28,8 +28,8 @@
 #include <cocos/2d/CCNode.h>
 #include <cocos/base/ccConfig.h>
 #include <cocos/math/Vec3.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 

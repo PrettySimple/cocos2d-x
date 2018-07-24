@@ -37,11 +37,11 @@
 #include <cocos/2d/CCActionInterval.h>
 #include <cocos/base/CCRef.h>
 #include <cocos/math/Vec2.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
-#include <cstddef>
 #include <chrono>
+#include <cstddef>
 #include <vector>
 
 NS_CC_BEGIN;

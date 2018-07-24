@@ -27,19 +27,19 @@
 #define CC_EXTENSIONS_PARTICLE3D_PU_OBSERVERMANAGER_H
 
 #include <cocos/base/CCRef.h>
-#include "extensions/Particle3D/PU/CCPUObserver.h"
-#include "extensions/Particle3D/PU/CCPUOnClearObserverTranslator.h"
-#include "extensions/Particle3D/PU/CCPUOnCollisionObserverTranslator.h"
-#include "extensions/Particle3D/PU/CCPUOnCountObserverTranslator.h"
-#include "extensions/Particle3D/PU/CCPUOnEmissionObserverTranslator.h"
-#include "extensions/Particle3D/PU/CCPUOnEventFlagObserverTranslator.h"
-#include "extensions/Particle3D/PU/CCPUOnExpireObserverTranslator.h"
-#include "extensions/Particle3D/PU/CCPUOnPositionObserverTranslator.h"
-#include "extensions/Particle3D/PU/CCPUOnQuotaObserverTranslator.h"
-#include "extensions/Particle3D/PU/CCPUOnRandomObserverTranslator.h"
-#include "extensions/Particle3D/PU/CCPUOnTimeObserverTranslator.h"
-#include "extensions/Particle3D/PU/CCPUOnVelocityObserverTranslator.h"
-#include "extensions/Particle3D/PU/CCPUScriptTranslator.h"
+#include <cocos/extensions/Particle3D/PU/CCPUObserver.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnClearObserverTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnCollisionObserverTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnCountObserverTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnEmissionObserverTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnEventFlagObserverTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnExpireObserverTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnPositionObserverTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnQuotaObserverTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnRandomObserverTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnTimeObserverTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUOnVelocityObserverTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUScriptTranslator.h>
 
 NS_CC_BEGIN
 class PUObserverManager

@@ -24,10 +24,10 @@
  ****************************************************************************/
 
 #import "ui/UIEditBox/Mac/CCUIEditBoxMac.h"
-#include <cocos/base/CCDirector.h>
 #include "ui/UIEditBox/Mac/CCUIMultilineTextField.h"
 #include "ui/UIEditBox/Mac/CCUIPasswordTextField.h"
 #include "ui/UIEditBox/Mac/CCUISingleLineTextField.h"
+#include <cocos/base/CCDirector.h>
 
 #define getEditBoxImplMac() ((cocos2d::ui::EditBoxImplMac*)_editBox)
 

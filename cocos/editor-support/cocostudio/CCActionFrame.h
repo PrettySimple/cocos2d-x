@@ -25,8 +25,8 @@ THE SOFTWARE.
 #ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONFRAME_H
 #define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONFRAME_H
 
-#include <cocos/2d/CCActionInterval.h>
 #include "cocostudio/CocosStudioExport.h"
+#include <cocos/2d/CCActionInterval.h>
 #include <cocos/math/CCGeometry.h>
 
 #include <chrono>

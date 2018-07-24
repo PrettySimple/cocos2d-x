@@ -26,15 +26,15 @@
 #define CC_EXTENSIONS_PARTICLE3D_PU_EVENTHANDLERMANAGER_H
 
 #include <cocos/base/CCRef.h>
-#include "extensions/Particle3D/PU/CCPUDoAffectorEventHandlerTranslator.h"
-#include "extensions/Particle3D/PU/CCPUDoEnableComponentEventHandlerTranslator.h"
-#include "extensions/Particle3D/PU/CCPUDoExpireEventHandlerTranslator.h"
-#include "extensions/Particle3D/PU/CCPUDoFreezeEventHandlerTranslator.h"
-#include "extensions/Particle3D/PU/CCPUDoPlacementParticleEventHandlerTranslator.h"
-#include "extensions/Particle3D/PU/CCPUDoScaleEventHandlerTranslator.h"
-#include "extensions/Particle3D/PU/CCPUDoStopSystemEventHandlerTranslator.h"
-#include "extensions/Particle3D/PU/CCPUEventHandler.h"
-#include "extensions/Particle3D/PU/CCPUScriptTranslator.h"
+#include <cocos/extensions/Particle3D/PU/CCPUDoAffectorEventHandlerTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUDoEnableComponentEventHandlerTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUDoExpireEventHandlerTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUDoFreezeEventHandlerTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUDoPlacementParticleEventHandlerTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUDoScaleEventHandlerTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUDoStopSystemEventHandlerTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUEventHandler.h>
+#include <cocos/extensions/Particle3D/PU/CCPUScriptTranslator.h>
 
 NS_CC_BEGIN
 class PUEventHandlerManager

@@ -27,8 +27,8 @@
 #define CC_EXTENSIONS_PARTICLE3D_PU_SPHERECOLLIDER_H
 
 #include "CCPUBaseCollider.h"
-#include <cocos/base/ccTypes.h>
 #include "extensions/Particle3D/PU/CCPUSphere.h"
+#include <cocos/base/ccTypes.h>
 
 NS_CC_BEGIN
 

@@ -27,8 +27,8 @@
 
 #include <cocos/3d/CCOBB.h>
 #include <cocos/3d/CCPlane.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 

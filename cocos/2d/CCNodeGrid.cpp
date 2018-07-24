@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "2d/CCNodeGrid.h"
+#include <cocos/2d/CCNodeGrid.h>
 
 #include <cocos/2d/CCGrid.h>
 #include <cocos/renderer/CCRenderer.h>

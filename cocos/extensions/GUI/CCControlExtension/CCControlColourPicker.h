@@ -45,7 +45,7 @@ namespace cocos2d
     class Sprite;
     class Touch;
     struct Color3B;
-}
+} // namespace cocos2d
 
 NS_CC_EXT_BEGIN
 

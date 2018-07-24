@@ -26,44 +26,44 @@
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#include <cocos/platform/CCDevice.h>
+#    include <cocos/platform/CCDevice.h>
 
-#include <cocos/2d/CCActionManager.h>
-#include <cocos/base/CCData.h>
-#include <cocos/base/CCDirector.h>
-#include <cocos/base/CCEventAcceleration.h>
-#include <cocos/base/CCEventDispatcher.h>
-#include <cocos/base/ccTypes.h>
-#include <cocos/math/CCGeometry.h>
-#include <cocos/platform/CCPlatformMacros.h>
-#include <cocos/platform/apple/CCDevice-apple.h>
+#    include <cocos/2d/CCActionManager.h>
+#    include <cocos/base/CCData.h>
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/base/CCEventAcceleration.h>
+#    include <cocos/base/CCEventDispatcher.h>
+#    include <cocos/base/ccTypes.h>
+#    include <cocos/math/CCGeometry.h>
+#    include <cocos/platform/CCPlatformMacros.h>
+#    include <cocos/platform/apple/CCDevice-apple.h>
 
-#import <AudioToolbox/AudioServices.h>
-#import <CoreFoundation/CFAttributedString.h>
-#import <CoreFoundation/CFBase.h>
-#import <CoreGraphics/CGBase.h>
-#import <CoreGraphics/CGBitmapContext.h>
-#import <CoreGraphics/CGColorSpace.h>
-#import <CoreGraphics/CGContext.h>
-#import <CoreGraphics/CGGeometry.h>
-#import <CoreGraphics/CGImage.h>
-#import <CoreText/CTFramesetter.h>
-#import <Foundation/NSException.h>
-#import <Foundation/NSRange.h>
-#import <UIKit/NSAttributedString.h>
-#import <UIKit/NSStringDrawing.h>
-#import <UIKit/NSText.h>
-#import <UIKit/UIAccelerometer.h>
-#import <UIKit/UIApplication.h>
-#import <UIKit/UIDevice.h>
-#import <UIKit/UIGraphics.h>
-#import <UIKit/UIScreen.h>
+#    import <AudioToolbox/AudioServices.h>
+#    import <CoreFoundation/CFAttributedString.h>
+#    import <CoreFoundation/CFBase.h>
+#    import <CoreGraphics/CGBase.h>
+#    import <CoreGraphics/CGBitmapContext.h>
+#    import <CoreGraphics/CGColorSpace.h>
+#    import <CoreGraphics/CGContext.h>
+#    import <CoreGraphics/CGGeometry.h>
+#    import <CoreGraphics/CGImage.h>
+#    import <CoreText/CTFramesetter.h>
+#    import <Foundation/NSException.h>
+#    import <Foundation/NSRange.h>
+#    import <UIKit/NSAttributedString.h>
+#    import <UIKit/NSStringDrawing.h>
+#    import <UIKit/NSText.h>
+#    import <UIKit/UIAccelerometer.h>
+#    import <UIKit/UIApplication.h>
+#    import <UIKit/UIDevice.h>
+#    import <UIKit/UIGraphics.h>
+#    import <UIKit/UIScreen.h>
 
-#include <cmath>
-#include <cstdlib>
-#include <cstring>
-#include <iosfwd>
-#include <new>
+#    include <cmath>
+#    include <cstdlib>
+#    include <cstring>
+#    include <iosfwd>
+#    include <new>
 
 // Accelerometer
 #    if !defined(CC_TARGET_OS_TVOS)

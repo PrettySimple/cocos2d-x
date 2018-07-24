@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "extensions/Particle3D/PU/CCPUOnQuotaObserver.h"
-#include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
+#include <cocos/extensions/Particle3D/PU/CCPUOnQuotaObserver.h>
+#include <cocos/extensions/Particle3D/PU/CCPUParticleSystem3D.h>
 
 NS_CC_BEGIN
 

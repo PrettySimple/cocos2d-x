@@ -25,8 +25,8 @@
 #include "FlatBuffersSerialize.h"
 
 #include "CSParseBinary_generated.h"
-#include <cocos/base/ObjectFactory.h>
 #include "cocostudio/CocoStudio.h"
+#include <cocos/base/ObjectFactory.h>
 #include <cocos/ui/CocosGUI.h>
 
 #include "WidgetReader/NodeReaderDefine.h"

@@ -22,7 +22,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "vr/CCVRGenericRenderer.h"
+#include "vr/CCVRDistortion.h"
+#include "vr/CCVRDistortionMesh.h"
+#include "vr/CCVRGenericHeadTracker.h"
 #include <cocos/2d/CCCamera.h>
 #include <cocos/2d/CCScene.h>
 #include <cocos/2d/CCSprite.h>
@@ -32,9 +34,7 @@
 #include <cocos/renderer/CCGLProgramState.h>
 #include <cocos/renderer/CCRenderer.h>
 #include <cocos/renderer/ccGLStateCache.h>
-#include "vr/CCVRDistortion.h"
-#include "vr/CCVRDistortionMesh.h"
-#include "vr/CCVRGenericHeadTracker.h"
+#include <cocos/vr/CCVRGenericRenderer.h>
 
 NS_CC_BEGIN
 

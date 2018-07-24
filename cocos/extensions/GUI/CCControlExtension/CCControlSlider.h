@@ -40,7 +40,7 @@ namespace cocos2d
     class Event;
     class Sprite;
     class Touch;
-}
+} // namespace cocos2d
 
 NS_CC_EXT_BEGIN
 

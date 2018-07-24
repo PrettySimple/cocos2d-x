@@ -1,5 +1,5 @@
 
-#include "2d/CCClippingRectangleNode.h"
+#include <cocos/2d/CCClippingRectangleNode.h>
 
 #include <cocos/base/CCDirector.h>
 #include <cocos/math/Vec2.h>

@@ -31,8 +31,8 @@
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCTrianglesCommand.h>
 
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 #include <vector>
 
 /**

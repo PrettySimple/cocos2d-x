@@ -27,8 +27,8 @@ THE SOFTWARE.
 #define CC_PLATFORM_APPLICATIONPROTOCOL_H
 
 #include <cocos/platform/CCCommon.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <iosfwd>
 
@@ -95,7 +95,6 @@ public:
     // Could not make these pure virtuals as they're not implemented in the Florida project
     virtual void applicationDidBecomeInactive() {}
     virtual void applicationDidBecomeActive() {}
-
 
     /**
      * @brief    Callback by Director for limit FPS.

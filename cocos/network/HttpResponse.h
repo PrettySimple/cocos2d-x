@@ -26,7 +26,7 @@
 #ifndef CC_NETWORK_HTTPRESPONSE_H
 #define CC_NETWORK_HTTPRESPONSE_H
 
-#include "network/HttpRequest.h"
+#include <cocos/network/HttpRequest.h>
 
 /**
  * @addtogroup network

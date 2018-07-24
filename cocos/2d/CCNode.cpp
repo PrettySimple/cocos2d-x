@@ -32,21 +32,21 @@ THE SOFTWARE.
 #include <cocos/2d/CCActionManager.h>
 #include <cocos/2d/CCCamera.h>
 #include <cocos/2d/CCComponent.h>
-#include "2d/CCComponentContainer.h"
+#include <cocos/2d/CCComponentContainer.h>
 #include <cocos/2d/CCScene.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/CCEventDispatcher.h>
 #include <cocos/base/CCScheduler.h>
 #include <cocos/base/CCTouch.h>
 #include <cocos/base/ccUTF8.h>
-#include "math/MathUtil.h"
-#include "math/TransformUtils.h"
+#include <cocos/math/MathUtil.h>
+#include <cocos/math/TransformUtils.h>
 #include <cocos/renderer/CCGLProgram.h>
 #include <cocos/renderer/CCGLProgramState.h>
 #include <cocos/renderer/CCMaterial.h>
 
 #if CC_USE_PHYSICS
-#    include "physics/CCPhysicsBody.h"
+#    include <cocos/physics/CCPhysicsBody.h>
 #endif
 
 #include <algorithm>

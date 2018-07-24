@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "extensions/Particle3D/PU/CCPUOnRandomObserver.h"
-#include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
+#include <cocos/extensions/Particle3D/PU/CCPUOnRandomObserver.h>
+#include <cocos/extensions/Particle3D/PU/CCPUParticleSystem3D.h>
 
 NS_CC_BEGIN
 

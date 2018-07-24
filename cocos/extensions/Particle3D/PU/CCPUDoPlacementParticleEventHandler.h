@@ -27,8 +27,8 @@
 #define CC_EXTENSIONS_PARTICLE3D_PU_DOPLACEMENTPARTICLEEVENTHANDLER_H
 
 #include <cocos/base/CCRef.h>
-#include "extensions/Particle3D/PU/CCPUEventHandler.h"
-#include "extensions/Particle3D/PU/CCPUListener.h"
+#include <cocos/extensions/Particle3D/PU/CCPUEventHandler.h>
+#include <cocos/extensions/Particle3D/PU/CCPUListener.h>
 #include <cocos/math/CCMath.h>
 #include <string>
 #include <vector>

@@ -31,8 +31,8 @@ THE SOFTWARE.
 #include <cocos/base/CCValue.h>
 #include <cocos/base/CCVector.h>
 #include <cocos/base/ccConfig.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <chrono>
 #include <iosfwd>

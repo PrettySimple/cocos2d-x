@@ -31,14 +31,14 @@
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#include <cocos/platform/ios/CCES2Renderer-ios.h>
+#    include <cocos/platform/ios/CCES2Renderer-ios.h>
 
-#include <cocos/platform/CCGL.h>
-#include <cocos/platform/ios/OpenGL_Internal-ios.h>
+#    include <cocos/platform/CCGL.h>
+#    include <cocos/platform/ios/OpenGL_Internal-ios.h>
 
-#import <CoreGraphics/CGGeometry.h>
-#import <Foundation/NSException.h>
-#import <Foundation/NSObjCRuntime.h>
+#    import <CoreGraphics/CGGeometry.h>
+#    import <Foundation/NSException.h>
+#    import <Foundation/NSObjCRuntime.h>
 
 #    if !defined(COCOS2D_DEBUG) || COCOS2D_DEBUG == 0
 #        define NSLog(...) \

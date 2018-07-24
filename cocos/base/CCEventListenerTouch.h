@@ -28,8 +28,8 @@
 
 #include <cocos/base/CCEventListener.h>
 #include <cocos/base/ccConfig.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <functional>
 #include <iosfwd>

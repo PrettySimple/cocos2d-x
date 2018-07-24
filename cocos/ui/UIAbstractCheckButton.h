@@ -27,8 +27,8 @@ THE SOFTWARE.
 
 #include <cocos/base/ccConfig.h>
 #include <cocos/math/CCGeometry.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/ui/GUIExport.h>
 #include <cocos/ui/UIWidget.h>
 
@@ -41,7 +41,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 class Node;
 class Sprite;
- class SpriteFrame;
+class SpriteFrame;
 struct ResourceData;
 
 namespace ui

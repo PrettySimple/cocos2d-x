@@ -28,19 +28,19 @@
 #include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 
-#include <cocos/base/CCConsole.h>
-#include <cocos/base/CCController.h>
-#include <cocos/base/CCEventController.h>
-#include <cocos/platform/CCPlatformConfig.h>
-#include <cocos/platform/CCPlatformMacros.h>
+#    include <cocos/base/CCConsole.h>
+#    include <cocos/base/CCController.h>
+#    include <cocos/base/CCEventController.h>
+#    include <cocos/platform/CCPlatformConfig.h>
+#    include <cocos/platform/CCPlatformMacros.h>
 
-#import <Foundation/NSObjCRuntime.h>
-#include <GameController/GCController.h>
+#    import <Foundation/NSObjCRuntime.h>
+#    include <GameController/GCController.h>
 
-#include <algorithm>
-#include <iosfwd>
-#include <new>
-#include <vector>
+#    include <algorithm>
+#    include <iosfwd>
+#    include <new>
+#    include <vector>
 
 @interface GCControllerConnectionEventHandler : NSObject
 

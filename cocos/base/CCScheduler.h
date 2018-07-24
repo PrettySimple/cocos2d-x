@@ -29,17 +29,17 @@
 #define CC_BASE_SCHEDULER_H
 
 #include <cocos/base/CCRef.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
-#include <cstdint>
-#include <mutex>
 #include <chrono>
 #include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <iosfwd>
 #include <limits>
 #include <list>
+#include <mutex>
 #include <set>
 #include <string>
 #include <unordered_map>

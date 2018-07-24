@@ -31,8 +31,8 @@ THE SOFTWARE.
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/ccUTF8.h>
 
-#include <cstdint>
 #include <algorithm>
+#include <cstdint>
 #include <new>
 #include <string>
 #include <unordered_map>

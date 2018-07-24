@@ -30,9 +30,9 @@
 #include <cocos/math/Quaternion.h>
 #include <cocos/math/Vec4.h>
 
+#include <algorithm>
 #include <cmath>
 #include <cstring>
-#include <algorithm>
 
 NS_CC_BEGIN
 

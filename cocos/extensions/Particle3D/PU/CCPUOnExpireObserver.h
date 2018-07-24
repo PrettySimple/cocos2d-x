@@ -26,7 +26,7 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_ONEXPIREOBSERVER_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_ONEXPIREOBSERVER_H
 
-#include "extensions/Particle3D/PU/CCPUObserver.h"
+#include <cocos/extensions/Particle3D/PU/CCPUObserver.h>
 
 NS_CC_BEGIN
 

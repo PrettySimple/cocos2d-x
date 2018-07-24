@@ -1,8 +1,8 @@
 #ifndef CC_EDITORSUPPORT_COCOSBUILDER_MENULOADER_H
 #define CC_EDITORSUPPORT_COCOSBUILDER_MENULOADER_H
 
-#include <cocos/2d/CCMenu.h>
 #include "CCLayerLoader.h"
+#include <cocos/2d/CCMenu.h>
 #include <cocos/base/CCRef.h>
 
 namespace cocosbuilder

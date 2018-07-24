@@ -29,8 +29,8 @@
 #include <cocos/base/CCVector.h>
 #include <cocos/base/ccConfig.h>
 #include <cocos/math/Mat4.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstddef>
 #include <iosfwd>

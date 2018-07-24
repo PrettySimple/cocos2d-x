@@ -27,9 +27,9 @@ THE SOFTWARE.
 
 #include "TriggerMng.h"
 #include "TriggerObj.h"
-#include <cocos/base/ObjectFactory.h>
 #include "cocostudio/CocoStudio.h"
 #include "cocostudio/CocosStudioExport.h"
+#include <cocos/base/ObjectFactory.h>
 
 #define DECLARE_CLASS_INFO                     \
 public:                                        \

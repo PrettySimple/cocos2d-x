@@ -27,8 +27,6 @@
 #ifndef CC_UI_EDITBOX_EDITBOXIMPLCOMMON_H
 #define CC_UI_EDITBOX_EDITBOXIMPLCOMMON_H
 
-#include <cstdint>
-#include <iosfwd>
 #include <cocos/base/ccTypes.h>
 #include <cocos/math/CCGeometry.h>
 #include <cocos/math/Mat4.h>
@@ -38,6 +36,8 @@
 #include <cocos/ui/UIEditBox/UIEditBox.h>
 #include <cocos/ui/UIEditBox/UIEditBoxImpl-common.h>
 #include <cocos/ui/UIEditBox/UIEditBoxImpl.h>
+#include <cstdint>
+#include <iosfwd>
 
 NS_CC_BEGIN
 

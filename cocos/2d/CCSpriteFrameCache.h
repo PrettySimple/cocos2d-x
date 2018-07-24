@@ -34,8 +34,8 @@ THE SOFTWARE.
 #include <cocos/base/CCRef.h>
 #include <cocos/base/CCValue.h>
 #include <cocos/math/CCGeometry.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <iosfwd>
 #include <set>

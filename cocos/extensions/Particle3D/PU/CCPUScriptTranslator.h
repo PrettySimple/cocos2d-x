@@ -29,7 +29,7 @@
 #include <iostream>
 
 #include <cocos/base/CCRef.h>
-#include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
+#include <cocos/extensions/Particle3D/PU/CCPUScriptCompiler.h>
 #include <cocos/math/CCMath.h>
 
 NS_CC_BEGIN

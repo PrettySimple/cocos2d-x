@@ -34,8 +34,8 @@ THE SOFTWARE.
 #include <cocos/base/ccMacros.h>
 #include <cocos/platform/CCFileUtils.h>
 
-#include <cstddef>
 #include <chrono>
+#include <cstddef>
 #include <new>
 #include <unordered_map>
 #include <utility>

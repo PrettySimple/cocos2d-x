@@ -24,7 +24,7 @@
  ****************************************************************************/
 
 #include "CCPUScriptCompiler.h"
-#include "extensions/Particle3D/PU/CCPUTranslateManager.h"
+#include <cocos/extensions/Particle3D/PU/CCPUTranslateManager.h>
 #include <cocos/platform/CCFileUtils.h>
 NS_CC_BEGIN
 

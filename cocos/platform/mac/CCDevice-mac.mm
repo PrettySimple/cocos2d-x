@@ -26,11 +26,14 @@ THE SOFTWARE.
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#    include <cocos/base/ccTypes.h>
 #    include <cocos/platform/CCDevice.h>
+
+#    include <cocos/base/ccTypes.h>
 #    include <cocos/platform/apple/CCDevice-apple.h>
-#    include <Cocoa/Cocoa.h>
+
+#    import <Cocoa/Cocoa.h>
 #    import <Foundation/Foundation.h>
+
 #    include <string>
 
 NS_CC_BEGIN

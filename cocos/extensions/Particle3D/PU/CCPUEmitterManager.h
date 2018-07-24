@@ -27,16 +27,16 @@
 #define CC_EXTENSIONS_PARTICLE3D_PU_EMITTERMANAGER_H
 
 #include <cocos/base/CCRef.h>
-#include "extensions/Particle3D/PU/CCPUBoxEmitterTranslator.h"
-#include "extensions/Particle3D/PU/CCPUCircleEmitterTranslator.h"
-#include "extensions/Particle3D/PU/CCPUEmitter.h"
-#include "extensions/Particle3D/PU/CCPULineEmitterTranslator.h"
-#include "extensions/Particle3D/PU/CCPUMeshSurfaceEmitterTranslator.h"
-#include "extensions/Particle3D/PU/CCPUPointEmitterTranslator.h"
-#include "extensions/Particle3D/PU/CCPUPositionEmitterTranslator.h"
-#include "extensions/Particle3D/PU/CCPUScriptTranslator.h"
-#include "extensions/Particle3D/PU/CCPUSlaveEmitterTranslator.h"
-#include "extensions/Particle3D/PU/CCPUSphereSurfaceEmitterTranslator.h"
+#include <cocos/extensions/Particle3D/PU/CCPUBoxEmitterTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUCircleEmitterTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUEmitter.h>
+#include <cocos/extensions/Particle3D/PU/CCPULineEmitterTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUMeshSurfaceEmitterTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUPointEmitterTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUPositionEmitterTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUScriptTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUSlaveEmitterTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUSphereSurfaceEmitterTranslator.h>
 
 NS_CC_BEGIN
 

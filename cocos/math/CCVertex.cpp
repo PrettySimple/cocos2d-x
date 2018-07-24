@@ -24,7 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "math/CCVertex.h"
+#include <cocos/math/CCVertex.h>
 
 #include <cocos/base/ccMacros.h>
 #include <cocos/math/Vec2.h>

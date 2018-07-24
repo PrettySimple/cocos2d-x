@@ -416,7 +416,8 @@ void ParticleBatchNode::draw(Renderer* renderer, const Mat4& transform, uint32_t
 
 void ParticleBatchNode::increaseAtlasCapacityTo(std::size_t quantity)
 {
-    CCLOG("cocos2d: ParticleBatchNode: resizing TextureAtlas capacity from [%lu] to [%lu].", static_cast<long>(_textureAtlas->getCapacity()), static_cast<long>(quantity));
+    CCLOG("cocos2d: ParticleBatchNode: resizing TextureAtlas capacity from [%lu] to [%lu].", static_cast<long>(_textureAtlas->getCapacity()),
+          static_cast<long>(quantity));
 
     if (!_textureAtlas->resizeCapacity(quantity))
     {

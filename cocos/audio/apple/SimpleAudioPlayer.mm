@@ -11,9 +11,9 @@
 #include "audio/apple/AudioPlayer.h"
 #include "audio/include/SimpleAudioEngine.h"
 
-#include <cstddef>
 #include <atomic>
 #include <chrono>
+#include <cstddef>
 #include <iosfwd>
 #include <string>
 

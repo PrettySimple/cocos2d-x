@@ -26,15 +26,15 @@ THE SOFTWARE.
 #ifndef CC_2D_GRID_H
 #define CC_2D_GRID_H
 
-#include <cocos/platform/CCGL.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/CCRef.h>
 #include <cocos/base/ccTypes.h>
 #include <cocos/math/CCGeometry.h>
 #include <cocos/math/Vec2.h>
 #include <cocos/math/Vec3.h>
-#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCGL.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 

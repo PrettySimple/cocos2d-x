@@ -26,21 +26,21 @@
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#include <cocos/platform/ios/CCApplication-ios.h>
+#    include <cocos/platform/ios/CCApplication-ios.h>
 
-#include <cocos/platform/CCApplication.h>
-#include <cocos/platform/CCApplicationProtocol.h>
-#include <cocos/platform/CCCommon.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
-#include <cocos/platform/ios/CCDirectorCaller-ios.h>
+#    include <cocos/platform/CCApplication.h>
+#    include <cocos/platform/CCApplicationProtocol.h>
+#    include <cocos/platform/CCCommon.h>
+#    include <cocos/platform/CCPlatformDefine.h>
+#    include <cocos/platform/CCPlatformMacros.h>
+#    include <cocos/platform/ios/CCDirectorCaller-ios.h>
 
-#import <Foundation/NSLocale.h>
-#import <Foundation/NSString.h>
-#import <UIKit/UIApplication.h>
-#import <UIKit/UIDevice.h>
+#    import <Foundation/NSLocale.h>
+#    import <Foundation/NSString.h>
+#    import <UIKit/UIApplication.h>
+#    import <UIKit/UIDevice.h>
 
-#include <string>
+#    include <string>
 
 NS_CC_BEGIN
 

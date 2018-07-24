@@ -26,8 +26,8 @@ THE SOFTWARE.
 #define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_SKELETONNODE_H
 
 #include "CCTimelineMacro.h"
-#include <cocos/base/CCMap.h>
 #include "cocostudio/CocosStudioExport.h"
+#include <cocos/base/CCMap.h>
 #include <cocos/renderer/CCRenderer.h>
 
 #include "CCBoneNode.h"

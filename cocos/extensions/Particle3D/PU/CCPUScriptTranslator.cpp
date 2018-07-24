@@ -24,7 +24,7 @@
  ****************************************************************************/
 
 #include "CCPUScriptTranslator.h"
-#include "extensions/Particle3D/PU/CCPUTranslateManager.h"
+#include <cocos/extensions/Particle3D/PU/CCPUTranslateManager.h>
 
 NS_CC_BEGIN
 PUScriptTranslator::PUScriptTranslator(void)

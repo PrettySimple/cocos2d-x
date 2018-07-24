@@ -29,8 +29,8 @@ THE SOFTWARE.
 
 #include <cocos/base/CCRef.h>
 #include <cocos/base/ccMacros.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 extern "C"
 {

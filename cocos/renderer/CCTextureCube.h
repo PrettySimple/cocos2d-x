@@ -26,8 +26,8 @@
 #define CC_RENDERER_TEXTURECUBE_H
 
 #include <cocos/base/ccConfig.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCTexture2D.h>
 
 #include <iosfwd>

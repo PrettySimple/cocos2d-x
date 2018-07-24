@@ -30,8 +30,8 @@ THE SOFTWARE.
 #include <cocos/2d/CCAtlasNode.h>
 #include <cocos/base/CCProtocols.h>
 #include <cocos/base/ccConfig.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <iosfwd>
 

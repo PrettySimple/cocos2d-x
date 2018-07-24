@@ -26,12 +26,12 @@ THE SOFTWARE.
 #include <cocos/2d/CCActionPageTurn3D.h>
 
 #include <cocos/2d/CCGrid.h>
-#include "2d/CCNodeGrid.h"
+#include <cocos/2d/CCNodeGrid.h>
 #include <cocos/math/Vec2.h>
 #include <cocos/math/Vec3.h>
 
-#include <cmath>
 #include <algorithm>
+#include <cmath>
 #include <new>
 
 NS_CC_BEGIN

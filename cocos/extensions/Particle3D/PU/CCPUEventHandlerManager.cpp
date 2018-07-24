@@ -23,14 +23,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "extensions/Particle3D/PU/CCPUEventHandlerManager.h"
-#include "extensions/Particle3D/PU/CCPUDoAffectorEventHandler.h"
-#include "extensions/Particle3D/PU/CCPUDoEnableComponentEventHandler.h"
-#include "extensions/Particle3D/PU/CCPUDoExpireEventHandler.h"
-#include "extensions/Particle3D/PU/CCPUDoFreezeEventHandler.h"
-#include "extensions/Particle3D/PU/CCPUDoPlacementParticleEventHandler.h"
-#include "extensions/Particle3D/PU/CCPUDoScaleEventHandler.h"
-#include "extensions/Particle3D/PU/CCPUDoStopSystemEventHandler.h"
+#include <cocos/extensions/Particle3D/PU/CCPUDoAffectorEventHandler.h>
+#include <cocos/extensions/Particle3D/PU/CCPUDoEnableComponentEventHandler.h>
+#include <cocos/extensions/Particle3D/PU/CCPUDoExpireEventHandler.h>
+#include <cocos/extensions/Particle3D/PU/CCPUDoFreezeEventHandler.h>
+#include <cocos/extensions/Particle3D/PU/CCPUDoPlacementParticleEventHandler.h>
+#include <cocos/extensions/Particle3D/PU/CCPUDoScaleEventHandler.h>
+#include <cocos/extensions/Particle3D/PU/CCPUDoStopSystemEventHandler.h>"
+#include <cocos/extensions/Particle3D/PU/CCPUEventHandlerManager.h>
 
 NS_CC_BEGIN
 PUEventHandlerManager::PUEventHandlerManager()

@@ -29,9 +29,9 @@
 #if CC_USE_NAVMESH
 #    include <cocos/2d/CCComponent.h>
 
+#    include "recast/DetourCrowd/DetourCrowd.h"
 #    include <cocos/base/CCRef.h>
 #    include <cocos/math/Vec3.h>
-#    include "recast/DetourCrowd/DetourCrowd.h"
 
 class dtNavMeshQuery;
 NS_CC_BEGIN

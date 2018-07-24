@@ -24,8 +24,8 @@
  ****************************************************************************/
 
 #include "CCPUAffectorTranslator.h"
-#include "extensions/Particle3D/PU/CCPUAffectorManager.h"
-#include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
+#include <cocos/extensions/Particle3D/PU/CCPUAffectorManager.h>
+#include <cocos/extensions/Particle3D/PU/CCPUParticleSystem3D.h>
 
 NS_CC_BEGIN
 

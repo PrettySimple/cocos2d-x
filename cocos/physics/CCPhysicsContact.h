@@ -29,7 +29,7 @@
 #if CC_USE_PHYSICS
 
 #    include <cocos/base/CCEvent.h>
-#    include "base/CCEventCustom.h"
+#    include <cocos/base/CCEventCustom.h>
 #    include <cocos/base/CCEventListenerCustom.h>
 #    include <cocos/base/CCRef.h>
 #    include <cocos/math/CCGeometry.h>

@@ -33,8 +33,8 @@ THE SOFTWARE.
 #include <cocos/base/CCVector.h>
 #include <cocos/base/ccConfig.h>
 #include <cocos/math/CCGeometry.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <iosfwd>
 #include <vector>

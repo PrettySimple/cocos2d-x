@@ -87,7 +87,8 @@ MeshVertexData* MeshVertexData::create(const MeshData& meshdata)
 
     if (vertexdata->_vertexBuffer)
     {
-        vertexdata->_vertexBuffer->updateVertices(reinterpret_cast<void const*>(&meshdata.vertex[0]), static_cast<int>(meshdata.vertex.size()) * 4 / vertexdata->_vertexBuffer->getSizePerVertex(), 0);
+        vertexdata->_vertexBuffer->updateVertices(reinterpret_cast<void const*>(&meshdata.vertex[0]),
+                                                  static_cast<int>(meshdata.vertex.size()) * 4 / vertexdata->_vertexBuffer->getSizePerVertex(), 0);
     }
 
     bool needCalcAABB = (meshdata.subMeshAABB.size() != meshdata.subMeshIndices.size());

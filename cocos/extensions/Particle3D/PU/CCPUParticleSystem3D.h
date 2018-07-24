@@ -28,7 +28,7 @@
 
 #include <cocos/2d/CCNode.h>
 #include <cocos/base/CCProtocols.h>
-#include "extensions/Particle3D/CCParticleSystem3D.h"
+#include <cocos/extensions/Particle3D/CCParticleSystem3D.h>
 #include <cocos/math/CCMath.h>
 #include <map>
 #include <vector>

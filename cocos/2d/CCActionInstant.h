@@ -32,8 +32,8 @@ THE SOFTWARE.
 #include <cocos/base/CCRef.h>
 #include <cocos/base/ccConfig.h>
 #include <cocos/math/Vec2.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <functional>
 

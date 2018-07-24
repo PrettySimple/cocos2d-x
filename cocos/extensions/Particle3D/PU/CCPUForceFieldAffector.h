@@ -26,8 +26,8 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_FORCEFIELDAFFECTOR_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_FORCEFIELDAFFECTOR_H
 
-#include "extensions/Particle3D/PU/CCPUAffector.h"
 #include "extensions/Particle3D/PU/CCPUForceField.h"
+#include <cocos/extensions/Particle3D/PU/CCPUAffector.h>
 
 NS_CC_BEGIN
 

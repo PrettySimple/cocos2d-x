@@ -27,8 +27,8 @@
 
 #include <cocos/base/CCEvent.h>
 #include <cocos/base/ccTypes.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 /**
  * @addtogroup base

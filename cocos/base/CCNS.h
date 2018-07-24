@@ -28,8 +28,8 @@ THE SOFTWARE.
 
 #include <cocos/math/CCGeometry.h>
 #include <cocos/math/Vec2.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <iosfwd>
 

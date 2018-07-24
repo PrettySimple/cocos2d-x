@@ -12,9 +12,9 @@
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/iterator_pair.h>
 
-#include <functional>
 #include <algorithm>
 #include <cstddef>
+#include <functional>
 #include <iterator>
 #include <type_traits>
 #include <unordered_set>

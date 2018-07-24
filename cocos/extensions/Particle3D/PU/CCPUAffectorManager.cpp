@@ -24,32 +24,32 @@
  ****************************************************************************/
 
 #include "CCPUAffectorManager.h"
-#include "extensions/Particle3D/PU/CCPUAlignAffector.h"
-#include "extensions/Particle3D/PU/CCPUBaseCollider.h"
-#include "extensions/Particle3D/PU/CCPUBaseForceAffector.h"
-#include "extensions/Particle3D/PU/CCPUBoxCollider.h"
-#include "extensions/Particle3D/PU/CCPUCollisionAvoidanceAffector.h"
-#include "extensions/Particle3D/PU/CCPUColorAffector.h"
-#include "extensions/Particle3D/PU/CCPUFlockCenteringAffector.h"
-#include "extensions/Particle3D/PU/CCPUForceFieldAffector.h"
-#include "extensions/Particle3D/PU/CCPUGeometryRotator.h"
-#include "extensions/Particle3D/PU/CCPUGravityAffector.h"
-#include "extensions/Particle3D/PU/CCPUInterParticleCollider.h"
-#include "extensions/Particle3D/PU/CCPUJetAffector.h"
-#include "extensions/Particle3D/PU/CCPULineAffector.h"
-#include "extensions/Particle3D/PU/CCPULinearForceAffector.h"
-#include "extensions/Particle3D/PU/CCPUParticleFollower.h"
-#include "extensions/Particle3D/PU/CCPUPathFollower.h"
-#include "extensions/Particle3D/PU/CCPUPlaneCollider.h"
-#include "extensions/Particle3D/PU/CCPURandomiser.h"
-#include "extensions/Particle3D/PU/CCPUScaleAffector.h"
-#include "extensions/Particle3D/PU/CCPUScaleVelocityAffector.h"
 #include "extensions/Particle3D/PU/CCPUSineForceAffector.h"
 #include "extensions/Particle3D/PU/CCPUSphereCollider.h"
-#include "extensions/Particle3D/PU/CCPUTextureAnimator.h"
-#include "extensions/Particle3D/PU/CCPUTextureRotator.h"
-#include "extensions/Particle3D/PU/CCPUVelocityMatchingAffector.h"
-#include "extensions/Particle3D/PU/CCPUVortexAffector.h"
+#include <cocos/extensions/Particle3D/PU/CCPUAlignAffector.h>
+#include <cocos/extensions/Particle3D/PU/CCPUBaseCollider.h>
+#include <cocos/extensions/Particle3D/PU/CCPUBaseForceAffector.h>
+#include <cocos/extensions/Particle3D/PU/CCPUBoxCollider.h>
+#include <cocos/extensions/Particle3D/PU/CCPUCollisionAvoidanceAffector.h>
+#include <cocos/extensions/Particle3D/PU/CCPUColorAffector.h>
+#include <cocos/extensions/Particle3D/PU/CCPUFlockCenteringAffector.h>
+#include <cocos/extensions/Particle3D/PU/CCPUForceFieldAffector.h>
+#include <cocos/extensions/Particle3D/PU/CCPUGeometryRotator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUGravityAffector.h>
+#include <cocos/extensions/Particle3D/PU/CCPUInterParticleCollider.h>
+#include <cocos/extensions/Particle3D/PU/CCPUJetAffector.h>
+#include <cocos/extensions/Particle3D/PU/CCPULineAffector.h>
+#include <cocos/extensions/Particle3D/PU/CCPULinearForceAffector.h>
+#include <cocos/extensions/Particle3D/PU/CCPUParticleFollower.h>
+#include <cocos/extensions/Particle3D/PU/CCPUPathFollower.h>
+#include <cocos/extensions/Particle3D/PU/CCPUPlaneCollider.h>
+#include <cocos/extensions/Particle3D/PU/CCPURandomiser.h>
+#include <cocos/extensions/Particle3D/PU/CCPUScaleAffector.h>
+#include <cocos/extensions/Particle3D/PU/CCPUScaleVelocityAffector.h>
+#include <cocos/extensions/Particle3D/PU/CCPUTextureAnimator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUTextureRotator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUVelocityMatchingAffector.h>
+#include <cocos/extensions/Particle3D/PU/CCPUVortexAffector.h>
 
 NS_CC_BEGIN
 PUAffectorManager::PUAffectorManager()

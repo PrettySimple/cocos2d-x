@@ -28,7 +28,7 @@ THE SOFTWARE.
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 
 #    include "network/HttpClient.h"
-#    include "network/HttpRequest.h"
+#    include <cocos/network/HttpRequest.h>
 
 #    include <condition_variable>
 #    include <numeric>

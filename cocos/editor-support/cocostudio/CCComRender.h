@@ -25,9 +25,9 @@ THE SOFTWARE.
 #ifndef CC_EDITORSUPPORT_COCOSSTUDIO_COMRENDER_H
 #define CC_EDITORSUPPORT_COCOSSTUDIO_COMRENDER_H
 
-#include <cocos/2d/CCComponent.h>
 #include "CCComBase.h"
 #include "cocostudio/CocosStudioExport.h"
+#include <cocos/2d/CCComponent.h>
 
 namespace cocostudio
 {

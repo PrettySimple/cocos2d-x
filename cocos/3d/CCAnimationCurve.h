@@ -132,13 +132,13 @@ void AnimationCurve<componentSize>::evaluate(float time, float* dst, EvaluateTyp
                 dst[i] = fromValue[i] + (toValue[i] - fromValue[i]) * t;
             }
         }
-            break;
+        break;
         case EvaluateType::INT_NEAR:
         {
             float* src = std::abs(t) > 0.5f ? toValue : fromValue;
             memcpy(dst, src, _componentSizeByte);
         }
-            break;
+        break;
         case EvaluateType::INT_QUAT_SLERP:
         {
             // Evaluate.
@@ -153,13 +153,13 @@ void AnimationCurve<componentSize>::evaluate(float time, float* dst, EvaluateTyp
             dst[2] = quat.z;
             dst[3] = quat.w;
         }
-            break;
+        break;
         case EvaluateType::INT_USER_FUNCTION:
         {
             if (_evaluateFun)
                 _evaluateFun(time, dst);
         }
-            break;
+        break;
     }
 }
 

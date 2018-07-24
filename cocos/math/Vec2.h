@@ -164,10 +164,7 @@ public:
      *
      * @param v The vector to add.
      */
-    inline void add(Vec2 const& other) noexcept
-    {
-        v += other.v;
-    }
+    inline void add(Vec2 const& other) noexcept { v += other.v; }
 
     /**
      * Adds the specified vectors and stores the result in dst.
@@ -281,10 +278,7 @@ public:
     /**
      * Negates this vector.
      */
-    inline void negate() noexcept
-    {
-        v = -v;
-    }
+    inline void negate() noexcept { v = -v; }
 
     /**
      * Normalizes this vector.
@@ -309,20 +303,14 @@ public:
      *
      * @param scalar The scalar value.
      */
-    inline void scale(float scalar) noexcept
-    {
-        v *= scalar;
-    }
+    inline void scale(float scalar) noexcept { v *= scalar; }
 
     /**
      * Scales each element of this vector by the matching component of scale.
      *
      * @param scale The vector to scale by.
      */
-    inline void scale(Vec2 const& scale) noexcept
-    {
-        v *= scale.v;
-    }
+    inline void scale(Vec2 const& scale) noexcept { v *= scale.v; }
 
     /**
      * Rotates this vector by angle (specified in radians) around the given point.
@@ -338,10 +326,7 @@ public:
      * @param xx The new x coordinate.
      * @param yy The new y coordinate.
      */
-    inline void set(float xx, float yy) noexcept
-    {
-        v = {xx, yy};
-    }
+    inline void set(float xx, float yy) noexcept { v = {xx, yy}; }
 
     /**
      * Sets the elements of this vector from the values in the specified array.
@@ -355,10 +340,7 @@ public:
      *
      * @param v The vector to copy.
      */
-    inline void set(Vec2 const& other) noexcept
-    {
-        v = other.v;
-    }
+    inline void set(Vec2 const& other) noexcept { v = other.v; }
 
     /**
      * Sets this vector to the directional vector between the specified points.
@@ -366,18 +348,12 @@ public:
      * @param p1 The first point.
      * @param p2 The second point.
      */
-    inline void set(Vec2 const& p1, Vec2 const& p2) noexcept
-    {
-        v = p2.v - p1.v;
-    }
+    inline void set(Vec2 const& p1, Vec2 const& p2) noexcept { v = p2.v - p1.v; }
 
     /**
      * Sets the elements of this vector to zero.
      */
-    inline void setZero() noexcept
-    {
-        v = {0.0f, 0.f};
-    }
+    inline void setZero() noexcept { v = {0.0f, 0.f}; }
 
     /**
      * Subtracts this vector and the specified vector as (this - v)
@@ -544,10 +520,7 @@ public:
      * @param s the constant to divide this vector with
      * @return a smaller vector
      */
-    inline Vec2 const operator/(float s) const
-    {
-        return Vec2(v / s);
-    }
+    inline Vec2 const operator/(float s) const { return Vec2(v / s); }
 
     /**
      * Determines if this vector is less than the given vector.
@@ -598,10 +571,7 @@ public:
      *
      * @return True if this vector is not equal to the given vector, false otherwise.
      */
-    inline bool operator!=(Vec2 const& v) const noexcept
-    {
-        return !operator==(v);
-    }
+    inline bool operator!=(Vec2 const& v) const noexcept { return !operator==(v); }
 
     // code added compatible for Point
 public:
@@ -609,10 +579,7 @@ public:
      * @js NA
      * @lua NA
      */
-    inline void setPoint(float xx, float yy) noexcept
-    {
-        v = {xx, yy};
-    }
+    inline void setPoint(float xx, float yy) noexcept { v = {xx, yy}; }
     /**
      * @js NA
      */

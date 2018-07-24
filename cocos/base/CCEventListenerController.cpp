@@ -23,9 +23,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include <cocos/base/CCEventListenerController.h>
 #include <cocos/base/CCController.h>
 #include <cocos/base/CCEventController.h>
+#include <cocos/base/CCEventListenerController.h>
 #include <cocos/base/ccMacros.h>
 
 NS_CC_BEGIN

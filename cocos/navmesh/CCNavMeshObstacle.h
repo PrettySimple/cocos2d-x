@@ -30,10 +30,10 @@
 
 #    include <cocos/2d/CCComponent.h>
 
-#    include <cocos/base/CCRef.h>
-#    include <cocos/math/Vec3.h>
 #    include "recast/Detour/DetourNavMesh.h"
 #    include "recast/DetourTileCache/DetourTileCache.h"
+#    include <cocos/base/CCRef.h>
+#    include <cocos/math/Vec3.h>
 
 NS_CC_BEGIN
 

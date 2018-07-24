@@ -31,8 +31,8 @@ THE SOFTWARE.
 #include <cocos/base/CCValue.h>
 #include <cocos/base/ccTypes.h>
 #include <cocos/math/Vec2.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <iosfwd>
 

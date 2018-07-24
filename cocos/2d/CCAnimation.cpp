@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include <cocos/renderer/CCTexture2D.h>
 #include <cocos/renderer/CCTextureCache.h>
 
-#include <new> 
+#include <new>
 
 using namespace std::chrono_literals;
 

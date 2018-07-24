@@ -45,7 +45,7 @@ namespace cocos2d
 {
     class Node;
     class Sprite;
-}
+} // namespace cocos2d
 
 NS_CC_EXT_BEGIN
 

@@ -25,8 +25,8 @@ THE SOFTWARE.
 #ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONFRAMEEASING_H
 #define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONFRAMEEASING_H
 
-#include <cocos/base/CCRef.h>
 #include "cocostudio/CocosStudioExport.h"
+#include <cocos/base/CCRef.h>
 
 namespace cocostudio
 {

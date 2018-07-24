@@ -25,9 +25,9 @@ THE SOFTWARE.
 #ifndef CC_EDITORSUPPORT_COCOSSTUDIO_UTILMATH_H
 #define CC_EDITORSUPPORT_COCOSSTUDIO_UTILMATH_H
 
-#include <cocos/2d/CCSprite.h>
 #include "cocostudio/CCArmatureDefine.h"
 #include "cocostudio/CocosStudioExport.h"
+#include <cocos/2d/CCSprite.h>
 #include <math.h>
 
 namespace cocostudio

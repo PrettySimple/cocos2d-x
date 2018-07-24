@@ -33,15 +33,15 @@
 #include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
 #include <cocos/math/CCGeometry.h>
 
-#include <cmath>
 #include <algorithm>
+#include <cmath>
 #include <new>
 
 namespace cocos2d
 {
     class Event;
     class Touch;
-}
+} // namespace cocos2d
 
 NS_CC_EXT_BEGIN
 

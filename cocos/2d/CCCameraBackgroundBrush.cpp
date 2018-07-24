@@ -22,7 +22,7 @@
  THE SOFTWARE.
 
  ****************************************************************************/
-#include "2d/CCCameraBackgroundBrush.h"
+#include <cocos/2d/CCCameraBackgroundBrush.h>
 
 #include <cocos/2d/CCCamera.h>
 #include <cocos/base/CCConfiguration.h>
@@ -44,8 +44,8 @@
 #include <new>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
-#    include "base/CCEventCustom.h"
-#    include "base/CCEventDispatcher.h"
+#    include <cocos/base/CCEventCustom.h>
+#    include <cocos/base/CCEventDispatcher.h>
 #    include <cocos/base/CCEventListenerCustom.h>
 #    include <cocos/base/CCEventType.h>
 #endif

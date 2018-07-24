@@ -43,7 +43,7 @@ namespace cocos2d
 {
     class Event;
     class Touch;
-}
+} // namespace cocos2d
 
 using namespace std::chrono_literals;
 

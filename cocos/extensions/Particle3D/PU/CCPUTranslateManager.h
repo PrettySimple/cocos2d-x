@@ -27,15 +27,15 @@
 #define CC_EXTENSIONS_PARTICLE3D_PU_TRANSLATEMANAGER_H
 
 #include <cocos/base/CCRef.h>
-#include "extensions/Particle3D/PU/CCPUAffectorTranslator.h"
-#include "extensions/Particle3D/PU/CCPUBehaviourTranslator.h"
-#include "extensions/Particle3D/PU/CCPUEmitterTranslator.h"
-#include "extensions/Particle3D/PU/CCPUEventHandlerTranslator.h"
-#include "extensions/Particle3D/PU/CCPUMaterialTranslator.h"
-#include "extensions/Particle3D/PU/CCPUObserverTranslator.h"
-#include "extensions/Particle3D/PU/CCPUParticleSystem3DTranslator.h"
-#include "extensions/Particle3D/PU/CCPURendererTranslator.h"
-#include "extensions/Particle3D/PU/CCPUTechniqueTranslator.h"
+#include <cocos/extensions/Particle3D/PU/CCPUAffectorTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUBehaviourTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUEmitterTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUEventHandlerTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUMaterialTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUObserverTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUParticleSystem3DTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPURendererTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUTechniqueTranslator.h>
 
 NS_CC_BEGIN
 class PUMaterialCache;

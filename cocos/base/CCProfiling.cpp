@@ -28,8 +28,8 @@ THE SOFTWARE.
 #include <cocos/base/CCConsole.h>
 #include <cocos/base/ccMacros.h>
 
-#include <cstdio>
 #include <algorithm>
+#include <cstdio>
 #include <new>
 #include <type_traits>
 #include <unordered_map>

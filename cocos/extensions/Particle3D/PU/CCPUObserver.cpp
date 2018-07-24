@@ -23,10 +23,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "extensions/Particle3D/PU/CCPUObserver.h"
 #include <cocos/base/ccMacros.h>
-#include "extensions/Particle3D/PU/CCPUEventHandler.h"
-#include "extensions/Particle3D/PU/CCPUEventHandlerManager.h"
+#include <cocos/extensions/Particle3D/PU/CCPUEventHandler.h>
+#include <cocos/extensions/Particle3D/PU/CCPUEventHandlerManager.h>
+#include <cocos/extensions/Particle3D/PU/CCPUObserver.h>
 
 NS_CC_BEGIN
 

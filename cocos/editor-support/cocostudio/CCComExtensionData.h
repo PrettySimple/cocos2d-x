@@ -25,9 +25,9 @@
 #ifndef CC_EDITORSUPPORT_COCOSSTUDIO_COMEXTENSIONDATA_H
 #define CC_EDITORSUPPORT_COCOSSTUDIO_COMEXTENSIONDATA_H
 
-#include <cocos/2d/CCComponent.h>
 #include "CCComBase.h"
 #include "cocostudio/CocosStudioExport.h"
+#include <cocos/2d/CCComponent.h>
 #include <string>
 
 namespace cocostudio

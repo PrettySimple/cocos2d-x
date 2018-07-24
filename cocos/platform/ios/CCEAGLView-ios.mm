@@ -64,35 +64,35 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#include <cocos/platform/ios/CCEAGLView-ios.h>
+#    include <cocos/platform/ios/CCEAGLView-ios.h>
 
-#include <cocos/base/CCDirector.h>
-#include <cocos/base/CCIMEDelegate.h>
-#include <cocos/base/CCIMEDispatcher.h>
-#include <cocos/math/CCGeometry.h>
-#include <cocos/math/Vec2.h>
-#include <cocos/platform/CCGL.h>
-#include <cocos/platform/CCGLView.h>
-#include <cocos/platform/CCPlatformMacros.h>
-#include <cocos/platform/ios/CCES2Renderer-ios.h>
-#include <cocos/platform/ios/OpenGL_Internal-ios.h>
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/base/CCIMEDelegate.h>
+#    include <cocos/base/CCIMEDispatcher.h>
+#    include <cocos/math/CCGeometry.h>
+#    include <cocos/math/Vec2.h>
+#    include <cocos/platform/CCGL.h>
+#    include <cocos/platform/CCGLView.h>
+#    include <cocos/platform/CCPlatformMacros.h>
+#    include <cocos/platform/ios/CCES2Renderer-ios.h>
+#    include <cocos/platform/ios/OpenGL_Internal-ios.h>
 
-#import <CoreGraphics/CGAffineTransform.h>
-#import <CoreGraphics/CGBase.h>
-#import <CoreGraphics/CGGeometry.h>
-#import <Foundation/NSException.h>
-#import <Foundation/NSObjCRuntime.h>
-#import <Foundation/NSRange.h>
-#import <Foundation/NSString.h>
-#import <UIKit/UIApplication.h>
-#import <UIKit/UIScreen.h>
-#import <UIKit/UITextInput.h>
-#import <UIKit/UITextInputTraits.h>
-#import <UIKit/UIWindow.h>
+#    import <CoreGraphics/CGAffineTransform.h>
+#    import <CoreGraphics/CGBase.h>
+#    import <CoreGraphics/CGGeometry.h>
+#    import <Foundation/NSException.h>
+#    import <Foundation/NSObjCRuntime.h>
+#    import <Foundation/NSRange.h>
+#    import <Foundation/NSString.h>
+#    import <UIKit/UIApplication.h>
+#    import <UIKit/UIScreen.h>
+#    import <UIKit/UITextInput.h>
+#    import <UIKit/UITextInputTraits.h>
+#    import <UIKit/UIWindow.h>
 
-#include <cstdint>
-#include <cstring>
-#include <type_traits>
+#    include <cstdint>
+#    include <cstring>
+#    include <type_traits>
 
 // CLASS IMPLEMENTATIONS:
 

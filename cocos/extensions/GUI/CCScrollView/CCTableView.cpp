@@ -23,13 +23,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "extensions/GUI/CCScrollView/CCTableView.h"
+#include <cocos/extensions/GUI/CCScrollView/CCTableView.h>
 
 #include <cocos/2d/CCNode.h>
-#include "CCTableViewCell.h"
 #include <cocos/base/CCTouch.h>
 #include <cocos/base/ccTypes.h>
 #include <cocos/extensions/GUI/CCScrollView/CCScrollView.h>
+#include <cocos/extensions/GUI/CCScrollView/CCTableViewCell.h>
 #include <cocos/platform/CCPlatformMacros.h>
 
 #include <algorithm>

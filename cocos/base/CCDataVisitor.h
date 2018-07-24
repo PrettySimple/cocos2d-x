@@ -26,8 +26,8 @@
 #define CC_BASE_DATAVISITOR_H
 /// @cond DO_NOT_SHOW
 
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <string>
 

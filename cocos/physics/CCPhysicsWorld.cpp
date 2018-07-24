@@ -22,23 +22,23 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "physics/CCPhysicsWorld.h"
+#include <cocos/physics/CCPhysicsWorld.h>
 #if CC_USE_PHYSICS
 #    include <algorithm>
 #    include <climits>
 
 #    include "chipmunk/chipmunk_private.h"
-#    include "physics/CCPhysicsBody.h"
-#    include "physics/CCPhysicsContact.h"
 #    include "physics/CCPhysicsHelper.h"
-#    include "physics/CCPhysicsJoint.h"
-#    include "physics/CCPhysicsShape.h"
+#    include <cocos/physics/CCPhysicsBody.h>
+#    include <cocos/physics/CCPhysicsContact.h>
+#    include <cocos/physics/CCPhysicsJoint.h>
+#    include <cocos/physics/CCPhysicsShape.h>
 
 #    include <cocos/2d/CCDrawNode.h>
 #    include <cocos/2d/CCScene.h>
 #    include <cocos/base/CCDirector.h>
-#    include "base/CCEventCustom.h"
-#    include "base/CCEventDispatcher.h"
+#    include <cocos/base/CCEventCustom.h>
+#    include <cocos/base/CCEventDispatcher.h>
 
 NS_CC_BEGIN
 const float PHYSICS_INFINITY = FLT_MAX;

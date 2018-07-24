@@ -28,13 +28,13 @@ THE SOFTWARE.
 #ifndef CC_2D_PARTICLESYSTEMQUAD_H
 #define CC_2D_PARTICLESYSTEMQUAD_H
 
-#include <cocos/platform/CCGL.h>
 #include <cocos/2d/CCParticleSystem.h>
 #include <cocos/base/CCValue.h>
 #include <cocos/base/ccConfig.h>
 #include <cocos/math/Mat4.h>
-#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCGL.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCQuadCommand.h>
 
 #include <cstdint>

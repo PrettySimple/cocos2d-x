@@ -24,15 +24,15 @@ THE SOFTWARE.
 
 #include "editor-support/cocostudio/CCDataReaderHelper.h"
 
-#include <cocos/base/CCDirector.h>
-#include <cocos/base/CCScheduler.h>
-#include <cocos/base/ccUtils.h>
 #include "editor-support/cocostudio/CCArmatureDataManager.h"
 #include "editor-support/cocostudio/CCArmatureDefine.h"
 #include "editor-support/cocostudio/CCDatas.h"
 #include "editor-support/cocostudio/CCTransformHelp.h"
 #include "editor-support/cocostudio/CCUtilMath.h"
 #include "editor-support/cocostudio/CocoLoader.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCScheduler.h>
+#include <cocos/base/ccUtils.h>
 #include <cocos/platform/CCFileUtils.h>
 
 #pragma clang diagnostic push

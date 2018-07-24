@@ -25,10 +25,10 @@ THE SOFTWARE.
 #ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_ACTIONTIMELINE_H
 #define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_ACTIONTIMELINE_H
 
-#include <cocos/2d/CCAction.h>
 #include "CCTimeLine.h"
-#include <cocos/base/CCProtocols.h>
 #include "cocostudio/CocosStudioExport.h"
+#include <cocos/2d/CCAction.h>
+#include <cocos/base/CCProtocols.h>
 
 NS_TIMELINE_BEGIN
 

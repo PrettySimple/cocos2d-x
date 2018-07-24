@@ -37,7 +37,6 @@ THE SOFTWARE.
 #include <functional>
 #include <iosfwd>
 
-
 NS_CC_BEGIN
 
 class Camera;

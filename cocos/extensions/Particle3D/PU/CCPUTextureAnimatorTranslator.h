@@ -26,9 +26,9 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_TEXTUREANIMATORTRANSLATOR_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_TEXTUREANIMATORTRANSLATOR_H
 
-#include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
-#include "extensions/Particle3D/PU/CCPUScriptTranslator.h"
-#include "extensions/Particle3D/PU/CCPUTextureAnimator.h"
+#include <cocos/extensions/Particle3D/PU/CCPUScriptCompiler.h>
+#include <cocos/extensions/Particle3D/PU/CCPUScriptTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUTextureAnimator.h>
 
 NS_CC_BEGIN
 

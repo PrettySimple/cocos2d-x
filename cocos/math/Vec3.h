@@ -432,10 +432,7 @@ public:
      * Linear interpolation between two vectors A and B by alpha which
      * is in the range [0,1]
      */
-    inline Vec3 lerp(const Vec3& target, float alpha) const noexcept
-    {
-        return *this * (1.f - alpha) + target * alpha;
-    }
+    inline Vec3 lerp(const Vec3& target, float alpha) const noexcept { return *this * (1.f - alpha) + target * alpha; }
 
     /**
      * Calculates the sum of this vector with the given vector.
@@ -540,10 +537,7 @@ public:
      * @param s the constant to divide this vector with
      * @return a smaller vector
      */
-    inline const Vec3 operator/(float s) const
-    {
-        return Vec3(x / s, y / s, z / s);
-    }
+    inline const Vec3 operator/(float s) const { return Vec3(x / s, y / s, z / s); }
 
     /** Returns true if the vector's scalar components are all greater
      that the ones of the vector it is compared against.
@@ -586,10 +580,7 @@ public:
      *
      * @return True if this vector is not equal to the given vector, false otherwise.
      */
-    inline bool operator!=(const Vec3& v) const noexcept
-    {
-        return !operator==(v);
-    }
+    inline bool operator!=(const Vec3& v) const noexcept { return !operator==(v); }
 
     /** equals to Vec3(0,0,0) */
     static const Vec3 ZERO;

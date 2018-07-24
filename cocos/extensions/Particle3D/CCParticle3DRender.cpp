@@ -22,11 +22,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "extensions/Particle3D/CCParticle3DRender.h"
+#include <cocos/extensions/Particle3D/CCParticle3DRender.h>
+
 #include <cocos/2d/CCCamera.h>
 #include <cocos/3d/CCSprite3D.h>
 #include <cocos/base/CCDirector.h>
-#include "extensions/Particle3D/CCParticleSystem3D.h"
+#include <cocos/extensions/Particle3D/CCParticleSystem3D.h>
 #include <cocos/renderer/CCGLProgramCache.h>
 #include <cocos/renderer/CCGLProgramState.h>
 #include <cocos/renderer/CCMeshCommand.h>

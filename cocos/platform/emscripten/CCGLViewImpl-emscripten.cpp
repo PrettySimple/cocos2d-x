@@ -1,23 +1,23 @@
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 
-#    include "2d/CCCamera.h"
-#    include "2d/CCDrawingPrimitives.h"
+#    include <cocos/2d/CCCamera.h>
+#    include <cocos/2d/CCDrawingPrimitives.h>
 #    include <cocos/base/CCDirector.h>
-#    include "base/CCEventCustom.h"
-#    include "base/CCEventDispatcher.h"
+#    include <cocos/base/CCEventCustom.h>
+#    include <cocos/base/CCEventDispatcher.h>
 #    include <cocos/base/CCEventKeyboard.h>
 #    include <cocos/base/CCEventMouse.h>
 #    include <cocos/base/CCEventType.h>
 #    include <cocos/base/ccMacros.h>
-#    include "platform/CCGL.h"
-#    include "platform/emscripten/CCGLViewImpl-emscripten.h"
-#    include "platform/emscripten/EMDebug.h"
-#    include "renderer/CCFrameBuffer.h"
-#    include "renderer/CCGLProgramCache.h"
+#    include <cocos/platform/CCGL.h>
+#    include <cocos/platform/emscripten/CCGLViewImpl-emscripten.h>
+#    include <cocos/platform/emscripten/EMDebug.h>
+#    include <cocos/renderer/CCFrameBuffer.h>
+#    include <cocos/renderer/CCGLProgramCache.h>
 #    include <cocos/renderer/CCRenderer.h>
-#    include "renderer/CCTextureCache.h"
-#    include "renderer/ccGLStateCache.h"
+#    include <cocos/renderer/CCTextureCache.h>
+#    include <cocos/renderer/ccGLStateCache.h>
 
 #    include <cassert>
 #    include <cmath>

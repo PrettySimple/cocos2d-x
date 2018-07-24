@@ -32,10 +32,7 @@ namespace ui
 {
     const Margin Margin::ZERO = Margin(0, 0, 0, 0);
 
-    void Margin::setMargin(float l, float t, float r, float b) noexcept
-    {
-        v = {l, t, r, b};
-    }
+    void Margin::setMargin(float l, float t, float r, float b) noexcept { v = {l, t, r, b}; }
 
     bool Margin::equals(const Margin& other) const noexcept
     {

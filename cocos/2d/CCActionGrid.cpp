@@ -29,11 +29,11 @@ THE SOFTWARE.
 #include <cocos/2d/CCAction.h>
 #include <cocos/2d/CCGrid.h>
 #include <cocos/2d/CCNode.h>
-#include "2d/CCNodeGrid.h"
+#include <cocos/2d/CCNodeGrid.h>
 #include <cocos/base/ccMacros.h>
 
-#include <cstddef>
 #include <cmath>
+#include <cstddef>
 #include <limits>
 #include <new>
 

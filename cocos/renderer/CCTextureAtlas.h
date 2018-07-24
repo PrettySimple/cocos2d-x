@@ -28,10 +28,10 @@ THE SOFTWARE.
 #ifndef CC_RENDERER_TEXTUREATLAS_H
 #define CC_RENDERER_TEXTUREATLAS_H
 
-#include <cocos/platform/CCGL.h>
 #include <cocos/base/CCRef.h>
-#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCGL.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstddef>
 #include <iosfwd>

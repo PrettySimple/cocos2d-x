@@ -27,8 +27,8 @@ THE SOFTWARE.
 
 #include <cocos/base/CCData.h>
 #include <cocos/base/CCValue.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstddef>
 #include <iosfwd>

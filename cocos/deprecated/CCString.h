@@ -28,8 +28,8 @@ THE SOFTWARE.
 /// @cond DO_NOT_SHOW
 
 #include <cocos/base/CCRef.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstdarg>
 #include <cstring>

@@ -31,7 +31,7 @@
 
 #include <cocos/extensions/ExtensionExport.h>
 #include <cocos/extensions/ExtensionMacros.h>
-#include "network/CCDownloader.h"
+#include <cocos/network/CCDownloader.h>
 #include <cocos/platform/CCFileUtils.h>
 
 #pragma clang diagnostic push

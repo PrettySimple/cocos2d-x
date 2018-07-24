@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include <cocos/3d/CCSkybox.h>
 #include <cocos/2d/CCCamera.h>
+#include <cocos/3d/CCSkybox.h>
 #include <cocos/base/CCConfiguration.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/ccMacros.h>

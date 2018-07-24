@@ -28,8 +28,8 @@ THE SOFTWARE.
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/ui/GUIExport.h>
 
-#include <iosfwd>
 #include <cstddef>
+#include <iosfwd>
 
 NS_CC_BEGIN
 

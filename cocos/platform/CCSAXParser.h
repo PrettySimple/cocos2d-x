@@ -25,8 +25,8 @@
 #define CC_PLATFORM_SAXPARSER_H
 /// @cond DO_NOT_SHOW
 
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstddef>
 #include <iosfwd>

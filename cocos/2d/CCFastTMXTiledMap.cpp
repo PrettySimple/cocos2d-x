@@ -24,15 +24,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "2d/CCFastTMXTiledMap.h"
+#include <cocos/2d/CCFastTMXTiledMap.h>
 
-#include "2d/CCFastTMXLayer.h"
+#include <cocos/2d/CCFastTMXLayer.h>
 #include <cocos/2d/CCTMXXMLParser.h>
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/ccUTF8.h>
 
-#include <cstdint>
 #include <algorithm>
+#include <cstdint>
 #include <new>
 #include <string>
 #include <unordered_map>

@@ -26,19 +26,19 @@
 #include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 
-#include <cocos/base/CCUserDefault.h>
+#    include <cocos/base/CCUserDefault.h>
 
-#include <cocos/base/CCConsole.h>
-#include <cocos/base/CCData.h>
-#include <cocos/platform/CCPlatformMacros.h>
+#    include <cocos/base/CCConsole.h>
+#    include <cocos/base/CCData.h>
+#    include <cocos/platform/CCPlatformMacros.h>
 
-#import <Foundation/NSString.h>
-#import <Foundation/NSUserDefaults.h>
-#import <Foundation/NSValue.h>
-#import <Foundation/NSData.h>
+#    import <Foundation/NSData.h>
+#    import <Foundation/NSString.h>
+#    import <Foundation/NSUserDefaults.h>
+#    import <Foundation/NSValue.h>
 
-#include <iosfwd>
-#include <new>
+#    include <iosfwd>
+#    include <new>
 
 using namespace std;
 

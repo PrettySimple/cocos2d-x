@@ -26,9 +26,9 @@ THE SOFTWARE.
 #define CC_EDITORSUPPORT_COCOSSTUDIO_SGUIREADER_H
 
 #include "WidgetReader/WidgetReaderProtocol.h"
-#include <cocos/base/ObjectFactory.h>
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/DictionaryHelper.h"
+#include <cocos/base/ObjectFactory.h>
 #include <cocos/ui/UILayout.h>
 
 namespace protocolbuffers

@@ -25,12 +25,12 @@ THE SOFTWARE.
 #ifndef CC_EDITORSUPPORT_COCOSSTUDIO_INPUTDELEGATE_H
 #define CC_EDITORSUPPORT_COCOSSTUDIO_INPUTDELEGATE_H
 
+#include "cocostudio/CocosStudioExport.h"
 #include <cocos/base/CCEvent.h>
 #include <cocos/base/CCEventKeyboard.h>
 #include <cocos/base/CCEventListener.h>
 #include <cocos/base/CCTouch.h>
 #include <cocos/base/ccTypes.h>
-#include "cocostudio/CocosStudioExport.h"
 #include <cocos/platform/CCPlatformMacros.h>
 
 namespace cocos2d

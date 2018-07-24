@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include <cocos/renderer/CCVertexIndexData.h>
 #include <cocos/renderer/CCVertexIndexBuffer.h>
+#include <cocos/renderer/CCVertexIndexData.h>
 #include <cocos/renderer/ccGLStateCache.h>
 
 NS_CC_BEGIN

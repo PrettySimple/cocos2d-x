@@ -28,7 +28,7 @@
 
 #include "CCPUBaseCollider.h"
 #include <cocos/base/ccTypes.h>
-#include "extensions/Particle3D/PU/CCPUPlane.h"
+#include <cocos/extensions/Particle3D/PU/CCPUPlane.h>
 
 NS_CC_BEGIN
 

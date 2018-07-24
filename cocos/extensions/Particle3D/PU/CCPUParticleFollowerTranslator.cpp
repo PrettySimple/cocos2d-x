@@ -24,9 +24,9 @@
  ****************************************************************************/
 
 #include "CCPUParticleFollowerTranslator.h"
-#include "extensions/Particle3D/PU/CCPUDynamicAttribute.h"
-#include "extensions/Particle3D/PU/CCPUDynamicAttributeTranslator.h"
-#include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
+#include <cocos/extensions/Particle3D/PU/CCPUDynamicAttribute.h>
+#include <cocos/extensions/Particle3D/PU/CCPUDynamicAttributeTranslator.h>
+#include <cocos/extensions/Particle3D/PU/CCPUParticleSystem3D.h>
 
 NS_CC_BEGIN
 

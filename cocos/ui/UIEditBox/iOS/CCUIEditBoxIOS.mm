@@ -27,10 +27,10 @@
 
 #import "ui/UIEditBox/iOS/CCUIEditBoxIOS.h"
 
-#include <cocos/base/CCDirector.h>
-#include <cocos/platform/ios/CCEAGLView-ios.h>
 #include "ui/UIEditBox/iOS/CCUIMultilineTextField.h"
 #include "ui/UIEditBox/iOS/CCUISingleLineTextField.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/platform/ios/CCEAGLView-ios.h>
 
 #define getEditBoxImplIOS() ((cocos2d::ui::EditBoxImplIOS*)_editBox)
 

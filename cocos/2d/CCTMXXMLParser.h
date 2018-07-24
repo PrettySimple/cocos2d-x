@@ -36,12 +36,12 @@ THE SOFTWARE.
 #include <cocos/base/CCVector.h>
 #include <cocos/math/CCGeometry.h>
 #include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformDefine.h>
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCSAXParser.h>
-#include <cocos/platform/CCPlatformDefine.h>
 
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 #include <iosfwd>
 #include <vector>
 

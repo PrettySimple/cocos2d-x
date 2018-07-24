@@ -39,20 +39,16 @@
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCBatchCommand.h>
 
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 #include <iosfwd>
-
-namespace cocos2d { class ParticleSystem; }  // lines 41-41
-namespace cocos2d { class Renderer; }
-namespace cocos2d { class Texture2D; }  // lines 39-39
-namespace cocos2d { class TextureAtlas; }  // lines 40-40
 
 NS_CC_BEGIN
 
+class ParticleSystem;
+class Renderer;
 class Texture2D;
 class TextureAtlas;
-class ParticleSystem;
 
 /**
  * @addtogroup _2d

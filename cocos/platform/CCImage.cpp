@@ -25,14 +25,14 @@ THE SOFTWARE.
 
 #include <cocos/platform/CCImage.h>
 
-#include <cocos/base/CCConfiguration.h>       // for Configuration
-#include <cocos/base/CCData.h>                // for Data
-#include <cocos/base/ZipUtils.h>              // for ZipUtils
-#include <cocos/base/ccConfig.h>              // for CC_USE_JPEG, CC_USE_PNG, CC_E...
-#include <cocos/base/ccMacros.h>              // for CC_SWAP_INT32_LITTLE_TO_HOST
-#include <cocos/base/ccUtils.h>               // for ccNextPOT
-#include <cocos/platform/CCFileUtils.h>       // for FileUtils
-#include <cocos/platform/CCPlatformConfig.h>  // for CC_TARGET_PLATFORM, CC_PLATFO...
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCData.h>
+#include <cocos/base/ZipUtils.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccUtils.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformConfig.h>
 
 extern "C"
 {
@@ -76,12 +76,12 @@ extern "C"
 #define CC_GL_ATC_RGBA_EXPLICIT_ALPHA_AMD 0x8C93
 #define CC_GL_ATC_RGBA_INTERPOLATED_ALPHA_AMD 0x87EE
 
+#include <algorithm>
+#include <csetjmp>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <algorithm>
-#include <csetjmp>
 #include <map>
 #include <new>
 #include <string>

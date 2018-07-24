@@ -26,9 +26,9 @@
 #ifndef CC_EXTENSIONS_PARTICLE3D_PU_FLOCKCENTERINGAFFECTORTRANSLATOR_H
 #define CC_EXTENSIONS_PARTICLE3D_PU_FLOCKCENTERINGAFFECTORTRANSLATOR_H
 
-#include "extensions/Particle3D/PU/CCPUFlockCenteringAffector.h"
-#include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
-#include "extensions/Particle3D/PU/CCPUScriptTranslator.h"
+#include <cocos/extensions/Particle3D/PU/CCPUFlockCenteringAffector.h>
+#include <cocos/extensions/Particle3D/PU/CCPUScriptCompiler.h>
+#include <cocos/extensions/Particle3D/PU/CCPUScriptTranslator.h>
 
 NS_CC_BEGIN
 

@@ -32,9 +32,9 @@
 #    include <errno.h>
 #    include <queue>
 
-#    include <cocos/base/CCDirector.h>
 #    import "network/HttpAsynConnection-apple.h"
-#    include "network/HttpCookie.h"
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/network/HttpCookie.h>
 #    include <cocos/platform/CCFileUtils.h>
 
 NS_CC_BEGIN

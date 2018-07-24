@@ -24,7 +24,7 @@ THE SOFTWARE.
 #include "CCSkeletonNode.h"
 
 #include <cocos/base/CCDirector.h>
-#include "math/TransformUtils.h"
+#include <cocos/math/TransformUtils.h>
 #include <cocos/renderer/CCGLProgramState.h>
 #include <cocos/renderer/CCRenderer.h>
 #include <cocos/renderer/ccGLStateCache.h>

@@ -23,7 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "platform/desktop/CCGLViewImpl-desktop.h"
+#include <cocos/platform/desktop/CCGLViewImpl-desktop.h>
 
 #include <cmath>
 #include <unordered_map>

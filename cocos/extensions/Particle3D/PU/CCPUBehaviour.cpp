@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "extensions/Particle3D/PU/CCPUBehaviour.h"
 #include <cocos/base/ccMacros.h>
+#include <cocos/extensions/Particle3D/PU/CCPUBehaviour.h>
 
 NS_CC_BEGIN
 

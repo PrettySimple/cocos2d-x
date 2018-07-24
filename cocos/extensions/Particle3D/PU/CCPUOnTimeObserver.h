@@ -27,7 +27,7 @@
 #define CC_EXTENSIONS_PARTICLE3D_PU_ONTIMEOBSERVER_H
 
 #include <cocos/base/CCRef.h>
-#include "extensions/Particle3D/PU/CCPUObserver.h"
+#include <cocos/extensions/Particle3D/PU/CCPUObserver.h>
 #include <cocos/math/CCMath.h>
 #include <string>
 #include <vector>

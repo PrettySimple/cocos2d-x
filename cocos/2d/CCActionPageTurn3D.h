@@ -28,8 +28,8 @@ THE SOFTWARE.
 
 #include <cocos/2d/CCActionGrid.h>
 #include <cocos/math/CCGeometry.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <chrono>
 

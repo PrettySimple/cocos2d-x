@@ -24,8 +24,8 @@
  ****************************************************************************/
 
 #include "CCPURendererTranslator.h"
-#include "extensions/Particle3D/PU/CCPUMaterialManager.h"
-#include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
+#include <cocos/extensions/Particle3D/PU/CCPUMaterialManager.h>
+#include <cocos/extensions/Particle3D/PU/CCPUParticleSystem3D.h>
 
 NS_CC_BEGIN
 PURendererTranslator::PURendererTranslator()
