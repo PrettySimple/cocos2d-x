@@ -107,7 +107,7 @@ Module.cocos_UserDefault = (function()
 		}
 	}
 
-	return {
+	return Object.freeze({
 
 		setValue:	function(key_ptr, key_len, value_ptr, value_len)
 		{
@@ -138,7 +138,7 @@ Module.cocos_UserDefault = (function()
 		{
 			_remove(Pointer_stringify(key_ptr, key_len));
 		}
-	};
+	});
 
 })();
 

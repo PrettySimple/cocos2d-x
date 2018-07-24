@@ -5,6 +5,8 @@ var	fs = require('fs');
 var	jshint = require('jshint').JSHINT;
 var	uglify = require('uglify-es');
 
+// Uglify documentation: https://github.com/mishoo/UglifyJS2/
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 // TOOLS
@@ -13,11 +15,12 @@ function	usage()
 {
 	console.log('');
 	console.log('build-cpp-js.js --source <source file (.src.js)>');
-	console.log('                [--[no-]debug] [--[no-]lint] [--[no-]minimize]');
+	console.log('                [--[no-]debug] [--[no-]lint] [--[no-]minimize] [--[no-]iife]');
 	console.log('                (--lint-define-ro <object>)* (--lint-define-rw <object>)*');
 	console.log('');
 	console.log('The --[no-]options may be provided multiple times, the last one wins. They all default to \'no\'.');
 	console.log('The --lint-define-ro and --lint-define-rw options are both cumulative.');
+	console.log('Note: "iife" stands for "Immediately Invoked Function Expression".');
 	console.log('');
 	process.exit(2);
 }
@@ -73,12 +76,12 @@ function	concatBuffers()
 // BUILD
 
 
-function	minifyJS(content, name)
+function	minifyJS(content, name, opts)
 {
-	content = uglify.minify(content.toString());
+	content = uglify.minify(content.toString(), opts.iife ? { compress: { negate_iife: false } } : {});
 
 	if(content.error !== undefined || typeof(content.code) !== 'string')
-		throw new Error('Failed minimizing: '+name);
+		throw new Error('Failed minimizing: '+name+': '+content.error);
 
 	return Buffer.from(content.code, 'utf8');
 }
@@ -173,7 +176,7 @@ function	build_cpp_js(input_file, output_file, opts, lint_define_ro, lint_define
 	}
 
 	if(opts.minimize)
-		input_content = minifyJS(input_content, input_file);
+		input_content = minifyJS(input_content, input_file, opts);
 
 	output_content = concatBuffers(
 		start_delimiter,
@@ -203,7 +206,8 @@ function	build_cpp_js(input_file, output_file, opts, lint_define_ro, lint_define
 	var	opts = {
 		debug:				false,
 		lint:				false,
-		minimize:			false
+		minimize:			false,
+		iife:				false
 	};
 
 	var	arg;
