@@ -29,9 +29,10 @@
 #include <cocos/platform/CCDevice.h>
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-#    import <UIKit/UIKit.h>
+#    import <UIKit/NSParagraphStyle.h>
+#    import <UIKit/NSText.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_MAC
-#    import <AppKit/AppKit.h>
+#    include <AppKit/AppKit.h>
 #endif
 #import <CoreGraphics/CoreGraphics.h>
 

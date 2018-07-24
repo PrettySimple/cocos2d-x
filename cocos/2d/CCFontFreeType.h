@@ -28,7 +28,7 @@
 
 /// @cond DO_NOT_SHOW
 
-#include "2d/CCFont.h"
+#include <cocos/2d/CCFont.h>
 #include <cocos/base/ccTypes.h>
 #include <cocos/platform/CCPlatformConfig.h>
 #include <cocos/platform/CCPlatformDefine.h>

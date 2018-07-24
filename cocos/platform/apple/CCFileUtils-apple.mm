@@ -34,13 +34,15 @@ THE SOFTWARE.
 #include <cocos/platform/CCFileUtils.h>
 #include <cocos/platform/CCPlatformMacros.h>
 
-#include <CoreFoundation/CFNumber.h>
-#include <Foundation/NSBundle.h>
-#include <Foundation/NSException.h>
-#include <Foundation/NSFileManager.h>
-#include <Foundation/NSPathUtilities.h>
-#include <Foundation/NSPropertyList.h>
-#include <Foundation/NSString.h>
+#import <CoreFoundation/CFNumber.h>
+#import <Foundation/NSBundle.h>
+#import <Foundation/NSData.h>
+#import <Foundation/NSException.h>
+#import <Foundation/NSFileManager.h>
+#import <Foundation/NSNull.h>
+#import <Foundation/NSPathUtilities.h>
+#import <Foundation/NSPropertyList.h>
+#import <Foundation/NSString.h>
 
 #include <cstdio>
 #include <cstring>

@@ -5,7 +5,7 @@
 //  Created by Mathieu Garaud on 12/04/2018.
 //
 
-#include "CCActionManagerData.h"
+#include <cocos/2d/CCActionManagerData.h>
 
 #include <cocos/2d/CCAction.h>
 #include <cocos/2d/CCNode.h>

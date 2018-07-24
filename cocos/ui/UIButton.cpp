@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include <cocos/2d/CCProtectedNode.h>
 #include <cocos/2d/CCSprite.h>
 #include <cocos/base/ccTypes.h>
-#include "editor-support/cocostudio/CocosStudioExtension.h"
+#include <cocos/editor-support/cocostudio/CocosStudioExtension.h>
 #include <cocos/math/Vec2.h>
 #include <cocos/platform/CCFileUtils.h>
 #include <cocos/ui/UIHelper.h>

@@ -1,6 +1,8 @@
 /*
  * LICENSE ???
  */
+#pragma once
+
 const char* ccLabelOutline_frag = R"(
 #ifdef GL_ES
 precision lowp float;

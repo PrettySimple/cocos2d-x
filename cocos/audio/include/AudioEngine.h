@@ -24,7 +24,7 @@
 
 #pragma once
 
-#include "audio/include/Export.h"
+#include <cocos/audio/include/Export.h>
 #include <cocos/platform/CCPlatformConfig.h>
 #include <cocos/platform/CCPlatformMacros.h>
 

@@ -47,12 +47,12 @@
 
 #include "audio/ios/CocosDenshion.h"
 
-#include <AudioToolbox/AudioFile.h>
-#include <AudioToolbox/ExtendedAudioFile.h>
+#import <AudioToolbox/AudioFile.h>
+#import <AudioToolbox/ExtendedAudioFile.h>
 #include <CoreAudio/CoreAudioTypes.h>
-#include <CoreFoundation/CFBase.h>
-#include <CoreFoundation/CFString.h>
-#include <CoreFoundation/CFURL.h>
+#import <CoreFoundation/CFBase.h>
+#import <CoreFoundation/CFString.h>
+#import <CoreFoundation/CFURL.h>
 #include <OpenAL/al.h>
 #include <cstdlib>
 #include <cstring>

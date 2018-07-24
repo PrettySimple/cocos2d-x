@@ -24,7 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "base/ccCArray.h"
+#include <cocos/base/ccCArray.h>
 
 #include <cocos/base/CCRef.h>
 #include <cocos/base/ccMacros.h>

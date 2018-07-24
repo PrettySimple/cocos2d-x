@@ -24,8 +24,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#import "ui/UIEditBox/iOS/UITextField+CCUITextInput.h"
-#import <UIKit/UIKit.h>
+#include <cocos/ui/UIEditBox/UITextField+CCUITextInput.h>
+
+#import <UIKit/UITextField.h>
 
 /** TODO: Missing doc - Why is this subclass necessary?
  */

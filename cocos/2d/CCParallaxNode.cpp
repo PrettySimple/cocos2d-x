@@ -27,7 +27,7 @@ THE SOFTWARE.
 #include <cocos/2d/CCParallaxNode.h>
 
 #include <cocos/base/CCRef.h>
-#include "base/ccCArray.h"
+#include <cocos/base/ccCArray.h>
 #include <cocos/base/ccMacros.h>
 
 #include <new>

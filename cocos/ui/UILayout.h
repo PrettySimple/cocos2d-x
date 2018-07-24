@@ -27,7 +27,7 @@ THE SOFTWARE.
 
 #include <cocos/base/CCVector.h>
 #include <cocos/base/ccTypes.h>
-#include "editor-support/cocostudio/CocosStudioExtension.h"
+#include <cocos/editor-support/cocostudio/CocosStudioExtension.h>
 #include <cocos/math/CCGeometry.h>
 #include <cocos/math/Mat4.h>
 #include <cocos/math/Vec2.h>

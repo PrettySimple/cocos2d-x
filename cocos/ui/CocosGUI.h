@@ -51,7 +51,7 @@ THE SOFTWARE.
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN)
 #    include <cocos/ui/UIWebView.h>
 #endif
-#include "editor-support/cocostudio/CocosStudioExtension.h"
+#include <cocos/editor-support/cocostudio/CocosStudioExtension.h>
 #include <cocos/ui/GUIExport.h>
 #include <cocos/ui/UIDeprecated.h>
 #include <cocos/ui/UIEditBox/UIEditBox.h>

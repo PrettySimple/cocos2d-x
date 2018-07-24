@@ -35,10 +35,10 @@
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/platform/ios/CCDirectorCaller-ios.h>
 
-#include <Foundation/NSLocale.h>
-#include <Foundation/NSString.h>
-#include <UIKit/UIApplication.h>
-#include <UIKit/UIDevice.h>
+#import <Foundation/NSLocale.h>
+#import <Foundation/NSString.h>
+#import <UIKit/UIApplication.h>
+#import <UIKit/UIDevice.h>
 
 #include <string>
 

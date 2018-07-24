@@ -26,7 +26,8 @@
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    import <UIKit/UIKit.h>
+#    import <Foundation/NSString.h>
+#    import <UIKit/UIScreen.h>
 
 #    include <cocos/base/CCTouch.h>
 #    include <cocos/platform/ios/CCDirectorCaller-ios.h>

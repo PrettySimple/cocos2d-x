@@ -19,6 +19,8 @@
  * SOFTWARE.
  */
 
+#pragma once
+
 const char* ccPositionColorLengthTexture_frag = R"(
 #ifdef GL_ES
 //#extension GL_OES_standard_derivatives : enable

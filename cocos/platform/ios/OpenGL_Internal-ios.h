@@ -61,6 +61,9 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 */
 
+#ifndef CC_PLATFORM_IOS_OPENGLINTERNALIOS_H
+#define CC_PLATFORM_IOS_OPENGLINTERNALIOS_H
+
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
@@ -100,3 +103,5 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
         }
 
 #endif // CC_PLATFORM_IOS
+
+#endif // CC_PLATFORM_IOS_OPENGLINTERNALIOS_H

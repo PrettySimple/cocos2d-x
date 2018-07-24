@@ -2,7 +2,7 @@
 #define CC_EDITORSUPPORT_COCOSBUILDER_SCROLLVIEWLOADER_H
 
 #include "CCNodeLoader.h"
-#include "extensions/GUI/CCScrollView/CCScrollView.h"
+#include <cocos/extensions/GUI/CCScrollView/CCScrollView.h>
 
 namespace cocosbuilder
 {

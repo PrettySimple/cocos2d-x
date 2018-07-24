@@ -30,7 +30,7 @@ THE SOFTWARE.
 #    include <cocos/platform/CCDevice.h>
 #    include <cocos/platform/apple/CCDevice-apple.h>
 #    include <Cocoa/Cocoa.h>
-#    include <Foundation/Foundation.h>
+#    import <Foundation/Foundation.h>
 #    include <string>
 
 NS_CC_BEGIN

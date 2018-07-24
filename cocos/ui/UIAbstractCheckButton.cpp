@@ -25,7 +25,7 @@ THE SOFTWARE.
 #include <cocos/ui/UIAbstractCheckButton.h>
 
 #include <cocos/2d/CCSprite.h>
-#include "editor-support/cocostudio/CocosStudioExtension.h"
+#include <cocos/editor-support/cocostudio/CocosStudioExtension.h>
 
 NS_CC_BEGIN
 

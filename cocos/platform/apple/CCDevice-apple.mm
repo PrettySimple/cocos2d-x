@@ -27,10 +27,10 @@
 
 #include <cocos/platform/CCDevice.h>
 
-#include <CoreGraphics/CGBase.h>
-#include <CoreGraphics/CGGeometry.h>
-#include <UIKit/NSParagraphStyle.h>
-#include <UIKit/NSText.h>
+#import <CoreGraphics/CGBase.h>
+#import <CoreGraphics/CGGeometry.h>
+#import <UIKit/NSParagraphStyle.h>
+#import <UIKit/NSText.h>
 
 namespace FontUtils
 {

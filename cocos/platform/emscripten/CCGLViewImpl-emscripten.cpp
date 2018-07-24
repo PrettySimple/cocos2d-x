@@ -9,7 +9,7 @@
 #    include <cocos/base/CCEventKeyboard.h>
 #    include <cocos/base/CCEventMouse.h>
 #    include <cocos/base/CCEventType.h>
-#    include "base/ccMacros.h"
+#    include <cocos/base/ccMacros.h>
 #    include "platform/CCGL.h"
 #    include "platform/emscripten/CCGLViewImpl-emscripten.h"
 #    include "platform/emscripten/EMDebug.h"

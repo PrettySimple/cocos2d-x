@@ -22,6 +22,8 @@
  * THE SOFTWARE.
  */
 
+#pragma once
+
 const char* ccPositionColorTextureAsPointsize_vert = R"(
 attribute vec4 a_position;
 attribute vec4 a_color;

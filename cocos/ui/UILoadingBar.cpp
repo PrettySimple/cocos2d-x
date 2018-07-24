@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 #include <cocos/2d/CCSprite.h>
 #include <cocos/2d/CCSpriteFrame.h>
-#include "editor-support/cocostudio/CocosStudioExtension.h"
+#include <cocos/editor-support/cocostudio/CocosStudioExtension.h>
 #include <cocos/ui/UIHelper.h>
 #include <cocos/ui/UIScale9Sprite.h>
 

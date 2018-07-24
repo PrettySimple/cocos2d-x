@@ -28,11 +28,12 @@
 #include "audio/apple/AudioDecoder.h"
 #include "audio/apple/AudioMacros.h"
 
-#include <AudioToolbox/ExtendedAudioFile.h>
+#import <AudioToolbox/ExtendedAudioFile.h>
 #include <CoreAudio/CoreAudioTypes.h>
-#include <CoreFoundation/CFBase.h>
-#include <CoreFoundation/CFURL.h>
-#include <Foundation/NSString.h>
+#import <CoreFoundation/CFBase.h>
+#import <CoreFoundation/CFURL.h>
+#import <Foundation/NSString.h>
+#import <Foundation/NSURL.h>
 
 #include <cstring>
 

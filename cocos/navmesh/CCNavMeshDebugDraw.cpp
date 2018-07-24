@@ -25,7 +25,7 @@
 #if CC_USE_NAVMESH
 
 #    include <cocos/base/CCDirector.h>
-#    include "base/ccMacros.h"
+#    include <cocos/base/ccMacros.h>
 #    include "renderer/CCGLProgramCache.h"
 #    include "renderer/CCRenderState.h"
 #    include <cocos/renderer/CCRenderer.h>

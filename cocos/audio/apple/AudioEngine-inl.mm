@@ -29,7 +29,7 @@
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
 #    if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-#        import <UIKit/UIKit.h>
+#        import <UIKit/UIApplication.h>
 #    elif CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 #        import <AppKit/AppKit.h>
 #    endif

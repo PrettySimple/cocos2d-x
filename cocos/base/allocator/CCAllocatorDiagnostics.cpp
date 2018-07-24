@@ -24,7 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/allocator/CCAllocatorDiagnostics.h"
+#include <cocos/base/allocator/CCAllocatorDiagnostics.h>
 
 NS_CC_BEGIN
 NS_CC_ALLOCATOR_BEGIN

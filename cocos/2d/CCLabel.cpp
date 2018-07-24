@@ -27,7 +27,7 @@
 
 #include <cocos/2d/CCCamera.h>
 #include <cocos/2d/CCDrawNode.h>
-#include "2d/CCFont.h"
+#include <cocos/2d/CCFont.h>
 #include <cocos/2d/CCFontAtlas.h>
 #include <cocos/2d/CCFontAtlasCache.h>
 #include <cocos/2d/CCFontFNT.h>

@@ -77,17 +77,18 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 #include <cocos/platform/ios/CCES2Renderer-ios.h>
 #include <cocos/platform/ios/OpenGL_Internal-ios.h>
 
-#include <CoreGraphics/CGAffineTransform.h>
-#include <CoreGraphics/CGBase.h>
-#include <CoreGraphics/CGGeometry.h>
-#include <Foundation/NSException.h>
-#include <Foundation/NSObjCRuntime.h>
-#include <Foundation/NSRange.h>
-#include <Foundation/NSString.h>
-#include <UIKit/UIApplication.h>
-#include <UIKit/UITextInput.h>
-#include <UIKit/UITextInputTraits.h>
-#include <UIKit/UIWindow.h>
+#import <CoreGraphics/CGAffineTransform.h>
+#import <CoreGraphics/CGBase.h>
+#import <CoreGraphics/CGGeometry.h>
+#import <Foundation/NSException.h>
+#import <Foundation/NSObjCRuntime.h>
+#import <Foundation/NSRange.h>
+#import <Foundation/NSString.h>
+#import <UIKit/UIApplication.h>
+#import <UIKit/UIScreen.h>
+#import <UIKit/UITextInput.h>
+#import <UIKit/UITextInputTraits.h>
+#import <UIKit/UIWindow.h>
 
 #include <cstdint>
 #include <cstring>

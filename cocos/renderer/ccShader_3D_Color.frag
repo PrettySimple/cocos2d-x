@@ -1,3 +1,4 @@
+#pragma once
 
 const char* cc3D_Color_frag = R"(
 #ifdef GL_ES

@@ -31,7 +31,7 @@
 #include <cocos/platform/CCPlatformMacros.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC || \
     CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
-#    include "pthread.h"
+#    include <pthread.h>
 #    define MUTEX pthread_mutex_t
 #    define MUTEX_INIT(m)                                         \
         pthread_mutexattr_t mta;                                  \

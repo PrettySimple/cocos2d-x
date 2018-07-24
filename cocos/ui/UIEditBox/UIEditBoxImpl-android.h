@@ -30,7 +30,7 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
-#    include "ui/UIEditBox/UIEditBoxImpl-common.h"
+#    include <cocos/ui/UIEditBox/UIEditBoxImpl-common.h>
 
 NS_CC_BEGIN
 

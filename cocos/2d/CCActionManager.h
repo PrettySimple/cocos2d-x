@@ -29,7 +29,7 @@
 #ifndef CC_2D_ACTIONMANAGER_H
 #define CC_2D_ACTIONMANAGER_H
 
-#include "CCActionManagerData.h"
+#include <cocos/2d/CCActionManagerData.h>
 #include <cocos/base/CCRef.h>
 #include <cocos/base/CCVector.h>
 #include <cocos/platform/CCPlatformDefine.h>

@@ -30,8 +30,11 @@ THE SOFTWARE.
 #    include <cocos/platform/CCImage.h>
 #    include <string>
 
-#    include <Foundation/Foundation.h>
-#    include <UIKit/UIKit.h>
+#    import <CoreGraphics/CGColorSpace.h>
+#    import <CoreGraphics/CGDataProvider.h>
+#    import <CoreGraphics/CGImage.h>
+#    import <Foundation/NSString.h>
+#    import <UIKit/UIImage.h>
 
 #    include <math.h>
 

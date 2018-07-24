@@ -34,7 +34,7 @@
 #include <cocos/platform/CCPlatformConfig.h>
 #include <cocos/platform/CCPlatformMacros.h>
 
-#include <Foundation/NSObjCRuntime.h>
+#import <Foundation/NSObjCRuntime.h>
 #include <GameController/GCController.h>
 
 #include <algorithm>

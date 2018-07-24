@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include <cocos/2d/CCSpriteBatchNode.h>
 #include <cocos/2d/CCTMXXMLParser.h>
 #include <cocos/base/CCValue.h>
-#include "base/ccCArray.h"
+#include <cocos/base/ccCArray.h>
 #include <cocos/math/CCGeometry.h>
 #include <cocos/math/Vec2.h>
 #include <cocos/platform/CCPlatformMacros.h>

@@ -27,7 +27,7 @@ THE SOFTWARE.
 #ifndef CC_AUDIO_INCLUDE_SIMPLEAUDIOENGINE_H
 #define CC_AUDIO_INCLUDE_SIMPLEAUDIOENGINE_H
 
-#include "audio/include/Export.h"
+#include <cocos/audio/include/Export.h>
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
 #    define CC_DEPRECATED_ATTRIBUTE __attribute__((deprecated))

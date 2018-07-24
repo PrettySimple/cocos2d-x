@@ -61,15 +61,21 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 */
 
+#ifndef CC_PLATFORM_IOS_EAGLVIEWIOS_H
+#define CC_PLATFORM_IOS_EAGLVIEWIOS_H
+
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    include <CoreFoundation/CoreFoundation.h>
-#    include <OpenGLES/EAGL.h>
-#    include <OpenGLES/EAGLDrawable.h>
-#    include <OpenGLES/ES2/gl.h>
-#    include <OpenGLES/ES2/glext.h>
-#    include <UIKit/UIKit.h>
+#    import <CoreFoundation/CoreFoundation.h>
+#    import <CoreGraphics/CGGeometry.h>
+#    import <Foundation/NSString.h>
+#    import <OpenGLES/EAGL.h>
+#    import <OpenGLES/EAGLDrawable.h>
+#    import <OpenGLES/ES2/gl.h>
+#    import <OpenGLES/ES2/glext.h>
+#    import <UIKit/UITextInput.h>
+#    import <UIKit/UIView.h>
 
 #    include <cocos/platform/ios/CCESRenderer-ios.h>
 
@@ -167,3 +173,5 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 @end
 
 #endif // CC_PLATFORM_IOS
+
+#endif // CC_PLATFORM_IOS_EAGLVIEWIOS_H

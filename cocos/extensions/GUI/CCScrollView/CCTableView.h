@@ -29,7 +29,7 @@
 #include <cocos/base/CCVector.h>
 #include <cocos/extensions/ExtensionExport.h>
 #include <cocos/extensions/ExtensionMacros.h>
-#include "extensions/GUI/CCScrollView/CCScrollView.h"
+#include <cocos/extensions/GUI/CCScrollView/CCScrollView.h>
 #include <cocos/math/CCGeometry.h>
 #include <cocos/math/Vec2.h>
 

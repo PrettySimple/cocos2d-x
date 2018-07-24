@@ -63,7 +63,7 @@
 #include <cocos/base/CCConfiguration.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/CCScheduler.h>
-#include "base/allocator/CCAllocatorDiagnostics.h"
+#include <cocos/base/allocator/CCAllocatorDiagnostics.h>
 #include <cocos/base/base64.h>
 #include <cocos/base/ccUtils.h>
 #include <cocos/platform/CCFileUtils.h>

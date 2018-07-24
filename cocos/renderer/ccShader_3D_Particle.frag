@@ -1,3 +1,4 @@
+#pragma once
 
 const char* cc3D_Particle_tex_frag = R"(
 

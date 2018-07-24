@@ -33,11 +33,11 @@
      allocator. Failure to do so will result in recursive memory allocation.
  ****************************************************************************/
 
-#include "base/allocator/CCAllocatorBase.h"
-#include "base/allocator/CCAllocatorDiagnostics.h"
-#include "base/allocator/CCAllocatorGlobal.h"
-#include "base/allocator/CCAllocatorMacros.h"
-#include "base/allocator/CCAllocatorMutex.h"
+#include <cocos/base/allocator/CCAllocatorBase.h>
+#include <cocos/base/allocator/CCAllocatorDiagnostics.h>
+#include <cocos/base/allocator/CCAllocatorGlobal.h>
+#include <cocos/base/allocator/CCAllocatorMacros.h>
+#include <cocos/base/allocator/CCAllocatorMutex.h>
 #include <cocos/platform/CCPlatformDefine.h>
 
 #include <cstddef>

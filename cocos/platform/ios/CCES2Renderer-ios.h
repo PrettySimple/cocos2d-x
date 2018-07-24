@@ -28,13 +28,16 @@
 // Only compile this code on iOS. These files should NOT be included on your Mac project.
 // But in case they are included, it won't be compiled.
 
+#ifndef CC_PLATFORM_IOS_ES2RENDERERIOS_H
+#define CC_PLATFORM_IOS_ES2RENDERERIOS_H
+
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
 #    include <cocos/platform/ios/CCESRenderer-ios.h>
 
-#    include <OpenGLES/ES2/gl.h>
-#    include <OpenGLES/ES2/glext.h>
+#    import <OpenGLES/ES2/gl.h>
+#    import <OpenGLES/ES2/glext.h>
 
 #    include <cocos/platform/CCPlatformMacros.h>
 
@@ -80,3 +83,5 @@
 @end
 
 #endif // CC_PLATFORM_IOS
+
+#endif // CC_PLATFORM_IOS_ES2RENDERERIOS_H

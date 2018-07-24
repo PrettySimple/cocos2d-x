@@ -24,7 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/allocator/CCAllocatorMacros.h"
+#include <cocos/base/allocator/CCAllocatorMacros.h>
 
 #include <cocos/base/ccConfig.h>
 

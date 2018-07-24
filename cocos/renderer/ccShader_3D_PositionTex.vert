@@ -1,3 +1,4 @@
+#pragma once
 
 const char* cc3D_PositionTex_vert = R"(
 attribute vec4 a_position;

@@ -30,7 +30,7 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 
-#    include "ui/UIEditBox/UIEditBoxImpl-common.h"
+#    include <cocos/ui/UIEditBox/UIEditBoxImpl-common.h>
 
 @class UIEditBoxImplMac;
 @class NSFont;

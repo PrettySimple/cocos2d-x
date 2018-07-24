@@ -1,3 +1,4 @@
+#pragma once
 
 const char* ccCameraClearVert = R"(
 uniform float depth;

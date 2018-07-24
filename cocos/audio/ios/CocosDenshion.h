@@ -67,7 +67,10 @@ Requirements:
 
 #import "audio/ios/CDConfig.h"
 #import <AudioToolbox/AudioToolbox.h>
-#import <Foundation/Foundation.h>
+#import <Foundation/NSString.h>
+#import <Foundation/NSObject.h>
+#import <Foundation/NSArray.h>
+#import <Foundation/NSOperation.h>
 #import <OpenAL/al.h>
 #import <OpenAL/alc.h>
 

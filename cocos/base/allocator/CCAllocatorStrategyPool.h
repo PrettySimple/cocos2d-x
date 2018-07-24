@@ -32,10 +32,10 @@
 #include <vector>
 
 #include <cocos/base/CCConfiguration.h>
-#include "base/allocator/CCAllocatorDiagnostics.h"
-#include "base/allocator/CCAllocatorGlobal.h"
-#include "base/allocator/CCAllocatorMacros.h"
-#include "base/allocator/CCAllocatorStrategyFixedBlock.h"
+#include <cocos/base/allocator/CCAllocatorDiagnostics.h>
+#include <cocos/base/allocator/CCAllocatorGlobal.h>
+#include <cocos/base/allocator/CCAllocatorMacros.h>
+#include <cocos/base/allocator/CCAllocatorStrategyFixedBlock.h>
 
 NS_CC_BEGIN
 NS_CC_ALLOCATOR_BEGIN

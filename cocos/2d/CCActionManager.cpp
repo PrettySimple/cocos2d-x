@@ -29,7 +29,7 @@
 #include <cocos/2d/CCActionManager.h>
 
 #include <cocos/2d/CCAction.h>
-#include "2d/CCActionManagerData.h"
+#include <cocos/2d/CCActionManagerData.h>
 #include <cocos/2d/CCNode.h>
 #include <cocos/base/ccMacros.h>
 

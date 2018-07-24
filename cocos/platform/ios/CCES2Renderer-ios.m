@@ -36,9 +36,9 @@
 #include <cocos/platform/CCGL.h>
 #include <cocos/platform/ios/OpenGL_Internal-ios.h>
 
-#include <CoreGraphics/CGGeometry.h>
-#include <Foundation/NSException.h>
-#include <Foundation/NSObjCRuntime.h>
+#import <CoreGraphics/CGGeometry.h>
+#import <Foundation/NSException.h>
+#import <Foundation/NSObjCRuntime.h>
 
 #    if !defined(COCOS2D_DEBUG) || COCOS2D_DEBUG == 0
 #        define NSLog(...) \

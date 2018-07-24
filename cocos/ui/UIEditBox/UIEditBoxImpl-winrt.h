@@ -27,7 +27,7 @@ THE SOFTWARE.
 
 #include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8 || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-#    include "ui/UIEditBox/UIEditBoxImpl-common.h"
+#    include <cocos/ui/UIEditBox/UIEditBoxImpl-common.h>
 
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;

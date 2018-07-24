@@ -35,6 +35,9 @@
 #    include <cocos/ui/UIWebView.h>
 #    include <cocos/ui/UIWebViewImpl-ios.h>
 
+#    import <Foundation/NSString.h>
+#    import <UIKit/UIWebView.h>
+
 static std::string getFixedBaseUrl(const std::string& baseUrl)
 {
     std::string fixedBaseUrl;

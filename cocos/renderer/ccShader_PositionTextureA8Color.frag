@@ -23,6 +23,8 @@
  * THE SOFTWARE.
  */
 
+#pragma once
+
 const char* ccPositionTextureA8Color_frag = R"(
 #ifdef GL_ES
 precision lowp float;

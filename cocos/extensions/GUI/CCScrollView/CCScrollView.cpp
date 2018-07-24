@@ -23,7 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "extensions/GUI/CCScrollView/CCScrollView.h"
+#include <cocos/extensions/GUI/CCScrollView/CCScrollView.h>
 
 #include <cocos/2d/CCActionInstant.h>
 #include <cocos/2d/CCActionInterval.h>

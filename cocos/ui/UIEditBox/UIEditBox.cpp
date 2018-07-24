@@ -25,7 +25,7 @@
 
 #include <cocos/ui/UIEditBox/UIEditBox.h>
 
-#include "ui/UIEditBox/UIEditBoxImpl.h"
+#include <cocos/ui/UIEditBox/UIEditBoxImpl.h>
 
 #include <chrono>
 

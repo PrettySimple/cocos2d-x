@@ -28,8 +28,10 @@
 
 #    include <cocos/platform/ios/CCDirectorCaller-ios.h>
 
-#    include <Foundation/Foundation.h>
-#    include <OpenGLES/EAGL.h>
+#    import <Foundation/NSNotification.h>
+#    import <Foundation/NSObjCRuntime.h>
+#    import <OpenGLES/EAGL.h>
+#    import <UIKit/UIApplication.h>
 
 #    include <cocos/base/CCDirector.h>
 #    include <cocos/platform/ios/CCEAGLView-ios.h>

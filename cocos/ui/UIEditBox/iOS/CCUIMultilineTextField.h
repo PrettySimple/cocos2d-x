@@ -24,8 +24,11 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#import "ui/UIEditBox/iOS/UITextView+CCUITextInput.h"
-#import <UIKit/UIKit.h>
+#include <cocos/ui/UIEditBox/UITextView+CCUITextInput.h>
+
+#import <Foundation/NSString.h>
+#import <UIKit/UILabel.h>
+#import <UIKit/UITextView.h>
 
 #pragma mark - UIMultilineTextField implementation
 

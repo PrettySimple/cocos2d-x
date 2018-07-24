@@ -30,7 +30,7 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 
-#    include "ui/UIEditBox/UIEditBoxImpl.h"
+#    include <cocos/ui/UIEditBox/UIEditBoxImpl.h>
 
 NS_CC_BEGIN
 

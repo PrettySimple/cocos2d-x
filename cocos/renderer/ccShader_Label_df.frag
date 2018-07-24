@@ -1,3 +1,5 @@
+#pragma once
+
 const char* ccLabelDistanceFieldNormal_frag = R"(
 #ifdef GL_ES
 precision lowp float;

@@ -36,7 +36,7 @@ extern "C"
 {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"
-#include "base/uthash.h"
+#include <cocos/base/uthash.h>
 #pragma clang diagnostic pop
 }
 

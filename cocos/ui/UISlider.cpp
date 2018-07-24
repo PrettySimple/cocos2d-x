@@ -27,7 +27,7 @@ THE SOFTWARE.
 #include <cocos/2d/CCNode.h>
 #include <cocos/2d/CCSprite.h>
 #include <cocos/base/CCTouch.h>
-#include "editor-support/cocostudio/CocosStudioExtension.h"
+#include <cocos/editor-support/cocostudio/CocosStudioExtension.h>
 #include <cocos/math/Vec2.h>
 #include <cocos/math/Vec3.h>
 #include <cocos/ui/UIHelper.h>

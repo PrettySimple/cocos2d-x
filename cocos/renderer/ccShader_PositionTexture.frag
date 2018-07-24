@@ -23,6 +23,8 @@
  * THE SOFTWARE.
  */
 
+#pragma once
+
 const char* ccPositionTexture_frag = R"(
 #ifdef GL_ES
 precision lowp float;

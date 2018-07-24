@@ -30,8 +30,8 @@
 
 #include <cocos/platform/CCPlatformMacros.h>
 
-#include <Foundation/NSString.h>
-#include <UIKit/UIAlertView.h>
+#import <Foundation/NSString.h>
+#import <UIKit/UIAlertView.h>
 
 #include <cstdio>
 

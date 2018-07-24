@@ -23,7 +23,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "ui/UIEditBox/UIEditBoxImpl-ios.h"
+#include <cocos/ui/UIEditBox/UIEditBoxImpl-ios.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 
@@ -34,8 +34,9 @@
 #    import "platform/ios/CCEAGLView-ios.h"
 #    include <cocos/ui/UIEditBox/UIEditBox.h>
 
-#    import <Foundation/Foundation.h>
-#    import <UIKit/UIKit.h>
+#    import <Foundation/NSString.h>
+#    import <UIKit/UIColor.h>
+#    import <CoreGraphics/CGGeometry.h>
 
 #    import "ui/UIEditBox/iOS/CCUIEditBoxIOS.h"
 

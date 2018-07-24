@@ -32,10 +32,10 @@
 #include <cocos/base/CCData.h>
 #include <cocos/platform/CCPlatformMacros.h>
 
-#include <Foundation/NSString.h>
-#include <Foundation/NSUserDefaults.h>
-#include <Foundation/NSValue.h>
-#include <Foundation/NSData.h>
+#import <Foundation/NSString.h>
+#import <Foundation/NSUserDefaults.h>
+#import <Foundation/NSValue.h>
+#import <Foundation/NSData.h>
 
 #include <iosfwd>
 #include <new>

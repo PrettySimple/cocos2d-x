@@ -1,3 +1,4 @@
+#pragma once
 
 const char* ccCameraClearFrag = R"(
 #ifdef GL_ES

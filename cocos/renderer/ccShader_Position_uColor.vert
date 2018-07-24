@@ -23,6 +23,8 @@
  * THE SOFTWARE.
  */
 
+#pragma once
+
 const char* ccPosition_uColor_vert = R"(
 attribute vec4 a_position;
 uniform vec4 u_color;

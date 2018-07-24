@@ -44,13 +44,13 @@ namespace cocos2d
 
 #if CC_USE_ARRAY_VECTOR
 #    include <cocos/base/CCRef.h>
-#    include "base/ccMacros.h"
+#    include <cocos/base/ccMacros.h>
 #    include <algorithm>
 #    include <vector>
 #else
 #    include <cocos/base/CCRef.h>
-#    include "base/ccCArray.h"
-#    include "base/ccMacros.h"
+#    include <cocos/base/ccCArray.h>
+#    include <cocos/base/ccMacros.h>
 #endif
 
 #if CC_USE_ARRAY_VECTOR

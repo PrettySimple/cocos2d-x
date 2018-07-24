@@ -36,8 +36,8 @@
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/ui/GUIExport.h>
 #include <cocos/ui/UIEditBox/UIEditBox.h>
-#include "ui/UIEditBox/UIEditBoxImpl-common.h"
-#include "ui/UIEditBox/UIEditBoxImpl.h"
+#include <cocos/ui/UIEditBox/UIEditBoxImpl-common.h>
+#include <cocos/ui/UIEditBox/UIEditBoxImpl.h>
 
 NS_CC_BEGIN
 

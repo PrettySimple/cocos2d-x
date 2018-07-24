@@ -23,6 +23,8 @@
  * THE SOFTWARE.
  */
 
+#pragma once
+
 const char* ccPosition_uColor_frag = R"(
 #ifdef GL_ES
 precision lowp float;
