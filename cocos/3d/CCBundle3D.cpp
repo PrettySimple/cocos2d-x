@@ -1539,11 +1539,13 @@ bool Bundle3D::loadAnimationDataBinary(const std::string& id, Animation3DData* a
         animationdata->resetData();
         std::string animId = _binaryReader.readString();
 
-        if (!_binaryReader.read(&animationdata->_totalTime))
+        float time;
+        if (!_binaryReader.read(&time))
         {
             CCLOG("warning: Failed to read AnimationData: totalTime '%s'.", _path.c_str());
             return false;
         }
+        animationdata->_totalTime = std::chrono::milliseconds(static_cast<long long>(time*1000.0f));
 
         unsigned int nodeAnimationNum;
         if (!_binaryReader.read(&nodeAnimationNum))
