@@ -1,10 +1,15 @@
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 
+#    include <cocos/platform/emscripten/CCApplication-emscripten.h>
+
 #    include <cocos/base/CCDirector.h>
 #    include <cocos/platform/CCFileUtils.h>
-#    include <cocos/platform/emscripten/CCApplication-emscripten.h>
+
 #    include <emscripten/emscripten.h>
+#    include <emscripten/bind.h>
+
+#    include <cstdlib>
 
 NS_CC_BEGIN
 
@@ -38,6 +43,11 @@ int Application::run()
     {
         return 0;
     }
+
+    // Handle application background/foreground change
+    emscripten_run_script(
+        #include "CCApplication-emscripten.cpp.js"
+    );
 
     emscripten_set_main_loop(&mainLoopIter, 0, 1);
 
@@ -98,17 +108,65 @@ Application* Application::sharedApplication()
     return Application::getInstance();
 }
 
+
+// The following two are unused (using NY's NativeLocale instead)
+
+[[noreturn]]
 const char* Application::getCurrentLanguageCode()
 {
-    // TODO EMSCRIPTEN: Implement language detection
-    return "en";
+    std::abort();
 }
 
+[[noreturn]]
 LanguageType Application::getCurrentLanguage()
 {
-    // TODO EMSCRIPTEN: Implement language detection
-    return LanguageType::ENGLISH;
+    std::abort();
 }
+
+
+
+//////////////////////////////////////////////////////////////////////////
+// EMBIND
+//////////////////////////////////////////////////////////////////////////
+
+
+void    Application::js2cpp_onBackground()
+{
+    getInstance()->applicationDidEnterBackground();
+}
+
+void    Application::js2cpp_onInactive()
+{
+    getInstance()->applicationDidBecomeInactive();
+}
+
+void    Application::js2cpp_onForeground()
+{
+    getInstance()->applicationWillEnterForeground();
+}
+
+void    Application::js2cpp_onActive()
+{
+    getInstance()->applicationDidBecomeActive();
+}
+
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+
+EMSCRIPTEN_BINDINGS(cocos_Application_binding)
+{
+    emscripten::class_<Application>("cocos_Application_binding")
+        .class_function("onBackground", &Application::js2cpp_onBackground)
+        .class_function("onInactive", &Application::js2cpp_onInactive)
+        .class_function("onForeground", &Application::js2cpp_onForeground)
+        .class_function("onActive", &Application::js2cpp_onActive)
+    ;
+}
+
+#pragma clang diagnostic pop
+
+
 
 NS_CC_END
 

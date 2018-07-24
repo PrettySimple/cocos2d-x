@@ -94,8 +94,6 @@ namespace experimental
         std::mutex _play2dMutex;
 
         unsigned int _id;
-
-        friend class AudioEngineImpl;
     };
 
 } // namespace experimental

@@ -52,15 +52,12 @@ function	concatBuffers()
 	for(var i = 0; i < arguments.length; ++i)
 	{
 		if(!(arguments[i] instanceof Buffer))
-			arguments[i] = new Buffer(arguments[i].toString(), 'utf8');
+			arguments[i] = Buffer.from(arguments[i].toString(), 'utf8');
 
 		size += arguments[i].byteLength;
 	}
 
-	if(Buffer.allocUnsafe)
-		output = Buffer.allocUnsafe(size);
-	else
-		output = new Buffer(size);
+	output = Buffer.allocUnsafe(size);
 
 	for(var i = 0; i < arguments.length; ++i)
 	{
@@ -83,7 +80,7 @@ function	minifyJS(content, name)
 	if(content.error !== undefined || typeof(content.code) !== 'string')
 		throw new Error('Failed minimizing: '+name);
 
-	return new Buffer(content.code, 'utf8');
+	return Buffer.from(content.code, 'utf8');
 }
 
 
@@ -176,7 +173,7 @@ function	build_cpp_js(input_file, output_file, opts, lint_define_ro, lint_define
 	}
 
 	if(opts.minimize)
-		input_content = minifyJS(input_content);
+		input_content = minifyJS(input_content, input_file);
 
 	output_content = concatBuffers(
 		start_delimiter,
