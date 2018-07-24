@@ -297,8 +297,6 @@ Module.cocos_AudioEngine = (function()
 	};
 
 
-
-
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// HELPERS
 
@@ -327,7 +325,7 @@ Module.cocos_AudioEngine = (function()
 
 
 
-	return {
+	return Object.freeze({
 
 		_construct:	function(ptr)
 		{
@@ -575,7 +573,7 @@ Module.cocos_AudioEngine = (function()
 			throw 'setCurrentTime() not implemented yet!';
 		}
 
-	};
+	});
 
 })();
 
