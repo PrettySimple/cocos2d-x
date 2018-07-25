@@ -85,8 +85,8 @@ bool Animate3D::init(Animation3D* animation, std::chrono::milliseconds fromTime,
     if (duration > fullDuration - fromTime)
         duration = fullDuration - fromTime;
 
-    _start = fromTime / fullDuration;
-    _last = duration / fullDuration;
+    _start = static_cast<float>(fromTime.count()) / static_cast<float>(fullDuration.count());
+    _last = static_cast<float>(duration.count()) / static_cast<float>(fullDuration.count());
     setDuration(duration);
     setOriginInterval(duration);
     _animation = animation;
@@ -303,7 +303,7 @@ void Animate3D::update(float t)
         {
             _accTransTime += std::chrono::milliseconds(static_cast<std::size_t>((t - _lastTime) * getDuration().count()));
 
-            _weight = _accTransTime / _transTime;
+            _weight = static_cast<float>(_accTransTime.count()) / static_cast<float>(_transTime.count());
             if (_weight >= 1.0f)
             {
                 _accTransTime = _transTime;
@@ -317,7 +317,7 @@ void Animate3D::update(float t)
         {
             _accTransTime += std::chrono::milliseconds(static_cast<std::size_t>((t - _lastTime) * getDuration().count()));
 
-            _weight = 1 - _accTransTime / _transTime;
+            _weight = 1 - static_cast<float>(_accTransTime.count()) / static_cast<float>(_transTime.count());
             if (_weight <= 0.0f)
             {
                 _accTransTime = _transTime;
