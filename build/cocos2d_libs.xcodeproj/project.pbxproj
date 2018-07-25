@@ -2046,6 +2046,7 @@
 		22C700B72105DF32003B0C0F /* CCAllocatorStrategyFixedBlock.h in Copy Files: base/allocator */ = {isa = PBXBuildFile; fileRef = D0FD03441A3B51AA00825BB5 /* CCAllocatorStrategyFixedBlock.h */; };
 		22C700B82105DF32003B0C0F /* CCAllocatorStrategyGlobalSmallBlock.h in Copy Files: base/allocator */ = {isa = PBXBuildFile; fileRef = D0FD03451A3B51AA00825BB5 /* CCAllocatorStrategyGlobalSmallBlock.h */; };
 		22C700B92105DF32003B0C0F /* CCAllocatorStrategyPool.h in Copy Files: base/allocator */ = {isa = PBXBuildFile; fileRef = D0FD03461A3B51AA00825BB5 /* CCAllocatorStrategyPool.h */; };
+		22D37D2E2108A48400CA23EE /* module.modulemap in Copy Files: Modules */ = {isa = PBXBuildFile; fileRef = 2257D32721031FC1001D9557 /* module.modulemap */; };
 		22E477FC2103A8F800C3B0B1 /* ccConfig.h in Copy Files: base */ = {isa = PBXBuildFile; fileRef = 50ABBDC91925AB6E00A911A9 /* ccConfig.h */; };
 		22EC95D720A83FD200135849 /* iterator_pair.h in Headers */ = {isa = PBXBuildFile; fileRef = 22EC95D620A83FD100135849 /* iterator_pair.h */; };
 		22EC95D920A83FD200135849 /* iterator_pair.h in Headers */ = {isa = PBXBuildFile; fileRef = 22EC95D620A83FD100135849 /* iterator_pair.h */; };
@@ -3732,6 +3733,17 @@
 				22C700B92105DF32003B0C0F /* CCAllocatorStrategyPool.h in Copy Files: base/allocator */,
 			);
 			name = "Copy Files: base/allocator";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		22D37D2D2108A46600CA23EE /* Copy Files: Modules */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Modules;
+			dstSubfolderSpec = 7;
+			files = (
+				22D37D2E2108A48400CA23EE /* module.modulemap in Copy Files: Modules */,
+			);
+			name = "Copy Files: Modules";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -11023,6 +11035,7 @@
 			buildConfigurationList = 22491C6C21024B29002D77F5 /* Build configuration list for PBXNativeTarget "cocos_ios" */;
 			buildPhases = (
 				2257D2FE2102AB79001D9557 /* Copy Files */,
+				22D37D2D2108A46600CA23EE /* Copy Files: Modules */,
 				22491C7621024E2E002D77F5 /* Copy Files: 2d */,
 				2257D18A21029382001D9557 /* Copy Files: 3d */,
 				2257D28C21029DE1001D9557 /* Copy Files: audio */,
