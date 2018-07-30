@@ -32,7 +32,8 @@
 #    import <UIKit/NSParagraphStyle.h>
 #    import <UIKit/NSText.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_MAC
-#    include <AppKit/AppKit.h>
+#    import <AppKit/NSParagraphStyle.h>
+#    import <AppKit/NSText.h>
 #endif
 #import <CoreGraphics/CoreGraphics.h>
 

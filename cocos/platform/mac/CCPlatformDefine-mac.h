@@ -37,11 +37,7 @@ THE SOFTWARE.
 #        define CC_DLL
 #    endif
 
-#    if CC_DISABLE_ASSERT > 0
-#        define CC_ASSERT(cond)
-#    else
-#        define CC_ASSERT(cond) assert(cond)
-#    endif
+#    define CC_ASSERT(cond) assert(cond)
 
 #    define CC_UNUSED_PARAM(unusedparam) (void)unusedparam
 

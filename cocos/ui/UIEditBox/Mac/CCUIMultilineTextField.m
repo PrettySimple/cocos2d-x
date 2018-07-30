@@ -33,7 +33,6 @@
 }
 
 @synthesize placeHolder = _placeHolder;
-@synthesize placeHolderLabel = _placeHolderLabel;
 
 - (void)dealloc {
     self.placeHolder = nil;

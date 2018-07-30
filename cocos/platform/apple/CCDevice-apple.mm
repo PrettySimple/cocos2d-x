@@ -29,8 +29,6 @@
 
 #import <CoreGraphics/CGBase.h>
 #import <CoreGraphics/CGGeometry.h>
-#import <UIKit/NSParagraphStyle.h>
-#import <UIKit/NSText.h>
 
 namespace FontUtils
 {

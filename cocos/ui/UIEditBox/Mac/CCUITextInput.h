@@ -26,6 +26,13 @@
 #ifndef CC_UI_EDITBOX_MAC_TEXTINPUT_H
 #define CC_UI_EDITBOX_MAC_TEXTINPUT_H
 
+#import <AppKit/NSColor.h>
+#import <AppKit/NSFont.h>
+#import <AppKit/NSTextField.h>
+#import <AppKit/NSTextView.h>
+#import <Foundation/NSObject.h>
+#import <Foundation/NSString.h>
+
 /**
  This protocol provides a common interface for consolidating text input method calls
  */

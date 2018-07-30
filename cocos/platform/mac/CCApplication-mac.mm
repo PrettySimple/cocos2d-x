@@ -36,6 +36,8 @@ THE SOFTWARE.
 
 #    include <algorithm>
 
+#    include <sys/time.h>
+
 NS_CC_BEGIN
 
 static long getCurrentMillSecond()

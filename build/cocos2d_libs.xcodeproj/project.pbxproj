@@ -1026,6 +1026,23 @@
 		22433C5920D975A900E43D73 /* unzip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A570352180BD0B00088DEC7 /* unzip.cpp */; };
 		226F994720246FD500673BF6 /* CCActionManagerData.h in Headers */ = {isa = PBXBuildFile; fileRef = 226F994320246FD500673BF6 /* CCActionManagerData.h */; };
 		226F994920246FD500673BF6 /* CCActionManagerData.h in Headers */ = {isa = PBXBuildFile; fileRef = 226F994320246FD500673BF6 /* CCActionManagerData.h */; };
+		2273E44B210F4A2400528FDA /* UIEditBoxImpl-mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 292DB13719B4574100A80320 /* UIEditBoxImpl-mac.mm */; };
+		2273E44C210F4ABE00528FDA /* CCControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4B221032F73001D9557 /* CCControl.cpp */; };
+		2273E44D210F4AD700528FDA /* CCInvocation.h in Headers */ = {isa = PBXBuildFile; fileRef = 2257D4BB21032F73001D9557 /* CCInvocation.h */; };
+		2273E44E210F4AFE00528FDA /* CCControlButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4B321032F73001D9557 /* CCControlButton.cpp */; };
+		2273E44F210F4AFE00528FDA /* CCControlColourPicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4AD21032F73001D9557 /* CCControlColourPicker.cpp */; };
+		2273E450210F4AFE00528FDA /* CCControlHuePicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4B721032F73001D9557 /* CCControlHuePicker.cpp */; };
+		2273E451210F4AFE00528FDA /* CCControlPotentiometer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4B421032F73001D9557 /* CCControlPotentiometer.cpp */; };
+		2273E452210F4AFE00528FDA /* CCControlSaturationBrightnessPicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4B921032F73001D9557 /* CCControlSaturationBrightnessPicker.cpp */; };
+		2273E453210F4AFE00528FDA /* CCControlSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4BE21032F73001D9557 /* CCControlSlider.cpp */; };
+		2273E454210F4AFE00528FDA /* CCControlStepper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4B121032F73001D9557 /* CCControlStepper.cpp */; };
+		2273E455210F4AFE00528FDA /* CCControlSwitch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4AE21032F73001D9557 /* CCControlSwitch.cpp */; };
+		2273E456210F4AFE00528FDA /* CCControlUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4AC21032F73001D9557 /* CCControlUtils.cpp */; };
+		2273E457210F4AFE00528FDA /* CCInvocation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4B021032F73001D9557 /* CCInvocation.cpp */; };
+		2273E458210F4AFE00528FDA /* CCScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4C321032F73001D9557 /* CCScrollView.cpp */; };
+		2273E459210F4AFE00528FDA /* CCTableView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4C521032F73001D9557 /* CCTableView.cpp */; };
+		2273E45A210F4AFE00528FDA /* CCTableViewCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4C721032F73001D9557 /* CCTableViewCell.cpp */; };
+		2273E45B210F4AFE00528FDA /* ExtensionDeprecated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4CB21032F73001D9557 /* ExtensionDeprecated.cpp */; };
 		2274ABC820DA7EBC00D6E87D /* CCProtocols.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2274ABC720DA7EBC00D6E87D /* CCProtocols.cpp */; };
 		2274ABCA20DA7EBC00D6E87D /* CCProtocols.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2274ABC720DA7EBC00D6E87D /* CCProtocols.cpp */; };
 		2274AC0320DA8F8700D6E87D /* ConvertUTF.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A1645AE191B726C008C7C7F /* ConvertUTF.c */; };
@@ -1706,12 +1723,9 @@
 		292DB13D19B4574100A80320 /* UIEditBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 292DB12F19B4574100A80320 /* UIEditBox.cpp */; };
 		292DB13F19B4574100A80320 /* UIEditBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 292DB13019B4574100A80320 /* UIEditBox.h */; };
 		292DB14119B4574100A80320 /* UIEditBoxImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 292DB13119B4574100A80320 /* UIEditBoxImpl.h */; };
-		292DB14319B4574100A80320 /* UIEditBoxImpl-android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 292DB13219B4574100A80320 /* UIEditBoxImpl-android.cpp */; };
 		292DB14519B4574100A80320 /* UIEditBoxImpl-android.h in Headers */ = {isa = PBXBuildFile; fileRef = 292DB13319B4574100A80320 /* UIEditBoxImpl-android.h */; };
 		292DB14719B4574100A80320 /* UIEditBoxImpl-ios.h in Headers */ = {isa = PBXBuildFile; fileRef = 292DB13419B4574100A80320 /* UIEditBoxImpl-ios.h */; };
-		292DB14919B4574100A80320 /* UIEditBoxImpl-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 292DB13519B4574100A80320 /* UIEditBoxImpl-ios.mm */; };
 		292DB14B19B4574100A80320 /* UIEditBoxImpl-mac.h in Headers */ = {isa = PBXBuildFile; fileRef = 292DB13619B4574100A80320 /* UIEditBoxImpl-mac.h */; };
-		292DB14D19B4574100A80320 /* UIEditBoxImpl-mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 292DB13719B4574100A80320 /* UIEditBoxImpl-mac.mm */; };
 		292DB14F19B4574100A80320 /* UIEditBoxImpl-stub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 292DB13819B4574100A80320 /* UIEditBoxImpl-stub.cpp */; };
 		29394CF019B01DBA00D2DE1A /* UIWebView.h in Headers */ = {isa = PBXBuildFile; fileRef = 29394CEC19B01DBA00D2DE1A /* UIWebView.h */; };
 		29394CF219B01DBA00D2DE1A /* UIWebView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 29394CED19B01DBA00D2DE1A /* UIWebView.mm */; };
@@ -1734,9 +1748,7 @@
 		299754F6193EC95400A54AC3 /* ObjectFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 299754F3193EC95400A54AC3 /* ObjectFactory.h */; };
 		299CF1FB19A434BC00C378C1 /* ccRandom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 299CF1F919A434BC00C378C1 /* ccRandom.cpp */; };
 		299CF1FD19A434BC00C378C1 /* ccRandom.h in Headers */ = {isa = PBXBuildFile; fileRef = 299CF1FA19A434BC00C378C1 /* ccRandom.h */; };
-		29DA08F41C63351600F4052B /* UIEditBoxImpl-linux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 29DA08F01C63351600F4052B /* UIEditBoxImpl-linux.cpp */; };
 		29DA08F51C63351600F4052B /* UIEditBoxImpl-linux.h in Headers */ = {isa = PBXBuildFile; fileRef = 29DA08F11C63351600F4052B /* UIEditBoxImpl-linux.h */; };
-		29DA08F61C63351600F4052B /* UIEditBoxImpl-winrt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 29DA08F21C63351600F4052B /* UIEditBoxImpl-winrt.cpp */; };
 		29DA08F71C63351600F4052B /* UIEditBoxImpl-winrt.h in Headers */ = {isa = PBXBuildFile; fileRef = 29DA08F31C63351600F4052B /* UIEditBoxImpl-winrt.h */; };
 		38B8E2E119E671D2002D7CE7 /* UILayoutComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 38B8E2DF19E671D2002D7CE7 /* UILayoutComponent.cpp */; };
 		38B8E2E319E671D2002D7CE7 /* UILayoutComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = 38B8E2E019E671D2002D7CE7 /* UILayoutComponent.h */; };
@@ -2596,7 +2608,6 @@
 		50ED2BDA19BE76D300A0AB90 /* UIVideoPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 3EA0FB69191C841D00B170C8 /* UIVideoPlayer.h */; };
 		50ED2BDB19BE76D500A0AB90 /* UIVideoPlayer-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0FB6A191C841D00B170C8 /* UIVideoPlayer-ios.mm */; };
 		50ED2BE019BEAF7900A0AB90 /* UIEditBoxImpl-win32.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ED2BDC19BEAF7900A0AB90 /* UIEditBoxImpl-win32.h */; };
-		50ED2BE419BEAF7900A0AB90 /* UIEditBoxImpl-win32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ED2BDE19BEAF7900A0AB90 /* UIEditBoxImpl-win32.cpp */; };
 		50FC3F9E1D74C0A3001C936A /* CCController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E61781C1966A5A300DE83F5 /* CCController.cpp */; };
 		50FC3F9F1D74C0E5001C936A /* CCController-apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3E6176551960F89B00DE83F5 /* CCController-apple.mm */; };
 		50FC3FA21D74C1A1001C936A /* CCEventController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E6176611960F89B00DE83F5 /* CCEventController.cpp */; };
@@ -8786,6 +8797,7 @@
 				B240C5EB1B09DFB000137F50 /* CCFrameBuffer.h in Headers */,
 				50ABC0071926664800A911A9 /* CCApplicationProtocol.h in Headers */,
 				50ABBD4E1925AB0000A911A9 /* MathUtil.h in Headers */,
+				2273E44D210F4AD700528FDA /* CCInvocation.h in Headers */,
 				50864CD91C7BC1B100B3BAB1 /* cpSpace.h in Headers */,
 				B5668D7F1B3838E4003CBD5E /* UIScrollViewBar.h in Headers */,
 				50ABBE431925AB6F00A911A9 /* CCDirector.h in Headers */,
@@ -10481,6 +10493,7 @@
 				B5A738961BB0051F00BAAEF8 /* UIPageViewIndicator.cpp in Sources */,
 				15AE184019AAD2F700C27E9E /* CCSprite3D.cpp in Sources */,
 				B5CE6DBE1B3BF2B1002B0419 /* UIAbstractCheckButton.cpp in Sources */,
+				2273E458210F4AFE00528FDA /* CCScrollView.cpp in Sources */,
 				50ABBDA71925AB4100A911A9 /* CCRenderCommand.cpp in Sources */,
 				15AE1B9B19AADFDF00C27E9E /* UIRelativeBox.cpp in Sources */,
 				50ABBD501925AB0000A911A9 /* Quaternion.cpp in Sources */,
@@ -10491,6 +10504,7 @@
 				2285434E20F39C1000224D30 /* CCAllocatorBase.cpp in Sources */,
 				15AE1B6319AADA9900C27E9E /* UICheckBox.cpp in Sources */,
 				15EFA211198A2BB5000C57D3 /* CCProtectedNode.cpp in Sources */,
+				2273E456210F4AFE00528FDA /* CCControlUtils.cpp in Sources */,
 				50ABBEB71925AB6F00A911A9 /* ccUTF8.cpp in Sources */,
 				50FC3F9F1D74C0E5001C936A /* CCController-apple.mm in Sources */,
 				5AD93AE1206B9BD6006D7F86 /* ALAudioPlayer.mm in Sources */,
@@ -10506,6 +10520,7 @@
 				1A570065180BC5A10088DEC7 /* CCActionCamera.cpp in Sources */,
 				50ABBEAB1925AB6F00A911A9 /* ccTypes.cpp in Sources */,
 				B240C5E91B09DFB000137F50 /* CCFrameBuffer.cpp in Sources */,
+				2273E44E210F4AFE00528FDA /* CCControlButton.cpp in Sources */,
 				1A570069180BC5A10088DEC7 /* CCActionCatmullRom.cpp in Sources */,
 				B257B44E1989D5E800D9A687 /* CCPrimitive.cpp in Sources */,
 				299CF1FB19A434BC00C378C1 /* ccRandom.cpp in Sources */,
@@ -10513,6 +10528,7 @@
 				1A570071180BC5A10088DEC7 /* CCActionGrid.cpp in Sources */,
 				50CB247F19D9C5A100687767 /* AudioPlayer.mm in Sources */,
 				50ABBFFF1926664800A911A9 /* CCFileUtils-apple.mm in Sources */,
+				2273E45B210F4AFE00528FDA /* ExtensionDeprecated.cpp in Sources */,
 				1A570075180BC5A10088DEC7 /* CCActionGrid3D.cpp in Sources */,
 				15AE1B9D19AADFDF00C27E9E /* UIVBox.cpp in Sources */,
 				1A570079180BC5A10088DEC7 /* CCActionInstant.cpp in Sources */,
@@ -10520,10 +10536,12 @@
 				50ABBE591925AB6F00A911A9 /* CCEventKeyboard.cpp in Sources */,
 				1A57007D180BC5A10088DEC7 /* CCActionInterval.cpp in Sources */,
 				1A570081180BC5A10088DEC7 /* CCActionManager.cpp in Sources */,
+				2273E451210F4AFE00528FDA /* CCControlPotentiometer.cpp in Sources */,
 				505385041B01887A00793096 /* CCProperties.cpp in Sources */,
 				1A570085180BC5A10088DEC7 /* CCActionPageTurn3D.cpp in Sources */,
 				1A570089180BC5A10088DEC7 /* CCActionProgressTimer.cpp in Sources */,
 				1A57008D180BC5A10088DEC7 /* CCActionTiledGrid.cpp in Sources */,
+				2273E452210F4AFE00528FDA /* CCControlSaturationBrightnessPicker.cpp in Sources */,
 				1A570091180BC5A10088DEC7 /* CCActionTween.cpp in Sources */,
 				50ABBEBF1925AB6F00A911A9 /* CCValue.cpp in Sources */,
 				1A570098180BC5C10088DEC7 /* CCAtlasNode.cpp in Sources */,
@@ -10535,16 +10553,17 @@
 				2962D5F01C61CF3F004821A3 /* CCUISingleLineTextField.m in Sources */,
 				A045F6D61BA81577005076C7 /* CCTextureCube.cpp in Sources */,
 				50ABBE651925AB6F00A911A9 /* CCEventListenerCustom.cpp in Sources */,
+				2273E457210F4AFE00528FDA /* CCInvocation.cpp in Sources */,
 				2962D5F81C61DBBF004821A3 /* CCUIPasswordTextField.m in Sources */,
 				D0FD034B1A3B51AA00825BB5 /* CCAllocatorDiagnostics.cpp in Sources */,
 				15AE183819AAD2F700C27E9E /* CCRay.cpp in Sources */,
 				50ABBE391925AB6F00A911A9 /* CCData.cpp in Sources */,
 				1A57010E180BC8EE0088DEC7 /* CCDrawingPrimitives.cpp in Sources */,
 				50ABBED71925AB6F00A911A9 /* ZipUtils.cpp in Sources */,
-				292DB14919B4574100A80320 /* UIEditBoxImpl-ios.mm in Sources */,
 				15AE181019AAD2F700C27E9E /* CCAnimation3D.cpp in Sources */,
 				1A01C68418F57BE800EFE3A6 /* CCArray.cpp in Sources */,
 				1A570112180BC8EE0088DEC7 /* CCDrawNode.cpp in Sources */,
+				2273E454210F4AFE00528FDA /* CCControlStepper.cpp in Sources */,
 				15AE186D19AAD31D00C27E9E /* SimpleAudioEngine_objc.m in Sources */,
 				1A57011B180BC90D0088DEC7 /* CCGrabber.cpp in Sources */,
 				15AE182419AAD2F700C27E9E /* CCMesh.cpp in Sources */,
@@ -10563,6 +10582,7 @@
 				1A5701B9180BCB5A0088DEC7 /* CCLabel.cpp in Sources */,
 				1A5701BD180BCB5A0088DEC7 /* CCLabelAtlas.cpp in Sources */,
 				15AE1B5319AADA9900C27E9E /* UIRichText.cpp in Sources */,
+				2273E459210F4AFE00528FDA /* CCTableView.cpp in Sources */,
 				292DB13D19B4574100A80320 /* UIEditBox.cpp in Sources */,
 				50ABBE551925AB6F00A911A9 /* CCEventFocus.cpp in Sources */,
 				50ABBE491925AB6F00A911A9 /* CCEventAcceleration.cpp in Sources */,
@@ -10596,7 +10616,6 @@
 				1A570208180BCBDF0088DEC7 /* CCMotionStreak.cpp in Sources */,
 				1A570210180BCBF40088DEC7 /* CCProgressTimer.cpp in Sources */,
 				501216941AC47393009A4BEA /* CCPass.cpp in Sources */,
-				292DB14D19B4574100A80320 /* UIEditBoxImpl-mac.mm in Sources */,
 				50ABBDB51925AB4100A911A9 /* CCTexture2D.cpp in Sources */,
 				3EACC9A019F5014D00EB3C5E /* CCCamera.cpp in Sources */,
 				1A570214180BCBF40088DEC7 /* CCRenderTexture.cpp in Sources */,
@@ -10613,7 +10632,6 @@
 				1A57022D180BCC1A0088DEC7 /* CCParticleSystemQuad.cpp in Sources */,
 				1A57027E180BCC900088DEC7 /* CCSprite.cpp in Sources */,
 				5A0F3E2C2028CAAC007242E1 /* AudioDecoder.mm in Sources */,
-				29DA08F41C63351600F4052B /* UIEditBoxImpl-linux.cpp in Sources */,
 				1A570282180BCC900088DEC7 /* CCSpriteBatchNode.cpp in Sources */,
 				1A570286180BCC900088DEC7 /* CCSpriteFrame.cpp in Sources */,
 				B24AA989195A675C007B4522 /* CCFastTMXTiledMap.cpp in Sources */,
@@ -10644,6 +10662,7 @@
 				50ABBE691925AB6F00A911A9 /* CCEventListenerFocus.cpp in Sources */,
 				2274AD7B20DAC47100D6E87D /* CCDouble.cpp in Sources */,
 				2962D6001C61DF1A004821A3 /* CCUIMultilineTextField.m in Sources */,
+				2273E44B210F4A2400528FDA /* UIEditBoxImpl-mac.mm in Sources */,
 				15AE1BA319AADFDF00C27E9E /* UILayoutManager.cpp in Sources */,
 				B230ED7119B417AE00364AA8 /* CCTrianglesCommand.cpp in Sources */,
 				1A5702F2180BCE750088DEC7 /* CCTMXObjectGroup.cpp in Sources */,
@@ -10660,7 +10679,6 @@
 				50FC3F9E1D74C0A3001C936A /* CCController.cpp in Sources */,
 				50ABBD3C1925AB0000A911A9 /* CCGeometry.cpp in Sources */,
 				5012168E1AC47380009A4BEA /* CCRenderState.cpp in Sources */,
-				29DA08F61C63351600F4052B /* UIEditBoxImpl-winrt.cpp in Sources */,
 				3E2A09C21BAA91B70086B878 /* CCMotionStreak3D.cpp in Sources */,
 				50ABC0011926664800A911A9 /* CCLock-apple.cpp in Sources */,
 				50ABBD931925AB4100A911A9 /* CCGLProgramState.cpp in Sources */,
@@ -10680,6 +10698,7 @@
 				50ABC01D1926664800A911A9 /* CCThread.cpp in Sources */,
 				15AE180C19AAD2F700C27E9E /* CCAnimate3D.cpp in Sources */,
 				15AE183019AAD2F700C27E9E /* CCOBB.cpp in Sources */,
+				2273E455210F4AFE00528FDA /* CCControlSwitch.cpp in Sources */,
 				50ABBECB1925AB6F00A911A9 /* s3tc.cpp in Sources */,
 				50ABBD481925AB0000A911A9 /* Mat4.cpp in Sources */,
 				50ABBD8F1925AB4100A911A9 /* CCGLProgramCache.cpp in Sources */,
@@ -10691,9 +10710,8 @@
 				50ABC0051926664800A911A9 /* CCThread-apple.mm in Sources */,
 				50ABC0631926664800A911A9 /* CCDevice-mac.mm in Sources */,
 				15AE1B6719AADA9900C27E9E /* UIScale9Sprite.cpp in Sources */,
-				292DB14319B4574100A80320 /* UIEditBoxImpl-android.cpp in Sources */,
-				50ED2BE419BEAF7900A0AB90 /* UIEditBoxImpl-win32.cpp in Sources */,
 				50ABBE1F1925AB6F00A911A9 /* atitc.cpp in Sources */,
+				2273E44C210F4ABE00528FDA /* CCControl.cpp in Sources */,
 				2274AD7F20DAC61800D6E87D /* CCFloat.cpp in Sources */,
 				1A01C69818F57BE800EFE3A6 /* CCSet.cpp in Sources */,
 				1AAF584F180E40B9000584C8 /* LocalStorage.cpp in Sources */,
@@ -10711,13 +10729,16 @@
 				15AE180819AAD2F700C27E9E /* CCAABB.cpp in Sources */,
 				15AE1B9F19AADFDF00C27E9E /* UILayout.cpp in Sources */,
 				50ABBECF1925AB6F00A911A9 /* TGAlib.cpp in Sources */,
+				2273E45A210F4AFE00528FDA /* CCTableViewCell.cpp in Sources */,
 				50ABBE451925AB6F00A911A9 /* CCEvent.cpp in Sources */,
 				291A09251C5F06A60068C1D2 /* CCUIEditBoxMac.mm in Sources */,
+				2273E450210F4AFE00528FDA /* CCControlHuePicker.cpp in Sources */,
 				D0FD034F1A3B51AA00825BB5 /* CCAllocatorGlobal.cpp in Sources */,
 				50ABBE611925AB6F00A911A9 /* CCEventListenerAcceleration.cpp in Sources */,
 				50ABBD9F1925AB4100A911A9 /* CCGroupCommand.cpp in Sources */,
 				50ABBD871925AB4100A911A9 /* CCCustomCommand.cpp in Sources */,
 				50ABBDBD1925AB4100A911A9 /* CCTextureCache.cpp in Sources */,
+				2273E44F210F4AFE00528FDA /* CCControlColourPicker.cpp in Sources */,
 				15AE1B4F19AADA9900C27E9E /* UILoadingBar.cpp in Sources */,
 				299754F4193EC95400A54AC3 /* ObjectFactory.cpp in Sources */,
 				15AE1BA119AADFDF00C27E9E /* UILayoutParameter.cpp in Sources */,
@@ -10739,6 +10760,7 @@
 				15AE1B5119AADA9900C27E9E /* UIPageView.cpp in Sources */,
 				1A01C68E18F57BE800EFE3A6 /* CCDictionary.cpp in Sources */,
 				50ABBD381925AB0000A911A9 /* CCAffineTransform.cpp in Sources */,
+				2273E453210F4AFE00528FDA /* CCControlSlider.cpp in Sources */,
 				15AE1B6B19AADA9900C27E9E /* UIWidget.cpp in Sources */,
 				50ABBE931925AB6F00A911A9 /* CCProfiling.cpp in Sources */,
 				2962D6041C61F02E004821A3 /* CCUITextFieldFormatter.m in Sources */,
@@ -12304,7 +12326,7 @@
 					"$(SRCROOT)/../external/poly2tri/sweep",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -12396,7 +12418,7 @@
 					"$(SRCROOT)/../external/poly2tri/sweep",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				VALIDATE_PRODUCT = YES;
@@ -12418,9 +12440,6 @@
 		1551A34D158F2AB200E66CFE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_EXTENSION = a;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "../cocos/platform/mac/cocos2d-prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					CC_TARGET_OS_MAC,
@@ -12449,10 +12468,7 @@
 		1551A34E158F2AB200E66CFE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_EXTENSION = a;
 				GCC_OPTIMIZATION_LEVEL = fast;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "../cocos/platform/mac/cocos2d-prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					CC_KEYBOARD_SUPPORT,

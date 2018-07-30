@@ -29,6 +29,14 @@
 #include "ui/UIEditBox/Mac/CCUISingleLineTextField.h"
 #include <cocos/base/CCDirector.h>
 
+namespace cocos2d
+{
+    namespace ui
+    {
+        EditBoxImpl::~EditBoxImpl() {}
+    }
+}
+
 #define getEditBoxImplMac() ((cocos2d::ui::EditBoxImplMac*)_editBox)
 
 @implementation UIEditBoxImplMac
