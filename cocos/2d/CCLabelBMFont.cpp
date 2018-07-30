@@ -34,9 +34,15 @@ http://www.angelcode.com/products/bmfont/ (Free, Windows only)
 #include <cocos/2d/CCLabelBMFont.h>
 
 #include <cocos/2d/CCLabel.h>
+#include <cocos/2d/CCNode.h>
 #include <cocos/2d/CCSprite.h>
 #include <cocos/base/CCVector.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccTypes.h>
 #include <cocos/base/ccUTF8.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <new>
 

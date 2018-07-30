@@ -23,13 +23,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "audio/apple/AudioDecoder.h"
+#include <cocos/audio/apple/AudioDecoder.h>
 
-#include "audio/apple/AudioDecoder.h"
-#include "audio/apple/AudioMacros.h"
+#include <cocos/audio/apple/AudioDecoder.h>
+#include <cocos/audio/apple/AudioMacros.h>
 
 #import <AudioToolbox/ExtendedAudioFile.h>
-#include <CoreAudio/CoreAudioTypes.h>
+#import <CoreAudio/CoreAudioTypes.h>
 #import <CoreFoundation/CFBase.h>
 #import <CoreFoundation/CFURL.h>
 #import <Foundation/NSString.h>

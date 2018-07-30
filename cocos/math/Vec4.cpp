@@ -21,6 +21,7 @@
 #include <cocos/math/Vec4.h>
 
 #include <cocos/base/ccMacros.h>
+#include <cocos/math/CCMathBase.h>
 
 #include <cmath>
 #include <limits>

@@ -25,12 +25,16 @@ THE SOFTWARE.
 #include <cocos/ui/UIScrollViewBar.h>
 
 #include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCProtectedNode.h>
 #include <cocos/2d/CCSprite.h>
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/ccTypes.h>
 #include <cocos/base/ccUtils.h>
 #include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/ui/UILayout.h>
+#include <cocos/ui/UIScrollView.h>
 
 #include <algorithm>
 #include <cmath>

@@ -30,8 +30,11 @@
 #include <cocos/2d/CCProgressTimer.h>
 #include <cocos/2d/CCSprite.h>
 #include <cocos/base/ccTypes.h>
+#include <cocos/extensions/ExtensionMacros.h>
 #include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
 #include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <algorithm>
 #include <cmath>
@@ -186,7 +189,7 @@ bool ControlPotentiometer::isTouchInside(Touch* touch)
 
     float distance = this->distanceBetweenPointAndPoint(_progressTimer->getPosition(), touchLocation);
 
-    return distance < MIN(getContentSize().width / 2, getContentSize().height / 2);
+    return distance < std::min(getContentSize().width / 2, getContentSize().height / 2);
 }
 
 bool ControlPotentiometer::onTouchBegan(Touch* pTouch, Event* pEvent)

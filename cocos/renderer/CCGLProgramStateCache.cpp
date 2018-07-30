@@ -24,6 +24,8 @@ THE SOFTWARE.
 
 #include <cocos/renderer/CCGLProgramStateCache.h>
 
+#include <cocos/base/CCMap.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCGLProgramState.h>
 
 #include <new>

@@ -24,7 +24,9 @@
 
 #include <cocos/base/CCEventListenerTouch.h>
 
+#include <cocos/base/CCEventListener.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <new>
 

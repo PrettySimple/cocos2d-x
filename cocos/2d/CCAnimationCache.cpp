@@ -30,9 +30,12 @@ THE SOFTWARE.
 #include <cocos/2d/CCSpriteFrame.h>
 #include <cocos/2d/CCSpriteFrameCache.h>
 #include <cocos/base/CCConsole.h>
+#include <cocos/base/CCMap.h>
+#include <cocos/base/CCValue.h>
 #include <cocos/base/CCVector.h>
 #include <cocos/base/ccMacros.h>
 #include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <chrono>
 #include <cstddef>

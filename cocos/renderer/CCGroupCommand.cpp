@@ -25,6 +25,8 @@
 #include <cocos/renderer/CCGroupCommand.h>
 
 #include <cocos/base/CCDirector.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCRenderCommand.h>
 #include <cocos/renderer/CCRenderer.h>
 
 #include <unordered_set>

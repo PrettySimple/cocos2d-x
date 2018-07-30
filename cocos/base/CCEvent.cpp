@@ -24,6 +24,9 @@
 
 #include <cocos/base/CCEvent.h>
 
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <type_traits>
 
 NS_CC_BEGIN

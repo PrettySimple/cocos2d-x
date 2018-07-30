@@ -29,9 +29,13 @@
 #include <cocos/base/CCConfiguration.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
 #include <cocos/math/Vec2.h>
 #include <cocos/math/Vec3.h>
 #include <cocos/math/Vec4.h>
+#include <cocos/platform/CCGL.h>
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCBatchCommand.h>
 #include <cocos/renderer/CCCustomCommand.h>

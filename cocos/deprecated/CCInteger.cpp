@@ -8,6 +8,7 @@
 #include <cocos/deprecated/CCInteger.h>
 
 #include <cocos/base/CCDataVisitor.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <new>
 

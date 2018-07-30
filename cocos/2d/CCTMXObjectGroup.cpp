@@ -27,6 +27,9 @@ THE SOFTWARE.
 ****************************************************************************/
 #include <cocos/2d/CCTMXObjectGroup.h>
 
+#include <cocos/base/CCValue.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <string>
 #include <unordered_map>
 

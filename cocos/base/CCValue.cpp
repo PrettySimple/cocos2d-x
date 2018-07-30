@@ -26,6 +26,7 @@
 
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/ccUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cmath>
 #include <cstdlib>

@@ -27,6 +27,9 @@ THE SOFTWARE.
 #include <cocos/2d/CCLabel.h>
 #include <cocos/editor-support/cocostudio/CocosStudioExtension.h>
 #include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <new>
 #include <string>

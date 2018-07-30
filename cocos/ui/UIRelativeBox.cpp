@@ -24,6 +24,10 @@
 
 #include <cocos/ui/UIRelativeBox.h>
 
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/UILayout.h>
+
 #include <new>
 
 NS_CC_BEGIN

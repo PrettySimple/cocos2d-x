@@ -25,12 +25,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#import "ui/UIEditBox/iOS/CCUIEditBoxIOS.h"
+#import <cocos/ui/UIEditBox/iOS/CCUIEditBoxIOS.h>
 
-#include "ui/UIEditBox/iOS/CCUIMultilineTextField.h"
-#include "ui/UIEditBox/iOS/CCUISingleLineTextField.h"
 #include <cocos/base/CCDirector.h>
 #include <cocos/platform/ios/CCEAGLView-ios.h>
+#include <cocos/ui/UIEditBox/iOS/CCUIMultilineTextField.h>
+#include <cocos/ui/UIEditBox/iOS/CCUISingleLineTextField.h>
 
 #define getEditBoxImplIOS() ((cocos2d::ui::EditBoxImplIOS*)_editBox)
 

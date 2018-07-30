@@ -24,6 +24,8 @@ THE SOFTWARE.
 
 #include <cocos/2d/CCComponent.h>
 
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <new>
 
 NS_CC_BEGIN

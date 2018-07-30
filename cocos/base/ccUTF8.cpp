@@ -26,6 +26,8 @@
 #include <cocos/base/ccUTF8.h>
 
 #include <cocos/base/CCConsole.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"

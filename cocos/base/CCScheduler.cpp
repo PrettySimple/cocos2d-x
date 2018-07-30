@@ -27,8 +27,10 @@ THE SOFTWARE.
 
 #include <cocos/base/CCScheduler.h>
 
+#include <cocos/base/CCRef.h>
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/iterator_pair.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <algorithm>
 #include <cmath>

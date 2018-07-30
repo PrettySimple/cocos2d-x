@@ -29,10 +29,10 @@
 #if CC_USE_NAVMESH
 
 #    include "recast/DebugUtils/DebugDraw.h"
-#    include "renderer/CCRenderState.h"
 #    include <cocos/math/Vec3.h>
 #    include <cocos/renderer/CCCustomCommand.h>
 #    include <cocos/renderer/CCGLProgram.h>
+#    include <cocos/renderer/CCRenderState.h>
 #    include <string>
 #    include <vector>
 

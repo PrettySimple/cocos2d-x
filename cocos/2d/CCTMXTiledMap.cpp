@@ -26,10 +26,16 @@ THE SOFTWARE.
 ****************************************************************************/
 #include <cocos/2d/CCTMXTiledMap.h>
 
+#include <cocos/2d/CCNode.h>
 #include <cocos/2d/CCTMXLayer.h>
+#include <cocos/2d/CCTMXObjectGroup.h>
 #include <cocos/2d/CCTMXXMLParser.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/CCVector.h>
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/ccUTF8.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <algorithm>
 #include <cstdint>

@@ -28,6 +28,8 @@
 #include <cocos/platform/CCFileUtils.h>
 #include <cocos/platform/CCGL.h>
 #include <cocos/platform/CCImage.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCTexture2D.h>
 #include <cocos/renderer/ccGLStateCache.h>
 
 #include <cstddef>

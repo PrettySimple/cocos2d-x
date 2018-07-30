@@ -28,12 +28,19 @@ THE SOFTWARE.
 #include <cocos/2d/CCTMXLayer.h>
 
 #include <cocos/2d/CCSprite.h>
+#include <cocos/2d/CCSpriteBatchNode.h>
 #include <cocos/2d/CCTMXTiledMap.h>
+#include <cocos/2d/CCTMXXMLParser.h>
 #include <cocos/base/CCDirector.h>
+#include <cocos/base/CCValue.h>
 #include <cocos/base/CCVector.h>
+#include <cocos/base/ccCArray.h>
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/ccUTF8.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
 #include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCGLProgram.h>
 #include <cocos/renderer/CCGLProgramState.h>
 #include <cocos/renderer/CCTexture2D.h>

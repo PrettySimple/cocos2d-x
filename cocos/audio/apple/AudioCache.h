@@ -35,7 +35,7 @@
 #    include <string>
 #    include <vector>
 
-#    include "audio/apple/AudioMacros.h"
+#    include <cocos/audio/apple/AudioMacros.h>
 #    include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN

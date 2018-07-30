@@ -24,6 +24,8 @@
 
 #include <cocos/ui/UILayoutParameter.h>
 
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <new>
 
 NS_CC_BEGIN

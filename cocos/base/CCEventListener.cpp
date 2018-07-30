@@ -25,6 +25,7 @@
 #include <cocos/base/CCEventListener.h>
 
 #include <cocos/base/CCConsole.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 

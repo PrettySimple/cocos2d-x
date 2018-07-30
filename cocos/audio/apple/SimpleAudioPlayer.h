@@ -8,7 +8,7 @@
 #ifndef CC_AUDIO_APPLE_SIMPLEAUDIOPLAYER_H
 #define CC_AUDIO_APPLE_SIMPLEAUDIOPLAYER_H
 
-#include "AudioPlayer.h"
+#include <cocos/audio/apple/AudioPlayer.h>
 
 #include <chrono>
 

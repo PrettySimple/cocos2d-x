@@ -26,6 +26,8 @@ THE SOFTWARE.
 #include <cocos/deprecated/CCSet.h>
 
 #include <cocos/base/CCDataVisitor.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <new>
 

@@ -26,6 +26,7 @@
 
 #include <cocos/base/CCConsole.h>
 #include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstring>
 #include <new>

@@ -22,7 +22,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "ui/UIEditBox/UIEditBoxImpl-win32.h"
+#include <coco/ui/UIEditBox/UIEditBoxImpl-win32.h>
 
 #include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)

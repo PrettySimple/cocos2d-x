@@ -44,18 +44,25 @@ THE SOFTWARE.
 
 #include <cocos/2d/CCParticleSystem.h>
 
+#include <cocos/2d/CCNode.h>
 #include <cocos/2d/CCParticleBatchNode.h>
 #include <cocos/base/CCDirector.h>
+#include <cocos/base/CCValue.h>
 #include <cocos/base/ZipUtils.h>
 #include <cocos/base/base64.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
 #include <cocos/math/CCMathBase.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
 #include <cocos/platform/CCFileUtils.h>
 #include <cocos/platform/CCGL.h>
 #include <cocos/platform/CCImage.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCTexture2D.h>
 #include <cocos/renderer/CCTextureCache.h>
 
+#include <algorithm>
 #include <cmath>
 #include <cstdint>
 #include <cstdlib>

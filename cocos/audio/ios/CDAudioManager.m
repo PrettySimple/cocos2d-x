@@ -22,7 +22,7 @@
  $Id$
  */
 
-#import "audio/ios/CDAudioManager.h"
+#import <cocos/audio/ios/CDAudioManager.h>
 
 NSString* const kCDN_AudioManagerInitialised = @"kCDN_AudioManagerInitialised";
 

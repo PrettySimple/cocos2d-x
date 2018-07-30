@@ -25,9 +25,15 @@ THE SOFTWARE.
 #include <cocos/ui/UIPageViewIndicator.h>
 
 #include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccTypes.h>
 #include <cocos/base/ccUtils.h>
 #include <cocos/math/CCGeometry.h>
 #include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/UIPageView.h>
+#include <cocos/ui/UIScrollView.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <new>
 

@@ -24,6 +24,8 @@
 
 #include <cocos/renderer/CCPrimitive.h>
 
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCVertexIndexBuffer.h>
 #include <cocos/renderer/CCVertexIndexData.h>
 

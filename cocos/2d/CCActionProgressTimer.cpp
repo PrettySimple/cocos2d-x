@@ -25,8 +25,10 @@ THE SOFTWARE.
 ****************************************************************************/
 #include <cocos/2d/CCActionProgressTimer.h>
 
+#include <cocos/2d/CCActionInterval.h>
 #include <cocos/2d/CCProgressTimer.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <new>
 

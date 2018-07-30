@@ -24,10 +24,10 @@
 #include "navmesh/CCNavMeshDebugDraw.h"
 #if CC_USE_NAVMESH
 
-#    include "renderer/CCRenderState.h"
 #    include <cocos/base/CCDirector.h>
 #    include <cocos/base/ccMacros.h>
 #    include <cocos/renderer/CCGLProgramCache.h>
+#    include <cocos/renderer/CCRenderState.h>
 #    include <cocos/renderer/CCRenderer.h>
 #    include <cocos/renderer/ccGLStateCache.h>
 

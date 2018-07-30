@@ -7,6 +7,8 @@
 
 #include <cocos/base/CCProtocols.h>
 
+#include <cocos/platform/CCPlatformMacros.h>
+
 NS_CC_BEGIN
 
 __RGBAProtocol::~__RGBAProtocol()

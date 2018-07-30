@@ -24,6 +24,8 @@ THE SOFTWARE.
 
 #include <cocos/2d/CCTweenFunction.h>
 
+#include <cocos/platform/CCPlatformMacros.h>
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wreserved-id-macro"
 #define _USE_MATH_DEFINES // needed for M_PI and M_PI2

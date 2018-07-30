@@ -25,7 +25,12 @@
 #include <cocos/3d/CCSkeleton3D.h>
 
 #include <cocos/3d/CCBundle3DData.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Quaternion.h>
+#include <cocos/math/Vec3.h>
 #include <cocos/math/Vec4.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <new>
 #include <string>

@@ -36,7 +36,6 @@
 #include <cocos/extensions/ExtensionMacros.h>
 #include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
 #include <cocos/extensions/GUI/CCControlExtension/CCControlUtils.h>
-#include <cocos/platform/CCPlatformMacros.h>
 
 namespace cocos2d
 {

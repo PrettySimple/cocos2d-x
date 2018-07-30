@@ -27,15 +27,17 @@
  Works on cocos2d-iphone and cocos2d-x.
  */
 
-#include "storage/local-storage/LocalStorage.h"
+#include <cocos/storage/local-storage/LocalStorage.h>
 
 #include <cocos/platform/CCPlatformConfig.h>
 
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID)
 
+#    include <sqlite3.h>
+
 #    include <cassert>
 #    include <cstdio>
-#    include <sqlite3.h>
+#    include <string>
 
 static int _initialized = 0;
 static sqlite3* _db;

@@ -27,7 +27,9 @@
 
 #include <cocos/2d/CCActionInterval.h>
 
+#include <cocos/2d/CCAction.h>
 #include <cocos/2d/CCActionInstant.h>
+#include <cocos/2d/CCAnimation.h>
 #include <cocos/2d/CCNode.h>
 #include <cocos/2d/CCSprite.h>
 #include <cocos/2d/CCSpriteFrame.h>
@@ -36,6 +38,14 @@
 #include <cocos/base/CCEventCustom.h>
 #include <cocos/base/CCEventDispatcher.h>
 #include <cocos/base/CCValue.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <algorithm>
 #include <cmath>

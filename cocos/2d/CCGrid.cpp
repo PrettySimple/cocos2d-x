@@ -29,8 +29,14 @@ THE SOFTWARE.
 #include <cocos/2d/CCGrabber.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
 #include <cocos/base/ccUtils.h>
+#include <cocos/math/CCGeometry.h>
 #include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCFrameBuffer.h>
 #include <cocos/renderer/CCGLProgram.h>
 #include <cocos/renderer/CCGLProgramCache.h>

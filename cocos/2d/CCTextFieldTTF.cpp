@@ -25,13 +25,21 @@ THE SOFTWARE.
 
 #include <cocos/2d/CCTextFieldTTF.h>
 
+#include <cocos/2d/CCLabel.h>
 #include <cocos/2d/CCNode.h>
 #include <cocos/2d/CCSprite.h>
 #include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventKeyboard.h>
+#include <cocos/base/CCIMEDelegate.h>
+#include <cocos/base/ccTypes.h>
 #include <cocos/base/ccUTF8.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
 #include <cocos/platform/CCFileUtils.h>
 #include <cocos/platform/CCGLView.h>
 #include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <new>
 #include <string>

@@ -33,6 +33,8 @@ THE SOFTWARE.
 #include <cocos/base/ccUtils.h>
 #include <cocos/platform/CCFileUtils.h>
 #include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 extern "C"
 {

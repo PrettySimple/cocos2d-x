@@ -27,9 +27,13 @@
 
 #include <cocos/2d/CCNode.h>
 #include <cocos/base/CCTouch.h>
+#include <cocos/base/CCVector.h>
 #include <cocos/base/ccTypes.h>
+#include <cocos/extensions/ExtensionMacros.h>
 #include <cocos/extensions/GUI/CCScrollView/CCScrollView.h>
 #include <cocos/extensions/GUI/CCScrollView/CCTableViewCell.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
 #include <cocos/platform/CCPlatformMacros.h>
 
 #include <algorithm>

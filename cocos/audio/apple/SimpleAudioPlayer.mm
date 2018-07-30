@@ -5,11 +5,11 @@
 //  Created by Guilhem Vors on 20/03/2018.
 //
 
-#include "SimpleAudioPlayer.h"
+#include <cocos/audio/apple/SimpleAudioPlayer.h>
 
-#include "audio/apple/AudioMacros.h"
-#include "audio/apple/AudioPlayer.h"
-#include "audio/include/SimpleAudioEngine.h"
+#include <cocos/audio/apple/AudioMacros.h>
+#include <cocos/audio/apple/AudioPlayer.h>
+#include <cocos/audio/include/SimpleAudioEngine.h>
 
 #include <atomic>
 #include <chrono>

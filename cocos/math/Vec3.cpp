@@ -20,6 +20,8 @@
 
 #include <cocos/math/Vec3.h>
 
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/CCMathBase.h>
 #include <cocos/math/MathUtil.h>
 
 #include <cstddef>

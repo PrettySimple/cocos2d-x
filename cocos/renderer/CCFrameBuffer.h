@@ -39,7 +39,9 @@
 NS_CC_BEGIN
 
 class GLView;
+#if CC_ENABLE_CACHE_TEXTURE_DATA
 class EventListenerCustom;
+#endif
 
 namespace experimental
 {

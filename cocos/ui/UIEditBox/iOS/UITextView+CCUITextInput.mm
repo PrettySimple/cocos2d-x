@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#import "ui/UIEditBox/iOS/UITextView+CCUITextInput.h"
+#import <cocos/ui/UIEditBox/iOS/UITextView+CCUITextInput.h>
 
 #import <Foundation/NSString.h>
 #import <UIKit/UIColor.h>

@@ -26,6 +26,8 @@ THE SOFTWARE.
 #include <cocos/2d/CCGrabber.h>
 
 #include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCTexture2D.h>
 
 #include <cstring>

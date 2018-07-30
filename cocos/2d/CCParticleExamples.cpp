@@ -28,12 +28,14 @@ THE SOFTWARE.
 #include <cocos/2d/CCParticleExamples.h>
 
 #include <cocos/2d/CCParticleSystem.h>
+#include <cocos/2d/CCParticleSystemQuad.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/ccTypes.h>
 #include <cocos/base/firePngData.h>
 #include <cocos/math/CCGeometry.h>
 #include <cocos/math/Vec2.h>
 #include <cocos/platform/CCImage.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCTextureCache.h>
 
 #include <chrono>

@@ -31,6 +31,8 @@ THE SOFTWARE.
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/ccConfig.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCRenderState.h>
 #include <cocos/renderer/CCTexture2D.h>
 

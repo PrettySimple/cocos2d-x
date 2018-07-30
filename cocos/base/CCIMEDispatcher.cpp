@@ -25,6 +25,10 @@ THE SOFTWARE.
 
 #include <cocos/base/CCIMEDispatcher.h>
 
+#include <cocos/base/CCEventKeyboard.h>
+#include <cocos/base/CCIMEDelegate.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <list>
 
 NS_CC_BEGIN

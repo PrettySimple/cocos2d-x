@@ -27,11 +27,16 @@ THE SOFTWARE.
 
 #include <cocos/2d/CCAtlasNode.h>
 
+#include <cocos/2d/CCNode.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
 #include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCGLProgram.h>
 #include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCQuadCommand.h>
 #include <cocos/renderer/CCRenderer.h>
 #include <cocos/renderer/CCTexture2D.h>
 #include <cocos/renderer/CCTextureAtlas.h>

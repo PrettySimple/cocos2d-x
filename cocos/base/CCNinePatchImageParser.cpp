@@ -25,7 +25,10 @@
 
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
 #include <cocos/platform/CCImage.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCTexture2D.h>
 
 #include <cstddef>

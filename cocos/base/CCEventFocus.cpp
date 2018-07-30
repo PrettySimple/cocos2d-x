@@ -25,6 +25,9 @@
 
 #include <cocos/base/CCEventFocus.h>
 
+#include <cocos/base/CCEvent.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 NS_CC_BEGIN
 
 EventFocus::EventFocus(ui::Widget* widgetLoseFocus, ui::Widget* widgetGetFocus)

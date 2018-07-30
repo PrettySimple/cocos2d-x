@@ -24,11 +24,15 @@
 
 #include <cocos/3d/CCMeshVertexIndexData.h>
 
+#include <cocos/3d/CCAABB.h>
 #include <cocos/3d/CCBundle3D.h>
+#include <cocos/3d/CCBundle3DData.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCVertexIndexBuffer.h>
 #include <cocos/renderer/CCVertexIndexData.h>
 
-#include <fstream>
 #include <new>
 #include <string>
 

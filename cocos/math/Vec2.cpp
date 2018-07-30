@@ -21,6 +21,7 @@
 #include <cocos/math/Vec2.h>
 
 #include <cocos/base/ccMacros.h>
+#include <cocos/math/CCMathBase.h>
 
 #include <algorithm>
 #include <limits>

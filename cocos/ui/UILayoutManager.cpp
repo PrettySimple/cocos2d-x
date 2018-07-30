@@ -25,10 +25,13 @@
 #include <cocos/ui/UILayoutManager.h>
 
 #include <cocos/2d/CCNode.h>
+#include <cocos/base/CCVector.h>
 #include <cocos/math/CCGeometry.h>
 #include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/ui/UILayout.h>
 #include <cocos/ui/UILayoutParameter.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <iosfwd>
 #include <new>

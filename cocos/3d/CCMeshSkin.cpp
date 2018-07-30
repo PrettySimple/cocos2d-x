@@ -25,8 +25,11 @@
 #include <cocos/3d/CCMeshSkin.h>
 
 #include <cocos/3d/CCSkeleton3D.h>
+#include <cocos/base/CCVector.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/math/Mat4.h>
 #include <cocos/math/Vec4.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <new>
 #include <string>

@@ -27,8 +27,12 @@ THE SOFTWARE.
 
 #include <cocos/2d/CCSpriteFrame.h>
 
+#include <cocos/2d/CCAutoPolygon.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCTextureCache.h>
 #include <cocos/renderer/CCTrianglesCommand.h>
 

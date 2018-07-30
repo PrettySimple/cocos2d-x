@@ -31,7 +31,9 @@
 #include <cocos/2d/CCAction.h>
 #include <cocos/2d/CCActionManagerData.h>
 #include <cocos/2d/CCNode.h>
+#include <cocos/base/CCVector.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 

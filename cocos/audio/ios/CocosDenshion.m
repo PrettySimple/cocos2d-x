@@ -22,7 +22,7 @@
  $Id$
  */
 
-#import "audio/ios/CocosDenshion.h"
+#import <cocos/audio/ios/CocosDenshion.h>
 
 ALvoid alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* data, ALsizei size, ALsizei freq);
 ALvoid alcMacOSXMixerOutputRateProc(const ALdouble value);

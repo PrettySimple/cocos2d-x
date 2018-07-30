@@ -26,6 +26,7 @@ THE SOFTWARE.
 
 #include <cocos/base/CCConsole.h>
 #include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <new>
 

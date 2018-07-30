@@ -24,6 +24,9 @@
 
 #include <cocos/3d/CCPlane.h>
 
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 NS_CC_BEGIN
 
 Plane::Plane()

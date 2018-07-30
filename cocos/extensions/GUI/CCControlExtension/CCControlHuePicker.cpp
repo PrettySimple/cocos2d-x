@@ -33,9 +33,12 @@
 
 #include <cocos/2d/CCSprite.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/extensions/ExtensionMacros.h>
 #include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
 #include <cocos/extensions/GUI/CCControlExtension/CCControlUtils.h>
 #include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cmath>
 #include <new>

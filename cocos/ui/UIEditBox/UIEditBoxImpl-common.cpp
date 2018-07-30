@@ -28,9 +28,15 @@
 #define kLabelZOrder 9999
 
 #include <cocos/2d/CCLabel.h>
+#include <cocos/base/ccTypes.h>
 #include <cocos/math/CCAffineTransform.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
 #include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/ui/UIEditBox/UIEditBox.h>
+#include <cocos/ui/UIEditBox/UIEditBoxImpl.h>
 #include <cocos/ui/UIHelper.h>
 
 #include <cstring>

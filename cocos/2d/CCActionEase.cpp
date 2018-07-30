@@ -33,9 +33,11 @@ THE SOFTWARE.
 
 #include <cocos/2d/CCActionEase.h>
 
+#include <cocos/2d/CCActionInterval.h>
 #include <cocos/2d/CCTweenFunction.h>
 #include <cocos/base/CCConsole.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <new>
 

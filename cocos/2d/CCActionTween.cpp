@@ -26,8 +26,10 @@ THE SOFTWARE.
 
 #include <cocos/2d/CCActionTween.h>
 
+#include <cocos/2d/CCActionInterval.h>
 #include <cocos/2d/CCNode.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <new>
 

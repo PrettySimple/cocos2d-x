@@ -25,6 +25,9 @@ THE SOFTWARE.
 
 #include <cocos/math/CCGeometry.h>
 
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <algorithm>
 #include <cmath>
 

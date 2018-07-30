@@ -37,7 +37,6 @@
 NS_CC_MATH_BEGIN
 
 class Quaternion;
-class Vec4;
 
 /**
  * Defines a 4 x 4 floating point matrix representing a 3D transformation.

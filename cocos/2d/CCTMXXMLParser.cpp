@@ -28,12 +28,19 @@ THE SOFTWARE.
 
 #include <cocos/2d/CCTMXXMLParser.h>
 
+#include <cocos/2d/CCTMXObjectGroup.h>
 #include <cocos/2d/CCTMXTiledMap.h>
 #include <cocos/base/CCDirector.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/CCVector.h>
 #include <cocos/base/ZipUtils.h>
 #include <cocos/base/base64.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
 #include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCSAXParser.h>
 
 #include <cstdlib>
 #include <cstring>

@@ -235,7 +235,6 @@ public:
 };
 
 class ActionInterval;
-class RepeatForever;
 
 /** @class Speed
  * @brief Changes the speed of an action, making it take longer (speed>1)

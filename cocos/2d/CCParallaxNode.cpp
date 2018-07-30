@@ -26,10 +26,15 @@ THE SOFTWARE.
 ****************************************************************************/
 #include <cocos/2d/CCParallaxNode.h>
 
+#include <cocos/2d/CCNode.h>
 #include <cocos/base/CCRef.h>
 #include <cocos/base/ccCArray.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
+#include <cstddef>
 #include <new>
 
 namespace cocos2d

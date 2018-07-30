@@ -29,8 +29,11 @@
 
 #include <cocos/renderer/CCTechnique.h>
 
+#include <cocos/base/CCVector.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCMaterial.h>
 #include <cocos/renderer/CCPass.h>
+#include <cocos/renderer/CCRenderState.h>
 
 #include <new>
 

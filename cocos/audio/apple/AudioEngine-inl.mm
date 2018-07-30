@@ -34,13 +34,13 @@
 #        import <AppKit/AppKit.h>
 #    endif
 
-#    include "audio/apple/AudioEngine-inl.h"
+#    include <cocos/audio/apple/AudioEngine-inl.h>
 
 #    import <AVFoundation/AVFoundation.h>
 #    import <OpenAL/alc.h>
 
-#    include "audio/include/AudioEngine.h"
-#    include "audio/include/SimpleAudioEngine.h"
+#    include <cocos/audio/include/AudioEngine.h>
+#    include <cocos/audio/include/SimpleAudioEngine.h>
 #    include <cocos/base/CCDirector.h>
 #    include <cocos/base/CCScheduler.h>
 #    include <cocos/base/ccUtils.h>

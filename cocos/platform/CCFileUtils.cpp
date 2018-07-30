@@ -25,9 +25,11 @@ THE SOFTWARE.
 
 #include <cocos/platform/CCFileUtils.h>
 
-#include "CCPlatformConfig.h"
 #include <cocos/base/CCData.h>
+#include <cocos/base/CCValue.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"

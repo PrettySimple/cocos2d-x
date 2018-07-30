@@ -50,7 +50,6 @@ NS_CC_BEGIN
 
 class Event;
 class Node;
-class Ref;
 class Touch;
 class Vec3;
 struct Color3B;

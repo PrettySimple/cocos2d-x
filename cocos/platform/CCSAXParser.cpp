@@ -27,6 +27,7 @@
 #include <cocos/base/CCConsole.h>
 #include <cocos/base/CCData.h>
 #include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"

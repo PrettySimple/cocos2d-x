@@ -25,6 +25,10 @@
 #include <cocos/3d/CCBundleReader.h>
 
 #include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <cstdio>
+#include <cstring>
 
 NS_CC_BEGIN
 

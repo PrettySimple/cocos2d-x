@@ -31,6 +31,7 @@ THE SOFTWARE.
 #include <cocos/math/CCGeometry.h>
 #include <cocos/math/Vec2.h>
 #include <cocos/platform/CCGLView.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/ui/GUIDefine.h>
 #include <cocos/ui/UILayoutComponent.h>
 #include <cocos/ui/UIWidget.h>

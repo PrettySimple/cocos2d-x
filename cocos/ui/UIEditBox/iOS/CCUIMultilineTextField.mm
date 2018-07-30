@@ -24,7 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#import "ui/UIEditBox/iOS/CCUIMultilineTextField.h"
+#include <cocos/ui/UIEditBox/iOS/CCUIMultilineTextField.h>
 
 #include <cocos/base/CCDirector.h>
 

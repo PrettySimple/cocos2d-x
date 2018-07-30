@@ -30,11 +30,16 @@
 
 #include <cocos/2d/CCParticleBatchNode.h>
 
+#include <cocos/2d/CCNode.h>
 #include <cocos/2d/CCParticleSystem.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/CCVector.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Mat4.h>
 #include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCBatchCommand.h>
 #include <cocos/renderer/CCGLProgram.h>
 #include <cocos/renderer/CCGLProgramState.h>
 #include <cocos/renderer/CCRenderer.h>

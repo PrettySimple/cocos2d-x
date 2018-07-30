@@ -29,16 +29,15 @@
 
 #    define kLabelZOrder 9999
 
-#    import "platform/ios/CCEAGLView-ios.h"
 #    include <cocos/2d/CCLabel.h>
 #    include <cocos/base/CCDirector.h>
+#    include <cocos/platform/ios/CCEAGLView-ios.h>
 #    include <cocos/ui/UIEditBox/UIEditBox.h>
+#    include <cocos/ui/UIEditBox/iOS/CCUIEditBoxIOS.h>
 
 #    import <CoreGraphics/CGGeometry.h>
 #    import <Foundation/NSString.h>
 #    import <UIKit/UIColor.h>
-
-#    import "ui/UIEditBox/iOS/CCUIEditBoxIOS.h"
 
 #    define getEditBoxImplIOS() ((cocos2d::ui::EditBoxImplIOS*)_editBox)
 

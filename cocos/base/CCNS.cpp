@@ -25,6 +25,9 @@ THE SOFTWARE.
 #include <cocos/base/CCNS.h>
 
 #include <cocos/base/ccUtils.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstdlib>
 #include <string>

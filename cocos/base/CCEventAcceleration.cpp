@@ -24,6 +24,14 @@
 
 #include <cocos/base/CCEventAcceleration.h>
 
+#include <cocos/base/CCEvent.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+namespace cocos2d
+{
+    struct Acceleration;
+}
+
 NS_CC_BEGIN
 
 EventAcceleration::EventAcceleration(const Acceleration& acc)

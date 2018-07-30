@@ -26,6 +26,7 @@
 #include <cocos/base/CCData.h>
 
 #include <cocos/base/CCConsole.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstdlib>
 #include <cstring>

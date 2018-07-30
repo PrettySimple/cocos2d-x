@@ -26,7 +26,15 @@
 
 #include <cocos/extensions/GUI/CCControlExtension/CCInvocation.h>
 
+#include <cocos/extensions/ExtensionMacros.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
+
 #include <new>
+
+namespace cocos2d
+{
+    class Ref;
+}
 
 NS_CC_EXT_BEGIN
 

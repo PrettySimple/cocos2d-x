@@ -24,7 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "platform/apple/CCFileUtils-apple.h"
+#include <cocos/platform/apple/CCFileUtils-apple.h>
 
 #include <cocos/base/CCConsole.h>
 #include <cocos/base/CCData.h>

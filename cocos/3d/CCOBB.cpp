@@ -28,11 +28,14 @@
 #include <cocos/base/ccMacros.h>
 #include <cocos/math/Mat4.h>
 #include <cocos/math/Quaternion.h>
+#include <cocos/math/Vec3.h>
 #include <cocos/math/Vec4.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <algorithm>
 #include <cmath>
 #include <cstring>
+#include <limits>
 
 NS_CC_BEGIN
 

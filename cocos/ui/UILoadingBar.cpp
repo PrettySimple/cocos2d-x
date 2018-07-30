@@ -25,10 +25,16 @@ THE SOFTWARE.
 #include <cocos/ui/UILoadingBar.h>
 
 #include <cocos/2d/CCSprite.h>
-#include <cocos/2d/CCSpriteFrame.h>
 #include <cocos/editor-support/cocostudio/CocosStudioExtension.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
 #include <cocos/ui/UIHelper.h>
 #include <cocos/ui/UIScale9Sprite.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <new>
 
 NS_CC_BEGIN
 

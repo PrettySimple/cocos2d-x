@@ -1,6 +1,0 @@
-framework module cocos {
-  umbrella header "cocos.h"
-
-  export *
-  module * { export * }
-}

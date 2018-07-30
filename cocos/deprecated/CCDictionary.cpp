@@ -26,7 +26,9 @@
 #include <cocos/deprecated/CCDictionary.h>
 
 #include <cocos/base/CCDataVisitor.h>
+#include <cocos/base/CCRef.h>
 #include <cocos/base/CCValue.h>
+#include <cocos/base/ccMacros.h>
 #include <cocos/deprecated/CCArray.h>
 #include <cocos/deprecated/CCBool.h>
 #include <cocos/deprecated/CCDouble.h>
@@ -34,6 +36,15 @@
 #include <cocos/deprecated/CCInteger.h>
 #include <cocos/deprecated/CCString.h>
 #include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+extern "C"
+{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <cocos/base/uthash.h>
+#pragma clang diagnostic pop
+}
 
 #include <cstring>
 #include <new>

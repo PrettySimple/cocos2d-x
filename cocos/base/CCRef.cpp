@@ -27,6 +27,7 @@ THE SOFTWARE.
 
 #include <cocos/base/CCAutoreleasePool.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
 #    include <algorithm>

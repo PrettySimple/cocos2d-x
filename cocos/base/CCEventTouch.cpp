@@ -24,6 +24,9 @@
 
 #include <cocos/base/CCEventTouch.h>
 
+#include <cocos/base/CCEvent.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 NS_CC_BEGIN
 
 EventTouch::EventTouch()

@@ -27,6 +27,9 @@ Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 #include <cocos/base/ccTypes.h>
 
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <cmath>
 #include <limits>
 

@@ -34,8 +34,10 @@
 #include <cocos/base/CCTouch.h>
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/ccTypes.h>
+#include <cocos/extensions/ExtensionMacros.h>
 #include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
 #include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
 #include <cocos/platform/CCGL.h>
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCTexture2D.h>

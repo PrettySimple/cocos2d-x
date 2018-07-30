@@ -24,8 +24,13 @@ THE SOFTWARE.
 
 #include <cocos/ui/UIRadioButton.h>
 
+#include <cocos/base/CCVector.h>
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/ccTypes.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/UIAbstractCheckButton.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <new>
 

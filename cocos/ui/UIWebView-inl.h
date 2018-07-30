@@ -24,11 +24,11 @@
 
 /// @cond DO_NOT_SHOW
 
-#include "base/CCDirector.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCGLView.h"
-#include "ui/UIWebView.h"
-#include "ui/UIWebViewImpl-tizen.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCGLView.h>
+#include <cocos/ui/UIWebView.h>
+#include <cocos/ui/UIWebViewImpl-tizen.h>
 
 NS_CC_BEGIN
 namespace experimental

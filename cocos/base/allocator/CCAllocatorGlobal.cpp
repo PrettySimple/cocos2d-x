@@ -26,6 +26,8 @@
 
 #include <cocos/base/allocator/CCAllocatorGlobal.h>
 
+#include <cocos/base/ccConfig.h>
+
 #if CC_ENABLE_ALLOCATOR
 
 NS_CC_BEGIN

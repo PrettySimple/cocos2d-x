@@ -22,7 +22,7 @@
  $Id$
  */
 
-#import "audio/ios/SimpleAudioEngine_objc.h"
+#import <cocos/audio/ios/SimpleAudioEngine_objc.h>
 
 @implementation SimpleAudioEngine
 

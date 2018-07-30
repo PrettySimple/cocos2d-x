@@ -28,9 +28,9 @@
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#    include "AudioCache.h"
-#    include "audio/apple/AudioMacros.h"
-#    include "audio/apple/AudioPlayer.h"
+#    include <cocos/audio/apple/AudioCache.h>
+#    include <cocos/audio/apple/AudioMacros.h>
+#    include <cocos/audio/apple/AudioPlayer.h>
 #    include <cocos/platform/CCPlatformMacros.h>
 
 #    include <OpenAL/al.h>

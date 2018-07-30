@@ -26,9 +26,11 @@ Copyright (c) 2013-2014 Chukong Technologies
 #include <cocos/deprecated/CCString.h>
 
 #include <cocos/base/CCDataVisitor.h>
+#include <cocos/base/CCRef.h>
 #include <cocos/base/ccUtils.h>
 #include <cocos/deprecated/CCArray.h>
 #include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstdio>
 #include <cstdlib>

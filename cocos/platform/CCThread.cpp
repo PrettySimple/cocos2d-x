@@ -26,6 +26,7 @@ THE SOFTWARE.
 #include <cocos/platform/CCThread.h>
 
 #include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 

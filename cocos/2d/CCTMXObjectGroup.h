@@ -35,6 +35,7 @@ THE SOFTWARE.
 #include <cocos/platform/CCPlatformMacros.h>
 
 #include <iosfwd>
+#include <string>
 
 NS_CC_BEGIN
 

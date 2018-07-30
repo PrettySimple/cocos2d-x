@@ -65,7 +65,8 @@ Requirements:
 
 */
 
-#import "audio/ios/CDConfig.h"
+#import <cocos/audio/ios/CDConfig.h>
+
 #import <AudioToolbox/AudioToolbox.h>
 #import <Foundation/NSArray.h>
 #import <Foundation/NSObject.h>
@@ -96,7 +97,7 @@ Requirements:
 #    define CDLOGINFO(...) NSLog(__VA_ARGS__)
 #endif // CD_DEBUG
 
-#import "audio/ios/CDOpenALSupport.h"
+#import <cocos/audio/ios/CDOpenALSupport.h>
 
 // Tested source limit on 2.2.1 and 3.1.2 with up to 128 sources and appears to work. Older OS versions e.g 2.2 may support only 32
 #define CD_SOURCE_LIMIT 32 // Total number of sources we will ever want, may actually get less

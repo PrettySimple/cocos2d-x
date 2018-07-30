@@ -25,7 +25,7 @@
 #ifndef CC_UI_WEBVIEWIMPLTIZEN_H
 #define CC_UI_WEBVIEWIMPLTIZEN_H
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN)
 

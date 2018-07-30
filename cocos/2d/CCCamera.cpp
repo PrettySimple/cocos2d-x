@@ -27,12 +27,19 @@
 #include <cocos/2d/CCCamera.h>
 
 #include <cocos/2d/CCCameraBackgroundBrush.h>
+#include <cocos/2d/CCNode.h>
 #include <cocos/2d/CCScene.h>
+#include <cocos/3d/CCFrustum.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/ccMacros.h>
 #include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
 #include <cocos/math/Quaternion.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
 #include <cocos/math/Vec4.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCFrameBuffer.h>
 
 #include <algorithm>

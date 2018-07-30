@@ -26,17 +26,23 @@ THE SOFTWARE.
 
 #include <cocos/2d/CCLabel.h>
 #include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCTextFieldTTF.h>
 #include <cocos/base/ccTypes.h>
 #include <cocos/base/ccUTF8.h>
 #include <cocos/math/CCGeometry.h>
 #include <cocos/math/Vec2.h>
 #include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
 #include <cocos/ui/UIHelper.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <cstring>
 #include <new>
 
 NS_CC_BEGIN
+
+class Ref;
 
 namespace ui
 {

@@ -26,6 +26,9 @@ THE SOFTWARE.
 
 #include <cocos/2d/CCSprite.h>
 #include <cocos/editor-support/cocostudio/CocosStudioExtension.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/UIWidget.h>
 
 NS_CC_BEGIN
 

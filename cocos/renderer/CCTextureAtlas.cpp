@@ -34,7 +34,6 @@ THE SOFTWARE.
 #include <cocos/base/ccUTF8.h>
 #include <cocos/platform/CCGL.h>
 #include <cocos/platform/CCPlatformConfig.h>
-#include <cocos/platform/ios/CCGL-ios.h>
 #include <cocos/renderer/CCGLProgram.h>
 #include <cocos/renderer/CCRenderer.h>
 #include <cocos/renderer/CCTexture2D.h>

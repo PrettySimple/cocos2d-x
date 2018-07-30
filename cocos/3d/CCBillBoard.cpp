@@ -31,9 +31,11 @@
 #include <cocos/base/CCVector.h>
 #include <cocos/base/ccMacros.h>
 #include <cocos/math/CCMathBase.h>
+#include <cocos/math/Mat4.h>
 #include <cocos/math/Quaternion.h>
 #include <cocos/math/Vec2.h>
 #include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCRenderer.h>
 #include <cocos/renderer/CCTrianglesCommand.h>
 

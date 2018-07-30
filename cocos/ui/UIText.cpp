@@ -25,8 +25,12 @@ THE SOFTWARE.
 #include <cocos/ui/UIText.h>
 
 #include <cocos/2d/CCLabel.h>
+#include <cocos/base/ccTypes.h>
 #include <cocos/math/CCGeometry.h>
 #include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <new>
 #include <string>

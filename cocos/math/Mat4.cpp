@@ -21,6 +21,7 @@
 #include <cocos/math/Mat4.h>
 
 #include <cocos/base/ccMacros.h>
+#include <cocos/math/CCMathBase.h>
 #include <cocos/math/MathUtil.h>
 #include <cocos/math/Quaternion.h>
 #include <cocos/math/Vec3.h>

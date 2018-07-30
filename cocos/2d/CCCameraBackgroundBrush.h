@@ -37,12 +37,16 @@
 
 NS_CC_BEGIN
 
+class Camera;
 class CameraBackgroundColorBrush;
 class CameraBackgroundDepthBrush;
 class CameraBackgroundSkyBoxBrush;
-
 class GLProgramState;
-class Camera;
+class TextureCube;
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+class EventListenerCustom;
+#endif
 
 /**
  * Defines a brush to clear the background of camera.
@@ -197,10 +201,6 @@ public:
 protected:
     Color4F _color;
 };
-
-class TextureCube;
-class GLProgramState;
-class EventListenerCustom;
 
 /**
  * Skybox brush clear buffer with a skybox

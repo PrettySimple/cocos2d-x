@@ -25,6 +25,8 @@ THE SOFTWARE.
 
 #include <cocos/platform/apple/CCLock-apple.h>
 
+#include <cocos/platform/CCPlatformMacros.h>
+
 NS_CC_BEGIN
 
 Lock::Lock(void)

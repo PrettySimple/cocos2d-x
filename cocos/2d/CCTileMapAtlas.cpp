@@ -26,14 +26,19 @@ THE SOFTWARE.
 ****************************************************************************/
 #include <cocos/2d/CCTileMapAtlas.h>
 
+#include <cocos/2d/CCAtlasNode.h>
 #include <cocos/base/CCDirector.h>
+#include <cocos/base/CCValue.h>
 #include <cocos/base/TGAlib.h>
 #include <cocos/base/ccConfig.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
 #include <cocos/base/ccUTF8.h>
 #include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
 #include <cocos/math/Vec3.h>
 #include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCTexture2D.h>
 #include <cocos/renderer/CCTextureAtlas.h>
 

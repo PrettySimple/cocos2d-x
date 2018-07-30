@@ -26,6 +26,8 @@
 
 #include <cocos/2d/CCCamera.h>
 #include <cocos/2d/CCNode.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstdio>
 

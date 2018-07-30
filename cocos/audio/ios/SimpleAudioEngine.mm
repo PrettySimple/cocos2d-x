@@ -23,15 +23,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "audio/include/SimpleAudioEngine.h"
+#include <cocos/audio/include/SimpleAudioEngine.h>
 
-#include "audio/ios/SimpleAudioEngine_objc.h"
+#include <cocos/audio/ios/SimpleAudioEngine_objc.h>
 #include <cocos/platform/CCFileUtils.h>
-#include <cocos/platform/CCGL.h>
 #include <cocos/platform/CCPlatformMacros.h>
 
 #include <iosfwd>
 #include <new>
+#include <string>
 
 USING_NS_CC;
 

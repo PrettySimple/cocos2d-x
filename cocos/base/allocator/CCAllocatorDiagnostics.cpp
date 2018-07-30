@@ -26,6 +26,10 @@
 
 #include <cocos/base/allocator/CCAllocatorDiagnostics.h>
 
+#include <cocos/base/allocator/CCAllocatorMacros.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 NS_CC_BEGIN
 NS_CC_ALLOCATOR_BEGIN
 

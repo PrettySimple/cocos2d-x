@@ -36,6 +36,7 @@
 #include <cocos/2d/CCSpriteFrame.h>
 #include <cocos/2d/CCSpriteFrameCache.h>
 #include <cocos/base/ccTypes.h>
+#include <cocos/extensions/ExtensionMacros.h>
 #include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
 #include <cocos/extensions/GUI/CCControlExtension/CCControlHuePicker.h>
 #include <cocos/extensions/GUI/CCControlExtension/CCControlSaturationBrightnessPicker.h>
@@ -44,6 +45,7 @@
 #include <cocos/math/CCGeometry.h>
 #include <cocos/math/Vec2.h>
 #include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <new>
 

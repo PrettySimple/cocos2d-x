@@ -28,10 +28,14 @@
 
 #include <cocos/2d/CCProtectedNode.h>
 
+#include <cocos/2d/CCNode.h>
 #include <cocos/base/CCDirector.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccConfig.h>
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/ccTypes.h>
 #include <cocos/math/Mat4.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstddef>
 #include <new>

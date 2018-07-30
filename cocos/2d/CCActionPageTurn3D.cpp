@@ -27,8 +27,10 @@ THE SOFTWARE.
 
 #include <cocos/2d/CCGrid.h>
 #include <cocos/2d/CCNodeGrid.h>
+#include <cocos/math/CCGeometry.h>
 #include <cocos/math/Vec2.h>
 #include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <algorithm>
 #include <cmath>

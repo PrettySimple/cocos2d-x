@@ -26,9 +26,17 @@ THE SOFTWARE.
 
 #include <cocos/2d/CCNode.h>
 #include <cocos/2d/CCSprite.h>
+#include <cocos/extensions/ExtensionMacros.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
 
 #include <algorithm>
 #include <cmath>
+
+namespace cocos2d
+{
+    struct Color3B;
+}
 
 NS_CC_EXT_BEGIN
 

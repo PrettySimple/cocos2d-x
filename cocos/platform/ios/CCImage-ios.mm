@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #    include <cocos/platform/CCCommon.h>
 #    include <cocos/platform/CCImage.h>
-#    include <string>
+#    include <cocos/platform/CCPlatformMacros.h>
 
 #    import <CoreGraphics/CGColorSpace.h>
 #    import <CoreGraphics/CGDataProvider.h>
@@ -36,7 +36,10 @@ THE SOFTWARE.
 #    import <Foundation/NSString.h>
 #    import <UIKit/UIImage.h>
 
-#    include <math.h>
+#    include <algorithm>
+#    include <cctype>
+#    include <cmath>
+#    include <string>
 
 NS_CC_BEGIN
 

@@ -33,6 +33,9 @@ THE SOFTWARE.
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/ccUTF8.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cmath>
 #include <limits>

@@ -11,10 +11,10 @@
 #include <cocos/2d/CCNode.h>
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/iterator_pair.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <algorithm>
 #include <cstddef>
-#include <functional>
 #include <iterator>
 #include <type_traits>
 #include <unordered_set>

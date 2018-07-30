@@ -24,7 +24,10 @@
 
 #include <cocos/3d/CCAttachNode.h>
 
+#include <cocos/2d/CCNode.h>
 #include <cocos/3d/CCSkeleton3D.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <new>
 

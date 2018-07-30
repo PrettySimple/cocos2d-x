@@ -31,6 +31,7 @@
 #include <cocos/base/ccMacros.h>
 #include <cocos/math/CCGeometry.h>
 #include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCTexture2D.h>
 #include <cocos/renderer/CCTextureCache.h>
 

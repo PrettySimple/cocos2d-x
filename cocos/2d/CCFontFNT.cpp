@@ -32,7 +32,9 @@
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/ccUTF8.h>
 #include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
 #include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCTextureCache.h>
 
 #include <array>

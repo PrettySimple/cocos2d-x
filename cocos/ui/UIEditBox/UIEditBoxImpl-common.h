@@ -36,6 +36,7 @@
 #include <cocos/ui/UIEditBox/UIEditBox.h>
 #include <cocos/ui/UIEditBox/UIEditBoxImpl-common.h>
 #include <cocos/ui/UIEditBox/UIEditBoxImpl.h>
+
 #include <cstdint>
 #include <iosfwd>
 
@@ -46,8 +47,6 @@ class Renderer;
 
 namespace ui
 {
-    class EditBox;
-
     class CC_GUI_DLL EditBoxImplCommon : public EditBoxImpl
     {
     public:

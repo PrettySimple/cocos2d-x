@@ -26,10 +26,10 @@
 #ifndef CC_AUDIO_APPLE_AUDIOENGINEINL_H
 #define CC_AUDIO_APPLE_AUDIOENGINEINL_H
 
-#include "audio/apple/ALAudioPlayer.h"
-#include "audio/apple/AudioCache.h"
-#include "audio/apple/AudioPlayer.h"
-#include "audio/apple/SimpleAudioPlayer.h"
+#include <cocos/audio/apple/ALAudioPlayer.h>
+#include <cocos/audio/apple/AudioCache.h>
+#include <cocos/audio/apple/AudioPlayer.h>
+#include <cocos/audio/apple/SimpleAudioPlayer.h>
 #include <cocos/base/CCRef.h>
 #include <cocos/platform/CCPlatformConfig.h>
 

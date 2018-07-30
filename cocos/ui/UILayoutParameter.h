@@ -30,7 +30,7 @@
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/ui/GUIExport.h>
 
-#include <cstdint>
+#include <iosfwd>
 #include <string>
 
 /**

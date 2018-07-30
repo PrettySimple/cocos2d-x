@@ -25,8 +25,12 @@ THE SOFTWARE.
 ****************************************************************************/
 #include <cocos/2d/CCActionGrid3D.h>
 
+#include <cocos/2d/CCActionGrid.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
 #include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cmath>
 #include <cstdlib>

@@ -24,11 +24,17 @@ THE SOFTWARE.
 
 #include <cocos/ui/UICheckBox.h>
 
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/UIAbstractCheckButton.h>
+#include <cocos/ui/UIWidget.h>
+
 #include <new>
 
 NS_CC_BEGIN
 
 class Event;
+class Ref;
 class Touch;
 
 namespace ui

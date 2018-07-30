@@ -27,10 +27,14 @@ THE SOFTWARE.
 #include <cocos/deprecated/CCArray.h>
 
 #include <cocos/base/CCDataVisitor.h>
+#include <cocos/base/CCRef.h>
 #include <cocos/base/CCValue.h>
+#include <cocos/base/ccCArray.h>
+#include <cocos/base/ccMacros.h>
 #include <cocos/base/ccTypes.h>
 #include <cocos/deprecated/CCString.h>
 #include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cmath>
 #include <cstdarg>

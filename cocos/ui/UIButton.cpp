@@ -30,14 +30,18 @@ THE SOFTWARE.
 #include <cocos/2d/CCSprite.h>
 #include <cocos/base/ccTypes.h>
 #include <cocos/editor-support/cocostudio/CocosStudioExtension.h>
+#include <cocos/math/CCGeometry.h>
 #include <cocos/math/Vec2.h>
 #include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
 #include <cocos/ui/UIHelper.h>
 #include <cocos/ui/UIScale9Sprite.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <algorithm>
+#include <cctype>
 #include <chrono>
-#include <locale>
 #include <new>
 #include <string>
 

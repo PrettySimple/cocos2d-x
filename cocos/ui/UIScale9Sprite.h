@@ -33,7 +33,6 @@
 #include <cocos/math/Mat4.h>
 #include <cocos/math/Vec2.h>
 #include <cocos/math/Vec4.h>
-#include <cocos/platform/CCGL.h>
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCTrianglesCommand.h>
 #include <cocos/ui/GUIExport.h>

@@ -24,7 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include <cocos/ui/UIEditBox/UITextView+CCUITextInput.h>
+#include <cocos/ui/UIEditBox/iOS/UITextView+CCUITextInput.h>
 
 #import <Foundation/NSString.h>
 #import <UIKit/UILabel.h>

@@ -26,7 +26,9 @@ THE SOFTWARE.
 
 #include <cocos/deprecated/CCNotificationCenter.h>
 
+#include <cocos/base/CCRef.h>
 #include <cocos/deprecated/CCArray.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <new>
 #include <string>

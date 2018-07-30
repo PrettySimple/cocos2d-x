@@ -29,7 +29,9 @@ THE SOFTWARE.
 #include <cocos/base/CCRef.h>
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/ccTypes.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
+#include <cstdlib>
 #include <cstring>
 
 NS_CC_BEGIN

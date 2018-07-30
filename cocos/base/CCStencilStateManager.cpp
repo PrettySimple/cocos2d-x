@@ -29,7 +29,9 @@
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/ccTypes.h>
 #include <cocos/math/Vec2.h>
+#include <cocos/platform/CCGL.h>
 #include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCGLProgram.h>
 #include <cocos/renderer/CCGLProgramCache.h>
 #include <cocos/renderer/CCRenderState.h>

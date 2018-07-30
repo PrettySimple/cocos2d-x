@@ -26,14 +26,17 @@ THE SOFTWARE.
 
 #include <cocos/base/CCConfiguration.h>
 
+#include <cocos/3d/CCAnimate3D.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/CCEventCustom.h>
 #include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCValue.h>
 #include <cocos/base/ccConfig.h>
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/etc2types.h>
 #include <cocos/platform/CCFileUtils.h>
 #include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <new>
 #include <string>

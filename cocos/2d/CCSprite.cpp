@@ -29,22 +29,31 @@ THE SOFTWARE.
 
 #include <cocos/2d/CCAnimation.h>
 #include <cocos/2d/CCAnimationCache.h>
+#include <cocos/2d/CCAutoPolygon.h>
 #include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCNode.h>
 #include <cocos/2d/CCSpriteBatchNode.h>
 #include <cocos/2d/CCSpriteFrame.h>
 #include <cocos/2d/CCSpriteFrameCache.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/CCVector.h>
+#include <cocos/base/ccConfig.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
 #include <cocos/base/ccUTF8.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
 #include <cocos/math/Vec3.h>
 #include <cocos/platform/CCImage.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCGLProgram.h>
 #include <cocos/renderer/CCGLProgramState.h>
 #include <cocos/renderer/CCRenderer.h>
 #include <cocos/renderer/CCTexture2D.h>
 #include <cocos/renderer/CCTextureAtlas.h>
 #include <cocos/renderer/CCTextureCache.h>
+#include <cocos/renderer/CCTrianglesCommand.h>
 
 #include <cstdio>
 #include <cstring>

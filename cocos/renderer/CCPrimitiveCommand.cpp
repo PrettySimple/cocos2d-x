@@ -26,8 +26,12 @@
 
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCGLProgramState.h>
 #include <cocos/renderer/CCPrimitive.h>
+#include <cocos/renderer/CCRenderCommand.h>
 #include <cocos/renderer/CCRenderer.h>
 #include <cocos/renderer/ccGLStateCache.h>
 

@@ -25,8 +25,13 @@
 #include <cocos/renderer/CCTrianglesCommand.h>
 
 #include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCGLProgram.h>
 #include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCRenderCommand.h>
 #include <cocos/renderer/CCTexture2D.h>
 #include <cocos/renderer/ccGLStateCache.h>
 

@@ -26,6 +26,9 @@
 #include <cocos/base/CCEventMouse.h>
 
 #include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEvent.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 

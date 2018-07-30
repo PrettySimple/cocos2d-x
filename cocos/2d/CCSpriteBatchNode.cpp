@@ -28,11 +28,17 @@ THE SOFTWARE.
 
 #include <cocos/2d/CCSpriteBatchNode.h>
 
+#include <cocos/2d/CCNode.h>
 #include <cocos/2d/CCSprite.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/CCVector.h>
+#include <cocos/base/ccConfig.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
 #include <cocos/base/ccUTF8.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCBatchCommand.h>
 #include <cocos/renderer/CCGLProgram.h>
 #include <cocos/renderer/CCGLProgramState.h>
 #include <cocos/renderer/CCRenderer.h>

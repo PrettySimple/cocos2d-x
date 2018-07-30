@@ -29,13 +29,18 @@ THE SOFTWARE.
 #include <cocos/2d/CCScene.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventTouch.h>
 #include <cocos/base/CCTouch.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/math/CCGeometry.h>
 #include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
 #include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCFrameBuffer.h>
 #include <cocos/vr/CCVRProtocol.h>
 
+#include <algorithm>
 #include <cmath>
 #include <map>
 #include <new>

@@ -26,6 +26,8 @@
 #include <cocos/base/CCTouch.h>
 
 #include <cocos/base/CCDirector.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 

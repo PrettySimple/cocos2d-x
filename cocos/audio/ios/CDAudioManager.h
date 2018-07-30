@@ -22,11 +22,11 @@
  $Id$
  */
 
-#import "audio/ios/CocosDenshion.h"
+#import <cocos/audio/ios/CocosDenshion.h>
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 30000
 #    import <AVFoundation/AVFoundation.h>
 #else
-#    import "audio/mac/CDXMacOSXSupport.h"
+#    import <cocos/audio/mac/CDXMacOSXSupport.h>
 #endif
 
 /** Different modes of the engine */

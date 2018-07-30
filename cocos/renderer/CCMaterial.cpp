@@ -31,6 +31,7 @@
 
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/CCProperties.h>
+#include <cocos/base/CCVector.h>
 #include <cocos/base/ccMacros.h>
 #include <cocos/math/Mat4.h>
 #include <cocos/math/Vec2.h>
@@ -39,8 +40,10 @@
 #include <cocos/platform/CCFileUtils.h>
 #include <cocos/platform/CCGL.h>
 #include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCGLProgramState.h>
 #include <cocos/renderer/CCPass.h>
+#include <cocos/renderer/CCRenderState.h>
 #include <cocos/renderer/CCTechnique.h>
 #include <cocos/renderer/CCTexture2D.h>
 #include <cocos/renderer/CCTextureCache.h>

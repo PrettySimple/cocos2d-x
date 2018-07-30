@@ -23,7 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "extensions/GUI/CCScrollView/CCTableViewCell.h"
+#include <cocos/extensions/GUI/CCScrollView/CCTableViewCell.h>
 
 #include <cocos/base/ccTypes.h>
 #include <cocos/extensions/ExtensionMacros.h>

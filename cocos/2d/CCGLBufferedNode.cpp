@@ -23,9 +23,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCGLBufferedNode.h"
+#include <cocos/2d/CCGLBufferedNode.h>
 
-#include <cocos/base/CCEventListenerCustom.h>
+#include <cocos/platform/CCGL.h>
 #include <cocos/platform/CCPlatformMacros.h>
 
 using namespace cocos2d;

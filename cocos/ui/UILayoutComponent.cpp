@@ -23,8 +23,12 @@
  ****************************************************************************/
 #include <cocos/ui/UILayoutComponent.h>
 
+#include <cocos/2d/CCComponent.h>
 #include <cocos/2d/CCNode.h>
 #include <cocos/base/CCVector.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/ui/GUIDefine.h>
 #include <cocos/ui/UIHelper.h>
 #include <cocos/ui/UIPageView.h>

@@ -34,9 +34,12 @@
 #include <cocos/base/CCTouch.h>
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/ccTypes.h>
+#include <cocos/extensions/ExtensionMacros.h>
 #include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
 #include <cocos/extensions/GUI/CCControlExtension/CCControlUtils.h>
 #include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <algorithm>
 #include <new>
@@ -325,7 +328,7 @@ void ControlSlider::sliderEnded(Vec2 location)
 float ControlSlider::valueForLocation(Vec2 location)
 {
     float percent = location.x / _backgroundSprite->getContentSize().width;
-    return MAX(MIN(_minimumValue + percent * (_maximumValue - _minimumValue), _maximumAllowedValue), _minimumAllowedValue);
+    return std::max(std::min(_minimumValue + percent * (_maximumValue - _minimumValue), _maximumAllowedValue), _minimumAllowedValue);
 }
 
 void ControlSlider::setThumbSprite(Sprite* thumbSprite) noexcept

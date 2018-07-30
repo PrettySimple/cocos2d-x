@@ -1,5 +1,3 @@
-#include <cocos/ui/UIEditBox/UIEditBox.h>
-
 #include <cocos/platform/CCPlatformConfig.h>
 
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID) && (CC_TARGET_PLATFORM != CC_PLATFORM_IOS) && (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32) && \

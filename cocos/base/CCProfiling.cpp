@@ -26,7 +26,9 @@ THE SOFTWARE.
 #include <cocos/base/CCProfiling.h>
 
 #include <cocos/base/CCConsole.h>
+#include <cocos/base/CCMap.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <algorithm>
 #include <cstdio>

@@ -27,9 +27,13 @@
 
 #include <cocos/2d/CCActionInstant.h>
 
+#include <cocos/2d/CCAction.h>
 #include <cocos/2d/CCNode.h>
 #include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCRef.h>
 #include <cocos/base/ccMacros.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <new>
 

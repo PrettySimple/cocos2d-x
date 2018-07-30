@@ -1338,7 +1338,6 @@ private:
     CC_DISALLOW_COPY_AND_ASSIGN(ReverseTime)
 };
 
-class Texture2D;
 /** @class Animate
  * @brief Animates a sprite given the name of an Animation.
  */
