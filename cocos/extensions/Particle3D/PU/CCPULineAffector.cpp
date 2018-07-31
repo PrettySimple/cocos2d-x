@@ -126,7 +126,7 @@ void PULineAffector::updatePUAffector(PUParticle3D* particle, float deltaTime)
         {
             // Generate a random vector perpendicular on the line
             Vec3 perpendicular;
-            Vec3::cross(_end, Vec3(CCRANDOM_MINUS1_1(), CCRANDOM_MINUS1_1(), CCRANDOM_MINUS1_1()), &perpendicular);
+            Vec3::cross(_end, Vec3(CCRANDOM_MINUS1_1(), CCRANDOM_MINUS1_1(), CCRANDOM_MINUS1_1()), perpendicular);
             perpendicular.normalize();
 
             // Determine a random point near the line.

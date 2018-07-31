@@ -52,6 +52,12 @@ THE SOFTWARE.
 #include <cocos/renderer/CCTextureAtlas.h>
 #include <cocos/renderer/ccGLStateCache.h>
 
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+#    include <cocos/base/CCEventDispatcher.h>
+#    include <cocos/base/CCEventListenerCustom.h>
+#    include <cocos/base/CCEventType.h>
+#endif
+
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>

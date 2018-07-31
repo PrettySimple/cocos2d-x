@@ -90,7 +90,7 @@ void PUVortexAffector::updatePUAffector(PUParticle3D* particle, float deltaTime)
         // Rotate position, direction and orientation (visible particle only) and compensate for the affector position
         // Also take the affect specialisation into account
         Mat4 rotMat;
-        Mat4::createRotation(_rotation, &rotMat);
+        Mat4::createRotation(_rotation, rotMat);
         Vec3 local = particle->position - _derivedPosition;
         particle->position = _derivedPosition + rotMat * local;
         particle->direction = rotMat * particle->direction;
@@ -105,7 +105,7 @@ void PUVortexAffector::preUpdateAffector(float deltaTime)
     if (sys)
     {
         Mat4 rotMat;
-        Mat4::createRotation(sys->getDerivedOrientation(), &rotMat);
+        Mat4::createRotation(sys->getDerivedOrientation(), rotMat);
         _rotation.set(rotMat * _rotationVector, float(calculateRotationSpeed() * deltaTime));
     }
     else

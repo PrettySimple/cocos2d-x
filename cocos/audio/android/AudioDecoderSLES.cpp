@@ -24,8 +24,10 @@ THE SOFTWARE.
 
 #define LOG_TAG "AudioDecoderSLES"
 
-#include "audio/android/AudioDecoderSLES.h"
-#include "platform/CCFileUtils.h"
+#include <cocos/audio/android/AudioDecoderSLES.h>
+#include <cocos/platform/CCFileUtils.h>
+
+#include <thread>
 
 namespace cocos2d
 {

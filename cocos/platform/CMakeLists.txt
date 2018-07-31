@@ -130,6 +130,7 @@ include_directories(
 set(COCOS_PLATFORM_SRC
 
   platform/CCSAXParser.cpp
+  platform/CCApplicationProtocol.cpp
   platform/CCThread.cpp
   platform/CCGLView.cpp
   platform/CCFileUtils.cpp

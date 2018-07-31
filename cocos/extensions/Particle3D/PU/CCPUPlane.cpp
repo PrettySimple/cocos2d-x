@@ -114,7 +114,7 @@ void PUPlane::redefine(const Vec3& rkPoint0, const Vec3& rkPoint1, const Vec3& r
 {
     Vec3 kEdge1 = rkPoint1 - rkPoint0;
     Vec3 kEdge2 = rkPoint2 - rkPoint0;
-    Vec3::cross(kEdge1, kEdge2, &normal);
+    Vec3::cross(kEdge1, kEdge2, normal);
     normal.normalize();
     d = -normal.dot(rkPoint0);
 }

@@ -28,6 +28,7 @@
 #include <cocos/3d/CCSprite3D.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/extensions/Particle3D/CCParticleSystem3D.h>
+#include <cocos/renderer/CCGLProgram.h>
 #include <cocos/renderer/CCGLProgramCache.h>
 #include <cocos/renderer/CCGLProgramState.h>
 #include <cocos/renderer/CCMeshCommand.h>
@@ -275,7 +276,7 @@ void Particle3DModelRender::render(Renderer* renderer, const Mat4& transform, Pa
     for (auto iter : activeParticleList)
     {
         auto particle = iter;
-        Mat4::createRotation(q * particle->orientation, &rotMat);
+        Mat4::createRotation(q * particle->orientation, rotMat);
         sclMat.m[0] = particle->width / _spriteSize.x;
         sclMat.m[5] = particle->height / _spriteSize.y;
         sclMat.m[10] = particle->depth / _spriteSize.z;

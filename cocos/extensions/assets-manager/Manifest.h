@@ -29,6 +29,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include <cocos/base/CCRef.h>
 #include <cocos/extensions/ExtensionExport.h>
 #include <cocos/extensions/ExtensionMacros.h>
 #include <cocos/network/CCDownloader.h>

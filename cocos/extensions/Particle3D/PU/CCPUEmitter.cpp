@@ -194,7 +194,7 @@ const Vec3& PUEmitter::getDerivedPosition()
     {
         PUParticleSystem3D* ps = static_cast<PUParticleSystem3D*>(_particleSystem);
         Mat4 rotMat;
-        Mat4::createRotation(ps->getDerivedOrientation(), &rotMat);
+        Mat4::createRotation(ps->getDerivedOrientation(), rotMat);
         _derivedPosition = ps->getDerivedPosition() + rotMat * Vec3(_position.x * _emitterScale.x, _position.y * _emitterScale.y, _position.z * _emitterScale.z);
         //_particleSystem->getNodeToWorldTransform().transformPoint(_position, &_derivedPosition);
     }
@@ -206,7 +206,7 @@ void PUEmitter::initParticleOrientation(PUParticle3D* particle)
     if (_particleOrientationRangeSet)
     {
         // Generate random orientation 'between' start en end.
-        Quaternion::lerp(_particleOrientationRangeStart, _particleOrientationRangeEnd, CCRANDOM_0_1(), &particle->orientation);
+        Quaternion::lerp(_particleOrientationRangeStart, _particleOrientationRangeEnd, CCRANDOM_0_1(), particle->orientation);
     }
     else
     {

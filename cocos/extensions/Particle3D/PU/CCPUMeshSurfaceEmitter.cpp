@@ -64,17 +64,17 @@ inline void PUTriangle::calculateSurfaceNormal(void)
         v3 = Vector3(x3, y3, z3)
         n = (v2-v1)x(v3-v1), where the 'x' is the cross product
     */
-    Vec3::cross(v2 - v1, v3 - v1, &surfaceNormal);
+    Vec3::cross(v2 - v1, v3 - v1, surfaceNormal);
     surfaceNormal.normalize();
 }
 //-----------------------------------------------------------------------
 inline void PUTriangle::calculateEdgeNormals(void)
 {
-    Vec3::cross(v1, v2, &en1);
+    Vec3::cross(v1, v2, en1);
     en1.normalize();
-    Vec3::cross(v2, v3, &en2);
+    Vec3::cross(v2, v3, en2);
     en2.normalize();
-    Vec3::cross(v3, v1, &en3);
+    Vec3::cross(v3, v1, en3);
     en3.normalize();
 }
 //-----------------------------------------------------------------------
@@ -450,7 +450,7 @@ void PUMeshSurfaceEmitter::initParticlePosition(PUParticle3D* particle)
                 // if (sys)
                 {
                     Mat4 rotMat;
-                    Mat4::createRotation(static_cast<PUParticleSystem3D*>(_particleSystem)->getDerivedOrientation(), &rotMat);
+                    Mat4::createRotation(static_cast<PUParticleSystem3D*>(_particleSystem)->getDerivedOrientation(), rotMat);
                     particle->position = _derivedPosition +
                         rotMat * Vec3(_emitterScale.x * pAndN.position.x, _emitterScale.y * pAndN.position.y, _emitterScale.z * pAndN.position.z);
                 }
@@ -481,7 +481,7 @@ void PUMeshSurfaceEmitter::initParticlePosition(PUParticle3D* particle)
             // if (sys)
             {
                 Mat4 rotMat;
-                Mat4::createRotation(static_cast<PUParticleSystem3D*>(_particleSystem)->getDerivedOrientation(), &rotMat);
+                Mat4::createRotation(static_cast<PUParticleSystem3D*>(_particleSystem)->getDerivedOrientation(), rotMat);
                 particle->position = _derivedPosition +
                     rotMat * Vec3(_emitterScale.x * pAndN.position.x, _emitterScale.y * pAndN.position.y, _emitterScale.z * pAndN.position.z);
             }

@@ -37,6 +37,7 @@
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/ccUTF8.h>
 #include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformConfig.h>
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCGLProgram.h>
 #include <cocos/renderer/CCGLProgramCache.h>
@@ -46,6 +47,10 @@
 #include <cocos/renderer/CCRenderer.h>
 #include <cocos/renderer/CCTechnique.h>
 #include <cocos/renderer/CCTextureCache.h>
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+#    include <cocos/base/CCEventCustom.h>
+#endif
 
 NS_CC_BEGIN
 

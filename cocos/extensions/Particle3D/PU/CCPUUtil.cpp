@@ -53,8 +53,8 @@ cocos2d::Vec3 PUUtil::randomDeviant(const Vec3& src, float angle, const Vec3& up
 
     Quaternion q;
     Mat4 mat;
-    Quaternion::createFromAxisAngle(src, CCRANDOM_0_1() * M_PI * 2.0f, &q);
-    Mat4::createRotation(q, &mat);
+    Quaternion::createFromAxisAngle(src, CCRANDOM_0_1() * M_PI * 2.0f, q);
+    Mat4::createRotation(q, mat);
 
     //{
     //	Vec3 uv, uuv;
@@ -67,8 +67,8 @@ cocos2d::Vec3 PUUtil::randomDeviant(const Vec3& src, float angle, const Vec3& up
     //}
 
     newUp = mat * newUp;
-    Quaternion::createFromAxisAngle(newUp, angle, &q);
-    Mat4::createRotation(q, &mat);
+    Quaternion::createFromAxisAngle(newUp, angle, q);
+    Mat4::createRotation(q, mat);
     return mat * src;
 
     //{
@@ -102,14 +102,14 @@ cocos2d::Vec3 PUUtil::perpendicular(const Vec3& src)
 
     static const float fSquareZero = (float)(1e-06 * 1e-06);
     Vec3 perp;
-    Vec3::cross(src, Vec3::UNIT_X, &perp);
+    Vec3::cross(src, Vec3::UNIT_X, perp);
     // Check length
     if (perp.lengthSquared() < fSquareZero)
     {
         /* This vector is the Y axis multiplied by a scalar, so we have
             to use another axis.
         */
-        Vec3::cross(src, Vec3::UNIT_Y, &perp);
+        Vec3::cross(src, Vec3::UNIT_Y, perp);
     }
     perp.normalize();
     return perp;

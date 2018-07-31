@@ -302,7 +302,7 @@ void PUBeamRender::updateRender(PUParticle3D* particle, float deltaTime, bool fi
         float divide = static_cast<float>(_numberOfSegments) + 1.0f;
         for (size_t numDev = 0; numDev < _numberOfSegments; ++numDev)
         {
-            Vec3::cross(end, Vec3(CCRANDOM_MINUS1_1(), CCRANDOM_MINUS1_1(), CCRANDOM_MINUS1_1()), &perpendicular);
+            Vec3::cross(end, Vec3(CCRANDOM_MINUS1_1(), CCRANDOM_MINUS1_1(), CCRANDOM_MINUS1_1()), perpendicular);
             perpendicular.normalize();
             beamRendererVisualData->destinationHalf[numDev] = ((static_cast<float>(numDev) + 1.0f) / divide) * end +
                 Vec3(_rendererScale.x * _deviation * perpendicular.x, _rendererScale.y * _deviation * perpendicular.y,

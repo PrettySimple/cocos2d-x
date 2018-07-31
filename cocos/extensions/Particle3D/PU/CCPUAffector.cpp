@@ -51,7 +51,7 @@ const Vec3& PUAffector::getDerivedPosition()
     if (ps)
     {
         Mat4 rotMat;
-        Mat4::createRotation(ps->getDerivedOrientation(), &rotMat);
+        Mat4::createRotation(ps->getDerivedOrientation(), rotMat);
         _derivedPosition =
             ps->getDerivedPosition() + rotMat * Vec3(_position.x * _affectorScale.x, _position.y * _affectorScale.y, _position.z * _affectorScale.z);
         //_particleSystem->getNodeToWorldTransform().transformPoint(_position, &_derivedPosition);

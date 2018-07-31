@@ -28,6 +28,14 @@ THE SOFTWARE.
 #include <cocos/platform/CCGL.h>
 #include <cocos/platform/CCPlatformMacros.h>
 
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/base/CCEventCustom.h>
+#    include <cocos/base/CCEventDispatcher.h>
+#    include <cocos/base/CCEventListenerCustom.h>
+#    include <cocos/base/CCEventType.h>
+#endif
+
 using namespace cocos2d;
 
 GLBufferedNode::GLBufferedNode()

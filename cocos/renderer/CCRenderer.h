@@ -65,6 +65,9 @@ NS_CC_BEGIN
 class MeshCommand;
 class RenderCommand;
 class TrianglesCommand;
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+class EventListenerCustom;
+#endif
 
 /** Class that knows how to sort `RenderCommand` objects.
  Since the commands that have `z == 0` are "pushed back" in

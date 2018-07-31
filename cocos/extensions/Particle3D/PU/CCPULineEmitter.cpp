@@ -149,7 +149,7 @@ void PULineEmitter::initParticlePosition(PUParticle3D* particle)
     if (_autoDirection || (_scaledMaxDeviation > 0.0f && !_first))
     {
         // Generate a random vector perpendicular on the line if this is required
-        Vec3::cross(_end, Vec3(CCRANDOM_MINUS1_1(), CCRANDOM_MINUS1_1(), CCRANDOM_MINUS1_1()), &_perpendicular);
+        Vec3::cross(_end, Vec3(CCRANDOM_MINUS1_1(), CCRANDOM_MINUS1_1(), CCRANDOM_MINUS1_1()), _perpendicular);
         _perpendicular.normalize();
     }
 

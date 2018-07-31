@@ -24,6 +24,8 @@
 
 #include "Manifest.h"
 
+#include <cocos/base/CCConsole.h>
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"
 #include <json/prettywriter.h>

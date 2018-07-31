@@ -139,7 +139,7 @@ void PUCircleEmitter::initParticlePosition(PUParticle3D* particle)
     {
         // Take both orientation of the node and its own orientation, based on the normal, into account
         Mat4 rotMat;
-        Mat4::createRotation(static_cast<PUParticleSystem3D*>(_particleSystem)->getDerivedOrientation() * _orientation, &rotMat);
+        Mat4::createRotation(static_cast<PUParticleSystem3D*>(_particleSystem)->getDerivedOrientation() * _orientation, rotMat);
         particle->position = getDerivedPosition() +
             /*sys->getDerivedOrientation() * */ rotMat * (Vec3(_x * _radius * _emitterScale.x, 0, _z * _radius * _emitterScale.z));
     }
@@ -162,7 +162,7 @@ void PUCircleEmitter::initParticleDirection(PUParticle3D* particle)
         {
             // particle->direction = (mOrientation * Vec3(mX, 0, mZ) ).randomDeviant(angle, mUpVector);
             Mat4 mat;
-            Mat4::createRotation(_orientation, &mat);
+            Mat4::createRotation(_orientation, mat);
             Vec3 temp = mat * Vec3(_x, 0, _z);
 
             particle->direction = PUUtil::randomDeviant(temp, angle, _upVector);
@@ -172,7 +172,7 @@ void PUCircleEmitter::initParticleDirection(PUParticle3D* particle)
         else
         {
             Mat4 rotMat;
-            Mat4::createRotation(_orientation, &rotMat);
+            Mat4::createRotation(_orientation, rotMat);
             particle->direction = rotMat * Vec3(_x, 0, _z);
         }
     }
@@ -218,10 +218,10 @@ cocos2d::Quaternion PUCircleEmitter::getRotationTo(const Vec3& src, const Vec3& 
         {
             // Generate an axis
             Vec3 axis /* = Vec3::UNIT_X.crossProduct(*this)*/;
-            Vec3::cross(Vec3::UNIT_X, src, &axis);
+            Vec3::cross(Vec3::UNIT_X, src, axis);
             if (axis.lengthSquared() < (1e-06 * 1e-06)) // pick another if colinear
                 // axis = Vec3::UNIT_Y.crossProduct(*this);
-                Vec3::cross(Vec3::UNIT_Y, src, &axis);
+                Vec3::cross(Vec3::UNIT_Y, src, axis);
             axis.normalize();
 
             // q.FromAngleAxis(Radian(Math::PI), axis);
@@ -235,7 +235,7 @@ cocos2d::Quaternion PUCircleEmitter::getRotationTo(const Vec3& src, const Vec3& 
         float invs = 1 / s;
 
         Vec3 c /*= v0.crossProduct(v1)*/;
-        Vec3::cross(v0, v1, &c);
+        Vec3::cross(v0, v1, c);
 
         q.x = c.x * invs;
         q.y = c.y * invs;

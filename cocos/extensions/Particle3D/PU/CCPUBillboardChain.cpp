@@ -28,6 +28,7 @@
 #include <cocos/base/CCDirector.h>
 #include <cocos/extensions/Particle3D/PU/CCPUBillboardChain.h>
 #include <cocos/extensions/Particle3D/PU/CCPUParticleSystem3D.h>
+#include <cocos/renderer/CCGLProgram.h>
 #include <cocos/renderer/CCGLProgramCache.h>
 #include <cocos/renderer/CCGLProgramState.h>
 #include <cocos/renderer/CCMeshCommand.h>
@@ -470,7 +471,7 @@ void PUBillboardChain::updateVertexBuffer(const Mat4& camMat)
                 //	vP1ToEye = elem.orientation * _normalBase;
 
                 Vec3 vPerpendicular;
-                Vec3::cross(chainTangent, vP1ToEye, &vPerpendicular);
+                Vec3::cross(chainTangent, vP1ToEye, vPerpendicular);
                 vPerpendicular.normalize();
                 vPerpendicular *= (elem.width * 0.5f);
 

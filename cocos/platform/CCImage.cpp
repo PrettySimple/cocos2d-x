@@ -102,7 +102,7 @@ namespace
     static bool _PVRHaveAlphaPremultiplied = false;
 
     // Values taken from PVRTexture.h from http://www.imgtec.com
-    enum struct PVR2TextureFlag : std::uint16_t
+    enum struct PVR2TextureFlag : std::uint32_t
     {
         Mipmap = (1 << 8), // has mip map levels
         Twiddle = (1 << 9), // is twiddled

@@ -48,6 +48,13 @@
 #include <cocos/renderer/CCTrianglesCommand.h>
 #include <cocos/renderer/ccGLStateCache.h>
 
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+#    include <cocos/base/CCEventCustom.h>
+#    include <cocos/base/CCEventDispatcher.h>
+#    include <cocos/base/CCEventListenerCustom.h>
+#    include <cocos/base/CCEventType.h>
+#endif
+
 #include <algorithm>
 #include <cmath>
 #include <limits>

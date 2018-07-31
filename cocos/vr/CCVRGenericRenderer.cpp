@@ -31,6 +31,7 @@
 #include <cocos/base/CCDirector.h>
 #include <cocos/platform/CCGLView.h>
 #include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCGLProgram.h>
 #include <cocos/renderer/CCGLProgramState.h>
 #include <cocos/renderer/CCRenderer.h>
 #include <cocos/renderer/ccGLStateCache.h>
@@ -108,11 +109,11 @@ void VRGenericRenderer::render(Scene* scene, Renderer* renderer)
 
     auto headRotation = _headTracker->getLocalRotation();
     Mat4 leftTransform;
-    Mat4::createTranslation(eyeOffset, 0, 0, &leftTransform);
+    Mat4::createTranslation(eyeOffset, 0, 0, leftTransform);
     leftTransform *= headRotation;
 
     Mat4 rightTransform;
-    Mat4::createTranslation(-eyeOffset, 0, 0, &rightTransform);
+    Mat4::createTranslation(-eyeOffset, 0, 0, rightTransform);
     rightTransform *= headRotation;
 
     _fb->applyFBO();

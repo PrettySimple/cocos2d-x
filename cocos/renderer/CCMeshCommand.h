@@ -44,6 +44,11 @@ class GLProgramState;
 class Material;
 struct BlendFunc;
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+class EventCustom;
+class EventListenerCustom;
+#endif
+
 // it is a common mesh
 class CC_DLL MeshCommand final : public RenderCommand
 {

@@ -283,7 +283,7 @@ void PURibbonTrail::updateTrail(size_t index, const Node* node)
         if (_parentNode)
         {
             // Transform position to ourself space
-            _parentNode->getWorldToNodeTransform().transformPoint(newPos, &newPos);
+            _parentNode->getWorldToNodeTransform().transformPoint(newPos, newPos);
         }
         Vec3 diff = newPos - nextElem.position;
         float sqlen = diff.lengthSquared();
@@ -380,7 +380,7 @@ void PURibbonTrail::resetTrail(size_t index, const Node* node)
     if (_parentNode)
     {
         // Transform position to ourself space
-        _parentNode->getWorldToNodeTransform().transformPoint(position, &position);
+        _parentNode->getWorldToNodeTransform().transformPoint(position, position);
     }
     Element e(position, _initialWidth[index], 0.0f, _initialColor[index], node->getRotationQuat());
     // Add the start position

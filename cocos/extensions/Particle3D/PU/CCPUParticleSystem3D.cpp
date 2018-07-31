@@ -504,7 +504,7 @@ float PUParticleSystem3D::getParticleSystemScaleVelocity() const
 void PUParticleSystem3D::rotationOffset(Vec3& pos)
 {
     Mat4 rotMat;
-    Mat4::createRotation(_rotationOffset, &rotMat);
+    Mat4::createRotation(_rotationOffset, rotMat);
     pos = _rotationCentre + rotMat * (pos - _rotationCentre);
 }
 
@@ -995,7 +995,7 @@ void PUParticleSystem3D::emitParticles(ParticlePool& pool, PUEmitter* emitter, u
 {
     Vec3 scale = getDerivedScale();
     Mat4 rotMat;
-    Mat4::createRotation(getDerivedOrientation(), &rotMat);
+    Mat4::createRotation(getDerivedOrientation(), rotMat);
     float timePoint = 0.0f;
     float timeInc = elapsedTime / requested;
     for (unsigned short i = 0; i < requested; ++i)

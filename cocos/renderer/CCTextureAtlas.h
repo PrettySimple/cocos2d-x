@@ -42,6 +42,10 @@ class Texture2D;
 class EventCustom;
 struct V3F_C4B_T2F_Quad;
 
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+class EventListenerCustom;
+#endif
+
 /**
  * @addtogroup _2d
  * @{

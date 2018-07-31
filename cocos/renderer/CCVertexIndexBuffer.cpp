@@ -28,6 +28,14 @@
 #include <cocos/platform/CCPlatformConfig.h>
 #include <cocos/platform/CCPlatformMacros.h>
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/base/CCEventCustom.h>
+#    include <cocos/base/CCEventDispatcher.h>
+#    include <cocos/base/CCEventListenerCustom.h>
+#    include <cocos/base/CCEventType.h>
+#endif
+
 #include <cstring>
 #include <new>
 

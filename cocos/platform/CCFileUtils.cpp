@@ -61,6 +61,14 @@ THE SOFTWARE.
 #    include <sys/wait.h>
 #endif
 
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_IOS) && (CC_TARGET_PLATFORM != CC_PLATFORM_MAC)
+#    include <cocos/platform/CCSAXParser.h>
+
+#    include <stack>
+#    include <stdexcept>
+#    include <string>
+#endif
+
 NS_CC_BEGIN
 
 // Implement DictMaker

@@ -31,6 +31,7 @@
 #include <cocos/extensions/Particle3D/PU/CCPUParticleSystem3D.h>
 #include <cocos/extensions/Particle3D/PU/CCPURender.h>
 #include <cocos/extensions/Particle3D/PU/CCPUUtil.h>
+#include <cocos/renderer/CCGLProgram.h>
 #include <cocos/renderer/CCGLProgramCache.h>
 #include <cocos/renderer/CCGLProgramState.h>
 #include <cocos/renderer/CCMeshCommand.h>
@@ -128,7 +129,7 @@ void PUParticle3DQuadRender::render(Renderer* renderer, const Mat4& transform, P
     {
         up = _commonUp;
         up.normalize();
-        Vec3::cross(up, _commonDir, &right);
+        Vec3::cross(up, _commonDir, right);
         right.normalize();
         backward = _commonDir;
     }
@@ -136,7 +137,7 @@ void PUParticle3DQuadRender::render(Renderer* renderer, const Mat4& transform, P
     {
         up = _commonDir;
         up.normalize();
-        Vec3::cross(up, backward, &right);
+        Vec3::cross(up, backward, right);
         right.normalize();
     }
 
@@ -150,7 +151,7 @@ void PUParticle3DQuadRender::render(Renderer* renderer, const Mat4& transform, P
             // transform.transformVector(particle->direction, &direction);
             up = direction;
             up.normalize();
-            Vec3::cross(direction, backward, &right);
+            Vec3::cross(direction, backward, right);
             right.normalize();
         }
         else if (_type == PERPENDICULAR_SELF)
@@ -160,9 +161,9 @@ void PUParticle3DQuadRender::render(Renderer* renderer, const Mat4& transform, P
             direction.normalize();
             // up = PUUtil::perpendicular(direction);
             // up.normalize();
-            Vec3::cross(_commonUp, direction, &right);
+            Vec3::cross(_commonUp, direction, right);
             right.normalize();
-            Vec3::cross(direction, right, &up);
+            Vec3::cross(direction, right, up);
             up.normalize();
             backward = direction;
         }
@@ -170,7 +171,7 @@ void PUParticle3DQuadRender::render(Renderer* renderer, const Mat4& transform, P
         {
             up.set(particle->orientation.x, particle->orientation.y, particle->orientation.z);
             up.normalize();
-            Vec3::cross(up, backward, &right);
+            Vec3::cross(up, backward, right);
             right.normalize();
         }
         Vec3 halfwidth = particle->width * 0.5f * right;
@@ -203,7 +204,7 @@ void PUParticle3DQuadRender::render(Renderer* renderer, const Mat4& transform, P
         }
         else
         {
-            Mat4::createRotation(backward, -particle->zRotation, &pRotMat);
+            Mat4::createRotation(backward, -particle->zRotation, pRotMat);
             fillVertex(vertexindex, (position + pRotMat * (-halfwidth - halfheight + offset)), particle->color, particle->lb_uv);
             fillVertex(vertexindex + 1, (position + pRotMat * (halfwidth - halfheight + offset)), particle->color, Vec2(particle->rt_uv.x, particle->lb_uv.y));
             fillVertex(vertexindex + 2, (position + pRotMat * (-halfwidth + halfheight + offset)), particle->color, Vec2(particle->lb_uv.x, particle->rt_uv.y));
@@ -496,7 +497,7 @@ void PUParticle3DModelRender::render(Renderer* renderer, const Mat4& transform, 
     for (auto iter : activeParticleList)
     {
         auto particle = static_cast<PUParticle3D*>(iter);
-        Mat4::createRotation(q * particle->orientation, &rotMat);
+        Mat4::createRotation(q * particle->orientation, rotMat);
         sclMat.m[0] = particle->width / _spriteSize.x;
         sclMat.m[5] = particle->height / _spriteSize.y;
         sclMat.m[10] = particle->depth / _spriteSize.z;
@@ -688,7 +689,7 @@ void PUParticle3DBoxRender::render(Renderer* renderer, const Mat4& transform, Pa
         float halfHeight = particle->height * 0.5f;
         float halfWidth = particle->width * 0.5f;
         float halfDepth = particle->depth * 0.5f;
-        Mat4::createRotation(backward, particle->zRotation, &texRot);
+        Mat4::createRotation(backward, particle->zRotation, texRot);
         val = texRot * Vec3(0.0f, 0.75f, 0.0);
         _vertices[vertexindex + 0].position = particle->position + Vec3(-halfWidth, -halfHeight, halfDepth);
         _vertices[vertexindex + 0].color = particle->color;
@@ -874,9 +875,9 @@ void PUSphereRender::render(Renderer* renderer, const Mat4& transform, ParticleS
     {
         auto particle = static_cast<PUParticle3D*>(iter);
         float radius = particle->width * 0.5f;
-        Mat4::createRotation(particle->orientation, &rotMat);
-        Mat4::createScale(radius, radius, radius, &sclMat);
-        Mat4::createRotation(backward, particle->zRotation, &texRot);
+        Mat4::createRotation(particle->orientation, rotMat);
+        Mat4::createScale(radius, radius, radius, sclMat);
+        Mat4::createRotation(backward, particle->zRotation, texRot);
         mat = rotMat * sclMat;
         mat.m[12] = particle->position.x;
         mat.m[13] = particle->position.y;
@@ -885,7 +886,7 @@ void PUSphereRender::render(Renderer* renderer, const Mat4& transform, ParticleS
         for (unsigned int i = 0; i < vertexCount; ++i)
         {
             val = texRot * Vec3(_vertexTemplate[vertexindex + i].uv.x, _vertexTemplate[vertexindex + i].uv.y, 0.0f);
-            mat.transformPoint(_vertexTemplate[vertexindex + i].position, &_vertices[vertexindex + i].position);
+            mat.transformPoint(_vertexTemplate[vertexindex + i].position, _vertices[vertexindex + i].position);
             _vertices[vertexindex + i].color = particle->color;
             _vertices[vertexindex + i].uv.x = val.x;
             _vertices[vertexindex + i].uv.y = val.y;

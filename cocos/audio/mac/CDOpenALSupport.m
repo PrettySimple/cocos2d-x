@@ -49,11 +49,11 @@
 
 #import <AudioToolbox/AudioFile.h>
 #import <AudioToolbox/ExtendedAudioFile.h>
+#include <CoreAudio/CoreAudioTypes.h>
 #import <CoreFoundation/CFBase.h>
 #import <CoreFoundation/CFString.h>
 #import <CoreFoundation/CFURL.h>
 #import <OpenAL/al.h>
-#include <CoreAudio/CoreAudioTypes.h>
 
 #include <stdlib.h>
 #include <string.h>

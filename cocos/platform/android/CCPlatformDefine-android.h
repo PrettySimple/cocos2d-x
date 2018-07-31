@@ -26,8 +26,8 @@ THE SOFTWARE.
 #ifndef __CCPLATFORMDEFINE_H__
 #define __CCPLATFORMDEFINE_H__
 
-#include "platform/CCPlatformConfig.h"
 #include <assert.h>
+#include <cocos/platform/CCPlatformConfig.h>
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 #    include <android/log.h>
