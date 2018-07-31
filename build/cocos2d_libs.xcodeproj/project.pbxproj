@@ -1604,7 +1604,6 @@
 		22F2628A2108BB2700B8612C /* CCTableView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4C521032F73001D9557 /* CCTableView.cpp */; };
 		22F2628B2108BB2700B8612C /* CCTableViewCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4C721032F73001D9557 /* CCTableViewCell.cpp */; };
 		22F2628C2108BB2700B8612C /* ExtensionDeprecated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2257D4CB21032F73001D9557 /* ExtensionDeprecated.cpp */; };
-		22F2628D2108BB2700B8612C /* clipper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 85B374381B204B9400C488D6 /* clipper.cpp */; };
 		22F2628E2108BB2700B8612C /* CCAffineTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBD1B1925AB0000A911A9 /* CCAffineTransform.cpp */; };
 		22F2628F2108BB2700B8612C /* CCGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBD1D1925AB0000A911A9 /* CCGeometry.cpp */; };
 		22F262902108BB2700B8612C /* CCVertex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBD211925AB0000A911A9 /* CCVertex.cpp */; };
@@ -11730,7 +11729,6 @@
 				22F262372108BB2700B8612C /* CCAllocatorBase.cpp in Sources */,
 				22F262602108BB2700B8612C /* CCScheduler.cpp in Sources */,
 				22F262102108BB2700B8612C /* CCAnimation.cpp in Sources */,
-				22F2628D2108BB2700B8612C /* clipper.cpp in Sources */,
 				22F262122108BB2700B8612C /* CCSprite.cpp in Sources */,
 				22F262D52108BB4D00B8612C /* UIScrollView.cpp in Sources */,
 				22F262C22108BB4D00B8612C /* UIHBox.cpp in Sources */,
