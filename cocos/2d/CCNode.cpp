@@ -50,16 +50,14 @@ THE SOFTWARE.
 #endif
 
 #include <algorithm>
+#include <cmath>
+#include <limits>
 #include <regex>
 #include <string>
 
-#if CC_NODE_RENDER_SUBPIXEL
-#    define RENDER_IN_SUBPIXEL
-#else
-#    define RENDER_IN_SUBPIXEL(__ARGS__) (ceil(__ARGS__))
-#endif
-
 using namespace std::chrono_literals;
+
+static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
 
 NS_CC_BEGIN
 
@@ -237,7 +235,7 @@ float Node::getSkewX() const
 
 void Node::setSkewX(float skewX)
 {
-    if (_skewX == skewX)
+    if (std::abs(_skewX - skewX) < epsi)
         return;
 
     _skewX = skewX;
@@ -251,7 +249,7 @@ float Node::getSkewY() const
 
 void Node::setSkewY(float skewY)
 {
-    if (_skewY == skewY)
+    if (std::abs(_skewY - skewY) < epsi)
         return;
 
     _skewY = skewY;
@@ -286,7 +284,7 @@ void Node::updateOrderOfArrival()
 
 void Node::setGlobalZOrder(float globalZOrder)
 {
-    if (_globalZOrder != globalZOrder)
+    if (std::abs(_globalZOrder - globalZOrder) > epsi)
     {
         _globalZOrder = globalZOrder;
         _eventDispatcher->setDirtyForNode(this);
@@ -296,14 +294,14 @@ void Node::setGlobalZOrder(float globalZOrder)
 /// rotation getter
 float Node::getRotation() const
 {
-    CCASSERT(_rotationZ_X == _rotationZ_Y, "CCNode#rotation. RotationX != RotationY. Don't know which one to return");
+    CCASSERT(std::abs(_rotationZ_X - _rotationZ_Y) < epsi, "CCNode#rotation. RotationX != RotationY. Don't know which one to return");
     return _rotationZ_X;
 }
 
 /// rotation setter
 void Node::setRotation(float rotation)
 {
-    if (_rotationZ_X == rotation)
+    if (std::abs(_rotationZ_X - rotation) < epsi)
         return;
 
     _rotationZ_X = _rotationZ_Y = rotation;
@@ -319,7 +317,7 @@ float Node::getRotationSkewX() const
 
 void Node::setRotation3D(const Vec3& rotation)
 {
-    if (_rotationX == rotation.x && _rotationY == rotation.y && _rotationZ_X == rotation.z)
+    if (std::abs(_rotationX - rotation.x) < epsi && std::abs(_rotationY - rotation.y) < epsi && std::abs(_rotationZ_X - rotation.z) < epsi)
         return;
 
     _transformUpdated = _transformDirty = _inverseDirty = true;
@@ -336,7 +334,7 @@ void Node::setRotation3D(const Vec3& rotation)
 Vec3 Node::getRotation3D() const
 {
     // rotation Z is decomposed in 2 to simulate Skew for Flash animations
-    CCASSERT(_rotationZ_X == _rotationZ_Y, "_rotationZ_X != _rotationZ_Y");
+    CCASSERT(std::abs(_rotationZ_X - _rotationZ_Y) < epsi, "_rotationZ_X != _rotationZ_Y");
 
     return Vec3(_rotationX, _rotationY, _rotationZ_X);
 }
@@ -347,9 +345,9 @@ void Node::updateRotationQuat()
     // when _rotationZ_X == _rotationZ_Y, _rotationQuat = RotationZ_X * RotationY * RotationX
     // when _rotationZ_X != _rotationZ_Y, _rotationQuat = RotationY * RotationX
     float halfRadx = CC_DEGREES_TO_RADIANS(_rotationX / 2.f), halfRady = CC_DEGREES_TO_RADIANS(_rotationY / 2.f),
-          halfRadz = _rotationZ_X == _rotationZ_Y ? -CC_DEGREES_TO_RADIANS(_rotationZ_X / 2.f) : 0;
-    float coshalfRadx = cosf(halfRadx), sinhalfRadx = sinf(halfRadx), coshalfRady = cosf(halfRady), sinhalfRady = sinf(halfRady), coshalfRadz = cosf(halfRadz),
-          sinhalfRadz = sinf(halfRadz);
+    halfRadz = std::abs(_rotationZ_X - _rotationZ_Y) < epsi ? -CC_DEGREES_TO_RADIANS(_rotationZ_X / 2.f) : 0.f;
+    float coshalfRadx = std::cos(halfRadx), sinhalfRadx = std::sin(halfRadx), coshalfRady = std::cos(halfRady), sinhalfRady = std::sin(halfRady), coshalfRadz = std::cos(halfRadz),
+    sinhalfRadz = std::sin(halfRadz);
     _rotationQuat.x = sinhalfRadx * coshalfRady * coshalfRadz - coshalfRadx * sinhalfRady * sinhalfRadz;
     _rotationQuat.y = coshalfRadx * sinhalfRady * coshalfRadz + sinhalfRadx * coshalfRady * sinhalfRadz;
     _rotationQuat.z = coshalfRadx * coshalfRady * sinhalfRadz - sinhalfRadx * sinhalfRady * coshalfRadz;
@@ -360,11 +358,11 @@ void Node::updateRotation3D()
 {
     // convert quaternion to Euler angle
     float x = _rotationQuat.x, y = _rotationQuat.y, z = _rotationQuat.z, w = _rotationQuat.w;
-    _rotationX = atan2f(2.f * (w * x + y * z), 1.f - 2.f * (x * x + y * y));
+    _rotationX = std::atan2(2.f * (w * x + y * z), 1.f - 2.f * (x * x + y * y));
     float sy = 2.f * (w * y - z * x);
     sy = clampf(sy, -1, 1);
-    _rotationY = asinf(sy);
-    _rotationZ_X = atan2f(2.f * (w * z + x * y), 1.f - 2.f * (y * y + z * z));
+    _rotationY = std::asin(sy);
+    _rotationZ_X = std::atan2(2.f * (w * z + x * y), 1.f - 2.f * (y * y + z * z));
 
     _rotationX = CC_RADIANS_TO_DEGREES(_rotationX);
     _rotationY = CC_RADIANS_TO_DEGREES(_rotationY);
@@ -385,7 +383,7 @@ Quaternion Node::getRotationQuat() const
 
 void Node::setRotationSkewX(float rotationX)
 {
-    if (_rotationZ_X == rotationX)
+    if (std::abs(_rotationZ_X - rotationX) < epsi)
         return;
 
     _rotationZ_X = rotationX;
@@ -401,7 +399,7 @@ float Node::getRotationSkewY() const
 
 void Node::setRotationSkewY(float rotationY)
 {
-    if (_rotationZ_Y == rotationY)
+    if (std::abs(_rotationZ_Y - rotationY) < epsi)
         return;
 
     _rotationZ_Y = rotationY;
@@ -420,7 +418,7 @@ float Node::getScale() const
 /// scale setter
 void Node::setScale(float scale)
 {
-    if (_scaleX == scale && _scaleY == scale && _scaleZ == scale)
+    if (std::abs(_scaleX - scale) < epsi && std::abs(_scaleY - scale) < epsi && std::abs(_scaleZ - scale) < epsi)
         return;
 
     _scaleX = _scaleY = _scaleZ = scale;
@@ -436,7 +434,7 @@ float Node::getScaleX() const
 /// scale setter
 void Node::setScale(float scaleX, float scaleY)
 {
-    if (_scaleX == scaleX && _scaleY == scaleY)
+    if (std::abs(_scaleX - scaleX) < epsi && std::abs(_scaleY - scaleY) < epsi)
         return;
 
     _scaleX = scaleX;
@@ -447,7 +445,7 @@ void Node::setScale(float scaleX, float scaleY)
 /// scaleX setter
 void Node::setScaleX(float scaleX)
 {
-    if (_scaleX == scaleX)
+    if (std::abs(_scaleX - scaleX) < epsi)
         return;
 
     _scaleX = scaleX;
@@ -463,7 +461,7 @@ float Node::getScaleY() const
 /// scaleY setter
 void Node::setScaleZ(float scaleZ)
 {
-    if (_scaleZ == scaleZ)
+    if (std::abs(_scaleZ - scaleZ) < epsi)
         return;
 
     _scaleZ = scaleZ;
@@ -479,7 +477,7 @@ float Node::getScaleZ() const
 /// scaleY setter
 void Node::setScaleY(float scaleY)
 {
-    if (_scaleY == scaleY)
+    if (std::abs(_scaleY - scaleY) < epsi)
         return;
 
     _scaleY = scaleY;
@@ -506,7 +504,7 @@ void Node::getPosition(float* x, float* y) const
 
 void Node::setPosition(float x, float y)
 {
-    if (_position.x == x && _position.y == y)
+    if (std::abs(_position.x - x) < epsi && std::abs(_position.y - y) < epsi)
         return;
 
     _position.x = x;
@@ -554,7 +552,7 @@ float Node::getPositionZ() const
 
 void Node::setPositionZ(float positionZ)
 {
-    if (_positionZ == positionZ)
+    if (std::abs(_positionZ - positionZ) < epsi)
         return;
 
     _transformUpdated = _transformDirty = _inverseDirty = true;
@@ -1201,7 +1199,7 @@ uint32_t Node::processParentFlags(const Mat4& parentTransform, uint32_t parentFl
 bool Node::isVisitableByVisitingCamera() const
 {
     auto camera = Camera::getVisitingCamera();
-    bool visibleByCamera = camera ? ((unsigned short)camera->getCameraFlag() & _cameraMask) != 0 : true;
+    bool visibleByCamera = camera ? (static_cast<unsigned short>(camera->getCameraFlag()) & _cameraMask) != 0 : true;
     return visibleByCamera;
 }
 
@@ -1223,7 +1221,7 @@ void Node::visit(Renderer* renderer, const Mat4& parentTransform, uint32_t paren
 
     bool visibleByCamera = isVisitableByVisitingCamera();
 
-    int i = 0;
+    std::size_t i = 0;
 
     if (!_children.empty())
     {
@@ -1675,37 +1673,47 @@ const Mat4& Node::getNodeToParentTransform() const
 
         Mat4::createRotation(_rotationQuat, _transform);
 
-        if (_rotationZ_X != _rotationZ_Y)
+        if (std::abs(_rotationZ_X - _rotationZ_Y) > epsi)
         {
             // Rotation values
             // Change rotation code to handle X and Y
             // If we skew with the exact same value for both x and y then we're simply just rotating
-            float radiansX = -CC_DEGREES_TO_RADIANS(_rotationZ_X);
-            float radiansY = -CC_DEGREES_TO_RADIANS(_rotationZ_Y);
-            float cx = cosf(radiansX);
-            float sx = sinf(radiansX);
-            float cy = cosf(radiansY);
-            float sy = sinf(radiansY);
+            float const radiansX = -CC_DEGREES_TO_RADIANS(_rotationZ_X);
+            float const radiansY = -CC_DEGREES_TO_RADIANS(_rotationZ_Y);
+            float const cx = std::cos(radiansX);
+            float const sx = std::sin(radiansX);
+            float const cy = std::cos(radiansY);
+            float const sy = std::sin(radiansY);
 
-            float m0 = _transform.m[0], m1 = _transform.m[1], m4 = _transform.m[4], m5 = _transform.m[5], m8 = _transform.m[8], m9 = _transform.m[9];
-            _transform.m[0] = cy * m0 - sx * m1, _transform.m[4] = cy * m4 - sx * m5, _transform.m[8] = cy * m8 - sx * m9;
-            _transform.m[1] = sy * m0 + cx * m1, _transform.m[5] = sy * m4 + cx * m5, _transform.m[9] = sy * m8 + cx * m9;
+            float const m0 = _transform.m[0], m1 = _transform.m[1], m4 = _transform.m[4], m5 = _transform.m[5], m8 = _transform.m[8], m9 = _transform.m[9];
+            _transform.m[0] = cy * m0 - sx * m1;
+            _transform.m[4] = cy * m4 - sx * m5;
+            _transform.m[8] = cy * m8 - sx * m9;
+            _transform.m[1] = sy * m0 + cx * m1;
+            _transform.m[5] = sy * m4 + cx * m5;
+            _transform.m[9] = sy * m8 + cx * m9;
         }
         _transform = translation * _transform;
         // move by (-anchorPoint.x, -anchorPoint.y, 0) after rotation
         _transform.translate(-anchorPoint.x, -anchorPoint.y, 0);
 
-        if (_scaleX != 1.f)
+        if (std::abs(_scaleX - 1.f) > epsi)
         {
-            _transform.m[0] *= _scaleX, _transform.m[1] *= _scaleX, _transform.m[2] *= _scaleX;
+            _transform.m[0] *= _scaleX;
+            _transform.m[1] *= _scaleX;
+            _transform.m[2] *= _scaleX;
         }
-        if (_scaleY != 1.f)
+        if (std::abs(_scaleY - 1.f) > epsi)
         {
-            _transform.m[4] *= _scaleY, _transform.m[5] *= _scaleY, _transform.m[6] *= _scaleY;
+            _transform.m[4] *= _scaleY;
+            _transform.m[5] *= _scaleY;
+            _transform.m[6] *= _scaleY;
         }
-        if (_scaleZ != 1.f)
+        if (std::abs(_scaleZ - 1.f) > epsi)
         {
-            _transform.m[8] *= _scaleZ, _transform.m[9] *= _scaleZ, _transform.m[10] *= _scaleZ;
+            _transform.m[8] *= _scaleZ;
+            _transform.m[9] *= _scaleZ;
+            _transform.m[10] *= _scaleZ;
         }
 
         // FIXME:: Try to inline skew
@@ -1713,7 +1721,7 @@ const Mat4& Node::getNodeToParentTransform() const
         if (needsSkewMatrix)
         {
             float skewMatArray[16] = {
-                1, (float)tanf(CC_DEGREES_TO_RADIANS(_skewY)), 0, 0, (float)tanf(CC_DEGREES_TO_RADIANS(_skewX)), 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1};
+                1, std::tan(CC_DEGREES_TO_RADIANS(_skewY)), 0.f, 0.f, std::tan(CC_DEGREES_TO_RADIANS(_skewX)), 1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f};
             Mat4 skewMatrix(skewMatArray);
 
             _transform = _transform * skewMatrix;
@@ -2125,8 +2133,8 @@ bool isScreenPointInRect(const Vec2& pt, const Camera* camera, const Mat4& w2l, 
     //          (BxC).E
     Vec3 BxC;
     Vec3::cross(B, C, BxC);
-    auto BxCdotE = BxC.dot(E);
-    if (BxCdotE == 0)
+    float BxCdotE = BxC.dot(E);
+    if (std::abs(BxCdotE) < epsi)
     {
         return false;
     }

@@ -1060,7 +1060,7 @@ void Console::createCommandVersion()
 // commands
 //
 
-void Console::commandAllocator(int fd, const std::string& args)
+void Console::commandAllocator(int fd, const std::string&)
 {
 #if CC_ENABLE_ALLOCATOR_DIAGNOSTICS
     auto info = allocator::AllocatorDiagnostics::instance()->diagnostics();
@@ -1070,7 +1070,7 @@ void Console::commandAllocator(int fd, const std::string& args)
 #endif
 }
 
-void Console::commandConfig(int fd, const std::string& args)
+void Console::commandConfig(int fd, const std::string&)
 {
     Scheduler* sched = Director::getInstance()->getScheduler();
     sched->performFunctionInCocosThread([=]() {
@@ -1079,49 +1079,49 @@ void Console::commandConfig(int fd, const std::string& args)
     });
 }
 
-void Console::commandDebugMsg(int fd, const std::string& args)
+void Console::commandDebugMsg(int fd, const std::string&)
 {
     Console::Utility::mydprintf(fd, "Debug message is: %s\n", _sendDebugStrings ? "on" : "off");
 }
 
-void Console::commandDebugMsgSubCommandOnOff(int fd, const std::string& args)
+void Console::commandDebugMsgSubCommandOnOff(int, const std::string& args)
 {
     _sendDebugStrings = (args.compare("on") == 0);
 }
 
-void Console::commandDirectorSubCommandPause(int fd, const std::string& args)
+void Console::commandDirectorSubCommandPause(int, const std::string&)
 {
     auto director = Director::getInstance();
     Scheduler* sched = director->getScheduler();
     sched->performFunctionInCocosThread([]() { Director::getInstance()->pause(); });
 }
 
-void Console::commandDirectorSubCommandResume(int fd, const std::string& args)
+void Console::commandDirectorSubCommandResume(int, const std::string&)
 {
     auto director = Director::getInstance();
     director->resume();
 }
 
-void Console::commandDirectorSubCommandStop(int fd, const std::string& args)
+void Console::commandDirectorSubCommandStop(int, const std::string&)
 {
     auto director = Director::getInstance();
     Scheduler* sched = director->getScheduler();
     sched->performFunctionInCocosThread([]() { Director::getInstance()->stopAnimation(); });
 }
 
-void Console::commandDirectorSubCommandStart(int fd, const std::string& args)
+void Console::commandDirectorSubCommandStart(int, const std::string&)
 {
     auto director = Director::getInstance();
     director->startAnimation();
 }
 
-void Console::commandDirectorSubCommandEnd(int fd, const std::string& args)
+void Console::commandDirectorSubCommandEnd(int, const std::string&)
 {
     auto director = Director::getInstance();
     director->end();
 }
 
-void Console::commandExit(int fd, const std::string& args)
+void Console::commandExit(int fd, const std::string&)
 {
     FD_CLR(fd, &_read_set);
     _fds.erase(std::remove(_fds.begin(), _fds.end(), fd), _fds.end());
@@ -1132,23 +1132,23 @@ void Console::commandExit(int fd, const std::string& args)
 #endif
 }
 
-void Console::commandFileUtils(int fd, const std::string& args)
+void Console::commandFileUtils(int fd, const std::string&)
 {
     Scheduler* sched = Director::getInstance()->getScheduler();
     sched->performFunctionInCocosThread(std::bind(&Console::printFileUtils, this, fd));
 }
 
-void Console::commandFileUtilsSubCommandFlush(int fd, const std::string& args)
+void Console::commandFileUtilsSubCommandFlush(int, const std::string&)
 {
     FileUtils::getInstance()->purgeCachedEntries();
 }
 
-void Console::commandFps(int fd, const std::string& args)
+void Console::commandFps(int fd, const std::string&)
 {
     Console::Utility::mydprintf(fd, "FPS is: %s\n", Director::getInstance()->isDisplayStats() ? "on" : "off");
 }
 
-void Console::commandFpsSubCommandOnOff(int fd, const std::string& args)
+void Console::commandFpsSubCommandOnOff(int, const std::string& args)
 {
     bool state = (args.compare("on") == 0);
     Director* dir = Director::getInstance();
@@ -1156,12 +1156,12 @@ void Console::commandFpsSubCommandOnOff(int fd, const std::string& args)
     sched->performFunctionInCocosThread(std::bind(&Director::setDisplayStats, dir, state));
 }
 
-void Console::commandHelp(int fd, const std::string& args)
+void Console::commandHelp(int fd, const std::string&)
 {
     sendHelp(fd, _commands, "\nAvailable commands:\n");
 }
 
-void Console::commandProjection(int fd, const std::string& args)
+void Console::commandProjection(int fd, const std::string&)
 {
     auto director = Director::getInstance();
     char buf[20];
@@ -1181,21 +1181,21 @@ void Console::commandProjection(int fd, const std::string& args)
     Console::Utility::mydprintf(fd, "Current projection: %s\n", buf);
 }
 
-void Console::commandProjectionSubCommand2d(int fd, const std::string& args)
+void Console::commandProjectionSubCommand2d(int, const std::string&)
 {
     auto director = Director::getInstance();
     Scheduler* sched = director->getScheduler();
     sched->performFunctionInCocosThread([=]() { director->setProjection(Director::Projection::_2D); });
 }
 
-void Console::commandProjectionSubCommand3d(int fd, const std::string& args)
+void Console::commandProjectionSubCommand3d(int, const std::string&)
 {
     auto director = Director::getInstance();
     Scheduler* sched = director->getScheduler();
     sched->performFunctionInCocosThread([=]() { director->setProjection(Director::Projection::_3D); });
 }
 
-void Console::commandResolution(int fd, const std::string& args)
+void Console::commandResolution(int, const std::string& args)
 {
     int width, height, policy;
 
@@ -1207,7 +1207,7 @@ void Console::commandResolution(int fd, const std::string& args)
         [=]() { Director::getInstance()->getOpenGLView()->setDesignResolutionSize(width, height, static_cast<ResolutionPolicy>(policy)); });
 }
 
-void Console::commandResolutionSubCommandEmpty(int fd, const std::string& args)
+void Console::commandResolutionSubCommandEmpty(int fd, const std::string&)
 {
     auto director = Director::getInstance();
     Size points = director->getWinSize();
@@ -1231,13 +1231,13 @@ void Console::commandResolutionSubCommandEmpty(int fd, const std::string& args)
                                 static_cast<int>(visibleRect.origin.y), static_cast<int>(visibleRect.size.width), static_cast<int>(visibleRect.size.height));
 }
 
-void Console::commandSceneGraph(int fd, const std::string& args)
+void Console::commandSceneGraph(int fd, const std::string&)
 {
     Scheduler* sched = Director::getInstance()->getScheduler();
     sched->performFunctionInCocosThread(std::bind(&Console::printSceneGraphBoot, this, fd));
 }
 
-void Console::commandTextures(int fd, const std::string& args)
+void Console::commandTextures(int fd, const std::string&)
 {
     Scheduler* sched = Director::getInstance()->getScheduler();
     sched->performFunctionInCocosThread([=]() {
@@ -1246,7 +1246,7 @@ void Console::commandTextures(int fd, const std::string& args)
     });
 }
 
-void Console::commandTexturesSubCommandFlush(int fd, const std::string& args)
+void Console::commandTexturesSubCommandFlush(int, const std::string&)
 {
     Scheduler* sched = Director::getInstance()->getScheduler();
     sched->performFunctionInCocosThread([]() { Director::getInstance()->getTextureCache()->removeAllTextures(); });
@@ -1445,7 +1445,7 @@ void Console::commandUpload(int fd)
     fclose(fp);
 }
 
-void Console::commandVersion(int fd, const std::string& args)
+void Console::commandVersion(int fd, const std::string&)
 {
     Console::Utility::mydprintf(fd, "%s\n", cocos2dVersion());
 }
