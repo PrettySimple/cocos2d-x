@@ -247,8 +247,8 @@ THE SOFTWARE.
 #endif
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
-#    include <cocos/emscripten/CCGL-emscripten.h>
 #    include <cocos/platform/emscripten/CCApplication-emscripten.h>
+#    include <cocos/platform/emscripten/CCGL-emscripten.h>
 #    include <cocos/platform/emscripten/CCGLViewImpl-emscripten.h>
 #    include <cocos/platform/emscripten/CCStdC-emscripten.h>
 #endif

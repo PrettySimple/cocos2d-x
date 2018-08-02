@@ -23,9 +23,14 @@
 #define CC_MATH_VEC4_H
 
 #include <cocos/math/CCMathBase.h>
+#include <cocos/platform/CCPlatformConfig.h>
 #include <cocos/platform/CCPlatformDefine.h>
 
 #include <type_traits>
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+#    include <cmath>
+#    include <limits>
+#endif
 
 /**
  * @addtogroup base
@@ -44,6 +49,8 @@ class CC_DLL Vec4 final
 public:
 #ifdef __ARM_NEON
     using f32x4_t = __attribute__((neon_vector_type(4))) float;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    using f32x4_t = float[4];
 #else
     using f32x4_t = __attribute__((ext_vector_type(4))) float;
 #endif
@@ -81,14 +88,26 @@ public:
      * @param zz The z coordinate.
      */
     constexpr Vec4(float xx, float yy, float zz, float ww)
-    : v{xx, yy, zz, ww}
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    : x(xx)
+    , y(yy)
+    , z(zz)
+    , w(ww)
+#else
+    : v
+    {
+        xx, yy, zz, ww
+    }
+#endif
     {
     }
 
+#if CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN
     constexpr Vec4(f32x4_t&& other)
     : v(std::move(other))
     {
     }
+#endif
 
     /**
      * Constructs a new vector from the values in the specified array.
@@ -425,7 +444,14 @@ public:
      * @param s the constant to divide this vector with
      * @return a smaller vector
      */
-    inline const Vec4 operator/(float s) const { return Vec4(v / s); }
+    inline const Vec4 operator/(float s) const
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return {x / s, y / s, z / s, w / s};
+#else
+        return Vec4(v / s);
+#endif
+    }
 
     /**
      * Determines if this vector is less than the given vector.
@@ -436,14 +462,22 @@ public:
      */
     inline bool operator<(const Vec4& other) const noexcept
     {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return x < other.x && y < other.y && z < other.z && w < other.w;
+#else
         auto const lt = v < other.v;
         return lt[0] == -1 && lt[1] == -1 && lt[2] == -1 && lt[3] == -1;
+#endif
     }
 
     inline bool operator>(const Vec4& other) const noexcept
     {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return x > other.x && y > other.y && z > other.z && w > other.w;
+#else
         auto const gt = v > other.v;
         return gt[0] == -1 && gt[1] == -1 && gt[2] == -1 && gt[3] == -1;
+#endif
     }
 
     /**
@@ -455,11 +489,16 @@ public:
      */
     inline bool operator==(const Vec4& other) const noexcept
     {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wfloat-equal"
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+        return std::abs(x - other.x) < epsi && std::abs(y - other.y) < epsi && std::abs(z - other.z) < epsi && std::abs(w - other.w) < epsi;
+#else
+#    pragma clang diagnostic push
+#    pragma clang diagnostic ignored "-Wfloat-equal"
         auto const eq = (v == other.v);
-#pragma clang diagnostic pop
+#    pragma clang diagnostic pop
         return eq[0] == -1 && eq[1] == -1 && eq[2] == -1 && eq[3] == -1;
+#endif
     }
 
     /**

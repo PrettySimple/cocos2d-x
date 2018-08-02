@@ -22,6 +22,7 @@
 
 #include <cocos/base/ccMacros.h>
 #include <cocos/math/CCMathBase.h>
+#include <cocos/platform/CCPlatformConfig.h>
 
 #include <algorithm>
 #include <limits>
@@ -84,23 +85,37 @@ bool isOneDimensionSegmentOverlap(float A, float B, float C, float D, float* S, 
 // cross product of 2 vector. A->B X C->D
 float crossProduct2Vector(const Vec2& A, const Vec2& B, const Vec2& C, const Vec2& D)
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    return (D.y - C.y) * (B.x - A.x) - (D.x - C.x) * (B.y - A.y);
+#else
     auto const DC = D.v - C.v;
     auto const BA = B.v - A.v;
     auto const temp = __builtin_shufflevector(DC, DC, 1, 0) * BA;
     return temp[0] - temp[1];
+#endif
 }
 
 float Vec2::angle(Vec2 const& v1, Vec2 const& v2)
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    float const dz = v1.x * v2.y - v1.y * v2.x;
+    return std::atan2(std::abs(dz) + std::numeric_limits<float>::epsilon(), dot(v1, v2));
+#else
     auto const mul = v1.v * __builtin_shufflevector(v2.v, v2.v, 1, 0);
     return std::atan2(std::abs(mul[0] - mul[1]) + std::numeric_limits<float>::epsilon(), dot(v1, v2));
+#endif
 }
 
 void Vec2::add(const Vec2& v1, const Vec2& v2, Vec2* dst)
 {
     GP_ASSERT(dst);
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    dst->x = v1.x + v2.x;
+    dst->y = v1.y + v2.y;
+#else
     dst->v = v1.v + v2.v;
+#endif
 }
 
 void Vec2::clamp(const Vec2& min, const Vec2& max)
@@ -124,7 +139,12 @@ void Vec2::clamp(const Vec2& other, const Vec2& min, const Vec2& max, Vec2* dst)
     GP_ASSERT(!(min > max));
 
     // Clamp the x value.
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    dst->x = other.x;
+    dst->y = other.y;
+#else
     dst->v = other.v;
+#endif
 
     if (other.v[0] < min.v[0])
         dst->v[0] = min.v[0];
@@ -138,25 +158,55 @@ void Vec2::clamp(const Vec2& other, const Vec2& min, const Vec2& max, Vec2* dst)
 
 float Vec2::distance(Vec2 const& other) const
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    float const dx = other.x - x;
+    float const dy = other.y - y;
+    return std::sqrt(dx * dx + dy * dy);
+#else
     auto const diff = other.v - v;
     auto const mul = diff * diff;
     return std::sqrt(mul[0] + mul[1]);
+#endif
 }
 
 float Vec2::dot(const Vec2& v1, const Vec2& v2)
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    return v1.x * v2.x + v1.y * v2.y;
+#else
     auto const mul = v1.v * v2.v;
     return mul[0] + mul[1];
+#endif
 }
 
 float Vec2::length() const
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    return std::sqrt(x * x + y * y);
+#else
     auto const mul = v * v;
     return std::sqrt(mul[0] + mul[1]);
+#endif
 }
 
 void Vec2::normalize()
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+    float n = x * x + y * y;
+    // Already normalized.
+    if (std::abs(n - 1.f) < epsi)
+        return;
+
+    n = std::sqrt(n);
+    // Too close to zero.
+    if (std::abs(n) < epsi)
+        return;
+
+    n = 1.0f / n;
+    x *= n;
+    y *= n;
+#else
     static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
     auto const mul = v * v;
     float n = mul[0] + mul[1];
@@ -166,11 +216,12 @@ void Vec2::normalize()
 
     n = std::sqrt(n);
     // Too close to zero.
-    if (n < epsi)
+    if (std::abs(n) < epsi)
         return;
 
     n = 1.0f / n;
     v *= n;
+#endif
 }
 
 Vec2 Vec2::getNormalized() const
@@ -182,24 +233,44 @@ Vec2 Vec2::getNormalized() const
 
 void Vec2::rotate(const Vec2& point, float angle)
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    float const sinAngle = std::sin(angle);
+    float const cosAngle = std::cos(angle);
+
+    float const tempX = x - point.x;
+    float const tempY = y - point.y;
+    x = tempX * cosAngle - tempY * sinAngle + point.x;
+    y = tempY * cosAngle + tempX * sinAngle + point.y;
+#else
     auto const sinAngle = std::sin(angle);
     auto const cosAngle = std::cos(angle);
     auto const tmp = v - point.v;
     v = tmp * cosAngle + __builtin_shufflevector(tmp, tmp, 1, 0) * f32x2_t{-1.f, 0.f} * sinAngle + point.v;
+#endif
 }
 
 void Vec2::set(const float* array)
 {
     GP_ASSERT(array);
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    x = array[0];
+    y = array[1];
+#else
     v = {array[0], array[1]};
+#endif
 }
 
 void Vec2::subtract(const Vec2& v1, const Vec2& v2, Vec2* dst)
 {
     GP_ASSERT(dst);
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    dst->x = v1.x - v2.x;
+    dst->y = v1.y - v2.y;
+#else
     dst->v = v1.v - v2.v;
+#endif
 }
 
 bool Vec2::equals(Vec2 const& other) const noexcept
@@ -223,15 +294,26 @@ bool Vec2::equals(Vec2 const& other) const noexcept
         SSE     #2 |  48.808 |  36 |  125 |   189.094 |
         Plain   #1 | 100.616 |  37 | 1498 | 12195.935 |
      */
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wfloat-equal"
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+    return std::abs(x - other.x) < epsi && std::abs(y - other.y) < epsi;
+#else
+#    pragma clang diagnostic push
+#    pragma clang diagnostic ignored "-Wfloat-equal"
     auto const eq = (v == other.v);
-#pragma pop
+#    pragma pop
     return eq[0] == -1 && eq[1] == -1;
+#endif
 }
 
 bool Vec2::fuzzyEquals(const Vec2& b, float var) const
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    if (x - var <= b.x && b.x <= x + var)
+        if (y - var <= b.y && b.y <= y + var)
+            return true;
+    return false;
+#else
     auto const sub_lteq = (v - var) <= b.v;
     auto const add_lteq = b.v <= (v + var);
     if (sub_lteq[0] == -1 && sub_lteq[1] == -1 && add_lteq[0] == -1 && add_lteq[1] == -1)
@@ -239,6 +321,7 @@ bool Vec2::fuzzyEquals(const Vec2& b, float var) const
         return true;
     }
     return false;
+#endif
 }
 
 float Vec2::getAngle(const Vec2& other) const
@@ -339,6 +422,20 @@ bool Vec2::isSegmentIntersect(const Vec2& A, const Vec2& B, const Vec2& C, const
 
 Vec2 Vec2::getIntersectPoint(const Vec2& A, const Vec2& B, const Vec2& C, const Vec2& D)
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    float S, T;
+
+    if (isLineIntersect(A, B, C, D, &S, &T))
+    {
+        // Vec2 of intersection
+        Vec2 P;
+        P.x = A.x + S * (B.x - A.x);
+        P.y = A.y + S * (B.y - A.y);
+        return P;
+    }
+
+    return Vec2::ZERO;
+#else
     float S, T;
 
     if (isLineIntersect(A, B, C, D, &S, &T))
@@ -350,6 +447,7 @@ Vec2 Vec2::getIntersectPoint(const Vec2& A, const Vec2& B, const Vec2& C, const 
     }
 
     return Vec2::ZERO;
+#endif
 }
 
 const Vec2 Vec2::ZERO(0.0f, 0.0f);

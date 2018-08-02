@@ -24,9 +24,13 @@
 
 #include <cocos/base/ccMacros.h>
 #include <cocos/math/CCMathBase.h>
+#include <cocos/platform/CCPlatformConfig.h>
 #include <cocos/platform/CCPlatformDefine.h>
 
 #include <cmath>
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+#    include <limits>
+#endif
 
 /**
  * @addtogroup base
@@ -49,6 +53,8 @@ class CC_DLL Vec3 final
 public:
 #ifdef __ARM_NEON
     using f32x4_t = __attribute__((neon_vector_type(4))) float;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    using f32x4_t = float[4];
 #else
     using f32x4_t = __attribute__((ext_vector_type(4))) float;
 #endif
@@ -113,12 +119,17 @@ public:
      */
     inline bool isZero() const noexcept
     {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+        return std::abs(x) < epsi && std::abs(y) < epsi && std::abs(z) < epsi;
+#else
         static constexpr auto const zero = f32x4_t{0.f, 0.f, 0.f, 0.f};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wfloat-equal"
+#    pragma clang diagnostic push
+#    pragma clang diagnostic ignored "-Wfloat-equal"
         auto const eq = (f32x4_t{x, y, z, 0.f} == zero);
-#pragma clang diagnostic pop
+#    pragma clang diagnostic pop
         return eq[0] == -1 && eq[1] == -1 && eq[2] == -1;
+#endif
     }
 
     /**
@@ -128,12 +139,17 @@ public:
      */
     inline bool isOne() const noexcept
     {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+        return std::abs(x - 1.f) < epsi && std::abs(y - 1.f) < epsi && std::abs(z - 1.f) < epsi;
+#else
         static constexpr auto const one = f32x4_t{1.f, 1.f, 1.f, 1.f};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wfloat-equal"
+#    pragma clang diagnostic push
+#    pragma clang diagnostic ignored "-Wfloat-equal"
         auto const eq = (f32x4_t{x, y, z, 1.f} == one);
-#pragma clang diagnostic pop
+#    pragma clang diagnostic pop
         return eq[0] == -1 && eq[1] == -1 && eq[2] == -1;
+#endif
     }
 
     /**
@@ -270,8 +286,12 @@ public:
      */
     inline float length() const
     {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return std::sqrt(x * x + y * y + z * z);
+#else
         auto const mul = f32x4_t{x, y, z, 1.f} * f32x4_t{x, y, z, 1.f};
         return std::sqrt(mul[0] + mul[1] + mul[2]);
+#endif
     }
 
     /**
@@ -288,8 +308,12 @@ public:
      */
     inline float lengthSquared() const
     {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return x * x + y * y + z * z;
+#else
         auto const mul = f32x4_t{x, y, z, 1.f} * f32x4_t{x, y, z, 1.f};
         return mul[0] + mul[1] + mul[2];
+#endif
     }
 
     /**
@@ -544,8 +568,12 @@ public:
      */
     inline bool operator<(const Vec3& other) const noexcept
     {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return x < other.x && y < other.y && z < other.z;
+#else
         auto const lt = f32x4_t{x, y, z, 0.f} < f32x4_t{other.x, other.y, other.z, 0.f};
         return lt[0] == -1 && lt[1] == -1 && lt[2] == -1;
+#endif
     }
 
     /** Returns true if the vector's scalar components are all smaller
@@ -553,8 +581,12 @@ public:
      */
     inline bool operator>(const Vec3& other) const noexcept
     {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return x > other.x && y > other.y && z > other.z;
+#else
         auto const gt = f32x4_t{x, y, z, 0.f} < f32x4_t{other.x, other.y, other.z, 0.f};
         return gt[0] == -1 && gt[1] == -1 && gt[2] == -1;
+#endif
     }
 
     /**
@@ -566,11 +598,16 @@ public:
      */
     inline bool operator==(const Vec3& other) const noexcept
     {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wfloat-equal"
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+        return std::abs(x - other.x) < epsi && std::abs(y - other.y) < epsi && std::abs(z - other.z) < epsi;
+#else
+#    pragma clang diagnostic push
+#    pragma clang diagnostic ignored "-Wfloat-equal"
         auto const eq = (f32x4_t{x, y, z, 0.f} == f32x4_t{other.x, other.y, other.z, 0.f});
-#pragma clang diagnostic pop
+#    pragma clang diagnostic pop
         return eq[0] == -1 && eq[1] == -1 && eq[2] == -1;
+#endif
     }
 
     /**

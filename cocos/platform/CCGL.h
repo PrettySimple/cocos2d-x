@@ -44,7 +44,7 @@ THE SOFTWARE.
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
 #    include <cocos/platform/tizen/CCGL-tizen.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
-#    include <cocos/emscripten/CCGL-emscripten.h>
+#    include <cocos/platform/emscripten/CCGL-emscripten.h>
 #endif
 
 /// @endcond

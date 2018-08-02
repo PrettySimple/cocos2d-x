@@ -25,6 +25,7 @@
 #include <cocos/math/CCMathBase.h>
 #include <cocos/math/Vec3.h>
 #include <cocos/math/Vec4.h>
+#include <cocos/platform/CCPlatformConfig.h>
 #include <cocos/platform/CCPlatformDefine.h>
 
 #include <cstdint>
@@ -90,6 +91,9 @@ public:
 #ifdef __ARM_NEON
     using f32x4_t = __attribute__((neon_vector_type(4))) float;
     using i32x4_t = __attribute__((neon_vector_type(4))) std::int32_t;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    using f32x4_t = float[4];
+    using i32x4_t = std::int32_t[4];
 #else
     using f32x4_t = __attribute__((ext_vector_type(4))) float;
     using i32x4_t = __attribute__((ext_vector_type(4))) std::int32_t;

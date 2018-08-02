@@ -26,11 +26,15 @@
 #include <cocos/math/Quaternion.h>
 #include <cocos/math/Vec3.h>
 #include <cocos/math/Vec4.h>
+#include <cocos/platform/CCPlatformConfig.h>
 #include <cocos/platform/CCPlatformMacros.h>
 
 #include <cmath>
 #include <cstring>
 #include <limits>
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+#    include <algorithm>
+#endif
 
 NS_CC_MATH_BEGIN
 
@@ -64,10 +68,32 @@ void Mat4::createLookAt(float eyePositionX, float eyePositionY, float eyePositio
     Vec3::cross(zaxis, xaxis, yaxis);
     yaxis.normalize();
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    dst.m[0] = xaxis.x;
+    dst.m[1] = yaxis.x;
+    dst.m[2] = zaxis.x;
+    dst.m[3] = 0.0f;
+
+    dst.m[4] = xaxis.y;
+    dst.m[5] = yaxis.y;
+    dst.m[6] = zaxis.y;
+    dst.m[7] = 0.0f;
+
+    dst.m[8] = xaxis.z;
+    dst.m[9] = yaxis.z;
+    dst.m[10] = zaxis.z;
+    dst.m[11] = 0.0f;
+
+    dst.m[12] = -Vec3::dot(xaxis, eye);
+    dst.m[13] = -Vec3::dot(yaxis, eye);
+    dst.m[14] = -Vec3::dot(zaxis, eye);
+    dst.m[15] = 1.0f;
+#else
     dst.col[0] = {xaxis.x, yaxis.x, zaxis.x, 0.0f};
     dst.col[1] = {xaxis.y, yaxis.y, zaxis.y, 0.0f};
     dst.col[2] = {xaxis.z, yaxis.z, zaxis.z, 0.0f};
     dst.col[3] = {-Vec3::dot(xaxis, eye), -Vec3::dot(yaxis, eye), -Vec3::dot(zaxis, eye), 1.0f};
+#endif
 }
 
 void Mat4::createPerspective(float fieldOfView, float aspectRatio, float zNearPlane, float zFarPlane, Mat4& dst)
@@ -86,11 +112,7 @@ void Mat4::createPerspective(float fieldOfView, float aspectRatio, float zNearPl
     GP_ASSERT(divisor);
     float const factor = 1.0f / divisor;
 
-    static constexpr auto const zero = Mat4::f32x4_t{0.f, 0.f, 0.f, 0.f};
-    dst.col[0] = zero;
-    dst.col[1] = zero;
-    dst.col[2] = zero;
-    dst.col[3] = zero;
+    std::fill_n(dst.m, 16, 0.f);
 
     GP_ASSERT(aspectRatio);
     dst.m[0] = (1.0f / aspectRatio) * factor;
@@ -98,6 +120,7 @@ void Mat4::createPerspective(float fieldOfView, float aspectRatio, float zNearPl
     dst.m[10] = (-(zFarPlane + zNearPlane)) * f_n;
     dst.m[11] = -1.0f;
     dst.m[14] = -2.0f * zFarPlane * zNearPlane * f_n;
+
 }
 
 void Mat4::createOrthographic(float width, float height, float zNearPlane, float zFarPlane, Mat4& dst)
@@ -113,11 +136,7 @@ void Mat4::createOrthographicOffCenter(float left, float right, float bottom, fl
     GP_ASSERT(std::abs(top - bottom) >= std::numeric_limits<float>::epsilon());
     GP_ASSERT(std::abs(zFarPlane - zNearPlane) >= std::numeric_limits<float>::epsilon());
 
-    static constexpr auto const zero = Mat4::f32x4_t{0.f, 0.f, 0.f, 0.f};
-    dst.col[0] = zero;
-    dst.col[1] = zero;
-    dst.col[2] = zero;
-    dst.col[3] = zero;
+    std::fill_n(dst.m, 16, 0.f);
 
     dst.m[0] = 2.f / (right - left);
     dst.m[5] = 2.f / (top - bottom);
@@ -209,6 +228,41 @@ void Mat4::createScale(float xScale, float yScale, float zScale, Mat4& dst)
 
 void Mat4::createRotation(const Quaternion& q, Mat4& dst)
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    float const x2 = q.x + q.x;
+    float const y2 = q.y + q.y;
+    float const z2 = q.z + q.z;
+
+    float const xx2 = q.x * x2;
+    float const yy2 = q.y * y2;
+    float const zz2 = q.z * z2;
+    float const xy2 = q.x * y2;
+    float const xz2 = q.x * z2;
+    float const yz2 = q.y * z2;
+    float const wx2 = q.w * x2;
+    float const wy2 = q.w * y2;
+    float const wz2 = q.w * z2;
+
+    dst.m[0] = 1.0f - yy2 - zz2;
+    dst.m[1] = xy2 + wz2;
+    dst.m[2] = xz2 - wy2;
+    dst.m[3] = 0.0f;
+
+    dst.m[4] = xy2 - wz2;
+    dst.m[5] = 1.0f - xx2 - zz2;
+    dst.m[6] = yz2 + wx2;
+    dst.m[7] = 0.0f;
+
+    dst.m[8] = xz2 + wy2;
+    dst.m[9] = yz2 - wx2;
+    dst.m[10] = 1.0f - xx2 - yy2;
+    dst.m[11] = 0.0f;
+
+    dst.m[12] = 0.0f;
+    dst.m[13] = 0.0f;
+    dst.m[14] = 0.0f;
+    dst.m[15] = 1.0f;
+#else
     dst.col[0] = f32x4_t{1.f, 0.f, 0.f, 0.f} +
         f32x4_t{-2.f, 2.f, 2.f, 0.f} * __builtin_shufflevector(q.v, q.v, 1, 0, 0, 0) * __builtin_shufflevector(q.v, q.v, 1, 1, 2, 2) +
         f32x4_t{-2.f, 2.f, -2.f, 0.f} * __builtin_shufflevector(q.v, q.v, 2, 3, 3, 3) * __builtin_shufflevector(q.v, q.v, 2, 2, 1, 1);
@@ -225,10 +279,68 @@ void Mat4::createRotation(const Quaternion& q, Mat4& dst)
     dst.col[2][3] = 0.f;
 
     dst.col[3] = {0.f, 0.f, 0.f, 1.f};
+#endif
 }
 
 void Mat4::createRotation(const Vec3& axis, float angle, Mat4& dst)
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+
+    float x = axis.x;
+    float y = axis.y;
+    float z = axis.z;
+
+    // Make sure the input axis is normalized.
+    float n = x * x + y * y + z * z;
+    if (std::abs(n - 1.0f) > epsi)
+    {
+        // Not normalized.
+        n = std::sqrt(n);
+        // Prevent divide too close to zero.
+        if (std::abs(n) > epsi)
+        {
+            n = 1.0f / n;
+            x *= n;
+            y *= n;
+            z *= n;
+        }
+    }
+
+    float const c = std::cos(angle);
+    float const s = std::sin(angle);
+
+    float const t = 1.0f - c;
+    float const tx = t * x;
+    float const ty = t * y;
+    float const tz = t * z;
+    float const txy = tx * y;
+    float const txz = tx * z;
+    float const tyz = ty * z;
+    float const sx = s * x;
+    float const sy = s * y;
+    float const sz = s * z;
+
+    dst.m[0] = c + tx * x;
+    dst.m[1] = txy + sz;
+    dst.m[2] = txz - sy;
+    dst.m[3] = 0.0f;
+
+    dst.m[4] = txy - sz;
+    dst.m[5] = c + ty * y;
+    dst.m[6] = tyz + sx;
+    dst.m[7] = 0.0f;
+
+    dst.m[8] = txz + sy;
+    dst.m[9] = tyz - sx;
+    dst.m[10] = c + tz * z;
+    dst.m[11] = 0.0f;
+
+    dst.m[12] = 0.0f;
+    dst.m[13] = 0.0f;
+    dst.m[14] = 0.0f;
+    dst.m[15] = 1.0f;
+#else
     static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
 
     auto a = f32x4_t{axis.x, axis.y, axis.z, 0.f};
@@ -264,6 +376,7 @@ void Mat4::createRotation(const Vec3& axis, float angle, Mat4& dst)
     dst.col[1][3] = 0.f;
 
     dst.col[3] = {0.f, 0.f, 0.f, 1.f};
+#endif
 }
 
 void Mat4::createRotationX(float angle, Mat4& dst)
@@ -314,14 +427,26 @@ void Mat4::createTranslation(const Vec3& translation, Mat4& dst)
 {
     dst.setIdentity();
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    dst.m[12] = translation.x;
+    dst.m[13] = translation.y;
+    dst.m[14] = translation.z;
+#else
     dst.col[3] = {translation.x, translation.y, translation.z, 1.f};
+#endif
 }
 
 void Mat4::createTranslation(float xTranslation, float yTranslation, float zTranslation, Mat4& dst)
 {
     dst.setIdentity();
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    dst.m[12] = xTranslation;
+    dst.m[13] = yTranslation;
+    dst.m[14] = zTranslation;
+#else
     dst.col[3] = {xTranslation, yTranslation, zTranslation, 1.f};
+#endif
 }
 
 void Mat4::add(float scalar)
@@ -410,6 +535,45 @@ bool Mat4::decompose(Vec3* scale, Quaternion* rotation, Vec3* translation) const
     // Now calculate the rotation from the resulting matrix (axes).
     float const trace = xaxis.x + yaxis.y + zaxis.z + 1.0f;
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    if (std::abs(trace) > epsi)
+    {
+        float s = 0.5f / std::sqrt(trace);
+        rotation->w = 0.25f / s;
+        rotation->x = (yaxis.z - zaxis.y) * s;
+        rotation->y = (zaxis.x - xaxis.z) * s;
+        rotation->z = (xaxis.y - yaxis.x) * s;
+    }
+    else
+    {
+        // Note: since xaxis, yaxis, and zaxis are normalized,
+        // we will never divide by zero in the code below.
+        if (xaxis.x > yaxis.y && xaxis.x > zaxis.z)
+        {
+            float s = 0.5f / std::sqrt(1.0f + xaxis.x - yaxis.y - zaxis.z);
+            rotation->w = (yaxis.z - zaxis.y) * s;
+            rotation->x = 0.25f / s;
+            rotation->y = (yaxis.x + xaxis.y) * s;
+            rotation->z = (zaxis.x + xaxis.z) * s;
+        }
+        else if (yaxis.y > zaxis.z)
+        {
+            float s = 0.5f / std::sqrt(1.0f + yaxis.y - xaxis.x - zaxis.z);
+            rotation->w = (zaxis.x - xaxis.z) * s;
+            rotation->x = (yaxis.x + xaxis.y) * s;
+            rotation->y = 0.25f / s;
+            rotation->z = (zaxis.y + yaxis.z) * s;
+        }
+        else
+        {
+            float s = 0.5f / std::sqrt(1.0f + zaxis.z - xaxis.x - yaxis.y);
+            rotation->w = (xaxis.y - yaxis.x) * s;
+            rotation->x = (zaxis.x + xaxis.z) * s;
+            rotation->y = (zaxis.y + yaxis.z) * s;
+            rotation->z = 0.25f / s;
+        }
+    }
+#else
     if (std::abs(trace) > epsi)
     {
         float const s = 0.5f / std::sqrt(trace);
@@ -439,6 +603,7 @@ bool Mat4::decompose(Vec3* scale, Quaternion* rotation, Vec3* translation) const
             rotation->v[2] = 0.25f / s;
         }
     }
+#endif
 
     return true;
 }
@@ -528,24 +693,24 @@ Mat4 Mat4::getInversed() const
 
 bool Mat4::inverse()
 {
-    float a0 = m[0] * m[5] - m[1] * m[4];
-    float a1 = m[0] * m[6] - m[2] * m[4];
-    float a2 = m[0] * m[7] - m[3] * m[4];
-    float a3 = m[1] * m[6] - m[2] * m[5];
-    float a4 = m[1] * m[7] - m[3] * m[5];
-    float a5 = m[2] * m[7] - m[3] * m[6];
-    float b0 = m[8] * m[13] - m[9] * m[12];
-    float b1 = m[8] * m[14] - m[10] * m[12];
-    float b2 = m[8] * m[15] - m[11] * m[12];
-    float b3 = m[9] * m[14] - m[10] * m[13];
-    float b4 = m[9] * m[15] - m[11] * m[13];
-    float b5 = m[10] * m[15] - m[11] * m[14];
+    float const a0 = m[0] * m[5] - m[1] * m[4];
+    float const a1 = m[0] * m[6] - m[2] * m[4];
+    float const a2 = m[0] * m[7] - m[3] * m[4];
+    float const a3 = m[1] * m[6] - m[2] * m[5];
+    float const a4 = m[1] * m[7] - m[3] * m[5];
+    float const a5 = m[2] * m[7] - m[3] * m[6];
+    float const b0 = m[8] * m[13] - m[9] * m[12];
+    float const b1 = m[8] * m[14] - m[10] * m[12];
+    float const b2 = m[8] * m[15] - m[11] * m[12];
+    float const b3 = m[9] * m[14] - m[10] * m[13];
+    float const b4 = m[9] * m[15] - m[11] * m[13];
+    float const b5 = m[10] * m[15] - m[11] * m[14];
 
     // Calculate the determinant.
-    float det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
+    float const det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
     // Close to zero, can't invert.
-    if (std::abs(det) <= MATH_TOLERANCE)
+    if (std::abs(det) < std::numeric_limits<float>::epsilon())
         return false;
 
     // Support the case where m == dst.
@@ -577,14 +742,23 @@ bool Mat4::inverse()
 
 bool Mat4::isIdentity() const
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+
+    return std::abs(m[0] - 1.f) < epsi && std::abs(m[1]) < epsi && std::abs(m[2]) < epsi && std::abs(m[3]) < epsi && std::abs(m[4]) < epsi &&
+        std::abs(m[5] - 1.f) < epsi && std::abs(m[6]) < epsi && std::abs(m[7]) < epsi && std::abs(m[8]) < epsi && std::abs(m[9]) < epsi &&
+        std::abs(m[10] - 1.f) < epsi && std::abs(m[11]) < epsi && std::abs(m[12]) < epsi && std::abs(m[13]) < epsi && std::abs(m[14]) < epsi &&
+        std::abs(m[15] - 1.f) < epsi;
+#else
     static constexpr f32x4x4_t const identity = {{1.0f, 0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 0.0f, 1.0f}};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wfloat-equal"
+#    pragma clang diagnostic push
+#    pragma clang diagnostic ignored "-Wfloat-equal"
     i32x4x4_t const eq = {identity[0] == col[0], identity[1] == col[1], identity[2] == col[2], identity[3] == col[3]};
-#pragma clang diagnostic pop
+#    pragma clang diagnostic pop
 
     return eq[0][0] == -1 && eq[0][1] == -1 && eq[0][2] == -1 && eq[0][3] == -1 && eq[1][0] == -1 && eq[1][1] == -1 && eq[1][2] == -1 && eq[1][3] == -1 &&
         eq[2][0] == -1 && eq[2][1] == -1 && eq[2][2] == -1 && eq[2][3] == -1 && eq[3][0] == -1 && eq[3][1] == -1 && eq[3][2] == -1 && eq[3][3] == -1;
+#endif
 }
 
 void Mat4::multiply(float scalar)
@@ -719,41 +893,69 @@ void Mat4::scale(const Vec3& s, Mat4& dst) const
 void Mat4::set(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41,
                float m42, float m43, float m44)
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    m[0] = m11;
+    m[1] = m21;
+    m[2] = m31;
+    m[3] = m41;
+    m[4] = m12;
+    m[5] = m22;
+    m[6] = m32;
+    m[7] = m42;
+    m[8] = m13;
+    m[9] = m23;
+    m[10] = m33;
+    m[11] = m43;
+    m[12] = m14;
+    m[13] = m24;
+    m[14] = m34;
+    m[15] = m44;
+#else
     col[0] = {m11, m21, m31, m41};
     col[1] = {m12, m22, m32, m42};
     col[2] = {m13, m23, m33, m43};
     col[3] = {m14, m24, m34, m44};
+#endif
 }
 
 void Mat4::set(const float* mat)
 {
     GP_ASSERT(mat);
-    memcpy(this->m, mat, sizeof(float[16]));
+    std::memcpy(m, mat, sizeof(float[16]));
 }
 
 void Mat4::set(const Mat4& mat)
 {
-    col[0] = mat.col[0];
-    col[1] = mat.col[1];
-    col[2] = mat.col[2];
-    col[3] = mat.col[3];
+    std::memcpy(m, mat.m, sizeof(float[16]));
 }
 
 void Mat4::setIdentity()
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    std::fill_n(m, 16, 0.f);
+    m[0] = 1.0f;
+    m[5] = 1.f;
+    m[10] = 1.f;
+    m[15] = 1.f;
+#else
     col[0] = {1.0f, 0.0f, 0.0f, 0.0f};
     col[1] = {0.0f, 1.0f, 0.0f, 0.0f};
     col[2] = {0.0f, 0.0f, 1.0f, 0.0f};
     col[3] = {0.0f, 0.0f, 0.0f, 1.0f};
+#endif
 }
 
 void Mat4::setZero()
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    std::fill_n(m, 16, 0.f);
+#else
     static constexpr auto const zero = Mat4::f32x4_t{0.f, 0.f, 0.f, 0.f};
     col[0] = zero;
     col[1] = zero;
     col[2] = zero;
     col[3] = zero;
+#endif
 }
 
 void Mat4::subtract(const Mat4& mat)

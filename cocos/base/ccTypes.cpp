@@ -28,10 +28,13 @@ Copyright (c) 2013-2016 Chukong Technologies Inc.
 #include <cocos/base/ccTypes.h>
 
 #include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformConfig.h>
 #include <cocos/platform/CCPlatformMacros.h>
 
 #include <cmath>
 #include <limits>
+
+static constexpr auto const epsi = std::numeric_limits<GLfloat>::epsilon();
 
 NS_CC_BEGIN
 
@@ -139,51 +142,58 @@ bool Color4B::operator!=(const Color4F& right) const
  * Color4F
  */
 
-Color4F::Color4F(const Color3B& color, float _a)
-: r(static_cast<float>(color.r) / 255.0f)
-, g(static_cast<float>(color.g) / 255.0f)
-, b(static_cast<float>(color.b) / 255.0f)
+Color4F::Color4F(const Color3B& color, GLfloat _a)
+: r(static_cast<GLfloat>(color.r) / 255.0f)
+, g(static_cast<GLfloat>(color.g) / 255.0f)
+, b(static_cast<GLfloat>(color.b) / 255.0f)
 , a(_a)
 {
 }
 
 Color4F::Color4F(const Color4B& color)
-: r(color.r / 255.0f)
-, g(color.g / 255.0f)
-, b(color.b / 255.0f)
-, a(color.a / 255.0f)
+: r(static_cast<GLfloat>(color.r) / 255.0f)
+, g(static_cast<GLfloat>(color.g) / 255.0f)
+, b(static_cast<GLfloat>(color.b) / 255.0f)
+, a(static_cast<GLfloat>(color.a) / 255.0f)
 {
 }
 
-bool Color4F::operator==(const Color4F& right) const
+bool Color4F::operator==(const Color4F& other) const
 {
-    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
-    return (std::abs(r - right.r) < epsi && std::abs(g - right.g) < epsi && std::abs(b - right.b) < epsi && std::abs(a - right.a) < epsi);
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    return (std::abs(r - other.r) < epsi && std::abs(g - other.g) < epsi && std::abs(b - other.b) < epsi && std::abs(a - other.a) < epsi);
+#else
+#    pragma clang diagnostic push
+#    pragma clang diagnostic ignored "-Wfloat-equal"
+    auto const eq = (v == other.v);
+#    pragma clang diagnostic pop
+    return eq[0] == -1 && eq[1] == -1 && eq[2] == -1 && eq[3] == -1;
+#endif
 }
 
-bool Color4F::operator==(const Color3B& right) const
+bool Color4F::operator==(const Color3B& other) const
 {
-    return (a == 1.0f && Color3B(*this) == right);
+    return (std::abs(a - 1.0f) < epsi && Color3B(*this) == other);
 }
 
-bool Color4F::operator==(const Color4B& right) const
+bool Color4F::operator==(const Color4B& other) const
 {
-    return (*this == Color4F(right));
+    return (*this == Color4F(other));
 }
 
-bool Color4F::operator!=(const Color4F& right) const
+bool Color4F::operator!=(const Color4F& other) const
 {
-    return !(*this == right);
+    return !(*this == other);
 }
 
-bool Color4F::operator!=(const Color3B& right) const
+bool Color4F::operator!=(const Color3B& other) const
 {
-    return !(*this == right);
+    return !(*this == other);
 }
 
-bool Color4F::operator!=(const Color4B& right) const
+bool Color4F::operator!=(const Color4B& other) const
 {
-    return !(*this == right);
+    return !(*this == other);
 }
 
 /**

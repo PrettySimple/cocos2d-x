@@ -24,6 +24,7 @@
 #include <cocos/math/CCMathBase.h>
 #include <cocos/math/Mat4.h>
 #include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformConfig.h>
 
 #include <cmath>
 #include <limits>
@@ -61,22 +62,32 @@ const Quaternion& Quaternion::zero()
 
 bool Quaternion::isIdentity() const
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+    return std::abs(x) < epsi && std::abs(y) < epsi && std::abs(z) < epsi && std::abs(w - 1.f) < epsi;
+#else
     static constexpr auto const identity = f32x4_t{0.f, 0.f, 0.f, 1.f};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wfloat-equal"
+#    pragma clang diagnostic push
+#    pragma clang diagnostic ignored "-Wfloat-equal"
     auto const eq = (v == identity);
-#pragma clang diagnostic pop
+#    pragma clang diagnostic pop
     return eq[0] == -1 && eq[1] == -1 && eq[2] == -1 && eq[3] == -1;
+#endif
 }
 
 bool Quaternion::isZero() const
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+    return std::abs(x) < epsi && std::abs(y) < epsi && std::abs(z) < epsi && std::abs(w) < epsi;
+#else
     static constexpr auto const zero = f32x4_t{0.f, 0.f, 0.f, 0.f};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wfloat-equal"
+#    pragma clang diagnostic push
+#    pragma clang diagnostic ignored "-Wfloat-equal"
     auto const eq = (v == zero);
-#pragma clang diagnostic pop
+#    pragma clang diagnostic pop
     return eq[0] == -1 && eq[1] == -1 && eq[2] == -1 && eq[3] == -1;
+#endif
 }
 
 void Quaternion::createFromRotationMatrix(const Mat4& m, Quaternion& dst)
@@ -91,14 +102,27 @@ void Quaternion::createFromAxisAngle(const Vec3& axis, float angle, Quaternion& 
     Vec3 normal(axis);
     normal.normalize();
     normal *= std::sin(halfAngle);
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    dst.x = normal.x;
+    dst.y = normal.y;
+    dst.z = normal.z;
+    dst.w = std::cos(halfAngle);
+#else
     dst.v = {normal.x, normal.y, normal.z, std::cos(halfAngle)};
+#endif
 }
 
 void Quaternion::conjugate()
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    x = -x;
+    y = -y;
+    z = -z;
+#else
     v = -v;
     v[3] = -v[3];
     // w =  w;
+#endif
 }
 
 Quaternion Quaternion::getConjugated() const
@@ -110,6 +134,31 @@ Quaternion Quaternion::getConjugated() const
 
 bool Quaternion::inverse()
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+    float n = x * x + y * y + z * z + w * w;
+    if (std::abs(n - 1.f) < epsi)
+    {
+        x = -x;
+        y = -y;
+        z = -z;
+        // w = w;
+
+        return true;
+    }
+
+    // Too close to zero.
+    if (std::abs(n) < epsi)
+        return false;
+
+    n = 1.0f / n;
+    x = -x * n;
+    y = -y * n;
+    z = -z * n;
+    w = w * n;
+
+    return true;
+#else
     static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
     auto const mul = v * v;
     float n = mul[0] + mul[1] + mul[2] + mul[3];
@@ -131,6 +180,7 @@ bool Quaternion::inverse()
     v[3] = -v[3];
     v *= n;
     return true;
+#endif
 }
 
 Quaternion Quaternion::getInversed() const
@@ -147,13 +197,41 @@ void Quaternion::multiply(const Quaternion& q)
 
 void Quaternion::multiply(const Quaternion& q1, const Quaternion& q2, Quaternion& dst)
 {
-    dst.v = q1.v[3] * q2.v + f32x4_t{1.f, -1.f, 1.f, -1.f} * q1.v[0] * __builtin_shufflevector(q2.v, q2.v, 3, 2, 1, 0) +
+    Quaternion tmp; // Support the case where q1 or q2 is the same matrix as dst.
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    tmp.x = q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y;
+    tmp.y = q1.w * q2.y - q1.x * q2.z + q1.y * q2.w + q1.z * q2.x;
+    tmp.z = q1.w * q2.z + q1.x * q2.y - q1.y * q2.x + q1.z * q2.w;
+    tmp.w = q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z;
+#else
+    tmp.v = q1.v[3] * q2.v + f32x4_t{1.f, -1.f, 1.f, -1.f} * q1.v[0] * __builtin_shufflevector(q2.v, q2.v, 3, 2, 1, 0) +
         f32x4_t{1.f, 1.f, -1.f, -1.f} * q1.v[1] * __builtin_shufflevector(q2.v, q2.v, 2, 3, 0, 1) +
         f32x4_t{-1.f, 1.f, 1.f, -1.f} * q1.v[2] * __builtin_shufflevector(q2.v, q2.v, 1, 0, 3, 2);
+#endif
+    dst = tmp;
 }
 
 void Quaternion::normalize()
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+    float n = x * x + y * y + z * z + w * w;
+
+    // Already normalized.
+    if (std::abs(n - 1.f) < epsi)
+        return;
+
+    n = std::sqrt(n);
+    // Too close to zero.
+    if (std::abs(n) < epsi)
+        return;
+
+    n = 1.0f / n;
+    x *= n;
+    y *= n;
+    z *= n;
+    w *= n;
+#else
     static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
     auto const mul = v * v;
     float n = mul[0] + mul[1] + mul[2] + mul[3];
@@ -168,6 +246,7 @@ void Quaternion::normalize()
 
     n = 1.0f / n;
     v *= n;
+#endif
 }
 
 Quaternion Quaternion::getNormalized() const
@@ -179,14 +258,28 @@ Quaternion Quaternion::getNormalized() const
 
 void Quaternion::set(float xx, float yy, float zz, float ww)
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    x = xx;
+    y = yy;
+    z = zz;
+    w = ww;
+#else
     v = {xx, yy, zz, ww};
+#endif
 }
 
 void Quaternion::set(float* array)
 {
     GP_ASSERT(array);
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    x = array[0];
+    y = array[1];
+    z = array[2];
+    w = array[3];
+#else
     v = {array[0], array[1], array[2], array[3]};
+#endif
 }
 
 void Quaternion::set(const Mat4& m)
@@ -201,12 +294,26 @@ void Quaternion::set(const Vec3& axis, float angle)
 
 void Quaternion::set(const Quaternion& q)
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    x = q.x;
+    y = q.y;
+    z = q.z;
+    w = q.w;
+#else
     v = q.v;
+#endif
 }
 
 void Quaternion::setIdentity()
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    x = 0.0f;
+    y = 0.0f;
+    z = 0.0f;
+    w = 1.0f;
+#else
     v = {0.f, 0.f, 0.f, 1.f};
+#endif
 }
 
 float Quaternion::toAxisAngle(Vec3& axis) const
@@ -224,7 +331,33 @@ float Quaternion::toAxisAngle(Vec3& axis) const
 void Quaternion::lerp(const Quaternion& q1, const Quaternion& q2, float t, Quaternion& dst)
 {
     GP_ASSERT(!(t < 0.0f || t > 1.0f));
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
 
+    if (std::abs(t) < epsi)
+    {
+        dst.x = q1.x;
+        dst.y = q1.y;
+        dst.z = q1.z;
+        dst.w = q1.w;
+        return;
+    }
+    else if (std::abs(t - 1.0f) < epsi)
+    {
+        dst.x = q2.x;
+        dst.y = q2.y;
+        dst.z = q2.z;
+        dst.w = q2.w;
+        return;
+    }
+
+    float t1 = 1.0f - t;
+
+    dst.x = t1 * q1.x + t * q2.x;
+    dst.y = t1 * q1.y + t * q2.y;
+    dst.z = t1 * q1.z + t * q2.z;
+    dst.w = t1 * q1.w + t * q2.w;
+#else
     static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
 
     if (std::abs(t) < epsi)
@@ -239,6 +372,7 @@ void Quaternion::lerp(const Quaternion& q1, const Quaternion& q2, float t, Quate
     }
 
     dst.v = (1.0f - t) * q1.v + t * q2.v;
+#endif
 }
 
 void Quaternion::slerp(const Quaternion& q1, const Quaternion& q2, float t, Quaternion& dst)
@@ -362,6 +496,36 @@ void Quaternion::slerp(float q1x, float q1y, float q1z, float q1w, float q2x, fl
 
 void Quaternion::slerpForSquad(const Quaternion& q1, const Quaternion& q2, float t, Quaternion& dst)
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+    float const c = q1.x * q2.x + q1.y * q2.y + q1.z * q2.z + q1.w * q2.w;
+    if (std::abs(c) >= 1.0f)
+    {
+        dst.x = q1.x;
+        dst.y = q1.y;
+        dst.z = q1.z;
+        dst.w = q1.w;
+        return;
+    }
+
+    float const omega = std::acos(c);
+    float const s = std::sqrt(1.0f - c * c);
+    if (std::abs(s) < epsi)
+    {
+        dst.x = q1.x;
+        dst.y = q1.y;
+        dst.z = q1.z;
+        dst.w = q1.w;
+        return;
+    }
+
+    float const r1 = std::sin((1 - t) * omega) / s;
+    float const r2 = std::sin(t * omega) / s;
+    dst.x = (q1.x * r1 + q2.x * r2);
+    dst.y = (q1.y * r1 + q2.y * r2);
+    dst.z = (q1.z * r1 + q2.z * r2);
+    dst.w = (q1.w * r1 + q2.w * r2);
+#else
     static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
 
     // cos(omega) = q1 * q2;
@@ -389,6 +553,7 @@ void Quaternion::slerpForSquad(const Quaternion& q1, const Quaternion& q2, float
     float const r1 = std::sin((1 - t) * omega) / s;
     float const r2 = std::sin(t * omega) / s;
     dst.v = q1.v * r1 + q2.v * r2;
+#endif
 }
 
 NS_CC_MATH_END

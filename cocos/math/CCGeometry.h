@@ -28,6 +28,7 @@ THE SOFTWARE.
 
 #include <cocos/base/ccMacros.h>
 #include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformConfig.h>
 #include <cocos/platform/CCPlatformDefine.h>
 #include <cocos/platform/CCPlatformMacros.h>
 
@@ -47,6 +48,8 @@ class CC_DLL Size final
 public:
 #ifdef __ARM_NEON
     using f32x2_t = __attribute__((neon_vector_type(2))) float;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    using f32x2_t = float[2];
 #else
     using f32x2_t = __attribute__((ext_vector_type(2))) float;
 #endif
@@ -67,7 +70,14 @@ public:
 
 public:
     /**Conversion from Vec2 to Size.*/
-    inline operator Vec2() const noexcept { return Vec2(f32x2_t{width, height}); }
+    inline operator Vec2() const noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return Vec2(width, height);
+#else
+        return Vec2(f32x2_t{width, height});
+#endif
+    }
 
 public:
     Size() = default;
@@ -83,41 +93,82 @@ public:
      * @param xx The x coordinate.
      * @param yy The y coordinate.
      */
-    constexpr Size(float xx, float yy) noexcept
-    : v{xx, yy}
+    constexpr Size(float w, float h) noexcept
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    : width(w)
+    , height(h)
+#else
+    : v
+    {
+        w, h
+    }
+#endif
     {
     }
 
     constexpr Size(Vec2 const& other) noexcept
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    : width(other.x)
+    , height(other.y)
+#else
     : v(other.v)
+#endif
     {
     }
 
     constexpr Size(Vec2&& other) noexcept
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    : width(other.x)
+    , height(other.y)
+#else
     : v(std::move(other.v))
+#endif
     {
     }
 
+#if CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN
     constexpr Size(f32x2_t&& other) noexcept
     : v(std::move(other))
     {
     }
+#endif
 
     /**
      * @js NA
      * @lua NA
      */
-    inline Size operator+(const Size& right) const noexcept { return Size(v + right.v); }
+    inline Size operator+(const Size& other) const noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return Size(width + other.width, height + other.height);
+#else
+        return Size(v + other.v);
+#endif
+    }
     /**
      * @js NA
      * @lua NA
      */
-    inline Size operator-(const Size& right) const noexcept { return Size(v - right.v); }
+    inline Size operator-(const Size& other) const noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return Size(width - other.width, height - other.height);
+#else
+        return Size(v - other.v);
+#endif
+    }
     /**
      * @js NA
      * @lua NA
      */
-    inline Size operator*(float a) const noexcept { return Size(v * a); }
+    inline Size operator*(float a) const noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return Size(width * a, height * a);
+#else
+        return Size(v * a);
+#endif
+    }
     /**
      * @js NA
      * @lua NA
@@ -125,25 +176,42 @@ public:
     inline Size operator/(float a) const noexcept
     {
         CCASSERT(std::abs(a) >= std::numeric_limits<float>::epsilon(), "CCSize division by 0.");
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return Size(width / a, height / a);
+#else
         return Size(v / a);
+#endif
     }
     /**
     Set the width and height of Size.
      * @js NA
      * @lua NA
      */
-    inline void setSize(float width, float height) noexcept { v = {width, height}; }
+    inline void setSize(float w, float h) noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        width = w;
+        height = h;
+#else
+        v = {w, h};
+#endif
+    }
     /**
     Check if two size is the same.
      * @js NA
      */
     inline bool equals(const Size& other) const noexcept
     {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wfloat-equal"
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+        return std::abs(width - other.width) < epsi && std::abs(height - other.height) < epsi;
+#else
+#    pragma clang diagnostic push
+#    pragma clang diagnostic ignored "-Wfloat-equal"
         auto const eq = (v == other.v);
-#pragma clang diagnostic pop
+#    pragma clang diagnostic pop
         return eq[0] == -1 && eq[1] == -1;
+#endif
     }
     /**Size(0,0).*/
     static const Size ZERO;

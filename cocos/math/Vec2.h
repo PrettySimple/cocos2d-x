@@ -23,11 +23,16 @@
 #define CC_MATH_VEC2_H
 
 #include <cocos/math/CCMathBase.h>
+#include <cocos/platform/CCPlatformConfig.h>
 #include <cocos/platform/CCPlatformDefine.h>
 
 #include <cmath>
 #include <functional>
 #include <type_traits>
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+#    include <limits>
+#endif
 
 /**
  * @addtogroup base
@@ -56,8 +61,10 @@ class Mat4;
 class CC_DLL Vec2 final
 {
 public:
-#ifdef __ARM_NEON
+#if defined(__ARM_NEON)
     using f32x2_t = __attribute__((neon_vector_type(2))) float;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    using f32x2_t = float[2];
 #else
     using f32x2_t = __attribute__((ext_vector_type(2))) float;
 #endif
@@ -95,14 +102,24 @@ public:
      * @param yy The y coordinate.
      */
     constexpr Vec2(float xx, float yy)
-    : v{xx, yy}
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    : x(xx)
+    , y(yy)
+#else
+    : v
+    {
+        xx, yy
+    }
+#endif
     {
     }
 
+#if CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN
     constexpr Vec2(f32x2_t&& other)
     : v(std::move(other))
     {
     }
+#endif
 
     /**
      * Constructs a new vector from the values in the specified array.
@@ -126,12 +143,17 @@ public:
      */
     inline bool isZero() const noexcept
     {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+        return std::abs(x) < epsi && std::abs(y) < epsi;
+#else
         static constexpr auto const zero = f32x2_t{0.f, 0.f};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wfloat-equal"
+#    pragma clang diagnostic push
+#    pragma clang diagnostic ignored "-Wfloat-equal"
         auto const eq = (v == zero);
-#pragma clang diagnostic pop
+#    pragma clang diagnostic pop
         return eq[0] == -1 && eq[1] == -1;
+#endif
     }
 
     /**
@@ -141,12 +163,17 @@ public:
      */
     inline bool isOne() const noexcept
     {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+        return std::abs(x - 1.f) < epsi && std::abs(y - 1.f) < epsi;
+#else
         static constexpr auto const one = f32x2_t{1.f, 1.f};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wfloat-equal"
+#    pragma clang diagnostic push
+#    pragma clang diagnostic ignored "-Wfloat-equal"
         auto const eq = (v == one);
-#pragma clang diagnostic pop
+#    pragma clang diagnostic pop
         return eq[0] == -1 && eq[1] == -1;
+#endif
     }
 
     /**
@@ -164,7 +191,15 @@ public:
      *
      * @param v The vector to add.
      */
-    inline void add(Vec2 const& other) noexcept { v += other.v; }
+    inline void add(Vec2 const& other) noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        x += other.x;
+        y += other.y;
+#else
+        v += other.v;
+#endif
+    }
 
     /**
      * Adds the specified vectors and stores the result in dst.
@@ -220,9 +255,15 @@ public:
      */
     inline float distanceSquared(Vec2 const& other) const noexcept
     {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        auto const a = other.x - x;
+        auto const b = other.y - y;
+        return a * a + b * b;
+#else
         auto const diff = other.v - v;
         auto const mul = diff * diff;
         return mul[0] + mul[1];
+#endif
     }
 
     /**
@@ -234,8 +275,12 @@ public:
      */
     inline float dot(Vec2 const& other) const noexcept
     {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return x * other.x + y * other.y;
+#else
         auto const mul = v * other.v;
         return mul[0] + mul[1];
+#endif
     }
 
     /**
@@ -271,14 +316,26 @@ public:
      */
     inline float lengthSquared() const noexcept
     {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return x * x + y * y;
+#else
         auto const mul = v * v;
         return mul[0] + mul[1];
+#endif
     }
 
     /**
      * Negates this vector.
      */
-    inline void negate() noexcept { v = -v; }
+    inline void negate() noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        x = -x;
+        y = -y;
+#else
+        v = -v;
+#endif
+    }
 
     /**
      * Normalizes this vector.
@@ -303,14 +360,30 @@ public:
      *
      * @param scalar The scalar value.
      */
-    inline void scale(float scalar) noexcept { v *= scalar; }
+    inline void scale(float scalar) noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        x *= scalar;
+        y *= scalar;
+#else
+        v *= scalar;
+#endif
+    }
 
     /**
      * Scales each element of this vector by the matching component of scale.
      *
      * @param scale The vector to scale by.
      */
-    inline void scale(Vec2 const& scale) noexcept { v *= scale.v; }
+    inline void scale(Vec2 const& scale) noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        x *= scale.x;
+        y *= scale.y;
+#else
+        v *= scale.v;
+#endif
+    }
 
     /**
      * Rotates this vector by angle (specified in radians) around the given point.
@@ -326,7 +399,15 @@ public:
      * @param xx The new x coordinate.
      * @param yy The new y coordinate.
      */
-    inline void set(float xx, float yy) noexcept { v = {xx, yy}; }
+    inline void set(float xx, float yy) noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        x = xx;
+        y = yy;
+#else
+        v = {xx, yy};
+#endif
+    }
 
     /**
      * Sets the elements of this vector from the values in the specified array.
@@ -340,7 +421,15 @@ public:
      *
      * @param v The vector to copy.
      */
-    inline void set(Vec2 const& other) noexcept { v = other.v; }
+    inline void set(Vec2 const& other) noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        x = other.x;
+        y = other.y;
+#else
+        v = other.v;
+#endif
+    }
 
     /**
      * Sets this vector to the directional vector between the specified points.
@@ -348,12 +437,28 @@ public:
      * @param p1 The first point.
      * @param p2 The second point.
      */
-    inline void set(Vec2 const& p1, Vec2 const& p2) noexcept { v = p2.v - p1.v; }
+    inline void set(Vec2 const& p1, Vec2 const& p2) noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        x = p2.x - p1.x;
+        y = p2.y - p1.y;
+#else
+        v = p2.v - p1.v;
+#endif
+    }
 
     /**
      * Sets the elements of this vector to zero.
      */
-    inline void setZero() noexcept { v = {0.0f, 0.f}; }
+    inline void setZero() noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        x = 0.f;
+        y = 0.f;
+#else
+        v = {0.0f, 0.f};
+#endif
+    }
 
     /**
      * Subtracts this vector and the specified vector as (this - v)
@@ -384,8 +489,12 @@ public:
              SSE     #2 | 459.133 | 103 | 2869 | 295263.971 |
              Plain   #1 | 246.056 |  63 | 1824 |  79086.153 |
          */
-
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        x = x - other.x;
+        y = y - other.y;
+#else
         v -= other.v;
+#endif
     }
 
     /**
@@ -520,7 +629,14 @@ public:
      * @param s the constant to divide this vector with
      * @return a smaller vector
      */
-    inline Vec2 const operator/(float s) const { return Vec2(v / s); }
+    inline Vec2 const operator/(float s) const
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return Vec2(x / s, y / s);
+#else
+        return Vec2(v / s);
+#endif
+    }
 
     /**
      * Determines if this vector is less than the given vector.
@@ -531,8 +647,12 @@ public:
      */
     inline bool operator<(Vec2 const& other) const noexcept
     {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return x < other.x && y < other.y;
+#else
         auto const lt = v < other.v;
         return lt[0] == -1 && lt[1] == -1;
+#endif
     }
 
     /**
@@ -544,8 +664,12 @@ public:
      */
     inline bool operator>(Vec2 const& other) const noexcept
     {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return x > other.x && y > other.y;
+#else
         auto const gt = v > other.v;
         return gt[0] == -1 && gt[1] == -1;
+#endif
     }
 
     /**
@@ -557,11 +681,16 @@ public:
      */
     inline bool operator==(Vec2 const& other) const noexcept
     {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wfloat-equal"
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+        return std::abs(x - other.x) < epsi && std::abs(y - other.y) < epsi;
+#else
+#    pragma clang diagnostic push
+#    pragma clang diagnostic ignored "-Wfloat-equal"
         auto const eq = (v == other.v);
-#pragma clang diagnostic pop
+#    pragma clang diagnostic pop
         return eq[0] == -1 && eq[1] == -1;
+#endif
     }
 
     /**
@@ -579,7 +708,15 @@ public:
      * @js NA
      * @lua NA
      */
-    inline void setPoint(float xx, float yy) noexcept { v = {xx, yy}; }
+    inline void setPoint(float xx, float yy) noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        x = xx;
+        y = yy;
+#else
+        v = {xx, yy};
+#endif
+    }
     /**
      * @js NA
      */
@@ -600,8 +737,12 @@ public:
      */
     inline float getLength() const
     {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return std::sqrt(x * x + y * y);
+#else
         auto const mul = v * v;
         return std::sqrt(mul[0] + mul[1]);
+#endif
     }
 
     /** Calculates the square length of a Vec2 (not calling sqrt() )
@@ -653,8 +794,12 @@ public:
      */
     inline float cross(Vec2 const& other) const
     {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return (x * other.y) - (y * other.x);
+#else
         auto const mul = v * f32x2_t{other.v[1], other.v[0]};
         return mul[0] - mul[1];
+#endif
     }
 
     /** Calculates perpendicular of v, rotated 90 degrees counter-clockwise -- cross(v, perp(v)) >= 0
@@ -663,7 +808,14 @@ public:
      * @js NA
      * @lua NA
      */
-    inline Vec2 getPerp() const { return Vec2(f32x2_t{-v[1], v[0]}); }
+    inline Vec2 getPerp() const
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return Vec2(-y, x);
+#else
+        return Vec2(f32x2_t{-v[1], v[0]});
+#endif
+    }
 
     /** Calculates midpoint between two points.
      @return Vec2
@@ -671,7 +823,14 @@ public:
      * @js NA
      * @lua NA
      */
-    inline Vec2 getMidpoint(Vec2 const& other) const { return Vec2((v + other.v) / 2.0f); }
+    inline Vec2 getMidpoint(Vec2 const& other) const
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return Vec2((x + other.x) / 2.f, (y + other.y) / 2.f);
+#else
+        return Vec2((v + other.v) / 2.0f);
+#endif
+    }
 
     /** Clamp a point between from and to.
      @since v3.0
@@ -692,7 +851,14 @@ public:
      * @js NA
      * @lua NA
      */
-    inline Vec2 compOp(std::function<float(float)> function) const { return Vec2(f32x2_t{function(v[0]), function(v[1])}); }
+    inline Vec2 compOp(std::function<float(float)> function) const
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return Vec2(function(x), function(y));
+#else
+        return Vec2(f32x2_t{function(v[0]), function(v[1])});
+#endif
+    }
 
     /** Calculates perpendicular of v, rotated 90 degrees clockwise -- cross(v, rperp(v)) <= 0
      @return Vec2
@@ -700,7 +866,14 @@ public:
      * @js NA
      * @lua NA
      */
-    inline Vec2 getRPerp() const { return Vec2(f32x2_t{v[1], -v[0]}); }
+    inline Vec2 getRPerp() const
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return Vec2(y, -x);
+#else
+        return Vec2(f32x2_t{v[1], -v[0]});
+#endif
+    }
 
     /** Calculates the projection of this over other.
      @return Vec2
@@ -717,7 +890,14 @@ public:
      * @js NA
      * @lua NA
      */
-    inline Vec2 rotate(Vec2 const& other) const { return Vec2(f32x2_t{v[0], v[0]} * other.v + f32x2_t{-v[1], v[1]} * f32x2_t{other.v[1], other.v[0]}); }
+    inline Vec2 rotate(Vec2 const& other) const
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return Vec2(x * other.x - y * other.y, x * other.y + y * other.x);
+#else
+        return Vec2(f32x2_t{v[0], v[0]} * other.v + f32x2_t{-v[1], v[1]} * f32x2_t{other.v[1], other.v[0]});
+#endif
+    }
 
     /** Unrotates two points.
      @return Vec2 vector with an angle of this.getAngle() - other.getAngle(),
@@ -726,7 +906,14 @@ public:
      * @js NA
      * @lua NA
      */
-    inline Vec2 unrotate(Vec2 const& other) const { return Vec2(v * f32x2_t{other.v[0], other.v[0]} + f32x2_t{v[1], -v[0]} * f32x2_t{other.v[1], other.v[1]}); }
+    inline Vec2 unrotate(Vec2 const& other) const
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return Vec2(x * other.x + y * other.y, y * other.x - x * other.y);
+#else
+        return Vec2(v * f32x2_t{other.v[0], other.v[0]} + f32x2_t{v[1], -v[0]} * f32x2_t{other.v[1], other.v[1]});
+#endif
+    }
 
     /** Linear Interpolation between two points a and b
      @returns
@@ -753,7 +940,14 @@ public:
      * @js NA
      * @lua NA
      */
-    static inline Vec2 forAngle(float a) { return Vec2(f32x2_t{std::cos(a), std::sin(a)}); }
+    static inline Vec2 forAngle(float a)
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return Vec2(std::cos(a), std::sin(a));
+#else
+        return Vec2(f32x2_t{std::cos(a), std::sin(a)});
+#endif
+    }
 
     /** A general line-line intersection test
      @param A   the startpoint for the first line L1 = (A - B)

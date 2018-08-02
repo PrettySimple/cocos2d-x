@@ -33,6 +33,7 @@ THE SOFTWARE.
 #include <cocos/math/Vec2.h>
 #include <cocos/math/Vec3.h>
 #include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformConfig.h>
 #include <cocos/platform/CCPlatformDefine.h>
 #include <cocos/platform/CCPlatformMacros.h>
 
@@ -158,6 +159,8 @@ struct CC_DLL Color4F final
 {
 #ifdef __ARM_NEON
     using f32x4_t = __attribute__((neon_vector_type(4))) GLfloat;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    using f32x4_t = GLfloat[4];
 #else
     using f32x4_t = __attribute__((ext_vector_type(4))) GLfloat;
 #endif
@@ -186,19 +189,29 @@ public:
     Color4F& operator=(Color4F&&) noexcept = default;
     ~Color4F() = default;
 
-    constexpr Color4F(float _r, float _g, float _b, float _a)
-    : v{_r, _g, _b, _a}
+    constexpr Color4F(GLfloat _r, GLfloat _g, GLfloat _b, GLfloat _a)
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    : r(_r)
+    , g(_g)
+    , b(_b)
+    , a(_a)
+#else
+    : v
+    {
+        _r, _g, _b, _a
+    }
+#endif
     {
     }
-    explicit Color4F(const Color3B& color, float _a = 1.0f);
+    explicit Color4F(const Color3B& color, GLfloat _a = 1.0f);
     explicit Color4F(const Color4B& color);
 
-    bool operator==(const Color4F& right) const;
-    bool operator==(const Color3B& right) const;
-    bool operator==(const Color4B& right) const;
-    bool operator!=(const Color4F& right) const;
-    bool operator!=(const Color3B& right) const;
-    bool operator!=(const Color4B& right) const;
+    bool operator==(const Color4F& other) const;
+    bool operator==(const Color3B& other) const;
+    bool operator==(const Color4B& other) const;
+    bool operator!=(const Color4F& other) const;
+    bool operator!=(const Color3B& other) const;
+    bool operator!=(const Color4B& other) const;
 
     bool equals(const Color4F& other) const { return (*this == other); }
 

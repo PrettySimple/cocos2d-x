@@ -44,7 +44,7 @@ THE SOFTWARE.
 #include <cocos/renderer/CCCustomCommand.h>
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
-#    include "2d/CCGLBufferedNode.h"
+#    include <cocos/2d/CCGLBufferedNode.h>
 #endif
 
 #include <cstdarg>

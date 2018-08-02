@@ -36,7 +36,7 @@ THE SOFTWARE.
 #include <unordered_map>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
-#    include "2d/CCGLBufferedNode.h"
+#    include <cocos/2d/CCGLBufferedNode.h>
 #endif
 
 NS_CC_BEGIN

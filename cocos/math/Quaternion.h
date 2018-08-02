@@ -25,6 +25,7 @@
 #include <cocos/math/CCMathBase.h>
 #include <cocos/math/Mat4.h>
 #include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformConfig.h>
 #include <cocos/platform/CCPlatformDefine.h>
 
 #include <type_traits>
@@ -77,6 +78,8 @@ class CC_DLL Quaternion final
 public:
 #ifdef __ARM_NEON
     using f32x4_t = __attribute__((neon_vector_type(4))) float;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    using f32x4_t = float[4];
 #else
     using f32x4_t = __attribute__((ext_vector_type(4))) float;
 #endif
@@ -116,14 +119,26 @@ public:
      * @param ww The w component of the quaternion.
      */
     constexpr Quaternion(float xx, float yy, float zz, float ww)
-    : v{xx, yy, zz, ww}
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    : x(xx)
+    , y(yy)
+    , z(zz)
+    , w(ww)
+#else
+    : v
+    {
+        xx, yy, zz, ww
+    }
+#endif
     {
     }
 
+#if CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN
     constexpr Quaternion(f32x4_t&& other)
     : v(std::move(other))
     {
     }
+#endif
 
     /**
      * Constructs a new quaternion from the values in the specified array.

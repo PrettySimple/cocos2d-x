@@ -2,7 +2,9 @@
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 
-#    include "platform/emscripten/CCFileUtils-emscripten.h"
+#    include <cocos/base/CCConsole.h>
+#    include <cocos/platform/emscripten/CCFileUtils-emscripten.h>
+
 #    include <limits.h>
 #    include <unistd.h>
 

@@ -50,6 +50,8 @@ namespace ui
     public:
 #ifdef __ARM_NEON
         using f32x4_t = __attribute__((neon_vector_type(4))) float;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        using f32x4_t = float[4];
 #else
         using f32x4_t = __attribute__((ext_vector_type(4))) float;
 #endif
@@ -86,7 +88,17 @@ namespace ui
          *@param b Bottom margin in float.
          */
         constexpr Margin(float l, float t, float r, float b) noexcept
-        : v{l, t, r, b}
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        : left(l)
+        , top(t)
+        , right(r)
+        , bottom(b)
+#else
+        : v
+        {
+            l, t, r, b
+        }
+#endif
         {
         }
 

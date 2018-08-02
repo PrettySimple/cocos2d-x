@@ -29,6 +29,7 @@ THE SOFTWARE.
 #include <cocos/math/CCGeometry.h>
 #include <cocos/math/Mat4.h>
 #include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformConfig.h>
 #include <cocos/platform/CCPlatformDefine.h>
 #include <cocos/platform/CCPlatformMacros.h>
 
@@ -55,6 +56,8 @@ struct CC_DLL AffineTransform final
 {
 #ifdef __ARM_NEON
     using f32x2_t = __attribute__((neon_vector_type(2))) float;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    using f32x2_t = float[2];
 #else
     using f32x2_t = __attribute__((ext_vector_type(2))) float;
 #endif
