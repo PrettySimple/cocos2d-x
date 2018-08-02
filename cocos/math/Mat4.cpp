@@ -120,7 +120,6 @@ void Mat4::createPerspective(float fieldOfView, float aspectRatio, float zNearPl
     dst.m[10] = (-(zFarPlane + zNearPlane)) * f_n;
     dst.m[11] = -1.0f;
     dst.m[14] = -2.0f * zFarPlane * zNearPlane * f_n;
-
 }
 
 void Mat4::createOrthographic(float width, float height, float zNearPlane, float zFarPlane, Mat4& dst)

@@ -345,9 +345,9 @@ void Node::updateRotationQuat()
     // when _rotationZ_X == _rotationZ_Y, _rotationQuat = RotationZ_X * RotationY * RotationX
     // when _rotationZ_X != _rotationZ_Y, _rotationQuat = RotationY * RotationX
     float halfRadx = CC_DEGREES_TO_RADIANS(_rotationX / 2.f), halfRady = CC_DEGREES_TO_RADIANS(_rotationY / 2.f),
-    halfRadz = std::abs(_rotationZ_X - _rotationZ_Y) < epsi ? -CC_DEGREES_TO_RADIANS(_rotationZ_X / 2.f) : 0.f;
-    float coshalfRadx = std::cos(halfRadx), sinhalfRadx = std::sin(halfRadx), coshalfRady = std::cos(halfRady), sinhalfRady = std::sin(halfRady), coshalfRadz = std::cos(halfRadz),
-    sinhalfRadz = std::sin(halfRadz);
+          halfRadz = std::abs(_rotationZ_X - _rotationZ_Y) < epsi ? -CC_DEGREES_TO_RADIANS(_rotationZ_X / 2.f) : 0.f;
+    float coshalfRadx = std::cos(halfRadx), sinhalfRadx = std::sin(halfRadx), coshalfRady = std::cos(halfRady), sinhalfRady = std::sin(halfRady),
+          coshalfRadz = std::cos(halfRadz), sinhalfRadz = std::sin(halfRadz);
     _rotationQuat.x = sinhalfRadx * coshalfRady * coshalfRadz - coshalfRadx * sinhalfRady * sinhalfRadz;
     _rotationQuat.y = coshalfRadx * sinhalfRady * coshalfRadz + sinhalfRadx * coshalfRady * sinhalfRadz;
     _rotationQuat.z = coshalfRadx * coshalfRady * sinhalfRadz - sinhalfRadx * sinhalfRady * coshalfRadz;
@@ -1720,8 +1720,22 @@ const Mat4& Node::getNodeToParentTransform() const
         // If skew is needed, apply skew and then anchor point
         if (needsSkewMatrix)
         {
-            float skewMatArray[16] = {
-                1, std::tan(CC_DEGREES_TO_RADIANS(_skewY)), 0.f, 0.f, std::tan(CC_DEGREES_TO_RADIANS(_skewX)), 1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f};
+            float skewMatArray[16] = {1,
+                                      std::tan(CC_DEGREES_TO_RADIANS(_skewY)),
+                                      0.f,
+                                      0.f,
+                                      std::tan(CC_DEGREES_TO_RADIANS(_skewX)),
+                                      1.f,
+                                      0.f,
+                                      0.f,
+                                      0.f,
+                                      0.f,
+                                      1.f,
+                                      0.f,
+                                      0.f,
+                                      0.f,
+                                      0.f,
+                                      1.f};
             Mat4 skewMatrix(skewMatArray);
 
             _transform = _transform * skewMatrix;
