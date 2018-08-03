@@ -86,38 +86,31 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
  * The view content is basically an EAGL surface you render your OpenGL scene into.
  * Note that setting the view non-opaque will only work if the EAGL surface has an alpha channel.
  */
-@interface CCEAGLView : UIView <UIKeyInput, UITextInput> {
-    id<CCESRenderer> renderer_;
-    EAGLContext* context_; // weak ref
+@interface CCEAGLView : UIView <UIKeyInput, UITextInput>
 
-    NSString* pixelformat_;
-    GLuint depthFormat_;
-    BOOL preserveBackbuffer_;
+@property (nonatomic, strong) id<CCESRenderer> renderer;
+/** OpenGL context */
+@property (nonatomic, weak) EAGLContext* context; // weak ref
 
-    CGSize size_;
-    BOOL discardFramebufferSupported_;
+/** pixel format: it could be RGBA8 (32-bit) or RGB565 (16-bit) */
+@property (nonatomic, readonly, strong) NSString* pixelformat;
+/** depth format of the render buffer: 0, 16 or 24 bits*/
+@property (nonatomic, readonly, assign) GLuint depthFormat;
+@property (nonatomic, readonly, assign) BOOL preserveBackbuffer;
 
-    // fsaa addition
-    BOOL multisampling_;
-    unsigned int requestedSamples_;
-    BOOL isUseUITextField;
-@private
-    NSString* markedText_;
-    CGRect caretRect_;
-    CGRect originalRect_;
-    NSNotification* keyboardShowNotification_;
-    BOOL isKeyboardShown_;
-}
+@property (nonatomic, assign) CGSize size;
+/** returns surface size in pixels */
+@property (nonatomic, readonly, assign) CGSize surfaceSize;
+@property (nonatomic, assign) BOOL discardFramebufferSupported;
 
-@property (nonatomic, readonly) UITextPosition* beginningOfDocument;
-@property (nonatomic, readonly) UITextPosition* endOfDocument;
-@property (nonatomic, assign) id<UITextInputDelegate> inputDelegate;
-@property (nonatomic, readonly) UITextRange* markedTextRange;
-@property (nonatomic, copy) NSDictionary* markedTextStyle;
-@property (readwrite, copy) UITextRange* selectedTextRange;
-@property (nonatomic, readonly) id<UITextInputTokenizer> tokenizer;
-@property (nonatomic, readonly, getter=isKeyboardShown) BOOL isKeyboardShown;
-@property (nonatomic, copy) NSNotification* keyboardShowNotification;
+// fsaa addition
+@property (nonatomic, readonly, assign) BOOL multisampling;
+@property (nonatomic, readonly, assign) unsigned int requestedSamples;
+@property (nonatomic, assign) BOOL isUseUITextField;
+
+@property (nonatomic, assign) BOOL isKeyboardShown;
+@property (nonatomic, strong) NSNotification* keyboardShowNotification;
+
 /** creates an initializes an CCEAGLView with a frame and 0-bit depth buffer, and a RGB565 color buffer */
 + (id)viewWithFrame:(CGRect)frame;
 /** creates an initializes an CCEAGLView with a frame, a color buffer format, and 0-bit depth buffer */
@@ -145,19 +138,6 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
             sharegroup:(EAGLSharegroup*)sharegroup
          multiSampling:(BOOL)sampling
        numberOfSamples:(unsigned int)nSamples;
-
-/** pixel format: it could be RGBA8 (32-bit) or RGB565 (16-bit) */
-@property (nonatomic, readonly) NSString* pixelFormat;
-/** depth format of the render buffer: 0, 16 or 24 bits*/
-@property (nonatomic, readonly) GLuint depthFormat;
-
-/** returns surface size in pixels */
-@property (nonatomic, readonly) CGSize surfaceSize;
-
-/** OpenGL context */
-@property (nonatomic, readonly) EAGLContext* context;
-
-@property (nonatomic, readwrite) BOOL multiSampling;
 
 /** CCEAGLView uses double-buffer. This method swaps the buffers */
 - (void)swapBuffers;
