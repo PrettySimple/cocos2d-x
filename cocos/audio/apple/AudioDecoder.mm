@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include <cocos/audio/apple/AudioDecoder.h>
 
+#include <cocos/base/CCConsole.h>
 #include <cocos/audio/apple/AudioDecoder.h>
 #include <cocos/audio/apple/AudioMacros.h>
 

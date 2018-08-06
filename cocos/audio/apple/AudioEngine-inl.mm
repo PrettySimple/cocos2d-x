@@ -23,8 +23,6 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#define LOG_TAG "AudioEngine-inl.mm"
-
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
