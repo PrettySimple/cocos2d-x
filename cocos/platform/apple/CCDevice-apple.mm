@@ -23,7 +23,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/apple/CCDevice-apple.h"
+#include <cocos/platform/apple/CCDevice-apple.h>
+
+#include <cocos/platform/CCDevice.h>
+
+#import <CoreGraphics/CGBase.h>
+#import <CoreGraphics/CGGeometry.h>
 
 namespace FontUtils
 {

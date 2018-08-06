@@ -24,11 +24,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCPAGE_TURN_TRANSITION_H__
-#define __CCPAGE_TURN_TRANSITION_H__
+#ifndef CC_2D_TRANSITIONPAGETURN_H
+#define CC_2D_TRANSITIONPAGETURN_H
 
-#include "2d/CCTransition.h"
-#include "renderer/CCCustomCommand.h"
+#include <cocos/2d/CCTransition.h>
+#include <cocos/renderer/CCCustomCommand.h>
 
 #include <chrono>
 
@@ -71,7 +71,7 @@ public:
     // Overrides
     // @js NA
     //
-    virtual void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
+    void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
 
     /**
      * Creates a base transition with duration and incoming scene.
@@ -95,8 +95,8 @@ public:
     //
     // Overrides
     //
-    virtual void onEnter() override;
-    virtual void onExit() override;
+    void onEnter() override;
+    void onExit() override;
 
     CC_CONSTRUCTOR_ACCESS :
         /**
@@ -107,10 +107,10 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~TransitionPageTurn();
+    ~TransitionPageTurn() override;
 
 protected:
-    virtual void sceneOrder() override;
+    void sceneOrder() override;
 
 protected:
     NodeGrid* _inSceneProxy;
@@ -123,4 +123,4 @@ protected:
 
 NS_CC_END
 
-#endif // __CCPAGE_TURN_TRANSITION_H__
+#endif // CC_2D_TRANSITIONPAGETURN_H

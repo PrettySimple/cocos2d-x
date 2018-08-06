@@ -22,21 +22,37 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCSAXParser.h"
+#include <cocos/platform/CCSAXParser.h>
 
-#include <vector> // because its based on windows 8 build :P
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/CCData.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
-#include "platform/CCFileUtils.h"
-#include "rapidxml/rapidxml_sax3.hpp"
-#include "tinyxml2.h"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <rapidxml/rapidxml.hpp>
+#include <rapidxml/rapidxml_sax3.hpp>
+
+#include <tinyxml2/tinyxml2.h>
+#pragma clang diagnostic pop
+
+#include <cstring>
+#include <vector>
 
 NS_CC_BEGIN
+
+SAXDelegator::~SAXDelegator()
+{
+}
 
 class XmlSaxHander : public tinyxml2::XMLVisitor
 {
 public:
     XmlSaxHander()
-    : _ccsaxParserImp(0){};
+    : _ccsaxParserImp(nullptr)
+    {
+    }
 
     virtual bool VisitEnter(const tinyxml2::XMLElement& element, const tinyxml2::XMLAttribute* firstAttribute);
     virtual bool VisitExit(const tinyxml2::XMLElement& element);
@@ -89,7 +105,9 @@ class RapidXmlSaxHander : public rapidxml::xml_sax2_handler
 {
 public:
     RapidXmlSaxHander()
-    : _ccsaxParserImp(0){};
+    : _ccsaxParserImp(nullptr)
+    {
+    }
 
     void setSAXParserImp(SAXParser* parser) { _ccsaxParserImp = parser; }
 
@@ -115,9 +133,8 @@ SAXParser::~SAXParser(void)
 {
 }
 
-bool SAXParser::init(const char* encoding)
+bool SAXParser::init(const char*)
 {
-    CC_UNUSED_PARAM(encoding);
     // nothing to do
     return true;
 }
@@ -160,8 +177,6 @@ bool SAXParser::parseIntrusive(char* xmlData, size_t dataLength)
         CCLOG("cocos2d: SAXParser: Error parsing xml: %s at %s", e.what(), e.where<char>());
         return false;
     }
-
-    return false;
 }
 
 void SAXParser::startElement(void* ctx, const CC_XML_CHAR* name, const CC_XML_CHAR** atts)

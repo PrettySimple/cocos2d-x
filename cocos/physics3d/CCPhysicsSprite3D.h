@@ -25,10 +25,10 @@
 #ifndef __PHYSICS_SPRITE_3D_H__
 #define __PHYSICS_SPRITE_3D_H__
 
-#include "3d/CCSprite3D.h"
-#include "base/ccConfig.h"
 #include "physics3d/CCPhysics3DComponent.h"
 #include "physics3d/CCPhysics3DObject.h"
+#include <cocos/3d/CCSprite3D.h>
+#include <cocos/base/ccConfig.h>
 
 #if CC_USE_3D_PHYSICS
 

@@ -22,14 +22,35 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __UITEXTFIELD_H__
-#define __UITEXTFIELD_H__
+#ifndef CC_UI_TEXTFIELD_H
+#define CC_UI_TEXTFIELD_H
 
-#include "2d/CCTextFieldTTF.h"
-#include "ui/GUIExport.h"
-#include "ui/UIWidget.h"
+#include <cocos/2d/CCTextFieldTTF.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <cstddef>
+#include <functional>
+#include <iosfwd>
 
 NS_CC_BEGIN
+
+class Camera;
+class Event;
+class Node;
+class Size;
+class Touch;
+class Vec2;
+class Vec3;
+enum struct TextHAlignment : std::uint8_t;
+enum struct TextVAlignment : std::uint8_t;
+struct Color3B;
+struct Color4B;
+
 /**
  * @addtogroup ui
  * @{
@@ -54,9 +75,9 @@ namespace ui
         /**
          * Default destructor
          */
-        ~UICCTextField();
+        ~UICCTextField() override;
 
-        virtual void onEnter() override;
+        void onEnter() override;
 
         /**
          * Create a UICCTextField instance with a placeholder, a fontName and a fontSize.
@@ -68,11 +89,11 @@ namespace ui
         static UICCTextField* create(const std::string& placeholder, const std::string& fontName, float fontSize);
 
         // override functions
-        virtual bool onTextFieldAttachWithIME(TextFieldTTF* pSender) override;
-        virtual bool onTextFieldDetachWithIME(TextFieldTTF* pSender) override;
-        virtual bool onTextFieldInsertText(TextFieldTTF* pSender, const char* text, size_t nLen) override;
-        virtual bool onTextFieldDeleteBackward(TextFieldTTF* pSender, const char* delText, size_t nLen) override;
-        void insertText(const char* text, size_t len) override;
+        bool onTextFieldAttachWithIME(TextFieldTTF* pSender) override;
+        bool onTextFieldDetachWithIME(TextFieldTTF* pSender) override;
+        bool onTextFieldInsertText(TextFieldTTF* pSender, const char* text, std::size_t nLen) override;
+        bool onTextFieldDeleteBackward(TextFieldTTF* pSender, const char* delText, size_t nLen) override;
+        void insertText(const char* text, std::size_t len) override;
         void deleteBackward() override;
 
         /**
@@ -242,7 +263,7 @@ namespace ui
         /**
          * TextField event type.
          */
-        enum class EventType
+        enum class EventType : std::uint8_t
         {
             ATTACH_WITH_IME,
             DETACH_WITH_IME,
@@ -252,7 +273,7 @@ namespace ui
         /**
          * A callback which would be called when a TextField event happens.
          */
-        typedef std::function<void(Ref*, EventType)> ccTextFieldCallback;
+        using ccTextFieldCallback = std::function<void(Ref*, EventType)>;
 
         /**
          * @brief Default constructor.
@@ -263,7 +284,7 @@ namespace ui
         /**
          * @brief Default destructor.
          */
-        virtual ~TextField();
+        ~TextField() override;
 
         /**
          * @brief Create an empty TextField.
@@ -303,7 +324,7 @@ namespace ui
          */
         void setTouchAreaEnabled(bool enable);
 
-        virtual bool hitTest(const Vec2& pt, const Camera* camera, Vec3* p) const override;
+        bool hitTest(const Vec2& pt, const Camera* camera, Vec3* p) const override;
 
         /**
          * @brief Set placeholder of TextField.
@@ -413,7 +434,7 @@ namespace ui
          */
         const std::string& getString() const;
 
-        virtual bool onTouchBegan(Touch* touch, Event* unusedEvent) override;
+        bool onTouchBegan(Touch* touch, Event* unusedEvent) override;
 
         /**
          * @brief Toggle maximize length enable
@@ -478,7 +499,7 @@ namespace ui
          */
         const char* getPasswordStyleText() const;
 
-        virtual void update(float dt) override;
+        void update(float dt) override;
 
         /**
          * @brief Query whether the IME is attached or not.
@@ -552,7 +573,7 @@ namespace ui
         /**
          * Returns the "class name" of widget.
          */
-        virtual std::string getDescription() const override;
+        std::string getDescription() const override;
 
         /**
          * @brief Get the renderer size in auto mode.
@@ -561,9 +582,9 @@ namespace ui
          */
         virtual Size getAutoRenderSize();
         // override functions.
-        virtual Size getVirtualRendererSize() const override;
-        virtual Node* getVirtualRenderer() override;
-        virtual void onEnter() override;
+        Size getVirtualRendererSize() const override;
+        Node* getVirtualRenderer() override;
+        void onEnter() override;
 
         /**
          * @brief Attach the IME for inputing.
@@ -630,21 +651,21 @@ namespace ui
          */
         void setCursorFromPoint(const Vec2& point, const Camera* camera);
 
-        CC_CONSTRUCTOR_ACCESS : virtual bool init() override;
+        CC_CONSTRUCTOR_ACCESS : bool init() override;
 
     protected:
-        virtual void initRenderer() override;
+        void initRenderer() override;
         void attachWithIMEEvent();
         void detachWithIMEEvent();
         void insertTextEvent();
         void deleteBackwardEvent();
-        virtual void onSizeChanged() override;
+        void onSizeChanged() override;
 
         void textfieldRendererScaleChangedWithSize();
 
-        virtual Widget* createCloneInstance() override;
-        virtual void copySpecialProperties(Widget* model) override;
-        virtual void adaptRenderers() override;
+        Widget* createCloneInstance() override;
+        void copySpecialProperties(Widget* model) override;
+        void adaptRenderers() override;
 
     protected:
         UICCTextField* _textFieldRenderer;
@@ -671,7 +692,7 @@ namespace ui
         bool _textFieldRendererAdaptDirty;
 
     private:
-        enum class FontType
+        enum struct FontType : std::uint8_t
         {
             SYSTEM,
             TTF
@@ -688,4 +709,4 @@ namespace ui
 /// @}
 NS_CC_END
 
-#endif /* defined(__TextField__) */
+#endif // CC_UI_TEXTFIELD_H

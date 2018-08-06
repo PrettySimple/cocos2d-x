@@ -24,9 +24,23 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "2d/CCParallaxNode.h"
+#include <cocos/2d/CCParallaxNode.h>
 
-#include "base/ccCArray.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccCArray.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <cstddef>
+#include <new>
+
+namespace cocos2d
+{
+    class Renderer;
+}
 
 NS_CC_BEGIN
 
@@ -86,19 +100,13 @@ ParallaxNode* ParallaxNode::create()
     return ret;
 }
 
-void ParallaxNode::addChild(Node* child, int zOrder, int tag)
+void ParallaxNode::addChild(Node*, int, int)
 {
-    CC_UNUSED_PARAM(zOrder);
-    CC_UNUSED_PARAM(child);
-    CC_UNUSED_PARAM(tag);
     CCASSERT(0, "ParallaxNode: use addChild:z:parallaxRatio:positionOffset instead");
 }
 
-void ParallaxNode::addChild(Node* child, int zOrder, const std::string& name)
+void ParallaxNode::addChild(Node*, int, const std::string&)
 {
-    CC_UNUSED_PARAM(zOrder);
-    CC_UNUSED_PARAM(child);
-    CC_UNUSED_PARAM(name);
     CCASSERT(0, "ParallaxNode: use addChild:z:parallaxRatio:positionOffset instead");
 }
 
@@ -107,7 +115,7 @@ void ParallaxNode::addChild(Node* child, int z, const Vec2& ratio, const Vec2& o
     CCASSERT(child != nullptr, "Argument must be non-nil");
     PointObject* obj = PointObject::create(ratio, offset);
     obj->setChild(child);
-    ccArrayAppendObjectWithResize(_parallaxArray, (Ref*)obj);
+    ccArrayAppendObjectWithResize(_parallaxArray, static_cast<Ref*>(obj));
 
     Vec2 pos = this->absolutePosition();
     pos.x = -pos.x + pos.x * ratio.x + offset.x;
@@ -119,9 +127,9 @@ void ParallaxNode::addChild(Node* child, int z, const Vec2& ratio, const Vec2& o
 
 void ParallaxNode::removeChild(Node* child, bool cleanup)
 {
-    for (int i = 0; i < _parallaxArray->num; i++)
+    for (std::size_t i = 0; i < _parallaxArray->num; i++)
     {
-        PointObject* point = (PointObject*)_parallaxArray->arr[i];
+        PointObject* point = static_cast<PointObject*>(_parallaxArray->arr[i]);
         if (point->getChild() == child)
         {
             ccArrayRemoveObjectAtIndex(_parallaxArray, i, true);
@@ -161,9 +169,9 @@ void ParallaxNode::visit(Renderer* renderer, const Mat4& parentTransform, uint32
     Vec2 pos = this->absolutePosition();
     if (!pos.equals(_lastPosition))
     {
-        for (int i = 0; i < _parallaxArray->num; i++)
+        for (std::size_t i = 0; i < _parallaxArray->num; i++)
         {
-            PointObject* point = (PointObject*)_parallaxArray->arr[i];
+            PointObject* point = static_cast<PointObject*>(_parallaxArray->arr[i]);
             float x = -pos.x + pos.x * point->getRatio().x + point->getOffset().x;
             float y = -pos.y + pos.y * point->getRatio().y + point->getOffset().y;
             point->getChild()->setPosition(x, y);

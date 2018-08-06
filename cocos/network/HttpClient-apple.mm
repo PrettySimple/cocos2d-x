@@ -24,7 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 
 #    include "network/HttpClient.h"
@@ -32,10 +32,10 @@
 #    include <errno.h>
 #    include <queue>
 
-#    include "base/CCDirector.h"
 #    import "network/HttpAsynConnection-apple.h"
-#    include "network/HttpCookie.h"
-#    include "platform/CCFileUtils.h"
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/network/HttpCookie.h>
+#    include <cocos/platform/CCFileUtils.h>
 
 NS_CC_BEGIN
 

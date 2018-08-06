@@ -25,10 +25,10 @@
 #include "navmesh/CCNavMeshObstacle.h"
 #if CC_USE_NAVMESH
 
-#    include "2d/CCNode.h"
-#    include "2d/CCScene.h"
 #    include "navmesh/CCNavMesh.h"
 #    include "recast/DetourTileCache/DetourTileCache.h"
+#    include <cocos/2d/CCNode.h>
+#    include <cocos/2d/CCScene.h>
 
 NS_CC_BEGIN
 

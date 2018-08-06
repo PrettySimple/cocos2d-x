@@ -22,17 +22,17 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCNAV_MESH_DEBUG_DRAW_H__
-#define __CCNAV_MESH_DEBUG_DRAW_H__
+#ifndef CC_NAVMESH_NAVMESHDEBUGDRAW_H
+#define CC_NAVMESH_NAVMESHDEBUGDRAW_H
 
-#include "base/ccConfig.h"
+#include <cocos/base/ccConfig.h>
 #if CC_USE_NAVMESH
 
-#    include "math/Vec3.h"
 #    include "recast/DebugUtils/DebugDraw.h"
-#    include "renderer/CCCustomCommand.h"
-#    include "renderer/CCGLProgram.h"
-#    include "renderer/CCRenderState.h"
+#    include <cocos/math/Vec3.h>
+#    include <cocos/renderer/CCCustomCommand.h>
+#    include <cocos/renderer/CCGLProgram.h>
+#    include <cocos/renderer/CCRenderState.h>
 #    include <string>
 #    include <vector>
 
@@ -104,4 +104,4 @@ NS_CC_END
 
 #endif // CC_USE_NAVMESH
 
-#endif // __CCNAV_MESH_DEBUG_DRAW_H__
+#endif // CC_NAVMESH_NAVMESHDEBUGDRAW_H

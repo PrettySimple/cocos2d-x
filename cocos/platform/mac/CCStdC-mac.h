@@ -23,13 +23,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_STD_C_H__
-#define __CC_STD_C_H__
+#ifndef CC_PLATFORM_MAC_STDCMAC_H
+#define CC_PLATFORM_MAC_STDCMAC_H
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#    include "platform/CCPlatformMacros.h"
+#    include <cocos/platform/CCPlatformMacros.h>
 #    include <float.h>
 #    include <math.h>
 #    include <stdarg.h>
@@ -50,4 +50,4 @@ THE SOFTWARE.
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#endif // __CC_STD_C_H__
+#endif // CC_PLATFORM_MAC_STDCMAC_H

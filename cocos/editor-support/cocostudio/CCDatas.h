@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
@@ -22,18 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCARMATURE_DATAS_H__
-#define __CCARMATURE_DATAS_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_DATAS_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_DATAS_H
 
-#include "base/CCMap.h"
-#include "base/CCRef.h"
-#include "base/CCVector.h"
-#include "base/ccTypes.h"
-#include "math/CCAffineTransform.h"
+#include <cocos/base/CCMap.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCAffineTransform.h>
 
-#include "2d/CCTweenFunction.h"
 #include "cocostudio/CCArmatureDefine.h"
 #include "cocostudio/CocosStudioExport.h"
+#include <cocos/2d/CCTweenFunction.h>
 
 #define CC_CREATE_NO_PARAM_NO_INIT(varType)          \
 public:                                              \
@@ -476,7 +476,7 @@ namespace cocostudio
 
         void addMovement(MovementData* movData);
         MovementData* getMovement(const std::string& movementName);
-        ssize_t getMovementCount();
+        std::size_t getMovementCount();
 
     public:
         std::string name;
@@ -550,4 +550,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif /*__CCARMATURE_DATAS_H__*/
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_DATAS_H

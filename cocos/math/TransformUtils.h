@@ -24,12 +24,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __SUPPORT_TRANSFORM_UTILS_H__
-#define __SUPPORT_TRANSFORM_UTILS_H__
+#ifndef CC_MATH_TRANSFORMUTILS_H
+#define CC_MATH_TRANSFORMUTILS_H
 
 // TODO: when in MAC or windows, it includes <OpenGL/gl.h>
-#include "base/ccMacros.h"
-#include "platform/CCGL.h"
+
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
 
 /**
  * @addtogroup base
@@ -52,4 +53,4 @@ namespace cocos2d
  end of base group
  @}
  */
-#endif // __SUPPORT_TRANSFORM_UTILS_H__
+#endif // CC_MATH_TRANSFORMUTILS_H

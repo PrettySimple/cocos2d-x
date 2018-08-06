@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__GameMapReader__
-#define __cocos2d_libs__GameMapReader__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_GAMEMAPREADER_GAMEMAPREADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_GAMEMAPREADER_GAMEMAPREADER_H
 
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -51,4 +51,4 @@ namespace cocostudio
     };
 } // namespace cocostudio
 
-#endif /* defined(__cocos2d_libs__GameMapReader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_GAMEMAPREADER_GAMEMAPREADER_H

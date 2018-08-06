@@ -23,10 +23,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "2d/CCActionPageTurn3D.h"
+#include <cocos/2d/CCActionPageTurn3D.h>
 
-#include "2d/CCGrid.h"
-#include "2d/CCNodeGrid.h"
+#include <cocos/2d/CCGrid.h>
+#include <cocos/2d/CCNodeGrid.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <algorithm>
+#include <cmath>
+#include <new>
 
 NS_CC_BEGIN
 
@@ -67,14 +75,14 @@ GridBase* PageTurn3D::getGrid()
  */
 void PageTurn3D::update(float time)
 {
-    float tt = MAX(0, time - 0.25f);
+    float tt = std::max(0.f, time - 0.25f);
     float deltaAy = (tt * tt * 500);
     float ay = -100 - deltaAy;
 
     float deltaTheta = sqrtf(time);
-    float theta = deltaTheta > 0.5f ? (float)M_PI_2 * deltaTheta : (float)M_PI_2 * (1 - deltaTheta);
+    float theta = deltaTheta > 0.5f ? static_cast<float>(M_PI_2) * deltaTheta : static_cast<float>(M_PI_2) * (1 - deltaTheta);
 
-    float rotateByYAxis = (2 - time) * M_PI;
+    float rotateByYAxis = (2 - time) * static_cast<float>(M_PI);
 
     float sinTheta = sinf(theta);
     float cosTheta = cosf(theta);
@@ -95,7 +103,7 @@ void PageTurn3D::update(float time)
 
             // If beta > PI then we've wrapped around the cone
             // Reduce the radius to stop these points interfering with others
-            if (beta <= M_PI)
+            if (beta <= static_cast<float>(M_PI))
             {
                 p.x = (r * sinf(beta));
             }

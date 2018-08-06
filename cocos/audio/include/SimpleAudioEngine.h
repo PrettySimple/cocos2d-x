@@ -24,10 +24,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef _SIMPLE_AUDIO_ENGINE_H_
-#define _SIMPLE_AUDIO_ENGINE_H_
+#ifndef CC_AUDIO_INCLUDE_SIMPLEAUDIOENGINE_H
+#define CC_AUDIO_INCLUDE_SIMPLEAUDIOENGINE_H
 
-#include "audio/include/Export.h"
+#include <cocos/audio/include/Export.h>
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
 #    define CC_DEPRECATED_ATTRIBUTE __attribute__((deprecated))
@@ -273,4 +273,4 @@ namespace CocosDenshion
 // end audio group
 /// @}
 
-#endif // _SIMPLE_AUDIO_ENGINE_H_
+#endif // CC_AUDIO_INCLUDE_SIMPLEAUDIOENGINE_H

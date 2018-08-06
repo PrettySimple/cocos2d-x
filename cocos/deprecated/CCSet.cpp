@@ -23,7 +23,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "deprecated/CCSet.h"
+#include <cocos/deprecated/CCSet.h>
+
+#include <cocos/base/CCDataVisitor.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <new>
 
 using namespace std;
 
@@ -148,7 +154,7 @@ Ref* __Set::anyObject()
 {
     if (!_set || _set->empty())
     {
-        return 0;
+        return nullptr;
     }
 
     __SetIterator it;
@@ -161,7 +167,7 @@ Ref* __Set::anyObject()
         }
     }
 
-    return 0;
+    return nullptr;
 }
 
 NS_CC_END

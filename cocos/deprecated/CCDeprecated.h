@@ -28,70 +28,72 @@
 /** Add deprecated global functions and variables here
  */
 
-#ifndef __COCOS2D_CCDEPRECATED_H__
-#define __COCOS2D_CCDEPRECATED_H__
+#ifndef CC_DEPRECATED_DEPRECATED_H
+#define CC_DEPRECATED_DEPRECATED_H
 
-#include <math.h>
+#include <cocos/2d/CCActionCamera.h>
+#include <cocos/2d/CCActionCatmullRom.h>
+#include <cocos/2d/CCActionEase.h>
+#include <cocos/2d/CCActionGrid.h>
+#include <cocos/2d/CCActionGrid3D.h>
+#include <cocos/2d/CCActionInstant.h>
+#include <cocos/2d/CCActionPageTurn3D.h>
+#include <cocos/2d/CCActionProgressTimer.h>
+#include <cocos/2d/CCActionTiledGrid.h>
+#include <cocos/2d/CCActionTween.h>
+#include <cocos/2d/CCAnimationCache.h>
+#include <cocos/2d/CCAtlasNode.h>
+#include <cocos/2d/CCClippingNode.h>
+#include <cocos/2d/CCGrid.h>
+#include <cocos/2d/CCLabelAtlas.h>
+#include <cocos/2d/CCLabelBMFont.h>
+#include <cocos/2d/CCLabelTTF.h>
+#include <cocos/2d/CCLayer.h>
+#include <cocos/2d/CCMenu.h>
+#include <cocos/2d/CCMenuItem.h>
+#include <cocos/2d/CCMotionStreak.h>
+#include <cocos/2d/CCParallaxNode.h>
+#include <cocos/2d/CCParticleBatchNode.h>
+#include <cocos/2d/CCParticleExamples.h>
+#include <cocos/2d/CCParticleSystemQuad.h>
+#include <cocos/2d/CCProgressTimer.h>
+#include <cocos/2d/CCSpriteFrameCache.h>
+#include <cocos/2d/CCTMXLayer.h>
+#include <cocos/2d/CCTMXObjectGroup.h>
+#include <cocos/2d/CCTMXTiledMap.h>
+#include <cocos/2d/CCTMXXMLParser.h>
+#include <cocos/2d/CCTextFieldTTF.h>
+#include <cocos/2d/CCTileMapAtlas.h>
+#include <cocos/2d/CCTransition.h>
+#include <cocos/2d/CCTransitionPageTurn.h>
+#include <cocos/2d/CCTransitionProgress.h>
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDataVisitor.h>
+#include <cocos/base/CCEvent.h>
+#include <cocos/base/CCIMEDelegate.h>
+#include <cocos/base/CCScheduler.h>
+#include <cocos/base/CCUserDefault.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/deprecated/CCArray.h>
+#include <cocos/deprecated/CCBool.h>
+#include <cocos/deprecated/CCDictionary.h>
+#include <cocos/deprecated/CCDouble.h>
+#include <cocos/deprecated/CCFloat.h>
+#include <cocos/deprecated/CCInteger.h>
+#include <cocos/deprecated/CCNotificationCenter.h>
+#include <cocos/deprecated/CCSet.h>
+#include <cocos/math/CCAffineTransform.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCApplication.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCImage.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureAtlas.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
-#include "2d/CCActionCamera.h"
-#include "2d/CCActionCatmullRom.h"
-#include "2d/CCActionEase.h"
-#include "2d/CCActionGrid.h"
-#include "2d/CCActionGrid3D.h"
-#include "2d/CCActionInstant.h"
-#include "2d/CCActionPageTurn3D.h"
-#include "2d/CCActionProgressTimer.h"
-#include "2d/CCActionTiledGrid.h"
-#include "2d/CCActionTween.h"
-#include "2d/CCAnimationCache.h"
-#include "2d/CCAtlasNode.h"
-#include "2d/CCClippingNode.h"
-#include "2d/CCGrid.h"
-#include "2d/CCLabelAtlas.h"
-#include "2d/CCLabelBMFont.h"
-#include "2d/CCLabelTTF.h"
-#include "2d/CCLayer.h"
-#include "2d/CCMenu.h"
-#include "2d/CCMenuItem.h"
-#include "2d/CCMotionStreak.h"
-#include "2d/CCParallaxNode.h"
-#include "2d/CCParticleBatchNode.h"
-#include "2d/CCParticleExamples.h"
-#include "2d/CCParticleSystemQuad.h"
-#include "2d/CCProgressTimer.h"
-#include "2d/CCSpriteFrameCache.h"
-#include "2d/CCTMXLayer.h"
-#include "2d/CCTMXObjectGroup.h"
-#include "2d/CCTMXTiledMap.h"
-#include "2d/CCTMXXMLParser.h"
-#include "2d/CCTextFieldTTF.h"
-#include "2d/CCTileMapAtlas.h"
-#include "2d/CCTransition.h"
-#include "2d/CCTransitionPageTurn.h"
-#include "2d/CCTransitionProgress.h"
-#include "base/CCConfiguration.h"
-#include "base/CCDataVisitor.h"
-#include "base/CCEvent.h"
-#include "base/CCIMEDelegate.h"
-#include "base/CCScheduler.h"
-#include "base/CCUserDefault.h"
-#include "base/ccTypes.h"
-#include "deprecated/CCArray.h"
-#include "deprecated/CCBool.h"
-#include "deprecated/CCDictionary.h"
-#include "deprecated/CCDouble.h"
-#include "deprecated/CCFloat.h"
-#include "deprecated/CCInteger.h"
-#include "deprecated/CCNotificationCenter.h"
-#include "deprecated/CCSet.h"
-#include "math/CCAffineTransform.h"
-#include "math/CCGeometry.h"
-#include "platform/CCApplication.h"
-#include "platform/CCFileUtils.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCTextureAtlas.h"
-#include "renderer/ccGLStateCache.h"
+#include <cmath>
 
 NS_CC_BEGIN
 
@@ -481,12 +483,12 @@ CC_DEPRECATED_ATTRIBUTE static inline Color4F ccc4FFromccc4B(Color4B c)
 
 CC_DEPRECATED_ATTRIBUTE static inline Color4B ccc4BFromccc4F(Color4F c)
 {
-    return Color4B((GLubyte)(c.r * 255), (GLubyte)(c.g * 255), (GLubyte)(c.b * 255), (GLubyte)(c.a * 255));
+    return Color4B(static_cast<GLubyte>(c.r * 255), static_cast<GLubyte>(c.g * 255), static_cast<GLubyte>(c.b * 255), static_cast<GLubyte>(c.a * 255));
 }
 
 CC_DEPRECATED_ATTRIBUTE static inline bool ccc4FEqual(Color4F a, Color4F b)
 {
-    return a.r == b.r && a.g == b.g && a.b == b.b && a.a == b.a;
+    return a == b;
 }
 
 CC_DEPRECATED_ATTRIBUTE static inline Vec2 vertex2(const float x, const float y)
@@ -1222,4 +1224,4 @@ CC_DEPRECATED_ATTRIBUTE CC_DLL Vec4* kmVec4Transform(Vec4* pOut, const Vec4* pV,
 NS_CC_END
 
 /// @endcond
-#endif // __COCOS2D_CCDEPRECATED_H__
+#endif // CC_DEPRECATED_DEPRECATED_H

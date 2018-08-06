@@ -23,13 +23,13 @@
  THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __UIEDITTEXT_H__
-#define __UIEDITTEXT_H__
+#ifndef CC_UI_EDITBOX_EDITBOX_H
+#define CC_UI_EDITBOX_EDITBOX_H
 
-#include "base/CCIMEDelegate.h"
-#include "ui/GUIDefine.h"
-#include "ui/UIButton.h"
-#include "ui/UIScale9Sprite.h"
+#include <cocos/base/CCIMEDelegate.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/UIButton.h>
+#include <cocos/ui/UIScale9Sprite.h>
 
 NS_CC_BEGIN
 
@@ -52,26 +52,26 @@ namespace ui
     class CC_GUI_DLL EditBoxDelegate
     {
     public:
-        virtual ~EditBoxDelegate(){};
+        virtual ~EditBoxDelegate();
 
         /**
          * This method is called when an edit box gains focus after keyboard is shown.
          * @param editBox The edit box object that generated the event.
          */
-        virtual void editBoxEditingDidBegin(EditBox* editBox){};
+        virtual void editBoxEditingDidBegin(EditBox* editBox) {}
 
         /**
          * This method is called when an edit box loses focus after keyboard is hidden.
          * @param editBox The edit box object that generated the event.
          */
-        virtual void editBoxEditingDidEnd(EditBox* editBox){};
+        virtual void editBoxEditingDidEnd(EditBox* editBox) {}
 
         /**
          * This method is called when the edit box text was changed.
          * @param editBox The edit box object that generated the event.
          * @param text The new text.
          */
-        virtual void editBoxTextChanged(EditBox* editBox, const std::string& text){};
+        virtual void editBoxTextChanged(EditBox* editBox, const std::string& text) {}
 
         /**
          * This method is called when the return button was pressed or the outside area of keyboard was touched.
@@ -204,14 +204,14 @@ namespace ui
          * @js ctor
          * @lua new
          */
-        EditBox(void);
+        EditBox();
 
         /**
          * Destructor.
          * @js NA
          * @lua NA
          */
-        virtual ~EditBox(void);
+        ~EditBox() override;
 
         /**
          * Init edit box with specified size. This method should be invoked right after constructor.
@@ -488,4 +488,4 @@ namespace ui
 /// @}
 NS_CC_END
 
-#endif /* __UIEDITTEXT_H__ */
+#endif // CC_UI_EDITBOX_EDITBOX_H

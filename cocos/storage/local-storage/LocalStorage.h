@@ -23,10 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __JSB_LOCALSTORAGE_H
-#define __JSB_LOCALSTORAGE_H
+#ifndef CC_STORAGE_LOCALSTORAGE_LOCALSTORAGE_H
+#define CC_STORAGE_LOCALSTORAGE_LOCALSTORAGE_H
 
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformDefine.h>
+
 #include <string>
 
 /**
@@ -57,4 +58,4 @@ void CC_DLL localStorageClear();
 // end group
 /// @}
 
-#endif // __JSB_LOCALSTORAGE_H
+#endif // CC_STORAGE_LOCALSTORAGE_LOCALSTORAGE_H

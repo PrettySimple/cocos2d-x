@@ -22,11 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __UILOADINGBAR_H__
-#define __UILOADINGBAR_H__
+#ifndef CC_UI_LOADINGBAR_H
+#define CC_UI_LOADINGBAR_H
 
-#include "ui/GUIExport.h"
-#include "ui/UIWidget.h"
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <iosfwd>
 
 NS_CC_BEGIN
 /**
@@ -34,7 +39,9 @@ NS_CC_BEGIN
  * @{
  */
 
-struct CC_DLL ResourceData;
+class Node;
+class SpriteFrame;
+struct ResourceData;
 
 namespace ui
 {
@@ -53,7 +60,7 @@ namespace ui
         /**
          * Loading bar progress direction.
          */
-        enum class Direction
+        enum struct Direction : std::uint8_t
         {
             LEFT,
             RIGHT
@@ -71,7 +78,7 @@ namespace ui
          * @js NA
          * @lua NA
          */
-        virtual ~LoadingBar();
+        ~LoadingBar() override;
 
         /**
          * Create an empty LoadingBar.
@@ -163,16 +170,16 @@ namespace ui
         const Rect& getCapInsets() const;
 
         // override methods.
-        virtual void ignoreContentAdaptWithSize(bool ignore) override;
-        virtual Size getVirtualRendererSize() const override;
-        virtual Node* getVirtualRenderer() override;
-        virtual std::string getDescription() const override;
+        void ignoreContentAdaptWithSize(bool ignore) override;
+        Size getVirtualRendererSize() const override;
+        Node* getVirtualRenderer() override;
+        std::string getDescription() const override;
 
         ResourceData getRenderFile();
 
     protected:
-        virtual void initRenderer() override;
-        virtual void onSizeChanged() override;
+        void initRenderer() override;
+        void onSizeChanged() override;
 
         void setScale9Scale();
         void updateProgressBar();
@@ -182,10 +189,10 @@ namespace ui
         void handleSpriteFlipX();
         void loadTexture(SpriteFrame* spriteframe);
 
-        virtual void adaptRenderers() override;
+        void adaptRenderers() override;
 
-        virtual Widget* createCloneInstance() override;
-        virtual void copySpecialProperties(Widget* model) override;
+        Widget* createCloneInstance() override;
+        void copySpecialProperties(Widget* model) override;
 
     protected:
         Direction _direction;
@@ -205,4 +212,4 @@ namespace ui
 // end of ui group
 /// @}
 NS_CC_END
-#endif /* defined(__CocoGUI__LoadingBar__) */
+#endif // CC_UI_LOADINGBAR_H

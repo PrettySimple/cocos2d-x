@@ -23,14 +23,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CCRENDER_TEXTURE_H__
-#define __CCRENDER_TEXTURE_H__
+#ifndef CC_2D_RENDERTEXTURE_H
+#define CC_2D_RENDERTEXTURE_H
 
-#include "2d/CCNode.h"
-#include "2d/CCSprite.h"
-#include "platform/CCImage.h"
-#include "renderer/CCCustomCommand.h"
-#include "renderer/CCGroupCommand.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/platform/CCImage.h>
+#include <cocos/renderer/CCCustomCommand.h>
+#include <cocos/renderer/CCGroupCommand.h>
 
 NS_CC_BEGIN
 
@@ -148,7 +148,7 @@ public:
      */
     Image* newImage(bool flipImage = true);
 
-    CC_DEPRECATED_ATTRIBUTE Image* newCCImage(bool flipImage = true) { return newImage(flipImage); };
+    CC_DEPRECATED_ATTRIBUTE Image* newCCImage(bool flipImage = true) { return newImage(flipImage); }
 
     /** Saves the texture into a file using JPEG format. The file will be saved in the Documents folder.
      * Returns true if the operation is successful.
@@ -158,7 +158,8 @@ public:
      * @param callback When the file is save finished,it will callback this function.
      * @return Returns true if the operation is successful.
      */
-    bool saveToFile(const std::string& filename, bool isRGBA = true, std::function<void (RenderTexture*, const std::string&)> callback = nullptr, bool flipImage = true);
+    bool saveToFile(const std::string& filename, bool isRGBA = true, std::function<void(RenderTexture*, const std::string&)> callback = nullptr,
+                    bool flipImage = true);
 
     /** saves the texture into a file. The format could be JPG or PNG. The file will be saved in the Documents folder.
         Returns true if the operation is successful.
@@ -173,8 +174,9 @@ public:
      * @param callback When the file is save finished,it will callback this function.
      * @return Returns true if the operation is successful.
      */
-    bool saveToFile(const std::string& filename, Image::Format format, bool isRGBA = true, std::function<void (RenderTexture*, const std::string&)> callback = nullptr, bool flipImage = true);
-    
+    bool saveToFile(const std::string& filename, Image::Format format, bool isRGBA = true,
+                    std::function<void(RenderTexture*, const std::string&)> callback = nullptr, bool flipImage = true);
+
     /** Listen "come to background" message, and save render texture.
      * It only has effect on Android.
      *
@@ -301,7 +303,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~RenderTexture();
+    ~RenderTexture() override;
     /** Initializes a RenderTexture object with width and height in Points and a pixel format, only RGB and RGBA formats are valid.
      *
      * @param w The RenderTexture object width.
@@ -384,7 +386,7 @@ protected:
     Mat4 _transformMatrix, _projectionMatrix;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(RenderTexture);
+    CC_DISALLOW_COPY_AND_ASSIGN(RenderTexture)
 };
 
 // end of textures group
@@ -392,4 +394,4 @@ private:
 
 NS_CC_END
 
-#endif //__CCRENDER_TEXTURE_H__
+#endif // CC_2D_RENDERTEXTURE_H

@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__SpriteReader__
-#define __cocos2d_libs__SpriteReader__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_SPRITEREADER_SPRITEREADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_SPRITEREADER_SPRITEREADER_H
 
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -53,4 +53,4 @@ namespace cocostudio
     };
 } // namespace cocostudio
 
-#endif /* defined(__cocos2d_libs__SpriteReader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_SPRITEREADER_SPRITEREADER_H

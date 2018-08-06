@@ -23,8 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __SUPPORT_DATA_SUPPORT_TGALIB_H__
-#define __SUPPORT_DATA_SUPPORT_TGALIB_H__
+#ifndef CC_BASE_TGALIB_H
+#define CC_BASE_TGALIB_H
 /// @cond DO_NOT_SHOW
 
 namespace cocos2d
@@ -77,4 +77,4 @@ namespace cocos2d
 } // namespace cocos2d
 
 /// @endcond
-#endif // __SUPPORT_DATA_SUPPORT_TGALIB_H__
+#endif // CC_BASE_TGALIB_H

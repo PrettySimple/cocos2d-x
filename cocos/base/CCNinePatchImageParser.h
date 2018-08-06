@@ -21,13 +21,20 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 ****************************************************************************/
-#include "math/CCGeometry.h"
-#include "platform/CCPlatformMacros.h"
+
+#ifndef CC_BASE_NINEPATCHIMAGEPARSER_H
+#define CC_BASE_NINEPATCHIMAGEPARSER_H
+
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <iosfwd>
 
 NS_CC_BEGIN
 
 class Image;
-class SpriteFrame;
 
 /**
  * A class for paring Android .9 patch image.
@@ -116,3 +123,5 @@ private:
 };
 
 NS_CC_END
+
+#endif // CC_BASE_NINEPATCHIMAGEPARSER_H

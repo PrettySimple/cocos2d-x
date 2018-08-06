@@ -24,7 +24,6 @@ THE SOFTWARE.
 
 #include "cocostudio/CCActionFrameEasing.h"
 #include "cocostudio/DictionaryHelper.h"
-#include "platform/CCStdC.h"
 #include <math.h>
 
 namespace cocostudio

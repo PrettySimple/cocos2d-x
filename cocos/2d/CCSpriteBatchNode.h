@@ -26,14 +26,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_SPRITE_BATCH_NODE_H__
-#define __CC_SPRITE_BATCH_NODE_H__
+#ifndef CC_2D_SPRITEBATCHNODE_H
+#define CC_2D_SPRITEBATCHNODE_H
 
-#include "2d/CCNode.h"
-#include "base/CCProtocols.h"
-#include "renderer/CCBatchCommand.h"
-#include "renderer/CCTextureAtlas.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCProtocols.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCBatchCommand.h>
 
+#include <cstddef>
+#include <cstdint>
+#include <iosfwd>
 #include <vector>
 
 NS_CC_BEGIN
@@ -43,7 +50,10 @@ NS_CC_BEGIN
  * @{
  */
 
+class Renderer;
 class Sprite;
+class Texture2D;
+class TextureAtlas;
 
 /** SpriteBatchNode is like a batch node: if it contains children, it will draw them in 1 single OpenGL call
  * (often known as "batch draw").
@@ -74,7 +84,7 @@ public:
      * @param capacity The capacity of children.
      * @return Return an autorelease object.
      */
-    static SpriteBatchNode* createWithTexture(Texture2D* tex, ssize_t capacity = DEFAULT_CAPACITY);
+    static SpriteBatchNode* createWithTexture(Texture2D* tex, std::size_t capacity = DEFAULT_CAPACITY);
 
     /** Creates a SpriteBatchNode with a file image (.png, .jpeg, .pvr, etc) and capacity of children.
      * The capacity will be increased in 33% in runtime if it runs out of space.
@@ -84,7 +94,7 @@ public:
      * @param capacity The capacity of children.
      * @return Return an autorelease object.
      */
-    static SpriteBatchNode* create(const std::string& fileImage, ssize_t capacity = DEFAULT_CAPACITY);
+    static SpriteBatchNode* create(const std::string& fileImage, std::size_t capacity = DEFAULT_CAPACITY);
 
     /** Returns the TextureAtlas object.
      *
@@ -96,15 +106,7 @@ public:
      *
      * @param textureAtlas The TextureAtlas object.
      */
-    void setTextureAtlas(TextureAtlas* textureAtlas)
-    {
-        if (textureAtlas != _textureAtlas)
-        {
-            CC_SAFE_RETAIN(textureAtlas);
-            CC_SAFE_RELEASE(_textureAtlas);
-            _textureAtlas = textureAtlas;
-        }
-    }
+    void setTextureAtlas(TextureAtlas* textureAtlas);
 
     /** Returns an array with the descendants (children, gran children, etc.).
      * This is specific to BatchNode. In order to use the children, use getChildren() instead.
@@ -122,7 +124,7 @@ public:
      * @param doCleanup Whether or not to cleanup the running actions.
      * @warning Removing a child from a SpriteBatchNode is very slow.
      */
-    void removeChildAtIndex(ssize_t index, bool doCleanup);
+    void removeChildAtIndex(std::size_t index, bool doCleanup);
 
     /** Append the child.
      *
@@ -142,21 +144,21 @@ public:
      * @param index The child index.
      * @return Index.
      */
-    ssize_t rebuildIndexInOrder(Sprite* parent, ssize_t index);
+    std::size_t rebuildIndexInOrder(Sprite* parent, std::size_t index);
 
     /** Get the Max image block index,in all child.
      *
      * @param sprite The parent sprite.
      * @return Index.
      */
-    ssize_t highestAtlasIndexInChild(Sprite* sprite);
+    std::size_t highestAtlasIndexInChild(Sprite* sprite);
 
     /** Get the Min image block index,in all child.
      *
      * @param sprite The parent sprite.
      * @return Index.
      */
-    ssize_t lowestAtlasIndexInChild(Sprite* sprite);
+    std::size_t lowestAtlasIndexInChild(Sprite* sprite);
 
     /** Get the nearest index from the sprite in z.
      *
@@ -164,7 +166,7 @@ public:
      * @param z Z order for drawing priority.
      * @return Index.
      */
-    ssize_t atlasIndexForChild(Sprite* sprite, int z);
+    std::size_t atlasIndexForChild(Sprite* sprite, int z);
     /* Sprites use this to start sortChildren, don't call this manually. */
     void reorderBatch(bool reorder);
 
@@ -216,7 +218,7 @@ public:
      * This method should be called only when you are dealing with very big AtlasSprite and when most of the Sprite won't be updated.
      * For example: a tile map (TMXMap) or a label with lots of characters (LabelBMFont).
      */
-    void insertQuadFromSprite(Sprite* sprite, ssize_t index);
+    void insertQuadFromSprite(Sprite* sprite, std::size_t index);
     /* This is the opposite of "addQuadFromSprite.
      * It add the sprite to the children and descendants array, but it doesn't update add it to the texture atlas
      */
@@ -225,7 +227,7 @@ public:
     /** reserves capacity for the batch node.
      If the current capacity is bigger, nothing happens.
      otherwise, a new capacity is allocated */
-    void reserveCapacity(ssize_t newCapacity);
+    void reserveCapacity(std::size_t newCapacity);
     CC_CONSTRUCTOR_ACCESS :
         /**
          * @js ctor
@@ -235,19 +237,19 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~SpriteBatchNode();
+    ~SpriteBatchNode() override;
 
     /** initializes a SpriteBatchNode with a texture2d and capacity of children.
      The capacity will be increased in 33% in runtime if it runs out of space.
      */
-    bool initWithTexture(Texture2D* tex, ssize_t capacity = DEFAULT_CAPACITY);
+    bool initWithTexture(Texture2D* tex, std::size_t capacity = DEFAULT_CAPACITY);
     /** initializes a SpriteBatchNode with a file image (.png, .jpeg, .pvr, etc) and a capacity of children.
      The capacity will be increased in 33% in runtime if it runs out of space.
      The file will be loaded using the TextureMgr.
      * @js init
      * @lua init
      */
-    bool initWithFile(const std::string& fileImage, ssize_t capacity = DEFAULT_CAPACITY);
+    bool initWithFile(const std::string& fileImage, std::size_t capacity = DEFAULT_CAPACITY);
     bool init() override;
 
 protected:
@@ -255,10 +257,10 @@ protected:
      This method should be called only when you are dealing with very big AtlasSprite and when most of the Sprite won't be updated.
      For example: a tile map (TMXMap) or a label with lots of characters (LabelBMFont)
      */
-    void updateQuadFromSprite(Sprite* sprite, ssize_t index);
+    void updateQuadFromSprite(Sprite* sprite, std::size_t index);
 
-    void updateAtlasIndex(Sprite* sprite, ssize_t* curIndex);
-    void swap(ssize_t oldIndex, ssize_t newIndex);
+    void updateAtlasIndex(Sprite* sprite, std::size_t* curIndex);
+    void swap(std::size_t oldIndex, std::size_t newIndex);
     void updateBlendFunc();
 
     TextureAtlas* _textureAtlas;
@@ -276,4 +278,4 @@ protected:
 
 NS_CC_END
 
-#endif // __CC_SPRITE_BATCH_NODE_H__
+#endif // CC_2D_SPRITEBATCHNODE_H

@@ -23,13 +23,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_EGLViewIMPL_DESKTOP_H__
-#define __CC_EGLViewIMPL_DESKTOP_H__
+#ifndef CC_PLATFORM_DESKTOP_GLVIEWIMPLDESKTOP_H
+#define CC_PLATFORM_DESKTOP_GLVIEWIMPLDESKTOP_H
 
-#include "base/CCRef.h"
 #include "glfw3.h"
-#include "platform/CCCommon.h"
-#include "platform/CCGLView.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCCommon.h>
+#include <cocos/platform/CCGLView.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 #    ifndef GLFW_EXPOSE_NATIVE_WIN32
@@ -167,4 +167,4 @@ private:
 
 NS_CC_END // end of namespace   cocos2d
 
-#endif // end of __CC_EGLViewImpl_DESKTOP_H__
+#endif // CC_PLATFORM_DESKTOP_GLVIEWIMPLDESKTOP_H

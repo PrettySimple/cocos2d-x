@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
  Copyright (c) 2015 Chukong Technologies Inc.
 
  http://www.cocos2d-x.org
@@ -22,14 +22,16 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCTEXTURECUBE_H__
-#define __CCTEXTURECUBE_H__
+#ifndef CC_RENDERER_TEXTURECUBE_H
+#define CC_RENDERER_TEXTURECUBE_H
 
-#include "renderer/CCTexture2D.h"
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCTexture2D.h>
 
-#include "base/ccTypes.h"
-#include <string>
-#include <unordered_map>
+#include <iosfwd>
+#include <vector>
 
 NS_CC_BEGIN
 
@@ -88,4 +90,4 @@ private:
 
 NS_CC_END
 
-#endif // __CCTEXTURECUBE_H__
+#endif // CC_RENDERER_TEXTURECUBE_H

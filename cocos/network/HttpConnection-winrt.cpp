@@ -24,11 +24,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 
 #    include "network/HttpConnection-winrt.h"
-#    include "network/HttpCookie.h"
+#    include <cocos/network/HttpCookie.h>
 
 NS_CC_BEGIN
 

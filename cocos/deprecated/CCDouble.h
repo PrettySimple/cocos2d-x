@@ -22,46 +22,47 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCDOUBLE_H__
-#define __CCDOUBLE_H__
+#ifndef CC_DEPRECATED_DOUBLE_H
+#define CC_DEPRECATED_DOUBLE_H
 /// @cond DO_NOT_SHOW
 
-#include "base/CCDataVisitor.h"
-#include "base/CCRef.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
+
+class DataVisitor;
 
 /**
  * @addtogroup data_structures
  * @{
  */
 
-class CC_DLL __Double : public Ref, public Clonable
+class CC_DLL __Double final : public Ref, public Clonable
 {
+    double _value = 0.0;
+
 public:
-    __Double(double v)
+    __Double() = default;
+    __Double(__Double const&) = default;
+    __Double& operator=(__Double const&) = default;
+    __Double(__Double&&) noexcept = default;
+    __Double& operator=(__Double&&) noexcept = default;
+    ~__Double() final;
+
+    inline __Double(double v)
     : _value(v)
     {
     }
-    double getValue() const { return _value; }
+    inline double getValue() const noexcept { return _value; }
 
-    static __Double* create(double v)
-    {
-        __Double* pRet = new (std::nothrow) __Double(v);
-        if (pRet)
-        {
-            pRet->autorelease();
-        }
-        return pRet;
-    }
+    static __Double* create(double v);
 
     /* override functions */
-    virtual void acceptVisitor(DataVisitor& visitor) { visitor.visit(this); }
+    void acceptVisitor(DataVisitor& visitor);
 
-    virtual __Double* clone() const override { return __Double::create(_value); }
-
-private:
-    double _value;
+    __Double* clone() const final;
 };
 
 // end of data_structure group
@@ -70,4 +71,4 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif /* __CCDOUBLE_H__ */
+#endif // CC_DEPRECATED_DOUBLE_H

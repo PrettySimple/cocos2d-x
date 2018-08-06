@@ -25,12 +25,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCTEXTURE_CACHE_H__
-#define __CCTEXTURE_CACHE_H__
+#ifndef CC_RENDERER_TEXTURECACHE_H
+#define CC_RENDERER_TEXTURECACHE_H
 
-#include "base/CCRef.h"
-#include "platform/CCImage.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCImage.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 #include <condition_variable>
 #include <functional>
@@ -318,4 +318,4 @@ private:
 
 NS_CC_END
 
-#endif //__CCTEXTURE_CACHE_H__
+#endif // CC_RENDERER_TEXTURECACHE_H

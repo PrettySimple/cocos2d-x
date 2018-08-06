@@ -24,7 +24,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/allocator/CCAllocatorGlobal.h"
+#include <cocos/base/allocator/CCAllocatorGlobal.h>
+
+#include <cocos/base/ccConfig.h>
 
 #if CC_ENABLE_ALLOCATOR
 

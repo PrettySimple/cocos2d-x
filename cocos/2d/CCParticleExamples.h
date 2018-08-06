@@ -24,10 +24,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CCPARTICLE_EXAMPLE_H__
-#define __CCPARTICLE_EXAMPLE_H__
+#ifndef CC_2D_PARTICLEEXAMPLE_H
+#define CC_2D_PARTICLEEXAMPLE_H
 
-#include "2d/CCParticleSystemQuad.h"
+#include <cocos/2d/CCParticleSystemQuad.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
@@ -66,13 +69,13 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ParticleFire() {}
+    ~ParticleFire() override {}
 
     bool init() override { return initWithTotalParticles(250); }
     virtual bool initWithTotalParticles(int numberOfParticles) override;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleFire);
+    CC_DISALLOW_COPY_AND_ASSIGN(ParticleFire)
 };
 
 /** @class ParticleFireworks
@@ -105,13 +108,13 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ParticleFireworks() {}
+    ~ParticleFireworks() override {}
 
-    bool init() { return initWithTotalParticles(1500); }
-    virtual bool initWithTotalParticles(int numberOfParticles);
+    bool init() override { return initWithTotalParticles(1500); }
+    bool initWithTotalParticles(int numberOfParticles) override;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleFireworks);
+    CC_DISALLOW_COPY_AND_ASSIGN(ParticleFireworks)
 };
 
 /** @class ParticleSun
@@ -144,13 +147,13 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ParticleSun() {}
+    ~ParticleSun() override {}
 
-    bool init() { return initWithTotalParticles(350); }
-    virtual bool initWithTotalParticles(int numberOfParticles);
+    bool init() override { return initWithTotalParticles(350); }
+    bool initWithTotalParticles(int numberOfParticles) override;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSun);
+    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSun)
 };
 
 /** @class ParticleGalaxy
@@ -183,13 +186,13 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ParticleGalaxy() {}
+    ~ParticleGalaxy() override {}
 
-    bool init() { return initWithTotalParticles(200); }
-    virtual bool initWithTotalParticles(int numberOfParticles);
+    bool init() override { return initWithTotalParticles(200); }
+    bool initWithTotalParticles(int numberOfParticles) override;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleGalaxy);
+    CC_DISALLOW_COPY_AND_ASSIGN(ParticleGalaxy)
 };
 
 /** @class ParticleFlower
@@ -222,13 +225,13 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ParticleFlower() {}
+    ~ParticleFlower() override {}
 
-    bool init() { return initWithTotalParticles(250); }
-    virtual bool initWithTotalParticles(int numberOfParticles);
+    bool init() override { return initWithTotalParticles(250); }
+    bool initWithTotalParticles(int numberOfParticles) override;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleFlower);
+    CC_DISALLOW_COPY_AND_ASSIGN(ParticleFlower)
 };
 
 /** @class ParticleMeteor
@@ -261,13 +264,13 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ParticleMeteor() {}
+    ~ParticleMeteor() override {}
 
-    bool init() { return initWithTotalParticles(150); }
-    virtual bool initWithTotalParticles(int numberOfParticles);
+    bool init() override { return initWithTotalParticles(150); }
+    bool initWithTotalParticles(int numberOfParticles) override;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleMeteor);
+    CC_DISALLOW_COPY_AND_ASSIGN(ParticleMeteor)
 };
 
 /** @class ParticleSpiral
@@ -300,13 +303,13 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ParticleSpiral() {}
+    ~ParticleSpiral() override {}
 
-    bool init() { return initWithTotalParticles(500); }
-    virtual bool initWithTotalParticles(int numberOfParticles);
+    bool init() override { return initWithTotalParticles(500); }
+    bool initWithTotalParticles(int numberOfParticles) override;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSpiral);
+    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSpiral)
 };
 
 /** @class ParticleExplosion
@@ -339,13 +342,13 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ParticleExplosion() {}
+    ~ParticleExplosion() override {}
 
-    bool init() { return initWithTotalParticles(700); }
-    virtual bool initWithTotalParticles(int numberOfParticles);
+    bool init() override { return initWithTotalParticles(700); }
+    bool initWithTotalParticles(int numberOfParticles) override;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleExplosion);
+    CC_DISALLOW_COPY_AND_ASSIGN(ParticleExplosion)
 };
 
 /** @class ParticleSmoke
@@ -378,13 +381,13 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ParticleSmoke() {}
+    ~ParticleSmoke() override {}
 
-    bool init() { return initWithTotalParticles(200); }
-    virtual bool initWithTotalParticles(int numberOfParticles);
+    bool init() override { return initWithTotalParticles(200); }
+    bool initWithTotalParticles(int numberOfParticles) override;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSmoke);
+    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSmoke)
 };
 
 /** @class ParticleSnow
@@ -417,13 +420,13 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ParticleSnow() {}
+    ~ParticleSnow() override {}
 
-    bool init() { return initWithTotalParticles(700); }
-    virtual bool initWithTotalParticles(int numberOfParticles);
+    bool init() override { return initWithTotalParticles(700); }
+    bool initWithTotalParticles(int numberOfParticles) override;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSnow);
+    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSnow)
 };
 
 /** @class ParticleRain
@@ -456,13 +459,13 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ParticleRain() {}
+    ~ParticleRain() override {}
 
-    bool init() { return initWithTotalParticles(1000); }
-    virtual bool initWithTotalParticles(int numberOfParticles);
+    bool init() override { return initWithTotalParticles(1000); }
+    bool initWithTotalParticles(int numberOfParticles) override;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleRain);
+    CC_DISALLOW_COPY_AND_ASSIGN(ParticleRain)
 };
 
 // end of _2d group
@@ -470,4 +473,4 @@ private:
 
 NS_CC_END
 
-#endif //__CCPARTICLE_EXAMPLE_H__
+#endif // CC_2D_PARTICLEEXAMPLE_H

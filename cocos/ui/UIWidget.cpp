@@ -22,21 +22,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIWidget.h"
-#include "2d/CCCamera.h"
-#include "2d/CCSprite.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventFocus.h"
-#include "base/CCEventListenerKeyboard.h"
-#include "base/CCEventListenerTouch.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/ccShaders.h"
-#include "ui/UIHelper.h"
-#include "ui/UILayout.h"
-#include "ui/UILayoutComponent.h"
-#include "ui/UIScale9Sprite.h"
+#include <cocos/ui/UIWidget.h>
+
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventFocus.h>
+#include <cocos/base/CCEventKeyboard.h>
+#include <cocos/base/CCEventListenerKeyboard.h>
+#include <cocos/base/CCEventListenerTouch.h>
+#include <cocos/base/CCTouch.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/UILayout.h>
+#include <cocos/ui/UILayoutComponent.h>
+#include <cocos/ui/UIScale9Sprite.h>
+
+#include <cmath>
+#include <limits>
 
 NS_CC_BEGIN
 
@@ -46,14 +53,7 @@ namespace ui
     {
         void enableFocusNavigation(bool flag);
 
-        FocusNavigationController()
-        : _keyboardListener(nullptr)
-        , _firstFocusedWidget(nullptr)
-        , _enableFocusNavigation(false)
-        , _keyboardEventPriority(1)
-        {
-            // no-op
-        }
+        FocusNavigationController() = default;
         ~FocusNavigationController();
 
     protected:
@@ -67,10 +67,10 @@ namespace ui
         friend class Widget;
 
     private:
-        EventListenerKeyboard* _keyboardListener;
-        Widget* _firstFocusedWidget;
-        bool _enableFocusNavigation;
-        const int _keyboardEventPriority;
+        EventListenerKeyboard* _keyboardListener = nullptr;
+        Widget* _firstFocusedWidget = nullptr;
+        const int _keyboardEventPriority = 1;
+        bool _enableFocusNavigation = false;
     };
 
     Widget::FocusNavigationController::~FocusNavigationController() { this->removeKeyboardEventListener(); }
@@ -118,7 +118,7 @@ namespace ui
         if (nullptr == _keyboardListener)
         {
             _keyboardListener = EventListenerKeyboard::create();
-            _keyboardListener->onKeyReleased = CC_CALLBACK_2(Widget::FocusNavigationController::onKeypadKeyPressed, this);
+            _keyboardListener->onKeyReleased = [this](EventKeyboard::KeyCode key_code, Event* evt) { onKeypadKeyPressed(key_code, evt); };
             EventDispatcher* dispatcher = Director::getInstance()->getEventDispatcher();
             dispatcher->addEventListenerWithFixedPriority(_keyboardListener, _keyboardEventPriority);
         }
@@ -203,7 +203,7 @@ namespace ui
         {
             initRenderer();
             setBright(true);
-            onFocusChanged = CC_CALLBACK_2(Widget::onFocusChange, this);
+            onFocusChanged = [this](Widget* a, Widget* b) { onFocusChange(a, b); };
             onNextFocusedWidget = nullptr;
             this->setAnchorPoint(Vec2(0.5f, 0.5f));
 
@@ -243,7 +243,7 @@ namespace ui
         ProtectedNode::onExit();
     }
 
-    void Widget::visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags)
+    void Widget::visit(Renderer* renderer, const Mat4& parentTransform, std::uint32_t parentFlags)
     {
         if (_visible)
         {
@@ -264,7 +264,7 @@ namespace ui
 
     LayoutComponent* Widget::getOrCreateLayoutComponent()
     {
-        auto layoutComponent = this->getComponent(__LAYOUT_COMPONENT_NAME);
+        auto layoutComponent = this->getComponent(LAYOUT_COMPONENT_NAME);
         if (nullptr == layoutComponent)
         {
             LayoutComponent* component = LayoutComponent::create();
@@ -272,7 +272,7 @@ namespace ui
             layoutComponent = component;
         }
 
-        return (LayoutComponent*)layoutComponent;
+        return static_cast<LayoutComponent*>(layoutComponent);
     }
 
     void Widget::setContentSize(const cocos2d::Size& contentSize)
@@ -407,8 +407,6 @@ namespace ui
                 _customSize = cSize;
                 break;
             }
-            default:
-                break;
         }
 
         // update position & position percent
@@ -432,8 +430,6 @@ namespace ui
                 absPos.set(parentSize.width * _positionPercent.x, parentSize.height * _positionPercent.y);
                 break;
             }
-            default:
-                break;
         }
         setPosition(absPos);
     }
@@ -548,10 +544,10 @@ namespace ui
             _touchListener = EventListenerTouchOneByOne::create();
             CC_SAFE_RETAIN(_touchListener);
             _touchListener->setSwallowTouches(true);
-            _touchListener->onTouchBegan = CC_CALLBACK_2(Widget::onTouchBegan, this);
-            _touchListener->onTouchMoved = CC_CALLBACK_2(Widget::onTouchMoved, this);
-            _touchListener->onTouchEnded = CC_CALLBACK_2(Widget::onTouchEnded, this);
-            _touchListener->onTouchCancelled = CC_CALLBACK_2(Widget::onTouchCancelled, this);
+            _touchListener->onTouchBegan = [this](Touch* touch, Event* event) -> bool { return onTouchBegan(touch, event); };
+            _touchListener->onTouchMoved = [this](Touch* touch, Event* event) { return onTouchMoved(touch, event); };
+            _touchListener->onTouchEnded = [this](Touch* touch, Event* event) { return onTouchEnded(touch, event); };
+            _touchListener->onTouchCancelled = [this](Touch* touch, Event* event) { return onTouchCancelled(touch, event); };
             _eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, this);
         }
         else
@@ -613,13 +609,13 @@ namespace ui
         _brightStyle = style;
         switch (_brightStyle)
         {
+            case BrightStyle::NONE:
+                break;
             case BrightStyle::NORMAL:
                 onPressStateChangedToNormal();
                 break;
             case BrightStyle::HIGHLIGHT:
                 onPressStateChangedToPressed();
-                break;
-            default:
                 break;
         }
     }
@@ -1052,13 +1048,19 @@ namespace ui
         {
             return;
         }
-        _layoutParameterDictionary.insert((int)parameter->getLayoutType(), parameter);
+        _layoutParameterDictionary.insert(static_cast<int>(parameter->getLayoutType()), parameter);
         _layoutParameterType = parameter->getLayoutType();
     }
 
-    LayoutParameter* Widget::getLayoutParameter() const { return dynamic_cast<LayoutParameter*>(_layoutParameterDictionary.at((int)_layoutParameterType)); }
+    LayoutParameter* Widget::getLayoutParameter() const
+    {
+        return dynamic_cast<LayoutParameter*>(_layoutParameterDictionary.at(static_cast<int>(_layoutParameterType)));
+    }
 
-    LayoutParameter* Widget::getLayoutParameter(LayoutParameter::Type type) { return dynamic_cast<LayoutParameter*>(_layoutParameterDictionary.at((int)type)); }
+    LayoutParameter* Widget::getLayoutParameter(LayoutParameter::Type type)
+    {
+        return dynamic_cast<LayoutParameter*>(_layoutParameterDictionary.at(static_cast<int>(type)));
+    }
 
     std::string Widget::getDescription() const { return "Widget"; }
 
@@ -1242,7 +1244,7 @@ namespace ui
 
     float Widget::getScale() const
     {
-        CCASSERT(this->getScaleX() == this->getScaleY(), "scaleX should be equal to scaleY.");
+        CCASSERT(std::abs(getScaleX() - getScaleY()) < std::numeric_limits<float>::epsilon(), "scaleX should be equal to scaleY.");
         return this->getScaleX();
     }
 

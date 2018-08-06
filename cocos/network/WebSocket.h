@@ -27,17 +27,17 @@
 
  ****************************************************************************/
 
-#ifndef __CC_WEBSOCKET_H__
-#define __CC_WEBSOCKET_H__
+#ifndef CC_NETWORK_WEBSOCKET_H
+#define CC_NETWORK_WEBSOCKET_H
+
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <atomic>
 #include <memory> // for std::shared_ptr
 #include <mutex>
 #include <string>
 #include <vector>
-
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCStdC.h"
 
 struct lws;
 struct lws_context;
@@ -97,7 +97,7 @@ namespace network
             {
             }
             char* bytes;
-            ssize_t len, issued;
+            std::size_t len, issued;
             bool isBinary;
             void* ext;
         };
@@ -133,7 +133,7 @@ namespace network
         {
         public:
             /** Destructor of Delegate. */
-            virtual ~Delegate() {}
+            virtual ~Delegate();
             /**
              * This function to be called after the client connection complete a handshake with the remote server.
              * This means that the WebSocket connection is ready to send and receive data.
@@ -222,10 +222,10 @@ namespace network
         void onSubThreadEnded();
 
         // The following callback functions are invoked in websocket thread
-        int onSocketCallback(struct lws* wsi, int reason, void* user, void* in, ssize_t len);
+        int onSocketCallback(struct lws* wsi, int reason, void* user, void* in, std::size_t len);
 
         void onClientWritable();
-        void onClientReceivedData(void* in, ssize_t len);
+        void onClientReceivedData(void* in, std::size_t len);
         void onConnectionOpened();
         void onConnectionError();
         void onConnectionClosed();
@@ -259,4 +259,4 @@ NS_CC_END
 // end group
 /// @}
 
-#endif /* defined(__CC_JSB_WEBSOCKET_H__) */
+#endif // CC_NETWORK_WEBSOCKET_H

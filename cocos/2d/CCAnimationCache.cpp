@@ -24,15 +24,31 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "2d/CCAnimationCache.h"
+#include <cocos/2d/CCAnimationCache.h>
 
-#include "2d/CCSpriteFrameCache.h"
-#include "platform/CCFileUtils.h"
+#include <cocos/2d/CCAnimation.h>
+#include <cocos/2d/CCSpriteFrame.h>
+#include <cocos/2d/CCSpriteFrameCache.h>
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/CCMap.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <chrono>
+#include <cstddef>
+#include <new>
+#include <unordered_map>
+#include <utility>
 
 using namespace std::chrono_literals;
 using namespace std;
 
 NS_CC_BEGIN
+
+class SpriteFrame;
 
 AnimationCache* AnimationCache::s_sharedAnimationCache = nullptr;
 
@@ -101,7 +117,7 @@ void AnimationCache::parseVersion1(const ValueMap& animations)
             continue;
         }
 
-        ssize_t frameNameSize = frameNames.size();
+        std::size_t frameNameSize = frameNames.size();
         Vector<AnimationFrame*> frames(frameNameSize);
 
         for (auto& frameName : frameNames)

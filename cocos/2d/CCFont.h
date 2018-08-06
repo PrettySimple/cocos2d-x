@@ -23,12 +23,15 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _CCFont_h_
-#define _CCFont_h_
+#ifndef CC_2D_FONT_H
+#define CC_2D_FONT_H
 
 /// @cond DO_NOT_SHOW
 
-#include "base/ccTypes.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <string>
 
 NS_CC_BEGIN
@@ -38,6 +41,8 @@ class FontAtlas;
 class CC_DLL Font : public Ref
 {
 public:
+    ~Font() override;
+
     virtual FontAtlas* createFontAtlas() = 0;
 
     virtual int* getHorizontalKerningForTextUTF16(const std::u16string& text, int& outNumLetters) const = 0;
@@ -48,4 +53,4 @@ public:
 NS_CC_END
 
 /// @endcond
-#endif
+#endif // CC_2D_FONT_H

@@ -22,10 +22,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIScrollViewBar.h"
-#include "2d/CCSprite.h"
-#include "base/ccUtils.h"
-#include "platform/CCImage.h"
+#include <cocos/ui/UIScrollViewBar.h>
+
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCProtectedNode.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/base/ccUtils.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/UILayout.h>
+#include <cocos/ui/UIScrollView.h>
+
+#include <algorithm>
+#include <cmath>
+#include <new>
 
 NS_CC_BEGIN
 
@@ -45,8 +58,7 @@ namespace ui
     static const float DEFAULT_SCROLLBAR_OPACITY = 0.4f;
 
     ScrollViewBar::ScrollViewBar(ScrollView* parent, ScrollView::Direction direction)
-    : _parent(parent)
-    , _direction(direction)
+    : _direction(direction)
     , _upperHalfCircle(nullptr)
     , _lowerHalfCircle(nullptr)
     , _body(nullptr)
@@ -233,7 +245,7 @@ namespace ui
             ProtectedNode::setOpacity(_opacity);
         }
 
-        Layout* innerContainer = _parent->getInnerContainer();
+        Layout* innerContainer = static_cast<ScrollView*>(_parent)->getInnerContainer();
 
         float innerContainerMeasure = 0;
         float scrollViewMeasure = 0;

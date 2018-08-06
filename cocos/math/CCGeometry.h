@@ -23,12 +23,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __MATH_CCGEOMETRY_H__
-#define __MATH_CCGEOMETRY_H__
+#ifndef CC_MATH_GEOMETRY_H
+#define CC_MATH_GEOMETRY_H
 
-#include "base/ccMacros.h"
-#include "math/CCMath.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <cmath>
+#include <limits>
+#include <type_traits>
 
 /**
  * @addtogroup base
@@ -37,88 +43,182 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-class CC_DLL Size
+class CC_DLL Size final
 {
 public:
-    /**Width of the Size.*/
-    float width = 0.f;
-    /**Height of the Size.*/
-    float height = 0.f;
+#ifdef __ARM_NEON
+    using f32x2_t = __attribute__((neon_vector_type(2))) float;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    using f32x2_t = float[2];
+#else
+    using f32x2_t = __attribute__((ext_vector_type(2))) float;
+#endif
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu-anonymous-struct"
+#pragma clang diagnostic ignored "-Wnested-anon-types"
+    union
+    {
+        f32x2_t v = {0.f, 0.f};
+        struct
+        {
+            float width;
+            float height;
+        };
+    };
+#pragma clang diagnostic pop
 
 public:
     /**Conversion from Vec2 to Size.*/
-    operator Vec2() const { return Vec2(width, height); }
+    inline operator Vec2() const noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return Vec2(width, height);
+#else
+        return Vec2(f32x2_t{width, height});
+#endif
+    }
 
 public:
-    /**
-    @{
-    Constructor.
-    @param width Width of the size.
-    @param height Height of the size.
-    @param other Copy constructor.
-    @param point Conversion from a point.
-     */
     Size() = default;
-    constexpr Size(float w, float h)
+    Size(Size const&) = default;
+    Size& operator=(Size const&) = default;
+    Size(Size&&) noexcept = default;
+    Size& operator=(Size&&) noexcept = default;
+    ~Size() = default;
+
+    /**
+     * Constructs a new vector initialized to the specified values.
+     *
+     * @param xx The x coordinate.
+     * @param yy The y coordinate.
+     */
+    constexpr Size(float w, float h) noexcept
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
     : width(w)
     , height(h)
+#else
+    : v
+    {
+        w, h
+    }
+#endif
     {
     }
-    constexpr Size(const Size& other)
-    : width(other.width)
-    , height(other.height)
+
+    constexpr Size(Vec2 const& other) noexcept
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    : width(other.x)
+    , height(other.y)
+#else
+    : v(other.v)
+#endif
     {
     }
-    explicit Size(const Vec2& point);
-    /**@}*/
+
+    constexpr Size(Vec2&& other) noexcept
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    : width(other.x)
+    , height(other.y)
+#else
+    : v(std::move(other.v))
+#endif
+    {
+    }
+
+#if CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN
+    constexpr Size(f32x2_t&& other) noexcept
+    : v(std::move(other))
+    {
+    }
+#endif
 
     /**
      * @js NA
      * @lua NA
      */
-    Size& operator=(const Size& other);
+    inline Size operator+(const Size& other) const noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return Size(width + other.width, height + other.height);
+#else
+        return Size(v + other.v);
+#endif
+    }
     /**
      * @js NA
      * @lua NA
      */
-    Size& operator=(const Vec2& point);
+    inline Size operator-(const Size& other) const noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return Size(width - other.width, height - other.height);
+#else
+        return Size(v - other.v);
+#endif
+    }
     /**
      * @js NA
      * @lua NA
      */
-    Size operator+(const Size& right) const;
+    inline Size operator*(float a) const noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return Size(width * a, height * a);
+#else
+        return Size(v * a);
+#endif
+    }
     /**
      * @js NA
      * @lua NA
      */
-    Size operator-(const Size& right) const;
-    /**
-     * @js NA
-     * @lua NA
-     */
-    Size operator*(float a) const;
-    /**
-     * @js NA
-     * @lua NA
-     */
-    Size operator/(float a) const;
+    inline Size operator/(float a) const noexcept
+    {
+        CCASSERT(std::abs(a) >= std::numeric_limits<float>::epsilon(), "CCSize division by 0.");
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return Size(width / a, height / a);
+#else
+        return Size(v / a);
+#endif
+    }
     /**
     Set the width and height of Size.
      * @js NA
      * @lua NA
      */
-    void setSize(float width, float height);
+    inline void setSize(float w, float h) noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        width = w;
+        height = h;
+#else
+        v = {w, h};
+#endif
+    }
     /**
     Check if two size is the same.
      * @js NA
      */
-    bool equals(const Size& target) const;
+    inline bool equals(const Size& other) const noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+        return std::abs(width - other.width) < epsi && std::abs(height - other.height) < epsi;
+#else
+#    pragma clang diagnostic push
+#    pragma clang diagnostic ignored "-Wfloat-equal"
+        auto const eq = (v == other.v);
+#    pragma clang diagnostic pop
+        return eq[0] == -1 && eq[1] == -1;
+#endif
+    }
     /**Size(0,0).*/
     static const Size ZERO;
 };
 
 /**Rectangle area.*/
-class CC_DLL Rect
+class CC_DLL Rect final
 {
 public:
     /**Low left point of rect.*/
@@ -131,7 +231,13 @@ public:
     Constructor an empty Rect.
      * @js NA
      */
-    Rect();
+    Rect() = default;
+    Rect(Rect const&) = default;
+    Rect& operator=(Rect const&) = default;
+    Rect(Rect&&) noexcept = default;
+    Rect& operator=(Rect&&) noexcept = default;
+    ~Rect() = default;
+
     /**
     Constructor a rect.
      * @js NA
@@ -146,17 +252,6 @@ public:
      * @js NA
      */
     Rect(const Vec2& pos, const Size& dimension);
-    /**
-    Copy constructor.
-     * @js NA
-     * @lua NA
-     */
-    Rect(const Rect& other);
-    /**
-     * @js NA
-     * @lua NA
-     */
-    Rect& operator=(const Rect& other);
     /**
     Set the x, y, width and height of Rect.
      * @js NA
@@ -230,4 +325,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif // __MATH_CCGEOMETRY_H__
+#endif // CC_MATH_GEOMETRY_H

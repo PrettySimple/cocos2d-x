@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__CheckBoxReader__
-#define __TestCpp__CheckBoxReader__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_CHECKBOXREADER_CHECKBOXREADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_CHECKBOXREADER_CHECKBOXREADER_H
 
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/WidgetReader/WidgetReader.h"
@@ -52,4 +52,4 @@ namespace cocostudio
     };
 } // namespace cocostudio
 
-#endif /* defined(__TestCpp__CheckBoxReader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_CHECKBOXREADER_CHECKBOXREADER_H

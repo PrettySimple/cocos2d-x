@@ -23,19 +23,19 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_ALLOCATOR_STRATEGY_POOL_H
-#define CC_ALLOCATOR_STRATEGY_POOL_H
+#ifndef CC_BASE_ALLOCATOR_ALLOCATORSTRATEGYPOOL_H
+#define CC_BASE_ALLOCATOR_ALLOCATORSTRATEGYPOOL_H
 /// @cond DO_NOT_SHOW
 
 #include <sstream>
 #include <typeinfo>
 #include <vector>
 
-#include "base/CCConfiguration.h"
-#include "base/allocator/CCAllocatorDiagnostics.h"
-#include "base/allocator/CCAllocatorGlobal.h"
-#include "base/allocator/CCAllocatorMacros.h"
-#include "base/allocator/CCAllocatorStrategyFixedBlock.h"
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/allocator/CCAllocatorDiagnostics.h>
+#include <cocos/base/allocator/CCAllocatorGlobal.h>
+#include <cocos/base/allocator/CCAllocatorMacros.h>
+#include <cocos/base/allocator/CCAllocatorStrategyFixedBlock.h>
 
 NS_CC_BEGIN
 NS_CC_ALLOCATOR_BEGIN
@@ -156,4 +156,4 @@ NS_CC_ALLOCATOR_END
 NS_CC_END
 
 /// @endcond
-#endif // CC_ALLOCATOR_STRATEGY_POOL_H
+#endif // CC_BASE_ALLOCATOR_ALLOCATORSTRATEGYPOOL_H

@@ -25,13 +25,13 @@
  *
  */
 
-#ifndef __MISCNODE_CCCLIPPING_NODE_H__
-#define __MISCNODE_CCCLIPPING_NODE_H__
+#ifndef CC_2D_CLIPPINGNODE_H
+#define CC_2D_CLIPPINGNODE_H
 
-#include "2d/CCNode.h"
-#include "platform/CCGL.h"
-#include "renderer/CCCustomCommand.h"
-#include "renderer/CCGroupCommand.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/renderer/CCCustomCommand.h>
+#include <cocos/renderer/CCGroupCommand.h>
 
 NS_CC_BEGIN
 
@@ -119,22 +119,22 @@ public:
     /**
      * @lua NA
      */
-    virtual void onEnter() override;
+    void onEnter() override;
     /**
      * @lua NA
      */
-    virtual void onEnterTransitionDidFinish() override;
+    void onEnterTransitionDidFinish() override;
     /**
      * @lua NA
      */
-    virtual void onExitTransitionDidStart() override;
+    void onExitTransitionDidStart() override;
     /**
      * @lua NA
      */
-    virtual void onExit() override;
-    virtual void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
+    void onExit() override;
+    void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
 
-    virtual void setCameraMask(unsigned short mask, bool applyChildren = true) override;
+    void setCameraMask(unsigned short mask, bool applyChildren = true) override;
 
     CC_CONSTRUCTOR_ACCESS : ClippingNode();
 
@@ -142,11 +142,11 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ClippingNode();
+    ~ClippingNode() override;
 
     /** Initializes a clipping node without a stencil.
      */
-    virtual bool init() override;
+    bool init() override;
 
     /** Initializes a clipping node with an other node as its stencil.
      The stencil node will be retained, and its parent will be set to this clipping node.
@@ -164,9 +164,9 @@ protected:
     CustomCommand _afterVisitCmd;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ClippingNode);
+    CC_DISALLOW_COPY_AND_ASSIGN(ClippingNode)
 };
 /** @} */
 NS_CC_END
 
-#endif // __MISCNODE_CCCLIPPING_NODE_H__
+#endif // CC_2D_CLIPPINGNODE_H

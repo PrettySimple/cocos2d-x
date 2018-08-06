@@ -24,12 +24,12 @@ THE SOFTWARE.
 
 #include "cocostudio/CCActionNode.h"
 
-#include "base/ccUtils.h"
 #include "cocostudio/CCActionFrameEasing.h"
 #include "cocostudio/CocoLoader.h"
-#include "ui/UIHelper.h"
-#include "ui/UILayout.h"
-#include "ui/UIWidget.h"
+#include <cocos/base/ccUtils.h>
+#include <cocos/ui/UIHelper.h>
+#include <cocos/ui/UILayout.h>
+#include <cocos/ui/UIWidget.h>
 
 using namespace cocos2d;
 using namespace std::chrono_literals;
@@ -575,7 +575,7 @@ namespace cocostudio
                 continue;
             }
             bFindFrame = true;
-            ssize_t lastInex = cArray->size() - 1;
+            std::size_t lastInex = cArray->size() - 1;
             auto frame = cArray->at(lastInex);
             int iFrameIndex = frame->getFrameIndex();
 
@@ -603,7 +603,7 @@ namespace cocostudio
             {
                 continue;
             }
-            ssize_t frameCount = cArray->size();
+            std::size_t frameCount = cArray->size();
             for (int i = 0; i < frameCount; i++)
             {
                 auto frame = cArray->at(i);

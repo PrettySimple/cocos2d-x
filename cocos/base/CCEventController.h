@@ -23,11 +23,11 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__EventController__
-#define __cocos2d_libs__EventController__
+#ifndef CC_BASE_EVENTCONTROLLER_H
+#define CC_BASE_EVENTCONTROLLER_H
 
-#include "base/CCEvent.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCEvent.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 /**
  * @addtogroup base
@@ -38,16 +38,17 @@ NS_CC_BEGIN
 
 /// @cond EventController
 class Controller;
-class EventListenerController;
 
 /** @class EventController
  * @brief Controller event.
  */
 class EventController : public Event
 {
+    friend class EventListenerController;
+
 public:
     /** ControllerEventType Controller event type.*/
-    enum class ControllerEventType
+    enum struct ControllerEventType : std::uint8_t
     {
         CONNECTION,
         BUTTON_STATUS_CHANGED,
@@ -70,39 +71,38 @@ public:
      * @return An autoreleased EventController object.
      */
     EventController(ControllerEventType type, Controller* controller, bool isConnected);
+    ~EventController() override;
 
     /** Gets the event type of the controller.
      *
      * @return The event type of the controller.
      */
-    ControllerEventType getControllerEventType() const { return _controllerEventType; }
-    Controller* getController() const { return _controller; }
+    inline ControllerEventType getControllerEventType() const noexcept { return _controllerEventType; }
+    Controller* getController() const noexcept { return _controller; }
 
     /** Gets the key code of the controller.
      *
      * @return The key code of the controller.
      */
-    int getKeyCode() const { return _keyCode; }
-    void setKeyCode(int keyCode) { _keyCode = keyCode; }
+    inline int getKeyCode() const noexcept { return _keyCode; }
+    void setKeyCode(int keyCode) noexcept { _keyCode = keyCode; }
 
     /** Sets the connect status.
      *
      * @param True if it's connected.
      */
-    void setConnectStatus(bool isConnected) { _isConnected = isConnected; }
+    void setConnectStatus(bool isConnected) noexcept { _isConnected = isConnected; }
     /** Gets the connect status.
      *
      * @return True if it's connected.
      */
-    bool isConnected() const { return _isConnected; }
+    inline bool isConnected() const noexcept { return _isConnected; }
 
 protected:
     ControllerEventType _controllerEventType;
     Controller* _controller;
     int _keyCode;
     bool _isConnected;
-
-    friend class EventListenerController;
 };
 /// @endcond EventController
 NS_CC_END
@@ -110,4 +110,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif /* defined(__cocos2d_libs__EventController__) */
+#endif // CC_BASE_EVENTCONTROLLER_H

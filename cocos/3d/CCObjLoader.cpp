@@ -24,21 +24,21 @@
 // version 0.9.0 : Initial
 //
 
+#include <cocos/3d/CCObjLoader.h>
+
+#include <cocos/base/ccUtils.h>
+#include <cocos/platform/CCFileUtils.h>
+
 #include <cassert>
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
 #include <cstring>
-
-#include "base/ccUtils.h"
-#include "platform/CCFileUtils.h"
 #include <fstream>
 #include <map>
 #include <sstream>
 #include <string>
 #include <vector>
-
-#include "3d/CCObjLoader.h"
 
 namespace tinyobj
 {
@@ -47,15 +47,19 @@ namespace tinyobj
     struct vertex_index
     {
         int v_idx, vt_idx, vn_idx;
-        vertex_index(){};
+        vertex_index() {}
         vertex_index(int idx)
         : v_idx(idx)
         , vt_idx(idx)
-        , vn_idx(idx){};
+        , vn_idx(idx)
+        {
+        }
         vertex_index(int vidx, int vtidx, int vnidx)
         : v_idx(vidx)
         , vt_idx(vtidx)
-        , vn_idx(vnidx){};
+        , vn_idx(vnidx)
+        {
+        }
     };
     // for std::map
     static inline bool operator<(const vertex_index& a, const vertex_index& b)
@@ -338,7 +342,7 @@ namespace tinyobj
             return it->second;
         }
 
-        assert(in_positions.size() > (unsigned int)(3 * i.v_idx + 2));
+        assert(in_positions.size() > static_cast<unsigned int>(3 * i.v_idx + 2));
 
         positions.push_back(in_positions[3 * i.v_idx + 0]);
         positions.push_back(in_positions[3 * i.v_idx + 1]);
@@ -668,6 +672,13 @@ namespace tinyobj
         materials.push_back(material);
 
         return err.str();
+    }
+
+    MaterialReader::~MaterialReader() {}
+
+    MaterialFileReader::MaterialFileReader(const std::string& mtl_basepath)
+    : m_mtlBasePath(mtl_basepath)
+    {
     }
 
     std::string MaterialFileReader::operator()(const std::string& matId, std::vector<material_t>& materials, std::map<std::string, int>& matMap)

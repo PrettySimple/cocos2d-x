@@ -25,19 +25,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __ACTION_CCINTERVAL_ACTION_H__
-#define __ACTION_CCINTERVAL_ACTION_H__
+#ifndef CC_2D_ACTIONINTERVAL_H
+#define CC_2D_ACTIONINTERVAL_H
 
-#include "2d/CCAction.h"
-#include "2d/CCAnimation.h"
-#include "base/CCProtocols.h"
-#include "base/CCVector.h"
-#include "base/ccMacros.h"
+#include <cocos/2d/CCAction.h>
+#include <cocos/2d/CCAnimation.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <chrono>
-#include <cstdint>
+#include <functional>
 #include <initializer_list>
-#include <unordered_set>
 #include <vector>
 
 NS_CC_BEGIN
@@ -185,18 +191,18 @@ public:
     //
     // Overrides
     //
-    virtual Repeat* clone() const override;
-    virtual Repeat* reverse() const override;
-    virtual void startWithTarget(Node* target) override;
-    virtual void stop(void) override;
+    Repeat* clone() const override;
+    Repeat* reverse() const override;
+    void startWithTarget(Node* target) override;
+    void stop() override;
     /**
      * @param dt In seconds.
      */
-    virtual void update(float dt) override;
-    virtual bool isDone(void) const override;
+    void update(float dt) override;
+    bool isDone() const override;
 
     CC_CONSTRUCTOR_ACCESS : Repeat() {}
-    virtual ~Repeat();
+    ~Repeat() override;
 
     /** initializes a Repeat action. Times is an unsigned integer between 1 and pow(2,30) */
     bool initWithAction(FiniteTimeAction* pAction, unsigned int times);
@@ -210,7 +216,7 @@ protected:
     FiniteTimeAction* _innerAction;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Repeat);
+    CC_DISALLOW_COPY_AND_ASSIGN(Repeat)
 };
 
 /** @class RepeatForever
@@ -315,16 +321,16 @@ public:
     //
     // Overrides
     //
-    virtual RotateTo* clone() const override;
-    virtual RotateTo* reverse() const override;
-    virtual void startWithTarget(Node* target) override;
+    RotateTo* clone() const override;
+    RotateTo* reverse() const override;
+    void startWithTarget(Node* target) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : RotateTo();
-    virtual ~RotateTo() {}
+    ~RotateTo() override {}
 
     /**
      * initializes the action
@@ -352,7 +358,7 @@ protected:
     Vec3 _diffAngle;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(RotateTo);
+    CC_DISALLOW_COPY_AND_ASSIGN(RotateTo)
 };
 
 /** @class RotateBy
@@ -390,16 +396,16 @@ public:
     //
     // Override
     //
-    virtual RotateBy* clone() const override;
-    virtual RotateBy* reverse(void) const override;
-    virtual void startWithTarget(Node* target) override;
+    RotateBy* clone() const override;
+    RotateBy* reverse(void) const override;
+    void startWithTarget(Node* target) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : RotateBy();
-    virtual ~RotateBy() {}
+    ~RotateBy() override {}
 
     /** initializes the action */
     bool initWithDuration(std::chrono::milliseconds duration, float deltaAngle);
@@ -417,7 +423,7 @@ protected:
     Vec3 _startAngle;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(RotateBy);
+    CC_DISALLOW_COPY_AND_ASSIGN(RotateBy)
 };
 
 /** @class MoveBy
@@ -539,16 +545,16 @@ public:
     //
     // Overrides
     //
-    virtual SkewTo* clone() const override;
-    virtual SkewTo* reverse(void) const override;
-    virtual void startWithTarget(Node* target) override;
+    SkewTo* clone() const override;
+    SkewTo* reverse(void) const override;
+    void startWithTarget(Node* target) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : SkewTo();
-    virtual ~SkewTo() {}
+    ~SkewTo() override {}
     /**
      * @param t In seconds.
      */
@@ -565,7 +571,7 @@ protected:
     float _deltaY;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(SkewTo);
+    CC_DISALLOW_COPY_AND_ASSIGN(SkewTo)
 };
 
 /** @class SkewBy
@@ -587,19 +593,19 @@ public:
     //
     // Overrides
     //
-    virtual void startWithTarget(Node* target) override;
-    virtual SkewBy* clone() const override;
-    virtual SkewBy* reverse(void) const override;
+    void startWithTarget(Node* target) override;
+    SkewBy* clone() const override;
+    SkewBy* reverse(void) const override;
 
     CC_CONSTRUCTOR_ACCESS : SkewBy() {}
-    virtual ~SkewBy() {}
+    ~SkewBy() override {}
     /**
      * @param t In seconds.
      */
     bool initWithDuration(std::chrono::milliseconds t, float sx, float sy);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(SkewBy);
+    CC_DISALLOW_COPY_AND_ASSIGN(SkewBy)
 };
 
 /** @class ResizeTo
@@ -621,12 +627,12 @@ public:
     //
     // Overrides
     //
-    virtual ResizeTo* clone() const override;
+    ResizeTo* clone() const override;
     void startWithTarget(cocos2d::Node* target) override;
     void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : ResizeTo() {}
-    virtual ~ResizeTo() {}
+    ~ResizeTo() override {}
 
     /**
      * initializes the action
@@ -641,7 +647,7 @@ protected:
     cocos2d::Size _sizeDelta;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ResizeTo);
+    CC_DISALLOW_COPY_AND_ASSIGN(ResizeTo)
 };
 
 /** @class ResizeBy
@@ -662,16 +668,16 @@ public:
     //
     // Overrides
     //
-    virtual ResizeBy* clone() const override;
-    virtual ResizeBy* reverse(void) const override;
-    virtual void startWithTarget(Node* target) override;
+    ResizeBy* clone() const override;
+    ResizeBy* reverse(void) const override;
+    void startWithTarget(Node* target) override;
     /**
      * @param time in seconds
      */
-    virtual void update(float time) override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : ResizeBy() {}
-    virtual ~ResizeBy() {}
+    ~ResizeBy() override {}
 
     /** initializes the action */
     bool initWithDuration(std::chrono::milliseconds duration, const cocos2d::Size& deltaSize);
@@ -682,7 +688,7 @@ protected:
     cocos2d::Size _previousSize;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ResizeBy);
+    CC_DISALLOW_COPY_AND_ASSIGN(ResizeBy)
 };
 
 /** @class JumpBy
@@ -704,16 +710,16 @@ public:
     //
     // Overrides
     //
-    virtual JumpBy* clone() const override;
-    virtual JumpBy* reverse(void) const override;
-    virtual void startWithTarget(Node* target) override;
+    JumpBy* clone() const override;
+    JumpBy* reverse(void) const override;
+    void startWithTarget(Node* target) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : JumpBy() {}
-    virtual ~JumpBy() {}
+    ~JumpBy() override {}
 
     /**
      * initializes the action
@@ -729,7 +735,7 @@ protected:
     Vec2 _previousPos;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(JumpBy);
+    CC_DISALLOW_COPY_AND_ASSIGN(JumpBy)
 };
 
 /** @class JumpTo
@@ -751,12 +757,12 @@ public:
     //
     // Override
     //
-    virtual void startWithTarget(Node* target) override;
-    virtual JumpTo* clone() const override;
-    virtual JumpTo* reverse(void) const override;
+    void startWithTarget(Node* target) override;
+    JumpTo* clone() const override;
+    JumpTo* reverse(void) const override;
 
     CC_CONSTRUCTOR_ACCESS : JumpTo() {}
-    virtual ~JumpTo() {}
+    ~JumpTo() override {}
 
     /**
      * initializes the action
@@ -768,7 +774,7 @@ protected:
     Vec2 _endPosition;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(JumpTo);
+    CC_DISALLOW_COPY_AND_ASSIGN(JumpTo)
 };
 
 /** @struct Bezier configuration structure
@@ -804,16 +810,16 @@ public:
     //
     // Overrides
     //
-    virtual BezierBy* clone() const override;
-    virtual BezierBy* reverse(void) const override;
-    virtual void startWithTarget(Node* target) override;
+    BezierBy* clone() const override;
+    BezierBy* reverse(void) const override;
+    void startWithTarget(Node* target) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : BezierBy() {}
-    virtual ~BezierBy() {}
+    ~BezierBy() override {}
 
     /**
      * initializes the action with a duration and a bezier configuration
@@ -827,7 +833,7 @@ protected:
     Vec2 _previousPosition;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(BezierBy);
+    CC_DISALLOW_COPY_AND_ASSIGN(BezierBy)
 };
 
 /** @class BezierTo
@@ -852,12 +858,12 @@ public:
     //
     // Overrides
     //
-    virtual void startWithTarget(Node* target) override;
-    virtual BezierTo* clone() const override;
-    virtual BezierTo* reverse(void) const override;
+    void startWithTarget(Node* target) override;
+    BezierTo* clone() const override;
+    BezierTo* reverse(void) const override;
 
     CC_CONSTRUCTOR_ACCESS : BezierTo() {}
-    virtual ~BezierTo() {}
+    ~BezierTo() override {}
     /**
      * @param t In seconds.
      */
@@ -867,7 +873,7 @@ protected:
     ccBezierConfig _toConfig;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(BezierTo);
+    CC_DISALLOW_COPY_AND_ASSIGN(BezierTo)
 };
 
 /** @class ScaleTo
@@ -908,16 +914,16 @@ public:
     //
     // Overrides
     //
-    virtual ScaleTo* clone() const override;
-    virtual ScaleTo* reverse(void) const override;
-    virtual void startWithTarget(Node* target) override;
+    ScaleTo* clone() const override;
+    ScaleTo* reverse(void) const override;
+    void startWithTarget(Node* target) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : ScaleTo() {}
-    virtual ~ScaleTo() {}
+    ~ScaleTo() override {}
 
     /**
      * initializes the action with the same scale factor for X and Y
@@ -950,7 +956,7 @@ protected:
     float _deltaZ;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ScaleTo);
+    CC_DISALLOW_COPY_AND_ASSIGN(ScaleTo)
 };
 
 /** @class ScaleBy
@@ -990,15 +996,15 @@ public:
     //
     // Overrides
     //
-    virtual void startWithTarget(Node* target) override;
-    virtual ScaleBy* clone() const override;
-    virtual ScaleBy* reverse(void) const override;
+    void startWithTarget(Node* target) override;
+    ScaleBy* clone() const override;
+    ScaleBy* reverse(void) const override;
 
     CC_CONSTRUCTOR_ACCESS : ScaleBy() {}
-    virtual ~ScaleBy() {}
+    ~ScaleBy() override {}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ScaleBy);
+    CC_DISALLOW_COPY_AND_ASSIGN(ScaleBy)
 };
 
 /** @class Blink
@@ -1018,17 +1024,17 @@ public:
     //
     // Overrides
     //
-    virtual Blink* clone() const override;
-    virtual Blink* reverse() const override;
+    Blink* clone() const override;
+    Blink* reverse() const override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
-    virtual void startWithTarget(Node* target) override;
-    virtual void stop() override;
+    void update(float time) override;
+    void startWithTarget(Node* target) override;
+    void stop() override;
 
     CC_CONSTRUCTOR_ACCESS : Blink() {}
-    virtual ~Blink() {}
+    ~Blink() override {}
 
     /**
      * initializes the action
@@ -1041,7 +1047,7 @@ protected:
     bool _originalState;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Blink);
+    CC_DISALLOW_COPY_AND_ASSIGN(Blink)
 };
 
 /** @class FadeTo
@@ -1062,16 +1068,16 @@ public:
     //
     // Overrides
     //
-    virtual FadeTo* clone() const override;
-    virtual FadeTo* reverse(void) const override;
-    virtual void startWithTarget(Node* target) override;
+    FadeTo* clone() const override;
+    FadeTo* reverse(void) const override;
+    void startWithTarget(Node* target) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : FadeTo() {}
-    virtual ~FadeTo() {}
+    ~FadeTo() override {}
 
     /**
      * initializes the action with duration and opacity
@@ -1086,7 +1092,7 @@ protected:
     friend class FadeIn;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FadeTo);
+    CC_DISALLOW_COPY_AND_ASSIGN(FadeTo)
 };
 
 /** @class FadeIn
@@ -1106,9 +1112,9 @@ public:
     //
     // Overrides
     //
-    virtual void startWithTarget(Node* target) override;
-    virtual FadeIn* clone() const override;
-    virtual FadeTo* reverse(void) const override;
+    void startWithTarget(Node* target) override;
+    FadeIn* clone() const override;
+    FadeTo* reverse(void) const override;
 
     /**
      * @js NA
@@ -1119,10 +1125,10 @@ public:
     : _reverseAction()
     {
     }
-    virtual ~FadeIn() {}
+    ~FadeIn() override {}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FadeIn);
+    CC_DISALLOW_COPY_AND_ASSIGN(FadeIn)
     FadeTo* _reverseAction;
 };
 
@@ -1142,9 +1148,9 @@ public:
     //
     // Overrides
     //
-    virtual void startWithTarget(Node* target) override;
-    virtual FadeOut* clone() const override;
-    virtual FadeTo* reverse(void) const override;
+    void startWithTarget(Node* target) override;
+    FadeOut* clone() const override;
+    FadeTo* reverse(void) const override;
 
     /**
      * @js NA
@@ -1155,10 +1161,10 @@ public:
     : _reverseAction()
     {
     }
-    virtual ~FadeOut() {}
+    ~FadeOut() override {}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FadeOut);
+    CC_DISALLOW_COPY_AND_ASSIGN(FadeOut)
     FadeTo* _reverseAction;
 };
 
@@ -1190,16 +1196,16 @@ public:
     //
     // Overrides
     //
-    virtual TintTo* clone() const override;
-    virtual TintTo* reverse(void) const override;
-    virtual void startWithTarget(Node* target) override;
+    TintTo* clone() const override;
+    TintTo* reverse(void) const override;
+    void startWithTarget(Node* target) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : TintTo() {}
-    virtual ~TintTo() {}
+    ~TintTo() override {}
 
     /** initializes the action with duration and color */
     bool initWithDuration(std::chrono::milliseconds duration, GLubyte red, GLubyte green, GLubyte blue);
@@ -1209,7 +1215,7 @@ protected:
     Color3B _from;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TintTo);
+    CC_DISALLOW_COPY_AND_ASSIGN(TintTo)
 };
 
 /** @class TintBy
@@ -1232,16 +1238,16 @@ public:
     //
     // Overrides
     //
-    virtual TintBy* clone() const override;
-    virtual TintBy* reverse() const override;
-    virtual void startWithTarget(Node* target) override;
+    TintBy* clone() const override;
+    TintBy* reverse() const override;
+    void startWithTarget(Node* target) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : TintBy() {}
-    virtual ~TintBy() {}
+    ~TintBy() override {}
 
     /** initializes the action with duration and color */
     bool initWithDuration(std::chrono::milliseconds duration, GLshort deltaRed, GLshort deltaGreen, GLshort deltaBlue);
@@ -1256,7 +1262,7 @@ protected:
     GLshort _fromB;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TintBy);
+    CC_DISALLOW_COPY_AND_ASSIGN(TintBy)
 };
 
 /** @class DelayTime
@@ -1278,15 +1284,15 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
-    virtual DelayTime* reverse() const override;
-    virtual DelayTime* clone() const override;
+    void update(float time) override;
+    DelayTime* reverse() const override;
+    DelayTime* clone() const override;
 
     CC_CONSTRUCTOR_ACCESS : DelayTime() {}
-    virtual ~DelayTime() {}
+    ~DelayTime() override {}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(DelayTime);
+    CC_DISALLOW_COPY_AND_ASSIGN(DelayTime)
 };
 
 /** @class ReverseTime
@@ -1310,17 +1316,17 @@ public:
     //
     // Overrides
     //
-    virtual ReverseTime* reverse() const override;
-    virtual ReverseTime* clone() const override;
-    virtual void startWithTarget(Node* target) override;
-    virtual void stop(void) override;
+    ReverseTime* reverse() const override;
+    ReverseTime* clone() const override;
+    void startWithTarget(Node* target) override;
+    void stop(void) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : ReverseTime();
-    virtual ~ReverseTime();
+    ~ReverseTime() override;
 
     /** initializes the action */
     bool initWithAction(FiniteTimeAction* action);
@@ -1329,10 +1335,9 @@ protected:
     FiniteTimeAction* _other;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ReverseTime);
+    CC_DISALLOW_COPY_AND_ASSIGN(ReverseTime)
 };
 
-class Texture2D;
 /** @class Animate
  * @brief Animates a sprite given the name of an Animation.
  */
@@ -1365,34 +1370,34 @@ public:
     //
     // Overrides
     //
-    virtual Animate* clone() const override;
-    virtual Animate* reverse() const override;
-    virtual void startWithTarget(Node* target) override;
-    virtual void stop(void) override;
+    Animate* clone() const override;
+    Animate* reverse() const override;
+    void startWithTarget(Node* target) override;
+    void stop(void) override;
     /**
      * @param t In seconds.
      */
-    virtual void update(float t) override;
+    void update(float t) override;
 
-    CC_CONSTRUCTOR_ACCESS : Animate();
-    virtual ~Animate();
+    CC_CONSTRUCTOR_ACCESS : Animate() = default;
+    ~Animate() override;
 
     /** initializes the action with an Animation and will restore the original frame when the animation is over */
     bool initWithAnimation(Animation* animation);
 
 protected:
-    std::vector<float>* _splitTimes;
-    int _nextFrame;
-    SpriteFrame* _origFrame;
-    int _currFrameIndex;
-    unsigned int _executedLoops;
-    Animation* _animation;
+    std::vector<float> _splitTimes;
+    int _nextFrame = 0;
+    SpriteFrame* _origFrame = nullptr;
+    int _currFrameIndex = 0;
+    unsigned int _executedLoops = 0;
+    Animation* _animation = nullptr;
 
-    EventCustom* _frameDisplayedEvent;
+    EventCustom* _frameDisplayedEvent = nullptr;
     AnimationFrame::DisplayedEventInfo _frameDisplayedEventInfo;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Animate);
+    CC_DISALLOW_COPY_AND_ASSIGN(Animate)
 };
 
 /** @class TargetedAction
@@ -1424,20 +1429,20 @@ public:
     //
     // Overrides
     //
-    virtual TargetedAction* clone() const override;
-    virtual TargetedAction* reverse() const override;
-    virtual void startWithTarget(Node* target) override;
-    virtual void step(float dt) override;
-    virtual void stop(void) override;
+    TargetedAction* clone() const override;
+    TargetedAction* reverse() const override;
+    void startWithTarget(Node* target) override;
+    void step(float dt) override;
+    void stop(void) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
-    
-    virtual bool isDone() const override;
+    void update(float time) override;
+
+    bool isDone() const override;
 
     CC_CONSTRUCTOR_ACCESS : TargetedAction();
-    virtual ~TargetedAction();
+    ~TargetedAction() override;
 
     /** Init an action with the specified action and forced target */
     bool initWithTarget(Node* target, FiniteTimeAction* action);
@@ -1447,7 +1452,7 @@ protected:
     Node* _forcedTarget;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TargetedAction);
+    CC_DISALLOW_COPY_AND_ASSIGN(TargetedAction)
 };
 
 /**
@@ -1482,8 +1487,8 @@ public:
     ActionFloat* reverse() const override;
     ActionFloat* clone() const override;
 
-    CC_CONSTRUCTOR_ACCESS : ActionFloat(){};
-    virtual ~ActionFloat(){};
+    CC_CONSTRUCTOR_ACCESS : ActionFloat() {}
+    ~ActionFloat() override {}
 
     bool initWithDuration(std::chrono::milliseconds duration, float from, float to, ActionFloatCallback callback);
 
@@ -1499,7 +1504,7 @@ protected:
     ActionFloatCallback _callback;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ActionFloat);
+    CC_DISALLOW_COPY_AND_ASSIGN(ActionFloat)
 };
 
 // end of actions group
@@ -1507,4 +1512,4 @@ private:
 
 NS_CC_END
 
-#endif //__ACTION_CCINTERVAL_ACTION_H__
+#endif // CC_2D_ACTIONINTERVAL_H

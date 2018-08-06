@@ -23,11 +23,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCGLBufferedNode.h"
+#include <cocos/2d/CCGLBufferedNode.h>
 
-#include "base/CCEventListenerCustom.h"
-#include "cocos2d.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/base/CCEventCustom.h>
+#    include <cocos/base/CCEventDispatcher.h>
+#    include <cocos/base/CCEventListenerCustom.h>
+#    include <cocos/base/CCEventType.h>
+#endif
 
 using namespace cocos2d;
 

@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__TextAtlasReader__
-#define __TestCpp__TextAtlasReader__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_TEXTATLASREADER_TEXTATLASREADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_TEXTATLASREADER_TEXTATLASREADER_H
 
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/WidgetReader/WidgetReader.h"
@@ -51,4 +51,4 @@ namespace cocostudio
     };
 } // namespace cocostudio
 
-#endif /* defined(__TestCpp__TextAtlasReader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_TEXTATLASREADER_TEXTATLASREADER_H

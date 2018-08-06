@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013 cocos2d-x.org
 
 http://www.cocos2d-x.org
@@ -22,16 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCFRAME_H__
-#define __CCFRAME_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_FRAME_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_FRAME_H
 
-#include "2d/CCNode.h"
-#include "2d/CCSprite.h"
-#include "2d/CCTweenFunction.h"
 #include "CCTimelineMacro.h"
-#include "base/CCRef.h"
-#include "base/CCVector.h"
 #include "cocostudio/CocosStudioExport.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/2d/CCTweenFunction.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCVector.h>
 #include <string>
 
 NS_TIMELINE_BEGIN
@@ -431,4 +431,4 @@ private:
 };
 NS_TIMELINE_END
 
-#endif /*__CCFRAME_H__*/
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_FRAME_H

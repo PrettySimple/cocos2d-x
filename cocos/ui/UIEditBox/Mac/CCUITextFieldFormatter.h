@@ -23,7 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#import <Foundation/Foundation.h>
+#import <Foundation/NSFormatter.h>
 
 @interface CCUITextFieldFormatter : NSFormatter {
     int _maximumLength;

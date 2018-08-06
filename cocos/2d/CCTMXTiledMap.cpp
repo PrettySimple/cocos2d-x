@@ -24,12 +24,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "2d/CCTMXTiledMap.h"
+#include <cocos/2d/CCTMXTiledMap.h>
 
-#include "2d/CCSprite.h"
-#include "2d/CCTMXLayer.h"
-#include "2d/CCTMXXMLParser.h"
-#include "base/ccUTF8.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCTMXLayer.h>
+#include <cocos/2d/CCTMXObjectGroup.h>
+#include <cocos/2d/CCTMXXMLParser.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <algorithm>
+#include <cstdint>
+#include <new>
+#include <string>
+#include <unordered_map>
 
 NS_CC_BEGIN
 

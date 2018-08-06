@@ -1,15 +1,15 @@
-#ifndef __CCB_CCBANIMATION_MANAGER_H__
-#define __CCB_CCBANIMATION_MANAGER_H__
+#ifndef CC_EDITORSUPPORT_COCOSBUILDER_ANIMATIONMANAGER_H
+#define CC_EDITORSUPPORT_COCOSBUILDER_ANIMATIONMANAGER_H
 
-#include "2d/CCActionEase.h"
-#include "2d/CCActionInstant.h"
-#include "2d/CCActionInterval.h"
 #include "CCBKeyframe.h"
 #include "CCBSequence.h"
 #include "CCBSequenceProperty.h"
-#include "base/CCMap.h"
-#include "extensions/ExtensionMacros.h"
-#include "extensions/GUI/CCControlExtension/CCControl.h"
+#include <cocos/2d/CCActionEase.h>
+#include <cocos/2d/CCActionInstant.h>
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/base/CCMap.h>
+#include <cocos/extensions/ExtensionMacros.h>
+#include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
 
 #include <chrono>
 
@@ -267,4 +267,4 @@ namespace cocosbuilder
 
 } // namespace cocosbuilder
 
-#endif // __CCB_CCBANIMATION_MANAGER_H__
+#endif // CC_EDITORSUPPORT_COCOSBUILDER_ANIMATIONMANAGER_H

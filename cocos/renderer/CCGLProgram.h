@@ -27,14 +27,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCGLPROGRAM_H__
-#define __CCGLPROGRAM_H__
+#ifndef CC_RENDERER_GLPROGRAM_H
+#define CC_RENDERER_GLPROGRAM_H
 
-#include "base/CCRef.h"
-#include "base/ccMacros.h"
-#include "base/ccTypes.h"
-#include "math/CCMath.h"
-#include "platform/CCGL.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCMath.h>
+#include <cocos/platform/CCGL.h>
 
 #include <array>
 #include <limits>
@@ -628,4 +628,4 @@ NS_CC_END
  end of support group
  @}
  */
-#endif /* __CCGLPROGRAM_H__ */
+#endif // CC_RENDERER_GLPROGRAM_H

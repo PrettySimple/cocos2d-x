@@ -43,10 +43,20 @@
  $Id: CDOpenALSupport.h 16 2010-03-11 06:22:10Z steveoldmeadow $
  */
 
-#import "audio/mac/CDOpenALSupport.h"
-#import "audio/mac/CocosDenshion.h"
-#import <AudioToolbox/AudioToolbox.h>
+#include <cocos/audio/ios/CDOpenALSupport.h>
+
+#include <cocos/audio/ios/CocosDenshion.h>
+
+#import <AudioToolbox/AudioFile.h>
 #import <AudioToolbox/ExtendedAudioFile.h>
+#include <CoreAudio/CoreAudioTypes.h>
+#import <CoreFoundation/CFBase.h>
+#import <CoreFoundation/CFString.h>
+#import <CoreFoundation/CFURL.h>
+#import <OpenAL/al.h>
+
+#include <stdlib.h>
+#include <string.h>
 
 // Taken from oalTouch MyOpenALSupport 1.1
 void* CDloadWaveAudioData(CFURLRef inFileURL, ALsizei* outDataSize, ALenum* outDataFormat, ALsizei* outSampleRate)

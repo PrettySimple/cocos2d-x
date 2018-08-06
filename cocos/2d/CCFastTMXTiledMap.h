@@ -24,11 +24,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CC_FAST_TMX_TILEMAP_H__
-#define __CC_FAST_TMX_TILEMAP_H__
+#ifndef CC_2D_FASTTMXTILEDMAP_H
+#define CC_2D_FASTTMXTILEDMAP_H
 
-#include "2d/CCNode.h"
-#include "2d/CCTMXObjectGroup.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCTMXObjectGroup.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <iosfwd>
+#include <vector>
 
 NS_CC_BEGIN
 
@@ -209,7 +217,7 @@ namespace experimental
          * @js NA
          * @lua NA
          */
-        virtual ~TMXTiledMap();
+        ~TMXTiledMap() override;
 
         /** initializes a TMX Tiled Map with a TMX file */
         bool initWithTMXFile(const std::string& tmxFile);
@@ -236,7 +244,7 @@ namespace experimental
         ValueMapIntKey _tileProperties;
 
     private:
-        CC_DISALLOW_COPY_AND_ASSIGN(TMXTiledMap);
+        CC_DISALLOW_COPY_AND_ASSIGN(TMXTiledMap)
     };
 
     // end of tilemap_parallax_nodes group
@@ -246,4 +254,4 @@ namespace experimental
 
 NS_CC_END
 
-#endif //__CCTMX_TILE_MAP2_H__
+#endif // CC_2D_FASTTMXTILEDMAP_H

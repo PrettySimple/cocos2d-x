@@ -22,13 +22,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_RENDERCOMMANDPOOL_H__
-#define __CC_RENDERCOMMANDPOOL_H__
+#ifndef CC_RENDERER_RENDERCOMMANDPOOL_H
+#define CC_RENDERER_RENDERCOMMANDPOOL_H
 /// @cond DO_NOT_SHOW
 
 #include <list>
 
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
@@ -97,4 +97,4 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif
+#endif // CC_RENDERER_RENDERCOMMANDPOOL_H

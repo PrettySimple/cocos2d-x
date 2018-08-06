@@ -23,25 +23,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCSTRING_H__
-#define __CCSTRING_H__
+#ifndef CC_DEPRECATED_STRING_H
+#define CC_DEPRECATED_STRING_H
 /// @cond DO_NOT_SHOW
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_BLACKBERRY)
-#    include <string.h>
-#endif
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
-#include "base/CCRef.h"
-#include "deprecated/CCArray.h"
+#include <cstdarg>
+#include <cstring>
 #include <functional>
-#include <stdarg.h>
 #include <string>
 
-// We need to include `StringUtils::format()` and `StringUtils::toString()`
-// for keeping the backward compatibility
-#include "base/ccUTF8.h"
-
 NS_CC_BEGIN
+
+class DataVisitor;
+class __Array;
 
 /**
  * @addtogroup data_structures
@@ -75,7 +73,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~__String();
+    virtual ~__String() override;
 
     /* override assignment operator
      * @js NA
@@ -214,4 +212,4 @@ public:
 NS_CC_END
 
 /// @endcond
-#endif //__CCSTRING_H__
+#endif // CC_DEPRECATED_STRING_H

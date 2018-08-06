@@ -5,11 +5,17 @@
 //  Created by Guilhem Vors on 20/03/2018.
 //
 
-#define LOG_TAG "SimpleAudioPlayer.mm"
+#include <cocos/audio/apple/SimpleAudioPlayer.h>
 
-#include "SimpleAudioPlayer.h"
-#include "AudioCache.h"
-#include "audio/include/SimpleAudioEngine.h"
+#include <cocos/audio/apple/AudioMacros.h>
+#include <cocos/audio/apple/AudioPlayer.h>
+#include <cocos/audio/include/SimpleAudioEngine.h>
+
+#include <atomic>
+#include <chrono>
+#include <cstddef>
+#include <iosfwd>
+#include <string>
 
 using namespace cocos2d;
 using namespace cocos2d::experimental;
@@ -80,7 +86,7 @@ bool SimpleAudioPlayer::setTime(float time)
 
 std::chrono::milliseconds SimpleAudioPlayer::getDuration()
 {
-    return std::chrono::milliseconds(static_cast<std::size_t>(CocosDenshion::SimpleAudioEngine::getInstance()->getBackgroundMusicDuration() * 1000.f));
+    return std::chrono::milliseconds(static_cast<std::size_t>(CocosDenshion::SimpleAudioEngine::getInstance()->getBackgroundMusicDuration() * 1000.0));
 }
 
 bool SimpleAudioPlayer::isStopped()

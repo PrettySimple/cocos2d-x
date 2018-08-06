@@ -22,12 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __ActionFRAME_H__
-#define __ActionFRAME_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONFRAME_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONFRAME_H
 
-#include "2d/CCActionInterval.h"
 #include "cocostudio/CocosStudioExport.h"
-#include "math/CCGeometry.h"
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/math/CCGeometry.h>
 
 #include <chrono>
 
@@ -453,4 +453,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONFRAME_H

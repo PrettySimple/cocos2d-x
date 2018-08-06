@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCARMATURE_H__
-#define __CCARMATURE_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ARMATURE_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_ARMATURE_H
 
 #include "cocostudio/CCArmatureAnimation.h"
 #include "cocostudio/CCArmatureDataManager.h"
@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "cocostudio/CCBone.h"
 #include "cocostudio/CCSpriteFrameCacheHelper.h"
 #include "cocostudio/CocosStudioExport.h"
-#include "math/CCMath.h"
+#include <cocos/math/CCMath.h>
 
 class b2Body;
 struct cpBody;
@@ -275,4 +275,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif /*__CCARMATURE_H__*/
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ARMATURE_H

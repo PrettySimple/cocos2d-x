@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
  Copyright (c) 2014 cocos2d-x.org
 
  http://www.cocos2d-x.org
@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__WidgetReaderProtocol__
-#define __TestCpp__WidgetReaderProtocol__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_WIDGETREADERPROTOCOL_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_WIDGETREADERPROTOCOL_H
 
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -50,10 +50,10 @@ namespace cocostudio
     class CC_STUDIO_DLL WidgetReaderProtocol
     {
     public:
-        virtual ~WidgetReaderProtocol(){};
+        virtual ~WidgetReaderProtocol() {}
         virtual void setPropsFromJsonDictionary(cocos2d::ui::Widget* widget, const rapidjson::Value& options) = 0;
         virtual void setPropsFromBinary(cocos2d::ui::Widget* widget, CocoLoader* cocoLoader, stExpCocoNode* pCocoNode) = 0;
     };
 } // namespace cocostudio
 
-#endif /* defined(__TestCpp__WidgetReaderProtocol__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_WIDGETREADERPROTOCOL_H

@@ -22,19 +22,36 @@
  THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIScale9Sprite.h"
-#include "2d/CCCamera.h"
-#include "2d/CCDrawNode.h"
-#include "2d/CCSprite.h"
-#include "2d/CCSpriteFrameCache.h"
-#include "base/CCDirector.h"
-#include "base/CCNinePatchImageParser.h"
-#include "base/CCVector.h"
-#include "base/ccUTF8.h"
-#include "platform/CCImage.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccShaders.h"
+#include <cocos/ui/UIScale9Sprite.h>
+
+#include <cocos/2d/CCAutoPolygon.h>
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/2d/CCSpriteBatchNode.h>
+#include <cocos/2d/CCSpriteFrame.h>
+#include <cocos/2d/CCSpriteFrameCache.h>
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTrianglesCommand.h>
+
+#include <cmath>
+#include <cstring>
+#include <new>
 
 NS_CC_BEGIN
 namespace ui
@@ -637,7 +654,7 @@ namespace ui
                 auto count = polyInfo.triangles.indexCount / 3;
                 auto indices = polyInfo.triangles.indices;
                 auto verts = polyInfo.triangles.verts;
-                for (ssize_t i = 0; i < count; i++)
+                for (std::size_t i = 0; i < count; i++)
                 {
                     // draw 3 lines
                     Vec3 from = verts[indices[i * 3]].vertices;

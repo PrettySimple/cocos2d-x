@@ -23,27 +23,16 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCTouch.h"
-#include "base/CCDirector.h"
+#include <cocos/base/CCTouch.h>
+
+#include <cocos/base/CCDirector.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
-// returns the current touch location in screen coordinates
-Vec2 Touch::getLocationInView() const
+Touch::~Touch()
 {
-    return _point;
-}
-
-// returns the previous touch location in screen coordinates
-Vec2 Touch::getPreviousLocationInView() const
-{
-    return _prevPoint;
-}
-
-// returns the start touch location in screen coordinates
-Vec2 Touch::getStartLocationInView() const
-{
-    return _startPoint;
 }
 
 // returns the current touch location in OpenGL coordinates
@@ -64,22 +53,42 @@ Vec2 Touch::getStartLocation() const
     return Director::getInstance()->convertToGL(_startPoint);
 }
 
+void Touch::setTouchInfo(int id, float x, float y)
+{
+    _id = id;
+    _prevPoint = _point;
+    _point.x = x;
+    _point.y = y;
+    _curForce = 0.0f;
+    _maxForce = 0.0f;
+    if (!_startPointCaptured)
+    {
+        _startPoint = _point;
+        _startPointCaptured = true;
+        _prevPoint = _point;
+    }
+}
+
+void Touch::setTouchInfo(int id, float x, float y, float force, float maxForce)
+{
+    _id = id;
+    _prevPoint = _point;
+    _point.x = x;
+    _point.y = y;
+    _curForce = force;
+    _maxForce = maxForce;
+    if (!_startPointCaptured)
+    {
+        _startPoint = _point;
+        _startPointCaptured = true;
+        _prevPoint = _point;
+    }
+}
+
 // returns the delta position between the current location and the previous location in OpenGL coordinates
 Vec2 Touch::getDelta() const
 {
     return getLocation() - getPreviousLocation();
-}
-
-// Returns the current touch force for 3d touch.
-float Touch::getCurrentForce() const
-{
-    return _curForce;
-}
-
-// Returns the maximum touch force for 3d touch.
-float Touch::getMaxForce() const
-{
-    return _maxForce;
 }
 
 NS_CC_END

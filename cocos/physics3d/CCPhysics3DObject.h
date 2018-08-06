@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
  Copyright (c) 2015 Chukong Technologies Inc.
 
  http://www.cocos2d-x.org
@@ -25,9 +25,9 @@
 #ifndef __PHYSICS_3D_OBJECT_H__
 #define __PHYSICS_3D_OBJECT_H__
 
-#include "base/CCRef.h"
-#include "base/ccConfig.h"
-#include "math/CCMath.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/CCMath.h>
 
 #include <vector>
 

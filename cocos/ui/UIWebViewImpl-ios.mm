@@ -22,18 +22,21 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 
 // Webview not available on tvOS
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) && !defined(CC_TARGET_OS_TVOS)
 
-#    include "base/CCDirector.h"
-#    include "platform/CCFileUtils.h"
-#    include "platform/CCGLView.h"
-#    include "platform/ios/CCEAGLView-ios.h"
-#    include "renderer/CCRenderer.h"
-#    include "ui/UIWebView.h"
-#    include "ui/UIWebViewImpl-ios.h"
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/platform/CCFileUtils.h>
+#    include <cocos/platform/CCGLView.h>
+#    include <cocos/platform/ios/CCEAGLView-ios.h>
+#    include <cocos/renderer/CCRenderer.h>
+#    include <cocos/ui/UIWebView.h>
+#    include <cocos/ui/UIWebViewImpl-ios.h>
+
+#    import <Foundation/NSString.h>
+#    import <UIKit/UIWebView.h>
 
 static std::string getFixedBaseUrl(const std::string& baseUrl)
 {
@@ -114,13 +117,11 @@ static std::string getFixedBaseUrl(const std::string& baseUrl)
 @implementation UIWebViewWrapper {
 }
 
-+ (instancetype)webViewWrapper
-{
++ (instancetype)webViewWrapper {
     return [[[self alloc] init] autorelease];
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self)
     {
@@ -132,8 +133,7 @@ static std::string getFixedBaseUrl(const std::string& baseUrl)
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.uiWebView.delegate = nil;
     [self.uiWebView removeFromSuperview];
     self.uiWebView = nil;
@@ -141,8 +141,7 @@ static std::string getFixedBaseUrl(const std::string& baseUrl)
     [super dealloc];
 }
 
-- (void)setupWebView
-{
+- (void)setupWebView {
     if (!self.uiWebView)
     {
         self.uiWebView = [[[UIWebView alloc] init] autorelease];
@@ -156,18 +155,15 @@ static std::string getFixedBaseUrl(const std::string& baseUrl)
     }
 }
 
-- (void)setVisible:(bool)visible
-{
+- (void)setVisible:(bool)visible {
     self.uiWebView.hidden = !visible;
 }
 
-- (void)setBounces:(bool)bounces
-{
+- (void)setBounces:(bool)bounces {
     self.uiWebView.scrollView.bounces = bounces;
 }
 
-- (void)setFrameWithX:(float)x y:(float)y width:(float)width height:(float)height
-{
+- (void)setFrameWithX:(float)x y:(float)y width:(float)width height:(float)height {
     if (!self.uiWebView)
     {
         [self setupWebView];
@@ -179,24 +175,21 @@ static std::string getFixedBaseUrl(const std::string& baseUrl)
     }
 }
 
-- (void)setJavascriptInterfaceScheme:(const std::string&)scheme
-{
+- (void)setJavascriptInterfaceScheme:(const std::string&)scheme {
     self.jsScheme = @(scheme.c_str());
 }
 
 - (void)loadData:(const std::string&)data
             MIMEType:(const std::string&)MIMEType
     textEncodingName:(const std::string&)encodingName
-             baseURL:(const std::string&)baseURL
-{
+             baseURL:(const std::string&)baseURL {
     [self.uiWebView loadData:[NSData dataWithBytes:data.c_str() length:data.length()]
                     MIMEType:@(MIMEType.c_str())
             textEncodingName:@(encodingName.c_str())
                      baseURL:[NSURL URLWithString:@(getFixedBaseUrl(baseURL).c_str())]];
 }
 
-- (void)loadHTMLString:(const std::string&)string baseURL:(const std::string&)baseURL
-{
+- (void)loadHTMLString:(const std::string&)string baseURL:(const std::string&)baseURL {
     if (!self.uiWebView)
     {
         [self setupWebView];
@@ -204,8 +197,7 @@ static std::string getFixedBaseUrl(const std::string& baseUrl)
     [self.uiWebView loadHTMLString:@(string.c_str()) baseURL:[NSURL URLWithString:@(getFixedBaseUrl(baseURL).c_str())]];
 }
 
-- (void)loadUrl:(const std::string&)urlString
-{
+- (void)loadUrl:(const std::string&)urlString {
     if (!self.uiWebView)
     {
         [self setupWebView];
@@ -215,8 +207,7 @@ static std::string getFixedBaseUrl(const std::string& baseUrl)
     [self.uiWebView loadRequest:request];
 }
 
-- (void)loadFile:(const std::string&)filePath
-{
+- (void)loadFile:(const std::string&)filePath {
     if (!self.uiWebView)
     {
         [self setupWebView];
@@ -226,38 +217,31 @@ static std::string getFixedBaseUrl(const std::string& baseUrl)
     [self.uiWebView loadRequest:request];
 }
 
-- (void)stopLoading
-{
+- (void)stopLoading {
     [self.uiWebView stopLoading];
 }
 
-- (void)reload
-{
+- (void)reload {
     [self.uiWebView reload];
 }
 
-- (BOOL)canGoForward
-{
+- (BOOL)canGoForward {
     return self.uiWebView.canGoForward;
 }
 
-- (BOOL)canGoBack
-{
+- (BOOL)canGoBack {
     return self.uiWebView.canGoBack;
 }
 
-- (void)goBack
-{
+- (void)goBack {
     [self.uiWebView goBack];
 }
 
-- (void)goForward
-{
+- (void)goForward {
     [self.uiWebView goForward];
 }
 
-- (void)evaluateJS:(const std::string&)js
-{
+- (void)evaluateJS:(const std::string&)js {
     if (!self.uiWebView)
     {
         [self setupWebView];
@@ -265,8 +249,7 @@ static std::string getFixedBaseUrl(const std::string& baseUrl)
     [self.uiWebView stringByEvaluatingJavaScriptFromString:@(js.c_str())];
 }
 
-- (void)setScalesPageToFit:(const bool)scalesPageToFit
-{
+- (void)setScalesPageToFit:(const bool)scalesPageToFit {
     if (!self.uiWebView)
     {
         [self setupWebView];
@@ -275,8 +258,7 @@ static std::string getFixedBaseUrl(const std::string& baseUrl)
 }
 
 #    pragma mark - UIWebViewDelegate
-- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType
-{
+- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
     NSString* url = [[request URL] absoluteString];
     if ([[[request URL] scheme] isEqualToString:self.jsScheme])
     {
@@ -290,8 +272,7 @@ static std::string getFixedBaseUrl(const std::string& baseUrl)
     return YES;
 }
 
-- (void)webViewDidFinishLoad:(UIWebView*)webView
-{
+- (void)webViewDidFinishLoad:(UIWebView*)webView {
     if (self.didFinishLoading)
     {
         NSString* url = [[webView.request URL] absoluteString];
@@ -299,8 +280,7 @@ static std::string getFixedBaseUrl(const std::string& baseUrl)
     }
 }
 
-- (void)webView:(UIWebView*)webView didFailLoadWithError:(NSError*)error
-{
+- (void)webView:(UIWebView*)webView didFailLoadWithError:(NSError*)error {
     if (self.didFailLoading)
     {
         NSString* url = error.userInfo[NSURLErrorFailingURLStringErrorKey];

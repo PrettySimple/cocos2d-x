@@ -1,10 +1,10 @@
 
-#include "2d/CCClippingRectangleNode.h"
+#include <cocos/2d/CCClippingRectangleNode.h>
 
-#include "base/CCDirector.h"
-#include "math/Vec2.h"
-#include "platform/CCGLView.h"
-#include "renderer/CCRenderer.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCGLView.h>
+#include <cocos/renderer/CCRenderer.h>
 
 NS_CC_BEGIN
 

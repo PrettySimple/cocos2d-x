@@ -23,10 +23,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCPLATFORMDEFINE_H__
-#define __CCPLATFORMDEFINE_H__
+#ifndef CC_PLATFORM_MAC_PLATFORMDEFINEMAC_H
+#define CC_PLATFORM_MAC_PLATFORMDEFINEMAC_H
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
 #    include <assert.h>
@@ -37,11 +37,7 @@ THE SOFTWARE.
 #        define CC_DLL
 #    endif
 
-#    if CC_DISABLE_ASSERT > 0
-#        define CC_ASSERT(cond)
-#    else
-#        define CC_ASSERT(cond) assert(cond)
-#    endif
+#    define CC_ASSERT(cond) assert(cond)
 
 #    define CC_UNUSED_PARAM(unusedparam) (void)unusedparam
 
@@ -56,4 +52,4 @@ THE SOFTWARE.
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#endif /* __CCPLATFORMDEFINE_H__*/
+#endif // CC_PLATFORM_MAC_PLATFORMDEFINEMAC_H

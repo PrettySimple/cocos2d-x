@@ -1,10 +1,10 @@
-#ifndef __CC_MATH_H__
-#define __CC_MATH_H__
+#ifndef CC_MATH_MATH_H
+#define CC_MATH_MATH_H
 
-#include "math/Mat4.h"
-#include "math/Quaternion.h"
-#include "math/Vec2.h"
-#include "math/Vec3.h"
-#include "math/Vec4.h"
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Quaternion.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/math/Vec4.h>
 
-#endif
+#endif // CC_MATH_MATH_H

@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 #include "cocostudio/CCSGUIReader.h"
+
 #include "WidgetReader/ButtonReader/ButtonReader.h"
 #include "WidgetReader/CheckBoxReader/CheckBoxReader.h"
 #include "WidgetReader/ImageViewReader/ImageViewReader.h"
@@ -37,8 +38,14 @@ THE SOFTWARE.
 #include "WidgetReader/TextReader/TextReader.h"
 #include "cocostudio/CCActionManagerEx.h"
 #include "cocostudio/CocoLoader.h"
-#include "tinyxml2.h"
-#include "ui/CocosGUI.h"
+#include <cocos/ui/CocosGUI.h>
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <flatbuffers/flatbuffers.h>
+#include <tinyxml2/tinyxml2.h>
+#pragma clang diagnostic pop
+
 #include <fstream>
 #include <iostream>
 

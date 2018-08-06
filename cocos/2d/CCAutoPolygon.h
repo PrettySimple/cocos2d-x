@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
@@ -25,16 +25,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef COCOS_2D_CCAUTOPOLYGON_H__
-#define COCOS_2D_CCAUTOPOLYGON_H__
+#ifndef CC_2D_AUTOPOLYGON_H
+#define CC_2D_AUTOPOLYGON_H
 
-#include "platform/CCImage.h"
-#include "renderer/CCTrianglesCommand.h"
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCTrianglesCommand.h>
 
-#include <string>
+#include <cstddef>
+#include <iosfwd>
 #include <vector>
 
 NS_CC_BEGIN
+
+class Image;
+struct V3F_C4B_T2F;
+struct V3F_C4B_T2F_Quad;
 
 /**
  * @addtogroup _2d
@@ -211,7 +219,7 @@ public:
      * ap.calculateUV(rect, myPolygons.verts, 20);
      * @endcode
      */
-    void calculateUV(const Rect& rect, V3F_C4B_T2F* verts, const ssize_t& count);
+    void calculateUV(const Rect& rect, V3F_C4B_T2F* verts, const std::size_t& count);
 
     /**
      * a helper function, packing trace, reduce, expand, triangulate and calculate uv in one function
@@ -252,8 +260,8 @@ protected:
     unsigned char getAlphaByIndex(const unsigned int& i);
     unsigned char getAlphaByPos(const Vec2& pos);
 
-    int getIndexFromPos(const unsigned int& x, const unsigned int& y) { return y * _width + x; };
-    cocos2d::Vec2 getPosFromIndex(const unsigned int& i) { return cocos2d::Vec2(i % _width, i / _width); };
+    int getIndexFromPos(const unsigned int& x, const unsigned int& y) { return y * _width + x; }
+    cocos2d::Vec2 getPosFromIndex(const unsigned int& i) { return cocos2d::Vec2(i % _width, i / _width); }
 
     std::vector<cocos2d::Vec2> rdp(const std::vector<cocos2d::Vec2>& v, float optimization);
     float perpendicularDistance(const cocos2d::Vec2& i, const cocos2d::Vec2& start, const cocos2d::Vec2& end);
@@ -272,4 +280,4 @@ protected:
 
 NS_CC_END
 
-#endif // #ifndef COCOS_2D_CCAUTOPOLYGON_H__
+#endif // CC_2D_AUTOPOLYGON_H

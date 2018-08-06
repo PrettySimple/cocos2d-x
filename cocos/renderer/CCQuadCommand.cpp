@@ -22,18 +22,20 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "renderer/CCQuadCommand.h"
+#include <cocos/renderer/CCQuadCommand.h>
 
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCMaterial.h"
-#include "renderer/CCPass.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTechnique.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTrianglesCommand.h>
 
 #include <algorithm>
 #include <limits>
+#include <new>
 
 NS_CC_BEGIN
 
@@ -49,19 +51,19 @@ QuadCommand::~QuadCommand()
 }
 
 void QuadCommand::init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads,
-                       ssize_t quadCount, const Mat4& mv, uint32_t flags)
+                       std::size_t quadCount, const Mat4& mv, uint32_t flags)
 {
     CCASSERT(glProgramState, "Invalid GLProgramState");
     CCASSERT(glProgramState->getVertexAttribsFlags() == 0, "No custom attributes are supported in QuadCommand");
 
-    if (quadCount * 6 > _indexSize)
-        reIndex((int)quadCount * 6);
+    if (static_cast<int>(quadCount * 6) > _indexSize)
+        reIndex(static_cast<int>(quadCount * 6));
 
     Triangles triangles;
     triangles.verts = &quads->tl;
-    triangles.vertCount = (int)quadCount * 4;
+    triangles.vertCount = static_cast<int>(quadCount * 4);
     triangles.indices = __indices;
-    triangles.indexCount = (int)quadCount * 6;
+    triangles.indexCount = static_cast<int>(quadCount * 6);
     TrianglesCommand::init(globalOrder, textureID, glProgramState, blendType, triangles, mv, flags);
 }
 
@@ -76,7 +78,7 @@ void QuadCommand::reIndex(int indicesCount)
     if (indicesCount > __indexCapacity)
     {
         // if resizing is needed, get needed size plus 25%, but not bigger that max size
-        indicesCount *= 1.25;
+        indicesCount *= 5 / 4;
         indicesCount = std::min(indicesCount, static_cast<int>(std::numeric_limits<GLushort>::max()));
 
         CCLOG("cocos2d: QuadCommand: resizing index size from [%d] to [%d]", __indexCapacity, indicesCount);
@@ -88,25 +90,25 @@ void QuadCommand::reIndex(int indicesCount)
 
     for (int i = 0; i < __indexCapacity / 6; i++)
     {
-        __indices[i * 6 + 0] = (GLushort)(i * 4 + 0);
-        __indices[i * 6 + 1] = (GLushort)(i * 4 + 1);
-        __indices[i * 6 + 2] = (GLushort)(i * 4 + 2);
-        __indices[i * 6 + 3] = (GLushort)(i * 4 + 3);
-        __indices[i * 6 + 4] = (GLushort)(i * 4 + 2);
-        __indices[i * 6 + 5] = (GLushort)(i * 4 + 1);
+        __indices[i * 6 + 0] = static_cast<GLushort>(i * 4 + 0);
+        __indices[i * 6 + 1] = static_cast<GLushort>(i * 4 + 1);
+        __indices[i * 6 + 2] = static_cast<GLushort>(i * 4 + 2);
+        __indices[i * 6 + 3] = static_cast<GLushort>(i * 4 + 3);
+        __indices[i * 6 + 4] = static_cast<GLushort>(i * 4 + 2);
+        __indices[i * 6 + 5] = static_cast<GLushort>(i * 4 + 1);
     }
 
     _indexSize = indicesCount;
 }
 
-void QuadCommand::init(float globalOrder, GLuint textureID, GLProgramState* shader, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, ssize_t quadCount,
+void QuadCommand::init(float globalOrder, GLuint textureID, GLProgramState* shader, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, std::size_t quadCount,
                        const Mat4& mv)
 {
     init(globalOrder, textureID, shader, blendType, quads, quadCount, mv, 0);
 }
 
 void QuadCommand::init(float globalOrder, Texture2D* texture, GLProgramState* glProgramState, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads,
-                       ssize_t quadCount, const Mat4& mv, uint32_t flags)
+                       std::size_t quadCount, const Mat4& mv, uint32_t flags)
 {
     init(globalOrder, texture->getName(), glProgramState, blendType, quads, quadCount, mv, flags);
 #ifdef DEBUG_TEXTURE_SIZE

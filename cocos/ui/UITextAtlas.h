@@ -22,11 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __UILABELATLAS_H__
-#define __UILABELATLAS_H__
+#ifndef CC_UI_TEXTATLAS_H
+#define CC_UI_TEXTATLAS_H
 
-#include "ui/GUIExport.h"
-#include "ui/UIWidget.h"
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <cstddef>
+#include <iosfwd>
 
 NS_CC_BEGIN
 
@@ -36,7 +41,9 @@ NS_CC_BEGIN
  */
 
 class Label;
-struct CC_DLL ResourceData;
+class Node;
+class Size;
+struct ResourceData;
 
 namespace ui
 {
@@ -60,7 +67,7 @@ namespace ui
          *
          * @lua NA
          */
-        virtual ~TextAtlas();
+        ~TextAtlas() override;
 
         /**
          * Create a TexAtlas object.
@@ -113,33 +120,33 @@ namespace ui
          *
          * @return  string length.
          */
-        ssize_t getStringLength() const;
+        std::size_t getStringLength() const;
 
         // override "getVirtualRendererSize" method of widget.
-        virtual Size getVirtualRendererSize() const override;
+        Size getVirtualRendererSize() const override;
 
         // override "getVirtualRenderer" method of widget.
-        virtual Node* getVirtualRenderer() override;
+        Node* getVirtualRenderer() override;
 
         /**
          * Returns the "class name" of widget.
          */
-        virtual std::string getDescription() const override;
+        std::string getDescription() const override;
 
         /**
          * @js NA
          */
-        virtual void adaptRenderers() override;
+        void adaptRenderers() override;
 
         ResourceData getRenderFile();
 
     protected:
-        virtual void initRenderer() override;
-        virtual void onSizeChanged() override;
+        void initRenderer() override;
+        void onSizeChanged() override;
 
         void labelAtlasScaleChangedWithSize();
-        virtual Widget* createCloneInstance() override;
-        virtual void copySpecialProperties(Widget* model) override;
+        Widget* createCloneInstance() override;
+        void copySpecialProperties(Widget* model) override;
 
     protected:
         Label* _labelAtlasRenderer;
@@ -158,4 +165,4 @@ namespace ui
 
 NS_CC_END
 
-#endif /* defined(__CocoGUI__LabelAtlas__) */
+#endif // CC_UI_TEXTATLAS_H

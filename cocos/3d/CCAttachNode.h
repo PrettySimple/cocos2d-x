@@ -22,11 +22,16 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCATTACHNODE_H__
-#define __CCATTACHNODE_H__
+#ifndef CC_3D_ATTACHNODE_H
+#define CC_3D_ATTACHNODE_H
 
-#include "2d/CCNode.h"
-#include "math/CCMath.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <cstdint>
 
 NS_CC_BEGIN
 /**
@@ -34,6 +39,7 @@ NS_CC_BEGIN
  * @{
  */
 class Bone3D;
+class Renderer;
 
 /**
  * @brief attach a node to a bone
@@ -52,15 +58,15 @@ public:
     static AttachNode* create(Bone3D* attachBone);
 
     // override
-    virtual Mat4 getWorldToNodeTransform() const override;
-    virtual Mat4 getNodeToWorldTransform() const override;
-    virtual const Mat4& getNodeToParentTransform() const override;
-    virtual void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
+    Mat4 getWorldToNodeTransform() const override;
+    Mat4 getNodeToWorldTransform() const override;
+    const Mat4& getNodeToParentTransform() const override;
+    void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
 
     CC_CONSTRUCTOR_ACCESS :
 
         AttachNode();
-    virtual ~AttachNode();
+    ~AttachNode() override;
 
 protected:
     Bone3D* _attachBone;
@@ -71,4 +77,4 @@ protected:
 /// @}
 
 NS_CC_END
-#endif // __CCATTACHNODE_H__
+#endif // CC_3D_ATTACHNODE_H

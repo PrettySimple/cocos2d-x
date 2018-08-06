@@ -24,12 +24,14 @@
 
 #pragma once
 
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <cstdint>
 #include <functional>
 #include <memory>
 #include <string>
 #include <vector>
-
-#include "platform/CCPlatformMacros.h"
 
 namespace cocos2d
 {
@@ -62,8 +64,8 @@ namespace cocos2d
         class CC_DLL DownloaderHints
         {
         public:
-            uint32_t countOfMaxProcessingTasks;
-            uint32_t timeoutInSeconds;
+            std::uint32_t countOfMaxProcessingTasks;
+            std::uint32_t timeoutInSeconds;
             std::string tempFileNameSuffix;
         };
 
@@ -78,7 +80,7 @@ namespace cocos2d
 
             std::function<void(const DownloadTask& task)> onFileTaskSuccess;
 
-            std::function<void(const DownloadTask& task, int64_t bytesReceived, int64_t totalBytesReceived, int64_t totalBytesExpected)> onTaskProgress;
+            std::function<void(const DownloadTask& task, std::int64_t bytesReceived, std::int64_t totalBytesReceived, std::int64_t totalBytesExpected)> onTaskProgress;
 
             std::function<void(const DownloadTask& task, int errorCode, int errorCodeInternal, const std::string& errorStr)> onTaskError;
 

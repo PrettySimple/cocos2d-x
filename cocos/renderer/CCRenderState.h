@@ -24,22 +24,22 @@
 
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCRenderState__
-#define __cocos2d_libs__CCRenderState__
+#ifndef CC_RENDERER_RENDERSTATE_H
+#define CC_RENDERER_RENDERSTATE_H
+
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstdint>
-#include <functional>
 #include <string>
-
-#include "base/CCRef.h"
-#include "base/CCVector.h"
-#include "base/ccTypes.h"
-#include "platform/CCPlatformMacros.h"
 
 NS_CC_BEGIN
 
-class Texture2D;
 class Pass;
+class Texture2D;
+struct BlendFunc;
 
 /**
  * Defines the rendering state of the graphics device.
@@ -84,7 +84,7 @@ public:
      */
     RenderState* getTopmost(RenderState* below);
 
-    void setParent(RenderState* parent) { _parent = parent; }
+    inline void setParent(RenderState* parent) noexcept { _parent = parent; }
 
     enum Blend
     {
@@ -354,7 +354,7 @@ public:
          */
         void setState(const std::string& name, const std::string& value);
 
-        uint32_t getHash() const;
+        std::uint32_t getHash() const;
         bool isDirty() const;
 
         /** StateBlock bits to be used with invalidate */
@@ -431,7 +431,7 @@ public:
 
         long _bits;
 
-        mutable uint32_t _hash;
+        mutable std::uint32_t _hash;
         mutable bool _hashDirty;
     };
 
@@ -444,7 +444,7 @@ protected:
     bool init(RenderState* parent);
     void cloneInto(RenderState* state) const;
 
-    mutable uint32_t _hash;
+    mutable std::uint32_t _hash;
     mutable bool _hashDirty;
 
     /**
@@ -465,4 +465,4 @@ protected:
 
 NS_CC_END
 
-#endif /* defined(__cocos2d_libs__CCRenderState__) */
+#endif // CC_RENDERER_RENDERSTATE_H

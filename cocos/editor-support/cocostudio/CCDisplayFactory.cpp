@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "cocostudio/CCSkin.h"
 #include "cocostudio/CCTransformHelp.h"
 
-#include "2d/CCParticleSystemQuad.h"
+#include <cocos/2d/CCParticleSystemQuad.h>
 
 using namespace cocos2d;
 

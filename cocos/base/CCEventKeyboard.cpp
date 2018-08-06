@@ -23,7 +23,10 @@
 
  ****************************************************************************/
 
-#include "base/CCEventKeyboard.h"
+#include <cocos/base/CCEventKeyboard.h>
+
+#include <cocos/base/CCEvent.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
@@ -31,6 +34,10 @@ EventKeyboard::EventKeyboard(KeyCode keyCode, bool isPressed)
 : Event(Type::KEYBOARD)
 , _keyCode(keyCode)
 , _isPressed(isPressed)
+{
+}
+
+EventKeyboard::~EventKeyboard()
 {
 }
 

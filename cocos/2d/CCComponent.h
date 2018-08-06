@@ -22,12 +22,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_FRAMEWORK_COMPONENT_H__
-#define __CC_FRAMEWORK_COMPONENT_H__
+#ifndef CC_2D_COMPONENT_H
+#define CC_2D_COMPONENT_H
 
 /// @cond DO_NOT_SHOW
-#include "base/CCRef.h"
-#include "base/CCScriptSupport.h"
+
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <string>
 
@@ -53,7 +56,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~Component();
+    ~Component() override;
 
     virtual bool init();
 
@@ -93,4 +96,4 @@ protected:
 NS_CC_END
 
 /// @endcond
-#endif // __CC_FRAMEWORK_COMPONENT_H__
+#endif // CC_2D_COMPONENT_H

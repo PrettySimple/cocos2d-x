@@ -2,11 +2,11 @@
 #define __CC_EGLViewIMPL_EMSCRIPTEN_H__
 
 #include "CCInjectMouseMove-emscripten.h"
-#include "base/CCRef.h"
-#include "math/CCGeometry.h"
-#include "platform/CCCommon.h"
-#include "platform/CCGL.h"
-#include "platform/CCGLView.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCCommon.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCGLView.h>
 
 #include <emscripten/html5.h>
 #include <string>

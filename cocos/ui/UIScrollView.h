@@ -22,11 +22,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __UISCROLLVIEW_H__
-#define __UISCROLLVIEW_H__
+#ifndef CC_UI_SCROLLVIEW_H
+#define CC_UI_SCROLLVIEW_H
 
-#include "ui/GUIExport.h"
-#include "ui/UILayout.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UILayout.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <cstddef>
+#include <functional>
+#include <iosfwd>
 #include <list>
 
 NS_CC_BEGIN
@@ -35,7 +48,11 @@ NS_CC_BEGIN
  * @{
  */
 
-class EventFocusListener;
+class Event;
+class Node;
+class Touch;
+class Vec3;
+struct Color3B;
 
 namespace ui
 {
@@ -78,7 +95,7 @@ namespace ui
         /**
          * ScrollView scroll direction type.
          */
-        enum class Direction
+        enum struct Direction : std::uint8_t
         {
             NONE,
             VERTICAL,
@@ -89,7 +106,7 @@ namespace ui
         /**
          * Scrollview scroll event type.
          */
-        enum class EventType
+        enum struct EventType : std::uint8_t
         {
             SCROLL_TO_TOP,
             SCROLL_TO_BOTTOM,
@@ -101,13 +118,16 @@ namespace ui
             BOUNCE_LEFT,
             BOUNCE_RIGHT,
             CONTAINER_MOVED,
-            AUTOSCROLL_ENDED
+            AUTOSCROLL_ENDED,
+            TURNING,
+            ON_SELECTED_ITEM_START,
+            ON_SELECTED_ITEM_END
         };
 
         /**
          * A callback which would be called when a ScrollView is scrolling.
          */
-        typedef std::function<void(Ref*, EventType)> ccScrollViewCallback;
+        using ccScrollViewCallback = std::function<void(Ref*, EventType)>;
 
         /**
          * Default constructor
@@ -121,7 +141,7 @@ namespace ui
          * @js NA
          * @lua NA
          */
-        virtual ~ScrollView();
+        ~ScrollView() override;
 
         /**
          * Create an empty ScrollView.
@@ -354,7 +374,7 @@ namespace ui
         virtual void removeChild(Node* child, bool cleanup = true) override;
         virtual Vector<Node*>& getChildren() override;
         virtual const Vector<Node*>& getChildren() const override;
-        virtual ssize_t getChildrenCount() const override;
+        virtual std::size_t getChildrenCount() const override;
         virtual Node* getChildByTag(int tag) const override;
         virtual Node* getChildByName(const std::string& name) const override;
         // touch event callback
@@ -684,4 +704,4 @@ namespace ui
 // end of ui group
 /// @}
 NS_CC_END
-#endif /* defined(__CocoGUI__ScrollView__) */
+#endif // CC_UI_SCROLLVIEW_H

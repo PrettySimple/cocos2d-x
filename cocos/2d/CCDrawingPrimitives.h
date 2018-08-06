@@ -36,12 +36,13 @@ THE SOFTWARE.
  *
  */
 
-#ifndef __CCDRAWING_PRIMITIVES__
-#define __CCDRAWING_PRIMITIVES__
+#ifndef CC_2D_DRAWINGPRIMITIVES_H
+#define CC_2D_DRAWINGPRIMITIVES_H
 
-#include "base/ccMacros.h"
-#include "base/ccTypes.h"
-#include "math/CCMath.h"
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 /**
  @file
@@ -74,6 +75,7 @@ NS_CC_BEGIN
  */
 
 class PointArray;
+struct Color4F;
 
 /**
  * @js cc.DrawingPrimitiveCanvas/cc.DrawingPrimitiveWebGL
@@ -270,4 +272,4 @@ namespace DrawPrimitives
 
 NS_CC_END
 
-#endif // __CCDRAWING_PRIMITIVES__
+#endif // CC_2D_DRAWINGPRIMITIVES_H

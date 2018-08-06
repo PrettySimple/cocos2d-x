@@ -556,7 +556,7 @@ namespace cocosbuilder
 
         Vector<FiniteTimeAction*> actions;
         auto& keyframes = channel->getKeyframes();
-        ssize_t numKeyframes = keyframes.size();
+        std::size_t numKeyframes = keyframes.size();
 
         for (long i = 0; i < numKeyframes; ++i)
         {
@@ -647,7 +647,7 @@ namespace cocosbuilder
 
         Vector<FiniteTimeAction*> actions;
         auto& keyframes = channel->getKeyframes();
-        ssize_t numKeyframes = keyframes.size();
+        std::size_t numKeyframes = keyframes.size();
 
         for (int i = 0; i < numKeyframes; ++i)
         {
@@ -688,7 +688,7 @@ namespace cocosbuilder
     void CCBAnimationManager::runAction(Node* pNode, CCBSequenceProperty* pSeqProp, std::chrono::milliseconds fTweenDuration)
     {
         auto& keyframes = pSeqProp->getKeyframes();
-        ssize_t numKeyframes = keyframes.size();
+        std::size_t numKeyframes = keyframes.size();
 
         if (numKeyframes > 1)
         {
@@ -703,7 +703,7 @@ namespace cocosbuilder
                 actions.pushBack(DelayTime::create(timeFirst));
             }
 
-            for (ssize_t i = 0; i < numKeyframes - 1; ++i)
+            for (std::size_t i = 0; i < numKeyframes - 1; ++i)
             {
                 CCBKeyframe* kf0 = keyframes.at(i);
                 CCBKeyframe* kf1 = keyframes.at(i + 1);

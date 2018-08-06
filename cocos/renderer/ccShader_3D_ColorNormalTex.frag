@@ -1,3 +1,4 @@
+#pragma once
 
 const char* cc3D_ColorNormalTex_frag = R"(
 #if (MAX_DIRECTIONAL_LIGHT_NUM > 0)

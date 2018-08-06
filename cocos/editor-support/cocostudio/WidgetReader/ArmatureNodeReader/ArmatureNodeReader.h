@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __ARMATURENODEREADER_H_
-#define __ARMATURENODEREADER_H_
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_ARMATURENODEREADER_ARMATURENODEREADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_ARMATURENODEREADER_ARMATURENODEREADER_H
 
 #include "cocos2d.h"
 #include "cocostudio/WidgetReader/NodeReaderDefine.h"
@@ -61,4 +61,4 @@ private:
     std::string getArmatureName(const std::string& exporJsonPath);
 };
 
-#endif /* defined(__ARMATURENODEREADER_H_) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_ARMATURENODEREADER_ARMATURENODEREADER_H

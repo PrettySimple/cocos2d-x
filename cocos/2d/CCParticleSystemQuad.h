@@ -25,16 +25,30 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CC_PARTICLE_SYSTEM_QUAD_H__
-#define __CC_PARTICLE_SYSTEM_QUAD_H__
+#ifndef CC_2D_PARTICLESYSTEMQUAD_H
+#define CC_2D_PARTICLESYSTEMQUAD_H
 
-#include "2d/CCParticleSystem.h"
-#include "renderer/CCQuadCommand.h"
+#include <cocos/2d/CCParticleSystem.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCQuadCommand.h>
+
+#include <cstdint>
+#include <iosfwd>
 
 NS_CC_BEGIN
 
-class SpriteFrame;
 class EventCustom;
+class ParticleBatchNode;
+class Rect;
+class Renderer;
+class SpriteFrame;
+class Texture2D;
+struct V3F_C4B_T2F_Quad;
 
 /**
  * @addtogroup _2d
@@ -152,7 +166,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ParticleSystemQuad();
+    ~ParticleSystemQuad() override;
 
     // Overrides
     /**
@@ -183,7 +197,7 @@ protected:
     QuadCommand _quadCommand; // quad command
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSystemQuad);
+    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSystemQuad)
 };
 
 // end of _2d group
@@ -191,4 +205,4 @@ private:
 
 NS_CC_END
 
-#endif //__CC_PARTICLE_SYSTEM_QUAD_H__
+#endif // CC_2D_PARTICLESYSTEMQUAD_H

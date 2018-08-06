@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "network/CCDownloader.h"
+#include <cocos/network/CCDownloader.h>
 
 // include platform specific implement class
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)

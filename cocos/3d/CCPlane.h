@@ -22,11 +22,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PLANE_H_
-#define __CC_PLANE_H_
+#ifndef CC_3D_PLANE_H
+#define CC_3D_PLANE_H
 
-#include "base/ccMacros.h"
-#include "math/CCMath.h"
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
@@ -107,4 +108,4 @@ protected:
 
 NS_CC_END
 
-#endif
+#endif // CC_3D_PLANE_H

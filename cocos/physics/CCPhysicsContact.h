@@ -25,14 +25,14 @@
 #ifndef __CCPHYSICS_CONTACT_H__
 #define __CCPHYSICS_CONTACT_H__
 
-#include "base/ccConfig.h"
+#include <cocos/base/ccConfig.h>
 #if CC_USE_PHYSICS
 
-#    include "base/CCEvent.h"
-#    include "base/CCEventCustom.h"
-#    include "base/CCEventListenerCustom.h"
-#    include "base/CCRef.h"
-#    include "math/CCGeometry.h"
+#    include <cocos/base/CCEvent.h>
+#    include <cocos/base/CCEventCustom.h>
+#    include <cocos/base/CCEventListenerCustom.h>
+#    include <cocos/base/CCRef.h>
+#    include <cocos/math/CCGeometry.h>
 
 NS_CC_BEGIN
 

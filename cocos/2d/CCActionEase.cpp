@@ -31,15 +31,19 @@ THE SOFTWARE.
  * by http://github.com/NikhilK
  */
 
-#include "2d/CCActionEase.h"
+#include <cocos/2d/CCActionEase.h>
 
-#include "2d/CCTweenFunction.h"
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/2d/CCTweenFunction.h>
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <new>
 
 NS_CC_BEGIN
 
-#ifndef M_PI_X_2
-#    define M_PI_X_2 static_cast<float>(M_PI) * 2.0f
-#endif
+class Node;
 
 //
 // EaseAction
@@ -103,6 +107,10 @@ ActionInterval* ActionEase::getInnerAction()
 //
 // EaseRateAction
 //
+
+EaseRateAction::~EaseRateAction()
+{
+}
 
 EaseRateAction* EaseRateAction::create(ActionInterval* action, float rate)
 {
@@ -218,6 +226,10 @@ EASERATE_TEMPLATE_IMPL(EaseInOut, tweenfunc::easeInOut);
 //
 // EaseElastic
 //
+
+EaseElastic::~EaseElastic()
+{
+}
 
 bool EaseElastic::initWithAction(ActionInterval* action, float period /* = .3f*/)
 {

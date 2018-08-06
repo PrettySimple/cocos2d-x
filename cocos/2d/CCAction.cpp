@@ -25,13 +25,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCAction.h"
+#include <cocos/2d/CCAction.h>
 
-#include "2d/CCActionInterval.h"
-#include "2d/CCNode.h"
-#include "base/CCDirector.h"
-#include "base/ccMacros.h"
-#include "base/ccUTF8.h"
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <cmath>
+#include <limits>
+#include <new>
 
 NS_CC_BEGIN
 //
@@ -169,7 +177,7 @@ void Speed::startWithTarget(Node* target)
     }
     else
     {
-        log("Speed::startWithTarget error: target(%p) or _innerAction(%p) is nullptr!", target, _innerAction);
+        log("Speed::startWithTarget error: target(%p) or _innerAction(%p) is nullptr!", reinterpret_cast<void*>(target), reinterpret_cast<void*>(_innerAction));
     }
 }
 
@@ -298,7 +306,9 @@ bool Follow::initWithTargetAndOffset(Node* followedNode, float xOffset, float yO
             _topBoundary = _bottomBoundary = (_topBoundary + _bottomBoundary) / 2;
         }
 
-        if ((_topBoundary == _bottomBoundary) && (_leftBoundary == _rightBoundary))
+        static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+
+        if (std::abs(_topBoundary - _bottomBoundary) < epsi && std::abs(_leftBoundary - _rightBoundary) < epsi)
         {
             _boundaryFullyCovered = true;
         }

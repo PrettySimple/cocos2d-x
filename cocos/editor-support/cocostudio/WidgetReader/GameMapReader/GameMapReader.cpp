@@ -24,13 +24,16 @@
 
 #include "GameMapReader.h"
 
-#include "2d/CCTMXXMLParser.h"
+#include <cocos/2d/CCTMXXMLParser.h>
 
 #include "cocostudio/CSParseBinary_generated.h"
 #include "cocostudio/WidgetReader/NodeReader/NodeReader.h"
 
-#include "flatbuffers/flatbuffers.h"
-#include "tinyxml2.h"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <flatbuffers/flatbuffers.h>
+#include <tinyxml2/tinyxml2.h>
+#pragma clang diagnostic pop
 
 USING_NS_CC;
 using namespace flatbuffers;

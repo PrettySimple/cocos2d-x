@@ -24,7 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
 #    include "network/HttpClient.h"
@@ -34,11 +34,11 @@
 #    include <sstream>
 #    include <stdio.h>
 
-#    include "base/CCDirector.h"
-#    include "platform/CCFileUtils.h"
-#    include "platform/android/jni/JniHelper.h"
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/platform/CCFileUtils.h>
+#    include <cocos/platform/android/jni/JniHelper.h>
 
-#    include "base/ccUTF8.h"
+#    include <cocos/base/ccUTF8.h>
 
 NS_CC_BEGIN
 
@@ -210,7 +210,7 @@ namespace network
             if (JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/lib/Cocos2dxHttpURLConnection", "sendRequest", "(Ljava/net/HttpURLConnection;[B)V"))
             {
                 jbyteArray bytearray;
-                ssize_t dataSize = request->getRequestDataSize();
+                std::size_t dataSize = request->getRequestDataSize();
                 bytearray = methodInfo.env->NewByteArray(dataSize);
                 methodInfo.env->SetByteArrayRegion(bytearray, 0, dataSize, (const jbyte*)request->getRequestData());
                 methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, _httpURLConnection, bytearray);

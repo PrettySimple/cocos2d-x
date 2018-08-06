@@ -22,12 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCSYNC_TASK_POOL_H_
-#define __CCSYNC_TASK_POOL_H_
+#ifndef CC_BASE_ASYNCTASKPOOL_H
+#define CC_BASE_ASYNCTASKPOOL_H
 
-#include "base/CCDirector.h"
-#include "base/CCScheduler.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCScheduler.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <condition_variable>
 #include <functional>
 #include <future>
@@ -199,14 +200,14 @@ protected:
 
 inline void AsyncTaskPool::stopTasks(TaskType type)
 {
-    auto& threadTask = _threadTasks[(int)type];
+    auto& threadTask = _threadTasks[static_cast<int>(type)];
     threadTask.clear();
 }
 
 template <class F>
 inline void AsyncTaskPool::enqueue(AsyncTaskPool::TaskType type, const TaskCallBack& callback, void* callbackParam, F&& f)
 {
-    auto& threadTask = _threadTasks[(int)type];
+    auto& threadTask = _threadTasks[static_cast<int>(type)];
 
     threadTask.enqueue(callback, callbackParam, f);
 }
@@ -214,4 +215,4 @@ inline void AsyncTaskPool::enqueue(AsyncTaskPool::TaskType type, const TaskCallB
 NS_CC_END
 // end group
 /// @}
-#endif //__CCSYNC_TASK_POOL_H_
+#endif // CC_BASE_ASYNCTASKPOOL_H

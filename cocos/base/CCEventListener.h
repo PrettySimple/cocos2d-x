@@ -22,15 +22,17 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCEVENTLISTENER_H__
-#define __CCEVENTLISTENER_H__
+#ifndef CC_BASE_EVENTLISTENER_H
+#define CC_BASE_EVENTLISTENER_H
+
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <functional>
-#include <memory>
+#include <iosfwd>
 #include <string>
-
-#include "base/CCRef.h"
-#include "platform/CCPlatformMacros.h"
 
 /**
  * @addtogroup base
@@ -181,4 +183,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif // __CCEVENTLISTENER_H__
+#endif // CC_BASE_EVENTLISTENER_H

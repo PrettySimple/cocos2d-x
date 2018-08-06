@@ -22,15 +22,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __UIWIDGET_H__
-#define __UIWIDGET_H__
+#ifndef CC_UI_WIDGET_H
+#define CC_UI_WIDGET_H
 
-#include "2d/CCProtectedNode.h"
-#include "base/CCMap.h"
-#include "ui/GUIDefine.h"
-#include "ui/GUIExport.h"
-#include "ui/UILayoutParameter.h"
-#include "ui/UIWidget.h"
+#include <cocos/2d/CCProtectedNode.h>
+#include <cocos/base/CCMap.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UILayoutParameter.h>
+
+#include <cstdint>
+#include <functional>
+#include <string>
 
 /**
  * @addtogroup ui
@@ -38,8 +43,16 @@ THE SOFTWARE.
  */
 NS_CC_BEGIN
 
-class EventListenerTouchOneByOne;
 class Camera;
+class Event;
+class EventListenerTouchOneByOne;
+class GLProgramState;
+class Mat4;
+class Node;
+class Ref;
+class Renderer;
+class Touch;
+class Vec3;
 
 namespace ui
 {
@@ -81,7 +94,7 @@ namespace ui
         /**
          * Widget focus direction.
          */
-        enum class FocusDirection
+        enum struct FocusDirection : std::uint8_t
         {
             LEFT,
             RIGHT,
@@ -92,7 +105,7 @@ namespace ui
         /**
          * Widget position type for layout.
          */
-        enum class PositionType
+        enum struct PositionType : std::uint8_t
         {
             ABSOLUTE,
             PERCENT
@@ -101,7 +114,7 @@ namespace ui
         /**
          * Widget size type for layout.
          */
-        enum class SizeType
+        enum struct SizeType : std::uint8_t
         {
             ABSOLUTE,
             PERCENT
@@ -110,7 +123,7 @@ namespace ui
         /**
          * Touch event type.
          */
-        enum class TouchEventType
+        enum struct TouchEventType : std::uint8_t
         {
             BEGAN,
             MOVED,
@@ -123,7 +136,7 @@ namespace ui
          * - LOCAL:  It means the texture is loaded from image.
          * - PLIST: It means the texture is loaded from texture atlas.
          */
-        enum class TextureResType
+        enum struct TextureResType : std::uint8_t
         {
             LOCAL = 0,
             PLIST = 1
@@ -132,7 +145,7 @@ namespace ui
         /**
          * Widget bright style.
          */
-        enum class BrightStyle
+        enum struct BrightStyle : std::int8_t
         {
             NONE = -1,
             NORMAL,
@@ -142,29 +155,29 @@ namespace ui
         /**
          * Widget touch event callback.
          */
-        typedef std::function<void(Ref*, Widget::TouchEventType)> ccWidgetTouchCallback;
+        using ccWidgetTouchCallback = std::function<void(Ref*, Widget::TouchEventType)>;
         /**
          * Widget click event callback.
          */
-        typedef std::function<void(Ref*)> ccWidgetClickCallback;
+        using ccWidgetClickCallback = std::function<void(Ref*)>;
         /**
          * Widget custom event callback.
          * It is mainly used together with Cocos Studio.
          */
-        typedef std::function<void(Ref*, int)> ccWidgetEventCallback;
+        using ccWidgetEventCallback = std::function<void(Ref*, int)>;
         /**
          * Default constructor
          * @js ctor
          * @lua new
          */
-        Widget(void);
+        Widget();
 
         /**
          * Default destructor
          * @js NA
          * @lua NA
          */
-        virtual ~Widget();
+        ~Widget() override;
         /**
          * Create and return a empty Widget instance pointer.
          */
@@ -299,7 +312,7 @@ namespace ui
         /**
          * @js NA
          */
-        virtual void visit(cocos2d::Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
+        virtual void visit(cocos2d::Renderer* renderer, const Mat4& parentTransform, std::uint32_t parentFlags) override;
 
         /**
          * Sets the touch event target/selector to the widget
@@ -384,7 +397,7 @@ namespace ui
          *
          * @return true if the widget is flipped horizontally, false otherwise.
          */
-        virtual bool isFlippedX() const { return _flippedX; };
+        virtual bool isFlippedX() const { return _flippedX; }
 
         /**
          * Sets whether the widget should be flipped vertically or not.
@@ -402,16 +415,16 @@ namespace ui
          *
          * @return true if the widget is flipped vertically, false otherwise.
          */
-        virtual bool isFlippedY() const { return _flippedY; };
+        virtual bool isFlippedY() const { return _flippedY; }
 
         /** @deprecated Use isFlippedX() instead */
-        CC_DEPRECATED_ATTRIBUTE bool isFlipX() { return isFlippedX(); };
+        CC_DEPRECATED_ATTRIBUTE bool isFlipX() { return isFlippedX(); }
         /** @deprecated Use setFlippedX() instead */
-        CC_DEPRECATED_ATTRIBUTE void setFlipX(bool flipX) { setFlippedX(flipX); };
+        CC_DEPRECATED_ATTRIBUTE void setFlipX(bool flipX) { setFlippedX(flipX); }
         /** @deprecated Use isFlippedY() instead */
-        CC_DEPRECATED_ATTRIBUTE bool isFlipY() { return isFlippedY(); };
+        CC_DEPRECATED_ATTRIBUTE bool isFlipY() { return isFlippedY(); }
         /** @deprecated Use setFlippedY() instead */
-        CC_DEPRECATED_ATTRIBUTE void setFlipY(bool flipY) { setFlippedY(flipY); };
+        CC_DEPRECATED_ATTRIBUTE void setFlipY(bool flipY) { setFlippedY(flipY); }
 
         // override the setScale function of Node
         virtual void setScaleX(float scaleX) override;
@@ -530,7 +543,7 @@ namespace ui
          * @warning This API exists mainly for keeping back compatibility.
          * @return
          */
-        virtual const Size& getLayoutSize() { return _contentSize; };
+        virtual const Size& getLayoutSize() { return _contentSize; }
 
         /**
          * Get size percent of widget.
@@ -761,11 +774,7 @@ namespace ui
          *                  otherwise, it will return a widget or a layout.
          * @deprecated use `getCurrentFocusedWidget` instead.
          */
-        CC_DEPRECATED_ATTRIBUTE Widget* getCurrentFocusedWidget(bool isWidget)
-        {
-            CC_UNUSED_PARAM(isWidget);
-            return getCurrentFocusedWidget();
-        }
+        CC_DEPRECATED_ATTRIBUTE Widget* getCurrentFocusedWidget(bool) { return getCurrentFocusedWidget(); }
 
         /**
          * Return a current focused widget in your UI scene.
@@ -906,7 +915,7 @@ namespace ui
         virtual void releaseUpEvent();
         virtual void cancelUpEvent();
 
-        virtual void adaptRenderers(){};
+        virtual void adaptRenderers() {}
         void updateChildrenDisplayedRGBA();
 
         void copyProperties(Widget* model);
@@ -1000,4 +1009,4 @@ NS_CC_END
 // end of ui group
 /// @}
 
-#endif /* defined(__Widget__) */
+#endif // CC_UI_WIDGET_H

@@ -22,10 +22,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "renderer/CCGLProgramStateCache.h"
+#include <cocos/renderer/CCGLProgramStateCache.h>
 
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramState.h"
+#include <cocos/base/CCMap.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCGLProgramState.h>
+
+#include <new>
+#include <unordered_map>
+#include <utility>
 
 NS_CC_BEGIN
 

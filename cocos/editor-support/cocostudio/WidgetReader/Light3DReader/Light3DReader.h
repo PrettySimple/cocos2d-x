@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__Light3DReader__
-#define __cocos2d_libs__Light3DReader__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_LIGHT3DREADER_LIGHT3DREADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_LIGHT3DREADER_LIGHT3DREADER_H
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/WidgetReader/NodeReaderDefine.h"
@@ -55,4 +55,4 @@ namespace cocostudio
     };
 } // namespace cocostudio
 
-#endif /* defined(__cocos2d_libs__Sprite3DReader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_LIGHT3DREADER_LIGHT3DREADER_H

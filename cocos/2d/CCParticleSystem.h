@@ -24,13 +24,22 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CCPARTICLE_SYSTEM_H__
-#define __CCPARTICLE_SYSTEM_H__
+#ifndef CC_2D_PARTICLESYSTEM_H
+#define CC_2D_PARTICLESYSTEM_H
 
-#include "2d/CCNode.h"
-#include "base/CCProtocols.h"
-#include "base/CCValue.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCProtocols.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <chrono>
+#include <iosfwd>
 
 NS_CC_BEGIN
 
@@ -795,7 +804,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ParticleSystem();
+    ~ParticleSystem() override;
 
     /** initializes a ParticleSystem*/
     bool init() override;
@@ -996,7 +1005,7 @@ protected:
     bool _paused;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSystem);
+    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSystem)
 };
 
 // end of _2d group
@@ -1004,4 +1013,4 @@ private:
 
 NS_CC_END
 
-#endif //__CCPARTICLE_SYSTEM_H__
+#endif // CC_2D_PARTICLESYSTEM_H

@@ -23,18 +23,24 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCController.h"
-#include "platform/CCPlatformConfig.h"
+#include <cocos/base/CCController.h>
+
+#include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 
-#    include "2d/CCLabel.h"
-#    include "base/CCDirector.h"
-#    include "base/CCEventController.h"
-#    include "base/CCEventDispatcher.h"
-#    include "base/CCEventListenerController.h"
-#    include "base/ccMacros.h"
+#    include <cocos/base/CCConsole.h>
+#    include <cocos/base/CCController.h>
+#    include <cocos/base/CCEventController.h>
+#    include <cocos/platform/CCPlatformConfig.h>
+#    include <cocos/platform/CCPlatformMacros.h>
 
-#    import <GameController/GameController.h>
+#    import <Foundation/NSObjCRuntime.h>
+#    include <GameController/GCController.h>
+
+#    include <algorithm>
+#    include <iosfwd>
+#    include <new>
+#    include <vector>
 
 @interface GCControllerConnectionEventHandler : NSObject
 
@@ -52,8 +58,7 @@ typedef void (^GCControllerDisconnectionBlock)(GCController* controller);
 
 static GCControllerConnectionEventHandler* __instance = nil;
 
-+ (GCControllerConnectionEventHandler*)getInstance
-{
++ (GCControllerConnectionEventHandler*)getInstance {
     if (__instance == nil)
     {
         __instance = [[GCControllerConnectionEventHandler alloc] init];
@@ -61,8 +66,7 @@ static GCControllerConnectionEventHandler* __instance = nil;
     return __instance;
 }
 
-+ (void)destroyInstance
-{
++ (void)destroyInstance {
     if (__instance)
     {
         [__instance release];
@@ -70,8 +74,7 @@ static GCControllerConnectionEventHandler* __instance = nil;
     }
 }
 
-- (void)observerConnection:(GCControllerConnectionBlock)connectBlock disconnection:(GCControllerDisconnectionBlock)disconnectBlock
-{
+- (void)observerConnection:(GCControllerConnectionBlock)connectBlock disconnection:(GCControllerDisconnectionBlock)disconnectBlock {
     self._connectionBlock = connectBlock;
     self._disconnectionBlock = disconnectBlock;
 
@@ -80,22 +83,19 @@ static GCControllerConnectionEventHandler* __instance = nil;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onControllerDisconnected:) name:GCControllerDidDisconnectNotification object:nil];
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
 
-- (void)onControllerConnected:(NSNotification*)connectedNotification
-{
-    GCController* controller = (GCController*)[connectedNotification object];
+- (void)onControllerConnected:(NSNotification*)connectedNotification {
+    GCController* controller = static_cast<GCController*>([connectedNotification object]);
 
     self._connectionBlock(controller);
 }
 
-- (void)onControllerDisconnected:(NSNotification*)connectedNotification
-{
-    GCController* controller = (GCController*)[connectedNotification object];
+- (void)onControllerDisconnected:(NSNotification*)connectedNotification {
+    GCController* controller = static_cast<GCController*>([connectedNotification object]);
     self._disconnectionBlock(controller);
 }
 
@@ -162,12 +162,7 @@ void Controller::stopDiscoveryController()
 }
 
 Controller::Controller()
-: _controllerTag(TAG_UNSET)
-, _impl(new ControllerImpl(this))
-, _connectEvent(nullptr)
-, _keyEvent(nullptr)
-, _axisEvent(nullptr)
-, _deviceId(0)
+: _impl(new ControllerImpl(this))
 {
     init();
 }

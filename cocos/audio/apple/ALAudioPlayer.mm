@@ -23,17 +23,15 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#define LOG_TAG "ALAudioPlayer"
-
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
 #    import <Foundation/Foundation.h>
 
-#    include "audio/apple/ALAudioPlayer.h"
-#    include "audio/apple/AudioCache.h"
-#    include "audio/apple/AudioDecoder.h"
-#    include "platform/CCFileUtils.h"
+#    include <cocos/audio/apple/ALAudioPlayer.h>
+#    include <cocos/audio/apple/AudioCache.h>
+#    include <cocos/audio/apple/AudioDecoder.h>
+#    include <cocos/platform/CCFileUtils.h>
 
 #    ifdef VERY_VERY_VERBOSE_LOGGING
 #        define ALOGVV ALOGV
@@ -121,23 +119,26 @@ void ALAudioPlayer::destroy()
                 delete _rotateBufferThread;
                 _rotateBufferThread = nullptr;
                 ALOGVV("rotateBufferThread exited!");
-                
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+
+#    if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
                 // some specific OpenAL implement defects existed on iOS platform
                 // refer to: https://github.com/cocos2d/cocos2d-x/issues/18597
                 ALint sourceState;
                 ALint bufferProcessed = 0;
                 alGetSourcei(_alSource, AL_SOURCE_STATE, &sourceState);
-                if (sourceState == AL_PLAYING) {
+                if (sourceState == AL_PLAYING)
+                {
                     alGetSourcei(_alSource, AL_BUFFERS_PROCESSED, &bufferProcessed);
-                    while (bufferProcessed < QUEUEBUFFER_NUM) {
+                    while (bufferProcessed < QUEUEBUFFER_NUM)
+                    {
                         std::this_thread::sleep_for(std::chrono::milliseconds(2));
                         alGetSourcei(_alSource, AL_BUFFERS_PROCESSED, &bufferProcessed);
                     }
-                    alSourceUnqueueBuffers(_alSource, QUEUEBUFFER_NUM, _bufferIds); CHECK_AL_ERROR_DEBUG();
+                    alSourceUnqueueBuffers(_alSource, QUEUEBUFFER_NUM, _bufferIds);
+                    CHECK_AL_ERROR_DEBUG();
                 }
                 ALOGVV("UnqueueBuffers Before alSourceStop");
-#endif
+#    endif
             }
         }
     } while (false);
@@ -275,7 +276,7 @@ void ALAudioPlayer::rotateBufferThread(int offsetFrame)
                 uint32_t framesRead = 0;
                 const uint32_t framesToRead = _audioCache.getQueBufferFrames();
                 const uint32_t bufferSize = framesToRead * decoder.getBytesPerFrame();
-                tmpBuffer = (char*)malloc(bufferSize);
+                tmpBuffer = reinterpret_cast<char*>(malloc(bufferSize));
                 memset(tmpBuffer, 0, bufferSize);
 
                 if (offsetFrame != 0)
@@ -354,7 +355,7 @@ void ALAudioPlayer::rotateBufferThread(int offsetFrame)
 
                     if (!_needWakeupRotateThread)
                     {
-                         _sleepCondition.wait_for(lk,std::chrono::milliseconds(rotateSleepTime));
+                        _sleepCondition.wait_for(lk, std::chrono::milliseconds(rotateSleepTime));
                     }
 
                     _needWakeupRotateThread = false;

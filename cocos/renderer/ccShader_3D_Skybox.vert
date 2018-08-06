@@ -1,3 +1,5 @@
+#pragma once
+
 const char* cc3D_Skybox_vert = R"(
 uniform mat4 u_cameraRot;
 attribute vec3 a_position;

@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 
 #    import "network/HttpAsynConnection-apple.h"
@@ -48,8 +48,7 @@
 @synthesize finish = finish;
 @synthesize runLoop = runLoop;
 
-- (void)dealloc
-{
+- (void)dealloc {
     [srcURL release];
     [sslFile release];
     [responseHeader release];
@@ -62,13 +61,12 @@
     [super dealloc];
 }
 
-- (void)startRequest:(NSURLRequest*)request
-{
+- (void)startRequest:(NSURLRequest*)request {
 #    ifdef COCOS2D_DEBUG
-    NSLog(@"Starting to load %@", srcURL);
+    NSLog(@"Starting to load %@", self.srcURL);
 #    endif
 
-    finish = false;
+    self.finish = false;
 
     self.responseData = [NSMutableData data];
     getDataTime = 0;
@@ -92,10 +90,9 @@
  * Therefore, it is important to reset the data on each call.  Do not assume that it is the first call
  * of this method.
  **/
-- (void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response
-{
+- (void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response {
 #    ifdef COCOS2D_DEBUG
-    NSLog(@"Received response from request to url %@", srcURL);
+    NSLog(@"Received response from request to url %@", self.srcURL);
 #    endif
 
     NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
@@ -103,8 +100,8 @@
     self.responseHeader = [httpResponse allHeaderFields];
 
     responseCode = httpResponse.statusCode;
-    self.statusString = [NSHTTPURLResponse localizedStringForStatusCode:responseCode];
-    if (responseCode == 200)
+    self.statusString = [NSHTTPURLResponse localizedStringForStatusCode:self.responseCode];
+    if (self.responseCode == 200)
         self.statusString = @"OK";
 
     /*The individual values of the numeric status codes defined for HTTP/1.1
@@ -116,22 +113,23 @@
     | "205"  ; Reset Content
     | "206"  ; Partial Content
     */
-    if (responseCode < 200 || responseCode >= 300)
+    if (self.responseCode < 200 || self.responseCode >= 300)
     { // something went wrong, abort the whole thing
-        self.responseError = [NSError errorWithDomain:@"CCBackendDomain" code:responseCode userInfo:@{NSLocalizedDescriptionKey: @"Bad HTTP Response Code"}];
+        self.responseError = [NSError errorWithDomain:@"CCBackendDomain"
+                                                 code:self.responseCode
+                                             userInfo:@{NSLocalizedDescriptionKey: @"Bad HTTP Response Code"}];
     }
 
-    [responseData setLength:0];
+    [self.responseData setLength:0];
 }
 
 /**
  * This delegate method is called for each chunk of data received from the server.  The chunk size
  * is dependent on the network type and the server configuration.
  */
-- (void)connection:(NSURLConnection*)connection didReceiveData:(NSData*)data
-{
+- (void)connection:(NSURLConnection*)connection didReceiveData:(NSData*)data {
     // NSLog(@"get some data");
-    [responseData appendData:data];
+    [self.responseData appendData:data];
     getDataTime++;
 }
 
@@ -139,30 +137,27 @@
  * This delegate method is called if the connection cannot be established to the server.
  * The error object will have a description of the error
  **/
-- (void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error
-{
+- (void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error {
     // NSLog(@"Load failed with error %@", [error localizedDescription]);
     self.connError = error;
 
-    finish = true;
+    self.finish = true;
 }
 
 /**
  * This delegate method is called when the data load is complete.  The delegate will be released
  * following this call
  **/
-- (void)connectionDidFinishLoading:(NSURLConnection*)connection
-{
-    finish = true;
+- (void)connectionDidFinishLoading:(NSURLConnection*)connection {
+    self.finish = true;
 }
 
 // Server evaluates client's certificate
-- (BOOL)shouldTrustProtectionSpace:(NSURLProtectionSpace*)protectionSpace
-{
-    if (sslFile == nil)
+- (BOOL)shouldTrustProtectionSpace:(NSURLProtectionSpace*)protectionSpace {
+    if (self.sslFile == nil)
         return YES;
     // load the bundle client certificate
-    NSString* certPath = [[NSBundle mainBundle] pathForResource:sslFile ofType:@"der"];
+    NSString* certPath = [[NSBundle mainBundle] pathForResource:self.sslFile ofType:@"der"];
     NSData* certData = [[NSData alloc] initWithContentsOfFile:certPath];
     CFDataRef certDataRef = (CFDataRef)certData;
     SecCertificateRef cert = SecCertificateCreateWithData(NULL, certDataRef);
@@ -196,8 +191,7 @@
     return trustResult == kSecTrustResultUnspecified || trustResult == kSecTrustResultProceed;
 }
 
-- (void)connection:(NSURLConnection*)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge*)challenge
-{
+- (void)connection:(NSURLConnection*)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge*)challenge {
     id<NSURLAuthenticationChallengeSender> sender = challenge.sender;
     NSURLProtectionSpace* protectionSpace = challenge.protectionSpace;
 

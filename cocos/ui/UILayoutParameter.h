@@ -22,11 +22,15 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __LAYOUTPARMETER_H__
-#define __LAYOUTPARMETER_H__
+#ifndef CC_UI_LAYOUTPARAMETER_H
+#define CC_UI_LAYOUTPARAMETER_H
 
-#include "base/CCRef.h"
-#include "ui/GUIExport.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIExport.h>
+
+#include <iosfwd>
 #include <string>
 
 /**
@@ -41,31 +45,40 @@ namespace ui
      *@brief Margin of widget's in point. Margin value should be positive.
      *@lua NA
      */
-    class CC_GUI_DLL Margin
+    class CC_GUI_DLL Margin final
     {
     public:
-        /**
-         * Left margin.
-         */
-        float left;
-        /**
-         * Top margin.
-         */
-        float top;
-        /**
-         * Right margin.
-         */
-        float right;
-        /**
-         * Bottom margin.
-         */
-        float bottom;
+#ifdef __ARM_NEON
+        using f32x4_t = __attribute__((neon_vector_type(4))) float;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        using f32x4_t = float[4];
+#else
+        using f32x4_t = __attribute__((ext_vector_type(4))) float;
+#endif
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu-anonymous-struct"
+#pragma clang diagnostic ignored "-Wnested-anon-types"
+        union
+        {
+            f32x4_t v = {0.f, 0.f, 0.f, 0.f};
+            struct
+            {
+                float left;
+                float top;
+                float right;
+                float bottom;
+            };
+        };
+#pragma clang diagnostic pop
 
     public:
-        /**
-         * Default constructor.
-         */
-        Margin();
+        Margin() = default;
+        Margin(Margin const&) = default;
+        Margin& operator=(Margin const&) = default;
+        Margin(Margin&&) noexcept = default;
+        Margin& operator=(Margin&&) noexcept = default;
+        ~Margin() = default;
 
         /**
          * Construct a Margin instance with left, top, right and bottom margins.
@@ -74,17 +87,20 @@ namespace ui
          *@param r Right margin in float.
          *@param b Bottom margin in float.
          */
-        Margin(float l, float t, float r, float b);
-
-        /**
-         * Copy constructor.
-         */
-        Margin(const Margin& other);
-
-        /**
-         * Copy assignment operator.
-         */
-        Margin& operator=(const Margin& other);
+        constexpr Margin(float l, float t, float r, float b) noexcept
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        : left(l)
+        , top(t)
+        , right(r)
+        , bottom(b)
+#else
+        : v
+        {
+            l, t, r, b
+        }
+#endif
+        {
+        }
 
         /**
          * Change margin with left, top, right and bottom margin.
@@ -93,14 +109,14 @@ namespace ui
          *@param r Right margin in float.
          *@param b Bottom margin in float.
          */
-        void setMargin(float l, float t, float r, float b);
+        void setMargin(float l, float t, float r, float b) noexcept;
 
         /**
          * Test equality of two margins.
          *@param target A Margin instance.
          *@return True if two margins are equal, false otherwise.
          */
-        bool equals(const Margin& target) const;
+        bool equals(const Margin& other) const noexcept;
 
         /**
          * A margin constant with all margins equal zero.
@@ -126,7 +142,7 @@ namespace ui
          * - Linear: Elements will  be arranged by margin.
          * - Relative: Elements will be arranged by margin and relative widget name.
          */
-        enum class Type
+        enum struct Type : std::uint8_t
         {
             NONE = 0,
             LINEAR,
@@ -147,7 +163,7 @@ namespace ui
          * Default destructor.
          * @lua NA
          */
-        virtual ~LayoutParameter(){};
+        ~LayoutParameter() override = default;
 
         /**
          * Create a empty LayoutParameter.
@@ -212,7 +228,7 @@ namespace ui
         /**
          * Default destructor.
          */
-        virtual ~LayoutParameterProtocol() {}
+        virtual ~LayoutParameterProtocol();
 
         /**
          *
@@ -258,7 +274,7 @@ namespace ui
          *
          * @lua NA
          */
-        virtual ~LinearLayoutParameter(){};
+        ~LinearLayoutParameter() override = default;
 
         /**
          * Create a empty LinearLayoutParameter instance.
@@ -283,8 +299,8 @@ namespace ui
         LinearGravity getGravity() const;
 
         // override functions.
-        virtual LayoutParameter* createCloneInstance() override;
-        virtual void copyProperties(LayoutParameter* model) override;
+        LayoutParameter* createCloneInstance() override;
+        void copyProperties(LayoutParameter* model) override;
 
     protected:
         LinearGravity _linearGravity;
@@ -349,7 +365,7 @@ namespace ui
          *
          * @lua NA
          */
-        virtual ~RelativeLayoutParameter(){};
+        ~RelativeLayoutParameter() override = default;
 
         /**
          * Create a RelativeLayoutParameter instance.
@@ -401,8 +417,8 @@ namespace ui
         const std::string& getRelativeName() const;
 
         // override functions.
-        virtual LayoutParameter* createCloneInstance() override;
-        virtual void copyProperties(LayoutParameter* model) override;
+        LayoutParameter* createCloneInstance() override;
+        void copyProperties(LayoutParameter* model) override;
 
     protected:
         RelativeAlign _relativeAlign;
@@ -417,4 +433,4 @@ NS_CC_END
 // end of ui group
 /// @}
 
-#endif /* defined(__LayoutParameter__) */
+#endif // CC_UI_LAYOUTPARAMETER_H

@@ -23,8 +23,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCData.h"
-#include "base/CCConsole.h"
+#include <cocos/base/CCData.h>
+
+#include <cocos/base/CCConsole.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <cstdlib>
+#include <cstring>
 
 NS_CC_BEGIN
 
@@ -94,24 +99,24 @@ unsigned char* Data::getBytes() const
     return _bytes;
 }
 
-ssize_t Data::getSize() const
+std::size_t Data::getSize() const
 {
     return _size;
 }
 
-void Data::copy(const unsigned char* bytes, const ssize_t size)
+void Data::copy(const unsigned char* bytes, const std::size_t size)
 {
     clear();
 
     if (size > 0)
     {
         _size = size;
-        _bytes = (unsigned char*)malloc(sizeof(unsigned char) * _size);
+        _bytes = reinterpret_cast<unsigned char*>(malloc(sizeof(unsigned char) * _size));
         memcpy(_bytes, bytes, _size);
     }
 }
 
-void Data::fastSet(unsigned char* bytes, const ssize_t size)
+void Data::fastSet(unsigned char* bytes, const std::size_t size)
 {
     _bytes = bytes;
     _size = size;
@@ -124,7 +129,7 @@ void Data::clear()
     _size = 0;
 }
 
-unsigned char* Data::takeBuffer(ssize_t* size)
+unsigned char* Data::takeBuffer(std::size_t* size)
 {
     auto buffer = getBytes();
     if (size)

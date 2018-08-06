@@ -22,30 +22,30 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "audio/include/AudioEngine.h"
+#include <cocos/audio/include/AudioEngine.h>
 
-#include "base/ccUtils.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCPlatformConfig.h"
+#include <cocos/base/ccUtils.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformConfig.h>
 
 #include <condition_variable>
 #include <queue>
 #include <unordered_set>
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-#    include "audio/android/AudioEngine-inl.h"
+#    include <cocos/audio/android/AudioEngine-inl.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
-#    include "audio/apple/AudioEngine-inl.h"
+#    include <cocos/audio/apple/AudioEngine-inl.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-#    include "audio/win32/AudioEngine-win32.h"
+#    include <cocos/audio/win32/AudioEngine-win32.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
-#    include "audio/winrt/AudioEngine-winrt.h"
+#    include <cocos/audio/winrt/AudioEngine-winrt.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
-#    include "audio/linux/AudioEngine-linux.h"
+#    include <cocos/audio/linux/AudioEngine-linux.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
-#    include "audio/tizen/AudioEngine-tizen.h"
+#    include <cocos/audio/tizen/AudioEngine-tizen.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
-#    include "audio/emscripten/AudioEngine-emscripten.h"
+#    include <cocos/audio/emscripten/AudioEngine-emscripten.h>
 #endif
 
 #define TIME_DELAY_PRECISION 0.0001
@@ -272,7 +272,7 @@ void AudioEngine::setVolume(int audioID, float volume)
             volume = 1.0f;
         }
 
-        if (it->second.volume != volume)
+        if (std::abs(it->second.volume - volume) >= std::numeric_limits<float>::epsilon())
         {
             _audioEngineImpl->setVolume(audioID, volume);
             it->second.volume = volume;

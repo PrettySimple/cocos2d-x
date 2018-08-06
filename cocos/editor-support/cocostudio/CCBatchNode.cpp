@@ -26,10 +26,10 @@ THE SOFTWARE.
 #include "cocostudio/CCArmature.h"
 #include "cocostudio/CCSkin.h"
 
-#include "base/CCDirector.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCGroupCommand.h"
-#include "renderer/CCRenderer.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCGroupCommand.h>
+#include <cocos/renderer/CCRenderer.h>
 
 using namespace cocos2d;
 

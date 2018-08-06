@@ -24,25 +24,36 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CC_FAST_TMX_LAYER_H__
-#define __CC_FAST_TMX_LAYER_H__
+#ifndef CC_2D_FASTTMXLAYER_H
+#define CC_2D_FASTTMXLAYER_H
 
-#include "2d/CCNode.h"
-#include "2d/CCTMXXMLParser.h"
-#include "base/CCMap.h"
-#include "renderer/CCPrimitiveCommand.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCTMXXMLParser.h>
+#include <cocos/base/CCMap.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCPrimitiveCommand.h>
 
+#include <cstdint>
 #include <map>
+#include <string>
 #include <unordered_map>
+#include <utility>
+#include <vector>
 
 NS_CC_BEGIN
 
-class TMXMapInfo;
-class TMXLayerInfo;
-class TMXTilesetInfo;
-class Texture2D;
+class IndexBuffer;
 class Sprite;
-struct _ccCArray;
+class Texture2D;
+class Vec2;
+class VertexBuffer;
+class VertexData;
 
 namespace experimental
 {
@@ -96,7 +107,7 @@ namespace experimental
          * @js NA
          * @lua NA
          */
-        virtual ~TMXLayer();
+        ~TMXLayer() override;
 
         /** Returns the tile gid at a given tile coordinate. It also returns the tile flags.
          *
@@ -189,7 +200,7 @@ namespace experimental
          * @lua NA
          * @return The pointer to the map of tiles.
          */
-        const uint32_t* getTiles() const { return _tiles; };
+        const uint32_t* getTiles() const { return _tiles; }
 
         /** Set the pointer to the map of tiles.
          *
@@ -199,7 +210,7 @@ namespace experimental
         {
             _tiles = tiles;
             _quadsDirty = true;
-        };
+        }
 
         /** Tileset information for the layer.
          *
@@ -293,7 +304,7 @@ namespace experimental
         void updateTotalQuads();
 
         void onDraw(Primitive* primitive);
-        int getTileIndexByPos(int x, int y) const { return x + y * (int)_layerSize.width; }
+        int getTileIndexByPos(int x, int y) const { return x + y * static_cast<int>(_layerSize.width); }
 
         void updateVertexBuffer();
         void updateIndexBuffer();
@@ -308,7 +319,7 @@ namespace experimental
         /** size of the map's tile (could be different from the tile's size) */
         Size _mapTileSize;
         /** pointer to the map of tiles */
-        uint32_t* _tiles;
+        std::uint32_t* _tiles;
         /** Tileset information for the layer */
         TMXTilesetInfo* _tileSet;
         /** Layer orientation, which is the same as the map orientation */
@@ -362,4 +373,4 @@ namespace experimental
 } // end of namespace experimental
 NS_CC_END
 
-#endif //__CCTMX_LAYER2_H__
+#endif // CC_2D_FASTTMXLAYER_H

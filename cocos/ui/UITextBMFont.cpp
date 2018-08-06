@@ -22,9 +22,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UITextBMFont.h"
-#include "2d/CCLabel.h"
-#include "editor-support/cocostudio/CocosStudioExtension.h"
+#include <cocos/ui/UITextBMFont.h>
+
+#include <cocos/2d/CCLabel.h>
+#include <cocos/editor-support/cocostudio/CocosStudioExtension.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <new>
+#include <string>
 
 NS_CC_BEGIN
 
@@ -103,7 +111,7 @@ namespace ui
 
     const std::string& TextBMFont::getString() const { return _stringValue; }
 
-    ssize_t TextBMFont::getStringLength() const { return _labelBMFontRenderer->getStringLength(); }
+    std::size_t TextBMFont::getStringLength() const { return _labelBMFontRenderer->getStringLength(); }
 
     void TextBMFont::onSizeChanged()
     {

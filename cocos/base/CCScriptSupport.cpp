@@ -23,12 +23,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCScriptSupport.h"
+#include <cocos/base/CCScriptSupport.h>
 
 #if CC_ENABLE_SCRIPT_BINDING
 
-#    include "2d/CCNode.h"
-#    include "base/CCScheduler.h"
+#    include <cocos/2d/CCNode.h>
+#    include <cocos/base/CCScheduler.h>
 
 bool CC_DLL cc_assert_script_compatible(const char* msg)
 {

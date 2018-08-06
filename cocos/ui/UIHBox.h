@@ -22,11 +22,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __UIHBox_H__
-#define __UIHBox_H__
+#ifndef CC_UI_HBOX_H
+#define CC_UI_HBOX_H
 
-#include "ui/GUIExport.h"
-#include "ui/UILayout.h"
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UILayout.h>
 
 NS_CC_BEGIN
 
@@ -55,7 +58,7 @@ namespace ui
          * @js NA
          * @lua NA
          */
-        virtual ~HBox();
+        ~HBox() override;
 
         /**
          * Create a empty HBox instance.
@@ -72,7 +75,7 @@ namespace ui
 
         CC_CONSTRUCTOR_ACCESS :
             // initializes state of widget.
-            virtual bool
+            bool
             init() override;
         virtual bool initWithSize(const Size& size);
     };
@@ -83,4 +86,4 @@ namespace ui
 /// @}
 NS_CC_END
 
-#endif /* defined(__UIHBox__) */
+#endif // CC_UI_HBOX_H

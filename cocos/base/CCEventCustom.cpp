@@ -22,8 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCEventCustom.h"
-#include "base/CCEvent.h"
+#include <cocos/base/CCEventCustom.h>
+
+#include <cocos/base/CCEvent.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
@@ -31,6 +33,10 @@ EventCustom::EventCustom(const std::string& eventName)
 : Event(Type::CUSTOM)
 , _userData(nullptr)
 , _eventName(eventName)
+{
+}
+
+EventCustom::~EventCustom()
 {
 }
 

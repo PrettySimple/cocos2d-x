@@ -29,10 +29,19 @@
  *
  * Adapted from cocos2d-x to cocos2d-iphone by Ricardo Quesada
  */
-#include "2d/CCActionCatmullRom.h"
+#include <cocos/2d/CCActionCatmullRom.h>
 
-#include "2d/CCNode.h"
-#include "base/ccMacros.h"
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <algorithm>
+#include <cmath>
+#include <limits>
+#include <new>
 
 using namespace std;
 
@@ -42,7 +51,7 @@ NS_CC_BEGIN;
  *  Implementation of PointArray
  */
 
-PointArray* PointArray::create(ssize_t capacity)
+PointArray* PointArray::create(std::size_t capacity)
 {
     PointArray* pointArray = new (std::nothrow) PointArray();
     if (pointArray && pointArray->initWithCapacity(capacity))
@@ -55,7 +64,7 @@ PointArray* PointArray::create(ssize_t capacity)
     return nullptr;
 }
 
-bool PointArray::initWithCapacity(ssize_t capacity)
+bool PointArray::initWithCapacity(std::size_t capacity)
 {
     _controlPoints = new (std::nothrow) vector<Vec2*>();
     if (capacity > 0)
@@ -125,26 +134,26 @@ void PointArray::addControlPoint(const Vec2& controlPoint)
     _controlPoints->push_back(new Vec2(controlPoint.x, controlPoint.y));
 }
 
-void PointArray::insertControlPoint(Vec2& controlPoint, ssize_t index)
+void PointArray::insertControlPoint(Vec2& controlPoint, std::size_t index)
 {
     Vec2* temp = new (std::nothrow) Vec2(controlPoint.x, controlPoint.y);
     _controlPoints->insert(_controlPoints->begin() + index, temp);
 }
 
-Vec2 PointArray::getControlPointAtIndex(ssize_t index)
+Vec2 PointArray::getControlPointAtIndex(std::size_t index)
 {
-    index = MIN(static_cast<ssize_t>(_controlPoints->size()) - 1, MAX(index, 0));
+    index = MIN(static_cast<std::size_t>(_controlPoints->size()) - 1, MAX(index, 0));
     return *(_controlPoints->at(index));
 }
 
-void PointArray::replaceControlPoint(cocos2d::Vec2& controlPoint, ssize_t index)
+void PointArray::replaceControlPoint(cocos2d::Vec2& controlPoint, std::size_t index)
 {
     Vec2* temp = _controlPoints->at(index);
     temp->x = controlPoint.x;
     temp->y = controlPoint.y;
 }
 
-void PointArray::removeControlPointAtIndex(ssize_t index)
+void PointArray::removeControlPointAtIndex(std::size_t index)
 {
     vector<Vec2*>::iterator iter = _controlPoints->begin() + index;
     Vec2* removedPoint = *iter;
@@ -152,7 +161,7 @@ void PointArray::removeControlPointAtIndex(ssize_t index)
     delete removedPoint;
 }
 
-ssize_t PointArray::count() const
+std::size_t PointArray::count() const
 {
     return _controlPoints->size();
 }
@@ -272,7 +281,7 @@ void CardinalSplineTo::startWithTarget(cocos2d::Node* target)
     //    _deltaT = (float) 1 / _points->count();
 
     // Issue #1441
-    _deltaT = (float)1 / (_points->count() - 1);
+    _deltaT = 1.f / (_points->count() - 1);
 
     _previousPosition = target->getPosition();
     _accumulatedDiff.setZero();
@@ -289,14 +298,15 @@ CardinalSplineTo* CardinalSplineTo::clone() const
 
 void CardinalSplineTo::update(float time)
 {
-    ssize_t p;
+    std::size_t p;
     float lt;
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
 
     // eg.
     // p..p..p..p..p..p..p
     // 1..2..3..4..5..6..7
     // want p to be 1, 2, 3, 4, 5, 6
-    if (time == 1)
+    if (std::abs(time - 1.f) < epsi)
     {
         p = _points->count() - 1;
         lt = 1;
@@ -304,7 +314,7 @@ void CardinalSplineTo::update(float time)
     else
     {
         p = time / _deltaT;
-        lt = (time - _deltaT * (float)p) / _deltaT;
+        lt = (time - _deltaT * static_cast<float>(p)) / _deltaT;
     }
 
     // Interpolate
@@ -319,7 +329,7 @@ void CardinalSplineTo::update(float time)
     // Support for stacked actions
     Node* node = _target;
     Vec2 diff = node->getPosition() - _previousPosition;
-    if (diff.x != 0 || diff.y != 0)
+    if (std::abs(diff.x) > epsi || std::abs(diff.y) > epsi)
     {
         _accumulatedDiff = _accumulatedDiff + diff;
         newPos = newPos + _accumulatedDiff;
@@ -383,7 +393,7 @@ CardinalSplineBy* CardinalSplineBy::reverse() const
     // convert "absolutes" to "diffs"
     //
     Vec2 p = copyConfig->getControlPointAtIndex(0);
-    for (ssize_t i = 1; i < copyConfig->count(); ++i)
+    for (std::size_t i = 1; i < copyConfig->count(); ++i)
     {
         Vec2 current = copyConfig->getControlPointAtIndex(i);
         Vec2 diff = current - p;
@@ -404,7 +414,7 @@ CardinalSplineBy* CardinalSplineBy::reverse() const
     p = -p;
     pReverse->insertControlPoint(p, 0);
 
-    for (ssize_t i = 1; i < pReverse->count(); ++i)
+    for (std::size_t i = 1; i < pReverse->count(); ++i)
     {
         Vec2 current = pReverse->getControlPointAtIndex(i);
         current = -current;
@@ -526,7 +536,7 @@ CatmullRomBy* CatmullRomBy::reverse() const
     // convert "absolutes" to "diffs"
     //
     Vec2 p = copyConfig->getControlPointAtIndex(0);
-    for (ssize_t i = 1; i < copyConfig->count(); ++i)
+    for (std::size_t i = 1; i < copyConfig->count(); ++i)
     {
         Vec2 current = copyConfig->getControlPointAtIndex(i);
         Vec2 diff = current - p;
@@ -547,7 +557,7 @@ CatmullRomBy* CatmullRomBy::reverse() const
     p = -p;
     reverse->insertControlPoint(p, 0);
 
-    for (ssize_t i = 1; i < reverse->count(); ++i)
+    for (std::size_t i = 1; i < reverse->count(); ++i)
     {
         Vec2 current = reverse->getControlPointAtIndex(i);
         current = -current;

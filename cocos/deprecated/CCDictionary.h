@@ -23,18 +23,32 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCDICTIONARY_H__
-#define __CCDICTIONARY_H__
+#ifndef CC_DEPRECATED_DICTIONARY_H
+#define CC_DEPRECATED_DICTIONARY_H
 /// @cond DO_NOT_SHOW
 
-#include "base/CCRef.h"
-#include "base/uthash.h"
-#include "deprecated/CCArray.h"
-#include "deprecated/CCString.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+extern "C"
+{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <cocos/base/uthash.h>
+#pragma clang diagnostic pop
+}
+
+#include <cstdint>
+#include <iosfwd>
 
 NS_CC_BEGIN
 
+class DataVisitor;
+class __Array;
 class __Dictionary;
+class __String;
 
 /**
  * @addtogroup data_structures
@@ -185,7 +199,7 @@ public:
      * @js NA
      * @lua NA
      */
-    ~__Dictionary();
+    ~__Dictionary() override;
 
     /** Initializes the dictionary. It returns true if the initializations was successful.
      * @js NA
@@ -455,4 +469,4 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif /* __CCDICTIONARY_H__ */
+#endif // CC_DEPRECATED_DICTIONARY_H

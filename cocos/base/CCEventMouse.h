@@ -23,11 +23,13 @@
 
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCMouseEvent__
-#define __cocos2d_libs__CCMouseEvent__
+#ifndef CC_BASE_EVENTMOUSE_H
+#define CC_BASE_EVENTMOUSE_H
 
-#include "base/CCEvent.h"
-#include "math/CCGeometry.h"
+#include <cocos/base/CCEvent.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #define MOUSE_BUTTON_LEFT 0
 #define MOUSE_BUTTON_RIGHT 1
@@ -48,14 +50,14 @@ NS_CC_BEGIN
 /** @class EventMouse
  * @brief The mouse event.
  */
-class CC_DLL EventMouse : public Event
+class CC_DLL EventMouse final : public Event
 {
 public:
     /**
      * MouseEventType Different types of MouseEvent.
      * @js NA
      */
-    enum class MouseEventType
+    enum struct MouseEventType : std::uint8_t
     {
         MOUSE_NONE,
         MOUSE_DOWN,
@@ -64,6 +66,13 @@ public:
         MOUSE_SCROLL,
         MOUSE_OUT
     };
+
+    EventMouse() = default;
+    EventMouse(EventMouse const&) = default;
+    EventMouse& operator=(EventMouse const&) = default;
+    EventMouse(EventMouse&&) noexcept = default;
+    EventMouse& operator=(EventMouse&&) noexcept = default;
+    ~EventMouse() override;
 
     /** Constructor.
      *
@@ -77,7 +86,7 @@ public:
      * @param scrollX The scroll data of x axis.
      * @param scrollY The scroll data of y axis.
      */
-    void setScrollData(float scrollX, float scrollY)
+    inline void setScrollData(float scrollX, float scrollY) noexcept
     {
         _scrollX = scrollX;
         _scrollY = scrollY;
@@ -86,12 +95,12 @@ public:
      *
      * @return The scroll data of x axis.
      */
-    float getScrollX() const { return _scrollX; }
+    inline float getScrollX() const noexcept { return _scrollX; }
     /** Get mouse scroll data of y axis.
      *
      * @return The scroll data of y axis.
      */
-    float getScrollY() const { return _scrollY; }
+    inline float getScrollY() const noexcept { return _scrollY; }
 
     /** Set the cursor position.
      *
@@ -118,25 +127,25 @@ public:
      * @param button a given mouse button.
      * @js setButton
      */
-    void setMouseButton(int button) { _mouseButton = button; }
+    inline void setMouseButton(int button) noexcept { _mouseButton = button; }
     /** Get mouse button.
      *
      * @return The mouse button.
      * @js getButton
      */
-    int getMouseButton() const { return _mouseButton; }
+    inline int getMouseButton() const noexcept { return _mouseButton; }
     /** Get the cursor position of x axis.
      *
      * @return The x coordinate of cursor position.
      * @js getLocationX
      */
-    float getCursorX() const { return _x; }
+    inline float getCursorX() const noexcept { return _x; }
     /** Get the cursor position of y axis.
      *
      * @return The y coordinate of cursor position.
      * @js getLocationY
      */
-    float getCursorY() const { return _y; }
+    inline float getCursorY() const noexcept { return _y; }
 
     /** Returns the current touch location in OpenGL coordinates.
      *
@@ -179,14 +188,14 @@ public:
     Vec2 getStartLocationInView() const;
 
 private:
-    MouseEventType _mouseEventType;
-    int _mouseButton;
-    float _x;
-    float _y;
-    float _scrollX;
-    float _scrollY;
+    MouseEventType _mouseEventType = MouseEventType::MOUSE_NONE;
+    int _mouseButton = -1;
+    float _x = 0.f;
+    float _y = 0.f;
+    float _scrollX = 0.f;
+    float _scrollY = 0.f;
 
-    bool _startPointCaptured;
+    bool _startPointCaptured = false;
     Vec2 _startPoint;
     Vec2 _point;
     Vec2 _prevPoint;
@@ -199,4 +208,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif /* defined(__cocos2d_libs__CCMouseEvent__) */
+#endif // CC_BASE_EVENTMOUSE_H

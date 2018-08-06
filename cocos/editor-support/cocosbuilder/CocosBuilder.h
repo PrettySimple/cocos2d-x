@@ -1,5 +1,5 @@
-#ifndef __EDITOR_SUPPORT_COCOSBUILDER_H__
-#define __EDITOR_SUPPORT_COCOSBUILDER_H__
+#ifndef CC_EDITORSUPPORT_COCOSBUILDER_COCOSBUILDER_H
+#define CC_EDITORSUPPORT_COCOSBUILDER_COCOSBUILDER_H
 
 #include "cocosbuilder/CCBAnimationManager.h"
 #include "cocosbuilder/CCBFileLoader.h"
@@ -28,4 +28,4 @@
 #include "cocosbuilder/CCScrollViewLoader.h"
 #include "cocosbuilder/CCSpriteLoader.h"
 
-#endif // __EDITOR_SUPPORT_COCOSBUILDER_H__
+#endif // CC_EDITORSUPPORT_COCOSBUILDER_COCOSBUILDER_H

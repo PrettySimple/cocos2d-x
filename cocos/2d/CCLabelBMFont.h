@@ -31,15 +31,34 @@ Use any of these editors to generate BMFonts:
   http://www.angelcode.com/products/bmfont/ (Free, Windows only)
 
 ****************************************************************************/
-#ifndef __CCBITMAP_FONT_ATLAS_H__
-#define __CCBITMAP_FONT_ATLAS_H__
+#ifndef CC_2D_LABELBMFONT_H
+#define CC_2D_LABELBMFONT_H
 
 /// @cond DO_NOT_SHOW
 
-#include "2d/CCLabel.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCProtocols.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <iosfwd>
+
+namespace cocos2d
+{
+    class Label;
+}
+namespace cocos2d
+{
+    class Sprite;
+}
+
 #if CC_LABELBMFONT_DEBUG_DRAW
-#    include "2d/CCDrawNode.h"
-#    include "renderer/CCCustomCommand.h"
+#    include <cocos/2d/CCDrawNode.h>
+#    include <cocos/renderer/CCCustomCommand.h>
 #endif
 
 NS_CC_BEGIN
@@ -91,7 +110,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~LabelBMFont();
+    ~LabelBMFont() override;
 
     /** creates a bitmap font atlas with an initial string and the FNT file */
     static LabelBMFont* create(const std::string& str, const std::string& fntFile, float width = 0, TextHAlignment alignment = TextHAlignment::LEFT,
@@ -161,4 +180,4 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif //__CCBITMAP_FONT_ATLAS_H__
+#endif // CC_2D_LABELBMFONT_H

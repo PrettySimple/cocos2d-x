@@ -22,17 +22,17 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_FRUSTUM_H_
-#define __CC_FRUSTUM_H_
+#ifndef CC_3D_FRUSTUM_H
+#define CC_3D_FRUSTUM_H
 
-#include "3d/CCAABB.h"
-#include "3d/CCOBB.h"
-#include "3d/CCPlane.h"
-#include "base/ccMacros.h"
-#include "math/CCMath.h"
+#include <cocos/3d/CCOBB.h>
+#include <cocos/3d/CCPlane.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
+class AABB;
 class Camera;
 
 /**
@@ -89,4 +89,4 @@ protected:
 
 NS_CC_END
 
-#endif //__CC_FRUSTUM_H_
+#endif // CC_3D_FRUSTUM_H

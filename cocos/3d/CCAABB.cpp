@@ -22,23 +22,20 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCAABB.h"
+#include <cocos/3d/CCAABB.h>
+
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <algorithm>
+#include <cassert>
 
 NS_CC_BEGIN
-
-AABB::AABB()
-{
-    reset();
-}
 
 AABB::AABB(const Vec3& min, const Vec3& max)
 {
     set(min, max);
-}
-
-AABB::AABB(const AABB& box)
-{
-    set(box._min, box._max);
 }
 
 Vec3 AABB::getCenter()
@@ -130,9 +127,9 @@ bool AABB::isEmpty() const
     return _min.x > _max.x || _min.y > _max.y || _min.z > _max.z;
 }
 
-void AABB::updateMinMax(const Vec3* point, ssize_t num)
+void AABB::updateMinMax(const Vec3* point, std::size_t num)
 {
-    for (ssize_t i = 0; i < num; i++)
+    for (std::size_t i = 0; i < num; i++)
     {
         // Leftmost point.
         if (point[i].x < _min.x)
@@ -185,7 +182,7 @@ void AABB::transform(const Mat4& mat)
 
     // Transform the corners, recalculate the min and max points along the way.
     for (int i = 0; i < 8; i++)
-        mat.transformPoint(&corners[i]);
+        mat.transformPoint(corners[i]);
 
     reset();
 

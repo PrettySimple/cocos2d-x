@@ -23,12 +23,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_SET_H__
-#define __CC_SET_H__
+#ifndef CC_DEPRECATED_SET_H
+#define CC_DEPRECATED_SET_H
 /// @cond DO_NOT_SHOW
 
-#include "base/CCDataVisitor.h"
-#include "base/CCRef.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <set>
 
 NS_CC_BEGIN
@@ -39,6 +41,8 @@ NS_CC_BEGIN
  */
 
 typedef std::set<Ref*>::iterator __SetIterator;
+
+class DataVisitor;
 
 class CC_DLL __Set : public Ref
 {
@@ -119,4 +123,4 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif // __CC_SET_H__
+#endif // CC_DEPRECATED_SET_H

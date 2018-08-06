@@ -22,12 +22,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __UILABEL_H__
-#define __UILABEL_H__
+#ifndef CC_UI_TEXT_H
+#define CC_UI_TEXT_H
 
-#include "base/ccTypes.h"
-#include "ui/GUIExport.h"
-#include "ui/UIWidget.h"
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <cstddef>
+#include <iosfwd>
 
 /**
  * @addtogroup ui
@@ -37,6 +44,9 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 class Label;
+class Node;
+enum struct TextHAlignment : std::uint8_t;
+enum struct TextVAlignment : std::uint8_t;
 
 namespace ui
 {
@@ -50,7 +60,7 @@ namespace ui
     public:
         /** Type Text type.
          */
-        enum class Type
+        enum struct Type : std::uint8_t
         {
             SYSTEM,
             TTF
@@ -67,7 +77,7 @@ namespace ui
          * @js NA
          * @lua NA
          */
-        virtual ~Text();
+        ~Text() override;
 
         /**
          * Create a Text object.
@@ -118,7 +128,7 @@ namespace ui
          *
          * @return  String length.
          */
-        ssize_t getStringLength() const;
+        std::size_t getStringLength() const;
 
         /**
          * Sets the font size of label.
@@ -316,7 +326,7 @@ namespace ui
         virtual bool init(const std::string& textContent, const std::string& fontName, float fontSize);
 
     protected:
-        virtual void initRenderer() override;
+        void initRenderer() override;
         virtual void onPressStateChangedToNormal() override;
         virtual void onPressStateChangedToPressed() override;
         virtual void onPressStateChangedToDisabled() override;
@@ -346,4 +356,4 @@ NS_CC_END
 // end of ui group
 /// @}
 
-#endif /* defined(__CocoGUI__Label__) */
+#endif // CC_UI_TEXT_H

@@ -27,9 +27,9 @@
 
 #include <vector>
 
-#include "math/Vec2.h"
-#include "platform/CCGL.h"
 #include "vr/CCVRDistortion.h"
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCGL.h>
 
 NS_CC_BEGIN
 

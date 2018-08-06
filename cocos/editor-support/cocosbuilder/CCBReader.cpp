@@ -1,7 +1,5 @@
 #include "CCBReader.h"
 
-#include "2d/CCScene.h"
-#include "2d/CCSpriteFrameCache.h"
 #include "CCBAnimationManager.h"
 #include "CCBKeyframe.h"
 #include "CCBMemberVariableAssigner.h"
@@ -10,9 +8,11 @@
 #include "CCNodeLoader.h"
 #include "CCNodeLoaderLibrary.h"
 #include "CCNodeLoaderListener.h"
-#include "base/CCDirector.h"
-#include "platform/CCFileUtils.h"
-#include "renderer/CCTextureCache.h"
+#include <cocos/2d/CCScene.h>
+#include <cocos/2d/CCSpriteFrameCache.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/renderer/CCTextureCache.h>
 
 #include <algorithm>
 #include <ctype.h>

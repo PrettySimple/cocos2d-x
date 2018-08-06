@@ -23,15 +23,14 @@ Copyright (c) 2013-2015 Chukong Technologies
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PLATFORM_MACROS_H__
-#define __CC_PLATFORM_MACROS_H__
+#ifndef CC_PLATFORM_PLATFORMMACROS_H
+#define CC_PLATFORM_PLATFORMMACROS_H
 
 /**
  * Define some platform specific macros.
  */
-#include "base/ccConfig.h"
-#include "platform/CCPlatformConfig.h"
-#include "platform/CCPlatformDefine.h"
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformConfig.h>
 
 /** @def CREATE_FUNC(__TYPE__)
  * Define a create function for a specific type, such as Layer.
@@ -251,101 +250,71 @@ public:                                                          \
     }
 
 #define CC_SAFE_DELETE(p) \
-    do                    \
+    if (p != nullptr)     \
     {                     \
         delete (p);       \
         (p) = nullptr;    \
-    } while (0)
+    }
 #define CC_SAFE_DELETE_ARRAY(p) \
-    do                          \
+    if (p != nullptr)           \
     {                           \
-        if (p)                  \
-        {                       \
-            delete[](p);        \
-            (p) = nullptr;      \
-        }                       \
-    } while (0)
-#define CC_SAFE_FREE(p)    \
-    do                     \
+        delete[](p);            \
+        (p) = nullptr;          \
+    }
+#define CC_SAFE_FREE(p) \
+    if (p != nullptr)   \
+    {                   \
+        free(p);        \
+        (p) = nullptr;  \
+    }
+#define CC_SAFE_RELEASE(p) \
+    if (p != nullptr)      \
     {                      \
-        if (p)             \
-        {                  \
-            free(p);       \
-            (p) = nullptr; \
-        }                  \
-    } while (0)
-#define CC_SAFE_RELEASE(p)  \
-    do                      \
-    {                       \
-        if (p)              \
-        {                   \
-            (p)->release(); \
-        }                   \
-    } while (0)
+        (p)->release();    \
+    }
 #define CC_SAFE_RELEASE_NULL(p) \
-    do                          \
+    if (p != nullptr)           \
     {                           \
-        if (p)                  \
-        {                       \
-            (p)->release();     \
-            (p) = nullptr;      \
-        }                       \
-    } while (0)
-#define CC_SAFE_RETAIN(p)  \
-    do                     \
-    {                      \
-        if (p)             \
-        {                  \
-            (p)->retain(); \
-        }                  \
-    } while (0)
+        (p)->release();         \
+        (p) = nullptr;          \
+    }
+#define CC_SAFE_RETAIN(p) \
+    if (p != nullptr)     \
+    {                     \
+        (p)->retain();    \
+    }
 #define CC_BREAK_IF(cond) \
     if (cond)             \
     break
 
-#define __CCLOGWITHFUNCTION(s, ...) cocos2d::log("%s : %s", __FUNCTION__, cocos2d::StringUtils::format(s, ##__VA_ARGS__).c_str())
+#define CCLOGWITHFUNCTION(...) cocos2d::log2("%s : %s", __FUNCTION__, __VA_ARGS__)
 
 /// @name Cocos2d debug
 /// @{
 #if !defined(COCOS2D_DEBUG) || COCOS2D_DEBUG == 0
-#    define CCLOG(...) \
-        do             \
-        {              \
-        } while (0)
-#    define CCLOGINFO(...) \
-        do                 \
-        {                  \
-        } while (0)
-#    define CCLOGERROR(...) \
-        do                  \
-        {                   \
-        } while (0)
-#    define CCLOGWARN(...) \
-        do                 \
-        {                  \
-        } while (0)
+#    define CCLOG(...) (void)0
+#    define CCLOGINFO(...) (void)0
+#    define CCLOGERROR(...) (void)0
+#    define CCLOGWARN(...) (void)0
 
 #elif COCOS2D_DEBUG == 1
-#    define CCLOG(format, ...) cocos2d::log(format, ##__VA_ARGS__)
-#    define CCLOGERROR(format, ...) cocos2d::log(format, ##__VA_ARGS__)
-#    define CCLOGINFO(format, ...) \
-        do                         \
-        {                          \
-        } while (0)
-#    define CCLOGWARN(...) __CCLOGWITHFUNCTION(__VA_ARGS__)
+#    define CCLOG(...) cocos2d::log2(__VA_ARGS__)
+#    define CCLOGERROR(...) cocos2d::log2(__VA_ARGS__)
+#    define CCLOGINFO(...) (void)0
+#    define CCLOGWARN(...) CCLOGWITHFUNCTION(__VA_ARGS__)
 
 #elif COCOS2D_DEBUG > 1
-#    define CCLOG(format, ...) cocos2d::log(format, ##__VA_ARGS__)
-#    define CCLOGERROR(format, ...) cocos2d::log(format, ##__VA_ARGS__)
-#    define CCLOGINFO(format, ...) cocos2d::log(format, ##__VA_ARGS__)
-#    define CCLOGWARN(...) __CCLOGWITHFUNCTION(__VA_ARGS__)
+#    define CCLOG(...) cocos2d::log2(__VA_ARGS__)
+#    define CCLOGERROR(...) cocos2d::log2(__VA_ARGS__)
+#    define CCLOGINFO(...) cocos2d::log2(__VA_ARGS__)
+#    define CCLOGWARN(...) CCLOGWITHFUNCTION(__VA_ARGS__)
 #endif // COCOS2D_DEBUG
 
 /** Lua engine debug */
 #if !defined(COCOS2D_DEBUG) || COCOS2D_DEBUG == 0 || CC_LUA_ENGINE_DEBUG == 0
 #    define LUALOG(...)
 #else
-#    define LUALOG(format, ...) cocos2d::log(format, ##__VA_ARGS__)
+#    define LUALOG(format, ...) cocos2d::log2(__VA_ARGS__)
 #endif // Lua engine debug
 
 //  end of debug group
@@ -355,7 +324,8 @@ public:                                                          \
  * A macro to disallow the copy constructor and operator= functions.
  * This should be used in the private: declarations for a class
  */
-#if defined(__GNUC__) && ((__GNUC__ >= 5) || ((__GNUG__ == 4) && (__GNUC_MINOR__ >= 4))) || (defined(__clang__) && (__clang_major__ >= 3)) || (_MSC_VER >= 1800)
+#if defined(__GNUC__) && ((__GNUC__ >= 5) || ((defined(__GNUG__) && (__GNUG__ == 4)) && (__GNUC_MINOR__ >= 4))) || \
+    (defined(__clang__) && (__clang_major__ >= 3)) || (_MSC_VER >= 1800)
 #    define CC_DISALLOW_COPY_AND_ASSIGN(TypeName) \
         TypeName(const TypeName&) = delete;       \
         TypeName& operator=(const TypeName&) = delete;
@@ -417,10 +387,14 @@ public:                                                          \
 #    define CC_FORMAT_PRINTF_SIZE_T "%08zX"
 #endif
 
-#ifdef __GNUC__
-#    define CC_UNUSED __attribute__((unused))
-#else
+#if defined(COCOS2D_DEBUG) && COCOS2D_DEBUG > 0
 #    define CC_UNUSED
+#else
+#    ifdef __GNUC__
+#        define CC_UNUSED __attribute__((unused))
+#    else
+#        define CC_UNUSED
+#    endif
 #endif
 
 /** @def CC_REQUIRES_NULL_TERMINATION
@@ -436,4 +410,4 @@ public:                                                          \
 #    endif
 #endif
 
-#endif // __CC_PLATFORM_MACROS_H__
+#endif // CC_PLATFORM_PLATFORMMACROS_H

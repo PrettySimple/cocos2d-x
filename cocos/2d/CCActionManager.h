@@ -26,13 +26,16 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __ACTION_CCACTION_MANAGER_H__
-#define __ACTION_CCACTION_MANAGER_H__
+#ifndef CC_2D_ACTIONMANAGER_H
+#define CC_2D_ACTIONMANAGER_H
 
-#include "CCActionManagerData.h"
-#include "base/CCRef.h"
-#include "base/CCVector.h"
+#include <cocos/2d/CCActionManagerData.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
+#include <cstddef>
 #include <list>
 #include <vector>
 
@@ -133,7 +136,7 @@ public:
      * @return  The numbers of actions that are running in a certain target.
      * @js NA
      */
-    ssize_t getNumberOfRunningActionsInTarget(Node* target) const;
+    std::size_t getNumberOfRunningActionsInTarget(Node* target) const;
 
     /**
      * Added by Seb.Flory & Pierre.Marxen
@@ -146,7 +149,7 @@ public:
 
     /** @deprecated Use getNumberOfRunningActionsInTarget() instead.
      */
-    CC_DEPRECATED_ATTRIBUTE ssize_t numberOfRunningActionsInTarget(Node* target) const { return getNumberOfRunningActionsInTarget(target); }
+    CC_DEPRECATED_ATTRIBUTE std::size_t numberOfRunningActionsInTarget(Node* target) const { return getNumberOfRunningActionsInTarget(target); }
 
     /** Pauses the target: all running actions and newly added actions will be paused.
      *
@@ -183,4 +186,4 @@ public:
 
 NS_CC_END
 
-#endif // __ACTION_CCACTION_MANAGER_H__
+#endif // CC_2D_ACTIONMANAGER_H

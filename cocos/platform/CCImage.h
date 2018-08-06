@@ -23,22 +23,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_IMAGE_H__
-#define __CC_IMAGE_H__
+#ifndef CC_PLATFORM_IMAGE_H
+#define CC_PLATFORM_IMAGE_H
 /// @cond DO_NOT_SHOW
 
-#include "base/CCRef.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCTexture2D.h>
 
-#if CC_USE_WIC
-#    include "platform/winrt/WICImageLoader-winrt.h"
+#include <cstddef>
+#include <iosfwd>
+
+#ifdef CC_USE_WIC
+#    include <cocos/platform/winrt/WICImageLoader-winrt.h>
 #endif
 
 // premultiply alpha, or the effect will wrong when want to use other pixel format in Texture2D,
 // such as RGB888, RGB5A1
-#define CC_RGB_PREMULTIPLY_ALPHA(vr, vg, vb, va)                                                                                                              \
-    (unsigned)(((unsigned)((unsigned char)(vr) * ((unsigned char)(va) + 1)) >> 8) | ((unsigned)((unsigned char)(vg) * ((unsigned char)(va) + 1) >> 8) << 8) | \
-               ((unsigned)((unsigned char)(vb) * ((unsigned char)(va) + 1) >> 8) << 16) | ((unsigned)(unsigned char)(va) << 24))
+#define CC_RGB_PREMULTIPLY_ALPHA(vr, vg, vb, va)                                                                                      \
+    static_cast<unsigned>((static_cast<unsigned>(static_cast<unsigned char>(vr) * (static_cast<unsigned char>(va) + 1)) >> 8) |       \
+                          (static_cast<unsigned>(static_cast<unsigned char>(vg) * (static_cast<unsigned char>(va) + 1) >> 8) << 8) |  \
+                          (static_cast<unsigned>(static_cast<unsigned char>(vb) * (static_cast<unsigned char>(va) + 1) >> 8) << 16) | \
+                          (static_cast<unsigned>(static_cast<unsigned char>(va)) << 24))
 
 NS_CC_BEGIN
 
@@ -52,13 +59,8 @@ NS_CC_BEGIN
  */
 typedef struct _MipmapInfo
 {
-    unsigned char* address;
-    int len;
-    _MipmapInfo()
-    : address(NULL)
-    , len(0)
-    {
-    }
+    unsigned char* address = nullptr;
+    int len = 0;
 } MipmapInfo;
 
 class CC_DLL Image : public Ref
@@ -132,14 +134,14 @@ public:
     * @js NA
     * @lua NA
     */
-    bool initWithImageData(const unsigned char* data, ssize_t dataLen);
+    bool initWithImageData(const unsigned char* data, std::size_t dataLen);
 
     // @warning kFmtRawData only support RGBA8888
-    bool initWithRawData(const unsigned char* data, ssize_t dataLen, int width, int height, int bitsPerComponent, bool preMulti = false);
+    bool initWithRawData(const unsigned char* data, std::size_t dataLen, int width, int height, int bitsPerComponent, bool preMulti = false);
 
     // Getters
     unsigned char* getData() { return _data; }
-    ssize_t getDataLen() { return _dataLen; }
+    std::size_t getDataLen() { return _dataLen; }
     Format getFileType() { return _fileType; }
     Texture2D::PixelFormat getRenderFormat() { return _renderFormat; }
     int getWidth() { return _width; }
@@ -162,20 +164,20 @@ public:
     bool saveToFile(const std::string& filename, bool isToRGB = true);
 
 protected:
-#if CC_USE_WIC
+#ifdef CC_USE_WIC
     bool encodeWithWIC(const std::string& filePath, bool isToRGB, GUID containerFormat);
-    bool decodeWithWIC(const unsigned char* data, ssize_t dataLen);
+    bool decodeWithWIC(const unsigned char* data, std::size_t dataLen);
 #endif
-    bool initWithJpgData(const unsigned char* data, ssize_t dataLen);
-    bool initWithPngData(const unsigned char* data, ssize_t dataLen);
-    bool initWithTiffData(const unsigned char* data, ssize_t dataLen);
-    bool initWithWebpData(const unsigned char* data, ssize_t dataLen);
-    bool initWithPVRData(const unsigned char* data, ssize_t dataLen);
-    bool initWithPVRv2Data(const unsigned char* data, ssize_t dataLen);
-    bool initWithPVRv3Data(const unsigned char* data, ssize_t dataLen);
-    bool initWithETCData(const unsigned char* data, ssize_t dataLen);
-    bool initWithS3TCData(const unsigned char* data, ssize_t dataLen);
-    bool initWithATITCData(const unsigned char* data, ssize_t dataLen);
+    bool initWithJpgData(const unsigned char* data, std::size_t dataLen);
+    bool initWithPngData(const unsigned char* data, std::size_t dataLen);
+    bool initWithTiffData(const unsigned char* data, std::size_t dataLen);
+    bool initWithWebpData(const unsigned char* data, std::size_t dataLen);
+    bool initWithPVRData(const unsigned char* data, std::size_t dataLen);
+    bool initWithPVRv2Data(const unsigned char* data, std::size_t dataLen);
+    bool initWithPVRv3Data(const unsigned char* data, std::size_t dataLen);
+    bool initWithETCData(const unsigned char* data, std::size_t dataLen);
+    bool initWithS3TCData(const unsigned char* data, std::size_t dataLen);
+    bool initWithATITCData(const unsigned char* data, std::size_t dataLen);
     typedef struct sImageTGA tImageTGA;
     bool initWithTGAData(tImageTGA* tgaData);
 
@@ -195,7 +197,7 @@ protected:
      */
     static bool PNG_PREMULTIPLIED_ALPHA_ENABLED;
     unsigned char* _data;
-    ssize_t _dataLen;
+    std::size_t _dataLen;
     int _width;
     int _height;
     bool _unpack;
@@ -221,15 +223,15 @@ protected:
      */
     bool initWithImageFileThreadSafe(const std::string& fullpath);
 
-    Format detectFormat(const unsigned char* data, ssize_t dataLen);
-    bool isPng(const unsigned char* data, ssize_t dataLen);
-    bool isJpg(const unsigned char* data, ssize_t dataLen);
-    bool isTiff(const unsigned char* data, ssize_t dataLen);
-    bool isWebp(const unsigned char* data, ssize_t dataLen);
-    bool isPvr(const unsigned char* data, ssize_t dataLen);
-    bool isEtc(const unsigned char* data, ssize_t dataLen);
-    bool isS3TC(const unsigned char* data, ssize_t dataLen);
-    bool isATITC(const unsigned char* data, ssize_t dataLen);
+    Format detectFormat(const unsigned char* data, std::size_t dataLen);
+    bool isPng(const unsigned char* data, std::size_t dataLen);
+    bool isJpg(const unsigned char* data, std::size_t dataLen);
+    bool isTiff(const unsigned char* data, std::size_t dataLen);
+    bool isWebp(const unsigned char* data, std::size_t dataLen);
+    bool isPvr(const unsigned char* data, std::size_t dataLen);
+    bool isEtc(const unsigned char* data, std::size_t dataLen);
+    bool isS3TC(const unsigned char* data, std::size_t dataLen);
+    bool isATITC(const unsigned char* data, std::size_t dataLen);
 };
 
 // end of platform group
@@ -238,4 +240,4 @@ protected:
 NS_CC_END
 
 /// @endcond
-#endif // __CC_IMAGE_H__
+#endif // CC_PLATFORM_IMAGE_H

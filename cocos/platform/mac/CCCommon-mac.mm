@@ -23,12 +23,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#    include "platform/CCCommon.h"
+#    include <cocos/platform/CCCommon.h>
 
-#    include "base/CCDirector.h"
+#    include <cocos/base/CCDirector.h>
 
 #    include <Cocoa/Cocoa.h>
 #    include <stdarg.h>

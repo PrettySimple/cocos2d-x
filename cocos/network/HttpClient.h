@@ -24,14 +24,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCHTTPCLIENT_H__
-#define __CCHTTPCLIENT_H__
+#ifndef CC_NETWORK_HTTPCLIENT_H
+#define CC_NETWORK_HTTPCLIENT_H
 
-#include "base/CCScheduler.h"
-#include "base/CCVector.h"
-#include "network/HttpCookie.h"
-#include "network/HttpRequest.h"
-#include "network/HttpResponse.h"
+#include <cocos/base/CCScheduler.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/network/HttpCookie.h>
+#include <cocos/network/HttpRequest.h>
+#include <cocos/network/HttpResponse.h>
 #include <condition_variable>
 #include <thread>
 
@@ -210,4 +210,4 @@ NS_CC_END
 // end group
 /// @}
 
-#endif //__CCHTTPCLIENT_H__
+#endif // CC_NETWORK_HTTPCLIENT_H

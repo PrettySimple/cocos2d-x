@@ -28,10 +28,10 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
 */
 
-#ifndef _ETC2_TYPES_H_
-#define _ETC2_TYPES_H_
+#ifndef CC_BASE_ETC2TYPES_H
+#define CC_BASE_ETC2TYPES_H
 
-#include "platform/CCGL.h"
+#include <cocos/platform/CCGL.h>
 
 /*
    typedefs
@@ -144,7 +144,7 @@ extern "C"
 #    define GL_UNSIGNED_INT_8_8_8_8_REV 0x8367
 #    define GL_UNSIGNED_INT_2_10_10_10_REV 0x8368
 #endif
-#if !defined(GL_UNSIGNED_INT_24_8)
+#if !defined(GL_UNSIGNED_INT_24_8) && !defined(GL_DEPTH_STENCIL_OES)
 #    define GL_DEPTH_STENCIL 0x84F9
 #    define GL_UNSIGNED_INT_24_8 0x84FA
 #endif
@@ -217,4 +217,4 @@ extern "C"
 }
 #endif
 
-#endif // _ETC2_TYPES_H_
+#endif // CC_BASE_ETC2TYPES_H

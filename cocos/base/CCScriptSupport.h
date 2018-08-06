@@ -23,14 +23,15 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __SCRIPT_SUPPORT_H__
-#define __SCRIPT_SUPPORT_H__
+#ifndef CC_BASE_SCRIPTSUPPORT_H
+#define CC_BASE_SCRIPTSUPPORT_H
 
-#include "base/CCEventKeyboard.h"
-#include "base/CCEventTouch.h"
-#include "base/CCTouch.h"
-#include "base/ccConfig.h"
-#include "platform/CCCommon.h"
+#include <cocos/base/CCEventKeyboard.h>
+#include <cocos/base/CCEventTouch.h>
+#include <cocos/base/CCTouch.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCCommon.h>
+
 #include <list>
 #include <map>
 #include <string>
@@ -750,7 +751,7 @@ public:
      * @lua NA
      * @js NA
      */
-    virtual void setCalledFromScript(bool callFromScript) { CC_UNUSED_PARAM(callFromScript); };
+    virtual void setCalledFromScript(bool){};
 
     /**
      * Useless for Lua.
@@ -913,4 +914,4 @@ NS_CC_END
 // end group
 /// @}
 
-#endif // __SCRIPT_SUPPORT_H__
+#endif // CC_BASE_SCRIPTSUPPORT_H

@@ -24,9 +24,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCActionTween.h"
+#include <cocos/2d/CCActionTween.h>
+
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <new>
 
 NS_CC_BEGIN
+
+ActionTweenDelegate::~ActionTweenDelegate()
+{
+}
 
 ActionTween* ActionTween::create(std::chrono::milliseconds duration, const std::string& key, float from, float to)
 {

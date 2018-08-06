@@ -1,10 +1,10 @@
 #ifndef __CC_FILEUTILS_EMSCRIPTEN_H__
 #define __CC_FILEUTILS_EMSCRIPTEN_H__
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 
-#    include "platform/CCFileUtils.h"
+#    include <cocos/platform/CCFileUtils.h>
 #    include <string>
 
 NS_CC_BEGIN

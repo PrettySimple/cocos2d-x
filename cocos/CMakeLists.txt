@@ -67,7 +67,7 @@ include(editor-support/spine/CMakeLists.txt)
 set(COCOS_EDITOR_SUPPORT_SRC ${COCOS_EDITOR_SUPPORT_SRC} ${COCOS_SPINE_SRC})
 endif(BUILD_EDITOR_SPINE)
 
-include(../extensions/CMakeLists.txt)
+include(extensions/CMakeLists.txt)
 
 set(COCOS_SRC cocos2d.cpp
     cocos2dpch.cpp
@@ -101,7 +101,7 @@ if(ANDROID)
   include_directories(../external/android-specific/tremolo/Tremolo)
 endif(ANDROID)
 
-add_library(cocos2dInternal ${COCOS_SRC} platform/ios/cocos2d-prefix.pch)
+add_library(cocos2dInternal ${COCOS_SRC})
 #add_precompiled_header(cocos2dInternal platform/ios/cocos2d-prefix.pch FORCEINCLUDE)
 
 set_target_properties(cocos2dInternal

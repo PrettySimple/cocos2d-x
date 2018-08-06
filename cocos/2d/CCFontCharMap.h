@@ -23,16 +23,22 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _CCFontCharMap_h_
-#define _CCFontCharMap_h_
+#ifndef CC_2D_FONTCHARMAP_H
+#define CC_2D_FONTCHARMAP_H
 
 /// @cond DO_NOT_SHOW
 
-#include "2d/CCFont.h"
+#include <cocos/2d/CCFont.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <iosfwd>
+#include <string>
 
 NS_CC_BEGIN
 
 class Texture2D;
+class FontAtlas;
+
 class FontCharMap : public Font
 {
 public:
@@ -40,22 +46,16 @@ public:
     static FontCharMap* create(Texture2D* texture, int itemWidth, int itemHeight, int startCharMap);
     static FontCharMap* create(const std::string& plistFile);
 
-    virtual int* getHorizontalKerningForTextUTF16(const std::u16string& text, int& outNumLetters) const override;
-    virtual FontAtlas* createFontAtlas() override;
+    int* getHorizontalKerningForTextUTF16(const std::u16string& text, int& outNumLetters) const override;
+    FontAtlas* createFontAtlas() override;
 
 protected:
-    FontCharMap(Texture2D* texture, int itemWidth, int itemHeight, int startCharMap)
-    : _texture(texture)
-    , _mapStartChar(startCharMap)
-    , _itemWidth(itemWidth)
-    , _itemHeight(itemHeight)
-    {
-    }
+    FontCharMap(Texture2D* texture, int itemWidth, int itemHeight, int startCharMap);
     /**
      * @js NA
      * @lua NA
      */
-    virtual ~FontCharMap();
+    ~FontCharMap() override;
 
 private:
     Texture2D* _texture;
@@ -68,4 +68,4 @@ private:
 
 NS_CC_END
 
-#endif /* defined(_CCFontCharMap_h_) */
+#endif // CC_2D_FONTCHARMAP_H

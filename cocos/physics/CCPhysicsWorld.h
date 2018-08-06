@@ -25,12 +25,12 @@
 #ifndef __CCPHYSICS_WORLD_H__
 #define __CCPHYSICS_WORLD_H__
 
-#include "base/ccConfig.h"
+#include <cocos/base/ccConfig.h>
 #if CC_USE_PHYSICS
 
-#    include "base/CCVector.h"
-#    include "math/CCGeometry.h"
-#    include "physics/CCPhysicsBody.h"
+#    include <cocos/base/CCVector.h>
+#    include <cocos/math/CCGeometry.h>
+#    include <cocos/physics/CCPhysicsBody.h>
 #    include <list>
 
 struct cpSpace;

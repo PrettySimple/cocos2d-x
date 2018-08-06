@@ -24,17 +24,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCNOTIFICATIONCENTER_H__
-#define __CCNOTIFICATIONCENTER_H__
+#ifndef CC_DEPRECATED_NOTIFICATIONCENTER_H
+#define CC_DEPRECATED_NOTIFICATIONCENTER_H
 /// @cond DO_NOT_SHOW
 
-#include "base/CCRef.h"
-#include "base/ccTypes.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <string>
 
 NS_CC_BEGIN
 
 class __Array;
-class ScriptHandlerMgr;
 
 /**
  * @cond DO_NOT_SHOW
@@ -207,4 +209,4 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif //__CCNOTIFICATIONCENTER_H__
+#endif // CC_DEPRECATED_NOTIFICATIONCENTER_H

@@ -29,16 +29,16 @@
 
 #include "vr/CCVRGenericHeadTracker.h"
 
-#include "platform/CCDevice.h"
-#include "platform/CCPlatformMacros.h"
 #include <cmath>
+#include <cocos/platform/CCDevice.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #    import <CoreMotion/CoreMotion.h>
 #    import <Foundation/Foundation.h>
 #    import <UIKit/UIKit.h>
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#    include "platform/android/jni/JniHelper.h"
+#    include <cocos/platform/android/jni/JniHelper.h>
 #    include <jni.h>
 #endif
 

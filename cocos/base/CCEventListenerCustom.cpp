@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCEventListenerCustom.h"
-#include "base/CCEventCustom.h"
+#include <cocos/base/CCEventCustom.h>
+#include <cocos/base/CCEventListenerCustom.h>
 
 NS_CC_BEGIN
 

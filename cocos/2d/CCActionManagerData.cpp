@@ -5,19 +5,24 @@
 //  Created by Mathieu Garaud on 12/04/2018.
 //
 
-#include "CCActionManagerData.h"
+#include <cocos/2d/CCActionManagerData.h>
 
-#include "base/ccMacros.h"
-#include "base/iterator_pair.h"
+#include <cocos/2d/CCAction.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/iterator_pair.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <algorithm>
 #include <cstddef>
-#include <functional>
-#include <memory>
+#include <iterator>
 #include <type_traits>
 #include <unordered_set>
+#include <utility>
 
 NS_CC_BEGIN
+
+class Node;
 
 ActionManagerData::Element::Element(Node* t, Action* a, bool p, std::size_t i)
 : target(t)

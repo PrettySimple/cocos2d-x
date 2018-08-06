@@ -23,11 +23,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_PLATFORM_THREAD_H__
-#define __CC_PLATFORM_THREAD_H__
+#ifndef CC_PLATFORM_THREAD_H
+#define CC_PLATFORM_THREAD_H
 /// @cond DO_NOT_SHOW
 
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
@@ -62,4 +63,4 @@ public:
 NS_CC_END
 
 /// @endcond
-#endif // __CC_PLATFORM_THREAD_H__
+#endif // CC_PLATFORM_THREAD_H

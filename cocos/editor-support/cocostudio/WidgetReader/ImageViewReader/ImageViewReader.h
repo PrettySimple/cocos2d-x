@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__ImageViewReader__
-#define __TestCpp__ImageViewReader__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_IMAGEVIEWREADER_IMAGEVIEWREADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_IMAGEVIEWREADER_IMAGEVIEWREADER_H
 
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/WidgetReader/WidgetReader.h"
@@ -53,4 +53,4 @@ namespace cocostudio
     };
 } // namespace cocostudio
 
-#endif /* defined(__TestCpp__ImageViewReader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_IMAGEVIEWREADER_IMAGEVIEWREADER_H

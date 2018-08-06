@@ -22,7 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "ui/UIDeprecated.h"
+#include <cocos/ui/UIDeprecated.h>
+
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/UILayoutParameter.h>
 
 NS_CC_BEGIN
 

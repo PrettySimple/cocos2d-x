@@ -25,7 +25,7 @@
 // THE SOFTWARE.
 //****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8 || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 #    include "2d/CCFontFreeType.h"
 #    include "platform/winrt/CCGLViewImpl-winrt.h"

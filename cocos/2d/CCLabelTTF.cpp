@@ -23,12 +23,23 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "2d/CCLabelTTF.h"
+#include <cocos/2d/CCLabelTTF.h>
 
-#include "2d/CCLabel.h"
-#include "base/ccUTF8.h"
+#include <cocos/2d/CCLabel.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <cstring>
+#include <new>
 
 NS_CC_BEGIN
+
+class Renderer;
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
 #    pragma GCC diagnostic ignored "-Wdeprecated-declarations"

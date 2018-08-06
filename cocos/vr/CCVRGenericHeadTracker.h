@@ -23,12 +23,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CCVRGenericHeadTracker_hpp
-#define CCVRGenericHeadTracker_hpp
+#ifndef CC_VR_GENERICHEADTRACKER_H
+#define CC_VR_GENERICHEADTRACKER_H
 
-#include "math/Mat4.h"
-#include "math/Vec3.h"
-#include "vr/CCVRProtocol.h"
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/vr/CCVRProtocol.h>
 
 NS_CC_BEGIN
 
@@ -55,4 +55,4 @@ protected:
 
 NS_CC_END
 
-#endif /* CCVRGenericHeadTracker_hpp */
+#endif // CC_VR_GENERICHEADTRACKER_H

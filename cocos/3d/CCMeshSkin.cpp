@@ -22,9 +22,17 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCMeshSkin.h"
-#include "3d/CCBundle3D.h"
-#include "3d/CCSkeleton3D.h"
+#include <cocos/3d/CCMeshSkin.h>
+
+#include <cocos/3d/CCSkeleton3D.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <new>
+#include <string>
 
 NS_CC_BEGIN
 
@@ -61,7 +69,7 @@ MeshSkin* MeshSkin::create(Skeleton3D* skeleton, const std::vector<std::string>&
     return skin;
 }
 
-ssize_t MeshSkin::getBoneCount() const
+std::size_t MeshSkin::getBoneCount() const
 {
     return _skinBones.size();
 }
@@ -108,7 +116,7 @@ Vec4* MeshSkin::getMatrixPalette()
     static Mat4 t;
     for (auto it : _skinBones)
     {
-        Mat4::multiply(it->getWorldMat(), _invBindPoses[i++], &t);
+        Mat4::multiply(it->getWorldMat(), _invBindPoses[i++], t);
         _matrixPalette[paletteIndex++].set(t.m[0], t.m[4], t.m[8], t.m[12]);
         _matrixPalette[paletteIndex++].set(t.m[1], t.m[5], t.m[9], t.m[13]);
         _matrixPalette[paletteIndex++].set(t.m[2], t.m[6], t.m[10], t.m[14]);
@@ -117,7 +125,7 @@ Vec4* MeshSkin::getMatrixPalette()
     return _matrixPalette;
 }
 
-ssize_t MeshSkin::getMatrixPaletteSize() const
+std::size_t MeshSkin::getMatrixPaletteSize() const
 {
     return _skinBones.size() * PALETTE_ROWS;
 }
@@ -150,7 +158,7 @@ Bone3D* MeshSkin::getRootBone() const
 
 const Mat4& MeshSkin::getInvBindPose(const Bone3D* bone)
 {
-    for (ssize_t i = 0; i < _skinBones.size(); i++)
+    for (std::size_t i = 0; i < _skinBones.size(); i++)
     {
         if (_skinBones.at(i) == bone)
         {

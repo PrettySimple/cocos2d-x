@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2013 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
@@ -26,45 +26,44 @@ THE SOFTWARE.
 ****************************************************************************/
 
 // cocos2d includes
-#include "base/CCDirector.h"
+#include <cocos/base/CCDirector.h>
 
-// standard includes
-#include <string>
-
-#include "2d/CCDrawingPrimitives.h"
-#include "2d/CCSpriteFrameCache.h"
-#include "platform/CCFileUtils.h"
-
-#include "2d/CCActionManager.h"
-#include "2d/CCAnimationCache.h"
-#include "2d/CCCamera.h"
-#include "2d/CCFontAtlasCache.h"
-#include "2d/CCFontFNT.h"
-#include "2d/CCFontFreeType.h"
-#include "2d/CCLabelAtlas.h"
-#include "2d/CCTransition.h"
-#include "base/CCAsyncTaskPool.h"
-#include "base/CCAutoreleasePool.h"
-#include "base/CCConfiguration.h"
-#include "base/CCConsole.h"
-#include "base/CCEventCustom.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCScheduler.h"
-#include "base/CCUserDefault.h"
-#include "base/ccFPSImages.h"
-#include "base/ccMacros.h"
-#include "platform/CCApplication.h"
-#include "renderer/CCFrameBuffer.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCGLProgramStateCache.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTextureCache.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/2d/CCActionManager.h>
+#include <cocos/2d/CCAnimationCache.h>
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCDrawingPrimitives.h>
+#include <cocos/2d/CCFontAtlasCache.h>
+#include <cocos/2d/CCFontFNT.h>
+#include <cocos/2d/CCFontFreeType.h>
+#include <cocos/2d/CCLabelAtlas.h>
+#include <cocos/2d/CCSpriteFrame.h>
+#include <cocos/2d/CCSpriteFrameCache.h>
+#include <cocos/2d/CCTransition.h>
+#include <cocos/base/CCAsyncTaskPool.h>
+#include <cocos/base/CCAutoreleasePool.h>
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/CCEventCustom.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCScheduler.h>
+#include <cocos/base/CCUserDefault.h>
+#include <cocos/base/ccFPSImages.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCApplication.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/renderer/CCFrameBuffer.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCGLProgramStateCache.h>
+#include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTextureCache.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #if CC_ENABLE_SCRIPT_BINDING
-#    include "base/CCScriptSupport.h"
+#    include <cocos/base/CCScriptSupport.h>
 #endif
+
+#include <string>
 
 /**
  Position of the FPS
@@ -597,7 +596,7 @@ void Director::setProjection(Projection projection)
         case Projection::_2D:
         {
             Mat4 orthoMatrix;
-            Mat4::createOrthographicOffCenter(0, size.width, 0, size.height, -1024, 1024, &orthoMatrix);
+            Mat4::createOrthographicOffCenter(0, size.width, 0, size.height, -1024, 1024, orthoMatrix);
             loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, orthoMatrix);
             loadIdentityMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
             break;
@@ -610,10 +609,10 @@ void Director::setProjection(Projection projection)
             Mat4 matrixPerspective, matrixLookup;
 
             // issue #1334
-            Mat4::createPerspective(60, (GLfloat)size.width / size.height, 10, zeye + size.height / 2, &matrixPerspective);
+            Mat4::createPerspective(60, (GLfloat)size.width / size.height, 10, zeye + size.height / 2, matrixPerspective);
 
             Vec3 eye(size.width / 2, size.height / 2, zeye), center(size.width / 2, size.height / 2, 0.0f), up(0.0f, 1.0f, 0.0f);
-            Mat4::createLookAt(eye, center, up, &matrixLookup);
+            Mat4::createLookAt(eye, center, up, matrixLookup);
             Mat4 proj3d = matrixPerspective * matrixLookup;
 
             loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, proj3d);
@@ -715,7 +714,7 @@ Vec2 Director::convertToGL(const Vec2& uiPoint)
 
     Vec4 glCoord;
     // transformInv.transformPoint(clipCoord, &glCoord);
-    transformInv.transformVector(clipCoord, &glCoord);
+    transformInv.transformVector(clipCoord, glCoord);
     float factor = 1.0f / glCoord.w;
     return Vec2(glCoord.x * factor, glCoord.y * factor);
 }
@@ -728,7 +727,7 @@ Vec2 Director::convertToUI(const Vec2& glPoint)
     Vec4 clipCoord;
     // Need to calculate the zero depth from the transform.
     Vec4 glCoord(glPoint.x, glPoint.y, 0.0, 1);
-    transform.transformVector(glCoord, &clipCoord);
+    transform.transformVector(glCoord, clipCoord);
 
     /*
     BUG-FIX #5506
@@ -816,7 +815,7 @@ void Director::replaceScene(Scene* scene)
         _nextScene = nullptr;
     }
 
-    ssize_t index = _scenesStack.size() - 1;
+    std::size_t index = _scenesStack.size() - 1;
 
     _sendCleanupToScene = true;
 #if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
@@ -861,7 +860,7 @@ void Director::popScene(void)
     }
 #endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
     _scenesStack.popBack();
-    ssize_t c = _scenesStack.size();
+    std::size_t c = _scenesStack.size();
 
     if (c == 0)
     {
@@ -882,7 +881,7 @@ void Director::popToRootScene(void)
 void Director::popToSceneStackLevel(int level)
 {
     CCASSERT(_runningScene != nullptr, "A running Scene is needed");
-    ssize_t c = _scenesStack.size();
+    std::size_t c = _scenesStack.size();
 
     // level 0? -> end
     if (level == 0)
@@ -1231,7 +1230,7 @@ void Director::calculateMPF()
 }
 
 // returns the FPS image data pointer and len
-void Director::getFPSImageData(unsigned char** datapointer, ssize_t* length)
+void Director::getFPSImageData(unsigned char** datapointer, std::size_t* length)
 {
     // FIXME: fixed me if it should be used
     *datapointer = cc_fps_images_png;
@@ -1260,7 +1259,7 @@ void Director::createStatsLabel()
     Texture2D::PixelFormat currentFormat = Texture2D::getDefaultAlphaPixelFormat();
     Texture2D::setDefaultAlphaPixelFormat(Texture2D::PixelFormat::RGBA4444);
     unsigned char* data = nullptr;
-    ssize_t dataLength = 0;
+    std::size_t dataLength = 0;
     getFPSImageData(&data, &dataLength);
 
     Image* image = new (std::nothrow) Image();

@@ -23,11 +23,11 @@
 
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCKeyboardEventListener__
-#define __cocos2d_libs__CCKeyboardEventListener__
+#ifndef CC_BASE_EVENTLISTENERKEYBOARD_H
+#define CC_BASE_EVENTLISTENERKEYBOARD_H
 
-#include "base/CCEventKeyboard.h"
-#include "base/CCEventListener.h"
+#include <cocos/base/CCEventKeyboard.h>
+#include <cocos/base/CCEventListener.h>
 
 /**
  * @addtogroup base
@@ -68,4 +68,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif /* defined(__cocos2d_libs__CCKeyboardEventListener__) */
+#endif // CC_BASE_EVENTLISTENERKEYBOARD_H

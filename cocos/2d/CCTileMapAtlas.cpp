@@ -24,13 +24,28 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "2d/CCTileMapAtlas.h"
+#include <cocos/2d/CCTileMapAtlas.h>
 
-#include "base/CCDirector.h"
-#include "base/TGAlib.h"
-#include "base/ccUTF8.h"
-#include "platform/CCFileUtils.h"
-#include "renderer/CCTextureAtlas.h"
+#include <cocos/2d/CCAtlasNode.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/TGAlib.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureAtlas.h>
+
+#include <cstddef>
+#include <new>
+#include <string>
+#include <unordered_map>
 
 NS_CC_BEGIN
 
@@ -219,7 +234,7 @@ void TileMapAtlas::updateAtlasValueAt(const Vec2& pos, const Color3B& value, int
     quad->bl.colors = color;
 
     _textureAtlas->setDirty(true);
-    ssize_t totalQuads = _textureAtlas->getTotalQuads();
+    std::size_t totalQuads = _textureAtlas->getTotalQuads();
     if (index + 1 > totalQuads)
     {
         _textureAtlas->increaseTotalQuadsWith(index + 1 - totalQuads);

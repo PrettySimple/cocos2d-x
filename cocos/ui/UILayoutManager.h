@@ -22,12 +22,16 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCLayoutManager__
-#define __cocos2d_libs__CCLayoutManager__
+#ifndef CC_UI_LAYOUTMANAGER_H
+#define CC_UI_LAYOUTMANAGER_H
 
-#include "base/CCRef.h"
-#include "base/CCVector.h"
-#include "ui/GUIExport.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <cstddef>
 
 /**
  * @addtogroup ui
@@ -38,7 +42,6 @@ NS_CC_BEGIN
 namespace ui
 {
     class LayoutProtocol;
-    class Widget;
     class RelativeLayoutParameter;
 
     /**
@@ -48,8 +51,8 @@ namespace ui
     class CC_GUI_DLL LayoutManager : public Ref
     {
     public:
-        virtual ~LayoutManager(){};
-        LayoutManager(){};
+        LayoutManager() {}
+        ~LayoutManager() override;
 
         /**
          * The interface does the actual layouting work.
@@ -68,10 +71,10 @@ namespace ui
     class CC_GUI_DLL LinearVerticalLayoutManager : public LayoutManager
     {
     private:
-        LinearVerticalLayoutManager(){};
-        virtual ~LinearVerticalLayoutManager(){};
+        LinearVerticalLayoutManager() {}
+        ~LinearVerticalLayoutManager() override {}
         static LinearVerticalLayoutManager* create();
-        virtual void doLayout(LayoutProtocol* layout) override;
+        void doLayout(LayoutProtocol* layout) override;
 
         friend class Layout;
     };
@@ -85,10 +88,10 @@ namespace ui
     class CC_GUI_DLL LinearHorizontalLayoutManager : public LayoutManager
     {
     private:
-        LinearHorizontalLayoutManager(){};
-        virtual ~LinearHorizontalLayoutManager(){};
+        LinearHorizontalLayoutManager() {}
+        ~LinearHorizontalLayoutManager() override {}
         static LinearHorizontalLayoutManager* create();
-        virtual void doLayout(LayoutProtocol* layout) override;
+        void doLayout(LayoutProtocol* layout) override;
 
         friend class Layout;
     };
@@ -110,9 +113,9 @@ namespace ui
         , _relativeWidgetLP(nullptr)
         {
         }
-        virtual ~RelativeLayoutManager(){};
+        ~RelativeLayoutManager() override {}
         static RelativeLayoutManager* create();
-        virtual void doLayout(LayoutProtocol* layout) override;
+        void doLayout(LayoutProtocol* layout) override;
 
         Vector<Widget*> getAllWidgets(LayoutProtocol* layout);
         Widget* getRelativeWidget(Widget* widget);
@@ -125,7 +128,7 @@ namespace ui
         /** @deprecated Use method calculateFinalPositionWithRelativeAlign() instead */
         CC_DEPRECATED_ATTRIBUTE void caculateFinalPositionWithRelativeAlign();
 
-        ssize_t _unlayoutChildCount;
+        std::size_t _unlayoutChildCount;
         Vector<Widget*> _widgetChildren;
         Widget* _widget;
         float _finalPositionX;
@@ -141,4 +144,4 @@ namespace ui
 NS_CC_END
 // end of ui group
 /// @}
-#endif /* defined(__cocos2d_libs__CCLayoutManager__) */
+#endif // CC_UI_LAYOUTMANAGER_H

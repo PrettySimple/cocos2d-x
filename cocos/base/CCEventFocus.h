@@ -23,10 +23,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCEventFocus__
-#define __cocos2d_libs__CCEventFocus__
+#ifndef CC_BASE_EVENTFOCUS_H
+#define CC_BASE_EVENTFOCUS_H
 
-#include "base/CCEvent.h"
+#include <cocos/base/CCEvent.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 /**
  * @addtogroup base
@@ -46,6 +48,12 @@ namespace ui
 class CC_DLL EventFocus : public Event
 {
 public:
+    EventFocus() = default;
+    EventFocus(EventFocus const&) = default;
+    EventFocus& operator=(EventFocus const&) = default;
+    EventFocus(EventFocus&&) noexcept = default;
+    EventFocus& operator=(EventFocus&&) noexcept = default;
+    ~EventFocus() override;
     /** Constructor.
      *
      * @param widgetLoseFocus The widget which lose focus.
@@ -55,8 +63,8 @@ public:
     EventFocus(ui::Widget* widgetLoseFocus, ui::Widget* widgetGetFocus);
 
 private:
-    ui::Widget* _widgetGetFocus;
-    ui::Widget* _widgetLoseFocus;
+    ui::Widget* _widgetGetFocus = nullptr;
+    ui::Widget* _widgetLoseFocus = nullptr;
 
     friend class EventListenerFocus;
 };
@@ -66,4 +74,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif /* defined(__cocos2d_libs__CCEventFocus__) */
+#endif // CC_BASE_EVENTFOCUS_H

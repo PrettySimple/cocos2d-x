@@ -22,12 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_FRAMEWORK_COMCONTAINER_H__
-#define __CC_FRAMEWORK_COMCONTAINER_H__
+#ifndef CC_2D_COMPONENTCONTAINER_H
+#define CC_2D_COMPONENTCONTAINER_H
 
 /// @cond DO_NOT_SHOW
 
-#include "base/CCMap.h"
+#include <cocos/base/CCMap.h>
 
 #include <string>
 
@@ -77,4 +77,4 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif // __CC_FRAMEWORK_COMCONTAINER_H__
+#endif // CC_2D_COMPONENTCONTAINER_H

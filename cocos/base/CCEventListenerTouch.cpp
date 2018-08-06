@@ -22,12 +22,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCEventListenerTouch.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventTouch.h"
-#include "base/CCTouch.h"
+#include <cocos/base/CCEventListenerTouch.h>
 
-#include <algorithm>
+#include <cocos/base/CCEventListener.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <new>
 
 NS_CC_BEGIN
 

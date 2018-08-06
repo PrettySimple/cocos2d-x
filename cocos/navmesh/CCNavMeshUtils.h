@@ -22,14 +22,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCNAV_MESH_TOOL_H__
-#define __CCNAV_MESH_TOOL_H__
+#ifndef CC_NAVMESH_NAVMESHUTILS_H
+#define CC_NAVMESH_NAVMESHUTILS_H
 
-#include "base/ccConfig.h"
+#include <cocos/base/ccConfig.h>
 #if CC_USE_NAVMESH
 
-#    include "math/CCMath.h"
-#    include "platform/CCPlatformMacros.h"
+#    include <cocos/math/CCMath.h>
+#    include <cocos/platform/CCPlatformMacros.h>
 
 #    include "recast/Detour/DetourCommon.h"
 #    include "recast/Detour/DetourNavMesh.h"
@@ -125,4 +125,4 @@ NS_CC_END
 
 #endif // CC_USE_NAVMESH
 
-#endif // __CCNAV_MESH_H__
+#endif // CC_NAVMESH_NAVMESHUTILS_H

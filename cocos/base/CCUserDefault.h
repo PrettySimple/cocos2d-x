@@ -22,11 +22,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __SUPPORT_CCUSERDEFAULT_H__
-#define __SUPPORT_CCUSERDEFAULT_H__
+#ifndef CC_BASE_USERDEFAULT_H
+#define CC_BASE_USERDEFAULT_H
 
-#include "base/CCData.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCData.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <string>
 
 /**
@@ -230,4 +231,4 @@ NS_CC_END
 // end of base group
 /** @} */
 
-#endif // __SUPPORT_CCUSERDEFAULT_H__
+#endif // CC_BASE_USERDEFAULT_H

@@ -25,11 +25,11 @@
 #ifndef __CCPHYSICS_JOINT_H__
 #define __CCPHYSICS_JOINT_H__
 
-#include "base/ccConfig.h"
+#include <cocos/base/ccConfig.h>
 #if CC_USE_PHYSICS
 
-#    include "base/CCRef.h"
-#    include "math/CCGeometry.h"
+#    include <cocos/base/CCRef.h>
+#    include <cocos/math/CCGeometry.h>
 
 struct cpConstraint;
 
@@ -53,7 +53,7 @@ class CC_DLL PhysicsJoint
 {
 protected:
     PhysicsJoint();
-    virtual ~PhysicsJoint() = 0;
+    virtual ~PhysicsJoint();
 
 public:
     /**Get physics body a connected to this joint.*/

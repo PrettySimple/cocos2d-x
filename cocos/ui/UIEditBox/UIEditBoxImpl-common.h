@@ -24,19 +24,29 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __UIEditBoxIMPLICOMMON_H__
-#define __UIEditBoxIMPLICOMMON_H__
+#ifndef CC_UI_EDITBOX_EDITBOXIMPLCOMMON_H
+#define CC_UI_EDITBOX_EDITBOXIMPLCOMMON_H
 
-#include "platform/CCPlatformConfig.h"
-#include "ui/UIEditBox/UIEditBoxImpl-common.h"
-#include "ui/UIEditBox/UIEditBoxImpl.h"
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIEditBox/UIEditBox.h>
+#include <cocos/ui/UIEditBox/UIEditBoxImpl-common.h>
+#include <cocos/ui/UIEditBox/UIEditBoxImpl.h>
+
+#include <cstdint>
+#include <iosfwd>
 
 NS_CC_BEGIN
 
+class Label;
+class Renderer;
+
 namespace ui
 {
-    class EditBox;
-
     class CC_GUI_DLL EditBoxImplCommon : public EditBoxImpl
     {
     public:
@@ -48,7 +58,7 @@ namespace ui
          * @js NA
          * @lua NA
          */
-        virtual ~EditBoxImplCommon();
+        ~EditBoxImplCommon() override;
 
         virtual bool initWithSize(const Size& size) override;
 
@@ -109,13 +119,13 @@ namespace ui
         virtual const char* getNativeDefaultFontName() = 0;
         virtual void nativeOpenKeyboard() = 0;
         virtual void nativeCloseKeyboard() = 0;
-        virtual void setNativeMaxLength(int maxLength){};
+        virtual void setNativeMaxLength(int maxLength) {}
 
     private:
         void initInactiveLabels(const Size& size);
         void setInactiveText(const char* pText);
         void placeInactiveLabels();
-        virtual void doAnimationWhenKeyboardMove(float duration, float distance) override{};
+        void doAnimationWhenKeyboardMove(float duration, float distance) override {}
 
         Label* _label;
         Label* _labelPlaceHolder;
@@ -137,4 +147,4 @@ namespace ui
 
 NS_CC_END
 
-#endif /* __UIEditBoxIMPLICOMMON_H__ */
+#endif // CC_UI_EDITBOX_EDITBOXIMPLCOMMON_H

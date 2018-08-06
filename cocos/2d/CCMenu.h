@@ -23,12 +23,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CCMENU_H_
-#define __CCMENU_H_
+#ifndef CC_2D_MENU_H
+#define CC_2D_MENU_H
 
-#include "2d/CCLayer.h"
-#include "2d/CCMenuItem.h"
-#include "base/CCValue.h"
+#include <cocos/2d/CCLayer.h>
+#include <cocos/2d/CCMenuItem.h>
+#include <cocos/base/CCValue.h>
 
 NS_CC_BEGIN
 class Touch;
@@ -158,7 +158,7 @@ public:
      * The default value is true, a menu is default to visible.
      *@param value true if menu is to be enabled, false if menu is to be disabled.
      */
-    virtual void setEnabled(bool value) { _enabled = value; };
+    virtual void setEnabled(bool value) { _enabled = value; }
 
     virtual bool onTouchBegan(Touch* touch, Event* event) override;
     virtual void onTouchEnded(Touch* touch, Event* event) override;
@@ -175,7 +175,7 @@ public:
 
     virtual void onEnter() override;
     virtual void onExit() override;
-    virtual void setOpacityModifyRGB(bool bValue) override { CC_UNUSED_PARAM(bValue); }
+    virtual void setOpacityModifyRGB(bool) override {}
     virtual bool isOpacityModifyRGB(void) const override { return false; }
 
     virtual std::string getDescription() const override;
@@ -189,7 +189,7 @@ public:
     , _selectedWithCamera(nullptr)
     {
     }
-    virtual ~Menu();
+    ~Menu() override;
 
     /** initializes an empty Menu */
     bool init() override;
@@ -207,7 +207,7 @@ protected:
     const Camera* _selectedWithCamera;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Menu);
+    CC_DISALLOW_COPY_AND_ASSIGN(Menu)
 };
 
 // end of _2d group
@@ -215,4 +215,4 @@ private:
 
 NS_CC_END
 
-#endif //__CCMENU_H_
+#endif // CC_2D_MENU_H

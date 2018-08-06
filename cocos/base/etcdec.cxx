@@ -154,23 +154,23 @@ submitted to the exclusive jurisdiction of the Swedish Courts.
 //// (C) Ericsson AB 2013. All Rights Reserved.
 //// 
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 
 // Typedefs
-typedef unsigned char uint8;
-typedef unsigned short uint16;
-typedef short int16;
+using uint8 = unsigned char;
+using uint16 = unsigned short;
+using int16 = short;
 
 // Macros to help with bit extraction/insertion
-#define SHIFT(size,startpos) ((startpos)-(size)+1)
-#define MASK(size, startpos) (((2<<(size-1))-1) << SHIFT(size,startpos))
+#define SHIFT(size,startpos) ((startpos)-(size)+1u)
+#define MASK(size, startpos) (((2u<<(size-1u))-1u) << SHIFT(size,startpos))
 #define PUTBITS( dest, data, size, startpos) dest = ((dest & ~MASK(size, startpos)) | ((data << SHIFT(size, startpos)) & MASK(size,startpos)))
-#define SHIFTHIGH(size, startpos) (((startpos)-32)-(size)+1)
-#define MASKHIGH(size, startpos) (((1<<(size))-1) << SHIFTHIGH(size,startpos))
+#define SHIFTHIGH(size, startpos) (((startpos)-32u)-(size)+1u)
+#define MASKHIGH(size, startpos) (((1u<<(size))-1u) << SHIFTHIGH(size,startpos))
 #define PUTBITSHIGH(dest, data, size, startpos) dest = ((dest & ~MASKHIGH(size, startpos)) | ((data << SHIFTHIGH(size, startpos)) & MASKHIGH(size,startpos)))
-#define GETBITS(source, size, startpos)  (( (source) >> ((startpos)-(size)+1) ) & ((1<<(size)) -1))
-#define GETBITSHIGH(source, size, startpos)  (( (source) >> (((startpos)-32)-(size)+1) ) & ((1<<(size)) -1))
+#define GETBITS(source, size, startpos)  (( (source) >> ((startpos)-(size)+1u) ) & ((1<<(size)) -1u))
+#define GETBITSHIGH(source, size, startpos)  (( (source) >> (((startpos)-32u)-(size)+1u) ) & ((1u<<(size)) -1u))
 #ifndef PGMOUT
 #define PGMOUT 0
 #endif
@@ -181,24 +181,24 @@ typedef short int16;
 #define R_BITS58H 4
 #define G_BITS58H 4
 #define B_BITS58H 4
-#define MAXIMUM_ERROR (255*255*16*1000)
+//#define MAXIMUM_ERROR (255*255*16*1000)
 #define R 0
 #define G 1
 #define B 2
 #define BLOCKHEIGHT 4
 #define BLOCKWIDTH 4
-#define BINPOW(power) (1<<(power))
+//#define BINPOW(power) (1<<(power))
 #define TABLE_BITS_59T 3
-#define TABLE_BITS_58H 3
+//#define TABLE_BITS_58H 3
 
 // Helper Macros
 #define CLAMP(ll,x,ul) (((x)<(ll)) ? (ll) : (((x)>(ul)) ? (ul) : (x)))
-#define JAS_ROUND(x) (((x) < 0.0 ) ? ((int)((x)-0.5)) : ((int)((x)+0.5)))
+//#define JAS_ROUND(x) (((x) < 0.0 ) ? ((int)((x)-0.5)) : ((int)((x)+0.5)))
 
 #define RED_CHANNEL(img,width,x,y,channels)   img[channels*(y*width+x)+0]
 #define GREEN_CHANNEL(img,width,x,y,channels) img[channels*(y*width+x)+1]
 #define BLUE_CHANNEL(img,width,x,y,channels)  img[channels*(y*width+x)+2]
-#define ALPHA_CHANNEL(img,width,x,y,channels)  img[channels*(y*width+x)+3]
+//#define ALPHA_CHANNEL(img,width,x,y,channels)  img[channels*(y*width+x)+3]
 
 
 // Global tables
@@ -206,9 +206,9 @@ static uint8 table59T[8] = {3,6,11,16,23,32,41,64};  // 3-bit table for the 59 b
 static uint8 table58H[8] = {3,6,11,16,23,32,41,64};  // 3-bit table for the 58 bit H-mode
 static int compressParams[16][4] = {{-8, -2,  2, 8}, {-8, -2,  2, 8}, {-17, -5, 5, 17}, {-17, -5, 5, 17}, {-29, -9, 9, 29}, {-29, -9, 9, 29}, {-42, -13, 13, 42}, {-42, -13, 13, 42}, {-60, -18, 18, 60}, {-60, -18, 18, 60}, {-80, -24, 24, 80}, {-80, -24, 24, 80}, {-106, -33, 33, 106}, {-106, -33, 33, 106}, {-183, -47, 47, 183}, {-183, -47, 47, 183}};
 static int unscramble[4] = {2, 3, 1, 0};
-int alphaTableInitialized = 0;
-int alphaTable[256][8];
-int alphaBase[16][4] = {    
+static int alphaTableInitialized = 0;
+static int alphaTable[256][8];
+static int alphaBase[16][4] = {
               {-15,-9,-6,-3},
                             {-13,-10,-7,-3},
                             {-13,-8,-5,-2},
@@ -228,6 +228,7 @@ int alphaBase[16][4] = {
                                             };
 
 // Global variables
+extern int formatSigned;
 int formatSigned = 0;
 
 // Enums
@@ -1616,7 +1617,6 @@ void decompressBlockETC21BitAlpha(unsigned int block_part1, unsigned int block_p
 // NO WARRANTY --- SEE STATEMENT IN TOP OF FILE (C) Ericsson AB 2013. All Rights Reserved.
 uint8 getbit(uint8 input, int frompos, int topos) 
 {
-    uint8 output=0;
     if(frompos>topos)
         return ((1<<frompos)&input)>>(frompos-topos);
     return ((1<<frompos)&input)<<(topos-frompos);
@@ -1770,7 +1770,7 @@ void decompressBlockAlpha16bitC(uint8* data, uint8* img, int width, int height, 
     {
         //if we have a signed format, the base value is given as a signed byte. We convert it to (0-255) here,
         //so more code can be shared with the unsigned mode.
-        alpha = *((signed char*)(&data[0]));
+        alpha = *(reinterpret_cast<signed char*>(&data[0]));
         alpha = alpha+128;
     }
 
@@ -1797,11 +1797,11 @@ void decompressBlockAlpha16bitC(uint8* data, uint8* img, int width, int height, 
 #if !PGMOUT
             if(formatSigned)
             {
-                *(int16 *)&img[windex] = get16bits11signed(alpha,(table%16),(table/16),index);
+                *reinterpret_cast<int16 *>(&img[windex]) = get16bits11signed(alpha,(table%16),(table/16),index);
             }
             else
             {
-                *(uint16 *)&img[windex] = get16bits11bits(alpha,(table%16),(table/16),index);
+                *reinterpret_cast<uint16 *>(&img[windex]) = get16bits11bits(alpha,(table%16),(table/16),index);
             }
 #else
             //make data compatible with the .pgm format. See the comment in compressBlockAlpha16() for details.

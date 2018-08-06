@@ -2,10 +2,13 @@
 
 #pragma once
 
-#include "CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <OpenAL/al.h>
+#include <atomic>
 #include <chrono>
+#include <functional>
+#include <string>
 
 NS_CC_BEGIN
 namespace experimental
@@ -18,7 +21,7 @@ namespace experimental
         AudioPlayer();
         virtual ~AudioPlayer();
 
-        virtual void destroy(){};
+        virtual void destroy() {}
 
         // queue buffer related stuff
         virtual bool setTime(float time) = 0;

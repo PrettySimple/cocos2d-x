@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
@@ -22,16 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_EXTENTIONS_CCINPUTDELEGATE_H__
-#define __CC_EXTENTIONS_CCINPUTDELEGATE_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_INPUTDELEGATE_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_INPUTDELEGATE_H
 
-#include "base/CCEvent.h"
-#include "base/CCEventKeyboard.h"
-#include "base/CCEventListener.h"
-#include "base/CCTouch.h"
-#include "base/ccTypes.h"
 #include "cocostudio/CocosStudioExport.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCEvent.h>
+#include <cocos/base/CCEventKeyboard.h>
+#include <cocos/base/CCEventListener.h>
+#include <cocos/base/CCTouch.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 namespace cocos2d
 {
@@ -70,73 +70,40 @@ namespace cocostudio
         /**
          * @js NA
          */
-        CC_DEPRECATED_ATTRIBUTE virtual void didAccelerate(cocos2d::Acceleration* accelerationValue) final { CC_UNUSED_PARAM(accelerationValue); };
+        CC_DEPRECATED_ATTRIBUTE virtual void didAccelerate(cocos2d::Acceleration*) final{};
         // Deprecated touch callbacks.
         /**
          * @js NA
          */
-        CC_DEPRECATED_ATTRIBUTE virtual bool ccTouchBegan(cocos2d::Touch* pTouch, cocos2d::Event* pEvent) final
-        {
-            CC_UNUSED_PARAM(pTouch);
-            CC_UNUSED_PARAM(pEvent);
-            return false;
-        };
+        CC_DEPRECATED_ATTRIBUTE virtual bool ccTouchBegan(cocos2d::Touch*, cocos2d::Event*) final { return false; };
         /**
          * @js NA
          */
-        CC_DEPRECATED_ATTRIBUTE virtual void ccTouchMoved(cocos2d::Touch* pTouch, cocos2d::Event* pEvent) final
-        {
-            CC_UNUSED_PARAM(pTouch);
-            CC_UNUSED_PARAM(pEvent);
-        }
+        CC_DEPRECATED_ATTRIBUTE virtual void ccTouchMoved(cocos2d::Touch*, cocos2d::Event*) final {}
         /**
          * @js NA
          */
-        CC_DEPRECATED_ATTRIBUTE virtual void ccTouchEnded(cocos2d::Touch* pTouch, cocos2d::Event* pEvent) final
-        {
-            CC_UNUSED_PARAM(pTouch);
-            CC_UNUSED_PARAM(pEvent);
-        }
+        CC_DEPRECATED_ATTRIBUTE virtual void ccTouchEnded(cocos2d::Touch*, cocos2d::Event*) final {}
         /**
          * @js NA
          */
-        CC_DEPRECATED_ATTRIBUTE virtual void ccTouchCancelled(cocos2d::Touch* pTouch, cocos2d::Event* pEvent) final
-        {
-            CC_UNUSED_PARAM(pTouch);
-            CC_UNUSED_PARAM(pEvent);
-        }
+        CC_DEPRECATED_ATTRIBUTE virtual void ccTouchCancelled(cocos2d::Touch*, cocos2d::Event*) final {}
         /**
          * @js NA
          */
-        CC_DEPRECATED_ATTRIBUTE virtual void ccTouchesBegan(cocos2d::__Set* pTouches, cocos2d::Event* pEvent) final
-        {
-            CC_UNUSED_PARAM(pTouches);
-            CC_UNUSED_PARAM(pEvent);
-        }
+        CC_DEPRECATED_ATTRIBUTE virtual void ccTouchesBegan(cocos2d::__Set*, cocos2d::Event*) final {}
         /**
          * @js NA
          */
-        CC_DEPRECATED_ATTRIBUTE virtual void ccTouchesMoved(cocos2d::__Set* pTouches, cocos2d::Event* pEvent) final
-        {
-            CC_UNUSED_PARAM(pTouches);
-            CC_UNUSED_PARAM(pEvent);
-        }
+        CC_DEPRECATED_ATTRIBUTE virtual void ccTouchesMoved(cocos2d::__Set*, cocos2d::Event*) final {}
         /**
          * @js NA
          */
-        CC_DEPRECATED_ATTRIBUTE virtual void ccTouchesEnded(cocos2d::__Set* pTouches, cocos2d::Event* pEvent) final
-        {
-            CC_UNUSED_PARAM(pTouches);
-            CC_UNUSED_PARAM(pEvent);
-        }
+        CC_DEPRECATED_ATTRIBUTE virtual void ccTouchesEnded(cocos2d::__Set*, cocos2d::Event*) final {}
         /**
          * @js NA
          */
-        CC_DEPRECATED_ATTRIBUTE virtual void ccTouchesCancelled(cocos2d::__Set* pTouches, cocos2d::Event* pEvent) final
-        {
-            CC_UNUSED_PARAM(pTouches);
-            CC_UNUSED_PARAM(pEvent);
-        }
+        CC_DEPRECATED_ATTRIBUTE virtual void ccTouchesCancelled(cocos2d::__Set*, cocos2d::Event*) final {}
         /**
          * @js NA
          */
@@ -197,4 +164,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif // __CC_EXTENTIONS_CCINPUTDELEGATE_H__
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_INPUTDELEGATE_H

@@ -23,7 +23,7 @@
 
  ****************************************************************************/
 
-#include "base/CCEventListenerMouse.h"
+#include <cocos/base/CCEventListenerMouse.h>
 
 NS_CC_BEGIN
 

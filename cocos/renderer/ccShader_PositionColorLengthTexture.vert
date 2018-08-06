@@ -19,6 +19,8 @@
  * SOFTWARE.
  */
 
+#pragma once
+
 const char* ccPositionColorLengthTexture_vert = R"(
 #ifdef GL_ES
 attribute mediump vec4 a_position;

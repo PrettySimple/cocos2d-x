@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
@@ -22,13 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_EXTENTIONS_CCCOMBASE_H__
-#define __CC_EXTENTIONS_CCCOMBASE_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_COMBASE_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_COMBASE_H
 
 #include "CocoLoader.h"
 #include "DictionaryHelper.h"
-#include "base/ObjectFactory.h"
 #include "cocostudio/CocosStudioExport.h"
+#include <cocos/base/ObjectFactory.h>
 #include <string>
 
 #define DECLARE_CLASS_COMPONENT_INFO           \
@@ -55,4 +55,4 @@ struct CC_STUDIO_DLL SerData
     }
 };
 
-#endif
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_COMBASE_H

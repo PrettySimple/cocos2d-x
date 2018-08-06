@@ -25,13 +25,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCGLSTATE_H__
-#define __CCGLSTATE_H__
+#ifndef CC_RENDERER_GLSTATECACHE_H
+#define CC_RENDERER_GLSTATECACHE_H
+
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <cstdint>
-
-#include "platform/CCGL.h"
-#include "platform/CCPlatformMacros.h"
 
 NS_CC_BEGIN
 
@@ -40,8 +41,8 @@ NS_CC_BEGIN
  * @{
  */
 
-class GLProgram;
 class Texture2D;
+
 namespace GL
 {
     /** Vertex attrib flags. */
@@ -191,4 +192,4 @@ namespace GL
 } // Namespace GL
 NS_CC_END
 
-#endif /* __CCGLSTATE_H__ */
+#endif // CC_RENDERER_GLSTATECACHE_H

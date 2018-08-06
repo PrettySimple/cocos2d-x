@@ -24,18 +24,28 @@
  Code based GamePlay3D's Camera: http://gameplay3d.org
 
  ****************************************************************************/
-#include "2d/CCCamera.h"
+#include <cocos/2d/CCCamera.h>
 
-#include "2d/CCCameraBackgroundBrush.h"
-#include "2d/CCScene.h"
-#include "base/CCDirector.h"
-#include "platform/CCGLView.h"
-#include "renderer/CCFrameBuffer.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCQuadCommand.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/2d/CCCameraBackgroundBrush.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCScene.h>
+#include <cocos/3d/CCFrustum.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Quaternion.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCFrameBuffer.h>
+
+#include <algorithm>
+#include <cstring>
+#include <new>
+#include <vector>
 
 NS_CC_BEGIN
 
@@ -149,15 +159,15 @@ void Camera::lookAt(const Vec3& lookAtPos, const Vec3& up)
     Vec3 upv = up;
     upv.normalize();
     Vec3 zaxis;
-    Vec3::subtract(this->getPosition3D(), lookAtPos, &zaxis);
+    Vec3::subtract(this->getPosition3D(), lookAtPos, zaxis);
     zaxis.normalize();
 
     Vec3 xaxis;
-    Vec3::cross(upv, zaxis, &xaxis);
+    Vec3::cross(upv, zaxis, xaxis);
     xaxis.normalize();
 
     Vec3 yaxis;
-    Vec3::cross(zaxis, xaxis, &yaxis);
+    Vec3::cross(zaxis, xaxis, yaxis);
     yaxis.normalize();
     Mat4 rotation;
     rotation.m[0] = xaxis.x;
@@ -175,7 +185,7 @@ void Camera::lookAt(const Vec3& lookAtPos, const Vec3& up)
     rotation.m[11] = 0;
 
     Quaternion quaternion;
-    Quaternion::createFromRotationMatrix(rotation, &quaternion);
+    Quaternion::createFromRotationMatrix(rotation, quaternion);
     quaternion.normalize();
     setRotationQuat(quaternion);
 }
@@ -186,7 +196,7 @@ const Mat4& Camera::getViewProjectionMatrix() const
     if (_viewProjectionDirty)
     {
         _viewProjectionDirty = false;
-        Mat4::multiply(_projection, _view, &_viewProjection);
+        Mat4::multiply(_projection, _view, _viewProjection);
     }
 
     return _viewProjection;
@@ -215,13 +225,13 @@ bool Camera::initDefault()
         case Director::Projection::_3D:
         {
             float zeye = Director::getInstance()->getZEye();
-            initPerspective(60, (GLfloat)size.width / size.height, 10, zeye + size.height / 2.0f);
+            initPerspective(60, static_cast<GLfloat>(size.width) / size.height, 10, zeye + size.height / 2.0f);
             Vec3 eye(size.width / 2, size.height / 2.0f, zeye), center(size.width / 2, size.height / 2, 0.0f), up(0.0f, 1.0f, 0.0f);
             setPosition3D(eye);
             lookAt(center, up);
             break;
         }
-        default:
+        case Director::Projection::CUSTOM:
             CCLOG("unrecognized projection");
             break;
     }
@@ -234,7 +244,7 @@ bool Camera::initPerspective(float fieldOfView, float aspectRatio, float nearPla
     _aspectRatio = aspectRatio;
     _nearPlane = nearPlane;
     _farPlane = farPlane;
-    Mat4::createPerspective(_fieldOfView, _aspectRatio, _nearPlane, _farPlane, &_projection);
+    Mat4::createPerspective(_fieldOfView, _aspectRatio, _nearPlane, _farPlane, _projection);
     _viewProjectionDirty = true;
     _frustumDirty = true;
 
@@ -247,7 +257,7 @@ bool Camera::initOrthographic(float zoomX, float zoomY, float nearPlane, float f
     _zoom[1] = zoomY;
     _nearPlane = nearPlane;
     _farPlane = farPlane;
-    Mat4::createOrthographicOffCenter(0, _zoom[0], 0, _zoom[1], _nearPlane, _farPlane, &_projection);
+    Mat4::createOrthographicOffCenter(0, _zoom[0], 0, _zoom[1], _nearPlane, _farPlane, _projection);
     _viewProjectionDirty = true;
     _frustumDirty = true;
 
@@ -260,7 +270,7 @@ Vec2 Camera::project(const Vec3& src) const
 
     auto viewport = Director::getInstance()->getWinSize();
     Vec4 clipPos;
-    getViewProjectionMatrix().transformVector(Vec4(src.x, src.y, src.z, 1.0f), &clipPos);
+    getViewProjectionMatrix().transformVector(Vec4(src.x, src.y, src.z, 1.0f), clipPos);
 
     CCASSERT(clipPos.w != 0.0f, "clipPos.w can't be 0.0f!");
     float ndcX = clipPos.x / clipPos.w;
@@ -277,7 +287,7 @@ Vec2 Camera::projectGL(const Vec3& src) const
 
     auto viewport = Director::getInstance()->getWinSize();
     Vec4 clipPos;
-    getViewProjectionMatrix().transformVector(Vec4(src.x, src.y, src.z, 1.0f), &clipPos);
+    getViewProjectionMatrix().transformVector(Vec4(src.x, src.y, src.z, 1.0f), clipPos);
 
     CCASSERT(clipPos.w != 0.0f, "clipPos.w can't be 0.0f!");
     float ndcX = clipPos.x / clipPos.w;
@@ -311,7 +321,7 @@ void Camera::unproject(const Size& viewport, const Vec3* src, Vec3* dst) const
     screen.y = screen.y * 2.0f - 1.0f;
     screen.z = screen.z * 2.0f - 1.0f;
 
-    getViewProjectionMatrix().getInversed().transformVector(screen, &screen);
+    getViewProjectionMatrix().getInversed().transformVector(screen, screen);
     if (screen.w != 0.0f)
     {
         screen.x /= screen.w;
@@ -331,7 +341,7 @@ void Camera::unprojectGL(const Size& viewport, const Vec3* src, Vec3* dst) const
     screen.y = screen.y * 2.0f - 1.0f;
     screen.z = screen.z * 2.0f - 1.0f;
 
-    getViewProjectionMatrix().getInversed().transformVector(screen, &screen);
+    getViewProjectionMatrix().getInversed().transformVector(screen, screen);
     if (screen.w != 0.0f)
     {
         screen.x /= screen.w;

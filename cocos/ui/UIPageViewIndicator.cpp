@@ -22,9 +22,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIPageViewIndicator.h"
-#include "2d/CCSprite.h"
-#include "base/ccUtils.h"
+#include <cocos/ui/UIPageViewIndicator.h>
+
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/base/ccUtils.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/UIPageView.h>
+#include <cocos/ui/UIScrollView.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <new>
 
 static const char* CIRCLE_IMAGE =
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAA8ElEQVRIx62VyRGCQBBF+6gWRCEmYDIQkhiBCgHhSclC8YqWzOV5oVzKAYZp3r1/9fpbxAIBMTsKrjx5cqVgR0wgLhCRUWOjJiPqD56xoaGPhpRZV/iSEy6crHmw5oIrF9b/lVeMofrJgjlnxlIy/wik+JB+mme8BExbBhm+5CJC2LE2LtSEQoyGWDioBA5CoRIohJtK4CYDxzNEM4GAugR1E9VjVC+SZpXvhCJCrjomESLvc17pDGX7bWmlh6UtpjPVCWy9zaJ0TD7qfm3pwERMz2trRVZk3K3BD/L34AY+dEDCniMVBkPFkT2J/b2/AIV+dRpFLOYoAAAAAElFTkSuQmCC";
@@ -76,7 +87,7 @@ namespace ui
         rearrange();
     }
 
-    void PageViewIndicator::reset(ssize_t numberOfTotalPages)
+    void PageViewIndicator::reset(std::size_t numberOfTotalPages)
     {
         while (_indexNodes.size() < numberOfTotalPages)
         {
@@ -90,7 +101,7 @@ namespace ui
         _currentIndexNode->setVisible(!_indexNodes.empty());
     }
 
-    void PageViewIndicator::indicate(ssize_t index)
+    void PageViewIndicator::indicate(std::size_t index)
     {
         if (index < 0 || index >= _indexNodes.size())
         {
@@ -112,7 +123,7 @@ namespace ui
         Size indexNodeSize = _indexNodes.at(0)->getContentSize();
         float sizeValue = (horizontal ? indexNodeSize.width : indexNodeSize.height);
 
-        ssize_t numberOfItems = _indexNodes.size();
+        std::size_t numberOfItems = _indexNodes.size();
         float totalSizeValue = sizeValue * numberOfItems + _spaceBetweenIndexNodes * (numberOfItems - 1);
 
         float posValue = -(totalSizeValue / 2) + (sizeValue / 2);

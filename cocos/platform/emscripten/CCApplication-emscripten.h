@@ -2,11 +2,11 @@
 #ifndef CCAPLICATION_H_
 #define CCAPLICATION_H_
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 
-#    include "platform/CCApplicationProtocol.h"
-#    include "platform/CCCommon.h"
+#    include <cocos/platform/CCApplicationProtocol.h>
+#    include <cocos/platform/CCCommon.h>
 #    include <string>
 
 NS_CC_BEGIN
@@ -46,15 +46,13 @@ public:
     CC_DEPRECATED_ATTRIBUTE static Application* sharedApplication();
 
     /* override functions */
-    [[noreturn]]
-    virtual LanguageType getCurrentLanguage() override;
+    [[noreturn]] virtual LanguageType getCurrentLanguage() override;
 
     /**
     @brief Get current language iso 639-1 code
     @return Current language iso 639-1 code
     */
-    [[noreturn]]
-    virtual const char* getCurrentLanguageCode() override;
+    [[noreturn]] virtual const char* getCurrentLanguageCode() override;
 
     /**
     @brief Get application version
@@ -90,15 +88,12 @@ protected:
     std::string _resourceRootPath;
     static Application* sm_pSharedApplication;
 
-
-/* EMBIND - must be public */
+    /* EMBIND - must be public */
 public:
-
     static void js2cpp_onBackground();
     static void js2cpp_onInactive();
     static void js2cpp_onForeground();
     static void js2cpp_onActive();
-
 };
 
 NS_CC_END

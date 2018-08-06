@@ -23,7 +23,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "base/CCProfiling.h"
+#include <cocos/base/CCProfiling.h>
+
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/CCMap.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <algorithm>
+#include <cstdio>
+#include <new>
+#include <type_traits>
+#include <unordered_map>
+#include <utility>
 
 using namespace std;
 

@@ -42,21 +42,36 @@ THE SOFTWARE.
 //  cocos2d uses a another approach, but the results are almost identical.
 //
 
-#include "2d/CCParticleSystem.h"
+#include <cocos/2d/CCParticleSystem.h>
 
-#include "2d/CCParticleBatchNode.h"
-#include "base/CCDirector.h"
-#include "base/CCProfiling.h"
-#include "base/ZipUtils.h"
-#include "base/base64.h"
-#include "base/ccUTF8.h"
-#include "platform/CCFileUtils.h"
-#include "renderer/CCTextureAtlas.h"
-#include "renderer/CCTextureCache.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCParticleBatchNode.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/ZipUtils.h>
+#include <cocos/base/base64.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCMathBase.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCImage.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureCache.h>
 
+#include <algorithm>
 #include <cmath>
+#include <cstdint>
+#include <cstdlib>
+#include <cstring>
 #include <limits>
+#include <new>
 #include <string>
+#include <type_traits>
+#include <unordered_map>
 
 using namespace std;
 using namespace std::chrono_literals;
@@ -108,7 +123,7 @@ inline static float RANDOM_M11(unsigned int* seed)
         uint32_t d;
         float f;
     } u;
-    u.d = (((uint32_t)(*seed) & 0x7fff) << 8) | 0x40000000;
+    u.d = ((static_cast<uint32_t>(*seed) & 0x7fff) << 8) | 0x40000000;
     return u.f - 3.0f;
 }
 
@@ -121,34 +136,34 @@ bool ParticleData::init(int count)
 {
     maxCount = count;
 
-    posx = (float*)malloc(count * sizeof(float));
-    posy = (float*)malloc(count * sizeof(float));
-    startPosX = (float*)malloc(count * sizeof(float));
-    startPosY = (float*)malloc(count * sizeof(float));
-    colorR = (float*)malloc(count * sizeof(float));
-    colorG = (float*)malloc(count * sizeof(float));
-    colorB = (float*)malloc(count * sizeof(float));
-    colorA = (float*)malloc(count * sizeof(float));
-    deltaColorR = (float*)malloc(count * sizeof(float));
-    deltaColorG = (float*)malloc(count * sizeof(float));
-    deltaColorB = (float*)malloc(count * sizeof(float));
-    deltaColorA = (float*)malloc(count * sizeof(float));
-    size = (float*)malloc(count * sizeof(float));
-    deltaSize = (float*)malloc(count * sizeof(float));
-    rotation = (float*)malloc(count * sizeof(float));
-    deltaRotation = (float*)malloc(count * sizeof(float));
-    timeToLive = (float*)malloc(count * sizeof(float));
-    atlasIndex = (unsigned int*)malloc(count * sizeof(unsigned int));
+    posx = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    posy = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    startPosX = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    startPosY = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    colorR = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    colorG = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    colorB = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    colorA = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    deltaColorR = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    deltaColorG = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    deltaColorB = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    deltaColorA = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    size = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    deltaSize = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    rotation = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    deltaRotation = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    timeToLive = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    atlasIndex = reinterpret_cast<unsigned int*>(malloc(count * sizeof(unsigned int)));
 
-    modeA.dirX = (float*)malloc(count * sizeof(float));
-    modeA.dirY = (float*)malloc(count * sizeof(float));
-    modeA.radialAccel = (float*)malloc(count * sizeof(float));
-    modeA.tangentialAccel = (float*)malloc(count * sizeof(float));
+    modeA.dirX = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    modeA.dirY = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    modeA.radialAccel = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    modeA.tangentialAccel = reinterpret_cast<float*>(malloc(count * sizeof(float)));
 
-    modeB.angle = (float*)malloc(count * sizeof(float));
-    modeB.degreesPerSecond = (float*)malloc(count * sizeof(float));
-    modeB.deltaRadius = (float*)malloc(count * sizeof(float));
-    modeB.radius = (float*)malloc(count * sizeof(float));
+    modeB.angle = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    modeB.degreesPerSecond = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    modeB.deltaRadius = reinterpret_cast<float*>(malloc(count * sizeof(float)));
+    modeB.radius = reinterpret_cast<float*>(malloc(count * sizeof(float)));
 
     return posx && posy && startPosY && startPosX && colorR && colorG && colorB && colorA && deltaColorR && deltaColorG && deltaColorB && deltaColorA && size &&
         deltaSize && rotation && deltaRotation && timeToLive && atlasIndex && modeA.dirX && modeA.dirY && modeA.radialAccel && modeA.tangentialAccel &&
@@ -379,7 +394,7 @@ bool ParticleSystem::initWithDictionary(ValueMap& dictionary, const std::string&
             _endSpin = dictionary["rotationEnd"].asFloat();
             _endSpinVar = dictionary["rotationEndVariance"].asFloat();
 
-            _emitterMode = (Mode)dictionary["emitterType"].asInt();
+            _emitterMode = static_cast<Mode>(dictionary["emitterType"].asInt());
 
             // Mode A: Gravity + tangential accel + radial accel
             if (_emitterMode == Mode::GRAVITY)
@@ -509,11 +524,12 @@ bool ParticleSystem::initWithDictionary(ValueMap& dictionary, const std::string&
                     if (dataLen != 0)
                     {
                         // if it fails, try to get it from the base64-gzipped data
-                        int decodeLen = base64Decode((unsigned char*)textureData.c_str(), (unsigned int)dataLen, &buffer);
+                        int decodeLen =
+                            base64Decode(reinterpret_cast<unsigned char*>(const_cast<char*>(textureData.c_str())), static_cast<unsigned int>(dataLen), &buffer);
                         CCASSERT(buffer != nullptr, "CCParticleSystem: error decoding textureImageData");
                         CC_BREAK_IF(!buffer);
 
-                        ssize_t deflatedLen = ZipUtils::inflateMemory(buffer, decodeLen, &deflated);
+                        std::size_t deflatedLen = ZipUtils::inflateMemory(buffer, decodeLen, &deflated);
                         CCASSERT(deflated != nullptr, "CCParticleSystem: error ungzipping textureImageData");
                         CC_BREAK_IF(!deflated);
 

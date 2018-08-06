@@ -22,16 +22,16 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCNAV_MESH_AGENT_H__
-#define __CCNAV_MESH_AGENT_H__
+#ifndef CC_NAVMESH_NAVMESHAGENT_H
+#define CC_NAVMESH_NAVMESHAGENT_H
 
-#include "base/ccConfig.h"
+#include <cocos/base/ccConfig.h>
 #if CC_USE_NAVMESH
-#    include "2d/CCComponent.h"
+#    include <cocos/2d/CCComponent.h>
 
-#    include "base/CCRef.h"
-#    include "math/Vec3.h"
 #    include "recast/DetourCrowd/DetourCrowd.h"
+#    include <cocos/base/CCRef.h>
+#    include <cocos/math/Vec3.h>
 
 class dtNavMeshQuery;
 NS_CC_BEGIN
@@ -233,4 +233,4 @@ NS_CC_END
 
 #endif // CC_USE_NAVMESH
 
-#endif // __CCNAV_MESH_AGENT_H__
+#endif // CC_NAVMESH_NAVMESHAGENT_H

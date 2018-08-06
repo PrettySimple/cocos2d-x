@@ -23,14 +23,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#    include "base/ccTypes.h"
-#    include "platform/CCDevice.h"
-#    include "platform/apple/CCDevice-apple.h"
-#    include <Cocoa/Cocoa.h>
-#    include <Foundation/Foundation.h>
+#    include <cocos/platform/CCDevice.h>
+
+#    include <cocos/base/ccTypes.h>
+#    include <cocos/platform/apple/CCDevice-apple.h>
+
+#    import <Cocoa/Cocoa.h>
+#    import <Foundation/Foundation.h>
+
 #    include <string>
 
 NS_CC_BEGIN
@@ -379,14 +382,12 @@ Data Device::getTextureDataForText(const char* text, const FontDefinition& textD
     return ret;
 }
 
-void Device::setKeepScreenOn(bool value)
+void Device::setKeepScreenOn(bool)
 {
-    CC_UNUSED_PARAM(value);
 }
 
-void Device::vibrate(float duration)
+void Device::vibrate(float)
 {
-    CC_UNUSED_PARAM(duration);
 }
 
 NS_CC_END

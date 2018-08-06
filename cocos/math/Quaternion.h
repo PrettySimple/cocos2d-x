@@ -19,12 +19,16 @@
  This file was modified to fit the cocos2d-x project
  */
 
-#ifndef QUATERNION_H_
-#define QUATERNION_H_
+#ifndef CC_MATH_QUATERNION_H
+#define CC_MATH_QUATERNION_H
 
-#include "math/Mat4.h"
-#include "math/Vec3.h"
-//#include "Plane.h"
+#include <cocos/math/CCMathBase.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformDefine.h>
+
+#include <type_traits>
 
 /**
  * @addtogroup base
@@ -66,33 +70,45 @@ class Mat4;
  * q4 = (-0.8, 0.0, -0.6, 0.0).
  * For the point p = (1.0, 1.0, 1.0), the following figures show the trajectories of p using lerp, slerp, and squad.
  */
-class CC_DLL Quaternion
+class CC_DLL Quaternion final
 {
     friend class Curve;
     friend class Transform;
 
 public:
-    /**
-     * The x-value of the quaternion's vector component.
-     */
-    float x;
-    /**
-     * The y-value of the quaternion's vector component.
-     */
-    float y;
-    /**
-     * The z-value of the quaternion's vector component.
-     */
-    float z;
-    /**
-     * The scalar component of the quaternion.
-     */
-    float w;
+#ifdef __ARM_NEON
+    using f32x4_t = __attribute__((neon_vector_type(4))) float;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    using f32x4_t = float[4];
+#else
+    using f32x4_t = __attribute__((ext_vector_type(4))) float;
+#endif
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu-anonymous-struct"
+#pragma clang diagnostic ignored "-Wnested-anon-types"
+    union
+    {
+        f32x4_t v = {0.f, 0.f, 0.f, 1.f};
+        struct
+        {
+            float x;
+            float y;
+            float z;
+            float w;
+        };
+    };
+#pragma clang diagnostic pop
 
     /**
      * Constructs a quaternion initialized to (0, 0, 0, 1).
      */
-    Quaternion();
+    Quaternion() = default;
+    Quaternion(Quaternion const&) = default;
+    Quaternion& operator=(Quaternion const&) = default;
+    Quaternion(Quaternion&&) noexcept = default;
+    Quaternion& operator=(Quaternion&&) noexcept = default;
+    ~Quaternion() = default;
 
     /**
      * Constructs a quaternion initialized to (0, 0, 0, 1).
@@ -102,7 +118,27 @@ public:
      * @param zz The z component of the quaternion.
      * @param ww The w component of the quaternion.
      */
-    Quaternion(float xx, float yy, float zz, float ww);
+    constexpr Quaternion(float xx, float yy, float zz, float ww)
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    : x(xx)
+    , y(yy)
+    , z(zz)
+    , w(ww)
+#else
+    : v
+    {
+        xx, yy, zz, ww
+    }
+#endif
+    {
+    }
+
+#if CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN
+    constexpr Quaternion(f32x4_t&& other)
+    : v(std::move(other))
+    {
+    }
+#endif
 
     /**
      * Constructs a new quaternion from the values in the specified array.
@@ -125,18 +161,6 @@ public:
      * @param angle The angle of rotation (in radians).
      */
     Quaternion(const Vec3& axis, float angle);
-
-    /**
-     * Constructs a new quaternion that is a copy of the specified one.
-     *
-     * @param copy The quaternion to copy.
-     */
-    Quaternion(const Quaternion& copy);
-
-    /**
-     * Destructor.
-     */
-    ~Quaternion();
 
     /**
      * Returns the identity quaternion.
@@ -173,7 +197,7 @@ public:
      * @param m The matrix.
      * @param dst A quaternion to store the conjugate in.
      */
-    static void createFromRotationMatrix(const Mat4& m, Quaternion* dst);
+    static void createFromRotationMatrix(const Mat4& m, Quaternion& dst);
 
     /**
      * Creates this quaternion equal to the rotation from the specified axis and angle
@@ -183,7 +207,7 @@ public:
      * @param angle The angle of rotation (in radians).
      * @param dst A quaternion to store the conjugate in.
      */
-    static void createFromAxisAngle(const Vec3& axis, float angle, Quaternion* dst);
+    static void createFromAxisAngle(const Vec3& axis, float angle, Quaternion& dst);
 
     /**
      * Sets this quaternion to the conjugate of itself.
@@ -232,7 +256,7 @@ public:
      * @param q2 The second quaternion.
      * @param dst A quaternion to store the result in.
      */
-    static void multiply(const Quaternion& q1, const Quaternion& q2, Quaternion* dst);
+    static void multiply(const Quaternion& q1, const Quaternion& q2, Quaternion& dst);
 
     /**
      * Normalizes this quaternion to have unit length.
@@ -302,7 +326,7 @@ public:
      *
      * @return The angle (in radians).
      */
-    float toAxisAngle(Vec3* e) const;
+    float toAxisAngle(Vec3& e) const;
 
     /**
      * Interpolates between two quaternions using linear interpolation.
@@ -315,7 +339,7 @@ public:
      * @param t The interpolation coefficient.
      * @param dst A quaternion to store the result in.
      */
-    static void lerp(const Quaternion& q1, const Quaternion& q2, float t, Quaternion* dst);
+    static void lerp(const Quaternion& q1, const Quaternion& q2, float t, Quaternion& dst);
 
     /**
      * Interpolates between two quaternions using spherical linear interpolation.
@@ -332,7 +356,7 @@ public:
      * @param t The interpolation coefficient.
      * @param dst A quaternion to store the result in.
      */
-    static void slerp(const Quaternion& q1, const Quaternion& q2, float t, Quaternion* dst);
+    static void slerp(const Quaternion& q1, const Quaternion& q2, float t, Quaternion& dst);
 
     /**
      * Interpolates over a series of quaternions using spherical spline interpolation.
@@ -351,7 +375,7 @@ public:
      * @param t The interpolation coefficient.
      * @param dst A quaternion to store the result in.
      */
-    static void squad(const Quaternion& q1, const Quaternion& q2, const Quaternion& s1, const Quaternion& s2, float t, Quaternion* dst);
+    static void squad(const Quaternion& q1, const Quaternion& q2, const Quaternion& s1, const Quaternion& s2, float t, Quaternion& dst);
 
     /**
      * Calculates the quaternion product of this quaternion with the given quaternion.
@@ -361,14 +385,30 @@ public:
      * @param q The quaternion to multiply.
      * @return The quaternion product.
      */
-    inline const Quaternion operator*(const Quaternion& q) const;
+    inline const Quaternion operator*(const Quaternion& q) const
+    {
+        Quaternion result(*this);
+        result.multiply(q);
+        return result;
+    }
 
     /**
      * Calculates the quaternion product of this quaternion with the given vec3.
      * @param v The vec3 to multiply.
      * @return The vec3 product.
      */
-    inline Vec3 operator*(const Vec3& v) const;
+    inline Vec3 operator*(const Vec3& v) const
+    {
+        Vec3 uv, uuv;
+        Vec3 qvec(x, y, z);
+        Vec3::cross(qvec, v, uv);
+        Vec3::cross(qvec, uv, uuv);
+
+        uv *= (2.0f * w);
+        uuv *= 2.0f;
+
+        return v + uv + uuv;
+    }
 
     /**
      * Multiplies this quaternion with the given quaternion.
@@ -376,7 +416,11 @@ public:
      * @param q The quaternion to multiply.
      * @return This quaternion, after the multiplication occurs.
      */
-    inline Quaternion& operator*=(const Quaternion& q);
+    inline Quaternion& operator*=(const Quaternion& q)
+    {
+        multiply(q);
+        return *this;
+    }
 
     /** equals to Quaternion(0,0,0, 0) */
     static const Quaternion ZERO;
@@ -409,7 +453,7 @@ private:
     static void
     slerp(float q1x, float q1y, float q1z, float q1w, float q2x, float q2y, float q2z, float q2w, float t, float* dstx, float* dsty, float* dstz, float* dstw);
 
-    static void slerpForSquad(const Quaternion& q1, const Quaternion& q2, float t, Quaternion* dst);
+    static void slerpForSquad(const Quaternion& q1, const Quaternion& q2, float t, Quaternion& dst);
 };
 
 NS_CC_MATH_END
@@ -417,6 +461,5 @@ NS_CC_MATH_END
  end of base group
  @}
  */
-#include "math/Quaternion.inl"
 
-#endif
+#endif // CC_MATH_QUATERNION_H

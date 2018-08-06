@@ -56,7 +56,7 @@ namespace cocostudio
     void ActionManagerEx::initWithDictionary(const char* jsonName, const rapidjson::Value& dic, Ref* root)
     {
         std::string path = jsonName;
-        ssize_t pos = path.find_last_of("/");
+        std::size_t pos = path.find_last_of("/");
         std::string fileName = path.substr(pos + 1, path.length());
         cocos2d::Vector<ActionObject*> actionList;
         int actionCount = DICTOOL->getArrayCount_json(dic, "actionlist");
@@ -74,7 +74,7 @@ namespace cocostudio
     void ActionManagerEx::initWithBinary(const char* file, cocos2d::Ref* root, CocoLoader* cocoLoader, stExpCocoNode* pCocoNode)
     {
         std::string path = file;
-        ssize_t pos = path.find_last_of("/");
+        std::size_t pos = path.find_last_of("/");
         std::string fileName = path.substr(pos + 1, path.length());
         cocos2d::Vector<ActionObject*> actionList;
 
@@ -108,7 +108,7 @@ namespace cocostudio
     ActionObject* ActionManagerEx::getActionByName(const char* jsonName, const char* actionName)
     {
         std::string path = jsonName;
-        ssize_t pos = path.find_last_of("/");
+        std::size_t pos = path.find_last_of("/");
         std::string fileName = path.substr(pos + 1, path.length());
         auto iterator = _actionDic.find(fileName);
         if (iterator == _actionDic.end())
@@ -163,8 +163,8 @@ namespace cocostudio
         for (iter = _actionDic.begin(); iter != _actionDic.end(); iter++)
         {
             cocos2d::Vector<ActionObject*> objList = iter->second;
-            ssize_t listCount = objList.size();
-            for (ssize_t i = 0; i < listCount; i++)
+            std::size_t listCount = objList.size();
+            for (std::size_t i = 0; i < listCount; i++)
             {
                 ActionObject* action = objList.at(i);
                 if (action != nullptr)

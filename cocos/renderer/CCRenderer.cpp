@@ -22,29 +22,41 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "renderer/CCRenderer.h"
+#include <cocos/renderer/CCRenderer.h>
 
-#include "2d/CCCamera.h"
-#include "2d/CCScene.h"
-#include "base/CCConfiguration.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/CCEventType.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCBatchCommand.h"
-#include "renderer/CCCustomCommand.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCMaterial.h"
-#include "renderer/CCMeshCommand.h"
-#include "renderer/CCPass.h"
-#include "renderer/CCPrimitiveCommand.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/CCTechnique.h"
-#include "renderer/CCTrianglesCommand.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCScene.h>
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCBatchCommand.h>
+#include <cocos/renderer/CCCustomCommand.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGroupCommand.h>
+#include <cocos/renderer/CCMeshCommand.h>
+#include <cocos/renderer/CCPrimitiveCommand.h>
+#include <cocos/renderer/CCRenderCommand.h>
+#include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCTrianglesCommand.h>
+#include <cocos/renderer/ccGLStateCache.h>
+
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+#    include <cocos/base/CCEventCustom.h>
+#    include <cocos/base/CCEventDispatcher.h>
+#    include <cocos/base/CCEventListenerCustom.h>
+#    include <cocos/base/CCEventType.h>
+#endif
 
 #include <algorithm>
+#include <cmath>
 #include <limits>
 
 NS_CC_BEGIN
@@ -262,15 +274,18 @@ void Renderer::setupVBOAndVAO()
     glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(sizeof(V3F_C4B_T2F) * VBO_SIZE), reinterpret_cast<GLvoid*>(_verts.data()), GL_DYNAMIC_DRAW);
 
     GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POSITION | GL::VERTEX_ATTRIB_FLAG_COLOR | GL::VERTEX_ATTRIB_FLAG_TEX_COORD, _buffersVAO);
-    
+
     // vertices
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(V3F_C4B_T2F), (GLvoid*) offsetof( V3F_C4B_T2F, vertices));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(V3F_C4B_T2F),
+                          reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, vertices)));
 
     // colors
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(V3F_C4B_T2F), (GLvoid*) offsetof( V3F_C4B_T2F, colors));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(V3F_C4B_T2F),
+                          reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, colors)));
 
     // tex coords
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(V3F_C4B_T2F), (GLvoid*) offsetof( V3F_C4B_T2F, texCoords));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(V3F_C4B_T2F),
+                          reinterpret_cast<GLvoid*>(offsetof(V3F_C4B_T2F, texCoords)));
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffersVBO[1]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(sizeof(GLushort) * INDEX_VBO_SIZE), reinterpret_cast<GLvoid*>(_indices.data()), GL_STATIC_DRAW);
@@ -688,7 +703,7 @@ void Renderer::fillVerticesAndIndices(TrianglesCommand const* cmd)
         if (std::abs(modelView.m[15] - 1.0f) >= std::numeric_limits<float>::epsilon())
         {
             Vec4 vec4 = Vec4(vec1.x, vec1.y, vec1.z, 1.0f);
-            modelView.transformVector(&vec4);
+            modelView.transformVector(vec4);
             vec4 = vec4 / vec4.w;
             vec1.x = vec4.x;
             vec1.y = vec4.y;
@@ -696,7 +711,7 @@ void Renderer::fillVerticesAndIndices(TrianglesCommand const* cmd)
         }
         else
         {
-            modelView.transformPoint(&vec1);
+            modelView.transformPoint(vec1);
         }
     }
 
@@ -756,7 +771,7 @@ void Renderer::drawBatchedTriangles()
             }
 
             _triBatchesToDraw[batchesTotal].cmd = cmd;
-            _triBatchesToDraw[batchesTotal].indicesToDraw = cmd->getIndexCount();
+            _triBatchesToDraw[batchesTotal].indicesToDraw = static_cast<GLsizei>(cmd->getIndexCount());
 
             // is this a single batch ? Prevent creating a batch group then
             if (!batchable)
@@ -895,7 +910,7 @@ bool Renderer::checkVisibility(const Mat4& transform, const Size& size)
     float hSizeX = size.width / 2;
     float hSizeY = size.height / 2;
     Vec3 v3p(hSizeX, hSizeY, 0);
-    transform.transformPoint(&v3p);
+    transform.transformPoint(v3p);
     Vec2 v2p = Camera::getVisitingCamera()->projectGL(v3p);
 
     // convert content size to world coordinates

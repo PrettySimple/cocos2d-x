@@ -23,12 +23,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_ALLOCATOR_MACROS_H
-#define CC_ALLOCATOR_MACROS_H
+#ifndef CC_BASE_ALLOCATOR_ALLOCATORMACROS_H
+#define CC_BASE_ALLOCATOR_ALLOCATORMACROS_H
 /// @cond DO_NOT_SHOW
 
-#include "base/ccConfig.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 // namespace allocator {}
 #ifdef __cplusplus
@@ -124,4 +124,4 @@
     }
 
 /// @endcond
-#endif // CC_ALLOCATOR_MACROS_H
+#endif // CC_BASE_ALLOCATOR_ALLOCATORMACROS_H

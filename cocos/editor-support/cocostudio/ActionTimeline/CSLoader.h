@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
  Copyright (c) 2013 cocos2d-x.org
 
  http://www.cocos2d-x.org
@@ -22,13 +22,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CSLoader__
-#define __cocos2d_libs__CSLoader__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_CSLOADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_CSLOADER_H
 
-#include "base/ObjectFactory.h"
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/DictionaryHelper.h"
+#include <cocos/base/ObjectFactory.h>
 
 namespace flatbuffers
 {
@@ -171,4 +171,4 @@ protected:
 
 NS_CC_END
 
-#endif /* defined(__cocos2d_libs__CSLoader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_CSLOADER_H

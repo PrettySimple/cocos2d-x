@@ -24,14 +24,14 @@
 
 #include "editor-support/cocostudio/ActionTimeline/CSLoader.h"
 
-#include "2d/CCParticleSystemQuad.h"
-#include "2d/CCSpriteFrameCache.h"
-#include "2d/CCTMXTiledMap.h"
-#include "base/CCDirector.h"
-#include "base/ObjectFactory.h"
-#include "base/ccUTF8.h"
-#include "platform/CCFileUtils.h"
-#include "ui/CocosGUI.h"
+#include <cocos/2d/CCParticleSystemQuad.h>
+#include <cocos/2d/CCSpriteFrameCache.h>
+#include <cocos/2d/CCTMXTiledMap.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ObjectFactory.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/ui/CocosGUI.h>
 
 #include "editor-support/cocostudio/ActionTimeline/CCActionTimeline.h"
 #include "editor-support/cocostudio/ActionTimeline/CCActionTimelineCache.h"

@@ -22,11 +22,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __UIPAGEVIEWINDICATOR_H__
-#define __UIPAGEVIEWINDICATOR_H__
+#ifndef CC_UI_PAGEVIEWINDICATOR_H
+#define CC_UI_PAGEVIEWINDICATOR_H
 
-#include "2d/CCSprite.h"
-#include "ui/UIPageView.h"
+#include <cocos/2d/CCProtectedNode.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/UIPageView.h>
+#include <cocos/ui/UIScrollView.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <cstddef>
+#include <iosfwd>
 
 NS_CC_BEGIN
 /**
@@ -46,11 +55,11 @@ namespace ui
         static PageViewIndicator* create();
 
         PageViewIndicator();
-        virtual ~PageViewIndicator();
+        ~PageViewIndicator() override;
 
         void setDirection(PageView::Direction direction);
-        void reset(ssize_t numberOfTotalPages);
-        void indicate(ssize_t index);
+        void reset(std::size_t numberOfTotalPages);
+        void indicate(std::size_t index);
         void clear();
         void setSpaceBetweenIndexNodes(float spaceBetweenIndexNodes);
         float getSpaceBetweenIndexNodes() const { return _spaceBetweenIndexNodes; }
@@ -92,4 +101,4 @@ namespace ui
 /// @}
 NS_CC_END
 
-#endif /* defined(__UIPAGEVIEWINDICATOR_H__) */
+#endif // CC_UI_PAGEVIEWINDICATOR_H

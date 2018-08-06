@@ -1,7 +1,7 @@
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 
-#    include "platform/CCDevice.h"
+#    include <cocos/platform/CCDevice.h>
 #    include <emscripten/emscripten.h>
 
 NS_CC_BEGIN

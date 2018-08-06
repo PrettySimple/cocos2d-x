@@ -23,14 +23,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __UIEditBoxIMPLMAC_H__
-#define __UIEditBoxIMPLMAC_H__
+#ifndef CC_UI_EDITBOX_EDITBOXIMPLMAC_H
+#define CC_UI_EDITBOX_EDITBOXIMPLMAC_H
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 
-#    include "ui/UIEditBox/UIEditBoxImpl-common.h"
+#    include <cocos/ui/UIEditBox/UIEditBoxImpl-common.h>
 
 @class UIEditBoxImplMac;
 @class NSFont;
@@ -85,4 +85,4 @@ NS_CC_END
 
 #endif // #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 
-#endif /* __UIEditBoxIMPLMAC_H__ */
+#endif // CC_UI_EDITBOX_EDITBOXIMPLMAC_H

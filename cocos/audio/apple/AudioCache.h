@@ -25,7 +25,7 @@
 
 #pragma once
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
 #    import <OpenAL/al.h>
@@ -35,8 +35,8 @@
 #    include <string>
 #    include <vector>
 
-#    include "audio/apple/AudioMacros.h"
-#    include "platform/CCPlatformMacros.h"
+#    include <cocos/audio/apple/AudioMacros.h>
+#    include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 namespace experimental
@@ -65,49 +65,47 @@ namespace experimental
         void addPlayCallback(const std::function<void()>& callback);
 
         void addLoadCallback(const std::function<void(bool)>& callback);
-        
+
         void setSkipReadDataTask(bool isSkip);
         void readDataTask(unsigned int selfId);
-        
+
         State getState();
         void setState(const State& p_state);
-        
+
         bool isAskedAsPreload();
         void setAskedAsPreload(bool p_askedAsPreload);
-        
+
         void setFileFullPath(std::string p_fileFullPath);
         std::string getFileFullPath();
-        
+
         void setLoadingFinished(bool p_finished);
         bool isLoadingFinished();
-        
+
         std::shared_ptr<std::atomic_bool> isDestroyed();
         void setDestroyed(bool p_destroyed);
-        
+
         int getId();
-        
+
         ALuint getAlBufferId();
-        
+
         uint32_t getQueBufferFrames();
-        
+
         ALenum getFormat();
-        
+
         char* getQueBuffer(int p_pos);
         uint32_t getQueBufferSize(int p_pos);
-        
+
         ALsizei getSampleRate();
         std::chrono::milliseconds getDuration();
-        
+
         uint32_t getFramesRead();
         uint32_t getTotalFrames();
 
     protected:
-
         void invokingPlayCallbacks();
 
         void invokingLoadCallbacks();
 
-        
         // pcm data related stuff
         ALenum _format;
         ALsizei _sampleRate;

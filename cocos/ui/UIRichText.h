@@ -22,12 +22,21 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __UIRICHTEXT_H__
-#define __UIRICHTEXT_H__
+#ifndef CC_UI_RICHTEXT_H
+#define CC_UI_RICHTEXT_H
 
-#include "base/CCValue.h"
-#include "ui/GUIExport.h"
-#include "ui/UIWidget.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <cstdint>
+#include <string>
 
 NS_CC_BEGIN
 /**
@@ -36,6 +45,7 @@ NS_CC_BEGIN
  */
 
 class Label;
+class Node;
 
 namespace ui
 {
@@ -49,7 +59,7 @@ namespace ui
         /**
          *@brief Rich element type.
          */
-        enum class Type
+        enum struct Type : std::uint8_t
         {
             TEXT, /*!< RichElementText */
             IMAGE, /*!< RichElementImage */
@@ -62,14 +72,14 @@ namespace ui
          * @js ctor
          * @lua new
          */
-        RichElement(){};
+        RichElement() {}
 
         /**
          * @brief Default destructor.
          * @js NA
          * @lua NA
          */
-        virtual ~RichElement(){};
+        ~RichElement() override;
 
         /**
          * @brief Initialize a rich element with different arguments.
@@ -103,7 +113,7 @@ namespace ui
          * @js ctor
          * @lua new
          */
-        RichElementText() { _type = Type::TEXT; };
+        RichElementText() { _type = Type::TEXT; }
 
         enum
         {
@@ -122,7 +132,7 @@ namespace ui
          * @js NA
          * @lua NA
          */
-        virtual ~RichElementText(){};
+        ~RichElementText() override;
 
         /**
          * @brief Initialize a RichElementText with various arguments.
@@ -167,7 +177,7 @@ namespace ui
          * @return RichElementText instance.
          */
         static RichElementText* create(int tag, const Color3B& color, GLubyte opacity, const std::string& text, const std::string& fontName, float fontSize,
-                                       uint32_t flags = 0, const std::string& url = "", const Color3B& outlineColor = Color3B::WHITE, int outlineSize = -1,
+                                       std::uint32_t flags = 0, const std::string& url = "", const Color3B& outlineColor = Color3B::WHITE, int outlineSize = -1,
                                        const Color3B& shadowColor = Color3B::BLACK, const cocos2d::Size& shadowOffset = Size(2.0, -2.0),
                                        int shadowBlurRadius = 0, const Color3B& glowColor = Color3B::WHITE);
 
@@ -175,7 +185,7 @@ namespace ui
         std::string _text;
         std::string _fontName;
         float _fontSize;
-        uint32_t _flags;
+        std::uint32_t _flags;
         std::string _url;
         Color3B _outlineColor; /*!< the color of the outline */
         int _outlineSize; /*!< the outline effect size value */
@@ -198,14 +208,14 @@ namespace ui
          * @lua new
          *
          */
-        RichElementImage() { _type = Type::IMAGE; };
+        RichElementImage() { _type = Type::IMAGE; }
 
         /**
          * @brief Default destructor.
          * @js NA
          * @lua NA
          */
-        virtual ~RichElementImage(){};
+        ~RichElementImage() override;
 
         /**
          * @brief Initialize a RichElementImage with various arguments.
@@ -256,14 +266,14 @@ namespace ui
          * @js ctor
          * @lua new
          */
-        RichElementCustomNode() { _type = Type::CUSTOM; };
+        RichElementCustomNode() { _type = Type::CUSTOM; }
 
         /**
          * @brief Default destructor.
          * @js NA
          * @lua NA
          */
-        virtual ~RichElementCustomNode() { CC_SAFE_RELEASE(_customNode); };
+        ~RichElementCustomNode() override;
 
         /**
          * @brief Initialize a RichElementCustomNode with various arguments.
@@ -304,14 +314,14 @@ namespace ui
          * @lua new
          *
          */
-        RichElementNewLine() { _type = Type::NEWLINE; };
+        RichElementNewLine() { _type = Type::NEWLINE; }
 
         /**
          * @brief Default destructor.
          * @js NA
          * @lua NA
          */
-        virtual ~RichElementNewLine(){};
+        ~RichElementNewLine() override;
 
         /**
          * @brief Create a RichElementNewLine with various arguments.
@@ -404,7 +414,7 @@ namespace ui
          * @js NA
          * @lua NA
          */
-        virtual ~RichText();
+        ~RichText() override;
 
         /**
          * @brief Create a empty RichText.
@@ -463,8 +473,8 @@ namespace ui
         void formatText();
 
         // override functions.
-        virtual void ignoreContentAdaptWithSize(bool ignore) override;
-        virtual std::string getDescription() const override;
+        void ignoreContentAdaptWithSize(bool ignore) override;
+        std::string getDescription() const override;
 
         void setWrapMode(WrapMode wrapMode); /*!< sets the wrapping mode: WRAP_PER_CHAR or WRAP_PER_WORD */
         WrapMode getWrapMode() const; /*!< returns the current wrapping mode */
@@ -535,9 +545,9 @@ namespace ui
         bool initWithXML(const std::string& xml, const ValueMap& defaults = ValueMap(), const OpenUrlHandler& handleOpenUrl = nullptr);
 
     protected:
-        virtual void adaptRenderers() override;
+        void adaptRenderers() override;
 
-        virtual void initRenderer() override;
+        void initRenderer() override;
         void pushToContainer(Node* renderer);
         void handleTextRenderer(const std::string& text, const std::string& fontName, float fontSize, const Color3B& color, GLubyte opacity, uint32_t flags,
                                 const std::string& url = "", const Color3B& outlineColor = Color3B::WHITE, int outlineSize = -1,
@@ -565,4 +575,4 @@ namespace ui
 /// @}
 NS_CC_END
 
-#endif /* defined(__UIRichText__) */
+#endif // CC_UI_RICHTEXT_H

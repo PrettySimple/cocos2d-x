@@ -1,3 +1,5 @@
+#pragma once
+
 const char* ccPositionTexture_GrayScale_frag = R"(
 #ifdef GL_ES
 precision mediump float;

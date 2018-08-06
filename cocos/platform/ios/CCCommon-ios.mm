@@ -23,17 +23,17 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    include "platform/CCCommon.h"
+#    include <cocos/platform/CCCommon.h>
 
-#    include <stdarg.h>
-#    include <stdio.h>
+#    include <cocos/platform/CCPlatformMacros.h>
 
-#    include "base/CCConsole.h"
-#    include "base/CCDirector.h"
-#    import <UIKit/UIAlert.h>
+#    import <Foundation/NSString.h>
+#    import <UIKit/UIAlertView.h>
+
+#    include <cstdio>
 
 NS_CC_BEGIN
 

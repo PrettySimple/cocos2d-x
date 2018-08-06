@@ -24,14 +24,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CC_ANIMATION_CACHE_H__
-#define __CC_ANIMATION_CACHE_H__
+#ifndef CC_2D_ANIMATIONCACHE_H
+#define CC_2D_ANIMATIONCACHE_H
 
-#include "2d/CCAnimation.h"
-#include "base/CCMap.h"
-#include "base/CCRef.h"
-#include "base/CCValue.h"
+#include <cocos/base/CCMap.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
+#include <iosfwd>
 #include <string>
 
 NS_CC_BEGIN
@@ -145,4 +147,4 @@ private:
 
 NS_CC_END
 
-#endif // __CC_ANIMATION_CACHE_H__
+#endif // CC_2D_ANIMATIONCACHE_H

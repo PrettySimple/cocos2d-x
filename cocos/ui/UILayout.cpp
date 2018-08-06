@@ -22,28 +22,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UILayout.h"
-#include "2d/CCDrawNode.h"
-#include "2d/CCDrawingPrimitives.h"
-#include "2d/CCLayer.h"
-#include "2d/CCSprite.h"
-#include "base/CCDirector.h"
-#include "base/CCEventFocus.h"
-#include "base/CCStencilStateManager.hpp"
-#include "editor-support/cocostudio/CocosStudioExtension.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccGLStateCache.h"
-#include "ui/UIHelper.h"
-#include "ui/UILayoutManager.h"
-#include "ui/UIScale9Sprite.h"
+#include <cocos/ui/UILayout.h>
+
+#include <cocos/2d/CCDrawNode.h>
+#include <cocos/2d/CCLayer.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCStencilStateManager.hpp>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/CCAffineTransform.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/ui/UILayout.h>
+#include <cocos/ui/UILayoutManager.h>
+#include <cocos/ui/UIScale9Sprite.h>
+
+#include <limits>
 
 NS_CC_BEGIN
 
 namespace ui
 {
+    LayoutProtocol::~LayoutProtocol() {}
+
     static const int BACKGROUNDIMAGE_Z = (-1);
     static const int BCAKGROUNDCOLORRENDERER_Z = (-2);
 
@@ -144,7 +144,7 @@ namespace ui
             ignoreContentAdaptWithSize(false);
             setContentSize(Size::ZERO);
             setAnchorPoint(Vec2::ZERO);
-            onPassFocusToChild = CC_CALLBACK_2(Layout::findNearestChildWidgetIndex, this);
+            onPassFocusToChild = [this](FocusDirection dir, Widget* widget) -> std::size_t { return findNearestChildWidgetIndex(dir, widget); };
             return true;
         }
         return false;
@@ -194,7 +194,7 @@ namespace ui
 
     bool Layout::isClippingEnabled() const { return _clippingEnabled; }
 
-    void Layout::visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags)
+    void Layout::visit(Renderer* renderer, const Mat4& parentTransform, std::uint32_t parentFlags)
     {
         if (!_visible)
         {
@@ -214,8 +214,6 @@ namespace ui
                 case ClippingType::SCISSOR:
                     scissorClippingVisit(renderer, parentTransform, parentFlags);
                     break;
-                default:
-                    break;
             }
         }
         else
@@ -224,12 +222,12 @@ namespace ui
         }
     }
 
-    void Layout::stencilClippingVisit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags)
+    void Layout::stencilClippingVisit(Renderer* renderer, const Mat4& parentTransform, std::uint32_t parentFlags)
     {
         if (!_visible)
             return;
 
-        uint32_t flags = processParentFlags(parentTransform, parentFlags);
+        std::uint32_t flags = processParentFlags(parentTransform, parentFlags);
 
         // IMPORTANT:
         // To ease the migration to v3.0, we still support the Mat4 stack,
@@ -255,8 +253,8 @@ namespace ui
         _afterDrawStencilCmd.setFunc([this]() { _stencileStateManager->onAfterDrawStencil(); });
         renderer->addCommand(&_afterDrawStencilCmd);
 
-        int i = 0; // used by _children
-        int j = 0; // used by _protectedChildren
+        std::size_t i = 0; // used by _children
+        std::size_t j = 0; // used by _protectedChildren
 
         sortAllChildren();
         sortAllProtectedChildren();
@@ -344,7 +342,7 @@ namespace ui
         }
     }
 
-    void Layout::scissorClippingVisit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags)
+    void Layout::scissorClippingVisit(Renderer* renderer, const Mat4& parentTransform, std::uint32_t parentFlags)
     {
         if (parentFlags & FLAGS_DIRTY_MASK)
         {
@@ -391,7 +389,7 @@ namespace ui
                     _clippingStencil = nullptr;
                 }
                 break;
-            default:
+            case ClippingType::SCISSOR:
                 break;
         }
     }
@@ -589,8 +587,6 @@ namespace ui
             case TextureResType::PLIST:
                 _backGroundImage->initWithSpriteFrameName(fileName);
                 break;
-            default:
-                break;
         }
 
         _backGroundImageTextureSize = _backGroundImage->getContentSize();
@@ -646,8 +642,6 @@ namespace ui
                 }
                 break;
             }
-            default:
-                break;
         }
     }
 
@@ -707,8 +701,6 @@ namespace ui
                     _gradientRender = nullptr;
                 }
                 break;
-            default:
-                break;
         }
         _colorType = type;
         switch (_colorType)
@@ -730,8 +722,6 @@ namespace ui
                 _gradientRender->setEndColor(_gEndColor);
                 _gradientRender->setVector(_alongVector);
                 addProtectedChild(_gradientRender, BCAKGROUNDCOLORRENDERER_Z, -1);
-                break;
-            default:
                 break;
         }
     }
@@ -779,8 +769,6 @@ namespace ui
                 break;
             case BackGroundColorType::GRADIENT:
                 _gradientRender->setOpacity(opacity);
-                break;
-            default:
                 break;
         }
     }
@@ -875,6 +863,8 @@ namespace ui
         LayoutManager* exe = nullptr;
         switch (_layoutType)
         {
+            case Type::ABSOLUTE:
+                break;
             case Type::VERTICAL:
                 exe = LinearVerticalLayoutManager::create();
                 break;
@@ -883,8 +873,6 @@ namespace ui
                 break;
             case Type::RELATIVE:
                 exe = RelativeLayoutManager::create();
-                break;
-            default:
                 break;
         }
         return exe;
@@ -993,7 +981,7 @@ namespace ui
 
     float Layout::calculateNearestDistance(Widget* baseWidget)
     {
-        float distance = FLT_MAX;
+        float distance = std::numeric_limits<float>::max();
 
         Vec2 widgetPosition = this->getWorldCenterPoint(baseWidget);
 
@@ -1029,7 +1017,7 @@ namespace ui
 
     float Layout::calculateFarthestDistance(cocos2d::ui::Widget* baseWidget)
     {
-        float distance = -FLT_MAX;
+        float distance = -std::numeric_limits<float>::max();
 
         Vec2 widgetPosition = this->getWorldCenterPoint(baseWidget);
 
@@ -1065,14 +1053,14 @@ namespace ui
 
     int Layout::findFirstFocusEnabledWidgetIndex()
     {
-        ssize_t index = 0;
-        ssize_t count = this->getChildren().size();
+        std::size_t index = 0;
+        std::size_t count = this->getChildren().size();
         while (index < count)
         {
             Widget* w = dynamic_cast<Widget*>(_children.at(index));
             if (w && w->isFocusEnabled())
             {
-                return (int)index;
+                return static_cast<int>(index);
             }
             index++;
         }
@@ -1080,17 +1068,17 @@ namespace ui
         return 0;
     }
 
-    int Layout::findNearestChildWidgetIndex(FocusDirection direction, Widget* baseWidget)
+    std::size_t Layout::findNearestChildWidgetIndex(FocusDirection direction, Widget* baseWidget)
     {
         if (baseWidget == nullptr || baseWidget == this)
         {
             return this->findFirstFocusEnabledWidgetIndex();
         }
-        int index = 0;
-        ssize_t count = this->getChildren().size();
+        std::size_t index = 0;
+        std::size_t count = this->getChildren().size();
 
-        float distance = FLT_MAX;
-        int found = 0;
+        float distance = std::numeric_limits<float>::max();
+        std::size_t found = 0;
         if (direction == FocusDirection::LEFT || direction == FocusDirection::RIGHT || direction == FocusDirection::DOWN || direction == FocusDirection::UP)
         {
             Vec2 widgetPosition = this->getWorldCenterPoint(baseWidget);
@@ -1126,17 +1114,17 @@ namespace ui
         return 0;
     }
 
-    int Layout::findFarthestChildWidgetIndex(FocusDirection direction, cocos2d::ui::Widget* baseWidget)
+    std::size_t Layout::findFarthestChildWidgetIndex(FocusDirection direction, cocos2d::ui::Widget* baseWidget)
     {
         if (baseWidget == nullptr || baseWidget == this)
         {
             return this->findFirstFocusEnabledWidgetIndex();
         }
-        int index = 0;
-        ssize_t count = this->getChildren().size();
+        std::size_t index = 0;
+        std::size_t count = this->getChildren().size();
 
-        float distance = -FLT_MAX;
-        int found = 0;
+        float distance = -std::numeric_limits<float>::max();
+        std::size_t found = 0;
         if (direction == FocusDirection::LEFT || direction == FocusDirection::RIGHT || direction == FocusDirection::DOWN || direction == FocusDirection::UP)
         {
             Vec2 widgetPosition = this->getWorldCenterPoint(baseWidget);
@@ -1172,7 +1160,7 @@ namespace ui
         return 0;
     }
 
-    Widget* Layout::findFocusEnabledChildWidgetByIndex(ssize_t index)
+    Widget* Layout::findFocusEnabledChildWidgetByIndex(std::size_t index)
     {
         Widget* widget = this->getChildWidgetByIndex(index);
 
@@ -1231,44 +1219,44 @@ namespace ui
         {
             if (previousWidgetPosition.x > widgetPosition.x)
             {
-                onPassFocusToChild = CC_CALLBACK_2(Layout::findNearestChildWidgetIndex, this);
+                onPassFocusToChild = [this](FocusDirection dir, Widget* widget) -> std::size_t { return findNearestChildWidgetIndex(dir, widget); };
             }
             else
             {
-                onPassFocusToChild = CC_CALLBACK_2(Layout::findFarthestChildWidgetIndex, this);
+                onPassFocusToChild = [this](FocusDirection dir, Widget* widget) -> std::size_t { return findFarthestChildWidgetIndex(dir, widget); };
             }
         }
         else if (dir == FocusDirection::RIGHT)
         {
             if (previousWidgetPosition.x > widgetPosition.x)
             {
-                onPassFocusToChild = CC_CALLBACK_2(Layout::findFarthestChildWidgetIndex, this);
+                onPassFocusToChild = [this](FocusDirection dir, Widget* widget) -> std::size_t { return findFarthestChildWidgetIndex(dir, widget); };
             }
             else
             {
-                onPassFocusToChild = CC_CALLBACK_2(Layout::findNearestChildWidgetIndex, this);
+                onPassFocusToChild = [this](FocusDirection dir, Widget* widget) -> std::size_t { return findNearestChildWidgetIndex(dir, widget); };
             }
         }
         else if (dir == FocusDirection::DOWN)
         {
             if (previousWidgetPosition.y > widgetPosition.y)
             {
-                onPassFocusToChild = CC_CALLBACK_2(Layout::findNearestChildWidgetIndex, this);
+                onPassFocusToChild = [this](FocusDirection dir, Widget* widget) -> std::size_t { return findNearestChildWidgetIndex(dir, widget); };
             }
             else
             {
-                onPassFocusToChild = CC_CALLBACK_2(Layout::findFarthestChildWidgetIndex, this);
+                onPassFocusToChild = [this](FocusDirection dir, Widget* widget) -> std::size_t { return findFarthestChildWidgetIndex(dir, widget); };
             }
         }
         else if (dir == FocusDirection::UP)
         {
             if (previousWidgetPosition.y < widgetPosition.y)
             {
-                onPassFocusToChild = CC_CALLBACK_2(Layout::findNearestChildWidgetIndex, this);
+                onPassFocusToChild = [this](FocusDirection dir, Widget* widget) -> std::size_t { return findNearestChildWidgetIndex(dir, widget); };
             }
             else
             {
-                onPassFocusToChild = CC_CALLBACK_2(Layout::findFarthestChildWidgetIndex, this);
+                onPassFocusToChild = [this](FocusDirection dir, Widget* widget) -> std::size_t { return findFarthestChildWidgetIndex(dir, widget); };
             }
         }
         else
@@ -1285,7 +1273,7 @@ namespace ui
 
             this->findProperSearchingFunctor(dir, previousWidget);
 
-            int index = onPassFocusToChild(dir, previousWidget);
+            std::size_t index = onPassFocusToChild(dir, previousWidget);
 
             Widget* widget = this->getChildWidgetByIndex(index);
             Layout* layout = dynamic_cast<Layout*>(widget);
@@ -1321,11 +1309,11 @@ namespace ui
         return ret;
     }
 
-    Widget* Layout::getChildWidgetByIndex(ssize_t index) const
+    Widget* Layout::getChildWidgetByIndex(std::size_t index) const
     {
-        ssize_t size = _children.size();
+        std::size_t size = _children.size();
         int count = 0;
-        ssize_t oldIndex = index;
+        std::size_t oldIndex = index;
         Widget* widget = nullptr;
         while (index < size)
         {
@@ -1341,7 +1329,7 @@ namespace ui
 
         if (nullptr == widget)
         {
-            int begin = 0;
+            std::size_t begin = 0;
             while (begin < oldIndex)
             {
                 Widget* firstChild = dynamic_cast<Widget*>(_children.at(begin));
@@ -1361,10 +1349,10 @@ namespace ui
     Widget* Layout::getPreviousFocusedWidget(FocusDirection direction, Widget* current)
     {
         Widget* nextWidget = nullptr;
-        ssize_t previousWidgetPos = _children.getIndex(current);
-        previousWidgetPos = previousWidgetPos - 1;
-        if (previousWidgetPos >= 0)
+        std::size_t previousWidgetPos = _children.getIndex(current);
+        if (previousWidgetPos >= 1)
         {
+            previousWidgetPos = previousWidgetPos - 1;
             nextWidget = this->getChildWidgetByIndex(previousWidgetPos);
             if (nextWidget->isFocusEnabled())
             {
@@ -1450,7 +1438,7 @@ namespace ui
     Widget* Layout::getNextFocusedWidget(FocusDirection direction, Widget* current)
     {
         Widget* nextWidget = nullptr;
-        ssize_t previousWidgetPos = _children.getIndex(current);
+        std::size_t previousWidgetPos = _children.getIndex(current);
         previousWidgetPos = previousWidgetPos + 1;
         if (previousWidgetPos < _children.size())
         {
@@ -1555,7 +1543,7 @@ namespace ui
         }
 
         auto& container = parent->getChildren();
-        ssize_t index = container.getIndex(widget);
+        std::size_t index = container.getIndex(widget);
         if (parent->getLayoutType() == Type::HORIZONTAL)
         {
             if (direction == FocusDirection::LEFT)
@@ -1715,12 +1703,10 @@ namespace ui
                     {
                         return this->getPreviousFocusedWidget(direction, current);
                     }
-                    break;
                     case FocusDirection::RIGHT:
                     {
                         return this->getNextFocusedWidget(direction, current);
                     }
-                    break;
                     case FocusDirection::DOWN:
                     case FocusDirection::UP:
                     {
@@ -1737,13 +1723,6 @@ namespace ui
                             return Widget::findNextFocusedWidget(direction, this);
                         }
                     }
-                    break;
-                    default:
-                    {
-                        CCASSERT(0, "Invalid Focus Direction");
-                        return current;
-                    }
-                    break;
                 }
             }
             else if (_layoutType == Type::VERTICAL)
@@ -1766,23 +1745,14 @@ namespace ui
                             return Widget::findNextFocusedWidget(direction, this);
                         }
                     }
-                    break;
                     case FocusDirection::DOWN:
                     {
                         return getNextFocusedWidget(direction, current);
                     }
-                    break;
                     case FocusDirection::UP:
                     {
                         return getPreviousFocusedWidget(direction, current);
                     }
-                    break;
-                    default:
-                    {
-                        CCASSERT(0, "Invalid Focus Direction");
-                        return current;
-                    }
-                    break;
                 }
             }
             else
@@ -1809,7 +1779,7 @@ namespace ui
     ResourceData Layout::getRenderFile()
     {
         ResourceData rData;
-        rData.type = (int)_bgImageTexType;
+        rData.type = static_cast<int>(_bgImageTexType);
         rData.file = _backGroundImageFileName;
         return rData;
     }

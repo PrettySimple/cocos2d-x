@@ -22,9 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIText.h"
-#include "2d/CCLabel.h"
-#include "platform/CCFileUtils.h"
+#include <cocos/ui/UIText.h>
+
+#include <cocos/2d/CCLabel.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <new>
+#include <string>
 
 NS_CC_BEGIN
 
@@ -118,7 +127,7 @@ namespace ui
 
     const std::string& Text::getString() const { return _labelRenderer->getString(); }
 
-    ssize_t Text::getStringLength() const { return _labelRenderer->getStringLength(); }
+    std::size_t Text::getStringLength() const { return _labelRenderer->getStringLength(); }
 
     void Text::setFontSize(float size)
     {

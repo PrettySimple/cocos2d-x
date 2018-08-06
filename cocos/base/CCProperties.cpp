@@ -19,19 +19,23 @@
  This file was modified to fit the cocos2d-x project
  */
 
-#include "base/CCProperties.h"
+#include <cocos/base/CCProperties.h>
 
-#include <string.h>
+#include <cocos/base/CCData.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/CCMathBase.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Quaternion.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
-#include "base/CCData.h"
-#include "base/ccUTF8.h"
-#include "math/Mat4.h"
-#include "math/Quaternion.h"
-#include "math/Vec2.h"
-#include "math/Vec3.h"
-#include "math/Vec4.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCPlatformMacros.h"
+#include <cctype>
+#include <cstdio>
+#include <cstring>
+#include <new>
 
 USING_NS_CC;
 
@@ -42,25 +46,20 @@ void calculateNamespacePath(const std::string& urlString, std::string& fileStrin
 Properties* getPropertiesFromNamespacePath(Properties* properties, const std::vector<std::string>& namespacePath);
 
 Properties::Properties()
-: _variables(nullptr)
-, _dirPath(nullptr)
-, _parent(nullptr)
-, _dataIdx(nullptr)
-, _data(nullptr)
 {
     _properties.reserve(32);
 }
 
 Properties::Properties(const Properties& copy)
-: _namespace(copy._namespace)
+: _dataIdx(copy._dataIdx)
+, _data(copy._data)
+, _namespace(copy._namespace)
 , _id(copy._id)
 , _parentID(copy._parentID)
 , _properties(copy._properties)
 , _variables(nullptr)
 , _dirPath(nullptr)
 , _parent(copy._parent)
-, _dataIdx(copy._dataIdx)
-, _data(copy._data)
 {
     setDirectoryPath(copy._dirPath);
 
@@ -71,24 +70,19 @@ Properties::Properties(const Properties& copy)
     rewind();
 }
 
-Properties::Properties(Data* data, ssize_t* dataIdx)
-: _variables(NULL)
-, _dirPath(NULL)
-, _parent(NULL)
-, _dataIdx(dataIdx)
+Properties::Properties(Data* data, std::size_t* dataIdx)
+: _dataIdx(dataIdx)
 , _data(data)
 {
     readProperties();
     rewind();
 }
 
-Properties::Properties(Data* data, ssize_t* dataIdx, const std::string& name, const char* id, const char* parentID, Properties* parent)
-: _namespace(name)
-, _variables(NULL)
-, _dirPath(NULL)
-, _parent(parent)
-, _dataIdx(dataIdx)
+Properties::Properties(Data* data, std::size_t* dataIdx, const std::string& name, const char* id, const char* parentID, Properties* parent)
+: _dataIdx(dataIdx)
 , _data(data)
+, _namespace(name)
+, _parent(parent)
 {
     if (id)
     {
@@ -119,7 +113,7 @@ Properties* Properties::createNonRefCounted(const std::string& url)
     // data will be released automatically when 'data' goes out of scope
     // so we pass data as weak pointer
     auto data = FileUtils::getInstance()->getDataFromFile(fileString);
-    ssize_t dataIdx = 0;
+    std::size_t dataIdx = 0;
     Properties* properties = new (std::nothrow) Properties(&data, &dataIdx);
     properties->resolveInheritance();
 
@@ -188,7 +182,7 @@ void Properties::readProperties()
 
         // Read the next line.
         rc = readLine(line, 2048);
-        if (rc == NULL)
+        if (rc == nullptr)
         {
             CCLOGERROR("Error reading line from file.");
             return;
@@ -218,11 +212,11 @@ void Properties::readProperties()
             // If an '=' appears on this line, parse it as a name/value pair.
             // Note: strchr() has to be called before strtok(), or a backup of line has to be kept.
             rc = strchr(line, '=');
-            if (rc != NULL)
+            if (rc != nullptr)
             {
                 // First token should be the property name.
                 name = strtok(line, "=");
-                if (name == NULL)
+                if (name == nullptr)
                 {
                     CCLOGERROR("Error parsing properties file: attribute without name.");
                     return;
@@ -232,8 +226,8 @@ void Properties::readProperties()
                 name = trimWhiteSpace(name);
 
                 // Scan for next token, the property's value.
-                value = strtok(NULL, "");
-                if (value == NULL)
+                value = strtok(nullptr, "");
+                if (value == nullptr)
                 {
                     CCLOGERROR("Error parsing properties file: attribute with name ('%s') but no value.", name);
                     return;
@@ -255,7 +249,7 @@ void Properties::readProperties()
             }
             else
             {
-                parentID = NULL;
+                parentID = nullptr;
 
                 // Get the last character on the line (ignoring whitespace).
                 const char* lineEnd = trimWhiteSpace(line) + (strlen(trimWhiteSpace(line)) - 1);
@@ -275,7 +269,7 @@ void Properties::readProperties()
                 // Get the name of the namespace.
                 name = strtok(line, " \t\n{");
                 name = trimWhiteSpace(name);
-                if (name == NULL)
+                if (name == nullptr)
                 {
                     CCLOGERROR("Error parsing properties file: failed to determine a valid token for line '%s'.", line);
                     return;
@@ -287,17 +281,17 @@ void Properties::readProperties()
                 }
 
                 // Get its ID if it has one.
-                value = strtok(NULL, ":{");
+                value = strtok(nullptr, ":{");
                 value = trimWhiteSpace(value);
 
                 // Get its parent ID if it has one.
-                if (rcc != NULL)
+                if (rcc != nullptr)
                 {
-                    parentID = strtok(NULL, "{");
+                    parentID = strtok(nullptr, "{");
                     parentID = trimWhiteSpace(parentID);
                 }
 
-                if (value != NULL && value[0] == '{')
+                if (value != nullptr && value[0] == '{')
                 {
                     // If the namespace ends on this line, seek back to right before the '}' character.
                     if (rccc && rccc == lineEnd)
@@ -323,7 +317,7 @@ void Properties::readProperties()
                     }
 
                     // New namespace without an ID.
-                    Properties* space = new (std::nothrow) Properties(_data, _dataIdx, name, NULL, parentID, this);
+                    Properties* space = new (std::nothrow) Properties(_data, _dataIdx, name, nullptr, parentID, this);
                     _namespaces.push_back(space);
 
                     // If the namespace ends on this line, seek to right after the '}' character.
@@ -339,7 +333,7 @@ void Properties::readProperties()
                 else
                 {
                     // If '{' appears on the same line.
-                    if (rc != NULL)
+                    if (rc != nullptr)
                     {
                         // If the namespace ends on this line, seek back to right before the '}' character.
                         if (rccc && rccc == lineEnd)
@@ -396,7 +390,7 @@ void Properties::readProperties()
                                 CCLOGERROR("Failed to seek backwards a single character after testing if the next line starts with '{'.");
 
                             // Store "name value" as a name/value pair, or even just "name".
-                            if (value != NULL)
+                            if (value != nullptr)
                             {
                                 _properties.push_back(Property(name, value));
                             }
@@ -439,7 +433,7 @@ char* Properties::readLine(char* output, int num)
         return nullptr;
 
     // little optimization: avoid unneeded dereferences
-    const ssize_t dataIdx = *_dataIdx;
+    const std::size_t dataIdx = *_dataIdx;
     int i;
 
     for (i = 0; i < num && dataIdx + i < _data->_size; i++)
@@ -491,7 +485,7 @@ void Properties::skipWhiteSpace()
 
 char* Properties::trimWhiteSpace(char* str)
 {
-    if (str == NULL)
+    if (str == nullptr)
     {
         return str;
     }
@@ -582,7 +576,7 @@ void Properties::resolveInheritance(const char* id)
         }
         else
         {
-            derived = NULL;
+            derived = nullptr;
         }
     }
 }
@@ -647,7 +641,7 @@ const char* Properties::getNextProperty()
         ++_propertiesItr;
     }
 
-    return _propertiesItr == _properties.end() ? NULL : _propertiesItr->name.c_str();
+    return _propertiesItr == _properties.end() ? nullptr : _propertiesItr->name.c_str();
 }
 
 Properties* Properties::getNextNamespace()
@@ -711,7 +705,7 @@ const char* Properties::getId() const
 
 bool Properties::exists(const char* name) const
 {
-    if (name == NULL)
+    if (name == nullptr)
         return false;
 
     for (std::vector<Property>::const_iterator itr = _properties.begin(); itr != _properties.end(); ++itr)
@@ -794,7 +788,7 @@ Properties::Type Properties::getType(const char* name) const
 const char* Properties::getString(const char* name, const char* defaultValue) const
 {
     char variable[256];
-    const char* value = NULL;
+    const char* value = nullptr;
 
     if (name)
     {
@@ -1002,11 +996,11 @@ bool Properties::getPath(const char* name, std::string* path) const
         else
         {
             const Properties* prop = this;
-            while (prop != NULL)
+            while (prop != nullptr)
             {
                 // Search for the file path relative to the bundle file
                 const std::string* dirPath = prop->_dirPath;
-                if (dirPath != NULL && !dirPath->empty())
+                if (dirPath != nullptr && !dirPath->empty())
                 {
                     std::string relativePath = *dirPath;
                     relativePath.append(valueString);
@@ -1025,7 +1019,7 @@ bool Properties::getPath(const char* name, std::string* path) const
 
 const char* Properties::getVariable(const char* name, const char* defaultValue) const
 {
-    if (name == NULL)
+    if (name == nullptr)
         return defaultValue;
 
     // Search for variable in this Properties object
@@ -1047,7 +1041,7 @@ void Properties::setVariable(const char* name, const char* value)
 {
     CCASSERT(name, "Invalid name");
 
-    Property* prop = NULL;
+    Property* prop = nullptr;
 
     // Search for variable in this Properties object and parents
     Properties* current = const_cast<Properties*>(this);
@@ -1119,7 +1113,7 @@ void Properties::setDirectoryPath(const std::string* path)
 
 void Properties::setDirectoryPath(const std::string& path)
 {
-    if (_dirPath == NULL)
+    if (_dirPath == nullptr)
     {
         _dirPath = new (std::nothrow) std::string(path);
     }
@@ -1164,7 +1158,7 @@ Properties* getPropertiesFromNamespacePath(Properties* properties, const std::ve
         {
             while (true)
             {
-                if (iter == NULL)
+                if (iter == nullptr)
                 {
                     CCLOGWARN("Failed to load properties object from url.");
                     return nullptr;

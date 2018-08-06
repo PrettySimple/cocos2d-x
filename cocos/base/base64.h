@@ -23,11 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __SUPPORT_BASE64_H__
-#define __SUPPORT_BASE64_H__
+#ifndef CC_BASE_BASE64_H
+#define CC_BASE_BASE64_H
 /// @cond DO_NOT_SHOW
 
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformDefine.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -67,4 +67,4 @@ extern "C"
 #endif
 
 /// @endcond
-#endif // __SUPPORT_BASE64_H__
+#endif // CC_BASE_BASE64_H

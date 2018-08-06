@@ -22,11 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __UILABELBMFONT_H__
-#define __UILABELBMFONT_H__
+#ifndef CC_UI_TEXTBMFONT_H
+#define CC_UI_TEXTBMFONT_H
 
-#include "ui/GUIExport.h"
-#include "ui/UIWidget.h"
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <cstddef>
+#include <iosfwd>
 
 /**
  * @addtogroup ui
@@ -35,7 +40,9 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 class Label;
-struct CC_DLL ResourceData;
+class Node;
+class Size;
+struct ResourceData;
 
 namespace ui
 {
@@ -59,7 +66,7 @@ namespace ui
          * @js NA
          * @lua NA
          */
-        virtual ~TextBMFont();
+        ~TextBMFont() override;
 
         /**
          * Allocates and initializes.
@@ -86,14 +93,14 @@ namespace ui
          *
          * @return  string length.
          */
-        ssize_t getStringLength() const;
+        std::size_t getStringLength() const;
 
-        virtual Size getVirtualRendererSize() const override;
-        virtual Node* getVirtualRenderer() override;
+        Size getVirtualRendererSize() const override;
+        Node* getVirtualRenderer() override;
         /**
          * Returns the "class name" of widget.
          */
-        virtual std::string getDescription() const override;
+        std::string getDescription() const override;
 
         ResourceData getRenderFile();
 
@@ -103,13 +110,13 @@ namespace ui
         void resetRender();
 
     protected:
-        virtual void initRenderer() override;
-        virtual void onSizeChanged() override;
+        void initRenderer() override;
+        void onSizeChanged() override;
 
         void labelBMFontScaleChangedWithSize();
-        virtual Widget* createCloneInstance() override;
-        virtual void copySpecialProperties(Widget* model) override;
-        virtual void adaptRenderers() override;
+        Widget* createCloneInstance() override;
+        void copySpecialProperties(Widget* model) override;
+        void adaptRenderers() override;
 
     protected:
         Label* _labelBMFontRenderer;
@@ -123,4 +130,4 @@ NS_CC_END
 // end of ui group
 /// @}
 
-#endif /* defined(__LabelBMFont__) */
+#endif // CC_UI_TEXTBMFONT_H

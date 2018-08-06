@@ -22,14 +22,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UISlider.h"
-#include "2d/CCCamera.h"
-#include "2d/CCSprite.h"
-#include "editor-support/cocostudio/CocosStudioExtension.h"
-#include "ui/UIHelper.h"
-#include "ui/UIScale9Sprite.h"
+#include <cocos/ui/UISlider.h>
+
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCTouch.h>
+#include <cocos/editor-support/cocostudio/CocosStudioExtension.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/UIHelper.h>
+#include <cocos/ui/UIScale9Sprite.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <new>
 
 NS_CC_BEGIN
+
+class Ref;
 
 namespace ui
 {
@@ -167,8 +179,6 @@ namespace ui
                 case TextureResType::PLIST:
                     _barRenderer->initWithSpriteFrameName(fileName);
                     break;
-                default:
-                    break;
             }
         }
         // FIXME: https://github.com/cocos2d/cocos2d-x/issues/12249
@@ -210,8 +220,6 @@ namespace ui
                     break;
                 case TextureResType::PLIST:
                     _progressBarRenderer->initWithSpriteFrameName(fileName);
-                    break;
-                default:
                     break;
             }
         }
@@ -326,8 +334,6 @@ namespace ui
                 case TextureResType::PLIST:
                     _slidBallNormalRenderer->setSpriteFrame(normal);
                     break;
-                default:
-                    break;
             }
         }
         this->updateChildrenDisplayedRGBA();
@@ -356,8 +362,6 @@ namespace ui
                     break;
                 case TextureResType::PLIST:
                     _slidBallPressedRenderer->setSpriteFrame(pressed);
-                    break;
-                default:
                     break;
             }
         }
@@ -388,8 +392,6 @@ namespace ui
                     break;
                 case TextureResType::PLIST:
                     _slidBallDisabledRenderer->setSpriteFrame(disabled);
-                    break;
-                default:
                     break;
             }
         }
@@ -716,35 +718,35 @@ namespace ui
     ResourceData Slider::getBackFile()
     {
         ResourceData rData;
-        rData.type = (int)_barTexType;
+        rData.type = static_cast<int>(_barTexType);
         rData.file = _textureFile;
         return rData;
     }
     ResourceData Slider::getProgressBarFile()
     {
         ResourceData rData;
-        rData.type = (int)_progressBarTexType;
+        rData.type = static_cast<int>(_progressBarTexType);
         rData.file = _progressBarTextureFile;
         return rData;
     }
     ResourceData Slider::getBallNormalFile()
     {
         ResourceData rData;
-        rData.type = (int)_ballNTexType;
+        rData.type = static_cast<int>(_ballNTexType);
         rData.file = _slidBallNormalTextureFile;
         return rData;
     }
     ResourceData Slider::getBallPressedFile()
     {
         ResourceData rData;
-        rData.type = (int)_ballPTexType;
+        rData.type = static_cast<int>(_ballPTexType);
         rData.file = _slidBallPressedTextureFile;
         return rData;
     }
     ResourceData Slider::getBallDisabledFile()
     {
         ResourceData rData;
-        rData.type = (int)_ballDTexType;
+        rData.type = static_cast<int>(_ballDTexType);
         rData.file = _slidBallDisabledTextureFile;
         return rData;
     }

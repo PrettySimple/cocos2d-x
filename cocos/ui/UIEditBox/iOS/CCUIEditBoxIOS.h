@@ -25,9 +25,15 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "ui/UIEditBox/UIEditBoxImpl-ios.h"
-#import "ui/UIEditBox/iOS/CCUITextInput.h"
-#import <UIKit/UIKit.h>
+#include <cocos/ui/UIEditBox/UIEditBoxImpl-ios.h>
+#include <cocos/ui/UIEditBox/iOS/CCUITextInput.h>
+
+#import <CoreGraphics/CGGeometry.h>
+#import <Foundation/NSString.h>
+#import <UIKit/UITextField.h>
+#import <UIKit/UITextInput.h>
+#import <UIKit/UITextView.h>
+#import <UIKit/UIView.h>
 
 @interface UIEditBoxImplIOS_objc : NSObject <UITextFieldDelegate, UITextViewDelegate>
 

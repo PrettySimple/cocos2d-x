@@ -23,12 +23,13 @@ Copyright (c) 2013-2016 Chukong Technologies Inc.
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCBOOL_H__
-#define __CCBOOL_H__
+#ifndef CC_DEPRECATED_BOOL_H
+#define CC_DEPRECATED_BOOL_H
 /// @cond DO_NOT_SHOW
 
-#include "base/CCDataVisitor.h"
-#include "base/CCRef.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
@@ -37,32 +38,32 @@ NS_CC_BEGIN
  * @{
  */
 
-class CC_DLL __Bool : public Ref, public Clonable
+class DataVisitor;
+
+class CC_DLL __Bool final : public Ref, public Clonable
 {
+    bool _value = false;
+
 public:
-    __Bool(bool v)
+    __Bool() = default;
+    __Bool(__Bool const&) = default;
+    __Bool& operator=(__Bool const&) = default;
+    __Bool(__Bool&&) noexcept = default;
+    __Bool& operator=(__Bool&&) noexcept = default;
+    ~__Bool() final;
+
+    inline __Bool(bool v)
     : _value(v)
     {
     }
-    bool getValue() const { return _value; }
+    inline bool getValue() const noexcept { return _value; }
 
-    static __Bool* create(bool v)
-    {
-        __Bool* pRet = new (std::nothrow) __Bool(v);
-        if (pRet)
-        {
-            pRet->autorelease();
-        }
-        return pRet;
-    }
+    static __Bool* create(bool v);
 
     /* override functions */
-    virtual void acceptVisitor(DataVisitor& visitor) { visitor.visit(this); }
+    void acceptVisitor(DataVisitor& visitor);
 
-    virtual __Bool* clone() const override { return __Bool::create(_value); }
-
-private:
-    bool _value;
+    __Bool* clone() const final;
 };
 
 // end of data_structure group
@@ -71,4 +72,4 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif /* __CCBOOL_H__ */
+#endif // CC_DEPRECATED_BOOL_H

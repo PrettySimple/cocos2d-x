@@ -22,11 +22,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIHelper.h"
-#include "base/CCDirector.h"
-#include "base/ccUTF8.h"
-#include "ui/UILayoutComponent.h"
-#include "ui/UIWidget.h"
+#include <cocos/ui/UIHelper.h>
+
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCGLView.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/UILayoutComponent.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <cstddef>
+#include <string>
 
 NS_CC_BEGIN
 
@@ -45,8 +56,8 @@ namespace ui
             return root;
         }
         const auto& arrayRootChildren = root->getChildren();
-        ssize_t length = arrayRootChildren.size();
-        for (ssize_t i = 0; i < length; i++)
+        std::size_t length = arrayRootChildren.size();
+        for (std::size_t i = 0; i < length; i++)
         {
             Widget* child = dynamic_cast<Widget*>(arrayRootChildren.at(i));
             if (child)
@@ -114,7 +125,7 @@ namespace ui
         return nullptr;
     }
 
-    std::string Helper::getSubStringOfUTF8String(const std::string& str, std::string::size_type start, std::string::size_type length)
+    std::string Helper::getSubStringOfUTF8String(const std::string& str, std::size_t start, std::size_t length)
     {
         std::u32string utf32;
         if (!StringUtils::UTF8ToUTF32(str, utf32))
@@ -146,11 +157,11 @@ namespace ui
 
         for (auto& node : rootNode->getChildren())
         {
-            auto com = node->getComponent(__LAYOUT_COMPONENT_NAME);
+            auto com = node->getComponent(LAYOUT_COMPONENT_NAME);
             Node* parent = node->getParent();
             if (nullptr != com && nullptr != parent)
             {
-                LayoutComponent* layoutComponent = (LayoutComponent*)com;
+                LayoutComponent* layoutComponent = static_cast<LayoutComponent*>(com);
 
                 layoutComponent->refreshLayout();
             }

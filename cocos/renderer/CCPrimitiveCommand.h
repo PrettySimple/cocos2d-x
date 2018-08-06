@@ -22,18 +22,23 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef COCOS2D_RENDERER_PRIMITIVE_COMMAND_H
-#define COCOS2D_RENDERER_PRIMITIVE_COMMAND_H
+#ifndef CC_RENDERER_PRIMITIVECOMMAND_H
+#define CC_RENDERER_PRIMITIVECOMMAND_H
 
-#include "base/ccTypes.h"
-#include "renderer/CCPrimitive.h"
-#include "renderer/CCRenderCommand.h"
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCRenderCommand.h>
 
 #include <cstddef>
+#include <cstdint>
 #include <limits>
 
 NS_CC_BEGIN
 class GLProgramState;
+class Primitive;
 /**
  Command used to render primitive, similar to QuadCommand.
  Every QuadCommand will have generate material ID by give textureID, glProgramState, Blend function.
@@ -86,4 +91,4 @@ private:
 
 NS_CC_END
 
-#endif // COCOS2D_RENDERER_PRIMITIVE_COMMAND_H
+#endif // CC_RENDERER_PRIMITIVECOMMAND_H

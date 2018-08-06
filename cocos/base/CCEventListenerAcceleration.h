@@ -22,11 +22,11 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCAccelerometerListener__
-#define __cocos2d_libs__CCAccelerometerListener__
+#ifndef CC_BASE_EVENTLISTENERACCELERATION_H
+#define CC_BASE_EVENTLISTENERACCELERATION_H
 
-#include "base/CCEventListener.h"
-#include "base/ccTypes.h"
+#include <cocos/base/CCEventListener.h>
+#include <cocos/base/ccTypes.h>
 
 /**
  * @addtogroup base
@@ -53,11 +53,11 @@ public:
 
     /** Destructor.
      */
-    virtual ~EventListenerAcceleration();
+    ~EventListenerAcceleration() override;
 
     /// Overrides
-    virtual EventListenerAcceleration* clone() override;
-    virtual bool checkAvailable() override;
+    EventListenerAcceleration* clone() override;
+    bool checkAvailable() override;
 
     CC_CONSTRUCTOR_ACCESS : EventListenerAcceleration();
 
@@ -74,4 +74,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif /* defined(__cocos2d_libs__CCAccelerometerListener__) */
+#endif // CC_BASE_EVENTLISTENERACCELERATION_H

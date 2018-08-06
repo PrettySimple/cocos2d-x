@@ -23,31 +23,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __BASE_CCREF_H__
-#define __BASE_CCREF_H__
+#ifndef CC_BASE_REF_H
+#define CC_BASE_REF_H
 
-#if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
 #    include <string>
 #    include <vector>
 #endif
 
-#include "base/ccConfig.h"
-#include "platform/CCPlatformMacros.h"
-
-#define CC_REF_LEAK_DETECTION 0
-
-/**
- * @addtogroup base
- * @{
- */
 NS_CC_BEGIN
 
 class Ref;
+class Node;
 
 /**
  * Interface that defines how to clone an Ref.
- * @lua NA
- * @js NA
  */
 class CC_DLL Clonable
 {
@@ -55,38 +48,50 @@ public:
     /** Returns a copy of the Ref. */
     virtual Clonable* clone() const = 0;
 
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~Clonable(){};
+    virtual ~Clonable();
 
     /** Returns a copy of the Ref.
      * @deprecated Use clone() instead.
      */
-    CC_DEPRECATED_ATTRIBUTE Ref* copy() const
-    {
-        // use "clone" instead
-        CC_ASSERT(false);
-        return nullptr;
-    }
+    CC_DEPRECATED_ATTRIBUTE virtual Ref* copy() const final { return nullptr; }
 };
 
 /**
  * Ref is used for reference count management. If a class inherits from Ref,
  * then it is easy to be shared in different places.
- * @js NA
  */
 class CC_DLL Ref
 {
-#if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
-protected:
-    bool _trackRetainRelease = false;
+    friend class AutoreleasePool;
 
+protected:
+    /// count of references
+    unsigned int _referenceCount = 1;
+
+#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
 private:
     std::vector<std::vector<std::string>> _retainList;
     std::vector<std::vector<std::string>> _releaseList;
+
+protected:
+    bool _trackRetainRelease = false;
 #endif
+
+#if CC_ENABLE_SCRIPT_BINDING
+public:
+    /// object id, ScriptSupport need public _ID
+    unsigned int _ID = 0;
+    /// Lua reference id
+    int _luaID = 0;
+    /// scriptObject, support for swift
+    void* _scriptObject = nullptr;
+
+    /**
+     When true, it means that the object was already rooted.
+     */
+    bool _rooted = false;
+#endif
+
 public:
     /**
      * Retains the ownership.
@@ -94,7 +99,6 @@ public:
      * This increases the Ref's reference count.
      *
      * @see release, autorelease
-     * @js NA
      */
     void retain();
 
@@ -107,7 +111,6 @@ public:
      * destructed.
      *
      * @see retain, autorelease
-     * @js NA
      */
     void release();
 
@@ -123,8 +126,6 @@ public:
      * @returns The Ref itself.
      *
      * @see AutoreleasePool, retain, release
-     * @js NA
-     * @lua NA
      */
     Ref* autorelease();
 
@@ -132,7 +133,6 @@ public:
      * Returns the Ref's current reference count.
      *
      * @returns The Ref's reference count.
-     * @js NA
      */
     unsigned int getReferenceCount() const;
 
@@ -141,7 +141,6 @@ protected:
      * Constructor
      *
      * The Ref's reference count is 1 after construction.
-     * @js NA
      */
     Ref();
 
@@ -150,43 +149,14 @@ public:
     Ref& operator=(const Ref& other);
     Ref(Ref&& other) noexcept = default;
     Ref& operator=(Ref&& other) noexcept = default;
-    /**
-     * Destructor
-     *
-     * @js NA
-     * @lua NA
-     */
     virtual ~Ref();
 
-protected:
-    /// count of references
-    unsigned int _referenceCount;
-
-    friend class AutoreleasePool;
-
-#if CC_ENABLE_SCRIPT_BINDING
-public:
-    /// object id, ScriptSupport need public _ID
-    unsigned int _ID;
-    /// Lua reference id
-    int _luaID;
-    /// scriptObject, support for swift
-    void* _scriptObject;
-
-    /**
-     When true, it means that the object was already rooted.
-     */
-    bool _rooted;
-#endif
-
     // Memory leak diagnostic data (only included when CC_REF_LEAK_DETECTION is defined and its value isn't zero)
-#if CC_REF_LEAK_DETECTION
+#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
 public:
     static void printLeaks();
 #endif
 };
-
-class Node;
 
 typedef void (Ref::*SEL_CallFunc)();
 typedef void (Ref::*SEL_CallFuncN)(Node*);
@@ -211,7 +181,5 @@ typedef void (Ref::*SEL_SCHEDULE)(float);
 #define schedule_selector(_SELECTOR) CC_SCHEDULE_SELECTOR(_SELECTOR)
 
 NS_CC_END
-// end of base group
-/** @} */
 
-#endif // __BASE_CCREF_H__
+#endif // CC_BASE_REF_H

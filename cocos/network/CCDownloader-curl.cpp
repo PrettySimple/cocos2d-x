@@ -28,10 +28,10 @@
 #include <curl/curl.h>
 #include <set>
 
-#include "base/CCDirector.h"
-#include "base/CCScheduler.h"
-#include "network/CCDownloader.h"
-#include "platform/CCFileUtils.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCScheduler.h>
+#include <cocos/network/CCDownloader.h>
+#include <cocos/platform/CCFileUtils.h>
 
 // **NOTE**
 // In the file:

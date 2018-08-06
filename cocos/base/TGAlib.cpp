@@ -23,12 +23,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
+#include <cocos/base/TGAlib.h>
+
+#include <cocos/base/CCData.h>
+#include <cocos/platform/CCFileUtils.h>
+
 #include <stdlib.h>
 #include <string.h>
-
-#include "base/CCData.h"
-#include "base/TGAlib.h"
-#include "platform/CCFileUtils.h"
 
 NS_CC_BEGIN
 

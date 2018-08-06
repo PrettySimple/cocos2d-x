@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__TextBMFontReader__
-#define __TestCpp__TextBMFontReader__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_TEXTBMFONTREADER_TEXTBMFONTREADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_TEXTBMFONTREADER_TEXTBMFONTREADER_H
 
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/WidgetReader/WidgetReader.h"
@@ -51,4 +51,4 @@ namespace cocostudio
     };
 } // namespace cocostudio
 
-#endif /* defined(__TestCpp__TextBMFontReader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_TEXTBMFONTREADER_TEXTBMFONTREADER_H

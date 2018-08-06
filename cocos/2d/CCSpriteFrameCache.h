@@ -27,20 +27,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __SPRITE_CCSPRITE_FRAME_CACHE_H__
-#define __SPRITE_CCSPRITE_FRAME_CACHE_H__
+#ifndef CC_2D_SPRITEFRAMECACHE_H
+#define CC_2D_SPRITEFRAMECACHE_H
 
-#include "2d/CCSpriteFrame.h"
-#include "base/CCMap.h"
-#include "base/CCRef.h"
-#include "base/CCValue.h"
+#include <cocos/base/CCMap.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
+#include <iosfwd>
 #include <set>
 #include <string>
+#include <vector>
 
 NS_CC_BEGIN
 
-class Sprite;
+class SpriteFrame;
 class Texture2D;
 class PolygonInfo;
 
@@ -276,4 +280,4 @@ protected:
 
 NS_CC_END
 
-#endif // __SPRITE_CCSPRITE_FRAME_CACHE_H__
+#endif // CC_2D_SPRITEFRAMECACHE_H

@@ -22,19 +22,21 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_EVENT_DISPATCHER_H__
-#define __CC_EVENT_DISPATCHER_H__
+#ifndef CC_BASE_EVENTDISPATCHER_H
+#define CC_BASE_EVENTDISPATCHER_H
 
+#include <cocos/base/CCEventListener.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <set>
 #include <string>
 #include <unordered_map>
 #include <vector>
-
-#include "base/CCEvent.h"
-#include "base/CCEventListener.h"
-#include "platform/CCPlatformMacros.h"
-#include "platform/CCStdC.h"
 
 /**
  * @addtogroup base
@@ -44,10 +46,10 @@
 NS_CC_BEGIN
 
 class Event;
-class EventTouch;
-class Node;
 class EventCustom;
 class EventListenerCustom;
+class EventTouch;
+class Node;
 
 /** @class EventDispatcher
 * @brief This class manages event listener subscriptions
@@ -210,7 +212,7 @@ protected:
     public:
         EventListenerVector();
         ~EventListenerVector();
-        size_t size() const;
+        std::size_t size() const;
         bool empty() const;
 
         void push_back(EventListener* item);
@@ -220,13 +222,13 @@ protected:
 
         std::vector<EventListener*>* getFixedPriorityListeners() const { return _fixedListeners; }
         std::vector<EventListener*>* getSceneGraphPriorityListeners() const { return _sceneGraphListeners; }
-        ssize_t getGt0Index() const { return _gt0Index; }
-        void setGt0Index(ssize_t index) { _gt0Index = index; }
+        std::size_t getGt0Index() const { return _gt0Index; }
+        void setGt0Index(std::size_t index) { _gt0Index = index; }
 
     private:
         std::vector<EventListener*>* _fixedListeners;
         std::vector<EventListener*>* _sceneGraphListeners;
-        ssize_t _gt0Index;
+        std::size_t _gt0Index;
     };
 
     /** Adds an event listener with item
@@ -290,7 +292,7 @@ protected:
     void releaseListener(EventListener* listener);
 
     /// Priority dirty flag
-    enum class DirtyFlag
+    enum struct DirtyFlag : std::uint8_t
     {
         NONE = 0,
         FIXED_PRIORITY = 1 << 0,
@@ -347,4 +349,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif // __CC_EVENT_DISPATCHER_H__
+#endif // CC_BASE_EVENTDISPATCHER_H

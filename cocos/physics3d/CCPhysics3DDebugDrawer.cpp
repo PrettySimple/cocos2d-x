@@ -22,15 +22,15 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCConfiguration.h"
-#include "base/CCDirector.h"
-#include "base/ccMacros.h"
 #include "physics3d/CCPhysics3D.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #if CC_USE_3D_PHYSICS
 
@@ -181,9 +181,9 @@ void Physics3DDebugDrawer::init()
     glBufferData(GL_ARRAY_BUFFER, sizeof(V3F_V4F) * _bufferCapacity, _buffer, GL_STREAM_DRAW);
 
     GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POSITION | GL::VERTEX_ATTRIB_FLAG_COLOR, _vao);
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(V3F_V4F), (GLvoid *)offsetof(V3F_V4F, vertex));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(V3F_V4F), (GLvoid*)offsetof(V3F_V4F, vertex));
 
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_FLOAT, GL_FALSE, sizeof(V3F_V4F), (GLvoid *)offsetof(V3F_V4F, color));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_FLOAT, GL_FALSE, sizeof(V3F_V4F), (GLvoid*)offsetof(V3F_V4F, color));
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 

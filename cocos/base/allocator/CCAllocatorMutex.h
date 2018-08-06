@@ -23,15 +23,15 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_ALLOCATOR_MUTEX_H
-#define CC_ALLOCATOR_MUTEX_H
+#ifndef CC_BASE_ALLOCATOR_ALLOCATORMUTEX_H
+#define CC_BASE_ALLOCATOR_ALLOCATORMUTEX_H
 /// @cond DO_NOT_SHOW
 
-#include "platform/CCPlatformConfig.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC || \
     CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
-#    include "pthread.h"
+#    include <pthread.h>
 #    define MUTEX pthread_mutex_t
 #    define MUTEX_INIT(m)                                         \
         pthread_mutexattr_t mta;                                  \
@@ -99,4 +99,4 @@ NS_CC_ALLOCATOR_END
 NS_CC_END
 
 /// @endcond
-#endif // CC_ALLOCATOR_MUTEX_H
+#endif // CC_BASE_ALLOCATOR_ALLOCATORMUTEX_H

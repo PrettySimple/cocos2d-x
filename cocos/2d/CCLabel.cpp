@@ -23,24 +23,27 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "2d/CCLabel.h"
+#include <cocos/2d/CCLabel.h>
 
-#include "2d/CCCamera.h"
-#include "2d/CCDrawNode.h"
-#include "2d/CCFont.h"
-#include "2d/CCFontAtlas.h"
-#include "2d/CCFontAtlasCache.h"
-#include "2d/CCFontFNT.h"
-#include "2d/CCSprite.h"
-#include "2d/CCSpriteBatchNode.h"
-#include "base/CCDirector.h"
-#include "base/CCEventCustom.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/ccUTF8.h"
-#include "platform/CCFileUtils.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCDrawNode.h>
+#include <cocos/2d/CCFont.h>
+#include <cocos/2d/CCFontAtlas.h>
+#include <cocos/2d/CCFontAtlasCache.h>
+#include <cocos/2d/CCFontFNT.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/2d/CCSpriteBatchNode.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventCustom.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventListenerCustom.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTextureAtlas.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #include <algorithm>
 
@@ -71,7 +74,7 @@ public:
         return nullptr;
     }
 
-    CREATE_FUNC(LabelLetter);
+    CREATE_FUNC(LabelLetter)
 
     virtual void updateTransform() override
     {
@@ -638,7 +641,7 @@ bool Label::setBMFontFilePath(const std::string& bmfontFilePath, const Vec2& ima
     // assign the default fontSize
     if (std::abs(fontSize) < FLT_EPSILON)
     {
-        FontFNT* bmFont = (FontFNT*)newAtlas->getFont();
+        FontFNT* bmFont = static_cast<FontFNT*>(const_cast<Font*>(newAtlas->getFont()));
         if (bmFont)
         {
             float originalFontSize = bmFont->getOriginalFontSize();
@@ -687,7 +690,8 @@ void Label::setAlignment(TextHAlignment hAlignment, TextVAlignment vAlignment)
 
 void Label::setMaxLineWidth(float maxLineWidth)
 {
-    if (_labelWidth == 0 && _maxLineWidth != maxLineWidth)
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+    if (std::abs(_labelWidth) < epsi && std::abs(_maxLineWidth - maxLineWidth) > epsi)
     {
         _maxLineWidth = maxLineWidth;
         _contentDirty = true;
@@ -700,7 +704,8 @@ void Label::setDimensions(float width, float height)
     {
         height = 0;
     }
-    if (height != _labelHeight || width != _labelWidth)
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+    if (std::abs(height - _labelHeight) > epsi || (width - _labelWidth) > epsi)
     {
         _labelWidth = width;
         _labelHeight = height;
@@ -758,7 +763,7 @@ void Label::updateLabelLetters()
         for (auto it = _letters.begin(); it != _letters.end();)
         {
             letterIndex = it->first;
-            letterSprite = (LabelLetter*)it->second;
+            letterSprite = static_cast<LabelLetter*>(it->second);
 
             if (letterIndex >= _lengthOfString)
             {
@@ -1111,7 +1116,7 @@ void Label::enableOutline(const Color4B& outlineColor, int outlineSize /* = -1 *
                 setTTFConfig(_fontConfig);
             }
         }
-        else if (_effectColorF != outlineColor || _outlineSize != outlineSize)
+        else if (_effectColorF != outlineColor || std::abs(_outlineSize - outlineSize) >= std::numeric_limits<float>::epsilon())
         {
             _effectColorF.r = outlineColor.r / 255.f;
             _effectColorF.g = outlineColor.g / 255.f;
@@ -1278,8 +1283,6 @@ void Label::disableEffect(LabelEffect effect)
             disableEffect(LabelEffect::STRIKETHROUGH);
         }
         break;
-        default:
-            break;
     }
 }
 
@@ -1575,10 +1578,16 @@ void Label::onDraw(const Mat4& transform, bool transformUpdated)
                 break;
             case LabelEffect::GLOW:
                 glprogram->setUniformLocationWith4f(_uniformEffectColor, _effectColorF.r, _effectColorF.g, _effectColorF.b, _effectColorF.a);
+                [[clang::fallthrough]];
             case LabelEffect::NORMAL:
                 glprogram->setUniformLocationWith4f(_uniformTextColor, _textColorF.r, _textColorF.g, _textColorF.b, _textColorF.a);
                 break;
-            default:
+            case LabelEffect::SHADOW:
+            case LabelEffect::ITALICS:
+            case LabelEffect::BOLD:
+            case LabelEffect::UNDERLINE:
+            case LabelEffect::STRIKETHROUGH:
+            case LabelEffect::ALL:
                 break;
         }
     }
@@ -1734,7 +1743,7 @@ void Label::setSystemFontName(const std::string& systemFont)
 
 void Label::setSystemFontSize(float fontSize)
 {
-    if (_systemFontSize != fontSize)
+    if (std::abs(_systemFontSize - fontSize) >= std::numeric_limits<float>::epsilon())
     {
         _systemFontSize = fontSize;
         _originalFontSize = fontSize;
@@ -1811,7 +1820,7 @@ void Label::setLineHeight(float height)
 {
     CCASSERT(_currentLabelType != LabelType::STRING_TEXTURE, "Not supported system font!");
 
-    if (_lineHeight != height)
+    if (std::abs(_lineHeight - height) >= std::numeric_limits<float>::epsilon())
     {
         _lineHeight = height;
         _contentDirty = true;
@@ -1826,7 +1835,7 @@ float Label::getLineHeight() const
 
 void Label::setLineSpacing(float height)
 {
-    if (_lineSpacing != height)
+    if (std::abs(_lineSpacing - height) >= std::numeric_limits<float>::epsilon())
     {
         _lineSpacing = height;
         _contentDirty = true;
@@ -1842,7 +1851,7 @@ void Label::setAdditionalKerning(float space)
 {
     if (_currentLabelType != LabelType::STRING_TEXTURE)
     {
-        if (_additionalKerning != space)
+        if (std::abs(_additionalKerning - space) >= std::numeric_limits<float>::epsilon())
         {
             _additionalKerning = space;
             _contentDirty = true;
@@ -1873,7 +1882,7 @@ void Label::computeStringNumLines()
     size_t stringLen = _utf16Text.length();
     for (size_t i = 0; i < stringLen - 1; ++i)
     {
-        if (_utf16Text[i] == (char16_t)TextFormatter::NewLine)
+        if (_utf16Text[i] == static_cast<char16_t>(TextFormatter::NewLine))
         {
             quantityOfLines++;
         }
@@ -2091,7 +2100,7 @@ FontDefinition Label::_getFontDefinition() const
     systemFontDef._fontAlpha = _textColor.a;
     systemFontDef._shadow._shadowEnabled = false;
     systemFontDef._enableWrap = _enableWrap;
-    systemFontDef._overflow = (int)_overflow;
+    systemFontDef._overflow = static_cast<int>(_overflow);
 
     if (_currLabelEffect == LabelEffect::OUTLINE && _outlineSize > 0.f)
     {

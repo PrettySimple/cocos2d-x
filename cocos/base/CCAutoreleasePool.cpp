@@ -22,8 +22,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "base/CCAutoreleasePool.h"
-#include "base/ccMacros.h"
+#include <cocos/base/CCAutoreleasePool.h>
+
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <new>
 
 NS_CC_BEGIN
 
@@ -93,7 +98,7 @@ void AutoreleasePool::dump()
     for (const auto& obj : _managedObjectArray)
     {
         CC_UNUSED_PARAM(obj);
-        CCLOG("%20p%20u\n", obj, obj->getReferenceCount());
+        CCLOG("%20p%20u\n", reinterpret_cast<void*>(obj), obj->getReferenceCount());
     }
 }
 

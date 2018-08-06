@@ -23,8 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "platform/emscripten/CCStdC-emscripten.h"
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/emscripten/CCStdC-emscripten.h>
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 

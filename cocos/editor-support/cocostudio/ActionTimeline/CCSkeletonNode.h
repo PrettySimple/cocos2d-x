@@ -22,13 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCSKELETONNODE_H__
-#define __CCSKELETONNODE_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_SKELETONNODE_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_SKELETONNODE_H
 
 #include "CCTimelineMacro.h"
-#include "base/CCMap.h"
 #include "cocostudio/CocosStudioExport.h"
-#include "renderer/CCRenderer.h"
+#include <cocos/base/CCMap.h>
+#include <cocos/renderer/CCRenderer.h>
 
 #include "CCBoneNode.h"
 
@@ -113,4 +113,4 @@ private:
 
 NS_TIMELINE_END
 
-#endif //__CCSKELETONNODE_H__
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_SKELETONNODE_H

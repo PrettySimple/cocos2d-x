@@ -23,14 +23,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __UIEDITBOXIMPLANDROID_H__
-#define __UIEDITBOXIMPLANDROID_H__
+#ifndef CC_UI_EDITBOX_EDITBOXIMPLANDROID_H
+#define CC_UI_EDITBOX_EDITBOXIMPLANDROID_H
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
-#    include "ui/UIEditBox/UIEditBoxImpl-common.h"
+#    include <cocos/ui/UIEditBox/UIEditBoxImpl-common.h>
 
 NS_CC_BEGIN
 
@@ -81,4 +81,4 @@ NS_CC_END
 
 #endif /* #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) */
 
-#endif /* __UIEDITBOXIMPLANDROID_H__ */
+#endif // CC_UI_EDITBOX_EDITBOXIMPLANDROID_H

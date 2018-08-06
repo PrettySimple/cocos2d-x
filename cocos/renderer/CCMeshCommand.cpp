@@ -22,25 +22,35 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "renderer/CCMeshCommand.h"
+#include <cocos/renderer/CCMeshCommand.h>
 
-#include "2d/CCLight.h"
-#include "base/CCConfiguration.h"
-#include "base/CCDirector.h"
-#include "base/CCEventCustom.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/CCEventType.h"
-#include "base/ccMacros.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCMaterial.h"
-#include "renderer/CCPass.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTechnique.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCTextureAtlas.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCMaterial.h>
+#include <cocos/renderer/CCPass.h>
+#include <cocos/renderer/CCRenderCommand.h>
+#include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTechnique.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+#    include <cocos/base/CCEventCustom.h>
+#    include <cocos/base/CCEventDispatcher.h>
+#    include <cocos/base/CCEventListenerCustom.h>
+#    include <cocos/base/CCEventType.h>
+#endif
+
+#include <cstdint>
 #include <utility>
 
 NS_CC_BEGIN
@@ -50,13 +60,13 @@ MeshCommand::MeshCommand()
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
     // listen the event that renderer was recreated on Android/WP8
-    _rendererRecreatedListener = EventListenerCustom::create(EVENT_RENDERER_RECREATED, CC_CALLBACK_1(MeshCommand::listenRendererRecreated, this));
+    _rendererRecreatedListener = EventListenerCustom::create(EVENT_RENDERER_RECREATED, [this](EventCustom* evt) { listenRendererRecreated(evt); });
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_rendererRecreatedListener, -1);
 #endif
 }
 
 void MeshCommand::init(float globalZOrder, Material* material, GLuint vertexBuffer, GLuint indexBuffer, GLenum primitive, GLenum indexFormat,
-                       ssize_t indexCount, const cocos2d::Mat4& mv, uint32_t flags)
+                       std::size_t indexCount, const cocos2d::Mat4& mv, uint32_t flags)
 {
     CCASSERT(material, "material cannot be null");
 
@@ -76,7 +86,7 @@ void MeshCommand::init(float globalZOrder, Material* material, GLuint vertexBuff
 }
 
 void MeshCommand::init(float globalZOrder, GLuint textureID, GLProgramState* glProgramState, RenderState::StateBlock* stateBlock, GLuint vertexBuffer,
-                       GLuint indexBuffer, GLenum primitive, GLenum indexFormat, ssize_t indexCount, const cocos2d::Mat4& mv, uint32_t flags)
+                       GLuint indexBuffer, GLenum primitive, GLenum indexFormat, std::size_t indexCount, const cocos2d::Mat4& mv, uint32_t flags)
 {
     CCASSERT(glProgramState, "GLProgramState cannot be null");
     CCASSERT(stateBlock, "StateBlock cannot be null");
@@ -200,7 +210,7 @@ void MeshCommand::batchDraw()
         {
             pass->bind(_mv);
 
-            glDrawElements(_primitive, (GLsizei)_indexCount, _indexFormat, 0);
+            glDrawElements(_primitive, (GLsizei)_indexCount, _indexFormat, nullptr);
             CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, _indexCount);
 
             pass->unbind();
@@ -214,7 +224,7 @@ void MeshCommand::batchDraw()
         applyRenderState();
 
         // Draw
-        glDrawElements(_primitive, (GLsizei)_indexCount, _indexFormat, 0);
+        glDrawElements(_primitive, (GLsizei)_indexCount, _indexFormat, nullptr);
         CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, _indexCount);
     }
 }
@@ -251,7 +261,7 @@ void MeshCommand::execute()
         {
             pass->bind(_mv, true);
 
-            glDrawElements(_primitive, (GLsizei)_indexCount, _indexFormat, 0);
+            glDrawElements(_primitive, (GLsizei)_indexCount, _indexFormat, nullptr);
             CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, _indexCount);
 
             pass->unbind();
@@ -265,7 +275,7 @@ void MeshCommand::execute()
         applyRenderState();
 
         // Draw
-        glDrawElements(_primitive, (GLsizei)_indexCount, _indexFormat, 0);
+        glDrawElements(_primitive, (GLsizei)_indexCount, _indexFormat, nullptr);
 
         CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, _indexCount);
     }
@@ -279,8 +289,6 @@ void MeshCommand::buildVAO()
     // FIXME: Assumes that all the passes in the Material share the same Vertex Attribs
     GLProgramState* programState = (_material != nullptr) ? _material->_currentTechnique->_passes.at(0)->getGLProgramState() : _glProgramState;
 
-    
-    
     releaseVAO();
     glGenVertexArrays(1, &_vao);
     GL::bindVAO(_vao);

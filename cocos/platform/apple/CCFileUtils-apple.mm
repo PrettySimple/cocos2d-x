@@ -23,18 +23,36 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#import <Foundation/Foundation.h>
 
-#include "platform/apple/CCFileUtils-apple.h"
+#include <cocos/platform/apple/CCFileUtils-apple.h>
 
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/CCData.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#import <CoreFoundation/CFNumber.h>
+#import <Foundation/NSBundle.h>
+#import <Foundation/NSData.h>
+#import <Foundation/NSException.h>
+#import <Foundation/NSFileManager.h>
+#import <Foundation/NSNull.h>
+#import <Foundation/NSPathUtilities.h>
+#import <Foundation/NSPropertyList.h>
+#import <Foundation/NSString.h>
+
+#include <cstdio>
+#include <cstring>
 #include <ftw.h>
-
-#include <stack>
+#include <iosfwd>
+#include <memory>
+#include <new>
 #include <string>
-
-#include "base/CCDirector.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCSAXParser.h"
+#include <unordered_map>
+#include <utility>
 
 NS_CC_BEGIN
 
@@ -205,7 +223,9 @@ FileUtilsApple::FileUtilsApple()
 {
 }
 
-FileUtilsApple::~FileUtilsApple() = default;
+FileUtilsApple::~FileUtilsApple()
+{
+}
 
 #if CC_FILEUTILS_APPLE_ENABLE_OBJC
 void FileUtilsApple::setBundle(NSBundle* bundle)
@@ -511,8 +531,10 @@ bool FileUtilsApple::createDirectory(const std::string& path)
 
     NSError* error;
 
-    bool result =
-        [s_fileManager createDirectoryAtPath:[NSString stringWithUTF8String:path.c_str()] withIntermediateDirectories:YES attributes:nil error:&error];
+    bool result = [s_fileManager createDirectoryAtPath:[NSString stringWithUTF8String:path.c_str()]
+                           withIntermediateDirectories:YES
+                                            attributes:nil
+                                                 error:&error];
 
     if (!result && error != nil)
     {

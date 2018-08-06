@@ -25,9 +25,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "2d/CCTMXObjectGroup.h"
+#include <cocos/2d/CCTMXObjectGroup.h>
 
-#include "base/ccMacros.h"
+#include <cocos/base/CCValue.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <string>
+#include <unordered_map>
 
 NS_CC_BEGIN
 

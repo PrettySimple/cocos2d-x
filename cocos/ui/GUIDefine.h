@@ -22,10 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__GUIDefine__
-#define __TestCpp__GUIDefine__
+#ifndef CC_UI_GUIDEFINE_H
+#define CC_UI_GUIDEFINE_H
 
-#include "base/ObjectFactory.h"
+#include <cocos/base/ObjectFactory.h>
 #include <string>
 
 ///@cond DO_NOT_SHOW
@@ -61,7 +61,7 @@ public:                                          \
 
 #define CC_VIDEOPLAYER_DEBUG_DRAW 0
 
-#define __LAYOUT_COMPONENT_NAME "__ui_layout"
+#define LAYOUT_COMPONENT_NAME "__ui_layout"
 ///@endcond
 
-#endif /* defined(__TestCpp__GUIDefine__) */
+#endif // CC_UI_GUIDEFINE_H

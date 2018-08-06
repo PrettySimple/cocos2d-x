@@ -22,10 +22,11 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCController__
-#define __cocos2d_libs__CCController__
+#ifndef CC_BASE_CONTROLLER_H
+#define CC_BASE_CONTROLLER_H
 
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -200,16 +201,16 @@ private:
     std::unordered_map<int, KeyStatus> _allKeyPrevStatus;
 
     std::string _deviceName;
-    int _deviceId;
+    int _deviceId = 0;
 
-    int _controllerTag;
+    int _controllerTag = TAG_UNSET;
 
-    ControllerImpl* _impl;
+    ControllerImpl* _impl = nullptr;
 
-    EventDispatcher* _eventDispatcher;
-    EventController* _connectEvent;
-    EventController* _keyEvent;
-    EventController* _axisEvent;
+    EventDispatcher* _eventDispatcher = nullptr;
+    EventController* _connectEvent = nullptr;
+    EventController* _keyEvent = nullptr;
+    EventController* _axisEvent = nullptr;
 
     friend class ControllerImpl;
     friend class EventListenerController;
@@ -220,4 +221,4 @@ private:
 
 NS_CC_END
 
-#endif /* defined(__cocos2d_libs__CCController__) */
+#endif // CC_BASE_CONTROLLER_H

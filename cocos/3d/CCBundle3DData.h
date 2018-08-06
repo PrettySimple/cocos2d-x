@@ -22,13 +22,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_BUNDLE_3D_DATA_H__
-#define __CC_BUNDLE_3D_DATA_H__
+#ifndef CC_3D_BUNDLE3DDATA_H
+#define CC_3D_BUNDLE3DDATA_H
 
-#include "3d/CCAABB.h"
-#include "base/CCRef.h"
-#include "base/ccTypes.h"
-#include "math/CCMath.h"
+#include <cocos/3d/CCAABB.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCMath.h>
 
 #include <chrono>
 #include <map>
@@ -57,15 +57,15 @@ struct MeshVertexAttrib
  * @js NA
  * @lua NA
  */
-struct ModelData
+struct ModelData final
 {
     std::string subMeshId;
     std::string matrialId;
     std::vector<std::string> bones;
     std::vector<Mat4> invBindPose;
 
-    virtual ~ModelData() { resetData(); }
-    virtual void resetData()
+    ~ModelData() { resetData(); }
+    void resetData()
     {
         bones.clear();
         invBindPose.clear();
@@ -76,15 +76,15 @@ struct ModelData
  * @js NA
  * @lua NA
  */
-struct NodeData
+struct NodeData final
 {
     std::string id;
     Mat4 transform;
     std::vector<ModelData*> modelNodeDatas;
     std::vector<NodeData*> children;
 
-    virtual ~NodeData() { resetData(); }
-    virtual void resetData()
+    ~NodeData() { resetData(); }
+    void resetData()
     {
         id.clear();
         transform.setIdentity();
@@ -106,12 +106,12 @@ struct NodeData
  * @js NA
  * @lua NA
  */
-struct NodeDatas
+struct NodeDatas final
 {
     std::vector<NodeData*> skeleton; // skeleton
     std::vector<NodeData*> nodes; // nodes, CCNode, Sprite3D or part of Sprite3D
 
-    virtual ~NodeDatas() { resetData(); }
+    ~NodeDatas() { resetData(); }
 
     void resetData()
     {
@@ -136,13 +136,13 @@ struct MeshData
 {
     typedef std::vector<unsigned short> IndexArray;
     std::vector<float> vertex;
-    int vertexSizeInFloat;
+    std::size_t vertexSizeInFloat;
     std::vector<IndexArray> subMeshIndices;
     std::vector<std::string> subMeshIds; // subMesh Names (since 3.3)
     std::vector<AABB> subMeshAABB;
-    int numIndex;
+    std::size_t numIndex;
     std::vector<MeshVertexAttrib> attribs;
-    int attribCount;
+    std::size_t attribCount;
 
 public:
     /**
@@ -429,4 +429,4 @@ public:
 
 NS_CC_END
 
-#endif //__CC_BUNDLE_3D_DATA_H__
+#endif // CC_3D_BUNDLE3DDATA_H

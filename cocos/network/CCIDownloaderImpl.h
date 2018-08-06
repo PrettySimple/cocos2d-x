@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include <string>
 #include <unordered_map>
 
-#include "base/CCConsole.h"
+#include <cocos/base/CCConsole.h>
 
 //#define CC_DOWNLOADER_DEBUG
 #ifdef CC_DOWNLOADER_DEBUG

@@ -25,10 +25,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCTRANSITIONPROGRESS_H__
-#define __CCTRANSITIONPROGRESS_H__
+#ifndef CC_2D_TRANSITIONPROGRESS_H
+#define CC_2D_TRANSITIONPROGRESS_H
 
-#include "2d/CCTransition.h"
+#include <cocos/2d/CCTransition.h>
 
 #include <chrono>
 
@@ -58,14 +58,14 @@ public:
     //
     // Overrides
     //
-    virtual void onEnter() override;
-    virtual void onExit() override;
+    void onEnter() override;
+    void onExit() override;
 
     CC_CONSTRUCTOR_ACCESS : TransitionProgress();
-    virtual ~TransitionProgress() {}
+    ~TransitionProgress() override {}
 
 protected:
-    virtual void sceneOrder() override;
+    void sceneOrder() override;
 
 protected:
     virtual ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture);
@@ -99,13 +99,13 @@ public:
         TransitionProgressRadialCCW()
     {
     }
-    virtual ~TransitionProgressRadialCCW() {}
+    ~TransitionProgressRadialCCW() override {}
 
 protected:
     //
     // Overrides
     //
-    virtual ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
+    ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
 };
 
 /** @class TransitionProgressRadialCW
@@ -130,13 +130,13 @@ public:
         TransitionProgressRadialCW()
     {
     }
-    virtual ~TransitionProgressRadialCW() {}
+    ~TransitionProgressRadialCW() override {}
 
 protected:
     //
     // Overrides
     //
-    virtual ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
+    ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
 };
 
 /** @class TransitionProgressHorizontal
@@ -161,13 +161,13 @@ public:
         TransitionProgressHorizontal()
     {
     }
-    virtual ~TransitionProgressHorizontal() {}
+    ~TransitionProgressHorizontal() override {}
 
 protected:
     //
     // Overrides
     //
-    virtual ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
+    ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
 };
 
 /** @class TransitionProgressVertical
@@ -191,13 +191,13 @@ public:
         TransitionProgressVertical()
     {
     }
-    virtual ~TransitionProgressVertical() {}
+    ~TransitionProgressVertical() override {}
 
 protected:
     //
     // Overrides
     //
-    virtual ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
+    ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
 };
 
 /** @class TransitionProgressInOut
@@ -221,15 +221,15 @@ public:
         TransitionProgressInOut()
     {
     }
-    virtual ~TransitionProgressInOut() {}
+    ~TransitionProgressInOut() override {}
 
 protected:
     //
     // Overrides
     //
-    virtual ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
-    virtual void sceneOrder() override;
-    virtual void setupTransition() override;
+    ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
+    void sceneOrder() override;
+    void setupTransition() override;
 };
 
 /** @class TransitionProgressOutIn
@@ -253,13 +253,13 @@ public:
         TransitionProgressOutIn()
     {
     }
-    virtual ~TransitionProgressOutIn() {}
+    ~TransitionProgressOutIn() override {}
 
 protected:
     //
     // Overrides
     //
-    virtual ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
+    ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
 };
 
 // end of _2d group
@@ -267,4 +267,4 @@ protected:
 
 NS_CC_END
 
-#endif /* __CCTRANSITIONPROGRESS_H__ */
+#endif // CC_2D_TRANSITIONPROGRESS_H

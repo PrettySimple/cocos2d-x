@@ -22,14 +22,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__GameNode3DReader__
-#define __cocos2d_libs__GameNode3DReader__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_GAMENODE3DREADER_GAMENODE3DREADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_GAMENODE3DREADER_GAMENODE3DREADER_H
 
-#include "2d/CCCameraBackgroundBrush.h"
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/WidgetReader/NodeReaderDefine.h"
 #include "cocostudio/WidgetReader/NodeReaderProtocol.h"
+#include <cocos/2d/CCCameraBackgroundBrush.h>
 
 namespace tinyxml2
 {
@@ -61,4 +61,4 @@ namespace cocostudio
     };
 } // namespace cocostudio
 
-#endif /* defined(__cocos2d_libs__Node3DReader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_GAMENODE3DREADER_GAMENODE3DREADER_H

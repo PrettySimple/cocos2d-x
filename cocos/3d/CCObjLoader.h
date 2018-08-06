@@ -4,8 +4,8 @@
 // Licensed under 2-clause BSD license.
 //
 // https://github.com/syoyo/tinyobjloader
-#ifndef _TINY_OBJ_LOADER_H
-#define _TINY_OBJ_LOADER_H
+#ifndef CC_3D_OBJLOADER_H
+#define CC_3D_OBJLOADER_H
 
 #include <map>
 #include <string>
@@ -53,8 +53,7 @@ namespace tinyobj
     class MaterialReader
     {
     public:
-        MaterialReader() {}
-        virtual ~MaterialReader() {}
+        virtual ~MaterialReader();
 
         virtual std::string operator()(const std::string& matId, std::vector<material_t>& materials, std::map<std::string, int>& matMap) = 0;
     };
@@ -62,12 +61,9 @@ namespace tinyobj
     class MaterialFileReader : public MaterialReader
     {
     public:
-        MaterialFileReader(const std::string& mtl_basepath)
-        : m_mtlBasePath(mtl_basepath)
-        {
-        }
-        virtual ~MaterialFileReader() {}
-        virtual std::string operator()(const std::string& matId, std::vector<material_t>& materials, std::map<std::string, int>& matMap);
+        MaterialFileReader(const std::string& mtl_basepath);
+        ~MaterialFileReader() override = default;
+        std::string operator()(const std::string& matId, std::vector<material_t>& materials, std::map<std::string, int>& matMap) override;
 
     private:
         std::string m_mtlBasePath;
@@ -80,7 +76,7 @@ namespace tinyobj
     /// 'mtl_basepath' is optional, and used for base path for .mtl file.
     std::string LoadObj(std::vector<shape_t>& shapes, // [output]
                         std::vector<material_t>& materials, // [output]
-                        const char* filename, const char* mtl_basepath = NULL);
+                        char const* filename, char const* mtl_basepath = nullptr);
 
     /// Loads object from a std::istream, uses GetMtlIStreamFn to retrieve
     /// std::istream for materials.
@@ -94,4 +90,4 @@ namespace tinyobj
     std::string LoadMtl(std::map<std::string, int>& material_map, std::vector<material_t>& materials, std::istream& inStream);
 } // namespace tinyobj
 
-#endif // _TINY_OBJ_LOADER_H
+#endif // CC_3D_OBJLOADER_H

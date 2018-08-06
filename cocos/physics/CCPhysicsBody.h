@@ -25,13 +25,13 @@
 #ifndef __CCPHYSICS_BODY_H__
 #define __CCPHYSICS_BODY_H__
 
-#include "base/ccConfig.h"
+#include <cocos/base/ccConfig.h>
 #if CC_USE_PHYSICS
 
-#    include "2d/CCComponent.h"
-#    include "base/CCVector.h"
-#    include "math/CCGeometry.h"
-#    include "physics/CCPhysicsShape.h"
+#    include <cocos/2d/CCComponent.h>
+#    include <cocos/base/CCVector.h>
+#    include <cocos/math/CCGeometry.h>
+#    include <cocos/physics/CCPhysicsShape.h>
 
 struct cpBody;
 

@@ -3,10 +3,10 @@
     @note   etc2 cpu decode
 */
 
-#ifndef __etc2_h__
-#define __etc2_h__
+#ifndef CC_BASE_ETC2_H
+#define CC_BASE_ETC2_H
 
-#include "platform/CCGL.h"
+#include <cocos/platform/CCGL.h>
 
 typedef unsigned char etc2_byte;
 typedef int etc2_bool;
@@ -23,4 +23,4 @@ extern "C"
 }
 #endif
 
-#endif
+#endif // CC_BASE_ETC2_H

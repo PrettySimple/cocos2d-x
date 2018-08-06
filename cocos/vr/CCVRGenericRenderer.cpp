@@ -22,19 +22,20 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "vr/CCVRGenericRenderer.h"
-#include "2d/CCCamera.h"
-#include "2d/CCScene.h"
-#include "2d/CCSprite.h"
-#include "base/CCDirector.h"
-#include "platform/CCGLView.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccGLStateCache.h"
 #include "vr/CCVRDistortion.h"
 #include "vr/CCVRDistortionMesh.h"
 #include "vr/CCVRGenericHeadTracker.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCScene.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/platform/CCGLView.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/ccGLStateCache.h>
+#include <cocos/vr/CCVRGenericRenderer.h>
 
 NS_CC_BEGIN
 
@@ -108,11 +109,11 @@ void VRGenericRenderer::render(Scene* scene, Renderer* renderer)
 
     auto headRotation = _headTracker->getLocalRotation();
     Mat4 leftTransform;
-    Mat4::createTranslation(eyeOffset, 0, 0, &leftTransform);
+    Mat4::createTranslation(eyeOffset, 0, 0, leftTransform);
     leftTransform *= headRotation;
 
     Mat4 rightTransform;
-    Mat4::createTranslation(-eyeOffset, 0, 0, &rightTransform);
+    Mat4::createTranslation(-eyeOffset, 0, 0, rightTransform);
     rightTransform *= headRotation;
 
     _fb->applyFBO();
@@ -155,7 +156,7 @@ void VRGenericRenderer::renderDistortionMesh(DistortionMesh* mesh, GLint texture
     _glProgramState->apply(Mat4::IDENTITY);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->_elementBufferID);
-    glDrawElements(GL_TRIANGLE_STRIP, mesh->_indices, GL_UNSIGNED_SHORT, 0);
+    glDrawElements(GL_TRIANGLE_STRIP, mesh->_indices, GL_UNSIGNED_SHORT, nullptr);
 
     CHECK_GL_ERROR_DEBUG();
 }

@@ -23,12 +23,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCDEVICE_H__
-#define __CCDEVICE_H__
+#ifndef CC_PLATFORM_DEVICE_H
+#define CC_PLATFORM_DEVICE_H
 
-#include "base/CCData.h"
-#include "base/ccMacros.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCData.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
@@ -99,7 +99,7 @@ public:
     getTextureDataForText(const char* text, const FontDefinition& textDefinition, TextAlign align, int& width, int& height, bool& hasPremultipliedAlpha);
 
 private:
-    CC_DISALLOW_IMPLICIT_CONSTRUCTORS(Device);
+    CC_DISALLOW_IMPLICIT_CONSTRUCTORS(Device)
 };
 
 // end group
@@ -107,4 +107,4 @@ private:
 
 NS_CC_END
 
-#endif /* __CCDEVICE_H__ */
+#endif // CC_PLATFORM_DEVICE_H

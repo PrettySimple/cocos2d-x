@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __EDITOR_SUPPORT_COCOSTUDIO_H__
-#define __EDITOR_SUPPORT_COCOSTUDIO_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_COCOSSTUDIO_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_COCOSSTUDIO_H
 
 #include "cocostudio/ActionTimeline/CCActionTimeline.h"
 #include "cocostudio/ActionTimeline/CCActionTimelineCache.h"
@@ -74,4 +74,4 @@ namespace cocostudio
     void CC_STUDIO_DLL destroyCocosStudio();
 }
 
-#endif
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_COCOSSTUDIO_H

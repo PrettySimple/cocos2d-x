@@ -23,12 +23,33 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCTextFieldTTF.h"
+#include <cocos/2d/CCTextFieldTTF.h>
 
-#include "2d/CCSprite.h"
-#include "base/CCDirector.h"
-#include "base/ccUTF8.h"
-#include "platform/CCFileUtils.h"
+#include <cocos/2d/CCLabel.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventKeyboard.h>
+#include <cocos/base/CCIMEDelegate.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCGLView.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <new>
+#include <string>
+#include <vector>
+
+namespace cocos2d
+{
+    class Camera;
+    class Renderer;
+} // namespace cocos2d
 
 NS_CC_BEGIN
 
@@ -52,12 +73,41 @@ static int _calcCharCount(const char* text)
     return n;
 }
 
-//////////////////////////////////////////////////////////////////////////
-// constructor and destructor
-//////////////////////////////////////////////////////////////////////////
+// TextFieldDelegate
+
+TextFieldDelegate::~TextFieldDelegate()
+{
+}
+
+bool TextFieldDelegate::onTextFieldAttachWithIME(TextFieldTTF*)
+{
+    return false;
+}
+
+bool TextFieldDelegate::onTextFieldDetachWithIME(TextFieldTTF*)
+{
+    return false;
+}
+
+bool TextFieldDelegate::onTextFieldInsertText(TextFieldTTF*, const char*, size_t)
+{
+    return false;
+}
+
+bool TextFieldDelegate::onTextFieldDeleteBackward(TextFieldTTF*, const char*, size_t)
+{
+    return false;
+}
+
+bool TextFieldDelegate::onVisit(TextFieldTTF*, Renderer*, const Mat4&, uint32_t)
+{
+    return false;
+}
+
+// TextFieldTTF
 
 TextFieldTTF::TextFieldTTF()
-: _delegate(0)
+: _delegate(nullptr)
 , _charCount(0)
 , _inputText("")
 , _placeHolder("") // prevent Label initWithString assertion
@@ -220,8 +270,8 @@ void TextFieldTTF::insertText(const char* text, size_t len)
     std::string insert(text, len);
 
     // insert \n means input end
-    int pos = static_cast<int>(insert.find((char)TextFormatter::NewLine));
-    if ((int)insert.npos != pos)
+    int pos = static_cast<int>(insert.find(static_cast<char>(TextFormatter::NewLine)));
+    if (static_cast<int>(insert.npos) != pos)
     {
         len = pos;
         insert.erase(pos);
@@ -328,14 +378,14 @@ void TextFieldTTF::deleteBackward()
     }
 }
 
-const std::string& TextFieldTTF::getContentText()
+const std::string& TextFieldTTF::getContentText() const
 {
     return _inputText;
 }
 
 void TextFieldTTF::setCursorPosition(std::size_t cursorPosition)
 {
-    if (_cursorEnabled && cursorPosition <= (std::size_t)_charCount)
+    if (_cursorEnabled && cursorPosition <= static_cast<std::size_t>(_charCount))
     {
         _cursorPosition = cursorPosition;
         _cursorShowingTime = CURSOR_TIME_SHOW_HIDE * 2.0f;
@@ -423,7 +473,7 @@ void TextFieldTTF::update(float delta)
             _cursorShowingTime = CURSOR_TIME_SHOW_HIDE;
         }
         // before cursor inserted '\b', need next letter
-        auto sprite = getLetter((int)_cursorPosition + 1);
+        auto sprite = getLetter(static_cast<int>(_cursorPosition) + 1);
 
         if (sprite)
         {
@@ -475,7 +525,7 @@ void TextFieldTTF::setString(const std::string& text)
 {
     std::string displayText;
 
-    int charCount = 0;
+    std::size_t charCount = 0;
     if (!text.empty())
     {
         _inputText = text;
@@ -484,7 +534,7 @@ void TextFieldTTF::setString(const std::string& text)
         if (_secureTextEntry)
         {
             displayText = "";
-            size_t length = charCount;
+            int length = static_cast<int>(charCount);
             while (length)
             {
                 displayText.append(_passwordStyleText);
@@ -536,7 +586,7 @@ void TextFieldTTF::makeStringSupportCursor(std::string& displayText)
         if (displayText.empty())
         {
             // \b - Next char not change x position
-            displayText.push_back((char)TextFormatter::NextCharNoChangeX);
+            displayText.push_back(static_cast<char>(TextFormatter::NextCharNoChangeX));
             displayText.push_back(_cursorChar);
         }
         else
@@ -551,7 +601,7 @@ void TextFieldTTF::makeStringSupportCursor(std::string& displayText)
             }
             std::string cursorChar;
             // \b - Next char not change x position
-            cursorChar.push_back((char)TextFormatter::NextCharNoChangeX);
+            cursorChar.push_back(static_cast<char>(TextFormatter::NextCharNoChangeX));
             cursorChar.push_back(_cursorChar);
             stringUTF8.insert(_cursorPosition, cursorChar);
 
@@ -592,7 +642,7 @@ void TextFieldTTF::controlKey(EventKeyboard::KeyCode keyCode)
                 break;
             case EventKeyboard::KeyCode::KEY_DELETE:
             case EventKeyboard::KeyCode::KEY_KP_DELETE:
-                if (_cursorPosition < (std::size_t)_charCount)
+                if (_cursorPosition < _charCount)
                 {
                     StringUtils::StringUTF8 stringUTF8;
 
@@ -611,7 +661,7 @@ void TextFieldTTF::controlKey(EventKeyboard::KeyCode keyCode)
                 }
                 break;
             case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-                if (_cursorPosition < (std::size_t)_charCount)
+                if (_cursorPosition < _charCount)
                 {
                     setCursorPosition(_cursorPosition + 1);
                     updateCursorDisplayText();

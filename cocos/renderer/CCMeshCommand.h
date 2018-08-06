@@ -22,24 +22,32 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _CC_MESHCOMMAND_H_
-#define _CC_MESHCOMMAND_H_
+#ifndef CC_RENDERER_MESHCOMMAND_H
+#define CC_RENDERER_MESHCOMMAND_H
 
-#include "math/CCMath.h"
-#include "platform/CCPlatformConfig.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCRenderCommand.h"
-#include "renderer/CCRenderState.h"
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCRenderCommand.h>
+#include <cocos/renderer/CCRenderState.h>
 
+#include <cstddef>
+#include <cstdint>
 #include <limits>
-#include <unordered_map>
 
 NS_CC_BEGIN
 
 class GLProgramState;
-class EventListenerCustom;
-class EventCustom;
 class Material;
+struct BlendFunc;
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+class EventCustom;
+class EventListenerCustom;
+#endif
 
 // it is a common mesh
 class CC_DLL MeshCommand final : public RenderCommand
@@ -52,11 +60,11 @@ public:
     MeshCommand& operator=(MeshCommand&&) noexcept = delete;
     ~MeshCommand() final;
 
-    void init(float globalZOrder, Material* material, GLuint vertexBuffer, GLuint indexBuffer, GLenum primitive, GLenum indexFormat, ssize_t indexCount,
+    void init(float globalZOrder, Material* material, GLuint vertexBuffer, GLuint indexBuffer, GLenum primitive, GLenum indexFormat, std::size_t indexCount,
               const Mat4& mv, uint32_t flags);
 
     void init(float globalZOrder, GLuint textureID, GLProgramState* glProgramState, RenderState::StateBlock* stateBlock, GLuint vertexBuffer,
-              GLuint indexBuffer, GLenum primitive, GLenum indexFormat, ssize_t indexCount, const Mat4& mv, uint32_t flags);
+              GLuint indexBuffer, GLenum primitive, GLenum indexFormat, std::size_t indexCount, const Mat4& mv, uint32_t flags);
 
     void setDisplayColor(const Vec4& color);
     void setMatrixPalette(const Vec4* matrixPalette);
@@ -124,4 +132,4 @@ private:
 
 NS_CC_END
 
-#endif //_CC_MESHCOMMAND_H_
+#endif // CC_RENDERER_MESHCOMMAND_H

@@ -25,8 +25,8 @@
 #ifndef __PHYSICS_3D_H__
 #define __PHYSICS_3D_H__
 
-#include "base/ccConfig.h"
-#include "math/CCMath.h"
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/CCMath.h>
 
 #if CC_USE_3D_PHYSICS
 

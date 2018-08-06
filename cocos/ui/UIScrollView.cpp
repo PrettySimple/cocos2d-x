@@ -22,13 +22,31 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIScrollView.h"
-#include "2d/CCCamera.h"
-#include "2d/CCTweenFunction.h"
-#include "base/CCDirector.h"
-#include "base/ccUtils.h"
-#include "platform/CCDevice.h"
-#include "ui/UIScrollViewBar.h"
+#include <cocos/ui/UIScrollView.h>
+
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCTweenFunction.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCTouch.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/base/ccUtils.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCDevice.h>
+#include <cocos/platform/CCGLView.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/UILayout.h>
+#include <cocos/ui/UIScrollViewBar.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <algorithm>
+#include <cmath>
+#include <new>
+
 NS_CC_BEGIN
 
 static const int NUMBER_OF_GATHERED_TOUCHES_FOR_MOVE_SPEED = 5;
@@ -257,7 +275,7 @@ namespace ui
 
     const Vector<Node*>& ScrollView::getChildren() const { return _innerContainer->getChildren(); }
 
-    ssize_t ScrollView::getChildrenCount() const { return _innerContainer->getChildrenCount(); }
+    std::size_t ScrollView::getChildrenCount() const { return _innerContainer->getChildrenCount(); }
 
     Node* ScrollView::getChildByTag(int tag) const { return _innerContainer->getChildByTag(tag); }
 

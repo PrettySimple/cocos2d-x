@@ -1,7 +1,7 @@
-#ifndef _CCB_CCBSELECTORRESOLVER_H_
-#define _CCB_CCBSELECTORRESOLVER_H_
+#ifndef CC_EDITORSUPPORT_COCOSBUILDER_SELECTORRESOLVER_H
+#define CC_EDITORSUPPORT_COCOSBUILDER_SELECTORRESOLVER_H
 
-#include "extensions/GUI/CCControlExtension/CCInvocation.h"
+#include <cocos/extensions/GUI/CCControlExtension/CCInvocation.h>
 
 namespace cocosbuilder
 {
@@ -49,4 +49,4 @@ namespace cocosbuilder
 
 } // namespace cocosbuilder
 
-#endif
+#endif // CC_EDITORSUPPORT_COCOSBUILDER_SELECTORRESOLVER_H

@@ -23,10 +23,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#ifndef CC_PLATFORM_IOS_DIRECTORCALLERIOS_H
+#define CC_PLATFORM_IOS_DIRECTORCALLERIOS_H
+
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    import <Foundation/Foundation.h>
+#    import <Foundation/NSObject.h>
 
 @interface CCDirectorCaller : NSObject {
     id displayLink;
@@ -43,3 +46,5 @@
 @end
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+
+#endif // CC_PLATFORM_IOS_DIRECTORCALLERIOS_H

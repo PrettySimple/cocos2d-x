@@ -22,12 +22,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCSPRIT3DMATERIAL_H__
-#define __CCSPRIT3DMATERIAL_H__
+#ifndef CC_3D_SPRITE3DMATERIAL_H
+#define CC_3D_SPRITE3DMATERIAL_H
 
-#include "3d/CCBundle3DData.h"
-#include "base/ccTypes.h"
-#include "renderer/CCMaterial.h"
+#include <cocos/3d/CCBundle3DData.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/renderer/CCMaterial.h>
+
 #include <string>
 #include <unordered_map>
 
@@ -169,4 +170,4 @@ protected:
 
 NS_CC_END
 
-#endif // __CCSPRIT3DMATERIAL_H__
+#endif // CC_3D_SPRITE3DMATERIAL_H

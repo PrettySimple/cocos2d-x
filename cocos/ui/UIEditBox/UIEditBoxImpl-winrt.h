@@ -22,12 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __UIEditBoxIMPLWINRT_H__
-#define __UIEditBoxIMPLWINRT_H__
+#ifndef CC_UI_EDITBOX_EDITBOXIMPLWINRT_H
+#define CC_UI_EDITBOX_EDITBOXIMPLWINRT_H
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8 || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-#    include "ui/UIEditBox/UIEditBoxImpl-common.h"
+#    include <cocos/ui/UIEditBox/UIEditBoxImpl-common.h>
 
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
@@ -150,4 +150,4 @@ NS_CC_END
 
 #endif // CC_PLATFORM_WINRT
 
-#endif // #ifdef __UIEditBoxIMPLWINRT_H__
+#endif // CC_UI_EDITBOX_EDITBOXIMPLWINRT_H

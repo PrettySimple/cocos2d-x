@@ -22,11 +22,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __UIIMAGEVIEW_H__
-#define __UIIMAGEVIEW_H__
+#ifndef CC_UI_IMAGEVIEW_H
+#define CC_UI_IMAGEVIEW_H
 
-#include "ui/GUIExport.h"
-#include "ui/UIWidget.h"
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <iosfwd>
 
 /**
  * @addtogroup ui
@@ -34,7 +40,11 @@ THE SOFTWARE.
  */
 NS_CC_BEGIN
 
-struct CC_DLL ResourceData;
+class GLProgram;
+class GLProgramState;
+struct Node;
+class SpriteFrame;
+struct ResourceData;
 
 namespace ui
 {
@@ -59,7 +69,7 @@ namespace ui
          * @js NA
          * @lua NA
          */
-        virtual ~ImageView();
+        ~ImageView() override;
 
         /**
          * Create a empty ImageView.
@@ -118,32 +128,32 @@ namespace ui
         const Rect& getCapInsets() const;
 
         // override methods.
-        virtual void ignoreContentAdaptWithSize(bool ignore) override;
-        virtual std::string getDescription() const override;
-        virtual Size getVirtualRendererSize() const override;
-        virtual Node* getVirtualRenderer() override;
+        void ignoreContentAdaptWithSize(bool ignore) override;
+        std::string getDescription() const override;
+        Size getVirtualRendererSize() const override;
+        Node* getVirtualRenderer() override;
 
         ResourceData getRenderFile();
 
-        virtual void setGLProgram(GLProgram* glProgram) override;
-        virtual void setGLProgramState(cocos2d::GLProgramState* glProgramState) override;
+        void setGLProgram(GLProgram* glProgram) override;
+        void setGLProgramState(cocos2d::GLProgramState* glProgramState) override;
         CC_CONSTRUCTOR_ACCESS :
             // initializes state of widget.
-            virtual bool
+            bool
             init() override;
         virtual bool init(const std::string& imageFileName, TextureResType texType = TextureResType::LOCAL);
 
     protected:
-        virtual void initRenderer() override;
-        virtual void onSizeChanged() override;
+        void initRenderer() override;
+        void onSizeChanged() override;
 
-        virtual void adaptRenderers() override;
+        void adaptRenderers() override;
         void loadTexture(SpriteFrame* spriteframe);
         void setupTexture();
 
         void imageTextureScaleChangedWithSize();
-        virtual Widget* createCloneInstance() override;
-        virtual void copySpecialProperties(Widget* model) override;
+        Widget* createCloneInstance() override;
+        void copySpecialProperties(Widget* model) override;
 
     protected:
         bool _scale9Enabled;
@@ -162,4 +172,4 @@ NS_CC_END
 // end of ui group
 /// @}
 
-#endif /* defined(__CocoGUI__ImageView__) */
+#endif // CC_UI_IMAGEVIEW_H

@@ -26,15 +26,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCTMXXMLParser.h"
+#include <cocos/2d/CCTMXXMLParser.h>
 
-#include "2d/CCTMXTiledMap.h"
-#include "base/CCDirector.h"
-#include "base/ZipUtils.h"
-#include "base/base64.h"
-#include "platform/CCFileUtils.h"
+#include <cocos/2d/CCTMXObjectGroup.h>
+#include <cocos/2d/CCTMXTiledMap.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ZipUtils.h>
+#include <cocos/base/base64.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/platform/CCSAXParser.h>
+
+#include <cstdlib>
+#include <cstring>
+#include <new>
 #include <sstream>
+#include <string>
 #include <unordered_map>
+#include <utility>
 
 using namespace std;
 
@@ -216,9 +230,8 @@ bool TMXMapInfo::parseXMLFile(const std::string& xmlFilename)
 }
 
 // the XML parser calls here with all the elements
-void TMXMapInfo::startElement(void* ctx, const char* name, const char** atts)
+void TMXMapInfo::startElement(void*, const char* name, const char** atts)
 {
-    CC_UNUSED_PARAM(ctx);
     TMXMapInfo* tmxMapInfo = this;
     std::string elementName = name;
     ValueMap attributeDict;
@@ -672,9 +685,8 @@ void TMXMapInfo::startElement(void* ctx, const char* name, const char** atts)
     }
 }
 
-void TMXMapInfo::endElement(void* ctx, const char* name)
+void TMXMapInfo::endElement(void*, const char* name)
 {
-    CC_UNUSED_PARAM(ctx);
     TMXMapInfo* tmxMapInfo = this;
     std::string elementName = name;
 
@@ -700,9 +712,9 @@ void TMXMapInfo::endElement(void* ctx, const char* name)
                 unsigned char* deflated = nullptr;
                 Size s = layer->_layerSize;
                 // int sizeHint = s.width * s.height * sizeof(uint32_t);
-                ssize_t sizeHint = s.width * s.height * sizeof(unsigned int);
+                std::size_t sizeHint = s.width * s.height * sizeof(unsigned int);
 
-                ssize_t CC_UNUSED inflatedLen = ZipUtils::inflateMemoryWithHint(buffer, len, &deflated, sizeHint);
+                std::size_t CC_UNUSED inflatedLen = ZipUtils::inflateMemoryWithHint(buffer, len, &deflated, sizeHint);
                 CCASSERT(inflatedLen == sizeHint, "inflatedLen should be equal to sizeHint!");
 
                 free(buffer);
@@ -796,9 +808,8 @@ void TMXMapInfo::endElement(void* ctx, const char* name)
     }
 }
 
-void TMXMapInfo::textHandler(void* ctx, const char* ch, size_t len)
+void TMXMapInfo::textHandler(void*, const char* ch, size_t len)
 {
-    CC_UNUSED_PARAM(ctx);
     TMXMapInfo* tmxMapInfo = this;
     std::string text(ch, 0, len);
 

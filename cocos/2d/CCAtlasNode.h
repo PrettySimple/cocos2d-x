@@ -25,13 +25,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCATLAS_NODE_H__
-#define __CCATLAS_NODE_H__
+#ifndef CC_2D_ATLASNODE_H
+#define CC_2D_ATLASNODE_H
 
-#include "2d/CCNode.h"
-#include "base/CCProtocols.h"
-#include "base/ccTypes.h"
-#include "renderer/CCQuadCommand.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCProtocols.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCQuadCommand.h>
+
+#include <cstddef>
+#include <cstdint>
+#include <iosfwd>
 
 NS_CC_BEGIN
 
@@ -40,6 +49,8 @@ NS_CC_BEGIN
  * @{
  */
 
+class Renderer;
+class Texture2D;
 class TextureAtlas;
 
 /** @brief AtlasNode is a subclass of Node that implements the RGBAProtocol and TextureProtocol protocol.
@@ -74,18 +85,18 @@ public:
      */
     TextureAtlas* getTextureAtlas() const;
 
-    void setQuadsToDraw(ssize_t quadsToDraw);
-    ssize_t getQuadsToDraw() const;
+    void setQuadsToDraw(std::size_t quadsToDraw);
+    std::size_t getQuadsToDraw() const;
 
     // Overrides
-    virtual void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
-    virtual Texture2D* getTexture() const override;
-    virtual void setTexture(Texture2D* texture) override;
-    virtual bool isOpacityModifyRGB() const override;
-    virtual void setOpacityModifyRGB(bool isOpacityModifyRGB) override;
-    virtual const Color3B& getColor(void) const override;
-    virtual void setColor(const Color3B& color) override;
-    virtual void setOpacity(GLubyte opacity) override;
+    void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
+    Texture2D* getTexture() const override;
+    void setTexture(Texture2D* texture) override;
+    bool isOpacityModifyRGB() const override;
+    void setOpacityModifyRGB(bool isOpacityModifyRGB) override;
+    const Color3B& getColor(void) const override;
+    void setColor(const Color3B& color) override;
+    void setOpacity(GLubyte opacity) override;
     /**
      * @code
      * When this function bound into js or lua,the parameter will be changed
@@ -93,14 +104,14 @@ public:
      * @endcode
      * @lua NA
      */
-    virtual void setBlendFunc(const BlendFunc& blendFunc) override;
+    void setBlendFunc(const BlendFunc& blendFunc) override;
     /**
      * @lua NA
      */
-    virtual const BlendFunc& getBlendFunc() const override;
+    const BlendFunc& getBlendFunc() const override;
 
     CC_CONSTRUCTOR_ACCESS : AtlasNode();
-    virtual ~AtlasNode();
+    ~AtlasNode() override;
 
     /** Initializes an AtlasNode  with an Atlas file the width and height of each item and the quantity of items to render*/
     bool initWithTileFile(const std::string& tile, int tileWidth, int tileHeight, int itemsToRender);
@@ -134,7 +145,7 @@ protected:
     BlendFunc _blendFunc;
 
     /** Quads to draw. */
-    ssize_t _quadsToDraw;
+    std::size_t _quadsToDraw;
     /** Color uniform. */
     GLint _uniformColor;
     /** This variable is only used for LabelAtlas FPS display. So plz don't modify its value. */
@@ -143,7 +154,7 @@ protected:
     QuadCommand _quadCommand;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(AtlasNode);
+    CC_DISALLOW_COPY_AND_ASSIGN(AtlasNode)
 };
 
 // end of base_node group
@@ -151,4 +162,4 @@ private:
 
 NS_CC_END
 
-#endif // __CCATLAS_NODE_H__
+#endif // CC_2D_ATLASNODE_H

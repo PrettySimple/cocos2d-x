@@ -20,7 +20,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "3d/CCRay.h"
+#include <cocos/3d/CCRay.h>
+
+#include <cocos/3d/CCAABB.h>
+#include <cocos/3d/CCOBB.h>
+#include <cocos/3d/CCPlane.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
@@ -216,8 +223,8 @@ void Ray::set(const Vec3& origin, const Vec3& direction)
 
 void Ray::transform(const Mat4& matrix)
 {
-    matrix.transformPoint(&_origin);
-    matrix.transformVector(&_direction);
+    matrix.transformPoint(_origin);
+    matrix.transformVector(_direction);
     _direction.normalize();
 }
 

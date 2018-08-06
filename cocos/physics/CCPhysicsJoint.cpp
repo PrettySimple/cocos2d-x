@@ -22,14 +22,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "physics/CCPhysicsJoint.h"
+#include <cocos/physics/CCPhysicsJoint.h>
 #if CC_USE_PHYSICS
 #    include "chipmunk/chipmunk.h"
 
-#    include "2d/CCNode.h"
-#    include "physics/CCPhysicsBody.h"
 #    include "physics/CCPhysicsHelper.h"
-#    include "physics/CCPhysicsWorld.h"
+#    include <cocos/2d/CCNode.h>
+#    include <cocos/physics/CCPhysicsBody.h>
+#    include <cocos/physics/CCPhysicsWorld.h>
 
 NS_CC_BEGIN
 

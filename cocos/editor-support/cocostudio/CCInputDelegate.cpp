@@ -23,12 +23,12 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "cocostudio/CCInputDelegate.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerAcceleration.h"
-#include "base/CCEventListenerKeyboard.h"
-#include "base/CCEventListenerTouch.h"
-#include "platform/CCDevice.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventListenerAcceleration.h>
+#include <cocos/base/CCEventListenerKeyboard.h>
+#include <cocos/base/CCEventListenerTouch.h>
+#include <cocos/platform/CCDevice.h>
 
 using namespace cocos2d;
 
@@ -55,54 +55,21 @@ namespace cocostudio
         Device::setAccelerometerEnabled(false);
     }
 
-    bool InputDelegate::onTouchBegan(Touch* pTouch, Event* pEvent)
-    {
-        CC_UNUSED_PARAM(pTouch);
-        CC_UNUSED_PARAM(pEvent);
-        return true;
-    }
+    bool InputDelegate::onTouchBegan(Touch*, Event*) { return true; }
 
-    void InputDelegate::onTouchMoved(Touch* pTouch, Event* pEvent)
-    {
-        CC_UNUSED_PARAM(pTouch);
-        CC_UNUSED_PARAM(pEvent);
-    }
+    void InputDelegate::onTouchMoved(Touch*, Event*) {}
 
-    void InputDelegate::onTouchEnded(Touch* pTouch, Event* pEvent)
-    {
-        CC_UNUSED_PARAM(pTouch);
-        CC_UNUSED_PARAM(pEvent);
-    }
+    void InputDelegate::onTouchEnded(Touch*, Event*) {}
 
-    void InputDelegate::onTouchCancelled(Touch* pTouch, Event* pEvent)
-    {
-        CC_UNUSED_PARAM(pTouch);
-        CC_UNUSED_PARAM(pEvent);
-    }
+    void InputDelegate::onTouchCancelled(Touch*, Event*) {}
 
-    void InputDelegate::onTouchesBegan(const std::vector<Touch*>& pTouches, Event* pEvent)
-    {
-        CC_UNUSED_PARAM(pTouches);
-        CC_UNUSED_PARAM(pEvent);
-    }
+    void InputDelegate::onTouchesBegan(const std::vector<Touch*>&, Event*) {}
 
-    void InputDelegate::onTouchesMoved(const std::vector<Touch*>& pTouches, Event* pEvent)
-    {
-        CC_UNUSED_PARAM(pTouches);
-        CC_UNUSED_PARAM(pEvent);
-    }
+    void InputDelegate::onTouchesMoved(const std::vector<Touch*>&, Event*) {}
 
-    void InputDelegate::onTouchesEnded(const std::vector<Touch*>& pTouches, Event* pEvent)
-    {
-        CC_UNUSED_PARAM(pTouches);
-        CC_UNUSED_PARAM(pEvent);
-    }
+    void InputDelegate::onTouchesEnded(const std::vector<Touch*>&, Event*) {}
 
-    void InputDelegate::onTouchesCancelled(const std::vector<Touch*>& pTouches, Event* pEvent)
-    {
-        CC_UNUSED_PARAM(pTouches);
-        CC_UNUSED_PARAM(pEvent);
-    }
+    void InputDelegate::onTouchesCancelled(const std::vector<Touch*>&, Event*) {}
 
     bool InputDelegate::isTouchEnabled() const { return _touchEnabled; }
 
@@ -119,10 +86,10 @@ namespace cocostudio
                     // Register Touch Event
                     auto listener = EventListenerTouchAllAtOnce::create();
 
-                    listener->onTouchesBegan = CC_CALLBACK_2(InputDelegate::onTouchesBegan, this);
-                    listener->onTouchesMoved = CC_CALLBACK_2(InputDelegate::onTouchesMoved, this);
-                    listener->onTouchesEnded = CC_CALLBACK_2(InputDelegate::onTouchesEnded, this);
-                    listener->onTouchesCancelled = CC_CALLBACK_2(InputDelegate::onTouchesCancelled, this);
+                    listener->onTouchesBegan = [this](std::vector<Touch*> const& touches, Event* evt) { onTouchesBegan(touches, evt); };
+                    listener->onTouchesMoved = [this](std::vector<Touch*> const& touches, Event* evt) { onTouchesMoved(touches, evt); };
+                    listener->onTouchesEnded = [this](std::vector<Touch*> const& touches, Event* evt) { onTouchesEnded(touches, evt); };
+                    listener->onTouchesCancelled = [this](std::vector<Touch*> const& touches, Event* evt) { onTouchesCancelled(touches, evt); };
 
                     dispatcher->addEventListenerWithFixedPriority(listener, _touchPriority);
                     _touchListener = listener;
@@ -133,10 +100,10 @@ namespace cocostudio
                     auto listener = EventListenerTouchOneByOne::create();
                     listener->setSwallowTouches(true);
 
-                    listener->onTouchBegan = CC_CALLBACK_2(InputDelegate::onTouchBegan, this);
-                    listener->onTouchMoved = CC_CALLBACK_2(InputDelegate::onTouchMoved, this);
-                    listener->onTouchEnded = CC_CALLBACK_2(InputDelegate::onTouchEnded, this);
-                    listener->onTouchCancelled = CC_CALLBACK_2(InputDelegate::onTouchCancelled, this);
+                    listener->onTouchBegan = [this](Touch* touch, Event* evt) -> bool { return onTouchBegan(touch, evt); };
+                    listener->onTouchMoved = [this](Touch* touch, Event* evt) { onTouchMoved(touch, evt); };
+                    listener->onTouchEnded = [this](Touch* touch, Event* evt) { onTouchEnded(touch, evt); };
+                    listener->onTouchCancelled = [this](Touch* touch, Event* evt) { onTouchCancelled(touch, evt); };
 
                     dispatcher->addEventListenerWithFixedPriority(listener, _touchPriority);
                     _touchListener = listener;
@@ -197,7 +164,7 @@ namespace cocostudio
 
             if (enabled)
             {
-                auto listener = EventListenerAcceleration::create(CC_CALLBACK_2(InputDelegate::onAcceleration, this));
+                auto listener = EventListenerAcceleration::create([this](Acceleration* acc, Event* evt) { onAcceleration(acc, evt); });
                 dispatcher->addEventListenerWithFixedPriority(listener, -1);
                 _accelerometerListener = listener;
             }
@@ -218,8 +185,8 @@ namespace cocostudio
             if (enabled)
             {
                 auto listener = EventListenerKeyboard::create();
-                listener->onKeyPressed = CC_CALLBACK_2(InputDelegate::onKeyPressed, this);
-                listener->onKeyReleased = CC_CALLBACK_2(InputDelegate::onKeyReleased, this);
+                listener->onKeyPressed = [this](EventKeyboard::KeyCode code, Event* evt) { onKeyPressed(code, evt); };
+                listener->onKeyReleased = [this](EventKeyboard::KeyCode code, Event* evt) { onKeyReleased(code, evt); };
 
                 dispatcher->addEventListenerWithFixedPriority(listener, -1);
                 _keyboardListener = listener;

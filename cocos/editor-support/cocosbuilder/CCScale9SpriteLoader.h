@@ -1,9 +1,9 @@
-#ifndef _CCB_CCSCALE9SPRITELOADER_H_
-#define _CCB_CCSCALE9SPRITELOADER_H_
+#ifndef CC_EDITORSUPPORT_COCOSBUILDER_SCALE9SPRITELOADER_H
+#define CC_EDITORSUPPORT_COCOSBUILDER_SCALE9SPRITELOADER_H
 
 #include "CCNodeLoader.h"
 #include "CCScale9SpriteLoader.h"
-#include "ui/UIScale9Sprite.h"
+#include <cocos/ui/UIScale9Sprite.h>
 
 namespace cocosbuilder
 {
@@ -74,4 +74,4 @@ namespace cocosbuilder
 
 } // namespace cocosbuilder
 
-#endif
+#endif // CC_EDITORSUPPORT_COCOSBUILDER_SCALE9SPRITELOADER_H

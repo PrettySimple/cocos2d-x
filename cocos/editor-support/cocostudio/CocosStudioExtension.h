@@ -1,8 +1,10 @@
 
-#ifndef __COCOSSTUDIOEXTENSION_H__
-#define __COCOSSTUDIOEXTENSION_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_COCOSSTUDIOEXTENSION_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_COCOSSTUDIOEXTENSION_H
 
-#include "math/CCAffineTransform.h"
+#include <cocos/math/CCAffineTransform.h>
+
+#include <iosfwd>
 
 NS_CC_BEGIN
 
@@ -38,4 +40,4 @@ private:
 
 NS_CC_END
 
-#endif
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_COCOSSTUDIOEXTENSION_H

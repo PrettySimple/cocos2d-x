@@ -23,10 +23,14 @@
 
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCKeyboardEvent__
-#define __cocos2d_libs__CCKeyboardEvent__
+#ifndef CC_BASE_EVENTKEYBOARD_H
+#define CC_BASE_EVENTKEYBOARD_H
 
-#include "base/CCEvent.h"
+#include <cocos/base/CCEvent.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <cstdint>
 
 /**
  * @addtogroup base
@@ -38,14 +42,14 @@ NS_CC_BEGIN
 /** @class EventKeyboard
  * @brief Keyboard event.
  */
-class CC_DLL EventKeyboard : public Event
+class CC_DLL EventKeyboard final : public Event
 {
 public:
     /**
      * KeyCode The key (code).
      * @js NA
      */
-    enum class KeyCode
+    enum class KeyCode : std::uint16_t
     {
         KEY_NONE,
         KEY_PAUSE,
@@ -227,6 +231,13 @@ public:
      */
     EventKeyboard(KeyCode keyCode, bool isPressed);
 
+    EventKeyboard() = default;
+    EventKeyboard(EventKeyboard const&) = default;
+    EventKeyboard& operator=(EventKeyboard const&) = default;
+    EventKeyboard(EventKeyboard&&) noexcept = default;
+    EventKeyboard& operator=(EventKeyboard&&) noexcept = default;
+    ~EventKeyboard() final;
+
 private:
     KeyCode _keyCode;
     bool _isPressed;
@@ -239,4 +250,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif /* defined(__cocos2d_libs__CCKeyboardEvent__) */
+#endif // CC_BASE_EVENTKEYBOARD_H

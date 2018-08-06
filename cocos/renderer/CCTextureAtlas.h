@@ -25,20 +25,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCTEXTURE_ATLAS_H__
-#define __CCTEXTURE_ATLAS_H__
+#ifndef CC_RENDERER_TEXTUREATLAS_H
+#define CC_RENDERER_TEXTUREATLAS_H
 
-#include <string>
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
-#include "base/CCRef.h"
-#include "base/ccConfig.h"
-#include "base/ccTypes.h"
+#include <cstddef>
+#include <iosfwd>
 
 NS_CC_BEGIN
 
 class Texture2D;
 class EventCustom;
+struct V3F_C4B_T2F_Quad;
+
+#if CC_ENABLE_CACHE_TEXTURE_DATA
 class EventListenerCustom;
+#endif
 
 /**
  * @addtogroup _2d
@@ -69,7 +75,7 @@ public:
      @param file A null terminated string contains the file path.
      @param capacity Capacity for Quads.
     */
-    static TextureAtlas* create(const std::string& file, ssize_t capacity);
+    static TextureAtlas* create(const std::string& file, std::size_t capacity);
 
     /** Creates a TextureAtlas with a previously initialized Texture2D object, and
      * with an initial capacity for n Quads.
@@ -78,7 +84,7 @@ public:
      @param texture A texture2D object pointer.
      @param capacity Capacity for Quads.
      */
-    static TextureAtlas* createWithTexture(Texture2D* texture, ssize_t capacity);
+    static TextureAtlas* createWithTexture(Texture2D* texture, std::size_t capacity);
     /**
      * @js ctor
      */
@@ -96,7 +102,7 @@ public:
      @param file A null terminated string contains the file path.
      @param capacity Capacity for Quads.
     */
-    bool initWithFile(const std::string& file, ssize_t capacity);
+    bool initWithFile(const std::string& file, std::size_t capacity);
 
     /** Initializes a TextureAtlas with a previously initialized Texture2D object, and
     * with an initial capacity for Quads.
@@ -105,21 +111,21 @@ public:
      @param texture A texture2D object pointer.
      @param capacity Capacity for Quads.
     */
-    bool initWithTexture(Texture2D* texture, ssize_t capacity);
+    bool initWithTexture(Texture2D* texture, std::size_t capacity);
 
     /** Updates a Quad (texture, vertex and color) at a certain index.
     @param quad Quad that are going to be rendered.
     @param index Index must be between 0 and the atlas capacity - 1.
     @since v0.8
     */
-    void updateQuad(V3F_C4B_T2F_Quad* quad, ssize_t index);
+    void updateQuad(V3F_C4B_T2F_Quad* quad, std::size_t index);
 
     /** Inserts a Quad (texture, vertex and color) at a certain index.
      @param quad Quad that are going to be rendered.
      @param index Index must be between 0 and the atlas capacity - 1.
      @since v0.8
     */
-    void insertQuad(V3F_C4B_T2F_Quad* quad, ssize_t index);
+    void insertQuad(V3F_C4B_T2F_Quad* quad, std::size_t index);
 
     /** Inserts a c array of quads at a given index.
      @param quads Quad that are going to be rendered.
@@ -128,24 +134,24 @@ public:
      @attention This method doesn't enlarge the array when amount + index > totalQuads.
      @since v1.1
     */
-    void insertQuads(V3F_C4B_T2F_Quad* quads, ssize_t index, ssize_t amount);
+    void insertQuads(V3F_C4B_T2F_Quad* quads, std::size_t index, std::size_t amount);
 
     /** Removes the quad that is located at a certain index and inserts it at a new index.
     This operation is faster than removing and inserting in a quad in 2 different steps.
      @since v0.7.2
     */
-    void insertQuadFromIndex(ssize_t fromIndex, ssize_t newIndex);
+    void insertQuadFromIndex(std::size_t fromIndex, std::size_t newIndex);
 
     /** Removes a quad at a given index number.
     The capacity remains the same, but the total number of quads to be drawn is reduced in 1.
     @since v0.7.2
     */
-    void removeQuadAtIndex(ssize_t index);
+    void removeQuadAtIndex(std::size_t index);
 
     /** Removes a amount of quads starting from index.
         @since 1.1
      */
-    void removeQuadsAtIndex(ssize_t index, ssize_t amount);
+    void removeQuadsAtIndex(std::size_t index, std::size_t amount);
     /** Removes all Quads.
     The TextureAtlas capacity remains untouched. No memory is freed.
     The total number of quads to be drawn will be 0.
@@ -160,19 +166,19 @@ public:
 
      @param capacity Capacity for Quads.
     */
-    bool resizeCapacity(ssize_t capacity);
+    bool resizeCapacity(std::size_t capacity);
 
     /**
      Used internally by ParticleBatchNode.
      don't use this unless you know what you're doing.
      @since 1.1
     */
-    void increaseTotalQuadsWith(ssize_t amount);
+    void increaseTotalQuadsWith(std::size_t amount);
 
     /** Moves an amount of quads from oldIndex at newIndex.
      @since v1.1
      */
-    void moveQuadsFromIndex(ssize_t oldIndex, ssize_t amount, ssize_t newIndex);
+    void moveQuadsFromIndex(std::size_t oldIndex, std::size_t amount, std::size_t newIndex);
 
     /**
      Moves quads from index till totalQuads to the newIndex.
@@ -180,26 +186,26 @@ public:
      This method doesn't enlarge the array if newIndex + quads to be moved > capacity.
      @since 1.1
     */
-    void moveQuadsFromIndex(ssize_t index, ssize_t newIndex);
+    void moveQuadsFromIndex(std::size_t index, std::size_t newIndex);
 
     /**
      Ensures that after a realloc quads are still empty.
      Used internally by ParticleBatchNode.
      @since 1.1
     */
-    void fillWithEmptyQuadsFromIndex(ssize_t index, ssize_t amount);
+    void fillWithEmptyQuadsFromIndex(std::size_t index, std::size_t amount);
 
     /** Draws n quads.
      * N can't be greater than the capacity of the Atlas.
      */
-    void drawNumberOfQuads(ssize_t n);
+    void drawNumberOfQuads(std::size_t n);
 
     /** Draws n quads from an index (offset).
     N + start can't be greater than the capacity of the atlas.
 
     @since v1.0
     */
-    void drawNumberOfQuads(ssize_t numberOfQuads, ssize_t start);
+    void drawNumberOfQuads(std::size_t numberOfQuads, std::size_t start);
 
     /** Draws all the Atlas's Quads.
      */
@@ -220,10 +226,10 @@ public:
     virtual std::string getDescription() const;
 
     /** Gets the quantity of quads that are going to be drawn. */
-    ssize_t getTotalQuads() const;
+    std::size_t getTotalQuads() const;
 
     /** Gets the quantity of quads that can be stored with the current texture atlas size. */
-    ssize_t getCapacity() const;
+    std::size_t getCapacity() const;
 
     /** Gets the texture of the texture atlas. */
     Texture2D* getTexture() const;
@@ -251,9 +257,9 @@ protected:
     GLuint _buffersVBO[2]; // 0: vertex  1: indices
     bool _dirty; // indicates whether or not the array buffer of the VBO needs to be updated
     /** quantity of quads that are going to be drawn */
-    ssize_t _totalQuads;
+    std::size_t _totalQuads;
     /** quantity of quads that can be stored with the current texture atlas size */
-    ssize_t _capacity;
+    std::size_t _capacity;
     /** Texture of the texture atlas */
     Texture2D* _texture;
     /** Quads that are going to be rendered */
@@ -269,4 +275,4 @@ protected:
 
 NS_CC_END
 
-#endif //__CCTEXTURE_ATLAS_H__
+#endif // CC_RENDERER_TEXTUREATLAS_H

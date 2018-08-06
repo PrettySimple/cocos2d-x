@@ -22,19 +22,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __UIABSTRACTCHECKBUTTON_H__
-#define __UIABSTRACTCHECKBUTTON_H__
+#ifndef CC_UI_ABSTRACTCHECKBUTTON_H
+#define CC_UI_ABSTRACTCHECKBUTTON_H
 
-#include "ui/GUIExport.h"
-#include "ui/UIWidget.h"
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <iosfwd>
 
 /**
  * @addtogroup ui
  * @{
  */
 NS_CC_BEGIN
+class Node;
 class Sprite;
-struct CC_DLL ResourceData;
+class SpriteFrame;
+struct ResourceData;
 
 namespace ui
 {
@@ -112,8 +119,8 @@ namespace ui
         void setSelected(bool selected);
 
         // override functions
-        virtual Size getVirtualRendererSize() const override;
-        virtual Node* getVirtualRenderer() override;
+        Size getVirtualRendererSize() const override;
+        Node* getVirtualRenderer() override;
 
         /** When user pressed the CheckBox, the button will zoom to a scale.
          * The final scale of the CheckBox  equals (CheckBox original scale + _zoomScale)
@@ -163,7 +170,7 @@ namespace ui
         ResourceData getCrossNormalFile();
         ResourceData getCrossDisabledFile();
 
-        CC_CONSTRUCTOR_ACCESS : virtual bool init() override;
+        CC_CONSTRUCTOR_ACCESS : bool init() override;
         virtual bool init(const std::string& backGround, const std::string& backGroundSeleted, const std::string& cross, const std::string& backGroundDisabled,
                           const std::string& frontCrossDisabled, TextureResType texType = TextureResType::LOCAL);
 
@@ -178,12 +185,12 @@ namespace ui
          *
          * @lua NA
          */
-        virtual ~AbstractCheckButton();
+        ~AbstractCheckButton() override;
 
-        virtual void initRenderer() override;
-        virtual void onPressStateChangedToNormal() override;
-        virtual void onPressStateChangedToPressed() override;
-        virtual void onPressStateChangedToDisabled() override;
+        void initRenderer() override;
+        void onPressStateChangedToNormal() override;
+        void onPressStateChangedToPressed() override;
+        void onPressStateChangedToDisabled() override;
 
         void setupBackgroundTexture();
         void loadTextureBackGround(SpriteFrame* spriteFrame);
@@ -198,7 +205,7 @@ namespace ui
 
         virtual void dispatchSelectChangedEvent(bool selected) = 0;
 
-        virtual void onSizeChanged() override;
+        void onSizeChanged() override;
 
         void backGroundTextureScaleChangedWithSize();
         void backGroundSelectedTextureScaleChangedWithSize();
@@ -206,8 +213,8 @@ namespace ui
         void backGroundDisabledTextureScaleChangedWithSize();
         void frontCrossDisabledTextureScaleChangedWithSize();
 
-        virtual void copySpecialProperties(Widget* model) override;
-        virtual void adaptRenderers() override;
+        void copySpecialProperties(Widget* model) override;
+        void adaptRenderers() override;
 
     protected:
         Sprite* _backGroundBoxRenderer;
@@ -249,4 +256,4 @@ NS_CC_END
 // end of ui group
 /// @}
 
-#endif /* defined(__UIABSTRACTCHECKBUTTON_H__) */
+#endif // CC_UI_ABSTRACTCHECKBUTTON_H

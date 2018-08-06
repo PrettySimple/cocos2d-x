@@ -22,13 +22,25 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCEventAcceleration.h"
+#include <cocos/base/CCEventAcceleration.h>
+
+#include <cocos/base/CCEvent.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+namespace cocos2d
+{
+    struct Acceleration;
+}
 
 NS_CC_BEGIN
 
 EventAcceleration::EventAcceleration(const Acceleration& acc)
 : Event(Type::ACCELERATION)
 , _acc(acc)
+{
+}
+
+EventAcceleration::~EventAcceleration()
 {
 }
 

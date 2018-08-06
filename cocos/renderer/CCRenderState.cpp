@@ -24,13 +24,17 @@
 
  ****************************************************************************/
 
-#include "renderer/CCRenderState.h"
+#include <cocos/renderer/CCRenderState.h>
 
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/ccGLStateCache.h>
+
+#include <algorithm>
+#include <new>
 #include <string>
-
-#include "renderer/CCPass.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/ccGLStateCache.h"
 
 NS_CC_BEGIN
 
@@ -252,7 +256,7 @@ void RenderState::StateBlock::bindNoRestore()
     }
     if (_blendEnabled && (_bits & RS_BLEND_FUNC) && (_blendSrc != _defaultState->_blendSrc || _blendDst != _defaultState->_blendDst))
     {
-        GL::blendFunc((GLenum)_blendSrc, (GLenum)_blendDst);
+        GL::blendFunc(static_cast<GLenum>(_blendSrc), static_cast<GLenum>(_blendDst));
         _defaultState->_blendSrc = _blendSrc;
         _defaultState->_blendDst = _blendDst;
     }
@@ -266,12 +270,12 @@ void RenderState::StateBlock::bindNoRestore()
     }
     if ((_bits & RS_CULL_FACE_SIDE) && (_cullFaceSide != _defaultState->_cullFaceSide))
     {
-        glCullFace((GLenum)_cullFaceSide);
+        glCullFace(static_cast<GLenum>(_cullFaceSide));
         _defaultState->_cullFaceSide = _cullFaceSide;
     }
     if ((_bits & RS_FRONT_FACE) && (_frontFace != _defaultState->_frontFace))
     {
-        glFrontFace((GLenum)_frontFace);
+        glFrontFace(static_cast<GLenum>(_frontFace));
         _defaultState->_frontFace = _frontFace;
     }
     if ((_bits & RS_DEPTH_TEST) && (_depthTestEnabled != _defaultState->_depthTestEnabled))
@@ -289,7 +293,7 @@ void RenderState::StateBlock::bindNoRestore()
     }
     if ((_bits & RS_DEPTH_FUNC) && (_depthFunction != _defaultState->_depthFunction))
     {
-        glDepthFunc((GLenum)_depthFunction);
+        glDepthFunc(static_cast<GLenum>(_depthFunction));
         _defaultState->_depthFunction = _depthFunction;
     }
     //    if ((_bits & RS_STENCIL_TEST) && (_stencilTestEnabled != _defaultState->_stencilTestEnabled))
@@ -360,13 +364,13 @@ void RenderState::StateBlock::restore(long stateOverrideBits)
     }
     if (!(stateOverrideBits & RS_CULL_FACE_SIDE) && (_defaultState->_bits & RS_CULL_FACE_SIDE))
     {
-        glCullFace((GLenum)GL_BACK);
+        glCullFace(static_cast<GLenum>(GL_BACK));
         _defaultState->_bits &= ~RS_CULL_FACE_SIDE;
         _defaultState->_cullFaceSide = RenderState::CULL_FACE_SIDE_BACK;
     }
     if (!(stateOverrideBits & RS_FRONT_FACE) && (_defaultState->_bits & RS_FRONT_FACE))
     {
-        glFrontFace((GLenum)GL_CCW);
+        glFrontFace(static_cast<GLenum>(GL_CCW));
         _defaultState->_bits &= ~RS_FRONT_FACE;
         _defaultState->_frontFace = RenderState::FRONT_FACE_CCW;
     }
@@ -384,7 +388,7 @@ void RenderState::StateBlock::restore(long stateOverrideBits)
     }
     if (!(stateOverrideBits & RS_DEPTH_FUNC) && (_defaultState->_bits & RS_DEPTH_FUNC))
     {
-        glDepthFunc((GLenum)GL_LESS);
+        glDepthFunc(static_cast<GLenum>(GL_LESS));
         _defaultState->_bits &= ~RS_DEPTH_FUNC;
         _defaultState->_depthFunction = RenderState::DEPTH_LESS;
     }
@@ -476,7 +480,7 @@ static unsigned int parseUInt(const std::string& value)
 {
     // Android NDK 10 doesn't support std::stoi a/ std::stoul
 #if CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID
-    return (unsigned int)std::stoul(value);
+    return static_cast<unsigned int>(std::stoul(value));
 #else
     return (unsigned int)atoi(value.c_str());
 #endif

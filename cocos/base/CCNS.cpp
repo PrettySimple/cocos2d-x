@@ -22,13 +22,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "base/CCNS.h"
-#include <stdlib.h>
-#include <string.h>
+#include <cocos/base/CCNS.h>
+
+#include <cocos/base/ccUtils.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <cstdlib>
 #include <string>
 #include <vector>
-
-#include "base/ccUtils.h"
 
 using namespace std;
 
@@ -139,10 +142,10 @@ Rect RectFromString(const std::string& str)
         strArray sizeInfo;
         CC_BREAK_IF(!splitWithForm(sizeStr, sizeInfo));
 
-        float x = (float)utils::atof(pointInfo[0].c_str());
-        float y = (float)utils::atof(pointInfo[1].c_str());
-        float width = (float)utils::atof(sizeInfo[0].c_str());
-        float height = (float)utils::atof(sizeInfo[1].c_str());
+        float x = static_cast<float>(utils::atof(pointInfo[0].c_str()));
+        float y = static_cast<float>(utils::atof(pointInfo[1].c_str()));
+        float width = static_cast<float>(utils::atof(sizeInfo[0].c_str()));
+        float height = static_cast<float>(utils::atof(sizeInfo[1].c_str()));
 
         result = Rect(x, y, width, height);
     } while (0);
@@ -159,8 +162,8 @@ Vec2 PointFromString(const std::string& str)
         strArray strs;
         CC_BREAK_IF(!splitWithForm(str, strs));
 
-        float x = (float)utils::atof(strs[0].c_str());
-        float y = (float)utils::atof(strs[1].c_str());
+        float x = static_cast<float>(utils::atof(strs[0].c_str()));
+        float y = static_cast<float>(utils::atof(strs[1].c_str()));
 
         ret.set(x, y);
     } while (0);
@@ -177,8 +180,8 @@ Size SizeFromString(const std::string& pszContent)
         strArray strs;
         CC_BREAK_IF(!splitWithForm(pszContent, strs));
 
-        float width = (float)utils::atof(strs[0].c_str());
-        float height = (float)utils::atof(strs[1].c_str());
+        float width = static_cast<float>(utils::atof(strs[0].c_str()));
+        float height = static_cast<float>(utils::atof(strs[1].c_str()));
 
         ret = Size(width, height);
     } while (0);

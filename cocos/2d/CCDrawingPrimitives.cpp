@@ -36,17 +36,25 @@ THE SOFTWARE.
  *
  */
 
-#include "2d/CCDrawingPrimitives.h"
+#include <cocos/2d/CCDrawingPrimitives.h>
 
-#include "2d/CCActionCatmullRom.h"
-#include "base/CCDirector.h"
-#include "platform/CCGL.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/2d/CCActionCatmullRom.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #include <cmath>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
+#include <new>
 
 NS_CC_BEGIN
 
@@ -470,7 +478,7 @@ namespace DrawPrimitives
 
         Vec2* vertices = new (std::nothrow) Vec2[segments + 1];
 
-        ssize_t p;
+        std::size_t p;
         float lt;
         float deltaT = 1.0f / config->count();
 

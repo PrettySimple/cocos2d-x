@@ -25,15 +25,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __BASE_CCTYPES_H__
-#define __BASE_CCTYPES_H__
+#ifndef CC_BASE_TYPES_H
+#define CC_BASE_TYPES_H
 
-#include <string>
+#include <cocos/base/CCRef.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
-#include "base/CCRef.h"
-#include "math/CCGeometry.h"
-#include "math/CCMath.h"
-#include "platform/CCGL.h"
+#include <cstddef>
+#include <iosfwd>
 
 /**
  * @addtogroup base
@@ -49,9 +54,19 @@ struct Color4F;
  * RGB color composed of bytes 3 bytes.
  * @since v3.0
  */
-struct CC_DLL Color3B
+struct CC_DLL Color3B final
 {
-    Color3B();
+    GLubyte r;
+    GLubyte g;
+    GLubyte b;
+
+    Color3B() = default;
+    Color3B(Color3B const&) = default;
+    Color3B& operator=(Color3B const&) = default;
+    Color3B(Color3B&&) noexcept = default;
+    Color3B& operator=(Color3B&&) noexcept = default;
+    ~Color3B() = default;
+
     constexpr Color3B(GLubyte _r, GLubyte _g, GLubyte _b)
     : r(_r)
     , g(_g)
@@ -70,10 +85,6 @@ struct CC_DLL Color3B
 
     bool equals(const Color3B& other) const { return (*this == other); }
 
-    GLubyte r;
-    GLubyte g;
-    GLubyte b;
-
     static const Color3B WHITE;
     static const Color3B YELLOW;
     static const Color3B BLUE;
@@ -89,10 +100,28 @@ struct CC_DLL Color3B
  * RGBA color composed of 4 bytes.
  * @since v3.0
  */
-struct CC_DLL Color4B
+struct CC_DLL Color4B final
 {
-    Color4B();
-    Color4B(GLubyte _r, GLubyte _g, GLubyte _b, GLubyte _a);
+public:
+    GLubyte r;
+    GLubyte g;
+    GLubyte b;
+    GLubyte a;
+
+    Color4B() = default;
+    Color4B(Color4B const&) = default;
+    Color4B& operator=(Color4B const&) = default;
+    Color4B(Color4B&&) noexcept = default;
+    Color4B& operator=(Color4B&&) noexcept = default;
+    ~Color4B() = default;
+
+    constexpr Color4B(GLubyte _r, GLubyte _g, GLubyte _b, GLubyte _a)
+    : r(_r)
+    , g(_g)
+    , b(_b)
+    , a(_a)
+    {
+    }
     explicit Color4B(const Color3B& color, GLubyte _a = 255);
     explicit Color4B(const Color4F& color);
 
@@ -111,11 +140,6 @@ struct CC_DLL Color4B
     bool operator!=(const Color3B& right) const;
     bool operator!=(const Color4F& right) const;
 
-    GLubyte r;
-    GLubyte g;
-    GLubyte b;
-    GLubyte a;
-
     static const Color4B WHITE;
     static const Color4B YELLOW;
     static const Color4B BLUE;
@@ -131,26 +155,65 @@ struct CC_DLL Color4B
  * RGBA color composed of 4 floats.
  * @since v3.0
  */
-struct CC_DLL Color4F
+struct CC_DLL Color4F final
 {
-    Color4F();
-    Color4F(float _r, float _g, float _b, float _a);
-    explicit Color4F(const Color3B& color, float _a = 1.0f);
+#ifdef __ARM_NEON
+    using f32x4_t = __attribute__((neon_vector_type(4))) GLfloat;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    using f32x4_t = GLfloat[4];
+#else
+    using f32x4_t = __attribute__((ext_vector_type(4))) GLfloat;
+#endif
+
+public:
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu-anonymous-struct"
+#pragma clang diagnostic ignored "-Wnested-anon-types"
+    union
+    {
+        f32x4_t v = {0.f, 0.f, 0.f, 0.f};
+        struct
+        {
+            GLfloat r;
+            GLfloat g;
+            GLfloat b;
+            GLfloat a;
+        };
+    };
+#pragma clang diagnostic pop
+
+    Color4F() = default;
+    Color4F(Color4F const&) = default;
+    Color4F& operator=(Color4F const&) = default;
+    Color4F(Color4F&&) noexcept = default;
+    Color4F& operator=(Color4F&&) noexcept = default;
+    ~Color4F() = default;
+
+    constexpr Color4F(GLfloat _r, GLfloat _g, GLfloat _b, GLfloat _a)
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    : r(_r)
+    , g(_g)
+    , b(_b)
+    , a(_a)
+#else
+    : v
+    {
+        _r, _g, _b, _a
+    }
+#endif
+    {
+    }
+    explicit Color4F(const Color3B& color, GLfloat _a = 1.0f);
     explicit Color4F(const Color4B& color);
 
-    bool operator==(const Color4F& right) const;
-    bool operator==(const Color3B& right) const;
-    bool operator==(const Color4B& right) const;
-    bool operator!=(const Color4F& right) const;
-    bool operator!=(const Color3B& right) const;
-    bool operator!=(const Color4B& right) const;
+    bool operator==(const Color4F& other) const;
+    bool operator==(const Color3B& other) const;
+    bool operator==(const Color4B& other) const;
+    bool operator!=(const Color4F& other) const;
+    bool operator!=(const Color3B& other) const;
+    bool operator!=(const Color4B& other) const;
 
     bool equals(const Color4F& other) const { return (*this == other); }
-
-    GLfloat r;
-    GLfloat g;
-    GLfloat b;
-    GLfloat a;
 
     static const Color4F WHITE;
     static const Color4F YELLOW;
@@ -198,38 +261,39 @@ struct CC_DLL Color4F
  * A TEXCOORD composed of 2 floats: u, y
  * @since v3.0
  */
-struct CC_DLL Tex2F
+struct CC_DLL Tex2F final
 {
-    Tex2F(float _u, float _v)
+    GLfloat u = 0.f;
+    GLfloat v = 0.f;
+
+    Tex2F() = default;
+    Tex2F(Tex2F const&) = default;
+    Tex2F& operator=(Tex2F const&) = default;
+    Tex2F(Tex2F&&) noexcept = default;
+    Tex2F& operator=(Tex2F&&) noexcept = default;
+    ~Tex2F() = default;
+
+    constexpr Tex2F(float _u, float _v)
     : u(_u)
     , v(_v)
     {
     }
-
-    Tex2F()
-    : u(0.f)
-    , v(0.f)
-    {
-    }
-
-    GLfloat u;
-    GLfloat v;
 };
 
 /** @struct PointSprite
  * Vec2 Sprite component.
  */
-struct CC_DLL PointSprite
+struct CC_DLL PointSprite final
 {
     Vec2 pos; // 8 bytes
     Color4B color; // 4 bytes
-    GLfloat size; // 4 bytes
+    GLfloat size = 0.f; // 4 bytes
 };
 
 /** @struct Quad2
  * A 2D Quad. 4 * 2 floats.
  */
-struct CC_DLL Quad2
+struct CC_DLL Quad2 final
 {
     Vec2 tl;
     Vec2 tr;
@@ -240,7 +304,7 @@ struct CC_DLL Quad2
 /** @struct Quad3
  * A 3D Quad. 4 * 3 floats.
  */
-struct CC_DLL Quad3
+struct CC_DLL Quad3 final
 {
     Vec3 bl;
     Vec3 br;
@@ -251,7 +315,7 @@ struct CC_DLL Quad3
 /** @struct V2F_C4B_T2F
  * A Vec2 with a vertex point, a tex coord point and a color 4B.
  */
-struct V2F_C4B_T2F
+struct V2F_C4B_T2F final
 {
     /// vertices (2F)
     Vec2 vertices;
@@ -264,20 +328,20 @@ struct V2F_C4B_T2F
 /** @struct V2F_C4B_PF
  *
  */
-struct V2F_C4B_PF
+struct V2F_C4B_PF final
 {
     /// vertices (2F)
     Vec2 vertices;
     /// colors (4B)
     Color4B colors;
     /// pointsize
-    float pointSize;
+    float pointSize = 0.f;
 };
 
 /** @struct V2F_C4F_T2F
  * A Vec2 with a vertex point, a tex coord point and a color 4F.
  */
-struct CC_DLL V2F_C4F_T2F
+struct CC_DLL V2F_C4F_T2F final
 {
     /// vertices (2F)
     Vec2 vertices;
@@ -290,7 +354,7 @@ struct CC_DLL V2F_C4F_T2F
 /** @struct V3F_C4B_T2F
  * A Vec2 with a vertex point, a tex coord point and a color 4B.
  */
-struct CC_DLL V3F_C4B_T2F
+struct CC_DLL V3F_C4B_T2F final
 {
     /// vertices (3F)
     Vec3 vertices; // 12 bytes
@@ -305,7 +369,7 @@ struct CC_DLL V3F_C4B_T2F
 /** @struct V3F_T2F
  * A Vec2 with a vertex point, a tex coord point.
  */
-struct CC_DLL V3F_T2F
+struct CC_DLL V3F_T2F final
 {
     /// vertices (2F)
     Vec3 vertices;
@@ -316,7 +380,7 @@ struct CC_DLL V3F_T2F
 /** @struct V2F_C4B_T2F_Triangle
  * A Triangle of V2F_C4B_T2F.
  */
-struct CC_DLL V2F_C4B_T2F_Triangle
+struct CC_DLL V2F_C4B_T2F_Triangle final
 {
     V2F_C4B_T2F a;
     V2F_C4B_T2F b;
@@ -326,7 +390,7 @@ struct CC_DLL V2F_C4B_T2F_Triangle
 /** @struct V2F_C4B_T2F_Quad
  * A Quad of V2F_C4B_T2F.
  */
-struct CC_DLL V2F_C4B_T2F_Quad
+struct CC_DLL V2F_C4B_T2F_Quad final
 {
     /// bottom left
     V2F_C4B_T2F bl;
@@ -341,7 +405,7 @@ struct CC_DLL V2F_C4B_T2F_Quad
 /** @struct V3F_C4B_T2F_Quad
  * 4 Vertex3FTex2FColor4B.
  */
-struct CC_DLL V3F_C4B_T2F_Quad
+struct CC_DLL V3F_C4B_T2F_Quad final
 {
     /// top left
     V3F_C4B_T2F tl;
@@ -356,7 +420,7 @@ struct CC_DLL V3F_C4B_T2F_Quad
 /** @struct V2F_C4F_T2F_Quad
  * 4 Vertex2FTex2FColor4F Quad.
  */
-struct CC_DLL V2F_C4F_T2F_Quad
+struct CC_DLL V2F_C4F_T2F_Quad final
 {
     /// bottom left
     V2F_C4F_T2F bl;
@@ -371,7 +435,7 @@ struct CC_DLL V2F_C4F_T2F_Quad
 /** @struct V3F_T2F_Quad
  *
  */
-struct CC_DLL V3F_T2F_Quad
+struct CC_DLL V3F_T2F_Quad final
 {
     /// bottom left
     V3F_T2F bl;
@@ -386,7 +450,7 @@ struct CC_DLL V3F_T2F_Quad
 /** @struct BlendFunc
  * Blend Function used for textures.
  */
-struct CC_DLL BlendFunc
+struct CC_DLL BlendFunc final
 {
     /** source blend function */
     GLenum src;
@@ -402,11 +466,11 @@ struct CC_DLL BlendFunc
     /** Enables Additive blending. Uses {GL_SRC_ALPHA, GL_ONE} */
     static const BlendFunc ADDITIVE;
 
-    bool operator==(const BlendFunc& a) const { return src == a.src && dst == a.dst; }
+    inline bool operator==(const BlendFunc& a) const { return src == a.src && dst == a.dst; }
 
-    bool operator!=(const BlendFunc& a) const { return src != a.src || dst != a.dst; }
+    inline bool operator!=(const BlendFunc& a) const { return src != a.src || dst != a.dst; }
 
-    bool operator<(const BlendFunc& a) const { return src < a.src || (src == a.src && dst < a.dst); }
+    inline bool operator<(const BlendFunc& a) const { return src < a.src || (src == a.src && dst < a.dst); }
 };
 
 /** @enum TextVAlignment
@@ -414,7 +478,7 @@ struct CC_DLL BlendFunc
  *
  * @note If any of these enums are edited and/or reordered, update Texture2D.m.
  */
-enum class CC_DLL TextVAlignment
+enum struct CC_DLL TextVAlignment : std::uint8_t
 {
     TOP,
     CENTER,
@@ -426,7 +490,7 @@ enum class CC_DLL TextVAlignment
  *
  * @note If any of these enums are edited and/or reordered, update Texture2D.m.
  */
-enum class CC_DLL TextHAlignment
+enum struct CC_DLL TextHAlignment : std::uint8_t
 {
     LEFT,
     CENTER,
@@ -439,7 +503,7 @@ enum class CC_DLL TextHAlignment
  * Specify a collections of characters to be load when Label created.
  * Consider using DYNAMIC.
  */
-enum class GlyphCollection
+enum struct GlyphCollection : std::uint8_t
 {
     DYNAMIC,
     NEHE,
@@ -452,7 +516,7 @@ enum class GlyphCollection
 /** @struct T2F_Quad
  * Texture coordinates for a quad.
  */
-struct CC_DLL T2F_Quad
+struct CC_DLL T2F_Quad final
 {
     /// bottom left
     Tex2F bl;
@@ -467,10 +531,10 @@ struct CC_DLL T2F_Quad
 /** @struct AnimationFrameData
  * Struct that holds the size in pixels, texture coordinates and delays for animated ParticleSystemQuad.
  */
-struct CC_DLL AnimationFrameData
+struct CC_DLL AnimationFrameData final
 {
     T2F_Quad texCoords;
-    float delay;
+    float delay = 0.f;
     Size size;
 };
 
@@ -481,106 +545,70 @@ struct CC_DLL AnimationFrameData
 /** @struct FontShadow
  * Shadow attributes.
  */
-struct CC_DLL FontShadow
+struct CC_DLL FontShadow final
 {
-public:
-    // shadow is not enabled by default
-    FontShadow()
-    : _shadowEnabled(false)
-    , _shadowBlur(0)
-    , _shadowOpacity(0)
-    {
-    }
-
     /// true if shadow enabled
-    bool _shadowEnabled;
+    bool _shadowEnabled = false;
     /// shadow x and y offset
     Size _shadowOffset;
     /// shadow blurriness
-    float _shadowBlur;
+    float _shadowBlur = 0.f;
     /// shadow opacity
-    float _shadowOpacity;
+    float _shadowOpacity = 0.f;
 };
 
 /** @struct FontStroke
  * Stroke attributes.
  */
-struct CC_DLL FontStroke
+struct CC_DLL FontStroke final
 {
-public:
-    // stroke is disabled by default
-    FontStroke()
-    : _strokeEnabled(false)
-    , _strokeColor(Color3B::BLACK)
-    , _strokeAlpha(255)
-    , _strokeSize(0)
-    {
-    }
-
     /// true if stroke enabled
-    bool _strokeEnabled;
+    bool _strokeEnabled = false;
     /// stroke color
-    Color3B _strokeColor;
+    Color3B _strokeColor = Color3B::BLACK;
     /// stroke alpha
-    GLubyte _strokeAlpha;
+    GLubyte _strokeAlpha = 255;
     /// stroke size
-    float _strokeSize;
+    float _strokeSize = 0.f;
 };
 
 /** @struct FontDefinition
  * Font attributes.
  */
-struct CC_DLL FontDefinition
+struct CC_DLL FontDefinition final
 {
-public:
-    /**
-     * @js NA
-     * @lua NA
-     */
-    FontDefinition()
-    : _fontSize(0)
-    , _alignment(TextHAlignment::CENTER)
-    , _vertAlignment(TextVAlignment::TOP)
-    , _dimensions(Size::ZERO)
-    , _fontFillColor(Color3B::WHITE)
-    , _fontAlpha(255)
-    , _enableWrap(true)
-    , _overflow(0)
-    {
-    }
-
     /// font name
     std::string _fontName;
     /// font size
-    int _fontSize;
+    int _fontSize = 0;
     /// horizontal alignment
-    TextHAlignment _alignment;
+    TextHAlignment _alignment = TextHAlignment::CENTER;
     /// vertical alignment
-    TextVAlignment _vertAlignment;
+    TextVAlignment _vertAlignment = TextVAlignment::TOP;
     /// rendering box
     Size _dimensions;
     /// font color
-    Color3B _fontFillColor;
+    Color3B _fontFillColor = Color3B::WHITE;
     /// font alpha
-    GLubyte _fontAlpha;
+    GLubyte _fontAlpha = 255;
     /// font shadow
     FontShadow _shadow;
     /// font stroke
     FontStroke _stroke;
     /// enable text wrap
-    bool _enableWrap;
+    bool _enableWrap = true;
     /** There are 4 overflows: none, clamp, shrink and resize_height.
      *  The corresponding integer values are 0, 1, 2, 3 respectively
      * For more information, please refer to Label::Overflow enum class.
      */
-    int _overflow;
+    int _overflow = 0;
 };
 
 /**
  * @brief Effects used by `Label`
  *
  */
-enum class LabelEffect
+enum struct LabelEffect : std::uint8_t
 {
     // FIXME: Covert them to bitwise. More than one effect should be supported
     NORMAL,
@@ -597,28 +625,25 @@ enum class LabelEffect
 /** @struct Acceleration
  * The device accelerometer reports values for each axis in units of g-force.
  */
-class CC_DLL Acceleration : public Ref
+struct CC_DLL Acceleration final : public Ref
 {
-public:
-    double x;
-    double y;
-    double z;
+    double x = 0.0;
+    double y = 0.0;
+    double z = 0.0;
 
-    double timestamp;
+    double timestamp = 0.0;
 
-    Acceleration()
-    : x(0)
-    , y(0)
-    , z(0)
-    , timestamp(0)
-    {
-    }
+    Acceleration() = default;
+    Acceleration(Acceleration const&) = default;
+    Acceleration& operator=(Acceleration const&) = default;
+    Acceleration(Acceleration&&) noexcept = default;
+    Acceleration& operator=(Acceleration&&) noexcept = default;
+    ~Acceleration() final;
 };
 
-extern const std::string CC_DLL STD_STRING_EMPTY;
-extern const ssize_t CC_DLL CC_INVALID_INDEX;
+extern const std::size_t CC_DLL CC_INVALID_INDEX;
 
 NS_CC_END
 // end group
 /// @}
-#endif //__BASE_CCTYPES_H__
+#endif // CC_BASE_TYPES_H

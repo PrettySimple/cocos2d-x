@@ -22,6 +22,8 @@
  * THE SOFTWARE.
  */
 
+#pragma once
+
 const char* ccPositionTextureColorAlphaTest_frag = R"(
 #ifdef GL_ES
 precision lowp float;

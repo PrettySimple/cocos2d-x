@@ -23,14 +23,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __ACTION_CCTILEDGRID_ACTION_H__
-#define __ACTION_CCTILEDGRID_ACTION_H__
+#ifndef CC_2D_ACTIONTILEDGRID_H
+#define CC_2D_ACTIONTILEDGRID_H
 
-#include "2d/CCActionGrid.h"
+#include <cocos/2d/CCActionGrid.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <chrono>
 
 NS_CC_BEGIN
+
+class Node;
 
 /**
  * @addtogroup actions
@@ -57,11 +64,11 @@ public:
     static ShakyTiles3D* create(std::chrono::milliseconds duration, const Size& gridSize, int range, bool shakeZ);
 
     // Override
-    virtual ShakyTiles3D* clone() const override;
-    virtual void update(float time) override;
+    ShakyTiles3D* clone() const override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : ShakyTiles3D() {}
-    virtual ~ShakyTiles3D() {}
+    ~ShakyTiles3D() override {}
 
     /**
     @brief Initializes the action with a range, shake Z vertices, grid size and duration.
@@ -78,7 +85,7 @@ protected:
     bool _shakeZ;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ShakyTiles3D);
+    CC_DISALLOW_COPY_AND_ASSIGN(ShakyTiles3D)
 };
 
 /**
@@ -101,11 +108,11 @@ public:
     static ShatteredTiles3D* create(std::chrono::milliseconds duration, const Size& gridSize, int range, bool shatterZ);
 
     // Override
-    virtual ShatteredTiles3D* clone() const override;
-    virtual void update(float time) override;
+    ShatteredTiles3D* clone() const override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : ShatteredTiles3D() {}
-    virtual ~ShatteredTiles3D() {}
+    ~ShatteredTiles3D() override {}
 
     /**
     @brief Initializes the action with a range, shatter Z vertices, grid size and duration.
@@ -123,7 +130,7 @@ protected:
     bool _shatterZ;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ShatteredTiles3D);
+    CC_DISALLOW_COPY_AND_ASSIGN(ShatteredTiles3D)
 };
 
 struct Tile;
@@ -150,12 +157,12 @@ public:
     void placeTile(const Vec2& pos, Tile* t);
 
     // Overrides
-    virtual void startWithTarget(Node* target) override;
-    virtual void update(float time) override;
-    virtual ShuffleTiles* clone() const override;
+    void startWithTarget(Node* target) override;
+    void update(float time) override;
+    ShuffleTiles* clone() const override;
 
     CC_CONSTRUCTOR_ACCESS : ShuffleTiles() {}
-    virtual ~ShuffleTiles();
+    ~ShuffleTiles() override;
 
     /**
      * @brief Initializes the action with grid size, random seed and duration.
@@ -173,7 +180,7 @@ protected:
     Tile* _tiles;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ShuffleTiles);
+    CC_DISALLOW_COPY_AND_ASSIGN(ShuffleTiles)
 };
 
 /**
@@ -219,14 +226,14 @@ public:
     virtual void transformTile(const Vec2& pos, float distance);
 
     // Overrides
-    virtual void update(float time) override;
-    virtual FadeOutTRTiles* clone() const override;
+    void update(float time) override;
+    FadeOutTRTiles* clone() const override;
 
     CC_CONSTRUCTOR_ACCESS : FadeOutTRTiles() {}
-    virtual ~FadeOutTRTiles() {}
+    ~FadeOutTRTiles() override {}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FadeOutTRTiles);
+    CC_DISALLOW_COPY_AND_ASSIGN(FadeOutTRTiles)
 };
 
 /**
@@ -245,14 +252,14 @@ public:
     static FadeOutBLTiles* create(std::chrono::milliseconds duration, const Size& gridSize);
 
     // Overrides
-    virtual float testFunc(const Size& pos, float time) override;
-    virtual FadeOutBLTiles* clone() const override;
+    float testFunc(const Size& pos, float time) override;
+    FadeOutBLTiles* clone() const override;
 
     CC_CONSTRUCTOR_ACCESS : FadeOutBLTiles() {}
-    virtual ~FadeOutBLTiles() {}
+    ~FadeOutBLTiles() override {}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FadeOutBLTiles);
+    CC_DISALLOW_COPY_AND_ASSIGN(FadeOutBLTiles)
 };
 
 /**
@@ -270,17 +277,17 @@ public:
      */
     static FadeOutUpTiles* create(std::chrono::milliseconds duration, const Size& gridSize);
 
-    virtual void transformTile(const Vec2& pos, float distance) override;
+    void transformTile(const Vec2& pos, float distance) override;
 
     // Overrides
-    virtual FadeOutUpTiles* clone() const override;
-    virtual float testFunc(const Size& pos, float time) override;
+    FadeOutUpTiles* clone() const override;
+    float testFunc(const Size& pos, float time) override;
 
     CC_CONSTRUCTOR_ACCESS : FadeOutUpTiles() {}
-    virtual ~FadeOutUpTiles() {}
+    ~FadeOutUpTiles() override {}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FadeOutUpTiles);
+    CC_DISALLOW_COPY_AND_ASSIGN(FadeOutUpTiles)
 };
 
 /**
@@ -299,14 +306,14 @@ public:
     static FadeOutDownTiles* create(std::chrono::milliseconds duration, const Size& gridSize);
 
     // Overrides
-    virtual FadeOutDownTiles* clone() const override;
-    virtual float testFunc(const Size& pos, float time) override;
+    FadeOutDownTiles* clone() const override;
+    float testFunc(const Size& pos, float time) override;
 
     CC_CONSTRUCTOR_ACCESS : FadeOutDownTiles() {}
-    virtual ~FadeOutDownTiles() {}
+    ~FadeOutDownTiles() override {}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FadeOutDownTiles);
+    CC_DISALLOW_COPY_AND_ASSIGN(FadeOutDownTiles)
 };
 
 /**
@@ -352,12 +359,12 @@ public:
     void turnOffTile(const Vec2& pos);
 
     // Overrides
-    virtual TurnOffTiles* clone() const override;
-    virtual void startWithTarget(Node* target) override;
-    virtual void update(float time) override;
+    TurnOffTiles* clone() const override;
+    void startWithTarget(Node* target) override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : TurnOffTiles() {}
-    virtual ~TurnOffTiles();
+    ~TurnOffTiles() override;
 
     /**
      * @brief Initializes the action with grid size, random seed and duration.
@@ -374,7 +381,7 @@ protected:
     unsigned int* _tilesOrder;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TurnOffTiles);
+    CC_DISALLOW_COPY_AND_ASSIGN(TurnOffTiles)
 };
 
 /**
@@ -417,11 +424,11 @@ public:
     inline void setAmplitudeRate(float amplitudeRate) noexcept override { _amplitudeRate = amplitudeRate; }
 
     // Override
-    virtual WavesTiles3D* clone() const override;
-    virtual void update(float time) override;
+    WavesTiles3D* clone() const override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : WavesTiles3D() {}
-    virtual ~WavesTiles3D() {}
+    ~WavesTiles3D() override {}
 
     /**
     @brief Initializes an action with duration, grid size, waves count and amplitude.
@@ -439,7 +446,7 @@ protected:
     float _amplitudeRate;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(WavesTiles3D);
+    CC_DISALLOW_COPY_AND_ASSIGN(WavesTiles3D)
 };
 
 /**
@@ -482,11 +489,11 @@ public:
     inline void setAmplitudeRate(float amplitudeRate) noexcept override { _amplitudeRate = amplitudeRate; }
 
     // Override
-    virtual JumpTiles3D* clone() const override;
-    virtual void update(float time) override;
+    JumpTiles3D* clone() const override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : JumpTiles3D() {}
-    virtual ~JumpTiles3D() {}
+    ~JumpTiles3D() override {}
 
     /**
      * @brief Initializes the action with the number of jumps, the sin amplitude, the grid size and the duration.
@@ -504,7 +511,7 @@ protected:
     float _amplitudeRate;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(JumpTiles3D);
+    CC_DISALLOW_COPY_AND_ASSIGN(JumpTiles3D)
 };
 
 /**
@@ -524,12 +531,12 @@ public:
     static SplitRows* create(std::chrono::milliseconds duration, unsigned int rows);
 
     // Overrides
-    virtual SplitRows* clone() const override;
-    virtual void update(float time) override;
-    virtual void startWithTarget(Node* target) override;
+    SplitRows* clone() const override;
+    void update(float time) override;
+    void startWithTarget(Node* target) override;
 
     CC_CONSTRUCTOR_ACCESS : SplitRows() {}
-    virtual ~SplitRows() {}
+    ~SplitRows() override {}
 
     /**
      * @brief Initializes the action with the number rows and the duration.
@@ -544,7 +551,7 @@ protected:
     Size _winSize;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(SplitRows);
+    CC_DISALLOW_COPY_AND_ASSIGN(SplitRows)
 };
 
 /**
@@ -568,11 +575,11 @@ public:
     /**
      * @param time in seconds
      */
-    virtual void update(float time) override;
-    virtual void startWithTarget(Node* target) override;
+    void update(float time) override;
+    void startWithTarget(Node* target) override;
 
     CC_CONSTRUCTOR_ACCESS : SplitCols() {}
-    virtual ~SplitCols() {}
+    ~SplitCols() override {}
 
     /**
      * @brief Initializes the action with the number columns and the duration.
@@ -587,7 +594,7 @@ protected:
     Size _winSize;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(SplitCols);
+    CC_DISALLOW_COPY_AND_ASSIGN(SplitCols)
 };
 
 // end of actions group
@@ -595,4 +602,4 @@ private:
 
 NS_CC_END
 
-#endif // __ACTION_CCTILEDGRID_ACTION_H__
+#endif // CC_2D_ACTIONTILEDGRID_H

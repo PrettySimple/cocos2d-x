@@ -47,8 +47,7 @@ OSStatus AudioSessionGetProperty(UInt32 inID, UInt32* ioDataSize, void* outData)
 
 @synthesize delegate, numberOfChannels, pan, deviceCurrentTime, url, data;
 
-- (id)initWithContentsOfURL:(NSURL*)theUrl error:(NSError**)outError
-{
+- (id)initWithContentsOfURL:(NSURL*)theUrl error:(NSError**)outError {
     if ((self = [super init]))
     {
         _player = [[NSSound alloc] initWithContentsOfURL:theUrl byReference:YES];
@@ -61,8 +60,7 @@ OSStatus AudioSessionGetProperty(UInt32 inID, UInt32* ioDataSize, void* outData)
     return self;
 }
 
-- (id)initWithData:(NSData*)theData error:(NSError**)outError
-{
+- (id)initWithData:(NSData*)theData error:(NSError**)outError {
     if ((self = [super init]))
     {
         _player = [[NSSound alloc] initWithData:theData];
@@ -75,22 +73,19 @@ OSStatus AudioSessionGetProperty(UInt32 inID, UInt32* ioDataSize, void* outData)
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [_player release];
     [super dealloc];
 }
 
-- (void)sound:(NSSound*)sound didFinishPlaying:(BOOL)finished
-{
+- (void)sound:(NSSound*)sound didFinishPlaying:(BOOL)finished {
     if (self.delegate && [self.delegate respondsToSelector:@selector(audioPlayerDidFinishPlaying:successfully:)])
     {
         [self.delegate audioPlayerDidFinishPlaying:self successfully:finished];
     }
 }
 
-- (BOOL)play
-{
+- (BOOL)play {
     BOOL result;
     result = [_player play];
     if (!result)
@@ -101,39 +96,32 @@ OSStatus AudioSessionGetProperty(UInt32 inID, UInt32* ioDataSize, void* outData)
     return result;
 }
 
-- (BOOL)resume
-{
+- (BOOL)resume {
     BOOL result = [_player resume];
     return result;
 }
 
-- (void)pause
-{
+- (void)pause {
     [_player pause];
 }
 
-- (void)stop
-{
+- (void)stop {
     [_player stop];
 }
 
-- (BOOL)isPlaying
-{
+- (BOOL)isPlaying {
     return [_player isPlaying];
 }
 
-- (void)setVolume:(float)vol
-{
+- (void)setVolume:(float)vol {
     [_player setVolume:vol];
 }
 
-- (float)volume
-{
+- (float)volume {
     return [_player volume];
 }
 
-- (void)setNumberOfLoops:(NSInteger)nOfLoops
-{
+- (void)setNumberOfLoops:(NSInteger)nOfLoops {
     if (nOfLoops < 0)
     {
         [_player setLoops:YES];
@@ -144,8 +132,7 @@ OSStatus AudioSessionGetProperty(UInt32 inID, UInt32* ioDataSize, void* outData)
     }
 }
 
-- (NSInteger)numberOfLoops
-{
+- (NSInteger)numberOfLoops {
     if (_player.loops)
     {
         return -1;
@@ -156,46 +143,36 @@ OSStatus AudioSessionGetProperty(UInt32 inID, UInt32* ioDataSize, void* outData)
     }
 }
 
-- (void)setCurrentTime:(NSTimeInterval)aCurrentTime
-{
+- (void)setCurrentTime:(NSTimeInterval)aCurrentTime {
     [_player setCurrentTime:aCurrentTime];
 }
 
-- (NSTimeInterval)currentTime
-{
+- (NSTimeInterval)currentTime {
     return [_player currentTime];
 }
 
-- (NSTimeInterval)duration
-{
+- (NSTimeInterval)duration {
     return [_player duration];
 }
 
 #    pragma mark unsupported
-- (BOOL)prepareToPlay
-{
+- (BOOL)prepareToPlay {
     return YES;
 }
-- (BOOL)playAtTime:(NSTimeInterval)time
-{
+- (BOOL)playAtTime:(NSTimeInterval)time {
     return YES;
 }
-- (void)setMeteringEnabled:(BOOL)enabled
-{
+- (void)setMeteringEnabled:(BOOL)enabled {
 }
-- (BOOL)isMeteringEnabled
-{
+- (BOOL)isMeteringEnabled {
     return NO;
 }
-- (void)updateMeters
-{
+- (void)updateMeters {
 }
-- (float)peakPowerForChannel:(NSUInteger)channelNumber
-{
+- (float)peakPowerForChannel:(NSUInteger)channelNumber {
     return 0.0f;
 }
-- (float)averagePowerForChannel:(NSUInteger)channelNumber
-{
+- (float)averagePowerForChannel:(NSUInteger)channelNumber {
     return 0.0f;
 }
 @end
@@ -207,29 +184,23 @@ OSStatus AudioSessionGetProperty(UInt32 inID, UInt32* ioDataSize, void* outData)
 @synthesize delegate, category, preferredHardwareSampleRate, preferredIOBufferDuration;
 @synthesize inputIsAvailable, currentHardwareSampleRate, currentHardwareInputNumberOfChannels, currentHardwareOutputNumberOfChannels;
 
-+ (id)sharedInstance
-{
++ (id)sharedInstance {
     return nil;
 }
 
-- (BOOL)setActive:(BOOL)beActive error:(NSError**)outError
-{
+- (BOOL)setActive:(BOOL)beActive error:(NSError**)outError {
     return YES;
 }
-- (BOOL)setActive:(BOOL)beActive withFlags:(NSInteger)flags error:(NSError**)outError
-{
+- (BOOL)setActive:(BOOL)beActive withFlags:(NSInteger)flags error:(NSError**)outError {
     return YES;
 }
-- (BOOL)setCategory:(NSString*)theCategory error:(NSError**)outError
-{
+- (BOOL)setCategory:(NSString*)theCategory error:(NSError**)outError {
     return YES;
 }
-- (BOOL)setPreferredHardwareSampleRate:(double)sampleRate error:(NSError**)outError
-{
+- (BOOL)setPreferredHardwareSampleRate:(double)sampleRate error:(NSError**)outError {
     return YES;
 }
-- (BOOL)setPreferredIOBufferDuration:(NSTimeInterval)duration error:(NSError**)outError
-{
+- (BOOL)setPreferredIOBufferDuration:(NSTimeInterval)duration error:(NSError**)outError {
     return YES;
 }
 

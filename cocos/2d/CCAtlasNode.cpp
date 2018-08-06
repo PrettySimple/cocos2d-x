@@ -25,13 +25,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCAtlasNode.h"
+#include <cocos/2d/CCAtlasNode.h>
 
-#include "base/CCDirector.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTextureAtlas.h"
-#include "renderer/CCTextureCache.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCQuadCommand.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureAtlas.h>
+#include <cocos/renderer/CCTextureCache.h>
+
+#include <new>
 
 NS_CC_BEGIN
 
@@ -119,8 +130,8 @@ void AtlasNode::calculateMaxItems()
         s = _textureAtlas->getTexture()->getContentSizeInPixels();
     }
 
-    _itemsPerColumn = (int)(s.height / _itemHeight);
-    _itemsPerRow = (int)(s.width / _itemWidth);
+    _itemsPerColumn = static_cast<int>(s.height / _itemHeight);
+    _itemsPerRow = static_cast<int>(s.width / _itemWidth);
 }
 
 void AtlasNode::updateAtlasValues()
@@ -243,12 +254,12 @@ TextureAtlas* AtlasNode::getTextureAtlas() const
     return _textureAtlas;
 }
 
-ssize_t AtlasNode::getQuadsToDraw() const
+std::size_t AtlasNode::getQuadsToDraw() const
 {
     return _quadsToDraw;
 }
 
-void AtlasNode::setQuadsToDraw(ssize_t quadsToDraw)
+void AtlasNode::setQuadsToDraw(std::size_t quadsToDraw)
 {
     _quadsToDraw = quadsToDraw;
 }

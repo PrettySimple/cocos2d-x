@@ -23,19 +23,25 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __EFFECTS_CCGRID_H__
-#define __EFFECTS_CCGRID_H__
+#ifndef CC_2D_GRID_H
+#define CC_2D_GRID_H
 
-#include "base/CCDirector.h"
-#include "base/CCRef.h"
-#include "base/ccTypes.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
-class Texture2D;
-class Grabber;
 class GLProgram;
+class Grabber;
 class Node;
+class Texture2D;
 
 /**
  * @addtogroup _2d
@@ -171,7 +177,7 @@ public:
      * @js NA
      * @lua NA
      */
-    ~Grid3D(void);
+    ~Grid3D() override;
 
     /** Returns the vertex at a given position.
      * @js NA
@@ -199,11 +205,11 @@ public:
     /**@{
      Implementations for interfaces in base class.
      */
-    virtual void beforeBlit() override;
-    virtual void afterBlit() override;
-    virtual void blit() override;
-    virtual void reuse() override;
-    virtual void calculateVertexPoints() override;
+    void beforeBlit() override;
+    void afterBlit() override;
+    void blit() override;
+    void reuse() override;
+    void calculateVertexPoints() override;
     /**@}*/
 
     /**@{
@@ -248,7 +254,7 @@ public:
      * @js NA
      * @lua NA
      */
-    ~TiledGrid3D();
+    ~TiledGrid3D() override;
 
     /** Returns the tile at the given position.
      * @js NA
@@ -277,9 +283,9 @@ public:
     /**@{
      Implementations for interfaces in base class.
      */
-    virtual void blit() override;
-    virtual void reuse() override;
-    virtual void calculateVertexPoints() override;
+    void blit() override;
+    void reuse() override;
+    void calculateVertexPoints() override;
     /**@}*/
 protected:
     GLvoid* _texCoordinates;
@@ -293,4 +299,4 @@ protected:
 
 NS_CC_END
 
-#endif // __EFFECTS_CCGRID_H__
+#endif // CC_2D_GRID_H

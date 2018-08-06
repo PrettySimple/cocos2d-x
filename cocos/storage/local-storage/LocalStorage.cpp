@@ -27,15 +27,17 @@
  Works on cocos2d-iphone and cocos2d-x.
  */
 
-#include "storage/local-storage/LocalStorage.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/storage/local-storage/LocalStorage.h>
+
+#include <cocos/platform/CCPlatformConfig.h>
 
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID)
 
-#    include <assert.h>
 #    include <sqlite3.h>
-#    include <stdio.h>
-#    include <stdlib.h>
+
+#    include <cassert>
+#    include <cstdio>
+#    include <string>
 
 static int _initialized = 0;
 static sqlite3* _db;
@@ -147,7 +149,7 @@ bool localStorageGetItem(const std::string& key, std::string* outItem)
     }
     else
     {
-        outItem->assign((const char*)text);
+        outItem->assign(reinterpret_cast<const char*>(text));
         return true;
     }
 }

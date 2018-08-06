@@ -23,14 +23,24 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#import "platform/CCApplication.h"
-
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    import <UIKit/UIKit.h>
+#    include <cocos/platform/ios/CCApplication-ios.h>
 
-#    import "math/CCGeometry.h"
-#    import "platform/ios/CCDirectorCaller-ios.h"
+#    include <cocos/platform/CCApplication.h>
+#    include <cocos/platform/CCApplicationProtocol.h>
+#    include <cocos/platform/CCCommon.h>
+#    include <cocos/platform/CCPlatformDefine.h>
+#    include <cocos/platform/CCPlatformMacros.h>
+#    include <cocos/platform/ios/CCDirectorCaller-ios.h>
+
+#    import <Foundation/NSLocale.h>
+#    import <Foundation/NSString.h>
+#    import <UIKit/UIApplication.h>
+#    import <UIKit/UIDevice.h>
+
+#    include <string>
 
 NS_CC_BEGIN
 
@@ -45,7 +55,7 @@ Application::Application()
 Application::~Application()
 {
     CC_ASSERT(this == sm_pSharedApplication);
-    sm_pSharedApplication = 0;
+    sm_pSharedApplication = nullptr;
 }
 
 int Application::run()

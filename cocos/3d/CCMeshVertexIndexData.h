@@ -22,21 +22,21 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCMESHVERTEXINDEXDATA_H__
-#define __CCMESHVERTEXINDEXDATA_H__
+#ifndef CC_3D_MESHVERTEXINDEXDATA_H
+#define CC_3D_MESHVERTEXINDEXDATA_H
 
-#include <string>
+#include <cocos/3d/CCAABB.h>
+#include <cocos/3d/CCBundle3DData.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <cstddef>
+#include <iosfwd>
 #include <vector>
-
-#include "3d/CCAABB.h"
-#include "3d/CCBundle3DData.h"
-
-#include "base/CCRef.h"
-#include "base/CCVector.h"
-#include "math/CCMath.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCVertexIndexBuffer.h"
-#include "renderer/CCVertexIndexData.h"
 
 NS_CC_BEGIN
 
@@ -45,7 +45,10 @@ NS_CC_BEGIN
  * @{
  */
 
+class IndexBuffer;
 class MeshVertexData;
+class VertexBuffer;
+class VertexData;
 
 /**
  * the MeshIndexData class.
@@ -110,13 +113,13 @@ public:
     const VertexBuffer* getVertexBuffer() const { return _vertexBuffer; }
 
     /** get attributes count */
-    ssize_t getMeshVertexAttribCount() const { return _attribs.size(); }
+    std::size_t getMeshVertexAttribCount() const { return _attribs.size(); }
 
     /** get attribute by index */
-    const MeshVertexAttrib& getMeshVertexAttrib(ssize_t index) const { return _attribs[index]; }
+    const MeshVertexAttrib& getMeshVertexAttrib(std::size_t index) const { return _attribs[index]; }
 
     /** get index data count */
-    ssize_t getMeshIndexDataCount() const { return _indexs.size(); }
+    std::size_t getMeshIndexDataCount() const { return _indexs.size(); }
     /** get index data by index */
     MeshIndexData* getMeshIndexDataByIndex(int index) const { return _indexs.at(index); }
     /** get index data by id */
@@ -142,4 +145,4 @@ protected:
 
 NS_CC_END
 
-#endif // __CCMESHVERTEXINDEXDATA_H__
+#endif // CC_3D_MESHVERTEXINDEXDATA_H

@@ -1,3 +1,4 @@
+#pragma once
 
 const char* cc3D_PositionNormalTex_vert = R"(
 #ifdef USE_NORMAL_MAPPING

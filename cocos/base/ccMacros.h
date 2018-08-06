@@ -25,15 +25,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __BASE_CCMACROS_H__
-#define __BASE_CCMACROS_H__
+#ifndef CC_BASE_MACROS_H
+#define CC_BASE_MACROS_H
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wreserved-id-macro"
 #ifndef _USE_MATH_DEFINES
 #    define _USE_MATH_DEFINES
 #endif
+#pragma clang diagnostic pop
 
-#include "base/CCConsole.h"
-#include "platform/CCStdC.h"
+#include <cocos/base/CCConsole.h>
 
 #ifndef CCASSERT
 #    if COCOS2D_DEBUG > 0
@@ -59,7 +61,7 @@ extern bool CC_DLL cc_assert_script_compatible(const char* msg);
 #    define GP_ASSERT(cond) CCASSERT(cond, "")
 #endif // CCASSERT
 
-#include "base/ccConfig.h"
+#include <cocos/base/ccConfig.h>
 
 /** @def CC_SWAP
 simple macro that swaps 2 variables
@@ -72,7 +74,7 @@ simple macro that swaps 2 variables
         y = temp;           \
     }
 
-#include "base/ccRandom.h"
+#include <cocos/base/ccRandom.h>
 
 /** @def CCRANDOM_MINUS1_1
  returns a random float between -1 and 1
@@ -192,7 +194,7 @@ It should work same as apples CFSwapInt32LittleToHost(..)
 */
 
 /// when define returns true it means that our architecture uses big endian
-#define CC_HOST_IS_BIG_ENDIAN (bool)(*(unsigned short*)"\0\xff" < 0x100)
+#define CC_HOST_IS_BIG_ENDIAN static_cast<bool>(*reinterpret_cast<unsigned short*>(const_cast<char*>("\0\xff")) < 0x100)
 #define CC_SWAP32(i) ((i & 0x000000ff) << 24 | (i & 0x0000ff00) << 8 | (i & 0x00ff0000) >> 8 | (i & 0xff000000) >> 24)
 #define CC_SWAP16(i) ((i & 0x00ff) << 8 | (i & 0xff00) >> 8)
 #define CC_SWAP_INT32_LITTLE_TO_HOST(i) ((CC_HOST_IS_BIG_ENDIAN == true) ? CC_SWAP32(i) : (i))
@@ -440,4 +442,4 @@ It should work same as apples CFSwapInt32LittleToHost(..)
 #define CC_CALLBACK_3(__selector__, __target__, ...) \
     std::bind(&__selector__, __target__, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, ##__VA_ARGS__)
 
-#endif // __BASE_CCMACROS_H__
+#endif // CC_BASE_MACROS_H

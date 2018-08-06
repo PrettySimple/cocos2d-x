@@ -24,11 +24,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "2d/CCAnimation.h"
+#include <cocos/2d/CCAnimation.h>
 
-#include "base/CCDirector.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCTextureCache.h"
+#include <cocos/2d/CCSpriteFrame.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureCache.h>
+
+#include <new>
 
 using namespace std::chrono_literals;
 
@@ -78,6 +85,13 @@ AnimationFrame* AnimationFrame::clone() const
 
     frame->autorelease();
     return frame;
+}
+
+void AnimationFrame::setSpriteFrame(SpriteFrame* frame)
+{
+    CC_SAFE_RETAIN(frame);
+    CC_SAFE_RELEASE(_spriteFrame);
+    _spriteFrame = frame;
 }
 
 // implementation of Animation

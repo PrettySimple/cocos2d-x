@@ -23,7 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "base/CCIMEDispatcher.h"
+#include <cocos/base/CCIMEDispatcher.h>
+
+#include <cocos/base/CCEventKeyboard.h>
+#include <cocos/base/CCIMEDelegate.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <list>
 
@@ -69,7 +73,7 @@ public:
 
     ~Impl() {}
 
-    void init() { _delegateWithIme = 0; }
+    inline void init() noexcept { _delegateWithIme = nullptr; }
 
     DelegateIter findDelegate(IMEDelegate* delegate)
     {
@@ -145,7 +149,7 @@ bool IMEDispatcher::attachDelegateWithIME(IMEDelegate* delegate)
 
                 // detach first
                 IMEDelegate* oldDelegate = _impl->_delegateWithIme;
-                _impl->_delegateWithIme = 0;
+                _impl->_delegateWithIme = nullptr;
                 oldDelegate->didDetachWithIME();
 
                 _impl->_delegateWithIme = *iter;
@@ -177,7 +181,7 @@ bool IMEDispatcher::detachDelegateWithIME(IMEDelegate* delegate)
 
         CC_BREAK_IF(!delegate->canDetachWithIME());
 
-        _impl->_delegateWithIme = 0;
+        _impl->_delegateWithIme = nullptr;
         delegate->didDetachWithIME();
         ret = true;
     } while (0);
@@ -198,7 +202,7 @@ void IMEDispatcher::removeDelegate(IMEDelegate* delegate)
 
             if (*iter == _impl->_delegateWithIme)
             {
-                _impl->_delegateWithIme = 0;
+                _impl->_delegateWithIme = nullptr;
             }
         _impl->_delegateList.erase(iter);
     } while (0);
@@ -247,13 +251,14 @@ void IMEDispatcher::dispatchControlKey(EventKeyboard::KeyCode keyCode)
     } while (0);
 }
 
-const std::string& IMEDispatcher::getContentText()
+std::string const& IMEDispatcher::getContentText() const
 {
+    static std::string const empty = "";
     if (_impl && _impl->_delegateWithIme)
     {
         return _impl->_delegateWithIme->getContentText();
     }
-    return STD_STRING_EMPTY;
+    return empty;
 }
 
 //////////////////////////////////////////////////////////////////////////

@@ -22,15 +22,19 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_RAY_H_
-#define __CC_RAY_H_
+#ifndef CC_3D_RAY_H
+#define CC_3D_RAY_H
 
-#include "3d/CCAABB.h"
-#include "3d/CCOBB.h"
-#include "3d/CCPlane.h"
-#include "math/CCMath.h"
+#include <cocos/3d/CCOBB.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
+
+class AABB;
+class Plane;
 
 /**
  * @addtogroup _3d
@@ -109,4 +113,4 @@ public:
 
 NS_CC_END
 
-#endif
+#endif // CC_3D_RAY_H

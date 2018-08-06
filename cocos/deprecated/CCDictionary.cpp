@@ -23,16 +23,35 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "deprecated/CCDictionary.h"
-#include "base/ccUTF8.h"
-#include "deprecated/CCArray.h"
-#include "deprecated/CCBool.h"
-#include "deprecated/CCDouble.h"
-#include "deprecated/CCFloat.h"
-#include "deprecated/CCInteger.h"
-#include "deprecated/CCString.h"
-#include "platform/CCFileUtils.h"
+#include <cocos/deprecated/CCDictionary.h>
+
+#include <cocos/base/CCDataVisitor.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/deprecated/CCArray.h>
+#include <cocos/deprecated/CCBool.h>
+#include <cocos/deprecated/CCDouble.h>
+#include <cocos/deprecated/CCFloat.h>
+#include <cocos/deprecated/CCInteger.h>
+#include <cocos/deprecated/CCString.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+extern "C"
+{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <cocos/base/uthash.h>
+#pragma clang diagnostic pop
+}
+
+#include <cstring>
+#include <new>
 #include <type_traits>
+#include <typeinfo>
+#include <unordered_map>
+#include <utility>
 
 using namespace std;
 
@@ -50,7 +69,7 @@ DictElement::DictElement(const char* pszKey, Ref* pObject)
     size_t len = strlen(pszKey);
     if (len > MAX_KEY_LEN)
     {
-        char* pEnd = (char*)&pszKey[len - 1];
+        char* pEnd = const_cast<char*>(&pszKey[len - 1]);
         pStart = pEnd - (MAX_KEY_LEN - 1);
     }
 

@@ -22,29 +22,35 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCSprite3D.h"
-#include "3d/CCAttachNode.h"
-#include "3d/CCBundle3D.h"
-#include "3d/CCMesh.h"
-#include "3d/CCMeshSkin.h"
-#include "3d/CCObjLoader.h"
-#include "3d/CCSprite3DMaterial.h"
+#include <cocos/3d/CCSprite3D.h>
 
-#include "2d/CCCamera.h"
-#include "2d/CCLight.h"
-#include "base/CCAsyncTaskPool.h"
-#include "base/CCDirector.h"
-#include "base/ccMacros.h"
-#include "base/ccUTF8.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCMaterial.h"
-#include "renderer/CCPass.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTechnique.h"
-#include "renderer/CCTextureCache.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCLight.h>
+#include <cocos/3d/CCAttachNode.h>
+#include <cocos/3d/CCBundle3D.h>
+#include <cocos/3d/CCMesh.h>
+#include <cocos/3d/CCMeshSkin.h>
+#include <cocos/3d/CCObjLoader.h>
+#include <cocos/3d/CCSprite3DMaterial.h>
+#include <cocos/base/CCAsyncTaskPool.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCMaterial.h>
+#include <cocos/renderer/CCPass.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTechnique.h>
+#include <cocos/renderer/CCTextureCache.h>
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+#    include <cocos/base/CCEventCustom.h>
+#endif
 
 NS_CC_BEGIN
 
@@ -113,7 +119,8 @@ void Sprite3D::createAsync(const std::string& modelPath, const std::string& text
     sprite->_asyncLoadParam.meshdatas = new (std::nothrow) MeshDatas();
     sprite->_asyncLoadParam.nodeDatas = new (std::nothrow) NodeDatas();
     AsyncTaskPool::getInstance()->enqueue(
-        AsyncTaskPool::TaskType::TASK_IO, CC_CALLBACK_1(Sprite3D::afterAsyncLoad, sprite), (void*)(&sprite->_asyncLoadParam), [sprite]() {
+        AsyncTaskPool::TaskType::TASK_IO, [sprite](void* param) { sprite->afterAsyncLoad(param); }, reinterpret_cast<void*>(&sprite->_asyncLoadParam),
+        [sprite]() {
             sprite->_asyncLoadParam.result = sprite->loadFromFile(sprite->_asyncLoadParam.modlePath, sprite->_asyncLoadParam.nodeDatas,
                                                                   sprite->_asyncLoadParam.meshdatas, sprite->_asyncLoadParam.materialdatas);
         });
@@ -121,7 +128,7 @@ void Sprite3D::createAsync(const std::string& modelPath, const std::string& text
 
 void Sprite3D::afterAsyncLoad(void* param)
 {
-    Sprite3D::AsyncLoadParam* asyncParam = (Sprite3D::AsyncLoadParam*)param;
+    Sprite3D::AsyncLoadParam* asyncParam = reinterpret_cast<Sprite3D::AsyncLoadParam*>(param);
     autorelease();
     if (asyncParam)
     {
@@ -218,7 +225,7 @@ bool Sprite3D::loadFromCache(const std::string& path)
             }
         }
 
-        for (ssize_t i = 0; i < _meshes.size(); i++)
+        for (std::size_t i = 0; i < _meshes.size(); i++)
         {
             // cloning is needed in order to have one state per sprite
             auto glstate = spritedata->glProgramStates.at(i);
@@ -461,11 +468,11 @@ void Sprite3D::setMaterial(Material* material)
 void Sprite3D::setMaterial(Material* material, int meshIndex)
 {
     CCASSERT(material, "Invalid Material");
-    CCASSERT(meshIndex == -1 || (meshIndex >= 0 && meshIndex < _meshes.size()), "Invalid meshIndex");
+    CCASSERT(meshIndex == -1 || (meshIndex >= 0 && meshIndex < static_cast<int>(_meshes.size())), "Invalid meshIndex");
 
     if (meshIndex == -1)
     {
-        for (ssize_t i = 0; i < _meshes.size(); i++)
+        for (std::size_t i = 0; i < _meshes.size(); i++)
         {
             _meshes.at(i)->setMaterial(i == 0 ? material : material->clone());
         }
@@ -481,7 +488,7 @@ void Sprite3D::setMaterial(Material* material, int meshIndex)
 
 Material* Sprite3D::getMaterial(int meshIndex) const
 {
-    CCASSERT(meshIndex >= 0 && meshIndex < _meshes.size(), "Invalid meshIndex");
+    CCASSERT(meshIndex >= 0 && meshIndex < static_cast<int>(_meshes.size()), "Invalid meshIndex");
     return _meshes.at(meshIndex)->getMaterial();
 }
 
@@ -878,7 +885,7 @@ void Sprite3D::setCullFace(GLenum cullFace)
 {
     for (auto& it : _meshes)
     {
-        it->getMaterial()->getStateBlock()->setCullFaceSide((RenderState::CullFaceSide)cullFace);
+        it->getMaterial()->getStateBlock()->setCullFaceSide(static_cast<RenderState::CullFaceSide>(cullFace));
         //        it->getMeshCommand().setCullFace(cullFace);
     }
 }

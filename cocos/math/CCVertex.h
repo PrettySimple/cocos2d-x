@@ -23,10 +23,11 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCVERTEX_H__
-#define __CCVERTEX_H__
+#ifndef CC_MATH_VERTEX_H
+#define CC_MATH_VERTEX_H
 
-#include "base/ccTypes.h"
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 /**
  * @addtogroup base
@@ -34,6 +35,8 @@
  */
 
 NS_CC_BEGIN
+
+class Vec2;
 
 /** @file CCVertex.h */
 
@@ -48,4 +51,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif /* __CCVERTEX_H__ */
+#endif // CC_MATH_VERTEX_H

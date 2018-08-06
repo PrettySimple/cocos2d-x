@@ -28,14 +28,14 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
-#    include "2d/CCLabel.h"
-#    include "base/CCDirector.h"
-#    include "base/ccUTF8.h"
-#    include "math/Vec2.h"
-#    include "platform/CCFileUtils.h"
-#    include "platform/android/jni/JniHelper.h"
-#    include "ui/UIEditBox/UIEditBox.h"
-#    include "ui/UIHelper.h"
+#    include <cocos/2d/CCLabel.h>
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/base/ccUTF8.h>
+#    include <cocos/math/Vec2.h>
+#    include <cocos/platform/CCFileUtils.h>
+#    include <cocos/platform/android/jni/JniHelper.h>
+#    include <cocos/ui/UIEditBox/UIEditBox.h>
+#    include <cocos/ui/UIHelper.h>
 #    include <jni.h>
 
 NS_CC_BEGIN

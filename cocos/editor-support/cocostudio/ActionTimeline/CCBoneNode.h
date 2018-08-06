@@ -22,15 +22,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCBONENODE_H__
-#define __CCBONENODE_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_BONENODE_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_BONENODE_H
 
-#include "2d/CCNode.h"
 #include "CCSkinNode.h"
 #include "CCTimelineMacro.h"
-#include "base/CCProtocols.h"
 #include "cocostudio/CocosStudioExport.h"
-#include "renderer/CCCustomCommand.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCProtocols.h>
+#include <cocos/renderer/CCCustomCommand.h>
 
 NS_TIMELINE_BEGIN
 
@@ -224,4 +224,4 @@ private:
 };
 
 NS_TIMELINE_END
-#endif //__CCBONENODE_H__
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_BONENODE_H

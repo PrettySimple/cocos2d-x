@@ -21,13 +21,13 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef UTHASH_H
-#define UTHASH_H
+#ifndef CC_BASE_UTHASH_H
+#define CC_BASE_UTHASH_H
 /// @cond DO_NOT_SHOW
 
-#include <stddef.h> /* ptrdiff_t */
-#include <stdlib.h> /* exit() */
-#include <string.h> /* memcmp,strlen */
+#include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
 
 /* These macros use decltype or the earlier __typeof GNU extension.
    As decltype is only available in newer compilers (VS2010 or gcc 4.3+
@@ -1028,4 +1028,4 @@ typedef struct UT_hash_handle
 } UT_hash_handle;
 
 /// @endcond
-#endif /* UTHASH_H */
+#endif // CC_BASE_UTHASH_H

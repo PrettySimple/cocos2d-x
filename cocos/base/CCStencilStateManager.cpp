@@ -23,12 +23,21 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCStencilStateManager.hpp"
-#include "base/CCDirector.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/base/CCStencilStateManager.hpp>
+
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/ccGLStateCache.h>
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
 #    define CC_CLIPPING_NODE_OPENGLES 0
 #else
@@ -36,9 +45,9 @@
 #endif
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
-#    include "base/CCEventDispatcher.h"
-#    include "base/CCEventListenerCustom.h"
-#    include "base/CCEventType.h"
+#    include <cocos/base/CCEventDispatcher.h>
+#    include <cocos/base/CCEventListenerCustom.h>
+#    include <cocos/base/CCEventType.h>
 #endif
 
 NS_CC_BEGIN
@@ -98,7 +107,7 @@ void StencilStateManager::drawFullScreenQuadClearStencil()
 
     glProgram->use();
     glProgram->setUniformsForBuiltins();
-    glProgram->setUniformLocationWith4fv(colorLocation, (GLfloat*)&color.r, 1);
+    glProgram->setUniformLocationWith4fv(colorLocation, reinterpret_cast<GLfloat*>(&color.r), 1);
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
     if (_stencilClearBuffer == ~0)
@@ -166,12 +175,12 @@ void StencilStateManager::onBeforeVisit()
 
     _currentStencilEnabled = glIsEnabled(GL_STENCIL_TEST);
     glGetIntegerv(GL_STENCIL_WRITEMASK, (GLint*)&_currentStencilWriteMask);
-    glGetIntegerv(GL_STENCIL_FUNC, (GLint*)&_currentStencilFunc);
+    glGetIntegerv(GL_STENCIL_FUNC, reinterpret_cast<GLint*>(&_currentStencilFunc));
     glGetIntegerv(GL_STENCIL_REF, &_currentStencilRef);
-    glGetIntegerv(GL_STENCIL_VALUE_MASK, (GLint*)&_currentStencilValueMask);
-    glGetIntegerv(GL_STENCIL_FAIL, (GLint*)&_currentStencilFail);
-    glGetIntegerv(GL_STENCIL_PASS_DEPTH_FAIL, (GLint*)&_currentStencilPassDepthFail);
-    glGetIntegerv(GL_STENCIL_PASS_DEPTH_PASS, (GLint*)&_currentStencilPassDepthPass);
+    glGetIntegerv(GL_STENCIL_VALUE_MASK, reinterpret_cast<GLint*>(&_currentStencilValueMask));
+    glGetIntegerv(GL_STENCIL_FAIL, reinterpret_cast<GLint*>(&_currentStencilFail));
+    glGetIntegerv(GL_STENCIL_PASS_DEPTH_FAIL, reinterpret_cast<GLint*>(&_currentStencilPassDepthFail));
+    glGetIntegerv(GL_STENCIL_PASS_DEPTH_PASS, reinterpret_cast<GLint*>(&_currentStencilPassDepthPass));
 
     // enable stencil use
     glEnable(GL_STENCIL_TEST);

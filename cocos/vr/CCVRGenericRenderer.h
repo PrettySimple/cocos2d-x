@@ -22,12 +22,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CCVRGenericRenderer_hpp
-#define CCVRGenericRenderer_hpp
+#ifndef CC_VR_GENERICRENDERER_H
+#define CC_VR_GENERICRENDERER_H
 
-#include "renderer/CCCustomCommand.h"
-#include "renderer/CCFrameBuffer.h"
-#include "vr/CCVRProtocol.h"
+#include <cocos/renderer/CCCustomCommand.h>
+#include <cocos/renderer/CCFrameBuffer.h>
+#include <cocos/vr/CCVRProtocol.h>
 
 NS_CC_BEGIN
 
@@ -55,7 +55,7 @@ class CC_DLL VRGenericRenderer : public VRIRenderer
 {
 public:
     VRGenericRenderer();
-    virtual ~VRGenericRenderer();
+    ~VRGenericRenderer() override;
 
     virtual void setup(GLView* glview) override;
     virtual void cleanup() override;
@@ -82,4 +82,4 @@ protected:
 
 NS_CC_END
 
-#endif // CCVRGenericRenderer_hpp
+#endif // CC_VR_GENERICRENDERER_H

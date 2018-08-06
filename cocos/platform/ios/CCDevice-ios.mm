@@ -23,25 +23,53 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    include "base/CCDirector.h"
-#    include "base/CCEventAcceleration.h"
-#    include "base/CCEventDispatcher.h"
-#    include "base/ccTypes.h"
-#    include "platform/CCDevice.h"
-#    include "platform/apple/CCDevice-apple.h"
-#    import <UIKit/UIKit.h>
+#    include <cocos/platform/CCDevice.h>
+
+#    include <cocos/2d/CCActionManager.h>
+#    include <cocos/base/CCData.h>
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/base/CCEventAcceleration.h>
+#    include <cocos/base/CCEventDispatcher.h>
+#    include <cocos/base/ccTypes.h>
+#    include <cocos/math/CCGeometry.h>
+#    include <cocos/platform/CCPlatformMacros.h>
+#    include <cocos/platform/apple/CCDevice-apple.h>
+
+#    import <AudioToolbox/AudioServices.h>
+#    import <CoreFoundation/CFAttributedString.h>
+#    import <CoreFoundation/CFBase.h>
+#    import <CoreGraphics/CGBase.h>
+#    import <CoreGraphics/CGBitmapContext.h>
+#    import <CoreGraphics/CGColorSpace.h>
+#    import <CoreGraphics/CGContext.h>
+#    import <CoreGraphics/CGGeometry.h>
+#    import <CoreGraphics/CGImage.h>
+#    import <CoreText/CTFramesetter.h>
+#    import <Foundation/NSException.h>
+#    import <Foundation/NSRange.h>
+#    import <UIKit/NSAttributedString.h>
+#    import <UIKit/NSStringDrawing.h>
+#    import <UIKit/NSText.h>
+#    import <UIKit/UIAccelerometer.h>
+#    import <UIKit/UIApplication.h>
+#    import <UIKit/UIDevice.h>
+#    import <UIKit/UIGraphics.h>
+#    import <UIKit/UIScreen.h>
+
+#    include <cmath>
+#    include <cstdlib>
+#    include <cstring>
+#    include <iosfwd>
+#    include <new>
 
 // Accelerometer
 #    if !defined(CC_TARGET_OS_TVOS)
-#        import <CoreMotion/CoreMotion.h>
+#        include <CoreMotion/CMAccelerometer.h>
+#        include <CoreMotion/CMMotionManager.h>
 #    endif
-#    import <CoreFoundation/CoreFoundation.h>
-#    import <CoreText/CoreText.h>
-// Vibrate
-#    import <AudioToolbox/AudioToolbox.h>
 
 static NSAttributedString* __attributedStringWithFontSize(NSMutableAttributedString* attributedString, CGFloat fontSize)
 {
@@ -67,9 +95,9 @@ static NSAttributedString* __attributedStringWithFontSize(NSMutableAttributedStr
 
 static CGFloat _calculateTextDrawStartHeight(cocos2d::Device::TextAlign align, CGSize realDimensions, CGSize dimensions)
 {
-    float startH = 0;
+    CGFloat startH = 0;
     // vertical alignment
-    unsigned int vAlignment = ((int)align >> 4) & 0x0F;
+    unsigned int vAlignment = (static_cast<int>(align) >> 4) & 0x0F;
     switch (vAlignment)
     {
             // bottom
@@ -107,7 +135,7 @@ static CGSize _calculateShrinkedSizeForString(NSAttributedString** str, id font,
 
             CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef) * str);
             CGSize targetSize = CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX);
-            CGSize fitSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRangeMake(0, [(*str) length]), NULL, targetSize, NULL);
+            CGSize fitSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRangeMake(0, [(*str) length]), nullptr, targetSize, nullptr);
             CFRelease(framesetter);
             if (fitSize.width == 0 || fitSize.height == 0)
             {
@@ -141,7 +169,7 @@ static CGSize _calculateShrinkedSizeForString(NSAttributedString** str, id font,
 
             CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef) * str);
             CGSize targetSize = CGSizeMake(constrainSize.width, CGFLOAT_MAX);
-            CGSize fitSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRangeMake(0, [(*str) length]), NULL, targetSize, NULL);
+            CGSize fitSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRangeMake(0, [(*str) length]), nullptr, targetSize, nullptr);
             CFRelease(framesetter);
             if (fitSize.width == 0 || fitSize.height == 0)
             {
@@ -189,8 +217,7 @@ static CGSize _calculateShrinkedSizeForString(NSAttributedString** str, id font,
 
 static CCAccelerometerDispatcher* s_pAccelerometerDispatcher;
 
-+ (id)sharedAccelerometerDispatcher
-{
++ (id)sharedAccelerometerDispatcher {
     if (s_pAccelerometerDispatcher == nil)
     {
         s_pAccelerometerDispatcher = [[self alloc] init];
@@ -199,8 +226,7 @@ static CCAccelerometerDispatcher* s_pAccelerometerDispatcher;
     return s_pAccelerometerDispatcher;
 }
 
-- (id)init
-{
+- (id)init {
     if ((self = [super init]))
     {
         _acceleration = new (std::nothrow) cocos2d::Acceleration();
@@ -210,16 +236,14 @@ static CCAccelerometerDispatcher* s_pAccelerometerDispatcher;
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     s_pAccelerometerDispatcher = nullptr;
     delete _acceleration;
     [_motionManager release];
     [super dealloc];
 }
 
-- (void)setAccelerometerEnabled:(bool)isEnabled
-{
+- (void)setAccelerometerEnabled:(bool)isEnabled {
     if (isEnabled)
     {
         [_motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue]
@@ -233,13 +257,11 @@ static CCAccelerometerDispatcher* s_pAccelerometerDispatcher;
     }
 }
 
-- (void)setAccelerometerInterval:(float)interval
-{
+- (void)setAccelerometerInterval:(float)interval {
     _motionManager.accelerometerUpdateInterval = interval;
 }
 
-- (void)accelerometer:(CMAccelerometerData*)accelerometerData
-{
+- (void)accelerometer:(CMAccelerometerData*)accelerometerData {
     _acceleration->x = accelerometerData.acceleration.x;
     _acceleration->y = accelerometerData.acceleration.y;
     _acceleration->z = accelerometerData.acceleration.z;
@@ -491,7 +513,7 @@ static bool _initWithString(const char* text, cocos2d::Device::TextAlign align, 
 
         CGContextSetShouldSubpixelQuantizeFonts(context, false);
 
-        CGContextBeginTransparencyLayerWithRect(context, textRect, NULL);
+        CGContextBeginTransparencyLayerWithRect(context, textRect, nullptr);
 
         if (info->hasStroke)
         {
@@ -586,11 +608,10 @@ void Device::setKeepScreenOn(bool value)
  @brief Only works on iOS devices that support vibration (such as iPhone). Should only be used for important alerts. Use risks rejection in iTunes Store.
  @param duration ignored for iOS
  */
-void Device::vibrate(float duration)
+void Device::vibrate(float)
 {
     // See
     // https://developer.apple.com/library/ios/documentation/AudioToolbox/Reference/SystemSoundServicesReference/index.html#//apple_ref/c/econst/kSystemSoundID_Vibrate
-    CC_UNUSED_PARAM(duration);
 
     // automatically vibrates for approximately 0.4 seconds
     AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);

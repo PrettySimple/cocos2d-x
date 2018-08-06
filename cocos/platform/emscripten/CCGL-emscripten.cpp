@@ -1,6 +1,6 @@
 
-#include "base/CCUserDefault.h"
-#include "platform/CCPlatformConfig.h"
+#include <cocos/base/CCUserDefault.h>
+#include <cocos/platform/CCPlatformConfig.h>
 
 // Support for redefined glGetError() and eglGetError(), only in debug builds
 

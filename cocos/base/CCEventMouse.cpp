@@ -23,20 +23,21 @@
 
  ****************************************************************************/
 
-#include "base/CCEventMouse.h"
-#include "base/CCDirector.h"
+#include <cocos/base/CCEventMouse.h>
+
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEvent.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
 EventMouse::EventMouse(MouseEventType mouseEventCode)
-: Event(Type::MOUSE)
-, _mouseEventType(mouseEventCode)
-, _mouseButton(-1)
-, _x(0.0f)
-, _y(0.0f)
-, _scrollX(0.0f)
-, _scrollY(0.0f)
-, _startPointCaptured(false){};
+: Event(Type::MOUSE){};
+
+EventMouse::~EventMouse()
+{
+}
 
 // returns the current touch location in screen coordinates
 Vec2 EventMouse::getLocationInView() const

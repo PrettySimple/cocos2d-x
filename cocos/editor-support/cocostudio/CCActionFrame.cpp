@@ -23,7 +23,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "cocostudio/CCActionFrame.h"
-#include "2d/CCActionEase.h"
+#include <cocos/2d/CCActionEase.h>
 
 using namespace cocos2d;
 

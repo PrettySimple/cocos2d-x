@@ -23,9 +23,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "2d/CCActionGrid3D.h"
+#include <cocos/2d/CCActionGrid3D.h>
 
-#include "base/CCDirector.h"
+#include <cocos/2d/CCActionGrid.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <cmath>
+#include <cstdlib>
+#include <limits>
+#include <new>
 
 NS_CC_BEGIN
 // implementation of Waves3D
@@ -72,7 +82,7 @@ void Waves3D::update(float time)
         for (j = 0; j < _gridSize.height + 1; ++j)
         {
             Vec3 v = getOriginalVertex(Vec2(i, j));
-            v.z += (sinf((float)M_PI * time * _waves * 2 + (v.y + v.x) * 0.01f) * _amplitude * _amplitudeRate);
+            v.z += (sinf(static_cast<float>(M_PI) * time * _waves * 2.f + (v.y + v.x) * 0.01f) * _amplitude * _amplitudeRate);
             // CCLOG("v.z offset is %f\n", (sinf((float)M_PI * time * _waves * 2 + (v.y+v.x) * .01f) * _amplitude * _amplitudeRate));
             setVertex(Vec2(i, j), v);
         }
@@ -102,7 +112,8 @@ bool FlipX3D::initWithDuration(std::chrono::milliseconds duration)
 
 bool FlipX3D::initWithSize(const Size& gridSize, std::chrono::milliseconds duration)
 {
-    if (gridSize.width != 1 || gridSize.height != 1)
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+    if (std::abs(gridSize.width - 1.f) > epsi || std::abs(gridSize.height - 1.f) > epsi)
     {
         // Grid size must be (1,1)
         CCASSERT(0, "Grid size must be (1,1)");
@@ -124,7 +135,7 @@ FlipX3D* FlipX3D::clone() const
 
 void FlipX3D::update(float time)
 {
-    float angle = (float)M_PI * time; // 180 degrees
+    float angle = static_cast<float>(M_PI) * time; // 180 degrees
     float mz = sinf(angle);
     angle = angle / 2.0f; // x calculates degrees from 0 to 90
     float mx = cosf(angle);
@@ -218,7 +229,7 @@ FlipY3D* FlipY3D::create(std::chrono::milliseconds duration)
 
 void FlipY3D::update(float time)
 {
-    float angle = (float)M_PI * time; // 180 degrees
+    float angle = static_cast<float>(M_PI) * time; // 180 degrees
     float mz = sinf(angle);
     angle = angle / 2.0f; // x calculates degrees from 0 to 90
     float my = cosf(angle);
@@ -336,9 +347,8 @@ void Lens3D::setPosition(const Vec2& pos)
     }
 }
 
-void Lens3D::update(float time)
+void Lens3D::update(float)
 {
-    CC_UNUSED_PARAM(time);
     if (_dirty)
     {
         int i, j;
@@ -355,7 +365,7 @@ void Lens3D::update(float time)
                 {
                     r = _radius - r;
                     float pre_log = r / _radius;
-                    if (pre_log == 0)
+                    if (std::abs(pre_log) < std::numeric_limits<float>::epsilon())
                     {
                         pre_log = 0.001f;
                     }
@@ -445,8 +455,8 @@ void Ripple3D::update(float time)
             if (r < _radius)
             {
                 r = _radius - r;
-                float rate = powf(r / _radius, 2);
-                v.z += (sinf(time * (float)M_PI * _waves * 2 + r * 0.1f) * _amplitude * _amplitudeRate * rate);
+                float rate = std::pow(r / _radius, 2);
+                v.z += (std::sin(time * static_cast<float>(M_PI) * _waves * 2 + r * 0.1f) * _amplitude * _amplitudeRate * rate);
             }
 
             setVertex(Vec2(i, j), v);
@@ -497,9 +507,8 @@ Shaky3D* Shaky3D::clone() const
     return a;
 }
 
-void Shaky3D::update(float time)
+void Shaky3D::update(float)
 {
-    CC_UNUSED_PARAM(time);
     int i, j;
 
     for (i = 0; i < (_gridSize.width + 1); ++i)
@@ -572,8 +581,8 @@ void Liquid::update(float time)
         for (j = 1; j < _gridSize.height; ++j)
         {
             Vec3 v = getOriginalVertex(Vec2(i, j));
-            v.x = (v.x + (sinf(time * (float)M_PI * _waves * 2 + v.x * .01f) * _amplitude * _amplitudeRate));
-            v.y = (v.y + (sinf(time * (float)M_PI * _waves * 2 + v.y * .01f) * _amplitude * _amplitudeRate));
+            v.x = (v.x + (std::sin(time * static_cast<float>(M_PI) * _waves * 2 + v.x * .01f) * _amplitude * _amplitudeRate));
+            v.y = (v.y + (std::sin(time * static_cast<float>(M_PI) * _waves * 2 + v.y * .01f) * _amplitude * _amplitudeRate));
             setVertex(Vec2(i, j), v);
         }
     }
@@ -637,12 +646,12 @@ void Waves::update(float time)
 
             if (_vertical)
             {
-                v.x = (v.x + (sinf(time * (float)M_PI * _waves * 2 + v.y * .01f) * _amplitude * _amplitudeRate));
+                v.x = (v.x + (std::sin(time * static_cast<float>(M_PI) * _waves * 2 + v.y * .01f) * _amplitude * _amplitudeRate));
             }
 
             if (_horizontal)
             {
-                v.y = (v.y + (sinf(time * (float)M_PI * _waves * 2 + v.x * .01f) * _amplitude * _amplitudeRate));
+                v.y = (v.y + (std::sin(time * static_cast<float>(M_PI) * _waves * 2.f + v.x * .01f) * _amplitude * _amplitudeRate));
             }
 
             setVertex(Vec2(i, j), v);
@@ -715,9 +724,9 @@ void Twirl::update(float time)
             float r = avg.getLength();
 
             float amp = 0.1f * _amplitude * _amplitudeRate;
-            float a = r * cosf((float)M_PI / 2.0f + time * (float)M_PI * _twirls * 2) * amp;
+            float a = r * std::cos(static_cast<float>(M_PI) / 2.0f + time * static_cast<float>(M_PI) * _twirls * 2) * amp;
 
-            Vec2 d(sinf(a) * (v.y - c.y) + cosf(a) * (v.x - c.x), cosf(a) * (v.y - c.y) - sinf(a) * (v.x - c.x));
+            Vec2 d(std::sin(a) * (v.y - c.y) + std::cos(a) * (v.x - c.x), std::cos(a) * (v.y - c.y) - std::sin(a) * (v.x - c.x));
 
             v.x = c.x + d.x;
             v.y = c.y + d.y;

@@ -22,12 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCTWEENFUNCTION_H__
-#define __CCTWEENFUNCTION_H__
+#ifndef CC_2D_TWEENFUNCTION_H
+#define CC_2D_TWEENFUNCTION_H
 
 /// @cond DO_NOT_SHOW
 
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
@@ -295,4 +296,4 @@ namespace tweenfunc
 NS_CC_END
 
 /// @endcond
-#endif /*__CCTWEENFUNCTION_H__*/
+#endif // CC_2D_TWEENFUNCTION_H

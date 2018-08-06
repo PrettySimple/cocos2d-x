@@ -22,15 +22,16 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "deprecated/CCDeprecated.h"
+#include <cocos/deprecated/CCDeprecated.h>
 
-#include "2d/CCDrawingPrimitives.h"
-#include "base/CCDirector.h"
-#include "base/ccTypes.h"
-#include "math/CCGeometry.h"
-#include "math/Vec2.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCGLProgram.h"
+#include <cocos/2d/CCDrawingPrimitives.h>
+#include <cocos/2d/CCSpriteFrame.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCGLProgram.h>
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
 #    pragma GCC diagnostic ignored "-Wdeprecated-declarations"
@@ -41,7 +42,7 @@
 
 NS_CC_BEGIN
 
-const Vec2 CCPointZero;
+const Vec2 CCPointZero = Vec2::ZERO;
 
 /* The "zero" size -- equivalent to Size(0, 0). */
 const Size CCSizeZero = Size::ZERO;
@@ -238,21 +239,21 @@ void CC_DLL kmGLMultMatrix(const Mat4* pIn)
 void CC_DLL kmGLTranslatef(float x, float y, float z)
 {
     Mat4 mat;
-    Mat4::createTranslation(Vec3(x, y, z), &mat);
+    Mat4::createTranslation(Vec3(x, y, z), mat);
     Director::getInstance()->multiplyMatrix(currentActiveStackType, mat);
 }
 
 void CC_DLL kmGLRotatef(float angle, float x, float y, float z)
 {
     Mat4 mat;
-    Mat4::createRotation(Vec3(x, y, z), angle, &mat);
+    Mat4::createRotation(Vec3(x, y, z), angle, mat);
     Director::getInstance()->multiplyMatrix(currentActiveStackType, mat);
 }
 
 void CC_DLL kmGLScalef(float x, float y, float z)
 {
     Mat4 mat;
-    Mat4::createScale(x, y, z, &mat);
+    Mat4::createScale(x, y, z, mat);
     Director::getInstance()->multiplyMatrix(currentActiveStackType, mat);
 }
 
@@ -308,55 +309,55 @@ Mat4* kmMat4Multiply(Mat4* pOut, const Mat4* pM1, const Mat4* pM2)
 
 Mat4* kmMat4Translation(Mat4* pOut, const float x, const float y, const float z)
 {
-    Mat4::createTranslation(x, y, z, pOut);
+    Mat4::createTranslation(x, y, z, *pOut);
     return pOut;
 }
 
 Mat4* kmMat4RotationX(Mat4* pOut, const float radians)
 {
-    Mat4::createRotationX(radians, pOut);
+    Mat4::createRotationX(radians, *pOut);
     return pOut;
 }
 
 Mat4* kmMat4RotationY(Mat4* pOut, const float radians)
 {
-    Mat4::createRotationY(radians, pOut);
+    Mat4::createRotationY(radians, *pOut);
     return pOut;
 }
 
 Mat4* kmMat4RotationZ(Mat4* pOut, const float radians)
 {
-    Mat4::createRotationZ(radians, pOut);
+    Mat4::createRotationZ(radians, *pOut);
     return pOut;
 }
 
 Mat4* kmMat4RotationAxisAngle(Mat4* pOut, const Vec3* axis, float radians)
 {
-    Mat4::createRotation(*axis, radians, pOut);
+    Mat4::createRotation(*axis, radians, *pOut);
     return pOut;
 }
 
 Mat4* kmMat4Scaling(Mat4* pOut, const float x, const float y, const float z)
 {
-    Mat4::createScale(x, y, z, pOut);
+    Mat4::createScale(x, y, z, *pOut);
     return pOut;
 }
 
 Mat4* kmMat4PerspectiveProjection(Mat4* pOut, float fovY, float aspect, float zNear, float zFar)
 {
-    Mat4::createPerspective(fovY, aspect, zNear, zFar, pOut);
+    Mat4::createPerspective(fovY, aspect, zNear, zFar, *pOut);
     return pOut;
 }
 
 Mat4* kmMat4OrthographicProjection(Mat4* pOut, float left, float right, float bottom, float top, float nearVal, float farVal)
 {
-    Mat4::createOrthographicOffCenter(left, right, bottom, top, nearVal, farVal, pOut);
+    Mat4::createOrthographicOffCenter(left, right, bottom, top, nearVal, farVal, *pOut);
     return pOut;
 }
 
 Mat4* kmMat4LookAt(Mat4* pOut, const Vec3* pEye, const Vec3* pCenter, const Vec3* pUp)
 {
-    Mat4::createLookAt(*pEye, *pCenter, *pUp, pOut);
+    Mat4::createLookAt(*pEye, *pCenter, *pUp, *pOut);
     return pOut;
 }
 
@@ -394,7 +395,7 @@ Vec3* kmVec3Normalize(Vec3* pOut, const Vec3* pIn)
 
 Vec3* kmVec3Cross(Vec3* pOut, const Vec3* pV1, const Vec3* pV2)
 {
-    Vec3::cross(*pV1, *pV2, pOut);
+    Vec3::cross(*pV1, *pV2, *pOut);
     return pOut;
 }
 
@@ -405,32 +406,32 @@ float kmVec3Dot(const Vec3* pV1, const Vec3* pV2)
 
 Vec3* kmVec3Add(Vec3* pOut, const Vec3* pV1, const Vec3* pV2)
 {
-    Vec3::add(*pV1, *pV2, pOut);
+    Vec3::add(*pV1, *pV2, *pOut);
     return pOut;
 }
 
 Vec3* kmVec3Subtract(Vec3* pOut, const Vec3* pV1, const Vec3* pV2)
 {
-    Vec3::subtract(*pV1, *pV2, pOut);
+    Vec3::subtract(*pV1, *pV2, *pOut);
     return pOut;
 }
 
 Vec3* kmVec3Transform(Vec3* pOut, const Vec3* pV1, const Mat4* pM)
 {
-    pM->transformPoint(*pV1, pOut);
+    pM->transformPoint(*pV1, *pOut);
     return pOut;
 }
 
 Vec3* kmVec3TransformNormal(Vec3* pOut, const Vec3* pV, const Mat4* pM)
 {
-    pM->transformVector(*pV, pOut);
+    pM->transformVector(*pV, *pOut);
     return pOut;
 }
 
 Vec3* kmVec3TransformCoord(Vec3* pOut, const Vec3* pV, const Mat4* pM)
 {
     Vec4 v(pV->x, pV->y, pV->z, 1);
-    pM->transformVector(&v);
+    pM->transformVector(v);
     v = v * (1 / v.w);
     pOut->set(v.x, v.y, v.z);
     return pOut;
@@ -574,13 +575,13 @@ Vec4* kmVec4Assign(Vec4* pOut, const Vec4* pIn)
 
 Vec4* kmVec4MultiplyMat4(Vec4* pOut, const Vec4* pV, const Mat4* pM)
 {
-    pM->transformVector(*pV, pOut);
+    pM->transformVector(*pV, *pOut);
     return pOut;
 }
 
 Vec4* kmVec4Transform(Vec4* pOut, const Vec4* pV, const Mat4* pM)
 {
-    pM->transformVector(*pV, pOut);
+    pM->transformVector(*pV, *pOut);
     return pOut;
 }
 

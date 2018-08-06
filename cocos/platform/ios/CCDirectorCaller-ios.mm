@@ -23,16 +23,18 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    import "platform/ios/CCDirectorCaller-ios.h"
+#    include <cocos/platform/ios/CCDirectorCaller-ios.h>
 
-#    import <Foundation/Foundation.h>
+#    import <Foundation/NSNotification.h>
+#    import <Foundation/NSObjCRuntime.h>
 #    import <OpenGLES/EAGL.h>
+#    import <UIKit/UIApplication.h>
 
-#    import "base/CCDirector.h"
-#    import "platform/ios/CCEAGLView-ios.h"
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/platform/ios/CCEAGLView-ios.h>
 
 static id s_sharedDirectorCaller;
 
@@ -47,8 +49,7 @@ static id s_sharedDirectorCaller;
 
 @synthesize interval;
 
-+ (id)sharedDirectorCaller
-{
++ (id)sharedDirectorCaller {
     if (s_sharedDirectorCaller == nil)
     {
         s_sharedDirectorCaller = [CCDirectorCaller new];
@@ -57,20 +58,17 @@ static id s_sharedDirectorCaller;
     return s_sharedDirectorCaller;
 }
 
-+ (void)destroy
-{
++ (void)destroy {
     [s_sharedDirectorCaller stopMainLoop];
     [s_sharedDirectorCaller release];
     s_sharedDirectorCaller = nil;
 }
 
-- (void)alloc
-{
+- (void)alloc {
     interval = 1;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self)
     {
@@ -82,25 +80,21 @@ static id s_sharedDirectorCaller;
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [displayLink release];
     [super dealloc];
 }
 
-- (void)appDidBecomeActive
-{
+- (void)appDidBecomeActive {
     isAppActive = YES;
 }
 
-- (void)appDidBecomeInactive
-{
+- (void)appDidBecomeInactive {
     isAppActive = NO;
 }
 
-- (void)startMainLoop
-{
+- (void)startMainLoop {
     // Director::setAnimationInterval() is called, we should invalidate it first
     [self stopMainLoop];
 
@@ -109,14 +103,12 @@ static id s_sharedDirectorCaller;
     [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
-- (void)stopMainLoop
-{
+- (void)stopMainLoop {
     [displayLink invalidate];
     displayLink = nil;
 }
 
-- (void)setAnimationInterval:(double)intervalNew
-{
+- (void)setAnimationInterval:(double)intervalNew {
     // Director::setAnimationInterval() is called, we should invalidate it first
     [self stopMainLoop];
 
@@ -127,8 +119,7 @@ static id s_sharedDirectorCaller;
     [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
-- (void)doCaller:(id)sender
-{
+- (void)doCaller:(id)sender {
     if (isAppActive)
     {
         cocos2d::Director* director = cocos2d::Director::getInstance();

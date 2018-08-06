@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
  Copyright (c) 2013 cocos2d-x.org
 
  http://www.cocos2d-x.org
@@ -22,12 +22,17 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _COCOLOADER_H
-#define _COCOLOADER_H
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_COCOLOADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_COCOLOADER_H
 
 #include "cocostudio/CocosStudioExport.h"
-#include "json/document.h"
-#include "json/rapidjson.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <json/document.h>
+#include <json/rapidjson.h>
+#pragma clang diagnostic pop
+
 #include <stdint.h>
 
 #pragma pack(4)
@@ -113,4 +118,4 @@ namespace cocostudio
 } // namespace cocostudio
 
 #pragma pack()
-#endif
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_COCOLOADER_H

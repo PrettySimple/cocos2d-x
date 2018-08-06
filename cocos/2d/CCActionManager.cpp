@@ -26,19 +26,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "2d/CCActionManager.h"
+#include <cocos/2d/CCActionManager.h>
 
-#include "2d/CCAction.h"
-#include "2d/CCNode.h"
-#include "base/ccMacros.h"
-#include "platform/CCPlatformDefine.h"
-
-#include <algorithm>
-#include <functional>
-#include <iterator>
-#include <type_traits>
-#include <unordered_set>
-#include <utility>
+#include <cocos/2d/CCAction.h>
+#include <cocos/2d/CCActionManagerData.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
@@ -154,7 +149,7 @@ Action* ActionManager::getActionByTag(int tag, Node* target) const
     return _actions.get_action_from_target_by_tag(target, tag);
 }
 
-ssize_t ActionManager::getNumberOfRunningActionsInTarget(Node* target) const
+std::size_t ActionManager::getNumberOfRunningActionsInTarget(Node* target) const
 {
     return _actions.get_number_of_running_action_from_target(target);
 }

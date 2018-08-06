@@ -22,8 +22,15 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCFrustum.h"
-#include "2d/CCCamera.h"
+#include <cocos/3d/CCFrustum.h>
+
+#include <cocos/2d/CCCamera.h>
+#include <cocos/3d/CCAABB.h>
+#include <cocos/3d/CCOBB.h>
+#include <cocos/3d/CCPlane.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 

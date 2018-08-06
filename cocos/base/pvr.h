@@ -12,9 +12,9 @@
 
  ******************************************************************************/
 
-#ifndef __PVR_H__
-#define __PVR_H__
+#ifndef CC_BASE_PVR_H
+#define CC_BASE_PVR_H
 
 int PVRTDecompressPVRTC(const void* pCompressedData, int Do2bitMode, int XDim, int YDim, unsigned char* pResultImage);
 
-#endif //__PVR_H__
+#endif // CC_BASE_PVR_H

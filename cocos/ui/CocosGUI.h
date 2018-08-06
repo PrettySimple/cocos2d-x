@@ -22,42 +22,42 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __COCOSGUI_H__
-#define __COCOSGUI_H__
+#ifndef CC_UI_COCOSGUI_H
+#define CC_UI_COCOSGUI_H
 
-#include "ui/UIButton.h"
-#include "ui/UICheckBox.h"
-#include "ui/UIHBox.h"
-#include "ui/UIHelper.h"
-#include "ui/UIImageView.h"
-#include "ui/UILayout.h"
-#include "ui/UIListView.h"
-#include "ui/UILoadingBar.h"
-#include "ui/UIPageView.h"
-#include "ui/UIRadioButton.h"
-#include "ui/UIRelativeBox.h"
-#include "ui/UIRichText.h"
-#include "ui/UIScrollView.h"
-#include "ui/UISlider.h"
-#include "ui/UIText.h"
-#include "ui/UITextAtlas.h"
-#include "ui/UITextBMFont.h"
-#include "ui/UITextField.h"
-#include "ui/UIVBox.h"
-#include "ui/UIWidget.h"
+#include <cocos/ui/UIButton.h>
+#include <cocos/ui/UICheckBox.h>
+#include <cocos/ui/UIHBox.h>
+#include <cocos/ui/UIHelper.h>
+#include <cocos/ui/UIImageView.h>
+#include <cocos/ui/UILayout.h>
+#include <cocos/ui/UIListView.h>
+#include <cocos/ui/UILoadingBar.h>
+#include <cocos/ui/UIPageView.h>
+#include <cocos/ui/UIRadioButton.h>
+#include <cocos/ui/UIRelativeBox.h>
+#include <cocos/ui/UIRichText.h>
+#include <cocos/ui/UIScrollView.h>
+#include <cocos/ui/UISlider.h>
+#include <cocos/ui/UIText.h>
+#include <cocos/ui/UITextAtlas.h>
+#include <cocos/ui/UITextBMFont.h>
+#include <cocos/ui/UITextField.h>
+#include <cocos/ui/UIVBox.h>
+#include <cocos/ui/UIWidget.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN)
-#    include "ui/UIVideoPlayer.h"
+#    include <cocos/ui/UIVideoPlayer.h>
 #endif
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN)
-#    include "ui/UIWebView.h"
+#    include <cocos/ui/UIWebView.h>
 #endif
-#include "editor-support/cocostudio/CocosStudioExtension.h"
-#include "ui/GUIExport.h"
-#include "ui/UIDeprecated.h"
-#include "ui/UIEditBox/UIEditBox.h"
-#include "ui/UILayoutComponent.h"
-#include "ui/UIScale9Sprite.h"
-#include "ui/UITabControl.h"
+#include <cocos/editor-support/cocostudio/CocosStudioExtension.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIDeprecated.h>
+#include <cocos/ui/UIEditBox/UIEditBox.h>
+#include <cocos/ui/UILayoutComponent.h>
+#include <cocos/ui/UIScale9Sprite.h>
+#include <cocos/ui/UITabControl.h>
 
 /**
  * @addtogroup ui
@@ -78,4 +78,4 @@ NS_CC_END
 // end of ui group
 /// @}
 
-#endif /* defined(__CocosGUITest__Cocos__) */
+#endif // CC_UI_COCOSGUI_H

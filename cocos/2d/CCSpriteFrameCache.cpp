@@ -27,19 +27,33 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCSpriteFrameCache.h"
+#include <cocos/2d/CCSpriteFrameCache.h>
 
-#include "2d/CCAutoPolygon.h"
-#include "2d/CCSprite.h"
-#include "base/CCDirector.h"
-#include "base/CCNS.h"
-#include "base/CCNinePatchImageParser.h"
-#include "base/ccMacros.h"
-#include "base/ccUTF8.h"
-#include "platform/CCFileUtils.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCTextureCache.h"
+#include <cocos/2d/CCAutoPolygon.h>
+#include <cocos/2d/CCSpriteFrame.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCMap.h>
+#include <cocos/base/CCNS.h>
+#include <cocos/base/CCNinePatchImageParser.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCImage.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureCache.h>
+#include <cocos/renderer/CCTrianglesCommand.h>
 
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
+#include <new>
+#include <unordered_map>
+#include <utility>
 #include <vector>
 
 using namespace std;
@@ -195,7 +209,7 @@ void SpriteFrameCache::addSpriteFramesWithDictionary(ValueMap& dictionary, Textu
             ow = std::abs(ow);
             oh = std::abs(oh);
             // create frame
-            spriteFrame = SpriteFrame::createWithTexture(texture, Rect(x, y, w, h), false, Vec2(ox, oy), Size((float)ow, (float)oh));
+            spriteFrame = SpriteFrame::createWithTexture(texture, Rect(x, y, w, h), false, Vec2(ox, oy), Size(static_cast<float>(ow), static_cast<float>(oh)));
         }
         else if (format == 1 || format == 2)
         {
@@ -626,7 +640,7 @@ void SpriteFrameCache::reloadSpriteFramesWithDictionary(ValueMap& dictionary, Te
             ow = std::abs(ow);
             oh = std::abs(oh);
             // create frame
-            spriteFrame = SpriteFrame::createWithTexture(texture, Rect(x, y, w, h), false, Vec2(ox, oy), Size((float)ow, (float)oh));
+            spriteFrame = SpriteFrame::createWithTexture(texture, Rect(x, y, w, h), false, Vec2(ox, oy), Size(static_cast<float>(ow), static_cast<float>(oh)));
         }
         else if (format == 1 || format == 2)
         {

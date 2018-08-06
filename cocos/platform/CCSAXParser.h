@@ -21,13 +21,15 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCSAXPARSER_H__
-#define __CCSAXPARSER_H__
+#ifndef CC_PLATFORM_SAXPARSER_H
+#define CC_PLATFORM_SAXPARSER_H
 /// @cond DO_NOT_SHOW
 
-#include "platform/CCCommon.h"
-#include "platform/CCPlatformConfig.h"
-#include <string>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <cstddef>
+#include <iosfwd>
 
 NS_CC_BEGIN
 
@@ -41,7 +43,7 @@ typedef unsigned char CC_XML_CHAR;
 class CC_DLL SAXDelegator
 {
 public:
-    virtual ~SAXDelegator() {}
+    virtual ~SAXDelegator();
 
     /**
      * @js NA
@@ -124,4 +126,4 @@ public:
 NS_CC_END
 
 /// @endcond
-#endif //__CCSAXPARSER_H__
+#endif // CC_PLATFORM_SAXPARSER_H

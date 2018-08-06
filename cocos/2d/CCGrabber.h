@@ -23,11 +23,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __EFFECTS_CCGRABBER_H__
-#define __EFFECTS_CCGRABBER_H__
+#ifndef CC_2D_GRABBER_H
+#define CC_2D_GRABBER_H
 
-#include "base/CCRef.h"
-#include "platform/CCGL.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
@@ -71,4 +72,4 @@ protected:
 
 NS_CC_END
 
-#endif // __EFFECTS_CCGRABBER_H__
+#endif // CC_2D_GRABBER_H

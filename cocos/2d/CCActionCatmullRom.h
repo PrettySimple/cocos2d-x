@@ -31,12 +31,17 @@
  * Adapted from cocos2d-x to cocos2d-iphone by Ricardo Quesada
  */
 
-#ifndef __CCACTION_CATMULLROM_H__
-#define __CCACTION_CATMULLROM_H__
+#ifndef CC_2D_ACTIONCATMULLROM_H
+#define CC_2D_ACTIONCATMULLROM_H
 
-#include "2d/CCActionInterval.h"
-#include "math/CCGeometry.h"
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
+#include <chrono>
+#include <cstddef>
 #include <vector>
 
 NS_CC_BEGIN;
@@ -60,7 +65,7 @@ public:
      * @js NA
      * @param capacity The size of the array.
      */
-    static PointArray* create(ssize_t capacity);
+    static PointArray* create(std::size_t capacity);
 
     /**
      * @js NA
@@ -79,7 +84,7 @@ public:
      * @param capacity The size of the array.
      * @return True.
      */
-    bool initWithCapacity(ssize_t capacity);
+    bool initWithCapacity(std::size_t capacity);
 
     /** Appends a control point.
      *
@@ -94,7 +99,7 @@ public:
      * @param controlPoint A control point.
      * @param index Insert the point to array in index.
      */
-    void insertControlPoint(Vec2& controlPoint, ssize_t index);
+    void insertControlPoint(Vec2& controlPoint, std::size_t index);
 
     /** Replaces an existing controlPoint at index.
      *
@@ -102,7 +107,7 @@ public:
      * @param controlPoint A control point.
      * @param index Replace the point to array in index.
      */
-    void replaceControlPoint(Vec2& controlPoint, ssize_t index);
+    void replaceControlPoint(Vec2& controlPoint, std::size_t index);
 
     /** Get the value of a controlPoint at a given index.
      *
@@ -110,21 +115,21 @@ public:
      * @param index Get the point in index.
      * @return A Vec2.
      */
-    Vec2 getControlPointAtIndex(ssize_t index);
+    Vec2 getControlPointAtIndex(std::size_t index);
 
     /** Deletes a control point at a given index
      *
      * @js NA
      * @param index Remove the point in index.
      */
-    void removeControlPointAtIndex(ssize_t index);
+    void removeControlPointAtIndex(std::size_t index);
 
     /** Returns the number of objects of the control point array.
      *
      * @js NA
      * @return The number of objects of the control point array.
      */
-    ssize_t count() const;
+    std::size_t count() const;
 
     /** Returns a new copy of the array reversed. User is responsible for releasing this copy.
      *
@@ -179,7 +184,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~CardinalSplineTo();
+    ~CardinalSplineTo() override;
     /**
      * @js ctor
      * @lua NA
@@ -216,14 +221,14 @@ public:
     }
 
     // Overrides
-    virtual CardinalSplineTo* clone() const override;
-    virtual CardinalSplineTo* reverse() const override;
-    virtual void startWithTarget(Node* target) override;
+    CardinalSplineTo* clone() const override;
+    CardinalSplineTo* reverse() const override;
+    void startWithTarget(Node* target) override;
 
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    void update(float time) override;
 
 protected:
     /** Array of control points */
@@ -339,4 +344,4 @@ extern CC_DLL Vec2 ccCardinalSplineAt(Vec2& p0, Vec2& p1, Vec2& p2, Vec2& p3, fl
 
 NS_CC_END;
 
-#endif // __CCACTION_CATMULLROM_H__
+#endif // CC_2D_ACTIONCATMULLROM_H

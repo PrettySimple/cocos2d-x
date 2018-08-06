@@ -26,10 +26,10 @@ THE SOFTWARE.
 #ifndef __CC_STD_C_H__
 #define __CC_STD_C_H__
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 
-#    include "platform/CCPlatformMacros.h"
+#    include <cocos/platform/CCPlatformMacros.h>
 
 #    include <cmath>
 #    include <cstdarg>

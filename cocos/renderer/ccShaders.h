@@ -24,12 +24,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCSHADER_H__
-#define __CCSHADER_H__
+#ifndef CC_RENDERER_SHADERS_H
+#define CC_RENDERER_SHADERS_H
 /// @cond DO_NOT_SHOW
 
-#include "platform/CCGL.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 /**
  * @addtogroup renderer
@@ -101,4 +102,4 @@ NS_CC_END
  @}
  */
 /// @endcond
-#endif /* __CCSHADER_H__ */
+#endif // CC_RENDERER_SHADERS_H

@@ -23,6 +23,8 @@
  * THE SOFTWARE.
  */
 
+#pragma once
+
 const char* ccLabel_vert = R"(
 attribute vec4 a_position;
 attribute vec2 a_texCoord;

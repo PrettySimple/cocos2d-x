@@ -22,14 +22,31 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCBillBoard.h"
-#include "2d/CCCamera.h"
-#include "2d/CCSpriteFrameCache.h"
-#include "base/CCDirector.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCRenderer.h"
+#include <cocos/3d/CCBillBoard.h>
+
+#include <cocos/2d/CCAutoPolygon.h>
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/CCMathBase.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Quaternion.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTrianglesCommand.h>
+
+#include <cmath>
+#include <cstring>
+#include <new>
 
 NS_CC_BEGIN
+
+class Rect;
+class Texture2D;
 
 BillBoard::BillBoard()
 : _mode(Mode::VIEW_POINT_ORIENTED)
@@ -172,7 +189,7 @@ bool BillBoard::calculateBillbaordTransform()
                 camDir.set(localToWorld.m[12] - camWorldMat.m[12], localToWorld.m[13] - camWorldMat.m[13], localToWorld.m[14] - camWorldMat.m[14]);
                 break;
             case Mode::VIEW_PLANE_ORIENTED:
-                camWorldMat.transformVector(Vec3(0.0f, 0.0f, -1.0f), &camDir);
+                camWorldMat.transformVector(Vec3(0.0f, 0.0f, -1.0f), camDir);
                 break;
             default:
                 CCASSERT(false, "invalid billboard mode");
@@ -194,10 +211,10 @@ bool BillBoard::calculateBillbaordTransform()
 
         Vec3 upAxis(rotationMatrix.m[4], rotationMatrix.m[5], rotationMatrix.m[6]);
         Vec3 x, y;
-        camWorldMat.transformVector(upAxis, &y);
-        Vec3::cross(camDir, y, &x);
+        camWorldMat.transformVector(upAxis, y);
+        Vec3::cross(camDir, y, x);
         x.normalize();
-        Vec3::cross(x, camDir, &y);
+        Vec3::cross(x, camDir, y);
         y.normalize();
 
         float xlen = sqrtf(localToWorld.m[0] * localToWorld.m[0] + localToWorld.m[1] * localToWorld.m[1] + localToWorld.m[2] * localToWorld.m[2]);

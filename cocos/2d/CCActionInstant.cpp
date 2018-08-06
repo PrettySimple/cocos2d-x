@@ -25,11 +25,17 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "2d/CCActionInstant.h"
+#include <cocos/2d/CCActionInstant.h>
 
-#include "2d/CCNode.h"
-#include "2d/CCSprite.h"
-#include "base/ccMacros.h"
+#include <cocos/2d/CCAction.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <new>
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
 #    pragma GCC diagnostic ignored "-Wdeprecated-declarations"

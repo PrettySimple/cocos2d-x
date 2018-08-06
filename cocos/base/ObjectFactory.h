@@ -22,11 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __TRIGGERFACTORY_H__
-#define __TRIGGERFACTORY_H__
+#ifndef CC_BASE_OBJECTFACTORY_H
+#define CC_BASE_OBJECTFACTORY_H
 
-#include "base/CCRef.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <functional>
 #include <string>
 #include <unordered_map>
@@ -70,4 +71,4 @@ private:
 
 NS_CC_END
 
-#endif
+#endif // CC_BASE_OBJECTFACTORY_H

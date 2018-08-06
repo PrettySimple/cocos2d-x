@@ -25,19 +25,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "renderer/ccGLStateCache.h"
+#include <cocos/renderer/ccGLStateCache.h>
 
-#include "base/CCConfiguration.h"
-#include "base/CCDirector.h"
-#include "base/ccConfig.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCRenderState.h"
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 #include <array>
+#include <cstddef>
 #include <limits>
+#include <mutex>
 #include <thread>
 #include <unordered_map>
-#include <mutex>
+#include <utility>
 
 NS_CC_BEGIN
 
@@ -46,17 +51,17 @@ static const int MAX_ACTIVE_TEXTURE = 16;
 
 namespace GL
 {
-    std::mutex currentBoundProjectionMatrixMutex;
-    #if CC_ENABLE_GL_STATE_CACHE
-    std::mutex currentBoundTextureMutex;
-    std::mutex currentBoundShaderMutex;
-    std::mutex currentBlendingSourceMutex;
-    std::mutex currentBlendingTestMutex;
-    std::mutex GLServerStateMutex;
-    std::mutex VAOMutex;
-    std::mutex activeTextureMutex;
-    #endif
-}
+    static std::mutex currentBoundProjectionMatrixMutex;
+#if CC_ENABLE_GL_STATE_CACHE
+    static std::mutex currentBoundTextureMutex;
+    static std::mutex currentBoundShaderMutex;
+    static std::mutex currentBlendingSourceMutex;
+    static std::mutex currentBlendingTestMutex;
+    static std::mutex GLServerStateMutex;
+    static std::mutex VAOMutex;
+    static std::mutex activeTextureMutex;
+#endif
+} // namespace GL
 
 GLuint& s_currentProjectionMatrix()
 {
@@ -74,7 +79,7 @@ GLuint& s_currentProjectionMatrix()
     return it.first->second;
 }
 
-    uint32_t s_attributeFlags = 0;
+static uint32_t s_attributeFlags = 0;
 
 #if CC_ENABLE_GL_STATE_CACHE
 
@@ -286,8 +291,8 @@ namespace GL
             glBlendFunc(sfactor, dfactor);
 
             RenderState::StateBlock::_defaultState->setBlend(true);
-            RenderState::StateBlock::_defaultState->setBlendSrc((RenderState::Blend)sfactor);
-            RenderState::StateBlock::_defaultState->setBlendDst((RenderState::Blend)dfactor);
+            RenderState::StateBlock::_defaultState->setBlendSrc(static_cast<RenderState::Blend>(sfactor));
+            RenderState::StateBlock::_defaultState->setBlendDst(static_cast<RenderState::Blend>(dfactor));
         }
     }
 
@@ -415,38 +420,41 @@ namespace GL
         // Do not use the state cache in case of vao as the attrib flags context is by vao!
         if (Configuration::getInstance()->supportsShareableVAO() && vao != 0)
         {
-            for(int i=0; i < MAX_ATTRIBUTES; i++) {
+            for (int i = 0; i < MAX_ATTRIBUTES; i++)
+            {
                 std::uint32_t bit = 1 << i;
-                if( flags & bit )
+                if (flags & bit)
                     glEnableVertexAttribArray(i);
             }
             return;
         }
-        
+
         if (vao == 0)
             bindVAO(vao);
-        
-    // Uncomment to check that the GL state is equal to the real GPU state
-    //#define VALIDATE_GL_STATE
-    #ifdef VALIDATE_GL_STATE
+
+// Uncomment to check that the GL state is equal to the real GPU state
+//#define VALIDATE_GL_STATE
+#ifdef VALIDATE_GL_STATE
         uint32_t realFlags = 0;
-        for(int i=0; i<MAX_ATTRIBUTES; i++) {
+        for (int i = 0; i < MAX_ATTRIBUTES; i++)
+        {
             GLint realFlag;
             glGetVertexAttribiv(i, GL_VERTEX_ATTRIB_ARRAY_ENABLED, &realFlag);
             if (realFlag > 0)
                 realFlags |= 1 << i;
         }
         assert(realFlags == s_attributeFlags); // The GL state cache is not up to date with the GPU state
-                                                 // Probably somebody called glEnableVertexAttribArray manually!!
-    #endif
+                                               // Probably somebody called glEnableVertexAttribArray manually!!
+#endif
 
         // hardcoded!
-        for(int i=0; i < MAX_ATTRIBUTES; i++) {
+        for (int i = 0; i < MAX_ATTRIBUTES; i++)
+        {
             uint32_t bit = 1 << i;
-            //FIXME:Cache is disabled, try to enable cache as before
+            // FIXME:Cache is disabled, try to enable cache as before
             bool const enabled = (flags & bit) != 0;
             bool const enabledBefore = (s_attributeFlags & bit) != 0;
-            if(enabled != enabledBefore)
+            if (enabled != enabledBefore)
             {
                 if (enabled)
                     glEnableVertexAttribArray(i);

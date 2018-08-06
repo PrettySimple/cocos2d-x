@@ -22,11 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __UIPAGEVIEW_H__
-#define __UIPAGEVIEW_H__
+#ifndef CC_UI_PAGEVIEW_H
+#define CC_UI_PAGEVIEW_H
 
-#include "ui/GUIExport.h"
-#include "ui/UIListView.h"
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIListView.h>
+
+#include <cstdint>
 
 /**
  * @addtogroup ui
@@ -64,17 +66,9 @@ namespace ui
 
     public:
         /**
-         * Page turn event type.
-         */
-        enum class EventType
-        {
-            TURNING
-        };
-
-        /**
          * Touch direction type.
          */
-        enum class TouchDirection
+        enum struct TouchDirection : std::uint8_t
         {
             LEFT,
             RIGHT,
@@ -85,7 +79,7 @@ namespace ui
         /**
          * PageView page turn event callback.
          */
-        typedef std::function<void(Ref*, EventType)> ccPageViewCallback;
+        typedef std::function<void(Ref*, ScrollView::EventType)> ccPageViewCallback;
 
         /**
          * Default constructor
@@ -99,7 +93,7 @@ namespace ui
          * @js NA
          * @lua NA
          */
-        virtual ~PageView();
+        ~PageView() override;
 
         /**
          * Create an empty PageView.
@@ -112,7 +106,7 @@ namespace ui
          *  Direction Direction::VERTICAL means vertical scroll, Direction::HORIZONTAL means horizontal scroll.
          * @param direction Set the page view's scroll direction.
          */
-        virtual void setDirection(Direction direction) override;
+        void setDirection(Direction direction) override;
 
         /**
          * Add a widget as a page of PageView in a given index.
@@ -123,7 +117,7 @@ namespace ui
          *
          * Since v3.9, this is deprecated. Use `insertPage(Widget* page, int idx)` instead.
          */
-        CC_DEPRECATED_ATTRIBUTE void addWidgetToPage(Widget* widget, ssize_t pageIdx, bool forceCreate);
+        CC_DEPRECATED_ATTRIBUTE void addWidgetToPage(Widget* widget, std::size_t pageIdx, bool forceCreate);
 
         /**
          * Insert a page into the end of PageView.
@@ -152,7 +146,7 @@ namespace ui
          *
          * @param index  A given index.
          */
-        void removePageAtIndex(ssize_t index);
+        void removePageAtIndex(std::size_t index);
 
         /**
          * @brief Remove all pages of the PageView.
@@ -164,7 +158,7 @@ namespace ui
          *
          * @param idx   A given index in the PageView. Index start from 0 to pageCount -1.
          */
-        void scrollToPage(ssize_t idx);
+        void scrollToPage(std::size_t idx);
 
         /**
          * Scroll to a page with a given index and with a given scroll time.
@@ -172,14 +166,14 @@ namespace ui
          * @param idx   A given index in the PageView. Index start from 0 to pageCount -1.
          * @param time  Scroll time must be >= 0. Otherwise last set scroll time will be used.
          */
-        void scrollToPage(ssize_t idx, float time);
+        void scrollToPage(std::size_t idx, float time);
 
         /**
          * Scroll to a page with a given index.
          *
          * @param itemIndex   A given index in the PageView. Index start from 0 to pageCount -1.
          */
-        void scrollToItem(ssize_t itemIndex);
+        void scrollToItem(std::size_t itemIndex);
 
         /**
          * Scroll to a item with a given index and with a given scroll time.
@@ -187,7 +181,7 @@ namespace ui
          * @param idx   A given index in the PageView. Index start from 0 to pageCount -1.
          * @param time  Scroll time must be >= 0. Otherwise last set scrolltime will be used.
          */
-        void scrollToItem(ssize_t idx, float time);
+        void scrollToItem(std::size_t idx, float time);
 
         /**
          * Gets current displayed page index.
@@ -195,13 +189,13 @@ namespace ui
          *
          * Since v3.9, this is deprecated. Use `getCurrentPageIndex()` instead.
          */
-        CC_DEPRECATED_ATTRIBUTE ssize_t getCurPageIndex() const;
+        CC_DEPRECATED_ATTRIBUTE std::size_t getCurPageIndex() const;
 
         /**
          * Gets current displayed page index.
          * @return current page index.
          */
-        ssize_t getCurrentPageIndex() const { return _currentPageIndex; }
+        std::size_t getCurrentPageIndex() const { return _currentPageIndex; }
 
         /**
          * Jump to a page with a given index without scrolling.
@@ -211,7 +205,7 @@ namespace ui
          *
          * Since v3.9, this is deprecated. Use `setCurrentPageIndex()` instead.
          */
-        CC_DEPRECATED_ATTRIBUTE void setCurPageIndex(ssize_t index);
+        CC_DEPRECATED_ATTRIBUTE void setCurPageIndex(std::size_t index);
 
         /**
          * Jump to a page with a given index without scrolling.
@@ -219,7 +213,7 @@ namespace ui
          *
          * @param index A given index in PageView. Index start from 0 to pageCount -1.
          */
-        void setCurrentPageIndex(ssize_t index);
+        void setCurrentPageIndex(std::size_t index);
 
         /**
          * @brief Get all the pages in the PageView.
@@ -237,7 +231,7 @@ namespace ui
          *
          * Since v3.9, this is obsolete. Use `Widget* ListView::getItem(index)` instead.
          */
-        CC_DEPRECATED_ATTRIBUTE Layout* getPage(ssize_t index);
+        CC_DEPRECATED_ATTRIBUTE Layout* getPage(std::size_t index);
 
         /**
          * Add a page turn callback to PageView, then when one page is turning, the callback will be called.
@@ -252,10 +246,10 @@ namespace ui
          *
          * @param callback A page turning callback.
          */
-        void addEventListener(const ccPageViewCallback& callback);
+        void addEventListener(const ccPageViewCallback& callback) override;
         using ScrollView::addEventListener;
         // override methods
-        virtual std::string getDescription() const override;
+        std::string getDescription() const override;
 
         /**
          * @brief Toggle page indicator enabled.
@@ -394,24 +388,24 @@ namespace ui
 
         void setAutoScrollStopEpsilon(float epsilon);
 
-        CC_CONSTRUCTOR_ACCESS : virtual bool init() override;
+        CC_CONSTRUCTOR_ACCESS : bool init() override;
 
         // override methods
-        virtual void doLayout() override;
+        void doLayout() override;
 
     protected:
         void pageTurningEvent();
-        virtual float getAutoScrollStopEpsilon() const override;
+        float getAutoScrollStopEpsilon() const override;
 
-        virtual void remedyLayoutParameter(Widget* item) override;
-        virtual void moveInnerContainer(const Vec2& deltaMove, bool canStartBounceBack) override;
-        virtual void onItemListChanged() override;
-        virtual void onSizeChanged() override;
-        virtual void handleReleaseLogic(Touch* touch) override;
-        virtual void handlePressLogic(Touch* touch) override;
+        void remedyLayoutParameter(Widget* item) override;
+        void moveInnerContainer(const Vec2& deltaMove, bool canStartBounceBack) override;
+        void onItemListChanged() override;
+        void onSizeChanged() override;
+        void handleReleaseLogic(Touch* touch) override;
+        void handlePressLogic(Touch* touch) override;
 
-        virtual Widget* createCloneInstance() override;
-        virtual void copySpecialProperties(Widget* model) override;
+        Widget* createCloneInstance() override;
+        void copySpecialProperties(Widget* model) override;
 
         void refreshIndicatorPosition();
 
@@ -419,7 +413,7 @@ namespace ui
         PageViewIndicator* _indicator;
         Vec2 _indicatorPositionAsAnchorPoint;
 
-        ssize_t _currentPageIndex;
+        std::size_t _currentPageIndex;
 
         float _childFocusCancelOffset;
 
@@ -436,9 +430,8 @@ namespace ui
 #elif _MSC_VER >= 1400 // vs 2005 or higher
 #    pragma warning(pop)
 #endif
-        ccPageViewCallback _eventCallback;
         float _autoScrollStopEpsilon;
-        ssize_t _previousPageIndex;
+        std::size_t _previousPageIndex;
         bool _isTouchBegin;
     };
 
@@ -447,4 +440,4 @@ NS_CC_END
 // end of ui group
 /// @}
 
-#endif /* defined(__PageView__) */
+#endif // CC_UI_PAGEVIEW_H

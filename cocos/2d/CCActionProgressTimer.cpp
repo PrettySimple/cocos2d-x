@@ -23,11 +23,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "2d/CCActionProgressTimer.h"
+#include <cocos/2d/CCActionProgressTimer.h>
 
-#include "2d/CCProgressTimer.h"
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/2d/CCProgressTimer.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <new>
 
 NS_CC_BEGIN
+
+class Node;
 
 #define kProgressTimerCast ProgressTimer*
 
@@ -73,12 +80,12 @@ ProgressTo* ProgressTo::reverse() const
 void ProgressTo::startWithTarget(Node* target)
 {
     ActionInterval::startWithTarget(target);
-    _from = ((kProgressTimerCast)(target))->getPercentage();
+    _from = static_cast<kProgressTimerCast>(target)->getPercentage();
 }
 
 void ProgressTo::update(float time)
 {
-    ((kProgressTimerCast)(_target))->setPercentage(_from + (_to - _from) * time);
+    static_cast<kProgressTimerCast>(_target)->setPercentage(_from + (_to - _from) * time);
 }
 
 // implementation of ProgressFromTo
@@ -127,7 +134,7 @@ void ProgressFromTo::startWithTarget(Node* target)
 
 void ProgressFromTo::update(float time)
 {
-    ((kProgressTimerCast)(_target))->setPercentage(_from + (_to - _from) * time);
+    static_cast<kProgressTimerCast>(_target)->setPercentage(_from + (_to - _from) * time);
 }
 
 NS_CC_END

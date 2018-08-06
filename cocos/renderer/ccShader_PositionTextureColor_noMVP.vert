@@ -23,6 +23,8 @@
  * THE SOFTWARE.
  */
 
+#pragma once
+
 const char* ccPositionTextureColor_noMVP_vert = R"(
 #ifdef GL_ES
 attribute mediump vec4 a_position;

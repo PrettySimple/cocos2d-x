@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIPageView.h"
-#include "ui/UIPageViewIndicator.h"
+#include <cocos/ui/UIPageView.h>
+#include <cocos/ui/UIPageViewIndicator.h>
 
 NS_CC_BEGIN
 
@@ -38,7 +38,6 @@ namespace ui
     , _childFocusCancelOffset(5.0f)
     , _pageViewEventListener(nullptr)
     , _pageViewEventSelector(nullptr)
-    , _eventCallback(nullptr)
     , _autoScrollStopEpsilon(0.001f)
     , _previousPageIndex(-1)
     , _isTouchBegin(false)
@@ -85,7 +84,7 @@ namespace ui
         ListView::doLayout();
         if (_indicator != nullptr)
         {
-            ssize_t index = getIndex(getCenterItemInCurrentView());
+            std::size_t index = getIndex(getCenterItemInCurrentView());
             _indicator->indicate(index);
         }
         _innerContainerDoLayoutDirty = false;
@@ -110,7 +109,7 @@ namespace ui
         }
     }
 
-    void PageView::addWidgetToPage(Widget* widget, ssize_t pageIdx, bool forceCreate) { insertCustomItem(widget, pageIdx); }
+    void PageView::addWidgetToPage(Widget* widget, std::size_t pageIdx, bool forceCreate) { insertCustomItem(widget, pageIdx); }
 
     void PageView::addPage(Widget* page) { pushBackCustomItem(page); }
 
@@ -118,30 +117,30 @@ namespace ui
 
     void PageView::removePage(Widget* page) { removeItem(getIndex(page)); }
 
-    void PageView::removePageAtIndex(ssize_t index) { removeItem(index); }
+    void PageView::removePageAtIndex(std::size_t index) { removeItem(index); }
 
     void PageView::removeAllPages() { removeAllItems(); }
 
-    void PageView::setCurPageIndex(ssize_t index) { setCurrentPageIndex(index); }
+    void PageView::setCurPageIndex(std::size_t index) { setCurrentPageIndex(index); }
 
-    void PageView::setCurrentPageIndex(ssize_t index) { jumpToItem(index, Vec2::ANCHOR_MIDDLE, Vec2::ANCHOR_MIDDLE); }
+    void PageView::setCurrentPageIndex(std::size_t index) { jumpToItem(index, Vec2::ANCHOR_MIDDLE, Vec2::ANCHOR_MIDDLE); }
 
-    void PageView::scrollToPage(ssize_t idx) { scrollToItem(idx); }
+    void PageView::scrollToPage(std::size_t idx) { scrollToItem(idx); }
 
-    void PageView::scrollToPage(ssize_t idx, float time) { scrollToItem(idx, time); }
+    void PageView::scrollToPage(std::size_t idx, float time) { scrollToItem(idx, time); }
 
-    void PageView::scrollToItem(ssize_t itemIndex) { ListView::scrollToItem(itemIndex, Vec2::ANCHOR_MIDDLE, Vec2::ANCHOR_MIDDLE); }
+    void PageView::scrollToItem(std::size_t itemIndex) { ListView::scrollToItem(itemIndex, Vec2::ANCHOR_MIDDLE, Vec2::ANCHOR_MIDDLE); }
 
-    void PageView::scrollToItem(ssize_t itemIndex, float time)
+    void PageView::scrollToItem(std::size_t itemIndex, float time)
     {
         ListView::scrollToItem(itemIndex, Vec2::ANCHOR_MIDDLE, Vec2::ANCHOR_MIDDLE, time >= 0 ? time : _scrollTime);
     }
 
-    void PageView::setCustomScrollThreshold(float threshold) { CCLOG("PageView::setCustomScrollThreshold() has no effect!"); }
+    void PageView::setCustomScrollThreshold(float threshold) { CCLOG("PageView::setCustomScrollThreshold() has no effect!", ""); }
 
     float PageView::getCustomScrollThreshold() const { return 0; }
 
-    void PageView::setUsingCustomScrollThreshold(bool flag) { CCLOG("PageView::setUsingCustomScrollThreshold() has no effect!"); }
+    void PageView::setUsingCustomScrollThreshold(bool flag) { CCLOG("PageView::setUsingCustomScrollThreshold() has no effect!", ""); }
 
     bool PageView::isUsingCustomScrollThreshold() const { return false; }
 
@@ -266,11 +265,11 @@ namespace ui
         }
         if (_eventCallback)
         {
-            _eventCallback(this, EventType::TURNING);
+            _eventCallback(this, ScrollView::EventType::TURNING);
         }
         if (_ccEventCallback)
         {
-            _ccEventCallback(this, static_cast<int>(EventType::TURNING));
+            _ccEventCallback(this, static_cast<int>(ScrollView::EventType::TURNING));
         }
         _isTouchBegin = false;
         this->release();
@@ -288,7 +287,7 @@ namespace ui
         this->addEventListener(scrollViewCallback);
     }
 
-    ssize_t PageView::getCurPageIndex() const
+    std::size_t PageView::getCurPageIndex() const
     {
         Widget* widget = ListView::getCenterItemInCurrentView();
         return getIndex(widget);
@@ -308,7 +307,7 @@ namespace ui
         return pages;
     }
 
-    Layout* PageView::getPage(ssize_t index)
+    Layout* PageView::getPage(std::size_t index)
     {
         if (index < 0 || index >= this->getItems().size())
         {

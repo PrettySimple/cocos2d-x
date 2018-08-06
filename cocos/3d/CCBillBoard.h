@@ -22,12 +22,24 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCBILLBOARD_H__
-#define __CCBILLBOARD_H__
+#ifndef CC_3D_BILLBOARD_H
+#define CC_3D_BILLBOARD_H
 
-#include "2d/CCSprite.h"
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <cstdint>
+#include <iosfwd>
 
 NS_CC_BEGIN
+
+class Rect;
+class Renderer;
+class Texture2D;
+
 /**
  * @addtogroup _3d
  * @{
@@ -103,7 +115,7 @@ public:
     virtual void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
 
     CC_CONSTRUCTOR_ACCESS : BillBoard();
-    virtual ~BillBoard();
+    ~BillBoard() override;
 
 protected:
     /**
@@ -118,7 +130,7 @@ protected:
     bool _modeDirty;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(BillBoard);
+    CC_DISALLOW_COPY_AND_ASSIGN(BillBoard)
 };
 
 // end of 3d group
@@ -126,4 +138,4 @@ private:
 
 NS_CC_END
 
-#endif // __CCBILLBOARD_H__
+#endif // CC_3D_BILLBOARD_H

@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_ALLOCATOR_STRATEGY_FIXED_BLOCK_H
-#define CC_ALLOCATOR_STRATEGY_FIXED_BLOCK_H
+#ifndef CC_BASE_ALLOCATOR_ALLOCATORSTRATEGYFIXEDBLOCK_H
+#define CC_BASE_ALLOCATOR_ALLOCATORSTRATEGYFIXEDBLOCK_H
 /// @cond DO_NOT_SHOW
 
 /****************************************************************************
@@ -33,16 +33,18 @@
      allocator. Failure to do so will result in recursive memory allocation.
  ****************************************************************************/
 
+#include <cocos/base/allocator/CCAllocatorBase.h>
+#include <cocos/base/allocator/CCAllocatorDiagnostics.h>
+#include <cocos/base/allocator/CCAllocatorGlobal.h>
+#include <cocos/base/allocator/CCAllocatorMacros.h>
+#include <cocos/base/allocator/CCAllocatorMutex.h>
+#include <cocos/platform/CCPlatformDefine.h>
+
+#include <cstddef>
+#include <cstdint>
 #include <sstream>
-#include <stdint.h>
 #include <typeinfo>
 #include <vector>
-
-#include "base/allocator/CCAllocatorBase.h"
-#include "base/allocator/CCAllocatorDiagnostics.h"
-#include "base/allocator/CCAllocatorGlobal.h"
-#include "base/allocator/CCAllocatorMacros.h"
-#include "base/allocator/CCAllocatorMutex.h"
 
 NS_CC_BEGIN
 NS_CC_ALLOCATOR_BEGIN
@@ -60,14 +62,14 @@ NS_CC_ALLOCATOR_BEGIN
 // @param _page_size the number of blocks to allocate when growing the free list.
 // @param _alignment the alignment size in bytes of each block.
 // @param locking_semantics which locking strategy to use.
-template <size_t _block_size, size_t _alignment = 16, typename lock_traits = locking_semantics>
+template <std::size_t _block_size, std::size_t _alignment = 16, typename lock_traits = locking_semantics>
 class AllocatorStrategyFixedBlock : public AllocatorBase, public lock_traits
 {
 public:
-    static const size_t block_size = _block_size;
-    static const size_t alignment = _alignment;
+    static const std::size_t block_size = _block_size;
+    static const std::size_t alignment = _alignment;
 
-    AllocatorStrategyFixedBlock(const char* tag = nullptr, size_t pageSize = 100)
+    AllocatorStrategyFixedBlock(const char* tag = nullptr, std::size_t pageSize = 100)
     : _list(nullptr)
     , _pages(nullptr)
     , _pageSize(pageSize)
@@ -88,8 +90,8 @@ public:
 
         do
         {
-            intptr_t* page = (intptr_t*)_pages;
-            intptr_t* next = (intptr_t*)*page;
+            intptr_t* page = (std::intptr_t*)_pages;
+            intptr_t* next = (std::intptr_t*)*page;
             ccAllocatorGlobal.deallocate(page);
             _pages = (void*)next;
         } while (_pages);
@@ -99,7 +101,7 @@ public:
     // allocate a block of memory by returning the first item in the list or if empty
     // then allocate a new page of blocks, and return the first element and store the rest.
     // if _block_size does not match the requested size, then we assert.
-    CC_ALLOCATOR_INLINE void* allocate(size_t size)
+    CC_ALLOCATOR_INLINE void* allocate(std::size_t size)
     {
         CC_ASSERT(block_size == size);
 #ifdef FALLBACK_TO_GLOBAL
@@ -113,7 +115,7 @@ public:
     }
 
     // @brief Deallocate a block by pushing it on the head of a linked list of free blocks.
-    CC_ALLOCATOR_INLINE void deallocate(void* address, size_t size = 0)
+    CC_ALLOCATOR_INLINE void deallocate(void* address, std::size_t size = 0)
     {
         CC_ASSERT(0 == size || block_size == size);
 #ifdef FALLBACK_TO_GLOBAL
@@ -135,9 +137,9 @@ public:
 #else
         lock_traits::lock();
 
-        const uint8_t* const a = (const uint8_t* const)address;
-        const uint8_t* p = (uint8_t*)_pages;
-        const size_t pSize = pageSize();
+        const std::uint8_t* const a = (const std::uint8_t* const)address;
+        const std::uint8_t* p = (std::uint8_t*)_pages;
+        const std::size_t pSize = pageSize();
         while (p)
         {
             if (a >= p && a < (p + pSize))
@@ -145,7 +147,7 @@ public:
                 lock_traits::unlock();
                 return true;
             }
-            p = (uint8_t*)(*(uintptr_t*)p);
+            p = (std::uint8_t*)(*(std::uintptr_t*)p);
         }
         lock_traits::unlock();
         return false;
@@ -159,7 +161,7 @@ public:
         s << AllocatorBase::tag() << " initial:" << _pageSize << " count:" << _allocated << " highest:" << _highestCount << "\n";
         return s.str();
     }
-    size_t _highestCount;
+    std::size_t _highestCount;
 #endif
 
 protected:
@@ -168,7 +170,7 @@ protected:
     CC_ALLOCATOR_INLINE void push_front(void* block)
     {
         CC_ASSERT(block);
-        CC_ASSERT(block_size < AllocatorBase::kDefaultAlignment || 0 == ((intptr_t)block & (AllocatorBase::kDefaultAlignment - 1)));
+        CC_ASSERT(block_size < AllocatorBase::kDefaultAlignment || 0 == ((std::intptr_t)block & (AllocatorBase::kDefaultAlignment - 1)));
 
 #if COCOS2D_DEBUG
         // additional debug build checks
@@ -178,12 +180,12 @@ protected:
         if (nullptr == _list)
         {
             _list = block;
-            *(uintptr_t*)block = 0;
+            *(std::uintptr_t*)block = 0;
         }
         else
         {
-            uintptr_t* p = (uintptr_t*)(block);
-            *p = (uintptr_t)_list;
+            std::uintptr_t* p = (std::uintptr_t*)(block);
+            *p = (std::uintptr_t)_list;
             _list = block;
         }
         CC_ASSERT(_allocated > 0);
@@ -201,7 +203,7 @@ protected:
         {
             allocatePage();
         }
-        auto next = (void*)*(uintptr_t*)_list;
+        auto next = (void*)*(std::uintptr_t*)_list;
         auto block = _list;
         _list = next;
         ++_allocated;
@@ -210,20 +212,20 @@ protected:
         if (_allocated > _highestCount)
             _highestCount = _allocated;
 #endif
-        CC_ASSERT(block_size < AllocatorBase::kDefaultAlignment || 0 == ((intptr_t)block & (AllocatorBase::kDefaultAlignment - 1)));
+        CC_ASSERT(block_size < AllocatorBase::kDefaultAlignment || 0 == ((std::intptr_t)block & (AllocatorBase::kDefaultAlignment - 1)));
         return block;
     }
 
 protected:
     // @brief Returns the size of a page in bytes + overhead.
-    size_t pageSize() const { return AllocatorBase::kDefaultAlignment + AllocatorBase::nextPow2BlockSize(block_size) * _pageSize; }
+    std::size_t pageSize() const { return AllocatorBase::kDefaultAlignment + AllocatorBase::nextPow2BlockSize(block_size) * _pageSize; }
 
     // @brief Allocates a new page from the global allocator,
     // and adds all the blocks to the free list.
     CC_ALLOCATOR_INLINE void allocatePage()
     {
-        uint8_t* p = (uint8_t*)AllocatorBase::aligned(ccAllocatorGlobal.allocate(pageSize()));
-        intptr_t* page = (intptr_t*)p;
+        std::uint8_t* p = (std::uint8_t*)AllocatorBase::aligned(ccAllocatorGlobal.allocate(pageSize()));
+        std::intptr_t* page = (std::intptr_t*)p;
         if (nullptr == _pages)
         {
             _pages = page;
@@ -231,15 +233,15 @@ protected:
         }
         else
         {
-            *page = (intptr_t)_pages;
+            *page = (std::intptr_t)_pages;
             _pages = page;
         }
 
         p += AllocatorBase::kDefaultAlignment; // step past the linked list node
 
         _allocated += _pageSize;
-        size_t aligned_size = AllocatorBase::nextPow2BlockSize(block_size);
-        uint8_t* block = (uint8_t*)p;
+        std::size_t aligned_size = AllocatorBase::nextPow2BlockSize(block_size);
+        std::uint8_t* block = (std::uint8_t*)p;
         for (unsigned int i = 0; i < _pageSize; ++i, block += aligned_size)
         {
             push_front(block);
@@ -254,14 +256,14 @@ protected:
     void* _pages;
 
     // @brief number of blocks per page.
-    size_t _pageSize;
+    std::size_t _pageSize;
 
     // @brief Number of blocks that are currently allocated.
-    size_t _allocated;
+    std::size_t _allocated;
 };
 
 NS_CC_ALLOCATOR_END
 NS_CC_END
 
 /// @endcond
-#endif // CC_ALLOCATOR_STRATEGY_FIXED_BLOCK_H
+#endif // CC_BASE_ALLOCATOR_ALLOCATORSTRATEGYFIXEDBLOCK_H

@@ -22,10 +22,18 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCAttachNode.h"
-#include "3d/CCSkeleton3D.h"
+#include <cocos/3d/CCAttachNode.h>
+
+#include <cocos/2d/CCNode.h>
+#include <cocos/3d/CCSkeleton3D.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <new>
 
 NS_CC_BEGIN
+
+class Renderer;
 
 AttachNode* AttachNode::create(Bone3D* attachBone)
 {

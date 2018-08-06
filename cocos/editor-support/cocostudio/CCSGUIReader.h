@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
@@ -22,14 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCSGUIREADER_H__
-#define __CCSGUIREADER_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_SGUIREADER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_SGUIREADER_H
 
 #include "WidgetReader/WidgetReaderProtocol.h"
-#include "base/ObjectFactory.h"
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/DictionaryHelper.h"
-#include "ui/UILayout.h"
+#include <cocos/base/ObjectFactory.h>
+#include <cocos/ui/UILayout.h>
 
 namespace protocolbuffers
 {
@@ -200,4 +200,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif /* defined(__CCSGUIReader__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_SGUIREADER_H

@@ -23,21 +23,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "platform/desktop/CCGLViewImpl-desktop.h"
+#include <cocos/platform/desktop/CCGLViewImpl-desktop.h>
 
 #include <cmath>
 #include <unordered_map>
 
-#include "2d/CCCamera.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventKeyboard.h"
-#include "base/CCEventMouse.h"
-#include "base/CCIMEDispatcher.h"
-#include "base/CCTouch.h"
-#include "base/ccUTF8.h"
-#include "base/ccUtils.h"
-#include "platform/CCApplication.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventKeyboard.h>
+#include <cocos/base/CCEventMouse.h>
+#include <cocos/base/CCIMEDispatcher.h>
+#include <cocos/base/CCTouch.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/base/ccUtils.h>
+#include <cocos/platform/CCApplication.h>
 
 NS_CC_BEGIN
 

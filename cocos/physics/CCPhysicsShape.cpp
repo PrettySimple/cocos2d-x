@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "physics/CCPhysicsShape.h"
+#include <cocos/physics/CCPhysicsShape.h>
 #if CC_USE_PHYSICS
 
 #    include <climits>
@@ -32,9 +32,9 @@
 #    include "chipmunk/chipmunk.h"
 #    include "chipmunk/chipmunk_unsafe.h"
 
-#    include "physics/CCPhysicsBody.h"
 #    include "physics/CCPhysicsHelper.h"
-#    include "physics/CCPhysicsWorld.h"
+#    include <cocos/physics/CCPhysicsBody.h>
+#    include <cocos/physics/CCPhysicsWorld.h>
 
 NS_CC_BEGIN
 extern const float PHYSICS_INFINITY;

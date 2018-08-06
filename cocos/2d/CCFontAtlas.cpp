@@ -23,19 +23,22 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "2d/CCFontAtlas.h"
+#include <cocos/2d/CCFontAtlas.h>
+
+#include <cocos/2d/CCFontFreeType.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventListenerCustom.h>
+#include <cocos/base/CCEventType.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 #if CC_TARGET_PLATFORM != CC_PLATFORM_WIN32 && CC_TARGET_PLATFORM != CC_PLATFORM_WINRT && CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID
 #    include <iconv.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 #    include "platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxHelper.h"
 #endif
-#include "2d/CCFontFreeType.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/CCEventType.h"
-#include "base/ccUTF8.h"
 
 NS_CC_BEGIN
 

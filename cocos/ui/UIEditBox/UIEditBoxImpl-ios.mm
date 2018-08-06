@@ -23,21 +23,21 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "ui/UIEditBox/UIEditBoxImpl-ios.h"
+#include <cocos/ui/UIEditBox/UIEditBoxImpl-ios.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 
 #    define kLabelZOrder 9999
 
-#    include "2d/CCLabel.h"
-#    include "base/CCDirector.h"
-#    import "platform/ios/CCEAGLView-ios.h"
-#    include "ui/UIEditBox/UIEditBox.h"
+#    include <cocos/2d/CCLabel.h>
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/platform/ios/CCEAGLView-ios.h>
+#    include <cocos/ui/UIEditBox/UIEditBox.h>
+#    include <cocos/ui/UIEditBox/iOS/CCUIEditBoxIOS.h>
 
-#    import <Foundation/Foundation.h>
-#    import <UIKit/UIKit.h>
-
-#    import "ui/UIEditBox/iOS/CCUIEditBoxIOS.h"
+#    import <CoreGraphics/CGGeometry.h>
+#    import <Foundation/NSString.h>
+#    import <UIKit/UIColor.h>
 
 #    define getEditBoxImplIOS() ((cocos2d::ui::EditBoxImplIOS*)_editBox)
 
@@ -94,7 +94,10 @@ namespace ui
 
     void EditBoxImplIOS::setNativeFontColor(const Color4B& color)
     {
-        _systemControl.textColor = [UIColor colorWithRed:color.r / 255.0f green:color.g / 255.0f blue:color.b / 255.0f alpha:color.a / 255.f];
+        _systemControl.textColor = [UIColor colorWithRed:static_cast<float>(color.r) / 255.f
+                                                   green:static_cast<float>(color.g) / 255.f
+                                                    blue:static_cast<float>(color.b) / 255.f
+                                                   alpha:static_cast<float>(color.a) / 255.f];
     }
 
     void EditBoxImplIOS::setNativePlaceholderFont(const char* pFontName, int fontSize)

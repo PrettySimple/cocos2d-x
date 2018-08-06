@@ -23,14 +23,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __UIEditBoxIMPLWIN_H__
-#define __UIEditBoxIMPLWIN_H__
+#ifndef CC_UI_EDITBOX_EDITBOXIMPLWIN32_H
+#define CC_UI_EDITBOX_EDITBOXIMPLWIN32_H
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 
-#    include "ui/UIEditBox/UIEditBoxImpl.h"
+#    include <cocos/ui/UIEditBox/UIEditBoxImpl.h>
 
 NS_CC_BEGIN
 
@@ -119,4 +119,4 @@ NS_CC_END
 
 #endif /* (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) */
 
-#endif /* __UIEditBoxIMPLWIN_H__ */
+#endif // CC_UI_EDITBOX_EDITBOXIMPLWIN32_H

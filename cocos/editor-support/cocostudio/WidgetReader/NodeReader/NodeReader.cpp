@@ -28,9 +28,13 @@
 #include "cocostudio/CCComExtensionData.h"
 #include "cocostudio/CSParseBinary_generated.h"
 
-#include "flatbuffers/flatbuffers.h"
-#include "tinyxml2.h"
-#include "ui/UILayoutComponent.h"
+#include <cocos/ui/UILayoutComponent.h>
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <flatbuffers/flatbuffers.h>
+#include <tinyxml2/tinyxml2.h>
+#pragma clang diagnostic pop
 
 USING_NS_CC;
 using namespace flatbuffers;

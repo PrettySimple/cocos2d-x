@@ -28,13 +28,13 @@
  *
  */
 
-#ifndef __CCDRAWNODES_CCDRAW_NODE_H__
-#define __CCDRAWNODES_CCDRAW_NODE_H__
+#ifndef CC_2D_DRAWNODE_H
+#define CC_2D_DRAWNODE_H
 
-#include "2d/CCNode.h"
-#include "base/ccTypes.h"
-#include "math/CCMath.h"
-#include "renderer/CCCustomCommand.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCMath.h>
+#include <cocos/renderer/CCCustomCommand.h>
 
 NS_CC_BEGIN
 
@@ -311,7 +311,7 @@ public:
     virtual void onDrawGLPoint(const Mat4& transform, uint32_t flags);
 
     // Overrides
-    virtual void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
+    void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
 
     void setLineWidth(int lineWidth);
 
@@ -319,8 +319,8 @@ public:
     float getLineWidth();
 
     CC_CONSTRUCTOR_ACCESS : DrawNode(int lineWidth = DEFAULT_LINE_WIDTH);
-    virtual ~DrawNode();
-    virtual bool init() override;
+    ~DrawNode() override;
+    bool init() override;
 
 protected:
     void ensureCapacity(int count);
@@ -362,9 +362,9 @@ protected:
     int _defaultLineWidth;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(DrawNode);
+    CC_DISALLOW_COPY_AND_ASSIGN(DrawNode)
 };
 /** @} */
 NS_CC_END
 
-#endif // __CCDRAWNODES_CCDRAW_NODE_H__
+#endif // CC_2D_DRAWNODE_H

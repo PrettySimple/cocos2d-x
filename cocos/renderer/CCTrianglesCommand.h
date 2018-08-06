@@ -22,17 +22,22 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_TRIANGLES_COMMAND__
-#define __CC_TRIANGLES_COMMAND__
+#ifndef CC_RENDERER_TRIANGLESCOMMAND_H
+#define CC_RENDERER_TRIANGLESCOMMAND_H
 
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCRenderCommand.h"
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCRenderCommand.h>
 
 #include <cstddef>
+#include <cstdint>
 #include <limits>
 
 #ifdef DEBUG_TEXTURE_SIZE
-#    include "math/Vec2.h"
+#    include <cocos/math/Vec2.h>
 #endif
 
 /**
@@ -41,6 +46,10 @@
  */
 
 NS_CC_BEGIN
+
+class GLProgramState;
+class Texture2D;
+
 /**
  Command used to render one or more Triangles, which is similar to QuadCommand.
  Every TrianglesCommand will have generate material ID by give textureID, glProgramState, Blend function
@@ -118,7 +127,7 @@ protected:
 
     /**Generated material id.*/
     std::size_t _materialID = std::numeric_limits<std::size_t>::max();
-    ;
+
     /**OpenGL handle for texture.*/
     GLuint _textureID = 0;
     /**GLprogramstate for the command. encapsulate shaders and uniforms.*/
@@ -141,4 +150,4 @@ NS_CC_END
  end of support group
  @}
  */
-#endif // defined(__CC_TRIANGLES_COMMAND__)
+#endif // CC_RENDERER_TRIANGLESCOMMAND_H

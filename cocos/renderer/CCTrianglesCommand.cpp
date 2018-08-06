@@ -22,13 +22,18 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "renderer/CCTrianglesCommand.h"
+#include <cocos/renderer/CCTrianglesCommand.h>
 
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCRenderCommand.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #include <utility>
 
@@ -52,7 +57,7 @@ void TrianglesCommand::init(float globalOrder, GLuint textureID, GLProgramState*
     {
         int count = _triangles.indexCount;
         _triangles.indexCount = count / 3 * 3;
-        CCLOGERROR("Resize indexCount from %zd to %zd, size must be multiple times of 3", count, _triangles.indexCount);
+        CCLOGERROR("Resize indexCount from %d to %d, size must be multiple times of 3", count, _triangles.indexCount);
     }
     _mv = mv;
 

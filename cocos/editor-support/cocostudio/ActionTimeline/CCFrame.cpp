@@ -23,10 +23,10 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "CCFrame.h"
-#include "2d/CCSpriteFrame.h"
-#include "2d/CCSpriteFrameCache.h"
 #include "CCActionTimeline.h"
 #include "CCTimeLine.h"
+#include <cocos/2d/CCSpriteFrame.h>
+#include <cocos/2d/CCSpriteFrameCache.h>
 #include <exception>
 #include <iostream>
 

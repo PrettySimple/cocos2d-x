@@ -24,19 +24,25 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CCTMX_LAYER_H__
-#define __CCTMX_LAYER_H__
+#ifndef CC_2D_TMXLAYER_H
+#define CC_2D_TMXLAYER_H
 
-#include "2d/CCSpriteBatchNode.h"
-#include "2d/CCTMXXMLParser.h"
-#include "base/ccCArray.h"
+#include <cocos/2d/CCSpriteBatchNode.h>
+#include <cocos/2d/CCTMXXMLParser.h>
+#include <cocos/base/CCValue.h>
+#include <cocos/base/ccCArray.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <cstddef>
+#include <cstdint>
+#include <iosfwd>
 
 NS_CC_BEGIN
 
-class TMXMapInfo;
-class TMXLayerInfo;
-class TMXTilesetInfo;
-struct _ccCArray;
+class Node;
+class Sprite;
 
 /**
  * @addtogroup _2d
@@ -83,7 +89,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~TMXLayer();
+    ~TMXLayer() override;
 
     /** Initializes a TMXLayer with a tileset info, a layer info and a map info.
      *
@@ -114,7 +120,7 @@ public:
     /**
      * @js NA
      */
-    CC_DEPRECATED_ATTRIBUTE Sprite* tileAt(const Vec2& tileCoordinate) { return getTileAt(tileCoordinate); };
+    CC_DEPRECATED_ATTRIBUTE Sprite* tileAt(const Vec2& tileCoordinate) { return getTileAt(tileCoordinate); }
 
     /** Returns the tile gid at a given tile coordinate. It also returns the tile flags.
      * This method requires the tile map has not been previously released (eg. don't call [layer releaseMap]).
@@ -165,7 +171,7 @@ public:
     /**
      * @js NA
      */
-    CC_DEPRECATED_ATTRIBUTE Vec2 positionAt(const Vec2& tileCoordinate) { return getPositionAt(tileCoordinate); };
+    CC_DEPRECATED_ATTRIBUTE Vec2 positionAt(const Vec2& tileCoordinate) { return getPositionAt(tileCoordinate); }
 
     /** Return the value for the specific property name.
      *
@@ -176,7 +182,7 @@ public:
     /**
      * @js NA
      */
-    CC_DEPRECATED_ATTRIBUTE Value propertyNamed(const std::string& propertyName) const { return getProperty(propertyName); };
+    CC_DEPRECATED_ATTRIBUTE Value propertyNamed(const std::string& propertyName) const { return getProperty(propertyName); }
 
     /** Creates the tiles. */
     void setupTiles();
@@ -222,13 +228,13 @@ public:
      * @lua NA
      * @return Pointer to the map of tiles.
      */
-    uint32_t* getTiles() const { return _tiles; };
+    uint32_t* getTiles() const { return _tiles; }
 
     /** Set a pointer to the map of tiles.
      *
      * @param tiles A pointer to the map of tiles.
      */
-    void setTiles(uint32_t* tiles) { _tiles = tiles; };
+    void setTiles(uint32_t* tiles) { _tiles = tiles; }
 
     /** Tileset information for the layer.
      *
@@ -313,8 +319,8 @@ protected:
     int getVertexZForPos(const Vec2& pos);
 
     // index
-    ssize_t atlasIndexForExistantZ(int z);
-    ssize_t atlasIndexForNewZ(int z);
+    std::size_t atlasIndexForExistantZ(int z);
+    std::size_t atlasIndexForNewZ(int z);
 
     //! name of the layer
     std::string _layerName;
@@ -357,4 +363,4 @@ protected:
 
 NS_CC_END
 
-#endif //__CCTMX_LAYER_H__
+#endif // CC_2D_TMXLAYER_H

@@ -22,7 +22,7 @@
  $Id$
  */
 
-#import "audio/ios/CDAudioManager.h"
+#import <cocos/audio/ios/CDAudioManager.h>
 
 /**
  A wrapper to the CDAudioManager object.

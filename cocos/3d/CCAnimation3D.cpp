@@ -22,10 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCAnimation3D.h"
+#include <cocos/3d/CCAnimation3D.h>
 
-#include "3d/CCBundle3D.h"
-#include "platform/CCFileUtils.h"
+#include <cocos/3d/CCBundle3D.h>
+#include <cocos/platform/CCFileUtils.h>
 
 NS_CC_BEGIN
 
@@ -130,7 +130,7 @@ bool Animation3D::init(const Animation3DData& data)
             values.push_back(keyIter._key.z);
         }
 
-        curve->translateCurve = Curve::AnimationCurveVec3::create(&keys[0], &values[0], (int)keys.size());
+        curve->translateCurve = Curve::AnimationCurveVec3::create(&keys[0], &values[0], static_cast<int>(keys.size()));
         if (curve->translateCurve)
             curve->translateCurve->retain();
     }
@@ -157,7 +157,7 @@ bool Animation3D::init(const Animation3DData& data)
             values.push_back(keyIter._key.w);
         }
 
-        curve->rotCurve = Curve::AnimationCurveQuat::create(&keys[0], &values[0], (int)keys.size());
+        curve->rotCurve = Curve::AnimationCurveQuat::create(&keys[0], &values[0], static_cast<int>(keys.size()));
         if (curve->rotCurve)
             curve->rotCurve->retain();
     }

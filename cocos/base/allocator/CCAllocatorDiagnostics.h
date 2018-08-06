@@ -23,15 +23,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_ALLOCATOR_DIAGNOSTICS_H
-#define CC_ALLOCATOR_DIAGNOSTICS_H
+#ifndef CC_BASE_ALLOCATOR_ALLOCATORDIAGNOSTICS_H
+#define CC_BASE_ALLOCATOR_ALLOCATORDIAGNOSTICS_H
 /// @cond DO_NOT_SHOW
 
-#include <unordered_set>
-
-#include "base/allocator/CCAllocatorBase.h"
-#include "base/allocator/CCAllocatorMacros.h"
-#include "base/allocator/CCAllocatorMutex.h"
+#include <cocos/base/allocator/CCAllocatorMacros.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 NS_CC_ALLOCATOR_BEGIN
@@ -57,4 +55,4 @@ NS_CC_ALLOCATOR_END
 NS_CC_END
 
 /// @endcond
-#endif // CC_ALLOCATOR_DIAGNOSTICS_H
+#endif // CC_BASE_ALLOCATOR_ALLOCATORDIAGNOSTICS_H

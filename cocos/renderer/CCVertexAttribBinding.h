@@ -19,13 +19,13 @@
  This file was modified to fit the cocos2d-x project
  */
 
-#ifndef CC_VERTEXATTRIBUTEBINDING_H_
-#define CC_VERTEXATTRIBUTEBINDING_H_
+#ifndef CC_RENDERER_VERTEXATTRIBBINDING_H
+#define CC_RENDERER_VERTEXATTRIBBINDING_H
+
+#include <cocos/base/CCRef.h>
+#include <cocos/renderer/CCGLProgramState.h>
 
 #include <unordered_map>
-
-#include "base/CCRef.h"
-#include "renderer/CCGLProgramState.h"
 
 NS_CC_BEGIN
 
@@ -88,38 +88,30 @@ public:
 private:
     bool init(MeshIndexData* meshIndexData, GLProgramState* glProgramState);
 
-    /**
-     * Constructor.
-     */
-    VertexAttribBinding();
-
-    /**
-     * Destructor.
-     */
+    VertexAttribBinding() = default;
+    VertexAttribBinding(VertexAttribBinding const&) = delete;
+    VertexAttribBinding& operator=(const VertexAttribBinding&) = delete;
+    VertexAttribBinding(VertexAttribBinding&&) noexcept = delete;
+    VertexAttribBinding& operator=(VertexAttribBinding&&) noexcept = delete;
     ~VertexAttribBinding();
-
-    /**
-     * Hidden copy assignment operator.
-     */
-    VertexAttribBinding& operator=(const VertexAttribBinding&);
 
     void setVertexAttribPointer(const std::string& name, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid* pointer);
     VertexAttribValue* getVertexAttribValue(const std::string& name);
     void parseAttributes();
 
-    GLuint _handle;
+    GLuint _handle = 0;
 
-    MeshIndexData* _meshIndexData;
-    GLProgramState* _glProgramState;
+    MeshIndexData* _meshIndexData = nullptr;
+    GLProgramState* _glProgramState = nullptr;
 
     std::unordered_map<std::string, VertexAttribValue> _attributes;
-    uint32_t _vertexAttribsFlags;
+    uint32_t _vertexAttribsFlags = 0;
 };
 
 /// @cond
-extern std::string CC_DLL s_attributeNames[]; // attribute names array
+extern char const* CC_DLL s_attributeNames[]; // attribute names array
 /// @endcond
 
 NS_CC_END
 
-#endif // CC_VERTEXATTRIBUTEBINDING_H_
+#endif // CC_RENDERER_VERTEXATTRIBBINDING_H

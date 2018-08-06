@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
@@ -22,11 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCSKIN_H__
-#define __CCSKIN_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_SKIN_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_SKIN_H
 
-#include "2d/CCSprite.h"
-#include "renderer/CCQuadCommand.h"
+#include <cocos/2d/CCSprite.h>
+#include <cocos/renderer/CCQuadCommand.h>
 
 #include "cocostudio/CCArmatureDefine.h"
 #include "cocostudio/CCBone.h"
@@ -85,4 +85,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif /*__CCSKIN_H__*/
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_SKIN_H

@@ -34,18 +34,22 @@ THE SOFTWARE.
  It was rewritten again, and only a small part of the original HK ideas/code remains in this implementation
 
  */
-#include "2d/CCFastTMXLayer.h"
+#include <cocos/2d/CCFastTMXLayer.h>
 
-#include "2d/CCCamera.h"
-#include "2d/CCFastTMXTiledMap.h"
-#include "2d/CCSprite.h"
-#include "base/CCDirector.h"
-#include "base/ccUTF8.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTextureCache.h"
-#include "renderer/CCVertexIndexBuffer.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCFastTMXTiledMap.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCPrimitive.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTextureCache.h>
+#include <cocos/renderer/CCVertexIndexBuffer.h>
+#include <cocos/renderer/CCVertexIndexData.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 NS_CC_BEGIN
 namespace experimental
@@ -444,7 +448,7 @@ namespace experimental
                     auto& quad = _totalQuads[quadIndex];
 
                     Vec3 nodePos(float(x), float(y), 0);
-                    _tileToNodeTransform.transformPoint(&nodePos);
+                    _tileToNodeTransform.transformPoint(nodePos);
 
                     float left, right, top, bottom, z;
 

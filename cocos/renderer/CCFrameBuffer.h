@@ -22,18 +22,26 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_FRAME_BUFFER_H__
-#define __CC_FRAME_BUFFER_H__
+#ifndef CC_RENDERER_FRAMEBUFFER_H
+#define CC_RENDERER_FRAMEBUFFER_H
 
-#include "base/CCRef.h"
-#include "platform/CCGL.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCTexture2D.h>
+
+#include <cstdint>
 #include <set>
 
 NS_CC_BEGIN
 
 class GLView;
+#if CC_ENABLE_CACHE_TEXTURE_DATA
 class EventListenerCustom;
+#endif
 
 namespace experimental
 {
@@ -209,4 +217,4 @@ namespace experimental
 
 NS_CC_END
 
-#endif /* defined(__CC_FRAME_BUFFER_H__) */
+#endif // CC_RENDERER_FRAMEBUFFER_H

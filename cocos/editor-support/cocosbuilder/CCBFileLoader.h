@@ -1,5 +1,5 @@
-#ifndef _CCB_CCBFILELOADER_H_
-#define _CCB_CCBFILELOADER_H_
+#ifndef CC_EDITORSUPPORT_COCOSBUILDER_FILELOADER_H
+#define CC_EDITORSUPPORT_COCOSBUILDER_FILELOADER_H
 
 #include "CCNodeLoader.h"
 
@@ -31,4 +31,4 @@ namespace cocosbuilder
 
 } // namespace cocosbuilder
 
-#endif
+#endif // CC_EDITORSUPPORT_COCOSBUILDER_FILELOADER_H

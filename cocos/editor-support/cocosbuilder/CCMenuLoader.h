@@ -1,9 +1,9 @@
-#ifndef _CCB_CCMENULOADER_H_
-#define _CCB_CCMENULOADER_H_
+#ifndef CC_EDITORSUPPORT_COCOSBUILDER_MENULOADER_H
+#define CC_EDITORSUPPORT_COCOSBUILDER_MENULOADER_H
 
-#include "2d/CCMenu.h"
 #include "CCLayerLoader.h"
-#include "base/CCRef.h"
+#include <cocos/2d/CCMenu.h>
+#include <cocos/base/CCRef.h>
 
 namespace cocosbuilder
 {
@@ -37,4 +37,4 @@ namespace cocosbuilder
 
 } // namespace cocosbuilder
 
-#endif
+#endif // CC_EDITORSUPPORT_COCOSBUILDER_MENULOADER_H

@@ -22,16 +22,19 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCSprite3DMaterial.h"
-#include "3d/CCMesh.h"
-#include "base/CCDirector.h"
-#include "base/CCEventType.h"
-#include "platform/CCFileUtils.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramCache.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCGLProgramStateCache.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/3d/CCSprite3DMaterial.h>
+
+#include <cocos/3d/CCMesh.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventType.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramCache.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCGLProgramStateCache.h>
+#include <cocos/renderer/CCPass.h>
+#include <cocos/renderer/CCTechnique.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 NS_CC_BEGIN
 
@@ -156,7 +159,7 @@ Material* Sprite3DMaterial::clone() const
         {
             auto t = technique->clone();
             t->setParent(material);
-            for (ssize_t i = 0; i < t->getPassCount(); i++)
+            for (std::size_t i = 0; i < t->getPassCount(); i++)
             {
                 t->getPassByIndex(i)->setParent(t);
             }
@@ -205,11 +208,11 @@ Sprite3DMaterial* Sprite3DMaterial::createBuiltInMaterial(MaterialType type, boo
             material = skinned ? _bumpedDiffuseMaterialSkin : _bumpedDiffuseMaterial;
             break;
 
-        default:
+        case MaterialType::CUSTOM:
             break;
     }
     if (material)
-        return (Sprite3DMaterial*)material->clone();
+        return static_cast<Sprite3DMaterial*>(material->clone());
 
     return nullptr;
 }
@@ -221,7 +224,7 @@ Sprite3DMaterial* Sprite3DMaterial::createWithFilename(const std::string& path)
     {
         auto it = _materials.find(validfilename);
         if (it != _materials.end())
-            return (Sprite3DMaterial*)it->second->clone();
+            return static_cast<Sprite3DMaterial*>(it->second->clone());
 
         auto material = new (std::nothrow) Sprite3DMaterial();
         if (material->initWithFile(path))
@@ -229,7 +232,7 @@ Sprite3DMaterial* Sprite3DMaterial::createWithFilename(const std::string& path)
             material->_type = Sprite3DMaterial::MaterialType::CUSTOM;
             _materials[validfilename] = material;
 
-            return (Sprite3DMaterial*)material->clone();
+            return static_cast<Sprite3DMaterial*>(material->clone());
         }
         CC_SAFE_DELETE(material);
     }
@@ -256,7 +259,7 @@ void Sprite3DMaterial::setTexture(Texture2D* tex, NTextureData::Usage usage)
     const auto& passes = getTechnique()->getPasses();
     for (auto& pass : passes)
     {
-        pass->getGLProgramState()->setUniformTexture(s_uniformSamplerName[(int)usage], tex);
+        pass->getGLProgramState()->setUniformTexture(s_uniformSamplerName[static_cast<std::size_t>(usage)], tex);
     }
 }
 

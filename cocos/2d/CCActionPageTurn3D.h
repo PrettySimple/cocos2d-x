@@ -23,14 +23,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __ACTION_CCPAGETURN3D_ACTION_H__
-#define __ACTION_CCPAGETURN3D_ACTION_H__
+#ifndef CC_2D_ACTIONPAGETURN3D_H
+#define CC_2D_ACTIONPAGETURN3D_H
 
-#include "2d/CCActionGrid3D.h"
+#include <cocos/2d/CCActionGrid.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <chrono>
 
 NS_CC_BEGIN
+
+class GridBase;
 
 /**
  * @addtogroup actions
@@ -72,4 +77,4 @@ public:
 
 NS_CC_END
 
-#endif // __ACTION_CCPAGETURN3D_ACTION_H__
+#endif // CC_2D_ACTIONPAGETURN3D_H

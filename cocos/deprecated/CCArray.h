@@ -24,22 +24,34 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCARRAY_H__
-#define __CCARRAY_H__
+#ifndef CC_DEPRECATED_ARRAY_H
+#define CC_DEPRECATED_ARRAY_H
 /// @cond DO_NOT_SHOW
+
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <cstddef>
+#include <iosfwd>
+#include <type_traits>
+
+namespace cocos2d
+{
+    class DataVisitor;
+}
 
 #define CC_USE_ARRAY_VECTOR 0
 
 #if CC_USE_ARRAY_VECTOR
-#    include "base/CCRef.h"
-#    include "base/ccMacros.h"
 #    include <algorithm>
+#    include <cocos/base/CCRef.h>
+#    include <cocos/base/ccMacros.h>
 #    include <vector>
 #else
-#    include "base/ccCArray.h"
+#    include <cocos/base/CCRef.h>
+#    include <cocos/base/ccCArray.h>
+#    include <cocos/base/ccMacros.h>
 #endif
-
-#include "base/CCDataVisitor.h"
 
 #if CC_USE_ARRAY_VECTOR
 /**
@@ -254,7 +266,7 @@ public:
     /** Create an array with a default capacity
      * @js NA
      */
-    static __Array* createWithCapacity(ssize_t capacity);
+    static __Array* createWithCapacity(std::size_t capacity);
     /** Create an array with from an existing array
      * @js NA
      */
@@ -278,7 +290,7 @@ public:
      * @js NA
      * @lua NA
      */
-    ~__Array();
+    ~__Array() override;
 
     /** Initializes an array
      * @js NA
@@ -299,7 +311,7 @@ public:
      * @js NA
      * @lua NA
      */
-    bool initWithCapacity(ssize_t capacity);
+    bool initWithCapacity(std::size_t capacity);
     /** Initializes an array with an existing array
      * @js NA
      * @lua NA
@@ -311,7 +323,7 @@ public:
     /** Returns element count of the array
      * @js NA
      */
-    ssize_t count() const
+    std::size_t count() const
     {
 #if CC_USE_ARRAY_VECTOR
         return data.size();
@@ -322,7 +334,7 @@ public:
     /** Returns capacity of the array
      * @js NA
      */
-    ssize_t capacity() const
+    std::size_t capacity() const
     {
 #if CC_USE_ARRAY_VECTOR
         return data.capacity();
@@ -334,17 +346,17 @@ public:
      * @js NA
      * @lua NA
      */
-    ssize_t getIndexOfObject(Ref* object) const;
+    std::size_t getIndexOfObject(Ref* object) const;
     /**
      * @js NA
      */
-    CC_DEPRECATED_ATTRIBUTE ssize_t indexOfObject(Ref* object) const { return getIndexOfObject(object); }
+    CC_DEPRECATED_ATTRIBUTE std::size_t indexOfObject(Ref* object) const { return getIndexOfObject(object); }
 
     /** Returns an element with a certain index
      * @js NA
      * @lua NA
      */
-    Ref* getObjectAtIndex(ssize_t index)
+    Ref* getObjectAtIndex(std::size_t index)
     {
         CCASSERT(index >= 0 && index < count(), "index out of range in getObjectAtIndex()");
 #if CC_USE_ARRAY_VECTOR
@@ -353,7 +365,7 @@ public:
         return data->arr[index];
 #endif
     }
-    CC_DEPRECATED_ATTRIBUTE Ref* objectAtIndex(ssize_t index) { return getObjectAtIndex(index); }
+    CC_DEPRECATED_ATTRIBUTE Ref* objectAtIndex(std::size_t index) { return getObjectAtIndex(index); }
     /** Returns the last element of the array
      * @js NA
      */
@@ -405,17 +417,17 @@ public:
     /** Insert a certain object at a certain index
      * @js NA
      */
-    void insertObject(Ref* object, ssize_t index);
+    void insertObject(Ref* object, std::size_t index);
     /** sets a certain object at a certain index
      * @js NA
      * @lua NA
      */
-    void setObject(Ref* object, ssize_t index);
+    void setObject(Ref* object, std::size_t index);
     /** sets a certain object at a certain index without retaining. Use it with caution
      * @js NA
      * @lua NA
      */
-    void fastSetObject(Ref* object, ssize_t index)
+    void fastSetObject(Ref* object, std::size_t index)
     {
 #if CC_USE_ARRAY_VECTOR
         setObject(object, index);
@@ -428,7 +440,7 @@ public:
      * @js NA
      * @lua NA
      */
-    void swap(ssize_t indexOne, ssize_t indexTwo)
+    void swap(std::size_t indexOne, std::size_t indexTwo)
     {
         CCASSERT(indexOne >= 0 && indexOne < count() && indexTwo >= 0 && indexTwo < count(), "Invalid indices");
 #if CC_USE_ARRAY_VECTOR
@@ -451,7 +463,7 @@ public:
     /** Remove an element with a certain index
      * @js NA
      */
-    void removeObjectAtIndex(ssize_t index, bool releaseObj = true);
+    void removeObjectAtIndex(std::size_t index, bool releaseObj = true);
     /** Remove all elements
      * @js NA
      */
@@ -467,7 +479,7 @@ public:
     /** Fast way to remove an element with a certain index
      * @js NA
      */
-    void fastRemoveObjectAtIndex(ssize_t index);
+    void fastRemoveObjectAtIndex(std::size_t index);
 
     // Rearranging Content
 
@@ -478,12 +490,12 @@ public:
     /** Swap two elements with certain indexes
      * @js NA
      */
-    void exchangeObjectAtIndex(ssize_t index1, ssize_t index2);
+    void exchangeObjectAtIndex(std::size_t index1, std::size_t index2);
 
     /** Replace object at index with another object.
      * @js NA
      */
-    void replaceObjectAtIndex(ssize_t index, Ref* object, bool releaseObject = true);
+    void replaceObjectAtIndex(std::size_t index, Ref* object, bool releaseObject = true);
 
     /** Revers the array
      * @js NA
@@ -559,4 +571,4 @@ public:
 NS_CC_END
 
 /// @endcond
-#endif // __CCARRAY_H__
+#endif // CC_DEPRECATED_ARRAY_H

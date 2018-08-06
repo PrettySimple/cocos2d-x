@@ -25,26 +25,26 @@
 
 #define LOG_TAG "AudioEngine-inl.mm"
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
 #    if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-#        import <UIKit/UIKit.h>
+#        import <UIKit/UIApplication.h>
 #    elif CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 #        import <AppKit/AppKit.h>
 #    endif
 
-#    include "audio/apple/AudioEngine-inl.h"
+#    include <cocos/audio/apple/AudioEngine-inl.h>
 
 #    import <AVFoundation/AVFoundation.h>
 #    import <OpenAL/alc.h>
 
-#    include "audio/include/AudioEngine.h"
-#    include "audio/include/SimpleAudioEngine.h"
-#    include "base/CCDirector.h"
-#    include "base/CCScheduler.h"
-#    include "base/ccUtils.h"
-#    include "platform/CCFileUtils.h"
+#    include <cocos/audio/include/AudioEngine.h>
+#    include <cocos/audio/include/SimpleAudioEngine.h>
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/base/CCScheduler.h>
+#    include <cocos/base/ccUtils.h>
+#    include <cocos/platform/CCFileUtils.h>
 
 #    include <utility>
 
@@ -63,7 +63,7 @@ static ALenum alSourceAddNotificationExt(ALuint sid, ALuint notificationID, alSo
 
     if (proc == nullptr)
     {
-        proc = (alSourceAddNotificationProcPtr)alcGetProcAddress(nullptr, "alSourceAddNotification");
+        proc = reinterpret_cast<alSourceAddNotificationProcPtr>(alcGetProcAddress(nullptr, "alSourceAddNotification"));
     }
 
     if (proc)
@@ -103,9 +103,8 @@ void AudioEngineInterruptionListenerCallback(void* user_data, UInt32 interruptio
 }
 #        endif
 
-- (id)init
-{
-    if (self = [super init])
+- (id)init {
+    if ((self = [super init]))
     {
         if ([[[UIDevice currentDevice] systemVersion] intValue] > 5)
         {
@@ -127,7 +126,7 @@ void AudioEngineInterruptionListenerCallback(void* user_data, UInt32 interruptio
 #        if !defined(CC_TARGET_OS_TVOS)
         else
         {
-            AudioSessionInitialize(NULL, NULL, AudioEngineInterruptionListenerCallback, self);
+            AudioSessionInitialize(nullptr, nullptr, AudioEngineInterruptionListenerCallback, self);
         }
 #        endif
 
@@ -138,8 +137,7 @@ void AudioEngineInterruptionListenerCallback(void* user_data, UInt32 interruptio
     return self;
 }
 
-- (void)handleInterruption:(NSNotification*)notification
-{
+- (void)handleInterruption:(NSNotification*)notification {
     static bool isAudioSessionInterrupted = false;
     static bool resumeOnBecomingActive = false;
     static bool pauseOnResignActive = false;
@@ -221,8 +219,7 @@ void AudioEngineInterruptionListenerCallback(void* user_data, UInt32 interruptio
     }
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionInterruptionNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
@@ -439,7 +436,8 @@ void AudioEngineImpl::_play2d(AudioPlayer* player, AudioCache& audioCache, bool 
     _audioPlayers[_currentAudioID] = player;
     _threadMutex.unlock();
 
-    audioCache.addPlayCallback([this, &audioCache, audioId = _currentAudioID, isCacheDestroyed = audioCache.isDestroyed()]() { _play2d(audioCache, audioId, isCacheDestroyed); });
+    audioCache.addPlayCallback(
+        [this, &audioCache, audioId = _currentAudioID, isCacheDestroyed = audioCache.isDestroyed()]() { _play2d(audioCache, audioId, isCacheDestroyed); });
 
     if (_lazyInitLoop)
     {
@@ -483,7 +481,7 @@ int AudioEngineImpl::play2d(std::string const& filePath, bool loop, float volume
     else
     {
         ALuint alSource = findValidSource();
-        if (alSource == AL_INVALID)
+        if (alSource == static_cast<ALuint>(AL_INVALID))
         {
             return AudioEngine::INVALID_AUDIO_ID;
         }
@@ -639,7 +637,7 @@ void AudioEngineImpl::update(float dt)
             it = _audioPlayers.erase(it);
             _threadMutex.unlock();
             delete player;
-            if (alSource != AL_INVALID)
+            if (alSource != static_cast<ALuint>(AL_INVALID))
                 _unusedSourcesPool.push_back(alSource);
         }
         else if (player->isStopped())
@@ -662,7 +660,7 @@ void AudioEngineImpl::update(float dt)
             }
 
             delete player;
-            if (alSource != AL_INVALID)
+            if (alSource != static_cast<ALuint>(AL_INVALID))
                 _unusedSourcesPool.push_back(alSource);
         }
         else

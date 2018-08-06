@@ -19,30 +19,25 @@
  This file was modified to fit the cocos2d-x project
  */
 
-#include "renderer/CCVertexAttribBinding.h"
-#include "3d/CCMeshVertexIndexData.h"
-#include "base/CCConfiguration.h"
-#include "platform/CCGL.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/renderer/CCVertexAttribBinding.h>
+
+#include <cocos/3d/CCMeshVertexIndexData.h>
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCVertexIndexBuffer.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 NS_CC_BEGIN
 
-std::string s_attributeNames[] = {GLProgram::ATTRIBUTE_NAME_POSITION,   GLProgram::ATTRIBUTE_NAME_COLOR,        GLProgram::ATTRIBUTE_NAME_TEX_COORD,
+char const* s_attributeNames[] = {GLProgram::ATTRIBUTE_NAME_POSITION,   GLProgram::ATTRIBUTE_NAME_COLOR,        GLProgram::ATTRIBUTE_NAME_TEX_COORD,
                                   GLProgram::ATTRIBUTE_NAME_TEX_COORD1, GLProgram::ATTRIBUTE_NAME_TEX_COORD2,   GLProgram::ATTRIBUTE_NAME_TEX_COORD3,
                                   GLProgram::ATTRIBUTE_NAME_NORMAL,     GLProgram::ATTRIBUTE_NAME_BLEND_WEIGHT, GLProgram::ATTRIBUTE_NAME_BLEND_INDEX,
                                   GLProgram::ATTRIBUTE_NAME_TANGENT,    GLProgram::ATTRIBUTE_NAME_BINORMAL};
 
 static GLuint __maxVertexAttribs = 0;
 static std::vector<VertexAttribBinding*> __vertexAttribBindingCache;
-
-VertexAttribBinding::VertexAttribBinding()
-: _handle(0)
-, _attributes()
-, _meshIndexData(nullptr)
-, _glProgramState(nullptr)
-{
-}
 
 VertexAttribBinding::~VertexAttribBinding()
 {
@@ -124,7 +119,7 @@ bool VertexAttribBinding::init(MeshIndexData* meshIndexData, GLProgramState* glP
     {
         auto meshattribute = meshVertexData->getMeshVertexAttrib(k);
         setVertexAttribPointer(s_attributeNames[meshattribute.vertexAttrib], meshattribute.size, meshattribute.type, GL_FALSE,
-                               meshVertexData->getVertexBuffer()->getSizePerVertex(), (GLvoid*)offset);
+                               meshVertexData->getVertexBuffer()->getSizePerVertex(), reinterpret_cast<GLvoid*>(offset));
         offset += meshattribute.attribSizeBytes;
     }
 
@@ -135,8 +130,7 @@ bool VertexAttribBinding::init(MeshIndexData* meshIndexData, GLProgramState* glP
         GL::bindVAO(_handle);
         glBindBuffer(GL_ARRAY_BUFFER, meshVertexData->getVertexBuffer()->getVBO());
 
-
-        GL::enableVertexAttribs(_vertexAttribsFlags, _handle);       
+        GL::enableVertexAttribs(_vertexAttribsFlags, _handle);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshIndexData->getIndexBuffer()->getVBO());
 

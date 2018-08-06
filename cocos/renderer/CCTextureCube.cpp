@@ -22,11 +22,18 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "renderer/CCTextureCube.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCImage.h"
+#include <cocos/renderer/CCTextureCube.h>
 
-#include "renderer/ccGLStateCache.h"
+#include <cocos/base/ccMacros.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCImage.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/ccGLStateCache.h>
+
+#include <cstddef>
+#include <new>
 
 NS_CC_BEGIN
 

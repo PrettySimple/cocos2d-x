@@ -22,18 +22,18 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCNAV_MESH_H__
-#define __CCNAV_MESH_H__
+#ifndef CC_NAVMESH_NAVMESH_H
+#define CC_NAVMESH_NAVMESH_H
 
-#include "base/ccConfig.h"
+#include <cocos/base/ccConfig.h>
 #if CC_USE_NAVMESH
 
-#    include "base/CCRef.h"
-#    include "math/Vec3.h"
 #    include "recast/Detour/DetourNavMesh.h"
 #    include "recast/Detour/DetourNavMeshQuery.h"
 #    include "recast/DetourCrowd/DetourCrowd.h"
 #    include "recast/DetourTileCache/DetourTileCache.h"
+#    include <cocos/base/CCRef.h>
+#    include <cocos/math/Vec3.h>
 #    include <string>
 #    include <vector>
 
@@ -131,4 +131,4 @@ NS_CC_END
 
 #endif // CC_USE_NAVMESH
 
-#endif // __CCNAV_MESH_H__
+#endif // CC_NAVMESH_NAVMESH_H

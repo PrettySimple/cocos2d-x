@@ -23,14 +23,23 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "ui/UIEditBox/UIEditBoxImpl-common.h"
+#include <cocos/ui/UIEditBox/UIEditBoxImpl-common.h>
 
 #define kLabelZOrder 9999
 
-#include "2d/CCLabel.h"
-#include "base/CCDirector.h"
-#include "ui/UIEditBox/UIEditBox.h"
-#include "ui/UIHelper.h"
+#include <cocos/2d/CCLabel.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCAffineTransform.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/UIEditBox/UIEditBox.h>
+#include <cocos/ui/UIEditBox/UIEditBoxImpl.h>
+#include <cocos/ui/UIHelper.h>
+
+#include <cstring>
 
 static const int CC_EDIT_BOX_PADDING = 5;
 
@@ -41,6 +50,8 @@ static const int CC_EDIT_BOX_PADDING = 5;
 #endif
 
 NS_CC_BEGIN
+
+class Renderer;
 
 namespace ui
 {
@@ -218,7 +229,7 @@ namespace ui
 
     void EditBoxImplCommon::setPlaceHolder(const char* pText)
     {
-        if (pText != NULL)
+        if (pText != nullptr)
         {
             _placeHolder = pText;
             _labelPlaceHolder->setString(_placeHolder);

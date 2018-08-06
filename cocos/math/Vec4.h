@@ -19,14 +19,18 @@
  This file was modified to fit the cocos2d-x project
  */
 
-#ifndef MATH_VEC4_H
-#define MATH_VEC4_H
+#ifndef CC_MATH_VEC4_H
+#define CC_MATH_VEC4_H
 
-#ifdef __SSE__
-#    include <xmmintrin.h>
+#include <cocos/math/CCMathBase.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformDefine.h>
+
+#include <type_traits>
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+#    include <cmath>
+#    include <limits>
 #endif
-
-#include "math/CCMathBase.h"
 
 /**
  * @addtogroup base
@@ -40,12 +44,23 @@ class Mat4;
 /**
  * Defines 4-element floating point vector.
  */
-class CC_DLL Vec4
+class CC_DLL Vec4 final
 {
 public:
-#ifdef __SSE__
+#ifdef __ARM_NEON
+    using f32x4_t = __attribute__((neon_vector_type(4))) float;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    using f32x4_t = float[4];
+#else
+    using f32x4_t = __attribute__((ext_vector_type(4))) float;
+#endif
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu-anonymous-struct"
+#pragma clang diagnostic ignored "-Wnested-anon-types"
     union
     {
+        f32x4_t v = {0.f, 0.f, 0.f, 0.f};
         struct
         {
             float x;
@@ -53,33 +68,17 @@ public:
             float z;
             float w;
         };
-        __m128 v;
     };
-#else
-    /**
-     * The x-coordinate.
-     */
-    float x;
-
-    /**
-     * The y-coordinate.
-     */
-    float y;
-
-    /**
-     * The z-coordinate.
-     */
-    float z;
-
-    /**
-     * The w-coordinate.
-     */
-    float w;
-#endif
+#pragma clang diagnostic pop
     /**
      * Constructs a new vector initialized to all zeros.
      */
-    Vec4();
+    Vec4() = default;
+    Vec4(Vec4 const&) = default;
+    Vec4& operator=(Vec4 const&) = default;
+    Vec4(Vec4&&) noexcept = default;
+    Vec4& operator=(Vec4&&) noexcept = default;
+    ~Vec4() = default;
 
     /**
      * Constructs a new vector initialized to the specified values.
@@ -87,15 +86,28 @@ public:
      * @param xx The x coordinate.
      * @param yy The y coordinate.
      * @param zz The z coordinate.
-     * @param ww The w coordinate.
      */
     constexpr Vec4(float xx, float yy, float zz, float ww)
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
     : x(xx)
     , y(yy)
     , z(zz)
     , w(ww)
+#else
+    : v
+    {
+        xx, yy, zz, ww
+    }
+#endif
     {
     }
+
+#if CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN
+    constexpr Vec4(f32x4_t&& other)
+    : v(std::move(other))
+    {
+    }
+#endif
 
     /**
      * Constructs a new vector from the values in the specified array.
@@ -111,15 +123,6 @@ public:
      * @param p2 The second point.
      */
     Vec4(const Vec4& p1, const Vec4& p2);
-
-    /**
-     * Constructor.
-     *
-     * Creates a new vector that is a copy of the specified vector.
-     *
-     * @param copy The vector to copy.
-     */
-    Vec4(const Vec4& copy);
 
     /**
      * Creates a new vector from an integer interpreted as an RGBA value.
@@ -346,7 +349,12 @@ public:
      * @param v The vector to add.
      * @return The vector sum.
      */
-    inline const Vec4 operator+(const Vec4& v) const;
+    inline const Vec4 operator+(const Vec4& v) const noexcept
+    {
+        Vec4 result(*this);
+        result.add(v);
+        return result;
+    }
 
     /**
      * Adds the given vector to this vector.
@@ -354,7 +362,11 @@ public:
      * @param v The vector to add.
      * @return This vector, after the addition occurs.
      */
-    inline Vec4& operator+=(const Vec4& v);
+    inline Vec4& operator+=(const Vec4& v) noexcept
+    {
+        add(v);
+        return *this;
+    }
 
     /**
      * Calculates the sum of this vector with the given vector.
@@ -364,7 +376,12 @@ public:
      * @param v The vector to add.
      * @return The vector sum.
      */
-    inline const Vec4 operator-(const Vec4& v) const;
+    inline const Vec4 operator-(const Vec4& v) const noexcept
+    {
+        Vec4 result(*this);
+        result.subtract(v);
+        return result;
+    }
 
     /**
      * Subtracts the given vector from this vector.
@@ -372,7 +389,11 @@ public:
      * @param v The vector to subtract.
      * @return This vector, after the subtraction occurs.
      */
-    inline Vec4& operator-=(const Vec4& v);
+    inline Vec4& operator-=(const Vec4& v) noexcept
+    {
+        subtract(v);
+        return *this;
+    }
 
     /**
      * Calculates the negation of this vector.
@@ -381,7 +402,12 @@ public:
      *
      * @return The negation of this vector.
      */
-    inline const Vec4 operator-() const;
+    inline const Vec4 operator-() const noexcept
+    {
+        Vec4 result(*this);
+        result.negate();
+        return result;
+    }
 
     /**
      * Calculates the scalar product of this vector with the given value.
@@ -391,7 +417,12 @@ public:
      * @param s The value to scale by.
      * @return The scaled vector.
      */
-    inline const Vec4 operator*(float s) const;
+    inline const Vec4 operator*(float s) const noexcept
+    {
+        Vec4 result(*this);
+        result.scale(s);
+        return result;
+    }
 
     /**
      * Scales this vector by the given value.
@@ -399,7 +430,11 @@ public:
      * @param s The value to scale by.
      * @return This vector, after the scale occurs.
      */
-    inline Vec4& operator*=(float s);
+    inline Vec4& operator*=(float s) noexcept
+    {
+        scale(s);
+        return *this;
+    }
 
     /**
      * Returns the components of this vector divided by the given constant
@@ -409,7 +444,14 @@ public:
      * @param s the constant to divide this vector with
      * @return a smaller vector
      */
-    inline const Vec4 operator/(float s) const;
+    inline const Vec4 operator/(float s) const
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return {x / s, y / s, z / s, w / s};
+#else
+        return Vec4(v / s);
+#endif
+    }
 
     /**
      * Determines if this vector is less than the given vector.
@@ -418,7 +460,25 @@ public:
      *
      * @return True if this vector is less than the given vector, false otherwise.
      */
-    inline bool operator<(const Vec4& v) const;
+    inline bool operator<(const Vec4& other) const noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return x < other.x && y < other.y && z < other.z && w < other.w;
+#else
+        auto const lt = v < other.v;
+        return lt[0] == -1 && lt[1] == -1 && lt[2] == -1 && lt[3] == -1;
+#endif
+    }
+
+    inline bool operator>(const Vec4& other) const noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        return x > other.x && y > other.y && z > other.z && w > other.w;
+#else
+        auto const gt = v > other.v;
+        return gt[0] == -1 && gt[1] == -1 && gt[2] == -1 && gt[3] == -1;
+#endif
+    }
 
     /**
      * Determines if this vector is equal to the given vector.
@@ -427,7 +487,19 @@ public:
      *
      * @return True if this vector is equal to the given vector, false otherwise.
      */
-    inline bool operator==(const Vec4& v) const;
+    inline bool operator==(const Vec4& other) const noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+        return std::abs(x - other.x) < epsi && std::abs(y - other.y) < epsi && std::abs(z - other.z) < epsi && std::abs(w - other.w) < epsi;
+#else
+#    pragma clang diagnostic push
+#    pragma clang diagnostic ignored "-Wfloat-equal"
+        auto const eq = (v == other.v);
+#    pragma clang diagnostic pop
+        return eq[0] == -1 && eq[1] == -1 && eq[2] == -1 && eq[3] == -1;
+#endif
+    }
 
     /**
      * Determines if this vector is not equal to the given vector.
@@ -436,7 +508,7 @@ public:
      *
      * @return True if this vector is not equal to the given vector, false otherwise.
      */
-    inline bool operator!=(const Vec4& v) const;
+    inline bool operator!=(const Vec4& v) const noexcept { return !operator==(v); }
 
     /** equals to Vec4(0,0,0,0) */
     static const Vec4 ZERO;
@@ -459,13 +531,17 @@ public:
  * @param v The vector to scale.
  * @return The scaled vector.
  */
-inline const Vec4 operator*(float x, const Vec4& v);
+inline Vec4 const operator*(float x, Vec4 const& v) noexcept
+{
+    Vec4 result(v);
+    result.scale(x);
+    return result;
+}
 
 NS_CC_MATH_END
 /**
  end of base group
  @}
  */
-#include "math/Vec4.inl"
 
-#endif // MATH_VEC4_H
+#endif // CC_MATH_VEC4_H

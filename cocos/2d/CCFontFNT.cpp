@@ -23,23 +23,38 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "2d/CCFontFNT.h"
+#include <cocos/2d/CCFontFNT.h>
 
-#include "2d/CCFontAtlas.h"
-#include "base/CCConfiguration.h"
-#include "base/CCDirector.h"
-#include "base/CCMap.h"
-#include "base/ccUTF8.h"
-#include "platform/CCFileUtils.h"
-#include "renderer/CCTextureCache.h"
+#include <cocos/2d/CCFontAtlas.h>
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCTextureCache.h>
 
 #include <array>
 #include <cmath>
+#include <cstdint>
+#include <cstdio>
+#include <cstring>
 #include <limits>
+#include <new>
 #include <sstream>
 #include <string_view>
+#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
+
+namespace cocos2d
+{
+    class Texture2D;
+}
 
 NS_CC_BEGIN
 

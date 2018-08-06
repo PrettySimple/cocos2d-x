@@ -22,11 +22,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __UIRADIOBUTTON_H__
-#define __UIRADIOBUTTON_H__
+#ifndef CC_UI_RADIOBUTTON_H
+#define CC_UI_RADIOBUTTON_H
 
-#include "ui/GUIExport.h"
-#include "ui/UIAbstractCheckButton.h"
+#include <cocos/base/CCVector.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/GUIExport.h>
+#include <cocos/ui/UIAbstractCheckButton.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <cstddef>
+#include <functional>
+#include <iosfwd>
 
 /**
  * @addtogroup ui
@@ -52,7 +60,7 @@ namespace ui
         /**
          * Radio button event types.
          */
-        enum class EventType
+        enum class EventType : std::uint8_t
         {
             SELECTED,
             UNSELECTED
@@ -76,7 +84,7 @@ namespace ui
          *
          * @lua NA
          */
-        virtual ~RadioButton();
+        ~RadioButton() override;
 
         /**
          * Create and return a empty RadioButton instance pointer.
@@ -114,15 +122,15 @@ namespace ui
          */
         void addEventListener(const ccRadioButtonCallback& callback);
 
-        virtual std::string getDescription() const override;
+        std::string getDescription() const override;
 
     protected:
-        virtual void releaseUpEvent() override;
+        void releaseUpEvent() override;
 
-        virtual void dispatchSelectChangedEvent(bool selected) override;
+        void dispatchSelectChangedEvent(bool selected) override;
 
-        virtual Widget* createCloneInstance() override;
-        virtual void copySpecialProperties(Widget* model) override;
+        Widget* createCloneInstance() override;
+        void copySpecialProperties(Widget* model) override;
 
         ccRadioButtonCallback _radioButtonEventCallback;
         RadioButtonGroup* _group;
@@ -140,7 +148,7 @@ namespace ui
         /**
          * Radio button group event types.
          */
-        enum class EventType
+        enum class EventType : std::uint8_t
         {
             SELECT_CHANGED,
         };
@@ -163,7 +171,7 @@ namespace ui
          *
          * @lua NA
          */
-        virtual ~RadioButtonGroup();
+        ~RadioButtonGroup() override;
 
         /**
          * Create and return a empty RadioButtonGroup instance pointer.
@@ -235,7 +243,7 @@ namespace ui
          *
          * @return the number of radio buttons in this group
          */
-        ssize_t getNumberOfRadioButtons() const;
+        std::size_t getNumberOfRadioButtons() const;
 
         /**
          * Get a radio button in this group by index.
@@ -262,11 +270,11 @@ namespace ui
          */
         bool isAllowedNoSelection() const;
 
-        virtual std::string getDescription() const override;
+        std::string getDescription() const override;
 
     protected:
-        virtual Widget* createCloneInstance() override;
-        virtual void copySpecialProperties(Widget* model) override;
+        Widget* createCloneInstance() override;
+        void copySpecialProperties(Widget* model) override;
 
         void onChangedRadioButtonSelect(RadioButton* radioButton);
         void deselect();
@@ -283,4 +291,4 @@ NS_CC_END
 // end of ui group
 /// @}
 
-#endif /* defined(__UIRADIOBUTTON_H__) */
+#endif /// CC_UI_RADIOBUTTON_H

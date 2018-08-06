@@ -22,10 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCComponentContainer.h"
+#include <cocos/2d/CCComponentContainer.h>
 
-#include "2d/CCComponent.h"
-#include "2d/CCNode.h"
+#include <cocos/2d/CCComponent.h>
+#include <cocos/2d/CCNode.h>
 
 NS_CC_BEGIN
 

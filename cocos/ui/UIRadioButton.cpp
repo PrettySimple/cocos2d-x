@@ -22,7 +22,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIRadioButton.h"
+#include <cocos/ui/UIRadioButton.h>
+
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/UIAbstractCheckButton.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <new>
 
 NS_CC_BEGIN
 
@@ -173,7 +183,7 @@ namespace ui
 
     void RadioButtonGroup::removeRadioButton(RadioButton* radioButton)
     {
-        ssize_t index = _radioButtons.getIndex(radioButton);
+        std::size_t index = _radioButtons.getIndex(radioButton);
         if (index == CC_INVALID_INDEX)
         {
             CCLOGERROR("The radio button does not belong to this group!");
@@ -204,13 +214,13 @@ namespace ui
         }
     }
 
-    ssize_t RadioButtonGroup::getNumberOfRadioButtons() const { return _radioButtons.size(); }
+    std::size_t RadioButtonGroup::getNumberOfRadioButtons() const { return _radioButtons.size(); }
 
     RadioButton* RadioButtonGroup::getRadioButtonByIndex(int index) const
     {
         if (index >= _radioButtons.size())
         {
-            CCLOGERROR("Out of array index! length=%d, requestedIndex=%d", (int)_radioButtons.size(), index);
+            CCLOGERROR("Out of array index! length=%d, requestedIndex=%d", static_cast<int>(_radioButtons.size()), index);
             return nullptr;
         }
         return _radioButtons.at(index);
@@ -226,7 +236,7 @@ namespace ui
         _selectedRadioButton = nullptr;
     }
 
-    int RadioButtonGroup::getSelectedButtonIndex() const { return (int)_radioButtons.getIndex(_selectedRadioButton); }
+    int RadioButtonGroup::getSelectedButtonIndex() const { return static_cast<int>(_radioButtons.getIndex(_selectedRadioButton)); }
 
     void RadioButtonGroup::setSelectedButton(int index)
     {
@@ -313,7 +323,7 @@ namespace ui
         this->retain();
         if (_radioButtonGroupEventCallback)
         {
-            int index = (int)_radioButtons.getIndex(radioButton);
+            int index = static_cast<int>(_radioButtons.getIndex(radioButton));
             _radioButtonGroupEventCallback(_selectedRadioButton, index, EventType::SELECT_CHANGED);
         }
         if (_ccEventCallback)

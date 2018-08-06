@@ -22,11 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "base/CCDirector.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/ccGLStateCache.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/ccGLStateCache.h>
 
 #include "CCBoneNode.h"
 #include "CCSkeletonNode.h"
@@ -103,7 +103,7 @@ void BoneNode::addSkin(SkinNode* skin, bool display)
 
 void BoneNode::removeChild(Node* child, bool cleanup /* = true */)
 {
-    ssize_t index = _children.getIndex(child);
+    std::size_t index = _children.getIndex(child);
     if (index != cocos2d::CC_INVALID_INDEX)
     {
         removeFromChildrenListHelper(child);

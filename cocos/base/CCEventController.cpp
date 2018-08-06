@@ -23,7 +23,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCEventController.h"
+#include <cocos/base/CCEventController.h>
+
+#include <cocos/base/CCEvent.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
@@ -42,6 +45,10 @@ EventController::EventController(ControllerEventType type, Controller* controlle
 , _controller(controller)
 , _keyCode(0)
 , _isConnected(isConnected)
+{
+}
+
+EventController::~EventController()
 {
 }
 

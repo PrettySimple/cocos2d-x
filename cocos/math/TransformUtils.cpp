@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "math/TransformUtils.h"
-#include "math/CCAffineTransform.h"
+#include <cocos/math/CCAffineTransform.h>
+#include <cocos/math/TransformUtils.h>
 
 namespace cocos2d
 {

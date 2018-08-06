@@ -83,8 +83,7 @@ float const kCD_GainDefault = 1.0f;
 
 @implementation CDUtilities
 
-+ (NSString*)fullPathFromRelativePath:(NSString*)relPath
-{
++ (NSString*)fullPathFromRelativePath:(NSString*)relPath {
     // do not convert an absolute path (starting with '/')
     if (([relPath length] > 0) && ([relPath characterAtIndex:0] == '/'))
     {
@@ -120,14 +119,12 @@ static BOOL _mixerRateSet = NO;
 @synthesize getGainWorks = getGainWorks_;
 @synthesize sourceTotal = sourceTotal_;
 
-+ (void)setMixerSampleRate:(Float32)sampleRate
-{
++ (void)setMixerSampleRate:(Float32)sampleRate {
     _mixerRateSet = YES;
     _mixerSampleRate = sampleRate;
 }
 
-- (void)_testGetGain
-{
+- (void)_testGetGain {
     float testValue = 0.7f;
     ALuint testSourceId = _sources[0].sourceId;
     alSourcef(testSourceId, AL_GAIN, 0.0f); // Start from know value
@@ -138,8 +135,7 @@ static BOOL _mixerRateSet = NO;
 }
 
 // Generate sources one at a time until we fail
-- (void)_generateSources
-{
+- (void)_generateSources {
     _sources = (sourceInfo*)malloc(sizeof(_sources[0]) * CD_SOURCE_LIMIT);
     BOOL hasFailed = NO;
     sourceTotal_ = 0;
@@ -174,8 +170,7 @@ static BOOL _mixerRateSet = NO;
     }
 }
 
-- (void)_generateBuffers:(int)startIndex endIndex:(int)endIndex
-{
+- (void)_generateBuffers:(int)startIndex endIndex:(int)endIndex {
     if (_buffers)
     {
         alGetError();
@@ -199,8 +194,7 @@ static BOOL _mixerRateSet = NO;
 /**
  * Internal method called during init
  */
-- (BOOL)_initOpenAL
-{
+- (BOOL)_initOpenAL {
     // ALenum            error;
     context = NULL;
     ALCdevice* newDevice = NULL;
@@ -241,8 +235,7 @@ static BOOL _mixerRateSet = NO;
     return TRUE;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     ALCcontext* currentContext = NULL;
     ALCdevice* device = NULL;
 
@@ -296,13 +289,11 @@ static BOOL _mixerRateSet = NO;
     [super dealloc];
 }
 
-- (NSUInteger)sourceGroupTotal
-{
+- (NSUInteger)sourceGroupTotal {
     return _sourceGroupTotal;
 }
 
-- (void)_freeSourceGroups
-{
+- (void)_freeSourceGroups {
     CDLOGINFO(@"Denshion::CDSoundEngine freeing source groups");
     if (_sourceGroups)
     {
@@ -318,8 +309,7 @@ static BOOL _mixerRateSet = NO;
     }
 }
 
-- (BOOL)_redefineSourceGroups:(int[])definitions total:(NSUInteger)total
-{
+- (BOOL)_redefineSourceGroups:(int[])definitions total:(NSUInteger)total {
     if (_sourceGroups)
     {
         // Stop all sounds
@@ -330,8 +320,7 @@ static BOOL _mixerRateSet = NO;
     return [self _setUpSourceGroups:definitions total:total];
 }
 
-- (BOOL)_setUpSourceGroups:(int[])definitions total:(NSUInteger)total
-{
+- (BOOL)_setUpSourceGroups:(int[])definitions total:(NSUInteger)total {
     _sourceGroups = (sourceGroup*)malloc(sizeof(_sourceGroups[0]) * total);
     if (!_sourceGroups)
     {
@@ -362,13 +351,11 @@ static BOOL _mixerRateSet = NO;
     return YES;
 }
 
-- (void)defineSourceGroups:(int[])sourceGroupDefinitions total:(NSUInteger)total
-{
+- (void)defineSourceGroups:(int[])sourceGroupDefinitions total:(NSUInteger)total {
     [self _redefineSourceGroups:sourceGroupDefinitions total:total];
 }
 
-- (void)defineSourceGroups:(NSArray*)sourceGroupDefinitions
-{
+- (void)defineSourceGroups:(NSArray*)sourceGroupDefinitions {
     CDLOGINFO(@"Denshion::CDSoundEngine - source groups defined by NSArray.");
     NSUInteger totalDefs = [sourceGroupDefinitions count];
     int* defs = (int*)malloc(sizeof(int) * totalDefs);
@@ -391,8 +378,7 @@ static BOOL _mixerRateSet = NO;
     free(defs);
 }
 
-- (id)init
-{
+- (id)init {
     if ((self = [super init]))
     {
         // Create mutexes
@@ -433,8 +419,7 @@ static BOOL _mixerRateSet = NO;
  * Delete the buffer identified by soundId
  * @return true if buffer deleted successfully, otherwise false
  */
-- (BOOL)unloadBuffer:(int)soundId
-{
+- (BOOL)unloadBuffer:(int)soundId {
     // Ensure soundId is within array bounds otherwise memory corruption will occur
     if (soundId < 0 || soundId >= bufferTotal)
     {
@@ -533,8 +518,7 @@ static BOOL _mixerRateSet = NO;
  * file sizes.
  * @param An array of CDBufferLoadRequest objects
  */
-- (void)loadBuffersAsynchronously:(NSArray*)loadRequests
-{
+- (void)loadBuffersAsynchronously:(NSArray*)loadRequests {
     @synchronized(self)
     {
         asynchLoadProgress_ = 0.0f;
@@ -544,8 +528,7 @@ static BOOL _mixerRateSet = NO;
     }
 }
 
-- (BOOL)_resizeBuffers:(int)increment
-{
+- (BOOL)_resizeBuffers:(int)increment {
     void* tmpBufferInfos = realloc(_buffers, sizeof(_buffers[0]) * (bufferTotal + increment));
 
     if (!tmpBufferInfos)
@@ -563,8 +546,7 @@ static BOOL _mixerRateSet = NO;
     }
 }
 
-- (BOOL)loadBufferFromData:(int)soundId soundData:(ALvoid*)soundData format:(ALenum)format size:(ALsizei)size freq:(ALsizei)freq
-{
+- (BOOL)loadBufferFromData:(int)soundId soundData:(ALvoid*)soundData format:(ALenum)format size:(ALsizei)size freq:(ALsizei)freq {
     @synchronized(_mutexBufferLoad)
     {
         if (!functioning_)
@@ -650,8 +632,7 @@ static BOOL _mixerRateSet = NO;
  * Load sound data for later play back.
  * @return TRUE if buffer loaded okay for play back otherwise false
  */
-- (BOOL)loadBuffer:(int)soundId filePath:(NSString*)filePath
-{
+- (BOOL)loadBuffer:(int)soundId filePath:(NSString*)filePath {
     ALvoid* data;
     ALenum format;
     ALsizei size;
@@ -684,8 +665,7 @@ static BOOL _mixerRateSet = NO;
     }
 }
 
-- (BOOL)validateBufferId:(int)soundId
-{
+- (BOOL)validateBufferId:(int)soundId {
     if (soundId < 0 || soundId >= bufferTotal)
     {
         CDLOGINFO(@"Denshion::CDSoundEngine - validateBufferId buffer outside range %i", soundId);
@@ -702,8 +682,7 @@ static BOOL _mixerRateSet = NO;
     }
 }
 
-- (float)bufferDurationInSeconds:(int)soundId
-{
+- (float)bufferDurationInSeconds:(int)soundId {
     if ([self validateBufferId:soundId])
     {
         float factor = 0.0f;
@@ -730,8 +709,7 @@ static BOOL _mixerRateSet = NO;
     }
 }
 
-- (ALsizei)bufferSizeInBytes:(int)soundId
-{
+- (ALsizei)bufferSizeInBytes:(int)soundId {
     if ([self validateBufferId:soundId])
     {
         return _buffers[soundId].sizeInBytes;
@@ -742,8 +720,7 @@ static BOOL _mixerRateSet = NO;
     }
 }
 
-- (ALsizei)bufferFrequencyInHertz:(int)soundId
-{
+- (ALsizei)bufferFrequencyInHertz:(int)soundId {
     if ([self validateBufferId:soundId])
     {
         return _buffers[soundId].frequencyInHertz;
@@ -754,8 +731,7 @@ static BOOL _mixerRateSet = NO;
     }
 }
 
-- (ALfloat)masterGain
-{
+- (ALfloat)masterGain {
     if (mute_)
     {
         // When mute the real gain will always be 0 therefore return the preMuteGain value
@@ -772,8 +748,7 @@ static BOOL _mixerRateSet = NO;
 /**
  * Overall gain setting multiplier. e.g 0.5 is half the gain.
  */
-- (void)setMasterGain:(ALfloat)newGainValue
-{
+- (void)setMasterGain:(ALfloat)newGainValue {
     if (mute_)
     {
         _preMuteGain = newGainValue;
@@ -785,16 +760,14 @@ static BOOL _mixerRateSet = NO;
 }
 
 #pragma mark CDSoundEngine AudioInterrupt protocol
-- (BOOL)mute
-{
+- (BOOL)mute {
     return mute_;
 }
 
 /**
  * Setting mute silences all sounds but playing sounds continue to advance playback
  */
-- (void)setMute:(BOOL)newMuteValue
-{
+- (void)setMute:(BOOL)newMuteValue {
     if (newMuteValue == mute_)
     {
         return;
@@ -815,13 +788,11 @@ static BOOL _mixerRateSet = NO;
     }
 }
 
-- (BOOL)enabled
-{
+- (BOOL)enabled {
     return enabled_;
 }
 
-- (void)setEnabled:(BOOL)enabledValue
-{
+- (void)setEnabled:(BOOL)enabledValue {
     if (enabled_ == enabledValue)
     {
         return;
@@ -833,8 +804,7 @@ static BOOL _mixerRateSet = NO;
     }
 }
 
-- (void)_lockSource:(int)sourceIndex lock:(BOOL)lock
-{
+- (void)_lockSource:(int)sourceIndex lock:(BOOL)lock {
     BOOL found = NO;
     for (int i = 0; i < _sourceGroupTotal && !found; i++)
     {
@@ -862,8 +832,7 @@ static BOOL _mixerRateSet = NO;
     }
 }
 
-- (int)_getSourceIndexForSourceGroup:(int)sourceGroupId
-{
+- (int)_getSourceIndexForSourceGroup:(int)sourceGroupId {
     // Ensure source group id is valid to prevent memory corruption
     if (sourceGroupId < 0 || sourceGroupId >= _sourceGroupTotal)
     {
@@ -948,8 +917,7 @@ static BOOL _mixerRateSet = NO;
  * or CD_NO_SOURCE if a problem occurs setting up the source
  *
  */
-- (ALuint)playSound:(int)soundId sourceGroupId:(int)sourceGroupId pitch:(float)pitch pan:(float)pan gain:(float)gain loop:(BOOL)loop
-{
+- (ALuint)playSound:(int)soundId sourceGroupId:(int)sourceGroupId pitch:(float)pitch pan:(float)pan gain:(float)gain loop:(BOOL)loop {
 #ifdef CD_DEBUG
     // Sanity check parameters - only in DEBUG
     NSAssert(soundId >= 0, @"soundId can not be negative");
@@ -1019,8 +987,7 @@ static BOOL _mixerRateSet = NO;
     }
 }
 
-- (BOOL)_soundSourceAttachToBuffer:(CDSoundSource*)soundSource soundId:(int)soundId
-{
+- (BOOL)_soundSourceAttachToBuffer:(CDSoundSource*)soundSource soundId:(int)soundId {
     // Attach the source to the buffer
     ALint state;
     ALuint source = soundSource->_sourceId;
@@ -1048,8 +1015,7 @@ static BOOL _mixerRateSet = NO;
 /**
  * Get a sound source for the specified sound in the specified source group
  */
-- (CDSoundSource*)soundSourceForSound:(int)soundId sourceGroupId:(int)sourceGroupId
-{
+- (CDSoundSource*)soundSourceForSound:(int)soundId sourceGroupId:(int)sourceGroupId {
     if (!functioning_)
     {
         return nil;
@@ -1084,8 +1050,7 @@ static BOOL _mixerRateSet = NO;
     }
 }
 
-- (void)_soundSourcePreRelease:(CDSoundSource*)soundSource
-{
+- (void)_soundSourcePreRelease:(CDSoundSource*)soundSource {
     CDLOGINFO(@"Denshion::CDSoundEngine _soundSourcePreRelease %i", soundSource->_sourceIndex);
     // Unlock the sound source's source
     [self _lockSource:soundSource->_sourceIndex lock:NO];
@@ -1094,8 +1059,7 @@ static BOOL _mixerRateSet = NO;
 /**
  * Stop all sounds playing within a source group
  */
-- (void)stopSourceGroup:(int)sourceGroupId
-{
+- (void)stopSourceGroup:(int)sourceGroupId {
     if (!functioning_ || sourceGroupId >= _sourceGroupTotal || sourceGroupId < 0)
     {
         return;
@@ -1113,8 +1077,7 @@ static BOOL _mixerRateSet = NO;
  * Stop a sound playing.
  * @param sourceId an OpenAL source identifier i.e. the return value of playSound
  */
-- (void)stopSound:(ALuint)sourceId
-{
+- (void)stopSound:(ALuint)sourceId {
     if (!functioning_)
     {
         return;
@@ -1123,8 +1086,7 @@ static BOOL _mixerRateSet = NO;
     alGetError(); // Clear error in case we stopped any sounds that couldn't be stopped
 }
 
-- (void)stopAllSounds
-{
+- (void)stopAllSounds {
     for (int i = 0; i < sourceTotal_; i++)
     {
         alSourceStop(_sources[i].sourceId);
@@ -1132,8 +1094,7 @@ static BOOL _mixerRateSet = NO;
     alGetError(); // Clear error in case we stopped any sounds that couldn't be stopped
 }
 
-- (void)pauseSound:(ALuint)sourceId
-{
+- (void)pauseSound:(ALuint)sourceId {
     if (!functioning_)
     {
         return;
@@ -1142,8 +1103,7 @@ static BOOL _mixerRateSet = NO;
     alGetError(); // Clear error in case we pause any sounds that couldn't be paused
 }
 
-- (void)pauseAllSounds
-{
+- (void)pauseAllSounds {
     for (int i = 0; i < sourceTotal_; i++)
     {
         [self pauseSound:_sources[i].sourceId];
@@ -1151,8 +1111,7 @@ static BOOL _mixerRateSet = NO;
     alGetError(); // Clear error in case we stopped any sounds that couldn't be paused
 }
 
-- (void)resumeSound:(ALuint)soundId
-{
+- (void)resumeSound:(ALuint)soundId {
     if (!functioning_)
     {
         return;
@@ -1170,8 +1129,7 @@ static BOOL _mixerRateSet = NO;
     alGetError(); // Clear error in case we stopped any sounds that couldn't be resumed
 }
 
-- (void)resumeAllSounds
-{
+- (void)resumeAllSounds {
     for (int i = 0; i < sourceTotal_; i++)
     {
         [self resumeSound:_sources[i].sourceId];
@@ -1184,8 +1142,7 @@ static BOOL _mixerRateSet = NO;
  * Non interruptible means that if a request to play a sound is made for a source group and there are
  * no free sources available then the play request will be ignored and CD_NO_SOURCE will be returned.
  */
-- (void)setSourceGroupNonInterruptible:(int)sourceGroupId isNonInterruptible:(BOOL)isNonInterruptible
-{
+- (void)setSourceGroupNonInterruptible:(int)sourceGroupId isNonInterruptible:(BOOL)isNonInterruptible {
     // Ensure source group id is valid to prevent memory corruption
     if (sourceGroupId < 0 || sourceGroupId >= _sourceGroupTotal)
     {
@@ -1210,8 +1167,7 @@ static BOOL _mixerRateSet = NO;
  * for the sound engine must be taken into account. If the sound engine is mute no sounds will play
  * no matter what the source group mute setting is.
  */
-- (void)setSourceGroupEnabled:(int)sourceGroupId enabled:(BOOL)enabled
-{
+- (void)setSourceGroupEnabled:(int)sourceGroupId enabled:(BOOL)enabled {
     // Ensure source group id is valid to prevent memory corruption
     if (sourceGroupId < 0 || sourceGroupId >= _sourceGroupTotal)
     {
@@ -1233,18 +1189,15 @@ static BOOL _mixerRateSet = NO;
 /**
  * Return the mute property for the source group identified by sourceGroupId
  */
-- (BOOL)sourceGroupEnabled:(int)sourceGroupId
-{
+- (BOOL)sourceGroupEnabled:(int)sourceGroupId {
     return _sourceGroups[sourceGroupId].enabled;
 }
 
-- (ALCcontext*)openALContext
-{
+- (ALCcontext*)openALContext {
     return context;
 }
 
-- (void)_dumpSourceGroupsInfo
-{
+- (void)_dumpSourceGroupsInfo {
 #ifdef CD_DEBUG
     CDLOGINFO(@"-------------- source Group Info --------------");
     for (int i = 0; i < _sourceGroupTotal; i++)
@@ -1271,8 +1224,7 @@ static BOOL _mixerRateSet = NO;
 #define CDSOUNDSOURCE_UPDATE_LAST_ERROR (lastError = alGetError())
 #define CDSOUNDSOURCE_ERROR_HANDLER (CDSOUNDSOURCE_UPDATE_LAST_ERROR == AL_NO_ERROR)
 
-- (id)init:(ALuint)theSourceId sourceIndex:(int)index soundEngine:(CDSoundEngine*)engine
-{
+- (id)init:(ALuint)theSourceId sourceIndex:(int)index soundEngine:(CDSoundEngine*)engine {
     if ((self = [super init]))
     {
         _sourceId = theSourceId;
@@ -1285,8 +1237,7 @@ static BOOL _mixerRateSet = NO;
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     CDLOGINFO(@"Denshion::CDSoundSource deallocated %i", self->_sourceIndex);
 
     // Notify sound engine we are about to release
@@ -1294,14 +1245,12 @@ static BOOL _mixerRateSet = NO;
     [super dealloc];
 }
 
-- (void)setPitch:(float)newPitchValue
-{
+- (void)setPitch:(float)newPitchValue {
     alSourcef(_sourceId, AL_PITCH, newPitchValue);
     CDSOUNDSOURCE_UPDATE_LAST_ERROR;
 }
 
-- (void)setGain:(float)newGainValue
-{
+- (void)setGain:(float)newGainValue {
     if (!mute_)
     {
         alSourcef(_sourceId, AL_GAIN, newGainValue);
@@ -1313,45 +1262,39 @@ static BOOL _mixerRateSet = NO;
     CDSOUNDSOURCE_UPDATE_LAST_ERROR;
 }
 
-- (void)setPan:(float)newPanValue
-{
+- (void)setPan:(float)newPanValue {
     float sourcePosAL[] = {newPanValue, 0.0f, 0.0f}; // Set position - just using left and right panning
     alSourcefv(_sourceId, AL_POSITION, sourcePosAL);
     CDSOUNDSOURCE_UPDATE_LAST_ERROR;
 }
 
-- (void)setLooping:(BOOL)newLoopingValue
-{
+- (void)setLooping:(BOOL)newLoopingValue {
     alSourcei(_sourceId, AL_LOOPING, newLoopingValue);
     CDSOUNDSOURCE_UPDATE_LAST_ERROR;
 }
 
-- (BOOL)isPlaying
-{
+- (BOOL)isPlaying {
     ALint state;
     alGetSourcei(_sourceId, AL_SOURCE_STATE, &state);
     CDSOUNDSOURCE_UPDATE_LAST_ERROR;
     return (state == AL_PLAYING);
 }
 
-- (float)pitch
-{
+- (float)pitch {
     ALfloat pitchVal;
     alGetSourcef(_sourceId, AL_PITCH, &pitchVal);
     CDSOUNDSOURCE_UPDATE_LAST_ERROR;
     return pitchVal;
 }
 
-- (float)pan
-{
+- (float)pan {
     ALfloat sourcePosAL[] = {0.0f, 0.0f, 0.0f};
     alGetSourcefv(_sourceId, AL_POSITION, sourcePosAL);
     CDSOUNDSOURCE_UPDATE_LAST_ERROR;
     return sourcePosAL[0];
 }
 
-- (float)gain
-{
+- (float)gain {
     if (!mute_)
     {
         ALfloat val;
@@ -1365,22 +1308,19 @@ static BOOL _mixerRateSet = NO;
     }
 }
 
-- (BOOL)looping
-{
+- (BOOL)looping {
     ALfloat val;
     alGetSourcef(_sourceId, AL_LOOPING, &val);
     CDSOUNDSOURCE_UPDATE_LAST_ERROR;
     return val;
 }
 
-- (BOOL)stop
-{
+- (BOOL)stop {
     alSourceStop(_sourceId);
     return CDSOUNDSOURCE_ERROR_HANDLER;
 }
 
-- (BOOL)play
-{
+- (BOOL)play {
     if (enabled_)
     {
         alSourcePlay(_sourceId);
@@ -1405,44 +1345,37 @@ static BOOL _mixerRateSet = NO;
     }
 }
 
-- (BOOL)pause
-{
+- (BOOL)pause {
     alSourcePause(_sourceId);
     return CDSOUNDSOURCE_ERROR_HANDLER;
 }
 
-- (BOOL)rewind
-{
+- (BOOL)rewind {
     alSourceRewind(_sourceId);
     return CDSOUNDSOURCE_ERROR_HANDLER;
 }
 
-- (void)setSoundId:(int)soundId
-{
+- (void)setSoundId:(int)soundId {
     [_engine _soundSourceAttachToBuffer:self soundId:soundId];
 }
 
-- (int)soundId
-{
+- (int)soundId {
     return _soundId;
 }
 
-- (float)durationInSeconds
-{
+- (float)durationInSeconds {
     return [_engine bufferDurationInSeconds:_soundId];
 }
 
 #pragma mark CDSoundSource AudioInterrupt protocol
-- (BOOL)mute
-{
+- (BOOL)mute {
     return mute_;
 }
 
 /**
  * Setting mute silences all sounds but playing sounds continue to advance playback
  */
-- (void)setMute:(BOOL)newMuteValue
-{
+- (void)setMute:(BOOL)newMuteValue {
     if (newMuteValue == mute_)
     {
         return;
@@ -1463,13 +1396,11 @@ static BOOL _mixerRateSet = NO;
     }
 }
 
-- (BOOL)enabled
-{
+- (BOOL)enabled {
     return enabled_;
 }
 
-- (void)setEnabled:(BOOL)enabledValue
-{
+- (void)setEnabled:(BOOL)enabledValue {
     if (enabled_ == enabledValue)
     {
         return;
@@ -1489,8 +1420,7 @@ static BOOL _mixerRateSet = NO;
 
 @implementation CDAudioInterruptTargetGroup
 
-- (id)init
-{
+- (id)init {
     if ((self = [super init]))
     {
         children_ = [[NSMutableArray alloc] initWithCapacity:32];
@@ -1500,29 +1430,25 @@ static BOOL _mixerRateSet = NO;
     return self;
 }
 
-- (void)addAudioInterruptTarget:(NSObject<CDAudioInterruptProtocol>*)interruptibleTarget
-{
+- (void)addAudioInterruptTarget:(NSObject<CDAudioInterruptProtocol>*)interruptibleTarget {
     // Synchronize child with group settings;
     [interruptibleTarget setMute:mute_];
     [interruptibleTarget setEnabled:enabled_];
     [children_ addObject:interruptibleTarget];
 }
 
-- (void)removeAudioInterruptTarget:(NSObject<CDAudioInterruptProtocol>*)interruptibleTarget
-{
+- (void)removeAudioInterruptTarget:(NSObject<CDAudioInterruptProtocol>*)interruptibleTarget {
     [children_ removeObjectIdenticalTo:interruptibleTarget];
 }
 
-- (BOOL)mute
-{
+- (BOOL)mute {
     return mute_;
 }
 
 /**
  * Setting mute silences all sounds but playing sounds continue to advance playback
  */
-- (void)setMute:(BOOL)newMuteValue
-{
+- (void)setMute:(BOOL)newMuteValue {
     if (newMuteValue == mute_)
     {
         return;
@@ -1534,13 +1460,11 @@ static BOOL _mixerRateSet = NO;
     }
 }
 
-- (BOOL)enabled
-{
+- (BOOL)enabled {
     return enabled_;
 }
 
-- (void)setEnabled:(BOOL)enabledValue
-{
+- (void)setEnabled:(BOOL)enabledValue {
     if (enabledValue == enabled_)
     {
         return;
@@ -1561,8 +1485,7 @@ static BOOL _mixerRateSet = NO;
 
 @implementation CDAsynchBufferLoader
 
-- (id)init:(NSArray*)loadRequests soundEngine:(CDSoundEngine*)theSoundEngine
-{
+- (id)init:(NSArray*)loadRequests soundEngine:(CDSoundEngine*)theSoundEngine {
     if ((self = [super init]))
     {
         _loadRequests = loadRequests;
@@ -1573,8 +1496,7 @@ static BOOL _mixerRateSet = NO;
     return self;
 }
 
-- (void)main
-{
+- (void)main {
     CDLOGINFO(@"Denshion::CDAsynchBufferLoader - loading buffers");
     [super main];
     _soundEngine.asynchLoadProgress = 0.0f;
@@ -1595,8 +1517,7 @@ static BOOL _mixerRateSet = NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:kCDN_AsynchLoadComplete object:nil];
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [_loadRequests release];
     [_soundEngine release];
     [super dealloc];
@@ -1612,8 +1533,7 @@ static BOOL _mixerRateSet = NO;
 
 @synthesize filePath, soundId;
 
-- (id)init:(int)theSoundId filePath:(const NSString*)theFilePath
-{
+- (id)init:(int)theSoundId filePath:(const NSString*)theFilePath {
     if ((self = [super init]))
     {
         soundId = theSoundId;
@@ -1622,8 +1542,7 @@ static BOOL _mixerRateSet = NO;
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [filePath release];
     [super dealloc];
 }
@@ -1637,8 +1556,7 @@ static BOOL _mixerRateSet = NO;
 @implementation CDFloatInterpolator
 @synthesize start, end, interpolationType;
 
-- (float)interpolate:(float)t
-{
+- (float)interpolate:(float)t {
     if (t < 1.0f)
     {
         switch (interpolationType)
@@ -1675,8 +1593,7 @@ static BOOL _mixerRateSet = NO;
     }
 }
 
-- (id)init:(tCDInterpolationType)type startVal:(float)startVal endVal:(float)endVal
-{
+- (id)init:(tCDInterpolationType)type startVal:(float)startVal endVal:(float)endVal {
     if ((self = [super init]))
     {
         start = startVal;
@@ -1696,8 +1613,7 @@ static BOOL _mixerRateSet = NO;
 
 @synthesize stopTargetWhenComplete;
 
-- (id)init:(id)theTarget interpolationType:(tCDInterpolationType)type startVal:(float)startVal endVal:(float)endVal
-{
+- (id)init:(id)theTarget interpolationType:(tCDInterpolationType)type startVal:(float)startVal endVal:(float)endVal {
     if ((self = [super init]))
     {
         if (target)
@@ -1728,16 +1644,14 @@ static BOOL _mixerRateSet = NO;
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     CDLOGINFO(@"Denshion::CDPropertyModifier deallocated %@", self);
     [target release];
     [interpolator release];
     [super dealloc];
 }
 
-- (void)modify:(float)t
-{
+- (void)modify:(float)t {
     if (t < 1.0f)
     {
         [self _setTargetProperty:[interpolator interpolate:t]];
@@ -1753,53 +1667,43 @@ static BOOL _mixerRateSet = NO;
     }
 }
 
-- (float)startValue
-{
+- (float)startValue {
     return startValue;
 }
 
-- (void)setStartValue:(float)startVal
-{
+- (void)setStartValue:(float)startVal {
     startValue = startVal;
     interpolator.start = startVal;
 }
 
-- (float)endValue
-{
+- (float)endValue {
     return startValue;
 }
 
-- (void)setEndValue:(float)endVal
-{
+- (void)setEndValue:(float)endVal {
     endValue = endVal;
     interpolator.end = endVal;
 }
 
-- (tCDInterpolationType)interpolationType
-{
+- (tCDInterpolationType)interpolationType {
     return interpolator.interpolationType;
 }
 
-- (void)setInterpolationType:(tCDInterpolationType)interpolationType
-{
+- (void)setInterpolationType:(tCDInterpolationType)interpolationType {
     interpolator.interpolationType = interpolationType;
 }
 
-- (void)_setTargetProperty:(float)newVal
-{
+- (void)_setTargetProperty:(float)newVal {
 }
 
-- (float)_getTargetProperty
-{
+- (float)_getTargetProperty {
     return 0.0f;
 }
 
-- (void)_stopTarget
-{
+- (void)_stopTarget {
 }
 
-- (Class)_allowableType
-{
+- (Class)_allowableType {
     return [NSObject class];
 }
 @end
@@ -1810,23 +1714,19 @@ static BOOL _mixerRateSet = NO;
 
 @implementation CDSoundSourceFader
 
-- (void)_setTargetProperty:(float)newVal
-{
+- (void)_setTargetProperty:(float)newVal {
     ((CDSoundSource*)target).gain = newVal;
 }
 
-- (float)_getTargetProperty
-{
+- (float)_getTargetProperty {
     return ((CDSoundSource*)target).gain;
 }
 
-- (void)_stopTarget
-{
+- (void)_stopTarget {
     [((CDSoundSource*)target) stop];
 }
 
-- (Class)_allowableType
-{
+- (Class)_allowableType {
     return [CDSoundSource class];
 }
 
@@ -1838,23 +1738,19 @@ static BOOL _mixerRateSet = NO;
 
 @implementation CDSoundSourcePanner
 
-- (void)_setTargetProperty:(float)newVal
-{
+- (void)_setTargetProperty:(float)newVal {
     ((CDSoundSource*)target).pan = newVal;
 }
 
-- (float)_getTargetProperty
-{
+- (float)_getTargetProperty {
     return ((CDSoundSource*)target).pan;
 }
 
-- (void)_stopTarget
-{
+- (void)_stopTarget {
     [((CDSoundSource*)target) stop];
 }
 
-- (Class)_allowableType
-{
+- (Class)_allowableType {
     return [CDSoundSource class];
 }
 
@@ -1866,23 +1762,19 @@ static BOOL _mixerRateSet = NO;
 
 @implementation CDSoundSourcePitchBender
 
-- (void)_setTargetProperty:(float)newVal
-{
+- (void)_setTargetProperty:(float)newVal {
     ((CDSoundSource*)target).pitch = newVal;
 }
 
-- (float)_getTargetProperty
-{
+- (float)_getTargetProperty {
     return ((CDSoundSource*)target).pitch;
 }
 
-- (void)_stopTarget
-{
+- (void)_stopTarget {
     [((CDSoundSource*)target) stop];
 }
 
-- (Class)_allowableType
-{
+- (Class)_allowableType {
     return [CDSoundSource class];
 }
 
@@ -1894,23 +1786,19 @@ static BOOL _mixerRateSet = NO;
 
 @implementation CDSoundEngineFader
 
-- (void)_setTargetProperty:(float)newVal
-{
+- (void)_setTargetProperty:(float)newVal {
     ((CDSoundEngine*)target).masterGain = newVal;
 }
 
-- (float)_getTargetProperty
-{
+- (float)_getTargetProperty {
     return ((CDSoundEngine*)target).masterGain;
 }
 
-- (void)_stopTarget
-{
+- (void)_stopTarget {
     [((CDSoundEngine*)target) stopAllSounds];
 }
 
-- (Class)_allowableType
-{
+- (Class)_allowableType {
     return [CDSoundEngine class];
 }
 

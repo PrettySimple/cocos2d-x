@@ -22,10 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "2d/CCNodeGrid.h"
+#include <cocos/2d/CCNodeGrid.h>
 
-#include "2d/CCGrid.h"
-#include "renderer/CCRenderer.h"
+#include <cocos/2d/CCGrid.h>
+#include <cocos/renderer/CCRenderer.h>
 
 NS_CC_BEGIN
 
@@ -141,7 +141,7 @@ void NodeGrid::visit(Renderer* renderer, const Mat4& parentTransform, uint32_t p
         _gridTarget->visit(renderer, _modelViewTransform, dirty);
     }
 
-    int i = 0;
+    std::size_t i = 0;
     bool visibleByCamera = isVisitableByVisitingCamera();
 
     if (!_children.empty())

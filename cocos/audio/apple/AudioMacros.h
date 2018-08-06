@@ -32,17 +32,17 @@
 #define QUOTEME(x) QUOTEME_(x)
 
 #if defined(COCOS2D_AUDIO_DEBUG) && COCOS2D_AUDIO_DEBUG > 0
-#    define ALOGV(fmt, ...) printf("V/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
-#    define ALOGD(fmt, ...) printf("D/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
-#    define ALOGI(fmt, ...) printf("I/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
-#    define ALOGW(fmt, ...) printf("W/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
-#    define ALOGE(fmt, ...) printf("E/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
+#    define ALOGV(...) cocos2d::log2("V/" LOG_TAG " (" QUOTEME(__LINE__) "): ", __VA_ARGS__)
+#    define ALOGD(...) cocos2d::log2("D/" LOG_TAG " (" QUOTEME(__LINE__) "): ", __VA_ARGS__)
+#    define ALOGI(...) cocos2d::log2("I/" LOG_TAG " (" QUOTEME(__LINE__) "): ", __VA_ARGS__)
+#    define ALOGW(...) cocos2d::log2("W/" LOG_TAG " (" QUOTEME(__LINE__) "): ", __VA_ARGS__)
+#    define ALOGE(...) cocos2d::log2("E/" LOG_TAG " (" QUOTEME(__LINE__) "): ", __VA_ARGS__)
 #else
-#    define ALOGV(fmt, ...)
-#    define ALOGD(fmt, ...)
-#    define ALOGI(fmt, ...)
-#    define ALOGW(fmt, ...)
-#    define ALOGE(fmt, ...)
+#    define ALOGV(...) void(0)
+#    define ALOGD(...) void(0)
+#    define ALOGI(...) void(0)
+#    define ALOGW(...) void(0)
+#    define ALOGE(...) void(0)
 #endif
 
 #if defined(COCOS2D_AUDIO_DEBUG) && COCOS2D_AUDIO_DEBUG > 0
@@ -65,9 +65,9 @@
         break;              \
     }
 
-#define BREAK_IF_ERR_LOG(condition, fmt, ...)                                   \
-    if (!!(condition))                                                          \
-    {                                                                           \
-        ALOGE("(" QUOTEME(condition) ") failed, message: " fmt, ##__VA_ARGS__); \
-        break;                                                                  \
+#define BREAK_IF_ERR_LOG(condition, ...)                                  \
+    if (!!(condition))                                                    \
+    {                                                                     \
+        ALOGE("(" QUOTEME(condition) ") failed, message: ", __VA_ARGS__); \
+        break;                                                            \
     }

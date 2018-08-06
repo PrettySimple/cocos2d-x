@@ -25,21 +25,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "base/CCScheduler.h"
+#include <cocos/base/CCScheduler.h>
 
-#include "base/CCDirector.h"
-#include "base/CCScriptSupport.h"
-#include "base/ccCArray.h"
-#include "base/ccMacros.h"
-#include "base/iterator_pair.h"
-#include "base/utlist.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/iterator_pair.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <algorithm>
-#include <memory>
+#include <cmath>
+#include <new>
+#include <type_traits>
+#include <utility>
 
 NS_CC_BEGIN
 
 // Timer
+
+Timer::~Timer()
+{
+}
 
 void Timer::setupTimerWithInterval(std::chrono::milliseconds seconds, std::uint32_t repeat, std::chrono::milliseconds delay)
 {

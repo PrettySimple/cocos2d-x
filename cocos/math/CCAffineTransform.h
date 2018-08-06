@@ -23,13 +23,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __MATH_CCAFFINETRANSFORM_H__
-#define __MATH_CCAFFINETRANSFORM_H__
+#ifndef CC_MATH_AFFINETRANSFORM_H
+#define CC_MATH_AFFINETRANSFORM_H
 
-#include "platform/CCPlatformMacros.h"
-
-#include "math/CCGeometry.h"
-#include "math/CCMath.h"
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 /**
  * @addtogroup base
@@ -49,10 +51,47 @@ NS_CC_BEGIN
  0   1    0
  0   0    1
  */
-struct CC_DLL AffineTransform
+
+struct CC_DLL AffineTransform final
 {
-    float a, b, c, d;
-    float tx, ty;
+#ifdef __ARM_NEON
+    using f32x2_t = __attribute__((neon_vector_type(2))) float;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    using f32x2_t = float[2];
+#else
+    using f32x2_t = __attribute__((ext_vector_type(2))) float;
+#endif
+    using f32x2x2_t = f32x2_t[2];
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu-anonymous-struct"
+#pragma clang diagnostic ignored "-Wnested-anon-types"
+    union
+    {
+        struct
+        {
+            f32x2x2_t r;
+            f32x2_t t;
+        } simd = {{{0.f, 0.f}, {0.f, 0.f}}, {0.f, 0.f}};
+        struct
+        {
+            float a, b, c, d;
+            float tx, ty;
+        };
+    };
+#pragma clang diagnostic pop
+
+    AffineTransform() = default;
+    AffineTransform(AffineTransform const&) = default;
+    AffineTransform& operator=(AffineTransform const&) = default;
+    AffineTransform(AffineTransform&&) noexcept = default;
+    AffineTransform& operator=(AffineTransform&&) noexcept = default;
+    ~AffineTransform() = default;
+
+    constexpr AffineTransform(float aa, float bb, float cc, float dd, float txx, float tyy)
+    : simd{{{aa, bb}, {cc, dd}}, {txx, tyy}}
+    {
+    }
 
     static const AffineTransform IDENTITY;
 };
@@ -110,11 +149,9 @@ CC_DLL AffineTransform AffineTransformInvert(const AffineTransform& t);
 /**Concat Mat4, return t1 * t2.*/
 CC_DLL Mat4 TransformConcat(const Mat4& t1, const Mat4& t2);
 
-extern CC_DLL const AffineTransform AffineTransformIdentity;
-
 NS_CC_END
 
 // end of base transform
 /// @}
 
-#endif // __MATH_CCAFFINETRANSFORM_H__
+#endif // CC_MATH_AFFINETRANSFORM_H

@@ -22,12 +22,18 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCLIGHT_H__
-#define __CCLIGHT_H__
+#ifndef CC_2D_LIGHT_H
+#define CC_2D_LIGHT_H
 
-#include "2d/CCNode.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
+
+struct Color3B;
 
 enum class LightType
 {
@@ -88,7 +94,7 @@ public:
     virtual void onExit() override;
 
     CC_CONSTRUCTOR_ACCESS : BaseLight();
-    virtual ~BaseLight();
+    ~BaseLight() override;
 
 protected:
     void setRotationFromDirection(const Vec3& direction);
@@ -135,7 +141,7 @@ public:
     Vec3 getDirectionInWorld() const;
 
     CC_CONSTRUCTOR_ACCESS : DirectionLight();
-    virtual ~DirectionLight();
+    ~DirectionLight() override;
 };
 
 /**
@@ -162,7 +168,7 @@ public:
     void setRange(float range) { _range = range; }
 
     CC_CONSTRUCTOR_ACCESS : PointLight();
-    virtual ~PointLight();
+    ~PointLight() override;
 
 protected:
     float _range;
@@ -251,7 +257,7 @@ public:
     float getCosOuterAngle() const { return _cosOuterAngle; }
 
     CC_CONSTRUCTOR_ACCESS : SpotLight();
-    virtual ~SpotLight();
+    ~SpotLight() override;
 
 protected:
     float _range;
@@ -279,9 +285,9 @@ public:
     virtual LightType getLightType() const override { return LightType::AMBIENT; }
 
     CC_CONSTRUCTOR_ACCESS : AmbientLight();
-    virtual ~AmbientLight();
+    ~AmbientLight() override;
 };
 
 NS_CC_END
 
-#endif
+#endif // CC_2D_LIGHT_H

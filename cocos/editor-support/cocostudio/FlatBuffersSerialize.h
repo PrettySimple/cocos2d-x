@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
  Copyright (c) 2013 cocos2d-x.org
 
  http://www.cocos2d-x.org
@@ -22,12 +22,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__FlatBuffersSerialize__
-#define __cocos2d_libs__FlatBuffersSerialize__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_FLATBUFFERSERIALIZE_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_FLATBUFFERSERIALIZE_H
 
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
-#include "extensions/ExtensionMacros.h"
+#include <cocos/extensions/ExtensionMacros.h>
 
 namespace flatbuffers
 {
@@ -152,4 +152,4 @@ namespace cocostudio
     };
 } // namespace cocostudio
 
-#endif /* defined(__cocos2d_libs__FlatBuffersSerialize__) */
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_FLATBUFFERSERIALIZE_H

@@ -21,11 +21,23 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "ui/UILayoutComponent.h"
-#include "2d/CCNode.h"
-#include "ui/GUIDefine.h"
-#include "ui/UIHelper.h"
-#include "ui/UIPageView.h"
+#include <cocos/ui/UILayoutComponent.h>
+
+#include <cocos/2d/CCComponent.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/UIHelper.h>
+#include <cocos/ui/UIPageView.h>
+#include <cocos/ui/UIWidget.h>
+
+#include <iosfwd>
+#include <new>
+#include <typeinfo>
+#include <vector>
 
 NS_CC_BEGIN
 
@@ -51,14 +63,14 @@ namespace ui
     , _actived(true)
     , _isPercentOnly(false)
     {
-        _name = __LAYOUT_COMPONENT_NAME;
+        _name = LAYOUT_COMPONENT_NAME;
     }
 
     LayoutComponent::~LayoutComponent() {}
 
     LayoutComponent* LayoutComponent::bindLayoutComponent(Node* node)
     {
-        LayoutComponent* layout = (LayoutComponent*)node->getComponent(__LAYOUT_COMPONENT_NAME);
+        LayoutComponent* layout = (LayoutComponent*)node->getComponent(LAYOUT_COMPONENT_NAME);
         if (layout != nullptr)
             return layout;
 

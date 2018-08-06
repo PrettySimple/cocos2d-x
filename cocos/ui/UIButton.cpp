@@ -22,22 +22,34 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIButton.h"
+#include <cocos/ui/UIButton.h>
 
-#include "2d/CCActionInterval.h"
-#include "2d/CCLabel.h"
-#include "2d/CCSprite.h"
-#include "editor-support/cocostudio/CocosStudioExtension.h"
-#include "platform/CCFileUtils.h"
-#include "ui/UIHelper.h"
-#include "ui/UIScale9Sprite.h"
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/2d/CCLabel.h>
+#include <cocos/2d/CCProtectedNode.h>
+#include <cocos/2d/CCSprite.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/editor-support/cocostudio/CocosStudioExtension.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/ui/GUIDefine.h>
+#include <cocos/ui/UIHelper.h>
+#include <cocos/ui/UIScale9Sprite.h>
+#include <cocos/ui/UIWidget.h>
 
 #include <algorithm>
+#include <cctype>
 #include <chrono>
+#include <new>
+#include <string>
 
 using namespace std::chrono_literals;
 
 NS_CC_BEGIN
+
+class Action;
 
 namespace ui
 {

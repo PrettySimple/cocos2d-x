@@ -23,12 +23,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _CCFontAtlasCache_h_
-#define _CCFontAtlasCache_h_
+#ifndef CC_2D_FONTATLASCACHE_H
+#define CC_2D_FONTATLASCACHE_H
 
 /// @cond DO_NOT_SHOW
 
-#include "base/ccTypes.h"
+#include <cocos/base/ccTypes.h>
 
 #include <unordered_map>
 
@@ -74,4 +74,4 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif
+#endif // CC_2D_FONTATLASCACHE_H

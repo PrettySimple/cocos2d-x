@@ -237,7 +237,7 @@ void Timeline::updateCurrentKeyFrame(unsigned int frameIndex)
                 _currentKeyFrameIndex = from->getFrameIndex();
 
                 _toIndex = _fromIndex + 1;
-                if ((ssize_t)_toIndex >= length)
+                if ((std::size_t)_toIndex >= length)
                 {
                     _toIndex = 0;
                 }

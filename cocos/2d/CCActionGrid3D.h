@@ -23,10 +23,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __ACTION_CCGRID3D_ACTION_H__
-#define __ACTION_CCGRID3D_ACTION_H__
+#ifndef CC_2D_ACTIONGRID3D_H
+#define CC_2D_ACTIONGRID3D_H
 
-#include "2d/CCActionGrid.h"
+#include <cocos/2d/CCActionGrid.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <chrono>
 
@@ -79,11 +84,11 @@ public:
     inline void setAmplitudeRate(float amplitudeRate) noexcept override { _amplitudeRate = amplitudeRate; }
 
     // Overrides
-    virtual Waves3D* clone() const override;
-    virtual void update(float time) override;
+    Waves3D* clone() const override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : Waves3D() {}
-    virtual ~Waves3D() {}
+    ~Waves3D() override {}
 
     /**
     @brief Initializes an action with duration, grid size, waves and amplitude.
@@ -101,7 +106,7 @@ protected:
     float _amplitudeRate;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Waves3D);
+    CC_DISALLOW_COPY_AND_ASSIGN(Waves3D)
 };
 
 /**
@@ -119,11 +124,11 @@ public:
     static FlipX3D* create(std::chrono::milliseconds duration);
 
     // Override
-    virtual FlipX3D* clone() const override;
-    virtual void update(float time) override;
+    FlipX3D* clone() const override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : FlipX3D() {}
-    virtual ~FlipX3D() {}
+    ~FlipX3D() override {}
 
     /**
     @brief Initializes an action with duration.
@@ -141,7 +146,7 @@ public:
     virtual bool initWithSize(const Size& gridSize, std::chrono::milliseconds duration);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FlipX3D);
+    CC_DISALLOW_COPY_AND_ASSIGN(FlipX3D)
 };
 
 /**
@@ -159,14 +164,14 @@ public:
     static FlipY3D* create(std::chrono::milliseconds duration);
 
     // Overrides
-    virtual void update(float time) override;
-    virtual FlipY3D* clone() const override;
+    void update(float time) override;
+    FlipY3D* clone() const override;
 
     CC_CONSTRUCTOR_ACCESS : FlipY3D() {}
-    virtual ~FlipY3D() {}
+    ~FlipY3D() override {}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FlipY3D);
+    CC_DISALLOW_COPY_AND_ASSIGN(FlipY3D)
 };
 
 /**
@@ -220,11 +225,11 @@ public:
     void setPosition(const Vec2& position);
 
     // Overrides
-    virtual Lens3D* clone() const override;
-    virtual void update(float time) override;
+    Lens3D* clone() const override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : Lens3D() {}
-    virtual ~Lens3D() {}
+    ~Lens3D() override {}
 
     /**
     @brief Initializes the action with center position, radius, grid size and duration.
@@ -248,7 +253,7 @@ protected:
     bool _dirty;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Lens3D);
+    CC_DISALLOW_COPY_AND_ASSIGN(Lens3D)
 };
 
 /**
@@ -307,11 +312,11 @@ public:
     inline void setAmplitudeRate(float fAmplitudeRate) noexcept override { _amplitudeRate = fAmplitudeRate; }
 
     // Override
-    virtual Ripple3D* clone() const override;
-    virtual void update(float time) override;
+    Ripple3D* clone() const override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : Ripple3D() {}
-    virtual ~Ripple3D() {}
+    ~Ripple3D() override {}
 
     /**
     @brief Initializes the action with center position, radius, number of waves, amplitude, a grid size and duration.
@@ -334,7 +339,7 @@ protected:
     float _amplitudeRate;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Ripple3D);
+    CC_DISALLOW_COPY_AND_ASSIGN(Ripple3D)
 };
 
 /**
@@ -357,11 +362,11 @@ public:
     static Shaky3D* create(std::chrono::milliseconds initWithDuration, const Size& gridSize, int range, bool shakeZ);
 
     // Overrides
-    virtual Shaky3D* clone() const override;
-    virtual void update(float time) override;
+    Shaky3D* clone() const override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : Shaky3D() {}
-    virtual ~Shaky3D() {}
+    ~Shaky3D() override {}
 
     /**
     @brief Initializes the action with a range, shake Z vertices, grid size and duration.
@@ -378,7 +383,7 @@ protected:
     bool _shakeZ;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Shaky3D);
+    CC_DISALLOW_COPY_AND_ASSIGN(Shaky3D)
 };
 
 /**
@@ -423,11 +428,11 @@ public:
     inline void setAmplitudeRate(float amplitudeRate) noexcept override { _amplitudeRate = amplitudeRate; }
 
     // Overrides
-    virtual Liquid* clone() const override;
-    virtual void update(float time) override;
+    Liquid* clone() const override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : Liquid() {}
-    virtual ~Liquid() {}
+    ~Liquid() override {}
 
     /**
     @brief Initializes the action with amplitude, grid size, waves count and duration.
@@ -445,7 +450,7 @@ protected:
     float _amplitudeRate;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Liquid);
+    CC_DISALLOW_COPY_AND_ASSIGN(Liquid)
 };
 
 /**
@@ -493,11 +498,11 @@ public:
     inline void setAmplitudeRate(float amplitudeRate) noexcept override { _amplitudeRate = amplitudeRate; }
 
     // Overrides
-    virtual Waves* clone() const override;
-    virtual void update(float time) override;
+    Waves* clone() const override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : Waves() {}
-    virtual ~Waves() {}
+    ~Waves() override {}
 
     /**
     @brief Initializes the action with amplitude, horizontal sin, vertical sin, grid size, waves count and duration.
@@ -519,7 +524,7 @@ protected:
     bool _horizontal;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Waves);
+    CC_DISALLOW_COPY_AND_ASSIGN(Waves)
 };
 
 /**
@@ -576,11 +581,11 @@ public:
     inline void setAmplitudeRate(float amplitudeRate) noexcept override { _amplitudeRate = amplitudeRate; }
 
     // Overrides
-    virtual Twirl* clone() const override;
-    virtual void update(float time) override;
+    Twirl* clone() const override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : Twirl() {}
-    virtual ~Twirl() {}
+    ~Twirl() override {}
 
     /**
     @brief Initializes the action with center position, number of twirls, amplitude, a grid size and duration.
@@ -601,7 +606,7 @@ protected:
     float _amplitudeRate;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Twirl);
+    CC_DISALLOW_COPY_AND_ASSIGN(Twirl)
 };
 
 // end of actions group
@@ -609,4 +614,4 @@ private:
 
 NS_CC_END
 
-#endif // __ACTION_CCGRID3D_ACTION_H__
+#endif // CC_2D_ACTIONGRID3D_H

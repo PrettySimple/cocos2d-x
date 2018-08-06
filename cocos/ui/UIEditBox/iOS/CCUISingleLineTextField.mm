@@ -24,23 +24,21 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#import "ui/UIEditBox/iOS/CCUISingleLineTextField.h"
-#import "ui/UIEditBox/iOS/CCUITextInput.h"
+#include <cocos/ui/UIEditBox/iOS/CCUISingleLineTextField.h>
+#include <cocos/ui/UIEditBox/iOS/CCUITextInput.h>
 
-#include "base/CCDirector.h"
+#include <cocos/base/CCDirector.h>
 
 @implementation CCUISingleLineTextField
 
-- (CGRect)textRectForBounds:(CGRect)bounds
-{
+- (CGRect)textRectForBounds:(CGRect)bounds {
     auto glview = cocos2d::Director::getInstance()->getOpenGLView();
 
     float padding = CC_EDIT_BOX_PADDING * glview->getScaleX() / glview->getContentScaleFactor();
     return CGRectInset(bounds, padding, padding);
 }
 
-- (CGRect)editingRectForBounds:(CGRect)bounds
-{
+- (CGRect)editingRectForBounds:(CGRect)bounds {
     return [self textRectForBounds:bounds];
 }
 

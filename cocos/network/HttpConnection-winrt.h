@@ -24,11 +24,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 
 #    include "network/HttpClient.h"
-#    include "network/HttpRequest.h"
+#    include <cocos/network/HttpRequest.h>
 
 #    include <condition_variable>
 #    include <numeric>
@@ -46,11 +46,11 @@ THE SOFTWARE.
 using namespace Microsoft::WRL;
 using namespace Microsoft::WRL::Details;
 
-#    include "base/CCDirector.h"
-#    include "base/CCScheduler.h"
-#    include "base/CCVector.h"
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/base/CCScheduler.h>
+#    include <cocos/base/CCVector.h>
 
-#    include "platform/CCFileUtils.h"
+#    include <cocos/platform/CCFileUtils.h>
 
 NS_CC_BEGIN
 

@@ -24,14 +24,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __SUPPORT_CCPROFILING_H__
-#define __SUPPORT_CCPROFILING_H__
+#ifndef CC_BASE_PROFILLING_H
+#define CC_BASE_PROFILLING_H
 /// @cond DO_NOT_SHOW
 
-#include "base/CCMap.h"
-#include "base/CCRef.h"
-#include "base/ccConfig.h"
+#include <cocos/base/CCMap.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <chrono>
+#include <iosfwd>
 #include <string>
 
 NS_CC_BEGIN
@@ -164,4 +167,4 @@ extern bool kProfilerCategoryParticles;
 NS_CC_END
 
 /// @endcond
-#endif // __SUPPORT_CCPROFILING_H__
+#endif // CC_BASE_PROFILLING_H

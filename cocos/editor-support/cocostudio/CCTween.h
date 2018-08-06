@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
@@ -22,12 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCTWEEN_H__
-#define __CCTWEEN_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_TWEEN_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_TWEEN_H
 
-#include "2d/CCTweenFunction.h"
 #include "cocostudio/CCProcessBase.h"
 #include "cocostudio/CocosStudioExport.h"
+#include <cocos/2d/CCTweenFunction.h>
 
 namespace cocostudio
 {
@@ -149,4 +149,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif /*__CCTWEEN_H__*/
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_TWEEN_H

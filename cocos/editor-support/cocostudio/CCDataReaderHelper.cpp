@@ -24,17 +24,21 @@ THE SOFTWARE.
 
 #include "editor-support/cocostudio/CCDataReaderHelper.h"
 
-#include "base/CCDirector.h"
-#include "base/CCScheduler.h"
-#include "base/ccUtils.h"
 #include "editor-support/cocostudio/CCArmatureDataManager.h"
 #include "editor-support/cocostudio/CCArmatureDefine.h"
 #include "editor-support/cocostudio/CCDatas.h"
 #include "editor-support/cocostudio/CCTransformHelp.h"
 #include "editor-support/cocostudio/CCUtilMath.h"
 #include "editor-support/cocostudio/CocoLoader.h"
-#include "platform/CCFileUtils.h"
-#include "tinyxml2.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCScheduler.h>
+#include <cocos/base/ccUtils.h>
+#include <cocos/platform/CCFileUtils.h>
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <tinyxml2/tinyxml2.h>
+#pragma clang diagnostic pop
 
 #include <chrono>
 
@@ -2196,14 +2200,14 @@ namespace cocostudio
             }
         }
 
-        const ssize_t framesizemusone = movementBoneData->frameList.size() - 1;
+        const std::size_t framesizemusone = movementBoneData->frameList.size() - 1;
         if (dataInfo->cocoStudioVersion < VERSION_CHANGE_ROTATION_RANGE)
         {
             //! Change rotation range from (-180 -- 180) to (-infinity -- infinity)
             cocos2d::Vector<FrameData*> frames = movementBoneData->frameList;
 
-            ssize_t imusone = 0;
-            ssize_t i = 0;
+            std::size_t imusone = 0;
+            std::size_t i = 0;
             for (i = framesizemusone; i >= 0; i--)
             {
                 if (i > 0)

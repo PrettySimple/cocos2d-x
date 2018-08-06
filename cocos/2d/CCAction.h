@@ -25,15 +25,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __ACTIONS_CCACTION_H__
-#define __ACTIONS_CCACTION_H__
+#ifndef CC_2D_ACTION_H
+#define CC_2D_ACTION_H
 
-#include "base/CCRef.h"
-#include "base/CCScriptSupport.h"
-#include "math/CCGeometry.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <chrono>
-#include <cstdint>
+#include <iosfwd>
 
 NS_CC_BEGIN
 
@@ -233,7 +235,6 @@ public:
 };
 
 class ActionInterval;
-class RepeatForever;
 
 /** @class Speed
  * @brief Changes the speed of an action, making it take longer (speed>1)
@@ -423,4 +424,4 @@ public:
 
 NS_CC_END
 
-#endif // __ACTIONS_CCACTION_H__
+#endif // CC_2D_ACTION_H

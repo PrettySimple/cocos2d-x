@@ -25,17 +25,18 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef COCOS2D_BASE_SCHEDULER_H
-#define COCOS2D_BASE_SCHEDULER_H
+#ifndef CC_BASE_SCHEDULER_H
+#define CC_BASE_SCHEDULER_H
 
-#include "base/CCRef.h"
-#include "base/CCVector.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <iosfwd>
 #include <limits>
 #include <list>
 #include <mutex>
@@ -43,6 +44,7 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
 NS_CC_BEGIN
 
@@ -84,7 +86,7 @@ protected:
     Timer& operator=(Timer const&) = delete;
     Timer(Timer&&) noexcept = delete;
     Timer& operator=(Timer&&) noexcept = delete;
-    ~Timer() override = default;
+    ~Timer() override;
 
 public:
     /** get interval in seconds */
@@ -224,8 +226,8 @@ public:
 
         Key() = default;
         explicit Key(std::string const& n, void* t)
-        : target(t)
-        , name(n)
+        : name(n)
+        , target(t)
         {
         }
         Key(Key const&) = delete;
@@ -567,4 +569,4 @@ protected:
 
 NS_CC_END
 
-#endif // COCOS2D_BASE_SCHEDULER_H
+#endif // CC_BASE_SCHEDULER_H

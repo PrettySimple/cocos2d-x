@@ -25,8 +25,8 @@
  ****************************************************************************/
 
 #include "network/HttpClient.h"
-#include "base/CCDirector.h"
-#include "platform/CCFileUtils.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/platform/CCFileUtils.h>
 #include <curl/curl.h>
 #include <errno.h>
 #include <queue>

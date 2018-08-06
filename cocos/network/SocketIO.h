@@ -56,11 +56,11 @@ in the onClose method the pointer should be set to NULL or used to connect to a 
 
  ****************************************************************************/
 
-#ifndef __CC_SOCKETIO_H__
-#define __CC_SOCKETIO_H__
+#ifndef CC_NETWORK_SOCKETIO_H
+#define CC_NETWORK_SOCKETIO_H
 
-#include "base/CCMap.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/base/CCMap.h>
+#include <cocos/platform/CCPlatformMacros.h>
 #include <string>
 
 /**
@@ -108,11 +108,7 @@ namespace network
              *
              * @param client the connected SIOClient object.
              */
-            virtual void onConnect(SIOClient* client)
-            {
-                CC_UNUSED_PARAM(client);
-                CCLOG("SIODelegate onConnect fired");
-            };
+            virtual void onConnect(SIOClient*) { CCLOG("SIODelegate onConnect fired"); }
             /**
              * This is kept for backwards compatibility, message is now fired as a socket.io event "message"
              *
@@ -121,11 +117,7 @@ namespace network
              * @param client the connected SIOClient object.
              * @param data the message,it could be json message
              */
-            virtual void onMessage(SIOClient* client, const std::string& data)
-            {
-                CC_UNUSED_PARAM(client);
-                CCLOG("SIODelegate onMessage fired with data: %s", data.c_str());
-            };
+            virtual void onMessage(SIOClient*, const std::string& data) { CCLOG("SIODelegate onMessage fired with data: %s", data.c_str()); }
             /**
              * Pure virtual callback function, this function should be overrided by the subclass.
              *
@@ -151,11 +143,10 @@ namespace network
              * @param eventName the event's name.
              * @param data the event's data information.
              */
-            virtual void fireEventToScript(SIOClient* client, const std::string& eventName, const std::string& data)
+            virtual void fireEventToScript(SIOClient*, const std::string& eventName, const std::string& data)
             {
-                CC_UNUSED_PARAM(client);
                 CCLOG("SIODelegate event '%s' fired with data: %s", eventName.c_str(), data.c_str());
-            };
+            }
         };
 
         /**
@@ -242,7 +233,7 @@ namespace network
          * Get the delegate for the client
          * @return the delegate object for the client
          */
-        SocketIO::SIODelegate* getDelegate() { return _delegate; };
+        SocketIO::SIODelegate* getDelegate() { return _delegate; }
 
         /**
          * Disconnect from the endpoint, onClose will be called for the delegate when complete
@@ -289,4 +280,4 @@ NS_CC_END
 // end group
 /// @}
 
-#endif /* defined(__CC_JSB_SOCKETIO_H__) */
+#endif // CC_NETWORK_SOCKETIO_H

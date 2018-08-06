@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
@@ -21,12 +21,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CCSPRITEFRAMECACHEHELPER_H__
-#define __CCSPRITEFRAMECACHEHELPER_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_SPRITEFRAMECACHEHELPER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_SPRITEFRAMECACHEHELPER_H
 
 #include "cocostudio/CCArmatureDefine.h"
 #include "cocostudio/CocosStudioExport.h"
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformMacros.h>
 #include <map>
 #include <string>
 #include <vector>
@@ -72,4 +72,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif /*__CCSPRITEFRAMECACHEHELPER_H__*/
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_SPRITEFRAMECACHEHELPER_H

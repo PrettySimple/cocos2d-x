@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
@@ -22,13 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_EXTENTIONS_CCCOMATTRIBUTE_H__
-#define __CC_EXTENTIONS_CCCOMATTRIBUTE_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_COMATTRIBUTE_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_COMATTRIBUTE_H
 
-#include "2d/CCComponent.h"
 #include "CCComBase.h"
-#include "base/CCValue.h"
 #include "cocostudio/CocosStudioExport.h"
+#include <cocos/2d/CCComponent.h>
+#include <cocos/base/CCValue.h>
 
 namespace cocostudio
 {
@@ -70,4 +70,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif // __CC_EXTENTIONS_CCCOMATTRIBUTE_H__
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_COMATTRIBUTE_H

@@ -22,11 +22,11 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __HTTPASYNCONNECTION_H__
-#define __HTTPASYNCONNECTION_H__
+#ifndef CC_NETWORK_HTTPASYNCCONNECTIONAPPLE_H
+#define CC_NETWORK_HTTPASYNCCONNECTIONAPPLE_H
 /// @cond DO_NOT_SHOW
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 
 #    import <Foundation/Foundation.h>
@@ -66,4 +66,4 @@
 #endif // #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 
 /// @endcond
-#endif //__HTTPASYNCONNECTION_H__
+#endif // CC_NETWORK_HTTPASYNCCONNECTIONAPPLE_H

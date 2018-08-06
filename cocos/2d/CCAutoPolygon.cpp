@@ -25,14 +25,32 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "2d/CCAutoPolygon.h"
+#include <cocos/2d/CCAutoPolygon.h>
 
-#include "base/CCDirector.h"
-#include "clipper/clipper.hpp"
-#include "poly2tri/poly2tri.h"
-#include "renderer/CCTextureCache.h"
+#include <cocos/base/CCConsole.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCImage.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTrianglesCommand.h>
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <clipper/clipper.hpp>
+
+#include <poly2tri/common/shapes.h>
+#include <poly2tri/sweep/cdt.h>
+#pragma clang diagnostic pop
+
 #include <algorithm>
-#include <math.h>
+#include <cmath>
+#include <cstring>
+#include <new>
 
 USING_NS_CC;
 
@@ -645,7 +663,7 @@ TrianglesCommand::Triangles AutoPolygon::triangulate(const std::vector<Vec2>& po
     return triangles;
 }
 
-void AutoPolygon::calculateUV(const Rect& rect, V3F_C4B_T2F* verts, const ssize_t& count)
+void AutoPolygon::calculateUV(const Rect& rect, V3F_C4B_T2F* verts, const std::size_t& count)
 {
     /*
      whole texture UV coordination

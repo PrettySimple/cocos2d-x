@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCTIMELINE_H__
-#define __CCTIMELINE_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_TIMELINE_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_TIMELINE_H
 
 #include "CCFrame.h"
 #include "CCTimelineMacro.h"
@@ -82,4 +82,4 @@ protected:
 
 NS_TIMELINE_END
 
-#endif /*__CCTIMELINE_H__*/
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_TIMELINE_H

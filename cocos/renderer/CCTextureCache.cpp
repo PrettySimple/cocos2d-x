@@ -25,17 +25,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "renderer/CCTextureCache.h"
+#include <cocos/renderer/CCTextureCache.h>
 
-#include "base/CCDirector.h"
-#include "base/CCNinePatchImageParser.h"
-#include "base/CCScheduler.h"
-#include "base/ccMacros.h"
-#include "base/ccUTF8.h"
-#include "base/ccUtils.h"
-#include "platform/CCFileUtils.h"
-#include "platform/CCPlatformConfig.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCNinePatchImageParser.h>
+#include <cocos/base/CCScheduler.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccUTF8.h>
+#include <cocos/base/ccUtils.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 #include <cctype>
 #include <chrono>
@@ -675,7 +675,6 @@ std::string TextureCache::getTextureFilePath(cocos2d::Texture2D* texture) const
         if (item.second == texture)
         {
             return item.first;
-            break;
         }
     }
     return "";

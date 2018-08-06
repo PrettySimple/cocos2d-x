@@ -22,13 +22,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_VR_PROTOCOL_H__
-#define __CC_VR_PROTOCOL_H__
+#ifndef CC_VR_PROTOCOL_H
+#define CC_VR_PROTOCOL_H
 
-#include <string>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec3.h>
 
-#include "base/ccTypes.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
@@ -39,7 +40,7 @@ class GLView;
 class CC_DLL VRIHeadTracker
 {
 public:
-    virtual ~VRIHeadTracker() {}
+    virtual ~VRIHeadTracker();
 
     // pose
     virtual Vec3 getLocalPosition() = 0;
@@ -50,7 +51,7 @@ public:
 class CC_DLL VRIRenderer
 {
 public:
-    virtual ~VRIRenderer() {}
+    virtual ~VRIRenderer();
 
     virtual void setup(GLView* glview) = 0;
     virtual void cleanup() = 0;
@@ -60,4 +61,4 @@ public:
 
 NS_CC_END
 
-#endif // __CC_VR_PROTOCOL_H__
+#endif // CC_VR_PROTOCOL_H

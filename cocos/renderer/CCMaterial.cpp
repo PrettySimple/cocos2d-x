@@ -27,16 +27,30 @@
  - Qt3D: http://qt-project.org/
  ****************************************************************************/
 
-#include "renderer/CCMaterial.h"
-#include "base/CCDirector.h"
-#include "base/CCProperties.h"
-#include "platform/CCFileUtils.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCPass.h"
-#include "renderer/CCTechnique.h"
-#include "renderer/CCTexture2D.h"
-#include "renderer/CCTextureCache.h"
+#include <cocos/renderer/CCMaterial.h>
+
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCProperties.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCPass.h>
+#include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCTechnique.h>
+#include <cocos/renderer/CCTexture2D.h>
+#include <cocos/renderer/CCTextureCache.h>
+
+#include <cstring>
+#include <new>
+#include <string>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 #    define strcasecmp _stricmp
@@ -416,13 +430,6 @@ std::string Material::getName() const
     return _name;
 }
 
-Material::Material()
-: _name("")
-, _target(nullptr)
-, _currentTechnique(nullptr)
-{
-}
-
 Material::~Material()
 {
 }
@@ -470,7 +477,7 @@ Technique* Material::getTechniqueByName(const std::string& name)
     return nullptr;
 }
 
-Technique* Material::getTechniqueByIndex(ssize_t index)
+Technique* Material::getTechniqueByIndex(std::size_t index)
 {
     CC_ASSERT(index >= 0 && index < _techniques.size() && "Invalid size");
 
@@ -489,7 +496,7 @@ void Material::setTechnique(const std::string& techniqueName)
         _currentTechnique = technique;
 }
 
-ssize_t Material::getTechniqueCount() const
+std::size_t Material::getTechniqueCount() const
 {
     return _techniques.size();
 }

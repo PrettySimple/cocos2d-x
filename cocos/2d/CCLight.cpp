@@ -1,6 +1,21 @@
-#include "2d/CCLight.h"
+#include <cocos/2d/CCLight.h>
 
-#include "2d/CCScene.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCScene.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <algorithm>
+#include <cmath>
+#include <new>
+#include <vector>
+
+namespace cocos2d
+{
+    struct Color3B;
+}
 
 NS_CC_BEGIN
 

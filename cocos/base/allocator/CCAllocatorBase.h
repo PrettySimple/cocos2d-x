@@ -23,14 +23,16 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_ALLOCATOR_BASE_H
-#define CC_ALLOCATOR_BASE_H
+#ifndef CC_BASE_ALLOCATOR_ALLOCATORBASE_H
+#define CC_BASE_ALLOCATOR_ALLOCATORBASE_H
 /// @cond DO_NOT_SHOW
 
-#include <string>
+#include <cocos/base/allocator/CCAllocatorMacros.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
-#include "base/allocator/CCAllocatorMacros.h"
-#include "platform/CCPlatformMacros.h"
+#include <cstddef>
+#include <cstdint>
 
 NS_CC_BEGIN
 NS_CC_ALLOCATOR_BEGIN
@@ -60,14 +62,14 @@ public:
     }
 #endif
 
-    virtual ~AllocatorBase() {}
+    virtual ~AllocatorBase();
 
     // @brief
     // Given an address and alignment in bytes, returns an address aligned to the number of bytes
     // For example, if the alignment is 4 which is standard, then the address is divisible evenly by 4.
     CC_ALLOCATOR_INLINE pointer aligned(const pointer address, const size_t alignment = kDefaultAlignment) const
     {
-        return (pointer)(((intptr_t)address + (alignment - 1)) & ~(alignment - 1));
+        return reinterpret_cast<pointer>((reinterpret_cast<intptr_t>(address) + (alignment - 1)) & ~(alignment - 1));
     }
 
     // @brief Calculate the next power of two for a given size.
@@ -104,4 +106,4 @@ NS_CC_ALLOCATOR_END
 NS_CC_END
 
 /// @endcond
-#endif // CC_ALLOCATOR_BASE_H
+#endif // CC_BASE_ALLOCATOR_ALLOCATORBASE_H

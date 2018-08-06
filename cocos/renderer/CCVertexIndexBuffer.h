@@ -22,11 +22,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_VERTEX_INDEX_BUFFER_H__
-#define __CC_VERTEX_INDEX_BUFFER_H__
+#ifndef CC_RENDERER_VERTEXINDEXBUFFER_H
+#define CC_RENDERER_VERTEXINDEXBUFFER_H
 
-#include "base/CCRef.h"
-#include "platform/CCGL.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <vector>
 
 /**
@@ -267,4 +270,4 @@ NS_CC_END
  end of support group
  @}
  */
-#endif /* __CC_VERTEX_INDEX_BUFFER_H__*/
+#endif // CC_RENDERER_VERTEXINDEXBUFFER_H

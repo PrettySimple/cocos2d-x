@@ -23,6 +23,8 @@
  * THE SOFTWARE.
  */
 
+#pragma once
+
 const char* ccETC1ASPositionTextureGray_frag = R"(
 #ifdef GL_ES
 precision mediump float;

@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
@@ -22,14 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __TRIGGEREVENT_H__
-#define __TRIGGEREVENT_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_TRIGGERBASE_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_TRIGGERBASE_H
 
 #include "TriggerMng.h"
 #include "TriggerObj.h"
-#include "base/ObjectFactory.h"
 #include "cocostudio/CocoStudio.h"
 #include "cocostudio/CocosStudioExport.h"
+#include <cocos/base/ObjectFactory.h>
 
 #define DECLARE_CLASS_INFO                     \
 public:                                        \
@@ -47,4 +47,4 @@ public:                                        \
 
 void CC_STUDIO_DLL sendEvent(unsigned int event);
 
-#endif
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_TRIGGERBASE_H

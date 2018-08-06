@@ -23,15 +23,17 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CCDevice_apple_hpp
-#define CCDevice_apple_hpp
+#ifndef CC_PLATFORM_APPLE_DEVICEAPPLE_H
+#define CC_PLATFORM_APPLE_DEVICEAPPLE_H
 
-#include "platform/CCDevice.h"
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCDevice.h>
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-#    import <UIKit/UIKit.h>
+#    import <UIKit/NSParagraphStyle.h>
+#    import <UIKit/NSText.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_MAC
-#    import <AppKit/AppKit.h>
+#    import <AppKit/NSParagraphStyle.h>
+#    import <AppKit/NSText.h>
 #endif
 #import <CoreGraphics/CoreGraphics.h>
 
@@ -42,4 +44,4 @@ namespace FontUtils
     CGFloat _calculateTextDrawStartWidth(cocos2d::Device::TextAlign align, CGSize realDimensions, CGSize dimensions);
 }
 
-#endif /* CCDevice_apple_hpp */
+#endif // CC_PLATFORM_APPLE_DEVICEAPPLE_H

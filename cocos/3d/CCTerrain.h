@@ -21,21 +21,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef CC_TERRAIN_H
-#define CC_TERRAIN_H
+#ifndef CC_3D_TERRAIN_H
+#define CC_3D_TERRAIN_H
 
 #include <vector>
 
-#include "2d/CCCamera.h"
-#include "2d/CCNode.h"
-#include "3d/CCAABB.h"
-#include "3d/CCRay.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerCustom.h"
-#include "platform/CCPlatformConfig.h"
-#include "renderer/CCCustomCommand.h"
-#include "renderer/CCRenderState.h"
-#include "renderer/CCTexture2D.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/3d/CCAABB.h>
+#include <cocos/3d/CCRay.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventListenerCustom.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/renderer/CCCustomCommand.h>
+#include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 NS_CC_BEGIN
 
@@ -183,7 +183,7 @@ private:
     struct CC_DLL TerrainVertexData
     {
         /*constructor*/
-        TerrainVertexData(){};
+        TerrainVertexData() {}
         TerrainVertexData(const Vec3& v1, const Tex2F& v2)
         {
             _position = v1;
@@ -438,7 +438,7 @@ public:
     std::vector<float> getHeightData() const;
 
     CC_CONSTRUCTOR_ACCESS : Terrain();
-    virtual ~Terrain();
+    ~Terrain() override;
     bool initWithTerrainData(TerrainData& parameter, CrackFixedType fixedType);
 
 protected:
@@ -461,7 +461,7 @@ protected:
     void calculateNormal();
 
     // override
-    virtual void onEnter() override;
+    void onEnter() override;
 
     /**
      * cache all uniform locations in GLSL.
@@ -531,4 +531,4 @@ protected:
 /// @}
 
 NS_CC_END
-#endif
+#endif // CC_3D_TERRAIN_H

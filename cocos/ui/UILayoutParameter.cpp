@@ -22,8 +22,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "ui/UILayoutParameter.h"
-#include "ui/UILayout.h"
+#include <cocos/ui/UILayoutParameter.h>
+
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
+#include <new>
 
 NS_CC_BEGIN
 
@@ -31,45 +35,32 @@ namespace ui
 {
     const Margin Margin::ZERO = Margin(0, 0, 0, 0);
 
-    Margin::Margin(void)
-    : left(0)
-    , top(0)
-    , right(0)
-    , bottom(0)
+    void Margin::setMargin(float l, float t, float r, float b) noexcept
     {
-    }
-
-    Margin::Margin(float l, float t, float r, float b)
-    : left(l)
-    , top(t)
-    , right(r)
-    , bottom(b)
-    {
-    }
-
-    Margin::Margin(const Margin& other)
-    : left(other.left)
-    , top(other.top)
-    , right(other.right)
-    , bottom(other.bottom)
-    {
-    }
-
-    Margin& Margin::operator=(const Margin& other)
-    {
-        setMargin(other.left, other.top, other.right, other.bottom);
-        return *this;
-    }
-
-    void Margin::setMargin(float l, float t, float r, float b)
-    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
         left = l;
         top = t;
         right = r;
         bottom = b;
+#else
+        v = {l, t, r, b};
+#endif
     }
 
-    bool Margin::equals(const Margin& target) const { return (left == target.left && top == target.top && right == target.right && bottom == target.bottom); }
+    bool Margin::equals(const Margin& other) const noexcept
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+        static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+        return (std::abs(left - other.left) < epsi && std::abs(top - other.top) < epsi && std::abs(right - other.right) < epsi &&
+                std::abs(bottom - other.bottom) < epsi);
+#else
+#    pragma clang diagnostic push
+#    pragma clang diagnostic ignored "-Wfloat-equal"
+        auto const eq = (v == other.v);
+#    pragma clang diagnostic pop
+        return eq[0] == -1 && eq[1] == -1 && eq[2] == -1 && eq[3] == -1;
+#endif
+    }
 
     LayoutParameter* LayoutParameter::create()
     {
@@ -99,6 +90,8 @@ namespace ui
     LayoutParameter* LayoutParameter::createCloneInstance() { return LayoutParameter::create(); }
 
     void LayoutParameter::copyProperties(LayoutParameter* model) { _margin = model->_margin; }
+
+    LayoutParameterProtocol::~LayoutParameterProtocol() {}
 
     LinearLayoutParameter* LinearLayoutParameter::create()
     {

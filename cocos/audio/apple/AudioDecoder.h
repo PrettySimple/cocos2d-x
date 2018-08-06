@@ -26,7 +26,8 @@
 #pragma once
 
 #import <AudioToolbox/ExtendedAudioFile.h>
-#include <stdint.h>
+
+#include <cstdint>
 
 namespace cocos2d
 {

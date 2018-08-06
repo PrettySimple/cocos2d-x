@@ -22,24 +22,26 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCDATAVISITOR_H__
-#define __CCDATAVISITOR_H__
+#ifndef CC_BASE_DATAVISITOR_H
+#define CC_BASE_DATAVISITOR_H
 /// @cond DO_NOT_SHOW
 
-#include "platform/CCPlatformMacros.h"
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <string>
 
 NS_CC_BEGIN
 
 class Ref;
-class __Bool;
-class __Integer;
-class __Float;
-class __Double;
-class __String;
 class __Array;
+class __Bool;
 class __Dictionary;
+class __Double;
+class __Float;
+class __Integer;
 class __Set;
+class __String;
 
 /**
  * Visitor that helps to perform action that depends on polymorphic object type
@@ -109,4 +111,4 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif // __CCDATAVISITOR_H__
+#endif // CC_BASE_DATAVISITOR_H

@@ -25,10 +25,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCCONFIG_H__
-#define __CCCONFIG_H__
+#ifndef CC_BASE_CONFIG_H
+#define CC_BASE_CONFIG_H
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 
 /**
  * @file
@@ -405,4 +405,4 @@ THE SOFTWARE.
 #    define CC_ENABLE_PREMULTIPLIED_ALPHA 1
 #endif
 
-#endif // __CCCONFIG_H__
+#endif // CC_BASE_CONFIG_H

@@ -19,129 +19,323 @@
  This file was modified to fit the cocos2d-x project
  */
 
-#ifndef MATHUTIL_H_
-#define MATHUTIL_H_
+#ifndef CC_MATH_MATHUTIL_H
+#define CC_MATH_MATHUTIL_H
 
-#ifdef __SSE__
-#    include <xmmintrin.h>
-#endif
+#include <cocos/math/CCMathBase.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/platform/CCPlatformConfig.h>
 
-#include "base/ccMacros.h"
-#include "math/CCMathBase.h"
-
-/**
- * @addtogroup base
- * @{
- */
+#include <cmath>
+#include <limits>
 
 NS_CC_MATH_BEGIN
 
 /**
- * Defines a math utility class.
+ * Updates the given scalar towards the given target using a smoothing function.
+ * The given response time determines the amount of smoothing (lag). A longer
+ * response time yields a smoother result and more lag. To force the scalar to
+ * follow the target closely, provide a response time that is very small relative
+ * to the given elapsed time.
  *
- * This is primarily used for optimized internal math operations.
+ * @param x the scalar to update.
+ * @param target target value.
+ * @param elapsedTime elapsed time between calls.
+ * @param responseTime response time (in the same units as elapsedTime).
  */
-class CC_DLL MathUtil
+inline void smooth(float& x, float target, float elapsedTime, float responseTime)
 {
-    friend class Mat4;
-    friend class Vec3;
+    if (elapsedTime > 0.f)
+    {
+        x += (target - x) * elapsedTime / (elapsedTime + responseTime);
+    }
+}
 
-public:
-    /**
-     * Updates the given scalar towards the given target using a smoothing function.
-     * The given response time determines the amount of smoothing (lag). A longer
-     * response time yields a smoother result and more lag. To force the scalar to
-     * follow the target closely, provide a response time that is very small relative
-     * to the given elapsed time.
-     *
-     * @param x the scalar to update.
-     * @param target target value.
-     * @param elapsedTime elapsed time between calls.
-     * @param responseTime response time (in the same units as elapsedTime).
-     */
-    static void smooth(float* x, float target, float elapsedTime, float responseTime);
+/**
+ * Updates the given scalar towards the given target using a smoothing function.
+ * The given rise and fall times determine the amount of smoothing (lag). Longer
+ * rise and fall times yield a smoother result and more lag. To force the scalar to
+ * follow the target closely, provide rise and fall times that are very small relative
+ * to the given elapsed time.
+ *
+ * @param x the scalar to update.
+ * @param target target value.
+ * @param elapsedTime elapsed time between calls.
+ * @param riseTime response time for rising slope (in the same units as elapsedTime).
+ * @param fallTime response time for falling slope (in the same units as elapsedTime).
+ */
+inline void smooth(float& x, float target, float elapsedTime, float riseTime, float fallTime)
+{
+    if (elapsedTime > 0.f)
+    {
+        float const delta = target - x;
+        x += delta * elapsedTime / (elapsedTime + (delta > 0 ? riseTime : fallTime));
+    }
+}
 
-    /**
-     * Updates the given scalar towards the given target using a smoothing function.
-     * The given rise and fall times determine the amount of smoothing (lag). Longer
-     * rise and fall times yield a smoother result and more lag. To force the scalar to
-     * follow the target closely, provide rise and fall times that are very small relative
-     * to the given elapsed time.
-     *
-     * @param x the scalar to update.
-     * @param target target value.
-     * @param elapsedTime elapsed time between calls.
-     * @param riseTime response time for rising slope (in the same units as elapsedTime).
-     * @param fallTime response time for falling slope (in the same units as elapsedTime).
-     */
-    static void smooth(float* x, float target, float elapsedTime, float riseTime, float fallTime);
+/**
+ * Linearly interpolates between from value to to value by alpha which is in
+ * the range [0,1]
+ *
+ * @param from the from value.
+ * @param to the to value.
+ * @param alpha the alpha value between [0,1]
+ *
+ * @return interpolated float value
+ */
+inline float lerp(float from, float to, float alpha)
+{
+    return from * (1.0f - alpha) + to * alpha;
+}
 
-    /**
-     * Linearly interpolates between from value to to value by alpha which is in
-     * the range [0,1]
-     *
-     * @param from the from value.
-     * @param to the to value.
-     * @param alpha the alpha value between [0,1]
-     *
-     * @return interpolated float value
-     */
-    static float lerp(float from, float to, float alpha);
-
-    /**
-     * Float equality check
-     */
-    static bool almostEqualRelative(float A, float B, float maxRelDiff = FLT_EPSILON);
-
-private:
-    // Indicates that if neon is enabled
-    static bool isNeon32Enabled();
-    static bool isNeon64Enabled();
-
-private:
-#ifdef __SSE__
-    static void addMatrix(const __m128 m[4], float scalar, __m128 dst[4]);
-
-    static void addMatrix(const __m128 m1[4], const __m128 m2[4], __m128 dst[4]);
-
-    static void subtractMatrix(const __m128 m1[4], const __m128 m2[4], __m128 dst[4]);
-
-    static void multiplyMatrix(const __m128 m[4], float scalar, __m128 dst[4]);
-
-    static void multiplyMatrix(const __m128 m1[4], const __m128 m2[4], __m128 dst[4]);
-
-    static void negateMatrix(const __m128 m[4], __m128 dst[4]);
-
-    static void transposeMatrix(const __m128 m[4], __m128 dst[4]);
-
-    static void transformVec4(const __m128 m[4], const __m128& v, __m128& dst);
+inline void addMatrix(Mat4 const& other, float scalar, Mat4& dst)
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    dst.m[0] = other.m[0] + scalar;
+    dst.m[1] = other.m[1] + scalar;
+    dst.m[2] = other.m[2] + scalar;
+    dst.m[3] = other.m[3] + scalar;
+    dst.m[4] = other.m[4] + scalar;
+    dst.m[5] = other.m[5] + scalar;
+    dst.m[6] = other.m[6] + scalar;
+    dst.m[7] = other.m[7] + scalar;
+    dst.m[8] = other.m[8] + scalar;
+    dst.m[9] = other.m[9] + scalar;
+    dst.m[10] = other.m[10] + scalar;
+    dst.m[11] = other.m[11] + scalar;
+    dst.m[12] = other.m[12] + scalar;
+    dst.m[13] = other.m[13] + scalar;
+    dst.m[14] = other.m[14] + scalar;
+    dst.m[15] = other.m[15] + scalar;
+#else
+    dst.col[0] = other.col[0] + scalar;
+    dst.col[1] = other.col[1] + scalar;
+    dst.col[2] = other.col[2] + scalar;
+    dst.col[3] = other.col[3] + scalar;
 #endif
-    static void addMatrix(const float* m, float scalar, float* dst);
+}
 
-    static void addMatrix(const float* m1, const float* m2, float* dst);
+inline void addMatrix(Mat4 const& m1, Mat4 const& m2, Mat4& dst)
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    dst.m[0] = m1.m[0] + m2.m[0];
+    dst.m[1] = m1.m[1] + m2.m[1];
+    dst.m[2] = m1.m[2] + m2.m[2];
+    dst.m[3] = m1.m[3] + m2.m[3];
+    dst.m[4] = m1.m[4] + m2.m[4];
+    dst.m[5] = m1.m[5] + m2.m[5];
+    dst.m[6] = m1.m[6] + m2.m[6];
+    dst.m[7] = m1.m[7] + m2.m[7];
+    dst.m[8] = m1.m[8] + m2.m[8];
+    dst.m[9] = m1.m[9] + m2.m[9];
+    dst.m[10] = m1.m[10] + m2.m[10];
+    dst.m[11] = m1.m[11] + m2.m[11];
+    dst.m[12] = m1.m[12] + m2.m[12];
+    dst.m[13] = m1.m[13] + m2.m[13];
+    dst.m[14] = m1.m[14] + m2.m[14];
+    dst.m[15] = m1.m[15] + m2.m[15];
+#else
+    dst.col[0] = m1.col[0] + m2.col[0];
+    dst.col[1] = m1.col[1] + m2.col[1];
+    dst.col[2] = m1.col[2] + m2.col[2];
+    dst.col[3] = m1.col[3] + m2.col[3];
+#endif
+}
 
-    static void subtractMatrix(const float* m1, const float* m2, float* dst);
+inline void subtractMatrix(Mat4 const& m1, Mat4 const& m2, Mat4& dst)
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    dst.m[0] = m1.m[0] - m2.m[0];
+    dst.m[1] = m1.m[1] - m2.m[1];
+    dst.m[2] = m1.m[2] - m2.m[2];
+    dst.m[3] = m1.m[3] - m2.m[3];
+    dst.m[4] = m1.m[4] - m2.m[4];
+    dst.m[5] = m1.m[5] - m2.m[5];
+    dst.m[6] = m1.m[6] - m2.m[6];
+    dst.m[7] = m1.m[7] - m2.m[7];
+    dst.m[8] = m1.m[8] - m2.m[8];
+    dst.m[9] = m1.m[9] - m2.m[9];
+    dst.m[10] = m1.m[10] - m2.m[10];
+    dst.m[11] = m1.m[11] - m2.m[11];
+    dst.m[12] = m1.m[12] - m2.m[12];
+    dst.m[13] = m1.m[13] - m2.m[13];
+    dst.m[14] = m1.m[14] - m2.m[14];
+    dst.m[15] = m1.m[15] - m2.m[15];
+#else
+    dst.col[0] = m1.col[0] - m2.col[0];
+    dst.col[1] = m1.col[1] - m2.col[1];
+    dst.col[2] = m1.col[2] - m2.col[2];
+    dst.col[3] = m1.col[3] - m2.col[3];
+#endif
+}
 
-    static void multiplyMatrix(const float* m, float scalar, float* dst);
+inline void multiplyMatrix(Mat4 const& other, float scalar, Mat4& dst)
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    dst.m[0] = other.m[0] * scalar;
+    dst.m[1] = other.m[1] * scalar;
+    dst.m[2] = other.m[2] * scalar;
+    dst.m[3] = other.m[3] * scalar;
+    dst.m[4] = other.m[4] * scalar;
+    dst.m[5] = other.m[5] * scalar;
+    dst.m[6] = other.m[6] * scalar;
+    dst.m[7] = other.m[7] * scalar;
+    dst.m[8] = other.m[8] * scalar;
+    dst.m[9] = other.m[9] * scalar;
+    dst.m[10] = other.m[10] * scalar;
+    dst.m[11] = other.m[11] * scalar;
+    dst.m[12] = other.m[12] * scalar;
+    dst.m[13] = other.m[13] * scalar;
+    dst.m[14] = other.m[14] * scalar;
+    dst.m[15] = other.m[15] * scalar;
+#else
+    dst.col[0] = other.col[0] * scalar;
+    dst.col[1] = other.col[1] * scalar;
+    dst.col[2] = other.col[2] * scalar;
+    dst.col[3] = other.col[3] * scalar;
+#endif
+}
 
-    static void multiplyMatrix(const float* m1, const float* m2, float* dst);
+inline void multiplyMatrix(Mat4 const& m1, Mat4 const& m2, Mat4& dst)
+{
+    Mat4 tmp; // Support the case where m1 or m2 is the same matrix as dst.
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    tmp.m[0] = m1.m[0] * m2.m[0] + m1.m[4] * m2.m[1] + m1.m[8] * m2.m[2] + m1.m[12] * m2.m[3];
+    tmp.m[1] = m1.m[1] * m2.m[0] + m1.m[5] * m2.m[1] + m1.m[9] * m2.m[2] + m1.m[13] * m2.m[3];
+    tmp.m[2] = m1.m[2] * m2.m[0] + m1.m[6] * m2.m[1] + m1.m[10] * m2.m[2] + m1.m[14] * m2.m[3];
+    tmp.m[3] = m1.m[3] * m2.m[0] + m1.m[7] * m2.m[1] + m1.m[11] * m2.m[2] + m1.m[15] * m2.m[3];
 
-    static void negateMatrix(const float* m, float* dst);
+    tmp.m[4] = m1.m[0] * m2.m[4] + m1.m[4] * m2.m[5] + m1.m[8] * m2.m[6] + m1.m[12] * m2.m[7];
+    tmp.m[5] = m1.m[1] * m2.m[4] + m1.m[5] * m2.m[5] + m1.m[9] * m2.m[6] + m1.m[13] * m2.m[7];
+    tmp.m[6] = m1.m[2] * m2.m[4] + m1.m[6] * m2.m[5] + m1.m[10] * m2.m[6] + m1.m[14] * m2.m[7];
+    tmp.m[7] = m1.m[3] * m2.m[4] + m1.m[7] * m2.m[5] + m1.m[11] * m2.m[6] + m1.m[15] * m2.m[7];
 
-    static void transposeMatrix(const float* m, float* dst);
+    tmp.m[8] = m1.m[0] * m2.m[8] + m1.m[4] * m2.m[9] + m1.m[8] * m2.m[10] + m1.m[12] * m2.m[11];
+    tmp.m[9] = m1.m[1] * m2.m[8] + m1.m[5] * m2.m[9] + m1.m[9] * m2.m[10] + m1.m[13] * m2.m[11];
+    tmp.m[10] = m1.m[2] * m2.m[8] + m1.m[6] * m2.m[9] + m1.m[10] * m2.m[10] + m1.m[14] * m2.m[11];
+    tmp.m[11] = m1.m[3] * m2.m[8] + m1.m[7] * m2.m[9] + m1.m[11] * m2.m[10] + m1.m[15] * m2.m[11];
 
-    static void transformVec4(const float* m, float x, float y, float z, float w, float* dst);
+    tmp.m[12] = m1.m[0] * m2.m[12] + m1.m[4] * m2.m[13] + m1.m[8] * m2.m[14] + m1.m[12] * m2.m[15];
+    tmp.m[13] = m1.m[1] * m2.m[12] + m1.m[5] * m2.m[13] + m1.m[9] * m2.m[14] + m1.m[13] * m2.m[15];
+    tmp.m[14] = m1.m[2] * m2.m[12] + m1.m[6] * m2.m[13] + m1.m[10] * m2.m[14] + m1.m[14] * m2.m[15];
+    tmp.m[15] = m1.m[3] * m2.m[12] + m1.m[7] * m2.m[13] + m1.m[11] * m2.m[14] + m1.m[15] * m2.m[15];
+#else
+    tmp.col[0] = m1.col[0] * m2.col[0][0] + m1.col[1] * m2.col[0][1] + m1.col[2] * m2.col[0][2] + m1.col[3] * m2.col[0][3];
+    tmp.col[1] = m1.col[0] * m2.col[1][0] + m1.col[1] * m2.col[1][1] + m1.col[2] * m2.col[1][2] + m1.col[3] * m2.col[1][3];
+    tmp.col[2] = m1.col[0] * m2.col[2][0] + m1.col[1] * m2.col[2][1] + m1.col[2] * m2.col[2][2] + m1.col[3] * m2.col[2][3];
+    tmp.col[3] = m1.col[0] * m2.col[3][0] + m1.col[1] * m2.col[3][1] + m1.col[2] * m2.col[3][2] + m1.col[3] * m2.col[3][3];
+#endif
+    dst = tmp;
+}
 
-    static void transformVec4(const float* m, const float* v, float* dst);
+inline void negateMatrix(Mat4 const& other, Mat4& dst)
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    dst.m[0] = -other.m[0];
+    dst.m[1] = -other.m[1];
+    dst.m[2] = -other.m[2];
+    dst.m[3] = -other.m[3];
+    dst.m[4] = -other.m[4];
+    dst.m[5] = -other.m[5];
+    dst.m[6] = -other.m[6];
+    dst.m[7] = -other.m[7];
+    dst.m[8] = -other.m[8];
+    dst.m[9] = -other.m[9];
+    dst.m[10] = -other.m[10];
+    dst.m[11] = -other.m[11];
+    dst.m[12] = -other.m[12];
+    dst.m[13] = -other.m[13];
+    dst.m[14] = -other.m[14];
+    dst.m[15] = -other.m[15];
+#else
+    dst.col[0] = -other.col[0];
+    dst.col[1] = -other.col[1];
+    dst.col[2] = -other.col[2];
+    dst.col[3] = -other.col[3];
+#endif
+}
 
-    static void crossVec3(const float* v1, const float* v2, float* dst);
-};
+inline void transposeMatrix(Mat4 const& other, Mat4& dst)
+{
+    Mat4 tmp; // Support the case where other is the same matrix as dst.
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    tmp.m[0] = other.m[0];
+    tmp.m[1] = other.m[4];
+    tmp.m[2] = other.m[8];
+    tmp.m[3] = other.m[12];
+
+    tmp.m[4] = other.m[1];
+    tmp.m[5] = other.m[5];
+    tmp.m[6] = other.m[9];
+    tmp.m[7] = other.m[13];
+
+    tmp.m[8] = other.m[2];
+    tmp.m[9] = other.m[6];
+    tmp.m[10] = other.m[10];
+    tmp.m[11] = other.m[14];
+
+    tmp.m[12] = other.m[3];
+    tmp.m[13] = other.m[7];
+    tmp.m[14] = other.m[11];
+    tmp.m[15] = other.m[15];
+#else
+    tmp.col[0] = {other.m[0], other.m[4], other.m[8], other.m[12]};
+    tmp.col[1] = {other.m[1], other.m[5], other.m[9], other.m[13]};
+    tmp.col[2] = {other.m[2], other.m[6], other.m[10], other.m[14]};
+    tmp.col[3] = {other.m[3], other.m[7], other.m[11], other.m[15]};
+#endif
+    dst = tmp;
+}
+
+inline void transformVec4(Mat4 const& other, float x, float y, float z, float w, Vec3& dst)
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    dst.x = x * other.m[0] + y * other.m[4] + z * other.m[8] + w * other.m[12];
+    dst.y = x * other.m[1] + y * other.m[5] + z * other.m[9] + w * other.m[13];
+    dst.z = x * other.m[2] + y * other.m[6] + z * other.m[10] + w * other.m[14];
+#else
+    auto const tmp = x * other.col[0] + y * other.col[1] + z * other.col[2] + w * other.col[3];
+    dst.x = tmp[0];
+    dst.y = tmp[1];
+    dst.z = tmp[2];
+#endif
+}
+
+inline void transformVec4(Mat4 const& mat, Vec4 const& other, Vec4& dst)
+{
+    Vec4 tmp; // Support the case where other is the same as dst.
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    tmp.x = other.x * mat.m[0] + other.y * mat.m[4] + other.z * mat.m[8] + other.w * mat.m[12];
+    tmp.y = other.x * mat.m[1] + other.y * mat.m[5] + other.z * mat.m[9] + other.w * mat.m[13];
+    tmp.z = other.x * mat.m[2] + other.y * mat.m[6] + other.z * mat.m[10] + other.w * mat.m[14];
+    tmp.w = other.x * mat.m[3] + other.y * mat.m[7] + other.z * mat.m[11] + other.w * mat.m[15];
+#else
+    tmp.v = other.v[0] * mat.col[0] + other.v[1] * mat.col[1] + other.v[2] * mat.col[2] + other.v[3] * mat.col[3];
+#endif
+    dst = tmp;
+}
+
+inline void crossVec3(Vec3 const& v1, Vec3 const& v2, Vec3& dst)
+{
+    Vec3 tmp; // Support the case where v1 or v2 is the same as dst.
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    tmp.x = (v1.y * v2.z) - (v1.z * v2.y);
+    tmp.y = (v1.z * v2.x) - (v1.x * v2.z);
+    tmp.z = (v1.x * v2.y) - (v1.y * v2.x);
+#else
+    auto const d1 = Vec4::f32x4_t{v1.x, v1.y, v1.z, 0.f};
+    auto const d2 = Vec4::f32x4_t{v2.x, v2.y, v2.z, 0.f};
+    auto const cross = (__builtin_shufflevector(d1, d1, 1, 2, 0, 3) * __builtin_shufflevector(d2, d2, 2, 0, 1, 3)) -
+        (__builtin_shufflevector(d1, d1, 2, 0, 1, 3) * __builtin_shufflevector(d2, d2, 1, 2, 0, 3)); // (d1.yzxw * d2.zxyw) - (d1.zxyw * d2.yzxw);
+    tmp.x = cross[0];
+    tmp.y = cross[1];
+    tmp.z = cross[2];
+#endif
+    dst = tmp;
+}
 
 NS_CC_MATH_END
-/**
- end of base group
- @}
- */
-#define MATRIX_SIZE (sizeof(float) * 16)
 
-#endif
+#endif // CC_MATH_MATHUTIL_H

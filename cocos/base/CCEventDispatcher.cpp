@@ -21,23 +21,27 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "base/CCEventDispatcher.h"
-#include <algorithm>
+#include <cocos/base/CCEventDispatcher.h>
 
-#include "base/CCEventCustom.h"
-#include "base/CCEventListenerAcceleration.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/CCEventListenerFocus.h"
-#include "base/CCEventListenerKeyboard.h"
-#include "base/CCEventListenerMouse.h"
-#include "base/CCEventListenerTouch.h"
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCScene.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventCustom.h>
+#include <cocos/base/CCEventListenerAcceleration.h>
+#include <cocos/base/CCEventListenerCustom.h>
+#include <cocos/base/CCEventListenerFocus.h>
+#include <cocos/base/CCEventListenerKeyboard.h>
+#include <cocos/base/CCEventListenerMouse.h>
+#include <cocos/base/CCEventListenerTouch.h>
+#include <cocos/base/CCEventType.h>
+#include <cocos/base/CCTouch.h>
+#include <cocos/platform/CCPlatformConfig.h>
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
-#    include "base/CCEventListenerController.h"
+#    include <cocos/base/CCEventListenerController.h>
 #endif
-#include "2d/CCCamera.h"
-#include "2d/CCScene.h"
-#include "base/CCDirector.h"
-#include "base/CCEventType.h"
+
+#include <algorithm>
 
 #define DUMP_LISTENER_ITEM_PRIORITY_INFO 0
 
@@ -95,6 +99,8 @@ static EventListener::ListenerID __getListenerID(Event* event)
             ret = EventListenerController::LISTENER_ID;
             break;
 #endif
+        case Event::Type::NONE:
+            break;
         default:
             CCASSERT(false, "Invalid type!");
             break;
@@ -722,11 +728,11 @@ void EventDispatcher::dispatchEventToListeners(EventListenerVector* listeners, c
     auto fixedPriorityListeners = listeners->getFixedPriorityListeners();
     auto sceneGraphPriorityListeners = listeners->getSceneGraphPriorityListeners();
 
-    ssize_t i = 0;
+    std::size_t i = 0;
     // priority < 0
     if (fixedPriorityListeners)
     {
-        CCASSERT(listeners->getGt0Index() <= static_cast<ssize_t>(fixedPriorityListeners->size()), "Out of range exception!");
+        CCASSERT(listeners->getGt0Index() <= fixedPriorityListeners->size(), "Out of range exception!");
 
         if (!fixedPriorityListeners->empty())
         {
@@ -763,7 +769,7 @@ void EventDispatcher::dispatchEventToListeners(EventListenerVector* listeners, c
         if (!shouldStopPropagation)
         {
             // priority > 0
-            ssize_t size = fixedPriorityListeners->size();
+            std::size_t size = fixedPriorityListeners->size();
             for (; i < size; ++i)
             {
                 auto l = fixedPriorityListeners->at(i);
@@ -784,11 +790,11 @@ void EventDispatcher::dispatchTouchEventToListeners(EventListenerVector* listene
     auto fixedPriorityListeners = listeners->getFixedPriorityListeners();
     auto sceneGraphPriorityListeners = listeners->getSceneGraphPriorityListeners();
 
-    ssize_t i = 0;
+    std::size_t i = 0;
     // priority < 0
     if (fixedPriorityListeners)
     {
-        CCASSERT(listeners->getGt0Index() <= static_cast<ssize_t>(fixedPriorityListeners->size()), "Out of range exception!");
+        CCASSERT(listeners->getGt0Index() <= fixedPriorityListeners->size(), "Out of range exception!");
 
         if (!fixedPriorityListeners->empty())
         {
@@ -860,7 +866,7 @@ void EventDispatcher::dispatchTouchEventToListeners(EventListenerVector* listene
         if (!shouldStopPropagation)
         {
             // priority > 0
-            ssize_t size = fixedPriorityListeners->size();
+            std::size_t size = fixedPriorityListeners->size();
             for (; i < size; ++i)
             {
                 auto l = fixedPriorityListeners->at(i);

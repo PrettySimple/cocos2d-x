@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
@@ -22,11 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __ActionFrameEasing_H__
-#define __ActionFrameEasing_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONFRAMEEASING_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONFRAMEEASING_H
 
-#include "base/CCRef.h"
 #include "cocostudio/CocosStudioExport.h"
+#include <cocos/base/CCRef.h>
 
 namespace cocostudio
 {
@@ -74,4 +74,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONFRAMEEASING_H

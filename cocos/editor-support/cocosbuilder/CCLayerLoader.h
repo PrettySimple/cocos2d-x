@@ -1,5 +1,5 @@
-#ifndef _CCB_CCLAYERLOADER_H_
-#define _CCB_CCLAYERLOADER_H_
+#ifndef CC_EDITORSUPPORT_COCOSBUILDER_LAYERGLOADER_H
+#define CC_EDITORSUPPORT_COCOSBUILDER_LAYERGLOADER_H
 
 #include "CCNodeLoader.h"
 
@@ -26,4 +26,4 @@ namespace cocosbuilder
 
 } // namespace cocosbuilder
 
-#endif
+#endif // CC_EDITORSUPPORT_COCOSBUILDER_LAYERGLOADER_H

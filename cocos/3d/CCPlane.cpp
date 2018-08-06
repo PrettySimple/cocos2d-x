@@ -22,7 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCPlane.h"
+#include <cocos/3d/CCPlane.h>
+
+#include <cocos/math/Vec3.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
@@ -54,7 +57,7 @@ void Plane::initPlane(const Vec3& p1, const Vec3& p2, const Vec3& p3)
 {
     Vec3 p21 = p2 - p1;
     Vec3 p32 = p3 - p2;
-    Vec3::cross(p21, p32, &_normal);
+    Vec3::cross(p21, p32, _normal);
     _normal.normalize();
     _dist = _normal.dot(p1);
 }

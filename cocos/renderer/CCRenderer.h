@@ -22,18 +22,19 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_RENDERER_H_
-#define __CC_RENDERER_H_
+#ifndef CC_RENDERER_RENDERER_H
+#define CC_RENDERER_RENDERER_H
 
-#include "platform/CCGL.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/CCGroupCommand.h"
-#include "renderer/CCRenderCommand.h"
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <array>
 #include <cstddef>
-#include <cstdint>
 #include <stack>
 #include <vector>
 
@@ -61,9 +62,12 @@
 
 NS_CC_BEGIN
 
-class EventListenerCustom;
-class TrianglesCommand;
 class MeshCommand;
+class RenderCommand;
+class TrianglesCommand;
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+class EventListenerCustom;
+#endif
 
 /** Class that knows how to sort `RenderCommand` objects.
  Since the commands that have `z == 0` are "pushed back" in
@@ -191,11 +195,11 @@ public:
     /* returns the number of drawn batches in the last frame */
     inline std::size_t getDrawnBatches() const noexcept { return _drawnBatches; }
     /* RenderCommands (except) TrianglesCommand should update this value */
-    inline void addDrawnBatches(std::size_t number) { _drawnBatches += number; };
+    inline void addDrawnBatches(std::size_t number) { _drawnBatches += number; }
     /* returns the number of drawn triangles in the last frame */
     inline std::size_t getDrawnVertices() const noexcept { return _drawnVertices; }
     /* RenderCommands (except) TrianglesCommand should update this value */
-    inline void addDrawnVertices(std::size_t number) noexcept { _drawnVertices += number; };
+    inline void addDrawnVertices(std::size_t number) noexcept { _drawnVertices += number; }
     /* clear draw stats */
     inline void clearDrawStats() noexcept
     {
@@ -285,4 +289,4 @@ NS_CC_END
  end of support group
  @}
  */
-#endif //__CC_RENDERER_H_
+#endif // CC_RENDERER_RENDERER_H

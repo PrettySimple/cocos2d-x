@@ -23,90 +23,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "math/CCGeometry.h"
+#include <cocos/math/CCGeometry.h>
 
-#include "base/ccMacros.h"
+#include <cocos/math/Vec2.h>
+#include <cocos/platform/CCPlatformMacros.h>
+
 #include <algorithm>
 #include <cmath>
 
-// implementation of Vec2
 NS_CC_BEGIN
 
 // implementation of Size
-
-Size::Size(const Vec2& point)
-: width(point.x)
-, height(point.y)
-{
-}
-
-Size& Size::operator=(const Size& other)
-{
-    setSize(other.width, other.height);
-    return *this;
-}
-
-Size& Size::operator=(const Vec2& point)
-{
-    setSize(point.x, point.y);
-    return *this;
-}
-
-Size Size::operator+(const Size& right) const
-{
-    return Size(this->width + right.width, this->height + right.height);
-}
-
-Size Size::operator-(const Size& right) const
-{
-    return Size(this->width - right.width, this->height - right.height);
-}
-
-Size Size::operator*(float a) const
-{
-    return Size(this->width * a, this->height * a);
-}
-
-Size Size::operator/(float a) const
-{
-    CCASSERT(a != 0, "CCSize division by 0.");
-    return Size(this->width / a, this->height / a);
-}
-
-void Size::setSize(float w, float h)
-{
-    this->width = w;
-    this->height = h;
-}
-
-bool Size::equals(const Size& target) const
-{
-    return (std::abs(this->width - target.width) < FLT_EPSILON) && (std::abs(this->height - target.height) < FLT_EPSILON);
-}
 
 const Size Size::ZERO = Size(0, 0);
 
 // implementation of Rect
 
-Rect::Rect(void)
-{
-    setRect(0.0f, 0.0f, 0.0f, 0.0f);
-}
-
 Rect::Rect(const Vec2& pos, const Size& dimension)
 {
     setRect(pos.x, pos.y, dimension.width, dimension.height);
-}
-
-Rect::Rect(const Rect& other)
-{
-    setRect(other.origin.x, other.origin.y, other.size.width, other.size.height);
-}
-
-Rect& Rect::operator=(const Rect& other)
-{
-    setRect(other.origin.x, other.origin.y, other.size.width, other.size.height);
-    return *this;
 }
 
 void Rect::setRect(float x, float y, float width, float height)

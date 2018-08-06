@@ -27,18 +27,28 @@
  * THE SOFTWARE.
  *
  */
-#ifndef __CCPARTICLEBATCHNODE_H__
-#define __CCPARTICLEBATCHNODE_H__
+#ifndef CC_2D_PARTICLEBATCHNODE_H
+#define CC_2D_PARTICLEBATCHNODE_H
 
-#include "2d/CCNode.h"
-#include "base/CCProtocols.h"
-#include "renderer/CCBatchCommand.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCProtocols.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCBatchCommand.h>
+
+#include <cstddef>
+#include <cstdint>
+#include <iosfwd>
 
 NS_CC_BEGIN
 
+class ParticleSystem;
+class Renderer;
 class Texture2D;
 class TextureAtlas;
-class ParticleSystem;
 
 /**
  * @addtogroup _2d
@@ -154,7 +164,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ParticleBatchNode();
+    ~ParticleBatchNode() override;
 
     /** initializes the particle system with Texture2D, a capacity of particles */
     bool initWithTexture(Texture2D* tex, int capacity);
@@ -164,7 +174,7 @@ public:
 
 private:
     void updateAllAtlasIndexes();
-    void increaseAtlasCapacityTo(ssize_t quantity);
+    void increaseAtlasCapacityTo(std::size_t quantity);
     int searchNewPositionInChildrenForZ(int z);
     void getCurrentIndex(int* oldIndex, int* newIndex, Node* child, int z);
     int addChildHelper(ParticleSystem* child, int z, int aTag, const std::string& name, bool setTag);
@@ -184,4 +194,4 @@ private:
 
 NS_CC_END
 
-#endif /* __CCPARTICLEBATCHNODE_H__ */
+#endif // CC_2D_PARTICLEBATCHNODE_H

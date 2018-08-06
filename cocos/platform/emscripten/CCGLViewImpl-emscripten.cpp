@@ -1,23 +1,23 @@
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
 
-#    include "2d/CCCamera.h"
-#    include "2d/CCDrawingPrimitives.h"
-#    include "base/CCDirector.h"
-#    include "base/CCEventCustom.h"
-#    include "base/CCEventDispatcher.h"
-#    include "base/CCEventKeyboard.h"
-#    include "base/CCEventMouse.h"
-#    include "base/CCEventType.h"
-#    include "base/ccMacros.h"
-#    include "platform/CCGL.h"
-#    include "platform/emscripten/CCGLViewImpl-emscripten.h"
-#    include "platform/emscripten/EMDebug.h"
-#    include "renderer/CCFrameBuffer.h"
-#    include "renderer/CCGLProgramCache.h"
-#    include "renderer/CCRenderer.h"
-#    include "renderer/CCTextureCache.h"
-#    include "renderer/ccGLStateCache.h"
+#    include <cocos/2d/CCCamera.h>
+#    include <cocos/2d/CCDrawingPrimitives.h>
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/base/CCEventCustom.h>
+#    include <cocos/base/CCEventDispatcher.h>
+#    include <cocos/base/CCEventKeyboard.h>
+#    include <cocos/base/CCEventMouse.h>
+#    include <cocos/base/CCEventType.h>
+#    include <cocos/base/ccMacros.h>
+#    include <cocos/platform/CCGL.h>
+#    include <cocos/platform/emscripten/CCGLViewImpl-emscripten.h>
+#    include <cocos/platform/emscripten/EMDebug.h>
+#    include <cocos/renderer/CCFrameBuffer.h>
+#    include <cocos/renderer/CCGLProgramCache.h>
+#    include <cocos/renderer/CCRenderer.h>
+#    include <cocos/renderer/CCTextureCache.h>
+#    include <cocos/renderer/ccGLStateCache.h>
 
 #    include <cassert>
 #    include <cmath>
@@ -465,35 +465,34 @@ Rect GLViewImpl::getScissorRect() const
 
 bool GLViewImpl::setFullscreen(bool fullscreen) noexcept
 {
-	static EmscriptenFullscreenStrategy strategy{
-		// scaleMode									//		Result		Changes to the canvas element					Changed to the body element
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
-		// EMSCRIPTEN_FULLSCREEN_SCALE_DEFAULT,			//		OK			+"background-color: black;"						+"background-color: black;"
-		EMSCRIPTEN_FULLSCREEN_SCALE_STRETCH,			//		OK			+"background-color: black;"						+"background-color: black;"
-		// EMSCRIPTEN_FULLSCREEN_SCALE_ASPECT,			//		NOK			+"padding: 0px 160px;background-color: black;"	+"background-color: black;"
-		//																	Removing the padding gives the same results as the other modes
+    static EmscriptenFullscreenStrategy strategy{
+        // scaleMode									//		Result		Changes to the canvas element					Changed to the body element
+        // ----------------------------------------------------------------------------------------------------------------------------------------------------------
+        // EMSCRIPTEN_FULLSCREEN_SCALE_DEFAULT,			//		OK			+"background-color: black;"						+"background-color: black;"
+        EMSCRIPTEN_FULLSCREEN_SCALE_STRETCH, //		OK			+"background-color: black;"						+"background-color: black;"
+        // EMSCRIPTEN_FULLSCREEN_SCALE_ASPECT,			//		NOK			+"padding: 0px 160px;background-color: black;"	+"background-color: black;"
+        //																	Removing the padding gives the same results as the other modes
 
-		// canvasResolutionScaleMode					//		Result
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
-		// EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE,		//		OK
-		// EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_STDDEF,	//		OK
-		EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_HIDEF,		//		OK
+        // canvasResolutionScaleMode					//		Result
+        // ----------------------------------------------------------------------------------------------------------------------------------------------------------
+        // EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE,		//		OK
+        // EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_STDDEF,	//		OK
+        EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_HIDEF, //		OK
 
-		// filteringMode
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
-		EMSCRIPTEN_FULLSCREEN_FILTERING_DEFAULT,
-		// EMSCRIPTEN_FULLSCREEN_FILTERING_NEAREST,
-		// EMSCRIPTEN_FULLSCREEN_FILTERING_BILINEAR,
+        // filteringMode
+        // ----------------------------------------------------------------------------------------------------------------------------------------------------------
+        EMSCRIPTEN_FULLSCREEN_FILTERING_DEFAULT,
+        // EMSCRIPTEN_FULLSCREEN_FILTERING_NEAREST,
+        // EMSCRIPTEN_FULLSCREEN_FILTERING_BILINEAR,
 
-		// canvasResizedCallback						// Doesn't receive any information, invoked only when returning to windowed mode
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
-		nullptr,
-		//[](int, const void*, void*) { printf("*** canvasResizedCallback()\n"); return EM_TRUE; },
+        // canvasResizedCallback						// Doesn't receive any information, invoked only when returning to windowed mode
+        // ----------------------------------------------------------------------------------------------------------------------------------------------------------
+        nullptr,
+        //[](int, const void*, void*) { printf("*** canvasResizedCallback()\n"); return EM_TRUE; },
 
-		// canvasResizedCallbackUserData
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
-		nullptr
-	};
+        // canvasResizedCallbackUserData
+        // ----------------------------------------------------------------------------------------------------------------------------------------------------------
+        nullptr};
 
     if (fullscreen == _fullscreen)
         return false;

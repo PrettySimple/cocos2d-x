@@ -22,23 +22,26 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "3d/CCMesh.h"
-#include "2d/CCLight.h"
-#include "2d/CCScene.h"
-#include "3d/CCMeshSkin.h"
-#include "3d/CCMeshVertexIndexData.h"
-#include "3d/CCSkeleton3D.h"
-#include "base/CCConfiguration.h"
-#include "base/CCDirector.h"
-#include "base/CCEventDispatcher.h"
-#include "math/Mat4.h"
-#include "renderer/CCGLProgramState.h"
-#include "renderer/CCMaterial.h"
-#include "renderer/CCPass.h"
-#include "renderer/CCRenderer.h"
-#include "renderer/CCTechnique.h"
-#include "renderer/CCTextureCache.h"
-#include "renderer/CCVertexAttribBinding.h"
+#include <cocos/3d/CCMesh.h>
+
+#include <cocos/2d/CCLight.h>
+#include <cocos/2d/CCScene.h>
+#include <cocos/3d/CCMeshSkin.h>
+#include <cocos/3d/CCMeshVertexIndexData.h>
+#include <cocos/3d/CCSkeleton3D.h>
+#include <cocos/base/CCConfiguration.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/renderer/CCGLProgram.h>
+#include <cocos/renderer/CCGLProgramState.h>
+#include <cocos/renderer/CCMaterial.h>
+#include <cocos/renderer/CCPass.h>
+#include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCTechnique.h>
+#include <cocos/renderer/CCTextureCache.h>
+#include <cocos/renderer/CCVertexAttribBinding.h>
+#include <cocos/renderer/CCVertexIndexBuffer.h>
 
 using namespace std;
 
@@ -47,7 +50,7 @@ NS_CC_BEGIN
 // Helpers
 
 // sampler uniform names, only diffuse and normal texture are supported for now
-std::string s_uniformSamplerName[] = {
+char const* s_uniformSamplerName[] = {
     "", // NTextureData::Usage::Unknown,
     "", // NTextureData::Usage::None
     "", // NTextureData::Usage::Diffuse
@@ -119,20 +122,6 @@ static Texture2D* getDummyTexture()
     return texture;
 }
 
-Mesh::Mesh()
-: _skin(nullptr)
-, _visible(true)
-, _isTransparent(false)
-, _meshIndexData(nullptr)
-, _material(nullptr)
-, _glProgramState(nullptr)
-, _blend(BlendFunc::ALPHA_NON_PREMULTIPLIED)
-, _visibleChanged(nullptr)
-, _blendDirty(true)
-, _force2DQueue(false)
-, _texFile("")
-{
-}
 Mesh::~Mesh()
 {
     for (auto& tex : _textures)
@@ -155,7 +144,7 @@ bool Mesh::hasVertexAttrib(int attrib) const
     return _meshIndexData->getMeshVertexData()->hasVertexAttrib(attrib);
 }
 
-ssize_t Mesh::getMeshVertexAttribCount() const
+std::size_t Mesh::getMeshVertexAttribCount() const
 {
     return _meshIndexData->getMeshVertexData()->getMeshVertexAttribCount();
 }
@@ -316,7 +305,7 @@ void Mesh::setTexture(Texture2D* tex, NTextureData::Usage usage, bool cacheFileN
             auto technique = _material->_currentTechnique;
             for (auto& pass : technique->_passes)
             {
-                pass->getGLProgramState()->setUniformTexture(s_uniformSamplerName[(int)usage], tex);
+                pass->getGLProgramState()->setUniformTexture(s_uniformSamplerName[static_cast<std::size_t>(usage)], tex);
             }
         }
     }
@@ -405,7 +394,7 @@ void Mesh::draw(Renderer* renderer, float globalZOrder, const Mat4& transform, u
         programState->setUniformVec4("u_color", color);
 
         if (_skin)
-            programState->setUniformVec4v("u_matrixPalette", (GLsizei)_skin->getMatrixPaletteSize(), _skin->getMatrixPalette());
+            programState->setUniformVec4v("u_matrixPalette", static_cast<GLsizei>(_skin->getMatrixPaletteSize()), _skin->getMatrixPalette());
 
         if (scene && scene->getLights().size() > 0)
             setLightUniforms(pass, scene, color, lightMask);
@@ -460,7 +449,6 @@ void Mesh::calculateAABB()
         {
             // get skin root
             Bone3D* root = nullptr;
-            Mat4 invBindPose;
             if (_skin->_skinBones.size())
             {
                 root = _skin->_skinBones.at(0);
@@ -532,7 +520,7 @@ void Mesh::setLightUniforms(Pass* pass, Scene* scene, const Vec4& color, unsigne
         Vec3 ambientColor;
         for (const auto& light : lights)
         {
-            bool useLight = light->isEnabled() && ((unsigned int)light->getLightFlag() & lightmask);
+            bool useLight = light->isEnabled() && (static_cast<unsigned int>(light->getLightFlag()) & lightmask);
             if (useLight)
             {
                 float intensity = light->getIntensity();
@@ -594,8 +582,6 @@ void Mesh::setLightUniforms(Pass* pass, Scene* scene, const Vec4& color, unsigne
                         ambientColor.add(col.r / 255.0f * intensity, col.g / 255.0f * intensity, col.b / 255.0f * intensity);
                     }
                     break;
-                    default:
-                        break;
                 }
             }
         }
@@ -637,7 +623,7 @@ void Mesh::setLightUniforms(Pass* pass, Scene* scene, const Vec4& color, unsigne
         {
             if (light->getLightType() == LightType::AMBIENT)
             {
-                bool useLight = light->isEnabled() && ((unsigned int)light->getLightFlag() & lightmask);
+                bool useLight = light->isEnabled() && (static_cast<unsigned int>(light->getLightFlag()) & lightmask);
                 if (useLight)
                 {
                     hasAmbient = true;
@@ -688,7 +674,7 @@ GLenum Mesh::getPrimitiveType() const
     return _meshIndexData->getPrimitiveType();
 }
 
-ssize_t Mesh::getIndexCount() const
+std::size_t Mesh::getIndexCount() const
 {
     return _meshIndexData->getIndexBuffer()->getIndexNumber();
 }

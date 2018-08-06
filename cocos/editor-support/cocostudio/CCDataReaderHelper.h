@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCDATAREADERHELPER_H__
-#define __CCDATAREADERHELPER_H__
+#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_DATAREADERHELPER_H
+#define CC_EDITORSUPPORT_COCOSSTUDIO_DATAREADERHELPER_H
 
 #include "cocostudio/CCArmature.h"
 #include "cocostudio/CCArmatureDefine.h"
@@ -32,8 +32,12 @@ THE SOFTWARE.
 #include "cocostudio/DictionaryHelper.h"
 
 #include "DictionaryHelper.h"
-#include "json/document.h"
-#include "json/rapidjson.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <json/document.h>
+#include <json/rapidjson.h>
+#pragma clang diagnostic pop
 
 #include <condition_variable>
 #include <mutex>
@@ -223,4 +227,4 @@ namespace cocostudio
 
 } // namespace cocostudio
 
-#endif /*__CCDATAREADERHELPER_H__*/
+#endif // CC_EDITORSUPPORT_COCOSSTUDIO_DATAREADERHELPER_H

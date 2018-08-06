@@ -18,18 +18,17 @@
  This file was modified to fit the cocos2d-x project
  */
 
-#include "math/Vec3.h"
-#include "base/ccMacros.h"
-#include "math/MathUtil.h"
+#include <cocos/math/Vec3.h>
+
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/CCMathBase.h>
+#include <cocos/math/MathUtil.h>
+#include <cocos/platform/CCPlatformConfig.h>
+
+#include <cstddef>
+#include <limits>
 
 NS_CC_MATH_BEGIN
-
-Vec3::Vec3()
-: x(0.0f)
-, y(0.0f)
-, z(0.0f)
-{
-}
 
 Vec3::Vec3(const float* array)
 {
@@ -44,145 +43,183 @@ Vec3::Vec3(const Vec3& p1, const Vec3& p2)
 Vec3 Vec3::fromColor(unsigned int color)
 {
     float components[3];
-    int componentIndex = 0;
+    std::size_t componentIndex = 0;
     for (int i = 2; i >= 0; --i)
     {
-        int component = (color >> i * 8) & 0x0000ff;
+        int const component = (color >> i * 8) & 0x0000ff;
 
         components[componentIndex++] = static_cast<float>(component) / 255.0f;
     }
 
-    Vec3 value(components);
-    return value;
+    return Vec3(components[0], components[1], components[2]);
 }
 
 float Vec3::angle(const Vec3& v1, const Vec3& v2)
 {
-    float dx = v1.y * v2.z - v1.z * v2.y;
-    float dy = v1.z * v2.x - v1.x * v2.z;
-    float dz = v1.x * v2.y - v1.y * v2.x;
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    float const dx = v1.y * v2.z - v1.z * v2.y;
+    float const dy = v1.z * v2.x - v1.x * v2.z;
+    float const dz = v1.x * v2.y - v1.y * v2.x;
 
-    return std::atan2(std::sqrt(dx * dx + dy * dy + dz * dz) + MATH_FLOAT_SMALL, dot(v1, v2));
+    return std::atan2(std::sqrt(dx * dx + dy * dy + dz * dz) + std::numeric_limits<float>::epsilon(), dot(v1, v2));
+#else
+    f32x4_t const p1 = {v1.x, v1.y, v1.z, 0.f};
+    f32x4_t const p2 = {v2.x, v2.y, v2.z, 0.f};
+    auto const tmp = __builtin_shufflevector(p1, p1, 1, 2, 0, 3) * __builtin_shufflevector(p2, p2, 2, 0, 1, 3) -
+        __builtin_shufflevector(p1, p1, 2, 0, 1, 3) * __builtin_shufflevector(p2, p2, 1, 2, 0, 3);
+    return std::atan2(std::sqrt(tmp[0] + tmp[1] + tmp[2]) + std::numeric_limits<float>::epsilon(), dot(v1, v2));
+#endif
 }
 
-void Vec3::add(const Vec3& v1, const Vec3& v2, Vec3* dst)
+void Vec3::add(const Vec3& v1, const Vec3& v2, Vec3& dst)
 {
-    GP_ASSERT(dst);
-
-    dst->x = v1.x + v2.x;
-    dst->y = v1.y + v2.y;
-    dst->z = v1.z + v2.z;
+    dst.x = v1.x + v2.x;
+    dst.y = v1.y + v2.y;
+    dst.z = v1.z + v2.z;
 }
 
 void Vec3::clamp(const Vec3& min, const Vec3& max)
 {
-    GP_ASSERT(!(min.x > max.x || min.y > max.y || min.z > max.z));
+    GP_ASSERT(!(min > max));
 
-    // Clamp the x value.
     if (x < min.x)
         x = min.x;
-    if (x > max.x)
-        x = max.x;
-
-    // Clamp the y value.
     if (y < min.y)
         y = min.y;
-    if (y > max.y)
-        y = max.y;
-
-    // Clamp the z value.
     if (z < min.z)
         z = min.z;
+
+    if (x > max.x)
+        x = max.x;
+    if (y > max.y)
+        y = max.y;
     if (z > max.z)
         z = max.z;
 }
 
-void Vec3::clamp(const Vec3& v, const Vec3& min, const Vec3& max, Vec3* dst)
+void Vec3::clamp(const Vec3& other, const Vec3& min, const Vec3& max, Vec3& dst)
 {
-    GP_ASSERT(dst);
-    GP_ASSERT(!(min.x > max.x || min.y > max.y || min.z > max.z));
+    GP_ASSERT(!(min > max));
 
     // Clamp the x value.
-    dst->x = v.x;
-    if (dst->x < min.x)
-        dst->x = min.x;
-    if (dst->x > max.x)
-        dst->x = max.x;
+    dst.x = other.x;
+    dst.y = other.y;
+    dst.z = other.z;
 
-    // Clamp the y value.
-    dst->y = v.y;
-    if (dst->y < min.y)
-        dst->y = min.y;
-    if (dst->y > max.y)
-        dst->y = max.y;
+    if (dst.x < min.x)
+        dst.x = min.x;
+    if (dst.y < min.y)
+        dst.y = min.y;
+    if (dst.z < min.z)
+        dst.z = min.z;
 
-    // Clamp the z value.
-    dst->z = v.z;
-    if (dst->z < min.z)
-        dst->z = min.z;
-    if (dst->z > max.z)
-        dst->z = max.z;
+    if (dst.x > max.x)
+        dst.x = max.x;
+    if (dst.y > max.y)
+        dst.y = max.y;
+    if (dst.z > max.z)
+        dst.z = max.z;
 }
 
 void Vec3::cross(const Vec3& v)
 {
-    cross(*this, v, this);
+    cross(*this, v, *this);
 }
 
-void Vec3::cross(const Vec3& v1, const Vec3& v2, Vec3* dst)
+void Vec3::cross(const Vec3& v1, const Vec3& v2, Vec3& dst)
 {
-    GP_ASSERT(dst);
-
     // NOTE: This code assumes Vec3 struct members are contiguous floats in memory.
     // We might want to revisit this (and other areas of code that make this assumption)
     // later to guarantee 100% safety/compatibility.
-    MathUtil::crossVec3(&v1.x, &v2.x, &dst->x);
+    crossVec3(v1, v2, dst);
 }
 
-float Vec3::distance(const Vec3& v) const
+float Vec3::distance(const Vec3& other) const
 {
-    float dx = v.x - x;
-    float dy = v.y - y;
-    float dz = v.z - z;
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    float const dx = other.x - x;
+    float const dy = other.y - y;
+    float const dz = other.z - z;
 
     return std::sqrt(dx * dx + dy * dy + dz * dz);
+#else
+    auto const sub = f32x4_t{other.x, other.y, other.z, 0.f} - f32x4_t{x, y, z, 0.f};
+    auto const mul = sub * sub;
+    return std::sqrt(mul[0] + mul[1] + mul[2]);
+#endif
 }
 
-float Vec3::distanceSquared(const Vec3& v) const
+float Vec3::distanceSquared(const Vec3& other) const
 {
-    float dx = v.x - x;
-    float dy = v.y - y;
-    float dz = v.z - z;
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    float const dx = other.x - x;
+    float const dy = other.y - y;
+    float const dz = other.z - z;
 
-    return (dx * dx + dy * dy + dz * dz);
+    return dx * dx + dy * dy + dz * dz;
+#else
+    auto const sub = f32x4_t{other.x, other.y, other.z, 0.f} - f32x4_t{x, y, z, 0.f};
+    auto const mul = sub * sub;
+    return mul[0] + mul[1] + mul[2];
+#endif
 }
 
-float Vec3::dot(const Vec3& v) const
+float Vec3::dot(const Vec3& other) const
 {
-    return (x * v.x + y * v.y + z * v.z);
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    return x * other.x + y * other.y + z * other.z;
+#else
+    auto const mul = f32x4_t{x, y, z, 0.f} * f32x4_t{other.x, other.y, other.z, 0.f};
+    return mul[0] + mul[1] + mul[2];
+#endif
 }
 
 float Vec3::dot(const Vec3& v1, const Vec3& v2)
 {
-    return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+#else
+    auto const mul = f32x4_t{v1.x, v1.y, v1.z, 0.f} * f32x4_t{v2.x, v2.y, v2.z, 0.f};
+    return mul[0] + mul[1] + mul[2];
+#endif
 }
 
 void Vec3::normalize()
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
     float n = x * x + y * y + z * z;
     // Already normalized.
-    if (n == 1.0f)
+    if (std::abs(n - 1.f) < epsi)
         return;
 
     n = std::sqrt(n);
     // Too close to zero.
-    if (n < MATH_TOLERANCE)
+    if (std::abs(n) < epsi)
         return;
 
     n = 1.0f / n;
     x *= n;
     y *= n;
     z *= n;
+#else
+    static constexpr auto const epsi = std::numeric_limits<float>::epsilon();
+    auto const mul = f32x4_t{x, y, z, 0.f} * f32x4_t{x, y, z, 0.f};
+    float n = mul[0] + mul[1] + mul[2];
+    // Already normalized.
+    if (std::abs(n - 1.f) < epsi)
+        return;
+
+    n = std::sqrt(n);
+    // Too close to zero.
+    if (std::abs(n) < epsi)
+        return;
+
+    n = 1.0f / n;
+    x *= n;
+    y *= n;
+    z *= n;
+#endif
 }
 
 Vec3 Vec3::getNormalized() const
@@ -192,13 +229,11 @@ Vec3 Vec3::getNormalized() const
     return v;
 }
 
-void Vec3::subtract(const Vec3& v1, const Vec3& v2, Vec3* dst)
+void Vec3::subtract(const Vec3& v1, const Vec3& v2, Vec3& dst)
 {
-    GP_ASSERT(dst);
-
-    dst->x = v1.x - v2.x;
-    dst->y = v1.y - v2.y;
-    dst->z = v1.z - v2.z;
+    dst.x = v1.x - v2.x;
+    dst.y = v1.y - v2.y;
+    dst.z = v1.z - v2.z;
 }
 
 void Vec3::smooth(const Vec3& target, float elapsedTime, float responseTime)

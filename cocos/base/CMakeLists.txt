@@ -27,6 +27,7 @@ set(COCOS_BASE_SRC
   base/CCEventCustom.cpp
   base/CCEventDispatcher.cpp
   base/CCEventFocus.cpp
+  base/CCProtocols.cpp
   base/CCEventKeyboard.cpp
   base/CCEventListener.cpp
   base/CCEventListenerAcceleration.cpp

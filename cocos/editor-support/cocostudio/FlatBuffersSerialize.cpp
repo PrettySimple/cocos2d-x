@@ -25,9 +25,9 @@
 #include "FlatBuffersSerialize.h"
 
 #include "CSParseBinary_generated.h"
-#include "base/ObjectFactory.h"
 #include "cocostudio/CocoStudio.h"
-#include "ui/CocosGUI.h"
+#include <cocos/base/ObjectFactory.h>
+#include <cocos/ui/CocosGUI.h>
 
 #include "WidgetReader/NodeReaderDefine.h"
 #include "WidgetReader/NodeReaderProtocol.h"
@@ -54,9 +54,12 @@
 #include "WidgetReader/TextFieldReader/TextFieldReader.h"
 #include "WidgetReader/TextReader/TextReader.h"
 
-#include "flatbuffers/flatbuffers.h"
-#include "flatbuffers/util.h"
-#include "tinyxml2.h"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <flatbuffers/flatbuffers.h>
+#include <flatbuffers/util.h>
+#include <tinyxml2/tinyxml2.h>
+#pragma clang diagnostic pop
 
 USING_NS_CC;
 using namespace cocos2d::ui;

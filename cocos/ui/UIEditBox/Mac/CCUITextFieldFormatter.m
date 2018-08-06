@@ -30,8 +30,7 @@
 
 @synthesize maximumLength = _maximumLength;
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self)
     {
@@ -41,13 +40,11 @@
     return self;
 }
 
-- (NSString*)stringForObjectValue:(id)object
-{
+- (NSString*)stringForObjectValue:(id)object {
     return object;
 }
 
-- (BOOL)getObjectValue:(id*)object forString:(NSString*)string errorDescription:(NSString**)error
-{
+- (BOOL)getObjectValue:(id*)object forString:(NSString*)string errorDescription:(NSString**)error {
     *object = string;
     return YES;
 }
@@ -56,13 +53,11 @@
        proposedSelectedRange:(NSRangePointer)proposedSelRangePtr
               originalString:(NSString*)origString
        originalSelectedRange:(NSRange)origSelRange
-            errorDescription:(NSString**)error
-{
+            errorDescription:(NSString**)error {
     return (*partialStringPtr).length <= self.maximumLength;
 }
 
-- (NSAttributedString*)attributedStringForObjectValue:(id)anObject withDefaultAttributes:(NSDictionary*)attributes
-{
+- (NSAttributedString*)attributedStringForObjectValue:(id)anObject withDefaultAttributes:(NSDictionary*)attributes {
     return nil;
 }
 @end

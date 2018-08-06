@@ -22,13 +22,26 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "renderer/CCFrameBuffer.h"
-#include "base/CCDirector.h"
-#include "base/CCEventCustom.h"
-#include "base/CCEventDispatcher.h"
-#include "base/CCEventListenerCustom.h"
-#include "base/CCEventType.h"
-#include "renderer/CCRenderer.h"
+#include <cocos/renderer/CCFrameBuffer.h>
+
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCGL.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCTexture2D.h>
+
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+#    include <cocos/base/CCDirector.h>
+#    include <cocos/base/CCEventCustom.h>
+#    include <cocos/base/CCEventDispatcher.h>
+#    include <cocos/base/CCEventListenerCustom.h>
+#    include <cocos/base/CCEventType.h>
+#endif
+
+#include <cstdlib>
+#include <cstring>
+#include <new>
 
 NS_CC_BEGIN
 namespace experimental

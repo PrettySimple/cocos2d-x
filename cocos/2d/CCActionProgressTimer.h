@@ -23,14 +23,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __ACTION_CCPROGRESS_TIMER_H__
-#define __ACTION_CCPROGRESS_TIMER_H__
+#ifndef CC_2D_ACTIONPROGRESSTIMER_H
+#define CC_2D_ACTIONPROGRESSTIMER_H
 
-#include "2d/CCActionInterval.h"
+#include <cocos/2d/CCActionInterval.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/platform/CCPlatformDefine.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 #include <chrono>
 
 NS_CC_BEGIN
+
+class Node;
 
 /**
  * @addtogroup actions
@@ -57,13 +62,13 @@ public:
     //
     // Overrides
     //
-    virtual ProgressTo* clone() const override;
-    virtual ProgressTo* reverse() const override;
-    virtual void startWithTarget(Node* target) override;
-    virtual void update(float time) override;
+    ProgressTo* clone() const override;
+    ProgressTo* reverse() const override;
+    void startWithTarget(Node* target) override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : ProgressTo() {}
-    virtual ~ProgressTo() {}
+    ~ProgressTo() override {}
 
     /**
      * @brief Initializes with a duration and destination percentage.
@@ -78,7 +83,7 @@ protected:
     float _from;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ProgressTo);
+    CC_DISALLOW_COPY_AND_ASSIGN(ProgressTo)
 };
 
 /**
@@ -100,13 +105,13 @@ public:
     //
     // Overrides
     //
-    virtual ProgressFromTo* clone() const override;
-    virtual ProgressFromTo* reverse() const override;
-    virtual void startWithTarget(Node* target) override;
-    virtual void update(float time) override;
+    ProgressFromTo* clone() const override;
+    ProgressFromTo* reverse() const override;
+    void startWithTarget(Node* target) override;
+    void update(float time) override;
 
     CC_CONSTRUCTOR_ACCESS : ProgressFromTo() {}
-    virtual ~ProgressFromTo() {}
+    ~ProgressFromTo() override {}
 
     /**
      * @brief Initializes the action with a duration, a "from" percentage and a "to" percentage.
@@ -122,7 +127,7 @@ protected:
     float _from;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ProgressFromTo);
+    CC_DISALLOW_COPY_AND_ASSIGN(ProgressFromTo)
 };
 
 // end of actions group
@@ -130,4 +135,4 @@ private:
 
 NS_CC_END
 
-#endif // __ACTION_CCPROGRESS_TIMER_H__
+#endif // CC_2D_ACTIONPROGRESSTIMER_H

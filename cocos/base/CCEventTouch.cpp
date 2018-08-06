@@ -22,8 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCEventTouch.h"
-#include "base/CCTouch.h"
+#include <cocos/base/CCEventTouch.h>
+
+#include <cocos/base/CCEvent.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
@@ -31,6 +33,10 @@ EventTouch::EventTouch()
 : Event(Type::TOUCH)
 {
     _touches.reserve(MAX_TOUCHES);
+}
+
+EventTouch::~EventTouch()
+{
 }
 
 NS_CC_END

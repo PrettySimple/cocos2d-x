@@ -22,22 +22,38 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__UIScale9Sprite__
-#define __cocos2d_libs__UIScale9Sprite__
+#ifndef CC_UI_SCALE9SPRITE_H
+#define CC_UI_SCALE9SPRITE_H
 
-#include "2d/CCNode.h"
-#include "2d/CCSpriteBatchNode.h"
-#include "2d/CCSpriteFrame.h"
-#include "platform/CCPlatformMacros.h"
-#include "renderer/CCTrianglesCommand.h"
-#include "ui/GUIExport.h"
+#include <cocos/2d/CCNode.h>
+#include <cocos/base/CCProtocols.h>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/ccTypes.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCTrianglesCommand.h>
+#include <cocos/ui/GUIExport.h>
+
+#include <cstdint>
+#include <iosfwd>
+#include <vector>
 
 /**
  * @addtogroup ui
  * @{
  */
 NS_CC_BEGIN
-class DrawNode;
+
+class GLProgram;
+class GLProgramState;
+class Renderer;
+class Sprite;
+class SpriteBatchNode;
+class SpriteFrame;
+class Texture2D;
 
 namespace ui
 {
@@ -68,7 +84,7 @@ namespace ui
          * @js NA
          * @lua NA
          */
-        virtual ~Scale9Sprite();
+        ~Scale9Sprite() override;
 
         /**
          * Builtin shader state.
@@ -718,4 +734,4 @@ namespace ui
 // end of ui group
 /// @}
 
-#endif /* defined(__cocos2d_libs__UIScale9Sprite__) */
+#endif // CC_UI_SCALE9SPRITE_H

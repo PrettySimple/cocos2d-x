@@ -23,12 +23,19 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "audio/apple/AudioDecoder.h"
-#include "audio/apple/AudioMacros.h"
+#include <cocos/audio/apple/AudioDecoder.h>
 
-#import <Foundation/Foundation.h>
+#include <cocos/audio/apple/AudioDecoder.h>
+#include <cocos/audio/apple/AudioMacros.h>
 
-#define LOG_TAG "AudioDecoder"
+#import <AudioToolbox/ExtendedAudioFile.h>
+#import <CoreAudio/CoreAudioTypes.h>
+#import <CoreFoundation/CFBase.h>
+#import <CoreFoundation/CFURL.h>
+#import <Foundation/NSString.h>
+#import <Foundation/NSURL.h>
+
+#include <cstring>
 
 namespace cocos2d
 {
@@ -56,7 +63,7 @@ namespace cocos2d
                 BREAK_IF_ERR_LOG(path == nullptr || strlen(path) == 0, "Invalid path!");
 
                 NSString* fileFullPath = [[NSString alloc] initWithCString:path encoding:NSUTF8StringEncoding];
-                fileURL = (CFURLRef)[[NSURL alloc] initFileURLWithPath:fileFullPath];
+                fileURL = reinterpret_cast<CFURLRef>([[NSURL alloc] initFileURLWithPath:fileFullPath]);
                 [fileFullPath release];
                 BREAK_IF_ERR_LOG(fileURL == nil, "Converting path to CFURLRef failed!");
 

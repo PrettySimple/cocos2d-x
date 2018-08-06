@@ -61,7 +61,10 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 */
 
-#include "platform/CCPlatformConfig.h"
+#ifndef CC_PLATFORM_IOS_OPENGLINTERNALIOS_H
+#define CC_PLATFORM_IOS_OPENGLINTERNALIOS_H
+
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
 /* Generic error reporting */
@@ -84,19 +87,21 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
         })
 
 /* Optional delegate methods support */
-#    ifndef __DELEGATE_IVAR__
-#        define __DELEGATE_IVAR__ _delegate
+#    ifndef DELEGATE_IVAR
+#        define DELEGATE_IVAR _delegate
 #    endif
-#    ifndef __DELEGATE_METHODS_IVAR__
-#        define __DELEGATE_METHODS_IVAR__ _delegateMethods
+#    ifndef DELEGATE_METHODS_IVAR
+#        define DELEGATE_METHODS_IVAR _delegateMethods
 #    endif
-#    define TEST_DELEGATE_METHOD_BIT(__BIT__) (self->__DELEGATE_METHODS_IVAR__ & (1 << __BIT__))
-#    define SET_DELEGATE_METHOD_BIT(__BIT__, __NAME__)                            \
-        {                                                                         \
-            if ([self->__DELEGATE_IVAR__ respondsToSelector:@selector(__NAME__)]) \
-                self->__DELEGATE_METHODS_IVAR__ |= (1 << __BIT__);                \
-            else                                                                  \
-                self->__DELEGATE_METHODS_IVAR__ &= ~(1 << __BIT__);               \
+#    define TEST_DELEGATE_METHOD_BIT(__BIT__) (self->DELEGATE_METHODS_IVAR & (1 << __BIT__))
+#    define SET_DELEGATE_METHOD_BIT(__BIT__, __NAME__)                        \
+        {                                                                     \
+            if ([self->DELEGATE_IVAR respondsToSelector:@selector(__NAME__)]) \
+                self->DELEGATE_METHODS_IVAR |= (1 << __BIT__);                \
+            else                                                              \
+                self->DELEGATE_METHODS_IVAR &= ~(1 << __BIT__);               \
         }
 
 #endif // CC_PLATFORM_IOS
+
+#endif // CC_PLATFORM_IOS_OPENGLINTERNALIOS_H
