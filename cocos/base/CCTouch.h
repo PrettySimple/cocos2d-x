@@ -76,7 +76,7 @@ public:
      *
      * @return The start touch location in OpenGL coordinates.
      */
-    inline Vec2 getStartLocation() const;
+    Vec2 getStartLocation() const;
     /** Returns the delta of 2 current touches locations in screen coordinates.
      *
      * @return The delta of 2 current touches locations in screen coordinates.
