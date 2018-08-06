@@ -22,11 +22,23 @@ extern "C" {
  * OpenSSL was configured with the following options:
  */
 
+#ifndef OPENSSL_NO_COMP
+# define OPENSSL_NO_COMP
+#endif
+#ifndef OPENSSL_NO_IDEA
+# define OPENSSL_NO_IDEA
+#endif
 #ifndef OPENSSL_NO_MD2
 # define OPENSSL_NO_MD2
 #endif
 #ifndef OPENSSL_NO_RC5
 # define OPENSSL_NO_RC5
+#endif
+#ifndef OPENSSL_NO_SRP
+# define OPENSSL_NO_SRP
+#endif
+#ifndef OPENSSL_NO_AFALGENG
+# define OPENSSL_NO_AFALGENG
 #endif
 #ifndef OPENSSL_NO_ASAN
 # define OPENSSL_NO_ASAN
@@ -40,11 +52,26 @@ extern "C" {
 #ifndef OPENSSL_NO_CRYPTO_MDEBUG_BACKTRACE
 # define OPENSSL_NO_CRYPTO_MDEBUG_BACKTRACE
 #endif
+#ifndef OPENSSL_NO_DTLS
+# define OPENSSL_NO_DTLS
+#endif
+#ifndef OPENSSL_NO_DTLS1
+# define OPENSSL_NO_DTLS1
+#endif
+#ifndef OPENSSL_NO_DTLS1_2
+# define OPENSSL_NO_DTLS1_2
+#endif
 #ifndef OPENSSL_NO_EC_NISTP_64_GCC_128
 # define OPENSSL_NO_EC_NISTP_64_GCC_128
 #endif
 #ifndef OPENSSL_NO_EGD
 # define OPENSSL_NO_EGD
+#endif
+#ifndef OPENSSL_NO_ENGINE
+# define OPENSSL_NO_ENGINE
+#endif
+#ifndef OPENSSL_NO_ERR
+# define OPENSSL_NO_ERR
 #endif
 #ifndef OPENSSL_NO_FUZZ_AFL
 # define OPENSSL_NO_FUZZ_AFL
@@ -60,6 +87,12 @@ extern "C" {
 #endif
 #ifndef OPENSSL_NO_MSAN
 # define OPENSSL_NO_MSAN
+#endif
+#ifndef OPENSSL_NO_NEXTPROTONEG
+# define OPENSSL_NO_NEXTPROTONEG
+#endif
+#ifndef OPENSSL_NO_PSK
+# define OPENSSL_NO_PSK
 #endif
 #ifndef OPENSSL_NO_SCTP
 # define OPENSSL_NO_SCTP
