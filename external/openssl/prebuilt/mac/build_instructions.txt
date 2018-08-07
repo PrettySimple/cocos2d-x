@@ -1,6 +1,6 @@
 tar xvf openssl-1.1.0h.tar.gz
 cd openssl-1.1.0h
-./Configure no-asm no-hw no-threads no-shared no-dso darwin64-x86_64-cc
+./Configure no-ssl3 no-comp no-idea no-asm no-dtls no-shared no-hw no-engine no-threads no-dso no-err no-nextprotoneg no-psk no-srp no-weak-ssl-ciphers darwin64-x86_64-cc
 
 # Run make. It will make tests by default, hence you may skip to the next step as soon as libcrypto.a and libssl.a
 # appear in the root folder. Yet, do make sure tests were okay.
@@ -8,6 +8,6 @@ cd openssl-1.1.0h
 make
 
 # copy:
-# * libcrypto.a and libssl.a into <cocos>/external/openssl/prebuilt/emscripten/
-# * include/openssl into <cocos>/external/openssl/include/emscripten/
+# * libcrypto.a and libssl.a into <cocos>/external/openssl/prebuilt/mac/
+# * include/openssl into <cocos>/external/openssl/include/mac/
 
