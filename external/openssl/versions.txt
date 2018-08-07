@@ -1,0 +1,8 @@
+Platform                Shipped (prebuilt) OpenSSL version
+-----------------------------------------------------------------------------------------------------------------
+iOS                     OpenSSL 1.1.0h  27 Mar 2018
+mac                     OpenSSL 1.1.0h  27 Mar 2018
+Emscripten              OpenSSL 1.1.0h  27 Mar 2018
+Android                 OpenSSL 1.1.0g  2 Nov 2017
+
+See prebuilt/<platform>/build_instructions.txt for... build instructions!

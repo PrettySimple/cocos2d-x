@@ -1,0 +1,14 @@
+# Use this handy tool for cross-building for iOS: git@github.com:x2on/OpenSSL-for-iPhone.git
+
+cd /tmp
+
+git clone git@github.com:x2on/OpenSSL-for-iPhone.git
+
+cd OpenSSL-for-iPhone.git
+
+CONFIG_OPTIONS="no-ssl3 no-comp no-idea no-asm no-dtls no-shared no-hw no-engine no-threads no-dso no-err no-nextprotoneg no-psk no-srp no-weak-ssl-ciphers" ./build-libssl.sh --cleanup --version=1.1.0h --deprecated --targets="ios-sim-cross-x86_64 ios-sim-cross-i386 ios64-cross-arm64 ios-cross-armv7s ios-cross-armv7"
+
+# copy 'libcrypto.a' and 'libssl.a' from lib/ into <cocos>/external/openssl/prebuilt/ios/
+
+# copy 'openssl' from include/ into <cocos>/external/openssl/include/ios/
+
