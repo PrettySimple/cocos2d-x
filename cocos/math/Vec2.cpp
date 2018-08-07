@@ -245,7 +245,7 @@ void Vec2::rotate(const Vec2& point, float angle)
     auto const sinAngle = std::sin(angle);
     auto const cosAngle = std::cos(angle);
     auto const tmp = v - point.v;
-    v = tmp * cosAngle + __builtin_shufflevector(tmp, tmp, 1, 0) * f32x2_t{-1.f, 0.f} * sinAngle + point.v;
+    v = tmp * cosAngle + __builtin_shufflevector(tmp, tmp, 1, 0) * f32x2_t{-1.f, 1.f} * sinAngle + point.v;
 #endif
 }
 
