@@ -10,6 +10,7 @@
 #include <cocos/audio/apple/AudioMacros.h>
 #include <cocos/audio/apple/AudioPlayer.h>
 #include <cocos/audio/include/SimpleAudioEngine.h>
+#include <cocos/base/CCConsole.h>
 
 #include <atomic>
 #include <chrono>

@@ -32,11 +32,11 @@
 #define QUOTEME(x) QUOTEME_(x)
 
 #if defined(COCOS2D_AUDIO_DEBUG) && COCOS2D_AUDIO_DEBUG > 0
-#    define ALOGV(...) cocos2d::log2("V/" LOG_TAG " (" QUOTEME(__LINE__) "): ", __VA_ARGS__)
-#    define ALOGD(...) cocos2d::log2("D/" LOG_TAG " (" QUOTEME(__LINE__) "): ", __VA_ARGS__)
-#    define ALOGI(...) cocos2d::log2("I/" LOG_TAG " (" QUOTEME(__LINE__) "): ", __VA_ARGS__)
-#    define ALOGW(...) cocos2d::log2("W/" LOG_TAG " (" QUOTEME(__LINE__) "): ", __VA_ARGS__)
-#    define ALOGE(...) cocos2d::log2("E/" LOG_TAG " (" QUOTEME(__LINE__) "): ", __VA_ARGS__)
+#    define ALOGV(...) cocos2d::log2("V/ (" QUOTEME(__LINE__) "): ", __VA_ARGS__)
+#    define ALOGD(...) cocos2d::log2("D/ (" QUOTEME(__LINE__) "): ", __VA_ARGS__)
+#    define ALOGI(...) cocos2d::log2("I/ (" QUOTEME(__LINE__) "): ", __VA_ARGS__)
+#    define ALOGW(...) cocos2d::log2("W/ (" QUOTEME(__LINE__) "): ", __VA_ARGS__)
+#    define ALOGE(...) cocos2d::log2("E/ (" QUOTEME(__LINE__) "): ", __VA_ARGS__)
 #else
 #    define ALOGV(...) void(0)
 #    define ALOGD(...) void(0)
@@ -49,7 +49,7 @@
 #    define CHECK_AL_ERROR_DEBUG()                                                                     \
         do                                                                                             \
         {                                                                                              \
-            GLenum __error = alGetError();                                                             \
+            ALenum __error = alGetError();                                                             \
             if (__error)                                                                               \
             {                                                                                          \
                 ALOGE("OpenAL error 0x%04X in %s %s %d\n", __error, __FILE__, __FUNCTION__, __LINE__); \
