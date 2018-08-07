@@ -28,6 +28,7 @@
 
 #    import <Foundation/Foundation.h>
 
+#    include <cocos/base/CCConsole.h>
 #    include <cocos/audio/apple/ALAudioPlayer.h>
 #    include <cocos/audio/apple/AudioCache.h>
 #    include <cocos/audio/apple/AudioDecoder.h>
