@@ -209,7 +209,8 @@ public:
     {
         NONE,
         DEFAULT,
-        POINTER
+        POINTER,
+        PROGRESS
     };
 
     virtual void setCursorShape(CursorShape) {}

@@ -411,6 +411,10 @@ void GLViewImpl::setCursorShape(CursorShape shape)
                 cssName = "pointer";
                 break;
 
+            case CursorShape::PROGRESS:
+                cssName = "progress";
+                break;
+
             case CursorShape::NONE:
                 cssName = "none";
                 break;
