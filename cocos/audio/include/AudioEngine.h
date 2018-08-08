@@ -201,8 +201,8 @@ namespace experimental
          * @param sec       The offset in seconds from the start to seek to.
          * @return
          */
-        [[deprecated("Do not use until setCurrentTime() behavior is specified - see comments in PSAudioEngine.h")]]
-        static bool setCurrentTime(int audioID, float sec);
+        [[deprecated("Do not use until setCurrentTime() behavior is specified - see comments in PSAudioEngine.h")]] static bool
+        setCurrentTime(int audioID, float sec);
 
         /**
          * Gets the current playback position of an audio instance.
