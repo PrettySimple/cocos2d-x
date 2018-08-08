@@ -23,10 +23,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-
-#include <cocos/base/CCConsole.h>
 #include <cocos/audio/apple/AudioDecoder.h>
 #include <cocos/audio/apple/AudioMacros.h>
+#include <cocos/base/CCConsole.h>
 
 #import <AudioToolbox/ExtendedAudioFile.h>
 #import <CoreAudio/CoreAudioTypes.h>

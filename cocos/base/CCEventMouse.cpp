@@ -33,9 +33,10 @@
 NS_CC_BEGIN
 
 EventMouse::EventMouse(MouseEventType mouseEventCode)
-:   Event(Type::MOUSE)
-,   _mouseEventType(mouseEventCode)
-{}
+: Event(Type::MOUSE)
+, _mouseEventType(mouseEventCode)
+{
+}
 
 EventMouse::~EventMouse()
 {
