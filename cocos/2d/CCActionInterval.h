@@ -145,12 +145,12 @@ public:
     static Sequence* create(std::initializer_list<FiniteTimeAction*> actions);
     static Sequence* create(Vector<FiniteTimeAction*> const& actions);
 
-    Sequence* clone() const final;
-    Sequence* reverse() const final;
-    void startWithTarget(Node* target) final;
-    void stop() final;
-    bool isDone() const final;
-    void update(float p) final;
+    Sequence* clone() const override;
+    Sequence* reverse() const override;
+    void startWithTarget(Node* target) override;
+    void stop() override;
+    bool isDone() const override;
+    void update(float p) override;
 };
 
 /** @class Repeat
