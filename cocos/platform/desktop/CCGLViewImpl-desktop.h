@@ -99,7 +99,7 @@ public:
      */
     void enableRetina(bool enabled);
     /** Check whether retina display is enabled. */
-    bool isRetinaEnabled() const { return _isRetinaEnabled; };
+    bool isRetinaEnabled() const { return _isRetinaEnabled; }
 
     /** Get retina factor */
     int getRetinaFactor() const override { return _retinaFactor; }
@@ -114,7 +114,7 @@ public:
 
 protected:
     GLViewImpl(bool initglfw = true);
-    virtual ~GLViewImpl();
+    virtual ~GLViewImpl() override;
 
     bool initWithRect(const std::string& viewName, Rect rect, float frameZoomFactor, bool resizable);
     bool initWithFullScreen(const std::string& viewName);
@@ -162,7 +162,7 @@ public:
     static const std::string EVENT_WINDOW_UNFOCUSED;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(GLViewImpl);
+    CC_DISALLOW_COPY_AND_ASSIGN(GLViewImpl)
 };
 
 NS_CC_END // end of namespace   cocos2d
