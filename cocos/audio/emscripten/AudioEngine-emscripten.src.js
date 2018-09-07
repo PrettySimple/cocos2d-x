@@ -369,7 +369,6 @@ Module.cocos_AudioEngine = (function()
 
 				try
 				{
-					// TODO (perf): check if we can access the file data without copy (eg. mmap()'ing in CPP and providing a pointer here).
 					mp3 = FS.readFile(filePath, { encoding: 'binary' });
 				}
 				catch(e)
