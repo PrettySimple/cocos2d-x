@@ -480,6 +480,10 @@ bool GLProgram::compileShader(GLuint* shader, GLenum type, const GLchar* source,
 #ifdef DEBUG_TEXTURE_SIZE
         "#define DEBUG_TEXTURE_SIZE 1\n",
 #endif
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+        // on webgl accessing a uniform array with a non-constant variable doesn't work
+        "#define PREVENT_UNIFORM_ARRAYS_INDIRECT 1\n",
+#endif
         COCOS2D_SHADER_UNIFORMS,
         convertedDefines.c_str(),
         source

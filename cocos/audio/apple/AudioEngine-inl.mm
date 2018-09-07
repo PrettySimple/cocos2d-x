@@ -542,32 +542,54 @@ ALuint AudioEngineImpl::findValidSource()
 
 void AudioEngineImpl::setVolume(int audioID, float volume)
 {
-    auto player = _audioPlayers[audioID];
-    player->setVolume(volume);
+    auto iter = _audioPlayers.find(audioID);
+    if (iter != _audioPlayers.end())
+    {
+        auto player = iter->second;
+        player->setVolume(volume);
+    }
 }
 
 void AudioEngineImpl::setLoop(int audioID, bool loop)
 {
-    auto player = _audioPlayers[audioID];
-    player->setLoop(loop);
+    auto iter = _audioPlayers.find(audioID);
+    if (iter != _audioPlayers.end())
+    {
+        auto player = iter->second;
+        player->setLoop(loop);
+    }
 }
 
 bool AudioEngineImpl::pause(int audioID)
 {
-    auto player = _audioPlayers[audioID];
-    return player->pause();
+    auto iter = _audioPlayers.find(audioID);
+    if (iter != _audioPlayers.end())
+    {
+        auto player = iter->second;
+        return player->pause();
+    }
+    return false;
 }
 
 bool AudioEngineImpl::resume(int audioID)
 {
-    auto player = _audioPlayers[audioID];
-    return player->resume();
+    auto iter = _audioPlayers.find(audioID);
+    if (iter != _audioPlayers.end())
+    {
+        auto player = iter->second;
+        return player->resume();
+    }
+    return false;
 }
 
 void AudioEngineImpl::stop(int audioID)
 {
-    auto player = _audioPlayers[audioID];
-    player->destroy();
+    auto iter = _audioPlayers.find(audioID);
+    if (iter != _audioPlayers.end())
+    {
+        auto player = iter->second;
+        player->stop();
+    }
 
     // Call 'update' method to cleanup immediately since the schedule may be cancelled without any notification.
     update(0.0f);
@@ -586,9 +608,10 @@ void AudioEngineImpl::stopAll()
 
 std::chrono::milliseconds AudioEngineImpl::getDuration(int audioID)
 {
-    auto player = _audioPlayers[audioID];
-    if (player->isReady())
+    auto iter = _audioPlayers.find(audioID);
+    if (iter != _audioPlayers.end()  &&  iter->second->isReady())
     {
+        auto player = iter->second;
         return player->getDuration();
     }
     else
@@ -599,19 +622,34 @@ std::chrono::milliseconds AudioEngineImpl::getDuration(int audioID)
 
 float AudioEngineImpl::getCurrentTime(int audioID)
 {
-    auto player = _audioPlayers[audioID];
-    return player->getTime();
+    auto iter = _audioPlayers.find(audioID);
+    if (iter != _audioPlayers.end())
+    {
+        auto player = iter->second;
+        return player->getTime();
+    }
+    return 0.0f;
 }
 
 bool AudioEngineImpl::setCurrentTime(int audioID, float time)
 {
-    auto player = _audioPlayers[audioID];
-    return player->setTime(time);
+    auto iter = _audioPlayers.find(audioID);
+    if (iter != _audioPlayers.end())
+    {
+        auto player = iter->second;
+        return player->setTime(time);
+    }
+    return false;
 }
 
 void AudioEngineImpl::setFinishCallback(int audioID, const std::function<void(int, const std::string&)>& callback)
 {
-    _audioPlayers[audioID]->setFinishCallback(callback);
+    auto iter = _audioPlayers.find(audioID);
+    if (iter != _audioPlayers.end())
+    {
+        auto player = iter->second;
+    	player->setFinishCallback(callback);
+    }
 }
 
 void AudioEngineImpl::update(float dt)
