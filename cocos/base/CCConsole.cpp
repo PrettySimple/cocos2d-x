@@ -202,6 +202,9 @@ void log(const char* format, ...)
     va_end(args);
 }
 
+
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN)
+
 //
 //  Utility code
 //
@@ -1524,5 +1527,7 @@ void Console::sendHelp(int fd, const std::map<std::string, Command>& commands, c
         Console::Utility::mydprintf(fd, "%s\n", command.help.c_str());
     }
 }
+
+#endif // #if (CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN)
 
 NS_CC_END
