@@ -30,7 +30,7 @@
 #include <cocos/platform/CCPlatformMacros.h>
 
 #include <iosfwd>
-#include <string>
+#include <string_view>
 
 /**
  * @addtogroup base
@@ -57,7 +57,7 @@ public:
      * @param eventName A given name of the custom event.
      * @js ctor
      */
-    EventCustom(const std::string& eventName);
+    EventCustom(const std::string_view& eventName);
 
     /** Sets user data.
      *
@@ -75,11 +75,11 @@ public:
      *
      * @return The name of the event.
      */
-    inline std::string const& getEventName() const noexcept { return _eventName; }
+    inline std::string_view const& getEventName() const noexcept { return _eventName; }
 
 protected:
     void* _userData = nullptr; ///< User data
-    std::string _eventName;
+    std::string_view _eventName;
 };
 
 NS_CC_END

@@ -42,7 +42,7 @@ NS_CC_BEGIN
 class CC_DLL EventListenerAcceleration : public EventListener
 {
 public:
-    static const std::string LISTENER_ID;
+    static const ListenerID LISTENER_ID;
 
     /** Create a acceleration EventListener.
      *

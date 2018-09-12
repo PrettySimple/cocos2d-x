@@ -46,7 +46,7 @@ class Controller;
 class EventListenerController : public EventListener
 {
 public:
-    static const std::string LISTENER_ID;
+    static const ListenerID LISTENER_ID;
 
     /** Create a controller event listener.
      *

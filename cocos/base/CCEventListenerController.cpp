@@ -30,7 +30,7 @@
 
 NS_CC_BEGIN
 
-const std::string EventListenerController::LISTENER_ID = "__cc_controller";
+const EventListenerController::ListenerID EventListenerController::LISTENER_ID = "__cc_controller";
 
 EventListenerController* EventListenerController::create()
 {

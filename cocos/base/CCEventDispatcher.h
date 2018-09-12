@@ -34,7 +34,7 @@
 #include <cstdint>
 #include <functional>
 #include <set>
-#include <string>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
 
@@ -88,7 +88,7 @@ public:
      * @param callback A given callback method that associated the event name.
      * @return the generated event. Needed in order to remove the event from the dispatcher
      */
-    EventListenerCustom* addCustomEventListener(const std::string& eventName, const std::function<void(EventCustom*)>& callback);
+    EventListenerCustom* addCustomEventListener(const std::string_view& eventName, const std::function<void(EventCustom*)>& callback);
 
     /////////////////////////////////////////////
 
@@ -117,7 +117,7 @@ public:
      *
      * @param customEventName A given event listener name which needs to be removed.
      */
-    void removeCustomEventListeners(const std::string& customEventName);
+    void removeCustomEventListeners(const std::string_view& customEventName);
 
     /** Removes all listeners.
      */
@@ -177,7 +177,7 @@ public:
      * @param eventName The name of the event which needs to be dispatched.
      * @param optionalUserData The optional user data, it's a void*, the default value is nullptr.
      */
-    void dispatchCustomEvent(const std::string& eventName, void* optionalUserData = nullptr);
+    void dispatchCustomEvent(const std::string_view& eventName, void* optionalUserData = nullptr);
 
     /////////////////////////////////////////////
 
@@ -341,7 +341,7 @@ protected:
 
     int _nodePriorityIndex;
 
-    std::set<std::string> _internalCustomListenerIDs;
+    std::set<EventListener::ListenerID> _internalCustomListenerIDs;
 };
 
 NS_CC_END

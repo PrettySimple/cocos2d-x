@@ -28,7 +28,7 @@
 
 NS_CC_BEGIN
 
-const std::string EventListenerKeyboard::LISTENER_ID = "__cc_keyboard";
+const EventListenerKeyboard::ListenerID EventListenerKeyboard::LISTENER_ID = "__cc_keyboard";
 
 bool EventListenerKeyboard::checkAvailable()
 {

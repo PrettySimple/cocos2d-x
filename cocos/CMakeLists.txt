@@ -67,7 +67,7 @@ include(editor-support/spine/CMakeLists.txt)
 set(COCOS_EDITOR_SUPPORT_SRC ${COCOS_EDITOR_SUPPORT_SRC} ${COCOS_SPINE_SRC})
 endif(BUILD_EDITOR_SPINE)
 
-include(extensions/CMakeLists.txt)
+#include(extensions/CMakeLists.txt)
 
 set(COCOS_SRC cocos2d.cpp
     cocos2dpch.cpp
@@ -88,7 +88,7 @@ set(COCOS_SRC cocos2d.cpp
     ${COCOS_DEPRECATED_SRC}
     ${COCOS_NETWORK_SRC}
     ${COCOS_EDITOR_SUPPORT_SRC}
-    ${COCOS_EXTENSIONS_SRC}
+#    ${COCOS_EXTENSIONS_SRC}
     )
 
   #todo: provide prebuild versions of the xx libs for all platforms

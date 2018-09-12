@@ -28,7 +28,7 @@
 
 NS_CC_BEGIN
 
-const std::string EventListenerAcceleration::LISTENER_ID = "__cc_acceleration";
+const EventListenerAcceleration::ListenerID EventListenerAcceleration::LISTENER_ID = "__cc_acceleration";
 
 EventListenerAcceleration::EventListenerAcceleration()
 {

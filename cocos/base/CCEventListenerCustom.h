@@ -65,7 +65,7 @@ public:
      * @param callback The callback function when the specified event was emitted.
      * @return An autoreleased EventListenerCustom object.
      */
-    static EventListenerCustom* create(const std::string& eventName, const std::function<void(EventCustom*)>& callback);
+    static EventListenerCustom* create(const std::string_view& eventName, const std::function<void(EventCustom*)>& callback);
 
     /// Overrides
     virtual bool checkAvailable() override;

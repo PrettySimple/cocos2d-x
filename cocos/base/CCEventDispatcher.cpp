@@ -580,7 +580,7 @@ void EventDispatcher::addEventListenerWithFixedPriority(EventListener* listener,
     addEventListener(listener);
 }
 
-EventListenerCustom* EventDispatcher::addCustomEventListener(const std::string& eventName, const std::function<void(EventCustom*)>& callback)
+EventListenerCustom* EventDispatcher::addCustomEventListener(const std::string_view& eventName, const std::function<void(EventCustom*)>& callback)
 {
     EventListenerCustom* listener = EventListenerCustom::create(eventName, callback);
     addEventListenerWithFixedPriority(listener, 1);
@@ -922,7 +922,7 @@ void EventDispatcher::dispatchEvent(Event* event)
     updateListeners(event);
 }
 
-void EventDispatcher::dispatchCustomEvent(const std::string& eventName, void* optionalUserData)
+void EventDispatcher::dispatchCustomEvent(const std::string_view& eventName, void* optionalUserData)
 {
     EventCustom ev(eventName);
     ev.setUserData(optionalUserData);
@@ -1458,7 +1458,7 @@ void EventDispatcher::removeEventListenersForType(EventListener::Type listenerTy
     }
 }
 
-void EventDispatcher::removeCustomEventListeners(const std::string& customEventName)
+void EventDispatcher::removeCustomEventListeners(const std::string_view& customEventName)
 {
     removeEventListenersForListenerID(customEventName);
 }

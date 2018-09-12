@@ -32,7 +32,7 @@
 
 #include <functional>
 #include <iosfwd>
-#include <string>
+#include <string_view>
 
 /**
  * @addtogroup base
@@ -66,7 +66,8 @@ public:
         CUSTOM
     };
 
-    typedef std::string ListenerID;
+    //typedef std::string ListenerID;
+    using ListenerID = std::string_view;
 
     CC_CONSTRUCTOR_ACCESS :
         /**
