@@ -531,7 +531,7 @@ void RenderTexture::visit(Renderer* renderer, const Mat4& parentTransform, uint3
     // setOrderOfArrival(0);
 }
 
-bool RenderTexture::saveToFile(const std::string& filename, bool isRGBA, std::function<void(RenderTexture*, const std::string&)> callback, bool flipImage)
+bool RenderTexture::saveToFile(const std::string& filename, bool isRGBA, std::function<void(RenderTexture*, const std::string&, bool)> callback, bool flipImage)
 {
     std::string basename(filename);
     std::transform(basename.begin(), basename.end(), basename.begin(), ::tolower);
@@ -554,7 +554,7 @@ bool RenderTexture::saveToFile(const std::string& filename, bool isRGBA, std::fu
     return saveToFile(filename, Image::Format::JPG, false, callback, flipImage);
 }
 
-bool RenderTexture::saveToFile(const std::string& fileName, Image::Format format, bool isRGBA, std::function<void(RenderTexture*, const std::string&)> callback,
+bool RenderTexture::saveToFile(const std::string& fileName, Image::Format format, bool isRGBA, std::function<void(RenderTexture*, const std::string&, bool)> callback,
                                bool flipImage)
 {
     CCASSERT(format == Image::Format::JPG || format == Image::Format::PNG, "the image can only be saved as JPG or PNG format");
@@ -563,7 +563,12 @@ bool RenderTexture::saveToFile(const std::string& fileName, Image::Format format
 
     _saveFileCallback = callback;
 
-    std::string fullpath = FileUtils::getInstance()->getWritablePath() + fileName;
+    std::string fullpath;
+    if (fileName.at(0) == '/')
+        fullpath = fileName;
+    else
+        fullpath = FileUtils::getInstance()->getWritablePath() + fileName;
+
     _saveToFileCommand.init(_globalZOrder);
     _saveToFileCommand.setFunc([this, fullpath, isRGBA, flipImage]() { onSaveToFile(fullpath, isRGBA, flipImage); });
 
@@ -574,13 +579,15 @@ bool RenderTexture::saveToFile(const std::string& fileName, Image::Format format
 void RenderTexture::onSaveToFile(const std::string& filename, bool isRGBA, bool flipImage)
 {
     Image* image = newImage(flipImage);
+    bool success = false;
     if (image)
     {
-        image->saveToFile(filename, !isRGBA);
+        success = image->saveToFile(filename, !isRGBA);
     }
     if (_saveFileCallback)
     {
-        _saveFileCallback(this, filename);
+        _saveFileCallback(this, filename, success);
+        _saveFileCallback = nullptr;
     }
     CC_SAFE_DELETE(image);
 }
