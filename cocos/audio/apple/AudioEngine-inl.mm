@@ -609,7 +609,7 @@ void AudioEngineImpl::stopAll()
 std::chrono::milliseconds AudioEngineImpl::getDuration(int audioID)
 {
     auto iter = _audioPlayers.find(audioID);
-    if (iter != _audioPlayers.end()  &&  iter->second->isReady())
+    if (iter != _audioPlayers.end() && iter->second->isReady())
     {
         auto player = iter->second;
         return player->getDuration();
@@ -648,7 +648,7 @@ void AudioEngineImpl::setFinishCallback(int audioID, const std::function<void(in
     if (iter != _audioPlayers.end())
     {
         auto player = iter->second;
-    	player->setFinishCallback(callback);
+        player->setFinishCallback(callback);
     }
 }
 

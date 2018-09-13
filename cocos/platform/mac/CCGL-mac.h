@@ -29,9 +29,9 @@ THE SOFTWARE.
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#include <OpenGL/gl.h>
-#include <OpenGL/glext.h>
-#include <OpenGL/glu.h>
+#    include <OpenGL/gl.h>
+#    include <OpenGL/glext.h>
+#    include <OpenGL/glu.h>
 
 #    define CC_GL_DEPTH24_STENCIL8 -1
 

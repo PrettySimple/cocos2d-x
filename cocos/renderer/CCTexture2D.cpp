@@ -1284,8 +1284,8 @@ void Texture2D::generateMipmap()
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     VolatileTextureMgr::setHasMipmaps(this, _hasMipmaps);
 #endif
-    
-    _antialiasEnabled = false;      // force an update
+
+    _antialiasEnabled = false; // force an update
     setAntiAliasTexParameters();
 }
 

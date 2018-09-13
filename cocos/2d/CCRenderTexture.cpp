@@ -554,8 +554,8 @@ bool RenderTexture::saveToFile(const std::string& filename, bool isRGBA, std::fu
     return saveToFile(filename, Image::Format::JPG, false, callback, flipImage);
 }
 
-bool RenderTexture::saveToFile(const std::string& fileName, Image::Format format, bool isRGBA, std::function<void(RenderTexture*, const std::string&, bool)> callback,
-                               bool flipImage)
+bool RenderTexture::saveToFile(const std::string& fileName, Image::Format format, bool isRGBA,
+                               std::function<void(RenderTexture*, const std::string&, bool)> callback, bool flipImage)
 {
     CCASSERT(format == Image::Format::JPG || format == Image::Format::PNG, "the image can only be saved as JPG or PNG format");
     if (isRGBA && format == Image::Format::JPG)
