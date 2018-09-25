@@ -82,7 +82,8 @@ namespace utils
 
         auto glView = Director::getInstance()->getOpenGLView();
         auto frameSize = glView->getFrameSize();
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX) || (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX) || \
+    (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
         frameSize = frameSize * glView->getFrameZoomFactor() * glView->getRetinaFactor();
 #endif
 
