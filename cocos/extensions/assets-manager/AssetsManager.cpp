@@ -234,8 +234,7 @@ void AssetsManager::downloadAndUncompress()
         } while (0);
 
         _isDownloading = false;
-    })
-        .detach();
+    }).detach();
 }
 
 void AssetsManager::update()
