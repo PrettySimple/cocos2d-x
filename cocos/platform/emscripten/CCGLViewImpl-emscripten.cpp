@@ -924,7 +924,7 @@ void GLViewImpl::deleteEGLContext() noexcept
 void GLViewImpl::updateCanvasSize(int width, int height) noexcept
 {
     const bool sendEnvent = _screenSize.width > 0 && _screenSize.height > 0 && (_screenSize.width != width || _screenSize.height != height);
-    setFrameSize(std::ceil(width / _retinaFactor), std::ceil(height / _retinaFactor));
+    setFrameSize(std::ceil(static_cast<float>(width) / _retinaFactor), std::ceil(static_cast<float>(height) / _retinaFactor));
     if (_resolutionPolicy != ResolutionPolicy::UNKNOWN)
     {
         Size baseDesignSize = _designResolutionSize;
