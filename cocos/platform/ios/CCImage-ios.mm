@@ -104,6 +104,7 @@ bool cocos2d::Image::saveToFile(const std::string& filename, bool isToRGB)
     CGDataProviderRelease(provider);
 
     // NOTE: Prevent memory leak. Requires ARC enabled.
+    BOOL success = FALSE;
     @autoreleasepool
     {
         NSData* data;
@@ -115,7 +116,7 @@ bool cocos2d::Image::saveToFile(const std::string& filename, bool isToRGB)
         {
             data = UIImageJPEGRepresentation(image, 1.0f);
         }
-        [data writeToFile:[NSString stringWithUTF8String:filename.c_str()] atomically:YES];
+        success = [data writeToFile:[NSString stringWithUTF8String:filename.c_str()] atomically:YES];
     }
 
     [image release];
@@ -125,7 +126,7 @@ bool cocos2d::Image::saveToFile(const std::string& filename, bool isToRGB)
         delete[] pixels;
     }
 
-    return true;
+    return success;
 }
 
 NS_CC_END
