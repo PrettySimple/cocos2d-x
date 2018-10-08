@@ -222,7 +222,7 @@ static EventKeyboard::KeyCode findKeyFromHTML5Key(const char* key) noexcept
 
 extern "C" EM_BOOL keyCb(int eventType, const EmscriptenKeyboardEvent* e, void* userData)
 {
-    (void)userData;	// Unused for now
+    (void)userData; // Unused for now
 
     auto key = findKeyFromHTML5Key(e->key);
     if (key == EventKeyboard::KeyCode::KEY_NONE)
@@ -246,17 +246,29 @@ extern "C" EM_BOOL keyCb(int eventType, const EmscriptenKeyboardEvent* e, void* 
 */
 
 GLViewImpl::GLViewImpl()
-: _display(EGL_NO_DISPLAY)
-, _context(EGL_NO_CONTEXT)
-, _surface(EGL_NO_SURFACE)
-, _config(nullptr)
-, _retinaFactor(emscripten_get_device_pixel_ratio())
-, _currentCursorShape(CursorShape::DEFAULT)
-, _mouseMoveInjector()
-, _mouseCaptured(false)
-, _fullscreen(false)
-, _screenSizeBeforeFullscreen(Size::ZERO)
+:   _display(EGL_NO_DISPLAY)
+,   _context(EGL_NO_CONTEXT)
+,   _surface(EGL_NO_SURFACE)
+,   _config(nullptr)
+
+,   _retinaFactor(static_cast<float>(emscripten_get_device_pixel_ratio()))
+,   _retinaChangeDetector([this]() { handleRetinaFactorChange(); })
+
+,   _currentCursorShape(CursorShape::DEFAULT)
+,   _mouseMoveInjector()
+,   _mouseCaptured(false)
+
+,   _fullscreen(false)
+
 {
+    // Retrieve the windowed (non-fullscreen) canvas size. We prefer fetching it this way rather than passing/reading from the javascript bootstrap.
+    {
+        int isFullscreen;   // Ignored - starting in fullscreen isn't supported
+        emscripten_get_canvas_size(&_windowedCanvasWidth, &_windowedCanvasHeight, &isFullscreen);
+        // printf("### emscripten_get_canvas_size(): (%d, %d)\n", _windowedCanvasWidth, _windowedCanvasHeight);
+        assert(!isFullscreen);
+    }
+
     registerEvents();
     createEGLContext();
 }
@@ -464,24 +476,82 @@ Rect GLViewImpl::getScissorRect() const
 
 /************************************************************************************************************************************/
 /*
+    Retina handling
+*/
+
+void    GLViewImpl::applyRetinaCSSHack() noexcept
+{
+    // Multiplying the actual canvas size by _retinaFactor, while leaving the CSS size unchanged.
+    // See: https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio
+
+    // Must not be invoked in fullscreen mode, which is handled for us by Emscripten's fullscreen strategy
+    assert(!_fullscreen);
+
+    EM_ASM_(
+        {
+            (function(width, height)
+            {
+                'use strict';
+                var canvas = document.getElementById('canvas');
+                canvas.width = width;
+                canvas.height = height;
+            })($0, $1);
+        },
+        static_cast<int>(std::ceil(_windowedCanvasWidth * _retinaFactor)),
+        static_cast<int>(std::ceil(_windowedCanvasHeight * _retinaFactor))
+    );
+}
+
+void    GLViewImpl::handleRetinaFactorChange() noexcept
+{
+    /*
+        We don't attempt to deal with retina change in fullscreen mode because:
+
+            * Retina (that is, canvas-size vs css-size) is dealt with automatically by Emscripten's fullscreen strategy
+            * I guess it cannot occur anyway
+    */
+
+    if(!_fullscreen)
+    {
+        /*
+        const auto retinaFactor = static_cast<float>(emscripten_get_device_pixel_ratio());
+        printf("### RETINA FACTOR CHANGED FROM %f TO %f\n", _retinaFactor, retinaFactor);
+        _retinaFactor = retinaFactor;
+        */
+
+        _retinaFactor = static_cast<float>(emscripten_get_device_pixel_ratio());
+
+        // The first approach was to emulate the context lost/restore, but it was awfully slow.
+        // Surprisingly, this works as well!
+
+        applyRetinaCSSHack();
+
+        updateCanvasSize({ static_cast<float>(_windowedCanvasWidth), static_cast<float>(_windowedCanvasHeight) });
+    }
+}
+
+
+
+/************************************************************************************************************************************/
+/*
     Fullscreen management
 */
 
 bool GLViewImpl::setFullscreen(bool fullscreen) noexcept
 {
     static EmscriptenFullscreenStrategy strategy{
-        // scaleMode									//		Result		Changes to the canvas element					Changed to the body element
+        // scaleMode                                    //      Result      Changes to the canvas element                   Changed to the body element
         // ----------------------------------------------------------------------------------------------------------------------------------------------------------
-        // EMSCRIPTEN_FULLSCREEN_SCALE_DEFAULT,			//		OK			+"background-color: black;"						+"background-color: black;"
-        EMSCRIPTEN_FULLSCREEN_SCALE_STRETCH, //		OK			+"background-color: black;"						+"background-color: black;"
-        // EMSCRIPTEN_FULLSCREEN_SCALE_ASPECT,			//		NOK			+"padding: 0px 160px;background-color: black;"	+"background-color: black;"
-        //																	Removing the padding gives the same results as the other modes
+        // EMSCRIPTEN_FULLSCREEN_SCALE_DEFAULT,         //      OK          +"background-color: black;"                     +"background-color: black;"
+        EMSCRIPTEN_FULLSCREEN_SCALE_STRETCH,            //      OK          +"background-color: black;"                     +"background-color: black;"
+        // EMSCRIPTEN_FULLSCREEN_SCALE_ASPECT,          //      NOK         +"padding: 0px 160px;background-color: black;"  +"background-color: black;"
+        //                                                                  Removing the padding gives the same results as the other modes
 
-        // canvasResolutionScaleMode					//		Result
+        // canvasResolutionScaleMode                    //      Result
         // ----------------------------------------------------------------------------------------------------------------------------------------------------------
-        // EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE,		//		OK
-        // EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_STDDEF,	//		OK
-        EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_HIDEF, //		OK
+        // EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE,     //      OK
+        // EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_STDDEF,   //      OK
+        EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_HIDEF,       //      OK          Handles retina displays.
 
         // filteringMode
         // ----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -489,24 +559,37 @@ bool GLViewImpl::setFullscreen(bool fullscreen) noexcept
         // EMSCRIPTEN_FULLSCREEN_FILTERING_NEAREST,
         // EMSCRIPTEN_FULLSCREEN_FILTERING_BILINEAR,
 
-        // canvasResizedCallback						// Doesn't receive any information, invoked only when returning to windowed mode
+        // canvasResizedCallback                        // Doesn't receive any information, invoked only when returning to windowed mode
         // ----------------------------------------------------------------------------------------------------------------------------------------------------------
         nullptr,
         //[](int, const void*, void*) { printf("*** canvasResizedCallback()\n"); return EM_TRUE; },
 
         // canvasResizedCallbackUserData
         // ----------------------------------------------------------------------------------------------------------------------------------------------------------
-        nullptr};
+        nullptr
+     };
 
     if (fullscreen == _fullscreen)
         return false;
 
     // We don't change the _fullscreen flag here, it is only done in the callback
 
-    if (fullscreen)
-        return emscripten_request_fullscreen_strategy("canvas", EM_FALSE, &strategy) == EMSCRIPTEN_RESULT_SUCCESS;
+    // We're disabling the retina change detection, as we don't want it to interfer with the fullscreen change.
+    // It will get re-enabled in the fullscreen callback, or immediately if our change request fails.
 
-    return emscripten_exit_fullscreen() == EMSCRIPTEN_RESULT_SUCCESS;
+    _retinaChangeDetector.pauseChecks();
+
+    bool success;
+
+    if(fullscreen)
+        success = (emscripten_request_fullscreen_strategy("canvas", EM_FALSE, &strategy) == EMSCRIPTEN_RESULT_SUCCESS);
+    else
+        success = (emscripten_exit_fullscreen() == EMSCRIPTEN_RESULT_SUCCESS);
+
+    if(!success)
+        _retinaChangeDetector.resumeChecks();
+
+    return success;
 }
 
 /************************************************************************************************************************************/
@@ -516,6 +599,7 @@ bool GLViewImpl::setFullscreen(bool fullscreen) noexcept
 
 void GLViewImpl::em_webglContextLostEvent() noexcept
 {
+    _retinaChangeDetector.pauseChecks();    // Restored (indirectly) by em_webglContextRestoredEvent()
     Director::getInstance()->stopAnimation();
     deleteEGLContext();
 }
@@ -533,6 +617,7 @@ void GLViewImpl::em_webglContextRestoredEvent() noexcept
     director->getEventDispatcher()->dispatchEvent(&recreatedEvent);
     director->setGLDefaultValues();
 
+    // Indirectly resumes the _retinaChangeDetector checks
     createEGLContext();
 
     director->startAnimation();
@@ -542,29 +627,16 @@ void GLViewImpl::em_fullscreenEvent(const EmscriptenFullscreenChangeEvent* e) no
 {
     _fullscreen = (e->isFullscreen == EM_TRUE);
 
-    if (_fullscreen)
-    {
-        /*
-        printf("*** _screenSize(%f, %f)\n", _screenSize.width, _screenSize.height);
-        printf("*** e->screen*(%d, %d)\n", e->screenWidth, e->screenHeight);
-        printf("*** e->element*(%d, %d)\n", e->elementWidth, e->elementHeight);
+    /*
+        All of { e->elementWidth, e->elementHeight, e->screenWidth, e->screenHeight } seem to be set to "correct" values ONLY if e->isFullscreen;
+        When returning from fullscreen, same values as when going into fullscreen are provided.
+        Moreover, they seem to be CSS sizes, not pixels.
+    */
 
-        printf("*** (fullscreen) emscripten_get_device_pixel_ratio(): %f\n", emscripten_get_device_pixel_ratio());
-        */
-
-        _screenSizeBeforeFullscreen = _screenSize * _retinaFactor;
-        emscripten_set_canvas_size(e->screenWidth, e->screenHeight);
-        updateCanvasSize(e->screenWidth, e->screenHeight);
-    }
+    if(_fullscreen)
+        updateCanvasSize({ static_cast<float>(e->screenWidth), static_cast<float>(e->screenHeight) });
     else
-    {
-        /*
-        printf("*** (canvas) emscripten_get_device_pixel_ratio(): %f\n", emscripten_get_device_pixel_ratio());
-        */
-
-        emscripten_set_canvas_size(_screenSizeBeforeFullscreen.width, _screenSizeBeforeFullscreen.height);
-        updateCanvasSize(_screenSizeBeforeFullscreen.width, _screenSizeBeforeFullscreen.height);
-    }
+        updateCanvasSize({ static_cast<float>(_windowedCanvasWidth), static_cast<float>(_windowedCanvasHeight) });
 
     // Pause mouse move injections until the next move, as the coordinates we previously computed are no longer accurate.
     _mouseMoveInjector.pauseInject();
@@ -577,6 +649,9 @@ void GLViewImpl::em_fullscreenEvent(const EmscriptenFullscreenChangeEvent* e) no
 
     // => Notify the application
     Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(GLViewImpl::EVENT_FULLSCREEN_CHANGED, reinterpret_cast<void*>(_fullscreen));
+
+    // => Resume the retina detection checks, which was paused in setFullscreen()
+    _retinaChangeDetector.resumeChecks();
 }
 
 void GLViewImpl::em_mouseEvent(int eventType, const EmscriptenMouseEvent* mouseEvent) noexcept
@@ -628,8 +703,9 @@ void GLViewImpl::em_mouseEvent(int eventType, const EmscriptenMouseEvent* mouseE
 
     */
 
-    float cursorX = (mouseEvent->targetX / _retinaFactor);
-    float cursorY = (mouseEvent->targetY / _retinaFactor);
+    float cursorX = mouseEvent->targetX;
+    float cursorY = mouseEvent->targetY;
+
     float designX, designY;
     bool mouseOutside;
 
@@ -840,6 +916,9 @@ void GLViewImpl::handleMouseScroll(float posX, float posY, float deltaX, float d
 
 void GLViewImpl::createEGLContext() noexcept
 {
+    if(!_fullscreen)
+        applyRetinaCSSHack();
+
     _display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     assert(_display != EGL_NO_DISPLAY);
     assert(eglGetError() == EGL_SUCCESS);
@@ -895,8 +974,14 @@ void GLViewImpl::createEGLContext() noexcept
         eglQuerySurface(_display, _surface, EGL_WIDTH, &width);
         eglQuerySurface(_display, _surface, EGL_HEIGHT, &height);
 
-        updateCanvasSize(width, height);
+        // Since we may be invoked from fullscreen as well (eg. due to a context loss while in fullscreen),
+        // use the actual, eglQuery'd size. When doing so, we need to take the _retinaFactor into account...
+
+        updateCanvasSize(cocos2d::Size(static_cast<float>(width), static_cast<float>(height)) / _retinaFactor);
     }
+
+    // Retina change detection is started/resumed here
+    _retinaChangeDetector.resumeChecks();
 }
 
 void GLViewImpl::deleteEGLContext() noexcept
@@ -921,21 +1006,26 @@ void GLViewImpl::deleteEGLContext() noexcept
     _display = EGL_NO_DISPLAY;
 }
 
-void GLViewImpl::updateCanvasSize(int width, int height) noexcept
+void GLViewImpl::updateCanvasSize(const cocos2d::Size& canvasSize) noexcept
 {
-    const bool sendEnvent = _screenSize.width > 0 && _screenSize.height > 0 && (_screenSize.width != width || _screenSize.height != height);
-    setFrameSize(std::ceil(width / _retinaFactor), std::ceil(height / _retinaFactor));
-    if (_resolutionPolicy != ResolutionPolicy::UNKNOWN)
-    {
-        Size baseDesignSize = _designResolutionSize;
-        ResolutionPolicy baseResolutionPolicy = _resolutionPolicy;
-        setDesignResolutionSize(baseDesignSize.width, baseDesignSize.height, baseResolutionPolicy);
-    }
+    //printf("### updateCanvasSize(%f, %f)\n", canvasSize.width, canvasSize.height);
+
+    const auto&  prevFrameSize = getFrameSize();
+
+    setFrameSize(canvasSize.width, canvasSize.height);
+
+    if(_resolutionPolicy != ResolutionPolicy::UNKNOWN)
+        setDesignResolutionSize(_designResolutionSize.width, _designResolutionSize.height, _resolutionPolicy);
+
     Director::getInstance()->setViewport();
 
-    if (sendEnvent)
+    if(!getFrameSize().equals(prevFrameSize))
         Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(GLViewImpl::EVENT_WINDOW_RESIZED, nullptr);
 }
+
+
+
+
 
 NS_CC_END
 
