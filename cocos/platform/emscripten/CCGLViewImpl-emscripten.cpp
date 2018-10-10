@@ -24,6 +24,8 @@
 #    include <cstring>
 #    include <emscripten/emscripten.h>
 #    include <limits>
+#    include <chrono>
+
 
 NS_CC_BEGIN
 
@@ -257,6 +259,9 @@ GLViewImpl::GLViewImpl()
 ,   _currentCursorShape(CursorShape::DEFAULT)
 ,   _mouseMoveInjector()
 ,   _mouseCaptured(false)
+
+,   _inertiaScrollX()
+,   _inertiaScrollY()
 
 ,   _fullscreen(false)
 
@@ -830,10 +835,7 @@ void GLViewImpl::em_wheelEvent(const EmscriptenWheelEvent* wheelEvent) noexcept
         // nor a way to feature-detect them.
         // Meanwhile, we're using arbitrary 12x and 120x multipliers.
         // That being said, I was unable to trigger anything else but DOM_DELTA_PIXEL...
-
-        // Also, we should consider implementing something like:
-        //  https://github.com/d4nyll/lethargy
-        // in order to ignore the "inertial scrolling" events sent by some browsers/OS (specifically trackpad scrolling on OSX - may take seconds to stop).
+        // EDIT: check this FB's code for normalizing: https://github.com/facebookarchive/fixed-data-table/blob/master/src/vendor_upstream/dom/normalizeWheel.js
 
         cocos2d::Vec2   pxDelta{ static_cast<float>(wheelEvent->deltaX), static_cast<float>(wheelEvent->deltaY) };
         const char      *deltaMode;
@@ -862,20 +864,35 @@ void GLViewImpl::em_wheelEvent(const EmscriptenWheelEvent* wheelEvent) noexcept
                 deltaMode = "DOM_DELTA_UNKNOWN";
         }
 
-        const float designDeltaX = pxDelta.x / getScaleX(), designDeltaY = pxDelta.y / getScaleY();
 
-        EM_STICKY(WHEEL);
-        EM_STICKY_PRINT("wheelCb(): INPUT:  deltaX: %f, deltaY: %f, deltaZ: %f, deltaMode: %s\n", wheelEvent->deltaX, wheelEvent->deltaY, wheelEvent->deltaZ,
-                        deltaMode);
-        EM_STICKY_PRINT("wheelCb(): PIXELS: deltaX: %f, deltaY: %f\n", pxDelta.x, pxDelta.y);
-        EM_STICKY_PRINT("wheelCb(): COCOS:  deltaX: %f, deltaY: %f\n", designDeltaX, designDeltaY);
+        // Detect "inertia scroll" situations, and ignore the event altogether if we happen to be in one.
 
-        handleMouseScroll(designX, designY, designDeltaX, designDeltaY);
+        // Both must be evaluated before being ||'d, as the function is not const.
+        auto    ignoreX = _inertiaScrollX.inInertiaScroll(pxDelta.x);
+        auto    ignoreY = _inertiaScrollY.inInertiaScroll(pxDelta.y);
+
+        if(!ignoreX || !ignoreY)
+        {
+            const float designDeltaX = pxDelta.x / getScaleX(), designDeltaY = pxDelta.y / getScaleY();
+
+            EM_STICKY(WHEEL);
+            EM_STICKY_PRINT("wheelCb(): INPUT:  deltaX: %f, deltaY: %f, deltaZ: %f, deltaMode: %s\n", wheelEvent->deltaX, wheelEvent->deltaY, wheelEvent->deltaZ,
+                            deltaMode);
+            EM_STICKY_PRINT("wheelCb(): PIXELS: deltaX: %f, deltaY: %f\n", pxDelta.x, pxDelta.y);
+            EM_STICKY_PRINT("wheelCb(): COCOS:  deltaX: %f, deltaY: %f\n", designDeltaX, designDeltaY);
+
+            handleMouseScroll(designX, designY, designDeltaX, designDeltaY);
+        }
+        else
+        {
+            EM_STICKY(WHEEL);
+            EM_STICKY_PRINT("wheelCb(): Detected inertia scroll, ignoring");
+        }
     }
     else
     {
         EM_STICKY(WHEEL);
-        EM_STICKY_PRINT("wheelCb(): ignoring input (mouse captured or position unknown)\n");
+        EM_STICKY_PRINT("wheelCb(): Ignoring input (mouse captured or position unknown)\n");
     }
 }
 

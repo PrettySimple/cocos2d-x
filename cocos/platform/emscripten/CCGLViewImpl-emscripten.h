@@ -3,6 +3,7 @@
 
 #include "CCInjectMouseMove-emscripten.h"
 #include "CCDetectRetinaChange-emscripten.h"
+#include "CCDetectInertiaScroll-emscripten.h"
 #include <cocos/base/CCRef.h>
 #include <cocos/math/CCGeometry.h>
 #include <cocos/platform/CCCommon.h>
@@ -90,6 +91,9 @@ private:
     CursorShape         _currentCursorShape;
     InjectMouseMove     _mouseMoveInjector;
     bool                _mouseCaptured;
+
+    DetectInertiaScroll _inertiaScrollX;
+    DetectInertiaScroll _inertiaScrollY;
 
     bool                _fullscreen;
 
