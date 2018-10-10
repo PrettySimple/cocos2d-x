@@ -1012,10 +1012,12 @@ void GLViewImpl::updateCanvasSize(const cocos2d::Size& canvasSize) noexcept
     // Vary the resolution policy depending on _fullscreen.
     setDesignResolutionSize(_designResolutionSize.width, _designResolutionSize.height, _fullscreen ? ResolutionPolicy::SHOW_ALL : ResolutionPolicy::FIXED_HEIGHT);
 
-    Director::getInstance()->setViewport();
+    auto    director = Director::getInstance();
+
+    director->setViewport();
 
     if(!getFrameSize().equals(prevFrameSize))
-        Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(GLViewImpl::EVENT_WINDOW_RESIZED, nullptr);
+        director->getEventDispatcher()->dispatchCustomEvent(GLViewImpl::EVENT_WINDOW_RESIZED, nullptr);
 }
 
 
