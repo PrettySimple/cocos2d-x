@@ -513,12 +513,6 @@ void    GLViewImpl::handleRetinaFactorChange() noexcept
 
     if(!_fullscreen)
     {
-        /*
-        const auto retinaFactor = static_cast<float>(emscripten_get_device_pixel_ratio());
-        printf("### RETINA FACTOR CHANGED FROM %f TO %f\n", _retinaFactor, retinaFactor);
-        _retinaFactor = retinaFactor;
-        */
-
         _retinaFactor = static_cast<float>(emscripten_get_device_pixel_ratio());
 
         // The first approach was to emulate the context lost/restore, but it was awfully slow.
@@ -703,8 +697,8 @@ void GLViewImpl::em_mouseEvent(int eventType, const EmscriptenMouseEvent* mouseE
 
     */
 
-    float cursorX = mouseEvent->targetX;
-    float cursorY = mouseEvent->targetY;
+    auto cursorX = static_cast<float>(mouseEvent->targetX);
+    auto cursorY = static_cast<float>(mouseEvent->targetY);
 
     float designX, designY;
     bool mouseOutside;
@@ -714,7 +708,7 @@ void GLViewImpl::em_mouseEvent(int eventType, const EmscriptenMouseEvent* mouseE
     else
     {
         /*
-            We need to figure out whether the mouse is actually over the rendered area.
+            We need to figure out whether the mouse is actually over the rendered area (ie. it may be over the fullscreen side black borders).
             If not, set mouseOutside to true, so that the event is treated the same as EMSCRIPTEN_EVENT_MOUSELEAVE.
         */
 
@@ -832,47 +826,48 @@ void GLViewImpl::em_wheelEvent(const EmscriptenWheelEvent* wheelEvent) noexcept
 
     if (!_mouseCaptured && _mouseMoveInjector.getLastKnownPosition(designX, designY))
     {
-        // All browsers tested so far provide delta in lines, yet support all the delta modes
+        // I couldn't find a consistent, cross platform and cross browser to-pixels multipliers for DOM_DELTA_LINE and DOM_DELTA_PAGE modes,
+        // nor a way to feature-detect them.
+        // Meanwhile, we're using arbitrary 12x and 120x multipliers.
+        // That being said, I was unable to trigger anything else but DOM_DELTA_PIXEL...
 
-        float pxDeltaX, pxDeltaY;
-        const char* deltaMode;
+        // Also, we should consider implementing something like:
+        //  https://github.com/d4nyll/lethargy
+        // in order to ignore the "inertial scrolling" events sent by some browsers/OS (specifically trackpad scrolling on OSX - may take seconds to stop).
+
+        cocos2d::Vec2   pxDelta{ static_cast<float>(wheelEvent->deltaX), static_cast<float>(wheelEvent->deltaY) };
+        const char      *deltaMode;
 
         (void)deltaMode;
 
         switch (wheelEvent->deltaMode)
         {
             case DOM_DELTA_PIXEL:
-                pxDeltaX = wheelEvent->deltaX;
-                pxDeltaY = wheelEvent->deltaY;
                 deltaMode = "DOM_DELTA_PIXEL";
                 break;
 
             case DOM_DELTA_LINE:
                 // Using a somehow arbitrary multiplier...
-                pxDeltaX = wheelEvent->deltaX * 12.f;
-                pxDeltaY = wheelEvent->deltaY * 12.f;
+                pxDelta *= 12.f;
                 deltaMode = "DOM_DELTA_LINE";
                 break;
 
             case DOM_DELTA_PAGE:
                 // Using a somehow arbitrary multiplier...
-                pxDeltaX = wheelEvent->deltaX * 120.f;
-                pxDeltaY = wheelEvent->deltaY * 120.f;
+                pxDelta *= 120.f;
                 deltaMode = "DOM_DELTA_PAGE";
                 break;
 
             default:
-                pxDeltaX = wheelEvent->deltaX;
-                pxDeltaY = wheelEvent->deltaY;
                 deltaMode = "DOM_DELTA_UNKNOWN";
         }
 
-        const float designDeltaX = pxDeltaX / getScaleX(), designDeltaY = pxDeltaY / getScaleY();
+        const float designDeltaX = pxDelta.x / getScaleX(), designDeltaY = pxDelta.y / getScaleY();
 
         EM_STICKY(WHEEL);
         EM_STICKY_PRINT("wheelCb(): INPUT:  deltaX: %f, deltaY: %f, deltaZ: %f, deltaMode: %s\n", wheelEvent->deltaX, wheelEvent->deltaY, wheelEvent->deltaZ,
                         deltaMode);
-        EM_STICKY_PRINT("wheelCb(): PIXELS: deltaX: %f, deltaY: %f\n", pxDeltaX, pxDeltaY);
+        EM_STICKY_PRINT("wheelCb(): PIXELS: deltaX: %f, deltaY: %f\n", pxDelta.x, pxDelta.y);
         EM_STICKY_PRINT("wheelCb(): COCOS:  deltaX: %f, deltaY: %f\n", designDeltaX, designDeltaY);
 
         handleMouseScroll(designX, designY, designDeltaX, designDeltaY);
@@ -1014,8 +1009,8 @@ void GLViewImpl::updateCanvasSize(const cocos2d::Size& canvasSize) noexcept
 
     setFrameSize(canvasSize.width, canvasSize.height);
 
-    if(_resolutionPolicy != ResolutionPolicy::UNKNOWN)
-        setDesignResolutionSize(_designResolutionSize.width, _designResolutionSize.height, _resolutionPolicy);
+    // Vary the resolution policy depending on _fullscreen.
+    setDesignResolutionSize(_designResolutionSize.width, _designResolutionSize.height, _fullscreen ? ResolutionPolicy::SHOW_ALL : ResolutionPolicy::FIXED_HEIGHT);
 
     Director::getInstance()->setViewport();
 
