@@ -33,7 +33,6 @@ The below functions achieve this.
 namespace
 {
     static bool glErrorWrapperToggle = false;
-    static bool glErrorUserSaveSync = false;
     static GLenum gl_error_bits = GL_NO_ERROR; // 0 as per spec
     static EGLint egl_error = EGL_SUCCESS;
 } // namespace
@@ -47,16 +46,18 @@ EGLint wrappedEGLErrorGet();
 void glErrorWrapperEnable(bool toggle)
 {
     glErrorWrapperToggle = toggle;
-    glErrorUserSaveSync = true;
     cocos2d::UserDefault::getInstance()->setBoolForKey("glErrorWrapperToggle", toggle);
 }
 
 bool glErrorWrapperEnabled()
 {
-    if (!glErrorUserSaveSync)
+    static bool cached = false;
+
+    if(!cached)
     {
+        // Avoid expensive read from UserDefault on every call.
         glErrorWrapperToggle = cocos2d::UserDefault::getInstance()->getBoolForKey("glErrorWrapperToggle", false);
-        glErrorUserSaveSync = true;
+        cached = true;
     }
 
     return glErrorWrapperToggle;

@@ -665,7 +665,14 @@ void Scheduler::update(float dt)
 {
     if (std::abs(_timeScale - 1.f) >= std::numeric_limits<float>::epsilon())
     {
-        dt *= _timeScale;
+        if (_timeScale < 1.f)
+        {
+            dt = std::ceil(dt * _timeScale * 1000) * 0.001f;
+        }
+        else
+        {
+            dt *= _timeScale;
+        }
     }
 
     // update selectors

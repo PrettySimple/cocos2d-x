@@ -109,6 +109,8 @@ set(COCOS_PLATFORM_SPECIFIC_SRC
   platform/emscripten/CCFileUtils-emscripten.cpp
   platform/emscripten/CCGLViewImpl-emscripten.cpp
   platform/emscripten/CCInjectMouseMove-emscripten.cpp
+  platform/emscripten/CCDetectRetinaChange-emscripten.cpp
+  platform/emscripten/CCDetectInertiaScroll-emscripten.cpp
   platform/emscripten/CCStdC-emscripten.cpp
   platform/emscripten/CCUserDefault-emscripten.cpp
   platform/emscripten/CCGL-emscripten.cpp
