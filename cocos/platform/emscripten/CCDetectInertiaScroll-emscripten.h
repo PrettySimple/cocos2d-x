@@ -36,33 +36,30 @@
 
 */
 
-
 #include <chrono>
 
 NS_CC_BEGIN
 
 class DetectInertiaScroll
 {
-    private:
+private:
+    bool _inInertiaState;
+    uint8_t _subsequentLowerDeltaCounter;
+    float _previousDeltaAbsolute;
+    bool _previousDeltaPositive;
+    std::chrono::milliseconds _previousDeltaTime;
 
-        bool                        _inInertiaState;
-        uint8_t                     _subsequentLowerDeltaCounter;
-        float                       _previousDeltaAbsolute;
-        bool                        _previousDeltaPositive;
-        std::chrono::milliseconds   _previousDeltaTime;
+public:
+    DetectInertiaScroll();
 
-    public:
+    DetectInertiaScroll(const DetectInertiaScroll&) = delete;
+    DetectInertiaScroll& operator=(const DetectInertiaScroll&) = delete;
+    DetectInertiaScroll(DetectInertiaScroll&&) noexcept = delete;
+    DetectInertiaScroll& operator=(DetectInertiaScroll&&) noexcept = delete;
+    ~DetectInertiaScroll() = default;
 
-        DetectInertiaScroll();
-
-        DetectInertiaScroll(const DetectInertiaScroll&) = delete;
-        DetectInertiaScroll& operator=(const DetectInertiaScroll&) = delete;
-        DetectInertiaScroll(DetectInertiaScroll&&) noexcept = delete;
-        DetectInertiaScroll& operator=(DetectInertiaScroll&&) noexcept = delete;
-        ~DetectInertiaScroll() = default;
-
-        // Event should be discarded altogether if inInertiaScroll() returns true.
-        bool    inInertiaScroll(float delta);
+    // Event should be discarded altogether if inInertiaScroll() returns true.
+    bool inInertiaScroll(float delta);
 };
 
 NS_CC_END

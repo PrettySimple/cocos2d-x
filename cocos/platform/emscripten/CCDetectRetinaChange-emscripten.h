@@ -24,15 +24,13 @@ class CC_DLL DetectRetinaChange : public Node
     friend class GLViewImpl;
 
 public:
-
     using callback_t = std::function<void()>;
 
 private:
-    float       _retinaFactor;
-    callback_t  _changeCallback;
+    float _retinaFactor;
+    callback_t _changeCallback;
 
 private:
-
     DetectRetinaChange(const callback_t&);
 
     DetectRetinaChange() = delete;
@@ -44,12 +42,11 @@ private:
 
     // Making methods public as some are invoked from GLViewImpl's extern "C" functions.
 public:
-
-    void    pauseChecks();
-    void    resumeChecks();
+    void pauseChecks();
+    void resumeChecks();
 
 private:
-    void    _check(float);
+    void _check(float);
 };
 
 NS_CC_END

@@ -53,7 +53,7 @@ bool glErrorWrapperEnabled()
 {
     static bool cached = false;
 
-    if(!cached)
+    if (!cached)
     {
         // Avoid expensive read from UserDefault on every call.
         glErrorWrapperToggle = cocos2d::UserDefault::getInstance()->getBoolForKey("glErrorWrapperToggle", false);

@@ -1,9 +1,9 @@
 #ifndef __CC_EGLViewIMPL_EMSCRIPTEN_H__
 #define __CC_EGLViewIMPL_EMSCRIPTEN_H__
 
-#include "CCInjectMouseMove-emscripten.h"
-#include "CCDetectRetinaChange-emscripten.h"
 #include "CCDetectInertiaScroll-emscripten.h"
+#include "CCDetectRetinaChange-emscripten.h"
+#include "CCInjectMouseMove-emscripten.h"
 #include <cocos/base/CCRef.h>
 #include <cocos/math/CCGeometry.h>
 #include <cocos/platform/CCCommon.h>
@@ -54,7 +54,6 @@ public:
     bool setFullscreen(bool) noexcept override;
 
 private:
-
     void applyRetinaCSSHack() noexcept;
     void handleRetinaFactorChange() noexcept;
 
@@ -80,28 +79,27 @@ public:
     static constexpr const char* EVENT_FULLSCREEN_CHANGED = "glview_fullscreen_changed";
 
 private:
-    EGLDisplay          _display;
-    EGLContext          _context;
-    EGLSurface          _surface;
-    EGLConfig           _config;
+    EGLDisplay _display;
+    EGLContext _context;
+    EGLSurface _surface;
+    EGLConfig _config;
 
-    float               _retinaFactor;
-    DetectRetinaChange  _retinaChangeDetector;
+    float _retinaFactor;
+    DetectRetinaChange _retinaChangeDetector;
 
-    CursorShape         _currentCursorShape;
-    InjectMouseMove     _mouseMoveInjector;
-    bool                _mouseCaptured;
+    CursorShape _currentCursorShape;
+    InjectMouseMove _mouseMoveInjector;
+    bool _mouseCaptured;
 
     DetectInertiaScroll _inertiaScrollX;
     DetectInertiaScroll _inertiaScrollY;
 
-    bool                _fullscreen;
+    bool _fullscreen;
 
     // Original windowed (not-fullscreen) canvas size, such as set by the bootstrap.
     // The retina fix was initially coded in the bootstrap, but was moved here so that everything is done in a single place.
-    int                 _windowedCanvasWidth;
-    int                 _windowedCanvasHeight;
-
+    int _windowedCanvasWidth;
+    int _windowedCanvasHeight;
 };
 
 NS_CC_END // end of namespace cocos2d
