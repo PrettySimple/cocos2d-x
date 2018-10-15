@@ -48,10 +48,10 @@ extern "C" {
 #endif
 
 /* sizeof(void *) == 2^LG_SIZEOF_PTR. */
-#if defined(__arm__) || defined(__i386__)
-#define LG_SIZEOF_PTR 2
-#else
+#ifdef __LP64__
 #define LG_SIZEOF_PTR 3
+#else
+#define LG_SIZEOF_PTR 2
 #endif
 
 /*
@@ -89,12 +89,12 @@ extern "C" {
 #include <limits.h>
 #include <strings.h>
 
-#define JEMALLOC_VERSION "5.0.1-0-g896ed3a8b3f41998d4fb4d625d30ac63ef2d51fb"
+#define JEMALLOC_VERSION "5.1.0-0-g61efbda7098de6fe64c362d309824864308c36d4"
 #define JEMALLOC_VERSION_MAJOR 5
-#define JEMALLOC_VERSION_MINOR 0
-#define JEMALLOC_VERSION_BUGFIX 1
+#define JEMALLOC_VERSION_MINOR 1
+#define JEMALLOC_VERSION_BUGFIX 0
 #define JEMALLOC_VERSION_NREV 0
-#define JEMALLOC_VERSION_GID "896ed3a8b3f41998d4fb4d625d30ac63ef2d51fb"
+#define JEMALLOC_VERSION_GID "61efbda7098de6fe64c362d309824864308c36d4"
 
 #define MALLOCX_LG_ALIGN(la)	((int)(la))
 #if LG_SIZEOF_PTR == 2
