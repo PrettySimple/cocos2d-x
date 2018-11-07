@@ -6,9 +6,10 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
 
-#    include "CCDetectInertiaScroll-emscripten.h"
 #    include <cmath>
 #    include <cocos/platform/CCPlatformMacros.h>
+#    include "CCDetectInertiaScroll-emscripten.h"
+
 
 using namespace std::chrono_literals;
 
