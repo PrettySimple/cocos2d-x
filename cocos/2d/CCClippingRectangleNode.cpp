@@ -50,6 +50,51 @@ void ClippingRectangleNode::onBeforeVisitScissor()
     {
         glEnable(GL_SCISSOR_TEST);
 
+        GLint currentFBO;
+        glGetIntegerv(GL_FRAMEBUFFER_BINDING, &currentFBO);
+        if(currentFBO != 0)
+        {
+            /* FIX to make compatible ClippingRectangleNode with the Newyork filter system */
+            
+            // We are rendering in a RT
+            Vec4 BL = Vec4(_clippingRegion.origin.x, _clippingRegion.origin.y, 0.0f, 1.0f);
+            Vec4 TR = Vec4(_clippingRegion.origin.x + _clippingRegion.size.width, _clippingRegion.origin.y + _clippingRegion.size.height, 0.0f, 1.0f);
+
+            // retrieve current viewport (mapped to the Rt)
+            GLint currentVP[4];
+            glGetIntegerv(GL_VIEWPORT, currentVP);
+
+            // retrieve current transforms
+            Mat4 curXForm;
+            curXForm = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW) * Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
+
+            // transform coordinates to clip space
+            curXForm.transformVector(BL);
+            curXForm.transformVector(TR);
+            
+            // w divide
+            BL.x = ((BL.x / BL.w) + 1.0f) * 0.5f;
+            BL.y = ((BL.y / BL.w) + 1.0f) * 0.5f;
+            TR.x = ((TR.x / TR.w) + 1.0f) * 0.5f;
+            TR.y = ((TR.y / TR.w) + 1.0f) * 0.5f;
+
+            // apply the RT viewport
+            BL.x = (BL.x * currentVP[2]) + currentVP[0];
+            BL.y = (BL.y * currentVP[3]) + currentVP[1];
+            TR.x = (TR.x * currentVP[2]) + currentVP[0];
+            TR.y = (TR.y * currentVP[3]) + currentVP[1];
+
+            // clip origin negative coordinates
+            BL.x = std::max(0.0f, BL.x);
+            BL.y = std::max(0.0f, BL.y);
+
+            // apply scissor
+            glScissor((GLint)BL.x, (GLint)BL.y, (GLsizei)(TR.x - BL.x), (GLsizei)(TR.y - BL.y));
+            
+            return;
+        }
+        
+        // Standard COCOS implementation (FrameBuffer)
         float scaleX = _scaleX;
         float scaleY = _scaleY;
         Node* parent = this->getParent();
