@@ -71,8 +71,7 @@ void ClippingRectangleNode::onBeforeVisitScissor()
                 glGetIntegerv(GL_VIEWPORT, currentVP);
 
                 // retrieve current transforms
-                Mat4 curXForm;
-                curXForm = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW) * Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
+                Mat4 curXForm = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION) * Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 
                 // transform coordinates to clip space
                 curXForm.transformVector(BL);
