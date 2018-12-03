@@ -217,7 +217,8 @@ static CGSize _calculateShrinkedSizeForString(NSAttributedString** str, id font,
 
 static CCAccelerometerDispatcher* s_pAccelerometerDispatcher;
 
-+ (id)sharedAccelerometerDispatcher {
++ (id)sharedAccelerometerDispatcher
+{
     if (s_pAccelerometerDispatcher == nil)
     {
         s_pAccelerometerDispatcher = [[self alloc] init];
@@ -226,7 +227,8 @@ static CCAccelerometerDispatcher* s_pAccelerometerDispatcher;
     return s_pAccelerometerDispatcher;
 }
 
-- (id)init {
+- (id)init
+{
     if ((self = [super init]))
     {
         _acceleration = new (std::nothrow) cocos2d::Acceleration();
@@ -236,14 +238,16 @@ static CCAccelerometerDispatcher* s_pAccelerometerDispatcher;
     return self;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     s_pAccelerometerDispatcher = nullptr;
     delete _acceleration;
     [_motionManager release];
     [super dealloc];
 }
 
-- (void)setAccelerometerEnabled:(bool)isEnabled {
+- (void)setAccelerometerEnabled:(bool)isEnabled
+{
     if (isEnabled)
     {
         [_motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue]
@@ -257,11 +261,13 @@ static CCAccelerometerDispatcher* s_pAccelerometerDispatcher;
     }
 }
 
-- (void)setAccelerometerInterval:(float)interval {
+- (void)setAccelerometerInterval:(float)interval
+{
     _motionManager.accelerometerUpdateInterval = interval;
 }
 
-- (void)accelerometer:(CMAccelerometerData*)accelerometerData {
+- (void)accelerometer:(CMAccelerometerData*)accelerometerData
+{
     _acceleration->x = accelerometerData.acceleration.x;
     _acceleration->y = accelerometerData.acceleration.y;
     _acceleration->z = accelerometerData.acceleration.z;

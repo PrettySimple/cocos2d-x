@@ -71,7 +71,8 @@ using namespace cocos2d::experimental::ui;
     VideoPlayer* _videoPlayer;
 }
 
-- (id)init:(void*)videoPlayer {
+- (id)init:(void*)videoPlayer
+{
     if (self = [super init])
     {
         self.moviePlayer = nullptr;
@@ -82,7 +83,8 @@ using namespace cocos2d::experimental::ui;
     return self;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     if (self.moviePlayer != nullptr)
     {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:self.moviePlayer];
@@ -96,7 +98,8 @@ using namespace cocos2d::experimental::ui;
     [super dealloc];
 }
 
-- (void)setFrame:(int)left:(int)top:(int)width:(int)height {
+- (void)setFrame:(int)left:(int)top:(int)width:(int)height
+{
     _left = left;
     _width = width;
     _top = top;
@@ -107,14 +110,16 @@ using namespace cocos2d::experimental::ui;
     }
 }
 
-- (void)setFullScreenEnabled:(BOOL)enabled {
+- (void)setFullScreenEnabled:(BOOL)enabled
+{
     if (self.moviePlayer != nullptr)
     {
         [self.moviePlayer setFullscreen:enabled animated:(true)];
     }
 }
 
-- (BOOL)isFullScreenEnabled {
+- (BOOL)isFullScreenEnabled
+{
     if (self.moviePlayer != nullptr)
     {
         return [self.moviePlayer isFullscreen];
@@ -123,7 +128,8 @@ using namespace cocos2d::experimental::ui;
     return false;
 }
 
-- (void)setURL:(int)videoSource:(std::string&)videoUrl {
+- (void)setURL:(int)videoSource:(std::string&)videoUrl
+{
     if (self.moviePlayer != nullptr)
     {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:self.moviePlayer];
@@ -180,7 +186,8 @@ using namespace cocos2d::experimental::ui;
                                                object:self.moviePlayer];
 }
 
-- (void)videoFinished:(NSNotification*)notification {
+- (void)videoFinished:(NSNotification*)notification
+{
     if (_videoPlayer != nullptr)
     {
         if ([self.moviePlayer playbackState] != MPMoviePlaybackStateStopped)
@@ -190,7 +197,8 @@ using namespace cocos2d::experimental::ui;
     }
 }
 
-- (void)playStateChange {
+- (void)playStateChange
+{
     MPMoviePlaybackState state = [self.moviePlayer playbackState];
     switch (state)
     {
@@ -214,21 +222,24 @@ using namespace cocos2d::experimental::ui;
     }
 }
 
-- (void)seekTo:(float)sec {
+- (void)seekTo:(float)sec
+{
     if (self.moviePlayer != nullptr)
     {
         [self.moviePlayer setCurrentPlaybackTime:(sec)];
     }
 }
 
-- (void)setVisible:(BOOL)visible {
+- (void)setVisible:(BOOL)visible
+{
     if (self.moviePlayer != nullptr)
     {
         [self.moviePlayer.view setHidden:!visible];
     }
 }
 
-- (void)setKeepRatioEnabled:(BOOL)enabled {
+- (void)setKeepRatioEnabled:(BOOL)enabled
+{
     _keepRatioEnabled = enabled;
     if (self.moviePlayer != nullptr)
     {
@@ -243,7 +254,8 @@ using namespace cocos2d::experimental::ui;
     }
 }
 
-- (void)play {
+- (void)play
+{
     if (self.moviePlayer != nullptr)
     {
         [self.moviePlayer.view setFrame:CGRectMake(_left, _top, _width, _height)];
@@ -251,14 +263,16 @@ using namespace cocos2d::experimental::ui;
     }
 }
 
-- (void)pause {
+- (void)pause
+{
     if (self.moviePlayer != nullptr)
     {
         [self.moviePlayer pause];
     }
 }
 
-- (void)resume {
+- (void)resume
+{
     if (self.moviePlayer != nullptr)
     {
         if ([self.moviePlayer playbackState] == MPMoviePlaybackStatePaused)
@@ -268,7 +282,8 @@ using namespace cocos2d::experimental::ui;
     }
 }
 
-- (void)stop {
+- (void)stop
+{
     if (self.moviePlayer != nullptr)
     {
         [self.moviePlayer stop];

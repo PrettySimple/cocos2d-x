@@ -444,7 +444,7 @@ namespace tweenfunc
 
     float easeIn(float time, float rate) { return std::pow(time, rate); }
 
-    float easeOut(float time, float rate) { return 1-std::pow(1-time, rate); }
+    float easeOut(float time, float rate) { return 1 - std::pow(1 - time, rate); }
 
     float easeInOut(float time, float rate)
     {

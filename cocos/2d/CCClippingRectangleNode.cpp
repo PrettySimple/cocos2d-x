@@ -52,16 +52,16 @@ void ClippingRectangleNode::onBeforeVisitScissor()
 
         GLint currentFBO;
         glGetIntegerv(GL_FRAMEBUFFER_BINDING, &currentFBO);
-        
-        if(currentFBO != 0)
+
+        if (currentFBO != 0)
         {
             GLint params;
             glGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &params);
-        
-            if(params == GL_TEXTURE)
+
+            if (params == GL_TEXTURE)
             {
                 /* FIX to make compatible ClippingRectangleNode with the Newyork filter system */
-            
+
                 // We are rendering in a RT
                 Vec4 BL = Vec4(_clippingRegion.origin.x, _clippingRegion.origin.y, 0.0f, 1.0f);
                 Vec4 TR = Vec4(_clippingRegion.origin.x + _clippingRegion.size.width, _clippingRegion.origin.y + _clippingRegion.size.height, 0.0f, 1.0f);
@@ -71,12 +71,13 @@ void ClippingRectangleNode::onBeforeVisitScissor()
                 glGetIntegerv(GL_VIEWPORT, currentVP);
 
                 // retrieve current transforms
-                Mat4 curXForm = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION) * Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+                Mat4 curXForm = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION) *
+                    Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 
                 // transform coordinates to clip space
                 curXForm.transformVector(BL);
                 curXForm.transformVector(TR);
-            
+
                 // w divide
                 BL.x = ((BL.x / BL.w) + 1.0f) * 0.5f;
                 BL.y = ((BL.y / BL.w) + 1.0f) * 0.5f;
@@ -95,11 +96,11 @@ void ClippingRectangleNode::onBeforeVisitScissor()
 
                 // apply scissor
                 glScissor((GLint)BL.x, (GLint)BL.y, (GLsizei)(TR.x - BL.x), (GLsizei)(TR.y - BL.y));
-            
+
                 return;
             }
         }
-        
+
         // Standard COCOS implementation (FrameBuffer)
         float scaleX = _scaleX;
         float scaleY = _scaleY;

@@ -82,7 +82,8 @@ static ALvoid alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* dat
 
 @implementation NSTimerWrapper
 
-- (id)initWithTimeInterval:(double)seconds callback:(const std::function<void()>&)cb {
+- (id)initWithTimeInterval:(double)seconds callback:(const std::function<void()>&)cb
+{
     if ((self = [super init]))
     {
         _timeoutCallback = cb;
@@ -93,7 +94,8 @@ static ALvoid alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* dat
     return self;
 }
 
-- (void)onTimeoutCallback:(NSTimer*)timer {
+- (void)onTimeoutCallback:(NSTimer*)timer
+{
     if (_timeoutCallback != nullptr)
     {
         _timeoutCallback();
@@ -101,7 +103,8 @@ static ALvoid alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* dat
     }
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [super dealloc];
 }
 

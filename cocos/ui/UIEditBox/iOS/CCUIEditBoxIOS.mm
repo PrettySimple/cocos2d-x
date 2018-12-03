@@ -54,7 +54,8 @@ namespace cocos2d
 
 #pragma mark - Static methods
 
-+ (void)initialize {
++ (void)initialize
+{
     [super initialize];
 
     LoadUITextViewCCUITextInputCategory();
@@ -63,7 +64,8 @@ namespace cocos2d
 
 #pragma mark - Init & Dealloc
 
-- (instancetype)initWithFrame:(CGRect)frameRect editBox:(void*)editBox {
+- (instancetype)initWithFrame:(CGRect)frameRect editBox:(void*)editBox
+{
     self = [super init];
     if (self)
     {
@@ -79,7 +81,8 @@ namespace cocos2d
     return self;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     // custom setter cleanup
     self.textInput = nil;
 
@@ -88,7 +91,8 @@ namespace cocos2d
 
 #pragma mark - Properties
 
-- (void)setTextInput:(UIView<UITextInput, CCUITextInput>*)textInput {
+- (void)setTextInput:(UIView<UITextInput, CCUITextInput>*)textInput
+{
     if (_textInput == textInput)
     {
         return;
@@ -118,7 +122,8 @@ namespace cocos2d
 
 #pragma mark - Public methods
 
-- (void)createSingleLineTextField {
+- (void)createSingleLineTextField
+{
     CCUISingleLineTextField* textField = [[[CCUISingleLineTextField alloc] initWithFrame:self.frameRect] autorelease];
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     textField.borderStyle = UITextBorderStyleNone;
@@ -128,22 +133,26 @@ namespace cocos2d
     self.textInput = textField;
 }
 
-- (void)createMultiLineTextField {
+- (void)createMultiLineTextField
+{
     CCUIMultilineTextField* textView = [[[CCUIMultilineTextField alloc] initWithFrame:self.frameRect] autorelease];
     self.textInput = textView;
 }
 
 #pragma mark - Public methods
 
-- (void)setFont:(UIFont*)font {
+- (void)setFont:(UIFont*)font
+{
     self.textInput.ccui_font = font;
 }
 
-- (void)setTextColor:(UIColor*)color {
+- (void)setTextColor:(UIColor*)color
+{
     self.textInput.ccui_textColor = color;
 }
 
-- (void)setInputMode:(cocos2d::ui::EditBox::InputMode)inputMode {
+- (void)setInputMode:(cocos2d::ui::EditBox::InputMode)inputMode
+{
     // multiline input
     if (inputMode == cocos2d::ui::EditBox::InputMode::ANY)
     {
@@ -186,11 +195,13 @@ namespace cocos2d
     }
 }
 
-- (void)setKeyboardType:(UIKeyboardType)type {
+- (void)setKeyboardType:(UIKeyboardType)type
+{
     self.textInput.keyboardType = type;
 }
 
-- (void)setInputFlag:(cocos2d::ui::EditBox::InputFlag)flag {
+- (void)setInputFlag:(cocos2d::ui::EditBox::InputFlag)flag
+{
     self.dataInputMode = flag;
     switch (flag)
     {
@@ -224,7 +235,8 @@ namespace cocos2d
     }
 }
 
-- (void)setReturnType:(cocos2d::ui::EditBox::KeyboardReturnType)returnType {
+- (void)setReturnType:(cocos2d::ui::EditBox::KeyboardReturnType)returnType
+{
     self.keyboardReturnType = returnType;
     switch (returnType)
     {
@@ -254,34 +266,41 @@ namespace cocos2d
     }
 }
 
-- (void)setText:(NSString*)text {
+- (void)setText:(NSString*)text
+{
     self.textInput.ccui_text = text;
 }
 
-- (NSString*)text {
+- (NSString*)text
+{
     return self.textInput.ccui_text ?: @"";
 }
 
-- (void)setVisible:(BOOL)visible {
+- (void)setVisible:(BOOL)visible
+{
     self.textInput.hidden = !visible;
 }
 
-- (NSString*)getDefaultFontName {
+- (NSString*)getDefaultFontName
+{
     return self.textInput.ccui_font.fontName ?: @"";
 }
 
-- (void)setPlaceHolder:(NSString*)text {
+- (void)setPlaceHolder:(NSString*)text
+{
     self.textInput.ccui_placeholder = text;
 }
 
-- (void)doAnimationWhenKeyboardMoveWithDuration:(float)duration distance:(float)distance {
+- (void)doAnimationWhenKeyboardMoveWithDuration:(float)duration distance:(float)distance
+{
     auto view = cocos2d::Director::getInstance()->getOpenGLView();
     CCEAGLView* eaglview = (CCEAGLView*)view->getEAGLView();
 
     [eaglview doAnimationWhenKeyboardMoveWithDuration:duration distance:distance];
 }
 
-- (void)updateFrame:(CGRect)rect {
+- (void)updateFrame:(CGRect)rect
+{
     CGRect frame = self.textInput.frame;
     frame.origin = rect.origin;
     frame.size = rect.size;
@@ -289,7 +308,8 @@ namespace cocos2d
     self.textInput.frame = frame;
 }
 
-- (void)openKeyboard {
+- (void)openKeyboard
+{
     auto view = cocos2d::Director::getInstance()->getOpenGLView();
     CCEAGLView* eaglview = (CCEAGLView*)view->getEAGLView();
 
@@ -297,12 +317,14 @@ namespace cocos2d
     [self.textInput becomeFirstResponder];
 }
 
-- (void)closeKeyboard {
+- (void)closeKeyboard
+{
     [self.textInput resignFirstResponder];
     [self.textInput removeFromSuperview];
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField*)sender {
+- (BOOL)textFieldShouldReturn:(UITextField*)sender
+{
     if (sender == self.textInput)
     {
         [sender resignFirstResponder];
@@ -310,7 +332,8 @@ namespace cocos2d
     return NO;
 }
 
-- (void)animationSelector {
+- (void)animationSelector
+{
     auto view = cocos2d::Director::getInstance()->getOpenGLView();
     CCEAGLView* eaglview = (CCEAGLView*)view->getEAGLView();
 
@@ -319,7 +342,8 @@ namespace cocos2d
 
 #pragma mark - UITextView delegate methods
 
-- (BOOL)textViewShouldBeginEditing:(UITextView*)textView {
+- (BOOL)textViewShouldBeginEditing:(UITextView*)textView
+{
     CCLOG("textFieldShouldBeginEditing...");
     _editState = YES;
 
@@ -335,7 +359,8 @@ namespace cocos2d
     return YES;
 }
 
-- (BOOL)textViewShouldEndEditing:(UITextView*)textView {
+- (BOOL)textViewShouldEndEditing:(UITextView*)textView
+{
     CCLOG("textFieldShouldEndEditing...");
     _editState = NO;
     getEditBoxImplIOS()->refreshInactiveText();
@@ -346,7 +371,8 @@ namespace cocos2d
     return YES;
 }
 
-- (BOOL)textView:(UITextView*)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString*)text {
+- (BOOL)textView:(UITextView*)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString*)text
+{
     int maxLength = getEditBoxImplIOS()->getMaxLength();
     if (maxLength < 0)
     {
@@ -368,7 +394,8 @@ namespace cocos2d
     return newLength <= maxLength;
 }
 
-- (void)textViewDidChange:(UITextView*)textView {
+- (void)textViewDidChange:(UITextView*)textView
+{
     int maxLength = getEditBoxImplIOS()->getMaxLength();
     if (textView.markedTextRange == nil)
     {
@@ -386,7 +413,8 @@ namespace cocos2d
 /**
  * Called each time when the text field's text has changed.
  */
-- (void)textChanged:(UITextField*)textField {
+- (void)textChanged:(UITextField*)textField
+{
     int maxLength = getEditBoxImplIOS()->getMaxLength();
     if (textField.markedTextRange == nil)
     {
@@ -417,7 +445,8 @@ namespace cocos2d
     return YES;
 }
 
-- (BOOL)textFieldShouldEndEditing:(UITextField*)sender {
+- (BOOL)textFieldShouldEndEditing:(UITextField*)sender
+{
     CCLOG("textFieldShouldEndEditing...");
     _editState = NO;
     const char* inputText = [sender.text UTF8String];
@@ -434,7 +463,8 @@ namespace cocos2d
  * @param string The replacement string.
  * @return YES if the specified text range should be replaced; otherwise, NO to keep the old text.
  */
-- (BOOL)textField:(UITextField*)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string {
+- (BOOL)textField:(UITextField*)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string
+{
     int maxLength = getEditBoxImplIOS()->getMaxLength();
     if (maxLength < 0)
     {

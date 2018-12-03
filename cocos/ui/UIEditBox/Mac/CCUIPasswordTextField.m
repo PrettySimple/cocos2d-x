@@ -36,7 +36,8 @@
 
 @synthesize placeholderAttributes = _placeholderAttributes;
 
-- (id)initWithFrame:(NSRect)frameRect {
+- (id)initWithFrame:(NSRect)frameRect
+{
     if ([super initWithFrame:frameRect])
     {
         NSFont* font = [NSFont systemFontOfSize:frameRect.size.height * 3 / 2];
@@ -47,29 +48,35 @@
     return self;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     self.placeholderAttributes = nil;
 
     [super dealloc];
 }
 
-- (void)ccui_setPlaceholderFont:(NSFont*)font {
+- (void)ccui_setPlaceholderFont:(NSFont*)font
+{
     [self.placeholderAttributes setObject:font forKey:NSFontAttributeName];
 }
 
-- (NSString*)ccui_placeholder {
+- (NSString*)ccui_placeholder
+{
     return self.placeholderString;
 }
 
-- (NSFont*)ccui_placeholderFont {
+- (NSFont*)ccui_placeholderFont
+{
     return [self.placeholderAttributes objectForKey:NSFontAttributeName];
 }
 
-- (NSColor*)ccui_placeholderColor {
+- (NSColor*)ccui_placeholderColor
+{
     return [self.placeholderAttributes objectForKey:NSForegroundColorAttributeName];
 }
 
-- (void)ccui_setPlaceholder:(NSString*)text {
+- (void)ccui_setPlaceholder:(NSString*)text
+{
     NSAttributedString* as = [[NSAttributedString alloc] initWithString:text attributes:self.placeholderAttributes];
 
     [[self cell] setPlaceholderAttributedString:as];
@@ -77,46 +84,56 @@
     [as release];
 }
 
-- (void)ccui_setPlaceholderColor:(NSColor*)color {
+- (void)ccui_setPlaceholderColor:(NSColor*)color
+{
     [self.placeholderAttributes setObject:color forKey:NSForegroundColorAttributeName];
 }
 
 #pragma mark - CCUITextInput
-- (NSString*)ccui_text {
+- (NSString*)ccui_text
+{
     return self.stringValue;
 }
 
-- (void)ccui_setText:(NSString*)ccui_text {
+- (void)ccui_setText:(NSString*)ccui_text
+{
     self.stringValue = ccui_text;
 }
 
-- (NSColor*)ccui_textColor {
+- (NSColor*)ccui_textColor
+{
     return self.textColor;
 }
 
-- (void)ccui_setTextColor:(NSColor*)ccui_textColor {
+- (void)ccui_setTextColor:(NSColor*)ccui_textColor
+{
     self.textColor = ccui_textColor;
 }
 
-- (NSFont*)ccui_font {
+- (NSFont*)ccui_font
+{
     return self.font;
 }
 
-- (void)ccui_setFont:(NSFont*)ccui_font {
+- (void)ccui_setFont:(NSFont*)ccui_font
+{
     self.font = ccui_font;
 }
 
-- (void)ccui_setDelegate:(id<NSTextFieldDelegate, NSTextViewDelegate>)delegate {
+- (void)ccui_setDelegate:(id<NSTextFieldDelegate, NSTextViewDelegate>)delegate
+{
     self.delegate = delegate;
 }
 
-- (void)ccui_setMaxLength:(int)length {
+- (void)ccui_setMaxLength:(int)length
+{
     id formater = [[[CCUITextFieldFormatter alloc] init] autorelease];
     [formater setMaximumLength:length];
     [self setFormatter:formater];
 }
 
-- (int)ccui_maxLength {
+- (int)ccui_maxLength
+{
     return [self.formatter maximumLength];
 }
 @end
