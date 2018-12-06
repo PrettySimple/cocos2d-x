@@ -135,7 +135,7 @@ AudioCache::~AudioCache()
     // wait for the 'readDataTask' task to exit
     _readDataTaskMutex.lock();
 
-    if (_state == State::READY)
+    if (getState() == State::READY)
     {
 
         if (_alBufferId != INVALID_AL_BUFFER_ID && alIsBuffer(_alBufferId))
