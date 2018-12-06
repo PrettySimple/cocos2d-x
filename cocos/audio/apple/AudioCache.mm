@@ -56,24 +56,6 @@ namespace
 #    define INVALID_AL_BUFFER_ID 0xFFFFFFFF
 #    define PCMDATA_CACHEMAXSIZE 1048576
 
-typedef ALvoid AL_APIENTRY (*alBufferDataStaticProcPtr)(const ALint bid, ALenum format, ALvoid* data, ALsizei size, ALsizei freq);
-static ALvoid alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* data, ALsizei size, ALsizei freq)
-{
-    static alBufferDataStaticProcPtr proc = nullptr;
-
-    if (proc == nullptr)
-    {
-        proc = reinterpret_cast<alBufferDataStaticProcPtr>(alcGetProcAddress(nullptr, static_cast<const ALCchar*>("alBufferDataStatic")));
-    }
-
-    if (proc)
-    {
-        proc(bid, format, data, size, freq);
-    }
-
-    return;
-}
-
 @interface NSTimerWrapper : NSObject {
     std::function<void()> _timeoutCallback;
 }
@@ -109,11 +91,6 @@ static ALvoid alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* dat
 }
 
 @end
-
-static void setTimeout(double seconds, const std::function<void()>& cb)
-{
-    [[[NSTimerWrapper alloc] initWithTimeInterval:seconds callback:cb] autorelease];
-}
 
 using namespace cocos2d;
 using namespace cocos2d::experimental;
@@ -157,34 +134,20 @@ AudioCache::~AudioCache()
     }
     // wait for the 'readDataTask' task to exit
     _readDataTaskMutex.lock();
-    _readDataTaskMutex.unlock();
 
-    if (_pcmData)
+    if (_state == State::READY)
     {
-        if (getState() == State::READY)
-        {
-            if (_alBufferId != INVALID_AL_BUFFER_ID && alIsBuffer(_alBufferId))
-            {
-                ALOGV("~AudioCache(id=%u), delete buffer: %u", _id, _alBufferId);
-                alDeleteBuffers(1, &_alBufferId);
-                _alBufferId = INVALID_AL_BUFFER_ID;
-            }
-        }
-        else
-        {
-            ALOGW("AudioCache (%p), id=%u, buffer isn't ready, state=%d", this, _id, getState());
-        }
 
-        // fixed #17494: CrashIfClientProvidedBogusAudioBufferList
-        // We're using 'alBufferDataStaticProc' for speeding up
-        // the performance of playing audio without preload, but we need to manage the memory by ourself carefully.
-        // It's probably that '_pcmData' is freed before OpenAL finishes the audio render task,
-        // then 'CrashIfClientProvidedBogusAudioBufferList' may be triggered.
-        // 'cpp-tests/NewAudioEngineTest/AudioSwitchStateTest' can reproduce this issue without the following fix.
-        // The workaround is delaying 200ms to free pcm data.
-        //        char* data = _pcmData;
-        //        setTimeout(0.2, [data]() { free(data); });
-        free(_pcmData);
+        if (_alBufferId != INVALID_AL_BUFFER_ID && alIsBuffer(_alBufferId))
+        {
+            ALOGV("~AudioCache(id=%u), delete buffer: %u", _id, _alBufferId);
+            alDeleteBuffers(1, &_alBufferId);
+            _alBufferId = INVALID_AL_BUFFER_ID;
+        }
+    }
+    else
+    {
+        ALOGW("AudioCache (%p), id=%u, buffer isn't ready, state=%d", this, _id, getState());
     }
 
     if (_queBufferFrames > 0)
@@ -195,6 +158,7 @@ AudioCache::~AudioCache()
         }
     }
     ALOGVV("~AudioCache() %p, id=%u, end", this, _id);
+    _readDataTaskMutex.unlock();
 }
 
 void AudioCache::setSkipReadDataTask(bool isSkip)
@@ -272,37 +236,25 @@ void AudioCache::readDataTask(unsigned int selfId)
             // Reset to frame 0
             BREAK_IF_ERR_LOG(!decoder.seek(0), "AudioDecoder::seek(0) failed!");
 
-            _pcmData = reinterpret_cast<char*>(malloc(dataSize));
+            _pcmData = (char*)malloc(dataSize);
             memset(_pcmData, 0x00, dataSize);
+            ALOGV("  id=%u _pcmData alloc: %p", selfId, _pcmData);
 
             if (adjustFrames > 0)
             {
-                memcpy(_pcmData + (dataSize - adjustFrameBuf.size()), adjustFrameBuf.data(), adjustFrameBuf.size());
-            }
-
-            alGenBuffers(1, &_alBufferId);
-            auto alError = alGetError();
-            if (alError != AL_NO_ERROR)
-            {
-                ALOGE("%s: attaching audio to buffer fail: %x", __PRETTY_FUNCTION__, alError);
-                break;
+                 memcpy(_pcmData + (dataSize - adjustFrameBuf.size()), adjustFrameBuf.data(), adjustFrameBuf.size());
             }
 
             if (*isDestroyed())
                 break;
 
-            alBufferDataStaticProc(_alBufferId, _format, _pcmData, static_cast<ALsizei>(dataSize), static_cast<ALsizei>(sampleRate));
-
-            framesRead = decoder.readFixedFrames(std::min(framesToReadOnce, remainingFrames), _pcmData + _framesRead * bytesPerFrame);
+             framesRead = decoder.readFixedFrames(std::min(framesToReadOnce, remainingFrames), _pcmData + _framesRead * bytesPerFrame);
             _framesRead += framesRead;
             remainingFrames -= framesRead;
 
             if (*isDestroyed())
                 break;
 
-            setState(State::READY);
-
-            invokingPlayCallbacks();
 
             uint32_t frames = 0;
             while (!*isDestroyed() && _framesRead < originalTotalFrames)
@@ -323,10 +275,23 @@ void AudioCache::readDataTask(unsigned int selfId)
             {
                 memset(_pcmData + _framesRead * bytesPerFrame, 0x00, (totalFrames - _framesRead) * bytesPerFrame);
             }
+            
             ALOGV("pcm buffer was loaded successfully, total frames: %u, total read frames: %u, adjust frames: %u, remainingFrames: %u", totalFrames,
                   _framesRead, adjustFrames, remainingFrames);
 
             _framesRead += adjustFrames;
+            
+            alGenBuffers(1, &_alBufferId);
+            auto alError = alGetError();
+            if (alError != AL_NO_ERROR) {
+                ALOGE("%s: attaching audio to buffer fail: %x", __PRETTY_FUNCTION__, alError);
+                break;
+            }
+            ALOGV("  id=%u generated alGenBuffers: %u  for _pcmData: %p", selfId, _alBufferId, _pcmData);
+            ALOGV("  id=%u _pcmData alBufferData: %p", selfId, _pcmData);
+            alBufferData(_alBufferId, _format, _pcmData, (ALsizei)dataSize, (ALsizei)sampleRate);
+            _state = State::READY;
+            invokingPlayCallbacks();
         }
         else
         {
@@ -348,6 +313,9 @@ void AudioCache::readDataTask(unsigned int selfId)
 
     } while (false);
 
+    if (_pcmData != nullptr)
+        CC_SAFE_FREE(_pcmData);
+    
     decoder.close();
 
     // FIXME: Why to invoke play callback first? Should it be after 'load' callback?
@@ -360,7 +328,7 @@ void AudioCache::readDataTask(unsigned int selfId)
         setState(State::FAILED);
         if (_alBufferId != INVALID_AL_BUFFER_ID && alIsBuffer(_alBufferId))
         {
-            ALOGV("readDataTask failed, delete buffer: %u", _alBufferId);
+            ALOGV("  id=%u readDataTask failed, delete buffer: %u", selfId, _alBufferId);
             alDeleteBuffers(1, &_alBufferId);
             _alBufferId = INVALID_AL_BUFFER_ID;
         }
