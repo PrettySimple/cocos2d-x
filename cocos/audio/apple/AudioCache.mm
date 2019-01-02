@@ -137,7 +137,6 @@ AudioCache::~AudioCache()
 
     if (getState() == State::READY)
     {
-
         if (_alBufferId != INVALID_AL_BUFFER_ID && alIsBuffer(_alBufferId))
         {
             ALOGV("~AudioCache(id=%u), delete buffer: %u", _id, _alBufferId);
@@ -242,19 +241,18 @@ void AudioCache::readDataTask(unsigned int selfId)
 
             if (adjustFrames > 0)
             {
-                 memcpy(_pcmData + (dataSize - adjustFrameBuf.size()), adjustFrameBuf.data(), adjustFrameBuf.size());
+                memcpy(_pcmData + (dataSize - adjustFrameBuf.size()), adjustFrameBuf.data(), adjustFrameBuf.size());
             }
 
             if (*isDestroyed())
                 break;
 
-             framesRead = decoder.readFixedFrames(std::min(framesToReadOnce, remainingFrames), _pcmData + _framesRead * bytesPerFrame);
+            framesRead = decoder.readFixedFrames(std::min(framesToReadOnce, remainingFrames), _pcmData + _framesRead * bytesPerFrame);
             _framesRead += framesRead;
             remainingFrames -= framesRead;
 
             if (*isDestroyed())
                 break;
-
 
             uint32_t frames = 0;
             while (!*isDestroyed() && _framesRead < originalTotalFrames)
@@ -275,15 +273,16 @@ void AudioCache::readDataTask(unsigned int selfId)
             {
                 memset(_pcmData + _framesRead * bytesPerFrame, 0x00, (totalFrames - _framesRead) * bytesPerFrame);
             }
-            
+
             ALOGV("pcm buffer was loaded successfully, total frames: %u, total read frames: %u, adjust frames: %u, remainingFrames: %u", totalFrames,
                   _framesRead, adjustFrames, remainingFrames);
 
             _framesRead += adjustFrames;
-            
+
             alGenBuffers(1, &_alBufferId);
             auto alError = alGetError();
-            if (alError != AL_NO_ERROR) {
+            if (alError != AL_NO_ERROR)
+            {
                 ALOGE("%s: attaching audio to buffer fail: %x", __PRETTY_FUNCTION__, alError);
                 break;
             }
@@ -315,7 +314,7 @@ void AudioCache::readDataTask(unsigned int selfId)
 
     if (_pcmData != nullptr)
         CC_SAFE_FREE(_pcmData);
-    
+
     decoder.close();
 
     // FIXME: Why to invoke play callback first? Should it be after 'load' callback?
