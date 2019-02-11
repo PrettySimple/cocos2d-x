@@ -58,11 +58,6 @@ static const int MAX_LOG_LENGTH = 16 * 1024;
 void CC_DLL log(const char* format, ...) CC_FORMAT_PRINTF(1, 2);
 
 template <typename... Args>
-typename std::enable_if<sizeof...(Args) == 0>::type log2(std::string_view)
-{
-}
-
-template <typename... Args>
 void log2(std::string_view, Args...)
 {
 }

@@ -101,7 +101,8 @@ void AudioEngineInterruptionListenerCallback(void* user_data, UInt32 interruptio
 }
 #        endif
 
-- (id)init {
+- (id)init
+{
     if ((self = [super init]))
     {
         if ([[[UIDevice currentDevice] systemVersion] intValue] > 5)
@@ -135,7 +136,8 @@ void AudioEngineInterruptionListenerCallback(void* user_data, UInt32 interruptio
     return self;
 }
 
-- (void)handleInterruption:(NSNotification*)notification {
+- (void)handleInterruption:(NSNotification*)notification
+{
     static bool isAudioSessionInterrupted = false;
     static bool resumeOnBecomingActive = false;
     static bool pauseOnResignActive = false;
@@ -217,7 +219,8 @@ void AudioEngineInterruptionListenerCallback(void* user_data, UInt32 interruptio
     }
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionInterruptionNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];

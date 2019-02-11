@@ -214,8 +214,8 @@ AnimationCurve<componentSize>::AnimationCurve()
 template <int componentSize>
 AnimationCurve<componentSize>::~AnimationCurve()
 {
-    CC_SAFE_DELETE_ARRAY(_keytime);
-    CC_SAFE_DELETE_ARRAY(_value);
+    CC_SAFE_DELETE_ARRAY(_keytime)
+    CC_SAFE_DELETE_ARRAY(_value)
 }
 
 template <int componentSize>

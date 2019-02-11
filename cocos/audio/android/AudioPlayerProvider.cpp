@@ -156,17 +156,18 @@ namespace cocos2d
 
                         void* infoPtr = &info;
                         std::string url = info.url;
-                        preloadEffect(info,
-                                      [infoPtr, url, threadId, pcmData, isSucceed, isReturnFromCache, isPreloadFinished](bool succeed, PcmData data) {
-                                          // If the callback is in the same thread as caller's, it means that we found it
-                                          // in the cache
-                                          *isReturnFromCache = std::this_thread::get_id() == threadId;
-                                          *pcmData = data;
-                                          *isSucceed = succeed;
-                                          *isPreloadFinished = true;
-                                          ALOGV("FileInfo (%p), Set isSucceed flag: %d, path: %s", infoPtr, succeed, url.c_str());
-                                      },
-                                      true);
+                        preloadEffect(
+                            info,
+                            [infoPtr, url, threadId, pcmData, isSucceed, isReturnFromCache, isPreloadFinished](bool succeed, PcmData data) {
+                                // If the callback is in the same thread as caller's, it means that we found it
+                                // in the cache
+                                *isReturnFromCache = std::this_thread::get_id() == threadId;
+                                *pcmData = data;
+                                *isSucceed = succeed;
+                                *isPreloadFinished = true;
+                                ALOGV("FileInfo (%p), Set isSucceed flag: %d, path: %s", infoPtr, succeed, url.c_str());
+                            },
+                            true);
 
                         if (!*isReturnFromCache && !*isPreloadFinished)
                         {
@@ -232,11 +233,12 @@ namespace cocos2d
             _pcmCacheMutex.unlock();
 
             auto info = getFileInfo(audioFilePath);
-            preloadEffect(info,
-                          [this, cb, audioFilePath](bool succeed, PcmData data) {
-                              _callerThreadUtils->performFunctionInCallerThread([this, succeed, data, cb]() { cb(succeed, data); });
-                          },
-                          false);
+            preloadEffect(
+                info,
+                [this, cb, audioFilePath](bool succeed, PcmData data) {
+                    _callerThreadUtils->performFunctionInCallerThread([this, succeed, data, cb]() { cb(succeed, data); });
+                },
+                false);
         }
 
         // Used internally

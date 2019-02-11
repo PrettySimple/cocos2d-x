@@ -176,8 +176,8 @@ public:
     {
         if (_innerAction != action)
         {
-            CC_SAFE_RETAIN(action);
-            CC_SAFE_RELEASE(_innerAction);
+            CC_SAFE_RETAIN(action)
+            CC_SAFE_RELEASE(_innerAction)
             _innerAction = action;
         }
     }
