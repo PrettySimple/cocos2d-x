@@ -1,0 +1,8 @@
+Platform                Shipped (prebuilt) jpeg version
+-----------------------------------------------------------------------------------------------------------------
+iOS                     9.9.0
+mac						9.9.0
+Emscripten              9.9.3
+Android                 9.9.1
+
+See prebuilt/<platform>/build_instructions.txt for... build instructions!

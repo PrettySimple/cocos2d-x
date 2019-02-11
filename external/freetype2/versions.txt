@@ -1,0 +1,8 @@
+Platform                Shipped (prebuilt) FreeType version
+-----------------------------------------------------------------------------------------------------------------
+iOS                     2.5.5
+mac                     2.5.5
+Emscripten              -s USE_FREETYPE=1
+Android                 2.5.5
+
+See prebuilt/<platform>/build_instructions.txt for... build instructions!

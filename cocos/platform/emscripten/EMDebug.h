@@ -16,6 +16,12 @@
 #    include <cocos/2d/CCNode.h>
 #    pragma clang diagnostic pop
 
+
+
+
+
+#if false
+
 /*
 
 Class that
@@ -96,6 +102,9 @@ public:
     static bool js2cpp_check();
     static bool js2cpp_retain(bool retain);
 };
+
+#endif // #if false
+
 
 class EmscriptenSticky
 {

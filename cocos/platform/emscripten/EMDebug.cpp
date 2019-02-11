@@ -6,7 +6,7 @@
 For now, always enabled in debug mode, despite the realtime overhead (which reduced a lot now that we switched to std::unordered_map for tracking...)
 */
 
-#if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
+#if false && defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
 
 #    include "EMDebug.h"
 
@@ -505,6 +505,8 @@ void __untracked_free(void* ptr)
     The actual malloc/free/realloc wrappers that will be linked-in into the project
 */
 
+/*
+
 void* __attribute__((noinline)) malloc(size_t size)
 {
     static bool initialized = false;
@@ -704,6 +706,8 @@ void* __attribute__((noinline)) calloc(size_t n_elements, size_t elem_size)
 
     return ptr_void;
 }
+
+*/
 
 /*********************************************************************************************************************/
 /* EmscriptenMemorySanitizer */

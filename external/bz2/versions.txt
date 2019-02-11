@@ -1,0 +1,8 @@
+Platform                Shipped (prebuilt) bz2 version
+-----------------------------------------------------------------------------------------------------------------
+iOS                     (using system one?)
+mac                     (using system one?)
+Emscripten              1.0.6 built with emscripten 1.38.25
+Android                 (using system one?)
+
+See prebuilt/<platform>/build_instructions.txt for... build instructions!

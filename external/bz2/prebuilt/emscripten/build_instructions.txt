@@ -1,0 +1,16 @@
+mkdir build && cd build
+tar xvf bzip2-1.0.6.tar.gz
+cd bzip2-1.0.6
+
+# Edit Makefile, replace:
+# 
+# CC=emcc
+# AR=llvm-ar
+# RANLIB=llvm-ranlib
+#
+
+emmake make libbz2.a
+
+# copy:
+# * libbz2.a into <cocos>external/bz2/prebuilt/emscripten/
+# * ibzlib.h into <cocos>/external/bz2/include/emscripten/

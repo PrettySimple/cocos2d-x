@@ -1,0 +1,8 @@
+Platform                Shipped (prebuilt) png version
+-----------------------------------------------------------------------------------------------------------------
+iOS                     1.6.16
+mac			1.6.16
+Emscripten		-s USE_PNG=1
+Android                 1.6.16
+
+See prebuilt/<platform>/build_instructions.txt for... build instructions!

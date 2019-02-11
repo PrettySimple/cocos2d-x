@@ -1,0 +1,11 @@
+mkdir build && cd build
+tar xvf jpegsrc.v9c.tar.gz
+cd jpeg-9c
+
+emconfigure ./configure --disable-shared --prefix=`pwd`/install
+emmake make
+emmake make install
+
+# copy:
+# * install/lib/libjpeg.a into <cocos>external/jpeg/prebuilt/emscripten/
+# * install/include/* into <cocos>/external/jpeg/include/emscripten/

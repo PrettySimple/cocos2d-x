@@ -1,0 +1,8 @@
+Platform                Shipped (prebuilt) zlib version
+-----------------------------------------------------------------------------------------------------------------
+iOS                     (using system one?)
+mac                     1.2.8
+Emscripten              -s USE_ZLIB=1
+Android                 1.2.8
+
+See prebuilt/<platform>/build_instructions.txt for... build instructions!

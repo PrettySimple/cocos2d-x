@@ -4,7 +4,7 @@ emmake bash
 
 alias ll="ls -laG"
 
-./Configure no-ssl3 no-comp no-idea no-asm no-dtls no-shared no-hw no-engine no-threads no-dso no-err no-nextprotoneg no-psk no-srp no-weak-ssl-ciphers linux-generic32 -DOPENSSL_USE_IPV6=0
+./Configure no-ssl3 no-comp no-idea no-asm no-dtls no-shared no-hw no-engine no-threads no-dso no-err no-nextprotoneg no-psk no-srp no-weak-ssl-ciphers no-deprecated linux-generic32 -DOPENSSL_USE_IPV6=0
 
 # Edit Makefile
 # * Search and remove all "$(CROSS_COMPILE)", as path concatenations are broken (paths following
