@@ -286,28 +286,24 @@ void GLViewImpl::registerEvents() noexcept
 {
     emscripten_set_webglcontextlost_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, [](int, const void*, void* userData) {
         auto glview = reinterpret_cast<GLViewImpl*>(userData);
-        EMS_ASSERT_PTR(glview);
         glview->em_webglContextLostEvent();
         return EM_TRUE;
     });
 
     emscripten_set_webglcontextrestored_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, [](int, const void*, void* userData) {
         auto glview = reinterpret_cast<GLViewImpl*>(userData);
-        EMS_ASSERT_PTR(glview);
         glview->em_webglContextRestoredEvent();
         return EM_TRUE;
     });
 
     emscripten_set_fullscreenchange_callback("#document", reinterpret_cast<void*>(this), EM_TRUE, [](int, const EmscriptenFullscreenChangeEvent* e, void* userData) {
         auto glview = reinterpret_cast<GLViewImpl*>(userData);
-        EMS_ASSERT_PTR(glview);
         glview->em_fullscreenEvent(e);
         return EM_TRUE;
     });
 
     const auto mouseEventCb = [](int eventType, const EmscriptenMouseEvent* mouseEvent, void* userData) {
         auto glview = reinterpret_cast<GLViewImpl*>(userData);
-        EMS_ASSERT_PTR(glview);
         glview->em_mouseEvent(eventType, mouseEvent);
         return EM_TRUE;
     };
@@ -321,7 +317,6 @@ void GLViewImpl::registerEvents() noexcept
 
     emscripten_set_wheel_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, [](int, const EmscriptenWheelEvent* wheelEvent, void* userData) {
         auto glview = reinterpret_cast<GLViewImpl*>(userData);
-        EMS_ASSERT_PTR(glview);
         glview->em_wheelEvent(wheelEvent);
         return EM_TRUE;
     });
@@ -559,7 +554,13 @@ bool GLViewImpl::setFullscreen(bool fullscreen) noexcept
 
         // canvasResizedCallbackUserData
         // ----------------------------------------------------------------------------------------------------------------------------------------------------------
-        nullptr};
+        nullptr,
+
+        // canvasResizedCallbackTargetThread (currently undocumented at https://emscripten.org/docs/api_reference/html5.h.html#fullscreen)
+        // ----------------------------------------------------------------------------------------------------------------------------------------------------------
+        pthread_self(),
+
+     };
 
     if (fullscreen == _fullscreen)
         return false;
@@ -731,7 +732,7 @@ void GLViewImpl::em_mouseEvent(int eventType, const EmscriptenMouseEvent* mouseE
             intptr_t id = 0;
 
             EM_STICKY(TOUCH);
-            EM_STICKY_PRINT("handleTouchesCancel(1, %d, %f, %f)\n", id, cursorX, cursorY);
+            EM_STICKY_PRINT("handleTouchesCancel(1, %ld, %f, %f)\n", id, cursorX, cursorY);
 
             // TODO: we're transmitting cursor (not design) coordinated here.
             // While it IS wrong, I haven't figured out yet why would the coordinates be used for a touches cancel event...
@@ -754,7 +755,7 @@ void GLViewImpl::em_mouseEvent(int eventType, const EmscriptenMouseEvent* mouseE
                     intptr_t id = 0;
 
                     EM_STICKY(TOUCH);
-                    EM_STICKY_PRINT("handleTouchesMove(1, %d, %f, %f)\n", id, cursorX, cursorY);
+                    EM_STICKY_PRINT("handleTouchesMove(1, %ld, %f, %f)\n", id, cursorX, cursorY);
 
                     handleTouchesMove(1, &id, &cursorX, &cursorY);
                 }
@@ -777,7 +778,7 @@ void GLViewImpl::em_mouseEvent(int eventType, const EmscriptenMouseEvent* mouseE
                     intptr_t id = 0;
 
                     EM_STICKY(TOUCH);
-                    EM_STICKY_PRINT("handleTouchesBegin(1, %d, %f, %f)\n", id, cursorX, cursorY);
+                    EM_STICKY_PRINT("handleTouchesBegin(1, %ld, %f, %f)\n", id, cursorX, cursorY);
 
                     handleTouchesBegin(1, &id, &cursorX, &cursorY);
 
@@ -798,7 +799,7 @@ void GLViewImpl::em_mouseEvent(int eventType, const EmscriptenMouseEvent* mouseE
                         intptr_t id = 0;
 
                         EM_STICKY(TOUCH);
-                        EM_STICKY_PRINT("handleTouchesEnd(1, %d, %f, %f)\n", id, cursorX, cursorY);
+                        EM_STICKY_PRINT("handleTouchesEnd(1, %ld, %f, %f)\n", id, cursorX, cursorY);
 
                         handleTouchesEnd(1, &id, &cursorX, &cursorY);
 
