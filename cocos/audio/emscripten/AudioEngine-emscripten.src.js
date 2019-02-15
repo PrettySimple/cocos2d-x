@@ -19,19 +19,19 @@ TODO:
 
 Module.cocos_AudioEngine = (function()
 {
-	var INVALID_AUDIO_ID = -1;
-	var TIME_UNKNOWN = -1.0;
-	var	binding = Module.AudioEngineImpl;
+	const INVALID_AUDIO_ID = -1;
+	const TIME_UNKNOWN = -1.0;
+	const binding = Module.AudioEngineImpl;
 
 	// This is a first step in detecting the availability of AudioContext and the actual ability to play mp3.
 	// 'context' may get null'd later on, if we happen to realize the browser is actually unable to uncompress mp3.
 
-	var context = (function()
+	let context = (function()
 	{
 		// This is a first step in detecting the availability of AudioContext and the actual ability to play mp3.
 		// Sound.context may get null'd later on, if we happen to realize the browser is actually unable to uncompress mp3.
 
-		var	contextClass = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
+		const contextClass = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
 
 		if(!contextClass || !contextClass.prototype.decodeAudioData || !contextClass.prototype.createBufferSource)
 			return null;
@@ -46,7 +46,7 @@ Module.cocos_AudioEngine = (function()
 		*/
 
 		// Assuming that mime types supported by HTMLMediaElement also apply to AudioContext implementation
-		var	audio = document.createElement('audio');
+		const audio = document.createElement('audio');
 
 		function	canEventuallyPlay(mime)
 		{
@@ -66,7 +66,7 @@ Module.cocos_AudioEngine = (function()
 
 		if(canEventuallyPlay('audio/mp3') || canEventuallyPlay('audio/mpeg3') || canEventuallyPlay('audio/mpeg'))
 		{
-			var context = new contextClass();
+			const context = new contextClass();
 
 			if(typeof(context['currentTime']) === 'number')
 				return context;
@@ -77,14 +77,14 @@ Module.cocos_AudioEngine = (function()
 	})();
 
 	// Pointer to the AudioEngineImpl singleton
-	var	cpp_ptr = null;
+	let	cpp_ptr = null;
 
 	// Path-indexed cache of <AudioBuffer> (mp3 ArrayBuffer decoded by browser)
-	var	preloadCache = {};
+	let	preloadCache = {};
 
 	// Id-indexed list of playingSound instances
-	var	playingSounds = {};
-	var	nextPlayingSoundId = 0;
+	let	playingSounds = {};
+	let	nextPlayingSoundId = 0;
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -158,9 +158,8 @@ Module.cocos_AudioEngine = (function()
 		// If not looping, setup an end-of-play callback
 		if(!this.loop)
 		{
-			var	self = this;
 			// We're invoking stop() before the finishCallback(), so that the cleanup is done...
-			this.finishTimer = window.setTimeout(function() { self._onFinish(); }, (this.buffer.duration - position) * 1000);
+			this.finishTimer = window.setTimeout(() => this._onFinish(), (this.buffer.duration - position) * 1000);
 		}
 		else
 			this.finishTimer = null;
@@ -188,26 +187,6 @@ Module.cocos_AudioEngine = (function()
 	{
 		void(loop);
 		throw 'setLoop() not implemented yet!';
-
-		/* Currently not implemented at PSAudioEngine level...
-
-		var	wasLooping = this.loop;
-		this.loop = loop;
-
-		// Eventually needs to enable/disable the finishTimer
-		// What else?
-
-		if(wasLooping && !this.loop)
-		{
-
-
-		}
-		else if(!wasLooping && this.loop)
-		{
-
-
-		}
-		*/
 	};
 
 
@@ -287,7 +266,7 @@ Module.cocos_AudioEngine = (function()
 		if(this.pauseOffset !== null)
 			return this.pauseOffset;
 
-		var	currentTime = this.context.currentTime - this.baseTime;
+		let	currentTime = this.context.currentTime - this.baseTime;
 
 		// Using ms precision for the computation should be more than enough...
 		if(this.loop && currentTime > this.buffer.duration)
@@ -315,7 +294,7 @@ Module.cocos_AudioEngine = (function()
 
 		if(playingSounds.hasOwnProperty('s_'+id))
 		{
-			var	path = playingSounds['s_'+id].getPath();
+			const path = playingSounds['s_'+id].getPath();
 			delete playingSounds['s_'+id];
 
 			if(cpp_ptr !== null)
@@ -349,7 +328,7 @@ Module.cocos_AudioEngine = (function()
 
 		preload:	function(path_ptr, path_len)
 		{
-			var	filePath = Pointer_stringify(path_ptr, path_len);
+			const filePath = Pointer_stringify(path_ptr, path_len);
 
 			//console.log('*** preload('+filePath+')');
 
@@ -365,7 +344,7 @@ Module.cocos_AudioEngine = (function()
 				// We no longer try to deduplicate nor to detect whether there already is a pending request.
 				// It's up to the caller to do so.
 
-				var	mp3;
+				let	mp3;
 
 				try
 				{
@@ -414,7 +393,7 @@ Module.cocos_AudioEngine = (function()
 
 		uncache:	function(path_ptr, path_len)
 		{
-			var	filePath = Pointer_stringify(path_ptr, path_len);
+			const filePath = Pointer_stringify(path_ptr, path_len);
 
 			//console.log('*** uncache('+filePath+')');
 
@@ -431,15 +410,15 @@ Module.cocos_AudioEngine = (function()
 
 		dbg_dump:	function()
 		{
-			var	ret = { preloaded: [], playing: {} };
+			const ret = { preloaded: [], playing: {} };
 
-			for(var filePath in preloadCache)
+			for(let filePath in preloadCache)
 			{
 				if(preloadCache.hasOwnProperty(filePath))
 					ret.preloaded.push(filePath);
 			}
 
-			for(var playing in playingSounds)
+			for(let playing in playingSounds)
 			{
 				if(playingSounds.hasOwnProperty(playing))
 				{
@@ -457,7 +436,7 @@ Module.cocos_AudioEngine = (function()
 
 		dbg_preload:	function(path)
 		{
-			var	path_ptr = this.dbg_str2ptr(path);
+			const path_ptr = this.dbg_str2ptr(path);
 
 			this.preload(path_ptr.ptr, path_ptr.len);
 
@@ -466,7 +445,7 @@ Module.cocos_AudioEngine = (function()
 
 		dbg_play:		function(path, loop, volume)
 		{
-			var	path_ptr = this.dbg_str2ptr(path);
+			const path_ptr = this.dbg_str2ptr(path);
 
 			this.play(path_ptr.ptr, path_ptr.len, loop, volume);
 
@@ -475,8 +454,8 @@ Module.cocos_AudioEngine = (function()
 
 		dbg_str2ptr:	function(str)
 		{
-			var	size_cpp = lengthBytesUTF8(str);
-			var	ptr = _malloc(size_cpp + 1);	// null terminator. Free'd by CPP.
+			const size_cpp = lengthBytesUTF8(str);
+			const ptr = _malloc(size_cpp + 1);	// null terminator. Free'd by CPP.
 
 			stringToUTF8(str, ptr, size_cpp + 1);
 
@@ -491,11 +470,11 @@ Module.cocos_AudioEngine = (function()
 
 		play:	function(path_ptr, path_len, loop, volume)
 		{
-			var	filePath = Pointer_stringify(path_ptr, path_len);
+			const filePath = Pointer_stringify(path_ptr, path_len);
 
 			//console.log('*** play('+filePath+', '+(loop?'true':'false')+', '+volume+')');
 
-			var	id = ++nextPlayingSoundId;
+			const id = ++nextPlayingSoundId;
 
 			try
 			{

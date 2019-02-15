@@ -15,7 +15,7 @@ About 'use strict' here:
 
 Module.cocos_UserDefault = (function()
 {
-	var	_storage = (function()
+	const _storage = (function()
 	{
 		// Storage availability detection stolen from native's app.js. Comments stripped.
 		try
@@ -42,7 +42,7 @@ Module.cocos_UserDefault = (function()
 			}
 			catch(e)
 			{
-				var	memFallback = {};
+				const memFallback = {};
 
 				return {
 
@@ -118,20 +118,15 @@ Module.cocos_UserDefault = (function()
 		{
 			// We return 0 if the key was not found, a pointer to a null-terminated string otherwise
 			// (since we assume we're storing null-terminated base64-encoded data)
-			var	value = _get(Pointer_stringify(key_ptr, key_len));
+			const value = _get(Pointer_stringify(key_ptr, key_len));
 
 			if(value === null)
 				return 0;
 
 			// Since we store base64-encoded strings, the stringToUTF8() output should equal key.length
-			// (no multi-byte characters expected), yet always invoke lengthBytesUTF8()...
+			// (no multi-byte characters expected), yet always invoke allocateUTF8()...
 
-			var	size = lengthBytesUTF8(value) + 1;
-			var	ptr = _malloc(size);
-
-			stringToUTF8(value, ptr, size);
-
-			return ptr;
+			return allocateUTF8(value);
 		},
 
 		removeValue:	function(key_ptr, key_len)

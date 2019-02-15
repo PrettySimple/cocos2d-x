@@ -29,7 +29,7 @@
 {
 	// Detect the supported implementation, if any
 
-	var	impl = (function()
+	const impl = (function()
 	{
 		// Standard (recommendation): https://www.w3.org/TR/page-visibility/
 
@@ -62,11 +62,11 @@
 
 	(function()
 	{
-		var	_binding = Module.cocos_Application_binding;	// TODO: rename this (and all other) EM bindings...
+		const _binding = Module.cocos_Application_binding;	// TODO: rename this (and all other) EM bindings...
 
 		// Check the initial state
 
-		var	inForeground = impl.inForeground();
+		let	inForeground = impl.inForeground();
 
 		/*<DEBUG>*/
 		console.log('*** Application initially in foreground: '+(inForeground ? 'YES' : 'NO'));

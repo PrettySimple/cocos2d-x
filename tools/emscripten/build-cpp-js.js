@@ -125,7 +125,7 @@ function	build_cpp_js(input_file, output_file, opts, lint_define_ro, lint_define
 		var	lint_ignore = [];	// JSHINT error codes to ignore (eg. W069). Beware that they still account against maxerr.
 
 		var	lint_options = {
-			esversion: 5,
+			esversion: 6,
 			sub: true,				// 'W069' - although documented as deprecated, there is currently no alternative to this option
 			freeze: true,
 			futurehostile: true,
@@ -146,6 +146,7 @@ function	build_cpp_js(input_file, output_file, opts, lint_define_ro, lint_define
 			lengthBytesUTF8: false,
 			stringToUTF8: false,
 			stringToUTF8Array: false,
+			allocateUTF8: false,
 			_malloc: false,
 			_free: false
 		};
