@@ -326,9 +326,9 @@ Module.cocos_AudioEngine = (function()
 		/********************************************************************************************************************************************/
 		/* PRELOADING/UNCACHING (great naming consistency BTW) */
 
-		preload:	function(path_ptr, path_len)
+		preload:	function(path_ptr)
 		{
-			const filePath = Pointer_stringify(path_ptr, path_len);
+			const filePath = UTF8ToString(path_ptr);
 
 			//console.log('*** preload('+filePath+')');
 
@@ -391,9 +391,9 @@ Module.cocos_AudioEngine = (function()
 			}
 		},
 
-		uncache:	function(path_ptr, path_len)
+		uncache:	function(path_ptr)
 		{
-			const filePath = Pointer_stringify(path_ptr, path_len);
+			const filePath = UTF8ToString(path_ptr);
 
 			//console.log('*** uncache('+filePath+')');
 
@@ -468,9 +468,9 @@ Module.cocos_AudioEngine = (function()
 		/********************************************************************************************************************************************/
 		/* PLAYING */
 
-		play:	function(path_ptr, path_len, loop, volume)
+		play:	function(path_ptr, loop, volume)
 		{
-			const filePath = Pointer_stringify(path_ptr, path_len);
+			const filePath = UTF8ToString(path_ptr);
 
 			//console.log('*** play('+filePath+', '+(loop?'true':'false')+', '+volume+')');
 

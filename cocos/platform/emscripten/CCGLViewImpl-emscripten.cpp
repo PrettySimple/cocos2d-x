@@ -431,7 +431,7 @@ void GLViewImpl::setCursorShape(CursorShape shape)
                 break;
         }
 
-        EM_ASM_({ document.getElementById('canvas').style.cursor = Pointer_stringify($0); }, cssName);
+        EM_ASM_({ document.getElementById('canvas').style.cursor = UTF8ToString($0); }, cssName);
 
         _currentCursorShape = shape;
     }

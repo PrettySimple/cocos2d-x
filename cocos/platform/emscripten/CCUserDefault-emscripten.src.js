@@ -109,16 +109,16 @@ Module.cocos_UserDefault = (function()
 
 	return Object.freeze({
 
-		setValue:	function(key_ptr, key_len, value_ptr, value_len)
+		setValue:	function(key_ptr, value_ptr)
 		{
-			_set(Pointer_stringify(key_ptr, key_len), Pointer_stringify(value_ptr, value_len));
+			_set(UTF8ToString(key_ptr), UTF8ToString(value_ptr));
 		},
 
-		getValue:	function(key_ptr, key_len)
+		getValue:	function(key_ptr)
 		{
 			// We return 0 if the key was not found, a pointer to a null-terminated string otherwise
 			// (since we assume we're storing null-terminated base64-encoded data)
-			const value = _get(Pointer_stringify(key_ptr, key_len));
+			const value = _get(UTF8ToString(key_ptr));
 
 			if(value === null)
 				return 0;
@@ -129,9 +129,9 @@ Module.cocos_UserDefault = (function()
 			return allocateUTF8(value);
 		},
 
-		removeValue:	function(key_ptr, key_len)
+		removeValue:	function(key_ptr)
 		{
-			_remove(Pointer_stringify(key_ptr, key_len));
+			_remove(UTF8ToString(key_ptr));
 		}
 	});
 

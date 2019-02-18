@@ -62,7 +62,7 @@ void AudioEngineImpl::preload(const std::string& filePath, const preload_callbac
     {
         _pendingPreloads.insert({filePath, callback});
 
-        EM_ASM({ Module.cocos_AudioEngine.preload($0, $1); }, filePath.c_str(), filePath.size());
+        EM_ASM({ Module.cocos_AudioEngine.preload($0); }, filePath.c_str());
     }
     else
         search->second = callback;
@@ -95,7 +95,7 @@ int AudioEngineImpl::play2d(const std::string& filePath, bool loop, float volume
     // printf("*** AudioEngineImpl::play2d(%s, %s, %f)\n", filePath.c_str(), loop ? "true" : "false", volume);
     (void)isMusic; // Unused on EM platform
 
-    return EM_ASM_INT({ return Module.cocos_AudioEngine.play($0, $1, $2, $3); }, filePath.c_str(), filePath.size(), loop, volume);
+    return EM_ASM_INT({ return Module.cocos_AudioEngine.play($0, $1, $2); }, filePath.c_str(), loop, volume);
 }
 
 void AudioEngineImpl::setVolume(int audioID, float volume)

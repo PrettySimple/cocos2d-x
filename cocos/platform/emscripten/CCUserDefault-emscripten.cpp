@@ -79,11 +79,6 @@
         For sake of simplicity, we'll *assume* that it always holds a string that forms valid utf8 sequences. Passing a non-utf8 string will break this
         implementation. It's probably safe, as the implementations using XML have the same constraints regarding utf8.
 
-    * Passing lengths to javascript
-
-        We keep passing length to javascript, despite all pointers being null-terminated string, and Pointer_stringify() knowing how to deal with them.
-        This allows us to change serializing format without breaking everything.
-
     * JS implementation
 
         Because window.*storage implementations only support storing DOMString-s, and we need to store CPP native data types, including
@@ -122,7 +117,7 @@ namespace
             if (!encodedData)
                 return;
 
-            EM_ASM_({ Module.cocos_UserDefault.setValue($0, $1, $2, $3); }, key, strlen(key), encodedData, strlen(encodedData));
+            EM_ASM_({ Module.cocos_UserDefault.setValue($0, $1); }, key, encodedData);
 
             free(encodedData);
         }
@@ -131,7 +126,7 @@ namespace
     static std::pair<bool, std::string> // <found, value>
     getValueForKey(const char* key)
     {
-        uintptr_t ptr = EM_ASM_INT({ return Module.cocos_UserDefault.getValue($0, $1); }, key, strlen(key));
+        uintptr_t ptr = EM_ASM_INT({ return Module.cocos_UserDefault.getValue($0); }, key);
 
         if (!ptr)
             return std::make_pair(false, "");
@@ -351,7 +346,7 @@ void UserDefault::flush()
 
 void UserDefault::deleteValueForKey(const char* key)
 {
-    EM_ASM_({ Module.cocos_UserDefault.removeValue($0, $1); }, key, strlen(key));
+    EM_ASM_({ Module.cocos_UserDefault.removeValue($0); }, key);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

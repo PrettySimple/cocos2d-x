@@ -142,7 +142,7 @@ function	build_cpp_js(input_file, output_file, opts, lint_define_ro, lint_define
 			HEAPU8: true,
 			FS: false,
 			Module: false,
-			Pointer_stringify: false,
+			UTF8ToString: false,
 			lengthBytesUTF8: false,
 			stringToUTF8: false,
 			stringToUTF8Array: false,
