@@ -83,6 +83,7 @@ private:
     EGLContext _context;
     EGLSurface _surface;
     EGLConfig _config;
+    bool _contextLost;
 
     float _retinaFactor;
     DetectRetinaChange _retinaChangeDetector;

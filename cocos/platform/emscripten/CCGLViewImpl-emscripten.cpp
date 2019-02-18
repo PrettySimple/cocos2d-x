@@ -26,6 +26,13 @@
 #    include <emscripten/emscripten.h>
 #    include <limits>
 
+namespace
+{
+    // Since v1.38.27, using -s DISABLE_DEPRECATED_FIND_EVENT_TARGET_BEHAVIOR=1
+    // See: https://github.com/emscripten-core/emscripten/pull/7977
+    constexpr const char *CANVAS = "#canvas";
+}
+
 NS_CC_BEGIN
 
 /*
@@ -251,6 +258,7 @@ GLViewImpl::GLViewImpl()
 , _context(EGL_NO_CONTEXT)
 , _surface(EGL_NO_SURFACE)
 , _config(nullptr)
+, _contextLost(false)
 
 , _retinaFactor(static_cast<float>(emscripten_get_device_pixel_ratio()))
 , _retinaChangeDetector([this]() { handleRetinaFactorChange(); })
@@ -284,19 +292,19 @@ GLViewImpl::~GLViewImpl()
 
 void GLViewImpl::registerEvents() noexcept
 {
-    emscripten_set_webglcontextlost_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, [](int, const void*, void* userData) {
+    emscripten_set_webglcontextlost_callback(CANVAS, reinterpret_cast<void*>(this), EM_TRUE, [](int, const void*, void* userData) {
         auto glview = reinterpret_cast<GLViewImpl*>(userData);
         glview->em_webglContextLostEvent();
         return EM_TRUE;
     });
 
-    emscripten_set_webglcontextrestored_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, [](int, const void*, void* userData) {
+    emscripten_set_webglcontextrestored_callback(CANVAS, reinterpret_cast<void*>(this), EM_TRUE, [](int, const void*, void* userData) {
         auto glview = reinterpret_cast<GLViewImpl*>(userData);
         glview->em_webglContextRestoredEvent();
         return EM_TRUE;
     });
 
-    emscripten_set_fullscreenchange_callback("#document", reinterpret_cast<void*>(this), EM_TRUE, [](int, const EmscriptenFullscreenChangeEvent* e, void* userData) {
+    emscripten_set_fullscreenchange_callback(EMSCRIPTEN_EVENT_TARGET_DOCUMENT, reinterpret_cast<void*>(this), EM_TRUE, [](int, const EmscriptenFullscreenChangeEvent* e, void* userData) {
         auto glview = reinterpret_cast<GLViewImpl*>(userData);
         glview->em_fullscreenEvent(e);
         return EM_TRUE;
@@ -308,43 +316,43 @@ void GLViewImpl::registerEvents() noexcept
         return EM_TRUE;
     };
 
-    emscripten_set_mousedown_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, mouseEventCb);
-    emscripten_set_mouseup_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, mouseEventCb);
-    emscripten_set_mousemove_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, mouseEventCb);
+    emscripten_set_mousedown_callback(CANVAS, reinterpret_cast<void*>(this), EM_TRUE, mouseEventCb);
+    emscripten_set_mouseup_callback(CANVAS, reinterpret_cast<void*>(this), EM_TRUE, mouseEventCb);
+    emscripten_set_mousemove_callback(CANVAS, reinterpret_cast<void*>(this), EM_TRUE, mouseEventCb);
     // It is important to track both mouseleave and mouseenter, as they're being fired (on some browsers...) when switching to/from fullscreen!
-    emscripten_set_mouseleave_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, mouseEventCb);
-    emscripten_set_mouseenter_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, mouseEventCb);
+    emscripten_set_mouseleave_callback(CANVAS, reinterpret_cast<void*>(this), EM_TRUE, mouseEventCb);
+    emscripten_set_mouseenter_callback(CANVAS, reinterpret_cast<void*>(this), EM_TRUE, mouseEventCb);
 
-    emscripten_set_wheel_callback("canvas", reinterpret_cast<void*>(this), EM_TRUE, [](int, const EmscriptenWheelEvent* wheelEvent, void* userData) {
+    emscripten_set_wheel_callback(CANVAS, reinterpret_cast<void*>(this), EM_TRUE, [](int, const EmscriptenWheelEvent* wheelEvent, void* userData) {
         auto glview = reinterpret_cast<GLViewImpl*>(userData);
         glview->em_wheelEvent(wheelEvent);
         return EM_TRUE;
     });
 
     /* This code was never tested, commenting until actually needed
-    emscripten_set_keypress_callback("#document", reinterpret_cast<void *>(this), EM_TRUE, &keyCb);
-    emscripten_set_keyup_callback("#document", reinterpret_cast<void *>(this), EM_TRUE, &keyCb);
+    emscripten_set_keypress_callback(EMSCRIPTEN_EVENT_TARGET_DOCUMENT, reinterpret_cast<void *>(this), EM_TRUE, &keyCb);
+    emscripten_set_keyup_callback(EMSCRIPTEN_EVENT_TARGET_DOCUMENT, reinterpret_cast<void *>(this), EM_TRUE, &keyCb);
     */
 }
 
 void GLViewImpl::unregisterEvents() noexcept
 {
-    emscripten_set_webglcontextlost_callback("canvas", nullptr, EM_TRUE, nullptr);
-    emscripten_set_webglcontextrestored_callback("canvas", nullptr, EM_TRUE, nullptr);
+    emscripten_set_webglcontextlost_callback(CANVAS, nullptr, EM_TRUE, nullptr);
+    emscripten_set_webglcontextrestored_callback(CANVAS, nullptr, EM_TRUE, nullptr);
 
-    emscripten_set_fullscreenchange_callback("#document", nullptr, EM_TRUE, nullptr);
+    emscripten_set_fullscreenchange_callback(EMSCRIPTEN_EVENT_TARGET_DOCUMENT, nullptr, EM_TRUE, nullptr);
 
-    emscripten_set_mousedown_callback("canvas", nullptr, EM_TRUE, nullptr);
-    emscripten_set_mouseup_callback("canvas", nullptr, EM_TRUE, nullptr);
-    emscripten_set_mousemove_callback("canvas", nullptr, EM_TRUE, nullptr);
-    emscripten_set_mouseleave_callback("canvas", nullptr, EM_TRUE, nullptr);
-    emscripten_set_mouseenter_callback("canvas", nullptr, EM_TRUE, nullptr);
+    emscripten_set_mousedown_callback(CANVAS, nullptr, EM_TRUE, nullptr);
+    emscripten_set_mouseup_callback(CANVAS, nullptr, EM_TRUE, nullptr);
+    emscripten_set_mousemove_callback(CANVAS, nullptr, EM_TRUE, nullptr);
+    emscripten_set_mouseleave_callback(CANVAS, nullptr, EM_TRUE, nullptr);
+    emscripten_set_mouseenter_callback(CANVAS, nullptr, EM_TRUE, nullptr);
 
-    emscripten_set_wheel_callback("canvas", nullptr, EM_TRUE, nullptr);
+    emscripten_set_wheel_callback(CANVAS, nullptr, EM_TRUE, nullptr);
 
     /*
-    emscripten_set_keypress_callback("#document", nullptr, EM_TRUE, nullptr);
-    emscripten_set_keyup_callback("#document", nullptr, EM_TRUE, nullptr);
+    emscripten_set_keypress_callback(EMSCRIPTEN_EVENT_TARGET_DOCUMENT, nullptr, EM_TRUE, nullptr);
+    emscripten_set_keyup_callback(EMSCRIPTEN_EVENT_TARGET_DOCUMENT, nullptr, EM_TRUE, nullptr);
     */
 }
 
@@ -366,8 +374,7 @@ void GLViewImpl::end()
 
 bool GLViewImpl::isOpenGLReady()
 {
-    return _display != EGL_NO_DISPLAY && _context != EGL_NO_CONTEXT && _surface != EGL_NO_SURFACE && _config != nullptr /* &&
-        !emscripten_is_webgl_context_lost("canvas") */ ;
+    return _display != EGL_NO_DISPLAY && _context != EGL_NO_CONTEXT && _surface != EGL_NO_SURFACE && _config != nullptr && !_contextLost;
 }
 
 void GLViewImpl::swapBuffers()
@@ -375,8 +382,13 @@ void GLViewImpl::swapBuffers()
     if (isOpenGLReady())
     {
         EGLBoolean ret = eglSwapBuffers(_display, _surface);
+        /*
+        During context loss, it seems there is a time window (roughly 50% of times) where we get invoked before the context loss
+        callback. Hence, disabling these assert()s...
+
         assert(eglGetError() == EGL_SUCCESS);
         assert(ret == EGL_TRUE);
+        */
     }
 }
 
@@ -575,7 +587,7 @@ bool GLViewImpl::setFullscreen(bool fullscreen) noexcept
     bool success;
 
     if (fullscreen)
-        success = (emscripten_request_fullscreen_strategy("canvas", EM_FALSE, &strategy) == EMSCRIPTEN_RESULT_SUCCESS);
+        success = (emscripten_request_fullscreen_strategy(CANVAS, EM_FALSE, &strategy) == EMSCRIPTEN_RESULT_SUCCESS);
     else
         success = (emscripten_exit_fullscreen() == EMSCRIPTEN_RESULT_SUCCESS);
 
@@ -592,6 +604,7 @@ bool GLViewImpl::setFullscreen(bool fullscreen) noexcept
 
 void GLViewImpl::em_webglContextLostEvent() noexcept
 {
+    _contextLost = true;
     _retinaChangeDetector.pauseChecks(); // Restored (indirectly) by em_webglContextRestoredEvent()
     Director::getInstance()->stopAnimation();
     deleteEGLContext();
@@ -601,7 +614,13 @@ void GLViewImpl::em_webglContextRestoredEvent() noexcept
 {
     auto director = Director::getInstance();
 
+
     GL::invalidateStateCache();
+
+    _contextLost = false;
+    // Indirectly resumes the _retinaChangeDetector checks
+    createEGLContext();
+
     GLProgramCache::getInstance()->reloadDefaultGLPrograms();
     DrawPrimitives::init();
     VolatileTextureMgr::reloadAllTextures();
@@ -610,8 +629,6 @@ void GLViewImpl::em_webglContextRestoredEvent() noexcept
     director->getEventDispatcher()->dispatchEvent(&recreatedEvent);
     director->setGLDefaultValues();
 
-    // Indirectly resumes the _retinaChangeDetector checks
-    createEGLContext();
 
     director->startAnimation();
 }
