@@ -366,8 +366,8 @@ void GLViewImpl::end()
 
 bool GLViewImpl::isOpenGLReady()
 {
-    return _display != EGL_NO_DISPLAY && _context != EGL_NO_CONTEXT && _surface != EGL_NO_SURFACE && _config != nullptr &&
-        !emscripten_is_webgl_context_lost("canvas");
+    return _display != EGL_NO_DISPLAY && _context != EGL_NO_CONTEXT && _surface != EGL_NO_SURFACE && _config != nullptr /* &&
+        !emscripten_is_webgl_context_lost("canvas") */ ;
 }
 
 void GLViewImpl::swapBuffers()
