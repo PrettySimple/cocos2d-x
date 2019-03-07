@@ -141,7 +141,17 @@ void Configuration::gatherGPUInfo()
     _supportsPVRTC = checkForGLExtension("GL_IMG_texture_compression_pvrtc");
     _valueDict["gl.supports_PVRTC"] = Value(_supportsPVRTC);
 
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_EMSCRIPTEN)
     _supportsNPOT = true;
+#else
+    // https://www.khronos.org/webgl/wiki/WebGL_and_OpenGL_Differences
+
+    // > * generateMipmap(target) generates an INVALID_OPERATION error if the level 0 image of the texture currently bound to target has an NPOT width or height.
+    // > * Sampling an NPOT texture in a shader will produce the RGBA color (0, 0, 0, 1) if:
+    // >    * The minification filter is set to anything but NEAREST or LINEAR: in other words, if it uses one of the mipmapped filters.
+    // >    * The repeat mode is set to anything but CLAMP_TO_EDGE; repeating NPOT textures are not supported.
+    _supportsNPOT = false;
+#endif
     _valueDict["gl.supports_NPOT"] = Value(_supportsNPOT);
 
     _supportsBGRA8888 = checkForGLExtension("GL_IMG_texture_format_BGRA8888");
