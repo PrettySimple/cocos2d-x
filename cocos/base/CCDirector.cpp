@@ -1177,6 +1177,11 @@ void Director::showStats()
 
     if (_displayStats && _FPSLabel && _drawnBatchesLabel && _drawnVerticesLabel)
     {
+        const int height_spacing = 22 / CC_CONTENT_SCALE_FACTOR();
+        _drawnVerticesLabel->setPosition(_displayStatsOffset + Vec2(0, height_spacing * 2) + CC_DIRECTOR_STATS_POSITION);
+        _drawnBatchesLabel->setPosition(_displayStatsOffset + Vec2(0, height_spacing * 1) + CC_DIRECTOR_STATS_POSITION);
+        _FPSLabel->setPosition(_displayStatsOffset + Vec2(0, height_spacing * 0) + CC_DIRECTOR_STATS_POSITION);
+
         char buffer[30];
 
         float dt = _deltaTime * FPS_FILTER + (1 - FPS_FILTER) * prevDeltaTime;
