@@ -169,7 +169,11 @@ public:
     /** Whether or not displaying the FPS on the bottom-left corner of the screen. */
     bool isDisplayStats() { return _displayStats; }
     /** Display the FPS on the bottom-left corner of the screen. */
-    void setDisplayStats(bool displayStats) { _displayStats = displayStats; }
+    void setDisplayStats(bool displayStats,
+                         Vec2 displayStatsOffset = Vec2::ZERO) {
+        _displayStats       = displayStats;
+        _displayStatsOffset = displayStatsOffset;
+    }
 
     /** Get seconds per frame. */
     float getSecondsPerFrame() { return _secondsPerFrame; }
@@ -570,6 +574,7 @@ protected:
     bool _landscape;
 
     bool _displayStats;
+    Vec2 _displayStatsOffset;
     float _accumDt;
     float _frameRate;
 
