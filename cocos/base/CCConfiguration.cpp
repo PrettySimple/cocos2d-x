@@ -150,7 +150,9 @@ void Configuration::gatherGPUInfo()
     // > * Sampling an NPOT texture in a shader will produce the RGBA color (0, 0, 0, 1) if:
     // >    * The minification filter is set to anything but NEAREST or LINEAR: in other words, if it uses one of the mipmapped filters.
     // >    * The repeat mode is set to anything but CLAMP_TO_EDGE; repeating NPOT textures are not supported.
-    _supportsNPOT = false;
+    //XXX_supportsNPOT = false;
+    // Edit: although WebGL does NOT support NPOT, we need to leave the setting to true, as RenderTexture::initWithWidthAndHeight() breaks.
+    _supportsNPOT = true;
 #endif
     _valueDict["gl.supports_NPOT"] = Value(_supportsNPOT);
 
