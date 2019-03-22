@@ -442,7 +442,7 @@ Vec2 Vec2::getIntersectPoint(const Vec2& A, const Vec2& B, const Vec2& C, const 
     {
         // Vec2 of intersection
         Vec2 P;
-        P.v = A.v + S * (B.v - B.v);
+        P.v = A.v + S * (B.v - A.v);
         return P;
     }
 
