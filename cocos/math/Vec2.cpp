@@ -450,6 +450,36 @@ Vec2 Vec2::getIntersectPoint(const Vec2& A, const Vec2& B, const Vec2& C, const 
 #endif
 }
 
+Vec2 Vec2::getIntersectSegmentPoint(const Vec2& A, const Vec2& B, const Vec2& C, const Vec2& D)
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
+    float S, T;
+    
+    if (isLineIntersect(A, B, C, D, &S, &T) && (S >= 0.0f && S <= 1.0f && T >= 0.0f && T <= 1.0f))
+    {
+        // Vec2 of intersection
+        Vec2 P;
+        P.x = A.x + S * (B.x - A.x);
+        P.y = A.y + S * (B.y - A.y);
+        return P;
+    }
+    
+    return Vec2::ZERO;
+#else
+    float S, T;
+    
+    if (isLineIntersect(A, B, C, D, &S, &T) && (S >= 0.0f && S <= 1.0f && T >= 0.0f && T <= 1.0f))
+    {
+        // Vec2 of intersection
+        Vec2 P;
+        P.v = A.v + S * (B.v - A.v);
+        return P;
+    }
+    
+    return Vec2::ZERO;
+#endif
+}
+
 const Vec2 Vec2::ZERO(0.0f, 0.0f);
 const Vec2 Vec2::ONE(1.0f, 1.0f);
 const Vec2 Vec2::UNIT_X(1.0f, 0.0f);

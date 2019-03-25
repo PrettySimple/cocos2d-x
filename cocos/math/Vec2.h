@@ -1007,6 +1007,8 @@ public:
      * @lua NA
      */
     static Vec2 getIntersectPoint(Vec2 const& A, Vec2 const& B, Vec2 const& C, Vec2 const& D);
+    
+    static Vec2 getIntersectSegmentPoint(Vec2 const& A, Vec2 const& B, Vec2 const& C, Vec2 const& D);
 
     /** equals to Vec2(0,0) */
     static Vec2 const ZERO;
