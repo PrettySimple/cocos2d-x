@@ -83,13 +83,13 @@ private:
     CC_DEPRECATED_ATTRIBUTE void init(float globalOrder, GLuint textureID, GLProgramState* shader, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads,
                                       std::size_t quadCount, const Mat4& mv);
 
-    void reIndex(int indices);
+    void reIndex(std::size_t indices);
 
-    int _indexSize = -1;
+    std::size_t _indexSize = 0;
     std::vector<GLushort*> _ownedIndices;
 
     // shared across all instances
-    static int __indexCapacity;
+    static std::size_t __indexCapacity;
     static GLushort* __indices;
 };
 

@@ -39,7 +39,7 @@
 
 NS_CC_BEGIN
 
-int QuadCommand::__indexCapacity = -1;
+std::size_t QuadCommand::__indexCapacity = 0;
 GLushort* QuadCommand::__indices = nullptr;
 
 QuadCommand::~QuadCommand()
@@ -56,8 +56,8 @@ void QuadCommand::init(float globalOrder, GLuint textureID, GLProgramState* glPr
     CCASSERT(glProgramState, "Invalid GLProgramState");
     CCASSERT(glProgramState->getVertexAttribsFlags() == 0, "No custom attributes are supported in QuadCommand");
 
-    if (static_cast<int>(quadCount * 6) > _indexSize)
-        reIndex(static_cast<int>(quadCount * 6));
+    if (quadCount > _indexSize)
+        reIndex(quadCount * 6);
 
     Triangles triangles;
     triangles.verts = &quads->tl;
@@ -67,23 +67,26 @@ void QuadCommand::init(float globalOrder, GLuint textureID, GLProgramState* glPr
     TrianglesCommand::init(globalOrder, textureID, glProgramState, blendType, triangles, mv, flags);
 }
 
-void QuadCommand::reIndex(int indicesCount)
+void QuadCommand::reIndex(std::size_t indicesCount)
 {
     // first time init: create a decent buffer size for indices to prevent too much resizing
-    if (__indexCapacity == -1)
+    if (__indexCapacity == 0)
     {
-        indicesCount = std::max(indicesCount, 2048);
+        indicesCount = std::max(indicesCount, static_cast<std::size_t>(2048));
     }
 
     if (indicesCount > __indexCapacity)
     {
         // if resizing is needed, get needed size plus 25%, but not bigger that max size
-        indicesCount *= 5 / 4;
-        indicesCount = std::min(indicesCount, static_cast<int>(std::numeric_limits<GLushort>::max()));
+        indicesCount *= 5;
+        indicesCount /= 4;
+        assert(indicesCount < std::numeric_limits<std::size_t>::max());
+        indicesCount = std::min(indicesCount, std::numeric_limits<std::size_t>::max());
 
         CCLOG("cocos2d: QuadCommand: resizing index size from [%d] to [%d]", __indexCapacity, indicesCount);
 
-        _ownedIndices.push_back(__indices);
+        if (__indices)
+            _ownedIndices.push_back(__indices);
         __indices = new (std::nothrow) GLushort[indicesCount];
         __indexCapacity = indicesCount;
     }
