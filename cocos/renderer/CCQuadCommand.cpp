@@ -39,7 +39,7 @@
 
 NS_CC_BEGIN
 
-std::size_t QuadCommand::__indexCapacity = 0UL;
+std::size_t QuadCommand::__indexCapacity = static_cast<std::size_t>(0);
 GLushort* QuadCommand::__indices = nullptr;
 
 QuadCommand::~QuadCommand()
@@ -56,14 +56,14 @@ void QuadCommand::init(float globalOrder, GLuint textureID, GLProgramState* glPr
     CCASSERT(glProgramState, "Invalid GLProgramState");
     CCASSERT(glProgramState->getVertexAttribsFlags() == 0, "No custom attributes are supported in QuadCommand");
 
-    if ((quadCount * 6UL) > _indexSize)
+    if ((quadCount * static_cast<std::size_t>(6)) > _indexSize)
         reIndex(quadCount * 6UL);
 
     Triangles triangles;
     triangles.verts = &quads->tl;
-    triangles.vertCount = static_cast<int>(quadCount * 4UL);
+    triangles.vertCount = static_cast<int>(quadCount * static_cast<std::size_t>(4));
     triangles.indices = __indices;
-    triangles.indexCount = static_cast<int>(quadCount * 6UL);
+    triangles.indexCount = static_cast<int>(quadCount * static_cast<std::size_t>(6));
     TrianglesCommand::init(globalOrder, textureID, glProgramState, blendType, triangles, mv, flags);
 }
 
@@ -72,14 +72,14 @@ void QuadCommand::reIndex(std::size_t indicesCount)
     // first time init: create a decent buffer size for indices to prevent too much resizing
     if (__indexCapacity == 0UL)
     {
-        indicesCount = std::max(indicesCount, 2048UL);
+        indicesCount = std::max(indicesCount, static_cast<std::size_t>(2048));
     }
 
     if (indicesCount > __indexCapacity)
     {
         // if resizing is needed, get needed size plus 25%, but not bigger that max size
-        assert(indicesCount < std::numeric_limits<std::size_t>::max() / 5UL);
-        indicesCount = (indicesCount * 5UL) / 4UL;
+        assert(indicesCount < std::numeric_limits<std::size_t>::max() / static_cast<std::size_t>(5));
+        indicesCount = (indicesCount * static_cast<std::size_t>(5)) / static_cast<std::size_t>(4);
 
         CCLOG("cocos2d: QuadCommand: resizing index size from [%d] to [%d]", __indexCapacity, indicesCount);
         _ownedIndices.emplace_back(__indices);
@@ -87,7 +87,7 @@ void QuadCommand::reIndex(std::size_t indicesCount)
         __indexCapacity = indicesCount;
     }
 
-    for (int i = 0, max = static_cast<int>(__indexCapacity / 6UL); i < max; i++)
+    for (int i = 0, max = static_cast<int>(__indexCapacity / static_cast<std::size_t>(6)); i < max; i++)
     {
         __indices[i * 6 + 0] = static_cast<GLushort>(i * 4 + 0);
         __indices[i * 6 + 1] = static_cast<GLushort>(i * 4 + 1);
