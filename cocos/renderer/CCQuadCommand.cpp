@@ -57,7 +57,7 @@ void QuadCommand::init(float globalOrder, GLuint textureID, GLProgramState* glPr
     CCASSERT(glProgramState->getVertexAttribsFlags() == 0, "No custom attributes are supported in QuadCommand");
 
     if ((quadCount * static_cast<std::size_t>(6)) > _indexSize)
-        reIndex(quadCount * 6UL);
+        reIndex(quadCount * static_cast<std::size_t>(6));
 
     Triangles triangles;
     triangles.verts = &quads->tl;
@@ -70,7 +70,7 @@ void QuadCommand::init(float globalOrder, GLuint textureID, GLProgramState* glPr
 void QuadCommand::reIndex(std::size_t indicesCount)
 {
     // first time init: create a decent buffer size for indices to prevent too much resizing
-    if (__indexCapacity == 0UL)
+    if (__indexCapacity == static_cast<std::size_t>(0))
     {
         indicesCount = std::max(indicesCount, static_cast<std::size_t>(2048));
     }
