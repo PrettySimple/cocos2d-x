@@ -85,7 +85,7 @@ private:
 
     void reIndex(std::size_t indices);
 
-    std::size_t _indexSize = 0;
+    std::size_t _indexSize = 0UL;
     std::vector<GLushort*> _ownedIndices;
 
     // shared across all instances
