@@ -26,20 +26,18 @@
 #if CC_USE_NAVMESH
 
 #include "renderer/backend/ProgramState.h"
-#include "renderer/backend/Device.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/CCRenderState.h"
-#include "renderer/ccShaders.h"
 #include "base/CCDirector.h"
 #include "base/ccMacros.h"
-
+#include "renderer/ccShaders.h"
+#include "renderer/backend/Device.h"
 
 NS_CC_BEGIN
 
 NavMeshDebugDraw::NavMeshDebugDraw()
 {
-    auto* program = backend::Program::getBuiltinProgram(backend::ProgramType::POSITION_COLOR);
-    _programState = new backend::ProgramState(program);
+    _programState = new backend::ProgramState(positionColor_vert, positionColor_frag);
     _locMVP = _programState->getUniformLocation("u_MVPMatrix");
 
     auto vertexLayout = _programState->getVertexLayout();

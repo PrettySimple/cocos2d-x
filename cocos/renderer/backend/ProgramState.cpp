@@ -155,15 +155,25 @@ TextureInfo& TextureInfo::operator=(const TextureInfo& rhs)
     return *this;
 }
 
-ProgramState::ProgramState(Program* program)
+ProgramState::ProgramState(ProgramType type)
 {
-    init(program);
+    _program = backend::ProgramCache::getInstance()->newBuiltinProgram(type);
+    CCASSERT(_program, "Not built-in program type, please use ProgramState(const std::string& vertexShader, const std::string& fragmentShader) instead.");
+    CC_SAFE_RETAIN(_program);
+
+    init();
 }
 
-bool ProgramState::init(Program* program)
+ProgramState::ProgramState(const std::string& vertexShader, const std::string& fragmentShader)
 {
-    CC_SAFE_RETAIN(program);
-    _program = program;
+    _program = backend::ProgramCache::getInstance()->newProgram(vertexShader, fragmentShader);
+    CC_SAFE_RETAIN(_program);
+
+    init();
+}
+
+void ProgramState::init()
+{
     _vertexUniformBufferSize = _program->getUniformBufferSize(ShaderStage::VERTEX);
     _vertexUniformBuffer = new char[_vertexUniformBufferSize];
     memset(_vertexUniformBuffer, 0, _vertexUniformBufferSize);
@@ -179,7 +189,6 @@ bool ProgramState::init(Program* program)
     });
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_backToForegroundListener, -1);
 #endif
-    return true;
 }
 
 void ProgramState::resetUniforms()

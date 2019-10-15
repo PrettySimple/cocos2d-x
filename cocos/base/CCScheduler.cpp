@@ -544,7 +544,7 @@ void Scheduler::removeUpdateFromHash(struct _listEntry *entry)
         // list entry
         DL_DELETE(*element->list, element->entry);
         if (!_updateHashLocked)
-            CC_SAFE_DELETE(element->entry);
+            CC_SAFE_DELETE(element->entry)
         else
         {
             element->entry->markedForDeletion = true;

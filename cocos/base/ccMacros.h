@@ -250,7 +250,7 @@ It should work same as apples CFSwapInt32LittleToHost(..)
             cocos2d::log("OpenGL error 0x%04X in %s %s %d\n", __error, __FILE__, __FUNCTION__, __LINE__); \
             assert(false);\
         } \
-    } while (false)
+} while (false);
 #endif
 
 

@@ -655,15 +655,13 @@ void PUBillboardChain::init( const std::string &texFile )
         if (tex)
         {
             _texture = tex;
-            auto* program = backend::Program::getBuiltinProgram(backend::ProgramType::PARTICLE_TEXTURE_3D);
-            _programState = new backend::ProgramState(program);
+            _programState = new backend::ProgramState(CC3D_particle_vert, CC3D_particleTexture_frag);
         }
     }
     
     if(!_programState)
     {
-        auto* program = backend::Program::getBuiltinProgram(backend::ProgramType::PARTICLE_COLOR_3D);
-        _programState = new backend::ProgramState(program);
+        _programState = new backend::ProgramState(CC3D_particle_vert, CC3D_particleColor_frag);
     }
 
     auto &pipelineDescriptor = _meshCommand.getPipelineDescriptor();

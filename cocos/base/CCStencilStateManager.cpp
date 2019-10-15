@@ -36,8 +36,7 @@ int StencilStateManager::s_layer = -1;
 StencilStateManager::StencilStateManager()
 {
     auto& pipelineDescriptor = _customCommand.getPipelineDescriptor();
-    auto* program = backend::Program::getBuiltinProgram(backend::ProgramType::POSITION_UCOLOR);
-    _programState = new (std::nothrow) backend::ProgramState(program);
+    _programState = new (std::nothrow) backend::ProgramState(positionUColor_vert, positionUColor_frag);
     pipelineDescriptor.programState = _programState;
     
     auto vertexLayout = _programState->getVertexLayout();

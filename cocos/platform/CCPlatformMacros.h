@@ -198,13 +198,13 @@ private: varType varName; public: virtual inline varType get##funName() const { 
     } \
 } 
 
-#define CC_SAFE_DELETE(p)           do { delete (p); (p) = nullptr; } while(0)
-#define CC_SAFE_DELETE_ARRAY(p)     do { if(p) { delete[] (p); (p) = nullptr; } } while(0)
-#define CC_SAFE_FREE(p)             do { if(p) { free(p); (p) = nullptr; } } while(0)
-#define CC_SAFE_RELEASE(p)          do { if(p) { (p)->release(); } } while(0)
-#define CC_SAFE_RELEASE_NULL(p)     do { if(p) { (p)->release(); (p) = nullptr; } } while(0)
-#define CC_SAFE_RETAIN(p)           do { if(p) { (p)->retain(); } } while(0)
-#define CC_BREAK_IF(cond)           if(cond) break
+#define CC_SAFE_DELETE(p)           do { delete (p); (p) = nullptr; } while(0);
+#define CC_SAFE_DELETE_ARRAY(p)     do { if(p) { delete[] (p); (p) = nullptr; } } while(0);
+#define CC_SAFE_FREE(p)             do { if(p) { free(p); (p) = nullptr; } } while(0);
+#define CC_SAFE_RELEASE(p)          do { if(p) { (p)->release(); } } while(0);
+#define CC_SAFE_RELEASE_NULL(p)     do { if(p) { (p)->release(); (p) = nullptr; } } while(0);
+#define CC_SAFE_RETAIN(p)           do { if(p) { (p)->retain(); } } while(0);
+#define CC_BREAK_IF(cond)           if(cond) break;
 
 #define __CCLOGWITHFUNCTION(s, ...) \
     cocos2d::log("%s : %s",__FUNCTION__, cocos2d::StringUtils::format(s, ##__VA_ARGS__).c_str())

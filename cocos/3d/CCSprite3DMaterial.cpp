@@ -63,68 +63,80 @@ backend::ProgramState* Sprite3DMaterial::_vertexLitMaterialSkinProgState = nullp
 backend::ProgramState* Sprite3DMaterial::_diffuseMaterialSkinProgState = nullptr;
 backend::ProgramState* Sprite3DMaterial::_bumpedDiffuseMaterialSkinProgState = nullptr;
 
+namespace
+{
+    std::string getShaderMacrosForLight()
+    {
+        char def[256];
+        auto conf = Configuration::getInstance();
+
+        snprintf(def, sizeof(def)-1, "\n#define MAX_DIRECTIONAL_LIGHT_NUM %d \n"
+                "\n#define MAX_POINT_LIGHT_NUM %d \n"
+                "\n#define MAX_SPOT_LIGHT_NUM %d \n",
+                 conf->getMaxSupportDirLightInShader(),
+                 conf->getMaxSupportPointLightInShader(),
+                 conf->getMaxSupportSpotLightInShader());
+
+        return std::string(def);
+    }
+}
 
 
 void Sprite3DMaterial::createBuiltInMaterial()
 {
-    auto* program = backend::Program::getBuiltinProgram(backend::ProgramType::SKINPOSITION_TEXTURE_3D);
-    _unLitMaterialSkinProgState = new (std::nothrow) backend::ProgramState(program);
+    std::string def = getShaderMacrosForLight();
+    std::string normalMapDef = "\n#define USE_NORMAL_MAPPING 1 \n";
+
+    _unLitMaterialSkinProgState = new (std::nothrow) backend::ProgramState(CC3D_skinPositionTexture_vert, CC3D_colorTexture_frag);
     _unLitMaterialSkin = new (std::nothrow) Sprite3DMaterial();
     if (_unLitMaterialSkin && _unLitMaterialSkin->initWithProgramState(_unLitMaterialSkinProgState))
     {
         _unLitMaterialSkin->_type = Sprite3DMaterial::MaterialType::UNLIT;
     }
 
-    program = backend::Program::getBuiltinProgram(backend::ProgramType::SKINPOSITION_NORMAL_TEXTURE_3D);
-    _diffuseMaterialSkinProgState = new (std::nothrow) backend::ProgramState(program);
+    _diffuseMaterialSkinProgState = new (std::nothrow) backend::ProgramState(def +  CC3D_skinPositionNormalTexture_vert, def + CC3D_colorNormalTexture_frag);
     _diffuseMaterialSkin = new (std::nothrow) Sprite3DMaterial();
     if (_diffuseMaterialSkin && _diffuseMaterialSkin->initWithProgramState(_diffuseMaterialSkinProgState))
     {
         _diffuseMaterialSkin->_type = Sprite3DMaterial::MaterialType::DIFFUSE;
     }
 
-    program = backend::Program::getBuiltinProgram(backend::ProgramType::POSITION_NORMAL_TEXTURE_3D);
-    _diffuseMaterialProgState = new (std::nothrow) backend::ProgramState(program);
+    _diffuseMaterialProgState = new (std::nothrow) backend::ProgramState(def  + CC3D_positionNormalTexture_vert, def + CC3D_colorNormalTexture_frag);
     _diffuseMaterial = new (std::nothrow) Sprite3DMaterial();
     if (_diffuseMaterial && _diffuseMaterial->initWithProgramState(_diffuseMaterialProgState))
     {
         _diffuseMaterial->_type = Sprite3DMaterial::MaterialType::DIFFUSE;
     }
 
-    program = backend::Program::getBuiltinProgram(backend::ProgramType::POSITION_TEXTURE_3D);
-    _unLitMaterialProgState = new (std::nothrow) backend::ProgramState(program);
+    _unLitMaterialProgState = new (std::nothrow) backend::ProgramState(CC3D_positionTexture_vert, CC3D_colorTexture_frag);
     _unLitMaterial = new (std::nothrow) Sprite3DMaterial();
     if (_unLitMaterial && _unLitMaterial->initWithProgramState(_unLitMaterialProgState))
     {
         _unLitMaterial->_type = Sprite3DMaterial::MaterialType::UNLIT;
     }
 
-    program = backend::Program::getBuiltinProgram(backend::ProgramType::POSITION_3D);
-    _unLitNoTexMaterialProgState = new (std::nothrow) backend::ProgramState(program);
+    _unLitNoTexMaterialProgState = new (std::nothrow) backend::ProgramState(CC3D_positionTexture_vert, CC3D_color_frag);
     _unLitNoTexMaterial = new (std::nothrow) Sprite3DMaterial();
     if (_unLitNoTexMaterial && _unLitNoTexMaterial->initWithProgramState(_unLitNoTexMaterialProgState))
     {
         _unLitNoTexMaterial->_type = Sprite3DMaterial::MaterialType::UNLIT_NOTEX;
     }
 
-    program = backend::Program::getBuiltinProgram(backend::ProgramType::POSITION_NORMAL_3D);
-    _diffuseNoTexMaterialProgState = new (std::nothrow) backend::ProgramState(program);
+    _diffuseNoTexMaterialProgState = new (std::nothrow) backend::ProgramState(def + CC3D_positionNormalTexture_vert, def + CC3D_colorNormal_frag);
     _diffuseNoTexMaterial = new (std::nothrow) Sprite3DMaterial();
     if (_diffuseNoTexMaterial && _diffuseNoTexMaterial->initWithProgramState(_diffuseNoTexMaterialProgState))
     {
         _diffuseNoTexMaterial->_type = Sprite3DMaterial::MaterialType::DIFFUSE_NOTEX;
     }
 
-    program = backend::Program::getBuiltinProgram(backend::ProgramType::POSITION_BUMPEDNORMAL_TEXTURE_3D);
-    _bumpedDiffuseMaterialProgState = new (std::nothrow) backend::ProgramState(program);
+    _bumpedDiffuseMaterialProgState = new (std::nothrow) backend::ProgramState(def + normalMapDef + CC3D_positionNormalTexture_vert, def + normalMapDef + CC3D_colorNormalTexture_frag);
     _bumpedDiffuseMaterial = new (std::nothrow) Sprite3DMaterial();
     if (_bumpedDiffuseMaterial && _bumpedDiffuseMaterial->initWithProgramState(_bumpedDiffuseMaterialProgState))
     {
         _bumpedDiffuseMaterial->_type = Sprite3DMaterial::MaterialType::BUMPED_DIFFUSE;
     }
 
-    program = backend::Program::getBuiltinProgram(backend::ProgramType::SKINPOSITION_BUMPEDNORMAL_TEXTURE_3D);
-    _bumpedDiffuseMaterialSkinProgState = new (std::nothrow) backend::ProgramState(program);
+    _bumpedDiffuseMaterialSkinProgState = new (std::nothrow) backend::ProgramState(def + normalMapDef + CC3D_skinPositionNormalTexture_vert, def + normalMapDef + CC3D_colorNormalTexture_frag);
     _bumpedDiffuseMaterialSkin = new (std::nothrow) Sprite3DMaterial();
     if (_bumpedDiffuseMaterialSkin && _bumpedDiffuseMaterialSkin->initWithProgramState(_bumpedDiffuseMaterialSkinProgState))
     {

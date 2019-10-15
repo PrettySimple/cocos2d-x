@@ -47,8 +47,7 @@ namespace
     backend::ProgramState* initPipelineDescriptor(cocos2d::CustomCommand& command, bool ridal, backend::UniformLocation &locMVP, backend::UniformLocation &locTexture)
     {
         auto& pipelieDescriptor = command.getPipelineDescriptor();
-        auto* program = backend::Program::getBuiltinProgram(backend::ProgramType::POSITION_TEXTURE_COLOR);
-        auto programState = new (std::nothrow) backend::ProgramState(program);
+        auto programState = new (std::nothrow) backend::ProgramState(positionTextureColor_vert, positionTextureColor_frag);
         CC_SAFE_RELEASE(pipelieDescriptor.programState);
         pipelieDescriptor.programState = programState;
         

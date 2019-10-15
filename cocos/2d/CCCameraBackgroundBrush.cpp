@@ -122,8 +122,7 @@ CameraBackgroundDepthBrush* CameraBackgroundDepthBrush::create(float depth)
 bool CameraBackgroundDepthBrush::init()
 {
     CC_SAFE_RELEASE_NULL(_programState);
-    auto* program = backend::Program::getBuiltinProgram(backend::ProgramType::CAMERA_CLEAR);
-    _programState = new backend::ProgramState(program);
+    _programState = new backend::ProgramState(cameraClear_vert, cameraClear_frag);
 
     _locDepth = _programState->getUniformLocation("dpeth");
 
@@ -410,8 +409,7 @@ bool CameraBackgroundSkyBoxBrush::init()
     _customCommand.setAfterCallback(CC_CALLBACK_0(CameraBackgroundSkyBoxBrush::onAfterDraw, this));
 
     CC_SAFE_RELEASE_NULL(_programState);
-    auto* program = backend::Program::getBuiltinProgram(backend::ProgramType::SKYBOX_3D);
-    _programState           = new backend::ProgramState(program);
+    _programState           = new backend::ProgramState(CC3D_skybox_vert, CC3D_skybox_frag);
     _uniformColorLoc        = _programState->getUniformLocation("u_color");
     _uniformCameraRotLoc    = _programState->getUniformLocation("u_cameraRot");
     _uniformEnvLoc          = _programState->getUniformLocation("u_Env");

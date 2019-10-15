@@ -198,8 +198,7 @@ void ClippingNode::visit(Renderer *renderer, const Mat4 &parentTransform, uint32
     auto alphaThreshold = this->getAlphaThreshold();
     if (alphaThreshold < 1)
     {
-        auto* program = backend::Program::getBuiltinProgram(backend::ProgramType::POSITION_TEXTURE_COLOR_ALPHA_TEST);
-        auto programState = new (std::nothrow) backend::ProgramState(program);
+        auto programState = new (std::nothrow) backend::ProgramState(positionTextureColor_vert, positionTextureColorAlphaTest_frag);
         auto alphaLocation = programState->getUniformLocation("u_alpha_value");
         programState->setUniform(alphaLocation, &alphaThreshold, sizeof(alphaThreshold));
         setProgramStateRecursively(_stencil, programState);

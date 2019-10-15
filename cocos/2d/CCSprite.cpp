@@ -42,7 +42,6 @@ THE SOFTWARE.
 #include "platform/CCFileUtils.h"
 #include "renderer/ccShaders.h"
 #include "renderer/backend/ProgramState.h"
-#include "renderer/backend/Device.h"
 
 NS_CC_BEGIN
 
@@ -375,11 +374,9 @@ void Sprite::setVertexLayout()
 
 void Sprite::updateShaders(const char* vert, const char* frag)
 {
-    auto* program = backend::Device::getInstance()->newProgram(vert, frag);
-    auto programState = new (std::nothrow) backend::ProgramState(program);
+    auto programState = new (std::nothrow) backend::ProgramState(vert, frag);
     setProgramState(programState);
-    CC_SAFE_RELEASE(programState);
-    CC_SAFE_RELEASE(program);
+    CC_SAFE_RELEASE_NULL(programState);
 }
 
 void Sprite::setProgramState(backend::ProgramType type)
@@ -388,8 +385,7 @@ void Sprite::setProgramState(backend::ProgramType type)
        _programState->getProgram()->getProgramType() == type)
         return;
     
-    auto* program = backend::Program::getBuiltinProgram(type);
-    auto programState = new (std::nothrow) backend::ProgramState(program);
+    auto programState = new (std::nothrow) backend::ProgramState(type);
     setProgramState(programState);
     CC_SAFE_RELEASE_NULL(programState);
 }

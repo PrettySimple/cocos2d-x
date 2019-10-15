@@ -196,6 +196,8 @@ public:
     * @since v3.10
     */
     void renameTextureWithKey(const std::string& srcName, const std::string& dstName);
+    
+    std::unordered_map<std::string, Texture2D*> &getTextures() { return _textures; }
 
 
 private:

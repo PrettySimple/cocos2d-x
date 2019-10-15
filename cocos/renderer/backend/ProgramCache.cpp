@@ -27,43 +27,37 @@
 #include "ShaderModule.h"
 #include "renderer/ccShaders.h"
 #include "base/ccMacros.h"
-#include "base/CCConfiguration.h"
 
-namespace std
-{
-    template <>
-    struct hash<cocos2d::backend::ProgramType>
+namespace {
+    struct Shader
     {
-        typedef cocos2d::backend::ProgramType argument_type;
+        std::string vert;
+        std::string frag;
+
+        Shader(const std::string& _vert, const std::string& _frag)
+            :vert(_vert),
+            frag(_frag)
+        {}
+    };
+}
+
+namespace std {
+    template<> struct hash<Shader> 
+    {
+        typedef Shader argument_type;
         typedef std::size_t result_type;
-        result_type operator()(argument_type const& v) const
+        result_type operator()(argument_type const& s) const noexcept
         {
-            return hash<int>()(static_cast<int>(v));
+            result_type const h1(std::hash < std::string>{}(s.vert));
+            result_type const h2(std::hash<std::string>{}(s.frag));
+            return h1 ^ (h2 << 1);
         }
     };
 }
 
 CC_BACKEND_BEGIN
 
-namespace
-{
-    std::string getShaderMacrosForLight()
-    {
-        char def[256];
-        auto conf = Configuration::getInstance();
-
-        snprintf(def, sizeof(def) - 1, "\n#define MAX_DIRECTIONAL_LIGHT_NUM %d \n"
-            "\n#define MAX_POINT_LIGHT_NUM %d \n"
-            "\n#define MAX_SPOT_LIGHT_NUM %d \n",
-            conf->getMaxSupportDirLightInShader(),
-            conf->getMaxSupportPointLightInShader(),
-            conf->getMaxSupportSpotLightInShader());
-
-        return std::string(def);
-    }
-}
-
-std::unordered_map<backend::ProgramType, backend::Program*>  ProgramCache::_cachedPrograms;
+std::unordered_map<std::size_t, backend::Program*>  ProgramCache::_cachedPrograms;
 ProgramCache* ProgramCache::_sharedProgramCache = nullptr;
 
 ProgramCache* ProgramCache::getInstance()
@@ -105,7 +99,6 @@ bool ProgramCache::init()
     addProgram(ProgramType::POSITION_COLOR_LENGTH_TEXTURE);
     addProgram(ProgramType::POSITION_COLOR_TEXTURE_AS_POINTSIZE);
     addProgram(ProgramType::POSITION_COLOR);
-    addProgram(ProgramType::POSITION);
     addProgram(ProgramType::LAYER_RADIA_GRADIENT);
     addProgram(ProgramType::POSITION_TEXTURE);
     addProgram(ProgramType::POSITION_TEXTURE_COLOR_ALPHA_TEST);
@@ -113,19 +106,6 @@ bool ProgramCache::init()
     addProgram(ProgramType::ETC1_GRAY);
     addProgram(ProgramType::GRAY_SCALE);
     addProgram(ProgramType::LINE_COLOR_3D);
-    addProgram(ProgramType::CAMERA_CLEAR);
-    addProgram(ProgramType::SKYBOX_3D);
-    addProgram(ProgramType::SKINPOSITION_TEXTURE_3D);
-    addProgram(ProgramType::SKINPOSITION_NORMAL_TEXTURE_3D);
-    addProgram(ProgramType::POSITION_NORMAL_TEXTURE_3D);
-    addProgram(ProgramType::POSITION_TEXTURE_3D);
-    addProgram(ProgramType::POSITION_3D);
-    addProgram(ProgramType::POSITION_NORMAL_3D);
-    addProgram(ProgramType::POSITION_BUMPEDNORMAL_TEXTURE_3D);
-    addProgram(ProgramType::SKINPOSITION_BUMPEDNORMAL_TEXTURE_3D);
-    addProgram(ProgramType::TERRAIN_3D);
-    addProgram(ProgramType::PARTICLE_TEXTURE_3D);
-    addProgram(ProgramType::PARTICLE_COLOR_3D);
     return true;
 }
 
@@ -160,9 +140,6 @@ void ProgramCache::addProgram(ProgramType type)
         case ProgramType::POSITION_COLOR:
             program = backend::Device::getInstance()->newProgram(positionColor_vert, positionColor_frag);
             break;
-        case ProgramType::POSITION:
-            program = backend::Device::getInstance()->newProgram(position_vert, positionColor_frag);
-            break;
         case ProgramType::LAYER_RADIA_GRADIENT:
             program = backend::Device::getInstance()->newProgram(position_vert, layer_radialGradient_frag);
             break;
@@ -184,62 +161,6 @@ void ProgramCache::addProgram(ProgramType type)
         case ProgramType::LINE_COLOR_3D:
             program = backend::Device::getInstance()->newProgram(lineColor3D_vert, lineColor3D_frag);
             break;
-        case ProgramType::CAMERA_CLEAR:
-            program = backend::Device::getInstance()->newProgram(cameraClear_vert, cameraClear_frag);
-            break;
-        case ProgramType::SKYBOX_3D:
-            program = backend::Device::getInstance()->newProgram(CC3D_skybox_vert, CC3D_skybox_frag);
-            break;
-        case ProgramType::SKINPOSITION_TEXTURE_3D:
-            program = backend::Device::getInstance()->newProgram(CC3D_skinPositionTexture_vert, CC3D_colorTexture_frag);
-            break;
-        case ProgramType::SKINPOSITION_NORMAL_TEXTURE_3D:
-            {
-                std::string def = getShaderMacrosForLight();
-                program = backend::Device::getInstance()->newProgram(def + CC3D_skinPositionNormalTexture_vert, def + CC3D_colorNormalTexture_frag);
-            }
-            break;
-        case ProgramType::POSITION_NORMAL_TEXTURE_3D:
-            {
-                std::string def = getShaderMacrosForLight();
-                program = backend::Device::getInstance()->newProgram(def + CC3D_positionNormalTexture_vert, def + CC3D_colorNormalTexture_frag);
-            }
-            break;
-        case ProgramType::POSITION_TEXTURE_3D:
-            program = backend::Device::getInstance()->newProgram(CC3D_positionTexture_vert, CC3D_colorTexture_frag);
-            break;
-        case ProgramType::POSITION_3D:
-            program = backend::Device::getInstance()->newProgram(CC3D_positionTexture_vert, CC3D_color_frag);
-            break;
-        case ProgramType::POSITION_NORMAL_3D:
-            {
-                std::string def = getShaderMacrosForLight();
-                program = backend::Device::getInstance()->newProgram(def + CC3D_positionNormalTexture_vert, def + CC3D_colorNormal_frag);
-            }
-            break;
-        case ProgramType::POSITION_BUMPEDNORMAL_TEXTURE_3D:
-            {
-                std::string def = getShaderMacrosForLight();
-                std::string normalMapDef = "\n#define USE_NORMAL_MAPPING 1 \n";
-                program = backend::Device::getInstance()->newProgram(def + normalMapDef + CC3D_positionNormalTexture_vert, def + normalMapDef + CC3D_colorNormalTexture_frag);
-            }
-            break;
-        case ProgramType::SKINPOSITION_BUMPEDNORMAL_TEXTURE_3D:
-            {
-                std::string def = getShaderMacrosForLight();
-                std::string normalMapDef = "\n#define USE_NORMAL_MAPPING 1 \n";
-                program = backend::Device::getInstance()->newProgram(def + normalMapDef + CC3D_skinPositionNormalTexture_vert, def + normalMapDef + CC3D_colorNormalTexture_frag);
-            }
-            break;
-        case ProgramType::TERRAIN_3D:
-            program = backend::Device::getInstance()->newProgram(CC3D_terrain_vert, CC3D_terrain_frag);
-            break;
-        case ProgramType::PARTICLE_TEXTURE_3D:
-            program = backend::Device::getInstance()->newProgram(CC3D_particle_vert, CC3D_particleTexture_frag);
-            break;
-        case ProgramType::PARTICLE_COLOR_3D:
-            program = backend::Device::getInstance()->newProgram(CC3D_particle_vert, CC3D_particleColor_frag);
-            break;
         default:
             CCASSERT(false, "Not built-in program type.");
             break;
@@ -248,14 +169,35 @@ void ProgramCache::addProgram(ProgramType type)
     ProgramCache::_cachedPrograms.emplace(type, program);
 }
 
-backend::Program* ProgramCache::getBuiltinProgram(ProgramType type) const
+void ProgramCache::addProgram(const std::string& vertexShader, const std::string& fragmentShader)
+{
+    auto key = std::hash<Shader>{}(Shader(vertexShader, fragmentShader));
+    auto program = backend::Device::getInstance()->newProgram(vertexShader, fragmentShader);
+    ProgramCache::_cachedPrograms.emplace(key, program);
+}
+
+backend::Program* ProgramCache::newBuiltinProgram(ProgramType type)
 {
     const auto& iter = ProgramCache::_cachedPrograms.find(type);
     if (ProgramCache::_cachedPrograms.end() != iter)
+        return iter->second;
+    return nullptr;
+}
+
+backend::Program* ProgramCache::newProgram(const std::string& vertexShader, const std::string& fragmentShader)
+{
+    auto key = std::hash<Shader>{}(Shader(vertexShader, fragmentShader));
+    const auto& iter = ProgramCache::_cachedPrograms.find(key);
+    if (ProgramCache::_cachedPrograms.end() != iter)
     {
+        CC_SAFE_RETAIN(iter->second);
         return iter->second;
     }
-    return nullptr;
+    
+    auto program = backend::Device::getInstance()->newProgram(vertexShader, fragmentShader);
+    ProgramCache::_cachedPrograms.emplace(key, program);
+    
+    return program;
 }
 
 void ProgramCache::removeProgram(backend::Program* program)
