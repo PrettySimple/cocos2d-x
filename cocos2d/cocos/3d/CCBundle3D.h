@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2014 Chukong Technologies Inc.
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -22,18 +23,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_3D_BUNDLE3D_H
-#define CC_3D_BUNDLE3D_H
+#ifndef __CCBUNDLE3D_H__
+#define __CCBUNDLE3D_H__
 
+#include <cocos/base/CCData.h>
 #include <cocos/3d/CCBundle3DData.h>
 #include <cocos/3d/CCBundleReader.h>
-#include <cocos/base/CCData.h>
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Weverything"
-#include <json/document.h>
-#include <json/rapidjson.h>
-#pragma clang diagnostic pop
+#include "json/document-wrapper.h"
 
 NS_CC_BEGIN
 
@@ -59,10 +55,22 @@ public:
      * create a new bundle, destroy it when finish using it
      */
     static Bundle3D* createBundle();
-
+    
     static void destroyBundle(Bundle3D* bundle);
+    
+	virtual void clear();
 
-    virtual void clear();
+    /**
+    * get define data type
+    * @param str The type in string
+    */
+    static backend::VertexFormat parseGLDataType(const std::string& str, int size);
+
+    /**
+    * get define data type
+    * @param str The type in string
+    */
+    static backend::SamplerAddressMode parseSamplerAddressMode(const std::string& str);
 
     /**
      * load a file. You must load a file first, then call loadMeshData, loadSkinData, and so on
@@ -70,39 +78,40 @@ public:
      * @return result of load
      */
     virtual bool load(const std::string& path);
-
+    
     /**
      * load skin data from bundle
      * @param id The ID of the skin, load the first Skin in the bundle if it is empty
      */
     virtual bool loadSkinData(const std::string& id, SkinData* skindata);
-
+    
     /**
      * load material data from bundle
      * @param id The ID of the animation, load the first animation in the bundle if it is empty
      */
     virtual bool loadAnimationData(const std::string& id, Animation3DData* animationdata);
-
-    // since 3.3, to support reskin
+    
+    //since 3.3, to support reskin
     virtual bool loadMeshDatas(MeshDatas& meshdatas);
-    // since 3.3, to support reskin
+    //since 3.3, to support reskin
     virtual bool loadNodes(NodeDatas& nodedatas);
-    // since 3.3, to support reskin
+    //since 3.3, to support reskin
     virtual bool loadMaterials(MaterialDatas& materialdatas);
-
+    
     /**
      * load triangle list
      * @param path the file path to load
      */
     static std::vector<Vec3> getTrianglesList(const std::string& path);
-
-    // load .obj file
+    
+    //load .obj file
     static bool loadObj(MeshDatas& meshdatas, MaterialDatas& materialdatas, NodeDatas& nodedatas, const std::string& fullPath, const char* mtl_basepath = nullptr);
-
-    // calculate aabb
+    
+    //calculate aabb
     static AABB calculateAABB(const std::vector<float>& vertex, int stride, const std::vector<unsigned short>& index);
-
+  
 protected:
+
     bool loadJson(const std::string& path);
     bool loadBinary(const std::string& path);
     bool loadMeshDatasJson(MeshDatas& meshdatas);
@@ -117,16 +126,16 @@ protected:
     bool loadMaterialsBinary(MaterialDatas& materialdatas);
     bool loadMaterialsBinary_0_1(MaterialDatas& materialdatas);
     bool loadMaterialsBinary_0_2(MaterialDatas& materialdatas);
-    bool loadMeshDataJson(MeshData* meshdata) { return true; }
-    bool loadMeshDataJson_0_1(MeshData* meshdata) { return true; }
-    bool loadMeshDataJson_0_2(MeshData* meshdata) { return true; }
+    bool loadMeshDataJson(MeshData* meshdata);
+    bool loadMeshDataJson_0_1(MeshData* meshdata);
+    bool loadMeshDataJson_0_2(MeshData* meshdata);
     bool loadSkinDataJson(SkinData* skindata);
     bool loadSkinDataBinary(SkinData* skindata);
-    bool loadMaterialDataJson(MaterialData* materialdata) { return true; }
-    bool loadMaterialDataJson_0_1(MaterialData* materialdata) { return true; }
-    bool loadMaterialDataJson_0_2(MaterialData* materialdata) { return true; }
-    bool loadAnimationDataJson(const std::string& id, Animation3DData* animationdata);
-    bool loadAnimationDataBinary(const std::string& id, Animation3DData* animationdata);
+    bool loadMaterialDataJson(MaterialData* materialdata);
+    bool loadMaterialDataJson_0_1(MaterialData* materialdata);
+    bool loadMaterialDataJson_0_2(MaterialData* materialdata);
+    bool loadAnimationDataJson(const std::string& id,Animation3DData* animationdata);
+    bool loadAnimationDataBinary(const std::string& id,Animation3DData* animationdata);
 
     /**
      * load nodes of json
@@ -140,13 +149,7 @@ protected:
     bool loadNodesBinary(NodeDatas& nodedatas);
     NodeData* parseNodesRecursivelyBinary(bool& skeleton, bool singleSprite);
 
-    /**
-     * get define data type
-     * @param str The type in string
-     */
-    GLenum parseGLType(const std::string& str);
-
-    /**
+     /**
      * get define data type
      * @param str The type in string
      */
@@ -156,7 +159,7 @@ protected:
      * get vertex attribute type
      * @param str The type in string
      */
-    unsigned int parseGLProgramAttribute(const std::string& str);
+    shaderinfos::VertexKey parseGLProgramAttribute(const std::string& str);
 
     /*
      * get model path
@@ -171,14 +174,15 @@ protected:
      */
     Reference* seekToFirstType(unsigned int type, const std::string& id = "");
 
-    CC_CONSTRUCTOR_ACCESS : Bundle3D();
+CC_CONSTRUCTOR_ACCESS:
+    Bundle3D();
     virtual ~Bundle3D();
-
+    
 protected:
     std::string _modelPath;
     std::string _path;
-    std::string _version; // the c3b or c3t version
-
+    std::string _version;// the c3b or c3t version
+    
     // for json reading
     std::string _jsonBuffer;
     rapidjson::Document _jsonReader;
@@ -188,7 +192,7 @@ protected:
     BundleReader _binaryReader;
     unsigned int _referenceCount;
     Reference* _references;
-    bool _isBinary;
+    bool  _isBinary;
 };
 
 // end of 3d group
@@ -196,4 +200,4 @@ protected:
 
 NS_CC_END
 
-#endif // CC_3D_BUNDLE3D_H
+#endif // __CCBUNDLE3D_H__

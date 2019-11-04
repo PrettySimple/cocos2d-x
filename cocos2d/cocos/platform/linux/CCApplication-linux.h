@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2011      Laschweinski
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -26,12 +27,12 @@ THE SOFTWARE.
 #ifndef CCAPLICATION_H_
 #define CCAPLICATION_H_
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
 
-#    include "platform/CCApplicationProtocol.h"
-#    include "platform/CCCommon.h"
-#    include <string>
+#include <cocos/platform/CCCommon.h>
+#include <cocos/platform/CCApplicationProtocol.h>
+#include <string>
 
 NS_CC_BEGIN
 class Rect;
@@ -53,7 +54,7 @@ public:
      @brief Callback by Director for limit FPS.
      @param interval    The time, which expressed in second in second, between current frame and next.
      */
-    void setAnimationInterval(float interval) override;
+    virtual void setAnimationInterval(float interval) override;
 
     /**
      @brief Run the message loop.
@@ -68,7 +69,7 @@ public:
 
     /** @deprecated Use getInstance() instead */
     CC_DEPRECATED_ATTRIBUTE static Application* sharedApplication();
-
+    
     /* override functions */
     virtual LanguageType getCurrentLanguage() override;
 
@@ -76,8 +77,8 @@ public:
     @brief Get current language iso 639-1 code
     @return Current language iso 639-1 code
     */
-    virtual const char* getCurrentLanguageCode() override;
-
+    virtual const char * getCurrentLanguageCode() override;
+    
     /**
     @brief Get application version
     */
@@ -88,30 +89,30 @@ public:
      @param String with url to open.
      @return true if the resource located by the URL was successfully opened; otherwise false.
      */
-    virtual bool openURL(const std::string& url) override;
+    virtual bool openURL(const std::string &url) override;
+
 
     /**
      *  Sets the Resource root path.
      *  @deprecated Please use FileUtils::getInstance()->setSearchPaths() instead.
      */
     CC_DEPRECATED_ATTRIBUTE void setResourceRootPath(const std::string& rootResDir);
-
-    /**
+    
+    /** 
      *  Gets the Resource root path.
-     *  @deprecated Please use FileUtils::getInstance()->getSearchPaths() instead.
+     *  @deprecated Please use FileUtils::getInstance()->getSearchPaths() instead. 
      */
-    CC_DEPRECATED_ATTRIBUTE const std::string& getResourceRootPath(void);
-
+    CC_DEPRECATED_ATTRIBUTE const std::string& getResourceRootPath();
+    
     /**
      @brief Get target platform
      */
     virtual Platform getTargetPlatform() override;
-
 protected:
-    long _animationInterval; // micro second
+    long       _animationInterval;  //micro second
     std::string _resourceRootPath;
-
-    static Application* sm_pSharedApplication;
+    
+    static Application * sm_pSharedApplication;
 };
 
 NS_CC_END

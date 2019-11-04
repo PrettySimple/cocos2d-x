@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include <cocos/platform/CCGL.h>
 #include <cocos/platform/CCPlatformConfig.h>
 #include <cocos/platform/CCPlatformMacros.h>
-#include <cocos/renderer/CCCustomCommand.h>
+#include <cocos/renderer/CCCallbackCommand.h>
 #include <cocos/renderer/CCGroupCommand.h>
 #include <cocos/ui/GUIDefine.h>
 #include <cocos/ui/GUIExport.h>
@@ -643,11 +643,11 @@ namespace ui
         StencilStateManager* _stencileStateManager;
 
         GroupCommand _groupCommand;
-        CustomCommand _beforeVisitCmdStencil;
-        CustomCommand _afterDrawStencilCmd;
-        CustomCommand _afterVisitCmdStencil;
-        CustomCommand _beforeVisitCmdScissor;
-        CustomCommand _afterVisitCmdScissor;
+        CallbackCommand _beforeVisitCmdStencil;
+        CallbackCommand _afterDrawStencilCmd;
+        CallbackCommand _afterVisitCmdStencil;
+        CallbackCommand _beforeVisitCmdScissor;
+        CallbackCommand _afterVisitCmdScissor;
 
         bool _doLayoutDirty;
         bool _isInterceptTouch;

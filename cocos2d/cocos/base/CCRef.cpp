@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
-Copyright (c) 2013-2014 Chukong Technologies
+Copyright (c) 2013-2017 Chukong Technologies
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -24,151 +25,38 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include <cocos/base/CCRef.h>
-
 #include <cocos/base/CCAutoreleasePool.h>
 #include <cocos/base/ccMacros.h>
-#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/base/CCScriptSupport.h>
 
-#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
-#    include <algorithm>
-#    include <cstddef>
-#    include <mutex>
-#    include <thread>
-#    include <vector>
-
-#    ifdef __APPLE__
-#        include <execinfo.h> // For backtrace on IOS
-#    endif
-#    ifdef __ANDROID__
-#        include <dlfcn.h>
-#        include <unwind.h> // For backtrace on Android
-#    endif
-#    include <cxxabi.h> // For demagling
-
-static constexpr std::size_t const MAX_CALLSTACK_SIZE = 32;
-
-string demangle(string call)
-{
-    int status;
-    char* ret = abi::__cxa_demangle(call.c_str(), nullptr, nullptr, &status);
-
-    if (status == 0)
-        call = std::string(ret);
-    if (ret)
-        free(ret);
-    return call;
-}
-
-#    ifdef __APPLE__
-std::string demangle_ios(std::string const& call);
-#    endif
-
-#    ifdef __ANDROID__
-struct android_backtrace_state
-{
-    void** current;
-    void** end;
-};
-
-_Unwind_Reason_Code android_unwind_callback(struct _Unwind_Context* context, void* arg)
-{
-    android_backtrace_state* state = (android_backtrace_state*)arg;
-    uintptr_t pc = _Unwind_GetIP(context);
-    if (pc)
-    {
-        if (state->current == state->end)
-            return _URC_END_OF_STACK;
-        else
-            *state->current++ = reinterpret_cast<void*>(pc);
-    }
-    return _URC_NO_REASON;
-}
-#    endif
-
-std::vector<std::string> currentCallStack()
-{
-    std::vector<std::string> stack;
-    void* callstack[MAX_CALLSTACK_SIZE];
-
-#    ifdef __APPLE__
-    int i, frames = backtrace(callstack, MAX_CALLSTACK_SIZE);
-    char** strs = backtrace_symbols(callstack, frames);
-    for (i = 0; i < frames; ++i)
-        stack.push_back(demangle_ios(strs[i]));
-    free(strs);
-#    endif
-
-#    ifdef __ANDROID__
-    android_backtrace_state state;
-    state.current = callstack;
-    state.end = callstack + MAX_CALLSTACK_SIZE;
-
-    _Unwind_Backtrace(android_unwind_callback, &state);
-
-    int count = (int)(state.current - callstack);
-
-    for (int idx = 0; idx < count; idx++)
-    {
-        const void* addr = callstack[idx];
-        const char* symbol = "";
-
-        Dl_info info;
-        if (dladdr(addr, &info) && info.dli_sname)
-            symbol = info.dli_sname;
-        else
-            break;
-
-        stack.push_back(to_string(idx) + " " + demangle(string(symbol)));
-    }
-#    endif
-
-    return stack;
-}
-
-#    ifdef __APPLE__
-std::string demangle_ios(std::string const& call)
-{
-    auto mangled = call;
-    auto endName = mangled.find_last_of(" + ");
-
-    if (endName != std::string::npos)
-    {
-        mangled = call.substr(0, endName - 2);
-        auto beginName = mangled.find_last_of(" ");
-        if (beginName != string::npos)
-        {
-            mangled = mangled.substr(beginName + 1, mangled.size() - 1);
-            call = call.substr(0, beginName + 1) + demangle(mangled) + call.substr(endName - 2, call.size() - 1);
-        }
-    }
-    return call;
-}
-#    endif
-
+#if CC_REF_LEAK_DETECTION
+#include <algorithm>    // std::find
+#include <thread>
+#include <mutex>
+#include <vector>
 #endif
 
 NS_CC_BEGIN
 
-Clonable::~Clonable()
-{
-}
-
-#if CC_ENABLE_SCRIPT_BINDING
-static unsigned int uObjectCount = 0;
-#endif
-
-#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
+#if CC_REF_LEAK_DETECTION
 static void trackRef(Ref* ref);
 static void untrackRef(Ref* ref);
 #endif
 
 Ref::Ref()
+: _referenceCount(1) // when the Ref is created, the reference count of it is 1
+#if CC_ENABLE_SCRIPT_BINDING
+, _luaID (0)
+, _scriptObject(nullptr)
+, _rooted(false)
+#endif
 {
 #if CC_ENABLE_SCRIPT_BINDING
+    static unsigned int uObjectCount = 0;
     _ID = ++uObjectCount;
 #endif
-
-#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
+    
+#if CC_REF_LEAK_DETECTION
     trackRef(this);
 #endif
 }
@@ -176,68 +64,38 @@ Ref::Ref()
 Ref::~Ref()
 {
 #if CC_ENABLE_SCRIPT_BINDING
-    // if the object is referenced by Lua engine, remove it
-    if (_luaID)
+    ScriptEngineProtocol* pEngine = ScriptEngineManager::getInstance()->getScriptEngine();
+    if (pEngine != nullptr && _luaID)
     {
-        ScriptEngineManager::getInstance()->getScriptEngine()->removeScriptObjectByObject(this);
+        // if the object is referenced by Lua engine, remove it
+        pEngine->removeScriptObjectByObject(this);
     }
-#    if !CC_ENABLE_GC_FOR_NATIVE_OBJECTS
+#if !CC_ENABLE_GC_FOR_NATIVE_OBJECTS
     else
     {
-        ScriptEngineProtocol* pEngine = ScriptEngineManager::getInstance()->getScriptEngine();
         if (pEngine != nullptr && pEngine->getScriptType() == kScriptTypeJavascript)
         {
             pEngine->removeScriptObjectByObject(this);
         }
     }
-#    endif // !CC_ENABLE_GC_FOR_NATIVE_OBJECTS
+#endif // !CC_ENABLE_GC_FOR_NATIVE_OBJECTS
 #endif // CC_ENABLE_SCRIPT_BINDING
 
-#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
+
+#if CC_REF_LEAK_DETECTION
     if (_referenceCount != 0)
         untrackRef(this);
 #endif
 }
 
-Ref::Ref(const Ref& other)
-: _referenceCount(1)
-{
-#if CC_ENABLE_SCRIPT_BINDING
-    _ID = ++uObjectCount;
-    _luaID = 0;
-    _scriptObject = nullptr;
-    _rooted = false;
-#endif
-}
-
-Ref& Ref::operator=(const Ref& other)
-{
-    _referenceCount = 1;
-#if CC_ENABLE_SCRIPT_BINDING
-    _ID = ++uObjectCount;
-    _luaID = 0;
-    _scriptObject = nullptr;
-    _rooted = false;
-#endif
-    return *this;
-}
-
 void Ref::retain()
 {
-#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
-    if (_trackRetainRelease)
-        _retainList.emplace_back(currentCallStack());
-#endif
     CCASSERT(_referenceCount > 0, "reference count should be greater than 0");
     ++_referenceCount;
 }
 
 void Ref::release()
 {
-#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
-    if (_trackRetainRelease)
-        _releaseList.emplace_back(currentCallStack());
-#endif
     CCASSERT(_referenceCount > 0, "reference count should be greater than 0");
     --_referenceCount;
 
@@ -278,7 +136,15 @@ void Ref::release()
         }
 #endif
 
-#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
+#if CC_ENABLE_SCRIPT_BINDING
+        ScriptEngineProtocol* pEngine = ScriptEngineManager::getInstance()->getScriptEngine();
+        if (pEngine != nullptr && pEngine->getScriptType() == kScriptTypeJavascript)
+        {
+            pEngine->removeObjectProxy(this);
+        }
+#endif // CC_ENABLE_SCRIPT_BINDING
+
+#if CC_REF_LEAK_DETECTION
         untrackRef(this);
 #endif
         delete this;
@@ -296,7 +162,7 @@ unsigned int Ref::getReferenceCount() const
     return _referenceCount;
 }
 
-#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
+#if CC_REF_LEAK_DETECTION
 
 static std::vector<Ref*> __refAllocationList;
 static std::mutex __refMutex;
@@ -344,6 +210,7 @@ static void untrackRef(Ref* ref)
     __refAllocationList.erase(iter);
 }
 
-#endif // CC_REF_LEAK_DETECTION
+#endif // #if CC_REF_LEAK_DETECTION
+
 
 NS_CC_END

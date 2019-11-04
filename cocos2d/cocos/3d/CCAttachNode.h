@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2014 Chukong Technologies Inc.
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -22,16 +23,11 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_3D_ATTACHNODE_H
-#define CC_3D_ATTACHNODE_H
+#ifndef __CCATTACHNODE_H__
+#define __CCATTACHNODE_H__
 
+#include <cocos/math/CCMath.h>
 #include <cocos/2d/CCNode.h>
-#include <cocos/base/ccConfig.h>
-#include <cocos/math/Mat4.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <cstdint>
 
 NS_CC_BEGIN
 /**
@@ -39,9 +35,8 @@ NS_CC_BEGIN
  * @{
  */
 class Bone3D;
-class Renderer;
 
-/**
+/** 
  * @brief attach a node to a bone
  * usage: auto sprite = Sprite3D::create("girl.c3b");
  *        auto weapon = Sprite3D::create("weapon.c3b");
@@ -51,30 +46,31 @@ class Renderer;
 class CC_DLL AttachNode : public Node
 {
 public:
-    /**
+    /** 
      * creates an AttachNode
      * @param attachBone The bone to which the AttachNode is going to attach, the attacheBone must be a bone of the AttachNode's parent
      */
     static AttachNode* create(Bone3D* attachBone);
+    
+    //override
+    virtual Mat4 getWorldToNodeTransform() const override;
+    virtual Mat4 getNodeToWorldTransform() const override;
+    virtual const Mat4& getNodeToParentTransform() const override;
+    virtual void visit(Renderer *renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
 
-    // override
-    Mat4 getWorldToNodeTransform() const override;
-    Mat4 getNodeToWorldTransform() const override;
-    const Mat4& getNodeToParentTransform() const override;
-    void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
-
-    CC_CONSTRUCTOR_ACCESS :
-
-        AttachNode();
-    ~AttachNode() override;
+CC_CONSTRUCTOR_ACCESS:
+    
+    AttachNode();
+    virtual ~AttachNode();
+    
 
 protected:
     Bone3D* _attachBone;
-    mutable Mat4 _transformToParent;
+    mutable Mat4    _transformToParent;
 };
 
 // end of 3d group
 /// @}
 
 NS_CC_END
-#endif // CC_3D_ATTACHNODE_H
+#endif // __CCATTACHNODE_H__

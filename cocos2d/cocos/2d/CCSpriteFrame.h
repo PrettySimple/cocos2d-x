@@ -3,6 +3,7 @@ Copyright (c) 2008-2011 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -25,18 +26,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_2D_SPRITEFRAME_H
-#define CC_2D_SPRITEFRAME_H
+#ifndef __SPRITE_CCSPRITE_FRAME_H__
+#define __SPRITE_CCSPRITE_FRAME_H__
 
+#include <cocos/2d/CCNode.h>
 #include <cocos/2d/CCAutoPolygon.h>
 #include <cocos/base/CCRef.h>
-#include <cocos/base/ccConfig.h>
 #include <cocos/math/CCGeometry.h>
-#include <cocos/math/Vec2.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <iosfwd>
 
 NS_CC_BEGIN
 
@@ -54,7 +50,7 @@ class Texture2D;
 
 
  You can modify the frame of a Sprite by doing:
-
+ 
  @code
     SpriteFrame* frame = SpriteFrame::createWithTexture(texture, rect);
     sprite->setSpriteFrame(frame);
@@ -63,6 +59,7 @@ class Texture2D;
 class CC_DLL SpriteFrame : public Ref, public Clonable
 {
 public:
+
     /** Create a SpriteFrame with a texture filename, rect in points.
      It is assumed that the frame was not trimmed.
      *
@@ -71,7 +68,7 @@ public:
      * @return An autoreleased SpriteFrame object.
      */
     static SpriteFrame* create(const std::string& filename, const Rect& rect);
-
+    
     /** Create a SpriteFrame with a texture filename, rect, rotated, offset and originalSize in pixels.
      The originalSize is the size in pixels of the frame before being trimmed.
      *
@@ -83,7 +80,7 @@ public:
      * @return An autoreleased SpriteFrame object.
      */
     static SpriteFrame* create(const std::string& filename, const Rect& rect, bool rotated, const Vec2& offset, const Size& originalSize);
-
+    
     /** Create a SpriteFrame with a texture, rect in points.
      It is assumed that the frame was not trimmed.
      * @param pobTexture The texture pointer.
@@ -137,13 +134,40 @@ public:
      */
     void setRect(const Rect& rect);
 
-    /** Get offset of the frame.
+    /** Get center rect of the frame.
      *
+     * Useful to create 9-slice sprites
+     *
+     * @return The center rect of the sprite frame in points
+     */
+    const Rect& getCenterRect() const { return _centerRect; }
+
+     /**
+     * setCenterRect
+     *
+     * Useful to implement "9 sliced" sprites.
+     * The sprite will be sliced into a 3 x 3 grid. The four corners of this grid are applied without
+     * performing any scaling. The upper- and lower-middle parts are scaled horizontally, and the left- and right-middle parts are scaled vertically.
+     * The center is scaled in both directions.
+     * Important: The scaling is based the Sprite's trimmed size.
+     *
+     * Limitations: Does not work when the sprite is part of `SpriteBatchNode`.
+     * @param centerRect the Rect in points
+     */
+    void setCenterRectInPixels(const Rect& centerRect);
+
+    /** hasCenterRect
+     @return Whether or not it has a centerRect
+     */
+    bool hasCenterRect() const;
+
+    /** Get offset of the frame.
+     * 
      * @return The offset of the sprite frame, in pixels.
      */
     const Vec2& getOffsetInPixels() const;
     /** Set offset of the frame.
-     *
+     * 
      * @param offsetInPixels The offset of the sprite frame, in pixels.
      */
     void setOffsetInPixels(const Vec2& offsetInPixels);
@@ -209,11 +233,13 @@ public:
     bool hasAnchorPoint() const;
 
     // Overrides
-    virtual SpriteFrame* clone() const override;
-    /**
+	virtual SpriteFrame *clone() const override;
+
+    /** Set the polygon info for polygon mesh sprites
+     *
      * @param polygonInfo triangle mesh of the sprite
      */
-    void setPolygonInfo(const PolygonInfo& polygonInfo);
+    void setPolygonInfo(const PolygonInfo &polygonInfo);
 
     /** Get the polygonInfo for this sprite
      *
@@ -227,35 +253,35 @@ public:
      */
     bool hasPolygonInfo() const;
 
-    CC_CONSTRUCTOR_ACCESS :
-        /**
-         * @lua NA
-         */
-        SpriteFrame();
-
+CC_CONSTRUCTOR_ACCESS:
     /**
      * @lua NA
      */
-    ~SpriteFrame() override;
-
+    SpriteFrame();
+    
+    /**
+     * @lua NA
+     */
+    virtual ~SpriteFrame();
+    
     /** Initializes a SpriteFrame with a texture, rect in points.
      It is assumed that the frame was not trimmed.
      */
     bool initWithTexture(Texture2D* pobTexture, const Rect& rect);
-
+    
     /** Initializes a SpriteFrame with a texture filename, rect in points;
      It is assumed that the frame was not trimmed.
      */
     bool initWithTextureFilename(const std::string& filename, const Rect& rect);
-
+    
     /** Initializes a SpriteFrame with a texture, rect, rotated, offset and originalSize in pixels.
      The originalSize is the size in points of the frame before being trimmed.
      */
     bool initWithTexture(Texture2D* pobTexture, const Rect& rect, bool rotated, const Vec2& offset, const Size& originalSize);
-
+    
     /** Initializes a SpriteFrame with a texture, rect, rotated, offset and originalSize in pixels.
      The originalSize is the size in pixels of the frame before being trimmed.
-
+     
      @since v1.1
      */
     bool initWithTextureFilename(const std::string& filename, const Rect& rect, bool rotated, const Vec2& offset, const Size& originalSize);
@@ -265,12 +291,13 @@ protected:
     Vec2 _anchorPoint;
     Size _originalSize;
     Rect _rectInPixels;
-    bool _rotated;
+    bool   _rotated;
     Rect _rect;
+    Rect _centerRect;
     Vec2 _offsetInPixels;
     Size _originalSizeInPixels;
-    Texture2D* _texture;
-    std::string _textureFilename;
+    Texture2D *_texture;
+    std::string  _textureFilename;
     PolygonInfo _polygonInfo;
 };
 
@@ -279,4 +306,4 @@ protected:
 
 NS_CC_END
 
-#endif // CC_2D_SPRITEFRAME_H
+#endif //__SPRITE_CCSPRITE_FRAME_H__

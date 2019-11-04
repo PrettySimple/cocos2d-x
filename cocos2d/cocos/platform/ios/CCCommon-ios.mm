@@ -1,6 +1,7 @@
 /****************************************************************************
  Copyright (c) 2010-2012 cocos2d-x.org
  Copyright (c) 2013-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -26,32 +27,37 @@
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    include <cocos/platform/CCCommon.h>
+#include <cocos/platform/CCCommon.h>
 
-#    include <cocos/platform/CCPlatformMacros.h>
+#include <stdarg.h>
+#include <stdio.h>
 
-#    import <Foundation/NSString.h>
-#    import <UIKit/UIAlertView.h>
-
-#    include <cstdio>
+#import <UIKit/UIAlert.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/CCConsole.h>
 
 NS_CC_BEGIN
 
 // ios no MessageBox, use log instead
-void MessageBox(const char* msg, const char* title)
+void MessageBox(const char * msg, const char * title)
 {
     // only enable it on iOS.
     // FIXME: Implement it for tvOS
-#    if !defined(CC_TARGET_OS_TVOS)
-    NSString* tmpTitle = (title) ? [NSString stringWithUTF8String:title] : nil;
-    NSString* tmpMsg = (msg) ? [NSString stringWithUTF8String:msg] : nil;
-    UIAlertView* messageBox = [[UIAlertView alloc] initWithTitle:tmpTitle message:tmpMsg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+#if !defined(CC_TARGET_OS_TVOS)
+    NSString * tmpTitle = (title) ? [NSString stringWithUTF8String : title] : nil;
+    NSString * tmpMsg = (msg) ? [NSString stringWithUTF8String : msg] : nil;
+    UIAlertView * messageBox = [[UIAlertView alloc] initWithTitle: tmpTitle
+                                                          message: tmpMsg
+                                                         delegate: nil
+                                                cancelButtonTitle: @"OK"
+                                                otherButtonTitles: nil];
     [messageBox autorelease];
     [messageBox show];
-#    endif
+#endif
+
 }
 
-void LuaLog(const char* format)
+void LuaLog(const char * format)
 {
     puts(format);
 }

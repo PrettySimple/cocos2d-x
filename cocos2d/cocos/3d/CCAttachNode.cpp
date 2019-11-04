@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2014 Chukong Technologies Inc.
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -23,33 +24,27 @@
  ****************************************************************************/
 
 #include <cocos/3d/CCAttachNode.h>
-
-#include <cocos/2d/CCNode.h>
 #include <cocos/3d/CCSkeleton3D.h>
-#include <cocos/math/Mat4.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <new>
 
 NS_CC_BEGIN
-
-class Renderer;
 
 AttachNode* AttachNode::create(Bone3D* attachBone)
 {
     auto attachnode = new (std::nothrow) AttachNode();
     attachnode->_attachBone = attachBone;
     attachnode->autorelease();
-
+    
     return attachnode;
 }
 
 AttachNode::AttachNode()
 : _attachBone(nullptr)
 {
+    
 }
 AttachNode::~AttachNode()
 {
+    
 }
 
 Mat4 AttachNode::getWorldToNodeTransform() const
@@ -80,8 +75,9 @@ const Mat4& AttachNode::getNodeToParentTransform() const
     return _transformToParent;
 }
 
-void AttachNode::visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags)
+void AttachNode::visit(Renderer *renderer, const Mat4& parentTransform, uint32_t /*parentFlags*/)
 {
     Node::visit(renderer, parentTransform, Node::FLAGS_DIRTY_MASK);
 }
 NS_CC_END
+

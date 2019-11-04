@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -25,89 +26,71 @@ THE SOFTWARE.
 
 #include <cocos/platform/CCGLView.h>
 
-#include <cocos/2d/CCCamera.h>
-#include <cocos/2d/CCScene.h>
+#include <cocos/base/CCTouch.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/CCEventDispatcher.h>
-#include <cocos/base/CCEventTouch.h>
-#include <cocos/base/CCTouch.h>
-#include <cocos/base/ccMacros.h>
-#include <cocos/math/CCGeometry.h>
-#include <cocos/math/Mat4.h>
-#include <cocos/math/Vec2.h>
-#include <cocos/platform/CCGL.h>
-#include <cocos/platform/CCPlatformMacros.h>
-#include <cocos/renderer/CCFrameBuffer.h>
-#include <cocos/vr/CCVRProtocol.h>
-
-#include <algorithm>
-#include <cmath>
-#include <map>
-#include <new>
-#include <utility>
+#include <cocos/2d/CCCamera.h>
+#include <cocos/2d/CCScene.h>
+#include <cocos/renderer/CCRenderer.h>
 
 NS_CC_BEGIN
 
-namespace
-{
-    static Touch* g_touches[EventTouch::MAX_TOUCHES] = {nullptr};
+namespace {
+    
+    static Touch* g_touches[EventTouch::MAX_TOUCHES] = { nullptr };
     static unsigned int g_indexBitsUsed = 0;
     // System touch pointer ID (It may not be ascending order number) <-> Ascending order number from 0
     static std::map<intptr_t, int> g_touchIdReorderMap;
-
+    
     static int getUnUsedIndex()
     {
         int i;
         int temp = g_indexBitsUsed;
-
-        for (i = 0; i < EventTouch::MAX_TOUCHES; i++)
-        {
-            if (!(temp & 0x00000001))
-            {
-                g_indexBitsUsed |= (1 << i);
+        
+        for (i = 0; i < EventTouch::MAX_TOUCHES; i++) {
+            if (! (temp & 0x00000001)) {
+                g_indexBitsUsed |= (1 <<  i);
                 return i;
             }
-
+            
             temp >>= 1;
         }
-
+        
         // all bits are used
         return -1;
     }
-
+    
     static std::vector<Touch*> getAllTouchesVector()
     {
         std::vector<Touch*> ret;
         int i;
         int temp = g_indexBitsUsed;
-
-        for (i = 0; i < EventTouch::MAX_TOUCHES; i++)
-        {
-            if (temp & 0x00000001)
-            {
+        
+        for (i = 0; i < EventTouch::MAX_TOUCHES; i++) {
+            if ( temp & 0x00000001) {
                 ret.push_back(g_touches[i]);
             }
             temp >>= 1;
         }
         return ret;
     }
-
+    
     static void removeUsedIndexBit(int index)
     {
         if (index < 0 || index >= EventTouch::MAX_TOUCHES)
         {
             return;
         }
-
+        
         unsigned int temp = 1 << index;
         temp = ~temp;
         g_indexBitsUsed &= temp;
     }
+    
+}
 
-} // namespace
-
-// default context attributions are set as follows
-GLContextAttrs GLView::_glContextAttrs = {5, 6, 5, 0, 16, 0};
+//default context attributions are set as follows
+GLContextAttrs GLView::_glContextAttrs = {8, 8, 8, 8, 24, 8, 0};
 
 void GLView::setGLContextAttrs(GLContextAttrs& glContextAttrs)
 {
@@ -120,22 +103,17 @@ GLContextAttrs GLView::getGLContextAttrs()
 }
 
 GLView::GLView()
-: _scaleX(1.0f)
+: _screenSize(0,0)
+, _designResolutionSize(0,0)
+, _scaleX(1.0f)
 , _scaleY(1.0f)
 , _resolutionPolicy(ResolutionPolicy::UNKNOWN)
-, _vrImpl(nullptr)
-, _designResolutionSize(0, 0)
-, _screenSize(0, 0)
 {
 }
 
 GLView::~GLView()
 {
-}
 
-void GLView::pollInputEvents()
-{
-    pollEvents();
 }
 
 void GLView::pollEvents()
@@ -144,38 +122,38 @@ void GLView::pollEvents()
 
 void GLView::updateDesignResolutionSize()
 {
-    if (_screenSize.width > 0 && _screenSize.height > 0 && _designResolutionSize.width > 0 && _designResolutionSize.height > 0)
+    if (_screenSize.width > 0 && _screenSize.height > 0
+        && _designResolutionSize.width > 0 && _designResolutionSize.height > 0)
     {
         _scaleX = (float)_screenSize.width / _designResolutionSize.width;
         _scaleY = (float)_screenSize.height / _designResolutionSize.height;
-
+        
         if (_resolutionPolicy == ResolutionPolicy::NO_BORDER)
         {
             _scaleX = _scaleY = MAX(_scaleX, _scaleY);
         }
-
+        
         else if (_resolutionPolicy == ResolutionPolicy::SHOW_ALL)
         {
             _scaleX = _scaleY = MIN(_scaleX, _scaleY);
         }
-
-        else if (_resolutionPolicy == ResolutionPolicy::FIXED_HEIGHT)
-        {
+        
+        else if ( _resolutionPolicy == ResolutionPolicy::FIXED_HEIGHT) {
             _scaleX = _scaleY;
-            _designResolutionSize.width = ceilf(_screenSize.width / _scaleX);
+            _designResolutionSize.width = ceilf(_screenSize.width/_scaleX);
         }
-
-        else if (_resolutionPolicy == ResolutionPolicy::FIXED_WIDTH)
-        {
+        
+        else if ( _resolutionPolicy == ResolutionPolicy::FIXED_WIDTH) {
             _scaleY = _scaleX;
-            _designResolutionSize.height = ceilf(_screenSize.height / _scaleY);
+            _designResolutionSize.height = ceilf(_screenSize.height/_scaleY);
         }
-
+        
         // calculate the rect of viewport
         float viewPortW = _designResolutionSize.width * _scaleX;
         float viewPortH = _designResolutionSize.height * _scaleY;
-
+        
         _viewPortRect.setRect((_screenSize.width - viewPortW) / 2, (_screenSize.height - viewPortH) / 2, viewPortW, viewPortH);
+
 
         // reset director's member variables to fit visible rect
         auto director = Director::getInstance();
@@ -187,14 +165,15 @@ void GLView::updateDesignResolutionSize()
         // A default viewport is needed in order to display the FPS,
         // since the FPS are rendered in the Director, and there is no viewport there.
         // Everything, including the FPS should renderer in the Scene.
-        glViewport(0, 0, _screenSize.width, _screenSize.height);
+        //TODO: minggo
+//        glViewport(0, 0, _screenSize.width, _screenSize.height);
     }
 }
 
 void GLView::setDesignResolutionSize(float width, float height, ResolutionPolicy resolutionPolicy)
 {
     CCASSERT(resolutionPolicy != ResolutionPolicy::UNKNOWN, "should set resolutionPolicy");
-
+    
     if (width == 0.0f || height == 0.0f)
     {
         return;
@@ -202,16 +181,16 @@ void GLView::setDesignResolutionSize(float width, float height, ResolutionPolicy
 
     _designResolutionSize.setSize(width, height);
     _resolutionPolicy = resolutionPolicy;
-
+    
     updateDesignResolutionSize();
-}
+ }
 
-const Size& GLView::getDesignResolutionSize() const
+const Size& GLView::getDesignResolutionSize() const 
 {
     return _designResolutionSize;
 }
 
-const Size& GLView::getFrameSize() const
+Size GLView::getFrameSize() const
 {
     return _screenSize;
 }
@@ -234,13 +213,18 @@ Rect GLView::getVisibleRect() const
     return ret;
 }
 
+Rect GLView::getSafeAreaRect() const
+{
+    return getVisibleRect();
+}
+
 Size GLView::getVisibleSize() const
 {
     if (_resolutionPolicy == ResolutionPolicy::NO_BORDER)
     {
-        return Size(_screenSize.width / _scaleX, _screenSize.height / _scaleY);
+        return Size(_screenSize.width/_scaleX, _screenSize.height/_scaleY);
     }
-    else
+    else 
     {
         return _designResolutionSize;
     }
@@ -250,43 +234,53 @@ Vec2 GLView::getVisibleOrigin() const
 {
     if (_resolutionPolicy == ResolutionPolicy::NO_BORDER)
     {
-        return Vec2((_designResolutionSize.width - _screenSize.width / _scaleX) / 2, (_designResolutionSize.height - _screenSize.height / _scaleY) / 2);
+        return Vec2((_designResolutionSize.width - _screenSize.width/_scaleX)/2, 
+                           (_designResolutionSize.height - _screenSize.height/_scaleY)/2);
     }
-    else
+    else 
     {
         return Vec2::ZERO;
     }
 }
 
-void GLView::setViewPortInPoints(float x, float y, float w, float h)
+void GLView::setViewPortInPoints(float x , float y , float w , float h)
 {
-    experimental::Viewport vp((float)(x * _scaleX + _viewPortRect.origin.x), (float)(y * _scaleY + _viewPortRect.origin.y), (float)(w * _scaleX),
-                              (float)(h * _scaleY));
+    Viewport vp;
+    vp.x = (int)(x * _scaleX + _viewPortRect.origin.x);
+    vp.y = (int)(y * _scaleY + _viewPortRect.origin.y);
+    vp.w = (unsigned int)(w * _scaleX);
+    vp.h = (unsigned int)(h * _scaleY);
     Camera::setDefaultViewport(vp);
 }
 
-void GLView::setScissorInPoints(float x, float y, float w, float h)
+void GLView::setScissorInPoints(float x , float y , float w , float h)
 {
-    glScissor((GLint)(x * _scaleX + _viewPortRect.origin.x), (GLint)(y * _scaleY + _viewPortRect.origin.y), (GLsizei)(w * _scaleX), (GLsizei)(h * _scaleY));
+    auto renderer = Director::getInstance()->getRenderer();
+    renderer->setScissorRect((int)(x * _scaleX + _viewPortRect.origin.x),
+                             (int)(y * _scaleY + _viewPortRect.origin.y),
+                             (unsigned int)(w * _scaleX),
+                             (unsigned int)(h * _scaleY));
 }
 
 bool GLView::isScissorEnabled()
 {
-    return (GL_FALSE == glIsEnabled(GL_SCISSOR_TEST)) ? false : true;
+    auto renderer = Director::getInstance()->getRenderer();
+    return renderer->getScissorTest();
 }
 
 Rect GLView::getScissorRect() const
 {
-    GLfloat params[4];
-    glGetFloatv(GL_SCISSOR_BOX, params);
-    float x = (params[0] - _viewPortRect.origin.x) / _scaleX;
-    float y = (params[1] - _viewPortRect.origin.y) / _scaleY;
-    float w = params[2] / _scaleX;
-    float h = params[3] / _scaleY;
+    auto renderer = Director::getInstance()->getRenderer();
+    auto& rect = renderer->getScissorRect();
+
+    float x = (rect.x - _viewPortRect.origin.x) / _scaleX;
+    float y = (rect.y- _viewPortRect.origin.y) / _scaleY;
+    float w = rect.width/ _scaleX;
+    float h = rect.height / _scaleY;
     return Rect(x, y, w, h);
 }
 
-void GLView::setViewName(const std::string& viewname)
+void GLView::setViewName(const std::string& viewname )
 {
     _viewName = viewname;
 }
@@ -303,7 +297,7 @@ void GLView::handleTouchesBegin(int num, intptr_t ids[], float xs[], float ys[])
     float y = 0.0f;
     int unusedIndex = 0;
     EventTouch touchEvent;
-
+    
     for (int i = 0; i < num; ++i)
     {
         id = ids[i];
@@ -318,18 +312,18 @@ void GLView::handleTouchesBegin(int num, intptr_t ids[], float xs[], float ys[])
             unusedIndex = getUnUsedIndex();
 
             // The touches is more than MAX_TOUCHES ?
-            if (unusedIndex == -1)
-            {
+            if (unusedIndex == -1) {
                 CCLOG("The touches is more than MAX_TOUCHES, unusedIndex = %d", unusedIndex);
                 continue;
             }
 
             Touch* touch = g_touches[unusedIndex] = new (std::nothrow) Touch();
-            touch->setTouchInfo(unusedIndex, (x - _viewPortRect.origin.x) / _scaleX, (y - _viewPortRect.origin.y) / _scaleY);
-
-            // CCLOG("x = %f y = %f", touch->getLocationInView().x, touch->getLocationInView().y);
-
-            g_touchIdReorderMap.insert(std::make_pair(id, unusedIndex));
+            touch->setTouchInfo(unusedIndex, (x - _viewPortRect.origin.x) / _scaleX,
+                                     (y - _viewPortRect.origin.y) / _scaleY);
+            
+            CCLOGINFO("x = %f y = %f", touch->getLocationInView().x, touch->getLocationInView().y);
+            
+            g_touchIdReorderMap.emplace(id, unusedIndex);
             touchEvent._touches.push_back(touch);
         }
     }
@@ -339,7 +333,7 @@ void GLView::handleTouchesBegin(int num, intptr_t ids[], float xs[], float ys[])
         CCLOG("touchesBegan: size = 0");
         return;
     }
-
+    
     touchEvent._eventCode = EventTouch::EventCode::BEGAN;
     auto dispatcher = Director::getInstance()->getEventDispatcher();
     dispatcher->dispatchEvent(&touchEvent);
@@ -358,7 +352,7 @@ void GLView::handleTouchesMove(int num, intptr_t ids[], float xs[], float ys[], 
     float force = 0.0f;
     float maxForce = 0.0f;
     EventTouch touchEvent;
-
+    
     for (int i = 0; i < num; ++i)
     {
         id = ids[i];
@@ -374,12 +368,13 @@ void GLView::handleTouchesMove(int num, intptr_t ids[], float xs[], float ys[], 
             continue;
         }
 
-        CCLOGINFO("Moving touches with id: %d, x=%f, y=%f, force=%f, maxFource=%f", id, x, y, force, maxForce);
+        CCLOGINFO("Moving touches with id: %d, x=%f, y=%f, force=%f, maxFource=%f", (int)id, x, y, force, maxForce);
         Touch* touch = g_touches[iter->second];
         if (touch)
         {
-            touch->setTouchInfo(iter->second, (x - _viewPortRect.origin.x) / _scaleX, (y - _viewPortRect.origin.y) / _scaleY, force, maxForce);
-
+            touch->setTouchInfo(iter->second, (x - _viewPortRect.origin.x) / _scaleX,
+                                (y - _viewPortRect.origin.y) / _scaleY, force, maxForce);
+            
             touchEvent._touches.push_back(touch);
         }
         else
@@ -395,7 +390,7 @@ void GLView::handleTouchesMove(int num, intptr_t ids[], float xs[], float ys[], 
         CCLOG("touchesMoved: size = 0");
         return;
     }
-
+    
     touchEvent._eventCode = EventTouch::EventCode::MOVED;
     auto dispatcher = Director::getInstance()->getEventDispatcher();
     dispatcher->dispatchEvent(&touchEvent);
@@ -407,7 +402,7 @@ void GLView::handleTouchesOfEndOrCancel(EventTouch::EventCode eventCode, int num
     float x = 0.0f;
     float y = 0.0f;
     EventTouch touchEvent;
-
+    
     for (int i = 0; i < num; ++i)
     {
         id = ids[i];
@@ -420,26 +415,28 @@ void GLView::handleTouchesOfEndOrCancel(EventTouch::EventCode eventCode, int num
             CCLOG("if the index doesn't exist, it is an error");
             continue;
         }
-
+        
         /* Add to the set to send to the director */
         Touch* touch = g_touches[iter->second];
         if (touch)
         {
-            CCLOGINFO("Ending touches with id: %d, x=%f, y=%f", id, x, y);
-            touch->setTouchInfo(iter->second, (x - _viewPortRect.origin.x) / _scaleX, (y - _viewPortRect.origin.y) / _scaleY);
+            CCLOGINFO("Ending touches with id: %d, x=%f, y=%f", (int)id, x, y);
+            touch->setTouchInfo(iter->second, (x - _viewPortRect.origin.x) / _scaleX,
+                                (y - _viewPortRect.origin.y) / _scaleY);
 
             touchEvent._touches.push_back(touch);
-
+            
             g_touches[iter->second] = nullptr;
             removeUsedIndexBit(iter->second);
 
             g_touchIdReorderMap.erase(id);
-        }
+        } 
         else
         {
             CCLOG("Ending touches with id: %ld error", static_cast<long>(id));
             return;
-        }
+        } 
+
     }
 
     if (touchEvent._touches.size() == 0)
@@ -447,11 +444,11 @@ void GLView::handleTouchesOfEndOrCancel(EventTouch::EventCode eventCode, int num
         CCLOG("touchesEnded or touchesCancel: size = 0");
         return;
     }
-
+    
     touchEvent._eventCode = eventCode;
     auto dispatcher = Director::getInstance()->getEventDispatcher();
     dispatcher->dispatchEvent(&touchEvent);
-
+    
     for (auto& touch : touchEvent._touches)
     {
         // release the touch object.
@@ -494,36 +491,7 @@ void GLView::renderScene(Scene* scene, Renderer* renderer)
     CCASSERT(scene, "Invalid Scene");
     CCASSERT(renderer, "Invalid Renderer");
 
-    if (_vrImpl)
-    {
-        _vrImpl->render(scene, renderer);
-    }
-    else
-    {
-        scene->render(renderer, Mat4::IDENTITY, nullptr);
-    }
-}
-
-VRIRenderer* GLView::getVR() const
-{
-    return _vrImpl;
-}
-
-void GLView::setVR(VRIRenderer* vrRenderer)
-{
-    if (_vrImpl != vrRenderer)
-    {
-        if (_vrImpl)
-        {
-            _vrImpl->cleanup();
-            delete _vrImpl;
-        }
-
-        if (vrRenderer)
-            vrRenderer->setup(this);
-
-        _vrImpl = vrRenderer;
-    }
+    scene->render(renderer, Mat4::IDENTITY, nullptr);
 }
 
 NS_CC_END

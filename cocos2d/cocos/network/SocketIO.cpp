@@ -357,7 +357,7 @@ namespace network
         void handshake();
         void handshakeResponse(HttpClient* sender, HttpResponse* response);
         void openSocket();
-        void heartbeat(float dt);
+        void heartbeat(std::chrono::milliseconds dt);
 
         SIOClient* getClient(const std::string& endpoint);
         void addClient(const std::string& endpoint, SIOClient* client);
@@ -637,7 +637,7 @@ namespace network
         }
     }
 
-    void SIOClientImpl::heartbeat(float)
+    void SIOClientImpl::heartbeat(std::chrono::milliseconds)
     {
         SocketIOPacket* packet = SocketIOPacket::createPacketWithType("heartbeat", _version);
 

@@ -1,6 +1,7 @@
 /****************************************************************************
- Copyright (c) 2015 Chukong Technologies Inc.
-
+ Copyright (c) 2015-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
  http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,12 +22,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef CC_3D_MOTIONSTREAK3D_H
-#define CC_3D_MOTIONSTREAK3D_H
+#ifndef __CC_MOTION_STREAK3D_H__
+#define __CC_MOTION_STREAK3D_H__
 
-#include <cocos/2d/CCNode.h>
 #include <cocos/base/CCProtocols.h>
+#include <cocos/2d/CCNode.h>
 #include <cocos/renderer/CCCustomCommand.h>
+#include <cocos/renderer/CCCallbackCommand.h>
+
+#include <vector>
 
 NS_CC_BEGIN
 
@@ -54,7 +58,7 @@ public:
      */
     static MotionStreak3D* create(float fade, float minSeg, float stroke, const Color3B& color, const std::string& path);
     /** Creates and initializes a motion streak with fade in seconds, minimum segments, stroke's width, color, texture.
-     *
+     * 
      * @param fade The fade time, in seconds.
      * @param minSeg The minimum segments.
      * @param stroke The width of stroke.
@@ -73,7 +77,7 @@ public:
     /** Remove all living segments of the ribbon.
      */
     void reset();
-
+    
     /** Get stroke.
      *
      * @return float stroke.
@@ -94,71 +98,83 @@ public:
      *
      * @param bStartingPositionInitialized True if initialized the starting position.
      */
-    void setStartingPositionInitialized(bool bStartingPositionInitialized) { _startingPositionInitialized = bStartingPositionInitialized; }
+    void setStartingPositionInitialized(bool bStartingPositionInitialized)
+    {
+        _startingPositionInitialized = bStartingPositionInitialized; 
+    }
 
     // Overrides
-    void setPosition(const Vec2& position) override;
-    void setPosition(float x, float y) override;
-    void setPosition3D(const Vec3& position) override;
-    void setRotation3D(const Vec3& rotation) override {}
-    void setRotationQuat(const Quaternion& quat) override {}
-
-    const Vec2& getPosition() const override;
-    void getPosition(float* x, float* y) const override;
-    void setPositionX(float x) override;
-    void setPositionY(float y) override;
-    float getPositionX(void) const override;
-    float getPositionY(void) const override;
-    Vec3 getPosition3D() const override;
+    virtual void setPosition(const Vec2& position) override;
+    virtual void setPosition(float x, float y) override;
+    virtual void setPosition3D(const Vec3& position) override;
+    virtual void setRotation3D(const Vec3& rotation) override;
+    virtual void setRotationQuat(const Quaternion& quat) override;
+    
+    virtual const Vec2& getPosition() const override;
+    virtual void getPosition(float* x, float* y) const override;
+    virtual void setPositionX(float x) override;
+    virtual void setPositionY(float y) override;
+    virtual float getPositionX() const override;
+    virtual float getPositionY() const override;
+    virtual Vec3 getPosition3D() const override;
     /**
-     * @js NA
-     * @lua NA
-     */
-    void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
+    * @js NA
+    * @lua NA
+    */
+    virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
     /**
-     * @lua NA
-     */
-    void update(float delta) override;
-    Texture2D* getTexture() const override;
-    void setTexture(Texture2D* texture) override;
+    * @lua NA
+    */
+    virtual void update(float delta) override;
+    virtual Texture2D* getTexture() const override;
+    virtual void setTexture(Texture2D *texture) override;
     /**
-     * @js NA
-     * @lua NA
-     */
-    void setBlendFunc(const BlendFunc& blendFunc) override;
+    * @js NA
+    * @lua NA
+    */
+    virtual void setBlendFunc(const BlendFunc &blendFunc) override;
     /**
-     * @js NA
-     * @lua NA
-     */
-    const BlendFunc& getBlendFunc() const override;
-    GLubyte getOpacity() const override;
-    void setOpacity(GLubyte opacity) override;
-    void setOpacityModifyRGB(bool value) override;
-    bool isOpacityModifyRGB() const override;
-
+    * @js NA
+    * @lua NA
+    */
+    virtual const BlendFunc& getBlendFunc() const override;
+    virtual uint8_t getOpacity() const override;
+    virtual void setOpacity(uint8_t opacity) override;
+    virtual void setOpacityModifyRGB(bool value) override;
+    virtual bool isOpacityModifyRGB() const override;
+    
     /**
      * Set the direction of sweeping line segment.
      * @param sweepAxis Direction of sweeping line segment
      */
     void setSweepAxis(const Vec3& sweepAxis) { _sweepAxis = sweepAxis.getNormalized(); }
-
+    
     /**
      * Get the direction of sweeping line segment
      */
     const Vec3& getSweepAxis() const { return _sweepAxis; }
-
-    CC_CONSTRUCTOR_ACCESS : MotionStreak3D();
-    ~MotionStreak3D() override;
-
+    
+CC_CONSTRUCTOR_ACCESS:
+    MotionStreak3D();
+    virtual ~MotionStreak3D();
+    
     /** initializes a motion streak with fade in seconds, minimum segments, stroke's width, color and texture filename */
     bool initWithFade(float fade, float minSeg, float stroke, const Color3B& color, const std::string& path);
-
+    
     /** initializes a motion streak with fade in seconds, minimum segments, stroke's width, color and texture  */
     bool initWithFade(float fade, float minSeg, float stroke, const Color3B& color, Texture2D* texture);
 
 protected:
-    // renderer callback
-    void onDraw(const Mat4& transform, uint32_t flags);
+    //renderer callback
+
+    void initCustomCommand();
+
+    struct VertexData
+    {
+        Vec3 pos;
+        Color4B color;
+        Tex2F texPos;
+    };
 
     bool _startingPositionInitialized;
 
@@ -167,7 +183,8 @@ protected:
     BlendFunc _blendFunc;
     Vec3 _positionR;
     mutable Vec2 _positionR2D;
-    Vec3 _sweepAxis;
+    Vec3         _sweepAxis;
+    
 
     float _stroke;
     float _fadeDelta;
@@ -178,18 +195,26 @@ protected:
     unsigned int _previousNuPoints;
 
     /** Pointers */
-    Vec3* _pointVertexes;
-    float* _pointState;
+    std::vector<Vec3> _pointVertexes;
+    std::vector<float> _pointState;
 
-    // Opengl
-    Vec3* _vertices;
-    GLubyte* _colorPointer;
-    Tex2F* _texCoords;
-
+    std::vector<VertexData> _vertexData;
+    
     CustomCommand _customCommand;
-
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MotionStreak3D)
+    CC_DISALLOW_COPY_AND_ASSIGN(MotionStreak3D);
+
+    CallbackCommand _beforeCommand;
+    CallbackCommand _afterCommand;
+    backend::ProgramState *_programState = nullptr;
+    backend::UniformLocation _locMVP;
+    backend::UniformLocation _locTexture;
+
+    void onBeforeDraw();
+    void onAfterDraw();
+
+    backend::CullMode _rendererCullface;
+    bool _rendererDepthTest;
 };
 
 // end of _3d group
@@ -197,4 +222,4 @@ private:
 
 NS_CC_END
 
-#endif // CC_3D_MOTIONSTREAK3D_H
+#endif //__CC_MOTION_STREAK3D_H__

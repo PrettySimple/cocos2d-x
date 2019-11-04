@@ -1,18 +1,19 @@
 /****************************************************************************
- Copyright (c) 2014 Chukong Technologies Inc.
-
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,19 +23,15 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_3D_RAY_H
-#define CC_3D_RAY_H
+#ifndef __CC_RAY_H_
+#define __CC_RAY_H_
 
+#include <cocos/math/CCMath.h>
+#include <cocos/3d/CCAABB.h>
 #include <cocos/3d/CCOBB.h>
-#include <cocos/math/Mat4.h>
-#include <cocos/math/Vec3.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/3d/CCPlane.h>
 
 NS_CC_BEGIN
-
-class AABB;
-class Plane;
 
 /**
  * @addtogroup _3d
@@ -60,7 +57,7 @@ public:
      * @lua NA
      */
     Ray(const Ray& ray);
-
+    
     /**
      * Constructs a new ray initialized to the specified values.
      *
@@ -80,7 +77,7 @@ public:
      * Check whether this ray intersects with the specified AABB.
      */
     bool intersects(const AABB& aabb, float* distance = nullptr) const;
-
+    
     /**
      * Check whether this ray intersects with the specified OBB.
      */
@@ -88,7 +85,7 @@ public:
 
     float dist(const Plane& plane) const;
     Vec3 intersects(const Plane& plane) const;
-
+    
     /**
      * Sets this ray to the specified values.
      *
@@ -104,8 +101,8 @@ public:
      */
     void transform(const Mat4& matrix);
 
-    Vec3 _origin; // The ray origin position.
-    Vec3 _direction; // The ray direction vector.
+    Vec3 _origin;        // The ray origin position.
+    Vec3 _direction;     // The ray direction vector.
 };
 
 // end of 3d group
@@ -113,4 +110,4 @@ public:
 
 NS_CC_END
 
-#endif // CC_3D_RAY_H
+#endif

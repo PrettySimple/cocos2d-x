@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -26,36 +27,36 @@ THE SOFTWARE.
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#    include <cocos/platform/CCCommon.h>
+#include <cocos/platform/CCCommon.h>
 
-#    include <cocos/base/CCDirector.h>
+#include <cocos/base/CCDirector.h>
 
-#    include <Cocoa/Cocoa.h>
-#    include <stdarg.h>
-#    include <stdio.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <Cocoa/Cocoa.h>
 
 NS_CC_BEGIN
 
-void LuaLog(const char* format)
+void LuaLog(const char * format)
 {
     puts(format);
 }
 
 // ios no MessageBox, use log instead
-void MessageBox(const char* msg, const char* title)
+void MessageBox(const char * msg, const char * title)
 {
-    NSString* tmpTitle = (title) ? [NSString stringWithUTF8String:title] : nil;
-    NSString* tmpMsg = (msg) ? [NSString stringWithUTF8String:msg] : nil;
+    NSString * tmpTitle = (title) ? [NSString stringWithUTF8String : title] : nil;
+    NSString * tmpMsg = (msg) ? [NSString stringWithUTF8String : msg] : nil;
 
-    NSAlert* alert = [[[NSAlert alloc] init] autorelease];
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
     [alert addButtonWithTitle:@"OK"];
     [alert setMessageText:tmpMsg];
     [alert setInformativeText:tmpTitle];
-    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert setAlertStyle:NSAlertStyleWarning];
 
     auto glview = Director::getInstance()->getOpenGLView();
     id window = glview->getCocoaWindow();
-    [alert beginSheetModalForWindow:window modalDelegate:[window delegate] didEndSelector:nil contextInfo:nil];
+    [alert beginSheetModalForWindow:window completionHandler:nil];
 }
 
 NS_CC_END

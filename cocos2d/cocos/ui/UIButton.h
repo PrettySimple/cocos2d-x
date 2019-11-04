@@ -43,8 +43,8 @@ NS_CC_BEGIN
 class Label;
 class Node;
 class SpriteFrame;
-enum struct TextHAlignment : std::uint8_t;
-enum struct TextVAlignment : std::uint8_t;
+enum struct TextHAlignment;// : std::uint8_t;
+enum struct TextVAlignment;// : std::uint8_t;
 struct Color3B;
 struct ResourceData;
 

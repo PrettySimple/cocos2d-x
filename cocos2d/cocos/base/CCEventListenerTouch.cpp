@@ -1,18 +1,19 @@
 /****************************************************************************
  Copyright (c) 2013-2016 Chukong Technologies Inc.
-
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,16 +24,15 @@
  ****************************************************************************/
 
 #include <cocos/base/CCEventListenerTouch.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventTouch.h>
+#include <cocos/base/CCTouch.h>
 
-#include <cocos/base/CCEventListener.h>
-#include <cocos/base/ccMacros.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <new>
+#include <algorithm>
 
 NS_CC_BEGIN
 
-const EventListenerTouchOneByOne::ListenerID EventListenerTouchOneByOne::LISTENER_ID = "__cc_touch_one_by_one";
+const std::string EventListenerTouchOneByOne::LISTENER_ID = "__cc_touch_one_by_one";
 
 EventListenerTouchOneByOne::EventListenerTouchOneByOne()
 : onTouchBegan(nullptr)
@@ -54,7 +54,7 @@ bool EventListenerTouchOneByOne::init()
     {
         return true;
     }
-
+    
     return false;
 }
 
@@ -91,7 +91,7 @@ bool EventListenerTouchOneByOne::checkAvailable()
         CCASSERT(false, "Invalid EventListenerTouchOneByOne!");
         return false;
     }
-
+    
     return true;
 }
 
@@ -101,12 +101,12 @@ EventListenerTouchOneByOne* EventListenerTouchOneByOne::clone()
     if (ret && ret->init())
     {
         ret->autorelease();
-
+        
         ret->onTouchBegan = onTouchBegan;
         ret->onTouchMoved = onTouchMoved;
         ret->onTouchEnded = onTouchEnded;
         ret->onTouchCancelled = onTouchCancelled;
-
+        
         ret->_claimedTouches = _claimedTouches;
         ret->_needSwallow = _needSwallow;
     }
@@ -119,7 +119,7 @@ EventListenerTouchOneByOne* EventListenerTouchOneByOne::clone()
 
 /////////
 
-const EventListenerTouchAllAtOnce::ListenerID EventListenerTouchAllAtOnce::LISTENER_ID = "__cc_touch_all_at_once";
+const std::string EventListenerTouchAllAtOnce::LISTENER_ID = "__cc_touch_all_at_once";
 
 EventListenerTouchAllAtOnce::EventListenerTouchAllAtOnce()
 : onTouchesBegan(nullptr)
@@ -140,7 +140,7 @@ bool EventListenerTouchAllAtOnce::init()
     {
         return true;
     }
-
+    
     return false;
 }
 
@@ -160,12 +160,13 @@ EventListenerTouchAllAtOnce* EventListenerTouchAllAtOnce::create()
 
 bool EventListenerTouchAllAtOnce::checkAvailable()
 {
-    if (onTouchesBegan == nullptr && onTouchesMoved == nullptr && onTouchesEnded == nullptr && onTouchesCancelled == nullptr)
+    if (onTouchesBegan == nullptr && onTouchesMoved == nullptr
+        && onTouchesEnded == nullptr && onTouchesCancelled == nullptr)
     {
         CCASSERT(false, "Invalid EventListenerTouchAllAtOnce!");
         return false;
     }
-
+    
     return true;
 }
 
@@ -175,7 +176,7 @@ EventListenerTouchAllAtOnce* EventListenerTouchAllAtOnce::clone()
     if (ret && ret->init())
     {
         ret->autorelease();
-
+        
         ret->onTouchesBegan = onTouchesBegan;
         ret->onTouchesMoved = onTouchesMoved;
         ret->onTouchesEnded = onTouchesEnded;

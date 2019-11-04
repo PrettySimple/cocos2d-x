@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2015 Chukong Technologies Inc.
+ Copyright (c) 2015-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -26,28 +27,38 @@
  - OGRE3D: http://www.ogre3d.org/
  - Qt3D: http://qt-project.org/
  ****************************************************************************/
+#pragma once
 
-#ifndef CC_RENDERER_MATERIAL_H
-#define CC_RENDERER_MATERIAL_H
+#include <string>
+#include <unordered_map>
 
-#include <cocos/base/CCVector.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCRenderState.h>
+#include <cocos/renderer/CCTechnique.h>
+#include <cocos/renderer/CCCustomCommand.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCVector.h>
+#include <cocos/math/Vec2.h>
+#include <cocos/math/Vec3.h>
+#include <cocos/math/Vec4.h>
+#include <cocos/math/Mat4.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
-#include <cstddef>
-#include <iosfwd>
 
 NS_CC_BEGIN
 
-class GLProgramState;
-class Node;
-class Pass;
-class Properties;
 class Technique;
+class Pass;
+class Node;
+class Properties;
+class RenderState;
+
+namespace backend
+{
+    class ProgramState;
+}
 
 /// Material
-class CC_DLL Material : public RenderState
+class CC_DLL Material :public Ref
 {
     friend class Node;
     friend class Technique;
@@ -55,6 +66,7 @@ class CC_DLL Material : public RenderState
     friend class MeshCommand;
     friend class Renderer;
     friend class Mesh;
+    friend class RenderState;
 
 public:
     /**
@@ -72,7 +84,7 @@ public:
      It will only contain one Technique and one Pass.
      Added in order to support legacy code.
      */
-    static Material* createWithGLStateProgram(GLProgramState* programState);
+    static Material* createWithProgramState(backend::ProgramState* programState);
 
     /**
      * Creates a material from the specified properties object.
@@ -82,6 +94,10 @@ public:
      * @return A new Material.
      */
     static Material* createWithProperties(Properties* materialProperties);
+
+    void draw(MeshCommand* meshCommand, float globalZOrder, backend::Buffer* vertexBuffer, backend::Buffer* indexBuffer,
+              CustomCommand::PrimitiveType primitive, CustomCommand::IndexFormat indexFormat,
+              unsigned int indexCount, const Mat4& modelView);
 
     /// returns the material name
     std::string getName() const;
@@ -93,10 +109,10 @@ public:
      */
     Technique* getTechniqueByName(const std::string& name);
 
-    /** Returns a Technique by index.
+    /** Returns a Technique by index. 
      returns `nullptr` if the index is invalid.
      */
-    Technique* getTechniqueByIndex(std::size_t index);
+    Technique* getTechniqueByIndex(ssize_t index);
 
     /** Returns the Technique used by the Material */
     Technique* getTechnique() const;
@@ -105,7 +121,7 @@ public:
     const Vector<Technique*>& getTechniques() const;
 
     /** Returns the number of Techniques in the Material. */
-    std::size_t getTechniqueCount() const;
+    ssize_t getTechniqueCount() const;
 
     /** Adds a Technique into the Material */
     void addTechnique(Technique* technique);
@@ -116,10 +132,18 @@ public:
     /** returns a clone (deep-copy) of the material */
     virtual Material* clone() const;
 
+    inline RenderState::StateBlock &getStateBlock() { return _renderState._state; }
+
+    inline void setStateBlock(const RenderState::StateBlock &state) { 
+        _renderState._state = state; 
+    }
+
+    RenderState * getRenderState() { return &_renderState; }
+
 protected:
-    Material() = default;
+    Material();
     ~Material();
-    bool initWithGLProgramState(GLProgramState* state);
+    bool initWithProgramState(backend::ProgramState* state);
     bool initWithFile(const std::string& file);
     bool initWithProperties(Properties* materialProperties);
 
@@ -129,9 +153,14 @@ protected:
     bool parseTechnique(Properties* properties);
     bool parsePass(Technique* technique, Properties* properties);
     bool parseShader(Pass* pass, Properties* properties);
-    bool parseSampler(GLProgramState* glProgramState, Properties* properties);
-    bool parseUniform(GLProgramState* programState, Properties* properties, const char* uniformName);
-    bool parseRenderState(RenderState* renderState, Properties* properties);
+    bool parseSampler(backend::ProgramState* programState, Properties* properties);
+    bool parseUniform(backend::ProgramState* programState, Properties* properties, const char* uniformName);
+    bool parseRenderState(RenderState::StateBlock *state, Properties* properties);
+
+    // material name
+    std::string _name;
+
+    RenderState _renderState;
 
     // array of techniques
     Vector<Technique*> _techniques;
@@ -141,8 +170,9 @@ protected:
 
     // weak reference
     Node* _target = nullptr;
+
+    std::unordered_map<std::string, int> _textureSlots;
+    int _textureSlotIndex = 0;
 };
 
 NS_CC_END
-
-#endif // CC_RENDERER_MATERIAL_H

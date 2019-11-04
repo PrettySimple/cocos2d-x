@@ -3,6 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -25,12 +26,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_2D_SCENE_H
-#define CC_2D_SCENE_H
-
-#include <cocos/2d/CCNode.h>
+#ifndef __CCSCENE_H__
+#define __CCSCENE_H__
 
 #include <string>
+#include <cocos/2d/CCNode.h>
 
 NS_CC_BEGIN
 
@@ -64,31 +64,31 @@ For the moment Scene has no other logic than that, but in future releases it mig
 additional logic.
 
 It is a good practice to use a Scene as the parent of all your nodes.
-
+ 
 Scene will create a default camera for you.
 */
 class CC_DLL Scene : public Node
 {
 public:
-    /** Creates a new Scene object.
+    /** Creates a new Scene object. 
      *
      * @return An autoreleased Scene object.
      */
-    static Scene* create();
+    static Scene *create();
 
-    /** Creates a new Scene object with a predefined Size.
+    /** Creates a new Scene object with a predefined Size. 
      *
      * @param size The predefined size of scene.
      * @return An autoreleased Scene object.
      * @js NA
      */
-    static Scene* createWithSize(const Size& size);
+    static Scene *createWithSize(const Size& size);
 
     using Node::addChild;
     virtual std::string getDescription() const override;
-
+    
     /** Get all cameras.
-     *
+     * 
      * @return The vector of all cameras, ordered by camera depth.
      * @js NA
      */
@@ -108,21 +108,24 @@ public:
 
     /** Render the scene.
      * @param renderer The renderer use to render the scene.
+     * @param eyeTransform The AdditionalTransform of camera.
+     * @param eyeProjection The projection matrix of camera.
      * @js NA
      */
     virtual void render(Renderer* renderer, const Mat4& eyeTransform, const Mat4* eyeProjection = nullptr);
-
+  
     /** override function */
     virtual void removeAllChildren() override;
-
-    CC_CONSTRUCTOR_ACCESS : Scene();
-    ~Scene() override;
-
+    
+CC_CONSTRUCTOR_ACCESS:
+    Scene();
+    virtual ~Scene();
+    
     bool init() override;
     bool initWithSize(const Size& size);
-
+    
     void setCameraOrderDirty() { _cameraOrderDirty = true; }
-
+    
     void onProjectionChanged(EventCustom* event);
 
 protected:
@@ -132,62 +135,63 @@ protected:
     friend class Camera;
     friend class BaseLight;
     friend class Renderer;
+    
+    std::vector<Camera*> _cameras; //weak ref to Camera
+    Camera*              _defaultCamera = nullptr; //weak ref, default camera created by scene, _cameras[0], Caution that the default camera can not be added to _cameras before onEnter is called
+    bool                 _cameraOrderDirty = true; // order is dirty, need sort
+    EventListenerCustom*       _event = nullptr;
 
-    std::vector<Camera*> _cameras; // weak ref to Camera
-    Camera* _defaultCamera; // weak ref, default camera created by scene, _cameras[0], Caution that the default camera can not be added to _cameras before
-                            // onEnter is called
-    bool _cameraOrderDirty; // order is dirty, need sort
-    EventListenerCustom* _event;
-
-    std::vector<BaseLight*> _lights;
-
+    std::vector<BaseLight *> _lights;
+    
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Scene)
-
+    CC_DISALLOW_COPY_AND_ASSIGN(Scene);
+    
 #if (CC_USE_PHYSICS || (CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION))
 public:
-#    if CC_USE_PHYSICS
+    
+#if CC_USE_PHYSICS
     /** Get the physics world of the scene.
      * @return The physics world of the scene.
      * @js NA
      */
     PhysicsWorld* getPhysicsWorld() const { return _physicsWorld; }
-#    endif
-
-#    if CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION
+#endif
+    
+#if CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION
     /** Get the 3d physics world of the scene.
      * @return The 3d physics world of the scene.
      * @js NA
      */
     Physics3DWorld* getPhysics3DWorld() { return _physics3DWorld; }
-
-    /**
+    
+    /** 
      * Set Physics3D debug draw camera.
      */
     void setPhysics3DDebugCamera(Camera* camera);
-#    endif
-
+#endif
+    
     /** Create a scene with physics.
      * @return An autoreleased Scene object with physics.
      * @js NA
      */
-    static Scene* createWithPhysics();
-
-    CC_CONSTRUCTOR_ACCESS : bool initWithPhysics();
-
+    static Scene *createWithPhysics();
+    
+CC_CONSTRUCTOR_ACCESS:
+    bool initWithPhysics();
+    
 protected:
     void addChildToPhysicsWorld(Node* child);
 
-#    if CC_USE_PHYSICS
-    PhysicsWorld* _physicsWorld;
-#    endif
-
-#    if CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION
-    Physics3DWorld* _physics3DWorld;
-    Camera* _physics3dDebugCamera; //
-#    endif
+#if CC_USE_PHYSICS
+    PhysicsWorld* _physicsWorld = nullptr;
+#endif
+    
+#if CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION
+    Physics3DWorld*            _physics3DWorld = nullptr;
+    Camera*                    _physics3dDebugCamera = nullptr;
+#endif
 #endif // (CC_USE_PHYSICS || CC_USE_3D_PHYSICS)
-
+    
 #if CC_USE_NAVMESH
 public:
     /** set navigation mesh */
@@ -195,15 +199,15 @@ public:
     /** get navigation mesh */
     NavMesh* getNavMesh() const { return _navMesh; }
     /**
-     * Set NavMesh debug draw camera.
-     */
-    void setNavMeshDebugCamera(Camera* camera);
+    * Set NavMesh debug draw camera.
+    */
+    void setNavMeshDebugCamera(Camera *camera);
 
 protected:
-    NavMesh* _navMesh;
-    Camera* _navMeshDebugCamera;
+    NavMesh*        _navMesh = nullptr;
+    Camera *        _navMeshDebugCamera = nullptr;
 #endif
-
+    
 #if (CC_USE_PHYSICS || (CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION) || CC_USE_NAVMESH)
 public:
     void stepPhysicsAndNavigation(float deltaTime);
@@ -215,4 +219,4 @@ public:
 
 NS_CC_END
 
-#endif // CC_2D_SCENE_H
+#endif // __CCSCENE_H__

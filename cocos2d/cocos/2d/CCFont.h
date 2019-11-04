@@ -1,19 +1,20 @@
 /****************************************************************************
  Copyright (c) 2013      Zynga Inc.
  Copyright (c) 2013-2016 Chukong Technologies Inc.
-
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,16 +24,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_2D_FONT_H
-#define CC_2D_FONT_H
+#ifndef _CCFont_h_
+#define _CCFont_h_
 
 /// @cond DO_NOT_SHOW
 
-#include <cocos/base/CCRef.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
 #include <string>
+#include <cocos/base/ccTypes.h>
+#include <cocos/base/ccUTF8.h>
 
 NS_CC_BEGIN
 
@@ -41,16 +40,12 @@ class FontAtlas;
 class CC_DLL Font : public Ref
 {
 public:
-    ~Font() override;
-
     virtual FontAtlas* createFontAtlas() = 0;
-
-    virtual int* getHorizontalKerningForTextUTF16(const std::u16string& text, int& outNumLetters) const = 0;
-
+    virtual int* getHorizontalKerningForTextUTF32(const std::u32string& text, int &outNumLetters) const = 0;
     virtual int getFontMaxHeight() const { return 0; }
 };
 
 NS_CC_END
 
 /// @endcond
-#endif // CC_2D_FONT_H
+#endif

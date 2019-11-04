@@ -1,5 +1,6 @@
 /****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -22,24 +23,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_2D_COMPONENT_H
-#define CC_2D_COMPONENT_H
+#ifndef __CC_FRAMEWORK_COMPONENT_H__
+#define __CC_FRAMEWORK_COMPONENT_H__
 
 /// @cond DO_NOT_SHOW
-
-#include <cocos/base/CCRef.h>
-#include <cocos/base/ccConfig.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
 #include <string>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCScriptSupport.h>
 
 NS_CC_BEGIN
 
 class Node;
 
-enum
-{
+enum {
     kComponentOnEnter,
     kComponentOnExit,
     kComponentOnAdd,
@@ -56,18 +52,18 @@ public:
      * @js NA
      * @lua NA
      */
-    ~Component() override;
+    virtual ~Component();
 
     virtual bool init();
 
     bool isEnabled() const { return _enabled; }
     virtual void setEnabled(bool enabled);
-
+    
     const std::string& getName() const { return _name; }
     virtual void setName(const std::string& name) { _name = name; }
-
+    
     Node* getOwner() const { return _owner; }
-    virtual void setOwner(Node* owner);
+    virtual void setOwner(Node *owner);
 
     virtual void update(float delta);
     virtual bool serialize(void* r);
@@ -77,23 +73,23 @@ public:
     virtual void onAdd();
     virtual void onRemove();
 
-    CC_CONSTRUCTOR_ACCESS :
-        /**
-         * @js ctor
-         */
-        Component();
+CC_CONSTRUCTOR_ACCESS:
+    /**
+    * @js ctor
+    */
+    Component();
 
 protected:
     Node* _owner;
     std::string _name;
     bool _enabled;
-
+    
 #if CC_ENABLE_SCRIPT_BINDING
-    ccScriptType _scriptType; ///< type of script binding, lua or javascript
+    ccScriptType _scriptType;         ///< type of script binding, lua or javascript
 #endif
 };
 
 NS_CC_END
 
 /// @endcond
-#endif // CC_2D_COMPONENT_H
+#endif  // __CC_FRAMEWORK_COMPONENT_H__

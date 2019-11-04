@@ -1271,11 +1271,11 @@ namespace cocostudio
             }
             else if (key == "designWidth")
             {
-                fileDesignWidth = utils::atof(tpChildArray[i].GetValue(cocoLoader));
+                fileDesignWidth = ccutils::atof(tpChildArray[i].GetValue(cocoLoader));
             }
             else if (key == "designHeight")
             {
-                fileDesignHeight = utils::atof(tpChildArray[i].GetValue(cocoLoader));
+                fileDesignHeight = ccutils::atof(tpChildArray[i].GetValue(cocoLoader));
             }
             else if (key == "widgetTree")
             {

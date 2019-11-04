@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,58 +24,56 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_BASE_TGALIB_H
-#define CC_BASE_TGALIB_H
+#ifndef __SUPPORT_DATA_SUPPORT_TGALIB_H__
+#define __SUPPORT_DATA_SUPPORT_TGALIB_H__
 /// @cond DO_NOT_SHOW
 
-namespace cocos2d
-{
-    enum
-    {
-        TGA_OK,
-        TGA_ERROR_FILE_OPEN,
-        TGA_ERROR_READING_FILE,
-        TGA_ERROR_INDEXED_COLOR,
-        TGA_ERROR_MEMORY,
-        TGA_ERROR_COMPRESSED_FILE,
-    };
+namespace cocos2d {
 
-    /** TGA format */
-    typedef struct sImageTGA
-    {
-        int status;
-        unsigned char type, pixelDepth;
+enum {
+    TGA_OK,
+    TGA_ERROR_FILE_OPEN,
+    TGA_ERROR_READING_FILE,
+    TGA_ERROR_INDEXED_COLOR,
+    TGA_ERROR_MEMORY,
+    TGA_ERROR_COMPRESSED_FILE,
+};
 
-        /** map width */
-        signed short width;
+/** TGA format */
+typedef struct sImageTGA {
+    int status;
+    unsigned char type, pixelDepth;
+    
+    /** map width */
+    signed short width;
+    
+    /** map height */
+    signed short height;
+    
+    /** raw data */
+    unsigned char *imageData;
+    int flipped;
+} tImageTGA;
 
-        /** map height */
-        signed short height;
+/// load the image header fields. We only keep those that matter!
+bool tgaLoadHeader(unsigned char *buffer, unsigned long bufSize, tImageTGA *info);
 
-        /** raw data */
-        unsigned char* imageData;
-        int flipped;
-    } tImageTGA;
+/// loads the image pixels. You shouldn't call this function directly
+bool tgaLoadImageData(unsigned char *buffer, unsigned long bufSize, tImageTGA *info);
 
-    /// load the image header fields. We only keep those that matter!
-    bool tgaLoadHeader(unsigned char* buffer, unsigned long bufSize, tImageTGA* info);
+/// this is the function to call when we want to load an image buffer.
+tImageTGA* tgaLoadBuffer(unsigned char* buffer, long size);
 
-    /// loads the image pixels. You shouldn't call this function directly
-    bool tgaLoadImageData(unsigned char* buffer, unsigned long bufSize, tImageTGA* info);
+/// this is the function to call when we want to load an image
+tImageTGA * tgaLoad(const char *filename);
 
-    /// this is the function to call when we want to load an image buffer.
-    tImageTGA* tgaLoadBuffer(unsigned char* buffer, long size);
+// /converts RGB to grayscale
+void tgaRGBtogreyscale(tImageTGA *info);
 
-    /// this is the function to call when we want to load an image
-    tImageTGA* tgaLoad(const char* filename);
+/// releases the memory used for the image
+void tgaDestroy(tImageTGA *info);
 
-    // /converts RGB to grayscale
-    void tgaRGBtogreyscale(tImageTGA* info);
-
-    /// releases the memory used for the image
-    void tgaDestroy(tImageTGA* info);
-
-} // namespace cocos2d
+}//namespace cocos2d 
 
 /// @endcond
-#endif // CC_BASE_TGALIB_H
+#endif // __SUPPORT_DATA_SUPPORT_TGALIB_H__

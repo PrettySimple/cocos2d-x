@@ -68,7 +68,7 @@ namespace experimental
         void uncache(const std::string& filePath);
         void uncacheAll();
         AudioCache& preload(const std::string& filePath, std::function<void(bool)> const& callback);
-        void update(float dt);
+        void update(std::chrono::milliseconds dt);
 
     private:
         void _play2d(AudioPlayer* player, AudioCache& audioCache, bool loop, float volume);

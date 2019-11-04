@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,12 +24,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_PLATFORM_DEVICE_H
-#define CC_PLATFORM_DEVICE_H
+#ifndef __CCDEVICE_H__
+#define __CCDEVICE_H__
 
-#include <cocos/base/CCData.h>
-#include <cocos/base/ccMacros.h>
 #include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/CCData.h>
 
 NS_CC_BEGIN
 
@@ -41,7 +42,7 @@ struct FontDefinition;
 
 /**
  * @class Device
- * @brief
+ * @brief 
  */
 class CC_DLL Device
 {
@@ -49,15 +50,15 @@ public:
     /** Defines the alignment of text. */
     enum class TextAlign
     {
-        CENTER = 0x33, /** Horizontal center and vertical center. */
-        TOP = 0x13, /** Horizontal center and vertical top. */
-        TOP_RIGHT = 0x12, /** Horizontal right and vertical top. */
-        RIGHT = 0x32, /** Horizontal right and vertical center. */
-        BOTTOM_RIGHT = 0x22, /** Horizontal right and vertical bottom. */
-        BOTTOM = 0x23, /** Horizontal center and vertical bottom. */
-        BOTTOM_LEFT = 0x21, /** Horizontal left and vertical bottom. */
-        LEFT = 0x31, /** Horizontal left and vertical center. */
-        TOP_LEFT = 0x11, /** Horizontal left and vertical top. */
+        CENTER        = 0x33, /** Horizontal center and vertical center. */
+        TOP           = 0x13, /** Horizontal center and vertical top. */
+        TOP_RIGHT     = 0x12, /** Horizontal right and vertical top. */
+        RIGHT         = 0x32, /** Horizontal right and vertical center. */
+        BOTTOM_RIGHT  = 0x22, /** Horizontal right and vertical bottom. */
+        BOTTOM        = 0x23, /** Horizontal center and vertical bottom. */
+        BOTTOM_LEFT   = 0x21, /** Horizontal left and vertical bottom. */
+        LEFT          = 0x31, /** Horizontal left and vertical center. */
+        TOP_LEFT      = 0x11, /** Horizontal left and vertical top. */
     };
 
     /**
@@ -65,7 +66,7 @@ public:
      *  @return The DPI of device.
      */
     static int getDPI();
-
+    
     /**
      * To enable or disable accelerometer.
      */
@@ -78,7 +79,7 @@ public:
 
     /**
      * Controls whether the screen should remain on.
-     *
+     * 
      * @param keepScreenOn One flag indicating that the screen should remain on.
      */
     static void setKeepScreenOn(bool keepScreenOn);
@@ -90,16 +91,15 @@ public:
      * Duration is ignored on iOS due to API limitations.
      * @param duration The duration in seconds.
      */
-    static void vibrate(float duration);
+    static void vibrate(std::chrono::milliseconds duration);
 
     /**
      * Gets texture data for text.
      */
-    static Data
-    getTextureDataForText(const char* text, const FontDefinition& textDefinition, TextAlign align, int& width, int& height, bool& hasPremultipliedAlpha);
+    static Data getTextureDataForText(const char * text, const FontDefinition& textDefinition, TextAlign align, int &width, int &height, bool& hasPremultipliedAlpha);
 
 private:
-    CC_DISALLOW_IMPLICIT_CONSTRUCTORS(Device)
+    CC_DISALLOW_IMPLICIT_CONSTRUCTORS(Device);
 };
 
 // end group
@@ -107,4 +107,4 @@ private:
 
 NS_CC_END
 
-#endif // CC_PLATFORM_DEVICE_H
+#endif /* __CCDEVICE_H__ */

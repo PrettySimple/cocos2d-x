@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2011      Laschweinski
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,24 +24,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
 
-#    include "base/ccMacros.h"
-#    include "base/ccUTF8.h"
-#    include "platform/CCCommon.h"
-#    include "platform/linux/CCApplication-linux.h"
-#    include "platform/linux/CCFileUtils-linux.h"
-#    include <errno.h>
-#    include <stdio.h>
-#    include <sys/stat.h>
-#    include <unistd.h>
+#include <cocos/platform/linux/CCFileUtils-linux.h>
+#include <cocos/platform/linux/CCApplication-linux.h>
+#include <cocos/platform/CCCommon.h>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/ccUTF8.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <stdio.h>
+#include <errno.h>
 
-#    ifndef CC_RESOURCE_FOLDER_LINUX
-#        define CC_RESOURCE_FOLDER_LINUX ("/Resources/")
-#    endif
+#ifndef CC_RESOURCE_FOLDER_LINUX
+#define CC_RESOURCE_FOLDER_LINUX ("/Resources/")
+#endif
 
 using namespace std;
+
+#define DECLARE_GUARD std::lock_guard<std::recursive_mutex> mutexGuard(_mutex)
 
 NS_CC_BEGIN
 
@@ -49,50 +52,46 @@ FileUtils* FileUtils::getInstance()
     if (s_sharedFileUtils == nullptr)
     {
         s_sharedFileUtils = new FileUtilsLinux();
-        if (!s_sharedFileUtils->init())
+        if(!s_sharedFileUtils->init())
         {
-            delete s_sharedFileUtils;
-            s_sharedFileUtils = nullptr;
-            CCLOG("ERROR: Could not init CCFileUtilsLinux");
+          delete s_sharedFileUtils;
+          s_sharedFileUtils = nullptr;
+          CCLOG("ERROR: Could not init CCFileUtilsLinux");
         }
     }
     return s_sharedFileUtils;
 }
 
 FileUtilsLinux::FileUtilsLinux()
-{
-}
+{}
 
 bool FileUtilsLinux::init()
 {
+    DECLARE_GUARD;
     // get application path
     char fullpath[256] = {0};
-    ssize_t length = readlink("/proc/self/exe", fullpath, sizeof(fullpath) - 1);
+    ssize_t length = readlink("/proc/self/exe", fullpath, sizeof(fullpath)-1);
 
-    if (length <= 0)
-    {
+    if (length <= 0) {
         return false;
     }
 
     fullpath[length] = '\0';
     std::string appPath = fullpath;
-    _defaultResRootPath = appPath.substr(0, appPath.find_last_of("/"));
+    _defaultResRootPath = appPath.substr(0, appPath.find_last_of('/'));
     _defaultResRootPath += CC_RESOURCE_FOLDER_LINUX;
 
     // Set writable path to $XDG_CONFIG_HOME or ~/.config/<app name>/ if $XDG_CONFIG_HOME not exists.
     const char* xdg_config_path = getenv("XDG_CONFIG_HOME");
     std::string xdgConfigPath;
-    if (xdg_config_path == NULL)
-    {
+    if (xdg_config_path == NULL) {
         xdgConfigPath = getenv("HOME");
         xdgConfigPath += "/.config";
-    }
-    else
-    {
-        xdgConfigPath = xdg_config_path;
+    } else {
+        xdgConfigPath  = xdg_config_path;
     }
     _writablePath = xdgConfigPath;
-    _writablePath += appPath.substr(appPath.find_last_of("/"));
+    _writablePath += appPath.substr(appPath.find_last_of('/'));
     _writablePath += "/";
 
     return FileUtils::init();
@@ -100,10 +99,10 @@ bool FileUtilsLinux::init()
 
 string FileUtilsLinux::getWritablePath() const
 {
+    DECLARE_GUARD;
     struct stat st;
     stat(_writablePath.c_str(), &st);
-    if (!S_ISDIR(st.st_mode))
-    {
+    if (!S_ISDIR(st.st_mode)) {
         mkdir(_writablePath.c_str(), 0744);
     }
 
@@ -112,6 +111,7 @@ string FileUtilsLinux::getWritablePath() const
 
 bool FileUtilsLinux::isFileExistInternal(const std::string& strFilePath) const
 {
+    DECLARE_GUARD;
     if (strFilePath.empty())
     {
         return false;
@@ -124,7 +124,7 @@ bool FileUtilsLinux::isFileExistInternal(const std::string& strFilePath) const
     }
 
     struct stat sts;
-    return (stat(strPath.c_str(), &sts) != -1) ? true : false;
+    return (stat(strPath.c_str(), &sts) == 0) && S_ISREG(sts.st_mode);
 }
 
 NS_CC_END

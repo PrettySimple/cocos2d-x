@@ -4,19 +4,20 @@
  Copyright (c) 2010-2012 cocos2d-x.org
  Copyright (c) 2011      Zynga Inc.
  Copyright (c) 2013-2016 Chukong Technologies Inc.
-
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,24 +27,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_2D_PROTECTEDNODE_H
-#define CC_2D_PROTECTEDNODE_H
+#ifndef __CPROTECTEDCNODE_H__
+#define __CPROTECTEDCNODE_H__
+
 
 #include <cocos/2d/CCNode.h>
-#include <cocos/base/CCVector.h>
-#include <cocos/base/ccConfig.h>
-#include <cocos/platform/CCGL.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <cstdint>
 
 NS_CC_BEGIN
-
-class Mat4;
-class Renderer;
-struct Color3B;
-
+	
 /**
  * @addtogroup _2d
  * @{
@@ -53,18 +44,18 @@ struct Color3B;
  *@brief A inner node type mainly used for UI module.
  * It is useful for composing complex node type and it's children are protected.
  */
-class CC_DLL ProtectedNode : public Node
+class  CC_DLL ProtectedNode : public Node
 {
 public:
     /**
      * Creates a ProtectedNode with no argument.
      *@return A instance of ProtectedNode.
      */
-    static ProtectedNode* create();
-
+    static ProtectedNode * create();
+    
     /// @{
     /// @name Children and Parent
-
+    
     /**
      * Adds a child to the container with z-order as 0.
      *
@@ -72,7 +63,7 @@ public:
      *
      * @param child A child node
      */
-    virtual void addProtectedChild(Node* child);
+    virtual void addProtectedChild(Node * child);
     /**
      * Adds a child to the container with a local z-order.
      *
@@ -81,7 +72,7 @@ public:
      * @param child     A child node
      * @param localZOrder    Z order for drawing priority. Please refer to `setLocalZOrder(int)`
      */
-    virtual void addProtectedChild(Node* child, int localZOrder);
+    virtual void addProtectedChild(Node * child, int localZOrder);
     /**
      * Adds a child to the container with z order and tag.
      *
@@ -99,10 +90,10 @@ public:
      *
      * @return a Node object whose tag equals to the input parameter.
      */
-    virtual Node* getProtectedChildByTag(int tag);
-
+    virtual Node * getProtectedChildByTag(int tag);
+    
     ////// REMOVES //////
-
+    
     /**
      * Removes a child from the container. It will also cleanup all running actions depending on the cleanup parameter.
      *
@@ -110,7 +101,7 @@ public:
      * @param cleanup   true if all running actions and callbacks on the child node will be cleanup, false otherwise.
      */
     virtual void removeProtectedChild(Node* child, bool cleanup = true);
-
+    
     /**
      * Removes a child from the container by tag value. It will also cleanup all running actions depending on the cleanup parameter.
      *
@@ -118,7 +109,7 @@ public:
      * @param cleanup   true if all running actions and callbacks on the child node will be cleanup, false otherwise.
      */
     virtual void removeProtectedChildByTag(int tag, bool cleanup = true);
-
+    
     /**
      * Removes all children from the container with a cleanup.
      *
@@ -133,41 +124,41 @@ public:
      * @lua removeAllChildren
      */
     virtual void removeAllProtectedChildrenWithCleanup(bool cleanup);
-
+    
     /**
      * Reorders a child according to a new z value.
      *
      * @param child     An already added child node. It MUST be already added.
      * @param localZOrder Z order for drawing priority. Please refer to setLocalZOrder(int)
      */
-    virtual void reorderProtectedChild(Node* child, int localZOrder);
-
+    virtual void reorderProtectedChild(Node * child, int localZOrder);
+    
     /**
      * Sorts the children array once before drawing, instead of every time when a child is added or reordered.
      * This approach can improves the performance massively.
      * @note Don't call this manually unless a child added needs to be removed in the same frame
      */
     virtual void sortAllProtectedChildren();
-
+    
     /// @} end of Children and Parent
-
+    
     /**
      * @js NA
      */
-    void visit(Renderer* renderer, const Mat4& parentTransform, std::uint32_t parentFlags) override;
-
-    void cleanup() override;
-
-    void onEnter() override;
-
+    virtual void visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags) override;
+    
+    virtual void cleanup() override;
+    
+    virtual void onEnter() override;
+    
     /** Event callback that is invoked when the Node enters in the 'stage'.
      * If the Node enters the 'stage' with a transition, this event is called when the transition finishes.
      * If you override onEnterTransitionDidFinish, you shall call its parent's one, e.g. Node::onEnterTransitionDidFinish()
      * @js NA
      * @lua NA
      */
-    void onEnterTransitionDidFinish() override;
-
+    virtual void onEnterTransitionDidFinish() override;
+    
     /**
      * Event callback that is invoked every time the Node leaves the 'stage'.
      * If the Node leaves the 'stage' with a transition, this event is called when the transition finishes.
@@ -176,33 +167,36 @@ public:
      * @js NA
      * @lua NA
      */
-    void onExit() override;
-
+    virtual void onExit() override;
+    
     /**
      * Event callback that is called every time the Node leaves the 'stage'.
      * If the Node leaves the 'stage' with a transition, this callback is called when the transition starts.
      * @js NA
      * @lua NA
      */
-    void onExitTransitionDidStart() override;
+    virtual void onExitTransitionDidStart() override;
 
-    void updateDisplayedOpacity(GLubyte parentOpacity) override;
-    void updateDisplayedColor(const Color3B& parentColor) override;
-    void disableCascadeColor() override;
-    void disableCascadeOpacity() override;
-    void setCameraMask(unsigned short mask, bool applyChildren = true) override;
-    CC_CONSTRUCTOR_ACCESS : ProtectedNode();
-    ~ProtectedNode() override;
-
+    virtual void updateDisplayedOpacity(uint8_t parentOpacity) override;
+    virtual void updateDisplayedColor(const Color3B& parentColor) override;
+    virtual void disableCascadeColor() override;
+    virtual void disableCascadeOpacity()override;
+    virtual void setCameraMask(unsigned short mask, bool applyChildren = true) override;
+    virtual void setGlobalZOrder(float globalZOrder) override;
+CC_CONSTRUCTOR_ACCESS:
+    ProtectedNode();
+    virtual ~ProtectedNode();
+    
 protected:
+    
     /// helper that reorder a child
     void insertProtectedChild(Node* child, int z);
-
-    Vector<Node*> _protectedChildren; ///< array of children nodes
+    
+    Vector<Node*> _protectedChildren;        ///< array of children nodes
     bool _reorderProtectedChildDirty;
-
+    
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ProtectedNode)
+    CC_DISALLOW_COPY_AND_ASSIGN(ProtectedNode);
 };
 
 // end of 2d group
@@ -210,4 +204,4 @@ private:
 
 NS_CC_END
 
-#endif // CC_2D_PROTECTEDNODE_H
+#endif // __CPROTECTEDCNODE_H__

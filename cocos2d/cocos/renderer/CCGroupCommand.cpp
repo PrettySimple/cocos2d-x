@@ -1,5 +1,6 @@
 /****************************************************************************
  Copyright (c) 2013-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -22,64 +23,72 @@
  THE SOFTWARE.
  ****************************************************************************/
 
+
 #include <cocos/renderer/CCGroupCommand.h>
-
-#include <cocos/base/CCDirector.h>
-#include <cocos/platform/CCPlatformMacros.h>
-#include <cocos/renderer/CCRenderCommand.h>
 #include <cocos/renderer/CCRenderer.h>
-
-#include <unordered_set>
+#include <cocos/base/CCDirector.h>
 
 NS_CC_BEGIN
 
-std::unordered_set<std::size_t>& get_unused_ids() noexcept
+GroupCommandManager::GroupCommandManager()
 {
-    static std::unordered_set<std::size_t> unusedIDs;
-    return unusedIDs;
+
 }
 
-std::size_t get_group_id()
+GroupCommandManager::~GroupCommandManager()
 {
-    auto& unused_ids = get_unused_ids();
+    
+}
 
-    // Reuse old id
-    if (!unused_ids.empty())
+bool GroupCommandManager::init()
+{
+    //0 is the default render group
+    _groupMapping[0] = true;
+    return true;
+}
+
+int GroupCommandManager::getGroupID()
+{
+    //Reuse old id
+    if (!_unusedIDs.empty())
     {
-        auto it = unused_ids.begin();
-        std::size_t groupID = *it;
-        unused_ids.erase(it);
+        int groupID = *_unusedIDs.rbegin();
+        _unusedIDs.pop_back();
+        _groupMapping[groupID] = true;
         return groupID;
     }
 
-    // Create new ID
-    return Director::getInstance()->getRenderer()->createRenderQueue();
+    //Create new ID
+//    int newID = _groupMapping.size();
+    int newID = Director::getInstance()->getRenderer()->createRenderQueue();
+    _groupMapping[newID] = true;
+
+    return newID;
 }
 
-void recycle_group_id(std::size_t group_id)
+void GroupCommandManager::releaseGroupID(int groupID)
 {
-    if (group_id != std::numeric_limits<std::size_t>::max())
-    {
-        auto& unused_ids = get_unused_ids();
-        unused_ids.emplace(group_id);
-    }
+    _groupMapping[groupID] = false;
+    _unusedIDs.push_back(groupID);
 }
 
 GroupCommand::GroupCommand()
-: RenderCommand(RenderCommand::Type::GROUP_COMMAND)
 {
-}
-
-GroupCommand::~GroupCommand()
-{
-    recycle_group_id(_renderQueueID);
+    _type = RenderCommand::Type::GROUP_COMMAND;
+    _renderQueueID = Director::getInstance()->getRenderer()->getGroupCommandManager()->getGroupID();
 }
 
 void GroupCommand::init(float globalOrder)
 {
     _globalOrder = globalOrder;
-    recycle_group_id(_renderQueueID);
-    _renderQueueID = get_group_id();
+    auto manager = Director::getInstance()->getRenderer()->getGroupCommandManager();
+    manager->releaseGroupID(_renderQueueID);
+    _renderQueueID = manager->getGroupID();
+}
+
+GroupCommand::~GroupCommand()
+{
+    Director::getInstance()->getRenderer()->getGroupCommandManager()->releaseGroupID(_renderQueueID);
 }
 
 NS_CC_END

@@ -1,7 +1,6 @@
 #/****************************************************************************
-# Copyright (c) 2013 cocos2d-x.org
-# Copyright (c) 2014 martell malone
-# Copyright (c) 2015 Chukong Technologies Inc.
+# Copyright (c) 2013-2014 cocos2d-x.org
+# Copyright (c) 2015-2017 Chukong Technologies Inc.
 #
 # http://www.cocos2d-x.org
 #
@@ -24,123 +23,131 @@
 # THE SOFTWARE.
 # ****************************************************************************/
 
-cmake_minimum_required(VERSION 3.1)
-# It ensures that when Find*.cmake files included from cmake's Modules dir
-# include another *.cmake file with relative path, that file will be included
-# also from cmake's Modules dir, to not clash with per-project files.
-cmake_policy(SET CMP0017 NEW)
+cmake_minimum_required(VERSION 3.6)
 
-# Use new behaviour with cmake >= 3.1:
-# Only interpret if() arguments as variables or keywords when unquoted.
-if(CMAKE_VERSION VERSION_GREATER 3.1)
-    cmake_policy(SET CMP0054 NEW)
+set(APP_NAME MyGame)
+
+project(${APP_NAME})
+
+if(NOT DEFINED BUILD_ENGINE_DONE) # to test MyGame into root project
+    set(COCOS2DX_ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cocos2d)
+    set(CMAKE_MODULE_PATH ${COCOS2DX_ROOT_PATH}/cmake/Modules/)
+
+    include(CocosBuildSet)
+    add_subdirectory(${COCOS2DX_ROOT_PATH}/cocos ${ENGINE_BINARY_PATH}/cocos/core)
 endif()
 
-project (Cocos2d-X)
+# record sources, headers, resources...
+set(GAME_SOURCE)
+set(GAME_HEADER)
+
+set(GAME_RES_FOLDER
+    "${CMAKE_CURRENT_SOURCE_DIR}/Resources"
+    )
+if(APPLE OR WINDOWS)
+    cocos_mark_multi_resources(common_res_files RES_TO "Resources" FOLDERS ${GAME_RES_FOLDER})
+endif()
+
+# add cross-platforms source files and header files 
+list(APPEND GAME_SOURCE
+     Classes/AppDelegate.cpp
+     Classes/HelloWorldScene.cpp
+     )
+list(APPEND GAME_HEADER
+     Classes/AppDelegate.h
+     Classes/HelloWorldScene.h
+     )
 
 if(ANDROID)
-	# this sets up copy directory for libs, static libs are copied because of gradle bug/feature : static libs are not exported in the aar when building libs,
-	# and are erased between projects see this: https://github.com/googlesamples/android-ndk/issues/261
-	get_filename_component(LIB_PUBLISH_DIRECTORY
-	                       "../../build/built_libs/android/${CMAKE_BUILD_TYPE}/${ANDROID_ABI}"
-	                       ABSOLUTE)
-	file(MAKE_DIRECTORY ${LIB_PUBLISH_DIRECTORY})
+    # change APP_NAME to the share library name for Android, it's value depend on AndroidManifest.xml
+    set(APP_NAME MyGame)
+    list(APPEND GAME_SOURCE
+         proj.android/app/jni/hellocpp/main.cpp
+         )
+elseif(LINUX)
+    list(APPEND GAME_SOURCE
+         proj.linux/main.cpp
+         )
+elseif(WINDOWS)
+    list(APPEND GAME_HEADER
+         proj.win32/main.h
+         proj.win32/resource.h
+         )
+    list(APPEND GAME_SOURCE
+         proj.win32/main.cpp
+         proj.win32/game.rc
+         ${common_res_files}
+         )
+elseif(APPLE)
+    if(IOS)
+        list(APPEND GAME_HEADER
+             proj.ios_mac/ios/AppController.h
+             proj.ios_mac/ios/RootViewController.h
+             )
+        set(APP_UI_RES
+            proj.ios_mac/ios/LaunchScreen.storyboard
+            proj.ios_mac/ios/LaunchScreenBackground.png
+            proj.ios_mac/ios/Images.xcassets
+            )
+        list(APPEND GAME_SOURCE
+             proj.ios_mac/ios/main.m
+             proj.ios_mac/ios/AppController.mm
+             proj.ios_mac/ios/RootViewController.mm
+             proj.ios_mac/ios/Prefix.pch
+             ${APP_UI_RES}
+             )
+    elseif(MACOSX)
+        set(APP_UI_RES
+            proj.ios_mac/mac/Icon.icns
+            proj.ios_mac/mac/Info.plist
+            )
+        list(APPEND GAME_SOURCE
+             proj.ios_mac/mac/main.cpp
+             proj.ios_mac/mac/Prefix.pch
+             ${APP_UI_RES}
+             )
+    endif()
+    list(APPEND GAME_SOURCE ${common_res_files})
 endif()
 
-# The version number
-set(COCOS2D_X_VERSION 3.13)
-
-# define some variables
-
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules/")
-set(COCOS_EXTERNAL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external)
-# architecture
-if (CMAKE_SIZEOF_VOID_P EQUAL 8)
-  set(ARCH_DIR "64-bit")
-elseif (CMAKE_SIZEOF_VOID_P EQUAL 4)
-  set(ARCH_DIR "32-bit")
+# mark app complie info and libs info
+set(all_code_files
+    ${GAME_HEADER}
+    ${GAME_SOURCE}
+    )
+if(NOT ANDROID)
+    add_executable(${APP_NAME} ${all_code_files})
 else()
-  message(FATAL_ERROR "Unsupported architecture, CMake will exit")
-  return()
+    add_library(${APP_NAME} SHARED ${all_code_files})
+    add_subdirectory(${COCOS2DX_ROOT_PATH}/cocos/platform/android ${ENGINE_BINARY_PATH}/cocos/platform)
+    target_link_libraries(${APP_NAME} -Wl,--whole-archive cpp_android_spec -Wl,--no-whole-archive)
 endif()
-# CMAKE_BUILD_TYPE has precedence over DEBUG_MODE
-# Still supporting DEBUG_MODE for backwards compatibility
-if (NOT CMAKE_BUILD_TYPE)
-  if(DEBUG_MODE)
-    set(CMAKE_BUILD_TYPE DEBUG)
-  else(DEBUG_MODE)
-    set(CMAKE_BUILD_TYPE RELEASE)
-  endif(DEBUG_MODE)
-endif(NOT CMAKE_BUILD_TYPE)
 
-include(CocosBuildHelpers)
-
-message(${BUILDING_STRING})
-
-# SelectModule() is a macro to select building modules
-include(SelectModule)
-SelectModule()
-
-# set compiler options
-include(SetCompilerOptions)
-SetCompilerOptions()
-
-if (CMAKE_FIND_ROOT_PATH AND USE_PREBUILT_LIBS)
-  # Adds cocos2d-x external folder to the list of valid include/library paths when cross-compiling and using prebuilds
-  set(CMAKE_FIND_ROOT_PATH ${CMAKE_FIND_ROOT_PATH} ${COCOS_EXTERNAL_DIR})
-endif ()
-
-include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}/cocos
-  ${CMAKE_CURRENT_SOURCE_DIR}/deprecated
-  ${CMAKE_CURRENT_SOURCE_DIR}/cocos/platform
-  ${CMAKE_CURRENT_SOURCE_DIR}/extensions
-  ${CMAKE_CURRENT_SOURCE_DIR}/external
+target_link_libraries(${APP_NAME} cocos2d)
+target_include_directories(${APP_NAME}
+        PRIVATE Classes
+        PRIVATE ${COCOS2DX_ROOT_PATH}/cocos/audio/include/
 )
 
-if(USE_PREBUILT_LIBS)
-  include(CocosUsePrebuiltLibs)
+# mark app resources
+setup_cocos_app_config(${APP_NAME})
+if(APPLE)
+    set_target_properties(${APP_NAME} PROPERTIES RESOURCE "${APP_UI_RES}")
+    if(MACOSX)
+        set_target_properties(${APP_NAME} PROPERTIES
+                              MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/proj.ios_mac/mac/Info.plist"
+                              )
+    elseif(IOS)
+        cocos_pak_xcode(${APP_NAME} INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/proj.ios_mac/ios/Info.plist")
+        set_xcode_property(${APP_NAME} ASSETCATALOG_COMPILER_APPICON_NAME "AppIcon")
+        set_xcode_property(${APP_NAME} DEVELOPMENT_TEAM "")
+        set_xcode_property(${APP_NAME} CODE_SIGN_IDENTITY "iPhone Developer")
+    endif()
+elseif(WINDOWS)
+    cocos_copy_target_dll(${APP_NAME})
 endif()
 
-include(BuildModules)
-BuildModules()
-
-# build cpp-empty-test
-if(BUILD_CPP_EMPTY_TEST)
-  add_subdirectory(tests/cpp-empty-test)
-endif(BUILD_CPP_EMPTY_TEST)
-
-# build cpp-tests
-if(BUILD_CPP_TESTS)
-  add_subdirectory(tests/cpp-tests)
-endif(BUILD_CPP_TESTS)
-
-## Scripting
-if(BUILD_LUA_LIBS)
-    add_subdirectory(cocos/scripting/lua-bindings)
-
-  # build lua tests
-  if(BUILD_LUA_TESTS)
-    add_subdirectory(tests/lua-tests/project)
-    add_subdirectory(tests/lua-empty-test/project)
-  endif(BUILD_LUA_TESTS)
-
-endif(BUILD_LUA_LIBS)
-
-## JS
-if(BUILD_JS_LIBS)
-  add_subdirectory(cocos/scripting/js-bindings)
-
-  # build js tests
-  if(BUILD_JS_TESTS)
-    add_subdirectory(tests/js-tests/project)
-  endif(BUILD_JS_TESTS)
-
-endif(BUILD_JS_LIBS)
-
-if(ANDROID)
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/android-specific/pvmp3dec)
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/android-specific/tremolo)
-endif(ANDROID)
-
+if(LINUX OR WINDOWS)
+    set(APP_RES_DIR "$<TARGET_FILE_DIR:${APP_NAME}>/Resources")
+    cocos_copy_target_res(${APP_NAME} COPY_TO ${APP_RES_DIR} FOLDERS ${GAME_RES_FOLDER})
+endif()

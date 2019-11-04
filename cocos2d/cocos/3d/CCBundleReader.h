@@ -1,18 +1,19 @@
 /****************************************************************************
- Copyright (c) 2014 Chukong Technologies Inc.
-
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,16 +23,15 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_3D_BUNDLEREADER_H
-#define CC_3D_BUNDLEREADER_H
+#ifndef __CC_BUNDLE_READER_H__
+#define __CC_BUNDLE_READER_H__
 
-#include <cocos/base/CCConsole.h>
-#include <cocos/base/CCRef.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <cstddef>
 #include <string>
 #include <vector>
+
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/base/CCConsole.h>
 
 NS_CC_BEGIN
 
@@ -45,25 +45,25 @@ NS_CC_BEGIN
  * @js NA
  * @lua NA
  */
-class BundleReader : public cocos2d::Ref
+class BundleReader: public cocos2d::Ref
 {
 public:
     /**
      * Constructor
      */
     BundleReader();
-
+    
     /**
      * Destructor
      */
     ~BundleReader();
-
+    
     /**
      * initialise
      * @param buffer The data buffer pointer
      * @param length The data buffer size
      */
-    void init(char* buffer, std::size_t length);
+    void init(char* buffer, ssize_t length);
 
     /**
      * Reads an array of elements.
@@ -75,7 +75,7 @@ public:
      *
      * @return The number of elements read.
      */
-    std::size_t read(void* ptr, std::size_t size, std::size_t count);
+    ssize_t read(void* ptr, ssize_t size, ssize_t count);
 
     /**
      * Reads a line from the buffer.
@@ -90,12 +90,12 @@ public:
     /**
      * Returns the length of the buffer in bytes.
      */
-    std::size_t length();
+    ssize_t length();
 
     /**
      * Returns the position of the file pointer.
      */
-    std::size_t tell();
+    ssize_t tell();
 
     /**
      * Sets the position of the file pointer.
@@ -110,10 +110,8 @@ public:
     /**
      * read binary typed value.
      */
-    template <typename T>
-    bool read(T* ptr);
-    template <typename T>
-    bool readArray(unsigned int* length, std::vector<T>* values);
+    template<typename T> bool read(T* ptr);
+    template<typename T> bool readArray(unsigned int* length, std::vector<T>* values);
 
     /**
      * first read length, then read string text
@@ -127,33 +125,33 @@ public:
     bool readMatrix(float* m);
 
 private:
-    std::size_t _position;
-    std::size_t _length;
+    ssize_t _position;
+    ssize_t  _length;
     char* _buffer;
 };
 
-/// @cond
+/// @cond 
 
 /**
- * template read routines
- */
-template <typename T>
-inline bool BundleReader::read(T* ptr)
+* template read routines
+*/
+template<typename T>
+inline bool BundleReader::read(T *ptr)
 {
     return (read(ptr, sizeof(T), 1) == 1);
 }
 
 /**
- * template function to read array of value.
- */
-template <typename T>
-inline bool BundleReader::readArray(unsigned int* length, std::vector<T>* values)
+* template function to read array of value.
+*/
+template<typename T>
+inline bool BundleReader::readArray(unsigned int *length, std::vector<T> *values)
 {
     if (!read(length))
     {
         return false;
     }
-
+    
     if (*length > 0 && values)
     {
         values->resize(*length);
@@ -166,10 +164,10 @@ inline bool BundleReader::readArray(unsigned int* length, std::vector<T>* values
 }
 
 /**
- * specialization for char
- */
-template <>
-inline bool BundleReader::read<char>(char* ptr)
+* specialization for char
+*/
+template<>
+inline bool BundleReader::read<char>(char *ptr)
 {
     if (read(ptr, sizeof(char), 1) == 1)
     {
@@ -183,20 +181,20 @@ inline bool BundleReader::read<char>(char* ptr)
 }
 
 /**
- * specialization for std::string
- */
-template <>
-inline bool BundleReader::read<std::string>(std::string* ptr)
+* specialization for std::string
+*/
+template<>
+inline bool BundleReader::read<std::string>(std::string* /*ptr*/)
 {
     CCLOG("can not read std::string, use readString() instead");
     return false;
 }
 
 /**
- * template function to read array of value.
- */
-template <>
-inline bool BundleReader::readArray<std::string>(unsigned int* length, std::vector<std::string>* values)
+* template function to read array of value.
+*/
+template<>
+inline bool BundleReader::readArray<std::string>(unsigned int *length, std::vector<std::string> *values)
 {
     if (!read(length))
     {
@@ -205,7 +203,7 @@ inline bool BundleReader::readArray<std::string>(unsigned int* length, std::vect
     values->clear();
     if (*length > 0 && values)
     {
-        for (int i = 0; i < static_cast<int>(*length); ++i)
+        for (int i = 0; i < (int)*length; ++i)
         {
             values->push_back(readString());
         }
@@ -220,4 +218,4 @@ inline bool BundleReader::readArray<std::string>(unsigned int* length, std::vect
 
 NS_CC_END
 
-#endif // CC_3D_BUNDLEREADER_H
+#endif

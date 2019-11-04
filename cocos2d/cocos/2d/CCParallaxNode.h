@@ -3,6 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -24,22 +25,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef CC_2D_PARALLAXNODE_H
-#define CC_2D_PARALLAXNODE_H
+#ifndef __CCPARALLAX_NODE_H__
+#define __CCPARALLAX_NODE_H__
 
 #include <cocos/2d/CCNode.h>
-#include <cocos/base/ccConfig.h>
-#include <cocos/math/Mat4.h>
-#include <cocos/math/Vec2.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <cstdint>
-#include <iosfwd>
+/*#include "ccArray.h"*/
 
 NS_CC_BEGIN
 
-class Renderer;
+struct _ccArray;
 
 /**
  * @addtogroup _2d
@@ -55,11 +49,11 @@ The children will be moved faster / slower than the parent according the paralla
 class CC_DLL ParallaxNode : public Node
 {
 public:
-    /** Create a Parallax node.
+    /** Create a Parallax node. 
      *
      * @return An autoreleased ParallaxNode object.
      */
-    static ParallaxNode* create();
+    static ParallaxNode * create();
 
     // prevents compiler warning: "Included function hides overloaded virtual functions"
     using Node::addChild;
@@ -71,13 +65,13 @@ public:
      * @param parallaxRatio A given parallax ratio.
      * @param positionOffset A given position offset.
      */
-    void addChild(Node* child, int z, const Vec2& parallaxRatio, const Vec2& positionOffset);
+    void addChild(Node * child, int z, const Vec2& parallaxRatio, const Vec2& positionOffset);
 
     /** Sets an array of layers for the Parallax node.
      *
      * @param parallaxArray An array of layers for the Parallax node.
      */
-    void setParallaxArray(struct _ccArray* parallaxArray) { _parallaxArray = parallaxArray; }
+    void setParallaxArray( struct _ccArray *parallaxArray) { _parallaxArray = parallaxArray; }
     /** Returns the array of layers of the Parallax node.
      *
      * @return An array of layers for the Parallax node.
@@ -88,33 +82,33 @@ public:
     //
     // Overrides
     //
-    void addChild(Node* child, int zOrder, int tag) override;
-    void addChild(Node* child, int zOrder, const std::string& name) override;
-    void removeChild(Node* child, bool cleanup) override;
-    void removeAllChildrenWithCleanup(bool cleanup) override;
-    void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
+    virtual void addChild(Node * child, int zOrder, int tag) override;
+    virtual void addChild(Node * child, int zOrder, const std::string &name) override;
+    virtual void removeChild(Node* child, bool cleanup) override;
+    virtual void removeAllChildrenWithCleanup(bool cleanup) override;
+    virtual void visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags) override;
 
-    CC_CONSTRUCTOR_ACCESS :
-        /** Adds a child to the container with a z-order, a parallax ratio and a position offset
-         It returns self, so you can chain several addChilds.
-         @since v0.8
-         * @js ctor
-         */
-        ParallaxNode();
+CC_CONSTRUCTOR_ACCESS:
+    /** Adds a child to the container with a z-order, a parallax ratio and a position offset
+     It returns self, so you can chain several addChilds.
+     @since v0.8
+     * @js ctor
+     */
+    ParallaxNode();
     /**
      * @js NA
      * @lua NA
      */
-    ~ParallaxNode() override;
+    virtual ~ParallaxNode();
 
 protected:
     Vec2 absolutePosition();
 
-    Vec2 _lastPosition;
+    Vec2    _lastPosition;
     struct _ccArray* _parallaxArray;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParallaxNode)
+    CC_DISALLOW_COPY_AND_ASSIGN(ParallaxNode);
 };
 
 // end of _2d group
@@ -122,4 +116,6 @@ private:
 
 NS_CC_END
 
-#endif // CC_2D_PARALLAXNODE_H
+#endif //__CCPARALLAX_NODE_H__
+
+

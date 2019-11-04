@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,12 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 #include <cocos/base/CCAutoreleasePool.h>
-
-#include <cocos/base/CCConsole.h>
-#include <cocos/base/CCRef.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <new>
+#include <cocos/base/ccMacros.h>
 
 NS_CC_BEGIN
 
@@ -42,7 +38,7 @@ AutoreleasePool::AutoreleasePool()
     PoolManager::getInstance()->push(this);
 }
 
-AutoreleasePool::AutoreleasePool(const std::string& name)
+AutoreleasePool::AutoreleasePool(const std::string &name)
 : _name(name)
 #if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
 , _isClearing(false)
@@ -56,7 +52,7 @@ AutoreleasePool::~AutoreleasePool()
 {
     CCLOGINFO("deallocing AutoreleasePool: %p", this);
     clear();
-
+    
     PoolManager::getInstance()->pop();
 }
 
@@ -72,7 +68,7 @@ void AutoreleasePool::clear()
 #endif
     std::vector<Ref*> releasings;
     releasings.swap(_managedObjectArray);
-    for (const auto& obj : releasings)
+    for (const auto &obj : releasings)
     {
         obj->release();
     }
@@ -95,12 +91,12 @@ void AutoreleasePool::dump()
 {
     CCLOG("autorelease pool: %s, number of managed object %d\n", _name.c_str(), static_cast<int>(_managedObjectArray.size()));
     CCLOG("%20s%20s%20s", "Object pointer", "Object id", "reference count");
-    for (const auto& obj : _managedObjectArray)
+    for (const auto &obj : _managedObjectArray)
     {
-        CC_UNUSED_PARAM(obj);
-        CCLOG("%20p%20u\n", reinterpret_cast<void*>(obj), obj->getReferenceCount());
+        CCLOG("%20p%20u\n", obj, obj->getReferenceCount());
     }
 }
+
 
 //--------------------------------------------------------------------
 //
@@ -135,14 +131,15 @@ PoolManager::PoolManager()
 PoolManager::~PoolManager()
 {
     CCLOGINFO("deallocing PoolManager: %p", this);
-
+    
     while (!_releasePoolStack.empty())
     {
         AutoreleasePool* pool = _releasePoolStack.back();
-
+        
         delete pool;
     }
 }
+
 
 AutoreleasePool* PoolManager::getCurrentPool() const
 {
@@ -159,7 +156,7 @@ bool PoolManager::isObjectInPools(Ref* obj) const
     return false;
 }
 
-void PoolManager::push(AutoreleasePool* pool)
+void PoolManager::push(AutoreleasePool *pool)
 {
     _releasePoolStack.push_back(pool);
 }

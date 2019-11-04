@@ -1,5 +1,6 @@
 /****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -22,15 +23,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_BASE_OBJECTFACTORY_H
-#define CC_BASE_OBJECTFACTORY_H
+#ifndef __TRIGGERFACTORY_H__
+#define __TRIGGERFACTORY_H__
 
-#include <cocos/base/CCRef.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <functional>
 #include <string>
 #include <unordered_map>
+#include <functional>
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
@@ -38,37 +38,36 @@ class CC_DLL ObjectFactory
 {
 public:
     typedef cocos2d::Ref* (*Instance)(void);
-    typedef std::function<cocos2d::Ref*(void)> InstanceFunc;
+    typedef std::function<cocos2d::Ref* (void)> InstanceFunc;
     struct CC_DLL TInfo
     {
-        TInfo(void);
+        TInfo();
         TInfo(const std::string& type, Instance ins = nullptr);
         TInfo(const std::string& type, InstanceFunc ins = nullptr);
-        TInfo(const TInfo& t);
-        ~TInfo(void);
-        TInfo& operator=(const TInfo& t);
+        TInfo(const TInfo &t);
+        ~TInfo();
+        TInfo& operator= (const TInfo &t);
         std::string _class;
         Instance _fun;
         InstanceFunc _func;
     };
-    typedef std::unordered_map<std::string, TInfo> FactoryMap;
+    typedef std::unordered_map<std::string, TInfo>  FactoryMap;
 
     static ObjectFactory* getInstance();
     static void destroyInstance();
-    cocos2d::Ref* createObject(const std::string& name);
+    cocos2d::Ref* createObject(const std::string &name);
 
-    void registerType(const TInfo& t);
+    void registerType(const TInfo &t);
     void removeAll();
 
 protected:
-    ObjectFactory(void);
-    virtual ~ObjectFactory(void);
-
+    ObjectFactory();
+    virtual ~ObjectFactory();
 private:
-    static ObjectFactory* _sharedFactory;
+    static ObjectFactory *_sharedFactory;
     FactoryMap _typeMap;
 };
 
 NS_CC_END
 
-#endif // CC_BASE_OBJECTFACTORY_H
+#endif

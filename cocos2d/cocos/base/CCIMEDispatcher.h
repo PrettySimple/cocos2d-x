@@ -1,7 +1,8 @@
 /****************************************************************************
 Copyright (c) 2010      cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
 http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,22 +24,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_BASE_IMEDISPATCHER_H
-#define CC_BASE_IMEDISPATCHER_H
+#ifndef __CC_IME_DISPATCHER_H__
+#define __CC_IME_DISPATCHER_H__
 
-#include <cocos/base/CCEventKeyboard.h>
 #include <cocos/base/CCIMEDelegate.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <cstddef>
-#include <iosfwd>
 
 /**
  * @addtogroup base
  * @{
  */
 NS_CC_BEGIN
+
 
 /**
 @brief    Input Method Edit Message Dispatcher.
@@ -63,7 +59,7 @@ public:
      * @brief Dispatches the input text from IME.
      * @lua NA
      */
-    void dispatchInsertText(const char* text, size_t len);
+    void dispatchInsertText(const char * text, size_t len);
 
     /**
      * @brief Dispatches the delete-backward operation.
@@ -72,16 +68,16 @@ public:
     void dispatchDeleteBackward();
 
     /**
-     * @brief Dispatches the press control key operation.
-     * @lua NA
-     */
+    * @brief Dispatches the press control key operation.
+    * @lua NA
+    */
     void dispatchControlKey(EventKeyboard::KeyCode keyCode);
 
     /**
      * @brief Get the content text from IMEDelegate, retrieved previously from IME.
      * @lua NA
      */
-    std::string const& getContentText() const;
+    const std::string& getContentText();
 
     //////////////////////////////////////////////////////////////////////////
     // dispatch keyboard notification
@@ -110,15 +106,15 @@ protected:
      *@brief Add delegate to receive IME messages.
      *@param delegate A instance implements IMEDelegate delegate.
      */
-    void addDelegate(IMEDelegate* delegate);
+    void addDelegate(IMEDelegate * delegate);
 
     /**
      *@brief Attach the Delegate to the IME.
      *@param delegate A instance implements IMEDelegate delegate.
-     *@return If the old delegate can detach from the IME, and the new delegate
+     *@return If the old delegate can detach from the IME, and the new delegate 
      *       can attach to the IME, return true, otherwise false.
      */
-    bool attachDelegateWithIME(IMEDelegate* delegate);
+    bool attachDelegateWithIME(IMEDelegate * delegate);
 
     /**
      * Detach the delegate to the IME
@@ -126,23 +122,24 @@ protected:
      *@param delegate  A instance implements IMEDelegate delegate.
      *@return Whether the IME is detached or not.
      */
-    bool detachDelegateWithIME(IMEDelegate* delegate);
+    bool detachDelegateWithIME(IMEDelegate * delegate);
 
     /**
      *@brief Remove the delegate from the delegates which receive IME messages.
      *@param delegate A instance implements the IMEDelegate delegate.
      */
-    void removeDelegate(IMEDelegate* delegate);
+    void removeDelegate(IMEDelegate * delegate);
 
 private:
     IMEDispatcher();
-
+    
     class Impl;
-    Impl* _impl;
+    Impl * _impl;
 };
+
 
 NS_CC_END
 // end of base group
 /// @}
 
-#endif // CC_BASE_IMEDISPATCHER_H
+#endif    // __CC_IME_DISPATCHER_H__

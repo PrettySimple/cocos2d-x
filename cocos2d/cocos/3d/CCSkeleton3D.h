@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2014 Chukong Technologies Inc.
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -22,26 +23,15 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_3D_SKELETON3D_H
-#define CC_3D_SKELETON3D_H
+#ifndef __CCSKELETON3D_H__
+#define __CCSKELETON3D_H__
 
+#include <cocos/3d/CCBundle3DData.h>
 #include <cocos/base/CCRef.h>
 #include <cocos/base/CCVector.h>
-#include <cocos/base/ccConfig.h>
-#include <cocos/math/Mat4.h>
-#include <cocos/math/Quaternion.h>
-#include <cocos/math/Vec3.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
 
-#include <cstddef>
-#include <iosfwd>
-#include <vector>
 
 NS_CC_BEGIN
-
-class Vec4;
-struct NodeData;
 
 /**
  * @addtogroup _3d
@@ -56,24 +46,24 @@ class CC_DLL Bone3D : public Ref
 {
     friend class Skeleton3D;
     friend class MeshSkin;
-
 public:
+    
     /**
      * Returns the inverse bind pose matrix for this joint.
      *
      * @return Inverse bind pose matrix.
      */
     const Mat4& getInverseBindPose();
-
+    
     /**update own world matrix and children's*/
     void updateWorldMat();
-
+    
     /**get world matrix*/
     const Mat4& getWorldMat();
-
+    
     /**get bone name*/
     const std::string& getName() const { return _name; }
-
+    
     /**
      * set animation value
      * @param trans translate vec3
@@ -83,44 +73,44 @@ public:
      * @param weight blend weight
      */
     void setAnimationValue(float* trans, float* rot, float* scale, void* tag = nullptr, float weight = 1.0f);
-
+    
     /**clear bone blend states*/
     void clearBoneBlendState();
     /**
      * Creates C3DBone.
      */
     static Bone3D* create(const std::string& id);
-
+    
     /**
      * Sets the inverse bind pose matrix.
      *
      * @param m Mat4 representing the inverse bind pose for this Bone.
      */
     void setInverseBindPose(const Mat4& m);
-
+    
     /**
      * Sets the bone's original pose.
      *
      * @param m Mat4 representing the original pose for this Bone.
      */
     void setOriPose(const Mat4& m);
-
+    
     /**
      * reset pose to origin
      */
     void resetPose();
-
+    
     /**
      * Updates the joint matrix.
      *
      * @param matrixPalette The matrix palette to update.
      */
     void updateJointMatrix(Vec4* matrixPalette);
-
+    
     /**bone tree, we do not inherit from Node, Node has too many properties that we do not need. A clean Node is needed.*/
     Bone3D* getParentBone();
     /**get child bone count*/
-    std::size_t getChildBoneCount() const;
+    ssize_t getChildBoneCount() const;
     /**get child bone by index*/
     Bone3D* getChildBoneByIndex(int index) const;
     /**add child bone*/
@@ -131,7 +121,9 @@ public:
     void removeChildBone(Bone3D* bone);
     /**remove all child bone*/
     void removeAllChildBone();
-
+    
+    
+    
 protected:
     /**
      * the BoneBlendState struct
@@ -139,101 +131,104 @@ protected:
      */
     struct BoneBlendState
     {
-        Vec3 localTranslate;
-        Quaternion localRot;
-        Vec3 localScale;
-        float weight;
-        void* tag; //
+        Vec3          localTranslate;
+        Quaternion    localRot;
+        Vec3          localScale;
+        float         weight;
+        void*         tag; //
         BoneBlendState()
         : localRot(Quaternion::identity())
         , localScale(Vec3::ONE)
         , weight(1.f)
         , tag(nullptr)
         {
+            
         }
     };
-    /**
+	/**
      * Constructor.
      */
     Bone3D(const std::string& id);
-
-    /**
+    
+	/**
      * Destructor.
      */
     virtual ~Bone3D();
-
+    
     /**
      * Update local matrix
      */
     void updateLocalMat();
-
+    
     /**set world matrix dirty flag*/
     void setWorldMatDirty(bool dirty = true);
-
+    
     std::string _name; // bone name
     /**
      * The Mat4 representation of the Joint's bind pose.
      */
     Mat4 _invBindPose;
-
-    Mat4 _oriPose; // original bone pose
-
-    Bone3D* _parent; // parent bone
-
+    
+    Mat4 _oriPose; //original bone pose
+    
+    Bone3D* _parent; //parent bone
+    
     Vector<Bone3D*> _children;
-
-    bool _worldDirty;
-    Mat4 _world;
-    Mat4 _local;
-
+    
+    bool          _worldDirty;
+    Mat4          _world;
+    Mat4          _local;
+    
     std::vector<BoneBlendState> _blendStates;
+    
 };
 
 /**
  * Skeleton
  *
  */
-class CC_DLL Skeleton3D : public Ref
+class CC_DLL Skeleton3D: public Ref
 {
 public:
     /**
      * @lua NA
      */
     static Skeleton3D* create(const std::vector<NodeData*>& skeletondata);
-
+    
     /**get total bone count*/
-    std::size_t getBoneCount() const;
-
+    ssize_t getBoneCount() const;
+    
     /**get bone*/
     Bone3D* getBoneByIndex(unsigned int index) const;
     Bone3D* getBoneByName(const std::string& id) const;
-
+    
     /**get & set root bone*/
-    std::size_t getRootCount() const;
+    ssize_t getRootCount() const;
     Bone3D* getRootBone(int index) const;
-
+    
     /**get bone index*/
     int getBoneIndex(Bone3D* bone) const;
-
+    
     /**refresh bone world matrix*/
     void updateBoneMatrix();
-
-    CC_CONSTRUCTOR_ACCESS :
-
-        Skeleton3D();
-
+    
+CC_CONSTRUCTOR_ACCESS:
+    
+    Skeleton3D();
+    
     ~Skeleton3D();
-
+    
     /**remove all bones*/
     void removeAllBones();
-
+    
     /**add bone*/
     void addBone(Bone3D* bone);
-
+    
     /** create Bone3D from NodeData */
     Bone3D* createBone3D(const NodeData& nodedata);
-
+    
 protected:
+    
     Vector<Bone3D*> _bones; // bones
 
     Vector<Bone3D*> _rootBones;
@@ -244,4 +239,4 @@ protected:
 
 NS_CC_END
 
-#endif // CC_3D_SKELETON3D_H
+#endif // __CCSKELETON3D_H__

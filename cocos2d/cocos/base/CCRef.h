@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
-Copyright (c) 2013-2014 Chukong Technologies
+Copyright (c) 2013-2017 Chukong Technologies
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,75 +24,49 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_BASE_REF_H
-#define CC_BASE_REF_H
+#ifndef __BASE_CCREF_H__
+#define __BASE_CCREF_H__
 
-#include <cocos/platform/CCPlatformDefine.h>
 #include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/base/ccConfig.h>
+#include <chrono>
 
-#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
-#    include <string>
-#    include <vector>
-#endif
-
-NS_CC_BEGIN
-
-class Ref;
-class Node;
+#define CC_REF_LEAK_DETECTION 0
 
 /**
- * Interface that defines how to clone an Ref.
+ * @addtogroup base
+ * @{
  */
+NS_CC_BEGIN
+
+
+class Ref;
+
+/** 
+  * Interface that defines how to clone an Ref.
+  * @lua NA
+  * @js NA
+  */
 class CC_DLL Clonable
 {
 public:
     /** Returns a copy of the Ref. */
     virtual Clonable* clone() const = 0;
-
-    virtual ~Clonable();
-
-    /** Returns a copy of the Ref.
-     * @deprecated Use clone() instead.
+    
+    /**
+     * @js NA
+     * @lua NA
      */
-    CC_DEPRECATED_ATTRIBUTE virtual Ref* copy() const final { return nullptr; }
+    virtual ~Clonable() {};
 };
 
 /**
  * Ref is used for reference count management. If a class inherits from Ref,
  * then it is easy to be shared in different places.
+ * @js NA
  */
 class CC_DLL Ref
 {
-    friend class AutoreleasePool;
-
-protected:
-    /// count of references
-    unsigned int _referenceCount = 1;
-
-#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
-private:
-    std::vector<std::vector<std::string>> _retainList;
-    std::vector<std::vector<std::string>> _releaseList;
-
-protected:
-    bool _trackRetainRelease = false;
-#endif
-
-#if CC_ENABLE_SCRIPT_BINDING
-public:
-    /// object id, ScriptSupport need public _ID
-    unsigned int _ID = 0;
-    /// Lua reference id
-    int _luaID = 0;
-    /// scriptObject, support for swift
-    void* _scriptObject = nullptr;
-
-    /**
-     When true, it means that the object was already rooted.
-     */
-    bool _rooted = false;
-#endif
-
 public:
     /**
      * Retains the ownership.
@@ -99,6 +74,7 @@ public:
      * This increases the Ref's reference count.
      *
      * @see release, autorelease
+     * @js NA
      */
     void retain();
 
@@ -111,6 +87,7 @@ public:
      * destructed.
      *
      * @see retain, autorelease
+     * @js NA
      */
     void release();
 
@@ -126,6 +103,8 @@ public:
      * @returns The Ref itself.
      *
      * @see AutoreleasePool, retain, release
+     * @js NA
+     * @lua NA
      */
     Ref* autorelease();
 
@@ -133,6 +112,7 @@ public:
      * Returns the Ref's current reference count.
      *
      * @returns The Ref's reference count.
+     * @js NA
      */
     unsigned int getReferenceCount() const;
 
@@ -141,29 +121,55 @@ protected:
      * Constructor
      *
      * The Ref's reference count is 1 after construction.
+     * @js NA
      */
     Ref();
 
 public:
-    Ref(const Ref& other);
-    Ref& operator=(const Ref& other);
-    Ref(Ref&& other) noexcept = default;
-    Ref& operator=(Ref&& other) noexcept = default;
+    /**
+     * Destructor
+     *
+     * @js NA
+     * @lua NA
+     */
     virtual ~Ref();
 
+protected:
+    /// count of references
+    unsigned int _referenceCount;
+
+    friend class AutoreleasePool;
+
+#if CC_ENABLE_SCRIPT_BINDING
+public:
+    /// object id, ScriptSupport need public _ID
+    unsigned int        _ID;
+    /// Lua reference id
+    int                 _luaID;
+    /// scriptObject, support for swift
+    void* _scriptObject;
+
+    /**
+     When true, it means that the object was already rooted.
+     */
+    bool _rooted;
+#endif
+
     // Memory leak diagnostic data (only included when CC_REF_LEAK_DETECTION is defined and its value isn't zero)
-#if defined(CC_REF_LEAK_DETECTION) && CC_REF_LEAK_DETECTION > 0
+#if CC_REF_LEAK_DETECTION
 public:
     static void printLeaks();
 #endif
 };
+
+class Node;
 
 typedef void (Ref::*SEL_CallFunc)();
 typedef void (Ref::*SEL_CallFuncN)(Node*);
 typedef void (Ref::*SEL_CallFuncND)(Node*, void*);
 typedef void (Ref::*SEL_CallFuncO)(Ref*);
 typedef void (Ref::*SEL_MenuHandler)(Ref*);
-typedef void (Ref::*SEL_SCHEDULE)(float);
+typedef void (Ref::*SEL_SCHEDULE)(std::chrono::milliseconds);
 
 #define CC_CALLFUNC_SELECTOR(_SELECTOR) static_cast<cocos2d::SEL_CallFunc>(&_SELECTOR)
 #define CC_CALLFUNCN_SELECTOR(_SELECTOR) static_cast<cocos2d::SEL_CallFuncN>(&_SELECTOR)
@@ -172,14 +178,8 @@ typedef void (Ref::*SEL_SCHEDULE)(float);
 #define CC_MENU_SELECTOR(_SELECTOR) static_cast<cocos2d::SEL_MenuHandler>(&_SELECTOR)
 #define CC_SCHEDULE_SELECTOR(_SELECTOR) static_cast<cocos2d::SEL_SCHEDULE>(&_SELECTOR)
 
-// Deprecated
-#define callfunc_selector(_SELECTOR) CC_CALLFUNC_SELECTOR(_SELECTOR)
-#define callfuncN_selector(_SELECTOR) CC_CALLFUNCN_SELECTOR(_SELECTOR)
-#define callfuncND_selector(_SELECTOR) CC_CALLFUNCND_SELECTOR(_SELECTOR)
-#define callfuncO_selector(_SELECTOR) CC_CALLFUNCO_SELECTOR(_SELECTOR)
-#define menu_selector(_SELECTOR) CC_MENU_SELECTOR(_SELECTOR)
-#define schedule_selector(_SELECTOR) CC_SCHEDULE_SELECTOR(_SELECTOR)
-
 NS_CC_END
+// end of base group
+/** @} */
 
-#endif // CC_BASE_REF_H
+#endif // __BASE_CCREF_H__

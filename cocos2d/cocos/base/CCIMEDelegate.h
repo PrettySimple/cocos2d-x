@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010 cocos2d-x.org
-Copyright (C) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,14 +24,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_BASE_IMEDELEGATE_H
-#define CC_BASE_IMEDELEGATE_H
+#ifndef __CC_IME_DELEGATE_H__
+#define __CC_IME_DELEGATE_H__
 
-#include <cocos/base/CCEventKeyboard.h>
-#include <cocos/math/CCGeometry.h>
-
-#include <cstdint>
 #include <string>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/base/CCEventKeyboard.h>
 
 /**
  * @addtogroup base
@@ -38,16 +37,20 @@ THE SOFTWARE.
  */
 NS_CC_BEGIN
 
-enum class KeyCode : std::uint16_t;
+/**
+ * A static global empty std::string install.
+ */
+extern const std::string CC_DLL STD_STRING_EMPTY;
+
 
 /**
  * Keyboard notification event type.
  */
 typedef struct
 {
-    Rect begin; // the soft keyboard rectangle when animation begins
-    Rect end; // the soft keyboard rectangle when animation ends
-    float duration; // the soft keyboard animation duration
+    Rect  begin;              // the soft keyboard rectangle when animation begins
+    Rect  end;                // the soft keyboard rectangle when animation ends
+    float     duration;           // the soft keyboard animation duration
 } IMEKeyboardNotificationInfo;
 
 /**
@@ -62,14 +65,14 @@ public:
      * @lua NA
      */
     virtual ~IMEDelegate();
-
+    
     /**
      * Default destructor.
      * @js NA
      * @lua NA
      */
     virtual bool attachWithIME();
-
+    
     /**
      * Determine whether the IME is detached or not.
      * @js NA
@@ -114,7 +117,7 @@ protected:
     * @js NA
     * @lua NA
     */
-    virtual void insertText(const char*, size_t) {}
+    virtual void insertText(const char* /*text*/, size_t /*len*/) {}
 
     /**
     @brief    Called by IMEDispatcher after the user clicks the backward key.
@@ -128,18 +131,14 @@ protected:
     * @js NA
     * @lua NA
     */
-    virtual void controlKey(EventKeyboard::KeyCode keyCode) {}
+    virtual void controlKey(EventKeyboard::KeyCode /*keyCode*/) {}
 
     /**
     @brief    Called by IMEDispatcher for text stored in delegate.
     * @js NA
     * @lua NA
     */
-    inline virtual std::string const& getContentText() const
-    {
-        static std::string const empty = "";
-        return empty;
-    }
+    virtual const std::string& getContentText() { return STD_STRING_EMPTY; }
 
     //////////////////////////////////////////////////////////////////////////
     // keyboard show/hide notification
@@ -148,22 +147,22 @@ protected:
      * @js NA
      * @lua NA
      */
-    virtual void keyboardWillShow(IMEKeyboardNotificationInfo&) {}
+    virtual void keyboardWillShow(IMEKeyboardNotificationInfo& /*info*/)   {}
     /**
      * @js NA
      * @lua NA
      */
-    virtual void keyboardDidShow(IMEKeyboardNotificationInfo&) {}
+    virtual void keyboardDidShow(IMEKeyboardNotificationInfo& /*info*/)    {}
     /**
      * @js NA
      * @lua NA
      */
-    virtual void keyboardWillHide(IMEKeyboardNotificationInfo&) {}
+    virtual void keyboardWillHide(IMEKeyboardNotificationInfo& /*info*/)   {}
     /**
      * @js NA
      * @lua NA
      */
-    virtual void keyboardDidHide(IMEKeyboardNotificationInfo&) {}
+    virtual void keyboardDidHide(IMEKeyboardNotificationInfo& /*info*/)    {}
 
 protected:
     /**
@@ -173,8 +172,9 @@ protected:
     IMEDelegate();
 };
 
+
 NS_CC_END
 // end of base group
 /// @}
 
-#endif // CC_BASE_IMEDELEGATE_H
+#endif    // __CC_IME_DELEGATE_H__

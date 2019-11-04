@@ -2,6 +2,7 @@
 Copyright (c) 2010      Lam Pham
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,23 +24,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef CC_2D_PROGRESSTIMER_H
-#define CC_2D_PROGRESSTIMER_H
+#pragma once
 
-#include <cocos/2d/CCNode.h>
-#include <cocos/base/ccTypes.h>
-#include <cocos/math/Vec2.h>
-#include <cocos/platform/CCGL.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCCustomCommand.h>
+#include <cocos/2d/CCNode.h>
+#include <cocos/renderer/CCPipelineDescriptor.h>
+
+#include <vector>
 
 NS_CC_BEGIN
 
 class Sprite;
-class Renderer;
-class Mat4;
-struct Color3B;
 
 /**
  * @addtogroup _2d
@@ -47,23 +42,23 @@ struct Color3B;
  */
 
 /**
- * @brief ProgressTimer is a subclass of Node.
- * It renders the inner sprite according to the percentage.
- * The progress can be Radial, Horizontal or vertical.
- * @since v0.99.1
- */
+  * @brief ProgressTimer is a subclass of Node.
+  * It renders the inner sprite according to the percentage.
+  * The progress can be Radial, Horizontal or vertical.
+  * @since v0.99.1
+  */
 class CC_DLL ProgressTimer : public Node
 {
 public:
     /** Types of progress
      * @since v0.99.1
      */
-    enum struct Type : std::uint8_t
+    enum class Type
     {
-        RADIAL, /** Radial Counter-Clockwise. */
-        BAR, /** Bar. */
+        RADIAL,/** Radial Counter-Clockwise. */
+        BAR,/** Bar. */
     };
-
+    
     /** Creates a progress timer with the sprite as the shape the timer goes through.
      *
      * @param sp The sprite as the shape the timer goes through.
@@ -71,7 +66,7 @@ public:
      */
     static ProgressTimer* create(Sprite* sp);
 
-    /** Change the percentage to change progress.
+    /** Change the percentage to change progress. 
      *
      * @return A Type
      */
@@ -83,48 +78,41 @@ public:
      */
     float getPercentage() const { return _percentage; }
 
-    /** The image to show the progress percentage, retain.
+    /** The image to show the progress percentage, retain. 
      *
      * @return A sprite.
      */
     Sprite* getSprite() const { return _sprite; }
-
-    /** Set the initial percentage values.
+    
+    /** Set the initial percentage values. 
      *
      * @param percentage The initial percentage values.
      */
     void setPercentage(float percentage);
-
-    /** Set the sprite as the shape.
+    
+    /** Set the sprite as the shape. 
      *
      * @param sprite The sprite as the shape.
      */
-    void setSprite(Sprite* sprite);
-
-    /** Set the ProgressTimer type.
+    void setSprite(Sprite *sprite);
+    
+    /** Set the ProgressTimer type. 
      *
      * @param type Is an Type.
      */
     void setType(Type type);
-
+    
     /** Return the Reverse direction.
      *
      * @return If the direction is Anti-clockwise,it will return true.
      */
-    bool isReverseDirection() { return _reverseDirection; }
-
+    bool isReverseDirection() { return _reverseDirection; };
+    
     /** Set the Reverse direction.
      *
      * @param value If value is false it will clockwise,if is true it will Anti-clockwise.
      */
     void setReverseDirection(bool value);
-
-    /** Set the Reverse direction.
-     * @js setReverseDirection
-     * @lua setReverseDirection
-     * @param reverse If reverse is false it will clockwise,if is true it will Anti-clockwise.
-     */
-    CC_DEPRECATED_ATTRIBUTE void setReverseProgress(bool reverse) { setReverseDirection(reverse); }
 
     /**
      *    Midpoint is used to modify the progress start position.
@@ -138,8 +126,8 @@ public:
      * @param point A Vec2 point.
      */
     void setMidpoint(const Vec2& point);
-
-    /** Returns the Midpoint.
+    
+    /** Returns the Midpoint. 
      *
      * @return A Vec2.
      */
@@ -152,8 +140,8 @@ public:
      *    Set the rate to be Vec2(0,1); and set the midpoint to = Vec2(0,.5f).
      * @param barChangeRate A Vec2.
      */
-    void setBarChangeRate(const Vec2& barChangeRate) { _barChangeRate = barChangeRate; }
-
+    void setBarChangeRate(const Vec2& barChangeRate ) { _barChangeRate = barChangeRate; }
+    
     /** Returns the BarChangeRate.
      *
      * @return A barChangeRate.
@@ -161,57 +149,62 @@ public:
     Vec2 getBarChangeRate() const { return _barChangeRate; }
 
     // Overrides
-    void draw(Renderer* renderer, const Mat4& transform, std::uint32_t flags) override;
-    void setAnchorPoint(const Vec2& anchorPoint) override;
-    void setColor(const Color3B& color) override;
-    const Color3B& getColor() const override;
-    void setOpacity(GLubyte opacity) override;
-    GLubyte getOpacity() const override;
-
-    CC_CONSTRUCTOR_ACCESS :
-        /**
-         * @js ctor
-         */
-        ProgressTimer();
+    virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
+    virtual void setAnchorPoint(const Vec2& anchorPoint) override;
+    virtual void setColor(const Color3B &color) override;
+    virtual const Color3B& getColor() const override;
+    virtual void setOpacity(uint8_t opacity) override;
+    virtual uint8_t getOpacity() const override;
+    
+CC_CONSTRUCTOR_ACCESS:
+    /**
+     * @js ctor
+     */
+    ProgressTimer() = default;
     /**
      * @js NA
      * @lua NA
      */
-    ~ProgressTimer() override;
-
+    virtual ~ProgressTimer();
+    
     /** Initializes a progress timer with the sprite as the shape the timer goes through */
     bool initWithSprite(Sprite* sp);
-
+    
 protected:
-    void onDraw(const Mat4& transform, std::uint32_t flags);
-
     Tex2F textureCoordFromAlphaPoint(Vec2 alpha);
     Vec2 vertexFromAlphaPoint(Vec2 alpha);
-    void updateProgress(void);
-    void updateBar(void);
-    void updateRadial(void);
-    void updateColor(void) override;
+    void updateProgress();
+    void updateBar();
+    void updateRadial();
+    virtual void updateColor() override;
     Vec2 boundaryTexCoord(char index);
 
-    Type _type;
+    Type _type = Type::RADIAL;
     Vec2 _midpoint;
     Vec2 _barChangeRate;
-    float _percentage;
-    Sprite* _sprite;
-    int _vertexDataCount;
-    V2F_C4B_T2F* _vertexData;
-
+    float _percentage = 0.0f;
+    Sprite *_sprite = nullptr;
+    std::vector<V2F_C4B_T2F> _vertexData;
+    std::vector<unsigned short> _indexData;
+    bool _reverseDirection = false;
+    
     CustomCommand _customCommand;
+    CustomCommand _customCommand2;
+    
+    backend::ProgramState* _programState = nullptr;
+    backend::ProgramState* _programState2 = nullptr;
 
-    bool _reverseDirection;
+    backend::UniformLocation _locMVP1;
+    backend::UniformLocation _locTex1;
+
+    backend::UniformLocation _locMVP2;
+    backend::UniformLocation _locTex2;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ProgressTimer)
+    CC_DISALLOW_COPY_AND_ASSIGN(ProgressTimer);
 };
 
 // end of misc_nodes group
 /// @}
 
 NS_CC_END
-
-#endif // CC_2D_PROGRESSTIMER_H

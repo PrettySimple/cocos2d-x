@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -26,20 +27,21 @@ THE SOFTWARE.
 #ifndef __CC_EGLVIEWIMPL_ANDROID_H__
 #define __CC_EGLVIEWIMPL_ANDROID_H__
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-#    include "base/CCRef.h"
-#    include "math/CCGeometry.h"
-#    include "platform/CCGLView.h"
+#include <cocos/base/CCRef.h>
+#include <cocos/math/CCGeometry.h>
+#include <cocos/platform/CCGLView.h>
 
 NS_CC_BEGIN
 
 class CC_DLL GLViewImpl : public GLView
 {
 public:
+
     // static function
-    static GLViewImpl* create(const std::string& viewname);
+    static GLViewImpl* create(const std::string &viewname);
     static GLViewImpl* createWithRect(const std::string& viewName, Rect rect, float frameZoomFactor = 1.0f);
     static GLViewImpl* createWithFullScreen(const std::string& viewName);
 
@@ -47,6 +49,7 @@ public:
     void end() override;
     void swapBuffers() override;
     void setIMEKeyboardState(bool bOpen) override;
+    virtual Rect getSafeAreaRect() const override;
 
 protected:
     GLViewImpl();
@@ -60,4 +63,5 @@ NS_CC_END
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-#endif // end of __CC_EGLVIEWIMPL_ANDROID_H__
+#endif    // end of __CC_EGLVIEWIMPL_ANDROID_H__
+

@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,15 +24,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_PLATFORM_MAC_APPLICATIONMAC_H
-#define CC_PLATFORM_MAC_APPLICATIONMAC_H
+#ifndef __CC_APPLICATION_MAC_H__
+#define __CC_APPLICATION_MAC_H__
 
-#include <cocos/platform/CCPlatformConfig.h>
-#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
-
-#    include <cocos/platform/CCApplicationProtocol.h>
-#    include <cocos/platform/CCCommon.h>
-#    include <string>
+#include <cocos/platform/CCCommon.h>
+#include <cocos/platform/CCApplicationProtocol.h>
+#include <string>
 
 NS_CC_BEGIN
 
@@ -47,7 +45,7 @@ public:
      * @lua NA
      */
     virtual ~Application();
-
+    
     /**
     @brief  Callback by Director for limit FPS.
     @param interval The time, which expressed in second in second, between current frame and next.
@@ -60,33 +58,30 @@ public:
     * @lua NA
     */
     int run();
-
+    
     /**
     @brief  Get current application instance.
     @return Current application instance pointer.
     */
     static Application* getInstance();
-
-    /** @deprecated Use getInstance() instead */
-    CC_DEPRECATED_ATTRIBUTE static Application* sharedApplication();
-
+    
     /**
     @brief Get current language config
     @return Current language config
     */
     virtual LanguageType getCurrentLanguage() override;
-
+    
     /**
     @brief Get current language iso 639-1 code
     @return Current language iso 639-1 code
     */
-    virtual const char* getCurrentLanguageCode() override;
-
+    virtual const char * getCurrentLanguageCode() override;
+    
     /**
      @brief Get target platform
      */
     virtual Platform getTargetPlatform() override;
-
+    
     /**
      @brief Get application version.
      */
@@ -97,34 +92,20 @@ public:
      @param String with url to open.
      @return true if the resource located by the URL was successfully opened; otherwise false.
      */
-    virtual bool openURL(const std::string& url) override;
-
-    /**
-     *  Sets the Resource root path.
-     *  @deprecated Please use FileUtils::getInstance()->setSearchPaths() instead.
-     */
-    CC_DEPRECATED_ATTRIBUTE void setResourceRootPath(const std::string& rootResDir);
-
-    /**
-     *  Gets the Resource root path.
-     *  @deprecated Please use FileUtils::getInstance()->getSearchPaths() instead.
-     */
-    CC_DEPRECATED_ATTRIBUTE const std::string& getResourceRootPath(void);
-
+    virtual bool openURL(const std::string &url) override;
+    
     void setStartupScriptFilename(const std::string& startupScriptFile);
-
-    const std::string& getStartupScriptFilename(void);
-
+    
+    const std::string& getStartupScriptFilename();
+    
 protected:
-    static Application* sm_pSharedApplication;
-
-    long _animationInterval; // micro second
+    static Application * sm_pSharedApplication;
+    
+    long _animationInterval;  //micro second
     std::string _resourceRootPath;
     std::string _startupScriptFilename;
 };
 
 NS_CC_END
 
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_MAC
-
-#endif // CC_PLATFORM_MAC_APPLICATIONMAC_H
+#endif  // end of __CC_APPLICATION_MAC_H__;

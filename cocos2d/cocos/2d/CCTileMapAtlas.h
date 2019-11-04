@@ -3,6 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -24,17 +25,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef CC_2D_TILEMAPATLAS_H
-#define CC_2D_TILEMAPATLAS_H
+#ifndef __CCTILE_MAP_ATLAS__
+#define __CCTILE_MAP_ATLAS__
 
 #include <cocos/2d/CCAtlasNode.h>
 #include <cocos/base/CCValue.h>
-#include <cocos/base/ccTypes.h>
-#include <cocos/math/Vec2.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <iosfwd>
 
 NS_CC_BEGIN
 
@@ -58,13 +53,13 @@ You SHOULD not use this class.
 Instead, use the newer TMX file format: TMXTiledMap
 @js NA
 */
-class CC_DLL TileMapAtlas : public AtlasNode
+class CC_DLL TileMapAtlas : public AtlasNode 
 {
 public:
     /** creates a TileMap with a tile file (atlas) with a map file and the width and height of each tile in points.
      The tile file will be loaded using the TextureMgr.
      */
-    static TileMapAtlas* create(const std::string& tile, const std::string& mapFile, int tileWidth, int tileHeight);
+    static TileMapAtlas * create(const std::string& tile, const std::string& mapFile, int tileWidth, int tileHeight);
     /**
      * @js ctor
      */
@@ -74,7 +69,7 @@ public:
      * @lua NA
      */
     virtual ~TileMapAtlas();
-
+    
     /** initializes a TileMap with a tile file (atlas) with a map file and the width and height of each tile in points.
     The file will be loaded using the TextureMgr.
     */
@@ -84,18 +79,14 @@ public:
      *For the moment only channel R is used
      */
     Color3B getTileAt(const Vec2& position) const;
-    /**
-     * Returns a tile from position x,y.
-     *For the moment only channel R is used
-     */
-    CC_DEPRECATED_ATTRIBUTE Color3B tileAt(const Vec2& position) const { return getTileAt(position); }
+
     /** sets a tile at position x,y.
     For the moment only channel R is used
     */
     void setTile(const Color3B& tile, const Vec2& position);
     /** dealloc the map from memory */
     void releaseMap();
-
+    
     /**
      * Query TGA image info.
      *@return The TGA image info.
@@ -114,6 +105,7 @@ protected:
     void updateAtlasValueAt(const Vec2& pos, const Color3B& value, int index);
     void updateAtlasValues();
 
+
     //! x,y to atlas dictionary
     ValueMap _posToAtlasIndex;
     //! numbers of tiles to render
@@ -126,4 +118,5 @@ protected:
 
 NS_CC_END
 
-#endif // CC_2D_TILEMAPATLAS_H
+#endif //__CCTILE_MAP_ATLAS__
+

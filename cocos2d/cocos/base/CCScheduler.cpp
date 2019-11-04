@@ -3,6 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -26,48 +27,87 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include <cocos/base/CCScheduler.h>
-
-#include <cocos/base/CCRef.h>
 #include <cocos/base/ccMacros.h>
-#include <cocos/base/iterator_pair.h>
-#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/utlist.h>
+#include <cocos/base/ccCArray.h>
+#include <cocos/base/CCScriptSupport.h>
 
-#include <algorithm>
-#include <cmath>
-#include <new>
-#include <type_traits>
-#include <utility>
+using namespace std::chrono_literals;
 
 NS_CC_BEGIN
 
-// Timer
+// data structures
 
-Timer::~Timer()
+// A list double-linked list used for "updates with priority"
+typedef struct _listEntry
+{
+    struct _listEntry   *prev, *next;
+    ccSchedulerFunc     callback;
+    void                *target;
+    int                 priority;
+    bool                paused;
+    bool                markedForDeletion; // selector will no longer be called and entry will be removed at end of the next tick
+} tListEntry;
+
+typedef struct _hashUpdateEntry
+{
+    tListEntry          **list;        // Which list does it belong to ?
+    tListEntry          *entry;        // entry in the list
+    void                *target;
+    ccSchedulerFunc     callback;
+    UT_hash_handle      hh;
+} tHashUpdateEntry;
+
+// Hash Element used for "selectors with interval"
+typedef struct _hashSelectorEntry
+{
+    ccArray             *timers;
+    void                *target;
+    int                 timerIndex;
+    Timer               *currentTimer;
+    bool                paused;
+    UT_hash_handle      hh;
+} tHashTimerEntry;
+
+// implementation Timer
+
+Timer::Timer()
+: _scheduler(nullptr)
+, _elapsed(-1)
+, _runForever(false)
+, _useDelay(false)
+, _timesExecuted(0)
+, _repeat(0)
+, _delay(0)
+, _interval(0)
+, _aborted(false)
 {
 }
 
-void Timer::setupTimerWithInterval(std::chrono::milliseconds seconds, std::uint32_t repeat, std::chrono::milliseconds delay)
+void Timer::setupTimerWithInterval(std::chrono::milliseconds seconds, unsigned int repeat, std::chrono::milliseconds delay)
 {
-    _elapsed = std::chrono::milliseconds::max();
+    _elapsed = std::chrono::milliseconds{-1};
     _interval = seconds;
     _delay = delay;
-    _useDelay = (_delay > std::chrono::milliseconds::zero()) ? true : false;
+    _useDelay = (_delay > 0ms) ? true : false;
     _repeat = repeat;
     _runForever = (_repeat == CC_REPEAT_FOREVER) ? true : false;
+    _timesExecuted = 0;
 }
 
 void Timer::update(float dt)
 {
-    if (_elapsed == std::chrono::milliseconds::max())
+    if (_elapsed == std::chrono::milliseconds{-1})
     {
-        _elapsed = std::chrono::milliseconds::zero();
+        _elapsed = 0ms;
         _timesExecuted = 0;
         return;
     }
 
     // accumulate elapsed time
-    _elapsed += std::chrono::milliseconds(static_cast<std::size_t>(1000.f * dt));
-
+    _elapsed += std::chrono::milliseconds{static_cast<int>(1000.0f * dt)};
+    
     // deal with delay
     if (_useDelay)
     {
@@ -75,48 +115,53 @@ void Timer::update(float dt)
         {
             return;
         }
-        trigger(static_cast<float>(_delay.count()) / 1000.f);
+        _timesExecuted += 1; // important to increment before call trigger
+        trigger(_delay);
         _elapsed = _elapsed - _delay;
-        _timesExecuted += 1;
         _useDelay = false;
         // after delay, the rest time should compare with interval
-        if (!_runForever && _timesExecuted > _repeat)
-        { // unschedule timer
+        if (isExhausted())
+        {    //unschedule timer
             cancel();
             return;
         }
     }
-
+    
     // if _interval == 0, should trigger once every frame
-    auto interval = (_interval > std::chrono::milliseconds::zero()) ? _interval : _elapsed;
-    while (_elapsed >= interval)
+    auto interval = (_interval > 0ms) ? _interval : _elapsed;
+    while ((_elapsed >= interval) && !_aborted)
     {
-        trigger(static_cast<float>(interval.count()) / 1000.f);
+        _timesExecuted += 1; // important to increment before call trigger
+        trigger(interval);
         _elapsed -= interval;
-        _timesExecuted += 1;
 
-        if (!_runForever && _timesExecuted > _repeat)
+        if (isExhausted())
         {
             cancel();
             break;
         }
 
-        if (_elapsed <= std::chrono::milliseconds::zero())
+        if (_elapsed <= 0ms)
         {
             break;
         }
     }
+}
+
+bool Timer::isExhausted() const
+{
+    return !_runForever && _timesExecuted > _repeat;
 }
 
 // TimerTargetSelector
 
 TimerTargetSelector::TimerTargetSelector()
-: Timer(Timer::Type::SELECTOR)
+: _target(nullptr)
+, _selector(nullptr)
 {
 }
 
-bool TimerTargetSelector::initWithSelector(Scheduler* scheduler, SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds seconds, std::uint32_t repeat,
-                                           std::chrono::milliseconds delay)
+bool TimerTargetSelector::initWithSelector(Scheduler* scheduler, SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds seconds, unsigned int repeat, std::chrono::milliseconds delay)
 {
     _scheduler = scheduler;
     _target = target;
@@ -125,9 +170,9 @@ bool TimerTargetSelector::initWithSelector(Scheduler* scheduler, SEL_SCHEDULE se
     return true;
 }
 
-void TimerTargetSelector::trigger(float dt)
+void TimerTargetSelector::trigger(std::chrono::milliseconds dt)
 {
-    if (_target != nullptr && _selector != nullptr)
+    if (_target && _selector)
     {
         (_target->*_selector)(dt);
     }
@@ -141,12 +186,12 @@ void TimerTargetSelector::cancel()
 // TimerTargetCallback
 
 TimerTargetCallback::TimerTargetCallback()
-: Timer(Timer::Type::CALLBACK)
+: _target(nullptr)
+, _callback(nullptr)
 {
 }
 
-bool TimerTargetCallback::initWithCallback(Scheduler* scheduler, ccSchedulerFunc const& callback, void* target, std::string const& key,
-                                           std::chrono::milliseconds seconds, std::uint32_t repeat, std::chrono::milliseconds delay)
+bool TimerTargetCallback::initWithCallback(Scheduler* scheduler, const ccSchedulerFunc& callback, void *target, const std::string& key, std::chrono::milliseconds seconds, unsigned int repeat, std::chrono::milliseconds delay)
 {
     _scheduler = scheduler;
     _target = target;
@@ -156,9 +201,9 @@ bool TimerTargetCallback::initWithCallback(Scheduler* scheduler, ccSchedulerFunc
     return true;
 }
 
-void TimerTargetCallback::trigger(float dt)
+void TimerTargetCallback::trigger(std::chrono::milliseconds dt)
 {
-    if (_callback != nullptr)
+    if (_callback)
     {
         _callback(dt);
     }
@@ -169,352 +214,129 @@ void TimerTargetCallback::cancel()
     _scheduler->unschedule(_key, _target);
 }
 
-// UpdateData
+#if CC_ENABLE_SCRIPT_BINDING
 
-UpdateData::element::element(ccSchedulerFunc const& c, void* t, std::int32_t pr, bool pa, std::uint64_t i)
-: callback(c)
-, target(t)
-, priority(pr)
-, paused(pa)
-, index(i)
+// TimerScriptHandler
+
+bool TimerScriptHandler::initWithScriptHandler(int handler, std::chrono::milliseconds seconds)
 {
-}
-
-void UpdateData::pause_target(void* target)
-{
-    if (auto search_target = _targets.find(target); search_target != _targets.end())
-    {
-        const_cast<UpdateData::element&>(search_target->second).paused = true;
-    }
-}
-
-void UpdateData::resume_target(void* target)
-{
-    if (auto search_target = _targets.find(target); search_target != _targets.end())
-    {
-        const_cast<UpdateData::element&>(search_target->second).paused = false;
-    }
-}
-
-bool UpdateData::is_pause_target(void* target) const noexcept
-{
-    if (auto search_target = _targets.find(target); search_target != _targets.end())
-    {
-        return search_target->second.paused;
-    }
-    return false;
-}
-
-std::unordered_set<void*> UpdateData::pause_all_updates_with_min_priority(std::int32_t min_priority)
-{
-    std::unordered_set<void*> ret;
-    ret.reserve(_data.size());
-    for (auto const& ele : _data)
-    {
-        if (ele.priority >= min_priority)
-        {
-            const_cast<UpdateData::element&>(ele).paused = true;
-            ret.emplace(ele.target);
-        }
-    }
-    return ret;
-}
-
-void UpdateData::pause_all_targets()
-{
-    for (auto& ele : _targets)
-    {
-        const_cast<UpdateData::element&>(ele.second).paused = true;
-    }
-}
-
-void UpdateData::add_update(ccSchedulerFunc const& c, void* t, std::int32_t pr, bool pa)
-{
-    CCASSERT(_targets.count(t) == 0, "update has already been added!");
-    CCASSERT(t != nullptr, "Argument target must be non-nullptr");
-
-    if (_data.empty())
-    {
-        _index = 0;
-    }
-
-    auto const it = _data.emplace(c, t, pr, pa, _index++);
-    CC_ASSERT(it.second);
-    _targets.emplace(t, *it.first);
-}
-
-void UpdateData::remove_update(void* t)
-{
-    if (auto search_update = _targets.find(t); search_update != _targets.end())
-    {
-        remove_element(search_update->second);
-    }
-}
-
-void UpdateData::remove_all_updates_with_min_priority(std::int32_t min_priority)
-{
-    std::vector<std::reference_wrapper<UpdateData::element const>> tmp;
-    tmp.reserve(_data.size());
-    for (auto const& ele : _data)
-    {
-        if (ele.priority >= min_priority)
-        {
-            tmp.emplace_back(std::cref(ele));
-        }
-    }
-    for (auto const& ele : tmp)
-    {
-        remove_element(ele);
-    }
-}
-
-decltype(UpdateData::_data)::key_type const& UpdateData::get_element_from_target(void* t) const noexcept
-{
-    static decltype(UpdateData::_data)::key_type const empty;
-    auto search = _targets.find(t);
-    if (search != _targets.end())
-    {
-        return search->second;
-    }
-    return empty;
-}
-
-void UpdateData::remove_element(decltype(UpdateData::_data)::key_type const& key)
-{
-    CCASSERT(key.target != nullptr, "Argument target must be non-nullptr");
-    if (_data.count(key) > 0)
-    {
-        auto search_target = _targets.find(key.target);
-        if (search_target != _targets.end())
-        {
-            _targets.erase(search_target);
-        }
-
-        _data.erase(key);
-    }
-}
-
-// TimerData
-
-template <class T>
-inline constexpr void hash_combine(std::size_t& seed, T const& v)
-{
-    std::hash<T> hasher;
-    seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-}
-
-std::size_t TimerData::key_hasher::operator()(Key const& k) const noexcept
-{
-    std::size_t seed = 0;
-    hash_combine(seed, k.name);
-    hash_combine(seed, reinterpret_cast<uintptr_t>(k.target));
-    return seed;
-}
-
-TimerData::element::element(Timer* ti, void* ta, std::uint64_t i, bool p, std::string const& n)
-: timer(ti)
-, target(ta)
-, index(i)
-, paused(p)
-, name(n)
-{
-    CC_SAFE_RETAIN(timer);
-}
-
-TimerData::element::~element()
-{
-    CC_SAFE_RELEASE(timer);
-}
-
-void TimerData::pause_target(void* target)
-{
-    auto search_target = _targets.equal_range(target);
-    for (auto& ele : make_iterator_pair(search_target))
-    {
-        const_cast<TimerData::element&>(ele.second).paused = true;
-    }
-}
-
-void TimerData::resume_target(void* target)
-{
-    auto search_target = _targets.equal_range(target);
-    for (auto& ele : make_iterator_pair(search_target))
-    {
-        const_cast<TimerData::element&>(ele.second).paused = false;
-    }
-}
-
-bool TimerData::is_pause_target(void* target) const noexcept
-{
-    auto search_target = _targets.equal_range(target);
-    for (auto const& ele : make_iterator_pair(search_target))
-    {
-        if (ele.second.paused == false)
-        {
-            return false;
-        }
-    }
+    _scriptHandler = handler;
+    _elapsed = -1;
+    _interval = seconds;
+    
     return true;
 }
 
-std::unordered_set<void*> TimerData::pause_all_targets()
+void TimerScriptHandler::trigger(std::chrono::milliseconds dt)
 {
-    std::unordered_set<void*> ret;
-    ret.reserve(_targets.size());
-    for (auto& ele : _targets)
+    if (0 != _scriptHandler)
     {
-        const_cast<TimerData::element&>(ele.second).paused = true;
-        ret.emplace(ele.second.target);
-    }
-    return ret;
-}
-
-void TimerData::add_timer(Key const& k, Timer* timer, bool paused)
-{
-    CCASSERT(_timers.count(k) == 0, "timer has already been added!");
-
-    if (_data.empty())
-    {
-        _index = 0;
-    }
-
-    auto const& it = _data.emplace_hint(_data.end(), timer, k.target, _index++, paused, std::string(k.name));
-    _targets.emplace(k.target, *it);
-    _timers.emplace(TimerData::Key{it->name, it->target}, *it);
-}
-
-void TimerData::remove_timer(SEL_SCHEDULE selector, Ref* target)
-{
-    auto search_target = _targets.equal_range(target);
-    for (auto const& ele : make_iterator_pair(search_target))
-    {
-        if (ele.second.timer->getType() == Timer::Type::SELECTOR && selector == static_cast<TimerTargetSelector*>(ele.second.timer)->getSelector())
-        {
-            remove_element(ele.second);
-            break;
-        }
+        SchedulerScriptData data(_scriptHandler,dt);
+        ScriptEvent event(kScheduleEvent,&data);
+        ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
     }
 }
 
-void TimerData::remove_timer(Key const& k)
+void TimerScriptHandler::cancel()
 {
-    if (auto search_timer = _timers.find(k); search_timer != _timers.end())
-    {
-        remove_element(search_timer->second);
-    }
+
 }
 
-void TimerData::remove_all_timers()
+#endif
+
+// implementation of Scheduler
+
+// Priority level reserved for system services.
+const int Scheduler::PRIORITY_SYSTEM = INT_MIN;
+
+// Minimum priority level for user scheduling.
+const int Scheduler::PRIORITY_NON_SYSTEM_MIN = PRIORITY_SYSTEM + 1;
+
+Scheduler::Scheduler()
+: _timeScale(1.0f)
+, _updatesNegList(nullptr)
+, _updates0List(nullptr)
+, _updatesPosList(nullptr)
+, _hashForUpdates(nullptr)
+, _hashForTimers(nullptr)
+, _currentTarget(nullptr)
+, _currentTargetSalvaged(false)
+, _updateHashLocked(false)
+#if CC_ENABLE_SCRIPT_BINDING
+, _scriptHandlerEntries(20)
+#endif
 {
-    std::vector<std::reference_wrapper<TimerData::element const>> tmp;
-    tmp.reserve(_data.size());
-    for (auto const& ele : _data)
-    {
-        tmp.emplace_back(std::cref(ele));
-    }
-
-    for (auto const& ele : tmp)
-    {
-        remove_element(ele);
-    }
+    // I don't expect to have more than 30 functions to all per frame
+    _functionsToPerform.reserve(30);
 }
-
-void TimerData::remove_all_timers_from_target(void* target)
-{
-    std::vector<std::reference_wrapper<TimerData::element const>> tmp;
-    tmp.reserve(_data.size());
-
-    auto search_target = _targets.equal_range(target);
-    for (auto const& ele : make_iterator_pair(search_target))
-    {
-        if (ele.second.target == target)
-        {
-            tmp.emplace_back(std::cref(ele.second));
-        }
-    }
-    for (auto const& ele : tmp)
-    {
-        remove_element(ele);
-    }
-}
-
-decltype(TimerData::_data)::key_type const& TimerData::get_element_from_target(Key const& k) const noexcept
-{
-    static decltype(_data)::key_type const empty;
-    auto search = _timers.find(k);
-    if (search != _timers.end())
-    {
-        return search->second;
-    }
-    return empty;
-}
-
-void TimerData::remove_element(decltype(_data)::key_type const& key)
-{
-    if (_data.count(key) > 0)
-    {
-        auto search_target = _targets.equal_range(key.target);
-        for (auto it = search_target.first; it != search_target.second;)
-        {
-            if (std::addressof(it->second) == std::addressof(key))
-            {
-                it = _targets.erase(it);
-            }
-            else
-            {
-                ++it;
-            }
-        }
-
-        if (auto search_timer = _timers.find(TimerData::Key{key.name, key.target}); search_timer != _timers.end())
-        {
-            _timers.erase(search_timer);
-        }
-
-        _data.erase(key);
-    }
-}
-
-// Scheduler
 
 Scheduler::~Scheduler()
 {
     unscheduleAll();
 }
 
-void Scheduler::schedule(ccSchedulerFunc const& callback, void* target, std::chrono::milliseconds interval, bool paused, std::string const& key)
+void Scheduler::removeHashElement(_hashSelectorEntry *element)
 {
-    schedule(callback, target, interval, CC_REPEAT_FOREVER, std::chrono::milliseconds::zero(), paused, key);
+    ccArrayFree(element->timers);
+    HASH_DEL(_hashForTimers, element);
+    free(element);
 }
 
-void Scheduler::schedule(ccSchedulerFunc const& callback, void* target, std::chrono::milliseconds interval, std::uint32_t repeat,
-                         std::chrono::milliseconds delay, bool paused, std::string const& key)
+void Scheduler::schedule(const ccSchedulerFunc& callback, void *target, std::chrono::milliseconds interval, bool paused, const std::string& key)
 {
-    CCASSERT(target != nullptr, "Argument target must be non-nullptr");
+    this->schedule(callback, target, interval, CC_REPEAT_FOREVER, 0ms, paused, key);
+}
+
+void Scheduler::schedule(const ccSchedulerFunc& callback, void *target, std::chrono::milliseconds interval, unsigned int repeat, std::chrono::milliseconds delay, bool paused, const std::string& key)
+{
+    CCASSERT(target, "Argument target must be non-nullptr");
     CCASSERT(!key.empty(), "key should not be empty!");
 
-    TimerData::Key const k(key, target);
-    auto& element = _timers.get_element_from_target(k);
-    if (element.target == nullptr && element.name.empty())
+    tHashTimerEntry *element = nullptr;
+    HASH_FIND_PTR(_hashForTimers, &target, element);
+
+    if (! element)
     {
-        TimerTargetCallback* timer = new (std::nothrow) TimerTargetCallback();
-        timer->initWithCallback(this, callback, target, key, interval, repeat, delay);
-        _timers.add_timer(k, timer, paused);
-        _timers_to_process.emplace_back(key, target);
-        timer->release();
+        element = (tHashTimerEntry *)calloc(sizeof(*element), 1);
+        element->target = target;
+
+        HASH_ADD_PTR(_hashForTimers, target, element);
+
+        // Is this the 1st element ? Then set the pause level to all the selectors of this target
+        element->paused = paused;
     }
     else
     {
-        CCASSERT(element.paused == paused, "element's paused should be paused!");
-        if (element.timer->getType() == Timer::Type::CALLBACK)
-        {
-            CCLOG("CCScheduler#scheduleSelector. Selector already scheduled. Updating interval from: %.4f to %.4f", element.timer->getInterval(), interval);
-            element.timer->setInterval(interval);
-        }
+        CCASSERT(element->paused == paused, "element's paused should be paused!");
     }
+
+    if (element->timers == nullptr)
+    {
+        element->timers = ccArrayNew(10);
+    }
+    else 
+    {
+        for (int i = 0; i < element->timers->num; ++i)
+        {
+            TimerTargetCallback *timer = dynamic_cast<TimerTargetCallback*>(element->timers->arr[i]);
+
+            if (timer && !timer->isExhausted() && key == timer->getKey())
+            {
+                CCLOG("CCScheduler#schedule. Reiniting timer with interval %.4f, repeat %u, delay %.4f", interval, repeat, delay);
+                timer->setupTimerWithInterval(interval, repeat, delay);
+                return;
+            }
+        }
+        ccArrayEnsureExtraCapacity(element->timers, 1);
+    }
+
+    TimerTargetCallback *timer = new (std::nothrow) TimerTargetCallback();
+    timer->initWithCallback(this, callback, target, key, interval, repeat, delay);
+    ccArrayAppendObject(element->timers, timer);
+    timer->release();
 }
 
-void Scheduler::unschedule(std::string const& key, void* target)
+void Scheduler::unschedule(const std::string &key, void *target)
 {
     // explicit handle nil arguments when removing an object
     if (target == nullptr || key.empty())
@@ -522,64 +344,232 @@ void Scheduler::unschedule(std::string const& key, void* target)
         return;
     }
 
-    TimerData::Key const k(key, target);
-    _timers.remove_timer(k);
+    //CCASSERT(target);
+    //CCASSERT(selector);
+
+    tHashTimerEntry *element = nullptr;
+    HASH_FIND_PTR(_hashForTimers, &target, element);
+
+    if (element)
+    {
+        for (int i = 0; i < element->timers->num; ++i)
+        {
+            TimerTargetCallback *timer = dynamic_cast<TimerTargetCallback*>(element->timers->arr[i]);
+
+            if (timer && key == timer->getKey())
+            {
+                if (timer == element->currentTimer && (! timer->isAborted()))
+                {
+                    timer->retain();
+                    timer->setAborted();
+                }
+
+                ccArrayRemoveObjectAtIndex(element->timers, i, true);
+
+                // update timerIndex in case we are in tick:, looping over the actions
+                if (element->timerIndex >= i)
+                {
+                    element->timerIndex--;
+                }
+
+                if (element->timers->num == 0)
+                {
+                    if (_currentTarget == element)
+                    {
+                        _currentTargetSalvaged = true;
+                    }
+                    else
+                    {
+                        removeHashElement(element);
+                    }
+                }
+
+                return;
+            }
+        }
+    }
 }
 
-void Scheduler::schedulePerFrame(ccSchedulerFunc const& callback, void* target, std::int32_t priority, bool paused)
+void Scheduler::priorityIn(tListEntry **list, const ccSchedulerFunc& callback, void *target, int priority, bool paused)
 {
-    CCASSERT(target != nullptr, "Argument target must be non-nullptr");
+    tListEntry *listElement = new (std::nothrow) tListEntry();
 
-    auto& element = _updates.get_element_from_target(target);
-    if (element.target == nullptr)
+    listElement->callback = callback;
+    listElement->target = target;
+    listElement->priority = priority;
+    listElement->paused = paused;
+    listElement->next = listElement->prev = nullptr;
+    listElement->markedForDeletion = false;
+
+    // empty list ?
+    if (! *list)
     {
-        _updates.add_update(callback, target, priority, paused);
-        if (priority >= _updates_to_process_priority)
-        {
-            _updates_to_process.emplace_back(target);
-        }
+        DL_APPEND(*list, listElement);
     }
     else
     {
-        if (element.priority != priority)
-        {
-            _updates.remove_update(target);
-            _updates.add_update(callback, target, priority, paused);
+        bool added = false;
 
-            if (priority >= _updates_to_process_priority && std::find(_updates_to_process.begin(), _updates_to_process.end(), target) == _updates_to_process.end())
+        for (tListEntry *element = *list; element; element = element->next)
+        {
+            if (priority < element->priority)
             {
-                _updates_to_process.emplace_back(target);
+                if (element == *list)
+                {
+                    DL_PREPEND(*list, listElement);
+                }
+                else
+                {
+                    listElement->next = element;
+                    listElement->prev = element->prev;
+
+                    element->prev->next = listElement;
+                    element->prev = listElement;
+                }
+
+                added = true;
+                break;
             }
+        }
+
+        // Not added? priority has the higher value. Append it.
+        if (! added)
+        {
+            DL_APPEND(*list, listElement);
+        }
+    }
+
+    // update hash entry for quick access
+    tHashUpdateEntry *hashElement = (tHashUpdateEntry *)calloc(sizeof(*hashElement), 1);
+    hashElement->target = target;
+    hashElement->list = list;
+    hashElement->entry = listElement;
+    memset(&hashElement->hh, 0, sizeof(hashElement->hh));
+    HASH_ADD_PTR(_hashForUpdates, target, hashElement);
+}
+
+void Scheduler::appendIn(_listEntry **list, const ccSchedulerFunc& callback, void *target, bool paused)
+{
+    tListEntry *listElement = new (std::nothrow) tListEntry();
+
+    listElement->callback = callback;
+    listElement->target = target;
+    listElement->paused = paused;
+    listElement->priority = 0;
+    listElement->markedForDeletion = false;
+
+    DL_APPEND(*list, listElement);
+
+    // update hash entry for quicker access
+    tHashUpdateEntry *hashElement = (tHashUpdateEntry *)calloc(sizeof(*hashElement), 1);
+    hashElement->target = target;
+    hashElement->list = list;
+    hashElement->entry = listElement;
+    memset(&hashElement->hh, 0, sizeof(hashElement->hh));
+    HASH_ADD_PTR(_hashForUpdates, target, hashElement);
+}
+
+void Scheduler::schedulePerFrame(const ccSchedulerFunc& callback, void *target, int priority, bool paused)
+{
+    tHashUpdateEntry *hashElement = nullptr;
+    HASH_FIND_PTR(_hashForUpdates, &target, hashElement);
+    if (hashElement)
+    {
+        // change priority: should unschedule it first
+        if (hashElement->entry->priority != priority)
+        {
+            unscheduleUpdate(target);
         }
         else
         {
-            const_cast<UpdateData::element&>(element).paused = paused;
-            const_cast<UpdateData::element&>(element).callback = callback;
+            // don't add it again
+            CCLOG("warning: don't update it again");
+            return;
         }
+    }
+
+    // most of the updates are going to be 0, that's way there
+    // is an special list for updates with priority 0
+    if (priority == 0)
+    {
+        appendIn(&_updates0List, callback, target, paused);
+    }
+    else if (priority < 0)
+    {
+        priorityIn(&_updatesNegList, callback, target, priority, paused);
+    }
+    else
+    {
+        // priority > 0
+        priorityIn(&_updatesPosList, callback, target, priority, paused);
     }
 }
 
-bool Scheduler::isScheduled(std::string const& key, void* target) const noexcept
+bool Scheduler::isScheduled(const std::string& key, const void *target) const
 {
     CCASSERT(!key.empty(), "Argument key must not be empty");
-    CCASSERT(target != nullptr, "Argument target must be non-nullptr");
-
-    TimerData::Key const k(key, target);
-    if (_timers.count(k) > 0)
+    CCASSERT(target, "Argument target must be non-nullptr");
+    
+    tHashTimerEntry *element = nullptr;
+    HASH_FIND_PTR(_hashForTimers, &target, element);
+    
+    if (!element)
     {
-        return true;
+        return false;
     }
+    
+    if (element->timers == nullptr)
+    {
+        return false;
+    }
+    
+    for (int i = 0; i < element->timers->num; ++i)
+    {
+        TimerTargetCallback *timer = dynamic_cast<TimerTargetCallback*>(element->timers->arr[i]);
+        
+        if (timer && !timer->isExhausted() && key == timer->getKey())
+        {
+            return true;
+        }
+    }
+    
     return false;
 }
 
-void Scheduler::unscheduleUpdate(void* target)
+void Scheduler::removeUpdateFromHash(struct _listEntry *entry)
+{
+    tHashUpdateEntry *element = nullptr;
+
+    HASH_FIND_PTR(_hashForUpdates, &entry->target, element);
+    if (element)
+    {
+        // list entry
+        DL_DELETE(*element->list, element->entry);
+        if (!_updateHashLocked)
+            CC_SAFE_DELETE(element->entry);
+        else
+        {
+            element->entry->markedForDeletion = true;
+            _updateDeleteVector.push_back(element->entry);
+        }
+
+        // hash entry
+        HASH_DEL(_hashForUpdates, element);
+        free(element);
+    }
+}
+
+void Scheduler::unscheduleUpdate(void *target)
 {
     if (target == nullptr)
     {
         return;
     }
 
-    _updates.remove_update(target);
+    tHashUpdateEntry *element = nullptr;
+    HASH_FIND_PTR(_hashForUpdates, &target, element);
+    if (element)
+        this->removeUpdateFromHash(element->entry);
 }
 
 void Scheduler::unscheduleAll()
@@ -587,218 +577,518 @@ void Scheduler::unscheduleAll()
     unscheduleAllWithMinPriority(PRIORITY_SYSTEM);
 }
 
-void Scheduler::unscheduleAllWithMinPriority(std::int32_t minPriority)
+void Scheduler::unscheduleAllWithMinPriority(int minPriority)
 {
-    _timers.remove_all_timers();
-    _updates.remove_all_updates_with_min_priority(minPriority);
+    // Custom Selectors
+    tHashTimerEntry *element = nullptr;
+    tHashTimerEntry *nextElement = nullptr;
+    for (element = _hashForTimers; element != nullptr;)
+    {
+        // element may be removed in unscheduleAllSelectorsForTarget
+        nextElement = (tHashTimerEntry *)element->hh.next;
+        unscheduleAllForTarget(element->target);
+
+        element = nextElement;
+    }
+
+    // Updates selectors
+    tListEntry *entry, *tmp;
+    if(minPriority < 0)
+    {
+        DL_FOREACH_SAFE(_updatesNegList, entry, tmp)
+        {
+            if(entry->priority >= minPriority)
+            {
+                unscheduleUpdate(entry->target);
+            }
+        }
+    }
+
+    if(minPriority <= 0)
+    {
+        DL_FOREACH_SAFE(_updates0List, entry, tmp)
+        {
+            unscheduleUpdate(entry->target);
+        }
+    }
+
+    DL_FOREACH_SAFE(_updatesPosList, entry, tmp)
+    {
+        if(entry->priority >= minPriority)
+        {
+            unscheduleUpdate(entry->target);
+        }
+    }
+#if CC_ENABLE_SCRIPT_BINDING
+    _scriptHandlerEntries.clear();
+#endif
 }
 
-void Scheduler::unscheduleAllForTarget(void* target)
+void Scheduler::unscheduleAllForTarget(void *target)
 {
+    // explicit nullptr handling
     if (target == nullptr)
     {
         return;
     }
 
-    _timers.remove_all_timers_from_target(target);
-    _updates.remove_update(target);
-}
+    // Custom Selectors
+    tHashTimerEntry *element = nullptr;
+    HASH_FIND_PTR(_hashForTimers, &target, element);
 
-void Scheduler::resumeTarget(void* target)
-{
-    CCASSERT(target != nullptr, "target can't be nullptr!");
-    _timers.resume_target(target);
-    _updates.resume_target(target);
-}
-
-void Scheduler::pauseTarget(void* target)
-{
-    CCASSERT(target != nullptr, "target can't be nullptr!");
-    _timers.pause_target(target);
-    _updates.pause_target(target);
-}
-
-bool Scheduler::isTargetPaused(void* target)
-{
-    CCASSERT(target != nullptr, "target can't be nullptr!");
-    if (_timers.count(target) > 0)
+    if (element)
     {
-        return _timers.is_pause_target(target);
+        if (ccArrayContainsObject(element->timers, element->currentTimer)
+            && (! element->currentTimer->isAborted()))
+        {
+            element->currentTimer->retain();
+            element->currentTimer->setAborted();
+        }
+        ccArrayRemoveAllObjects(element->timers);
+
+        if (_currentTarget == element)
+        {
+            _currentTargetSalvaged = true;
+        }
+        else
+        {
+            removeHashElement(element);
+        }
     }
-    return _updates.is_pause_target(target);
+
+    // update selector
+    unscheduleUpdate(target);
 }
 
-std::unordered_set<void*> Scheduler::pauseAllTargets()
+#if CC_ENABLE_SCRIPT_BINDING
+unsigned int Scheduler::scheduleScriptFunc(unsigned int handler, float interval, bool paused)
+{
+    SchedulerScriptHandlerEntry* entry = SchedulerScriptHandlerEntry::create(handler, interval, paused);
+    _scriptHandlerEntries.pushBack(entry);
+    return entry->getEntryId();
+}
+
+void Scheduler::unscheduleScriptEntry(unsigned int scheduleScriptEntryID)
+{
+    for (ssize_t i = _scriptHandlerEntries.size() - 1; i >= 0; i--)
+    {
+        SchedulerScriptHandlerEntry* entry = _scriptHandlerEntries.at(i);
+        if (entry->getEntryId() == (int)scheduleScriptEntryID)
+        {
+            entry->markedForDeletion();
+            break;
+        }
+    }
+}
+
+#endif
+
+void Scheduler::resumeTarget(void *target)
+{
+    CCASSERT(target != nullptr, "target can't be nullptr!");
+
+    // custom selectors
+    tHashTimerEntry *element = nullptr;
+    HASH_FIND_PTR(_hashForTimers, &target, element);
+    if (element)
+    {
+        element->paused = false;
+    }
+
+    // update selector
+    tHashUpdateEntry *elementUpdate = nullptr;
+    HASH_FIND_PTR(_hashForUpdates, &target, elementUpdate);
+    if (elementUpdate)
+    {
+        CCASSERT(elementUpdate->entry != nullptr, "elementUpdate's entry can't be nullptr!");
+        elementUpdate->entry->paused = false;
+    }
+}
+
+void Scheduler::pauseTarget(void *target)
+{
+    CCASSERT(target != nullptr, "target can't be nullptr!");
+
+    // custom selectors
+    tHashTimerEntry *element = nullptr;
+    HASH_FIND_PTR(_hashForTimers, &target, element);
+    if (element)
+    {
+        element->paused = true;
+    }
+
+    // update selector
+    tHashUpdateEntry *elementUpdate = nullptr;
+    HASH_FIND_PTR(_hashForUpdates, &target, elementUpdate);
+    if (elementUpdate)
+    {
+        CCASSERT(elementUpdate->entry != nullptr, "elementUpdate's entry can't be nullptr!");
+        elementUpdate->entry->paused = true;
+    }
+}
+
+bool Scheduler::isTargetPaused(void *target)
+{
+    CCASSERT( target != nullptr, "target must be non nil" );
+
+    // Custom selectors
+    tHashTimerEntry *element = nullptr;
+    HASH_FIND_PTR(_hashForTimers, &target, element);
+    if( element )
+    {
+        return element->paused;
+    }
+    
+    // We should check update selectors if target does not have custom selectors
+    tHashUpdateEntry *elementUpdate = nullptr;
+    HASH_FIND_PTR(_hashForUpdates, &target, elementUpdate);
+    if ( elementUpdate )
+    {
+        return elementUpdate->entry->paused;
+    }
+    
+    return false;  // should never get here
+}
+
+std::set<void*> Scheduler::pauseAllTargets()
 {
     return pauseAllTargetsWithMinPriority(PRIORITY_SYSTEM);
 }
 
-std::unordered_set<void*> Scheduler::pauseAllTargetsWithMinPriority(std::int32_t minPriority)
+std::set<void*> Scheduler::pauseAllTargetsWithMinPriority(int minPriority)
 {
-    std::unordered_set<void*> idsWithSelectors;
+    std::set<void*> idsWithSelectors;
 
-    auto paused_timers = _timers.pause_all_targets();
-    idsWithSelectors.insert(paused_timers.begin(), paused_timers.end());
+    // Custom Selectors
+    for(tHashTimerEntry *element = _hashForTimers; element != nullptr;
+        element = (tHashTimerEntry*)element->hh.next)
+    {
+        element->paused = true;
+        idsWithSelectors.insert(element->target);
+    }
 
-    auto paused_updates = _updates.pause_all_updates_with_min_priority(minPriority);
-    idsWithSelectors.insert(paused_updates.begin(), paused_updates.end());
+    // Updates selectors
+    tListEntry *entry, *tmp;
+    if(minPriority < 0)
+    {
+        DL_FOREACH_SAFE( _updatesNegList, entry, tmp ) 
+        {
+            if(entry->priority >= minPriority)
+            {
+                entry->paused = true;
+                idsWithSelectors.insert(entry->target);
+            }
+        }
+    }
+
+    if(minPriority <= 0)
+    {
+        DL_FOREACH_SAFE( _updates0List, entry, tmp )
+        {
+            entry->paused = true;
+            idsWithSelectors.insert(entry->target);
+        }
+    }
+
+    DL_FOREACH_SAFE( _updatesPosList, entry, tmp ) 
+    {
+        if(entry->priority >= minPriority) 
+        {
+            entry->paused = true;
+            idsWithSelectors.insert(entry->target);
+        }
+    }
 
     return idsWithSelectors;
 }
 
-void Scheduler::resumeTargets(std::unordered_set<void*> const& targetsToResume)
+void Scheduler::resumeTargets(const std::set<void*>& targetsToResume)
 {
-    for (auto const& obj : targetsToResume)
-    {
-        resumeTarget(obj);
+    for(const auto &obj : targetsToResume) {
+        this->resumeTarget(obj);
     }
 }
 
-void Scheduler::performFunctionInCocosThread(std::function<void()> const& function)
+void Scheduler::performFunctionInCocosThread(std::function<void ()> function)
 {
     std::lock_guard<std::mutex> lock(_performMutex);
-    _functionsToPerform.emplace_back(function);
+    _functionsToPerform.push_back(std::move(function));
+}
+
+void Scheduler::removeAllFunctionsToBePerformedInCocosThread()
+{
+    std::unique_lock<std::mutex> lock(_performMutex);
+    _functionsToPerform.clear();
 }
 
 // main loop
-void Scheduler::update(float dt)
+void Scheduler::update(float dtf)
 {
-    if (std::abs(_timeScale - 1.f) >= std::numeric_limits<float>::epsilon())
+    std::chrono::milliseconds dt{static_cast<int>(dtf * 1000.0f)};
+    _updateHashLocked = true;
+
+    if (_timeScale != 1.0f)
     {
-        if (_timeScale < 1.f)
+        dt *= _timeScale;
+    }
+
+    //
+    // Selector callbacks
+    //
+
+    // Iterate over all the Updates' selectors
+    tListEntry *entry, *tmp;
+
+    // updates with priority < 0
+    DL_FOREACH_SAFE(_updatesNegList, entry, tmp)
+    {
+        if ((! entry->paused) && (! entry->markedForDeletion))
         {
-            dt = std::ceil(dt * _timeScale * 1000) * 0.001f;
-        }
-        else
-        {
-            dt *= _timeScale;
+            entry->callback(dt);
         }
     }
 
-    // update selectors
-    if (!_updates.empty())
+    // updates with priority == 0
+    DL_FOREACH_SAFE(_updates0List, entry, tmp)
     {
-        _updates_to_process.clear();
-        for (auto const& ele : _updates)
+        if ((! entry->paused) && (! entry->markedForDeletion))
         {
-            if (!ele.paused)
-            {
-                _updates_to_process.emplace_back(ele.target);
-            }
-        }
-        while (!_updates_to_process.empty())
-        {
-            auto target = _updates_to_process.front();
-            _updates_to_process.pop_front();
-
-            auto const& ele = _updates.get_element_from_target(target);
-            if (ele.target != nullptr && !ele.paused)
-            {
-                _updates_to_process_priority = ele.priority;
-                ele.callback(dt);
-            }
-        }
-        _updates_to_process_priority = std::numeric_limits<std::int32_t>::min();
-    }
-
-    // custom selectors
-    if (!_timers.empty())
-    {
-        _timers_to_process.clear();
-        for (auto const& ele : _timers)
-        {
-            if (!ele.paused)
-            {
-                _timers_to_process.emplace_back(ele.name, ele.target);
-            }
-        }
-        while (!_timers_to_process.empty())
-        {
-            auto const key = std::move(_timers_to_process.front());
-            _timers_to_process.pop_front();
-
-            auto const& ele = _timers.get_element_from_target(key);
-            if (ele.target != nullptr && !ele.paused)
-            {
-                auto timer = ele.timer;
-                timer->retain(); // Need to make sure that the timer won't be deleted during the execution of update()
-                timer->update(dt);
-                timer->release();
-            }
+            entry->callback(dt);
         }
     }
 
+    // updates with priority > 0
+    DL_FOREACH_SAFE(_updatesPosList, entry, tmp)
+    {
+        if ((! entry->paused) && (! entry->markedForDeletion))
+        {
+            entry->callback(dt);
+        }
+    }
+
+    // Iterate over all the custom selectors
+    for (tHashTimerEntry *elt = _hashForTimers; elt != nullptr; )
+    {
+        _currentTarget = elt;
+        _currentTargetSalvaged = false;
+
+        if (! _currentTarget->paused)
+        {
+            // The 'timers' array may change while inside this loop
+            for (elt->timerIndex = 0; elt->timerIndex < elt->timers->num; ++(elt->timerIndex))
+            {
+                elt->currentTimer = (Timer*)(elt->timers->arr[elt->timerIndex]);
+                CCASSERT
+                  ( !elt->currentTimer->isAborted(),
+                    "An aborted timer should not be updated" );
+
+                elt->currentTimer->update(dtf);
+
+                if (elt->currentTimer->isAborted())
+                {
+                    // The currentTimer told the remove itself. To prevent the timer from
+                    // accidentally deallocating itself before finishing its step, we retained
+                    // it. Now that step is done, it's safe to release it.
+                    elt->currentTimer->release();
+                }
+
+                elt->currentTimer = nullptr;
+            }
+        }
+
+        // elt, at this moment, is still valid
+        // so it is safe to ask this here (issue #490)
+        elt = (tHashTimerEntry *)elt->hh.next;
+
+        // only delete currentTarget if no actions were scheduled during the cycle (issue #481)
+        if (_currentTargetSalvaged && _currentTarget->timers->num == 0)
+        {
+            removeHashElement(_currentTarget);
+        }
+    }
+ 
+    // delete all updates that are removed in update
+    for (auto &e : _updateDeleteVector)
+        delete e;
+
+    _updateDeleteVector.clear();
+
+    _updateHashLocked = false;
+    _currentTarget = nullptr;
+
+#if CC_ENABLE_SCRIPT_BINDING
+    //
+    // Script callbacks
+    //
+
+    // Iterate over all the script callbacks
+    if (!_scriptHandlerEntries.empty())
+    {
+        for (auto i = _scriptHandlerEntries.size() - 1; i >= 0; i--)
+        {
+            SchedulerScriptHandlerEntry* eachEntry = _scriptHandlerEntries.at(i);
+            if (eachEntry->isMarkedForDeletion())
+            {
+                _scriptHandlerEntries.erase(i);
+            }
+            else if (!eachEntry->isPaused())
+            {
+                eachEntry->getTimer()->update(dt);
+            }
+        }
+    }
+#endif
     //
     // Functions allocated from another thread
     //
-    decltype(_functionsToPerform) cpy;
-    {
-        std::lock_guard<std::mutex> lock(_performMutex);
-        if (!_functionsToPerform.empty())
-        {
-            cpy = _functionsToPerform;
-            _functionsToPerform.clear();
+
+    // Testing size is faster than locking / unlocking.
+    // And almost never there will be functions scheduled to be called.
+    if( !_functionsToPerform.empty() ) {
+        _performMutex.lock();
+        // fixed #4123: Save the callback functions, they must be invoked after '_performMutex.unlock()', otherwise if new functions are added in callback, it will cause thread deadlock.
+        auto temp = std::move(_functionsToPerform);
+        _performMutex.unlock();
+        
+        for (const auto &function : temp) {
+            function();
         }
-    }
-    for (auto const& function : cpy)
-    {
-        function();
     }
 }
 
-void Scheduler::schedule(SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds interval, std::uint32_t repeat, std::chrono::milliseconds delay, bool paused)
+void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, std::chrono::milliseconds interval, unsigned int repeat, std::chrono::milliseconds delay, bool paused)
 {
-    CCASSERT(target != nullptr, "Argument target must be non-nullptr");
-
-    TimerData::Key const k("", target);
-    auto& element = _timers.get_element_from_target(k);
-    if (element.target == nullptr)
+    CCASSERT(target, "Argument target must be non-nullptr");
+    
+    tHashTimerEntry *element = nullptr;
+    HASH_FIND_PTR(_hashForTimers, &target, element);
+    
+    if (! element)
     {
-        TimerTargetSelector* timer = new (std::nothrow) TimerTargetSelector();
-        timer->initWithSelector(this, selector, target, interval, repeat, delay);
-        _timers.add_timer(k, timer, paused);
-        _timers_to_process.emplace_back("", target);
-        timer->release();
+        element = (tHashTimerEntry *)calloc(sizeof(*element), 1);
+        element->target = target;
+        
+        HASH_ADD_PTR(_hashForTimers, target, element);
+        
+        // Is this the 1st element ? Then set the pause level to all the selectors of this target
+        element->paused = paused;
     }
     else
     {
-        CCASSERT(element.paused == paused, "element's paused should be paused!");
-        if (element.timer->getType() == Timer::Type::SELECTOR)
+        CCASSERT(element->paused == paused, "element's paused should be paused.");
+    }
+    
+    if (element->timers == nullptr)
+    {
+        element->timers = ccArrayNew(10);
+    }
+    else
+    {
+        for (int i = 0; i < element->timers->num; ++i)
         {
-            CCLOG("CCScheduler#scheduleSelector. Selector already scheduled. Updating interval from: %.4f to %.4f", element.timer->getInterval(), interval);
-            element.timer->setInterval(interval);
+            TimerTargetSelector *timer = dynamic_cast<TimerTargetSelector*>(element->timers->arr[i]);
+            
+            if (timer && !timer->isExhausted() && selector == timer->getSelector())
+            {
+                CCLOG("CCScheduler#schedule. Reiniting timer with interval %.4f, repeat %u, delay %.4f", interval, repeat, delay);
+                timer->setupTimerWithInterval(interval, repeat, delay);
+                return;
+            }
+        }
+        ccArrayEnsureExtraCapacity(element->timers, 1);
+    }
+    
+    TimerTargetSelector *timer = new (std::nothrow) TimerTargetSelector();
+    timer->initWithSelector(this, selector, target, interval, repeat, delay);
+    ccArrayAppendObject(element->timers, timer);
+    timer->release();
+}
+
+void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, std::chrono::milliseconds interval, bool paused)
+{
+    this->schedule(selector, target, interval, CC_REPEAT_FOREVER, 0ms, paused);
+}
+
+bool Scheduler::isScheduled(SEL_SCHEDULE selector, const Ref *target) const
+{
+    CCASSERT(selector, "Argument selector must be non-nullptr");
+    CCASSERT(target, "Argument target must be non-nullptr");
+    
+    tHashTimerEntry *element = nullptr;
+    HASH_FIND_PTR(_hashForTimers, &target, element);
+    
+    if (!element)
+    {
+        return false;
+    }
+    
+    if (element->timers == nullptr)
+    {
+        return false;
+    }
+
+    for (int i = 0; i < element->timers->num; ++i)
+    {
+        TimerTargetSelector *timer = dynamic_cast<TimerTargetSelector*>(element->timers->arr[i]);
+        
+        if (timer && !timer->isExhausted() && selector == timer->getSelector())
+        {
+            return true;
         }
     }
-}
-
-void Scheduler::schedule(SEL_SCHEDULE selector, Ref* target, std::chrono::milliseconds interval, bool paused)
-{
-    this->schedule(selector, target, interval, CC_REPEAT_FOREVER, std::chrono::milliseconds::zero(), paused);
-}
-
-bool Scheduler::isScheduled(SEL_SCHEDULE selector, Ref* target) const noexcept
-{
-    CCASSERT(selector != nullptr, "Argument selector must be non-nullptr");
-    CCASSERT(target != nullptr, "Argument target must be non-nullptr");
-
-    auto const& element = _timers.get_element_from_target(TimerData::Key{"", target});
-    if (element.target != nullptr && element.timer->getType() == Timer::Type::SELECTOR &&
-        selector == static_cast<TimerTargetSelector*>(element.timer)->getSelector())
-    {
-        return true;
-    }
+    
     return false;
 }
 
-void Scheduler::unschedule(SEL_SCHEDULE selector, Ref* target)
+void Scheduler::unschedule(SEL_SCHEDULE selector, Ref *target)
 {
     // explicit handle nil arguments when removing an object
     if (target == nullptr || selector == nullptr)
     {
         return;
     }
-
-    _timers.remove_timer(selector, target);
+    
+    tHashTimerEntry *element = nullptr;
+    HASH_FIND_PTR(_hashForTimers, &target, element);
+    
+    if (element)
+    {
+        for (int i = 0; i < element->timers->num; ++i)
+        {
+            TimerTargetSelector *timer = dynamic_cast<TimerTargetSelector*>(element->timers->arr[i]);
+            
+            if (timer && selector == timer->getSelector())
+            {
+                if (timer == element->currentTimer && !timer->isAborted())
+                {
+                    timer->retain();
+                    timer->setAborted();
+                }
+                
+                ccArrayRemoveObjectAtIndex(element->timers, i, true);
+                
+                // update timerIndex in case we are in tick:, looping over the actions
+                if (element->timerIndex >= i)
+                {
+                    element->timerIndex--;
+                }
+                
+                if (element->timers->num == 0)
+                {
+                    if (_currentTarget == element)
+                    {
+                        _currentTargetSalvaged = true;
+                    }
+                    else
+                    {
+                        removeHashElement(element);
+                    }
+                }
+                
+                return;
+            }
+        }
+    }
 }
 
 NS_CC_END

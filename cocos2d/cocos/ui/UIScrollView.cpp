@@ -275,7 +275,7 @@ namespace ui
 
     const Vector<Node*>& ScrollView::getChildren() const { return _innerContainer->getChildren(); }
 
-    std::size_t ScrollView::getChildrenCount() const { return _innerContainer->getChildrenCount(); }
+    ssize_t ScrollView::getChildrenCount() const { return _innerContainer->getChildrenCount(); }
 
     Node* ScrollView::getChildByTag(int tag) const { return _innerContainer->getChildByTag(tag); }
 
@@ -808,7 +808,7 @@ namespace ui
         }
         _touchMoveDisplacements.push_back(delta);
 
-        long long timestamp = utils::getTimeInMilliseconds();
+        long long timestamp = ccutils::getTimeInMilliseconds();
         _touchMoveTimeDeltas.push_back((timestamp - _touchMovePreviousTimestamp) / 1000.0f);
         _touchMovePreviousTimestamp = timestamp;
     }
@@ -820,7 +820,7 @@ namespace ui
 
         // Clear gathered touch move information
         {
-            _touchMovePreviousTimestamp = utils::getTimeInMilliseconds();
+            _touchMovePreviousTimestamp = ccutils::getTimeInMilliseconds();
             _touchMoveDisplacements.clear();
             _touchMoveTimeDeltas.clear();
         }

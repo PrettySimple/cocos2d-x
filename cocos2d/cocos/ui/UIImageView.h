@@ -42,7 +42,7 @@ NS_CC_BEGIN
 
 class GLProgram;
 class GLProgramState;
-struct Node;
+class Node;
 class SpriteFrame;
 struct ResourceData;
 
@@ -135,8 +135,7 @@ namespace ui
 
         ResourceData getRenderFile();
 
-        void setGLProgram(GLProgram* glProgram) override;
-        void setGLProgramState(cocos2d::GLProgramState* glProgramState) override;
+        void setProgramState(cocos2d::backend::ProgramState* programState) override;
         CC_CONSTRUCTOR_ACCESS :
             // initializes state of widget.
             bool

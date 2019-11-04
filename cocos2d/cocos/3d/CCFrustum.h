@@ -1,18 +1,19 @@
 /****************************************************************************
- Copyright (c) 2014 Chukong Technologies Inc.
-
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,17 +23,17 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_3D_FRUSTUM_H
-#define CC_3D_FRUSTUM_H
+#ifndef __CC_FRUSTUM_H_
+#define __CC_FRUSTUM_H_
 
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/CCMath.h>
+#include <cocos/3d/CCAABB.h>
 #include <cocos/3d/CCOBB.h>
 #include <cocos/3d/CCPlane.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
-class AABB;
 class Camera;
 
 /**
@@ -44,17 +45,12 @@ class Camera;
 class CC_DLL Frustum
 {
     friend class Camera;
-
 public:
     /**
      * Constructor & Destructor.
      */
-    Frustum()
-    : _clipZ(true)
-    , _initialized(false)
-    {
-    }
-    ~Frustum() {}
+    Frustum(): _clipZ(true), _initialized(false) {}
+    ~Frustum(){}
 
     /**
      * init frustum from camera.
@@ -75,18 +71,18 @@ public:
      */
     void setClipZ(bool clipZ) { _clipZ = clipZ; }
     bool isClipZ() { return _clipZ; }
-
+    
 protected:
     /**
      * create clip plane
      */
     void createPlane(const Camera* camera);
 
-    Plane _plane[6]; // clip plane, left, right, top, bottom, near, far
-    bool _clipZ; // use near and far clip plane
+    Plane _plane[6];             // clip plane, left, right, top, bottom, near, far
+    bool _clipZ;                // use near and far clip plane
     bool _initialized;
 };
 
 NS_CC_END
 
-#endif // CC_3D_FRUSTUM_H
+#endif//__CC_FRUSTUM_H_

@@ -1,0 +1,490 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		791B9AB23B4F4B0D91AAADE9 /* ALL_BUILD */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 87BE7C60DE1048A0A1345A64 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */;
+			buildPhases = (
+				945D00753D6E4C09871118F4 /* CMake Rules */,
+			);
+			dependencies = (
+				1CE34F045554426AB574FE9C /* PBXTargetDependency */,
+				BCAA742067F04251883422BA /* PBXTargetDependency */,
+			);
+			name = ALL_BUILD;
+			productName = ALL_BUILD;
+		};
+		B62F9597968846F8A4D64524 /* ZERO_CHECK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 8AFA8F0E61B141ECB52A10F2 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */;
+			buildPhases = (
+				F36EF33E716C466D9C8E5266 /* CMake Rules */,
+			);
+			dependencies = (
+			);
+			name = ZERO_CHECK;
+			productName = ZERO_CHECK;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		21A6EAFE3B394D09BC3DD9F5 /* /Users/christophegenova/MyCompany/MyGame/cocos2d/external/md5/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 9AB8566EBA4A4101B9C7D33A /* /Users/christophegenova/MyCompany/MyGame/cocos2d/external/md5/CMakeLists.txt */; };
+		79DF8BE3C2F340B6B56E9037 /* /Users/christophegenova/MyCompany/MyGame/cocos2d/external/md5/md5.c */ = {isa = PBXBuildFile; fileRef = 3A4F97D004D641DEA09B742A /* /Users/christophegenova/MyCompany/MyGame/cocos2d/external/md5/md5.c */; };
+		DCC8E4CB45AA49EA966A608B /* /Users/christophegenova/MyCompany/MyGame/ios-build/engine/external/md5/CMakeFiles/ext_md5.dir/Info.plist */ = {isa = PBXBuildFile; fileRef = 04F0F2AD2FE34997816D5226 /* /Users/christophegenova/MyCompany/MyGame/ios-build/engine/external/md5/CMakeFiles/ext_md5.dir/Info.plist */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		127A139C9DF347E99E5E215E /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+		654D8F528D2B4F4DBF05A0B8 /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Release;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		6F9441613AED4355A64F3D4D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 60B610D63E8D45AF87584B04 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B62F9597968846F8A4D64524;
+			remoteInfo = ZERO_CHECK;
+		};
+		719AEF6CD77B4BECB5C46F29 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 60B610D63E8D45AF87584B04 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B62F9597968846F8A4D64524;
+			remoteInfo = ZERO_CHECK;
+		};
+		91A894B9F36C4079BDC76044 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 60B610D63E8D45AF87584B04 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9594C33DAEA844469B833DEF;
+			remoteInfo = ext_md5;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		04F0F2AD2FE34997816D5226 /* /Users/christophegenova/MyCompany/MyGame/ios-build/engine/external/md5/CMakeFiles/ext_md5.dir/Info.plist */ = {isa = PBXFileReference; explicitFileType = sourcecode.text.plist; fileEncoding = 4; name = Info.plist; path = "../../../ios-build/engine/external/md5/CMakeFiles/ext_md5.dir/Info.plist"; sourceTree = SOURCE_ROOT; };
+		3A4F97D004D641DEA09B742A /* /Users/christophegenova/MyCompany/MyGame/cocos2d/external/md5/md5.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = md5.c; path = md5.c; sourceTree = SOURCE_ROOT; };
+		7537740DA33C4B10A446F787 /* ext_md5 */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libext_md5.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9AB8566EBA4A4101B9C7D33A /* /Users/christophegenova/MyCompany/MyGame/cocos2d/external/md5/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		F4B7F1DD6C3E4A69A6BD8025 /* /Users/christophegenova/MyCompany/MyGame/cocos2d/external/md5/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0742F248A9D843BA97EAD6FF = {
+			isa = PBXGroup;
+			children = (
+				3E6B4394A8C04559B7F0218A /* External */,
+				B8AA896FF9AD43128C8D6871 /* ALL_BUILD */,
+				9D51ECBF4120466A84C2C00E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		131BDACED3E54FBA80BE4A40 /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		3E6B4394A8C04559B7F0218A /* External */ = {
+			isa = PBXGroup;
+			children = (
+				CDC2485A1A6149F0AC3B8AAF /* ext_md5 */,
+			);
+			name = External;
+			sourceTree = "<group>";
+		};
+		760B1053D64D4CAC98093B30 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				04F0F2AD2FE34997816D5226 /* /Users/christophegenova/MyCompany/MyGame/ios-build/engine/external/md5/CMakeFiles/ext_md5.dir/Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		9D51ECBF4120466A84C2C00E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7537740DA33C4B10A446F787 /* ext_md5 */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B8AA896FF9AD43128C8D6871 /* ALL_BUILD */ = {
+			isa = PBXGroup;
+			children = (
+				131BDACED3E54FBA80BE4A40 /* CMake Rules */,
+				F4B7F1DD6C3E4A69A6BD8025 /* /Users/christophegenova/MyCompany/MyGame/cocos2d/external/md5/CMakeLists.txt */,
+			);
+			name = ALL_BUILD;
+			sourceTree = "<group>";
+		};
+		BF38DB0419FB4FAA9637E58A /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				3A4F97D004D641DEA09B742A /* /Users/christophegenova/MyCompany/MyGame/cocos2d/external/md5/md5.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		CDC2485A1A6149F0AC3B8AAF /* ext_md5 */ = {
+			isa = PBXGroup;
+			children = (
+				BF38DB0419FB4FAA9637E58A /* Source Files */,
+				760B1053D64D4CAC98093B30 /* Resources */,
+				9AB8566EBA4A4101B9C7D33A /* /Users/christophegenova/MyCompany/MyGame/cocos2d/external/md5/CMakeLists.txt */,
+			);
+			name = ext_md5;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9594C33DAEA844469B833DEF /* ext_md5 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6CFE6E33ADF64C6CB5D0EBC3 /* Build configuration list for PBXNativeTarget "ext_md5" */;
+			buildPhases = (
+				3650A04FB34B4D8BBA792A7C /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0884D006DB98410AB129F602 /* PBXTargetDependency */,
+			);
+			name = ext_md5;
+			productName = ext_md5;
+			productReference = 7537740DA33C4B10A446F787 /* ext_md5 */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		60B610D63E8D45AF87584B04 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1110;
+			};
+			buildConfigurationList = 0A0025693A234D9E862586C9 /* Build configuration list for PBXProject "md5" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				127A139C9DF347E99E5E215E /* Debug */,
+				654D8F528D2B4F4DBF05A0B8 /* Release */,
+			);
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 0;
+			mainGroup = 0742F248A9D843BA97EAD6FF;
+			projectDirPath = ../../../../cocos2d/external/md5;
+			projectRoot = "";
+			targets = (
+				791B9AB23B4F4B0D91AAADE9 /* ALL_BUILD */,
+				B62F9597968846F8A4D64524 /* ZERO_CHECK */,
+				9594C33DAEA844469B833DEF /* ext_md5 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		21FE40E4C43B4272BBD5A6EA = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		6EB98682185B408A886CB871 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		945D00753D6E4C09871118F4 /* CMake Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake Rules";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/christophegenova/MyCompany/MyGame/ios-build/engine/external/md5 -f /Users/christophegenova/MyCompany/MyGame/ios-build/engine/external/md5/CMakeScripts/ALL_BUILD_cmakeRulesBuildPhase.make$CONFIGURATION OBJDIR=$(basename \"$OBJECT_FILE_DIR_normal\") all";
+			showEnvVarsInLog = 0;
+		};
+		F36EF33E716C466D9C8E5266 /* CMake Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake Rules";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/christophegenova/MyCompany/MyGame/ios-build/engine/external/md5 -f /Users/christophegenova/MyCompany/MyGame/ios-build/engine/external/md5/CMakeScripts/ZERO_CHECK_cmakeRulesBuildPhase.make$CONFIGURATION OBJDIR=$(basename \"$OBJECT_FILE_DIR_normal\") all";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3650A04FB34B4D8BBA792A7C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				79DF8BE3C2F340B6B56E9037 /* /Users/christophegenova/MyCompany/MyGame/cocos2d/external/md5/md5.c */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0884D006DB98410AB129F602 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B62F9597968846F8A4D64524 /* ZERO_CHECK */;
+			targetProxy = 6F9441613AED4355A64F3D4D /* PBXContainerItemProxy */;
+		};
+		1CE34F045554426AB574FE9C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B62F9597968846F8A4D64524 /* ZERO_CHECK */;
+			targetProxy = 719AEF6CD77B4BECB5C46F29 /* PBXContainerItemProxy */;
+		};
+		BCAA742067F04251883422BA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9594C33DAEA844469B833DEF /* ext_md5 */;
+			targetProxy = 91A894B9F36C4079BDC76044 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0F66D4EC2AE345F48220253A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/christophegenova/MyCompany/MyGame/ios-build/lib/Release";
+				ENABLE_BITCODE = NO;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/christophegenova/MyCompany/MyGame/cocos2d/external/md5/..);
+				INSTALL_PATH = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "    -DNDEBUG '-std=gnu99'  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ext_md5;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/christophegenova/MyCompany/MyGame/ios-build/engine/external/md5";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		575BBD55A193419ABA504B85 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/christophegenova/MyCompany/MyGame/ios-build/lib/Debug";
+				ENABLE_BITCODE = NO;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/christophegenova/MyCompany/MyGame/cocos2d/external/md5/..);
+				INSTALL_PATH = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "   '-std=gnu99'  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ext_md5;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/christophegenova/MyCompany/MyGame/ios-build/engine/external/md5";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		62CB0976DDAA426BAD39491C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/christophegenova/MyCompany/MyGame/ios-build/engine/external/md5";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		64846C4162D54FABA62556EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/christophegenova/MyCompany/MyGame/ios-build/engine/external/md5";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		9026532A053B46CF94F60B65 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/christophegenova/MyCompany/MyGame/ios-build/engine/external/md5";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		90374CB01AC7478888361C70 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SYMROOT = "/Users/christophegenova/MyCompany/MyGame/ios-build/engine/external/md5/build";
+			};
+			name = Release;
+		};
+		A924A323335B42608CF97FBD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/christophegenova/MyCompany/MyGame/ios-build/engine/external/md5";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		B54F08913AEF40C08295BF4A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SYMROOT = "/Users/christophegenova/MyCompany/MyGame/ios-build/engine/external/md5/build";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0A0025693A234D9E862586C9 /* Build configuration list for PBXProject "md5" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B54F08913AEF40C08295BF4A /* Debug */,
+				90374CB01AC7478888361C70 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		6CFE6E33ADF64C6CB5D0EBC3 /* Build configuration list for PBXNativeTarget "ext_md5" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				575BBD55A193419ABA504B85 /* Debug */,
+				0F66D4EC2AE345F48220253A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		87BE7C60DE1048A0A1345A64 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A924A323335B42608CF97FBD /* Debug */,
+				62CB0976DDAA426BAD39491C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8AFA8F0E61B141ECB52A10F2 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9026532A053B46CF94F60B65 /* Debug */,
+				64846C4162D54FABA62556EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 60B610D63E8D45AF87584B04 /* Project object */;
+}

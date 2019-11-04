@@ -239,7 +239,7 @@ Use standard order for readability and to avoid hidden dependencies: C library, 
 All of a project's header files should be listed as descendants of the project's source directory without use of UNIX directory shortcuts . (the current directory) or .. (the parent directory). For example, google-awesome-project/src/base/logging.h should be included as
 
 ```cpp
-#include "base/logging.h"
+#include <cocos/base/logging.h>
 ```
 
 In `dir/foo.cpp` or `dir/foo_test.cpp`, whose main purpose is to implement or test the stuff in `dir2/foo2.h`, order your includes as follows:
@@ -266,8 +266,8 @@ For example, the includes in `cocos2dx/sprite_nodes/CCSprite.cpp` might look lik
 #include <hash_map>
 #include <vector>
 
-#include "base/basictypes.h"
-#include "base/commandlineflags.h"
+#include <cocos/base/basictypes.h>
+#include <cocos/base/commandlineflags.h>
 #include "foo/public/bar.h"
 ```
 
@@ -276,7 +276,7 @@ Exception: sometimes, system-specific code needs conditional includes. Such code
 ```cpp
 #include "foo/public/fooserver.h"
 
-#include "base/port.h" 
+#include <cocos/base/port.h> 
 
 // For LANG_CXX11.
 #ifdef LANG_CXX11

@@ -1,19 +1,20 @@
 /****************************************************************************
  Copyright (c) 2014 cocos2d-x.org
- Copyright (c) 2014 Chukong Technologies Inc.
-
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,17 +24,20 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include <cocos/base/CCEventFocus.h>
 #include <cocos/base/CCEventListenerFocus.h>
+#include <cocos/base/CCEventFocus.h>
 #include <cocos/base/ccMacros.h>
 
 NS_CC_BEGIN
 
-const EventListenerFocus::ListenerID EventListenerFocus::LISTENER_ID = "__cc_focus_event";
+
+const std::string EventListenerFocus::LISTENER_ID = "__cc_focus_event";
+
 
 EventListenerFocus::EventListenerFocus()
-: onFocusChanged(nullptr)
+:onFocusChanged(nullptr)
 {
+    
 }
 
 EventListenerFocus::~EventListenerFocus()
@@ -44,8 +48,7 @@ EventListenerFocus::~EventListenerFocus()
 EventListenerFocus* EventListenerFocus::create()
 {
     EventListenerFocus* ret = new (std::nothrow) EventListenerFocus;
-    if (ret && ret->init())
-    {
+    if (ret && ret->init()) {
         ret->autorelease();
         return ret;
     }
@@ -56,10 +59,9 @@ EventListenerFocus* EventListenerFocus::create()
 EventListenerFocus* EventListenerFocus::clone()
 {
     EventListenerFocus* ret = new (std::nothrow) EventListenerFocus;
-    if (ret && ret->init())
-    {
+    if (ret && ret->init()) {
         ret->autorelease();
-
+        
         ret->onFocusChanged = onFocusChanged;
     }
     else
@@ -71,12 +73,11 @@ EventListenerFocus* EventListenerFocus::clone()
 
 bool EventListenerFocus::init()
 {
-    auto listener = [this](Event* event) {
+    auto listener = [this](Event* event){
         auto focusEvent = static_cast<EventFocus*>(event);
         onFocusChanged(focusEvent->_widgetLoseFocus, focusEvent->_widgetGetFocus);
     };
-    if (EventListener::init(Type::FOCUS, LISTENER_ID, listener))
-    {
+    if (EventListener::init(Type::FOCUS, LISTENER_ID, listener)) {
         return true;
     }
     return false;
@@ -89,8 +90,10 @@ bool EventListenerFocus::checkAvailable()
         CCASSERT(false, "Invalid EventListenerFocus!");
         return false;
     }
-
+    
     return true;
 }
+
+
 
 NS_CC_END

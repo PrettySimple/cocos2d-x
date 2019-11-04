@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
-Copyright (c) 2013-2014 Chukong Technologies
+Copyright (c) 2013-2017 Chukong Technologies
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,15 +24,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 #include <cocos/base/CCNS.h>
-
-#include <cocos/base/ccUtils.h>
-#include <cocos/math/CCGeometry.h>
-#include <cocos/math/Vec2.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <cstdlib>
 #include <string>
 #include <vector>
+#include <string.h>
+#include <stdlib.h>
+
+#include <cocos/base/ccUtils.h>
 
 using namespace std;
 
@@ -45,18 +43,14 @@ static inline void split(const std::string& src, const std::string& token, strAr
     size_t nend = 0;
     size_t nbegin = 0;
     size_t tokenSize = token.size();
-    while (nend != std::string::npos)
+    while(nend != std::string::npos)
     {
         nend = src.find(token, nbegin);
-        if (nend == std::string::npos)
-        {
-            vect.emplace_back(src.substr(nbegin, src.size() - nbegin));
-        }
+        if(nend == std::string::npos)
+            vect.push_back(src.substr(nbegin, src.length()-nbegin));
         else
-        {
-            vect.emplace_back(src.substr(nbegin, nend - nbegin));
-            nbegin = nend + tokenSize;
-        }
+            vect.push_back(src.substr(nbegin, nend-nbegin));
+        nbegin = nend + tokenSize;
     }
 }
 
@@ -68,11 +62,11 @@ static bool splitWithForm(const std::string& content, strArray& strs)
 {
     bool bRet = false;
 
-    do
+    do 
     {
         CC_BREAK_IF(content.empty());
 
-        size_t nPosLeft = content.find('{');
+        size_t nPosLeft  = content.find('{');
         size_t nPosRight = content.find('}');
 
         // don't have '{' and '}'
@@ -86,7 +80,7 @@ static bool splitWithForm(const std::string& content, strArray& strs)
 
         size_t nPos1 = pointStr.find('{');
         size_t nPos2 = pointStr.find('}');
-        // contain '{' or '}'
+        // contain '{' or '}' 
         CC_BREAK_IF(nPos1 != std::string::npos || nPos2 != std::string::npos);
 
         split(pointStr, ",", strs);
@@ -108,13 +102,13 @@ Rect RectFromString(const std::string& str)
 {
     Rect result = Rect::ZERO;
 
-    do
+    do 
     {
         CC_BREAK_IF(str.empty());
         std::string content = str;
 
         // find the first '{' and the third '}'
-        size_t nPosLeft = content.find('{');
+        size_t nPosLeft  = content.find('{');
         size_t nPosRight = content.find('}');
         for (int i = 1; i < 3; ++i)
         {
@@ -134,7 +128,7 @@ Rect RectFromString(const std::string& str)
 
         // get the point string and size string
         const std::string pointStr = content.substr(0, nPointEnd);
-        const std::string sizeStr = content.substr(nPointEnd + 1, content.length() - nPointEnd);
+        const std::string sizeStr  = content.substr(nPointEnd + 1, content.length() - nPointEnd);
 
         // split the string with ','
         strArray pointInfo;
@@ -142,10 +136,10 @@ Rect RectFromString(const std::string& str)
         strArray sizeInfo;
         CC_BREAK_IF(!splitWithForm(sizeStr, sizeInfo));
 
-        float x = static_cast<float>(utils::atof(pointInfo[0].c_str()));
-        float y = static_cast<float>(utils::atof(pointInfo[1].c_str()));
-        float width = static_cast<float>(utils::atof(sizeInfo[0].c_str()));
-        float height = static_cast<float>(utils::atof(sizeInfo[1].c_str()));
+        float x = (float) ccutils::atof(pointInfo[0].c_str());
+        float y = (float) ccutils::atof(pointInfo[1].c_str());
+        float width  = (float) ccutils::atof(sizeInfo[0].c_str());
+        float height = (float) ccutils::atof(sizeInfo[1].c_str());
 
         result = Rect(x, y, width, height);
     } while (0);
@@ -157,13 +151,13 @@ Vec2 PointFromString(const std::string& str)
 {
     Vec2 ret;
 
-    do
+    do 
     {
         strArray strs;
         CC_BREAK_IF(!splitWithForm(str, strs));
 
-        float x = static_cast<float>(utils::atof(strs[0].c_str()));
-        float y = static_cast<float>(utils::atof(strs[1].c_str()));
+        float x = (float) ccutils::atof(strs[0].c_str());
+        float y = (float) ccutils::atof(strs[1].c_str());
 
         ret.set(x, y);
     } while (0);
@@ -175,13 +169,13 @@ Size SizeFromString(const std::string& pszContent)
 {
     Size ret = Size::ZERO;
 
-    do
+    do 
     {
         strArray strs;
         CC_BREAK_IF(!splitWithForm(pszContent, strs));
 
-        float width = static_cast<float>(utils::atof(strs[0].c_str()));
-        float height = static_cast<float>(utils::atof(strs[1].c_str()));
+        float width  = (float) ccutils::atof(strs[0].c_str());
+        float height = (float) ccutils::atof(strs[1].c_str());
 
         ret = Size(width, height);
     } while (0);

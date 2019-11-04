@@ -1,5 +1,6 @@
 /****************************************************************************
  Copyright (c) 2013-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -21,20 +22,14 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-
 #include <cocos/renderer/CCRenderCommand.h>
-
 #include <cocos/2d/CCCamera.h>
 #include <cocos/2d/CCNode.h>
-#include <cocos/math/Mat4.h>
-#include <cocos/platform/CCPlatformMacros.h>
 
-#include <cstdio>
 
 NS_CC_BEGIN
 
-RenderCommand::RenderCommand(Type type)
-: _type(type)
+RenderCommand::RenderCommand()
 {
 }
 
@@ -42,22 +37,20 @@ RenderCommand::~RenderCommand()
 {
 }
 
-void RenderCommand::init(float globalZOrder, const cocos2d::Mat4& transform, uint32_t flags)
+void RenderCommand::init(float globalZOrder, const cocos2d::Mat4 &transform, unsigned int flags)
 {
     _globalOrder = globalZOrder;
-    if ((flags & Node::FLAGS_RENDER_AS_3D) == Node::FLAGS_RENDER_AS_3D)
+    if (flags & Node::FLAGS_RENDER_AS_3D)
     {
         if (Camera::getVisitingCamera())
-        {
             _depth = Camera::getVisitingCamera()->getDepthInView(transform);
-        }
-
-        _is3D = true;
+        
+        set3D(true);
     }
     else
     {
-        _is3D = false;
-        _depth = 0.f;
+        set3D(false);
+        _depth = 0;
     }
 }
 

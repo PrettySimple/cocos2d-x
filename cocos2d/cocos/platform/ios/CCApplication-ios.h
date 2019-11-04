@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,14 +24,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_PLATFORM_IOS_APPLICATIONIOS_H
-#define CC_PLATFORM_IOS_APPLICATIONIOS_H
+#ifndef __CC_APPLICATION_IOS_H__
+#define __CC_APPLICATION_IOS_H__
 
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    include <cocos/platform/CCApplicationProtocol.h>
-#    include <cocos/platform/CCCommon.h>
+#include <cocos/platform/CCCommon.h>
+#include <cocos/platform/CCApplicationProtocol.h>
 
 NS_CC_BEGIN
 
@@ -47,22 +48,19 @@ public:
      * @js NA
      * @lua NA
      */
-    ~Application() override;
-
+    virtual ~Application();
+        
     /**
     @brief    Run the message loop.
     */
     int run();
-
+        
     /**
     @brief    Get the current application instance.
     @return Current application instance pointer.
     */
     static Application* getInstance();
-
-    /** @deprecated Use getInstance() instead */
-    CC_DEPRECATED_ATTRIBUTE static Application* sharedApplication();
-
+    
     /**
      @brief    Callback by Director for limit FPS.
      @param interval    The time, expressed in seconds, between current frame and next.
@@ -74,29 +72,29 @@ public:
     @return Current language config
     */
     virtual LanguageType getCurrentLanguage() override;
-
+    
     /**
      @brief Get current language iso 639-1 code
      @return Current language iso 639-1 code
      */
-    virtual const char* getCurrentLanguageCode() override;
-
+    virtual const char * getCurrentLanguageCode() override;
+    
     /**
      @brief Get target platform
      */
     virtual Platform getTargetPlatform() override;
-
+    
     /**
      @brief Get application version.
      */
     virtual std::string getVersion() override;
-
+    
     /**
      @brief Open url in default browser
      @param String with url to open.
      @return true if the resource located by the URL was successfully opened; otherwise false.
      */
-    virtual bool openURL(const std::string& url) override;
+    virtual bool openURL(const std::string &url) override;
 
     /**
     @brief  This function will be called when the application screen size is changed.
@@ -105,17 +103,12 @@ public:
     */
     virtual void applicationScreenSizeChanged(int newWidth, int newHeight);
 
-    /**
-     @brief  This function will be called when the application receives a memory warning.
-     */
-    virtual void applicationReceivedMemoryWarning();
-
 protected:
-    static Application* sm_pSharedApplication;
+    static Application * sm_pSharedApplication;
 };
 
 NS_CC_END
 
 #endif // CC_PLATFORM_IOS
 
-#endif // end of CC_PLATFORM_IOS_APPLICATIONIOS_H
+#endif    // end of __CC_APPLICATION_IOS_H__

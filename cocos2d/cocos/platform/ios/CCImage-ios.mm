@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -26,25 +27,25 @@ THE SOFTWARE.
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    include <cocos/platform/CCCommon.h>
-#    include <cocos/platform/CCImage.h>
-#    include <cocos/platform/CCPlatformMacros.h>
+#import <cocos/platform/CCImage.h>
+#import <cocos/platform/CCCommon.h>
+#import <string>
 
-#    import <CoreGraphics/CGColorSpace.h>
-#    import <CoreGraphics/CGDataProvider.h>
-#    import <CoreGraphics/CGImage.h>
-#    import <Foundation/NSString.h>
-#    import <UIKit/UIImage.h>
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-#    include <algorithm>
-#    include <cctype>
-#    include <cmath>
-#    include <string>
+#include <math.h>
 
 NS_CC_BEGIN
 
 bool cocos2d::Image::saveToFile(const std::string& filename, bool isToRGB)
 {
+    //only support for backend::PixelFormat::RGB888 or backend::PixelFormat::RGBA8888 uncompressed data
+    if (isCompressed() || (_pixelFormat != backend::PixelFormat::RGB888 && _pixelFormat != backend::PixelFormat::RGBA8888))
+    {
+        CCLOG("cocos2d: Image: saveToFile is only support for backend::PixelFormat::RGB888 or backend::PixelFormat::RGBA8888 uncompressed data for now");
+        return false;
+    }
     bool saveToPNG = false;
     bool needToCopyPixels = false;
 
@@ -54,25 +55,25 @@ bool cocos2d::Image::saveToFile(const std::string& filename, bool isToRGB)
     {
         saveToPNG = true;
     }
-
-    int bitsPerComponent = 8;
+        
+    int bitsPerComponent = 8;            
     int bitsPerPixel = hasAlpha() ? 32 : 24;
-    if ((!saveToPNG) || isToRGB)
+    if ((! saveToPNG) || isToRGB)
     {
         bitsPerPixel = 24;
-    }
-
-    int bytesPerRow = (bitsPerPixel / 8) * _width;
+    }            
+    
+    int bytesPerRow    = (bitsPerPixel/8) * _width;
     int myDataLength = bytesPerRow * _height;
-
-    unsigned char* pixels = _data;
-
+    
+    unsigned char *pixels    = _data;
+    
     // The data has alpha channel, and want to save it with an RGB png file,
     // or want to save as jpg,  remove the alpha channel.
     if (hasAlpha() && bitsPerPixel == 24)
     {
         pixels = new (std::nothrow) unsigned char[myDataLength];
-
+        
         for (int i = 0; i < _height; ++i)
         {
             for (int j = 0; j < _width; ++j)
@@ -82,53 +83,59 @@ bool cocos2d::Image::saveToFile(const std::string& filename, bool isToRGB)
                 pixels[(i * _width + j) * 3 + 2] = _data[(i * _width + j) * 4 + 2];
             }
         }
-
+        
         needToCopyPixels = true;
     }
-
+        
     // make data provider with data.
     CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault;
-    if (saveToPNG && hasAlpha() && (!isToRGB))
+    if (saveToPNG && hasAlpha() && (! isToRGB))
     {
-        bitmapInfo |= kCGImageAlphaPremultipliedLast;
+        if (_hasPremultipliedAlpha)
+        {
+            bitmapInfo |= kCGImageAlphaPremultipliedLast;
+        }
+        else
+        {
+            bitmapInfo |= kCGImageAlphaLast;
+        }        
     }
-    CGDataProviderRef provider = CGDataProviderCreateWithData(nullptr, pixels, myDataLength, nullptr);
-    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
-    CGImageRef iref = CGImageCreate(_width, _height, bitsPerComponent, bitsPerPixel, bytesPerRow, colorSpaceRef, bitmapInfo, provider, nullptr, false,
-                                    kCGRenderingIntentDefault);
-
-    UIImage* image = [[UIImage alloc] initWithCGImage:iref];
-
-    CGImageRelease(iref);
+    CGDataProviderRef provider        = CGDataProviderCreateWithData(nullptr, pixels, myDataLength, nullptr);
+    CGColorSpaceRef colorSpaceRef    = CGColorSpaceCreateDeviceRGB();
+    CGImageRef iref                    = CGImageCreate(_width, _height,
+                                                        bitsPerComponent, bitsPerPixel, bytesPerRow,
+                                                        colorSpaceRef, bitmapInfo, provider,
+                                                        nullptr, false,
+                                                        kCGRenderingIntentDefault);
+        
+    UIImage* image                    = [[UIImage alloc] initWithCGImage:iref];
+        
+    CGImageRelease(iref);    
     CGColorSpaceRelease(colorSpaceRef);
     CGDataProviderRelease(provider);
 
     // NOTE: Prevent memory leak. Requires ARC enabled.
-    BOOL success = FALSE;
-    @autoreleasepool
-    {
-        NSData* data;
-        if (saveToPNG)
-        {
+    @autoreleasepool {
+        NSData *data;
+        if (saveToPNG) {
             data = UIImagePNGRepresentation(image);
-        }
-        else
-        {
+        } else {
             data = UIImageJPEGRepresentation(image, 1.0f);
         }
-        success = [data writeToFile:[NSString stringWithUTF8String:filename.c_str()] atomically:YES];
+        [data writeToFile:[NSString stringWithUTF8String:filename.c_str()] atomically:YES];
     }
 
     [image release];
 
     if (needToCopyPixels)
     {
-        delete[] pixels;
+        delete [] pixels;
     }
-
-    return success;
+    
+    return true;
 }
 
 NS_CC_END
 
 #endif // CC_PLATFORM_IOS
+

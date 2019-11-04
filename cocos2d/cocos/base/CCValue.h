@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2013-2014 Chukong Technologies
+ Copyright (c) 2013-2017 Chukong Technologies
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -22,17 +23,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_BASE_VALUE_H
-#define CC_BASE_VALUE_H
+#ifndef __cocos2d_libs__CCValue__
+#define __cocos2d_libs__CCValue__
 
 #include <cocos/platform/CCPlatformMacros.h>
-
-#include <cocos/platform/CCPlatformDefine.h>
-
-#include <iosfwd>
+#include <cocos/base/ccMacros.h>
 #include <string>
-#include <unordered_map>
 #include <vector>
+#include <unordered_map>
 
 /**
  * @addtogroup base
@@ -43,9 +41,9 @@ NS_CC_BEGIN
 
 class Value;
 
-using ValueVector = std::vector<Value>;
-using ValueMap = std::unordered_map<std::string, Value>;
-using ValueMapIntKey = std::unordered_map<int, Value>;
+typedef std::vector<Value> ValueVector;
+typedef std::unordered_map<std::string, Value> ValueMap;
+typedef std::unordered_map<int, Value> ValueMapIntKey;
 
 CC_DLL extern const ValueVector ValueVectorNull;
 CC_DLL extern const ValueMap ValueMapNull;
@@ -62,10 +60,10 @@ public:
 
     /** Default constructor. */
     Value();
-
+    
     /** Create a Value by an unsigned char value. */
     explicit Value(unsigned char v);
-
+    
     /** Create a Value by an integer value. */
     explicit Value(int v);
 
@@ -74,29 +72,29 @@ public:
 
     /** Create a Value by a float value. */
     explicit Value(float v);
-
+    
     /** Create a Value by a double value. */
     explicit Value(double v);
-
+    
     /** Create a Value by a bool value. */
     explicit Value(bool v);
-
+    
     /** Create a Value by a char pointer. It will copy the chars internally. */
     explicit Value(const char* v);
-
+    
     /** Create a Value by a string. */
     explicit Value(const std::string& v);
-
+    
     /** Create a Value by a ValueVector object. */
     explicit Value(const ValueVector& v);
     /** Create a Value by a ValueVector object. It will use std::move internally. */
     explicit Value(ValueVector&& v);
-
+    
     /** Create a Value by a ValueMap object. */
     explicit Value(const ValueMap& v);
     /** Create a Value by a ValueMap object. It will use std::move internally. */
     explicit Value(ValueMap&& v);
-
+    
     /** Create a Value by a ValueMapIntKey object. */
     explicit Value(const ValueMapIntKey& v);
     /** Create a Value by a ValueMapIntKey object. It will use std::move internally. */
@@ -106,55 +104,55 @@ public:
     Value(const Value& other);
     /** Create a Value by a Value object. It will use std::move internally. */
     Value(Value&& other);
-
+    
     /** Destructor. */
     ~Value();
 
     /** Assignment operator, assign from Value to Value. */
-    Value& operator=(const Value& other);
+    Value& operator= (const Value& other);
     /** Assignment operator, assign from Value to Value. It will use std::move internally. */
-    Value& operator=(Value&& other);
+    Value& operator= (Value&& other);
 
     /** Assignment operator, assign from unsigned char to Value. */
-    Value& operator=(unsigned char v);
+    Value& operator= (unsigned char v);
     /** Assignment operator, assign from integer to Value. */
-    Value& operator=(int v);
+    Value& operator= (int v);
     /** Assignment operator, assign from integer to Value. */
-    Value& operator=(unsigned int v);
+    Value& operator= (unsigned int v);
     /** Assignment operator, assign from float to Value. */
-    Value& operator=(float v);
+    Value& operator= (float v);
     /** Assignment operator, assign from double to Value. */
-    Value& operator=(double v);
+    Value& operator= (double v);
     /** Assignment operator, assign from bool to Value. */
-    Value& operator=(bool v);
+    Value& operator= (bool v);
     /** Assignment operator, assign from char* to Value. */
-    Value& operator=(const char* v);
+    Value& operator= (const char* v);
     /** Assignment operator, assign from string to Value. */
-    Value& operator=(const std::string& v);
+    Value& operator= (const std::string& v);
 
     /** Assignment operator, assign from ValueVector to Value. */
-    Value& operator=(const ValueVector& v);
+    Value& operator= (const ValueVector& v);
     /** Assignment operator, assign from ValueVector to Value. */
-    Value& operator=(ValueVector&& v);
+    Value& operator= (ValueVector&& v);
 
     /** Assignment operator, assign from ValueMap to Value. */
-    Value& operator=(const ValueMap& v);
+    Value& operator= (const ValueMap& v);
     /** Assignment operator, assign from ValueMap to Value. It will use std::move internally. */
-    Value& operator=(ValueMap&& v);
+    Value& operator= (ValueMap&& v);
 
     /** Assignment operator, assign from ValueMapIntKey to Value. */
-    Value& operator=(const ValueMapIntKey& v);
+    Value& operator= (const ValueMapIntKey& v);
     /** Assignment operator, assign from ValueMapIntKey to Value. It will use std::move internally. */
-    Value& operator=(ValueMapIntKey&& v);
+    Value& operator= (ValueMapIntKey&& v);
 
     /** != operator overloading */
-    bool operator!=(const Value& v);
+    bool operator!= (const Value& v);
     /** != operator overloading */
-    bool operator!=(const Value& v) const;
+    bool operator!= (const Value& v) const;
     /** == operator overloading */
-    bool operator==(const Value& v);
+    bool operator== (const Value& v);
     /** == operator overloading */
-    bool operator==(const Value& v) const;
+    bool operator== (const Value& v) const;
 
     /** Gets as a byte value. Will convert to unsigned char if possible, or will trigger assert error. */
     unsigned char asByte() const;
@@ -193,7 +191,7 @@ public:
     bool isNull() const { return _type == Type::NONE; }
 
     /** Value type wrapped by Value. */
-    enum struct Type : std::uint8_t
+    enum class Type
     {
         /// no value is wrapped, an empty Value
         NONE = 0,
@@ -242,7 +240,7 @@ private:
         ValueVector* vectorVal;
         ValueMap* mapVal;
         ValueMapIntKey* intKeyMapVal;
-    } _field;
+    }_field;
 
     Type _type;
 };
@@ -251,4 +249,5 @@ private:
 
 NS_CC_END
 
-#endif // CC_BASE_VALUE_H
+
+#endif /* defined(__cocos2d_libs__CCValue__) */

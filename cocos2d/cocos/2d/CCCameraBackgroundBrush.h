@@ -1,18 +1,19 @@
 /****************************************************************************
- Copyright (c) 2015-2017 Chukong Technologies Inc.
-
+ Copyright (c) 2015-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,38 +21,35 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
-
+ 
  ****************************************************************************/
-#ifndef CC_2D_CAMERABACKGROUNDBRUSH_H
-#define CC_2D_CAMERABACKGROUNDBRUSH_H
+#pragma once
 
-#include <cocos/base/CCRef.h>
-#include <cocos/base/ccConfig.h>
 #include <cocos/base/ccTypes.h>
-#include <cocos/platform/CCGL.h>
-#include <cocos/platform/CCPlatformConfig.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <iosfwd>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCEventListenerCustom.h>
+#include <cocos/3d/CCFrustum.h>
+#include <cocos/renderer/CCQuadCommand.h>
+#include <cocos/renderer/CCCustomCommand.h>
+#include <cocos/renderer/CCGroupCommand.h>
+#include <cocos/renderer/backend/Types.h>
+#include <vector>
 
 NS_CC_BEGIN
 
-class Camera;
 class CameraBackgroundColorBrush;
 class CameraBackgroundDepthBrush;
 class CameraBackgroundSkyBoxBrush;
-class GLProgramState;
-class TextureCube;
+class Camera;
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
-class EventListenerCustom;
-#endif
+namespace backend {
+    class ProgramState;
+    class Buffer;
+}
 
 /**
  * Defines a brush to clear the background of camera.
- * There are 4 types of brush. None brush do nothing, Depth brush clear background with given depth, Color brush clear background with given color and depth,
- * Skybox brush clear the background with a skybox. Camera uses depth brush by default.
+ * There are 4 types of brush. None brush do nothing, Depth brush clear background with given depth, Color brush clear background with given color and depth, Skybox brush clear the background with a skybox. Camera uses depth brush by default.
  */
 class CC_DLL CameraBackgroundBrush : public Ref
 {
@@ -61,31 +59,31 @@ public:
      */
     enum class BrushType
     {
-        NONE, // none brush
+        NONE, //none brush
         DEPTH, // depth brush. See CameraBackgroundDepthBrush
         COLOR, // color brush. See CameraBackgroundColorBrush
         SKYBOX, // skybox brush. See CameraBackgroundSkyBoxBrush
     };
-
+    
     /**
      * get brush type
      * @return BrushType
      */
     virtual BrushType getBrushType() const { return BrushType::NONE; }
-
+    
     /**
      * Creates a none brush, it does nothing when clear the background
      * @return Created brush.
      */
     static CameraBackgroundBrush* createNoneBrush();
-
+    
     /**
      * Creates a depth brush, which clears depth buffer with a given depth.
      * @param depth Depth used to clear depth buffer
      * @return Created brush
      */
     static CameraBackgroundDepthBrush* createDepthBrush(float depth = 1.f);
-
+    
     /**
      * Creates a color brush
      * @param color Color of brush
@@ -93,7 +91,8 @@ public:
      * @return Created brush
      */
     static CameraBackgroundColorBrush* createColorBrush(const Color4F& color, float depth);
-
+    
+    
     /** Creates a Skybox brush with 6 textures.
      @param positive_x texture for the right side of the texture cube face.
      @param negative_x texture for the up side of the texture cube face.
@@ -103,8 +102,9 @@ public:
      @param negative_z texture for the rear side of the texture cube face.
      @return  A new brush inited with given parameters.
      */
-    static CameraBackgroundSkyBoxBrush* createSkyboxBrush(const std::string& positive_x, const std::string& negative_x, const std::string& positive_y,
-                                                          const std::string& negative_y, const std::string& positive_z, const std::string& negative_z);
+    static CameraBackgroundSkyBoxBrush* createSkyboxBrush(const std::string& positive_x, const std::string& negative_x,
+                                                          const std::string& positive_y, const std::string& negative_y,
+                                                          const std::string& positive_z, const std::string& negative_z);
     /**
      * draw the background
      */
@@ -112,13 +112,14 @@ public:
 
     virtual bool isValid() { return true; }
 
-    CC_CONSTRUCTOR_ACCESS : CameraBackgroundBrush();
-    ~CameraBackgroundBrush() override;
+CC_CONSTRUCTOR_ACCESS :
+    CameraBackgroundBrush();
+    virtual ~CameraBackgroundBrush();
 
     virtual bool init() { return true; }
-
+    
 protected:
-    GLProgramState* _glProgramState;
+    backend::ProgramState* _programState = nullptr;
 };
 
 /**
@@ -133,38 +134,52 @@ public:
      * @return Created brush
      */
     static CameraBackgroundDepthBrush* create(float depth);
-
+    
     /**
      * Get brush type. Should be BrushType::DEPTH
      * @return brush type
      */
-    BrushType getBrushType() const override { return BrushType::DEPTH; }
-
+    virtual BrushType getBrushType() const override { return BrushType::DEPTH; }
+    
     /**
      * Draw background
      */
-    void drawBackground(Camera* camera) override;
-
+    virtual void drawBackground(Camera* camera) override;
+    
     /**
      * Set depth
      * @param depth Depth used to clear depth buffer
      */
     void setDepth(float depth) { _depth = depth; }
+    
+CC_CONSTRUCTOR_ACCESS:
+    CameraBackgroundDepthBrush();
+    virtual ~CameraBackgroundDepthBrush();
 
-    CC_CONSTRUCTOR_ACCESS : CameraBackgroundDepthBrush();
-    ~CameraBackgroundDepthBrush() override;
-
-    bool init() override;
+    virtual bool init() override;
+private:
+    void onBeforeDraw();
+    void onAfterDraw();
+protected:
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+    EventListenerCustom* _backToForegroundListener;
+#endif
+    void initBuffer();
 
 protected:
     float _depth;
+    backend::UniformLocation _locDepth;
+    CustomCommand _customCommand;
+    GroupCommand _groupCommand;
 
-    GLboolean _clearColor;
+    bool _clearColor;
+    std::vector<V3F_C4B_T2F> _vertices;
+    struct {
+        uint32_t stencilWriteMask = 0;
+        bool depthTest = true;
+        backend::CompareFunction compareFunc = backend::CompareFunction::ALWAYS;
+    } _stateBlock;
 
-    V3F_C4B_T2F_Quad _quad;
-    GLuint _vao;
-    GLuint _vertexBuffer;
-    GLuint _indexBuffer;
 };
 
 /**
@@ -178,7 +193,7 @@ public:
      * @return brush type
      */
     virtual BrushType getBrushType() const override { return BrushType::COLOR; }
-
+    
     /**
      * Create a color brush
      * @param color Color used to clear the color buffer
@@ -186,21 +201,30 @@ public:
      * @return Created brush
      */
     static CameraBackgroundColorBrush* create(const Color4F& color, float depth);
-
+    
+    /**
+     * Draw background
+     */
+    virtual void drawBackground(Camera* camera) override;
+    
     /**
      * Set clear color
      * @param color Color used to clear the color buffer
      */
     void setColor(const Color4F& color);
 
-    CC_CONSTRUCTOR_ACCESS : CameraBackgroundColorBrush();
-    ~CameraBackgroundColorBrush() override;
+CC_CONSTRUCTOR_ACCESS:
+    CameraBackgroundColorBrush();
+    virtual ~CameraBackgroundColorBrush();
 
-    bool init() override;
-
+    virtual bool init() override;
+    
 protected:
     Color4F _color;
 };
+
+class TextureCube;
+class EventListenerCustom;
 
 /**
  * Skybox brush clear buffer with a skybox
@@ -213,7 +237,7 @@ public:
      * @return brush type
      */
     virtual BrushType getBrushType() const override { return BrushType::SKYBOX; }
-
+    
     /** Creates a Skybox brush with 6 textures.
      @param positive_x texture for the right side of the texture cube face.
      @param negative_x texture for the up side of the texture cube face.
@@ -223,18 +247,19 @@ public:
      @param negative_z texture for the rear side of the texture cube face.
      @return  A new brush inited with given parameters.
      */
-    static CameraBackgroundSkyBoxBrush* create(const std::string& positive_x, const std::string& negative_x, const std::string& positive_y,
-                                               const std::string& negative_y, const std::string& positive_z, const std::string& negative_z);
-
+    static CameraBackgroundSkyBoxBrush* create(const std::string& positive_x, const std::string& negative_x,
+                                        const std::string& positive_y, const std::string& negative_y,
+                                        const std::string& positive_z, const std::string& negative_z);
+    
     /** Creates a Skybox brush with 6 textures.
      */
     static CameraBackgroundSkyBoxBrush* create();
     /**
-     * Set skybox texture
+     * Set skybox texture 
      * @param texture Skybox texture
      */
-    void setTexture(TextureCube* texture);
-
+    void setTexture(TextureCube*  texture);
+    
     /**
      * Draw background
      */
@@ -243,34 +268,48 @@ public:
     bool isActived() const;
     void setActived(bool actived);
     virtual void setTextureValid(bool valid);
-    bool isValid() override;
+    virtual bool isValid()override;
 
-    CC_CONSTRUCTOR_ACCESS : CameraBackgroundSkyBoxBrush();
-    ~CameraBackgroundSkyBoxBrush() override;
-
+CC_CONSTRUCTOR_ACCESS :
+    CameraBackgroundSkyBoxBrush();
+    virtual ~CameraBackgroundSkyBoxBrush();
+    
     /**
      * init Skybox.
      */
-    bool init() override;
+    virtual bool init() override;
+
+private:
+    void onBeforeDraw();
+    void onAfterDraw();
 
 protected:
     void initBuffer();
-
-    GLuint _vao;
-    GLuint _vertexBuffer;
-    GLuint _indexBuffer;
-
-    TextureCube* _texture;
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+    
+    TextureCube*  _texture;
+    
+#if CC_ENABLE_CACHE_TEXTURE_DATA
     EventListenerCustom* _backToForegroundListener;
 #endif
 
 private:
     bool _actived;
     bool _textureValid;
+
+    CustomCommand _customCommand;
+    GroupCommand _groupCommand;
+
+    backend::UniformLocation _uniformColorLoc;
+    backend::UniformLocation _uniformCameraRotLoc;
+    backend::UniformLocation _uniformEnvLoc;
+
+    struct {
+        bool depthTest = true;
+        bool depthWrite = true;
+        backend::CompareFunction depthFunc = backend::CompareFunction::ALWAYS;
+        backend::CullMode cullMode = backend::CullMode::BACK;
+    }_stateBlock;
 };
 
 NS_CC_END
 
-#endif // CC_2D_CAMERABACKGROUNDBRUSH_H

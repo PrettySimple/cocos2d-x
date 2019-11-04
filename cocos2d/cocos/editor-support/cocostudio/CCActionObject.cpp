@@ -170,7 +170,7 @@ namespace cocostudio
             return false;
         }
     }
-    float ActionObject::valueToFloat(const std::string& value) { return utils::atof(value.c_str()); }
+    float ActionObject::valueToFloat(const std::string& value) { return ccutils::atof(value.c_str()); }
 
     void ActionObject::addActionNode(ActionNode* node)
     {

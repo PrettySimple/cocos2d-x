@@ -46,8 +46,8 @@ class Size;
 class Touch;
 class Vec2;
 class Vec3;
-enum struct TextHAlignment : std::uint8_t;
-enum struct TextVAlignment : std::uint8_t;
+enum struct TextHAlignment; // : std::uint8_t;
+enum struct TextVAlignment; // : std::uint8_t;
 struct Color3B;
 struct Color4B;
 

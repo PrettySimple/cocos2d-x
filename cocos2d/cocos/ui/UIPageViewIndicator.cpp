@@ -75,7 +75,7 @@ namespace ui
 
     bool PageViewIndicator::init()
     {
-        _currentIndexNode = utils::createSpriteFromBase64Cached(CIRCLE_IMAGE, CIRCLE_IMAGE_KEY);
+        _currentIndexNode = ccutils::createSpriteFromBase64Cached(CIRCLE_IMAGE, CIRCLE_IMAGE_KEY);
         _currentIndexNode->setVisible(false);
         addProtectedChild(_currentIndexNode, 1);
         return true;
@@ -215,7 +215,7 @@ namespace ui
 
         if (_useDefaultTexture)
         {
-            indexNode = utils::createSpriteFromBase64(CIRCLE_IMAGE);
+            indexNode = ccutils::createSpriteFromBase64(CIRCLE_IMAGE);
         }
         else
         {

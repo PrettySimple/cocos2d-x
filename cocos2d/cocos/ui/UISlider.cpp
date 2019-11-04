@@ -630,13 +630,13 @@ namespace ui
         _slidBallPressedRenderer->setVisible(false);
         _slidBallDisabledRenderer->setVisible(false);
 
-        _slidBallNormalRenderer->setGLProgramState(this->getNormalGLProgramState());
+        _slidBallNormalRenderer->setProgramState(this->getNormalProgramState());
         _slidBallNormalRenderer->setScale(_sliderBallNormalTextureScaleX, _sliderBallNormalTextureScaleY);
     }
 
     void Slider::onPressStateChangedToPressed()
     {
-        _slidBallNormalRenderer->setGLProgramState(this->getNormalGLProgramState());
+        _slidBallNormalRenderer->setProgramState(this->getNormalProgramState());
 
         if (!_isSliderBallPressedTextureLoaded)
         {
@@ -654,7 +654,7 @@ namespace ui
     {
         if (!_isSliderBallDisabledTexturedLoaded)
         {
-            _slidBallNormalRenderer->setGLProgramState(this->getGrayGLProgramState());
+            _slidBallNormalRenderer->setProgramState(this->getGrayGLProgramState());
             _slidBallNormalRenderer->setVisible(true);
         }
         else

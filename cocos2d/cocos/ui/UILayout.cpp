@@ -244,13 +244,13 @@ namespace ui
         renderer->pushGroup(_groupCommand.getRenderQueueID());
 
         _beforeVisitCmdStencil.init(_globalZOrder);
-        _beforeVisitCmdStencil.setFunc([this]() { _stencileStateManager->onBeforeVisit(); });
+        _beforeVisitCmdStencil.func = ([this]() { _stencileStateManager->onBeforeVisit(_globalZOrder); });
         renderer->addCommand(&_beforeVisitCmdStencil);
 
         _clippingStencil->visit(renderer, _modelViewTransform, flags);
 
         _afterDrawStencilCmd.init(_globalZOrder);
-        _afterDrawStencilCmd.setFunc([this]() { _stencileStateManager->onAfterDrawStencil(); });
+        _afterDrawStencilCmd.func = ([this]() { _stencileStateManager->onAfterDrawStencil(); });
         renderer->addCommand(&_afterDrawStencilCmd);
 
         std::size_t i = 0; // used by _children
@@ -297,7 +297,7 @@ namespace ui
             (*it)->visit(renderer, _modelViewTransform, flags);
 
         _afterVisitCmdStencil.init(_globalZOrder);
-        _afterVisitCmdStencil.setFunc([this]() { _stencileStateManager->onAfterVisit(); });
+        _afterVisitCmdStencil.func = ([this]() { _stencileStateManager->onAfterVisit(); });
         renderer->addCommand(&_afterVisitCmdStencil);
 
         renderer->popGroup();
@@ -349,13 +349,13 @@ namespace ui
             _clippingRectDirty = true;
         }
         _beforeVisitCmdScissor.init(_globalZOrder);
-        _beforeVisitCmdScissor.setFunc([this]() { onBeforeVisitScissor(); });
+        _beforeVisitCmdScissor.func = ([this]() { onBeforeVisitScissor(); });
         renderer->addCommand(&_beforeVisitCmdScissor);
 
         ProtectedNode::visit(renderer, parentTransform, parentFlags);
 
         _afterVisitCmdScissor.init(_globalZOrder);
-        _afterVisitCmdScissor.setFunc([this]() { onAfterVisitScissor(); });
+        _afterVisitCmdScissor.func = ([this]() { onAfterVisitScissor(); });
         renderer->addCommand(&_afterVisitCmdScissor);
     }
 

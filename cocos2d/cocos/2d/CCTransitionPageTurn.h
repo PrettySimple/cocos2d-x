@@ -2,6 +2,7 @@
 Copyright (c) 2009      Sindesso Pty Ltd http://www.sindesso.com/
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -24,13 +25,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_2D_TRANSITIONPAGETURN_H
-#define CC_2D_TRANSITIONPAGETURN_H
+#ifndef __CCPAGE_TURN_TRANSITION_H__
+#define __CCPAGE_TURN_TRANSITION_H__
 
 #include <cocos/2d/CCTransition.h>
-#include <cocos/renderer/CCCustomCommand.h>
-
-#include <chrono>
 
 NS_CC_BEGIN
 
@@ -65,13 +63,13 @@ public:
      * @param backwards If back is true then the effect is reversed to appear as if the incoming scene is being turned from left over the outgoing scene.
      * @return An autoreleased TransitionPageTurn object.
      */
-    static TransitionPageTurn* create(std::chrono::milliseconds t, Scene* scene, bool backwards);
-
+    static TransitionPageTurn* create(std::chrono::milliseconds t,Scene* scene,bool backwards);
+    
     //
     // Overrides
     // @js NA
     //
-    void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
+    virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
 
     /**
      * Creates a base transition with duration and incoming scene.
@@ -83,7 +81,7 @@ public:
      * @param backwards If back is true then the effect is reversed to appear as if the incoming scene is being turned from left over the outgoing scene.
      * @return True if initialize success.
      */
-    bool initWithDuration(std::chrono::milliseconds t, Scene* scene, bool backwards);
+    bool initWithDuration(std::chrono::milliseconds t,Scene* scene,bool backwards);
 
     /** Returns the action that will be performed with size.
      *
@@ -95,27 +93,27 @@ public:
     //
     // Overrides
     //
-    void onEnter() override;
-    void onExit() override;
+    virtual void onEnter() override;
+    virtual void onExit() override;
 
-    CC_CONSTRUCTOR_ACCESS :
-        /**
-         * @js ctor
-         */
-        TransitionPageTurn();
+CC_CONSTRUCTOR_ACCESS:
+    /**
+     * @js ctor
+     */
+    TransitionPageTurn();
     /**
      * @js NA
      * @lua NA
      */
-    ~TransitionPageTurn() override;
+    virtual ~TransitionPageTurn();
 
 protected:
-    void sceneOrder() override;
+    virtual void sceneOrder() override;
 
 protected:
     NodeGrid* _inSceneProxy;
     NodeGrid* _outSceneProxy;
-    bool _back;
+    bool    _back;
 };
 
 // end of _2d group
@@ -123,4 +121,5 @@ protected:
 
 NS_CC_END
 
-#endif // CC_2D_TRANSITIONPAGETURN_H
+#endif // __CCPAGE_TURN_TRANSITION_H__
+

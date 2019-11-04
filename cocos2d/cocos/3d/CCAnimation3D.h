@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2014 Chukong Technologies Inc.
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -22,16 +23,16 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_3D_ANIMATION3D_H
-#define CC_3D_ANIMATION3D_H
+#ifndef __CCANIMATION3D_H__
+#define __CCANIMATION3D_H__
+
+#include <unordered_map>
 
 #include <cocos/3d/CCAnimationCurve.h>
-#include <cocos/3d/CCBundle3DData.h>
-#include <cocos/base/CCRef.h>
-#include <cocos/base/ccMacros.h>
 
-#include <chrono>
-#include <unordered_map>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/3d/CCBundle3DData.h>
 
 NS_CC_BEGIN
 /**
@@ -42,10 +43,9 @@ NS_CC_BEGIN
 /**
  * @brief static animation data, shared
  */
-class CC_DLL Animation3D : public Ref
+class CC_DLL Animation3D: public Ref
 {
     friend class Bundle3D;
-
 public:
     /**
      * animation curve, translation, rotation, and scale
@@ -66,41 +66,37 @@ public:
         /**constructor */
         ~Curve();
     };
-
+    
     /**read all animation or only the animation with given animationName? animationName == "" read the first.*/
     static Animation3D* create(const std::string& filename, const std::string& animationName = "");
-
-    /**the cache method to create or get an Animation3D object*/
-    CC_DEPRECATED_ATTRIBUTE static Animation3D* getOrCreate(const std::string& filename, const std::string& animationName = "")
-    {
-        return create(filename, animationName);
-    }
-
+       
     /**get duration*/
-    inline std::chrono::milliseconds getDuration() const noexcept { return _duration; }
-
+    std::chrono::milliseconds getDuration() const { return _duration; }
+    
     /**
      * get bone curve
-     *
+     * 
      * @lua NA
      */
     Curve* getBoneCurveByName(const std::string& name) const;
+    
 
     /**get the bone Curves set*/
-    inline std::unordered_map<std::string, Curve*> const& getBoneCurves() const { return _boneCurves; }
-
-    CC_CONSTRUCTOR_ACCESS : Animation3D();
-    virtual ~Animation3D();
+    const std::unordered_map<std::string, Curve*>& getBoneCurves() const {return _boneCurves;}
+    
+CC_CONSTRUCTOR_ACCESS:
+    Animation3D();
+    virtual ~Animation3D();  
     /**init Animation3D from bundle data*/
     bool init(const Animation3DData& data);
-
+    
     /**init Animation3D with file name and animation name*/
     bool initWithFile(const std::string& filename, const std::string& animationName);
-
+    
 protected:
-    std::unordered_map<std::string, Curve*> _boneCurves; // bone curves map, key bone name, value AnimationCurve
+    std::unordered_map<std::string, Curve*> _boneCurves;//bone curves map, key bone name, value AnimationCurve
 
-    std::chrono::milliseconds _duration; // animation duration
+    std::chrono::milliseconds _duration; //animation duration
 };
 
 /**
@@ -112,13 +108,13 @@ public:
     /**get and destroy instance*/
     static Animation3DCache* getInstance();
     static void destroyInstance();
-
+    
     /**get animation by key*/
     Animation3D* getAnimation(const std::string& key);
-
+    
     /**add animation to cache*/
     void addAnimation(const std::string& key, Animation3D* animation);
-
+    
     /**remove all animation*/
     void removeAllAnimations();
     /**remove unused animation*/
@@ -127,14 +123,14 @@ public:
 protected:
     Animation3DCache();
     ~Animation3DCache();
-
-    static Animation3DCache* _cacheInstance; // cache instance
-
-    std::unordered_map<std::string, Animation3D*> _animations; // cached animations
+    
+    static Animation3DCache* _cacheInstance; //cache instance
+    
+    std::unordered_map<std::string, Animation3D*> _animations; //cached animations
 };
 
 // end of 3d group
 /// @}
 NS_CC_END
 
-#endif // CC_3D_ANIMATION3D_H
+#endif // __CCANIMATION3D_H__

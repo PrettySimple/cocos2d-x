@@ -176,8 +176,8 @@ public:
     {
         if (_innerAction != action)
         {
-            CC_SAFE_RETAIN(action)
-            CC_SAFE_RELEASE(_innerAction)
+            CC_SAFE_RETAIN(action);
+            CC_SAFE_RELEASE(_innerAction);
             _innerAction = action;
         }
     }
@@ -1387,9 +1387,9 @@ public:
 
 protected:
     std::vector<float> _splitTimes;
-    int _nextFrame = 0;
+    std::size_t _nextFrame = 0;
     SpriteFrame* _origFrame = nullptr;
-    int _currFrameIndex = 0;
+    std::size_t _currFrameIndex = 0;
     unsigned int _executedLoops = 0;
     Animation* _animation = nullptr;
 

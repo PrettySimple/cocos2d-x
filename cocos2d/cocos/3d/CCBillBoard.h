@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2014 Chukong Technologies Inc.
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -22,24 +23,11 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_3D_BILLBOARD_H
-#define CC_3D_BILLBOARD_H
+#pragma once
 
 #include <cocos/2d/CCSprite.h>
-#include <cocos/base/ccConfig.h>
-#include <cocos/math/Mat4.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <cstdint>
-#include <iosfwd>
 
 NS_CC_BEGIN
-
-class Rect;
-class Renderer;
-class Texture2D;
-
 /**
  * @addtogroup _3d
  * @{
@@ -51,6 +39,7 @@ class Texture2D;
 class CC_DLL BillBoard : public Sprite
 {
 public:
+
     enum class Mode
     {
         VIEW_POINT_ORIENTED, // orient to the camera
@@ -86,7 +75,7 @@ public:
      */
     static BillBoard* create(const std::string& filename, const Rect& rect, Mode mode = Mode::VIEW_POINT_ORIENTED);
 
-    /**
+     /**
      * Creates a BillBoard with a Texture2D object.
      *
      * After creation, the rect will be the size of the texture, and the offset will be (0,0).
@@ -94,7 +83,7 @@ public:
      * @param   texture    A pointer to a Texture2D object.
      * @return  An autoreleased BillBoard object
      */
-    static BillBoard* createWithTexture(Texture2D* texture, Mode mode = Mode::VIEW_POINT_ORIENTED);
+    static BillBoard* createWithTexture(Texture2D *texture, Mode mode = Mode::VIEW_POINT_ORIENTED);
 
     /** Set the billboard rotation mode. */
     void setMode(Mode mode);
@@ -102,27 +91,30 @@ public:
     /** Get the billboard rotation mode. */
     Mode getMode() const;
 
-    // override
-
+    //override
+    
     /** update billboard's transform and turn it towards camera */
-    virtual void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
-
-    /**
+    virtual void visit(Renderer *renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
+    
+    /** 
      * draw BillBoard object.
      *
      * @lua NA
      */
-    virtual void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
+    virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
 
-    CC_CONSTRUCTOR_ACCESS : BillBoard();
-    ~BillBoard() override;
+
+CC_CONSTRUCTOR_ACCESS:
+    BillBoard();
+    virtual ~BillBoard();
 
 protected:
+
     /**
      * calculate a model matrix which keep original translate & scaling but always face to the camera
      */
-    bool calculateBillbaordTransform();
-
+    bool calculateBillboardTransform();
+    
     Mat4 _camWorldMat;
     Mat4 _mvTransform;
 
@@ -130,12 +122,11 @@ protected:
     bool _modeDirty;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(BillBoard)
+    CC_DISALLOW_COPY_AND_ASSIGN(BillBoard);
+
 };
 
 // end of 3d group
 /// @}
 
 NS_CC_END
-
-#endif // CC_3D_BILLBOARD_H

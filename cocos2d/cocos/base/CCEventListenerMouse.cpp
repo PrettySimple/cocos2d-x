@@ -1,5 +1,6 @@
 /****************************************************************************
  Copyright (c) 2013-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -27,7 +28,7 @@
 
 NS_CC_BEGIN
 
-const EventListenerMouse::ListenerID EventListenerMouse::LISTENER_ID = "__cc_mouse";
+const std::string EventListenerMouse::LISTENER_ID = "__cc_mouse";
 
 bool EventListenerMouse::checkAvailable()
 {
@@ -58,7 +59,6 @@ EventListenerMouse* EventListenerMouse::clone()
         ret->onMouseDown = onMouseDown;
         ret->onMouseMove = onMouseMove;
         ret->onMouseScroll = onMouseScroll;
-        ret->onMouseOut = onMouseOut;
     }
     else
     {
@@ -72,35 +72,30 @@ EventListenerMouse::EventListenerMouse()
 , onMouseUp(nullptr)
 , onMouseMove(nullptr)
 , onMouseScroll(nullptr)
-, onMouseOut(nullptr)
 {
 }
 
 bool EventListenerMouse::init()
 {
-    auto listener = [this](Event* event) {
+    auto listener = [this](Event* event){
         auto mouseEvent = static_cast<EventMouse*>(event);
         switch (mouseEvent->_mouseEventType)
         {
             case EventMouse::MouseEventType::MOUSE_DOWN:
-                if (onMouseDown != nullptr)
+                if(onMouseDown != nullptr)
                     onMouseDown(mouseEvent);
                 break;
             case EventMouse::MouseEventType::MOUSE_UP:
-                if (onMouseUp != nullptr)
+                if(onMouseUp != nullptr)
                     onMouseUp(mouseEvent);
                 break;
             case EventMouse::MouseEventType::MOUSE_MOVE:
-                if (onMouseMove != nullptr)
+                if(onMouseMove != nullptr)
                     onMouseMove(mouseEvent);
                 break;
             case EventMouse::MouseEventType::MOUSE_SCROLL:
-                if (onMouseScroll != nullptr)
+                if(onMouseScroll != nullptr)
                     onMouseScroll(mouseEvent);
-                break;
-            case EventMouse::MouseEventType::MOUSE_OUT:
-                if (onMouseOut != nullptr)
-                    onMouseOut(mouseEvent);
                 break;
             default:
                 break;

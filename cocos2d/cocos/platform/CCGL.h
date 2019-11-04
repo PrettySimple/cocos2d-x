@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,29 +24,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_PLATFORM_GL_H
-#define CC_PLATFORM_GL_H
+#ifndef __PLATFORM_CCGL_H__
+#define __PLATFORM_CCGL_H__
 /// @cond DO_NOT_SHOW
 
 #include <cocos/platform/CCPlatformConfig.h>
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
-#    include <cocos/platform/mac/CCGL-mac.h>
+#include <cocos/platform/mac/CCGL-mac.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-#    include <cocos/platform/ios/CCGL-ios.h>
+#include <cocos/platform/ios/CCGL-ios.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-#    include <cocos/platform/android/CCGL-android.h>
+#include <cocos/platform/android/CCGL-android.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-#    include <cocos/platform/win32/CCGL-win32.h>
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
-#    include <cocos/platform/winrt/CCGL.h>
+#include <cocos/platform/win32/CCGL-win32.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
-#    include <cocos/platform/linux/CCGL-linux.h>
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
-#    include <cocos/platform/tizen/CCGL-tizen.h>
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
-#    include <cocos/platform/emscripten/CCGL-emscripten.h>
+#include <cocos/platform/linux/CCGL-linux.h>
 #endif
 
 /// @endcond
-#endif // CC_PLATFORM_GL_H
+#endif /* __PLATFORM_CCPLATFORMDEFINE_H__*/

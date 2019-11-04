@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2015 Chukong Technologies Inc.
+ Copyright (c) 2015-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -28,29 +29,23 @@
  ****************************************************************************/
 
 #include <cocos/renderer/CCTechnique.h>
-
-#include <cocos/base/CCVector.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCMaterial.h>
 #include <cocos/renderer/CCPass.h>
-#include <cocos/renderer/CCRenderState.h>
-
-#include <new>
 
 NS_CC_BEGIN
 
-Technique* Technique::createWithGLProgramState(Material* parent, GLProgramState* state)
+Technique* Technique::createWithProgramState(Material* parent, backend::ProgramState* state)
 {
     auto technique = new (std::nothrow) Technique();
     if (technique && technique->init(parent))
     {
-        auto pass = Pass::createWithGLProgramState(technique, state);
+        auto pass = Pass::createWithProgramState(technique, state);
         technique->addPass(pass);
 
         technique->autorelease();
         return technique;
     }
-    return nullptr;
+    return  nullptr;
 }
 
 Technique* Technique::create(Material* material)
@@ -64,13 +59,18 @@ Technique* Technique::create(Material* material)
     return nullptr;
 }
 
+Technique::Technique()
+: _name("")
+{
+}
+
 Technique::~Technique()
 {
 }
 
 bool Technique::init(Material* parent)
 {
-    _parent = parent;
+    _material = parent;
     return true;
 }
 
@@ -81,12 +81,11 @@ Technique* Technique::clone() const
     if (technique)
     {
         technique->_name = _name;
-        RenderState::cloneInto(technique);
-
-        for (const auto pass : _passes)
+        technique->_renderState = _renderState;
+        for (const auto pass: _passes)
         {
             auto p = pass->clone();
-            p->_parent = technique;
+            p->_technique = technique;
             technique->_passes.pushBack(p);
         }
 
@@ -95,15 +94,35 @@ Technique* Technique::clone() const
     return technique;
 }
 
-void Technique::addPass(Pass* pass)
+void Technique::addPass(Pass *pass)
 {
     _passes.pushBack(pass);
 }
 
-Pass* Technique::getPassByIndex(std::size_t index) const
+std::string Technique::getName() const
 {
-    CC_ASSERT(index >= 0 && index < _passes.size() && "Invalid index");
+    return _name;
+}
+
+void Technique::setName(const std::string &name)
+{
+    _name = name;
+}
+
+Pass* Technique::getPassByIndex(ssize_t index) const
+{
+    CC_ASSERT(index>=0 && index<_passes.size() && "Invalid index");
     return _passes.at(index);
+}
+
+ssize_t Technique::getPassCount() const
+{
+    return _passes.size();
+}
+
+const Vector<Pass*>& Technique::getPasses() const
+{
+    return _passes;
 }
 
 NS_CC_END

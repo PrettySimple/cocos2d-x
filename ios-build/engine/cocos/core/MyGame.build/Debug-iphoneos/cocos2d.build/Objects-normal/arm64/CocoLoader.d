@@ -1,0 +1,27 @@
+dependencies: \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/cocos/editor-support/cocostudio/CocoLoader.cpp \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/cocos/editor-support/cocostudio/CocoLoader.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/document-wrapper.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/rapidjson.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/document.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/reader.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/allocators.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/stream.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/encodings.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/encodedstream.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/memorystream.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/internal/meta.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/internal/../rapidjson.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/internal/stack.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/internal/../allocators.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/internal/swap.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/internal/strtod.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/internal/ieee754.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/internal/biginteger.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/internal/diyfp.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/internal/pow10.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/error/error.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/error/../rapidjson.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/internal/strfunc.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/external/recast/../json/internal/../stream.h \
+  /Users/christophegenova/MyCompany/MyGame/cocos2d/cocos/editor-support/cocostudio/CocosStudioExport.h

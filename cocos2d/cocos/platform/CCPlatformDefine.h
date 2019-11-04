@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,29 +24,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_PLATFORM_PLATFORMDEFINE_H
-#define CC_PLATFORM_PLATFORMDEFINE_H
+#pragma once
 /// @cond DO_NOT_SHOW
 
 #include <cocos/platform/CCPlatformConfig.h>
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
-#    include <cocos/platform/mac/CCPlatformDefine-mac.h>
+#include <cocos/platform/mac/CCPlatformDefine-mac.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-#    include <cocos/platform/ios/CCPlatformDefine-ios.h>
+#include <cocos/platform/ios/CCPlatformDefine-ios.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-#    include <cocos/platform/android/CCPlatformDefine-android.h>
+#include <cocos/platform/android/CCPlatformDefine-android.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-#    include <cocos/platform/win32/CCPlatformDefine-win32.h>
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
-#    include <cocos/platform/winrt/CCPlatformDefine-winrt.h>
+#include <cocos/platform/win32/CCPlatformDefine-win32.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
-#    include <cocos/platform/linux/CCPlatformDefine-linux.h>
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
-#    include <cocos/platform/tizen/CCPlatformDefine-tizen.h>
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
-#    include <cocos/platform/emscripten/CCPlatformDefine-emscripten.h>
+#include <cocos/platform/linux/CCPlatformDefine-linux.h>
 #endif
 
-/// @endcond
-#endif // CC_PLATFORM_PLATFORMDEFINE_H
+

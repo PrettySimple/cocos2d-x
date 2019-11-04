@@ -1,5 +1,6 @@
 /****************************************************************************
  Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -22,14 +23,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_BASE_CONTROLLER_H
-#define CC_BASE_CONTROLLER_H
+#ifndef __cocos2d_libs__CCController__
+#define __cocos2d_libs__CCController__
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 )
 
 #include <cocos/platform/CCPlatformMacros.h>
-
 #include <string>
-#include <unordered_map>
 #include <vector>
+#include <unordered_map>
 
 NS_CC_BEGIN
 
@@ -48,7 +49,7 @@ class EventDispatcher;
  * @brief A Controller object represents a connected physical game controller.
  * @js NA
  */
-class Controller
+class CC_DLL Controller
 {
 public:
     /**
@@ -108,14 +109,14 @@ public:
          * If isAnalog is false, the key value would be contain one number: 0 or 1.
          */
         bool isAnalog;
-    } KeyStatus;
+    }KeyStatus;
 
     static const int TAG_UNSET = -1;
 
     /**
      * Gets all Controller objects.
      */
-    static const std::vector<Controller*>& getAllController() { return s_allController; }
+    static const std::vector<Controller*>& getAllController(){ return s_allController;}
 
     /**
      * Gets a Controller object with tag.
@@ -126,28 +127,36 @@ public:
     static Controller* getControllerByTag(int tag);
 
     /**
+     * Gets a Controller object with device ID.
+     *
+     * @param deviceId   A unique identifier to find the controller.
+     * @return A Controller object.
+     */
+    static Controller* getControllerByDeviceId(int deviceId);
+
+    /**
      * Start discovering new controllers.
      *
-     * @warning The API only work on the IOS platform. Empty implementation on other platform.
+     * @warning The API has an empty implementation on Android.
      */
     static void startDiscoveryController();
 
     /**
      * Stop the discovery process.
      *
-     * @warning The API only work on the IOS platform.Empty implementation on other platform.
+     * @warning The API has an empty implementation on Android.
      */
     static void stopDiscoveryController();
 
     /**
      * Gets the name of this Controller object.
      */
-    const std::string& getDeviceName() const { return _deviceName; }
+    const std::string& getDeviceName() const { return _deviceName;}
 
     /**
      * Gets the Controller id.
      */
-    int getDeviceId() const { return _deviceId; }
+    int getDeviceId() const { return _deviceId;}
 
     /**
      * Indicates whether the Controller is connected.
@@ -168,20 +177,20 @@ public:
      * @param externalKeyCode   External key code.
      * @param receive   True if external key event on this controller should be receive, false otherwise.
      */
-    void receiveExternalKeyEvent(int externalKeyCode, bool receive);
+    void receiveExternalKeyEvent(int externalKeyCode,bool receive);
 
     /**
      * Changes the tag that is used to identify the controller easily.
      * @param tag   A integer that identifies the controller.
      */
-    void setTag(int tag) { _controllerTag = tag; }
+    void setTag(int tag) { _controllerTag = tag;}
 
     /**
      * Returns a tag that is used to identify the controller easily.
      *
      * @return An integer that identifies the controller.
      */
-    int getTag() const { return _controllerTag; }
+    int getTag() const { return _controllerTag;}
 
 private:
     static std::vector<Controller*> s_allController;
@@ -201,16 +210,34 @@ private:
     std::unordered_map<int, KeyStatus> _allKeyPrevStatus;
 
     std::string _deviceName;
-    int _deviceId = 0;
+    int _deviceId;
 
-    int _controllerTag = TAG_UNSET;
+    int _controllerTag;
 
-    ControllerImpl* _impl = nullptr;
+    ControllerImpl* _impl;
 
-    EventDispatcher* _eventDispatcher = nullptr;
-    EventController* _connectEvent = nullptr;
-    EventController* _keyEvent = nullptr;
-    EventController* _axisEvent = nullptr;
+    EventDispatcher* _eventDispatcher;
+    EventController *_connectEvent;
+    EventController *_keyEvent;
+    EventController *_axisEvent;
+
+    #if ( CC_TARGET_PLATFORM == CC_PLATFORM_LINUX || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 )
+    //FIXME: Once GLFW 3.3 is bundled with cocos2d-x, remove these unordered
+    //maps. They won't be needed. We will only need to provide a mapping from
+    //the GLFW gamepad key codes to the Controller::Key.
+
+    // Attach the controller profiles from CCController-linux-win32.cpp to each
+    // of the Controller variables in order to minimize profile lookup time.
+
+    // Note: this increases memory usage unnecessarily since the same maps are
+    // already stored on ControllerImpl within the static member variable
+    // "s_controllerProfiles", but on these platforms the increase in memory
+    // usage is negligible.  Peformance over memory optimization was
+    // consciously chosen.
+
+    std::unordered_map<int,int> _buttonInputMap;
+    std::unordered_map<int,int> _axisInputMap;
+    #endif
 
     friend class ControllerImpl;
     friend class EventListenerController;
@@ -220,5 +247,5 @@ private:
 /// @}
 
 NS_CC_END
-
-#endif // CC_BASE_CONTROLLER_H
+#endif
+#endif /* defined(__cocos2d_libs__CCController__) */

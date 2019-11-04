@@ -1,5 +1,6 @@
 /****************************************************************************
  Copyright (c) 2013-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -22,18 +23,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_RENDERER_QUADCOMMAND_H
-#define CC_RENDERER_QUADCOMMAND_H
+#ifndef _CC_QUADCOMMAND_H_
+#define _CC_QUADCOMMAND_H_
 
-#include <cocos/math/Mat4.h>
-#include <cocos/platform/CCGL.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
-#include <cocos/renderer/CCTrianglesCommand.h>
-
-#include <cstddef>
-#include <cstdint>
 #include <vector>
+
+#include <cocos/renderer/CCTrianglesCommand.h>
 
 /**
  * @addtogroup renderer
@@ -42,55 +37,39 @@
 
 NS_CC_BEGIN
 
-class GLProgramState;
-class Texture2D;
-struct BlendFunc;
-struct V3F_C4B_T2F_Quad;
-
-/**
+/** 
  Command used to render one or more Quads, similar to TrianglesCommand.
  Every QuadCommand will have generate material ID by give textureID, glProgramState, Blend function
  if the material id is the same, these QuadCommands could be batched to save draw call.
  */
-class CC_DLL QuadCommand final : public TrianglesCommand
+class CC_DLL QuadCommand : public TrianglesCommand
 {
 public:
-    QuadCommand() = default;
-    QuadCommand(QuadCommand const&) = delete;
-    QuadCommand& operator=(QuadCommand const&) = delete;
-    QuadCommand(QuadCommand&&) noexcept = delete;
-    QuadCommand& operator=(QuadCommand&&) noexcept = delete;
-    ~QuadCommand() override;
-
-    void init(float globalOrder, Texture2D* textureID, GLProgramState* glProgramState, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads,
-              std::size_t quadCount, const Mat4& mv, uint32_t flags);
-
-private:
+    /**Constructor.*/
+    QuadCommand();
+    /**Destructor.*/
+    ~QuadCommand();
+    
     /** Initializes the command.
      @param globalOrder GlobalZOrder of the command.
-     @param textureID The openGL handle of the used texture.
-     @param glProgramState The glProgram with its uniform.
+     @param texture The texture used in the command.
      @param blendType Blend function for the command.
      @param quads Rendered quads for the command.
      @param quadCount The number of quads when rendering.
      @param mv ModelView matrix for the command.
      @param flags to indicate that the command is using 3D rendering or not.
      */
-    void init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, std::size_t quadCount,
-              const Mat4& mv, uint32_t flags);
+    void init(float globalOrder, Texture2D* texture, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads, ssize_t quadCount, const Mat4& mv, uint32_t flags);
+    
+protected:
+    void reIndex(int indices);
 
-    /**Deprecated function, the params is similar as the upper init function, with flags equals 0.*/
-    CC_DEPRECATED_ATTRIBUTE void init(float globalOrder, GLuint textureID, GLProgramState* shader, const BlendFunc& blendType, V3F_C4B_T2F_Quad* quads,
-                                      std::size_t quadCount, const Mat4& mv);
-
-    void reIndex(std::size_t indices);
-
-    std::size_t _indexSize = static_cast<std::size_t>(0);
-    std::vector<GLushort*> _ownedIndices;
+    int _indexSize;
+    std::vector<uint16_t*> _ownedIndices;
 
     // shared across all instances
-    static std::size_t __indexCapacity;
-    static GLushort* __indices;
+    static int __indexCapacity;
+    static uint16_t* __indices;
 };
 
 NS_CC_END
@@ -99,4 +78,4 @@ NS_CC_END
  end of support group
  @}
  */
-#endif // CC_RENDERER_QUADCOMMAND_H
+#endif //_CC_QUADCOMMAND_H_

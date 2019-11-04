@@ -262,7 +262,7 @@ namespace cocostudio
                                             else
                                             {
                                                 int nV = atoi(str3);
-                                                float fV = utils::atof(str3);
+                                                float fV = ccutils::atof(str3);
                                                 if (fabs(nV - fV) < 0.0000001)
                                                 {
                                                     dataitem.AddMember("value", nV, allocator);
@@ -338,7 +338,7 @@ namespace cocostudio
                                             else
                                             {
                                                 int nV = atoi(str5);
-                                                float fV = utils::atof(str5);
+                                                float fV = ccutils::atof(str5);
                                                 if (fabs(nV - fV) < 0.0000001)
                                                 {
                                                     dataitem.AddMember("value", nV, allocator);

@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2011      Laschweinski
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,35 +24,36 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
 
-#    include "base/CCDirector.h"
-#    include "platform/CCFileUtils.h"
-#    include "platform/linux/CCApplication-linux.h"
-#    include <string>
-#    include <sys/time.h>
-#    include <unistd.h>
+#include <cocos/platform/linux/CCApplication-linux.h>
+#include <unistd.h>
+#include <sys/time.h>
+#include <string>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccUtils.h>
+#include <cocos/platform/CCFileUtils.h>
 
 NS_CC_BEGIN
 
-// sharedApplication pointer
-Application* Application::sm_pSharedApplication = nullptr;
 
-static long getCurrentMillSecond()
-{
+// sharedApplication pointer
+Application * Application::sm_pSharedApplication = nullptr;
+
+static long getCurrentMillSecond() {
     long lLastTime;
     struct timeval stCurrentTime;
 
-    gettimeofday(&stCurrentTime, NULL);
-    lLastTime = stCurrentTime.tv_sec * 1000 + stCurrentTime.tv_usec * 0.001; // millseconds
+    gettimeofday(&stCurrentTime,NULL);
+    lLastTime = stCurrentTime.tv_sec*1000+stCurrentTime.tv_usec*0.001; // milliseconds
     return lLastTime;
 }
 
 Application::Application()
-: _animationInterval(1.0f / 60.0f * 1000.0f)
+: _animationInterval(1.0f/60.0f*1000.0f)
 {
-    CC_ASSERT(!sm_pSharedApplication);
+    CC_ASSERT(! sm_pSharedApplication);
     sm_pSharedApplication = this;
 }
 
@@ -65,7 +67,7 @@ int Application::run()
 {
     initGLContextAttrs();
     // Initialize instance and cocos2d.
-    if (!applicationDidFinishLaunching())
+    if (! applicationDidFinishLaunching())
     {
         return 0;
     }
@@ -89,14 +91,14 @@ int Application::run()
         curTime = getCurrentMillSecond();
         if (curTime - lastTime < _animationInterval)
         {
-            usleep((_animationInterval - curTime + lastTime) * 1000);
+            usleep((_animationInterval - curTime + lastTime)*1000);
         }
     }
     /* Only work on Desktop
-     *  Director::mainLoop is really one frame logic
-     *  when we want to close the window, we should call Director::end();
-     *  then call Director::mainLoop to do release of internal resources
-     */
+    *  Director::mainLoop is really one frame logic
+    *  when we want to close the window, we should call Director::end();
+    *  then call Director::mainLoop to do release of internal resources
+    */
     if (glview->isOpenGLReady())
     {
         director->end();
@@ -109,8 +111,8 @@ int Application::run()
 
 void Application::setAnimationInterval(float interval)
 {
-    // TODO do something else
-    _animationInterval = interval * 1000.0f;
+    //TODO do something else
+    _animationInterval = interval*1000.0f;
 }
 
 void Application::setResourceRootPath(const std::string& rootResDir)
@@ -126,7 +128,7 @@ void Application::setResourceRootPath(const std::string& rootResDir)
     pFileUtils->setSearchPaths(searchPaths);
 }
 
-const std::string& Application::getResourceRootPath(void)
+const std::string& Application::getResourceRootPath()
 {
     return _resourceRootPath;
 }
@@ -141,10 +143,10 @@ std::string Application::getVersion()
     return "";
 }
 
-bool Application::openURL(const std::string& url)
+bool Application::openURL(const std::string &url)
 {
-    std::string op = std::string("xdg-open ").append(url);
-    return system(op.c_str()) != -1;
+    std::string op = std::string("xdg-open '").append(url).append("'");
+    return system(op.c_str()) == 0;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -162,24 +164,23 @@ Application* Application::sharedApplication()
     return Application::getInstance();
 }
 
-const char* Application::getCurrentLanguageCode()
+const char * Application::getCurrentLanguageCode()
 {
-    static char code[3] = {0};
-    char* pLanguageName = getenv("LANG");
+    static char code[3]={0};
+    char *pLanguageName = getenv("LANG");
     if (!pLanguageName)
         return "en";
     strtok(pLanguageName, "_");
     if (!pLanguageName)
         return "en";
-    strncpy(code, pLanguageName, 2);
-    code[2] = '\0';
+    strncpy(code,pLanguageName,2);
+    code[2]='\0';
     return code;
 }
 
 LanguageType Application::getCurrentLanguage()
 {
-    char* pLanguageName = getenv("LANG");
-    LanguageType ret = LanguageType::ENGLISH;
+    char *pLanguageName = getenv("LANG");
     if (!pLanguageName)
     {
         return LanguageType::ENGLISH;
@@ -189,87 +190,11 @@ LanguageType Application::getCurrentLanguage()
     {
         return LanguageType::ENGLISH;
     }
-
-    if (0 == strcmp("zh", pLanguageName))
-    {
-        ret = LanguageType::CHINESE;
-    }
-    else if (0 == strcmp("en", pLanguageName))
-    {
-        ret = LanguageType::ENGLISH;
-    }
-    else if (0 == strcmp("fr", pLanguageName))
-    {
-        ret = LanguageType::FRENCH;
-    }
-    else if (0 == strcmp("it", pLanguageName))
-    {
-        ret = LanguageType::ITALIAN;
-    }
-    else if (0 == strcmp("de", pLanguageName))
-    {
-        ret = LanguageType::GERMAN;
-    }
-    else if (0 == strcmp("es", pLanguageName))
-    {
-        ret = LanguageType::SPANISH;
-    }
-    else if (0 == strcmp("nl", pLanguageName))
-    {
-        ret = LanguageType::DUTCH;
-    }
-    else if (0 == strcmp("ru", pLanguageName))
-    {
-        ret = LanguageType::RUSSIAN;
-    }
-    else if (0 == strcmp("ko", pLanguageName))
-    {
-        ret = LanguageType::KOREAN;
-    }
-    else if (0 == strcmp("ja", pLanguageName))
-    {
-        ret = LanguageType::JAPANESE;
-    }
-    else if (0 == strcmp("hu", pLanguageName))
-    {
-        ret = LanguageType::HUNGARIAN;
-    }
-    else if (0 == strcmp("pt", pLanguageName))
-    {
-        ret = LanguageType::PORTUGUESE;
-    }
-    else if (0 == strcmp("ar", pLanguageName))
-    {
-        ret = LanguageType::ARABIC;
-    }
-    else if (0 == strcmp("nb", pLanguageName))
-    {
-        ret = LanguageType::NORWEGIAN;
-    }
-    else if (0 == strcmp("pl", pLanguageName))
-    {
-        ret = LanguageType::POLISH;
-    }
-    else if (0 == strcmp("tr", pLanguageName))
-    {
-        ret = LanguageType::TURKISH;
-    }
-    else if (0 == strcmp("uk", pLanguageName))
-    {
-        ret = LanguageType::UKRAINIAN;
-    }
-    else if (0 == strcmp("ro", pLanguageName))
-    {
-        ret = LanguageType::ROMANIAN;
-    }
-    else if (0 == strcmp("bg", pLanguageName))
-    {
-        ret = LanguageType::BULGARIAN;
-    }
-
-    return ret;
+    
+    return utils::getLanguageTypeByISO2(pLanguageName);
 }
 
 NS_CC_END
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
+

@@ -43,8 +43,6 @@
 #include <cocos/math/Vec3.h>
 #include <cocos/math/Vec4.h>
 #include <cocos/platform/CCPlatformMacros.h>
-#include <cocos/renderer/CCGLProgram.h>
-#include <cocos/renderer/CCGLProgramState.h>
 #include <cocos/renderer/CCRenderer.h>
 #include <cocos/renderer/CCTexture2D.h>
 #include <cocos/renderer/CCTrianglesCommand.h>
@@ -535,25 +533,23 @@ namespace ui
 
     void Scale9Sprite::setState(cocos2d::ui::Scale9Sprite::State state)
     {
-        GLProgramState* glState = nullptr;
+        backend::ProgramState* pstate = nullptr;
         switch (state)
         {
             case State::NORMAL:
             {
-                glState = GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP,
-                                                                       _scale9Image != nullptr ? _scale9Image->getTexture() : nullptr);
+                pstate = new backend::ProgramState(backend::ProgramType::POSITION_TEXTURE_COLOR);
             }
             break;
             case State::GRAY:
             {
-                glState = GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_GRAYSCALE,
-                                                                       _scale9Image != nullptr ? _scale9Image->getTexture() : nullptr);
+                pstate = new backend::ProgramState(backend::ProgramType::GRAY_SCALE);
             }
             default:
                 break;
         }
 
-        setGLProgramState(glState);
+        setProgramState(pstate);
         _brightState = state;
     }
 
@@ -641,12 +637,11 @@ namespace ui
 #endif
             {
                 auto texture = _scale9Image->getTexture();
-                auto programState = _scale9Image->getGLProgramState();
                 auto blendFunc = _scale9Image->getBlendFunc();
                 auto& polyInfo = _scale9Image->getPolygonInfo();
                 auto globalZOrder = _scale9Image->getGlobalZOrder();
                 // ETC1 ALPHA support
-                _trianglesCommand.init(globalZOrder, texture, programState, blendFunc, polyInfo.triangles, transform, flags);
+                _trianglesCommand.init(globalZOrder, texture, blendFunc, polyInfo.triangles, transform, flags);
                 renderer->addCommand(&_trianglesCommand);
 
 #if CC_SPRITE_DEBUG_DRAW
@@ -877,21 +872,12 @@ namespace ui
         }
     }
 
-    void Scale9Sprite::setGLProgram(GLProgram* glprogram)
+    void Scale9Sprite::setProgramState(backend::ProgramState* programState)
     {
-        Node::setGLProgram(glprogram);
+        Node::setProgramState(programState);
         if (_scale9Image)
         {
-            _scale9Image->setGLProgram(glprogram);
-        }
-    }
-
-    void Scale9Sprite::setGLProgramState(GLProgramState* glProgramState)
-    {
-        Node::setGLProgramState(glProgramState);
-        if (_scale9Image)
-        {
-            _scale9Image->setGLProgramState(glProgramState);
+            _scale9Image->setProgramState(programState);
         }
     }
 

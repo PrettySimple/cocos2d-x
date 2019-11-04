@@ -34,8 +34,6 @@ THE SOFTWARE.
 #include <cocos/base/CCEventListenerKeyboard.h>
 #include <cocos/base/CCEventListenerTouch.h>
 #include <cocos/base/CCTouch.h>
-#include <cocos/renderer/CCGLProgram.h>
-#include <cocos/renderer/CCGLProgramState.h>
 #include <cocos/renderer/CCTexture2D.h>
 #include <cocos/ui/GUIDefine.h>
 #include <cocos/ui/UILayout.h>
@@ -1088,44 +1086,14 @@ namespace ui
         }
     }
 
-    GLProgramState* Widget::getNormalGLProgramState() const
+    backend::ProgramState* Widget::getNormalProgramState() const
     {
-        GLProgramState* glState = nullptr;
-
-        // ETC1 Gray supports.
-        // currently, Only AbstractCheckButton, ui::Slider called this function, them's VirtualRender is Sprite
-        auto virtualRender = const_cast<Widget*>(this)->getVirtualRenderer();
-        Texture2D* virtualTexture = nullptr;
-        if (auto sp = dynamic_cast<Sprite*>(virtualRender))
-        {
-            virtualTexture = sp->getTexture();
-        }
-        else if (auto scale9sp = dynamic_cast<Scale9Sprite*>(virtualRender))
-        {
-            virtualTexture = scale9sp->getSprite() != nullptr ? scale9sp->getSprite()->getTexture() : nullptr;
-        }
-        glState = GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP, virtualTexture);
-        return glState;
+        return new backend::ProgramState(backend::ProgramType::POSITION_TEXTURE_COLOR);
     }
 
-    GLProgramState* Widget::getGrayGLProgramState() const
+    backend::ProgramState* Widget::getGrayGLProgramState() const
     {
-        GLProgramState* glState = nullptr;
-
-        // ETC1 Gray supports.
-        // currently, Only AbstractCheckButton, ui::Slider called this function, them's VirtualRender is Sprite
-        auto virtualRender = const_cast<Widget*>(this)->getVirtualRenderer();
-        Texture2D* virtualTexture = nullptr;
-        if (auto sp = dynamic_cast<cocos2d::Sprite*>(virtualRender))
-        {
-            virtualTexture = sp->getTexture();
-        }
-        else if (auto scale9sp = dynamic_cast<Scale9Sprite*>(virtualRender))
-        {
-            virtualTexture = scale9sp->getSprite() != nullptr ? scale9sp->getSprite()->getTexture() : nullptr;
-        }
-        glState = GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_GRAYSCALE, virtualTexture);
-        return glState;
+        return new backend::ProgramState(backend::ProgramType::GRAY_SCALE);
     }
 
     void Widget::copySpecialProperties(Widget* model) {}

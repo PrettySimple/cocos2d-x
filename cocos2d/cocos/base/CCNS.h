@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
-Copyright (c) 2013-2014 Chukong Technologies
+Copyright (c) 2013-2017 Chukong Technologies
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,15 +24,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_BASE_NS_H
-#define CC_BASE_NS_H
+#ifndef __PLATFORM_CCNS_H__
+#define __PLATFORM_CCNS_H__
 
 #include <cocos/math/CCGeometry.h>
-#include <cocos/math/Vec2.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <iosfwd>
 
 NS_CC_BEGIN
 
@@ -81,4 +77,6 @@ Size CC_DLL SizeFromString(const std::string& str);
 
 NS_CC_END
 
-#endif // CC_BASE_NS_H
+#endif // __PLATFORM_CCNS_H__
+
+

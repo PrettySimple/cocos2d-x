@@ -1,6 +1,7 @@
 /****************************************************************************
  Copyright (c) 2014 cocos2d-x.org
- Copyright (c) 2014 Chukong Technologies Inc.
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -23,14 +24,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include <cocos/platform/CCPlatformConfig.h>
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+#include <cocos/base/CCController.h>
 
-#    include <cocos/base/CCController.h>
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 )
 
-#    include <cocos/base/CCDirector.h>
-#    include <cocos/base/CCEventController.h>
-#    include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventDispatcher.h>
+#include <cocos/base/CCEventController.h>
+#include <cocos/base/CCDirector.h>
 
 NS_CC_BEGIN
 
@@ -38,7 +38,7 @@ std::vector<Controller*> Controller::s_allController;
 
 Controller* Controller::getControllerByTag(int tag)
 {
-    for (auto controller : Controller::s_allController)
+    for (auto controller:Controller::s_allController)
     {
         if (controller->_controllerTag == tag)
         {
@@ -47,6 +47,19 @@ Controller* Controller::getControllerByTag(int tag)
     }
     return nullptr;
 }
+
+Controller* Controller::getControllerByDeviceId(int deviceId)
+{
+    for (auto controller : Controller::s_allController)
+    {
+        if (controller->_deviceId == deviceId)
+        {
+            return controller;
+        }
+    }
+    return nullptr;
+}
+
 
 void Controller::init()
 {
@@ -113,4 +126,4 @@ void Controller::onAxisEvent(int axisCode, float value, bool isAnalog)
 
 NS_CC_END
 
-#endif // (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+#endif // (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)

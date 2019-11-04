@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_PLATFORM_APPLE_LOCKAPPLE_H
-#define CC_PLATFORM_APPLE_LOCKAPPLE_H
+#ifndef __PLATFORM_IPHONE_PLATFORM_CCLOCK_H__
+#define __PLATFORM_IPHONE_PLATFORM_CCLOCK_H__
 
 #include <cocos/platform/CCPlatformMacros.h>
 
@@ -36,17 +37,17 @@ public:
     /**
      * @js ctor
      */
-    Lock(void);
+    Lock();
     /**
      * @js NA
      * @lua NA
      */
-    ~Lock(void);
+    ~Lock();
 
-    void lock(void);
-    void unlock(void);
+    void lock();
+    void unlock();
 };
 
 NS_CC_END
 
-#endif // CC_PLATFORM_APPLE_LOCKAPPLE_H
+#endif // __PLATFORM_IPHONE_PLATFORM_CCLOCK_H__

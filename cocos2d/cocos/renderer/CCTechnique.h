@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2015 Chukong Technologies Inc.
+ Copyright (c) 2015-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -26,38 +27,39 @@
  - OGRE3D: http://www.ogre3d.org/
  - Qt3D: http://qt-project.org/
  ****************************************************************************/
+#pragma once
 
-#ifndef CC_RENDERER_TECHNIQUE_H
-#define CC_RENDERER_TECHNIQUE_H
-
-#include <cocos/base/CCVector.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
+#include <string>
 #include <cocos/renderer/CCRenderState.h>
-
-#include <cstddef>
-#include <iosfwd>
+#include <cocos/base/CCRef.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/base/CCVector.h>
 
 NS_CC_BEGIN
 
 class Pass;
-class GLProgramState;
 class Material;
 
+namespace  backend
+{
+    class ProgramState;
+}
+
 /// Technique
-class CC_DLL Technique final : public RenderState
+class CC_DLL Technique :public Ref
 {
     friend class Material;
     friend class Renderer;
     friend class Pass;
     friend class MeshCommand;
     friend class Mesh;
+    friend class RenderState;
 
 public:
     /** Creates a new Technique with a GLProgramState.
      Method added to support legacy code
      */
-    static Technique* createWithGLProgramState(Material* parent, GLProgramState* state);
+    static Technique* createWithProgramState(Material* parent, backend::ProgramState* state);
     static Technique* create(Material* parent);
 
     /** Adds a new pass to the Technique.
@@ -66,30 +68,35 @@ public:
     void addPass(Pass* pass);
 
     /** Returns the name of the Technique */
-    inline std::string getName() const noexcept { return _name; }
+    std::string getName() const;
 
     /** Returns the Pass at given index */
-    Pass* getPassByIndex(std::size_t index) const;
+    Pass* getPassByIndex(ssize_t index) const;
 
     /** Returns the number of Passes in the Technique */
-    inline std::size_t getPassCount() const noexcept { return _passes.size(); }
+    ssize_t getPassCount() const;
 
     /** Returns the list of passes */
-    inline Vector<Pass*> const& getPasses() const noexcept { return _passes; }
+    const Vector<Pass*>& getPasses() const;
 
     /** Returns a new clone of the Technique */
     Technique* clone() const;
 
+    void setMaterial(Material * material) { _material = material; }
+
+    RenderState::StateBlock &getStateBlock() { return _renderState.getStateBlock(); }
+
 protected:
-    Technique() = default;
-    ~Technique() final;
+    Technique();
+    ~Technique();
     bool init(Material* parent);
 
-    inline void setName(const std::string& name) { _name = name; }
-
+    void setName(const std::string& name);
+    RenderState _renderState;
+    std::string _name;
     Vector<Pass*> _passes;
+
+    Material *_material = nullptr;
 };
 
 NS_CC_END
-
-#endif // CC_RENDERER_TECHNIQUE_H

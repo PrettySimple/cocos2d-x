@@ -1,5 +1,6 @@
 /****************************************************************************
  Copyright (c) 2013-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -23,8 +24,8 @@
 
  ****************************************************************************/
 
-#ifndef CC_BASE_EVENTLISTENERMOUSE_H
-#define CC_BASE_EVENTLISTENERMOUSE_H
+#ifndef __cocos2d_libs__CCMouseEventListener__
+#define __cocos2d_libs__CCMouseEventListener__
 
 #include <cocos/base/CCEventListener.h>
 #include <cocos/base/CCEventMouse.h>
@@ -45,8 +46,8 @@ class Event;
 class CC_DLL EventListenerMouse : public EventListener
 {
 public:
-    static const ListenerID LISTENER_ID;
-
+    static const std::string LISTENER_ID;
+    
     /** Create a mouse event listener.
      *
      * @return An autoreleased EventListenerMouse object.
@@ -61,9 +62,9 @@ public:
     std::function<void(EventMouse* event)> onMouseUp;
     std::function<void(EventMouse* event)> onMouseMove;
     std::function<void(EventMouse* event)> onMouseScroll;
-    std::function<void(EventMouse* event)> onMouseOut;
 
-    CC_CONSTRUCTOR_ACCESS : EventListenerMouse();
+CC_CONSTRUCTOR_ACCESS:
+    EventListenerMouse();
     bool init();
 };
 
@@ -72,4 +73,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif // CC_BASE_EVENTLISTENERMOUSE_H
+#endif /* defined(__cocos2d_libs__CCMouseEventListener__) */

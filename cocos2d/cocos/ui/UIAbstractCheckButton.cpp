@@ -298,8 +298,8 @@ namespace ui
         _backGroundBoxDisabledRenderer->setVisible(false);
         _frontCrossDisabledRenderer->setVisible(false);
 
-        _backGroundBoxRenderer->setGLProgramState(this->getNormalGLProgramState());
-        _frontCrossRenderer->setGLProgramState(this->getNormalGLProgramState());
+        _backGroundBoxRenderer->setProgramState(this->getNormalProgramState());
+        _frontCrossRenderer->setProgramState(this->getNormalProgramState());
 
         _backGroundBoxRenderer->setScale(_backgroundTextureScaleX, _backgroundTextureScaleY);
         _frontCrossRenderer->setScale(_backgroundTextureScaleX, _backgroundTextureScaleY);
@@ -313,8 +313,8 @@ namespace ui
 
     void AbstractCheckButton::onPressStateChangedToPressed()
     {
-        _backGroundBoxRenderer->setGLProgramState(this->getNormalGLProgramState());
-        _frontCrossRenderer->setGLProgramState(this->getNormalGLProgramState());
+        _backGroundBoxRenderer->setProgramState(this->getNormalProgramState());
+        _frontCrossRenderer->setProgramState(this->getNormalProgramState());
 
         if (!_isBackgroundSelectedTextureLoaded)
         {
@@ -334,8 +334,8 @@ namespace ui
     {
         if (!_isBackgroundDisabledTextureLoaded || !_isFrontCrossDisabledTextureLoaded)
         {
-            _backGroundBoxRenderer->setGLProgramState(this->getGrayGLProgramState());
-            _frontCrossRenderer->setGLProgramState(this->getGrayGLProgramState());
+            _backGroundBoxRenderer->setProgramState(this->getGrayGLProgramState());
+            _frontCrossRenderer->setProgramState(this->getGrayGLProgramState());
         }
         else
         {

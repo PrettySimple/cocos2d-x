@@ -46,6 +46,8 @@
 
 #    include <utility>
 
+using namespace std::chrono_literals;
+
 using namespace cocos2d;
 using namespace cocos2d::experimental;
 
@@ -595,7 +597,7 @@ void AudioEngineImpl::stop(int audioID)
     }
 
     // Call 'update' method to cleanup immediately since the schedule may be cancelled without any notification.
-    update(0.0f);
+    update(0ms);
 }
 
 void AudioEngineImpl::stopAll()
@@ -606,7 +608,7 @@ void AudioEngineImpl::stopAll()
     }
 
     // Call 'update' method to cleanup immediately since the schedule may be cancelled without any notification.
-    update(0.0f);
+    update(0ms);
 }
 
 std::chrono::milliseconds AudioEngineImpl::getDuration(int audioID)
@@ -655,7 +657,7 @@ void AudioEngineImpl::setFinishCallback(int audioID, const std::function<void(in
     }
 }
 
-void AudioEngineImpl::update(float dt)
+void AudioEngineImpl::update(std::chrono::milliseconds dt)
 {
     int audioID;
     AudioPlayer* player;

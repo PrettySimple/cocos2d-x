@@ -97,7 +97,7 @@ namespace ui
             return false;
         }
 
-        _upperHalfCircle = utils::createSpriteFromBase64Cached(HALF_CIRCLE_IMAGE, HALF_CIRCLE_IMAGE_KEY);
+        _upperHalfCircle = ccutils::createSpriteFromBase64Cached(HALF_CIRCLE_IMAGE, HALF_CIRCLE_IMAGE_KEY);
         _upperHalfCircle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
         addProtectedChild(_upperHalfCircle);
 
@@ -106,7 +106,7 @@ namespace ui
         _lowerHalfCircle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
         addProtectedChild(_lowerHalfCircle);
 
-        _body = utils::createSpriteFromBase64Cached(BODY_IMAGE_1_PIXEL_HEIGHT, BODY_IMAGE_1_PIXEL_HEIGHT_KEY);
+        _body = ccutils::createSpriteFromBase64Cached(BODY_IMAGE_1_PIXEL_HEIGHT, BODY_IMAGE_1_PIXEL_HEIGHT_KEY);
         _body->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
         addProtectedChild(_body);
 

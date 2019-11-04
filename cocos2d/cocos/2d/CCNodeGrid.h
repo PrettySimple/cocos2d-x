@@ -1,5 +1,6 @@
 /****************************************************************************
  Copyright (c) 2013-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -21,13 +22,11 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-
-#ifndef CC_2D_NODEGRID_H
-#define CC_2D_NODEGRID_H
+#pragma once
 
 #include <cocos/2d/CCNode.h>
-#include <cocos/renderer/CCCustomCommand.h>
 #include <cocos/renderer/CCGroupCommand.h>
+#include <cocos/renderer/CCCustomCommand.h>
 
 NS_CC_BEGIN
 
@@ -49,10 +48,10 @@ public:
      * @return An autorelease Grid Node.
      */
     static NodeGrid* create();
-
+    
     static NodeGrid* create(const Rect& rect);
-
-    /** Get a Grid Node.
+    
+    /** Get a Grid Node. 
      *
      * @return Return a GridBase.
      */
@@ -67,14 +66,14 @@ public:
      *
      * @param grid  A Grid object that is used when applying effects.
      */
-    void setGrid(GridBase* grid);
-
-    /** Set the Grid Target.
+    void setGrid(GridBase *grid);
+    
+    /** Set the Grid Target. 
      *
      * @param target A Node is used to set the Grid Target.
      */
-    void setTarget(Node* target);
-
+    void setTarget(Node *target);
+    
     /**
      * @brief Set the effect grid rect.
      * @param gridRect The effect grid rect.
@@ -87,27 +86,26 @@ public:
     const Rect& getGridRect() const { return _gridRect; }
 
     // overrides
-    void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
+    virtual void visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags) override;
 
-    CC_CONSTRUCTOR_ACCESS : NodeGrid();
-    ~NodeGrid() override;
+CC_CONSTRUCTOR_ACCESS:
+    NodeGrid();
+    virtual ~NodeGrid();
 
 protected:
     void onGridBeginDraw();
     void onGridEndDraw();
 
-    Node* _gridTarget;
-    GridBase* _nodeGrid;
+    Node* _gridTarget = nullptr;
+    GridBase* _nodeGrid = nullptr;
     GroupCommand _groupCommand;
     CustomCommand _gridBeginCommand;
     CustomCommand _gridEndCommand;
-
-    Rect _gridRect;
+    
+    Rect _gridRect = Rect::ZERO;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(NodeGrid)
+    CC_DISALLOW_COPY_AND_ASSIGN(NodeGrid);
 };
 /** @} */
 NS_CC_END
-
-#endif // CC_2D_NODEGRID_H

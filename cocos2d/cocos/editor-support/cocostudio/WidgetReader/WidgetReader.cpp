@@ -113,7 +113,7 @@ namespace cocostudio
             }
         };
 
-        valueToFloat = [=](const std::string& str) -> float { return utils::atof(str.c_str()); };
+        valueToFloat = [=](const std::string& str) -> float { return ccutils::atof(str.c_str()); };
     }
 
     WidgetReader::~WidgetReader() {}

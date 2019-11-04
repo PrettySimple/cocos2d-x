@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2012      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -22,22 +23,23 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
+#pragma once
 
-#ifndef CC_BASE_FPSIMAGE_H
-#define CC_BASE_FPSIMAGE_H
+#include <cocos/base/ccConfig.h>
+
 /// @cond DO_NOT_SHOW
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-    extern unsigned char cc_fps_images_png[];
-    unsigned int cc_fps_images_len(void);
+#if !CC_STRIP_FPS
+extern unsigned char cc_fps_images_png[];
+extern unsigned int cc_fps_images_len(void);
+#endif
 
 #ifdef __cplusplus
 }
 #endif
 
 /// @endcond
-#endif // CC_BASE_FPSIMAGE_H

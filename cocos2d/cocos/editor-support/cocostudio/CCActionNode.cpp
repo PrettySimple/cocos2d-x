@@ -200,7 +200,7 @@ namespace cocostudio
             return false;
         }
     }
-    float ActionNode::valueToFloat(const std::string& value) { return utils::atof(value.c_str()); }
+    float ActionNode::valueToFloat(const std::string& value) { return ccutils::atof(value.c_str()); }
 
     void ActionNode::initWithBinary(CocoLoader* cocoLoader, stExpCocoNode* cocoNode, cocos2d::Ref* root)
     {

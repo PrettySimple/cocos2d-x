@@ -92,7 +92,7 @@ class CC_DLL Sprite : public Node, public TextureProtocol
 {
 public:
     /** Sprite invalid index on the SpriteBatchNode. */
-    static const std::size_t INDEX_NOT_INITIALIZED = std::numeric_limits<std::size_t>::max();
+    static const auto INDEX_NOT_INITIALIZED = std::numeric_limits<unsigned int>::max();
 
     /// @name Creators
     /// @{
@@ -325,7 +325,7 @@ public:
      *
      * @warning Don't modify this value unless you know what you are doing.
      */
-    void setAtlasIndex(std::size_t atlasIndex) { _atlasIndex = atlasIndex; }
+    void setAtlasIndex(unsigned int atlasIndex) { _atlasIndex = atlasIndex; }
 
     /**
      * Returns the rect of the Sprite in points.
@@ -337,6 +337,11 @@ public:
      */
     TextureAtlas* getTextureAtlas() const { return _textureAtlas; }
 
+    /**
+     * Set ProgramState
+     */
+    virtual void setProgramState(backend::ProgramState *programState) override;
+    
     /**
      * Sets the weak reference of the TextureAtlas when the sprite is rendered using via SpriteBatchNode.
      */
@@ -581,7 +586,9 @@ public:
      * @lua     init
      */
     virtual bool initWithFile(const std::string& filename, const Rect& rect);
-
+    virtual void setVertexLayout();
+    virtual void updateShaders(const char* vert, const char* frag);
+    
 protected:
     void updateColor() override;
     virtual void updateFlipX();
@@ -590,12 +597,16 @@ protected:
     virtual void updateBlendFunc();
     virtual void setReorderChildDirtyRecursively();
     virtual void setDirtyRecursively(bool value);
+    virtual void updateProgramState();
 
+    void setMVPMatrixUniform();
+    void setProgramState(backend::ProgramType type);
+    
     //
     // Data used when the sprite is rendered using a SpriteSheet
     //
     TextureAtlas* _textureAtlas = nullptr; /// SpriteBatchNode texture atlas (weak reference)
-    std::size_t _atlasIndex = INDEX_NOT_INITIALIZED; /// Absolute (real) Index on the SpriteSheet
+    unsigned int _atlasIndex = INDEX_NOT_INITIALIZED; /// Absolute (real) Index on the SpriteSheet
     SpriteBatchNode* _batchNode = nullptr; /// Used batch node (weak reference)
 
     bool _dirty = false; /// Whether the sprite needs to be updated
@@ -610,6 +621,12 @@ protected:
     Texture2D* _texture = nullptr; /// Texture2D object that is used to render the sprite
     SpriteFrame* _spriteFrame = nullptr;
     TrianglesCommand _trianglesCommand; ///
+    
+    backend::UniformLocation _mvpMatrixLocation;
+    backend::UniformLocation _textureLocation;
+    backend::UniformLocation _alphaTextureLocation;
+    
+    
 #if CC_SPRITE_DEBUG_DRAW
     DrawNode* _debugDrawNode = nullptr;
 #endif // CC_SPRITE_DEBUG_DRAW
@@ -621,6 +638,8 @@ protected:
     Rect _rect; /// Rectangle of Texture2D
     bool _rectRotated = false; /// Whether the texture is rotated
 
+    Size _originalContentSize = Size::ZERO;              /// original content size
+    
     // Offset Position (used by Zwoptex)
     Vec2 _offsetPosition;
     Vec2 _unflippedOffsetPositionFromCenter;

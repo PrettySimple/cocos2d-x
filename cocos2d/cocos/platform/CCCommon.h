@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,14 +24,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_PLATFORM_COMMON_H
-#define CC_PLATFORM_COMMON_H
+#ifndef __CC_COMMON_H__
+#define __CC_COMMON_H__
 /// @cond DO_NOT_SHOW
 
-#include <cocos/platform/CCPlatformDefine.h>
 #include <cocos/platform/CCPlatformMacros.h>
-
-#include <cstdint>
 
 NS_CC_BEGIN
 
@@ -42,17 +40,17 @@ NS_CC_BEGIN
 /**
  * lua can not deal with ...
  */
-void CC_DLL LuaLog(const char* format);
+void CC_DLL LuaLog(const char * format);
 
 /**
 @brief Pop out a message box
 */
-void CC_DLL MessageBox(const char* msg, const char* title);
+void CC_DLL MessageBox(const char * msg, const char * title);
 
 /**
 @brief Enum the language type supported now
 */
-enum struct LanguageType : std::uint8_t
+enum class LanguageType
 {
     ENGLISH = 0,
     CHINESE,
@@ -72,7 +70,8 @@ enum struct LanguageType : std::uint8_t
     TURKISH,
     UKRAINIAN,
     ROMANIAN,
-    BULGARIAN
+    BULGARIAN,
+    BELARUSIAN
 };
 
 // END of platform group
@@ -81,4 +80,4 @@ enum struct LanguageType : std::uint8_t
 NS_CC_END
 
 /// @endcond
-#endif // CC_PLATFORM_COMMON_H
+#endif    // __CC_COMMON_H__

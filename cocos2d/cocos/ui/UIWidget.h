@@ -888,13 +888,13 @@ namespace ui
          *@since v3.4
          */
 
-        GLProgramState* getNormalGLProgramState() const;
+        backend::ProgramState* getNormalProgramState() const;
 
         /**
          * Get a disabled state GLProgramState
          *@since v3.4
          */
-        GLProgramState* getGrayGLProgramState() const;
+        backend::ProgramState* getGrayGLProgramState() const;
 
         // call back function called when size changed.
         virtual void onSizeChanged();

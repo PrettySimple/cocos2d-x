@@ -1,5 +1,6 @@
 /****************************************************************************
  Copyright (c) 2013-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -21,20 +22,14 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 ****************************************************************************/
-
-#ifndef CC_BASE_NINEPATCHIMAGEPARSER_H
-#define CC_BASE_NINEPATCHIMAGEPARSER_H
-
-#include <cocos/math/CCGeometry.h>
-#include <cocos/math/Vec2.h>
-#include <cocos/platform/CCPlatformDefine.h>
 #include <cocos/platform/CCPlatformMacros.h>
-
-#include <iosfwd>
+#include <cocos/math/CCGeometry.h>
 
 NS_CC_BEGIN
 
 class Image;
+class SpriteFrame;
+
 
 /**
  * A class for paring Android .9 patch image.
@@ -103,19 +98,18 @@ public:
      * Parsing the image data and extract the capInsets info.
      * @return The capInsets Rect.
      */
-    Rect parseCapInset() const;
-
+    Rect parseCapInset()const;
 private:
     enum class Direction
     {
         HORIZONTAL,
         VERTICAL
     };
-    int getPixelOriginOffset(Direction direction) const;
-    Vec2 parseHorizontalMargin() const;
-    Vec2 parseVerticalMargin() const;
-    int getFrameWidth() const;
-    int getFrameHeight() const;
+    int getPixelOriginOffset(Direction direction)const;
+    Vec2 parseHorizontalMargin()const;
+    Vec2 parseVerticalMargin()const;
+    int getFrameWidth()const;
+    int getFrameHeight()const;
 
     Image* _image;
     Rect _imageFrame;
@@ -123,5 +117,3 @@ private:
 };
 
 NS_CC_END
-
-#endif // CC_BASE_NINEPATCHIMAGEPARSER_H

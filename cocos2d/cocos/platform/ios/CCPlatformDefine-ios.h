@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -22,29 +23,27 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef CC_PLATFORM_IOS_PLATFORMDEFINEIOS_H
-#define CC_PLATFORM_IOS_PLATFORMDEFINEIOS_H
+#pragma once
 
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    include <assert.h>
+#include <assert.h>
 
-#    define CC_DLL
+#define CC_DLL 
 
-#    define CC_ASSERT(cond) assert(cond)
+#define CC_ASSERT(cond) assert(cond)
 
-#    define CC_UNUSED_PARAM(unusedparam) (void)unusedparam
+
+#define CC_UNUSED_PARAM(unusedparam) (void)unusedparam
 
 /* Define NULL pointer value */
-#    ifndef NULL
-#        ifdef __cplusplus
-#            define NULL 0
-#        else
-#            define NULL ((void*)0)
-#        endif
-#    endif
+#ifndef NULL
+#ifdef __cplusplus
+#define NULL    0
+#else
+#define NULL    ((void *)0)
+#endif
+#endif
 
 #endif // CC_PLATFORM_IOS
-
-#endif // CC_PLATFORM_IOS_PLATFORMDEFINEIOS_H

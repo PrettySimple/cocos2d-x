@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,51 +24,51 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-#    include "base/CCDirector.h"
-#    include "platform/CCApplication.h"
-#    include "platform/android/jni/JniHelper.h"
-#    include <android/log.h>
-#    include <cstring>
-#    include <jni.h>
+#include <cocos/platform/android/jni/JniHelper.h>
+#include <cocos/platform/CCApplication.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/base/ccUtils.h>
+#include <android/log.h>
+#include <jni.h>
+#include <cstring>
 
-#    define LOG_TAG "CCApplication_android Debug"
-#    define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
+#define  LOG_TAG    "CCApplication_android Debug"
+#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
 // FIXME: using ndk-r10c will cause the next function could not be found. It may be a bug of ndk-r10c.
 // Here is the workaround method to fix the problem.
-#    ifdef __aarch64__
-extern "C" size_t __ctype_get_mb_cur_max(void)
-{
-    return (size_t)sizeof(wchar_t);
+#ifdef __aarch64__
+extern "C" size_t __ctype_get_mb_cur_max(void) {
+    return (size_t) sizeof(wchar_t);
 }
-#    endif
+#endif
 
-static const std::string helperClassName = "org/cocos2dx/lib/Cocos2dxHelper";
+static const std::string helperClassName = "org.cocos2dx.lib.Cocos2dxHelper";
 
 NS_CC_BEGIN
 
 // sharedApplication pointer
-Application* Application::sm_pSharedApplication = nullptr;
+Application * Application::sm_pSharedApplication = nullptr;
 
 Application::Application()
 {
-    CCASSERT(!sm_pSharedApplication, "");
+    CCAssert(! sm_pSharedApplication, "");
     sm_pSharedApplication = this;
 }
 
 Application::~Application()
 {
-    CCASSERT(this == sm_pSharedApplication, "");
+    CCAssert(this == sm_pSharedApplication, "");
     sm_pSharedApplication = nullptr;
 }
 
 int Application::run()
 {
     // Initialize instance and cocos2d.
-    if (!applicationDidFinishLaunching())
+    if (! applicationDidFinishLaunching())
     {
         return 0;
     }
@@ -85,7 +86,7 @@ void Application::setAnimationInterval(float interval)
 //////////////////////////////////////////////////////////////////////////
 Application* Application::getInstance()
 {
-    CCASSERT(sm_pSharedApplication, "");
+    CCAssert(sm_pSharedApplication, "");
     return sm_pSharedApplication;
 }
 
@@ -95,98 +96,20 @@ Application* Application::sharedApplication()
     return Application::getInstance();
 }
 
-const char* Application::getCurrentLanguageCode()
+const char * Application::getCurrentLanguageCode()
 {
-    static char code[3] = {0};
+    static char code[3]={0};
     std::string language = JniHelper::callStaticStringMethod(helperClassName, "getCurrentLanguage");
     strncpy(code, language.c_str(), 2);
-    code[2] = '\0';
+    code[2]='\0';
     return code;
 }
 
 LanguageType Application::getCurrentLanguage()
 {
-    std::string languageName = JniHelper::callStaticStringMethod(helperClassName, "getCurrentLanguage");
-    const char* pLanguageName = languageName.c_str();
-    LanguageType ret = LanguageType::ENGLISH;
+    const char* code = getCurrentLanguageCode();
 
-    if (0 == strcmp("zh", pLanguageName))
-    {
-        ret = LanguageType::CHINESE;
-    }
-    else if (0 == strcmp("en", pLanguageName))
-    {
-        ret = LanguageType::ENGLISH;
-    }
-    else if (0 == strcmp("fr", pLanguageName))
-    {
-        ret = LanguageType::FRENCH;
-    }
-    else if (0 == strcmp("it", pLanguageName))
-    {
-        ret = LanguageType::ITALIAN;
-    }
-    else if (0 == strcmp("de", pLanguageName))
-    {
-        ret = LanguageType::GERMAN;
-    }
-    else if (0 == strcmp("es", pLanguageName))
-    {
-        ret = LanguageType::SPANISH;
-    }
-    else if (0 == strcmp("ru", pLanguageName))
-    {
-        ret = LanguageType::RUSSIAN;
-    }
-    else if (0 == strcmp("nl", pLanguageName))
-    {
-        ret = LanguageType::DUTCH;
-    }
-    else if (0 == strcmp("ko", pLanguageName))
-    {
-        ret = LanguageType::KOREAN;
-    }
-    else if (0 == strcmp("ja", pLanguageName))
-    {
-        ret = LanguageType::JAPANESE;
-    }
-    else if (0 == strcmp("hu", pLanguageName))
-    {
-        ret = LanguageType::HUNGARIAN;
-    }
-    else if (0 == strcmp("pt", pLanguageName))
-    {
-        ret = LanguageType::PORTUGUESE;
-    }
-    else if (0 == strcmp("ar", pLanguageName))
-    {
-        ret = LanguageType::ARABIC;
-    }
-    else if (0 == strcmp("nb", pLanguageName))
-    {
-        ret = LanguageType::NORWEGIAN;
-    }
-    else if (0 == strcmp("pl", pLanguageName))
-    {
-        ret = LanguageType::POLISH;
-    }
-    else if (0 == strcmp("tr", pLanguageName))
-    {
-        ret = LanguageType::TURKISH;
-    }
-    else if (0 == strcmp("uk", pLanguageName))
-    {
-        ret = LanguageType::UKRAINIAN;
-    }
-    else if (0 == strcmp("ro", pLanguageName))
-    {
-        ret = LanguageType::ROMANIAN;
-    }
-    else if (0 == strcmp("bg", pLanguageName))
-    {
-        ret = LanguageType::BULGARIAN;
-    }
-    return ret;
+    return utils::getLanguageTypeByISO2(code);
 }
 
 Application::Platform Application::getTargetPlatform()
@@ -199,13 +122,13 @@ std::string Application::getVersion()
     return JniHelper::callStaticStringMethod(helperClassName, "getVersion");
 }
 
-bool Application::openURL(const std::string& url)
+bool Application::openURL(const std::string &url)
 {
     return JniHelper::callStaticBooleanMethod(helperClassName, "openURL", url);
 }
 
-void Application::applicationScreenSizeChanged(int newWidth, int newHeight)
-{
+void Application::applicationScreenSizeChanged(int newWidth, int newHeight) {
+
 }
 
 NS_CC_END

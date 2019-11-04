@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -26,11 +27,11 @@ THE SOFTWARE.
 #ifndef __CC_APPLICATION_ANDROID_H__
 #define __CC_APPLICATION_ANDROID_H__
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-#    include "platform/CCApplicationProtocol.h"
-#    include "platform/CCCommon.h"
+#include <cocos/platform/CCCommon.h>
+#include <cocos/platform/CCApplicationProtocol.h>
 
 NS_CC_BEGIN
 
@@ -51,7 +52,7 @@ public:
     @brief    Callback by Director to limit FPS.
     @param interval The time, expressed in seconds, between current frame and next.
     */
-    void setAnimationInterval(float interval) override;
+    virtual void setAnimationInterval(float interval) override;
 
     /**
     @brief    Run the message loop.
@@ -72,18 +73,18 @@ public:
     @return Current language config
     */
     virtual LanguageType getCurrentLanguage() override;
-
+    
     /**
     @brief Get current language iso 639-1 code
     @return Current language iso 639-1 code
     */
-    virtual const char* getCurrentLanguageCode() override;
-
+    virtual const char * getCurrentLanguageCode() override;
+    
     /**
      @brief Get target platform
      */
     virtual Platform getTargetPlatform() override;
-
+    
     /**
      @brief Get application version.
      */
@@ -94,7 +95,7 @@ public:
      @param String with url to open.
      @return true if the resource located by the URL was successfully opened; otherwise false.
      */
-    virtual bool openURL(const std::string& url) override;
+    virtual bool openURL(const std::string &url) override;
 
     /**
     @brief  This function will be called when the application screen size is changed.
@@ -104,7 +105,7 @@ public:
     virtual void applicationScreenSizeChanged(int newWidth, int newHeight);
 
 protected:
-    static Application* sm_pSharedApplication;
+    static Application * sm_pSharedApplication;
 };
 
 NS_CC_END

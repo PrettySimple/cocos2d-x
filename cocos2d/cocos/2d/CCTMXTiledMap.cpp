@@ -3,6 +3,7 @@ Copyright (c) 2009-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -25,31 +26,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 #include <cocos/2d/CCTMXTiledMap.h>
-
-#include <cocos/2d/CCNode.h>
-#include <cocos/2d/CCTMXLayer.h>
-#include <cocos/2d/CCTMXObjectGroup.h>
 #include <cocos/2d/CCTMXXMLParser.h>
-#include <cocos/base/CCValue.h>
-#include <cocos/base/CCVector.h>
-#include <cocos/base/ccMacros.h>
+#include <cocos/2d/CCTMXLayer.h>
+#include <cocos/2d/CCSprite.h>
 #include <cocos/base/ccUTF8.h>
-#include <cocos/math/CCGeometry.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <algorithm>
-#include <cstdint>
-#include <new>
-#include <string>
-#include <unordered_map>
 
 NS_CC_BEGIN
 
 // implementation TMXTiledMap
 
-TMXTiledMap* TMXTiledMap::create(const std::string& tmxFile)
+TMXTiledMap * TMXTiledMap::create(const std::string& tmxFile)
 {
-    TMXTiledMap* ret = new (std::nothrow) TMXTiledMap();
+    TMXTiledMap *ret = new (std::nothrow) TMXTiledMap();
     if (ret->initWithTMXFile(tmxFile))
     {
         ret->autorelease();
@@ -61,7 +49,7 @@ TMXTiledMap* TMXTiledMap::create(const std::string& tmxFile)
 
 TMXTiledMap* TMXTiledMap::createWithXML(const std::string& tmxString, const std::string& resourcePath)
 {
-    TMXTiledMap* ret = new (std::nothrow) TMXTiledMap();
+    TMXTiledMap *ret = new (std::nothrow) TMXTiledMap();
     if (ret->initWithXML(tmxString, resourcePath))
     {
         ret->autorelease();
@@ -73,19 +61,19 @@ TMXTiledMap* TMXTiledMap::createWithXML(const std::string& tmxString, const std:
 
 bool TMXTiledMap::initWithTMXFile(const std::string& tmxFile)
 {
-    CCASSERT(tmxFile.size() > 0, "TMXTiledMap: tmx file should not be empty");
+    CCASSERT(tmxFile.size()>0, "TMXTiledMap: tmx file should not be empty");
 
     _tmxFile = tmxFile;
 
     setContentSize(Size::ZERO);
 
-    TMXMapInfo* mapInfo = TMXMapInfo::create(tmxFile);
+    TMXMapInfo *mapInfo = TMXMapInfo::create(tmxFile);
 
-    if (!mapInfo)
+    if (! mapInfo)
     {
         return false;
     }
-    CCASSERT(!mapInfo->getTilesets().empty(), "TMXTiledMap: Map not found. Please check the filename.");
+    CCASSERT( !mapInfo->getTilesets().empty(), "TMXTiledMap: Map not found. Please check the filename.");
     buildWithMapInfo(mapInfo);
 
     return true;
@@ -97,19 +85,19 @@ bool TMXTiledMap::initWithXML(const std::string& tmxString, const std::string& r
 
     setContentSize(Size::ZERO);
 
-    TMXMapInfo* mapInfo = TMXMapInfo::createWithXML(tmxString, resourcePath);
+    TMXMapInfo *mapInfo = TMXMapInfo::createWithXML(tmxString, resourcePath);
 
-    CCASSERT(!mapInfo->getTilesets().empty(), "TMXTiledMap: Map not found. Please check the filename.");
+    CCASSERT( !mapInfo->getTilesets().empty(), "TMXTiledMap: Map not found. Please check the filename.");
     buildWithMapInfo(mapInfo);
 
     return true;
 }
 
 TMXTiledMap::TMXTiledMap()
-: _mapSize(Size::ZERO)
-, _tileSize(Size::ZERO)
-, _tmxFile("")
-, _tmxLayerNum(0)
+    :_mapSize(Size::ZERO)
+    ,_tileSize(Size::ZERO)        
+    ,_tmxFile("")
+    , _tmxLayerNum(0)
 {
 }
 
@@ -118,13 +106,13 @@ TMXTiledMap::~TMXTiledMap()
 }
 
 // private
-TMXLayer* TMXTiledMap::parseLayer(TMXLayerInfo* layerInfo, TMXMapInfo* mapInfo)
+TMXLayer * TMXTiledMap::parseLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
 {
-    TMXTilesetInfo* tileset = tilesetForLayer(layerInfo, mapInfo);
+    TMXTilesetInfo *tileset = tilesetForLayer(layerInfo, mapInfo);
     if (tileset == nullptr)
         return nullptr;
-
-    TMXLayer* layer = TMXLayer::create(tileset, layerInfo, mapInfo);
+    
+    TMXLayer *layer = TMXLayer::create(tileset, layerInfo, mapInfo);
 
     if (nullptr != layer)
     {
@@ -136,47 +124,43 @@ TMXLayer* TMXTiledMap::parseLayer(TMXLayerInfo* layerInfo, TMXMapInfo* mapInfo)
     return layer;
 }
 
-TMXTilesetInfo* TMXTiledMap::tilesetForLayer(TMXLayerInfo* layerInfo, TMXMapInfo* mapInfo)
+TMXTilesetInfo * TMXTiledMap::tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
 {
-    Size size = layerInfo->_layerSize;
+    auto height = static_cast<uint32_t>(layerInfo->_layerSize.height);
+    auto width  = static_cast<uint32_t>(layerInfo->_layerSize.width);
     auto& tilesets = mapInfo->getTilesets();
-    if (tilesets.size() > 0)
+
+    for (auto iter = tilesets.crbegin(), end = tilesets.crend(); iter != end; ++iter)
     {
-        TMXTilesetInfo* tileset = nullptr;
-        for (auto iter = tilesets.crbegin(); iter != tilesets.crend(); ++iter)
+        TMXTilesetInfo* tileset = *iter;
+
+        if (tileset)
         {
-            tileset = *iter;
-            if (tileset)
+            for (uint32_t y = 0; y < height; y++)
             {
-                for (int y = 0; y < size.height; y++)
+                for (uint32_t x = 0; x < width; x++)
                 {
-                    for (int x = 0; x < size.width; x++)
+                    auto pos = x + width * y;
+                    auto gid = layerInfo->_tiles[ pos ];
+
+                    // FIXME:: gid == 0 --> empty tile
+                    if (gid != 0)
                     {
-                        int pos = static_cast<int>(x + size.width * y);
-                        int gid = layerInfo->_tiles[pos];
-
-                        // gid are stored in little endian.
-                        // if host is big endian, then swap
-                        // if( o == CFByteOrderBigEndian )
-                        //    gid = CFSwapInt32( gid );
-                        /* We support little endian.*/
-
-                        // FIXME:: gid == 0 --> empty tile
-                        if (gid != 0)
-                        {
-                            // Optimization: quick return
-                            // if the layer is invalid (more than 1 tileset per layer) an CCAssert will be thrown later
-                            if ((gid & kTMXFlippedMask) >= tileset->_firstGid)
-                                return tileset;
-                        }
+                        // Optimization: quick return
+                        // if the layer is invalid (more than 1 tileset per layer)
+                        // an CCAssert will be thrown later
+                        if (tileset->_firstGid < 0 ||
+                            (gid & kTMXFlippedMask) >= static_cast<uint32_t>(tileset->_firstGid))
+                            return tileset;
                     }
                 }
-            }
+            }        
         }
     }
 
     // If all the tiles are 0, return empty tileset
     CCLOG("cocos2d: Warning: TMX Layer '%s' has no tiles", layerInfo->_name.c_str());
+
     return nullptr;
 }
 
@@ -195,13 +179,10 @@ void TMXTiledMap::buildWithMapInfo(TMXMapInfo* mapInfo)
     int idx = 0;
 
     auto& layers = mapInfo->getLayers();
-    for (const auto& layerInfo : layers)
-    {
-        if (layerInfo->_visible)
-        {
-            TMXLayer* child = parseLayer(layerInfo, mapInfo);
-            if (child == nullptr)
-            {
+    for (const auto &layerInfo : layers) {
+        if (layerInfo->_visible) {
+            TMXLayer *child = parseLayer(layerInfo, mapInfo);
+            if (child == nullptr) {
                 idx++;
                 continue;
             }
@@ -220,16 +201,16 @@ void TMXTiledMap::buildWithMapInfo(TMXMapInfo* mapInfo)
 }
 
 // public
-TMXLayer* TMXTiledMap::getLayer(const std::string& layerName) const
+TMXLayer * TMXTiledMap::getLayer(const std::string& layerName) const
 {
     CCASSERT(layerName.size() > 0, "Invalid layer name!");
-
+    
     for (auto& child : _children)
     {
         TMXLayer* layer = dynamic_cast<TMXLayer*>(child);
-        if (layer)
+        if(layer)
         {
-            if (layerName.compare(layer->getLayerName()) == 0)
+            if(layerName.compare( layer->getLayerName()) == 0)
             {
                 return layer;
             }
@@ -240,20 +221,15 @@ TMXLayer* TMXTiledMap::getLayer(const std::string& layerName) const
     return nullptr;
 }
 
-TMXObjectGroup* TMXTiledMap::getObjectGroup(const std::string& groupName) const
+TMXObjectGroup * TMXTiledMap::getObjectGroup(const std::string& groupName) const
 {
     CCASSERT(groupName.size() > 0, "Invalid group name!");
 
-    if (_objectGroups.size() > 0)
+    for (const auto objectGroup : _objectGroups)
     {
-        TMXObjectGroup* objectGroup = nullptr;
-        for (auto iter = _objectGroups.cbegin(); iter != _objectGroups.cend(); ++iter)
+        if (objectGroup && objectGroup->getGroupName() == groupName)
         {
-            objectGroup = *iter;
-            if (objectGroup && objectGroup->getGroupName() == groupName)
-            {
-                return objectGroup;
-            }
+            return objectGroup;
         }
     }
 
@@ -265,7 +241,7 @@ Value TMXTiledMap::getProperty(const std::string& propertyName) const
 {
     if (_properties.find(propertyName) != _properties.end())
         return _properties.at(propertyName);
-
+    
     return Value();
 }
 
@@ -273,19 +249,16 @@ Value TMXTiledMap::getPropertiesForGID(int GID) const
 {
     if (_tileProperties.find(GID) != _tileProperties.end())
         return _tileProperties.at(GID);
-
+    
     return Value();
 }
 
 bool TMXTiledMap::getPropertiesForGID(int GID, Value** value)
 {
-    if (_tileProperties.find(GID) != _tileProperties.end())
-    {
+    if (_tileProperties.find(GID) != _tileProperties.end()) {
         *value = &_tileProperties.at(GID);
         return true;
-    }
-    else
-    {
+    } else {
         return false;
     }
 }

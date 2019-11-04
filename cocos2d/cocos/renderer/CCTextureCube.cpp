@@ -1,18 +1,19 @@
 /****************************************************************************
- Copyright (c) 2015 Chukong Technologies Inc.
-
+ Copyright (c) 2015-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,72 +24,67 @@
  ****************************************************************************/
 
 #include <cocos/renderer/CCTextureCube.h>
-
-#include <cocos/base/ccMacros.h>
-#include <cocos/platform/CCFileUtils.h>
-#include <cocos/platform/CCGL.h>
 #include <cocos/platform/CCImage.h>
-#include <cocos/platform/CCPlatformMacros.h>
-#include <cocos/renderer/CCTexture2D.h>
-#include <cocos/renderer/ccGLStateCache.h>
-
-#include <cstddef>
-#include <new>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/renderer/backend/Texture.h>
+#include <cocos/renderer/backend/Device.h>
+#include <cocos/renderer/CCTextureUtils.h>
 
 NS_CC_BEGIN
 
-unsigned char* getImageData(Image* img, Texture2D::PixelFormat& ePixFmt)
+unsigned char* getImageData(Image* img, backend::PixelFormat&  ePixFmt)
 {
-    unsigned char* pTmpData = img->getData();
-    unsigned int* inPixel32 = nullptr;
-    unsigned char* inPixel8 = nullptr;
-    unsigned short* outPixel16 = nullptr;
-    bool bHasAlpha = img->hasAlpha();
-    size_t uBPP = img->getBitPerPixel();
+    unsigned char*    pTmpData = img->getData();
+    unsigned int*     inPixel32 = nullptr;
+    unsigned char*    inPixel8 = nullptr;
+    unsigned short*   outPixel16 = nullptr;
+    bool              bHasAlpha = img->hasAlpha();
+    size_t            uBPP = img->getBitPerPixel();
 
-    int nWidth = img->getWidth();
-    int nHeight = img->getHeight();
+    int               nWidth = img->getWidth();
+    int               nHeight = img->getHeight();
 
     // compute pixel format
     if (bHasAlpha)
     {
-        ePixFmt = Texture2D::PixelFormat::DEFAULT;
+        ePixFmt = backend::PixelFormat::DEFAULT;
     }
     else
     {
         if (uBPP >= 8)
         {
-            ePixFmt = Texture2D::PixelFormat::RGB888;
+            ePixFmt = backend::PixelFormat::RGB888;
         }
         else
         {
-            ePixFmt = Texture2D::PixelFormat::RGB565;
+            ePixFmt = backend::PixelFormat::RGB565;
         }
     }
 
     // Repack the pixel data into the right format
     unsigned int uLen = nWidth * nHeight;
 
-    if (ePixFmt == Texture2D::PixelFormat::RGB565)
+    if (ePixFmt == backend::PixelFormat::RGB565)
     {
         if (bHasAlpha)
         {
             // Convert "RRRRRRRRRGGGGGGGGBBBBBBBBAAAAAAAA" to "RRRRRGGGGGGBBBBB"
             inPixel32 = (unsigned int*)img->getData();
-            pTmpData = new (std::nothrow) unsigned char[nWidth * nHeight * 2];
+            pTmpData = (unsigned char *)malloc(nWidth * nHeight * 2);
             outPixel16 = (unsigned short*)pTmpData;
 
             for (unsigned int i = 0; i < uLen; ++i, ++inPixel32)
             {
-                *outPixel16++ = ((((*inPixel32 >> 0) & 0xFF) >> 3) << 11) | // R
-                    ((((*inPixel32 >> 8) & 0xFF) >> 2) << 5) | // G
-                    ((((*inPixel32 >> 16) & 0xFF) >> 3) << 0); // B
+                *outPixel16++ =
+                    ((((*inPixel32 >> 0) & 0xFF) >> 3) << 11) |  // R
+                    ((((*inPixel32 >> 8) & 0xFF) >> 2) << 5) |  // G
+                    ((((*inPixel32 >> 16) & 0xFF) >> 3) << 0);    // B
             }
         }
         else
         {
             // Convert "RRRRRRRRGGGGGGGGBBBBBBBB" to "RRRRRGGGGGGBBBBB"
-            pTmpData = new (std::nothrow) unsigned char[nWidth * nHeight * 2];
+            pTmpData = (unsigned char *)malloc(nWidth * nHeight * 2);
             outPixel16 = (unsigned short*)pTmpData;
             inPixel8 = (unsigned char*)img->getData();
 
@@ -98,19 +94,20 @@ unsigned char* getImageData(Image* img, Texture2D::PixelFormat& ePixFmt)
                 unsigned char G = *inPixel8++;
                 unsigned char B = *inPixel8++;
 
-                *outPixel16++ = ((R >> 3) << 11) | // R
-                    ((G >> 2) << 5) | // G
-                    ((B >> 3) << 0); // B
+                *outPixel16++ =
+                    ((R >> 3) << 11) |  // R
+                    ((G >> 2) << 5) |  // G
+                    ((B >> 3) << 0);    // B
             }
         }
     }
 
-    if (bHasAlpha && ePixFmt == Texture2D::PixelFormat::RGB888)
+    if (bHasAlpha && ePixFmt == backend::PixelFormat::RGB888)
     {
         // Convert "RRRRRRRRRGGGGGGGGBBBBBBBBAAAAAAAA" to "RRRRRRRRGGGGGGGGBBBBBBBB"
         inPixel32 = (unsigned int*)img->getData();
 
-        pTmpData = new (std::nothrow) unsigned char[nWidth * nHeight * 3];
+        pTmpData = (unsigned char*)malloc(nWidth * nHeight * 3);
         unsigned char* outPixel8 = pTmpData;
 
         for (unsigned int i = 0; i < uLen; ++i, ++inPixel32)
@@ -145,7 +142,8 @@ Image* createImage(const std::string& path)
 
         bool bRet = image->initWithImageFile(fullpath);
         CC_BREAK_IF(!bRet);
-    } while (0);
+    }
+    while (0);
 
     return image;
 }
@@ -157,9 +155,11 @@ TextureCube::TextureCube()
 
 TextureCube::~TextureCube()
 {
+    CC_SAFE_RELEASE_NULL(_texture);
 }
 
-TextureCube* TextureCube::create(const std::string& positive_x, const std::string& negative_x, const std::string& positive_y, const std::string& negative_y,
+TextureCube* TextureCube::create(const std::string& positive_x, const std::string& negative_x,
+                                 const std::string& positive_y, const std::string& negative_y,
                                  const std::string& positive_z, const std::string& negative_z)
 {
     auto ret = new (std::nothrow) TextureCube();
@@ -172,7 +172,8 @@ TextureCube* TextureCube::create(const std::string& positive_x, const std::strin
     return nullptr;
 }
 
-bool TextureCube::init(const std::string& positive_x, const std::string& negative_x, const std::string& positive_y, const std::string& negative_y,
+bool TextureCube::init(const std::string& positive_x, const std::string& negative_x,
+                       const std::string& positive_y, const std::string& negative_y,
                        const std::string& positive_z, const std::string& negative_z)
 {
     _imgPath[0] = positive_x;
@@ -191,56 +192,66 @@ bool TextureCube::init(const std::string& positive_x, const std::string& negativ
     images[4] = createImage(positive_z);
     images[5] = createImage(negative_z);
 
-    GLuint handle;
-    glGenTextures(1, &handle);
+    int imageSize = images[0]->getHeight();
+    for (int i = 0; i < 6; i++)
+    {
+        Image* img = images[i];
+        if(img->getWidth() != img->getHeight())
+        {
+            CCASSERT(false, "TextureCubemap: width should be equal to height!");
+            return false;
+        }
+        if(imageSize != img->getWidth())
+        {
+            CCASSERT(imageSize == img->getWidth(), "TextureCubmap: texture of each face should have same dimension");
+            return false;
+        }
+    }
 
-    GL::bindTextureN(0, handle, GL_TEXTURE_CUBE_MAP);
+    backend::TextureDescriptor textureDescriptor;
+    textureDescriptor.width = textureDescriptor.height = imageSize;
+    textureDescriptor.textureType = backend::TextureType::TEXTURE_CUBE;
+    textureDescriptor.samplerDescriptor.minFilter = backend::SamplerFilter::LINEAR;
+    textureDescriptor.samplerDescriptor.magFilter = backend::SamplerFilter::LINEAR;
+    textureDescriptor.samplerDescriptor.sAddressMode = backend::SamplerAddressMode::CLAMP_TO_EDGE;
+    textureDescriptor.samplerDescriptor.tAddressMode = backend::SamplerAddressMode::CLAMP_TO_EDGE;
+    _texture = static_cast<backend::TextureCubemapBackend*>(backend::Device::getInstance()->newTexture(textureDescriptor));
+    CCASSERT(_texture != nullptr, "TextureCubemap: texture can not be nullptr");
 
     for (int i = 0; i < 6; i++)
     {
         Image* img = images[i];
 
-        Texture2D::PixelFormat ePixelFmt;
-        unsigned char* pData = getImageData(img, ePixelFmt);
-        if (ePixelFmt == Texture2D::PixelFormat::RGBA8888 || ePixelFmt == Texture2D::PixelFormat::DEFAULT)
+        backend::PixelFormat  ePixelFmt;
+        unsigned char*          pData = getImageData(img, ePixelFmt);
+        uint8_t *cData = nullptr;
+        uint8_t *useData = pData;
+
+        //convert pixel format to RGBA
+        if (ePixelFmt != backend::PixelFormat::RGBA8888)
         {
-            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-                         0, // level
-                         GL_RGBA, // internal format
-                         img->getWidth(), // width
-                         img->getHeight(), // height
-                         0, // border
-                         GL_RGBA, // format
-                         GL_UNSIGNED_BYTE, // type
-                         pData); // pixel data
+            size_t len = 0;
+            backend::PixelFormatUtils::convertDataToFormat(pData, img->getDataLen(), ePixelFmt, backend::PixelFormat::RGBA8888, &cData, &len);
+            if (cData != pData) //convert error
+            {
+                useData = cData;
+            }
+            else
+            {
+                CCASSERT(false, "error: CubeMap texture may be incorrect, failed to convert pixel format data to RGBA8888");
+            }
         }
-        else if (ePixelFmt == Texture2D::PixelFormat::RGB888)
-        {
-            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-                         0, // level
-                         GL_RGB, // internal format
-                         img->getWidth(), // width
-                         img->getHeight(), // height
-                         0, // border
-                         GL_RGB, // format
-                         GL_UNSIGNED_BYTE, // type
-                         pData); // pixel data
-        }
+
+        _texture->updateFaceData(static_cast<backend::TextureCubeFace>(i), useData);
+        
+        if (cData != pData)
+            free(cData);
 
         if (pData != img->getData())
-            delete[] pData;
+            free(pData);
     }
 
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-    _name = handle;
-
-    GL::bindTextureN(0, 0, GL_TEXTURE_CUBE_MAP);
-
-    for (auto img : images)
+    for (auto img: images)
     {
         CC_SAFE_RELEASE(img);
     }
@@ -248,18 +259,9 @@ bool TextureCube::init(const std::string& positive_x, const std::string& negativ
     return true;
 }
 
-void TextureCube::setTexParameters(const TexParams& texParams)
+void TextureCube::setTexParameters(const Texture2D::TexParams& texParams)
 {
-    CCASSERT(_name != 0, __FUNCTION__);
-
-    GL::bindTextureN(0, _name, GL_TEXTURE_CUBE_MAP);
-
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, texParams.minFilter);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, texParams.magFilter);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, texParams.wrapS);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, texParams.wrapT);
-
-    GL::bindTextureN(0, 0, GL_TEXTURE_CUBE_MAP);
+    _texture->updateSamplerDescriptor(texParams);
 }
 
 bool TextureCube::reloadTexture()

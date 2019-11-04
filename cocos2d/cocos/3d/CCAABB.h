@@ -1,18 +1,19 @@
 /****************************************************************************
- Copyright (c) 2014 Chukong Technologies Inc.
-
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,18 +23,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_3D_AABB_H
-#define CC_3D_AABB_H
+#ifndef __CC_AABB_H__
+#define __CC_AABB_H__
 
-#include <cocos/math/Vec3.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <cstddef>
+#include <cocos/base/ccMacros.h>
+#include <cocos/math/CCMath.h>
 
 NS_CC_BEGIN
-
-class Mat4;
 
 /**
  * @addtogroup _3d
@@ -43,26 +39,22 @@ class Mat4;
 /**
  * Axis Aligned Bounding Box (AABB), usually calculate some rough but fast collision detection.
  */
-class CC_DLL AABB final
+class CC_DLL AABB
 {
-public:
-    Vec3 _min = {99999.0f, 99999.0f, 99999.0f};
-    Vec3 _max = {-99999.0f, -99999.0f, -99999.0f};
 
 public:
-    AABB() = default;
-    AABB(AABB const&) = default;
-    AABB& operator=(AABB const&) = default;
-    AABB(AABB&&) noexcept = default;
-    AABB& operator=(AABB&&) noexcept = default;
-    ~AABB() = default;
-
+    /**
+     * Constructor.
+     * @lua new
+     */
+    AABB();
+    
     /**
      * Constructor.
      * @lua new
      */
     AABB(const Vec3& min, const Vec3& max);
-
+    
     /**
      * Gets the center point of the bounding box.
      */
@@ -80,7 +72,7 @@ public:
      * verts[6] : left bottom back
      * verts[7] : left top back
      */
-    void getCorners(Vec3* dst) const;
+    void getCorners(Vec3 *dst) const;
 
     /**
      * Tests whether this bounding box intersects the specified bounding object.
@@ -102,12 +94,12 @@ public:
      * Sets this bounding box to the specified values.
      */
     void set(const Vec3& min, const Vec3& max);
-
+    
     /**
      * Reset min and max value.If you invoke this method, isEmpty() shall return true.
      */
     void reset();
-
+    
     /**
      * check the AABB object is empty(reset).
      */
@@ -116,12 +108,16 @@ public:
     /**
      * update the _min and _max from the given point.
      */
-    void updateMinMax(const Vec3* point, std::size_t num);
-
+    void updateMinMax(const Vec3* point, ssize_t num);
+    
     /**
      * Transforms the bounding box by the given transformation matrix.
      */
     void transform(const Mat4& mat);
+
+public:
+    Vec3 _min;
+    Vec3 _max;
 };
 
 // end of 3d group
@@ -129,4 +125,4 @@ public:
 
 NS_CC_END
 
-#endif // CC_3D_AABB_H
+#endif

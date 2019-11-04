@@ -2,6 +2,7 @@
 Copyright (c) 2010      Stuart Carnie
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -24,18 +25,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_BASE_PROFILLING_H
-#define CC_BASE_PROFILLING_H
+#ifndef __SUPPORT_CCPROFILING_H__
+#define __SUPPORT_CCPROFILING_H__
 /// @cond DO_NOT_SHOW
 
-#include <cocos/base/CCMap.h>
-#include <cocos/base/CCRef.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <chrono>
-#include <iosfwd>
 #include <string>
+#include <chrono>
+#include <cocos/base/ccConfig.h>
+#include <cocos/base/CCRef.h>
+#include <cocos/base/CCMap.h>
 
 NS_CC_BEGIN
 
@@ -59,42 +57,37 @@ public:
      * @js NA
      * @lua NA
      */
-    ~Profiler(void);
+    ~Profiler();
     /** display the timers
      * @js NA
      * @lua NA
      */
-    void displayTimers(void);
+    void displayTimers();
     /**
      * @js NA
      * @lua NA
      */
-    bool init(void);
+    bool init();
 
 public:
-    /** returns the singleton
+    /** returns the singleton 
      * @js NA
      * @lua NA
      */
-    static Profiler* getInstance(void);
+    static Profiler* getInstance();
 
-    /**
-     * @js NA
-     * @lua NA
-     */
-    CC_DEPRECATED_ATTRIBUTE static Profiler* sharedProfiler(void);
 
-    /** Creates and adds a new timer
+    /** Creates and adds a new timer 
      * @js NA
      * @lua NA
      */
     ProfilingTimer* createAndAddTimerWithName(const char* timerName);
-    /** releases a timer
+    /** releases a timer 
      * @js NA
      * @lua NA
      */
     void releaseTimer(const char* timerName);
-    /** releases all timers
+    /** releases all timers 
      * @js NA
      * @lua NA
      */
@@ -115,7 +108,7 @@ public:
      * @js NA
      * @lua NA
      */
-    ~ProfilingTimer(void);
+    ~ProfilingTimer();
     /**
      * @js NA
      * @lua NA
@@ -148,9 +141,9 @@ public:
     long numberOfCalls;
 };
 
-extern void CC_DLL ProfilingBeginTimingBlock(const char* timerName);
-extern void CC_DLL ProfilingEndTimingBlock(const char* timerName);
-extern void CC_DLL ProfilingResetTimingBlock(const char* timerName);
+extern void CC_DLL ProfilingBeginTimingBlock(const char *timerName);
+extern void CC_DLL ProfilingEndTimingBlock(const char *timerName);
+extern void CC_DLL ProfilingResetTimingBlock(const char *timerName);
 
 /*
  * cocos2d profiling categories
@@ -167,4 +160,4 @@ extern bool kProfilerCategoryParticles;
 NS_CC_END
 
 /// @endcond
-#endif // CC_BASE_PROFILLING_H
+#endif // __SUPPORT_CCPROFILING_H__

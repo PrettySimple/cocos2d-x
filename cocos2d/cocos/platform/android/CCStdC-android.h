@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -26,29 +27,29 @@ THE SOFTWARE.
 #ifndef __CC_STD_C_H__
 #define __CC_STD_C_H__
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-#    include "platform/CCPlatformMacros.h"
-#    include <cassert>
-#    include <float.h>
-#    include <math.h>
-#    include <stdarg.h>
-#    include <stdint.h>
-#    include <stdio.h>
-#    include <stdlib.h>
-#    include <string.h>
-#    include <sys/time.h>
-#    include <time.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <float.h>
+#include <math.h>
+#include <string.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <sys/time.h>
+#include <stdint.h>
+#include <cassert>
 
-#    ifndef MIN
-#        define MIN(x, y) (((x) > (y)) ? (y) : (x))
-#    endif // MIN
+#ifndef MIN
+#define MIN(x,y) (((x) > (y)) ? (y) : (x))
+#endif  // MIN
 
-#    ifndef MAX
-#        define MAX(x, y) (((x) < (y)) ? (y) : (x))
-#    endif // MAX
+#ifndef MAX
+#define MAX(x,y) (((x) < (y)) ? (y) : (x))
+#endif  // MAX
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-#endif // __CC_STD_C_H__
+#endif  // __CC_STD_C_H__

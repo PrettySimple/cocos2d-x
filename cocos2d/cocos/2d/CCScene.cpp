@@ -3,6 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -26,56 +27,41 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include <cocos/2d/CCScene.h>
-
-#include <cocos/2d/CCCamera.h>
 #include <cocos/base/CCDirector.h>
+#include <cocos/2d/CCCamera.h>
 #include <cocos/base/CCEventDispatcher.h>
 #include <cocos/base/CCEventListenerCustom.h>
 #include <cocos/base/ccUTF8.h>
-#include <cocos/renderer/CCFrameBuffer.h>
 #include <cocos/renderer/CCRenderer.h>
 
 #if CC_USE_PHYSICS
-#    include <cocos/physics/CCPhysicsWorld.h>
+#include "physics/CCPhysicsWorld.h"
 #endif
 
 #if CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION
-#    include "physics3d/CCPhysics3DComponent.h"
-#    include "physics3d/CCPhysics3DWorld.h"
+#include "physics3d/CCPhysics3DWorld.h"
+#include "physics3d/CCPhysics3DComponent.h"
 #endif
 
 #if CC_USE_NAVMESH
-#    include "navmesh/CCNavMesh.h"
+#include "navmesh/CCNavMesh.h"
 #endif
 
 NS_CC_BEGIN
 
 Scene::Scene()
+: _defaultCamera(Camera::create())
+, _event(Director::getInstance()->getEventDispatcher()->addCustomEventListener(Director::EVENT_PROJECTION_CHANGED, std::bind(&Scene::onProjectionChanged, this, std::placeholders::_1)))
 {
-#if CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION
-    _physics3DWorld = nullptr;
-    _physics3dDebugCamera = nullptr;
-#endif
-#if CC_USE_NAVMESH
-    _navMesh = nullptr;
-    _navMeshDebugCamera = nullptr;
-#endif
-#if CC_USE_PHYSICS
-    _physicsWorld = nullptr;
-#endif
     _ignoreAnchorPointForPosition = true;
     setAnchorPoint(Vec2(0.5f, 0.5f));
+    
+    //create default camera
 
-    _cameraOrderDirty = true;
-
-    // create default camera
-    _defaultCamera = Camera::create();
     addChild(_defaultCamera);
-
-    _event = Director::getInstance()->getEventDispatcher()->addCustomEventListener(Director::EVENT_PROJECTION_CHANGED,
-                                                                                   [this](EventCustom* evt) { onProjectionChanged(evt); });
+    
     _event->retain();
-
+    
     Camera::_visitingCamera = nullptr;
 }
 
@@ -90,11 +76,11 @@ Scene::~Scene()
 #endif
     Director::getInstance()->getEventDispatcher()->removeEventListener(_event);
     CC_SAFE_RELEASE(_event);
-
+    
 #if CC_USE_PHYSICS
     delete _physicsWorld;
 #endif
-
+    
 #if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
     auto sEngine = ScriptEngineManager::getInstance()->getScriptEngine();
     if (sEngine)
@@ -130,7 +116,7 @@ bool Scene::initWithSize(const Size& size)
 
 Scene* Scene::create()
 {
-    Scene* ret = new (std::nothrow) Scene();
+    Scene *ret = new (std::nothrow) Scene();
     if (ret && ret->init())
     {
         ret->autorelease();
@@ -145,7 +131,7 @@ Scene* Scene::create()
 
 Scene* Scene::createWithSize(const Size& size)
 {
-    Scene* ret = new (std::nothrow) Scene();
+    Scene *ret = new (std::nothrow) Scene();
     if (ret && ret->initWithSize(size))
     {
         ret->autorelease();
@@ -163,7 +149,7 @@ std::string Scene::getDescription() const
     return StringUtils::format("<Scene | tag = %d>", _tag);
 }
 
-void Scene::onProjectionChanged(EventCustom* event)
+void Scene::onProjectionChanged(EventCustom* /*event*/)
 {
     if (_defaultCamera)
     {
@@ -212,14 +198,15 @@ void Scene::render(Renderer* renderer, const Mat4& eyeTransform, const Mat4* eye
         // culling and other stuff.
         if (eyeProjection)
             camera->setAdditionalProjection(*eyeProjection * camera->getProjectionMatrix().getInversed());
-        camera->setAdditionalTransform(eyeTransform.getInversed());
 
+        camera->setAdditionalTransform(eyeTransform.getInversed());
         director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
         director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, Camera::_visitingCamera->getViewProjectionMatrix());
+
         camera->apply();
-        // clear background with max depth
+        //clear background with max depth
         camera->clearBackground();
-        // visit the scene
+        //visit the scene
         visit(renderer, transform, 0);
 #if CC_USE_NAVMESH
         if (_navMesh && _navMeshDebugCamera == camera)
@@ -229,7 +216,6 @@ void Scene::render(Renderer* renderer, const Mat4& eyeTransform, const Mat4* eye
 #endif
 
         renderer->render();
-        camera->restore();
 
         director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
 
@@ -241,17 +227,26 @@ void Scene::render(Renderer* renderer, const Mat4& eyeTransform, const Mat4* eye
 #if CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION
     if (_physics3DWorld && _physics3DWorld->isDebugDrawEnabled())
     {
+        Camera *physics3dDebugCamera = _physics3dDebugCamera != nullptr ? _physics3dDebugCamera: defaultCamera;
+
+        if (eyeProjection)
+            physics3dDebugCamera->setAdditionalProjection(*eyeProjection * physics3dDebugCamera->getProjectionMatrix().getInversed());
+
+        physics3dDebugCamera->setAdditionalTransform(eyeTransform.getInversed());
         director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
-        director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION,
-                             _physics3dDebugCamera != nullptr ? _physics3dDebugCamera->getViewProjectionMatrix() : defaultCamera->getViewProjectionMatrix());
+        director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION, physics3dDebugCamera->getViewProjectionMatrix());
+
+        physics3dDebugCamera->apply();
+        physics3dDebugCamera->clearBackground();
+
         _physics3DWorld->debugDraw(renderer);
         renderer->render();
+
         director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
     }
 #endif
 
     Camera::_visitingCamera = nullptr;
-    //    experimental::FrameBuffer::applyDefaultFBO();
 }
 
 void Scene::removeAllChildren()
@@ -278,7 +273,7 @@ void Scene::setPhysics3DDebugCamera(Camera* camera)
 #endif
 
 #if CC_USE_NAVMESH
-void Scene::setNavMeshDebugCamera(Camera* camera)
+void Scene::setNavMeshDebugCamera(Camera *camera)
 {
     CC_SAFE_RETAIN(camera);
     CC_SAFE_RELEASE(_navMeshDebugCamera);
@@ -291,7 +286,7 @@ void Scene::setNavMeshDebugCamera(Camera* camera)
 
 Scene* Scene::createWithPhysics()
 {
-    Scene* ret = new (std::nothrow) Scene();
+    Scene *ret = new (std::nothrow) Scene();
     if (ret && ret->initWithPhysics())
     {
         ret->autorelease();
@@ -306,23 +301,23 @@ Scene* Scene::createWithPhysics()
 
 bool Scene::initWithPhysics()
 {
-#    if CC_USE_PHYSICS
+#if CC_USE_PHYSICS
     _physicsWorld = PhysicsWorld::construct(this);
-#    endif
+#endif
 
     bool ret = false;
     do
     {
-        Director* director;
-        CC_BREAK_IF(!(director = Director::getInstance()));
+        Director * director;
+        CC_SAFE_FREE( ! (director = Director::getInstance();) );
 
         this->setContentSize(director->getWinSize());
 
-#    if CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION
+#if CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION
         Physics3DWorldDes info;
-        CC_BREAK_IF(!(_physics3DWorld = Physics3DWorld::create(&info)));
+        CC_SAFE_FREE(! (_physics3DWorld = Physics3DWorld::create(&info);));
         _physics3DWorld->retain();
-#    endif
+#endif
 
         // success
         ret = true;
@@ -335,23 +330,23 @@ bool Scene::initWithPhysics()
 #if (CC_USE_PHYSICS || (CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION) || CC_USE_NAVMESH)
 void Scene::stepPhysicsAndNavigation(float deltaTime)
 {
-#    if CC_USE_PHYSICS
+#if CC_USE_PHYSICS
     if (_physicsWorld && _physicsWorld->isAutoStep())
         _physicsWorld->update(deltaTime);
-#    endif
+#endif
 
-#    if CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION
+#if CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION
     if (_physics3DWorld)
     {
         _physics3DWorld->stepSimulate(deltaTime);
     }
-#    endif
-#    if CC_USE_NAVMESH
+#endif
+#if CC_USE_NAVMESH
     if (_navMesh)
     {
         _navMesh->update(deltaTime);
     }
-#    endif
+#endif
 }
 #endif
 

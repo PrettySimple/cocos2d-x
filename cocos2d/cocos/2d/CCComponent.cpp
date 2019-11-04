@@ -1,5 +1,6 @@
 /****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,10 +24,6 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include <cocos/2d/CCComponent.h>
-
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <new>
 
 NS_CC_BEGIN
 
@@ -54,19 +51,19 @@ bool Component::init()
 static bool sendComponentEventToJS(Component* node, int action)
 {
     auto scriptEngine = ScriptEngineManager::getInstance()->getScriptEngine();
-
+    
     if (scriptEngine->isCalledFromScript())
     {
         scriptEngine->setCalledFromScript(false);
     }
     else
     {
-        BasicScriptData data(node, (void*)&action);
-        ScriptEvent scriptEvent(kComponentEvent, (void*)&data);
+        BasicScriptData data(node,(void*)&action);
+        ScriptEvent scriptEvent(kComponentEvent,(void*)&data);
         if (scriptEngine->sendEvent(&scriptEvent))
             return true;
     }
-
+    
     return false;
 }
 
@@ -112,7 +109,7 @@ void Component::onRemove()
 #endif
 }
 
-void Component::update(float delta)
+void Component::update(float /*delta*/)
 {
 #if CC_ENABLE_SCRIPT_BINDING
     if (_scriptType == kScriptTypeJavascript)
@@ -122,14 +119,14 @@ void Component::update(float delta)
 #endif
 }
 
-bool Component::serialize(void* ar)
+bool Component::serialize(void* /*ar*/)
 {
     return true;
 }
 
 Component* Component::create()
 {
-    Component* ret = new (std::nothrow) Component();
+    Component * ret = new (std::nothrow) Component();
 
     if (ret && ret->init())
     {
@@ -143,7 +140,7 @@ Component* Component::create()
     return ret;
 }
 
-void Component::setOwner(Node* owner)
+void Component::setOwner(Node *owner)
 {
     _owner = owner;
 }

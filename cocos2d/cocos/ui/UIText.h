@@ -45,8 +45,8 @@ NS_CC_BEGIN
 
 class Label;
 class Node;
-enum struct TextHAlignment : std::uint8_t;
-enum struct TextVAlignment : std::uint8_t;
+enum struct TextHAlignment; // : std::uint8_t;
+enum struct TextVAlignment; // : std::uint8_t;
 
 namespace ui
 {

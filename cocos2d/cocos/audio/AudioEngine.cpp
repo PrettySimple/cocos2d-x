@@ -209,7 +209,7 @@ int AudioEngine::play2d(std::string const& filePath, bool loop, float volume, bo
         }
         if (profileHelper->profile.minDelay > TIME_DELAY_PRECISION)
         {
-            auto currTime = utils::gettime();
+            auto currTime = ccutils::gettime();
             if (profileHelper->lastPlayTime > TIME_DELAY_PRECISION && currTime - profileHelper->lastPlayTime <= profileHelper->profile.minDelay)
             {
                 log("Fail to play %s cause by limited minimum delay", filePath.c_str());
@@ -239,7 +239,7 @@ int AudioEngine::play2d(std::string const& filePath, bool loop, float volume, bo
 
         if (profileHelper != nullptr)
         {
-            profileHelper->lastPlayTime = utils::gettime();
+            profileHelper->lastPlayTime = ccutils::gettime();
             profileHelper->audioIDs.push_back(ret);
         }
         audioRef.profileHelper = profileHelper;

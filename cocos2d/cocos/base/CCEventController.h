@@ -1,19 +1,20 @@
 /****************************************************************************
  Copyright (c) 2014 cocos2d-x.org
- Copyright (c) 2014 Chukong Technologies Inc.
-
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,11 +24,11 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_BASE_EVENTCONTROLLER_H
-#define CC_BASE_EVENTCONTROLLER_H
+#ifndef __cocos2d_libs__EventController__
+#define __cocos2d_libs__EventController__
 
-#include <cocos/base/CCEvent.h>
 #include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/base/CCEvent.h>
 
 /**
  * @addtogroup base
@@ -38,23 +39,22 @@ NS_CC_BEGIN
 
 /// @cond EventController
 class Controller;
+class EventListenerController;
 
 /** @class EventController
  * @brief Controller event.
  */
-class EventController : public Event
+class CC_DLL EventController : public Event
 {
-    friend class EventListenerController;
-
 public:
     /** ControllerEventType Controller event type.*/
-    enum struct ControllerEventType : std::uint8_t
+    enum class ControllerEventType
     {
         CONNECTION,
         BUTTON_STATUS_CHANGED,
         AXIS_STATUS_CHANGED,
     };
-
+    
     /** Create a EventController with controller event type, controller and key code.
      *
      * @param type A given controller event type.
@@ -62,7 +62,7 @@ public:
      * @param keyCode A given key code.
      * @return An autoreleased EventController object.
      */
-    EventController(ControllerEventType type, Controller* controller, int keyCode);
+	EventController(ControllerEventType type, Controller* controller, int keyCode);
     /** Create a EventController with controller event type, controller and whether or not is connected.
      *
      * @param type A given controller event type.
@@ -71,38 +71,39 @@ public:
      * @return An autoreleased EventController object.
      */
     EventController(ControllerEventType type, Controller* controller, bool isConnected);
-    ~EventController() override;
 
     /** Gets the event type of the controller.
      *
      * @return The event type of the controller.
      */
-    inline ControllerEventType getControllerEventType() const noexcept { return _controllerEventType; }
-    Controller* getController() const noexcept { return _controller; }
+    ControllerEventType getControllerEventType() const { return _controllerEventType; }
+    Controller* getController() const { return _controller; }
 
     /** Gets the key code of the controller.
      *
      * @return The key code of the controller.
      */
-    inline int getKeyCode() const noexcept { return _keyCode; }
-    void setKeyCode(int keyCode) noexcept { _keyCode = keyCode; }
+    int getKeyCode() const{ return _keyCode; }
+    void setKeyCode(int keyCode) { _keyCode = keyCode;}
 
     /** Sets the connect status.
      *
      * @param True if it's connected.
      */
-    void setConnectStatus(bool isConnected) noexcept { _isConnected = isConnected; }
+    void setConnectStatus(bool isConnected) {_isConnected = isConnected;}
     /** Gets the connect status.
      *
      * @return True if it's connected.
      */
-    inline bool isConnected() const noexcept { return _isConnected; }
-
+    bool isConnected() const { return _isConnected; }
+    
 protected:
     ControllerEventType _controllerEventType;
     Controller* _controller;
     int _keyCode;
     bool _isConnected;
+
+    friend class EventListenerController;
 };
 /// @endcond EventController
 NS_CC_END
@@ -110,4 +111,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif // CC_BASE_EVENTCONTROLLER_H
+#endif /* defined(__cocos2d_libs__EventController__) */

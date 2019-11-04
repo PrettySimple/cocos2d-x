@@ -353,8 +353,8 @@ public:
     {
         if (sel != _selectorTarget)
         {
-            CC_SAFE_RETAIN(sel)
-            CC_SAFE_RELEASE(_selectorTarget)
+            CC_SAFE_RETAIN(sel);
+            CC_SAFE_RELEASE(_selectorTarget);
             _selectorTarget = sel;
         }
     }

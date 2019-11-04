@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,30 +24,31 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
+
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 
-#    include "platform/CCStdC.h"
+#include <cocos/platform/CCStdC.h>
 
-#    ifndef __MINGW32__
+#ifndef __MINGW32__
 
 NS_CC_BEGIN
 
-int gettimeofday(struct timeval* val, struct timezone*)
+int gettimeofday(struct timeval * val, struct timezone *)
 {
     if (val)
     {
         LARGE_INTEGER liTime, liFreq;
-        QueryPerformanceFrequency(&liFreq);
-        QueryPerformanceCounter(&liTime);
-        val->tv_sec = (long)(liTime.QuadPart / liFreq.QuadPart);
-        val->tv_usec = (long)(liTime.QuadPart * 1000000.0 / liFreq.QuadPart - val->tv_sec * 1000000.0);
+        QueryPerformanceFrequency( &liFreq );
+        QueryPerformanceCounter( &liTime );
+        val->tv_sec     = (long)( liTime.QuadPart / liFreq.QuadPart );
+        val->tv_usec    = (long)( liTime.QuadPart * 1000000.0 / liFreq.QuadPart - val->tv_sec * 1000000.0 );
     }
     return 0;
 }
 
 NS_CC_END
 
-#    endif // __MINGW32__
+#endif // __MINGW32__
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_WIN32

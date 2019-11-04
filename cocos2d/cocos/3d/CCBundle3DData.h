@@ -1,18 +1,19 @@
 /****************************************************************************
- Copyright (c) 2014 Chukong Technologies Inc.
-
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,69 +23,74 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_3D_BUNDLE3DDATA_H
-#define CC_3D_BUNDLE3DDATA_H
+#ifndef __CC_BUNDLE_3D_DATA_H__
+#define __CC_BUNDLE_3D_DATA_H__
 
-#include <cocos/3d/CCAABB.h>
 #include <cocos/base/CCRef.h>
 #include <cocos/base/ccTypes.h>
 #include <cocos/math/CCMath.h>
+#include <cocos/3d/CCAABB.h>
 
-#include <chrono>
-#include <map>
+#include <cocos/renderer/backend/Types.h>
+
 #include <vector>
+#include <map>
+#include <string>
+
+#include <cocos/3d/CC3DProgramInfo.h>
+
+using namespace std::chrono_literals;
 
 NS_CC_BEGIN
 
 /**mesh vertex attribute
- * @js NA
- * @lua NA
- */
+* @js NA
+* @lua NA
+*/
 struct MeshVertexAttrib
 {
-    // attribute size
-    GLint size;
-    // GL_FLOAT
-    GLenum type;
-    // VERTEX_ATTRIB_POSITION,VERTEX_ATTRIB_COLOR,VERTEX_ATTRIB_TEX_COORD,VERTEX_ATTRIB_NORMAL, VERTEX_ATTRIB_BLEND_WEIGHT, VERTEX_ATTRIB_BLEND_INDEX, GLProgram
-    // for detail
-    int vertexAttrib;
-    // size in bytes
-    int attribSizeBytes;
+    backend::VertexFormat type;
+    shaderinfos::VertexKey vertexAttrib;
+    int getAttribSizeBytes() const;
 };
 
+
 /** model node data, since 3.3
- * @js NA
- * @lua NA
- */
-struct ModelData final
+* @js NA
+* @lua NA
+*/
+struct ModelData
 {
     std::string subMeshId;
-    std::string matrialId;
+    std::string materialId;
     std::vector<std::string> bones;
-    std::vector<Mat4> invBindPose;
+    std::vector<Mat4>        invBindPose;
+    
+    virtual ~ModelData() {}
 
-    ~ModelData() { resetData(); }
-    void resetData()
+    virtual void resetData()
     {
         bones.clear();
         invBindPose.clear();
     }
 };
 
-/** Node data, since 3.3
- * @js NA
- * @lua NA
- */
-struct NodeData final
+/** Node data, since 3.3 
+* @js NA
+* @lua NA
+*/
+struct NodeData
 {
     std::string id;
-    Mat4 transform;
+    Mat4        transform;
     std::vector<ModelData*> modelNodeDatas;
-    std::vector<NodeData*> children;
+    std::vector<NodeData*>  children;
 
-    ~NodeData() { resetData(); }
-    void resetData()
+    virtual ~NodeData()
+    {
+        resetData();
+    }
+    virtual void resetData()
     {
         id.clear();
         transform.setIdentity();
@@ -93,34 +99,38 @@ struct NodeData final
             delete it;
         }
         children.clear();
-
-        for (auto& modeldata : modelNodeDatas)
+        
+        for(auto& modeldata : modelNodeDatas)
         {
             delete modeldata;
         }
         modelNodeDatas.clear();
     }
+
 };
 
-/** node datas, since 3.3
- * @js NA
- * @lua NA
- */
-struct NodeDatas final
+/** node datas, since 3.3 
+* @js NA
+* @lua NA
+*/
+struct NodeDatas
 {
-    std::vector<NodeData*> skeleton; // skeleton
+    std::vector<NodeData*> skeleton; //skeleton
     std::vector<NodeData*> nodes; // nodes, CCNode, Sprite3D or part of Sprite3D
-
-    ~NodeDatas() { resetData(); }
-
+    
+    virtual ~NodeDatas()
+    {
+        resetData();
+    }
+    
     void resetData()
     {
-        for (auto& it : skeleton)
+        for(auto& it : skeleton)
         {
             delete it;
         }
         skeleton.clear();
-        for (auto& it : nodes)
+        for(auto& it : nodes)
         {
             delete it;
         }
@@ -129,20 +139,20 @@ struct NodeDatas final
 };
 
 /**mesh data
- * @js NA
- * @lua NA
- */
+* @js NA
+* @lua NA
+*/
 struct MeshData
 {
     typedef std::vector<unsigned short> IndexArray;
     std::vector<float> vertex;
-    std::size_t vertexSizeInFloat;
+    int vertexSizeInFloat;
     std::vector<IndexArray> subMeshIndices;
-    std::vector<std::string> subMeshIds; // subMesh Names (since 3.3)
+    std::vector<std::string> subMeshIds; //subMesh Names (since 3.3)
     std::vector<AABB> subMeshAABB;
-    std::size_t numIndex;
+    int numIndex;
     std::vector<MeshVertexAttrib> attribs;
-    std::size_t attribCount;
+    int attribCount;
 
 public:
     /**
@@ -152,9 +162,9 @@ public:
     int getPerVertexSize() const
     {
         int vertexsize = 0;
-        for (const auto& attrib : attribs)
+        for(const auto& attrib : attribs)
         {
-            vertexsize += attrib.attribSizeBytes;
+            vertexsize += attrib.getAttribSizeBytes();
         }
         return vertexsize;
     }
@@ -178,43 +188,45 @@ public:
     , attribCount(0)
     {
     }
-    ~MeshData() { resetData(); }
 };
 
-/** mesh datas
- * @js NA
- * @lua NA
- */
+/** mesh datas 
+* @js NA
+* @lua NA
+*/
 struct MeshDatas
 {
     std::vector<MeshData*> meshDatas;
-
+    
     void resetData()
     {
-        for (auto& it : meshDatas)
+        for(auto& it : meshDatas)
         {
             delete it;
         }
         meshDatas.clear();
     }
-    ~MeshDatas() { resetData(); }
+    ~MeshDatas()
+    {
+        resetData();
+    }
 };
 
 /**skin data
- * @js NA
- * @lua NA
- */
+* @js NA
+* @lua NA
+*/
 struct SkinData
 {
-    std::vector<std::string> skinBoneNames; // skin bones affect skin
-    std::vector<std::string> nodeBoneNames; // node bones don't affect skin, all bones [skinBone, nodeBone]
-    std::vector<Mat4> inverseBindPoseMatrices; // bind pose of skin bone, only for skin bone
-    std::vector<Mat4> skinBoneOriginMatrices; // original bone transform, for skin bone
-    std::vector<Mat4> nodeBoneOriginMatrices; // original bone transform, for node bone
-
-    // bone child info, both skinbone and node bone
-    std::map<int, std::vector<int>> boneChild; // key parent, value child
-    int rootBoneIndex;
+    std::vector<std::string> skinBoneNames; //skin bones affect skin
+    std::vector<std::string> nodeBoneNames; //node bones don't affect skin, all bones [skinBone, nodeBone]
+    std::vector<Mat4>        inverseBindPoseMatrices; //bind pose of skin bone, only for skin bone
+    std::vector<Mat4>        skinBoneOriginMatrices; // original bone transform, for skin bone
+    std::vector<Mat4>        nodeBoneOriginMatrices; // original bone transform, for node bone
+    
+    //bone child info, both skinbone and node bone
+    std::map<int, std::vector<int> > boneChild;//key parent, value child
+    int                              rootBoneIndex;
     void resetData()
     {
         skinBoneNames.clear();
@@ -232,15 +244,15 @@ struct SkinData
         if (it == skinBoneNames.end())
             skinBoneNames.push_back(name);
     }
-
+    
     void addNodeBoneNames(const std::string& name)
     {
         auto it = std::find(nodeBoneNames.begin(), nodeBoneNames.end(), name);
         if (it == nodeBoneNames.end())
             nodeBoneNames.push_back(name);
     }
-
-    int getSkinBoneNameIndex(const std::string& name) const
+    
+    int getSkinBoneNameIndex(const std::string& name)const
     {
         int i = 0;
         for (const auto& iter : skinBoneNames)
@@ -251,8 +263,8 @@ struct SkinData
         }
         return -1;
     }
-
-    int getBoneNameIndex(const std::string& name) const
+    
+    int getBoneNameIndex(const std::string& name)const
     {
         int i = 0;
         for (const auto& iter : skinBoneNames)
@@ -261,7 +273,7 @@ struct SkinData
                 return i;
             i++;
         }
-        for (const auto& iter : nodeBoneNames)
+        for(const auto& iter : nodeBoneNames)
         {
             if (iter == name)
                 return i;
@@ -269,29 +281,33 @@ struct SkinData
         }
         return -1;
     }
+
 };
 
-/**material data,
- * @js NA
- * @lua NA
- */
+/**material data, 
+* @js NA
+* @lua NA
+*/
 struct MaterialData
 {
-    std::map<int, std::string> texturePaths; // submesh id, texture path
-    void resetData() { texturePaths.clear(); }
+    std::map<int, std::string> texturePaths; //submesh id, texture path
+    void resetData()
+    {
+        texturePaths.clear();
+    }
 };
 
-/**new material, since 3.3
- * @js NA
- * @lua NA
- */
+
+/**new material, since 3.3 
+* @js NA
+* @lua NA
+*/
 struct NTextureData
 {
-    enum class Usage
-    {
+    enum class Usage {
         Unknown = 0,
         None = 1,
-        Diffuse = 2,
+        Diffuse = 2, 
         Emissive = 3,
         Ambient = 4,
         Specular = 5,
@@ -301,19 +317,19 @@ struct NTextureData
         Transparency = 9,
         Reflection = 10
     };
-    std::string id;
-    std::string filename;
-    Usage type;
-    GLenum wrapS;
-    GLenum wrapT;
-};
+     std::string id;
+     std::string filename;
+     Usage type;
+     backend::SamplerAddressMode wrapS;
+     backend::SamplerAddressMode wrapT;
+} ;
 struct NMaterialData
 {
     std::vector<NTextureData> textures;
     std::string id;
     const NTextureData* getTextureData(const NTextureData::Usage& type) const
     {
-        for (const auto& it : textures)
+        for(const auto& it : textures)
         {
             if (it.type == type)
                 return &it;
@@ -321,17 +337,20 @@ struct NMaterialData
         return nullptr;
     }
 };
-/** material datas, since 3.3
- * @js NA
- * @lua NA
- */
+/** material datas, since 3.3 
+* @js NA
+* @lua NA
+*/
 struct MaterialDatas
 {
     std::vector<NMaterialData> materials;
-    void resetData() { materials.clear(); }
+    void resetData()
+    {
+        materials.clear();
+    }
     const NMaterialData* getMaterialData(const std::string& materialid) const
     {
-        for (const auto& it : materials)
+        for(const auto& it : materials)
         {
             if (it.id == materialid)
                 return &it;
@@ -340,9 +359,9 @@ struct MaterialDatas
     }
 };
 /**animation data
- * @js NA
- * @lua NA
- */
+* @js NA
+* @lua NA
+*/
 struct Animation3DData
 {
 public:
@@ -352,17 +371,17 @@ public:
         : _time(0)
         {
         }
-
+        
         Vec3Key(float time, const Vec3& v)
         : _time(time)
         , _key(v)
         {
         }
-
+        
         float _time;
         Vec3 _key;
     };
-
+    
     struct QuatKey
     {
         QuatKey()
@@ -370,13 +389,13 @@ public:
         , _key(Quaternion::identity())
         {
         }
-
+        
         QuatKey(float time, const Quaternion& quat)
         : _time(time)
         , _key(quat)
         {
         }
-
+        
         float _time;
         Quaternion _key;
     };
@@ -385,15 +404,15 @@ public:
     std::map<std::string, std::vector<Vec3Key>> _translationKeys;
     std::map<std::string, std::vector<QuatKey>> _rotationKeys;
     std::map<std::string, std::vector<Vec3Key>> _scaleKeys;
-
+    
     std::chrono::milliseconds _totalTime;
 
 public:
     Animation3DData()
-    : _totalTime(0)
+    :_totalTime(0)
     {
     }
-
+    
     Animation3DData(const Animation3DData& other)
     : _translationKeys(other._translationKeys)
     , _rotationKeys(other._rotationKeys)
@@ -401,10 +420,10 @@ public:
     , _totalTime(other._totalTime)
     {
     }
-
+    
     void resetData()
     {
-        _totalTime = std::chrono::milliseconds::zero();
+        _totalTime = 0ms;
         _translationKeys.clear();
         _rotationKeys.clear();
         _scaleKeys.clear();
@@ -412,21 +431,16 @@ public:
 };
 
 /**reference data
- * @js NA
- * @lua NA
- */
+* @js NA
+* @lua NA
+*/
 struct Reference
 {
-public:
     std::string id;
     unsigned int type;
     unsigned int offset;
-
-    Reference() {}
-
-    ~Reference() {}
 };
 
 NS_CC_END
 
-#endif // CC_3D_BUNDLE3DDATA_H
+#endif //__CC_BUNDLE_3D_DATA_H__

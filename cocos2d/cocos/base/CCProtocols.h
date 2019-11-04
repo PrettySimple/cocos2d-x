@@ -2,6 +2,7 @@
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -24,21 +25,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_BASE_PROTOCOLS_H
-#define CC_BASE_PROTOCOLS_H
+#ifndef __BASE_CCPROTOCOLS_H__
+#define __BASE_CCPROTOCOLS_H__
 /// @cond DO_NOT_SHOW
 
-#include <cocos/platform/CCGL.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
+#include <string>
 
-#include <iosfwd>
+#include <cocos/base/ccTypes.h>
+#include <cocos/renderer/CCTexture2D.h>
 
 NS_CC_BEGIN
-
-class Texture2D;
-struct Color3B;
-struct BlendFunc;
 
 /**
  * RGBA protocol that affects Node's color and opacity
@@ -46,8 +42,8 @@ struct BlendFunc;
 class CC_DLL __RGBAProtocol
 {
 public:
-    virtual ~__RGBAProtocol();
-
+    virtual ~__RGBAProtocol() {}
+    
     /**
      * Changes the color with R,G,B bytes
      *
@@ -55,8 +51,8 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual void setColor(Color3B const& color) = 0;
-
+    virtual void setColor(const Color3B& color) = 0;
+    
     /**
      * Returns color that is currently used.
      *
@@ -64,8 +60,8 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual Color3B const& getColor() const = 0;
-
+    virtual const Color3B& getColor() const = 0;
+    
     /**
      * Returns the displayed color.
      *
@@ -73,8 +69,8 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual Color3B const& getDisplayedColor() const = 0;
-
+    virtual const Color3B& getDisplayedColor() const = 0;
+    
     /**
      * Returns the displayed opacity.
      *
@@ -82,7 +78,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual GLubyte getDisplayedOpacity() const = 0;
+    virtual unsigned char getDisplayedOpacity() const = 0;
     /**
      * Returns the opacity.
      *
@@ -93,8 +89,8 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual GLubyte getOpacity() const = 0;
-
+    virtual unsigned char getOpacity() const = 0;
+    
     /**
      * Changes the opacity.
      *
@@ -102,10 +98,10 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual void setOpacity(GLubyte opacity) = 0;
-
+    virtual void setOpacity(unsigned char opacity) = 0;
+    
     // optional
-
+    
     /**
      * Changes the OpacityModifyRGB property.
      * If this property is set to true, then the rendered color will be affected by opacity.
@@ -117,7 +113,7 @@ public:
      * @lua NA
      */
     virtual void setOpacityModifyRGB(bool value) = 0;
-
+    
     /**
      * Returns whether or not the opacity will be applied using glColor(R,G,B,opacity)
      * or glColor(opacity, opacity, opacity, opacity)
@@ -127,7 +123,7 @@ public:
      * @lua NA
      */
     virtual bool isOpacityModifyRGB() const = 0;
-
+    
     /**
      *  whether or not color should be propagated to its children.
      * @js NA
@@ -139,14 +135,14 @@ public:
      * @lua NA
      */
     virtual void setCascadeColorEnabled(bool cascadeColorEnabled) = 0;
-
+    
     /**
      *  recursive method that updates display color
      * @js NA
      * @lua NA
      */
-    virtual void updateDisplayedColor(Color3B const& color) = 0;
-
+    virtual void updateDisplayedColor(const Color3B& color) = 0;
+    
     /**
      *  whether or not opacity should be propagated to its children.
      * @js NA
@@ -158,13 +154,13 @@ public:
      * @lua NA
      */
     virtual void setCascadeOpacityEnabled(bool cascadeOpacityEnabled) = 0;
-
+    
     /**
      *  recursive method that updates the displayed opacity.
      * @js NA
      * @lua NA
      */
-    virtual void updateDisplayedOpacity(GLubyte opacity) = 0;
+    virtual void updateDisplayedOpacity(unsigned char opacity) = 0;
 };
 
 /**
@@ -175,41 +171,41 @@ public:
 class CC_DLL BlendProtocol
 {
 public:
-    virtual ~BlendProtocol();
+    virtual ~BlendProtocol() {}
 
     /**
      * Sets the source blending function.
      *
-     * @param blendFunc A structure with source and destination factor to specify pixel arithmetic,
-     *                  e.g. {GL_ONE, GL_ONE}, {GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA}.
+     * @param blendFunc A structure with source and destination factor to specify pixel arithmetic, 
+     *                  e.g. {BlendFactor::ONE, BlendFactor::ONE}, {BlendFactor::SRC_ALPHA, BlendFactor::ONE_MINUS_SRC_ALPHA}.
      * @js NA
      * @lua NA
      */
-    virtual void setBlendFunc(BlendFunc const& blendFunc) = 0;
+    virtual void setBlendFunc(const BlendFunc &blendFunc) = 0;
 
     /**
      * Returns the blending function that is currently being used.
-     *
+     * 
      * @return A BlendFunc structure with source and destination factor which specified pixel arithmetic.
      * @js NA
      * @lua NA
      */
-    virtual BlendFunc const& getBlendFunc() const = 0;
+    virtual const BlendFunc &getBlendFunc() const = 0;
 };
 
-/**
+/** 
  * Node objects that uses a Texture2D to render the images.
  * The texture can have a blending function.
  * If the texture has alpha premultiplied the default blending function is:
- *   src=GL_ONE dst= GL_ONE_MINUS_SRC_ALPHA
+ *   src=BlendFactor::ONE dst= BlendFactor::ONE_MINUS_SRC_ALPHA
  * else
- *   src=GL_SRC_ALPHA dst= GL_ONE_MINUS_SRC_ALPHA
+ *   src=BlendFactor::SRC_ALPHA dst= BlendFactor::ONE_MINUS_SRC_ALPHA
  * But you can change the blending function at any time.
  */
 class CC_DLL TextureProtocol : public BlendProtocol
 {
 public:
-    virtual ~TextureProtocol();
+    virtual ~TextureProtocol() {}
     /**
      * Returns the currently used texture
      *
@@ -226,7 +222,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual void setTexture(Texture2D* texture) = 0;
+    virtual void setTexture(Texture2D *texture) = 0;
 };
 
 /**
@@ -235,34 +231,34 @@ public:
 class CC_DLL LabelProtocol
 {
 public:
-    virtual ~LabelProtocol();
+    virtual ~LabelProtocol() {}
 
     /**
      * Sets a new label using a string
      *
-     * @param label A null terminated string
+     * @param label The name of the new label.
      * @js NA
      * @lua NA
      */
-    virtual void setString(std::string const& label) = 0;
+    virtual void setString(const std::string &label) = 0;
 
-    /**
-     * Returns the string that is currently being used in this label
+    /** 
+     * Returns the string that is currently being used in this label 
      *
      * @return The string that is currently being used in this label
      * @js NA
      * @lua NA
      */
-    virtual std::string const& getString() const = 0;
+    virtual const std::string& getString() const = 0;
 };
 
-/**
- * OpenGL projection protocol
+/** 
+ * OpenGL projection protocol 
  */
 class CC_DLL DirectorDelegate
 {
 public:
-    virtual ~DirectorDelegate();
+    virtual ~DirectorDelegate() {}
 
     /**
      * Will be called by Director when the projection is updated, and "custom" projection is used
@@ -278,14 +274,13 @@ public:
 class CC_DLL PlayableProtocol
 {
 public:
-    virtual ~PlayableProtocol();
-
+    virtual ~PlayableProtocol(){}
+    
     virtual void start() = 0;
-
+    
     virtual void stop() = 0;
 };
-
 NS_CC_END
 
 /// @endcond
-#endif // CC_BASE_PROTOCOLS_H
+#endif // __BASE_CCPROTOCOLS_H__

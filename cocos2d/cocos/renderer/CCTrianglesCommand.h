@@ -1,18 +1,19 @@
 /****************************************************************************
  Copyright (c) 2013-2016 Chukong Technologies Inc.
-
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,24 +22,10 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+#pragma once
 
-#ifndef CC_RENDERER_TRIANGLESCOMMAND_H
-#define CC_RENDERER_TRIANGLESCOMMAND_H
-
-#include <cocos/base/ccTypes.h>
-#include <cocos/math/Mat4.h>
-#include <cocos/platform/CCGL.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCRenderCommand.h>
-
-#include <cstddef>
-#include <cstdint>
-#include <limits>
-
-#ifdef DEBUG_TEXTURE_SIZE
-#    include <cocos/math/Vec2.h>
-#endif
+#include <cocos/renderer/CCPipelineDescriptor.h>
 
 /**
  * @addtogroup renderer
@@ -46,103 +33,93 @@
  */
 
 NS_CC_BEGIN
-
-class GLProgramState;
-class Texture2D;
-
-/**
+/** 
  Command used to render one or more Triangles, which is similar to QuadCommand.
  Every TrianglesCommand will have generate material ID by give textureID, glProgramState, Blend function
  if the material id is the same, these TrianglesCommands could be batched to save draw call.
 */
+namespace backend {
+    class TextureBackend;
+    class Program;
+}
+
+class Texture2D;
+
 class CC_DLL TrianglesCommand : public RenderCommand
 {
 public:
     /**The structure of Triangles. */
     struct Triangles
     {
+        Triangles(V3F_C4B_T2F* _verts, unsigned short* _indices, unsigned int _vertCount, unsigned int _indexCount)
+        : verts(_verts)
+        , indices(_indices)
+        , vertCount(_vertCount)
+        , indexCount(_indexCount)
+        {}
+
+        Triangles() {}
+
         /**Vertex data pointer.*/
         V3F_C4B_T2F* verts = nullptr;
         /**Index data pointer.*/
         unsigned short* indices = nullptr;
         /**The number of vertices.*/
-        int vertCount = 0;
+        unsigned int vertCount = 0;
         /**The number of indices.*/
-        int indexCount = 0;
+        unsigned int indexCount = 0;
     };
+
     /**Constructor.*/
     TrianglesCommand();
-    TrianglesCommand(TrianglesCommand const&) = delete;
-    TrianglesCommand& operator=(TrianglesCommand const&) = delete;
-    TrianglesCommand(TrianglesCommand&&) noexcept = delete;
-    TrianglesCommand& operator=(TrianglesCommand&&) noexcept = delete;
     /**Destructor.*/
-    ~TrianglesCommand() override;
-
+    ~TrianglesCommand();
+    
     /** Initializes the command.
      @param globalOrder GlobalZOrder of the command.
-     @param textureID The openGL handle of the used texture.
-     @param glProgramState The specified glProgram and its uniform.
+     @param texture The texture used in renderring.
      @param blendType Blend function for the command.
      @param triangles Rendered triangles for the command.
      @param mv ModelView matrix for the command.
      @param flags to indicate that the command is using 3D rendering or not.
      */
-    void init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, BlendFunc blendType, const Triangles& triangles, const Mat4& mv, uint32_t flags);
-    /**Deprecated function, the params is similar as the upper init function, with flags equals 0.*/
-    CC_DEPRECATED_ATTRIBUTE void
-    init(float globalOrder, GLuint textureID, GLProgramState* glProgramState, BlendFunc blendType, const Triangles& triangles, const Mat4& mv);
-    void init(float globalOrder, Texture2D* textureID, GLProgramState* glProgramState, BlendFunc blendType, const Triangles& triangles, const Mat4& mv,
-              uint32_t flags);
-    /**Apply the texture, shaders, programs, blend functions to GPU pipeline.*/
-    void useMaterial() const;
+    void init(float globalOrder, cocos2d::Texture2D* texture, const BlendFunc& blendType,  const Triangles& triangles, const Mat4& mv, uint32_t flags);
     /**Get the material id of command.*/
-    inline std::size_t getMaterialID() const noexcept { return _materialID; }
-    /**Get the openGL texture handle.*/
-    inline GLuint getTextureID() const noexcept { return _textureID; }
+    uint32_t getMaterialID() const { return _materialID; }
     /**Get a const reference of triangles.*/
-    inline Triangles const& getTriangles() const noexcept { return _triangles; }
+    const Triangles& getTriangles() const { return _triangles; }
     /**Get the vertex count in the triangles.*/
-    inline std::size_t getVertexCount() const noexcept { return _triangles.vertCount; }
+    size_t getVertexCount() const { return _triangles.vertCount; }
     /**Get the index count of the triangles.*/
-    inline std::size_t getIndexCount() const noexcept { return _triangles.indexCount; }
+    size_t getIndexCount() const { return _triangles.indexCount; }
     /**Get the vertex data pointer.*/
-    inline V3F_C4B_T2F const* getVertices() const noexcept { return _triangles.verts; }
+    const V3F_C4B_T2F* getVertices() const { return _triangles.verts; }
     /**Get the index data pointer.*/
-    inline unsigned short const* getIndices() const noexcept { return _triangles.indices; }
-    /**Get the glprogramstate.*/
-    inline GLProgramState* getGLProgramState() const noexcept { return _glProgramState; }
-    /**Get the blend function.*/
-    inline BlendFunc getBlendType() const noexcept { return _blendType; }
+    const unsigned short* getIndices() const { return _triangles.indices; }
     /**Get the model view matrix.*/
-    inline Mat4 const& getModelView() const noexcept { return _mv; }
-
-#ifdef DEBUG_TEXTURE_SIZE
-    void setTextureSize(Vec2 const& texSize);
-#endif
-
+    const Mat4& getModelView() const { return _mv; }
+    
+    /** update material ID */
+    void updateMaterialID();
+  
 protected:
     /**Generate the material ID by textureID, glProgramState, and blend function.*/
     void generateMaterialID();
-
+    
     /**Generated material id.*/
-    std::size_t _materialID = std::numeric_limits<std::size_t>::max();
+    uint32_t _materialID = 0;
 
-    /**OpenGL handle for texture.*/
-    GLuint _textureID = 0;
-    /**GLprogramstate for the command. encapsulate shaders and uniforms.*/
-    GLProgramState* _glProgramState = nullptr;
-    /**Blend function when rendering the triangles.*/
-    BlendFunc _blendType = BlendFunc::DISABLE;
     /**Rendered triangles.*/
     Triangles _triangles;
     /**Model view matrix when rendering the triangles.*/
     Mat4 _mv;
-#ifdef DEBUG_TEXTURE_SIZE
-    Vec2 _texSize = Vec2::ZERO;
-#endif
 
-    GLuint _alphaTextureID = 0; // ANDROID ETC1 ALPHA supports.
+    uint8_t _alphaTextureID = 0; // ANDROID ETC1 ALPHA supports.
+
+    // Cached value to determine to generate material id or not.
+    BlendFunc _blendType = BlendFunc::DISABLE;
+    backend::Program* _program = nullptr;
+    backend::TextureBackend* _texture = nullptr;
 };
 
 NS_CC_END
@@ -150,4 +127,3 @@ NS_CC_END
  end of support group
  @}
  */
-#endif // CC_RENDERER_TRIANGLESCOMMAND_H

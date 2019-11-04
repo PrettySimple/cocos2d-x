@@ -1,18 +1,19 @@
 /****************************************************************************
- Copyright (c) 2014 Chukong Technologies Inc.
-
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,14 +24,7 @@
  ****************************************************************************/
 
 #include <cocos/3d/CCFrustum.h>
-
 #include <cocos/2d/CCCamera.h>
-#include <cocos/3d/CCAABB.h>
-#include <cocos/3d/CCOBB.h>
-#include <cocos/3d/CCPlane.h>
-#include <cocos/math/Mat4.h>
-#include <cocos/math/Vec3.h>
-#include <cocos/platform/CCPlatformMacros.h>
 
 NS_CC_BEGIN
 
@@ -53,8 +47,8 @@ bool Frustum::isOutOfFrustum(const AABB& aabb) const
             point.x = normal.x < 0 ? aabb._max.x : aabb._min.x;
             point.y = normal.y < 0 ? aabb._max.y : aabb._min.y;
             point.z = normal.z < 0 ? aabb._max.z : aabb._min.z;
-
-            if (_plane[i].getSide(point) == PointSide::FRONT_PLANE)
+            
+            if (_plane[i].getSide(point) == PointSide::FRONT_PLANE )
                 return true;
         }
     }
@@ -70,7 +64,7 @@ bool Frustum::isOutOfFrustum(const OBB& obb) const
         Vec3 obbExtentX = obb._xAxis * obb._extents.x;
         Vec3 obbExtentY = obb._yAxis * obb._extents.y;
         Vec3 obbExtentZ = obb._zAxis * obb._extents.z;
-
+        
         for (int i = 0; i < plane; i++)
         {
             const Vec3& normal = _plane[i].getNormal();
@@ -83,20 +77,20 @@ bool Frustum::isOutOfFrustum(const OBB& obb) const
                 return true;
         }
     }
-    return false;
+    return  false;
 }
 
 void Frustum::createPlane(const Camera* camera)
 {
     const Mat4& mat = camera->getViewProjectionMatrix();
-    // ref http://www.lighthouse3d.com/tutorials/view-frustum-culling/clip-space-approach-extracting-the-planes/
-    // extract frustum plane
-    _plane[0].initPlane(-Vec3(mat.m[3] + mat.m[0], mat.m[7] + mat.m[4], mat.m[11] + mat.m[8]), (mat.m[15] + mat.m[12])); // left
-    _plane[1].initPlane(-Vec3(mat.m[3] - mat.m[0], mat.m[7] - mat.m[4], mat.m[11] - mat.m[8]), (mat.m[15] - mat.m[12])); // right
-    _plane[2].initPlane(-Vec3(mat.m[3] + mat.m[1], mat.m[7] + mat.m[5], mat.m[11] + mat.m[9]), (mat.m[15] + mat.m[13])); // bottom
-    _plane[3].initPlane(-Vec3(mat.m[3] - mat.m[1], mat.m[7] - mat.m[5], mat.m[11] - mat.m[9]), (mat.m[15] - mat.m[13])); // top
-    _plane[4].initPlane(-Vec3(mat.m[3] + mat.m[2], mat.m[7] + mat.m[6], mat.m[11] + mat.m[10]), (mat.m[15] + mat.m[14])); // near
-    _plane[5].initPlane(-Vec3(mat.m[3] - mat.m[2], mat.m[7] - mat.m[6], mat.m[11] - mat.m[10]), (mat.m[15] - mat.m[14])); // far
+    //ref http://www.lighthouse3d.com/tutorials/view-frustum-culling/clip-space-approach-extracting-the-planes/
+    //extract frustum plane
+    _plane[0].initPlane(-Vec3(mat.m[3] + mat.m[0], mat.m[7] + mat.m[4], mat.m[11] + mat.m[8]), (mat.m[15] + mat.m[12]));//left
+    _plane[1].initPlane(-Vec3(mat.m[3] - mat.m[0], mat.m[7] - mat.m[4], mat.m[11] - mat.m[8]), (mat.m[15] - mat.m[12]));//right
+    _plane[2].initPlane(-Vec3(mat.m[3] + mat.m[1], mat.m[7] + mat.m[5], mat.m[11] + mat.m[9]), (mat.m[15] + mat.m[13]));//bottom
+    _plane[3].initPlane(-Vec3(mat.m[3] - mat.m[1], mat.m[7] - mat.m[5], mat.m[11] - mat.m[9]), (mat.m[15] - mat.m[13]));//top
+    _plane[4].initPlane(-Vec3(mat.m[3] + mat.m[2], mat.m[7] + mat.m[6], mat.m[11] + mat.m[10]), (mat.m[15] + mat.m[14]));//near
+    _plane[5].initPlane(-Vec3(mat.m[3] - mat.m[2], mat.m[7] - mat.m[6], mat.m[11] - mat.m[10]), (mat.m[15] - mat.m[14]));//far
 }
 
 NS_CC_END

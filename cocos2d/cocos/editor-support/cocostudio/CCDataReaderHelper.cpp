@@ -1719,7 +1719,7 @@ namespace cocostudio
                     if (key.compare(CONTENT_SCALE) == 0)
                     {
                         std::string value = tpChildArray[i].GetValue(&tCocoLoader);
-                        dataInfo->contentScale = utils::atof(value.c_str());
+                        dataInfo->contentScale = ccutils::atof(value.c_str());
                     }
                     else if (0 == key.compare(ARMATURE_DATA))
                     {
@@ -1837,7 +1837,7 @@ namespace cocostudio
             armatureData->name = name;
         }
 
-        float version = utils::atof(pAramtureDataArray[1].GetValue(cocoLoader));
+        float version = ccutils::atof(pAramtureDataArray[1].GetValue(cocoLoader));
         dataInfo->cocoStudioVersion = armatureData->dataVersion = version; // DICTOOL->getFloatValue_json(json, VERSION, 0.1f);
 
         int length = pAramtureDataArray[3].GetChildNum(); // DICTOOL->getArrayCount_json(json, BONE_DATA, 0);
@@ -1947,27 +1947,27 @@ namespace cocostudio
                                 str = SkinDataValue[i].GetValue(cocoLoader);
                                 if (key.compare(A_X) == 0)
                                 {
-                                    sdd->skinData.x = utils::atof(str) * s_PositionReadScale;
+                                    sdd->skinData.x = ccutils::atof(str) * s_PositionReadScale;
                                 }
                                 else if (key.compare(A_Y) == 0)
                                 {
-                                    sdd->skinData.y = utils::atof(str) * s_PositionReadScale;
+                                    sdd->skinData.y = ccutils::atof(str) * s_PositionReadScale;
                                 }
                                 else if (key.compare(A_SCALE_X) == 0)
                                 {
-                                    sdd->skinData.scaleX = utils::atof(str);
+                                    sdd->skinData.scaleX = ccutils::atof(str);
                                 }
                                 else if (key.compare(A_SCALE_Y) == 0)
                                 {
-                                    sdd->skinData.scaleY = utils::atof(str);
+                                    sdd->skinData.scaleY = ccutils::atof(str);
                                 }
                                 else if (key.compare(A_SKEW_X) == 0)
                                 {
-                                    sdd->skinData.skewX = utils::atof(str);
+                                    sdd->skinData.skewX = ccutils::atof(str);
                                 }
                                 else if (key.compare(A_SKEW_Y) == 0)
                                 {
-                                    sdd->skinData.skewY = utils::atof(str);
+                                    sdd->skinData.skewY = ccutils::atof(str);
                                 }
                             }
 
@@ -2126,7 +2126,7 @@ namespace cocostudio
                 movementData->scale = 1.0;
                 if (str != nullptr)
                 {
-                    movementData->scale = utils::atof(str);
+                    movementData->scale = ccutils::atof(str);
                 }
             }
             else if (key.compare(A_TWEEN_EASING) == 0)
@@ -2178,7 +2178,7 @@ namespace cocostudio
             {
                 if (str != nullptr)
                 {
-                    movementBoneData->delay = utils::atof(str);
+                    movementBoneData->delay = ccutils::atof(str);
                 }
             }
             else if (key.compare(FRAME_DATA) == 0)
@@ -2336,7 +2336,7 @@ namespace cocostudio
                         str = pFrameData[ii].GetValue(cocoLoader);
                         if (str != nullptr)
                         {
-                            frameData->easingParams[ii] = utils::atof(str);
+                            frameData->easingParams[ii] = ccutils::atof(str);
                         }
                     }
                 }
@@ -2374,28 +2374,28 @@ namespace cocostudio
             {
                 if (str != nullptr)
                 {
-                    textureData->width = utils::atof(str);
+                    textureData->width = ccutils::atof(str);
                 }
             }
             else if (key.compare(A_HEIGHT) == 0)
             {
                 if (str != nullptr)
                 {
-                    textureData->height = utils::atof(str);
+                    textureData->height = ccutils::atof(str);
                 }
             }
             else if (key.compare(A_PIVOT_X) == 0)
             {
                 if (str != nullptr)
                 {
-                    textureData->pivotX = utils::atof(str);
+                    textureData->pivotX = ccutils::atof(str);
                 }
             }
             else if (key.compare(A_PIVOT_Y) == 0)
             {
                 if (str != nullptr)
                 {
-                    textureData->pivotY = utils::atof(str);
+                    textureData->pivotY = ccutils::atof(str);
                 }
             }
             else if (key.compare(CONTOUR_DATA) == 0)
@@ -2434,8 +2434,8 @@ namespace cocostudio
                 {
                     pVerTexPoint = pVerTexPointArray[ii].GetChildArray(cocoLoader);
                     Vec2 vertex;
-                    vertex.x = utils::atof(pVerTexPoint[0].GetValue(cocoLoader));
-                    vertex.y = utils::atof(pVerTexPoint[1].GetValue(cocoLoader));
+                    vertex.x = ccutils::atof(pVerTexPoint[0].GetValue(cocoLoader));
+                    vertex.y = ccutils::atof(pVerTexPoint[1].GetValue(cocoLoader));
                     contourData->vertexList.push_back(vertex);
                 }
                 break;
@@ -2459,11 +2459,11 @@ namespace cocostudio
             str = child->GetValue(cocoLoader);
             if (key.compare(A_X) == 0)
             {
-                node->x = utils::atof(str) * dataInfo->contentScale;
+                node->x = ccutils::atof(str) * dataInfo->contentScale;
             }
             else if (key.compare(A_Y) == 0)
             {
-                node->y = utils::atof(str) * dataInfo->contentScale;
+                node->y = ccutils::atof(str) * dataInfo->contentScale;
             }
             else if (key.compare(A_Z) == 0)
             {
@@ -2471,19 +2471,19 @@ namespace cocostudio
             }
             else if (key.compare(A_SKEW_X) == 0)
             {
-                node->skewX = utils::atof(str);
+                node->skewX = ccutils::atof(str);
             }
             else if (key.compare(A_SKEW_Y) == 0)
             {
-                node->skewY = utils::atof(str);
+                node->skewY = ccutils::atof(str);
             }
             else if (key.compare(A_SCALE_X) == 0)
             {
-                node->scaleX = utils::atof(str);
+                node->scaleX = ccutils::atof(str);
             }
             else if (key.compare(A_SCALE_Y) == 0)
             {
-                node->scaleY = utils::atof(str);
+                node->scaleY = ccutils::atof(str);
             }
             else if (key.compare(COLOR_INFO) == 0)
             {

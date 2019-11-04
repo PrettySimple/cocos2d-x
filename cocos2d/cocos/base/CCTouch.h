@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,13 +24,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_BASE_TOUCH_H
-#define CC_BASE_TOUCH_H
+#ifndef __CC_TOUCH_H__
+#define __CC_TOUCH_H__
 
 #include <cocos/base/CCRef.h>
-#include <cocos/math/Vec2.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/math/CCGeometry.h>
 
 NS_CC_BEGIN
 
@@ -42,25 +41,27 @@ NS_CC_BEGIN
  * @brief Encapsulates the Touch information, such as touch point, id and so on,
  and provides the methods that commonly used.
  */
-class CC_DLL Touch final : public Ref
+class CC_DLL Touch : public Ref
 {
 public:
-    Touch() = default;
-    Touch(Touch const&) = default;
-    Touch& operator=(Touch const&) = default;
-    Touch(Touch&&) noexcept = default;
-    Touch& operator=(Touch&&) noexcept = default;
-    ~Touch() final;
-
-    /**
+    /** 
      * Dispatch mode, how the touches are dispatched.
      * @js NA
      */
-    enum class DispatchMode : std::uint8_t
-    {
+    enum class DispatchMode {
         ALL_AT_ONCE, /** All at once. */
-        ONE_BY_ONE, /** One by one. */
+        ONE_BY_ONE,  /** One by one. */
     };
+
+    /** Constructor.
+     * @js ctor
+     */
+    Touch() 
+        : _id(0),
+        _startPointCaptured(false),
+        _curForce(0.f),
+        _maxForce(0.f)
+    {}
 
     /** Returns the current touch location in OpenGL coordinates.
      *
@@ -86,25 +87,39 @@ public:
      *
      * @return The current touch location in screen coordinates.
      */
-    inline Vec2 getLocationInView() const noexcept { return _point; }
-    /** Returns the previous touch location in screen coordinates.
+    Vec2 getLocationInView() const;
+    /** Returns the previous touch location in screen coordinates. 
      *
      * @return The previous touch location in screen coordinates.
      */
-    inline Vec2 getPreviousLocationInView() const noexcept { return _prevPoint; }
+    Vec2 getPreviousLocationInView() const;
     /** Returns the start touch location in screen coordinates.
      *
      * @return The start touch location in screen coordinates.
      */
-    inline Vec2 getStartLocationInView() const noexcept { return _startPoint; }
-
+    Vec2 getStartLocationInView() const;
+    
     /** Set the touch information. It always used to monitor touch event.
      *
      * @param id A given id
      * @param x A given x coordinate.
      * @param y A given y coordinate.
      */
-    void setTouchInfo(int id, float x, float y);
+    void setTouchInfo(int id, float x, float y)
+    {
+        _id = id;
+        _prevPoint = _point;
+        _point.x   = x;
+        _point.y   = y;
+        _curForce = 0.0f;
+        _maxForce = 0.0f;
+        if (!_startPointCaptured)
+        {
+            _startPoint = _point;
+            _startPointCaptured = true;
+            _prevPoint = _point;
+        }
+    }
 
     /** Set the touch information. It always used to monitor touch event.
      *
@@ -114,33 +129,50 @@ public:
      * @param force Current force for 3d touch.
      * @param maxForce maximum possible force for 3d touch.
      */
-    void setTouchInfo(int id, float x, float y, float force, float maxForce);
+    void setTouchInfo(int id, float x, float y, float force, float maxForce)
+    {
+        _id = id;
+        _prevPoint = _point;
+        _point.x   = x;
+        _point.y   = y;
+        _curForce = force;
+        _maxForce = maxForce;
+        if (!_startPointCaptured)
+        {
+            _startPoint = _point;
+            _startPointCaptured = true;
+            _prevPoint = _point;
+        }
+    }
     /** Get touch id.
      * @js getId
      * @lua getId
      *
      * @return The id of touch.
      */
-    inline int getID() const noexcept { return _id; }
+    int getID() const
+    {
+        return _id;
+    }
     /** Returns the current touch force for 3d touch.
      *
      * @return The current touch force for 3d touch.
      */
-    inline float getCurrentForce() const noexcept { return _curForce; }
+    float getCurrentForce() const;
     /** Returns the maximum touch force for 3d touch.
      *
      * @return The maximum touch force for 3d touch.
      */
-    inline float getMaxForce() const noexcept { return _maxForce; }
+    float getMaxForce() const;
 
 private:
-    int _id = 0;
-    bool _startPointCaptured = false;
+    int _id;
+    bool _startPointCaptured;
     Vec2 _startPoint;
     Vec2 _point;
     Vec2 _prevPoint;
-    float _curForce = 0.f;
-    float _maxForce = 0.f;
+    float _curForce;
+    float _maxForce;
 };
 
 // end of base group
@@ -148,4 +180,4 @@ private:
 
 NS_CC_END
 
-#endif // CC_BASE_TOUCH_H
+#endif  // __PLATFORM_TOUCH_H__

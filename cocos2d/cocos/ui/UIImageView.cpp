@@ -294,16 +294,10 @@ namespace ui
         return rData;
     }
 
-    void ImageView::setGLProgram(GLProgram* glProgram)
+    void ImageView::setProgramState(cocos2d::backend::ProgramState* programState)
     {
-        Widget::setGLProgram(glProgram);
-        _imageRenderer->setGLProgram(glProgram);
-    }
-
-    void ImageView::setGLProgramState(cocos2d::GLProgramState* glProgramState)
-    {
-        Widget::setGLProgramState(glProgramState);
-        _imageRenderer->setGLProgramState(glProgramState);
+        Widget::setProgramState(programState);
+        _imageRenderer->setProgramState(programState);
     }
 
 } // namespace ui

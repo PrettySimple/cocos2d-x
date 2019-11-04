@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,25 +24,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_PLATFORM_MAC_GLMAC_H
-#define CC_PLATFORM_MAC_GLMAC_H
+#ifndef __PLATFORM_MAC_CCGL_H__
+#define __PLATFORM_MAC_CCGL_H__
 
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#    include <OpenGL/gl.h>
-#    include <OpenGL/glext.h>
-#    include <OpenGL/glu.h>
-
-#    define CC_GL_DEPTH24_STENCIL8 -1
-
-#    define glDeleteVertexArrays glDeleteVertexArraysAPPLE
-#    define glGenVertexArrays glGenVertexArraysAPPLE
-#    define glBindVertexArray glBindVertexArrayAPPLE
-#    define glClearDepthf glClearDepth
-#    define glDepthRangef glDepthRange
-#    define glReleaseShaderCompiler(xxx)
+#import <OpenGL/gl.h>
+#import <OpenGL/glu.h>
+#import <OpenGL/glext.h>
 
 #endif // __PLATFORM_MAC_CCGL_H__
 
-#endif // CC_PLATFORM_MAC_GLMAC_H
+#endif //s CC_TARGET_PLATFORM == CC_PLATFORM_MAC

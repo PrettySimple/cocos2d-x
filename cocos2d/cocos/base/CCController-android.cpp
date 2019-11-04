@@ -1,6 +1,7 @@
 /****************************************************************************
  Copyright (c) 2014 cocos2d-x.org
- Copyright (c) 2014 Chukong Technologies Inc.
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -23,14 +24,14 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "base/CCController.h"
+#include <cocos/base/CCController.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#    include "base/CCDirector.h"
-#    include "base/CCEventController.h"
-#    include "base/ccMacros.h"
-#    include "platform/android/jni/JniHelper.h"
-#    include <functional>
+#include <functional>
+#include <cocos/base/ccMacros.h>
+#include <cocos/base/CCDirector.h>
+#include <cocos/platform/android/jni/JniHelper.h>
+#include <cocos/base/CCEventController.h>
 
 NS_CC_BEGIN
 
@@ -38,14 +39,15 @@ class ControllerImpl
 {
 public:
     ControllerImpl(Controller* controller)
-    : _controller(controller)
+            : _controller(controller)
     {
     }
 
     static std::vector<Controller*>::iterator findController(const std::string& deviceName, int deviceId)
     {
-        auto iter = std::find_if(Controller::s_allController.begin(), Controller::s_allController.end(),
-                                 [&](Controller* controller) { return (deviceName == controller->_deviceName) && (deviceId == controller->_deviceId); });
+        auto iter = std::find_if(Controller::s_allController.begin(), Controller::s_allController.end(), [&](Controller* controller){
+                return (deviceName == controller->_deviceName) && (deviceId == controller->_deviceId);
+            });
 
         return iter;
     }
@@ -53,7 +55,7 @@ public:
     static void onConnected(const std::string& deviceName, int deviceId)
     {
         // Check whether the controller is already connected.
-        CCLOG("onConnected %s,%d", deviceName.c_str(), deviceId);
+        CCLOG("onConnected %s,%d", deviceName.c_str(),deviceId);
 
         auto iter = findController(deviceName, deviceId);
         if (iter != Controller::s_allController.end())
@@ -70,7 +72,7 @@ public:
 
     static void onDisconnected(const std::string& deviceName, int deviceId)
     {
-        CCLOG("onDisconnected %s,%d", deviceName.c_str(), deviceId);
+        CCLOG("onDisconnected %s,%d", deviceName.c_str(),deviceId);
 
         auto iter = findController(deviceName, deviceId);
         if (iter == Controller::s_allController.end())
@@ -105,7 +107,7 @@ public:
             onConnected(deviceName, deviceId);
             iter = findController(deviceName, deviceId);
         }
-
+        
         (*iter)->onAxisEvent(axisCode, value, isAnalog);
     }
 
@@ -145,48 +147,46 @@ bool Controller::isConnected() const
 }
 
 Controller::Controller()
-: _controllerTag(TAG_UNSET)
-, _impl(new ControllerImpl(this))
-, _connectEvent(nullptr)
-, _keyEvent(nullptr)
-, _axisEvent(nullptr)
+    : _controllerTag(TAG_UNSET)
+    , _impl(new ControllerImpl(this))
+    , _connectEvent(nullptr)
+    , _keyEvent(nullptr)
+    , _axisEvent(nullptr)
 {
     init();
 }
 
-void Controller::receiveExternalKeyEvent(int externalKeyCode, bool receive)
-{
-    JniHelper::callStaticVoidMethod("org/cocos2dx/lib/GameControllerHelper", "receiveExternalKeyEvent", _deviceId, externalKeyCode, receive);
+void Controller::receiveExternalKeyEvent(int externalKeyCode,bool receive) {
+    JniHelper::callStaticVoidMethod("org.cocos2dx.lib.GameControllerHelper", "receiveExternalKeyEvent", _deviceId, externalKeyCode, receive);
 }
 
 NS_CC_END
 
-extern "C"
-{
-    void Java_org_cocos2dx_lib_GameControllerAdapter_nativeControllerConnected(JNIEnv* env, jobject thiz, jstring deviceName, jint controllerID)
+extern "C" {
+
+    void Java_org_cocos2dx_lib_GameControllerAdapter_nativeControllerConnected(JNIEnv*  env, jobject thiz, jstring deviceName, jint controllerID)
     {
         CCLOG("controller id: %d connected!", controllerID);
         cocos2d::ControllerImpl::onConnected(cocos2d::JniHelper::jstring2string(deviceName), controllerID);
     }
 
-    void Java_org_cocos2dx_lib_GameControllerAdapter_nativeControllerDisconnected(JNIEnv* env, jobject thiz, jstring deviceName, jint controllerID)
+    void Java_org_cocos2dx_lib_GameControllerAdapter_nativeControllerDisconnected(JNIEnv*  env, jobject thiz, jstring deviceName, jint controllerID)
     {
         CCLOG("controller id: %d disconnected!", controllerID);
         cocos2d::ControllerImpl::onDisconnected(cocos2d::JniHelper::jstring2string(deviceName), controllerID);
     }
 
-    void Java_org_cocos2dx_lib_GameControllerAdapter_nativeControllerButtonEvent(JNIEnv* env, jobject thiz, jstring deviceName, jint controllerID, jint button,
-                                                                                 jboolean isPressed, jfloat value, jboolean isAnalog)
+    void Java_org_cocos2dx_lib_GameControllerAdapter_nativeControllerButtonEvent(JNIEnv*  env, jobject thiz, jstring deviceName, jint controllerID, jint button, jboolean isPressed, jfloat value, jboolean isAnalog)
     {
         cocos2d::ControllerImpl::onButtonEvent(cocos2d::JniHelper::jstring2string(deviceName), controllerID, button, isPressed, value, isAnalog);
     }
 
-    void Java_org_cocos2dx_lib_GameControllerAdapter_nativeControllerAxisEvent(JNIEnv* env, jobject thiz, jstring deviceName, jint controllerID, jint axis,
-                                                                               jfloat value, jboolean isAnalog)
+    void Java_org_cocos2dx_lib_GameControllerAdapter_nativeControllerAxisEvent(JNIEnv*  env, jobject thiz, jstring deviceName, jint controllerID, jint axis, jfloat value, jboolean isAnalog)
     {
         cocos2d::ControllerImpl::onAxisEvent(cocos2d::JniHelper::jstring2string(deviceName), controllerID, axis, value, isAnalog);
     }
 
 } // extern "C" {
+
 
 #endif // #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

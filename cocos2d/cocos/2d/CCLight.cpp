@@ -1,21 +1,29 @@
+/****************************************************************************
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
+ http://www.cocos2d-x.org
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ ****************************************************************************/
+
 #include <cocos/2d/CCLight.h>
-
-#include <cocos/2d/CCNode.h>
 #include <cocos/2d/CCScene.h>
-#include <cocos/base/ccMacros.h>
-#include <cocos/math/Mat4.h>
-#include <cocos/math/Vec3.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <algorithm>
-#include <cmath>
-#include <new>
-#include <vector>
-
-namespace cocos2d
-{
-    struct Color3B;
-}
 
 NS_CC_BEGIN
 
@@ -30,7 +38,7 @@ void BaseLight::onEnter()
     auto scene = getScene();
     if (scene)
     {
-        auto& lights = scene->_lights;
+        auto &lights = scene->_lights;
         auto iter = std::find(lights.begin(), lights.end(), this);
         if (iter == lights.end())
             lights.push_back(this);
@@ -42,7 +50,7 @@ void BaseLight::onExit()
     auto scene = getScene();
     if (scene)
     {
-        auto& lights = scene->_lights;
+        auto &lights = scene->_lights;
         auto iter = std::find(lights.begin(), lights.end(), this);
         if (iter != lights.end())
             lights.erase(iter);
@@ -50,7 +58,7 @@ void BaseLight::onExit()
     Node::onExit();
 }
 
-void BaseLight::setRotationFromDirection(const Vec3& direction)
+void BaseLight::setRotationFromDirection( const Vec3 &direction )
 {
     float projLen = sqrt(direction.x * direction.x + direction.z * direction.z);
     float rotY = CC_RADIANS_TO_DEGREES(atan2f(-direction.x, -direction.z));
@@ -63,13 +71,16 @@ BaseLight::BaseLight()
 , _lightFlag(LightFlag::LIGHT0)
 , _enabled(true)
 {
+    
 }
 BaseLight::~BaseLight()
 {
+    
 }
 
+
 ////////////////////////////////////////////////////////////////////
-DirectionLight* DirectionLight::create(const Vec3& direction, const Color3B& color)
+DirectionLight* DirectionLight::create(const Vec3 &direction, const Color3B &color)
 {
     auto light = new (std::nothrow) DirectionLight();
     light->setRotationFromDirection(direction);
@@ -78,7 +89,7 @@ DirectionLight* DirectionLight::create(const Vec3& direction, const Color3B& col
     return light;
 }
 
-void DirectionLight::setDirection(const Vec3& dir)
+void DirectionLight::setDirection(const Vec3 &dir)
 {
     setRotationFromDirection(dir);
 }
@@ -94,13 +105,15 @@ Vec3 DirectionLight::getDirectionInWorld() const
 }
 DirectionLight::DirectionLight()
 {
+    
 }
 DirectionLight::~DirectionLight()
 {
+    
 }
 
 //////////////////////////////////////////////////////////////////
-PointLight* PointLight::create(const Vec3& position, const Color3B& color, float range)
+PointLight* PointLight::create(const Vec3 &position, const Color3B &color, float range)
 {
     auto light = new (std::nothrow) PointLight();
     light->setPosition3D(position);
@@ -112,13 +125,15 @@ PointLight* PointLight::create(const Vec3& position, const Color3B& color, float
 
 PointLight::PointLight()
 {
+    
 }
 PointLight::~PointLight()
 {
+    
 }
 
 //////////////////////////////////////////////////////////////
-SpotLight* SpotLight::create(const Vec3& direction, const Vec3& position, const Color3B& color, float innerAngle, float outerAngle, float range)
+SpotLight* SpotLight::create(const Vec3 &direction, const Vec3 &position, const Color3B &color, float innerAngle, float outerAngle, float range)
 {
     auto light = new (std::nothrow) SpotLight();
     light->setRotationFromDirection(direction);
@@ -131,7 +146,7 @@ SpotLight* SpotLight::create(const Vec3& direction, const Vec3& position, const 
     return light;
 }
 
-void SpotLight::setDirection(const Vec3& dir)
+void SpotLight::setDirection(const Vec3 &dir)
 {
     setRotationFromDirection(dir);
 }
@@ -162,15 +177,17 @@ void SpotLight::setOuterAngle(float angle)
 
 SpotLight::SpotLight()
 {
+
 }
 
 SpotLight::~SpotLight()
 {
+
 }
 
 /////////////////////////////////////////////////////////////
 
-AmbientLight* AmbientLight::create(const Color3B& color)
+AmbientLight* AmbientLight::create( const Color3B &color )
 {
     auto light = new (std::nothrow) AmbientLight();
     light->setColor(color);
@@ -180,10 +197,12 @@ AmbientLight* AmbientLight::create(const Color3B& color)
 
 AmbientLight::AmbientLight()
 {
+
 }
 
 AmbientLight::~AmbientLight()
 {
+
 }
 
 NS_CC_END

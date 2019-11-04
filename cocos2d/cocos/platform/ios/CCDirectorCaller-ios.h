@@ -1,6 +1,7 @@
 /****************************************************************************
  Copyright (c) 2010-2012 cocos2d-x.org
  Copyright (c) 2013-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -23,28 +24,25 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_PLATFORM_IOS_DIRECTORCALLERIOS_H
-#define CC_PLATFORM_IOS_DIRECTORCALLERIOS_H
-
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#    import <Foundation/NSObject.h>
+#import <Foundation/Foundation.h>
 
 @interface CCDirectorCaller : NSObject {
-    id displayLink;
-    int interval;
-    BOOL isAppActive;
+        id displayLink;
+        int interval;
+        BOOL isAppActive;
+    CFTimeInterval lastDisplayTime;
 }
 @property (readwrite) int interval;
-- (void)startMainLoop;
-- (void)stopMainLoop;
-- (void)doCaller:(id)sender;
-- (void)setAnimationInterval:(double)interval;
-+ (id)sharedDirectorCaller;
-+ (void)destroy;
+-(void) startMainLoop;
+-(void) stopMainLoop;
+-(void) doCaller: (id) sender;
+-(void) setAnimationInterval:(double)interval;
++(id) sharedDirectorCaller;
++(void) destroy;
 @end
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#endif // CC_PLATFORM_IOS_DIRECTORCALLERIOS_H

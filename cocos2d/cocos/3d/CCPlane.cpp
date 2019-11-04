@@ -1,18 +1,19 @@
 /****************************************************************************
- Copyright (c) 2014 Chukong Technologies Inc.
-
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,15 +25,14 @@
 
 #include <cocos/3d/CCPlane.h>
 
-#include <cocos/math/Vec3.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
 NS_CC_BEGIN
 
 Plane::Plane()
-: _normal(0.f, 0.f, 1.f)
-, _dist(0.f)
+:
+_normal(0.f, 0.f, 1.f),
+_dist(0.f)
 {
+    
 }
 
 // create plane from tree point
@@ -80,6 +80,7 @@ float Plane::dist2Plane(const Vec3& p) const
 {
     return _normal.dot(p) - _dist;
 }
+
 
 PointSide Plane::getSide(const Vec3& point) const
 {

@@ -2,6 +2,7 @@
  * Copyright (c) 2012      Pierre-David Bélanger
  * Copyright (c) 2012      cocos2d-x.org
  * Copyright (c) 2013-2016 Chukong Technologies Inc.
+ * Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  *
  * http://www.cocos2d-x.org
  *
@@ -24,15 +25,13 @@
  * THE SOFTWARE.
  *
  */
-
-#ifndef CC_2D_CLIPPINGNODE_H
-#define CC_2D_CLIPPINGNODE_H
+#pragma once
 
 #include <cocos/2d/CCNode.h>
-#include <cocos/platform/CCGL.h>
-#include <cocos/renderer/CCCustomCommand.h>
 #include <cocos/renderer/CCGroupCommand.h>
-
+#include <cocos/renderer/CCCustomCommand.h>
+#include <cocos/renderer/CCCallbackCommand.h>
+#include <unordered_map>
 NS_CC_BEGIN
 
 class StencilStateManager;
@@ -53,12 +52,12 @@ public:
      * @return An autorelease ClippingNode.
      */
     static ClippingNode* create();
-
+    
     /** Creates and initializes a clipping node with an other node as its stencil.
      * The stencil node will be retained.
      * @param stencil The stencil node.
      */
-    static ClippingNode* create(Node* stencil);
+    static ClippingNode* create(Node *stencil);
 
     /** The Node to use as a stencil to do the clipping.
      * The stencil node will be retained.
@@ -67,12 +66,12 @@ public:
      * @return The stencil node.
      */
     Node* getStencil() const;
-
+    
     /** Set the Node to use as a stencil to do the clipping.
      *
      * @param stencil The Node to use as a stencil to do the clipping.
      */
-    void setStencil(Node* stencil);
+    void setStencil(Node *stencil);
 
     /** If stencil has no children it will not be drawn.
      * If you have custom stencil-based node with stencil drawing mechanics other then children-based,
@@ -93,14 +92,14 @@ public:
      *
      * @return The alpha threshold value,Should be a float between 0 and 1.
      */
-    GLfloat getAlphaThreshold() const;
-
-    /** Set the alpha threshold.
-     *
+    float getAlphaThreshold() const;
+    
+    /** Set the alpha threshold. 
+     * 
      * @param alphaThreshold The alpha threshold.
      */
-    void setAlphaThreshold(GLfloat alphaThreshold);
-
+    void setAlphaThreshold(float alphaThreshold);
+    
     /** Inverted. If this is set to true,
      * the stencil is inverted, so the content is drawn where the stencil is NOT drawn.
      * This default to false.
@@ -108,7 +107,7 @@ public:
      * @return If the clippingNode is Inverted, it will be return true.
      */
     bool isInverted() const;
-
+    
     /** Set the ClippingNode whether or not invert.
      *
      * @param inverted A bool Type,to set the ClippingNode whether or not invert.
@@ -119,54 +118,56 @@ public:
     /**
      * @lua NA
      */
-    void onEnter() override;
+    virtual void onEnter() override;
     /**
      * @lua NA
      */
-    void onEnterTransitionDidFinish() override;
+    virtual void onEnterTransitionDidFinish() override;
     /**
      * @lua NA
      */
-    void onExitTransitionDidStart() override;
+    virtual void onExitTransitionDidStart() override;
     /**
      * @lua NA
      */
-    void onExit() override;
-    void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags) override;
-
-    void setCameraMask(unsigned short mask, bool applyChildren = true) override;
-
-    CC_CONSTRUCTOR_ACCESS : ClippingNode();
-
+    virtual void onExit() override;
+    virtual void visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags) override;
+    
+    virtual void setCameraMask(unsigned short mask, bool applyChildren = true) override;
+    
+CC_CONSTRUCTOR_ACCESS:
+    ClippingNode();
+    
     /**
      * @js NA
      * @lua NA
      */
-    ~ClippingNode() override;
+    virtual ~ClippingNode();
 
     /** Initializes a clipping node without a stencil.
      */
-    bool init() override;
-
+    virtual bool init() override;
+    
     /** Initializes a clipping node with an other node as its stencil.
      The stencil node will be retained, and its parent will be set to this clipping node.
      */
-    virtual bool init(Node* stencil);
+    virtual bool init(Node *stencil);
 
 protected:
-    Node* _stencil;
+    void setProgramStateRecursively(Node* node, backend::ProgramState* programState);
+    void restoreAllProgramStates();
 
-    StencilStateManager* _stencilStateManager;
-
-    GroupCommand _groupCommand;
-    CustomCommand _beforeVisitCmd;
-    CustomCommand _afterDrawStencilCmd;
-    CustomCommand _afterVisitCmd;
+    Node* _stencil                              = nullptr;
+    StencilStateManager* _stencilStateManager   = nullptr;
+    
+    GroupCommand _groupCommandStencil;
+    GroupCommand _groupCommandChildren;
+    CallbackCommand _afterDrawStencilCmd;
+    CallbackCommand _afterVisitCmd;
+    std::unordered_map<Node*, backend::ProgramState*> _originalStencilProgramState;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ClippingNode)
+    CC_DISALLOW_COPY_AND_ASSIGN(ClippingNode);
 };
 /** @} */
 NS_CC_END
-
-#endif // CC_2D_CLIPPINGNODE_H

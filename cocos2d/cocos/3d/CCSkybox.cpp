@@ -1,18 +1,19 @@
 /****************************************************************************
- Copyright (c) 2015 Chukong Technologies Inc.
-
+ Copyright (c) 2015-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,209 +22,182 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-
-#include <cocos/2d/CCCamera.h>
 #include <cocos/3d/CCSkybox.h>
+#include <cocos/base/ccMacros.h>
 #include <cocos/base/CCConfiguration.h>
 #include <cocos/base/CCDirector.h>
-#include <cocos/base/ccMacros.h>
-#include <cocos/renderer/CCGLProgram.h>
-#include <cocos/renderer/CCGLProgramCache.h>
-#include <cocos/renderer/CCGLProgramState.h>
-#include <cocos/renderer/CCRenderState.h>
 #include <cocos/renderer/CCRenderer.h>
+#include <cocos/renderer/CCRenderState.h>
 #include <cocos/renderer/CCTextureCube.h>
-#include <cocos/renderer/ccGLStateCache.h>
+#include <cocos/renderer/ccShaders.h>
+#include <cocos/2d/CCCamera.h>
 
 NS_CC_BEGIN
 
-Skybox::Skybox()
-: _vao(0)
-, _vertexBuffer(0)
-, _indexBuffer(0)
-, _texture(nullptr)
+Skybox::Skybox():
+    _texture(nullptr)
 {
 }
 
 Skybox::~Skybox()
 {
-    glDeleteBuffers(1, &_vertexBuffer);
-    glDeleteBuffers(1, &_indexBuffer);
-
-    _vertexBuffer = 0;
-    _indexBuffer = 0;
-
-    if (Configuration::getInstance()->supportsShareableVAO())
-    {
-        glDeleteVertexArrays(1, &_vao);
-        GL::bindVAO(0);
-        _vao = 0;
-    }
-
+    CC_SAFE_RELEASE_NULL(_programState);
     _texture->release();
 }
 
-Skybox* Skybox::create(const std::string& positive_x, const std::string& negative_x, const std::string& positive_y, const std::string& negative_y,
-                       const std::string& positive_z, const std::string& negative_z)
+Skybox* Skybox::create(const std::string& positive_x, const std::string& negative_x,
+               const std::string& positive_y, const std::string& negative_y,
+               const std::string& positive_z, const std::string& negative_z)
 {
     auto ret = new (std::nothrow) Skybox();
     ret->init(positive_x, negative_x, positive_y, negative_y, positive_z, negative_z);
-
+    
     ret->autorelease();
     return ret;
 }
 
 bool Skybox::init()
 {
+    _customCommand.setTransparent(false);
+    _customCommand.set3D(true);
+
+    _customCommand.setBeforeCallback(CC_CALLBACK_0(Skybox::onBeforeDraw, this));
+    _customCommand.setAfterCallback(CC_CALLBACK_0(Skybox::onAfterDraw, this));
+
     // create and set our custom shader
-    auto shader = GLProgramCache::getInstance()->getGLProgram(GLProgram::SHADER_3D_SKYBOX);
-    auto state = GLProgramState::create(shader);
-    state->setVertexAttribPointer(GLProgram::ATTRIBUTE_NAME_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Vec3), nullptr);
-    setGLProgramState(state);
+
+    _programState = new backend::ProgramState(CC3D_skybox_vert, CC3D_skybox_frag);
+
+    auto &pipelineDescriptor = _customCommand.getPipelineDescriptor();
+    auto layout = _programState->getVertexLayout();
+
+    pipelineDescriptor.programState = _programState;
+    // disable blend
+    pipelineDescriptor.blendDescriptor.blendEnabled = false; 
+    const auto& attributeInfo = _programState->getProgram()->getActiveAttributes();
+    const auto& iter = attributeInfo.find(shaderinfos::attribute::ATTRIBUTE_NAME_POSITION);
+    if(iter != attributeInfo.end())
+    {
+        layout->setAttribute(shaderinfos::attribute::ATTRIBUTE_NAME_POSITION, iter->second.location, backend::VertexFormat::FLOAT3, 0, false);
+    }
+    layout->setLayout(sizeof(Vec3));
+
+    _uniformColorLoc = _programState->getUniformLocation("u_color");
+    _uniformCameraRotLoc = _programState->getUniformLocation("u_cameraRot");
+    _uniformEnvLoc = _programState->getUniformLocation("u_Env");
 
     initBuffers();
-
-    CHECK_GL_ERROR_DEBUG();
-
     return true;
 }
 
-bool Skybox::init(const std::string& positive_x, const std::string& negative_x, const std::string& positive_y, const std::string& negative_y,
-                  const std::string& positive_z, const std::string& negative_z)
+bool Skybox::init(const std::string& positive_x, const std::string& negative_x,
+          const std::string& positive_y, const std::string& negative_y,
+          const std::string& positive_z, const std::string& negative_z)
 {
     auto texture = TextureCube::create(positive_x, negative_x, positive_y, negative_y, positive_z, negative_z);
     if (texture == nullptr)
         return false;
-
+    
     init();
     setTexture(texture);
+    texture->release();
     return true;
 }
 
 void Skybox::initBuffers()
 {
-    if (Configuration::getInstance()->supportsShareableVAO())
-    {
-        glGenVertexArrays(1, &_vao);
-        GL::bindVAO(_vao);
-    }
+
+	// The skybox is rendered using a purpose-built shader which makes use of
+	// the shader language's inherent support for cubemaps. Hence there is no
+	// need to build a cube mesh. All that is needed is a single quad that
+	// covers the entire screen. The vertex shader will draw the appropriate
+	// view of the cubemap onto that quad.
+	//
+	// The vertex shader does not apply either the model/view matrix or the
+	// projection matrix, so the appropriate quad is one with unit coordinates
+	// in the x and y dimensions. Such a quad will exactly cover the screen.
+	// To ensure that the skybox is rendered behind all other objects, z needs
+	// to be 1.0, but the vertex shader overwrites z to 1.0, so - for the sake
+	// of z-buffering - it is unimportant what we set it to for the vertices
+	// of the quad.
+	//
+	// The quad vertex positions are also used in deriving a direction
+	// vector for the cubemap lookup. We choose z = -1 which matches the
+	// negative-z pointing direction of the camera and gives a field of
+	// view of 90deg in both x and y, if not otherwise adjusted. That fov
+	// is then adjusted to exactly match the camera by applying a prescaling
+	// to the camera's world transformation before sending it to the shader.
 
     // init vertex buffer object
-    Vec3 vexBuf[] = {Vec3(1, -1, 1), Vec3(1, 1, 1), Vec3(-1, 1, 1), Vec3(-1, -1, 1), Vec3(1, -1, -1), Vec3(1, 1, -1), Vec3(-1, 1, -1), Vec3(-1, -1, -1)};
-
-    glGenBuffers(1, &_vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vexBuf), vexBuf, GL_STATIC_DRAW);
-
-    // init index buffer object
-    const unsigned char idxBuf[] = {
-        2, 1, 0, 3, 2, 0, // font
-        1, 5, 4, 1, 4, 0, // right
-        4, 5, 6, 4, 6, 7, // back
-        7, 6, 2, 7, 2, 3, // left
-        2, 6, 5, 2, 5, 1, // up
-        3, 0, 4, 3, 4, 7 // down
+    Vec3 vexBuf[] =
+    {
+        Vec3(1, -1, -1), Vec3(1, 1, -1), Vec3(-1, 1, -1), Vec3(-1, -1, -1)
     };
 
-    glGenBuffers(1, &_indexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(idxBuf), idxBuf, GL_STATIC_DRAW);
+    uint16_t idxBuf[] = { 0, 1, 2, 0, 2, 3 };
 
-    if (Configuration::getInstance()->supportsShareableVAO())
-    {
-        GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POSITION, _vao);
-        getGLProgramState()->applyAttributes(false);
+    _customCommand.createVertexBuffer(sizeof(Vec3), sizeof(vexBuf), CustomCommand::BufferUsage::STATIC);
+    _customCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT, 6, CustomCommand::BufferUsage::STATIC);
 
-        GL::bindVAO(0);
-    }
+    _customCommand.updateVertexBuffer(&vexBuf[0], sizeof(vexBuf));
+    _customCommand.updateIndexBuffer(&idxBuf[0], sizeof(idxBuf));
 }
 
 void Skybox::draw(Renderer* renderer, const Mat4& transform, uint32_t flags)
 {
     _customCommand.init(_globalZOrder);
-    _customCommand.setFunc([this, transform, flags]() { onDraw(transform, flags); });
-    _customCommand.setTransparent(false);
-    _customCommand.set3D(true);
-    renderer->addCommand(&_customCommand);
-}
 
-void Skybox::onDraw(const Mat4& transform, uint32_t flags)
-{
+    renderer->addCommand(&_customCommand);
+
     auto camera = Camera::getVisitingCamera();
 
     Mat4 cameraModelMat = camera->getNodeToWorldTransform();
-
-    auto state = getGLProgramState();
-    state->apply(transform);
+    Mat4 projectionMat = camera->getProjectionMatrix();
+    // Ignore the translation
+    cameraModelMat.m[12] = cameraModelMat.m[13] = cameraModelMat.m[14] = 0;
+    // prescale the matrix to account for the camera fov
+    cameraModelMat.scale(1 / projectionMat.m[0], 1 / projectionMat.m[5], 1.0);
 
     Vec4 color(_displayedColor.r / 255.f, _displayedColor.g / 255.f, _displayedColor.b / 255.f, 1.f);
-    state->setUniformVec4("u_color", color);
-    cameraModelMat.m[12] = cameraModelMat.m[13] = cameraModelMat.m[14] = 0;
-    state->setUniformMat4("u_cameraRot", cameraModelMat);
+    _programState->setUniform(_uniformColorLoc, &color, sizeof(color));
+    _programState->setUniform(_uniformCameraRotLoc, cameraModelMat.m, sizeof(cameraModelMat.m));
 
-    glEnable(GL_DEPTH_TEST);
-    RenderState::StateBlock::_defaultState->setDepthTest(true);
-
-    glDepthFunc(GL_LEQUAL);
-    RenderState::StateBlock::_defaultState->setDepthFunction(RenderState::DEPTH_LEQUAL);
-
-    glEnable(GL_CULL_FACE);
-    RenderState::StateBlock::_defaultState->setCullFace(true);
-
-    glCullFace(GL_BACK);
-    RenderState::StateBlock::_defaultState->setCullFaceSide(RenderState::CULL_FACE_SIDE_BACK);
-
-    glDisable(GL_BLEND);
-    RenderState::StateBlock::_defaultState->setBlend(false);
-
-    if (Configuration::getInstance()->supportsShareableVAO())
-    {
-        GL::bindVAO(_vao);
-    }
-    else
-    {
-        GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POSITION);
-
-        glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-        glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Vec3), nullptr);
-
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
-    }
-
-    glDrawElements(GL_TRIANGLES, (GLsizei)36, GL_UNSIGNED_BYTE, nullptr);
-
-    if (Configuration::getInstance()->supportsShareableVAO())
-    {
-        GL::bindVAO(0);
-    }
-    else
-    {
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    }
-
-    CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, 8);
-
-    CHECK_GL_ERROR_DEBUG();
+    CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, 4);
 }
 
 void Skybox::setTexture(TextureCube* texture)
 {
     CCASSERT(texture != nullptr, __FUNCTION__);
-
+    CC_SAFE_RELEASE_NULL(_texture);
     texture->retain();
-
-    if (_texture)
-        _texture->release();
-
     _texture = texture;
-
-    getGLProgramState()->setUniformTexture("u_Env", _texture);
+    _programState->setTexture(_uniformEnvLoc, 0, _texture->getBackendTexture());
 }
 
 void Skybox::reload()
 {
     initBuffers();
+}
+
+void Skybox::onBeforeDraw()
+{
+    auto *renderer = Director::getInstance()->getRenderer();
+    
+    _rendererDepthTestEnabled = renderer->getDepthTest();
+    _rendererDepthCmpFunc = renderer->getDepthCompareFunction();
+    _rendererCullMode = renderer->getCullMode();
+
+    renderer->setDepthTest(true);
+    renderer->setDepthCompareFunction(backend::CompareFunction::LESS_EQUAL);
+    renderer->setCullMode(CullMode::BACK);
+}
+
+void Skybox::onAfterDraw()
+{
+    auto *renderer = Director::getInstance()->getRenderer();
+    renderer->setDepthTest(_rendererDepthTestEnabled);
+    renderer->setDepthCompareFunction(_rendererDepthCmpFunc);
+    renderer->setCullMode(_rendererCullMode);
 }
 
 NS_CC_END

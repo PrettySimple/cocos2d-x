@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2011      Laschweinski
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -25,14 +26,14 @@ THE SOFTWARE.
 #ifndef __CC_FILEUTILS_LINUX_H__
 #define __CC_FILEUTILS_LINUX_H__
 
-#include "platform/CCPlatformConfig.h"
+#include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
 
-#    include "base/ccTypes.h"
-#    include "platform/CCFileUtils.h"
-#    include "platform/CCPlatformMacros.h"
-#    include <string>
-#    include <vector>
+#include <cocos/platform/CCFileUtils.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/base/ccTypes.h>
+#include <string>
+#include <vector>
 
 NS_CC_BEGIN
 
@@ -45,18 +46,14 @@ NS_CC_BEGIN
 class CC_DLL FileUtilsLinux : public FileUtils
 {
     friend class FileUtils;
-
 protected:
     FileUtilsLinux();
-
 private:
     std::string _writablePath;
-
 public:
     /* override functions */
     bool init() override;
     virtual std::string getWritablePath() const override;
-
 private:
     virtual bool isFileExistInternal(const std::string& strFilePath) const override;
 };
@@ -68,4 +65,4 @@ NS_CC_END
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
 
-#endif // __CC_FILEUTILS_LINUX_H__
+#endif    // __CC_FILEUTILS_LINUX_H__

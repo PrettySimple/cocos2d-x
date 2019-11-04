@@ -505,12 +505,12 @@ namespace cocostudio
 
             if (key == "x")
             {
-                x = utils::atof(value.c_str());
+                x = ccutils::atof(value.c_str());
                 node->setPositionX(x);
             }
             else if (key == "y")
             {
-                y = utils::atof(value.c_str());
+                y = ccutils::atof(value.c_str());
                 node->setPositionY(y);
             }
             else if (key == "visible")
@@ -530,7 +530,7 @@ namespace cocostudio
             }
             else if (key == "scalex")
             {
-                fScaleX = utils::atof(value.c_str());
+                fScaleX = ccutils::atof(value.c_str());
                 node->setScaleX(fScaleX);
             }
             else if (key == "scaley")
@@ -540,7 +540,7 @@ namespace cocostudio
             }
             else if (key == "rotation")
             {
-                fRotationZ = utils::atof(value.c_str());
+                fRotationZ = ccutils::atof(value.c_str());
                 node->setRotation(fRotationZ);
             }
             else if (key == "name")

@@ -3,19 +3,20 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,18 +27,12 @@ Copyright (c) 2013-2016 Chukong Technologies Inc.
  ****************************************************************************/
 
 #include <cocos/base/ccTypes.h>
-
-#include <cocos/platform/CCGL.h>
-#include <cocos/platform/CCPlatformConfig.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <cmath>
-#include <limits>
-
-static constexpr auto const epsi = std::numeric_limits<GLfloat>::epsilon();
+#include <cocos/renderer/backend/Types.h>
 
 NS_CC_BEGIN
 
+const std::string STD_STRING_EMPTY("");
+static constexpr auto const epsi = std::numeric_limits<GLfloat>::epsilon();
 const std::size_t CC_INVALID_INDEX = std::numeric_limits<std::size_t>::max();
 
 /**
@@ -200,43 +195,39 @@ bool Color4F::operator!=(const Color4B& other) const
  * Color constants
  */
 
-const Color3B Color3B::WHITE(255, 255, 255);
-const Color3B Color3B::YELLOW(255, 255, 0);
-const Color3B Color3B::GREEN(0, 255, 0);
-const Color3B Color3B::BLUE(0, 0, 255);
-const Color3B Color3B::RED(255, 0, 0);
-const Color3B Color3B::MAGENTA(255, 0, 255);
-const Color3B Color3B::BLACK(0, 0, 0);
-const Color3B Color3B::ORANGE(255, 127, 0);
-const Color3B Color3B::GRAY(166, 166, 166);
+const Color3B Color3B::WHITE  (255, 255, 255);
+const Color3B Color3B::YELLOW (255, 255,   0);
+const Color3B Color3B::GREEN  (  0, 255,   0);
+const Color3B Color3B::BLUE   (  0,   0, 255);
+const Color3B Color3B::RED    (255,   0,   0);
+const Color3B Color3B::MAGENTA(255,   0, 255);
+const Color3B Color3B::BLACK  (  0,   0,   0);
+const Color3B Color3B::ORANGE (255, 127,   0);
+const Color3B Color3B::GRAY   (166, 166, 166);
 
-const Color4B Color4B::WHITE(255, 255, 255, 255);
-const Color4B Color4B::YELLOW(255, 255, 0, 255);
-const Color4B Color4B::GREEN(0, 255, 0, 255);
-const Color4B Color4B::BLUE(0, 0, 255, 255);
-const Color4B Color4B::RED(255, 0, 0, 255);
-const Color4B Color4B::MAGENTA(255, 0, 255, 255);
-const Color4B Color4B::BLACK(0, 0, 0, 255);
-const Color4B Color4B::ORANGE(255, 127, 0, 255);
-const Color4B Color4B::GRAY(166, 166, 166, 255);
+const Color4B Color4B::WHITE  (255, 255, 255, 255);
+const Color4B Color4B::YELLOW (255, 255,   0, 255);
+const Color4B Color4B::GREEN  (  0, 255,   0, 255);
+const Color4B Color4B::BLUE   (  0,   0, 255, 255);
+const Color4B Color4B::RED    (255,   0,   0, 255);
+const Color4B Color4B::MAGENTA(255,   0, 255, 255);
+const Color4B Color4B::BLACK  (  0,   0,   0, 255);
+const Color4B Color4B::ORANGE (255, 127,   0, 255);
+const Color4B Color4B::GRAY   (166, 166, 166, 255);
 
-const Color4F Color4F::WHITE(1, 1, 1, 1);
-const Color4F Color4F::YELLOW(1, 1, 0, 1);
-const Color4F Color4F::GREEN(0, 1, 0, 1);
-const Color4F Color4F::BLUE(0, 0, 1, 1);
-const Color4F Color4F::RED(1, 0, 0, 1);
-const Color4F Color4F::MAGENTA(1, 0, 1, 1);
-const Color4F Color4F::BLACK(0, 0, 0, 1);
-const Color4F Color4F::ORANGE(1, 0.5f, 0, 1);
-const Color4F Color4F::GRAY(0.65f, 0.65f, 0.65f, 1);
+const Color4F Color4F::WHITE  (    1,     1,     1, 1);
+const Color4F Color4F::YELLOW (    1,     1,     0, 1);
+const Color4F Color4F::GREEN  (    0,     1,     0, 1);
+const Color4F Color4F::BLUE   (    0,     0,     1, 1);
+const Color4F Color4F::RED    (    1,     0,     0, 1);
+const Color4F Color4F::MAGENTA(    1,     0,     1, 1);
+const Color4F Color4F::BLACK  (    0,     0,     0, 1);
+const Color4F Color4F::ORANGE (    1,  0.5f,     0, 1);
+const Color4F Color4F::GRAY   (0.65f, 0.65f, 0.65f, 1);
 
-const BlendFunc BlendFunc::DISABLE = {GL_ONE, GL_ZERO};
-const BlendFunc BlendFunc::ALPHA_PREMULTIPLIED = {GL_ONE, GL_ONE_MINUS_SRC_ALPHA};
-const BlendFunc BlendFunc::ALPHA_NON_PREMULTIPLIED = {GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA};
-const BlendFunc BlendFunc::ADDITIVE = {GL_SRC_ALPHA, GL_ONE};
-
-Acceleration::~Acceleration()
-{
-}
+const BlendFunc BlendFunc::DISABLE = {backend::BlendFactor::ONE, backend::BlendFactor::ZERO};
+const BlendFunc BlendFunc::ALPHA_PREMULTIPLIED = { backend::BlendFactor::ONE, backend::BlendFactor::ONE_MINUS_SRC_ALPHA};
+const BlendFunc BlendFunc::ALPHA_NON_PREMULTIPLIED = { backend::BlendFactor::SRC_ALPHA, backend::BlendFactor::ONE_MINUS_SRC_ALPHA};
+const BlendFunc BlendFunc::ADDITIVE = { backend::BlendFactor::SRC_ALPHA, backend::BlendFactor::ONE};
 
 NS_CC_END

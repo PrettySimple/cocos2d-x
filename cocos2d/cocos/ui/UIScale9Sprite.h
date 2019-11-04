@@ -597,8 +597,7 @@ namespace ui
         virtual void updateDisplayedColor(const Color3B& parentColor) override;
         virtual void disableCascadeColor() override;
         virtual void disableCascadeOpacity() override;
-        virtual void setGLProgram(GLProgram* glprogram) override;
-        virtual void setGLProgramState(GLProgramState* glProgramState) override;
+        virtual void setProgramState(backend::ProgramState* programState) override;
 
         /**
          * @brief Get the original no 9-sliced sprite

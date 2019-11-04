@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -29,7 +30,7 @@ THE SOFTWARE.
 
 typedef void (*EditTextCallback)(const char* text, void* ctx);
 
-extern const char* getApkPath();
+extern const char * getApkPath();
 extern std::string getPackageNameJNI();
 extern int getObbAssetFileDescriptorJNI(const char* path, long* startOffset, long* size);
 extern void conversionEncodingJNI(const char* src, int byteSize, const char* fromCharset, char* dst, const char* newCharset);

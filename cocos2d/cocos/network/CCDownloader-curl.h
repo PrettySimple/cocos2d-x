@@ -55,7 +55,7 @@ namespace cocos2d
             std::function<int64_t(void*, int64_t)> _transferDataToBuffer;
 
             // scheduler for update processing and finished task in main schedule
-            void _onSchedule(float);
+            void _onSchedule(std::chrono::milliseconds);
             std::string _schedulerKey;
             Scheduler* _scheduler;
         };

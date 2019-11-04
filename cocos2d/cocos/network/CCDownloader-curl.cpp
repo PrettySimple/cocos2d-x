@@ -720,7 +720,7 @@ namespace cocos2d
             sprintf(key, "DownloaderCURL(%p)", this);
             _schedulerKey = key;
 
-            _scheduler->schedule([this](float dt) { _onSchedule(dt); }, this, 100ms, true, _schedulerKey);
+            _scheduler->schedule([this](std::chrono::milliseconds dt) { _onSchedule(dt); }, this, 100ms, true, _schedulerKey);
         }
 
         DownloaderCURL::~DownloaderCURL()
@@ -745,7 +745,7 @@ namespace cocos2d
             return coTask;
         }
 
-        void DownloaderCURL::_onSchedule(float)
+        void DownloaderCURL::_onSchedule(std::chrono::milliseconds)
         {
             vector<TaskWrapper> tasks;
 

@@ -1,18 +1,19 @@
 /****************************************************************************
  Copyright (c) 2013-2016 Chukong Technologies Inc.
-
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,19 +21,13 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
-
+ 
  ****************************************************************************/
 
-#ifndef CC_BASE_EVENTLISTENERTOUCH_H
-#define CC_BASE_EVENTLISTENERTOUCH_H
+#ifndef __cocos2d_libs__CCTouchEventListener__
+#define __cocos2d_libs__CCTouchEventListener__
 
 #include <cocos/base/CCEventListener.h>
-#include <cocos/base/ccConfig.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
-
-#include <functional>
-#include <iosfwd>
 #include <vector>
 
 /**
@@ -42,7 +37,6 @@
 
 NS_CC_BEGIN
 
-class Event;
 class Touch;
 
 /** @class EventListenerTouchOneByOne
@@ -52,18 +46,18 @@ class Touch;
 class CC_DLL EventListenerTouchOneByOne : public EventListener
 {
 public:
-    static const ListenerID LISTENER_ID;
-
+    static const std::string LISTENER_ID;
+    
     /** Create a one by one touch event listener.
      */
     static EventListenerTouchOneByOne* create();
-
+    
     /**
      * Destructor.
      * @js NA
      */
-    ~EventListenerTouchOneByOne() override;
-
+    virtual ~EventListenerTouchOneByOne();
+    
     /** Whether or not to swall touches.
      *
      * @param needSwallow True if needs to swall touches.
@@ -74,13 +68,14 @@ public:
      * @return True if needs to swall touches.
      */
     bool isSwallowTouches();
-
+    
     /// Overrides
-    EventListenerTouchOneByOne* clone() override;
-    bool checkAvailable() override;
+    virtual EventListenerTouchOneByOne* clone() override;
+    virtual bool checkAvailable() override;
     //
 
 public:
+
     typedef std::function<bool(Touch*, Event*)> ccTouchBeganCallback;
     typedef std::function<void(Touch*, Event*)> ccTouchCallback;
 
@@ -88,14 +83,15 @@ public:
     ccTouchCallback onTouchMoved;
     ccTouchCallback onTouchEnded;
     ccTouchCallback onTouchCancelled;
-
-    CC_CONSTRUCTOR_ACCESS : EventListenerTouchOneByOne();
+    
+CC_CONSTRUCTOR_ACCESS:
+    EventListenerTouchOneByOne();
     bool init();
-
+    
 private:
     std::vector<Touch*> _claimedTouches;
     bool _needSwallow;
-
+    
     friend class EventDispatcher;
 };
 
@@ -105,8 +101,8 @@ private:
 class CC_DLL EventListenerTouchAllAtOnce : public EventListener
 {
 public:
-    static const ListenerID LISTENER_ID;
-
+    static const std::string LISTENER_ID;
+    
     /** Create a all at once event listener.
      *
      * @return An autoreleased EventListenerTouchAllAtOnce object.
@@ -115,24 +111,26 @@ public:
     /** Destructor.
      * @js NA
      */
-    ~EventListenerTouchAllAtOnce() override;
-
+    virtual ~EventListenerTouchAllAtOnce();
+    
     /// Overrides
-    EventListenerTouchAllAtOnce* clone() override;
-    bool checkAvailable() override;
+    virtual EventListenerTouchAllAtOnce* clone() override;
+    virtual bool checkAvailable() override;
     //
 public:
+
     typedef std::function<void(const std::vector<Touch*>&, Event*)> ccTouchesCallback;
 
     ccTouchesCallback onTouchesBegan;
     ccTouchesCallback onTouchesMoved;
     ccTouchesCallback onTouchesEnded;
     ccTouchesCallback onTouchesCancelled;
-
-    CC_CONSTRUCTOR_ACCESS : EventListenerTouchAllAtOnce();
+    
+CC_CONSTRUCTOR_ACCESS:
+    EventListenerTouchAllAtOnce();
     bool init();
-
 private:
+    
     friend class EventDispatcher;
 };
 
@@ -141,4 +139,4 @@ NS_CC_END
 // end of base group
 /// @}
 
-#endif // CC_BASE_EVENTLISTENERTOUCH_H
+#endif /* defined(__cocos2d_libs__CCTouchEventListener__) */

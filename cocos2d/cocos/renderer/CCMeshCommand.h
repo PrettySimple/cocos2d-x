@@ -1,5 +1,6 @@
 /****************************************************************************
  Copyright (c) 2013-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -22,114 +23,59 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_RENDERER_MESHCOMMAND_H
-#define CC_RENDERER_MESHCOMMAND_H
+#pragma once
 
-#include <cocos/math/Mat4.h>
-#include <cocos/math/Vec4.h>
-#include <cocos/platform/CCGL.h>
-#include <cocos/platform/CCPlatformConfig.h>
-#include <cocos/platform/CCPlatformDefine.h>
-#include <cocos/platform/CCPlatformMacros.h>
+#include <unordered_map>
 #include <cocos/renderer/CCRenderCommand.h>
 #include <cocos/renderer/CCRenderState.h>
-
-#include <cstddef>
-#include <cstdint>
-#include <limits>
+#include <cocos/renderer/backend/ProgramState.h>
+#include <cocos/renderer/backend/Types.h>
+#include <cocos/renderer/CCCustomCommand.h>
+#include <cocos/math/CCMath.h>
 
 NS_CC_BEGIN
 
-class GLProgramState;
-class Material;
-struct BlendFunc;
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
-class EventCustom;
 class EventListenerCustom;
-#endif
+class EventCustom;
+class Material;
 
-// it is a common mesh
-class CC_DLL MeshCommand final : public RenderCommand
+//it is a common mesh
+class CC_DLL MeshCommand : public CustomCommand
 {
 public:
+    //using PrimitiveType = backend::PrimitiveType;
+    /**
+    Buffer usage of vertex/index buffer. If the contents is not updated every frame,
+    then use STATIC, other use DYNAMIC.
+    */
+    using BufferUsage = backend::BufferUsage;
+    /**
+    The index format determine the size for index data. U_SHORT is enough for most
+    cases.
+    */
+    using IndexFormat = backend::IndexFormat;
+
     MeshCommand();
-    MeshCommand(MeshCommand const&) = delete;
-    MeshCommand& operator=(MeshCommand const&) = delete;
-    MeshCommand(MeshCommand&&) noexcept = delete;
-    MeshCommand& operator=(MeshCommand&&) noexcept = delete;
-    ~MeshCommand() final;
+    virtual ~MeshCommand();
+    MeshCommand(const MeshCommand &) = default;
 
-    void init(float globalZOrder, Material* material, GLuint vertexBuffer, GLuint indexBuffer, GLenum primitive, GLenum indexFormat, std::size_t indexCount,
-              const Mat4& mv, uint32_t flags);
+    /**
+    Init function. The render command will be in 2D mode.
+    @param globalZOrder GlobalZOrder of the render command.
+    */
+    void init(float globalZOrder);
 
-    void init(float globalZOrder, GLuint textureID, GLProgramState* glProgramState, RenderState::StateBlock* stateBlock, GLuint vertexBuffer,
-              GLuint indexBuffer, GLenum primitive, GLenum indexFormat, std::size_t indexCount, const Mat4& mv, uint32_t flags);
+    void init(float globalZOrder, const Mat4 &transform);
 
-    void setDisplayColor(const Vec4& color);
-    void setMatrixPalette(const Vec4* matrixPalette);
-    void setMatrixPaletteSize(int size);
-    void setLightMask(unsigned int lightmask);
-
-    void execute();
-
-    // used for batch
-    void preBatchDraw();
-    void batchDraw();
-    void postBatchDraw();
-
-    void genMaterialID(GLuint texID, void* glProgramState, GLuint vertexBuffer, GLuint indexBuffer, BlendFunc blend);
-
-    inline std::size_t getMaterialID() const noexcept { return _materialID; }
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+#if CC_ENABLE_CACHE_TEXTURE_DATA
     void listenRendererRecreated(EventCustom* event);
 #endif
 
-private:
-    // build & release vao
-    void buildVAO();
-    void releaseVAO();
-
-    // apply renderstate, not used when using material
-    void applyRenderState();
-
-    Vec4 _displayColor = Vec4(1.0f, 1.0f, 1.0f, 1.0f); // in order to support tint and fade in fade out
-
-    // used for skin
-    Vec4 const* _matrixPalette = nullptr;
-    int _matrixPaletteSize = 0;
-
-    std::size_t _materialID = std::numeric_limits<std::size_t>::max(); // material ID
-
-    GLuint _vao = 0; // use vao if possible
-
-    GLuint _vertexBuffer = 0;
-    GLuint _indexBuffer = 0;
-    GLenum _primitive;
-    GLenum _indexFormat;
-    std::size_t _indexCount = 0;
-
-    // States, default value all false
-
-    // ModelView transform
-    Mat4 _mv;
-
-    // Mode A: Material
-    // weak ref
-    Material* _material = nullptr;
-
-    // Mode B: StateBlock
-    // weak ref
-    GLProgramState* _glProgramState = nullptr;
-    RenderState::StateBlock* _stateBlock = nullptr;
-    GLuint _textureID = 0;
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
-    EventListenerCustom* _rendererRecreatedListener = nullptr;
+protected:
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+    EventListenerCustom* _rendererRecreatedListener;
 #endif
 };
 
 NS_CC_END
 
-#endif // CC_RENDERER_MESHCOMMAND_H

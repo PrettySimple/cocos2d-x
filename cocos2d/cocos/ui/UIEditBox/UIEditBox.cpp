@@ -415,7 +415,7 @@ namespace ui
 #endif
     }
 
-    void EditBox::updatePosition(float dt)
+    void EditBox::updatePosition(std::chrono::milliseconds dt)
     {
         if (nullptr != _editBoxImpl)
         {

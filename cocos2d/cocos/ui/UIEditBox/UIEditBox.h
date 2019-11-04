@@ -455,7 +455,7 @@ namespace ui
     protected:
         virtual void adaptRenderers() override;
 
-        void updatePosition(float dt);
+        void updatePosition(std::chrono::milliseconds dt);
         EditBoxImpl* _editBoxImpl;
         EditBoxDelegate* _delegate;
 
