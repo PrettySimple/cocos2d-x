@@ -641,6 +641,7 @@ namespace ui
                 auto& polyInfo = _scale9Image->getPolygonInfo();
                 auto globalZOrder = _scale9Image->getGlobalZOrder();
                 // ETC1 ALPHA support
+                _trianglesCommand.getPipelineDescriptor().programState = _scale9Image->getProgramState();
                 _trianglesCommand.init(globalZOrder, texture, blendFunc, polyInfo.triangles, transform, flags);
                 renderer->addCommand(&_trianglesCommand);
 

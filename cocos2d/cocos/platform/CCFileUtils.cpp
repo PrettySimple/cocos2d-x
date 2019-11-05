@@ -346,6 +346,12 @@ ValueVector FileUtils::getValueVectorFromFile(const std::string& filename) const
     return tMaker.arrayWithContentsOfFile(fullPath);
 }
 
+ValueVector FileUtils::getValueVectorFromData(const char* filedata, int filesize)
+{
+    DictMaker tMaker;
+    return tMaker.arrayWithDataOfFile(filedata, filesize);
+}
+
 
 /*
  * forward statement
@@ -533,6 +539,7 @@ static tinyxml2::XMLElement* generateElementForArray(const ValueVector& array, t
 ValueMap FileUtils::getValueMapFromFile(const std::string& /*filename*/) const {return ValueMap();}
 ValueMap FileUtils::getValueMapFromData(const char* /*filedata*/, int /*filesize*/) const {return ValueMap();}
 ValueVector FileUtils::getValueVectorFromFile(const std::string& /*filename*/) const {return ValueVector();}
+ValueVector FileUtils::getValueVectorFromData(const char* filedata, int filesize) { return ValueVector();}
 bool FileUtils::writeToFile(const ValueMap& /*dict*/, const std::string &/*fullPath*/) const {return false;}
 
 #endif /* (CC_TARGET_PLATFORM != CC_PLATFORM_IOS) && (CC_TARGET_PLATFORM != CC_PLATFORM_MAC) */

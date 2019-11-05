@@ -110,8 +110,8 @@ bool GridBase::initWithSize(const Size& gridSize, Texture2D *texture, bool flipp
     CC_SAFE_RELEASE(_programState);
     _programState = new (std::nothrow) backend::ProgramState(positionTexture_vert, positionTexture_frag);
     pipelineDescriptor.programState = _programState;
-    _mvpMatrixLocation = pipelineDescriptor.programState->getUniformLocation("u_MVPMatrix");
-    _textureLocation = pipelineDescriptor.programState->getUniformLocation("u_texture");
+    _mvpMatrixLocation = pipelineDescriptor.programState->getUniformLocation(backend::Uniform::MVP_MATRIX);
+    _textureLocation = pipelineDescriptor.programState->getUniformLocation(backend::Uniform::TEXTURE);
     
 #define VERTEX_POSITION_SIZE 3
 #define VERTEX_TEXCOORD_SIZE 2

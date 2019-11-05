@@ -687,7 +687,7 @@ void PUBillboardChain::init( const std::string &texFile )
     
     _locColor = _programState->getUniformLocation("u_color");
     _locPMatrix = _programState->getUniformLocation("u_PMatrix");
-    _locTexture = _programState->getUniformLocation("u_texture");
+    _locTexture = _programState->getUniformLocation(backend::Uniform::TEXTURE);
 
     _meshCommand.setTransparent(true);
     _meshCommand.setSkipBatching(true);

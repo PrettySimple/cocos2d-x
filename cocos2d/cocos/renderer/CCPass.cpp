@@ -150,12 +150,12 @@ void Pass::initUniformLocations()
 {
     auto *ps = _programState;
 
-    _locMVPMatrix = ps->getUniformLocation("u_MVPMatrix");
+    _locMVPMatrix = ps->getUniformLocation(backend::Uniform::MVP_MATRIX);
     _locMVMatrix = ps->getUniformLocation("u_MVMatrix");
     _locPMatrix = ps->getUniformLocation("u_PMatrix");
     _locNormalMatrix = ps->getUniformLocation("u_NormalMatrix");
 
-    _locTexture = ps->getUniformLocation("u_texture");
+    _locTexture = ps->getUniformLocation(backend::Uniform::TEXTURE);
     _locNormalTexture = ps->getUniformLocation("u_normalTex");
     
     _locColor = ps->getUniformLocation("u_color");

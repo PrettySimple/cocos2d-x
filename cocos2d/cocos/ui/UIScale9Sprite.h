@@ -48,7 +48,6 @@
 NS_CC_BEGIN
 
 class GLProgram;
-class GLProgramState;
 class Renderer;
 class Sprite;
 class SpriteBatchNode;

@@ -305,7 +305,7 @@ LayerColor::LayerColor()
     }
     vertexLayout->setLayout(sizeof(_vertexData[0]));
     
-    _mvpMatrixLocation = pipelineDescriptor.programState->getUniformLocation("u_MVPMatrix");
+    _mvpMatrixLocation = pipelineDescriptor.programState->getUniformLocation(backend::Uniform::MVP_MATRIX);
     
     _customCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT, 6, CustomCommand::BufferUsage::STATIC);
     unsigned short indices[] = {0, 1, 2, 2, 1, 3};
@@ -707,7 +707,7 @@ LayerRadialGradient::LayerRadialGradient()
     auto& pipelineDescriptor = _customCommand.getPipelineDescriptor();
     _programState = new (std::nothrow) backend::ProgramState(position_vert, layer_radialGradient_frag);
     pipelineDescriptor.programState = _programState;
-    _mvpMatrixLocation = pipelineDescriptor.programState->getUniformLocation("u_MVPMatrix");
+    _mvpMatrixLocation = pipelineDescriptor.programState->getUniformLocation(backend::Uniform::MVP_MATRIX);
     _startColorLocation = pipelineDescriptor.programState->getUniformLocation("u_startColor");
     _endColorLocation = pipelineDescriptor.programState->getUniformLocation("u_endColor");
     _centerLocation = pipelineDescriptor.programState->getUniformLocation("u_center");

@@ -222,7 +222,7 @@ void DrawNode::updateUniforms(const Mat4 &transform, CustomCommand& cmd)
     auto& pipelineDescriptor = cmd.getPipelineDescriptor();
     const auto& matrixP = _director->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
     Mat4 matrixMVP = matrixP * transform;
-    auto mvpLocation = pipelineDescriptor.programState->getUniformLocation("u_MVPMatrix");
+    auto mvpLocation = pipelineDescriptor.programState->getUniformLocation(backend::Uniform::MVP_MATRIX);
     pipelineDescriptor.programState->setUniform(mvpLocation, matrixMVP.m, sizeof(matrixMVP.m));
 
     float alpha = _displayedOpacity / 255.0f;

@@ -499,6 +499,31 @@ ValueVector FileUtilsApple::getValueVectorFromFile(const std::string& filename) 
     return ret;
 }
 
+ValueVector FileUtilsApple::getValueVectorFromData(const char* filedata, int filesize)
+{
+    NSData* file = [NSData dataWithBytes:filedata length:filesize];
+    NSPropertyListFormat format;
+    NSError* error;
+    id plist = [NSPropertyListSerialization propertyListWithData:file options:NSPropertyListImmutable format:&format error:&error];
+    
+    ValueVector ret;
+    
+    if (plist != nil && [plist isKindOfClass:[NSArray class]])
+    {
+        for (id value in plist)
+        {
+            addNSObjectToCCVector(value, ret);
+        }
+    }
+    else
+    {
+        NSException* e = [NSException exceptionWithName:@"Not an Array" reason:@"Filedata is not an array" userInfo:nil];
+        @throw e;
+    }
+    
+    return ret;
+}
+
 bool FileUtilsApple::createDirectory(const std::string& path) const
 {
     CCASSERT(!path.empty(), "Invalid path");

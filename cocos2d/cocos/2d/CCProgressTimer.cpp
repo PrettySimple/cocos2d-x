@@ -83,8 +83,8 @@ namespace
         }
 
 
-        locMVP = programState->getUniformLocation("u_MVPMatrix");
-        locTexture = programState->getUniformLocation("u_texture");
+        locMVP = programState->getUniformLocation(backend::Uniform::MVP_MATRIX);
+        locTexture = programState->getUniformLocation(backend::Uniform::TEXTURE);
 
         return programState;
     }

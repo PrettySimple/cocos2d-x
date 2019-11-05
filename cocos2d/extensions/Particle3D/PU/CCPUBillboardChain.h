@@ -38,7 +38,6 @@
 NS_CC_BEGIN
 
 class MeshCommand;
-class GLProgramState;
 class IndexBuffer;
 class VertexBuffer;
 class Texture2D;

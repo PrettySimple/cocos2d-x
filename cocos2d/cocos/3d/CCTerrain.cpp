@@ -849,7 +849,7 @@ void Terrain::cacheUniformAttribLocation()
     }
     _lightMapLocation = _programState->getUniformLocation("u_lightMap");
     _lightDirLocation = _programState->getUniformLocation("u_lightDir");
-    _mvpMatrixLocation = _programState->getUniformLocation("u_MVPMatrix");
+    _mvpMatrixLocation = _programState->getUniformLocation(backend::Uniform::MVP_MATRIX);
 }
 
 bool Terrain::initTextures()

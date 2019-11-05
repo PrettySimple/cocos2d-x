@@ -52,8 +52,8 @@ ParticleSystemQuad::ParticleSystemQuad()
     auto& pipelieDescriptor = _quadCommand.getPipelineDescriptor();
     _programState = new (std::nothrow) backend::ProgramState(positionTextureColor_vert, positionTextureColor_frag);
     pipelieDescriptor.programState = _programState;
-    _mvpMatrixLocaiton = pipelieDescriptor.programState->getUniformLocation("u_MVPMatrix");
-    _textureLocation = pipelieDescriptor.programState->getUniformLocation("u_texture");
+    _mvpMatrixLocaiton = pipelieDescriptor.programState->getUniformLocation(backend::Uniform::MVP_MATRIX);
+    _textureLocation = pipelieDescriptor.programState->getUniformLocation(backend::Uniform::TEXTURE);
     
     auto vertexLayout = _programState->getVertexLayout();
     const auto& attributeInfo = _programState->getProgram()->getActiveAttributes();

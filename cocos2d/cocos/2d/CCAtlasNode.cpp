@@ -46,8 +46,8 @@ AtlasNode::AtlasNode()
     auto& pipelineDescriptor = _quadCommand.getPipelineDescriptor();
     _programState = new (std::nothrow) backend::ProgramState(positionTextureColor_vert, positionTextureColor_frag);
     pipelineDescriptor.programState = _programState;
-    _mvpMatrixLocation = pipelineDescriptor.programState->getUniformLocation("u_MVPMatrix");
-    _textureLocation = pipelineDescriptor.programState->getUniformLocation("u_texture");
+    _mvpMatrixLocation = pipelineDescriptor.programState->getUniformLocation(backend::Uniform::MVP_MATRIX);
+    _textureLocation = pipelineDescriptor.programState->getUniformLocation(backend::Uniform::TEXTURE);
   
     auto vertexLayout = _programState->getVertexLayout();
   //a_position

@@ -38,7 +38,6 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 class GLProgram;
-class GLProgramState;
 
 namespace ui
 {

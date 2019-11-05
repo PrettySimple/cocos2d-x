@@ -163,7 +163,7 @@ void TMXLayer::draw(Renderer *renderer, const Mat4& transform, uint32_t flags)
     {
         if (e.second->getIndexDrawCount() > 0)
         {
-            auto mvpmatrixLocation = e.second->getPipelineDescriptor().programState->getUniformLocation("u_MVPMatrix");
+            auto mvpmatrixLocation = e.second->getPipelineDescriptor().programState->getUniformLocation(backend::Uniform::MVP_MATRIX);
             e.second->getPipelineDescriptor().programState->setUniform(mvpmatrixLocation, finalMat.m, sizeof(finalMat.m));
             renderer->addCommand(e.second);
         }
@@ -438,8 +438,8 @@ void TMXLayer::updatePrimitives()
                 vertexLayout->setAttribute("a_color", iterAttribute->second.location, backend::VertexFormat::UBYTE4, offsetof(V3F_C4B_T2F, colors), true);
             }
             vertexLayout->setLayout(sizeof(V3F_C4B_T2F));
-            _mvpMatrixLocaiton = pipelineDescriptor.programState->getUniformLocation("u_MVPMatrix");
-            _textureLocation = pipelineDescriptor.programState->getUniformLocation("u_texture");
+            _mvpMatrixLocaiton = pipelineDescriptor.programState->getUniformLocation(backend::Uniform::MVP_MATRIX);
+            _textureLocation = pipelineDescriptor.programState->getUniformLocation(backend::Uniform::TEXTURE);
             pipelineDescriptor.programState->setTexture(_textureLocation, 0, _texture->getBackendTexture());
             command->init(_globalZOrder, blendfunc);
 

@@ -46,7 +46,6 @@ NS_CC_BEGIN
 class Camera;
 class Event;
 class EventListenerTouchOneByOne;
-class GLProgramState;
 class Mat4;
 class Node;
 class Ref;
