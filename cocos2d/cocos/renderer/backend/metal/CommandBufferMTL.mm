@@ -297,10 +297,9 @@ void CommandBufferMTL::setWinding(Winding winding)
 void CommandBufferMTL::setVertexBuffer(Buffer* buffer)
 {
     // Vertex buffer is bound in index 0.
-    if (buffer)
-        [_mtlRenderEncoder setVertexBuffer:static_cast<BufferMTL*>(buffer)->getMTLBuffer()
-                                    offset:0
-                                   atIndex:0];
+    [_mtlRenderEncoder setVertexBuffer:static_cast<BufferMTL*>(buffer)->getMTLBuffer()
+                                offset:0
+                               atIndex:0];
 }
 
 void CommandBufferMTL::setProgramState(ProgramState* programState)
@@ -312,7 +311,7 @@ void CommandBufferMTL::setProgramState(ProgramState* programState)
 
 void CommandBufferMTL::setIndexBuffer(Buffer* buffer)
 {
-//    assert(buffer != nullptr);
+    assert(buffer != nullptr);
     if (!buffer)
         return;
     
@@ -488,10 +487,10 @@ void CommandBufferMTL::setScissorRect(bool isEnabled, float x, float y, float wi
     MTLScissorRect scissorRect;
     if(isEnabled)
     {
-        scissorRect.x = x;
-        scissorRect.y = _renderTargetHeight - height - y;
-        scissorRect.width = width;
-        scissorRect.height = height;
+        scissorRect.x = std::max(0UL, static_cast<unsigned long>(x));
+        scissorRect.y = std::max(0UL, static_cast<unsigned long>(_renderTargetHeight - height - y));
+        scissorRect.width = std::max(0UL, static_cast<unsigned long>(width));
+        scissorRect.height = std::max(0UL, static_cast<unsigned long>(height));
     }
     else
     {
@@ -501,8 +500,7 @@ void CommandBufferMTL::setScissorRect(bool isEnabled, float x, float y, float wi
         scissorRect.height = _renderTargetHeight;
     }
     
-//    [_mtlRenderEncoder setScissorRect:scissorRect]  ;
-    
+    [_mtlRenderEncoder setScissorRect:scissorRect]  ;    
 }
 
 

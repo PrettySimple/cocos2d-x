@@ -1227,7 +1227,7 @@ void Console::commandFpsSubCommandOnOff(int /*fd*/, const std::string& args)
     bool state = (args.compare("on") == 0);
     Director *dir = Director::getInstance();
     Scheduler *sched = dir->getScheduler();
-    sched->performFunctionInCocosThread( std::bind(&Director::setDisplayStats, dir, state));
+    sched->performFunctionInCocosThread( std::bind(&Director::setDisplayStats, dir, state, Vec2::ZERO));
 }
 
 void Console::commandHelp(int fd, const std::string& /*args*/)

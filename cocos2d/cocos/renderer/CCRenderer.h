@@ -156,6 +156,8 @@ public:
 
     /** Pops a group from the render queue */
     void popGroup();
+    
+    int currentGroupId() const { return _commandGroupStack.top(); }
 
     /** Creates a render queue and returns its Id */
     int createRenderQueue();

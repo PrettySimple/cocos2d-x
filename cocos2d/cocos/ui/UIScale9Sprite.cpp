@@ -511,7 +511,7 @@ namespace ui
         {
             return;
         }
-        Node::setContentSize(size);
+        Sprite::setContentSize(size);
         _preferredSize = size;
         _sliceSpriteDirty = true;
         this->adjustNoneScale9ImagePosition();
@@ -616,6 +616,8 @@ namespace ui
 
     void Scale9Sprite::draw(Renderer* renderer, const Mat4& transform, uint32_t flags)
     {
+        addUniformMatrixCommand(renderer);
+        
         if (_scale9Image && _scale9Enabled)
         {
 #if CC_USE_CULLING
@@ -786,7 +788,7 @@ namespace ui
 
     void Scale9Sprite::setAnchorPoint(const cocos2d::Vec2& position)
     {
-        Node::setAnchorPoint(position);
+        Sprite::setAnchorPoint(position);
         if (!_scale9Enabled)
         {
             if (_scale9Image)
@@ -875,7 +877,7 @@ namespace ui
 
     void Scale9Sprite::setProgramState(backend::ProgramState* programState)
     {
-        Node::setProgramState(programState);
+        Sprite::setProgramState(programState);
         if (_scale9Image)
         {
             _scale9Image->setProgramState(programState);
@@ -908,7 +910,7 @@ namespace ui
         {
             scaleX = scaleX * -1;
         }
-        Node::setScaleX(scaleX);
+        Sprite::setScaleX(scaleX);
     }
 
     void Scale9Sprite::setScaleY(float scaleY)
@@ -917,7 +919,7 @@ namespace ui
         {
             scaleY = scaleY * -1;
         }
-        Node::setScaleY(scaleY);
+        Sprite::setScaleY(scaleY);
     }
 
     void Scale9Sprite::setScale(float scale)
@@ -935,7 +937,7 @@ namespace ui
 
     float Scale9Sprite::getScaleX() const
     {
-        float originalScale = Node::getScaleX();
+        float originalScale = Sprite::getScaleX();
         if (_flippedX)
         {
             originalScale = originalScale * -1.0f;
@@ -945,7 +947,7 @@ namespace ui
 
     float Scale9Sprite::getScaleY() const
     {
-        float originalScale = Node::getScaleY();
+        float originalScale = Sprite::getScaleY();
         if (_flippedY)
         {
             originalScale = originalScale * -1.0f;
@@ -961,7 +963,7 @@ namespace ui
 
     void Scale9Sprite::setCameraMask(unsigned short mask, bool applyChildren)
     {
-        Node::setCameraMask(mask, applyChildren);
+        Sprite::setCameraMask(mask, applyChildren);
 
         if (_scale9Image)
             _scale9Image->setCameraMask(mask, applyChildren);
@@ -1323,7 +1325,7 @@ namespace ui
 
     void Scale9Sprite::setGlobalZOrder(float globalZOrder)
     {
-        Node::setGlobalZOrder(globalZOrder);
+        Sprite::setGlobalZOrder(globalZOrder);
         if (_scale9Image)
         {
             _scale9Image->setGlobalZOrder(globalZOrder);

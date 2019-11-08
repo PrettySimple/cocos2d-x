@@ -52,6 +52,7 @@ THE SOFTWARE.
 #include <cocos/renderer/CCTextureAtlas.h>
 #include <cocos/renderer/CCTextureCache.h>
 #include <cocos/renderer/CCTrianglesCommand.h>
+#include <cocos/renderer/CCCallbackCommand.h>
 
 #include <cstdio>
 #include <cstring>
@@ -433,6 +434,8 @@ void Sprite::setProgramState(backend::ProgramState *programState)
     _textureLocation = pipelineDescriptor.programState->getUniformLocation(backend::Uniform::TEXTURE);
     _alphaTextureLocation = pipelineDescriptor.programState->getUniformLocation(backend::Uniform::TEXTURE1);
     
+    assert(_mvpMatrixLocation.location[0] < 10 && _mvpMatrixLocation.location[1] < 10);
+    
     setVertexLayout();
     updateProgramState();
     setMVPMatrixUniform();
@@ -456,8 +459,10 @@ void Sprite::setMVPMatrixUniform()
 {
     const auto& projectionMat = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
     auto programState = _trianglesCommand.getPipelineDescriptor().programState;
-    if (programState && _mvpMatrixLocation)
+    if (programState && _mvpMatrixLocation) {
+        assert(_mvpMatrixLocation.location[0] < 10 && _mvpMatrixLocation.location[1] < 10);
         programState->setUniform(_mvpMatrixLocation, projectionMat.m, sizeof(projectionMat.m));
+    }
 }
 
 void Sprite::setTexture(Texture2D* texture)
@@ -740,6 +745,15 @@ void Sprite::updateTransform(void)
     Node::updateTransform();
 }
 
+void Sprite::addUniformMatrixCommand(Renderer* renderer)
+{
+    _uniformCommand.init(_globalZOrder);
+    _uniformCommand.func = [this]() {
+        setMVPMatrixUniform();
+    };
+    renderer->addCommand(&_uniformCommand);
+}
+
 // draw
 
 void Sprite::draw(Renderer* renderer, const Mat4& transform, uint32_t flags)
@@ -747,8 +761,7 @@ void Sprite::draw(Renderer* renderer, const Mat4& transform, uint32_t flags)
     if (_texture == nullptr || _texture->getBackendTexture() == nullptr)
         return;
     
-    //TODO: arnold: current camera can be a non-default one.
-    setMVPMatrixUniform();
+    addUniformMatrixCommand(renderer);
     
 #if CC_USE_CULLING
     // Don't calculate the culling if the transform was not updated

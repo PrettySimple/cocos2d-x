@@ -361,6 +361,20 @@ void ParticleSystemQuad::updateParticleQuads()
             updatePosWithParticle(quadStart, newPos, *s, *r);
         }
     }
+    else if (_positionType == PositionType::WORLD)
+    {
+        Vec2 newPos;
+        float* x = _particleData.posx;
+        float* y = _particleData.posy;
+        float* s = _particleData.size;
+        float* r = _particleData.rotation;
+        V3F_C4B_T2F_Quad* quadStart = startQuad;
+        for (int i = 0; i < _particleCount; ++i, ++x, ++y, ++quadStart, ++s, ++r)
+        {
+            newPos.set(*x, *y);
+            updatePosWithParticle(quadStart, newPos, *s, *r);
+        }
+    }
     else if( _positionType == PositionType::RELATIVE )
     {
         Vec2 newPos;
@@ -452,7 +466,7 @@ void ParticleSystemQuad::draw(Renderer *renderer, const Mat4 &transform, uint32_
         cocos2d::Mat4 projectionMat = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
         programState->setUniform(_mvpMatrixLocaiton, projectionMat.m, sizeof(projectionMat.m));
         
-        _quadCommand.init(_globalZOrder, _texture, _blendFunc, _quads, _particleCount, transform, flags);
+        _quadCommand.init(_globalZOrder, _texture, _blendFunc, _quads, _particleCount, _positionType == PositionType::WORLD ? Mat4::IDENTITY : transform, flags);
         renderer->addCommand(&_quadCommand);
     }
 }

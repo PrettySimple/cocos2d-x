@@ -324,13 +324,13 @@ protected:
     int         _bufferCount = 0;
     V2F_C4B_T2F *_buffer = nullptr;
     
-    int         _bufferCapacityGLPoint = 0;
+    int         _bufferCapacityPoint = 0;
     int         _bufferCountGLPoint = 0;
     V2F_C4B_T2F *_bufferGLPoint = nullptr;
     Color4F     _pointColor;
     int         _pointSize = 0;
     
-    int         _bufferCapacityGLLine = 0;
+    int         _bufferCapacityLine = 0;
     int         _bufferCountGLLine = 0;
     V2F_C4B_T2F *_bufferGLLine = nullptr;
 
@@ -341,8 +341,8 @@ protected:
     backend::ProgramState* _programStateLine = nullptr;
     
     CustomCommand _customCommand;
-    CustomCommand _customCommandGLPoint;
-    CustomCommand _customCommandGLLine;
+    CustomCommand _customCommandPoint;
+    CustomCommand _customCommandLine;
 
     bool        _dirty = false;
     bool        _dirtyGLPoint = false;

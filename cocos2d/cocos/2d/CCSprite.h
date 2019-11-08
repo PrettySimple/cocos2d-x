@@ -39,6 +39,7 @@ THE SOFTWARE.
 #include <cocos/platform/CCPlatformDefine.h>
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/renderer/CCTrianglesCommand.h>
+#include <cocos/renderer/CCCallbackCommand.h>
 
 #include <cstddef>
 #include <cstdint>
@@ -477,6 +478,7 @@ public:
     virtual void setIgnoreAnchorPointForPosition(bool value) override;
 
     virtual void setVisible(bool bVisible) override;
+    virtual void addUniformMatrixCommand(Renderer* renderer);
     virtual void draw(Renderer* renderer, const Mat4& transform, uint32_t flags) override;
     virtual void setOpacityModifyRGB(bool modify) override;
     virtual bool isOpacityModifyRGB() const override;
@@ -620,7 +622,8 @@ protected:
     BlendFunc _blendFunc = BlendFunc::ALPHA_PREMULTIPLIED; /// It's required for TextureProtocol inheritance
     Texture2D* _texture = nullptr; /// Texture2D object that is used to render the sprite
     SpriteFrame* _spriteFrame = nullptr;
-    TrianglesCommand _trianglesCommand; ///
+    TrianglesCommand _trianglesCommand;
+    CallbackCommand _uniformCommand;
     
     backend::UniformLocation _mvpMatrixLocation;
     backend::UniformLocation _textureLocation;

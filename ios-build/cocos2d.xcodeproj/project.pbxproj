@@ -135,6 +135,7 @@
 		48A7C60A6C5946C68FBCF123 /* CCFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7084932E4FCC4F6E92AF4CE2 /* CCFont.cpp */; };
 		498727388E334398A4361D5E /* CCParallaxNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04E236CAFA7148E69A3AFB7D /* CCParallaxNode.cpp */; };
 		4A15DC482358C932008A24D3 /* CCActionManagerData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A15DC472358C932008A24D3 /* CCActionManagerData.cpp */; };
+		4A35C2E02375C33B00DD3A6E /* CCProgramStateCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A35C2DE2375C33B00DD3A6E /* CCProgramStateCache.cpp */; };
 		4A6A99842370726B009F16ED /* HttpAsynConnection-apple.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A99812370726B009F16ED /* HttpAsynConnection-apple.m */; };
 		4A6A99852370726B009F16ED /* HttpCookie.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A99822370726B009F16ED /* HttpCookie.cpp */; };
 		4A6A99862370726B009F16ED /* HttpClient-apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A99832370726B009F16ED /* HttpClient-apple.mm */; };
@@ -987,6 +988,8 @@
 		4A15DC472358C932008A24D3 /* CCActionManagerData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CCActionManagerData.cpp; path = cocos2d/cocos/2d/CCActionManagerData.cpp; sourceTree = "<group>"; };
 		4A15DC492358C9FE008A24D3 /* iterator_pair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iterator_pair.h; path = cocos2d/cocos/base/iterator_pair.h; sourceTree = "<group>"; };
 		4A15DC4A2358C9FE008A24D3 /* CCEnumClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCEnumClass.h; path = cocos2d/cocos/base/CCEnumClass.h; sourceTree = "<group>"; };
+		4A35C2DE2375C33B00DD3A6E /* CCProgramStateCache.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CCProgramStateCache.cpp; path = cocos2d/cocos/renderer/CCProgramStateCache.cpp; sourceTree = "<group>"; };
+		4A35C2DF2375C33B00DD3A6E /* CCProgramStateCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CCProgramStateCache.h; path = cocos2d/cocos/renderer/CCProgramStateCache.h; sourceTree = "<group>"; };
 		4A6A998023706E2F009F16ED /* CCStencilStateManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CCStencilStateManager.hpp; path = cocos2d/cocos/base/CCStencilStateManager.hpp; sourceTree = "<group>"; };
 		4A6A99812370726B009F16ED /* HttpAsynConnection-apple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "HttpAsynConnection-apple.m"; path = "cocos2d/cocos/network/HttpAsynConnection-apple.m"; sourceTree = "<group>"; };
 		4A6A99822370726B009F16ED /* HttpCookie.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HttpCookie.cpp; path = cocos2d/cocos/network/HttpCookie.cpp; sourceTree = "<group>"; };
@@ -3017,6 +3020,8 @@
 			isa = PBXGroup;
 			children = (
 				7D298EE5419D41B4A5E57583 /* backend */,
+				4A35C2DE2375C33B00DD3A6E /* CCProgramStateCache.cpp */,
+				4A35C2DF2375C33B00DD3A6E /* CCProgramStateCache.h */,
 				1850183C86AE4EB4A95A6E06 /* CCCallbackCommand.cpp */,
 				5FF4CE983AA9485C8708459A /* CCCallbackCommand.h */,
 				D54354C3B7BD48BD8F4AFF81 /* CCCustomCommand.cpp */,
@@ -4869,6 +4874,7 @@
 				4A6A9A2723707899009F16ED /* CCSkybox.cpp in Sources */,
 				C6C80D24669044D0A09211BB /* CCPUGravityAffector.cpp in Sources */,
 				BF2E8E0A4A224B4F9F81ED37 /* CCPUGravityAffectorTranslator.cpp in Sources */,
+				4A35C2E02375C33B00DD3A6E /* CCProgramStateCache.cpp in Sources */,
 				B9302FCB680C4B61B2E40818 /* CCPUInterParticleCollider.cpp in Sources */,
 				69581C385DD6442A9C17D3E1 /* CCPUInterParticleColliderTranslator.cpp in Sources */,
 				042085F778E041EAA54E7B25 /* CCPUJetAffector.cpp in Sources */,

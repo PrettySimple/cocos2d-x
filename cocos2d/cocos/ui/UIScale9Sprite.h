@@ -25,7 +25,7 @@
 #ifndef CC_UI_SCALE9SPRITE_H
 #define CC_UI_SCALE9SPRITE_H
 
-#include <cocos/2d/CCNode.h>
+#include <cocos/2d/CCSprite.h>
 #include <cocos/base/CCProtocols.h>
 #include <cocos/base/ccConfig.h>
 #include <cocos/base/ccTypes.h>
@@ -68,7 +68,7 @@ namespace ui
      * Then you could call any methods of Sprite class with the return pointers.
      *
      */
-    class CC_GUI_DLL Scale9Sprite : public Node, public cocos2d::BlendProtocol
+    class CC_GUI_DLL Scale9Sprite : public Sprite
     {
     public:
         /**

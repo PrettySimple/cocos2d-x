@@ -23,6 +23,8 @@
  */
 
 const char* positionColorTextureAsPointsize_vert = R"(
+uniform float u_alpha;
+uniform mat4 u_MVPMatrix;
 
 attribute vec4 a_position;
 attribute vec4 a_color;
@@ -34,8 +36,6 @@ varying lowp vec4 v_fragmentColor;
 #else
 varying vec4 v_fragmentColor;
 #endif
-uniform float u_alpha;
-uniform mat4 u_MVPMatrix;
 
 void main()
 {

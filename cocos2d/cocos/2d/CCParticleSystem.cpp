@@ -224,6 +224,7 @@ ParticleSystem::ParticleSystem()
 , _opacityModifyRGB(false)
 , _yCoordFlipped(1)
 , _positionType(PositionType::FREE)
+, _bUseSrcPosOnly(false)
 , _paused(false)
 , _sourcePositionCompatible(true) // In the furture this member's default value maybe false or be removed.
 {
@@ -865,7 +866,18 @@ bool ParticleSystem::isFull()
 void ParticleSystem::update(float dt)
 {
     CC_PROFILER_START_CATEGORY(kProfilerCategoryParticles , "CCParticleSystem - update");
-
+    
+    if (_positionType == PositionType::WORLD)
+    {
+        if (_particleCount == 0)
+        {
+            // startup or no particles
+            _currentTransforms = getNodeToWorldTransform();
+        }
+        _previousTransforms = _currentTransforms;
+        _currentTransforms = getNodeToWorldTransform();
+    }
+    
     if (_isActive && _emissionRate)
     {
         float rate = 1.0f / _emissionRate;
@@ -983,14 +995,24 @@ void ParticleSystem::update(float dt)
             {
                 _particleData.modeB.radius[i] += _particleData.modeB.deltaRadius[i] * dt;
             }
-            
-            for (int i = 0; i < _particleCount; ++i)
+            if (_positionType == PositionType::WORLD)
             {
-                _particleData.posx[i] = - cosf(_particleData.modeB.angle[i]) * _particleData.modeB.radius[i];
+                for (int i = 0; i < _particleCount; ++i)
+                {
+                    _particleData.posx[i] = _particleData.startPosX[i] - cosf(_particleData.modeB.angle[i]) * _particleData.modeB.radius[i];
+                    _particleData.posy[i] = _particleData.startPosY[i] - sinf(_particleData.modeB.angle[i]) * _particleData.modeB.radius[i] * _yCoordFlipped;
+                }
             }
-            for (int i = 0; i < _particleCount; ++i)
+            else
             {
-                _particleData.posy[i] = - sinf(_particleData.modeB.angle[i]) * _particleData.modeB.radius[i] * _yCoordFlipped;
+                for (int i = 0; i < _particleCount; ++i)
+                {
+                    _particleData.posx[i] = - cosf(_particleData.modeB.angle[i]) * _particleData.modeB.radius[i];
+                }
+                for (int i = 0; i < _particleCount; ++i)
+                {
+                    _particleData.posy[i] = - sinf(_particleData.modeB.angle[i]) * _particleData.modeB.radius[i] * _yCoordFlipped;
+                }
             }
         }
         

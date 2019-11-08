@@ -213,7 +213,8 @@ public:
                    Use case: Attach an emitter to an sprite, and you want that the emitter follows the sprite.*/
         
         GROUPED, /** Living particles are attached to the emitter and are translated along with it. */
-
+        
+        WORLD, /** Living particles are attached to the world but emition is affected by emitter repositioning and rotations. */
     };
     
     //* @enum
@@ -250,7 +251,7 @@ public:
      */
     static Vector<ParticleSystem*>& getAllParticleSystems();
 public:
-    void addParticles(int count);
+    virtual void addParticles(int count);
     
     void stopSystem();
     /** Kill all living particles.
@@ -739,6 +740,18 @@ public:
      */
     void setPositionType(PositionType type) { _positionType = type; }
     
+    /**
+     * In PositionType::WORLD only
+     *
+     * if true, the emition starts from SourcePosition in world space coordinates (the position of the emitter is discarded).
+     *
+     * had to add this functionality for emitters located inside 3D Nodes (any angles for the 3 axis + z depth) that wouldn't work
+     * properly as they emit in 2D
+     * like this you can set the source Emission directly without worying about the emitter transforms and still keep the emitter in the Node hierarchy.
+     * if true, then you will have to use setSourcePosition() and compute the emission position manually (each time a transform changes in the hierarchy)
+     */
+    inline void setUseSourcePosOnly(bool bUseSrcPosOnly) noexcept { _bUseSrcPosOnly = bUseSrcPosOnly; }
+    
     // Overrides
     virtual void onEnter() override;
     virtual void onExit() override;
@@ -885,6 +898,10 @@ protected:
 
     //Emitter name
     std::string _configName;
+    
+    // PS: added for emition interpollation (when the emitter "travels" a lot between 2 frames)
+    Mat4 _previousTransforms;
+    Mat4 _currentTransforms;
 
     // color modulate
     //    BOOL colorModulate;
@@ -978,6 +995,8 @@ protected:
      @since v0.8
      */
     PositionType _positionType;
+    
+    bool _bUseSrcPosOnly;
     
     /** is the emitter paused */
     bool _paused;

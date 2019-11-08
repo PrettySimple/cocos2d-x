@@ -67,7 +67,28 @@ RenderQueue::RenderQueue()
 
 void RenderQueue::push_back(RenderCommand* command)
 {
-     float z = command->getGlobalOrder();
+//#define DEBUGCMD
+#ifdef DEBUGCMD
+    switch(command->getType())
+    {
+        case RenderCommand::Type::TRIANGLES_COMMAND:
+            break;
+        case RenderCommand::Type::MESH_COMMAND:
+            break;
+        case RenderCommand::Type::GROUP_COMMAND:
+            break;
+        case RenderCommand::Type::CUSTOM_COMMAND:
+            break;
+        case RenderCommand::Type::CALLBACK_COMMAND:
+            break;
+        case RenderCommand::Type::CAPTURE_SCREEN_COMMAND:
+            break;
+        default:
+            break;
+    }
+#endif
+    
+    float z = command->getGlobalOrder();
     if(z < 0)
     {
         _commands[QUEUE_GROUP::GLOBALZ_NEG].push_back(command);
@@ -202,10 +223,6 @@ void Renderer::addCommand(RenderCommand* command)
 
 void Renderer::addCommand(RenderCommand* command, int renderQueueID)
 {
-    if (command->getType() == RenderCommand::Type::CUSTOM_COMMAND)
-        CCASSERT(command->getType() == RenderCommand::Type::CUSTOM_COMMAND, "");
-    if (command->getType() == RenderCommand::Type::CALLBACK_COMMAND)
-        CCASSERT(command->getType() == RenderCommand::Type::CALLBACK_COMMAND, "");
     CCASSERT(!_isRendering, "Cannot add command while rendering");
     CCASSERT(renderQueueID >=0, "Invalid render queue");
     CCASSERT(command->getType() != RenderCommand::Type::UNKNOWN_COMMAND, "Invalid Command Type");
@@ -282,8 +299,6 @@ void Renderer::processRenderCommand(RenderCommand* command)
 #endif
             _queuedTotalVertexCount += cmd->getVertexCount();
             _queuedTotalIndexCount += cmd->getIndexCount();
-            
-//            flush2D();
         }
             break;
         case RenderCommand::Type::MESH_COMMAND:

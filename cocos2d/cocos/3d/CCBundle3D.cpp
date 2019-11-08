@@ -1572,6 +1572,8 @@ bool Bundle3D::loadAnimationDataBinary(const std::string& id, Animation3DData* a
         for (unsigned int i = 0; i < nodeAnimationNum; ++i)
         {
             std::string boneName = _binaryReader.readString();
+            if (boneName.empty())
+                continue;
             unsigned int keyframeNum;
             if (!_binaryReader.read(&keyframeNum))
             {

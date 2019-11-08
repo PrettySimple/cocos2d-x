@@ -23,10 +23,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include <cocos/renderer/CCTrianglesCommand.h>
-#include "xxhash.h"
 #include <cocos/renderer/CCRenderer.h>
 #include <cocos/renderer/CCTexture2D.h>
-#include <cocos/base//ccUtils.h>
+#include <cocos/base/ccUtils.h>
+#include <cocos/renderer/CCProgramStateCache.h>
 
 NS_CC_BEGIN
 
@@ -83,24 +83,25 @@ TrianglesCommand::~TrianglesCommand()
 
 void TrianglesCommand::generateMaterialID()
 {
-    struct
-    {
-        void* texture;
-        void* program;
-        backend::BlendFactor src;
-        backend::BlendFactor dst;
-    }hashMe;
-
-    // NOTE: Initialize hashMe struct to make the value of padding bytes be filled with zero.
-    // It's important since XXH32 below will also consider the padding bytes which probably
-    // are set to random values by different compilers.
-    memset(&hashMe, 0, sizeof(hashMe));
-
-    hashMe.texture = _texture;
-    hashMe.src = _blendType.src;
-    hashMe.dst = _blendType.dst;
-    hashMe.program = _program;
-    _materialID = XXH32((const void*)&hashMe, sizeof(hashMe), 0);
+    _materialID = ProgramStateCache::computeMaterialId(_program, _texture, _blendType);
+//    struct
+//    {
+//        void* texture;
+//        void* program;
+//        backend::BlendFactor src;
+//        backend::BlendFactor dst;
+//    }hashMe;
+//
+//    // NOTE: Initialize hashMe struct to make the value of padding bytes be filled with zero.
+//    // It's important since XXH32 below will also consider the padding bytes which probably
+//    // are set to random values by different compilers.
+//    memset(&hashMe, 0, sizeof(hashMe));
+//
+//    hashMe.texture = _texture;
+//    hashMe.src = _blendType.src;
+//    hashMe.dst = _blendType.dst;
+//    hashMe.program = _program;
+//    _materialID = XXH32((const void*)&hashMe, sizeof(hashMe), 0);
 }
 
 NS_CC_END

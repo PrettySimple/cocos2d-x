@@ -23,10 +23,8 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include <cocos/base/CCDirector.h>
-#include <cocos/renderer/CCGLProgram.h>
 #include <cocos/renderer/CCGLProgramState.h>
 #include <cocos/renderer/CCRenderer.h>
-#include <cocos/renderer/ccGLStateCache.h>
 
 #include "CCBoneNode.h"
 #include "CCSkeletonNode.h"

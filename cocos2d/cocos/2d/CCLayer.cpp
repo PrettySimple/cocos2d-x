@@ -288,7 +288,7 @@ LayerColor::LayerColor()
     _blendFunc = BlendFunc::ALPHA_PREMULTIPLIED;
     
     auto& pipelineDescriptor = _customCommand.getPipelineDescriptor();
-    _programState = new (std::nothrow) backend::ProgramState(positionColor_vert, positionColor_frag);
+    setProgramState(new (std::nothrow) backend::ProgramState(positionColor_vert, positionColor_frag));
     pipelineDescriptor.programState = _programState;
     
     auto vertexLayout = _programState->getVertexLayout();
@@ -296,7 +296,7 @@ LayerColor::LayerColor()
     auto iter = attributeInfo.find("a_position");
     if(iter != attributeInfo.end())
     {
-        vertexLayout->setAttribute("a_position", iter->second.location, backend::VertexFormat::FLOAT3, 0, false);
+        vertexLayout->setAttribute("a_position", iter->second.location, backend::VertexFormat::FLOAT4, 0, false);
     }
     iter = attributeInfo.find("a_color");
     if(iter != attributeInfo.end())
@@ -463,7 +463,7 @@ void LayerColor::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
         pos.x = _squareVertices[i].x; pos.y = _squareVertices[i].y; pos.z = _positionZ;
         pos.w = 1;
         _modelViewTransform.transformVector(pos);
-        _vertexData[i].vertices = Vec3(pos.x,pos.y,pos.z)/pos.w;
+        _vertexData[i].vertices = Vec4(pos.x/pos.w,pos.y/pos.w,pos.z/pos.w, 1.0f);
     }
     updateVertexBuffer();
 }
@@ -705,7 +705,7 @@ LayerRadialGradient* LayerRadialGradient::create()
 LayerRadialGradient::LayerRadialGradient()
 {
     auto& pipelineDescriptor = _customCommand.getPipelineDescriptor();
-    _programState = new (std::nothrow) backend::ProgramState(position_vert, layer_radialGradient_frag);
+    setProgramState(new (std::nothrow) backend::ProgramState(position_vert, layer_radialGradient_frag));
     pipelineDescriptor.programState = _programState;
     _mvpMatrixLocation = pipelineDescriptor.programState->getUniformLocation(backend::Uniform::MVP_MATRIX);
     _startColorLocation = pipelineDescriptor.programState->getUniformLocation("u_startColor");

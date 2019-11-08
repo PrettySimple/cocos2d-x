@@ -20,6 +20,8 @@
  */
 
 const char* positionColorLengthTexture_vert = R"(
+uniform float u_alpha;
+uniform mat4 u_MVPMatrix;
 
 #ifdef GL_ES
 precision lowp float;
@@ -43,9 +45,6 @@ varying vec4 v_color;
 varying vec2 v_texcoord;
 
 #endif
-
-uniform float u_alpha;
-uniform mat4 u_MVPMatrix;
 
 void main()
 {

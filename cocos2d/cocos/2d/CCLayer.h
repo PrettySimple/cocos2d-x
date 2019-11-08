@@ -260,7 +260,7 @@ public:
     
 CC_CONSTRUCTOR_ACCESS:
     LayerColor();
-    virtual ~LayerColor();
+    virtual ~LayerColor() override;
     
     bool init() override;
     bool initWithColor(const Color4B& color, float width, float height);
@@ -275,12 +275,15 @@ protected:
     Vec2 _squareVertices[4];
     CustomCommand _customCommand;
 
-    V3F_C4F _vertexData[4];
+    using VertData = struct {
+        Vec4 vertices;
+        Color4F colors;
+    };
+    VertData _vertexData[4];
     
     backend::UniformLocation _mvpMatrixLocation;
-    backend::ProgramState* _programState = nullptr;
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(LayerColor);
+    CC_DISALLOW_COPY_AND_ASSIGN(LayerColor)
 
 };
 
@@ -513,7 +516,6 @@ private:
     backend::UniformLocation _centerLocation;
     backend::UniformLocation _radiusLocation;
     backend::UniformLocation _expandLocation;
-    backend::ProgramState* _programState = nullptr;
 };
 
 

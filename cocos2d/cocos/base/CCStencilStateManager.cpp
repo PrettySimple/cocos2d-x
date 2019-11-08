@@ -220,10 +220,7 @@ void StencilStateManager::onAfterVisit()
     renderer->setStencilOperation(_currentStencilFail, _currentStencilPassDepthFail, _currentStencilPassDepthPass);
 
     renderer->setStencilWriteMask(_currentStencilWriteMask);
-    if (!_currentStencilEnabled)
-    {
-        renderer->setStencilTest(false);
-    }
+    renderer->setStencilTest(false);
     
     // we are done using this layer, decrement
     s_layer--;
