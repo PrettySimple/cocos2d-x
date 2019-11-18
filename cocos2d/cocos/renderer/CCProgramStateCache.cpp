@@ -63,10 +63,10 @@ backend::ProgramState *ProgramStateCache::getOrCreateProgramState(const std::str
 }
 
 backend::ProgramState *ProgramStateCache::_getOrCreateProgramState(cocos2d::backend::ProgramState *templateProgram,
-                                                                     cocos2d::Texture2D *            texture,
-                                                                     cocos2d::BlendFunc              blendType)
+                                                                   cocos2d::Texture2D *            texture,
+                                                                   cocos2d::BlendFunc              blendType)
 {
-    auto materialID         = computeMaterialId(templateProgram->getProgram(), texture->getBackendTexture(), blendType);
+    auto materialID         = computeMaterialId(templateProgram->getProgram(), texture ? texture->getBackendTexture() : nullptr, blendType);
     
     auto cachedProgramState = _programStateCache.find(materialID);
     if (cachedProgramState != _programStateCache.end()) {

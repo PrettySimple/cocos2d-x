@@ -437,6 +437,9 @@ void ProgramState::setTexture(int location, uint32_t slot, backend::TextureBacke
     if(location < 0)
         return;
     TextureInfo& info = textureInfo[location];
+    // First release the current texture if any
+    info.releaseTextures();
+    // Switch textures
     info.slot = {slot};
     info.textures = {texture};
     info.retainTextures();
