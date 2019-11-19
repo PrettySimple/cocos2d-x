@@ -125,6 +125,7 @@ DepthStencilStateMTL::DepthStencilStateMTL(id<MTLDevice> mtlDevice, const DepthS
     }
 
     _mtlDepthStencilState = [mtlDevice newDepthStencilStateWithDescriptor:mtlDescriptor];
+    [_mtlDepthStencilState retain];
     [mtlDescriptor release];
 }
 

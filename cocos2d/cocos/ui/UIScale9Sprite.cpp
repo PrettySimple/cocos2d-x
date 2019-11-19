@@ -46,6 +46,7 @@
 #include <cocos/renderer/CCRenderer.h>
 #include <cocos/renderer/CCTexture2D.h>
 #include <cocos/renderer/CCTrianglesCommand.h>
+#include <cocos/renderer/CCProgramStateCache.h>
 
 #include <cmath>
 #include <cstring>
@@ -538,12 +539,16 @@ namespace ui
         {
             case State::NORMAL:
             {
-                pstate = new backend::ProgramState(backend::ProgramType::POSITION_TEXTURE_COLOR);
+                pstate = ProgramStateCache::getOrCreateProgramState(backend::ProgramType::POSITION_TEXTURE_COLOR,
+                                                                    _scale9Image ? _scale9Image->getTexture() : nullptr,
+                                                                    _scale9Image ? _scale9Image->getBlendFunc() : _blendFunc);
             }
             break;
             case State::GRAY:
             {
-                pstate = new backend::ProgramState(backend::ProgramType::GRAY_SCALE);
+                pstate = ProgramStateCache::getOrCreateProgramState(backend::ProgramType::GRAY_SCALE,
+                                                                    _scale9Image ? _scale9Image->getTexture() : nullptr,
+                                                                    _scale9Image ? _scale9Image->getBlendFunc() : _blendFunc);
             }
             default:
                 break;

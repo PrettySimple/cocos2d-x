@@ -678,7 +678,8 @@ void Renderer::drawCustomCommand(RenderCommand *command)
     if (cmd->getBeforeCallback()) cmd->getBeforeCallback()();
 
     beginRenderPass(command);
-    _commandBuffer->setVertexBuffer(cmd->getVertexBuffer());
+    if (cmd->getVertexBuffer())
+        _commandBuffer->setVertexBuffer(cmd->getVertexBuffer());
     _commandBuffer->setProgramState(cmd->getPipelineDescriptor().programState);
     
     auto drawType = cmd->getDrawType();
