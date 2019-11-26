@@ -48,23 +48,26 @@ ProgramStateCache::MaterialId ProgramStateCache::computeMaterialId(cocos2d::back
 }
 
 backend::ProgramState *ProgramStateCache::getOrCreateProgramState(backend::ProgramType type,
-                                                                    cocos2d::Texture2D * texture,
-                                                                    cocos2d::BlendFunc   blendType)
+                                                                  cocos2d::Texture2D * texture,
+                                                                  cocos2d::BlendFunc   blendType,
+                                                                  NewProgramStateCbk   newProgramStateCbk)
 {
-    return _getInstance()._getOrCreateProgramState(new cocos2d::backend::ProgramState(type), texture, blendType);
+    return _getInstance()._getOrCreateProgramState(new cocos2d::backend::ProgramState(type), texture, blendType, newProgramStateCbk);
 }
 
-backend::ProgramState *ProgramStateCache::getOrCreateProgramState(const std::string &vertexSh,
-                                                                    const std::string &fragSh,
-                                                                    cocos2d::Texture2D * texture,
-                                                                    cocos2d::BlendFunc   blendType)
+backend::ProgramState *ProgramStateCache::getOrCreateProgramState(const std::string & vertexSh,
+                                                                  const std::string & fragSh,
+                                                                  cocos2d::Texture2D *texture,
+                                                                  cocos2d::BlendFunc  blendType,
+                                                                  NewProgramStateCbk  newProgramStateCbk)
 {
-    return _getInstance()._getOrCreateProgramState(new cocos2d::backend::ProgramState(vertexSh, fragSh), texture, blendType);
+    return _getInstance()._getOrCreateProgramState(new cocos2d::backend::ProgramState(vertexSh, fragSh), texture, blendType, newProgramStateCbk);
 }
 
 backend::ProgramState *ProgramStateCache::_getOrCreateProgramState(cocos2d::backend::ProgramState *templateProgram,
                                                                    cocos2d::Texture2D *            texture,
-                                                                   cocos2d::BlendFunc              blendType)
+                                                                   cocos2d::BlendFunc              blendType,
+                                                                   NewProgramStateCbk              newProgramStateCbk)
 {
     auto materialID         = computeMaterialId(templateProgram->getProgram(), texture ? texture->getBackendTexture() : nullptr, blendType);
     
@@ -75,6 +78,9 @@ backend::ProgramState *ProgramStateCache::_getOrCreateProgramState(cocos2d::back
     }
     
     _programStateCache[materialID] = templateProgram;
+    if (newProgramStateCbk)
+        newProgramStateCbk(templateProgram);
+    
     return templateProgram;
 }
 

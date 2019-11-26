@@ -23,6 +23,7 @@ namespace cocos2d {
     class ProgramStateCache {
         public:
             using MaterialId = uint32_t;
+            using NewProgramStateCbk = std::function<void(backend::ProgramState*)>;
             
             static MaterialId computeMaterialId(cocos2d::backend::Program *       program,
                                                 cocos2d::backend::TextureBackend *texture,
@@ -30,12 +31,14 @@ namespace cocos2d {
             
             static backend::ProgramState *getOrCreateProgramState(backend::ProgramType type,
                                                                   cocos2d::Texture2D * texture,
-                                                                  cocos2d::BlendFunc   blendType);
+                                                                  cocos2d::BlendFunc   blendType,
+                                                                  NewProgramStateCbk newProgramStateCbk = nullptr);
             
             static backend::ProgramState *getOrCreateProgramState(const std::string & vertexSh,
                                                                   const std::string & fragSh,
                                                                   cocos2d::Texture2D *texture,
-                                                                  cocos2d::BlendFunc  blendType);
+                                                                  cocos2d::BlendFunc  blendType,
+                                                                  NewProgramStateCbk newProgramStateCbk = nullptr);
             
             static void clear();
             
@@ -54,7 +57,8 @@ namespace cocos2d {
             
             backend::ProgramState *_getOrCreateProgramState(cocos2d::backend::ProgramState *templateProgram,
                                                             cocos2d::Texture2D *            texture,
-                                                            cocos2d::BlendFunc              blendType);
+                                                            cocos2d::BlendFunc              blendType,
+                                                            NewProgramStateCbk newProgramStateCbk = nullptr);
             
         private:
             ProgramStateCache() {}

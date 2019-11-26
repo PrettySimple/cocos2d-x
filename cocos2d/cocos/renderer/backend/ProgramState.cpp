@@ -157,6 +157,10 @@ TextureInfo& TextureInfo::operator=(const TextureInfo& rhs)
 
 ProgramState::ProgramState(ProgramType type)
 {
+#ifdef COCOS2D_DEBUG
+    _vertexShaderStr4Dbg = "BuildIn";
+    _fragmentShaderStr4Dbg = std::to_string(type);
+#endif
     _program = backend::ProgramCache::getInstance()->newBuiltinProgram(type);
     CCASSERT(_program, "Not built-in program type, please use ProgramState(const std::string& vertexShader, const std::string& fragmentShader) instead.");
     CC_SAFE_RETAIN(_program);
@@ -234,6 +238,10 @@ ProgramState::~ProgramState()
 ProgramState *ProgramState::clone() const
 {
     ProgramState *cp = new ProgramState();
+#ifdef COCOS2D_DEBUG
+    cp->_vertexShaderStr4Dbg = _vertexShaderStr4Dbg;
+    cp->_fragmentShaderStr4Dbg = _fragmentShaderStr4Dbg;
+#endif
     cp->_program = _program;
     cp->_vertexUniformBufferSize = _vertexUniformBufferSize;
     cp->_fragmentUniformBufferSize = _fragmentUniformBufferSize;
@@ -241,7 +249,7 @@ ProgramState *ProgramState::clone() const
     cp->_fragmentTextureInfos = _fragmentTextureInfos;
     cp->_vertexUniformBuffer = new char[_vertexUniformBufferSize];
     memcpy(cp->_vertexUniformBuffer, _vertexUniformBuffer, _vertexUniformBufferSize);
-    cp->_vertexLayout = _vertexLayout;
+    cp->_vertexLayout = std::make_shared<VertexLayout>(*_vertexLayout);
 #ifdef CC_USE_METAL
     cp->_fragmentUniformBuffer = new char[_fragmentUniformBufferSize];
     memcpy(cp->_fragmentUniformBuffer, _fragmentUniformBuffer, _fragmentUniformBufferSize);

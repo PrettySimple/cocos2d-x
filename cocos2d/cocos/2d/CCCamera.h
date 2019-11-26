@@ -246,7 +246,9 @@ public:
     /**
      Apply the FBO, RenderTargets and viewport.
      */
-    void apply();
+    virtual void apply();
+    
+    virtual void unapply() {}
 
     /**
      * Whether or not the viewprojection matrix was updated since the last frame.
@@ -271,7 +273,7 @@ public:
 
 CC_CONSTRUCTOR_ACCESS:
     Camera();
-    ~Camera();
+    virtual ~Camera() override;
 
     /**
      * Set the scene,this method shall not be invoke manually

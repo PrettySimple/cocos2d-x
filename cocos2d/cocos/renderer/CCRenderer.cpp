@@ -849,12 +849,14 @@ void Renderer::setRenderTarget(RenderTargetFlag flags, Texture2D* colorAttachmen
     }
 }
 
-void Renderer::clear(ClearFlag flags, const Color4F& color, float depth, unsigned int stencil, float globalOrder)
+void Renderer::clear(ClearFlag flags, const Color4F& color, float depth, unsigned int stencil, float globalOrder, bool is3D, bool isTransparent)
 {
     _clearFlag = flags;
 
     CallbackCommand* command = new CallbackCommand();
-    command->init(globalOrder);
+    command->init(isTransparent ? 0 : globalOrder);
+    command->set3D(is3D);
+    command->setTransparent(isTransparent);
     command->func = [=]() -> void {
         backend::RenderPassDescriptor descriptor;
 

@@ -383,6 +383,7 @@ public:
      * @js NA
      */
     void setClearColor(const Color4F& clearColor);
+    Color4F getClearColor() const { return _clearColor; }
 
     void mainLoop();
     /** Invoke main loop with delta time. Then `calculateDeltaTime` can just use the delta time directly.

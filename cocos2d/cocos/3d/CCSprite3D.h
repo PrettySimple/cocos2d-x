@@ -152,7 +152,7 @@ public:
      * Force to write to depth buffer, this is useful if you want to achieve effects like fading.
      */
     void setForceDepthWrite(bool value) { _forceDepthWrite = value; }
-    bool isForceDepthWrite() const { return _forceDepthWrite;};
+    bool isForceDepthWrite() const { return _forceDepthWrite;}
     
     /**
      * Returns 2d bounding-box

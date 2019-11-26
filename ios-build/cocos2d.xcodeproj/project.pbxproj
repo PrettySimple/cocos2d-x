@@ -1061,6 +1061,66 @@
 		4A6A9A1423707898009F16ED /* CCAnimation3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAnimation3D.cpp; sourceTree = "<group>"; };
 		4A6A9A1523707898009F16ED /* CCAttachNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAttachNode.h; sourceTree = "<group>"; };
 		4A6A9A1623707898009F16ED /* CCBundle3DData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCBundle3DData.cpp; sourceTree = "<group>"; };
+		4A80BD8D2384582200C70B36 /* positionColorTextureAsPointsize.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = positionColorTextureAsPointsize.vert; sourceTree = "<group>"; };
+		4A80BD8E2384582200C70B36 /* 3D_skybox.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = 3D_skybox.frag; sourceTree = "<group>"; };
+		4A80BD8F2384582200C70B36 /* ui_Gray.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ui_Gray.frag; sourceTree = "<group>"; };
+		4A80BD902384582200C70B36 /* positionTexture.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = positionTexture.vert; sourceTree = "<group>"; };
+		4A80BD912384582200C70B36 /* 3D_colorNormal.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = 3D_colorNormal.frag; sourceTree = "<group>"; };
+		4A80BD922384582200C70B36 /* positionTextureColor.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = positionTextureColor.vert; sourceTree = "<group>"; };
+		4A80BD932384582200C70B36 /* lineColor.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = lineColor.frag; sourceTree = "<group>"; };
+		4A80BD942384582200C70B36 /* 3D_positionTexture.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = 3D_positionTexture.vert; sourceTree = "<group>"; };
+		4A80BD952384582200C70B36 /* label_normal.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = label_normal.frag; sourceTree = "<group>"; };
+		4A80BD962384582200C70B36 /* label_outline.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = label_outline.frag; sourceTree = "<group>"; };
+		4A80BD972384582200C70B36 /* 3D_positionNormalTexture.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = 3D_positionNormalTexture.vert; sourceTree = "<group>"; };
+		4A80BD982384582200C70B36 /* positionUColor.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = positionUColor.vert; sourceTree = "<group>"; };
+		4A80BD992384582200C70B36 /* cameraClear.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = cameraClear.vert; sourceTree = "<group>"; };
+		4A80BD9A2384582200C70B36 /* 3D_terrain.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = 3D_terrain.frag; sourceTree = "<group>"; };
+		4A80BD9B2384582200C70B36 /* 3D_color.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = 3D_color.frag; sourceTree = "<group>"; };
+		4A80BD9C2384582200C70B36 /* positionColorLengthTexture.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = positionColorLengthTexture.frag; sourceTree = "<group>"; };
+		4A80BD9D2384582200C70B36 /* positionTextureUColor.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = positionTextureUColor.frag; sourceTree = "<group>"; };
+		4A80BD9E2384582200C70B36 /* 3D_particle.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = 3D_particle.frag; sourceTree = "<group>"; };
+		4A80BD9F2384582200C70B36 /* positionColor.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = positionColor.frag; sourceTree = "<group>"; };
+		4A80BDA02384582200C70B36 /* positionTextureColor.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = positionTextureColor.frag; sourceTree = "<group>"; };
+		4A80BDA12384582200C70B36 /* etc1_Gray.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = etc1_Gray.frag; sourceTree = "<group>"; };
+		4A80BDA22384582200C70B36 /* lineColor.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = lineColor.vert; sourceTree = "<group>"; };
+		4A80BDA32384582200C70B36 /* positionTexture.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = positionTexture.frag; sourceTree = "<group>"; };
+		4A80BDA42384582200C70B36 /* etc1.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = etc1.frag; sourceTree = "<group>"; };
+		4A80BDA52384582200C70B36 /* label_distanceFieldGlow.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = label_distanceFieldGlow.frag; sourceTree = "<group>"; };
+		4A80BDA62384582200C70B36 /* layer_radialGradient.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = layer_radialGradient.frag; sourceTree = "<group>"; };
+		4A80BDA72384582200C70B36 /* 3D_skybox.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = 3D_skybox.vert; sourceTree = "<group>"; };
+		4A80BDA82384582200C70B36 /* 3D_colorTexture.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = 3D_colorTexture.frag; sourceTree = "<group>"; };
+		4A80BDA92384582200C70B36 /* positionColor.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = positionColor.vert; sourceTree = "<group>"; };
+		4A80BDAA2384582200C70B36 /* 3D_particle.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = 3D_particle.vert; sourceTree = "<group>"; };
+		4A80BDAB2384582200C70B36 /* positionTextureColorAlphaTest.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = positionTextureColorAlphaTest.frag; sourceTree = "<group>"; };
+		4A80BDAC2384582200C70B36 /* positionColorLengthTexture.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = positionColorLengthTexture.vert; sourceTree = "<group>"; };
+		4A80BDAD2384582200C70B36 /* positionTextureUColor.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = positionTextureUColor.vert; sourceTree = "<group>"; };
+		4A80BDAE2384582200C70B36 /* label_distanceNormal.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = label_distanceNormal.frag; sourceTree = "<group>"; };
+		4A80BDAF2384582200C70B36 /* 3D_terrain.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = 3D_terrain.vert; sourceTree = "<group>"; };
+		4A80BDB02384582200C70B36 /* cameraClear.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = cameraClear.frag; sourceTree = "<group>"; };
+		4A80BDB12384582200C70B36 /* positionNoMVP.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = positionNoMVP.vert; sourceTree = "<group>"; };
+		4A80BDB22384582200C70B36 /* positionUColor.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = positionUColor.frag; sourceTree = "<group>"; };
+		4A80BDB32384582200C70B36 /* 3D_colorNormalTexture.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = 3D_colorNormalTexture.frag; sourceTree = "<group>"; };
+		4A80BDB42384582200C70B36 /* position.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = position.vert; sourceTree = "<group>"; };
+		4A80BDB623854BDC00C70B36 /* ShaderModuleGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderModuleGL.cpp; sourceTree = "<group>"; };
+		4A80BDB723854BDC00C70B36 /* BufferGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BufferGL.cpp; sourceTree = "<group>"; };
+		4A80BDB823854BDC00C70B36 /* UtilsGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtilsGL.h; sourceTree = "<group>"; };
+		4A80BDB923854BDC00C70B36 /* DepthStencilStateGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DepthStencilStateGL.cpp; sourceTree = "<group>"; };
+		4A80BDBA23854BDC00C70B36 /* ProgramGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgramGL.h; sourceTree = "<group>"; };
+		4A80BDBB23854BDC00C70B36 /* RenderPipelineGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderPipelineGL.h; sourceTree = "<group>"; };
+		4A80BDBC23854BDC00C70B36 /* ShaderModuleGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderModuleGL.h; sourceTree = "<group>"; };
+		4A80BDBD23854BDC00C70B36 /* BufferGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BufferGL.h; sourceTree = "<group>"; };
+		4A80BDBE23854BDC00C70B36 /* TextureGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureGL.h; sourceTree = "<group>"; };
+		4A80BDBF23854BDC00C70B36 /* DeviceGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceGL.h; sourceTree = "<group>"; };
+		4A80BDC023854BDC00C70B36 /* ProgramGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProgramGL.cpp; sourceTree = "<group>"; };
+		4A80BDC123854BDC00C70B36 /* DepthStencilStateGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DepthStencilStateGL.h; sourceTree = "<group>"; };
+		4A80BDC223854BDC00C70B36 /* RenderPipelineGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderPipelineGL.cpp; sourceTree = "<group>"; };
+		4A80BDC323854BDC00C70B36 /* CommandBufferGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CommandBufferGL.cpp; sourceTree = "<group>"; };
+		4A80BDC423854BDC00C70B36 /* CommandBufferGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandBufferGL.h; sourceTree = "<group>"; };
+		4A80BDC523854BDC00C70B36 /* DeviceInfoGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceInfoGL.h; sourceTree = "<group>"; };
+		4A80BDC623854BDC00C70B36 /* TextureGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureGL.cpp; sourceTree = "<group>"; };
+		4A80BDC723854BDD00C70B36 /* UtilsGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UtilsGL.cpp; sourceTree = "<group>"; };
+		4A80BDC823854BDD00C70B36 /* DeviceInfoGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeviceInfoGL.cpp; sourceTree = "<group>"; };
+		4A80BDC923854BDD00C70B36 /* DeviceGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeviceGL.cpp; sourceTree = "<group>"; };
 		4A870D3E1E814848B153FAFA /* ButtonReader.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ButtonReader.cpp; path = "cocos2d/cocos/editor-support/cocostudio/WidgetReader/ButtonReader/ButtonReader.cpp"; sourceTree = SOURCE_ROOT; };
 		4A8794572370412C00DA928D /* UIWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UIWidget.cpp; sourceTree = "<group>"; };
 		4A8794582370412C00DA928D /* UIRadioButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIRadioButton.h; sourceTree = "<group>"; };
@@ -2778,6 +2838,82 @@
 			path = cocos2d/cocos/3d;
 			sourceTree = "<group>";
 		};
+		4A80BD8C2384582200C70B36 /* shaders */ = {
+			isa = PBXGroup;
+			children = (
+				4A80BD8D2384582200C70B36 /* positionColorTextureAsPointsize.vert */,
+				4A80BD8E2384582200C70B36 /* 3D_skybox.frag */,
+				4A80BD8F2384582200C70B36 /* ui_Gray.frag */,
+				4A80BD902384582200C70B36 /* positionTexture.vert */,
+				4A80BD912384582200C70B36 /* 3D_colorNormal.frag */,
+				4A80BD922384582200C70B36 /* positionTextureColor.vert */,
+				4A80BD932384582200C70B36 /* lineColor.frag */,
+				4A80BD942384582200C70B36 /* 3D_positionTexture.vert */,
+				4A80BD952384582200C70B36 /* label_normal.frag */,
+				4A80BD962384582200C70B36 /* label_outline.frag */,
+				4A80BD972384582200C70B36 /* 3D_positionNormalTexture.vert */,
+				4A80BD982384582200C70B36 /* positionUColor.vert */,
+				4A80BD992384582200C70B36 /* cameraClear.vert */,
+				4A80BD9A2384582200C70B36 /* 3D_terrain.frag */,
+				4A80BD9B2384582200C70B36 /* 3D_color.frag */,
+				4A80BD9C2384582200C70B36 /* positionColorLengthTexture.frag */,
+				4A80BD9D2384582200C70B36 /* positionTextureUColor.frag */,
+				4A80BD9E2384582200C70B36 /* 3D_particle.frag */,
+				4A80BD9F2384582200C70B36 /* positionColor.frag */,
+				4A80BDA02384582200C70B36 /* positionTextureColor.frag */,
+				4A80BDA12384582200C70B36 /* etc1_Gray.frag */,
+				4A80BDA22384582200C70B36 /* lineColor.vert */,
+				4A80BDA32384582200C70B36 /* positionTexture.frag */,
+				4A80BDA42384582200C70B36 /* etc1.frag */,
+				4A80BDA52384582200C70B36 /* label_distanceFieldGlow.frag */,
+				4A80BDA62384582200C70B36 /* layer_radialGradient.frag */,
+				4A80BDA72384582200C70B36 /* 3D_skybox.vert */,
+				4A80BDA82384582200C70B36 /* 3D_colorTexture.frag */,
+				4A80BDA92384582200C70B36 /* positionColor.vert */,
+				4A80BDAA2384582200C70B36 /* 3D_particle.vert */,
+				4A80BDAB2384582200C70B36 /* positionTextureColorAlphaTest.frag */,
+				4A80BDAC2384582200C70B36 /* positionColorLengthTexture.vert */,
+				4A80BDAD2384582200C70B36 /* positionTextureUColor.vert */,
+				4A80BDAE2384582200C70B36 /* label_distanceNormal.frag */,
+				4A80BDAF2384582200C70B36 /* 3D_terrain.vert */,
+				4A80BDB02384582200C70B36 /* cameraClear.frag */,
+				4A80BDB12384582200C70B36 /* positionNoMVP.vert */,
+				4A80BDB22384582200C70B36 /* positionUColor.frag */,
+				4A80BDB32384582200C70B36 /* 3D_colorNormalTexture.frag */,
+				4A80BDB42384582200C70B36 /* position.vert */,
+			);
+			name = shaders;
+			path = cocos2d/cocos/renderer/shaders;
+			sourceTree = "<group>";
+		};
+		4A80BDB523854BDC00C70B36 /* opengl */ = {
+			isa = PBXGroup;
+			children = (
+				4A80BDB623854BDC00C70B36 /* ShaderModuleGL.cpp */,
+				4A80BDB723854BDC00C70B36 /* BufferGL.cpp */,
+				4A80BDB823854BDC00C70B36 /* UtilsGL.h */,
+				4A80BDB923854BDC00C70B36 /* DepthStencilStateGL.cpp */,
+				4A80BDBA23854BDC00C70B36 /* ProgramGL.h */,
+				4A80BDBB23854BDC00C70B36 /* RenderPipelineGL.h */,
+				4A80BDBC23854BDC00C70B36 /* ShaderModuleGL.h */,
+				4A80BDBD23854BDC00C70B36 /* BufferGL.h */,
+				4A80BDBE23854BDC00C70B36 /* TextureGL.h */,
+				4A80BDBF23854BDC00C70B36 /* DeviceGL.h */,
+				4A80BDC023854BDC00C70B36 /* ProgramGL.cpp */,
+				4A80BDC123854BDC00C70B36 /* DepthStencilStateGL.h */,
+				4A80BDC223854BDC00C70B36 /* RenderPipelineGL.cpp */,
+				4A80BDC323854BDC00C70B36 /* CommandBufferGL.cpp */,
+				4A80BDC423854BDC00C70B36 /* CommandBufferGL.h */,
+				4A80BDC523854BDC00C70B36 /* DeviceInfoGL.h */,
+				4A80BDC623854BDC00C70B36 /* TextureGL.cpp */,
+				4A80BDC723854BDD00C70B36 /* UtilsGL.cpp */,
+				4A80BDC823854BDD00C70B36 /* DeviceInfoGL.cpp */,
+				4A80BDC923854BDD00C70B36 /* DeviceGL.cpp */,
+			);
+			name = opengl;
+			path = cocos2d/cocos/renderer/backend/opengl;
+			sourceTree = "<group>";
+		};
 		4A8794562370412C00DA928D /* ui */ = {
 			isa = PBXGroup;
 			children = (
@@ -3019,6 +3155,8 @@
 		5AA53D7528814F99B4FEB976 /* renderer */ = {
 			isa = PBXGroup;
 			children = (
+				4A80BDB523854BDC00C70B36 /* opengl */,
+				4A80BD8C2384582200C70B36 /* shaders */,
 				7D298EE5419D41B4A5E57583 /* backend */,
 				4A35C2DE2375C33B00DD3A6E /* CCProgramStateCache.cpp */,
 				4A35C2DF2375C33B00DD3A6E /* CCProgramStateCache.h */,

@@ -319,7 +319,7 @@ public:
      * @js NA
 	 * @lua NA
      */
-    virtual ~RenderTexture();
+    virtual ~RenderTexture() override;
     /** Initializes a RenderTexture object with width and height in Points and a pixel format, only RGB and RGBA formats are valid.
      *
      * @param w The RenderTexture object width.
@@ -343,7 +343,7 @@ protected:
     //renderer caches and callbacks
     void onBegin();
     void onEnd();
-    void clearColorAttachment();
+    virtual void clearColorAttachment();
 
     void onSaveToFile(const std::string& fileName, bool isRGBA = true, bool forceNonPMA = false, bool flipImage = true);
 

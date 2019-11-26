@@ -216,6 +216,8 @@ void Scene::render(Renderer* renderer, const Mat4& eyeTransform, const Mat4* eye
 #endif
 
         renderer->render();
+        
+        camera->unapply();
 
         director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
 
