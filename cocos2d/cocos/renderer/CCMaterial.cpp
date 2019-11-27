@@ -370,7 +370,7 @@ bool Material::parseShader(Pass* pass, Properties* shaderProperties)
         vertShaderSrc = defs + "\n" + vertShaderSrc;
         fragShaderSrc = defs + "\n" + fragShaderSrc;
 
-        auto programState = new backend::ProgramState(vertShaderSrc, fragShaderSrc);
+        auto programState = backend::ProgramState::create(vertShaderSrc, fragShaderSrc);
         pass->setProgramState(programState);
 
 

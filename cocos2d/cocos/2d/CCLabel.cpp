@@ -688,7 +688,7 @@ void Label::updateShaderProgram()
     }
 
     CC_SAFE_RELEASE(_programState);
-    _programState = new backend::ProgramState(programType);
+    _programState = backend::ProgramState::create(programType);
 
     updateUniformLocations();
 

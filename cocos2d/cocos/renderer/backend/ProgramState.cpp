@@ -155,6 +155,25 @@ TextureInfo& TextureInfo::operator=(const TextureInfo& rhs)
     return *this;
 }
 
+ProgramState *ProgramState::create(ProgramType type)
+{
+    auto ret = new ProgramState(type);
+    if (ret)
+        ret->autorelease();
+        
+    return ret;
+}
+
+
+ProgramState *ProgramState::create(const std::string& vertexShader, const std::string& fragmentShader)
+{
+    auto ret = new ProgramState(vertexShader, fragmentShader);
+    if (ret)
+        ret->autorelease();
+    
+    return ret;
+}
+
 ProgramState::ProgramState(ProgramType type)
 {
 #ifdef COCOS2D_DEBUG
@@ -238,6 +257,7 @@ ProgramState::~ProgramState()
 ProgramState *ProgramState::clone() const
 {
     ProgramState *cp = new ProgramState();
+    cp->autorelease();
 #ifdef COCOS2D_DEBUG
     cp->_vertexShaderStr4Dbg = _vertexShaderStr4Dbg;
     cp->_fragmentShaderStr4Dbg = _fragmentShaderStr4Dbg;

@@ -28,7 +28,7 @@
 
 CC_BACKEND_BEGIN
 
-BufferMTL::BufferMTL(id<MTLDevice> mtlDevice, unsigned int size, BufferType type, BufferUsage usage)
+BufferMTL::BufferMTL(id<MTLDevice> mtlDevice, unsigned long size, BufferType type, BufferUsage usage)
 : Buffer(size, type, usage)
 {
     if (BufferUsage::DYNAMIC == usage)
@@ -64,18 +64,20 @@ BufferMTL::~BufferMTL()
     }
     else
     {
+        [_mtlBuffer setPurgeableState:MTLPurgeableStateEmpty];
         [_mtlBuffer release];
+        _mtlBuffer = nil;
     }
 }
 
-void BufferMTL::updateData(void* data, unsigned int size)
+void BufferMTL::updateData(void* data, unsigned long size)
 {
     assert(size <= _size);
     updateIndex();
     memcpy((uint8_t*)_mtlBuffer.contents, data, size);
 }
 
-void BufferMTL::updateSubData(void* data, unsigned int offset, unsigned int size)
+void BufferMTL::updateSubData(void* data, unsigned long offset, unsigned long size)
 {
     assert(offset + size <= _size);
     updateIndex();

@@ -77,6 +77,9 @@ class ProgramState : public Ref
 public:
     using UniformCallback = std::function<void(ProgramState*, const UniformLocation &)>;
 
+    static ProgramState *create(ProgramType type);
+    static ProgramState *create(const std::string& vertexShader, const std::string& fragmentShader);
+    
     /**
      * @param vertexShader Specifies the vertex shader.
      * @param fragmentShader Specifies the fragment shader.

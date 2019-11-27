@@ -52,7 +52,7 @@ public:
      * @param size Specifies the size in bytes of the data store region being replaced.
      * @see `updateSubData(void* data, unsigned int offset, unsigned int size)`
      */
-    virtual void updateData(void* data, unsigned int size) = 0;
+    virtual void updateData(void* data, unsigned long size) = 0;
     
     /**
      * @brief Update buffer sub-region data
@@ -61,7 +61,7 @@ public:
      * @param size Specifies the size in bytes of the data store region being replaced.
      * @see `updateData(void* data, unsigned int size)`
      */
-    virtual void updateSubData(void* data, unsigned int offset, unsigned int size) = 0;
+    virtual void updateSubData(void* data, unsigned long offset, unsigned long size) = 0;
 
     /**
      * By default, static buffer data will automatically stored when it comes to foreground.
@@ -74,7 +74,7 @@ public:
      * Get buffer size in bytes.
      * @return The buffer size in bytes.
      */
-    unsigned int getSize() const { return _size; }
+    unsigned long getSize() const { return _size; }
 
 protected:
     /**
@@ -82,7 +82,7 @@ protected:
      * @param type Specifies the target buffer object. The symbolic constant must be BufferType::VERTEX or BufferType::INDEX.
      * @param usage Specifies the expected usage pattern of the data store. The symbolic constant must be GL_STREAM_DRAW, GL_STATIC_DRAW, or GL_DYNAMIC_DRAW.
      */
-    Buffer(unsigned int size, BufferType type, BufferUsage usage)
+    Buffer(unsigned long size, BufferType type, BufferUsage usage)
     : _usage(usage)
     , _type(type)
     , _size(size)
@@ -92,7 +92,7 @@ protected:
     
     BufferUsage _usage = BufferUsage::DYNAMIC; ///< Buffer usage.
     BufferType _type = BufferType::VERTEX; ///< Buffer type.
-    unsigned int _size = 0; ///< buffer size in bytes.
+    unsigned long _size = 0; ///< buffer size in bytes.
 };
 
 // end of _backend group

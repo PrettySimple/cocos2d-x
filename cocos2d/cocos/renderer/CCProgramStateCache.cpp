@@ -78,10 +78,26 @@ backend::ProgramState *ProgramStateCache::_getOrCreateProgramState(cocos2d::back
     }
     
     _programStateCache[materialID] = templateProgram;
+    templateProgram->autorelease();
+    templateProgram->retain();
+    
     if (newProgramStateCbk)
         newProgramStateCbk(templateProgram);
     
+    _cleanUnusued();
+    
     return templateProgram;
+}
+
+void ProgramStateCache::_cleanUnusued()
+{
+    for(auto it = _programStateCache.begin(); it != _programStateCache.end(); )
+        if (it->second->getReferenceCount() == 1) {
+            // the program state is not used anywhere anymore
+            it->second->release();
+            it = _programStateCache.erase(it);
+        } else
+            it++;
 }
 
 void ProgramStateCache::clear()
@@ -123,9 +139,11 @@ void ProgramStateCache::addStandardUniformRenderCommand(CallbackCommand *       
                                                         cocos2d::Texture2D *            texture,
                                                         bool                            isUsingMVP)
 {
-    assert(setUniformCmd);
+    assert(setUniformCmd && programState && renderer);
     setUniformCmd->init(globalOrder);
+    programState->retain();
     setUniformCmd->func = [programState, texture, isUsingMVP]() {
+        programState->release();
         const auto& projectionMat = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
         const auto& modelMat = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
         auto m = isUsingMVP ? projectionMat * modelMat : projectionMat;

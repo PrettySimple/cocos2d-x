@@ -87,7 +87,7 @@ public:
      * @param usage Specifies the expected usage pattern of the data store. The symbolic constant must be BufferUsage::STATIC, BufferUsage::DYNAMIC.
      * @return A Buffer object.
      */
-    virtual Buffer* newBuffer(unsigned int size, BufferType type, BufferUsage usage) override;
+    virtual Buffer* newBuffer(unsigned long size, BufferType type, BufferUsage usage) override;
     
     /**
      * New a TextureBackend object.

@@ -197,7 +197,9 @@ TextureMTL::TextureMTL(id<MTLDevice> mtlDevice, const TextureDescriptor& descrip
 
 TextureMTL::~TextureMTL()
 {
+    [_mtlTexture setPurgeableState:MTLPurgeableStateEmpty];
     [_mtlTexture release];
+    _mtlTexture = nil;
     [_mtlSamplerState release];
 }
 
@@ -281,8 +283,10 @@ void TextureMTL::createTexture(id<MTLDevice> mtlDevice, const TextureDescriptor&
         textureDescriptor.usage = MTLTextureUsageRenderTarget | MTLTextureUsageShaderRead;
     }
     
-    if(_mtlTexture)
+    if(_mtlTexture) {
+        [_mtlTexture setPurgeableState:MTLPurgeableStateEmpty];
         [_mtlTexture release];
+    }
     _mtlTexture = [mtlDevice newTextureWithDescriptor:textureDescriptor];
 }
 
@@ -363,6 +367,7 @@ TextureCubeMTL::TextureCubeMTL(id<MTLDevice> mtlDevice, const TextureDescriptor&
 
 TextureCubeMTL::~TextureCubeMTL()
 {
+    [_mtlTexture setPurgeableState:MTLPurgeableStateEmpty];
     [_mtlTexture release];
     [_mtlSamplerState release];
 }
@@ -399,8 +404,10 @@ void TextureCubeMTL::createTexture(id<MTLDevice> mtlDevice, const TextureDescrip
         textureDescriptor.usage = MTLTextureUsageRenderTarget | MTLTextureUsageShaderRead;
     }
     
-    if(_mtlTexture)
+    if(_mtlTexture) {
+        [_mtlTexture setPurgeableState:MTLPurgeableStateEmpty];
         [_mtlTexture release];
+    }
     _mtlTexture = [mtlDevice newTextureWithDescriptor:textureDescriptor];
 }
 

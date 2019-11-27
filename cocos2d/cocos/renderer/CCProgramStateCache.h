@@ -59,6 +59,8 @@ namespace cocos2d {
                                                             cocos2d::Texture2D *            texture,
                                                             cocos2d::BlendFunc              blendType,
                                                             NewProgramStateCbk newProgramStateCbk = nullptr);
+        
+            void _cleanUnusued();
             
         private:
             ProgramStateCache() {}
