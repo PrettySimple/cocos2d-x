@@ -460,7 +460,7 @@ void CommandBufferMTL::setUniformBuffer() const
         std::size_t bufferSize = 0;
         char* vertexBuffer = nullptr;
         _programState->getVertexUniformBuffer(&vertexBuffer, bufferSize);
-        if(vertexBuffer)
+        if (bufferSize > 0 && vertexBuffer)
         {
             [_mtlRenderEncoder setVertexBytes:vertexBuffer
                                        length:bufferSize 
@@ -469,7 +469,7 @@ void CommandBufferMTL::setUniformBuffer() const
         
         char* fragmentBuffer = nullptr;
         _programState->getFragmentUniformBuffer(&fragmentBuffer, bufferSize);
-        if(fragmentBuffer)
+        if (bufferSize > 0 && fragmentBuffer)
         {
             [_mtlRenderEncoder setFragmentBytes:fragmentBuffer
                                          length:bufferSize
