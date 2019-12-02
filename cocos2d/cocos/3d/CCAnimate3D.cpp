@@ -83,8 +83,8 @@ bool Animate3D::init(Animation3D* animation, std::chrono::milliseconds fromTime,
     if (duration > fullDuration - fromTime)
         duration = fullDuration - fromTime;
     
-    _start = fromTime / fullDuration;
-    _last = duration / fullDuration;
+    _start = 1.0f * fromTime.count() / fullDuration.count();
+    _last = 1.0f * duration.count() / fullDuration.count();
     setDuration(duration);
     setOriginInterval(duration);
     _animation = animation;
@@ -95,9 +95,9 @@ bool Animate3D::init(Animation3D* animation, std::chrono::milliseconds fromTime,
 
 bool Animate3D::initWithFrames(Animation3D* animation, int startFrame, int endFrame, float frameRate)
 {
-    std::chrono::milliseconds perFrameTime{static_cast<int>(1000.0f / frameRate)};
-    auto fromTime = startFrame * perFrameTime;
-    std::chrono::milliseconds duration = (endFrame - startFrame) * perFrameTime;
+    float perFrameTime = 1.f / frameRate;
+    auto fromTime = std::chrono::milliseconds(static_cast<std::size_t>(startFrame * perFrameTime * 1000.f));
+    auto duration = std::chrono::milliseconds(static_cast<std::size_t>((endFrame - startFrame) * perFrameTime * 1000.f));
     _frameRate = frameRate;
     init(animation, fromTime, duration);
     return true;
