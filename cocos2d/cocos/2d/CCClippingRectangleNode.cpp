@@ -64,6 +64,7 @@ void ClippingRectangleNode::onBeforeVisitScissor()
     {
         auto renderer = Director::getInstance()->getRenderer();
         _oldScissorTest = renderer->getScissorTest();
+        _oldScissorRect = renderer->getScissorRect();
         renderer->setScissorTest(true);
 
         float scaleX = _scaleX;
@@ -86,8 +87,13 @@ void ClippingRectangleNode::onBeforeVisitScissor()
 
 void ClippingRectangleNode::onAfterVisitScissor()
 {
-    if (_clippingEnabled)
+    if (_clippingEnabled) {
         Director::getInstance()->getRenderer()->setScissorTest(_oldScissorTest);
+        Director::getInstance()->getRenderer()->setScissorRect(_oldScissorRect.x,
+                                                               _oldScissorRect.y,
+                                                               _oldScissorRect.width,
+                                                               _oldScissorRect.height);
+    }
 }
 
 void ClippingRectangleNode::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags)

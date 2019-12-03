@@ -100,6 +100,7 @@ protected:
     bool _clippingEnabled = true;
 
     bool _oldScissorTest = false;
+    ScissorRect _oldScissorRect;
     
     CallbackCommand _beforeVisitCmdScissor;
     CallbackCommand _afterVisitCmdScissor;
