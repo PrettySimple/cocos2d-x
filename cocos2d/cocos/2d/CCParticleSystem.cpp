@@ -333,7 +333,11 @@ bool ParticleSystem::initWithDictionary(ValueMap& dictionary, const std::string&
             _angleVar = dictionary["angleVariance"].asFloat();
 
             // duration
-            _duration = std::chrono::milliseconds{static_cast<int>(dictionary["duration"].asFloat() * 1000.0f)};
+            auto durationms = static_cast<int>(dictionary["duration"].asFloat() * 1000.0f);
+            if (durationms == -1000)
+                _duration = std::chrono::milliseconds::max();
+            else
+                _duration = std::chrono::milliseconds{durationms};
 
             // blend function 
             if (!_configName.empty())
@@ -898,7 +902,7 @@ void ParticleSystem::update(float dt)
         _elapsed += std::chrono::milliseconds{static_cast<int>(1000.0f * dt)};
         if (_elapsed < 0ms)
             _elapsed = 0ms;
-        if (_duration != std::chrono::milliseconds{DURATION_INFINITY} && _duration < _elapsed)
+        if (_duration != std::chrono::milliseconds::max() && _duration < _elapsed)
         {
             this->stopSystem();
         }
