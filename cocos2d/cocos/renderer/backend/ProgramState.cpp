@@ -396,9 +396,11 @@ void ProgramState::setVertexUniform(int location, const void* data, uint32_t siz
     }
     else
     {
+        assert(location + size <= _vertexUniformBufferSize);
         memcpy(_vertexUniformBuffer + location, data, size);
     }
 #else
+    assert(offset + size <= _vertexUniformBufferSize);
     memcpy(_vertexUniformBuffer + offset, data, size);
 #endif
 }
@@ -417,6 +419,7 @@ void ProgramState::setFragmentUniform(int location, const void* data, uint32_t s
     }
     else
     {
+        assert(location + size <= _fragmentUniformBufferSize);
         memcpy(_fragmentUniformBuffer + location, data, size);
     }
 #endif
