@@ -25,6 +25,7 @@
 #import <cocos/audio/ios/CocosDenshion.h>
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 30000
 #    import <AVFoundation/AVFoundation.h>
+#    import <AVFoundation/AVAudioPlayer.h>
 #else
 #    import <cocos/audio/mac/CDXMacOSXSupport.h>
 #endif

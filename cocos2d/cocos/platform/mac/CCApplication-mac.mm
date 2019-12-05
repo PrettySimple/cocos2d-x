@@ -162,7 +162,7 @@ LanguageType Application::getCurrentLanguage()
     NSDictionary* temp = [NSLocale componentsFromLocaleIdentifier:currentLanguage];
     NSString * languageCode = [temp objectForKey:NSLocaleLanguageCode];
     
-    return utils::getLanguageTypeByISO2([languageCode UTF8String]);
+    return ccutils::getLanguageTypeByISO2([languageCode UTF8String]);
 }
 
 bool Application::openURL(const std::string &url)

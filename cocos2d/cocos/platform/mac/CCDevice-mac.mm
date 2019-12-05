@@ -363,7 +363,7 @@ void Device::setKeepScreenOn(bool value)
 {
 }
 
-void Device::vibrate(float duration)
+void Device::vibrate(std::chrono::milliseconds duration)
 {
 }
 
