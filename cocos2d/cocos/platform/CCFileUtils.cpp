@@ -132,6 +132,18 @@ public:
         parser.parse(fileName);
         return _rootArray;
     }
+    
+    ValueVector arrayWithDataOfFile(const char* filedata, int filesize)
+    {
+        _resultType = SAX_RESULT_ARRAY;
+        SAXParser parser;
+        
+        CCASSERT(parser.init("UTF-8"), "The file format isn't UTF-8");
+        parser.setDelegator(this);
+        
+        parser.parse(filedata, filesize);
+        return _rootArray;
+    }
 
     void startElement(void *ctx, const char *name, const char **atts) override
     {

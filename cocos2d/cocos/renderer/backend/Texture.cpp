@@ -53,6 +53,12 @@ namespace
                 return byte(2);
             case PixelFormat::ETC:
                 return bit(4);
+            case PixelFormat::ETC2:
+                return bit(4);
+            case PixelFormat::ETC2A:
+                return bit(4);
+            case PixelFormat::ETC2A1:
+                return bit(4);
             case PixelFormat::ATC_RGB:
                 return bit(4);
             case PixelFormat::ATC_EXPLICIT_ALPHA:

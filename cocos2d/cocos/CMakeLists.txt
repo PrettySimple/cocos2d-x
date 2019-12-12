@@ -31,6 +31,9 @@
 # The version number
 set(COCOS2D_X_VERSION 4.0)
 
+set(CMAKE_CXX11_EXTENSION_COMPILE_OPTION "-std=c++14")
+set(CMAKE_CXX11_STANDARD_COMPILE_OPTION "-std=c++14")
+
 set(COCOS_CORE_LIB cocos2d)
 project(cocos2d_libs)
 
@@ -46,21 +49,6 @@ include(base/CMakeLists.txt)
 include(ui/CMakeLists.txt)
 include(network/CMakeLists.txt)
 include(audio/CMakeLists.txt)
-
-# default value for cocos2dx extensions modules build
-option(BUILD_EDITOR_COCOSTUDIO "Build editor support for cocostudio" ON)
-option(BUILD_EDITOR_SPINE "Build editor support for spine" OFF)
-option(BUILD_EXTENSIONS "Build extension library" ON)
-
-if(BUILD_EDITOR_COCOSTUDIO)
-    include(editor-support/cocostudio/CMakeLists.txt)
-    set(COCOS_EDITOR_SUPPORT_SRC ${COCOS_EDITOR_SUPPORT_SRC} ${COCOS_CS_SRC} ${COCOS_CS_HEADER})
-endif(BUILD_EDITOR_COCOSTUDIO)
-
-if(BUILD_EDITOR_SPINE)
-    include(editor-support/spine/CMakeLists.txt)
-    set(COCOS_EDITOR_SUPPORT_SRC ${COCOS_EDITOR_SUPPORT_SRC} ${COCOS_SPINE_SRC} ${COCOS_SPINE_HEADER})
-endif(BUILD_EDITOR_SPINE)
 
 if(BUILD_EXTENSIONS)
     include(../extensions/CMakeLists.txt)
@@ -109,6 +97,9 @@ add_library(cocos2d ${COCOS_SRC})
 add_subdirectory(${COCOS2DX_ROOT_PATH}/external ${ENGINE_BINARY_PATH}/external)
 target_link_libraries(cocos2d external)
 
+add_subdirectory(${COCOS2DX_ROOT_PATH}/cocos/platform/android ${ENGINE_BINARY_PATH}/android)
+target_link_libraries(cocos2d cpp_android_spec)
+
 # add base macro define and compile options
 use_cocos2dx_compile_define(cocos2d)
 use_cocos2dx_compile_options(cocos2d)
@@ -135,11 +126,6 @@ set_target_properties(cocos2d
                       FOLDER "Internal"
                       )
 
-## Lua bindings lib
-if(BUILD_LUA_LIBS)
-    add_subdirectory(${COCOS2DX_ROOT_PATH}/cocos/scripting/lua-bindings ${ENGINE_BINARY_PATH}/cocos/lua-bindings)
-endif()
-
 if(XCODE OR VS)
     cocos_mark_code_files("cocos2d")
 endif()
@@ -151,4 +137,21 @@ if(WINDOWS)
     set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/precheader.cpp" PROPERTIES COMPILE_FLAGS "/Ycprecheader.h")
     # compile c as c++. needed for precompiled header
     set_source_files_properties(${COCOS_SPINE_SRC} base/ccFPSImages.c PROPERTIES LANGUAGE CXX)
+endif()
+
+if(ANDROID)
+    get_filename_component(LIB_PUBLISH_DIRECTORY
+            "${CMAKE_SOURCE_DIR}/../../../build/built_libs/android/${CMAKE_BUILD_TYPE}/${ANDROID_ABI}"
+            ABSOLUTE
+            )
+
+    file(MAKE_DIRECTORY ${LIB_PUBLISH_DIRECTORY})
+
+
+    add_custom_command(
+            TARGET cocos2d POST_BUILD
+            COMMAND "${CMAKE_COMMAND}" -E
+            copy "${CMAKE_BINARY_DIR}/lib/libcocos2d.a" "${LIB_PUBLISH_DIRECTORY}/libcocos2d.a"
+            COMMENT "Moving libcocos2d.a to output directory"
+    )
 endif()

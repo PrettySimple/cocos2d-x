@@ -56,7 +56,7 @@ public:
      * @param size Specifies the size in bytes of the data store region being replaced.
      * @see `updateSubData(void* data, unsigned int offset, unsigned int size)`
      */
-    virtual void updateData(void* data, unsigned int size) override;
+    virtual void updateData(void* data, unsigned long size) override;
 
     /**
      * @brief Update buffer sub-region data
@@ -65,7 +65,7 @@ public:
      * @param size Specifies the size in bytes of the data store region being replaced.
      * @see `updateData(void* data, unsigned int size)`
      */
-    virtual void updateSubData(void* data, unsigned int offset, unsigned int size) override;
+    virtual void updateSubData(void* data, unsigned long offset, unsigned long size) override;
 
     /**
      * Static buffer data will automatically stored when it comes to foreground.

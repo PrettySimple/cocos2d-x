@@ -26,3 +26,19 @@ set_target_properties(${target_name}
     FOLDER "External"
 )
 
+if(ANDROID)
+    get_filename_component(LIB_PUBLISH_DIRECTORY
+            "${CMAKE_SOURCE_DIR}/../../../build/built_libs/android/${CMAKE_BUILD_TYPE}/${ANDROID_ABI}"
+            ABSOLUTE
+            )
+
+    file(MAKE_DIRECTORY ${LIB_PUBLISH_DIRECTORY})
+
+
+    add_custom_command(
+            TARGET ext_poly2tri POST_BUILD
+            COMMAND "${CMAKE_COMMAND}" -E
+            copy "${CMAKE_BINARY_DIR}/lib/libext_poly2tri.a" "${LIB_PUBLISH_DIRECTORY}/libext_poly2tri.a"
+            COMMENT "Moving libext_poly2tri.a to output directory"
+    )
+endif()

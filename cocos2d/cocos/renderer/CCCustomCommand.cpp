@@ -88,13 +88,19 @@ void CustomCommand::createIndexBuffer(IndexFormat format, unsigned int capacity,
 void CustomCommand::updateVertexBuffer(void* data, unsigned int offset, unsigned int length)
 {   
     assert(_vertexBuffer);
-    _vertexBuffer->updateSubData(data, offset, length);
+    if (offset == 0)
+        _vertexBuffer->updateData(data, length);
+    else
+        _vertexBuffer->updateSubData(data, offset, length);
 }
 
 void CustomCommand::updateIndexBuffer(void* data, unsigned int offset, unsigned int length)
 {
     assert(_indexBuffer);
-    _indexBuffer->updateSubData(data, offset, length);
+    if (offset == 0)
+        _indexBuffer->updateData(data, length);
+    else
+        _indexBuffer->updateSubData(data, offset, length);
 }
 
 void CustomCommand::setVertexBuffer(backend::Buffer *vertexBuffer)

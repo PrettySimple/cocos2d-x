@@ -1,19 +1,23 @@
 cmake_minimum_required(VERSION 3.6)
 
 # need to whole-archive this lib
-set(target_name cpp_android_spec)
+set(lib_name cpp_android_spec)
+set(target_name lib${lib_name})
 
-project(${target_name})
+project(${lib_name})
+
+set (src_dir ${PROJECT_SOURCE_DIR})
+set (cocos_inc ${PROJECT_SOURCE_DIR}/../../..)
 
 set(${target_name}_src
-  CCDevice-android.cpp
-  javaactivity-android.cpp
-  jni/JniHelper.cpp
-  jni/TouchesJni.cpp
-  jni/Java_org_cocos2dx_lib_Cocos2dxAccelerometer.cpp
-  jni/Java_org_cocos2dx_lib_Cocos2dxBitmap.cpp
-  jni/Java_org_cocos2dx_lib_Cocos2dxHelper.cpp
-  jni/Java_org_cocos2dx_lib_Cocos2dxRenderer.cpp
+        ${src_dir}/CCDevice-android.cpp
+        ${src_dir}/javaactivity-android.cpp
+        ${src_dir}/jni/JniHelper.cpp
+        ${src_dir}/jni/TouchesJni.cpp
+        ${src_dir}/jni/Java_org_cocos2dx_lib_Cocos2dxAccelerometer.cpp
+        ${src_dir}/jni/Java_org_cocos2dx_lib_Cocos2dxBitmap.cpp
+        ${src_dir}/jni/Java_org_cocos2dx_lib_Cocos2dxHelper.cpp
+        ${src_dir}/jni/Java_org_cocos2dx_lib_Cocos2dxRenderer.cpp
 )
 
 add_library(${target_name} STATIC
@@ -23,5 +27,6 @@ add_library(${target_name} STATIC
 target_include_directories(${target_name}
   PRIVATE ..
   PRIVATE ../..
-)  
+  PRIVATE ${cocos_inc}
 
+)

@@ -109,7 +109,7 @@ LanguageType Application::getCurrentLanguage()
 {
     const char* code = getCurrentLanguageCode();
 
-    return utils::getLanguageTypeByISO2(code);
+    return ccutils::getLanguageTypeByISO2(code);
 }
 
 Application::Platform Application::getTargetPlatform()

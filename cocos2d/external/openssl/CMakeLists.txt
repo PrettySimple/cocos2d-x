@@ -38,4 +38,3 @@ set_openssl_sub_target(${target_name})
 # -----sub target 2: crypto-----
 set(target_name crypto)
 set_openssl_sub_target(${target_name})
-

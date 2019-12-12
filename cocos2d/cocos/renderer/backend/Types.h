@@ -28,6 +28,7 @@
 
 #include <cstdint>
 #include <string>
+#include <cocos/base/etc2types.h>
 
 CC_BACKEND_BEGIN
 
@@ -100,6 +101,10 @@ enum class PixelFormat
     PVRTC2A,
     //! ETC-compressed texture: ETC
     ETC,
+    //! ETC2-compressed texture: ETC2
+    ETC2,
+    ETC2A,
+    ETC2A1,
     //! S3TC-compressed texture: S3TC_Dxt1
     S3TC_DXT1,
     //! S3TC-compressed texture: S3TC_Dxt3

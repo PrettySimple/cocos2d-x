@@ -29,4 +29,3 @@ elseif(WINDOWS)
     IMPORTED_IMPLIB "${CMAKE_CURRENT_SOURCE_DIR}/../win32-specific/zlib/prebuilt/libzlib.lib"
   )
 endif()
-

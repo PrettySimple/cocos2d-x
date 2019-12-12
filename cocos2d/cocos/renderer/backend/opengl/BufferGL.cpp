@@ -104,8 +104,11 @@ void BufferGL::fillBuffer(void* data, unsigned int offset, unsigned int size)
 }
 #endif
 
-void BufferGL::updateData(void* data, unsigned int size)
+void BufferGL::updateData(void* data, unsigned long size)
 {
+    if (size == 0)
+        return;
+
     assert(size && size <= _size);
     
     if (_buffer)
@@ -129,12 +132,12 @@ void BufferGL::updateData(void* data, unsigned int size)
     }
 }
 
-void BufferGL::updateSubData(void* data, unsigned int offset, unsigned int size)
+void BufferGL::updateSubData(void* data, unsigned long offset, unsigned long size)
 {
 
     CCASSERT(_bufferAllocated != 0, "updateData should be invoke before updateSubData");
-    CCASSERT(offset + size <= _bufferAllocated, "buffer size overflow");
- 
+    CCASSERT(offset + size <= _size, "buffer size overflow");
+
     if (_buffer)
     {
         CHECK_GL_ERROR_DEBUG();
@@ -148,9 +151,16 @@ void BufferGL::updateSubData(void* data, unsigned int offset, unsigned int size)
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffer);
             glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, offset, size, data);
         }
+        _bufferAllocated = std::max(_size, offset+size);
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
         fillBuffer(data, offset, size);
+#endif
+
+//#define ASSERT_ON_GLERROR
+#ifdef ASSERT_ON_GLERROR
+        GLenum error = glGetError();
+        assert(!error);
 #endif
         CHECK_GL_ERROR_DEBUG();
     }

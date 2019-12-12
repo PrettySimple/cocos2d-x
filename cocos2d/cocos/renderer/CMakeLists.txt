@@ -19,7 +19,7 @@ set(COCOS_RENDERER_HEADER
     renderer/CCTextureUtils.h
     renderer/CCTrianglesCommand.h
     renderer/ccShaders.h
-
+    renderer/CCProgramStateCache.h
     renderer/backend/Backend.h
     renderer/backend/Buffer.h
     renderer/backend/CommandBuffer.h
@@ -59,7 +59,7 @@ set(COCOS_RENDERER_SRC
     renderer/CCTextureUtils.cpp
     renderer/CCTrianglesCommand.cpp
     renderer/ccShaders.cpp
-
+    renderer/CCProgramStateCache.cpp
     renderer/backend/CommandBuffer.cpp
     renderer/backend/DepthStencilState.cpp
     renderer/backend/Device.cpp

@@ -233,7 +233,7 @@ namespace ui
          * texture's full rect.
          * @return True if initializes success, false otherwise.
          */
-        virtual bool initWithFile(const std::string& file, const Rect& rect);
+        virtual bool initWithFile(const std::string& file, const Rect& rect) override;
 
         /**
          * Initializes a 9-slice sprite with a texture file and with the specified cap
@@ -258,7 +258,7 @@ namespace ui
          * @param file The name of the texture file.
          * @return True if initializes success, false otherwise.
          */
-        virtual bool initWithFile(const std::string& file);
+        virtual bool initWithFile(const std::string& file) override;
 
         /**
          * Initializes a 9-slice sprite with an sprite frame and with the specified
@@ -282,7 +282,7 @@ namespace ui
          * @param spriteFrame The sprite frame object.
          * @return True if initializes success, false otherwise.
          */
-        virtual bool initWithSpriteFrame(SpriteFrame* spriteFrame);
+        virtual bool initWithSpriteFrame(SpriteFrame* spriteFrame) override;
 
         /**
          * Initializes a 9-slice sprite with an sprite frame name and with the specified
@@ -306,7 +306,7 @@ namespace ui
          * @param spriteFrameName The sprite frame name.
          * @return True if initializes success, false otherwise.
          */
-        virtual bool initWithSpriteFrameName(const std::string& spriteFrameName);
+        virtual bool initWithSpriteFrameName(const std::string& spriteFrameName) override;
 
         // override function
         virtual bool init() override;

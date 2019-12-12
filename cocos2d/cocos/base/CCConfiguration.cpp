@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/CCEventDispatcher.h>
 #include <cocos/renderer/backend/Device.h>
-
+#include "base/etc2types.h"
 NS_CC_BEGIN
 
 extern const char* cocos2dVersion();
@@ -44,6 +44,7 @@ Configuration::Configuration()
 : _maxModelviewStackDepth(0)
 , _supportsPVRTC(false)
 , _supportsETC1(false)
+, _supportsETC2(false)
 , _supportsS3TC(false)
 , _supportsATITC(false)
 , _supportsNPOT(false)
@@ -119,12 +120,17 @@ void Configuration::gatherGPUInfo()
     _valueDict["max_vertex_attributes"] = Value(_deviceInfo->getMaxAttributes());
     _valueDict["max_texture_units"] = Value(_deviceInfo->getMaxTextureUnits());
     _valueDict["max_samples_allowed"] = Value(_deviceInfo->getMaxSamplesAllowed());
-    
+
     _supportsNPOT = true;
     _valueDict["supports_NPOT"] = Value(_supportsNPOT);
     
     _supportsETC1 = _deviceInfo->checkForFeatureSupported(backend::FeatureType::ETC1);
     _valueDict["supports_ETC1"] = Value(_supportsETC1);
+    
+    int glMajorVersion = 0;
+    glGetIntegerv(GL_MAJOR_VERSION, &glMajorVersion);
+    _supportsETC2 = glMajorVersion >= 3;
+    _valueDict["supports_ETC2"] = Value(_supportsETC2);
     
     _supportsS3TC = _deviceInfo->checkForFeatureSupported(backend::FeatureType::S3TC);
     _valueDict["supports_S3TC"] = Value(_supportsS3TC);
@@ -212,6 +218,11 @@ bool Configuration::supportsPVRTC() const
 bool Configuration::supportsETC() const
 {
     return _supportsETC1;
+}
+
+bool Configuration::supportsETC2() const
+{
+    return _supportsETC2;
 }
 
 bool Configuration::supportsS3TC() const

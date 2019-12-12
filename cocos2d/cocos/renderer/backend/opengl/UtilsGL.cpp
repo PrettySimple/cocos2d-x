@@ -261,6 +261,26 @@ void UtilsGL::toGLTypes(PixelFormat textureFormat, GLint &internalFormat, GLuint
         isCompressed = true;
         break;
 #endif // GL_ETC1_RGB8_OES
+#ifdef GL_COMPRESSED_RGBA8_ETC2_EAC
+    case PixelFormat::ETC2:
+        internalFormat = GL_COMPRESSED_RGB8_ETC2;
+        format = 0xFFFFFFFF;
+        type = 0xFFFFFFFF;
+        isCompressed = true;
+        break;
+    case PixelFormat::ETC2A:
+        internalFormat = GL_COMPRESSED_RGBA8_ETC2_EAC;
+        format = 0xFFFFFFFF;
+        type = 0xFFFFFFFF;
+        isCompressed = true;
+        break;
+    case PixelFormat::ETC2A1:
+        internalFormat = GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2;
+        format = 0xFFFFFFFF;
+        type = 0xFFFFFFFF;
+        isCompressed = true;
+        break;
+#endif // GL_COMPRESSED_RGBA8_ETC2_EAC
 #ifdef GL_ATC_RGB_AMD
     case PixelFormat::ATC_RGB:
         internalFormat = GL_ATC_RGB_AMD;
@@ -356,6 +376,8 @@ void UtilsGL::toGLTypes(PixelFormat textureFormat, GLint &internalFormat, GLuint
         internalFormat = GL_DEPTH24_STENCIL8;
         type = GL_UNSIGNED_INT_24_8;
 #endif
+        break;
+    case PixelFormat::NONE:
         break;
     default:
         break;

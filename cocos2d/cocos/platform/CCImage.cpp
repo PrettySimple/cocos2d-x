@@ -32,6 +32,9 @@ THE SOFTWARE.
 
 #include <cocos/base/CCData.h>
 #include <cocos/base/ccConfig.h> // CC_USE_JPEG, CC_USE_WEBP
+#if defined(CC_USE_GL) || defined(CC_USE_GLES)
+#include <cocos/renderer/backend/opengl/UtilsGL.h>
+#endif
 
 extern "C"
 {
@@ -89,6 +92,8 @@ extern "C"
 #include <setjmp.h>
 #endif // CC_USE_JPEG
 }
+#include <cocos/base/etc2.h>
+#include <cocos/base/etc2types.h>
 #include <cocos/base/s3tc.h>
 #include <cocos/base/atitc.h>
 #include <cocos/base/pvr.h>
@@ -252,6 +257,9 @@ namespace
         _pixel3_formathash::value_type(PVR3TexturePixelFormat::PVRTC4BPP_RGBA,      backend::PixelFormat::PVRTC4A),
 
         _pixel3_formathash::value_type(PVR3TexturePixelFormat::ETC1,        backend::PixelFormat::ETC),
+        _pixel3_formathash::value_type(PVR3TexturePixelFormat::ETC2_RGB,    backend::PixelFormat::ETC2),
+        _pixel3_formathash::value_type(PVR3TexturePixelFormat::ETC2_RGBA,   backend::PixelFormat::ETC2A),
+        _pixel3_formathash::value_type(PVR3TexturePixelFormat::ETC2_RGBA1,  backend::PixelFormat::ETC2A1),
     };
         
     static const int PVR3_MAX_TABLE_ELEMENTS = sizeof(v3_pixel_formathash_value) / sizeof(v3_pixel_formathash_value[0]);
@@ -467,6 +475,17 @@ backend::PixelFormat getDevicePixelFormat(backend::PixelFormat format)
                 return format;
             else
                 return backend::PixelFormat::RGB888;
+        case backend::PixelFormat::ETC2:
+            if(Configuration::getInstance()->supportsETC2())
+                return format;
+            else
+                return backend::PixelFormat::RGB888;
+        case backend::PixelFormat::ETC2A1:
+        case backend::PixelFormat::ETC2A:
+            if(Configuration::getInstance()->supportsETC2())
+                return format;
+            else
+                return backend::PixelFormat::RGBA8888;
         default:
             return format;
     }
@@ -1083,6 +1102,9 @@ namespace
             case PVR3TexturePixelFormat::A8:
             case PVR3TexturePixelFormat::L8:
             case PVR3TexturePixelFormat::LA88:
+            case PVR3TexturePixelFormat::ETC2_RGB:
+            case PVR3TexturePixelFormat::ETC2_RGBA1:
+            case PVR3TexturePixelFormat::ETC2_RGBA:
                 return true;
                 
             default:
@@ -1380,6 +1402,53 @@ bool Image::initWithPVRv3Data(const unsigned char * data, ssize_t dataLen)
                 blockSize = 1;
                 widthBlocks = width;
                 heightBlocks = height;
+                break;
+            case PVR3TexturePixelFormat::ETC2_RGB:
+            case PVR3TexturePixelFormat::ETC2_RGBA1:
+            case PVR3TexturePixelFormat::ETC2_RGBA:
+                if (!Configuration::getInstance()->supportsETC2())
+                {
+                    CCLOG("cocos2d: Hardware ETC2 decoder not present. Using software decoder");
+                    int bytePerPixel;
+                    if (pixelFormat == PVR3TexturePixelFormat::ETC2_RGB)
+                    {
+                        bytePerPixel = 3;
+                    }
+                    else
+                    {
+                        bytePerPixel = 4;
+                    }
+                    _unpack = true;
+                    _mipmaps[i].len = width*height*bytePerPixel;
+
+                    // Compute the internal format for the ETC2 unpack
+                    GLint internalFormat = -1;
+#if defined(CC_USE_GL) || defined(CC_USE_GLES)
+                    backend::PixelFormat textureFormat = (pixelFormat == PVR3TexturePixelFormat::ETC2_RGB ? backend::PixelFormat::ETC2 :
+                                                          pixelFormat == PVR3TexturePixelFormat::ETC2_RGBA1 ? backend::PixelFormat::ETC2A :
+                                                          pixelFormat == PVR3TexturePixelFormat::ETC2_RGBA ? backend::PixelFormat::ETC2A1 :
+                                                          backend::PixelFormat::NONE);
+                    assert(textureFormat != backend::PixelFormat::NONE);
+                    
+                    GLuint format;
+                    GLenum type;
+                    bool isCompressed;
+                    backend::UtilsGL::toGLTypes(textureFormat, internalFormat, format, type, isCompressed);
+#elif defined(CC_USE_METAL)
+                    internalFormat = (pixelFormat == PVR3TexturePixelFormat::ETC2_RGB ? GL_COMPRESSED_RGB8_ETC2 :
+                                      pixelFormat == PVR3TexturePixelFormat::ETC2_RGBA1 ? GL_COMPRESSED_RGBA8_ETC2_EAC :
+                                      pixelFormat == PVR3TexturePixelFormat::ETC2_RGBA ? GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2 :
+                                      -1);
+#endif
+                    assert(internalFormat != -1);
+                    if (etc2_decode_image(static_cast<const unsigned char*>(_data+dataOffset), internalFormat, width, height, static_cast<unsigned char**>(&_mipmaps[i].address)) != 0)
+                    {
+                        return false;
+                    }
+                }
+                blockSize = 4 * 4;
+                widthBlocks = width / 4;
+                heightBlocks = height / 4;
                 break;
         }
         

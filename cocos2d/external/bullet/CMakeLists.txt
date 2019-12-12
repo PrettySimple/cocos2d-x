@@ -66,5 +66,3 @@ else()
     INTERFACE_LINK_LIBRARIES "minicl"
   )
 endif()
-
-

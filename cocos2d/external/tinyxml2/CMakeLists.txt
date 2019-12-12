@@ -30,3 +30,19 @@ set_target_properties(${target_name}
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     FOLDER "External"
 )
+if(ANDROID)
+  get_filename_component(LIB_PUBLISH_DIRECTORY
+          "${CMAKE_SOURCE_DIR}/../../../build/built_libs/android/${CMAKE_BUILD_TYPE}/${ANDROID_ABI}"
+          ABSOLUTE
+          )
+
+  file(MAKE_DIRECTORY ${LIB_PUBLISH_DIRECTORY})
+
+
+  add_custom_command(
+          TARGET ext_tinyxml2 POST_BUILD
+          COMMAND "${CMAKE_COMMAND}" -E
+          copy "${CMAKE_BINARY_DIR}/lib/libext_tinyxml2.a" "${LIB_PUBLISH_DIRECTORY}/libext_tinyxml2.a"
+          COMMENT "Moving libext_tinyxml2.a to output directory"
+  )
+endif()

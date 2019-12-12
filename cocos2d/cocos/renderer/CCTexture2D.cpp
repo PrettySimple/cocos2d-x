@@ -48,7 +48,7 @@ THE SOFTWARE.
 #include <cocos/renderer/ccShaders.h>
 #include <cocos/renderer/CCTextureUtils.h>
 #include <cocos/renderer/CCRenderer.h>
-
+#include "base/etc2types.h"
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     #include <cocos/renderer/CCTextureCache.h>
 #endif
@@ -80,6 +80,12 @@ namespace {
         
 #if defined(GL_ETC1_RGB8_OES) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
         PixelFormatInfoMapValue(backend::PixelFormat::ETC, Texture2D::PixelFormatInfo(4, true, false)),
+#endif
+        
+#ifdef GL_COMPRESSED_RGBA8_ETC2_EAC
+        PixelFormatInfoMapValue(backend::PixelFormat::ETC2, Texture2D::PixelFormatInfo(4, true, false)),
+        PixelFormatInfoMapValue(backend::PixelFormat::ETC2A, Texture2D::PixelFormatInfo(4, true, false)),
+        PixelFormatInfoMapValue(backend::PixelFormat::ETC2A1, Texture2D::PixelFormatInfo(4, true, false)),
 #endif
         
 #if defined(GL_COMPRESSED_RGBA_S3TC_DXT1_EXT) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
@@ -260,6 +266,7 @@ bool Texture2D::initWithMipmaps(MipmapInfo* mipmaps, int mipmapsNum, backend::Pi
 
     if (info.compressed && !Configuration::getInstance()->supportsPVRTC()
         && !Configuration::getInstance()->supportsETC()
+        && !Configuration::getInstance()->supportsETC2()
         && !Configuration::getInstance()->supportsS3TC()
         && !Configuration::getInstance()->supportsATITC())
     {

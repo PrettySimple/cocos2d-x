@@ -33,6 +33,8 @@ set(COCOS_BASE_HEADER
     base/CCEventListenerController.h
     base/s3tc.h
     base/etc1.h
+    base/etc2.h
+  	base/etc2types.h
     base/CCGameController.h
     base/CCConsole.h
     base/ccConstants.h
@@ -71,7 +73,6 @@ set(COCOS_BASE_HEADER
     base/CCIMEDelegate.h
     base/CCNS.h
     base/CCAutoreleasePool.h
-    base/CCStencilStateManager.h
     base/CCEventListenerTouch.h
     base/CCEventListenerAcceleration.h
     base/firePngData.h
@@ -133,6 +134,9 @@ set(COCOS_BASE_SRC
     base/etc1.cpp
     base/pvr.cpp
     base/s3tc.cpp
+    base/etc2.cpp
+  	base/etc2unpack.cpp
+  	base/etcdec.cxx
     ${COCOS_BASE_SPECIFIC_SRC}
 
     )

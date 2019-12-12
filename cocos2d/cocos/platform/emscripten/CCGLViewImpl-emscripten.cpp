@@ -17,7 +17,6 @@
 #    include <cocos/renderer/CCGLProgramCache.h>
 #    include <cocos/renderer/CCRenderer.h>
 #    include <cocos/renderer/CCTextureCache.h>
-#    include <cocos/renderer/ccGLStateCache.h>
 
 #    include <cassert>
 #    include <chrono>

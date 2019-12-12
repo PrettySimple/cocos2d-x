@@ -29,8 +29,6 @@
 #    include <cocos/renderer/CCGLProgramCache.h>
 #    include <cocos/renderer/CCRenderState.h>
 #    include <cocos/renderer/CCRenderer.h>
-#    include <cocos/renderer/ccGLStateCache.h>
-
 NS_CC_BEGIN
 
 NavMeshDebugDraw::NavMeshDebugDraw()
