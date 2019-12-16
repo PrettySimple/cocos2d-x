@@ -127,9 +127,13 @@ void Configuration::gatherGPUInfo()
     _supportsETC1 = _deviceInfo->checkForFeatureSupported(backend::FeatureType::ETC1);
     _valueDict["supports_ETC1"] = Value(_supportsETC1);
     
+#if defined(CC_USE_GL) || defined(CC_USE_GLES)
     int glMajorVersion = 0;
     glGetIntegerv(GL_MAJOR_VERSION, &glMajorVersion);
     _supportsETC2 = glMajorVersion >= 3;
+#else
+    _supportsETC2 = false;
+#endif
     _valueDict["supports_ETC2"] = Value(_supportsETC2);
     
     _supportsS3TC = _deviceInfo->checkForFeatureSupported(backend::FeatureType::S3TC);
