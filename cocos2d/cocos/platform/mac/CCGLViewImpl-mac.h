@@ -88,6 +88,7 @@ public:
     void setWindowed(int width, int height);
     int getMonitorCount() const;
     Size getMonitorSize() const;
+    virtual Size getFramebufferSize() const override;
 
     /* override functions */
     virtual bool isOpenGLReady() override;

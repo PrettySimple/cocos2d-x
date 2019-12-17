@@ -31,6 +31,9 @@
 #include "../Macros.h"
 #include "BufferManager.h"
 #include "DepthStencilStateMTL.h"
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+#include "cocos/base/CCDirector.h"
+#endif
 
 CC_BACKEND_BEGIN
 
@@ -485,6 +488,16 @@ void CommandBufferMTL::setLineWidth(float lineWidth)
 void CommandBufferMTL::setScissorRect(bool isEnabled, float x, float y, float width, float height)
 {
     MTLScissorRect scissorRect;
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+    // Check against Frame buffer size to prevent crash on window resize
+    auto frameBufferSize = Director::getInstance()->getOpenGLView()->getFramebufferSize();
+    if (_renderTargetWidth > frameBufferSize.width)
+        _renderTargetWidth = frameBufferSize.width;
+    if (_renderTargetHeight > frameBufferSize.height)
+        _renderTargetHeight = frameBufferSize.height;
+#endif
+    
     if(isEnabled)
     {
         scissorRect.x = static_cast<unsigned long>(std::max(0.0f, x));

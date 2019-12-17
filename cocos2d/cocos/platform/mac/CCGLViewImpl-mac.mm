@@ -24,7 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include <cocos/platform/desktop/CCGLViewImpl-desktop.h>
+#include "CCGLViewImpl-mac.h"
 
 #include <cmath>
 #include <unordered_map>
@@ -614,6 +614,17 @@ Size GLViewImpl::getMonitorSize() const {
         return size;
     }
     return Size::ZERO;
+}
+
+Size GLViewImpl::getFramebufferSize() const
+{
+    int frameBufferW = 0, frameBufferH = 0;
+    glfwGetFramebufferSize(_mainWindow, &frameBufferW, &frameBufferH);
+    Size size{
+        static_cast<float>(frameBufferW),
+        static_cast<float>(frameBufferH)
+    };
+    return size;
 }
 
 void GLViewImpl::updateFrameSize()

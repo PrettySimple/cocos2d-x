@@ -173,6 +173,14 @@ public:
      * @param height The height of the fram size.
      */
     virtual void setFrameSize(float width, float height);
+    
+    
+    /**
+     * Get the frame buffer size of EGL view.
+     *
+     * @return The frame size of EGL view.
+     */
+    virtual Size getFramebufferSize() const { return Size::ZERO; }
 
     /** Set zoom factor for frame. This methods are for
      * debugging big resolution (e.g.new ipad) app on desktop.
