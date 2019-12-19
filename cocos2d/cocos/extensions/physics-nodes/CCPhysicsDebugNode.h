@@ -20,8 +20,7 @@
  * SOFTWARE.
  */
 
-#ifndef CC_EXTENSIONS_PHYSICSNODES_DEBUGNODE_H
-#define CC_EXTENSIONS_PHYSICSNODES_DEBUGNODE_H
+#pragma once
 
 #include <cocos/2d/CCDrawNode.h>
 #include <cocos/extensions/ExtensionExport.h>
@@ -66,5 +65,3 @@ protected:
 };
 
 NS_CC_EXT_END
-
-#endif // CC_EXTENSIONS_PHYSICSNODES_DEBUGNODE_H

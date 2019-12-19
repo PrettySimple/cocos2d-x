@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_UI_SCALE9SPRITE_H
-#define CC_UI_SCALE9SPRITE_H
+#pragma once
 
 #include <cocos/2d/CCSprite.h>
 #include <cocos/base/CCProtocols.h>
@@ -456,7 +455,7 @@ namespace ui
          * @param spriteFrame A sprite frame pointer.
          * @param capInsets The values to use for the cap insets.
          */
-        virtual void setSpriteFrame(SpriteFrame* spriteFrame, const Rect& capInsets = Rect::ZERO);
+        virtual void setSpriteFrame(SpriteFrame* spriteFrame) override;
 
         // overrides
         virtual void setContentSize(const Size& size) override;
@@ -678,7 +677,7 @@ namespace ui
         void adjustNoneScale9ImagePosition();
         void configureSimpleModeRendering();
         void applyBlendFunc();
-        void updateBlendFunc(Texture2D* texture);
+        void updateBlendFuncWithTexture(Texture2D* texture);
         std::vector<Vec2> calculateUV(Texture2D* tex, const Rect& capInsets, const Size& originalSize, const Vec4& offsets);
         std::vector<Vec2> calculateVertices(const Rect& capInsets, const Size& originalSize, const Vec4& offsets);
         TrianglesCommand::Triangles calculateTriangles(const std::vector<Vec2>& uv, const std::vector<Vec2>& vertices);
@@ -690,7 +689,6 @@ namespace ui
         Sprite* _scale9Image; // the original sprite
 
         bool _scale9Enabled;
-        BlendFunc _blendFunc;
 
         /** Original sprite's size. */
         Size _originalSize;
@@ -709,8 +707,6 @@ namespace ui
         /** Sets the bottom side inset */
         float _insetBottom;
 
-        bool _flippedX;
-        bool _flippedY;
         bool _isPatch9;
         State _brightState;
         Vec2 _nonSliceSpriteAnchor;
@@ -723,13 +719,9 @@ namespace ui
 #if CC_SPRITE_DEBUG_DRAW
         DrawNode* _debugDrawNode;
 #endif // CC_SPRITE_DEBUG_DRAW
-        bool _insideBounds; /// whether or not the sprite was inside bounds the previous frame
-        TrianglesCommand _trianglesCommand; ///
     };
 
 } // namespace ui
 } // end of namespace
 // end of ui group
 /// @}
-
-#endif // CC_UI_SCALE9SPRITE_H

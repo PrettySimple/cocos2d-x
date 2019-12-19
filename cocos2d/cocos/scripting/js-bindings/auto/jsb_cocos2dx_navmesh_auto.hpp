@@ -1,7 +1,6 @@
 #include "base/ccConfig.h"
 #if CC_USE_NAVMESH
-#ifndef __cocos2dx_navmesh_h__
-#define __cocos2dx_navmesh_h__
+#pragma once
 
 #include "jsapi.h"
 #include "jsfriendapi.h"
@@ -81,4 +80,3 @@ bool js_cocos2dx_navmesh_NavMesh_create(JSContext *cx, uint32_t argc, jsval *vp)
 bool js_cocos2dx_navmesh_NavMesh_NavMesh(JSContext *cx, uint32_t argc, jsval *vp);
 
 #endif // __cocos2dx_navmesh_h__
-#endif //#if CC_USE_NAVMESH

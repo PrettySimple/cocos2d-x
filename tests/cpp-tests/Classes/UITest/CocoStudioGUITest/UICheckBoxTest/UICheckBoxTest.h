@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__UICheckBoxTest__
-#define __TestCpp__UICheckBoxTest__
+#pragma once
 
 #include "../UIScene.h"
 
@@ -73,4 +72,3 @@ public:
 protected:
     cocos2d::ui::Text* _displayValueLabel;
 };
-#endif /* defined(__TestCpp__UICheckBoxTest__) */

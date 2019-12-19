@@ -1,5 +1,5 @@
-#ifndef CC_EDITORSUPPORT_COCOSBUILDER_MENUITEMIMAGELOADER_H
-#define CC_EDITORSUPPORT_COCOSBUILDER_MENUITEMIMAGELOADER_H
+
+#pragma once
 
 #include "CCMenuItemLoader.h"
 
@@ -37,5 +37,3 @@ namespace cocosbuilder
     };
 
 } // namespace cocosbuilder
-
-#endif // CC_EDITORSUPPORT_COCOSBUILDER_MENUITEMIMAGELOADER_H

@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef VERTICAL_STACK_H
-#define VERTICAL_STACK_H
+#pragma once
 
 class VerticalStack : public Test
 {
@@ -161,5 +160,3 @@ public:
 	b2Body* m_bodies[e_rowCount * e_columnCount];
 	int32 m_indices[e_rowCount * e_columnCount];
 };
-
-#endif

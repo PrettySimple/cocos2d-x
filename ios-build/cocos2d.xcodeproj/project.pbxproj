@@ -63,7 +63,6 @@
 		1F89134956394F859A8E6B2E /* CCPhysicsWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 082D51F530E740978B2F944E /* CCPhysicsWorld.cpp */; };
 		1FFBFFBD7D9640A9AC3B5CE0 /* CCTechnique.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 322FD45E51414BD2988B3608 /* CCTechnique.cpp */; };
 		21191644836443C1BE3DF743 /* CCTextureCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3C899D8AE9B4F379F4B81CD /* CCTextureCache.cpp */; };
-		216DA508E81D40D0B5DBB4EE /* AudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1BC3365365624A899CA70FEF /* AudioPlayer.mm */; };
 		21E05424916D4B9B916CC6D9 /* CCPUOnEmissionObserver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59C5A0B1917D40FFBB0AC630 /* CCPUOnEmissionObserver.cpp */; };
 		229339A1D9FF4B5EA3240636 /* CCUserDefault.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6111ABE7ECFF4629BC0566B2 /* CCUserDefault.cpp */; };
 		242E1C37F95547F180A20157 /* CCPUForceFieldAffector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 06209809EB934385A36F3CCA /* CCPUForceFieldAffector.cpp */; };
@@ -136,14 +135,22 @@
 		498727388E334398A4361D5E /* CCParallaxNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04E236CAFA7148E69A3AFB7D /* CCParallaxNode.cpp */; };
 		4A15DC482358C932008A24D3 /* CCActionManagerData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A15DC472358C932008A24D3 /* CCActionManagerData.cpp */; };
 		4A35C2E02375C33B00DD3A6E /* CCProgramStateCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A35C2DE2375C33B00DD3A6E /* CCProgramStateCache.cpp */; };
+		4A484E0623ABD1B60098CCD0 /* CCProtocols.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A484E0523ABD1B60098CCD0 /* CCProtocols.cpp */; };
+		4A484E0823ABD4620098CCD0 /* CCApplicationProtocol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A484E0723ABD4610098CCD0 /* CCApplicationProtocol.cpp */; };
+		4A484E0923ABD4AC0098CCD0 /* CCApplicationProtocol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A484E0723ABD4610098CCD0 /* CCApplicationProtocol.cpp */; };
+		4A4A913123AA80080070852B /* AudioEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4A913023AA80070070852B /* AudioEngine.cpp */; };
+		4A4A913B23AA80180070852B /* AudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4A4A913423AA80170070852B /* AudioPlayer.mm */; };
+		4A4A913C23AA80180070852B /* AudioDecoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4A4A913523AA80170070852B /* AudioDecoder.mm */; };
+		4A4A913D23AA80180070852B /* AudioEngine-inl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4A4A913623AA80170070852B /* AudioEngine-inl.mm */; };
+		4A4A913E23AA80180070852B /* AudioCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4A4A913A23AA80170070852B /* AudioCache.mm */; };
+		4A4A913F23AA80220070852B /* AudioCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4A4A913A23AA80170070852B /* AudioCache.mm */; };
+		4A4A914023AA80220070852B /* AudioDecoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4A4A913523AA80170070852B /* AudioDecoder.mm */; };
+		4A4A914123AA80220070852B /* AudioEngine-inl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4A4A913623AA80170070852B /* AudioEngine-inl.mm */; };
+		4A4A914223AA80220070852B /* AudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4A4A913423AA80170070852B /* AudioPlayer.mm */; };
+		4A4A914323AA805B0070852B /* AudioEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4A913023AA80070070852B /* AudioEngine.cpp */; };
 		4A6A99842370726B009F16ED /* HttpAsynConnection-apple.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A99812370726B009F16ED /* HttpAsynConnection-apple.m */; };
 		4A6A99852370726B009F16ED /* HttpCookie.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A99822370726B009F16ED /* HttpCookie.cpp */; };
 		4A6A99862370726B009F16ED /* HttpClient-apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A99832370726B009F16ED /* HttpClient-apple.mm */; };
-		4A6A99912370765C009F16ED /* CDOpenALSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A99872370765B009F16ED /* CDOpenALSupport.m */; };
-		4A6A99942370765C009F16ED /* CDAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A998E2370765C009F16ED /* CDAudioManager.m */; };
-		4A6A99952370765C009F16ED /* CocosDenshion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A998F2370765C009F16ED /* CocosDenshion.m */; };
-		4A6A999A237076D8009F16ED /* ALAudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A9996237076D7009F16ED /* ALAudioPlayer.mm */; };
-		4A6A999B237076D8009F16ED /* SimpleAudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A9998237076D8009F16ED /* SimpleAudioPlayer.mm */; };
 		4A6A9A1723707898009F16ED /* CCRay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A99E623707898009F16ED /* CCRay.cpp */; };
 		4A6A9A1823707898009F16ED /* CCMotionStreak3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A99E823707898009F16ED /* CCMotionStreak3D.cpp */; };
 		4A6A9A1923707898009F16ED /* CCOBB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A99ED23707898009F16ED /* CCOBB.cpp */; };
@@ -188,12 +195,6 @@
 		4AA03EEF2359B64F00FF6471 /* libext_xxhash.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53871338FEB9452094212219 /* libext_xxhash.a */; };
 		4AA03EF02359B64F00FF6471 /* libext_xxtea.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A48971B2697B402A82248203 /* libext_xxtea.a */; };
 		4AA03EF12359B64F00FF6471 /* libexternal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 471C958B89184404B173FDFD /* libexternal.a */; };
-		4AA4552823980DB90065F45F /* SimpleAudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A9998237076D8009F16ED /* SimpleAudioPlayer.mm */; };
-		4AA4552923980E4C0065F45F /* AudioEngine-inl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6C39CDD0071740949BD1C1AC /* AudioEngine-inl.mm */; };
-		4AA4552A23980E7E0065F45F /* AudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1BC3365365624A899CA70FEF /* AudioPlayer.mm */; };
-		4AA4552B23980EAF0065F45F /* AudioCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = F04284EA4AB64629A5A3A492 /* AudioCache.mm */; };
-		4AA4552C23980ED00065F45F /* AudioDecoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 587BD2A7EF36429DB308509E /* AudioDecoder.mm */; };
-		4AA4552D23980EF10065F45F /* ALAudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A9996237076D7009F16ED /* ALAudioPlayer.mm */; };
 		4AA793E6D9A54798A5F7D6C8 /* CCPUEventHandlerManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA78602078D748F787FAC60D /* CCPUEventHandlerManager.cpp */; };
 		4ACB1EAC2397FE150025B0A8 /* CCAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAFC06A1BDCC4ADEB4A4965A /* CCAction.cpp */; };
 		4ACB1EAD2397FE150025B0A8 /* CCActionCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B2E0115D74D4AE98B57F2A4 /* CCActionCamera.cpp */; };
@@ -270,7 +271,6 @@
 		4ACB1EF62397FE150025B0A8 /* CCTransitionPageTurn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A69432746A7B43659ED34DE6 /* CCTransitionPageTurn.cpp */; };
 		4ACB1EF72397FE150025B0A8 /* CCTransitionProgress.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB90D0F4628542F6A666B0B0 /* CCTransitionProgress.cpp */; };
 		4ACB1EF82397FE150025B0A8 /* CCTweenFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8562D6F86D3348A785661341 /* CCTweenFunction.cpp */; };
-		4ACB1EF92397FE150025B0A8 /* AudioEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9A40C8D5C6354F77856913B2 /* AudioEngine.cpp */; };
 		4ACB1EFB2397FE150025B0A8 /* CCAttachNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A9A0A23707898009F16ED /* CCAttachNode.cpp */; };
 		4ACB1EFF2397FE150025B0A8 /* CCAsyncTaskPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E20C66A7BB4BB780FEB45A /* CCAsyncTaskPool.cpp */; };
 		4ACB1F002397FE150025B0A8 /* CCAutoreleasePool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E02839D6284A48F4860321B7 /* CCAutoreleasePool.cpp */; };
@@ -645,14 +645,6 @@
 		4ACB20FA2397FF210025B0A8 /* libext_xxhash Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ACB20B92397FE1E0025B0A8 /* libext_xxhash Mac.a */; };
 		4ACB20FB2397FF210025B0A8 /* libext_xxtea Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ACB20C02397FE1E0025B0A8 /* libext_xxtea Mac.a */; };
 		4ACB20FC2397FF210025B0A8 /* libexternal Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ACB20DB2397FE1F0025B0A8 /* libexternal Mac.a */; };
-		4ACB214C239802800025B0A8 /* SimpleAudioEngine_objc.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A998C2370765C009F16ED /* SimpleAudioEngine_objc.m */; };
-		4ACB214D2398028A0025B0A8 /* SimpleAudioEngine_objc.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ACB2144239802710025B0A8 /* SimpleAudioEngine_objc.m */; };
-		4ACB214E2398028F0025B0A8 /* CDOpenALSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ACB213B239802710025B0A8 /* CDOpenALSupport.m */; };
-		4ACB214F239802950025B0A8 /* CDAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ACB213C239802710025B0A8 /* CDAudioManager.m */; };
-		4ACB21502398029A0025B0A8 /* CocosDenshion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ACB213E239802710025B0A8 /* CocosDenshion.m */; };
-		4ACB2151239802A00025B0A8 /* CDXMacOSXSupport.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4ACB2142239802710025B0A8 /* CDXMacOSXSupport.mm */; };
-		4ACB2152239802A60025B0A8 /* SimpleAudioEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4ACB2145239802710025B0A8 /* SimpleAudioEngine.mm */; };
-		4ACB2153239802EA0025B0A8 /* SimpleAudioEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A998A2370765C009F16ED /* SimpleAudioEngine.mm */; };
 		4ACB21632398045A0025B0A8 /* CCGLViewImpl-mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4ACB215B239804590025B0A8 /* CCGLViewImpl-mac.mm */; };
 		4ACB21642398045A0025B0A8 /* CCDevice-mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4ACB215E239804590025B0A8 /* CCDevice-mac.mm */; };
 		4ACB21652398045A0025B0A8 /* CCApplication-mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4ACB215F239804590025B0A8 /* CCApplication-mac.mm */; };
@@ -673,7 +665,6 @@
 		510AFFA2705140B4B2AE220B /* CCPUBoxEmitterTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4E89B690E6348C4B51A14AA /* CCPUBoxEmitterTranslator.cpp */; };
 		51DB86ECFE304324AEFD457D /* CCProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD591597FBAB4D9793D27BC7 /* CCProperties.cpp */; };
 		52203FA6DC894A90BF655164 /* CCPUTranslateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B4CC93E816C49F4814E8577 /* CCPUTranslateManager.cpp */; };
-		52A9BF2D85E74CED95AC6DF1 /* AudioCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = F04284EA4AB64629A5A3A492 /* AudioCache.mm */; };
 		52F281861AAF417AAABB2C66 /* ShaderModuleMTL.mm in Sources */ = {isa = PBXBuildFile; fileRef = CBB26B3C01C84C80A8247B55 /* ShaderModuleMTL.mm */; };
 		5311D9AAFCFD4C519CBED112 /* CCPUMaterialTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD74ED3468AE4F5E9979BF0C /* CCPUMaterialTranslator.cpp */; };
 		5347FF7A287D4FDB884E433E /* CCController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3601E028C9C34376A37B0072 /* CCController.cpp */; };
@@ -724,7 +715,6 @@
 		6F858E10747E4365BA84D74A /* CCDevice-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 307768014C3B483585E848C6 /* CCDevice-ios.mm */; };
 		6FABE048D9A243FCA99EFCE9 /* CCEventAcceleration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A13F022AE0F942F9B676CB8B /* CCEventAcceleration.cpp */; };
 		7037E17271E9481D96B9FCB4 /* AssetsManagerEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6938C9CEDE8349EEBCCBB8CC /* AssetsManagerEx.cpp */; };
-		70794670882C4CD187361A2C /* AudioEngine-inl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6C39CDD0071740949BD1C1AC /* AudioEngine-inl.mm */; };
 		7084F19B57364CC7BFC0D50D /* CCPULineEmitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 887C59ADD07648C48C8FEB68 /* CCPULineEmitter.cpp */; };
 		717EEB18F22B479B8D300354 /* sweep.cc in Sources */ = {isa = PBXBuildFile; fileRef = CF539DDAE00143F3826D5B71 /* sweep.cc */; };
 		71945D0CE5AA4CAEAB255DEF /* CCPUVortexAffectorTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF6959A0D9534FC395EC7EBF /* CCPUVortexAffectorTranslator.cpp */; };
@@ -746,7 +736,6 @@
 		7ADF648EA3EF4C489A66E0EB /* CCTextureCube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74626388CBCD44B585454FBC /* CCTextureCube.cpp */; };
 		7BB26912F2B54266B50DD667 /* CCPUEventHandlerTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B78DBF90DEBE4A77943FF227 /* CCPUEventHandlerTranslator.cpp */; };
 		7D05B979AB8048D9A83A58AA /* CCActionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52AB11F6390C4E3C8C818360 /* CCActionManager.cpp */; };
-		7D402CB98480455ABAEC7681 /* AudioEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9A40C8D5C6354F77856913B2 /* AudioEngine.cpp */; };
 		7D8919781CE247FA93ACEC1A /* CCPhysics3DShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB76B11B677147CCB1142ACA /* CCPhysics3DShape.cpp */; };
 		7F727A84C7C34292BB62EE85 /* CCPUVelocityMatchingAffectorTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 875E9BC32C004433B76DBBCD /* CCPUVelocityMatchingAffectorTranslator.cpp */; };
 		7FBCAD3E4FEB429B80B7DDCC /* CCSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9F9BC48A1414ECDAD870A6E /* CCSprite.cpp */; };
@@ -863,7 +852,6 @@
 		C8B49D7D8CA642B48E14FDFA /* cdt.cc in Sources */ = {isa = PBXBuildFile; fileRef = E15C699398B040BCAE403C45 /* cdt.cc */; };
 		C9860274FF2543D2ABE54FDE /* CCPURandomiserTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE9381E1EA4E4F619FAD8CC5 /* CCPURandomiserTranslator.cpp */; };
 		CA071854AF2B4DCE9445E6F2 /* CCFastTMXTiledMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3EB0FC1394647F29FB65C68 /* CCFastTMXTiledMap.cpp */; };
-		CA9950CB45EF4761B1F735F6 /* AudioDecoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 587BD2A7EF36429DB308509E /* AudioDecoder.mm */; };
 		CB2634E4C6A74ABE975637C4 /* DetourPathCorridor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F085FDC9EBB42C7B2C77080 /* DetourPathCorridor.cpp */; };
 		CB51E974F63F498EB7FE3839 /* tinyxml2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A0EBDDBD43C4639818FFC43 /* tinyxml2.cpp */; };
 		CB8451EBC5F149C0B042F8E3 /* CCPUParticleSystem3DTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F4660DF762348EB8D31F43B /* CCPUParticleSystem3DTranslator.cpp */; };
@@ -1359,7 +1347,6 @@
 		1AD88CA481D742BEAC2F3BF4 /* ComAudioReader.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ComAudioReader.cpp; path = "cocos2d/cocos/editor-support/cocostudio/WidgetReader/ComAudioReader/ComAudioReader.cpp"; sourceTree = SOURCE_ROOT; };
 		1B0A04F6DAFC437F9F8DABA6 /* CCPUOnCountObserver.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCPUOnCountObserver.h; path = cocos2d/extensions/Particle3D/PU/CCPUOnCountObserver.h; sourceTree = SOURCE_ROOT; };
 		1B925E5F7BD14D79B2B4A1B2 /* GameMapReader.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = GameMapReader.h; path = "cocos2d/cocos/editor-support/cocostudio/WidgetReader/GameMapReader/GameMapReader.h"; sourceTree = SOURCE_ROOT; };
-		1BC3365365624A899CA70FEF /* AudioPlayer.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = AudioPlayer.mm; path = cocos2d/cocos/audio/apple/AudioPlayer.mm; sourceTree = SOURCE_ROOT; };
 		1BD0C9B905204ECB9EAAAE44 /* CCActionFrame.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCActionFrame.cpp; path = "cocos2d/cocos/editor-support/cocostudio/CCActionFrame.cpp"; sourceTree = SOURCE_ROOT; };
 		1C26D6C6322B4FA4BE057FF4 /* DepthStencilState.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = DepthStencilState.cpp; path = cocos2d/cocos/renderer/backend/DepthStencilState.cpp; sourceTree = SOURCE_ROOT; };
 		1C3130D500414686B39D48F8 /* CCPUOnCountObserverTranslator.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCPUOnCountObserverTranslator.cpp; path = cocos2d/extensions/Particle3D/PU/CCPUOnCountObserverTranslator.cpp; sourceTree = SOURCE_ROOT; };
@@ -1426,7 +1413,6 @@
 		2BF8D910001345DE8FEE1197 /* CocosStudioExport.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CocosStudioExport.h; path = "cocos2d/cocos/editor-support/cocostudio/CocosStudioExport.h"; sourceTree = SOURCE_ROOT; };
 		2C0B786D01DF42A9B2399045 /* UserCameraReader.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = UserCameraReader.h; path = "cocos2d/cocos/editor-support/cocostudio/WidgetReader/UserCameraReader/UserCameraReader.h"; sourceTree = SOURCE_ROOT; };
 		2C5CF277B0B4487297315E60 /* CCColliderDetector.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCColliderDetector.cpp; path = "cocos2d/cocos/editor-support/cocostudio/CCColliderDetector.cpp"; sourceTree = SOURCE_ROOT; };
-		2C6353657BFB4341A696B950 /* AudioDecoder.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = AudioDecoder.h; path = cocos2d/cocos/audio/apple/AudioDecoder.h; sourceTree = SOURCE_ROOT; };
 		2C706E094AF64AA08EC6FC25 /* CCPUOnCollisionObserver.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCPUOnCollisionObserver.h; path = cocos2d/extensions/Particle3D/PU/CCPUOnCollisionObserver.h; sourceTree = SOURCE_ROOT; };
 		2D07360DA39F4F4EA36CF269 /* CCPUFlockCenteringAffector.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCPUFlockCenteringAffector.h; path = cocos2d/extensions/Particle3D/PU/CCPUFlockCenteringAffector.h; sourceTree = SOURCE_ROOT; };
 		2D44C64633254A7EAE49FEBB /* CCPUTranslateManager.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCPUTranslateManager.h; path = cocos2d/extensions/Particle3D/PU/CCPUTranslateManager.h; sourceTree = SOURCE_ROOT; };
@@ -1511,7 +1497,6 @@
 		3FAF47A7AC8042B49FA98EDD /* CCEventTouch.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCEventTouch.h; path = cocos2d/cocos/base/CCEventTouch.h; sourceTree = SOURCE_ROOT; };
 		3FDC1DAF8C08479A9036312A /* CCEventListener.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCEventListener.cpp; path = cocos2d/cocos/base/CCEventListener.cpp; sourceTree = SOURCE_ROOT; };
 		4021B6BDEB66472FBD950199 /* WebSocket.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = WebSocket.h; path = cocos2d/cocos/network/WebSocket.h; sourceTree = SOURCE_ROOT; };
-		4042DFC465C9417D81D65546 /* AudioEngine-inl.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = "AudioEngine-inl.h"; path = "cocos2d/cocos/audio/apple/AudioEngine-inl.h"; sourceTree = SOURCE_ROOT; };
 		40DA9E1CD559453585DDD897 /* CCPUMeshSurfaceEmitter.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCPUMeshSurfaceEmitter.h; path = cocos2d/extensions/Particle3D/PU/CCPUMeshSurfaceEmitter.h; sourceTree = SOURCE_ROOT; };
 		40EEC9530A514F31BA0EF170 /* CCPUCircleEmitter.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCPUCircleEmitter.h; path = cocos2d/extensions/Particle3D/PU/CCPUCircleEmitter.h; sourceTree = SOURCE_ROOT; };
 		4142C17E3E44458E9B0AF494 /* CCClippingNode.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCClippingNode.h; path = cocos2d/cocos/2d/CCClippingNode.h; sourceTree = SOURCE_ROOT; };
@@ -1558,24 +1543,22 @@
 		4A15DC4A2358C9FE008A24D3 /* CCEnumClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCEnumClass.h; path = cocos2d/cocos/base/CCEnumClass.h; sourceTree = "<group>"; };
 		4A35C2DE2375C33B00DD3A6E /* CCProgramStateCache.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CCProgramStateCache.cpp; path = cocos2d/cocos/renderer/CCProgramStateCache.cpp; sourceTree = "<group>"; };
 		4A35C2DF2375C33B00DD3A6E /* CCProgramStateCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CCProgramStateCache.h; path = cocos2d/cocos/renderer/CCProgramStateCache.h; sourceTree = "<group>"; };
+		4A484E0523ABD1B60098CCD0 /* CCProtocols.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCProtocols.cpp; path = cocos2d/cocos/base/CCProtocols.cpp; sourceTree = "<group>"; };
+		4A484E0723ABD4610098CCD0 /* CCApplicationProtocol.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCApplicationProtocol.cpp; path = cocos2d/cocos/platform/CCApplicationProtocol.cpp; sourceTree = "<group>"; };
+		4A4A913023AA80070070852B /* AudioEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioEngine.cpp; path = cocos2d/cocos/audio/AudioEngine.cpp; sourceTree = "<group>"; };
+		4A4A913223AA80160070852B /* AudioDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioDecoder.h; path = cocos2d/cocos/audio/apple/AudioDecoder.h; sourceTree = "<group>"; };
+		4A4A913323AA80160070852B /* AudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioPlayer.h; path = cocos2d/cocos/audio/apple/AudioPlayer.h; sourceTree = "<group>"; };
+		4A4A913423AA80170070852B /* AudioPlayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AudioPlayer.mm; path = cocos2d/cocos/audio/apple/AudioPlayer.mm; sourceTree = "<group>"; };
+		4A4A913523AA80170070852B /* AudioDecoder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AudioDecoder.mm; path = cocos2d/cocos/audio/apple/AudioDecoder.mm; sourceTree = "<group>"; };
+		4A4A913623AA80170070852B /* AudioEngine-inl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "AudioEngine-inl.mm"; path = "cocos2d/cocos/audio/apple/AudioEngine-inl.mm"; sourceTree = "<group>"; };
+		4A4A913723AA80170070852B /* AudioCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioCache.h; path = cocos2d/cocos/audio/apple/AudioCache.h; sourceTree = "<group>"; };
+		4A4A913823AA80170070852B /* AudioMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioMacros.h; path = cocos2d/cocos/audio/apple/AudioMacros.h; sourceTree = "<group>"; };
+		4A4A913923AA80170070852B /* AudioEngine-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AudioEngine-inl.h"; path = "cocos2d/cocos/audio/apple/AudioEngine-inl.h"; sourceTree = "<group>"; };
+		4A4A913A23AA80170070852B /* AudioCache.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AudioCache.mm; path = cocos2d/cocos/audio/apple/AudioCache.mm; sourceTree = "<group>"; };
 		4A6A998023706E2F009F16ED /* CCStencilStateManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CCStencilStateManager.hpp; path = cocos2d/cocos/base/CCStencilStateManager.hpp; sourceTree = "<group>"; };
 		4A6A99812370726B009F16ED /* HttpAsynConnection-apple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "HttpAsynConnection-apple.m"; path = "cocos2d/cocos/network/HttpAsynConnection-apple.m"; sourceTree = "<group>"; };
 		4A6A99822370726B009F16ED /* HttpCookie.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HttpCookie.cpp; path = cocos2d/cocos/network/HttpCookie.cpp; sourceTree = "<group>"; };
 		4A6A99832370726B009F16ED /* HttpClient-apple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "HttpClient-apple.mm"; path = "cocos2d/cocos/network/HttpClient-apple.mm"; sourceTree = "<group>"; };
-		4A6A99872370765B009F16ED /* CDOpenALSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDOpenALSupport.m; path = cocos2d/cocos/audio/ios/CDOpenALSupport.m; sourceTree = "<group>"; };
-		4A6A99882370765C009F16ED /* CocosDenshion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CocosDenshion.h; path = cocos2d/cocos/audio/ios/CocosDenshion.h; sourceTree = "<group>"; };
-		4A6A99892370765C009F16ED /* SimpleAudioEngine_objc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleAudioEngine_objc.h; path = cocos2d/cocos/audio/ios/SimpleAudioEngine_objc.h; sourceTree = "<group>"; };
-		4A6A998A2370765C009F16ED /* SimpleAudioEngine.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SimpleAudioEngine.mm; path = cocos2d/cocos/audio/ios/SimpleAudioEngine.mm; sourceTree = "<group>"; };
-		4A6A998B2370765C009F16ED /* CDOpenALSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDOpenALSupport.h; path = cocos2d/cocos/audio/ios/CDOpenALSupport.h; sourceTree = "<group>"; };
-		4A6A998C2370765C009F16ED /* SimpleAudioEngine_objc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimpleAudioEngine_objc.m; path = cocos2d/cocos/audio/ios/SimpleAudioEngine_objc.m; sourceTree = "<group>"; };
-		4A6A998D2370765C009F16ED /* CDConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDConfig.h; path = cocos2d/cocos/audio/ios/CDConfig.h; sourceTree = "<group>"; };
-		4A6A998E2370765C009F16ED /* CDAudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDAudioManager.m; path = cocos2d/cocos/audio/ios/CDAudioManager.m; sourceTree = "<group>"; };
-		4A6A998F2370765C009F16ED /* CocosDenshion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CocosDenshion.m; path = cocos2d/cocos/audio/ios/CocosDenshion.m; sourceTree = "<group>"; };
-		4A6A99902370765C009F16ED /* CDAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDAudioManager.h; path = cocos2d/cocos/audio/ios/CDAudioManager.h; sourceTree = "<group>"; };
-		4A6A9996237076D7009F16ED /* ALAudioPlayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ALAudioPlayer.mm; path = cocos2d/cocos/audio/apple/ALAudioPlayer.mm; sourceTree = "<group>"; };
-		4A6A9997237076D8009F16ED /* SimpleAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleAudioPlayer.h; path = cocos2d/cocos/audio/apple/SimpleAudioPlayer.h; sourceTree = "<group>"; };
-		4A6A9998237076D8009F16ED /* SimpleAudioPlayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SimpleAudioPlayer.mm; path = cocos2d/cocos/audio/apple/SimpleAudioPlayer.mm; sourceTree = "<group>"; };
-		4A6A9999237076D8009F16ED /* ALAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALAudioPlayer.h; path = cocos2d/cocos/audio/apple/ALAudioPlayer.h; sourceTree = "<group>"; };
 		4A6A99E223707898009F16ED /* CCBillBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBillBoard.h; sourceTree = "<group>"; };
 		4A6A99E323707898009F16ED /* CCFrustum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCFrustum.h; sourceTree = "<group>"; };
 		4A6A99E423707898009F16ED /* CCSprite3DMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSprite3DMaterial.h; sourceTree = "<group>"; };
@@ -1693,18 +1676,6 @@
 		4ACB20B92397FE1E0025B0A8 /* libext_xxhash Mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libext_xxhash Mac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4ACB20C02397FE1E0025B0A8 /* libext_xxtea Mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libext_xxtea Mac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4ACB20DB2397FE1F0025B0A8 /* libexternal Mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libexternal Mac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4ACB213A239802710025B0A8 /* CDConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDConfig.h; sourceTree = "<group>"; };
-		4ACB213B239802710025B0A8 /* CDOpenALSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOpenALSupport.m; sourceTree = "<group>"; };
-		4ACB213C239802710025B0A8 /* CDAudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDAudioManager.m; sourceTree = "<group>"; };
-		4ACB213D239802710025B0A8 /* SimpleAudioEngine_objc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine_objc.h; sourceTree = "<group>"; };
-		4ACB213E239802710025B0A8 /* CocosDenshion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CocosDenshion.m; sourceTree = "<group>"; };
-		4ACB213F239802710025B0A8 /* CDOpenALSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOpenALSupport.h; sourceTree = "<group>"; };
-		4ACB2140239802710025B0A8 /* CDXMacOSXSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDXMacOSXSupport.h; sourceTree = "<group>"; };
-		4ACB2141239802710025B0A8 /* CDAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDAudioManager.h; sourceTree = "<group>"; };
-		4ACB2142239802710025B0A8 /* CDXMacOSXSupport.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CDXMacOSXSupport.mm; sourceTree = "<group>"; };
-		4ACB2143239802710025B0A8 /* CocosDenshion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocosDenshion.h; sourceTree = "<group>"; };
-		4ACB2144239802710025B0A8 /* SimpleAudioEngine_objc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAudioEngine_objc.m; sourceTree = "<group>"; };
-		4ACB2145239802710025B0A8 /* SimpleAudioEngine.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SimpleAudioEngine.mm; sourceTree = "<group>"; };
 		4ACB2159239804590025B0A8 /* CCStdC-mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCStdC-mac.h"; sourceTree = "<group>"; };
 		4ACB215A239804590025B0A8 /* CCGLViewImpl-mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCGLViewImpl-mac.h"; sourceTree = "<group>"; };
 		4ACB215B239804590025B0A8 /* CCGLViewImpl-mac.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "CCGLViewImpl-mac.mm"; sourceTree = "<group>"; };
@@ -1770,7 +1741,6 @@
 		5764472E77084ED4BFD98683 /* ioapi_mem.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ioapi_mem.cpp; path = cocos2d/external/unzip/ioapi_mem.cpp; sourceTree = SOURCE_ROOT; };
 		57D3FF5C6A2743A3A0696EBE /* CCPUObserverTranslator.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCPUObserverTranslator.cpp; path = cocos2d/extensions/Particle3D/PU/CCPUObserverTranslator.cpp; sourceTree = SOURCE_ROOT; };
 		57FB96FA69C3419B91F03F8F /* CCMathBase.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCMathBase.h; path = cocos2d/cocos/math/CCMathBase.h; sourceTree = SOURCE_ROOT; };
-		587BD2A7EF36429DB308509E /* AudioDecoder.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = AudioDecoder.mm; path = cocos2d/cocos/audio/apple/AudioDecoder.mm; sourceTree = SOURCE_ROOT; };
 		58BC2293960145AC861109D2 /* CCRef.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCRef.cpp; path = cocos2d/cocos/base/CCRef.cpp; sourceTree = SOURCE_ROOT; };
 		58F318240DF14ED28E499DC8 /* CCActionTimelineCache.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCActionTimelineCache.h; path = "cocos2d/cocos/editor-support/cocostudio/ActionTimeline/CCActionTimelineCache.h"; sourceTree = SOURCE_ROOT; };
 		593EC7FF349149A5BE874CD4 /* CCBatchNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCBatchNode.cpp; path = "cocos2d/cocos/editor-support/cocostudio/CCBatchNode.cpp"; sourceTree = SOURCE_ROOT; };
@@ -1799,7 +1769,6 @@
 		5DD91DE9869D4C47873425A5 /* CCController-apple.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = "CCController-apple.mm"; path = "cocos2d/cocos/base/CCController-apple.mm"; sourceTree = SOURCE_ROOT; };
 		5E0A1152E7D6495C80F0B948 /* RenderPassDescriptor.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = RenderPassDescriptor.h; path = cocos2d/cocos/renderer/backend/RenderPassDescriptor.h; sourceTree = SOURCE_ROOT; };
 		5E5460DDEA95453880E02797 /* CCValue.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCValue.h; path = cocos2d/cocos/base/CCValue.h; sourceTree = SOURCE_ROOT; };
-		5E688072B7C742A896555856 /* AudioPlayer.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = AudioPlayer.h; path = cocos2d/cocos/audio/apple/AudioPlayer.h; sourceTree = SOURCE_ROOT; };
 		5E824E063C6840A3A94BD839 /* CCPhysics3DObject.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCPhysics3DObject.h; path = cocos2d/cocos/physics3d/CCPhysics3DObject.h; sourceTree = SOURCE_ROOT; };
 		5EBB3DC17A634069A9122560 /* libext_unzip.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libext_unzip.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ECD2898810E4D86B8EC2795 /* CCParticleExamples.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCParticleExamples.h; path = cocos2d/cocos/2d/CCParticleExamples.h; sourceTree = SOURCE_ROOT; };
@@ -1866,7 +1835,6 @@
 		6BB8CD38AD214829B36229AD /* CCPhysicsContact.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCPhysicsContact.h; path = cocos2d/cocos/physics/CCPhysicsContact.h; sourceTree = SOURCE_ROOT; };
 		6BE92E269FCD44A49E2AB8A7 /* CCComponentContainer.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCComponentContainer.cpp; path = cocos2d/cocos/2d/CCComponentContainer.cpp; sourceTree = SOURCE_ROOT; };
 		6C0BE59B3BAE461B82AAF50E /* CCTimelineMacro.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCTimelineMacro.h; path = "cocos2d/cocos/editor-support/cocostudio/ActionTimeline/CCTimelineMacro.h"; sourceTree = SOURCE_ROOT; };
-		6C39CDD0071740949BD1C1AC /* AudioEngine-inl.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = "AudioEngine-inl.mm"; path = "cocos2d/cocos/audio/apple/AudioEngine-inl.mm"; sourceTree = SOURCE_ROOT; };
 		6C923E16831040F1B224B53F /* CCLight.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCLight.cpp; path = cocos2d/cocos/2d/CCLight.cpp; sourceTree = SOURCE_ROOT; };
 		6CCB844D46884DE89FF1A9E6 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = cocos2d/cocos/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		6D06F33EBAD647F4AA127C64 /* CCPUDoAffectorEventHandlerTranslator.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCPUDoAffectorEventHandlerTranslator.cpp; path = cocos2d/extensions/Particle3D/PU/CCPUDoAffectorEventHandlerTranslator.cpp; sourceTree = SOURCE_ROOT; };
@@ -1932,8 +1900,6 @@
 		794CBF76B8354AF1AA7119A6 /* CCSpriteBatchNode.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCSpriteBatchNode.h; path = cocos2d/cocos/2d/CCSpriteBatchNode.h; sourceTree = SOURCE_ROOT; };
 		7996BDE42D8F40EC9A206189 /* TGAlib.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = TGAlib.cpp; path = cocos2d/cocos/base/TGAlib.cpp; sourceTree = SOURCE_ROOT; };
 		79F7EF9C17EA4E9BA6EFDDB1 /* CSLanguageDataBinary_generated.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CSLanguageDataBinary_generated.h; path = "cocos2d/cocos/editor-support/cocostudio/CSLanguageDataBinary_generated.h"; sourceTree = SOURCE_ROOT; };
-		7A0370C843114707964D2FFA /* AudioMacros.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = AudioMacros.h; path = cocos2d/cocos/audio/apple/AudioMacros.h; sourceTree = SOURCE_ROOT; };
-		7A146B94619E41F684D69129 /* AudioEngine.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = AudioEngine.h; path = cocos2d/cocos/audio/include/AudioEngine.h; sourceTree = SOURCE_ROOT; };
 		7AB80640EF364A16A7B338D8 /* CCPUBehaviourTranslator.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCPUBehaviourTranslator.h; path = cocos2d/extensions/Particle3D/PU/CCPUBehaviourTranslator.h; sourceTree = SOURCE_ROOT; };
 		7AC25E8AD3064AD684812793 /* CCPURender.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCPURender.cpp; path = cocos2d/extensions/Particle3D/PU/CCPURender.cpp; sourceTree = SOURCE_ROOT; };
 		7AED3ECD8A4D42FDB92C5C8D /* Device.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = Device.cpp; path = cocos2d/cocos/renderer/backend/Device.cpp; sourceTree = SOURCE_ROOT; };
@@ -2022,7 +1988,6 @@
 		91FFCEC58B9F4D22A5ED1492 /* CCPUCollisionAvoidanceAffectorTranslator.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCPUCollisionAvoidanceAffectorTranslator.cpp; path = cocos2d/extensions/Particle3D/PU/CCPUCollisionAvoidanceAffectorTranslator.cpp; sourceTree = SOURCE_ROOT; };
 		92325388B7E94C55933CA9A5 /* CCParticleBatchNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCParticleBatchNode.cpp; path = cocos2d/cocos/2d/CCParticleBatchNode.cpp; sourceTree = SOURCE_ROOT; };
 		938486E10FE94E71BDACA614 /* CCPUOnTimeObserverTranslator.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCPUOnTimeObserverTranslator.cpp; path = cocos2d/extensions/Particle3D/PU/CCPUOnTimeObserverTranslator.cpp; sourceTree = SOURCE_ROOT; };
-		938D709F21594E82B2AC03A9 /* Export.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = Export.h; path = cocos2d/cocos/audio/include/Export.h; sourceTree = SOURCE_ROOT; };
 		939ADB8FC67A4137AED76836 /* CCPUOnTimeObserver.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCPUOnTimeObserver.h; path = cocos2d/extensions/Particle3D/PU/CCPUOnTimeObserver.h; sourceTree = SOURCE_ROOT; };
 		93A3042A0B5046CE9704BCAF /* CCAffineTransform.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCAffineTransform.cpp; path = cocos2d/cocos/math/CCAffineTransform.cpp; sourceTree = SOURCE_ROOT; };
 		93C10ED6725D457AA6DE7508 /* CCPhysicsJoint.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCPhysicsJoint.h; path = cocos2d/cocos/physics/CCPhysicsJoint.h; sourceTree = SOURCE_ROOT; };
@@ -2059,7 +2024,6 @@
 		99F5FDC86E544E76ACD375B1 /* CCNavMeshDebugDraw.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCNavMeshDebugDraw.cpp; path = cocos2d/cocos/navmesh/CCNavMeshDebugDraw.cpp; sourceTree = SOURCE_ROOT; };
 		9A206CCBD87E49179F29AE2B /* CCActionGrid.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCActionGrid.cpp; path = cocos2d/cocos/2d/CCActionGrid.cpp; sourceTree = SOURCE_ROOT; };
 		9A2263EFA1FA4A43B85EE92C /* CCPhysicsBody.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCPhysicsBody.h; path = cocos2d/cocos/physics/CCPhysicsBody.h; sourceTree = SOURCE_ROOT; };
-		9A40C8D5C6354F77856913B2 /* AudioEngine.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = AudioEngine.cpp; path = cocos2d/cocos/audio/AudioEngine.cpp; sourceTree = SOURCE_ROOT; };
 		9A5DA5BBF24748AC88543077 /* CCPUOnTimeObserverTranslator.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCPUOnTimeObserverTranslator.h; path = cocos2d/extensions/Particle3D/PU/CCPUOnTimeObserverTranslator.h; sourceTree = SOURCE_ROOT; };
 		9A8264518A5C417CB39B8A22 /* TextFieldReader.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = TextFieldReader.h; path = "cocos2d/cocos/editor-support/cocostudio/WidgetReader/TextFieldReader/TextFieldReader.h"; sourceTree = SOURCE_ROOT; };
 		9AA5BFDC33D1441E9808F48F /* CCPUOnVelocityObserver.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCPUOnVelocityObserver.cpp; path = cocos2d/extensions/Particle3D/PU/CCPUOnVelocityObserver.cpp; sourceTree = SOURCE_ROOT; };
@@ -2196,7 +2160,6 @@
 		B7A5CFF97968449AB78F8B6B /* CCPUDoPlacementParticleEventHandler.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCPUDoPlacementParticleEventHandler.h; path = cocos2d/extensions/Particle3D/PU/CCPUDoPlacementParticleEventHandler.h; sourceTree = SOURCE_ROOT; };
 		B7FEEE909BAC4463B47EDFB1 /* CCScene.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCScene.cpp; path = cocos2d/cocos/2d/CCScene.cpp; sourceTree = SOURCE_ROOT; };
 		B840F7DA198147B187667CB4 /* CCCommon.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCCommon.h; path = cocos2d/cocos/platform/CCCommon.h; sourceTree = SOURCE_ROOT; };
-		B854545FB4F445DABEB16EE4 /* AudioCache.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = AudioCache.h; path = cocos2d/cocos/audio/apple/AudioCache.h; sourceTree = SOURCE_ROOT; };
 		B8791413094D432CAF717085 /* CCSkeletonNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCSkeletonNode.cpp; path = "cocos2d/cocos/editor-support/cocostudio/ActionTimeline/CCSkeletonNode.cpp"; sourceTree = SOURCE_ROOT; };
 		B92C5AAEE9794A808A163034 /* CCPUBaseColliderTranslator.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCPUBaseColliderTranslator.cpp; path = cocos2d/extensions/Particle3D/PU/CCPUBaseColliderTranslator.cpp; sourceTree = SOURCE_ROOT; };
 		B9936E2786CC46A8B534221F /* CCPUOnClearObserver.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCPUOnClearObserver.cpp; path = cocos2d/extensions/Particle3D/PU/CCPUOnClearObserver.cpp; sourceTree = SOURCE_ROOT; };
@@ -2416,7 +2379,6 @@
 		EF9BEB5413794E14A0AD1E1D /* CCImage-ios.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = "CCImage-ios.mm"; path = "cocos2d/cocos/platform/ios/CCImage-ios.mm"; sourceTree = SOURCE_ROOT; };
 		EFB58AF13A514634A1DFCFD1 /* CCPhysics3DShape.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCPhysics3DShape.h; path = cocos2d/cocos/physics3d/CCPhysics3DShape.h; sourceTree = SOURCE_ROOT; };
 		F0058E912D5C4AA382127925 /* CCPUDoEnableComponentEventHandler.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCPUDoEnableComponentEventHandler.h; path = cocos2d/extensions/Particle3D/PU/CCPUDoEnableComponentEventHandler.h; sourceTree = SOURCE_ROOT; };
-		F04284EA4AB64629A5A3A492 /* AudioCache.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = AudioCache.mm; path = cocos2d/cocos/audio/apple/AudioCache.mm; sourceTree = SOURCE_ROOT; };
 		F08F0C445FA245499E032C3C /* CCGLViewImpl-ios.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = "CCGLViewImpl-ios.mm"; path = "cocos2d/cocos/platform/ios/CCGLViewImpl-ios.mm"; sourceTree = SOURCE_ROOT; };
 		F0AD45B5678A4BA7BCFCD4A6 /* CCScrollView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCScrollView.cpp; path = cocos2d/extensions/GUI/CCScrollView/CCScrollView.cpp; sourceTree = SOURCE_ROOT; };
 		F0B31A064BC04159ABA2B1F3 /* CCPUJetAffectorTranslator.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCPUJetAffectorTranslator.h; path = cocos2d/extensions/Particle3D/PU/CCPUJetAffectorTranslator.h; sourceTree = SOURCE_ROOT; };
@@ -3242,23 +3204,29 @@
 			name = ext_md5;
 			sourceTree = "<group>";
 		};
-		4149944380DC4E1AB2B3309A /* audio */ = {
-			isa = PBXGroup;
-			children = (
-				4ACB2139239802710025B0A8 /* mac */,
-				EAF85F8FDB6647F78C2E495C /* apple */,
-				D98C8F3697964EA5ADEEAD57 /* include */,
-				9A40C8D5C6354F77856913B2 /* AudioEngine.cpp */,
-			);
-			name = audio;
-			sourceTree = "<group>";
-		};
 		47213125C00A46788F297208 /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
 				E4BECA28D3A14991ACDD90E4 /* xxhash.c */,
 			);
 			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		4A4A912F23AA7FEE0070852B /* audio */ = {
+			isa = PBXGroup;
+			children = (
+				4A4A913723AA80170070852B /* AudioCache.h */,
+				4A4A913A23AA80170070852B /* AudioCache.mm */,
+				4A4A913223AA80160070852B /* AudioDecoder.h */,
+				4A4A913523AA80170070852B /* AudioDecoder.mm */,
+				4A4A913923AA80170070852B /* AudioEngine-inl.h */,
+				4A4A913623AA80170070852B /* AudioEngine-inl.mm */,
+				4A4A913823AA80170070852B /* AudioMacros.h */,
+				4A4A913323AA80160070852B /* AudioPlayer.h */,
+				4A4A913423AA80170070852B /* AudioPlayer.mm */,
+				4A4A913023AA80070070852B /* AudioEngine.cpp */,
+			);
+			name = audio;
 			sourceTree = "<group>";
 		};
 		4A6A99E123707898009F16ED /* 3d */ = {
@@ -3382,26 +3350,6 @@
 			path = cocos2d/cocos/ui;
 			sourceTree = "<group>";
 		};
-		4ACB2139239802710025B0A8 /* mac */ = {
-			isa = PBXGroup;
-			children = (
-				4ACB213A239802710025B0A8 /* CDConfig.h */,
-				4ACB213B239802710025B0A8 /* CDOpenALSupport.m */,
-				4ACB213C239802710025B0A8 /* CDAudioManager.m */,
-				4ACB213D239802710025B0A8 /* SimpleAudioEngine_objc.h */,
-				4ACB213E239802710025B0A8 /* CocosDenshion.m */,
-				4ACB213F239802710025B0A8 /* CDOpenALSupport.h */,
-				4ACB2140239802710025B0A8 /* CDXMacOSXSupport.h */,
-				4ACB2141239802710025B0A8 /* CDAudioManager.h */,
-				4ACB2142239802710025B0A8 /* CDXMacOSXSupport.mm */,
-				4ACB2143239802710025B0A8 /* CocosDenshion.h */,
-				4ACB2144239802710025B0A8 /* SimpleAudioEngine_objc.m */,
-				4ACB2145239802710025B0A8 /* SimpleAudioEngine.mm */,
-			);
-			name = mac;
-			path = cocos2d/cocos/audio/mac;
-			sourceTree = "<group>";
-		};
 		4ACB2158239804590025B0A8 /* mac */ = {
 			isa = PBXGroup;
 			children = (
@@ -3479,6 +3427,7 @@
 			children = (
 				87EE797B3B9E45D2BBA04DF6 /* 2d */,
 				4A6A99E123707898009F16ED /* 3d */,
+				4A4A912F23AA7FEE0070852B /* audio */,
 				9AE96782028F4C1598E6672A /* platform */,
 				D6462E64EF944022AE8C9517 /* physics */,
 				F12E1298E4A84B03A354CFD9 /* physics3d */,
@@ -3486,7 +3435,6 @@
 				98975448AD8A4F85834FB9C0 /* navmesh */,
 				5AA53D7528814F99B4FEB976 /* renderer */,
 				5F81C54C3C73455DBCCC589B /* base */,
-				4149944380DC4E1AB2B3309A /* audio */,
 				83E556C93EF64DA295BBA858 /* network */,
 				389FAAA9B77A4D2BA5AE4533 /* editor-support */,
 				4A8794562370412C00DA928D /* ui */,
@@ -3570,6 +3518,7 @@
 		5F81C54C3C73455DBCCC589B /* base */ = {
 			isa = PBXGroup;
 			children = (
+				4A484E0523ABD1B60098CCD0 /* CCProtocols.cpp */,
 				4A7B287F23A0F16900C3EDD1 /* etc2.cpp */,
 				4A7B287E23A0F16900C3EDD1 /* etc2.h */,
 				4A7B288023A0F16900C3EDD1 /* etc2types.h */,
@@ -4152,6 +4101,7 @@
 		9AE96782028F4C1598E6672A /* platform */ = {
 			isa = PBXGroup;
 			children = (
+				4A484E0723ABD4610098CCD0 /* CCApplicationProtocol.cpp */,
 				4ACB2158239804590025B0A8 /* mac */,
 				5D6CB3E2D6D547BF99798612 /* apple */,
 				67E847FF8FBD4D98BE17D0F4 /* ios */,
@@ -4462,15 +4412,6 @@
 			name = Node3DReader;
 			sourceTree = "<group>";
 		};
-		D98C8F3697964EA5ADEEAD57 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				7A146B94619E41F684D69129 /* AudioEngine.h */,
-				938D709F21594E82B2AC03A9 /* Export.h */,
-			);
-			name = include;
-			sourceTree = "<group>";
-		};
 		DEE1661BDCE3439FAFBF9072 /* ComAudioReader */ = {
 			isa = PBXGroup;
 			children = (
@@ -4491,36 +4432,6 @@
 				558F9C69CF84427C9B832597 /* CCTableViewCell.h */,
 			);
 			name = CCScrollView;
-			sourceTree = "<group>";
-		};
-		EAF85F8FDB6647F78C2E495C /* apple */ = {
-			isa = PBXGroup;
-			children = (
-				4A6A9999237076D8009F16ED /* ALAudioPlayer.h */,
-				4A6A9996237076D7009F16ED /* ALAudioPlayer.mm */,
-				4A6A9997237076D8009F16ED /* SimpleAudioPlayer.h */,
-				4A6A9998237076D8009F16ED /* SimpleAudioPlayer.mm */,
-				4A6A99902370765C009F16ED /* CDAudioManager.h */,
-				4A6A998E2370765C009F16ED /* CDAudioManager.m */,
-				4A6A998D2370765C009F16ED /* CDConfig.h */,
-				4A6A998B2370765C009F16ED /* CDOpenALSupport.h */,
-				4A6A99872370765B009F16ED /* CDOpenALSupport.m */,
-				4A6A99882370765C009F16ED /* CocosDenshion.h */,
-				4A6A998F2370765C009F16ED /* CocosDenshion.m */,
-				4A6A99892370765C009F16ED /* SimpleAudioEngine_objc.h */,
-				4A6A998C2370765C009F16ED /* SimpleAudioEngine_objc.m */,
-				4A6A998A2370765C009F16ED /* SimpleAudioEngine.mm */,
-				B854545FB4F445DABEB16EE4 /* AudioCache.h */,
-				F04284EA4AB64629A5A3A492 /* AudioCache.mm */,
-				2C6353657BFB4341A696B950 /* AudioDecoder.h */,
-				587BD2A7EF36429DB308509E /* AudioDecoder.mm */,
-				4042DFC465C9417D81D65546 /* AudioEngine-inl.h */,
-				6C39CDD0071740949BD1C1AC /* AudioEngine-inl.mm */,
-				7A0370C843114707964D2FFA /* AudioMacros.h */,
-				5E688072B7C742A896555856 /* AudioPlayer.h */,
-				1BC3365365624A899CA70FEF /* AudioPlayer.mm */,
-			);
-			name = apple;
 			sourceTree = "<group>";
 		};
 		EF3B05EDAB1541F7AB57C43E = {
@@ -5006,7 +4917,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1110;
+				LastUpgradeCheck = 1130;
 			};
 			buildConfigurationList = 0250549D5FC446F784F406D1 /* Build configuration list for PBXProject "cocos2d" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -5125,6 +5036,7 @@
 				4ACB1EB12397FE150025B0A8 /* CCTerrain.cpp in Sources */,
 				4ACB1EB22397FE150025B0A8 /* CCActionGrid.cpp in Sources */,
 				4ACB1EB32397FE150025B0A8 /* CCActionGrid3D.cpp in Sources */,
+				4A484E0923ABD4AC0098CCD0 /* CCApplicationProtocol.cpp in Sources */,
 				4ACB1EB42397FE150025B0A8 /* CCActionInstant.cpp in Sources */,
 				4ACB1EB52397FE150025B0A8 /* CCActionInterval.cpp in Sources */,
 				4ACB1EB62397FE150025B0A8 /* CCActionManager.cpp in Sources */,
@@ -5135,10 +5047,8 @@
 				4ACB1EBB2397FE150025B0A8 /* CCActionTween.cpp in Sources */,
 				4ACB1EBC2397FE150025B0A8 /* CCAnimation.cpp in Sources */,
 				4ACB1EBD2397FE150025B0A8 /* CCAnimationCache.cpp in Sources */,
-				4AA4552C23980ED00065F45F /* AudioDecoder.mm in Sources */,
 				4ACB1EBE2397FE150025B0A8 /* CCAtlasNode.cpp in Sources */,
 				4ACB1EC02397FE150025B0A8 /* CCBundleReader.cpp in Sources */,
-				4ACB214E2398028F0025B0A8 /* CDOpenALSupport.m in Sources */,
 				4ACB1EC12397FE150025B0A8 /* CCAutoPolygon.cpp in Sources */,
 				4ACB1EC22397FE150025B0A8 /* CCCamera.cpp in Sources */,
 				4ACB1EC32397FE150025B0A8 /* CCCameraBackgroundBrush.cpp in Sources */,
@@ -5151,8 +5061,8 @@
 				4ACB1ECA2397FE150025B0A8 /* CCDrawNode.cpp in Sources */,
 				4ACB1ECB2397FE150025B0A8 /* CCFastTMXLayer.cpp in Sources */,
 				4ACB1ECC2397FE150025B0A8 /* CCFastTMXTiledMap.cpp in Sources */,
-				4ACB2151239802A00025B0A8 /* CDXMacOSXSupport.mm in Sources */,
 				4ACB1ECD2397FE150025B0A8 /* CCFont.cpp in Sources */,
+				4A4A914323AA805B0070852B /* AudioEngine.cpp in Sources */,
 				4ACB1ECE2397FE150025B0A8 /* CCFontAtlas.cpp in Sources */,
 				4ACB1ECF2397FE150025B0A8 /* CCFontAtlasCache.cpp in Sources */,
 				4ACB1ED02397FE150025B0A8 /* CCFontCharMap.cpp in Sources */,
@@ -5181,6 +5091,7 @@
 				4ACB1EE72397FE150025B0A8 /* CCProtectedNode.cpp in Sources */,
 				4ACB1EE82397FE150025B0A8 /* CCRenderTexture.cpp in Sources */,
 				4ACB1EE92397FE150025B0A8 /* CCScene.cpp in Sources */,
+				4A4A914223AA80220070852B /* AudioPlayer.mm in Sources */,
 				4ACB1EEA2397FE150025B0A8 /* CCSprite.cpp in Sources */,
 				4ACB1EEB2397FE150025B0A8 /* CCSpriteBatchNode.cpp in Sources */,
 				4ACB1EEC2397FE150025B0A8 /* CCSpriteFrame.cpp in Sources */,
@@ -5196,7 +5107,6 @@
 				4ACB1EF62397FE150025B0A8 /* CCTransitionPageTurn.cpp in Sources */,
 				4ACB1EF72397FE150025B0A8 /* CCTransitionProgress.cpp in Sources */,
 				4ACB1EF82397FE150025B0A8 /* CCTweenFunction.cpp in Sources */,
-				4ACB1EF92397FE150025B0A8 /* AudioEngine.cpp in Sources */,
 				4ACB1EFB2397FE150025B0A8 /* CCAttachNode.cpp in Sources */,
 				4ACB1EFF2397FE150025B0A8 /* CCAsyncTaskPool.cpp in Sources */,
 				4ACB1F002397FE150025B0A8 /* CCAutoreleasePool.cpp in Sources */,
@@ -5237,7 +5147,6 @@
 				4ACB1F222397FE150025B0A8 /* CCTouch.cpp in Sources */,
 				4ACB1F232397FE150025B0A8 /* CCUserDefault-apple.mm in Sources */,
 				4ACB1F242397FE150025B0A8 /* CCUserDefault.cpp in Sources */,
-				4ACB214F239802950025B0A8 /* CDAudioManager.m in Sources */,
 				4ACB1F252397FE150025B0A8 /* CCValue.cpp in Sources */,
 				4ACB1F262397FE150025B0A8 /* ObjectFactory.cpp in Sources */,
 				4ACB1F272397FE150025B0A8 /* TGAlib.cpp in Sources */,
@@ -5275,6 +5184,7 @@
 				4ACB1F462397FE150025B0A8 /* CCDownloader-apple.mm in Sources */,
 				4ACB1F472397FE150025B0A8 /* CCDownloader-curl.cpp in Sources */,
 				4ACB1F482397FE150025B0A8 /* CCDownloader.cpp in Sources */,
+				4A4A914023AA80220070852B /* AudioDecoder.mm in Sources */,
 				4ACB1F492397FE150025B0A8 /* HttpClient.cpp in Sources */,
 				4ACB1F4A2397FE150025B0A8 /* SocketIO.cpp in Sources */,
 				4ACB1F4B2397FE150025B0A8 /* WebSocket.cpp in Sources */,
@@ -5285,10 +5195,10 @@
 				4ACB1F502397FE150025B0A8 /* CCPhysicsShape.cpp in Sources */,
 				4ACB1F512397FE150025B0A8 /* CCPhysicsWorld.cpp in Sources */,
 				4ACB1F522397FE150025B0A8 /* CCPhysics3D.cpp in Sources */,
-				4AA4552823980DB90065F45F /* SimpleAudioPlayer.mm in Sources */,
 				4ACB1F532397FE150025B0A8 /* CCPhysics3DComponent.cpp in Sources */,
 				4ACB1F542397FE150025B0A8 /* CCPhysics3DConstraint.cpp in Sources */,
 				4ACB1F552397FE150025B0A8 /* CCPhysics3DDebugDrawer.cpp in Sources */,
+				4A4A914123AA80220070852B /* AudioEngine-inl.mm in Sources */,
 				4ACB1F562397FE150025B0A8 /* CCPhysics3DObject.cpp in Sources */,
 				4ACB1F572397FE150025B0A8 /* CCPhysics3DShape.cpp in Sources */,
 				4ACB1F582397FE150025B0A8 /* CCPhysics3DWorld.cpp in Sources */,
@@ -5311,7 +5221,6 @@
 				4ACB1F6F2397FE150025B0A8 /* CCQuadCommand.cpp in Sources */,
 				4ACB1F702397FE150025B0A8 /* CC3DProgramInfo.cpp in Sources */,
 				4ACB1F712397FE150025B0A8 /* CCRenderCommand.cpp in Sources */,
-				4ACB214D2398028A0025B0A8 /* SimpleAudioEngine_objc.m in Sources */,
 				4ACB1F722397FE150025B0A8 /* CCRenderState.cpp in Sources */,
 				4ACB1F732397FE150025B0A8 /* CCRenderer.cpp in Sources */,
 				4ACB1F742397FE150025B0A8 /* CCTechnique.cpp in Sources */,
@@ -5341,13 +5250,11 @@
 				4ACB1F8E2397FE150025B0A8 /* DeviceMTL.mm in Sources */,
 				4ACB1F8F2397FE150025B0A8 /* ProgramMTL.mm in Sources */,
 				4ACB1F902397FE150025B0A8 /* RenderPipelineMTL.mm in Sources */,
-				4AA4552923980E4C0065F45F /* AudioEngine-inl.mm in Sources */,
 				4ACB1F912397FE150025B0A8 /* ShaderModuleMTL.mm in Sources */,
 				4ACB1F922397FE150025B0A8 /* TextureMTL.mm in Sources */,
 				4ACB1F932397FE150025B0A8 /* Utils.mm in Sources */,
 				4ACB1F942397FE150025B0A8 /* ccShaders.cpp in Sources */,
 				4ACB1F952397FE150025B0A8 /* CCControl.cpp in Sources */,
-				4AA4552B23980EAF0065F45F /* AudioCache.mm in Sources */,
 				4ACB1F962397FE150025B0A8 /* CCAnimate3D.cpp in Sources */,
 				4ACB1F972397FE150025B0A8 /* CCControlButton.cpp in Sources */,
 				4ACB1F982397FE150025B0A8 /* CCControlColourPicker.cpp in Sources */,
@@ -5361,7 +5268,6 @@
 				4ACB1F9F2397FE150025B0A8 /* CCControlUtils.cpp in Sources */,
 				4ACB1FA02397FE150025B0A8 /* CCInvocation.cpp in Sources */,
 				4ACB1FA12397FE150025B0A8 /* CCScrollView.cpp in Sources */,
-				4ACB21502398029A0025B0A8 /* CocosDenshion.m in Sources */,
 				4ACB1FA22397FE150025B0A8 /* CCTableView.cpp in Sources */,
 				4ACB1FA32397FE150025B0A8 /* CCTableViewCell.cpp in Sources */,
 				4ACB1FA42397FE150025B0A8 /* CCParticle3DAffector.cpp in Sources */,
@@ -5399,7 +5305,6 @@
 				4ACB1FC42397FE150025B0A8 /* CCPUDoEnableComponentEventHandler.cpp in Sources */,
 				4ACB1FC52397FE150025B0A8 /* CCPUDoEnableComponentEventHandlerTranslator.cpp in Sources */,
 				4ACB1FC62397FE150025B0A8 /* CCPUDoExpireEventHandler.cpp in Sources */,
-				4AA4552A23980E7E0065F45F /* AudioPlayer.mm in Sources */,
 				4ACB1FC72397FE150025B0A8 /* CCPUDoExpireEventHandlerTranslator.cpp in Sources */,
 				4ACB1FC82397FE150025B0A8 /* CCPUDoFreezeEventHandler.cpp in Sources */,
 				4ACB1FC92397FE150025B0A8 /* CCPUDoFreezeEventHandlerTranslator.cpp in Sources */,
@@ -5416,7 +5321,6 @@
 				4ACB1FD52397FE150025B0A8 /* CCPUEmitterManager.cpp in Sources */,
 				4ACB1FD62397FE150025B0A8 /* CCPUEmitterTranslator.cpp in Sources */,
 				4ACB1FD72397FE150025B0A8 /* CCPUEventHandler.cpp in Sources */,
-				4ACB2152239802A60025B0A8 /* SimpleAudioEngine.mm in Sources */,
 				4ACB1FD82397FE150025B0A8 /* CCPUEventHandlerManager.cpp in Sources */,
 				4ACB1FD92397FE150025B0A8 /* CCPUEventHandlerTranslator.cpp in Sources */,
 				4ACB1FDA2397FE150025B0A8 /* CCPUFlockCenteringAffector.cpp in Sources */,
@@ -5438,7 +5342,6 @@
 				4ACB1FEA2397FE150025B0A8 /* CCBundle3D.cpp in Sources */,
 				4ACB1FEB2397FE150025B0A8 /* CCPULineAffectorTranslator.cpp in Sources */,
 				4ACB1FEC2397FE150025B0A8 /* CCPULineEmitter.cpp in Sources */,
-				4AA4552D23980EF10065F45F /* ALAudioPlayer.mm in Sources */,
 				4ACB1FED2397FE150025B0A8 /* CCPULineEmitterTranslator.cpp in Sources */,
 				4ACB1FEE2397FE150025B0A8 /* CCPULinearForceAffector.cpp in Sources */,
 				4ACB1FEF2397FE150025B0A8 /* CCPULinearForceAffectorTranslator.cpp in Sources */,
@@ -5470,6 +5373,7 @@
 				4ACB20082397FE150025B0A8 /* CCPUOnPositionObserverTranslator.cpp in Sources */,
 				4ACB20092397FE150025B0A8 /* CCPUOnQuotaObserver.cpp in Sources */,
 				4ACB200A2397FE150025B0A8 /* CCObjLoader.cpp in Sources */,
+				4A4A913F23AA80220070852B /* AudioCache.mm in Sources */,
 				4ACB200B2397FE150025B0A8 /* CCPUOnQuotaObserverTranslator.cpp in Sources */,
 				4ACB200C2397FE150025B0A8 /* CCPUOnRandomObserver.cpp in Sources */,
 				4ACB200D2397FE150025B0A8 /* CCPUOnRandomObserverTranslator.cpp in Sources */,
@@ -5695,7 +5599,6 @@
 				324A3E4A8D474B25AEC4D256 /* CCAction.cpp in Sources */,
 				0D069574932D4AF0AC8FDFDC /* CCActionCamera.cpp in Sources */,
 				0E9CFF60C095447FA744835B /* CCActionCatmullRom.cpp in Sources */,
-				4A6A99952370765C009F16ED /* CocosDenshion.m in Sources */,
 				36E96761586049D094008319 /* CCActionEase.cpp in Sources */,
 				4A6A9A1E23707898009F16ED /* CCTerrain.cpp in Sources */,
 				ADCD8B5380CD40F7ADA7D1EA /* CCActionGrid.cpp in Sources */,
@@ -5704,6 +5607,7 @@
 				4F1CD840EB3B4E54BC4B9325 /* CCActionInterval.cpp in Sources */,
 				7D05B979AB8048D9A83A58AA /* CCActionManager.cpp in Sources */,
 				9E50A60627EF496CA90C9240 /* CCActionPageTurn3D.cpp in Sources */,
+				4A4A913B23AA80180070852B /* AudioPlayer.mm in Sources */,
 				A59F0CC3B88048A790DFF545 /* CCActionProgressTimer.cpp in Sources */,
 				644256E5B4F244BBABEEEBC4 /* CCActionTiledGrid.cpp in Sources */,
 				4A15DC482358C932008A24D3 /* CCActionManagerData.cpp in Sources */,
@@ -5711,7 +5615,6 @@
 				4ED07F0E20864623B591F9E1 /* CCAnimation.cpp in Sources */,
 				7556873A55CB4C8799945926 /* CCAnimationCache.cpp in Sources */,
 				4610764F7BED4497858E8ABC /* CCAtlasNode.cpp in Sources */,
-				4A6A99942370765C009F16ED /* CDAudioManager.m in Sources */,
 				4A6A9A2B23707899009F16ED /* CCBundleReader.cpp in Sources */,
 				55D02C41EDE248A5AB25157F /* CCAutoPolygon.cpp in Sources */,
 				E5D227E7D44A4453B4D20812 /* CCCamera.cpp in Sources */,
@@ -5749,7 +5652,6 @@
 				C3DAE5CEF9CF4B4BB7D8F324 /* CCParticleBatchNode.cpp in Sources */,
 				ED3BDC6C633D4A60B9D31C60 /* CCParticleExamples.cpp in Sources */,
 				A740E92F42BB421893F6A120 /* CCParticleSystem.cpp in Sources */,
-				4ACB2153239802EA0025B0A8 /* SimpleAudioEngine.mm in Sources */,
 				255414B22D1948A78A7594CF /* CCParticleSystemQuad.cpp in Sources */,
 				B7B1F6765D8F4CB18DCFB2FC /* CCProgressTimer.cpp in Sources */,
 				31D39E949AB74FE49EBA49C1 /* CCProtectedNode.cpp in Sources */,
@@ -5770,17 +5672,13 @@
 				592FAC04801C4A0F98BF71D1 /* CCTransitionPageTurn.cpp in Sources */,
 				752FF53F625B40B68ED6C6F4 /* CCTransitionProgress.cpp in Sources */,
 				F0BAA3DB42A64656A74C1689 /* CCTweenFunction.cpp in Sources */,
-				7D402CB98480455ABAEC7681 /* AudioEngine.cpp in Sources */,
-				52A9BF2D85E74CED95AC6DF1 /* AudioCache.mm in Sources */,
 				4A6A9A2623707899009F16ED /* CCAttachNode.cpp in Sources */,
-				CA9950CB45EF4761B1F735F6 /* AudioDecoder.mm in Sources */,
-				70794670882C4CD187361A2C /* AudioEngine-inl.mm in Sources */,
-				216DA508E81D40D0B5DBB4EE /* AudioPlayer.mm in Sources */,
 				8C784EA71FE64EC6AFA89093 /* CCAsyncTaskPool.cpp in Sources */,
 				D315971B2FAE40958AA305FD /* CCAutoreleasePool.cpp in Sources */,
 				9472C975F1CF42659BF50F37 /* CCConfiguration.cpp in Sources */,
 				397DBCAB87864410B9397C81 /* CCConsole.cpp in Sources */,
 				0610E560C94C41D892550290 /* CCController-apple.mm in Sources */,
+				4A4A913D23AA80180070852B /* AudioEngine-inl.mm in Sources */,
 				5347FF7A287D4FDB884E433E /* CCController.cpp in Sources */,
 				FD83F9109CFE4EBA808E57FF /* CCData.cpp in Sources */,
 				33252B4D1D9D4D8AB66AD068 /* CCDirector.cpp in Sources */,
@@ -5817,7 +5715,6 @@
 				0BC21304A7594CDC83032258 /* CCValue.cpp in Sources */,
 				D5B06E549C5F44619AB25C68 /* ObjectFactory.cpp in Sources */,
 				9522C2C70C81433AAE7E85E9 /* TGAlib.cpp in Sources */,
-				4A6A999A237076D8009F16ED /* ALAudioPlayer.mm in Sources */,
 				99A423BC40384B9E91B6A5A1 /* ZipUtils.cpp in Sources */,
 				1639695FF7474209BED4CB2B /* atitc.cpp in Sources */,
 				33CC4DB306BD450BABE6AE40 /* base64.cpp in Sources */,
@@ -5912,7 +5809,6 @@
 				77DA7B7620084485BA3E3A16 /* ShaderModule.cpp in Sources */,
 				19D53DDA16584EDD85F3C80F /* Texture.cpp in Sources */,
 				25C4E3BB660C418AAB6C46F6 /* Types.cpp in Sources */,
-				4A6A99912370765C009F16ED /* CDOpenALSupport.m in Sources */,
 				AF513326421E4844B4CA0CD5 /* VertexLayout.cpp in Sources */,
 				44E2A0CCBC214AB3A5291E3A /* BufferMTL.mm in Sources */,
 				3D9E3CEA3D194F87991CCDB3 /* BufferManager.mm in Sources */,
@@ -5925,7 +5821,9 @@
 				52F281861AAF417AAABB2C66 /* ShaderModuleMTL.mm in Sources */,
 				828A9A8F6DE7484A8A3D0804 /* TextureMTL.mm in Sources */,
 				EEE3572126E04E4687F59879 /* Utils.mm in Sources */,
+				4A484E0823ABD4620098CCD0 /* CCApplicationProtocol.cpp in Sources */,
 				8C53CD7D33AC4A96A77C18EF /* ccShaders.cpp in Sources */,
+				4A4A913E23AA80180070852B /* AudioCache.mm in Sources */,
 				2ADB6692272F4965A73E5278 /* CCControl.cpp in Sources */,
 				4A6A9A1F23707898009F16ED /* CCAnimate3D.cpp in Sources */,
 				BB4FFE0200804D35895D4A75 /* CCControlButton.cpp in Sources */,
@@ -5959,12 +5857,12 @@
 				C56C7BA624FB44F69B84E30E /* CCPUBehaviour.cpp in Sources */,
 				E0C2734E213F4D82BABC2642 /* CCPUBehaviourManager.cpp in Sources */,
 				F094EA06F9BD4B89BEE8AE9D /* CCPUBehaviourTranslator.cpp in Sources */,
+				4A4A913C23AA80180070852B /* AudioDecoder.mm in Sources */,
 				6840F6EF4C484B9DA1D0E19A /* CCPUBillboardChain.cpp in Sources */,
 				C6CB981AC190437E9E7F9790 /* CCPUBoxCollider.cpp in Sources */,
 				C55497BA89F24D2197448BF7 /* CCPUBoxColliderTranslator.cpp in Sources */,
 				4A6A9A2E23707899009F16ED /* CCBundle3DData.cpp in Sources */,
 				E9669A71E7364FC5BF213A2E /* CCPUBoxEmitter.cpp in Sources */,
-				4ACB214C239802800025B0A8 /* SimpleAudioEngine_objc.m in Sources */,
 				510AFFA2705140B4B2AE220B /* CCPUBoxEmitterTranslator.cpp in Sources */,
 				175A369D430548969EE4EFA9 /* CCPUCircleEmitter.cpp in Sources */,
 				5941721A67384392B60D34E0 /* CCPUCircleEmitterTranslator.cpp in Sources */,
@@ -6010,6 +5908,7 @@
 				69581C385DD6442A9C17D3E1 /* CCPUInterParticleColliderTranslator.cpp in Sources */,
 				042085F778E041EAA54E7B25 /* CCPUJetAffector.cpp in Sources */,
 				BE823BF865444C3E915FA97C /* CCPUJetAffectorTranslator.cpp in Sources */,
+				4A484E0623ABD1B60098CCD0 /* CCProtocols.cpp in Sources */,
 				0781FF5A11BA462D81BD95D0 /* CCPULineAffector.cpp in Sources */,
 				4A6A9A1D23707898009F16ED /* CCBundle3D.cpp in Sources */,
 				A1427320812343DCBFB1CF45 /* CCPULineAffectorTranslator.cpp in Sources */,
@@ -6103,7 +6002,6 @@
 				EA19B70C8A0F4C5881F411B8 /* CCPUTextureRotatorTranslator.cpp in Sources */,
 				52203FA6DC894A90BF655164 /* CCPUTranslateManager.cpp in Sources */,
 				EF4F414A207D41F2909763FC /* CCPUUtil.cpp in Sources */,
-				4A6A999B237076D8009F16ED /* SimpleAudioPlayer.mm in Sources */,
 				41586E1EEF5C43CC84A2DF47 /* CCPUVelocityMatchingAffector.cpp in Sources */,
 				7F727A84C7C34292BB62EE85 /* CCPUVelocityMatchingAffectorTranslator.cpp in Sources */,
 				DF6DA53B1879412F8D5425A6 /* CCPUVertexEmitter.cpp in Sources */,
@@ -6115,6 +6013,7 @@
 				12D06F7E78D945C49B903D0A /* CCEventListenerAssetsManagerEx.cpp in Sources */,
 				93E893AD310B47AFA304ED47 /* Manifest.cpp in Sources */,
 				926A76B5F13147D0BBEC2E4A /* CCPhysicsDebugNode.cpp in Sources */,
+				4A4A913123AA80080070852B /* AudioEngine.cpp in Sources */,
 				D81D0E8B3E8547B0BDEBE539 /* CCPhysicsSprite.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6351,6 +6250,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -6398,6 +6298,7 @@
 		2D40227BB6D64D6D9C0345EE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -6428,6 +6329,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -6475,6 +6377,7 @@
 		320113544FEC4090AC1BA795 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -6504,6 +6407,7 @@
 		32264E0CB06748EF9F667720 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -6533,6 +6437,7 @@
 		362E126C41A84F8AB0F5403C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -6562,6 +6467,7 @@
 		467D02EC0A1F404288B61C61 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -6603,6 +6509,7 @@
 		4902833C03124BD493C4113D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -6633,6 +6540,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -6683,6 +6591,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -6732,6 +6641,7 @@
 		4ACB20682397FE170025B0A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -6763,6 +6673,7 @@
 		4ACB20692397FE170025B0A8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -6794,6 +6705,7 @@
 		4ACB20702397FE180025B0A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -6825,6 +6737,7 @@
 		4ACB20712397FE180025B0A8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -6856,6 +6769,7 @@
 		4ACB20772397FE190025B0A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -6887,6 +6801,7 @@
 		4ACB20782397FE190025B0A8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -6918,6 +6833,7 @@
 		4ACB207E2397FE1A0025B0A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -6949,6 +6865,7 @@
 		4ACB207F2397FE1A0025B0A8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -6980,6 +6897,7 @@
 		4ACB20892397FE1A0025B0A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7011,6 +6929,7 @@
 		4ACB208A2397FE1A0025B0A8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7042,6 +6961,7 @@
 		4ACB20A02397FE1B0025B0A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7073,6 +6993,7 @@
 		4ACB20A12397FE1B0025B0A8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7104,6 +7025,7 @@
 		4ACB20A72397FE1C0025B0A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7135,6 +7057,7 @@
 		4ACB20A82397FE1C0025B0A8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7166,6 +7089,7 @@
 		4ACB20B02397FE1D0025B0A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7197,6 +7121,7 @@
 		4ACB20B12397FE1D0025B0A8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7228,6 +7153,7 @@
 		4ACB20B72397FE1E0025B0A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7259,6 +7185,7 @@
 		4ACB20B82397FE1E0025B0A8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7290,6 +7217,7 @@
 		4ACB20BE2397FE1E0025B0A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7321,6 +7249,7 @@
 		4ACB20BF2397FE1E0025B0A8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7352,6 +7281,7 @@
 		4ACB20D92397FE1F0025B0A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7395,6 +7325,7 @@
 		4ACB20DA2397FE1F0025B0A8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7439,8 +7370,28 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = /System/Library/Frameworks;
 				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
 					"'COCOS2D_DEBUG=1'",
@@ -7459,6 +7410,12 @@
 					"RAPIDJSON_HAS_STDSTRING=1",
 					"AUTOMATION_ENGINE_ENABLED=1",
 				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/cocos2d/external\"";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
@@ -7470,6 +7427,7 @@
 		6101B32FB0D544048887CC29 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7499,6 +7457,7 @@
 		6A2B8BA9B38E402E906AF815 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7528,6 +7487,7 @@
 		81F1BCAE89BB4A7EBDD7D6E1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7557,6 +7517,7 @@
 		84D8FBA7C87241F490C4E4B7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7598,6 +7559,7 @@
 		8C1986052DDB42C19BD471D9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7627,6 +7589,7 @@
 		9BA58348EE194504AE114AC6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7656,6 +7619,7 @@
 		9E6B03A452AD4093B56AD0DF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7685,6 +7649,7 @@
 		9E9E367858224AB58C9E8EA1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7714,6 +7679,7 @@
 		9ED0D3B1436B43D483AF7AB9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7743,6 +7709,7 @@
 		A2265A336181427AB84AB7C2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7772,6 +7739,7 @@
 		A38484868A684D0682BDED45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7801,6 +7769,7 @@
 		A94D189C610C41DAAA812B4A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7830,6 +7799,7 @@
 		C502280DBF644987B7A5F220 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7859,6 +7829,7 @@
 		D3383D5087D64C3D8B3AA164 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7889,8 +7860,27 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = /System/Library/Frameworks;
 				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
 					__APPLE__,
@@ -7908,6 +7898,12 @@
 					"CC_USE_WEBP=0",
 					"RAPIDJSON_HAS_STDSTRING=1",
 				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/cocos2d/external\"";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
@@ -7919,6 +7915,7 @@
 		E235D5F323934E96B3F985FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;
@@ -7948,6 +7945,7 @@
 		FCF38CAB11BC43B59E3300F9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = NO;
 				EXECUTABLE_PREFIX = lib;

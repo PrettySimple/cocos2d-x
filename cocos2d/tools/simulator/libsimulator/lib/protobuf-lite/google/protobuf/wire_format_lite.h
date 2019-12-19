@@ -37,8 +37,7 @@
 // This header is logically internal, but is made public because it is used
 // from protocol-compiler-generated code, which may reside in other components.
 
-#ifndef GOOGLE_PROTOBUF_WIRE_FORMAT_LITE_H__
-#define GOOGLE_PROTOBUF_WIRE_FORMAT_LITE_H__
+#pragma once
 
 #include <string>
 #include <google/protobuf/stubs/common.h>
@@ -619,4 +618,3 @@ inline int64 WireFormatLite::ZigZagDecode64(uint64 n) {
 }  // namespace protobuf
 
 }  // namespace google
-#endif  // GOOGLE_PROTOBUF_WIRE_FORMAT_LITE_H__

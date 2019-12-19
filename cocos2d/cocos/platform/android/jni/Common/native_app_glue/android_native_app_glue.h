@@ -15,8 +15,7 @@
  *
  */
 
-#ifndef _ANDROID_NATIVE_APP_GLUE_H
-#define _ANDROID_NATIVE_APP_GLUE_H
+#pragma once
 
 #include <poll.h>
 #include <pthread.h>
@@ -350,5 +349,3 @@ extern "C"
 #ifdef __cplusplus
 }
 #endif
-
-#endif /* _ANDROID_NATIVE_APP_GLUE_H */

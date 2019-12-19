@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_BASE_ALLOCATOR_ALLOCATORSTRATEGYPOOL_H
-#define CC_BASE_ALLOCATOR_ALLOCATORSTRATEGYPOOL_H
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <sstream>
@@ -156,4 +156,3 @@ NS_CC_ALLOCATOR_END
 NS_CC_END
 
 /// @endcond
-#endif // CC_BASE_ALLOCATOR_ALLOCATORSTRATEGYPOOL_H

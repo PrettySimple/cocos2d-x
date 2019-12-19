@@ -1,5 +1,5 @@
-#ifndef CC_UI_GUIEXPORT_H
-#define CC_UI_GUIEXPORT_H
+
+#pragma once
 
 #if (defined(WIN32) && defined(_WINDOWS)) || defined(WINRT) || defined(WP8)
 #    ifdef __MINGW32__
@@ -29,5 +29,3 @@
 #else
 #    define CC_GUI_DLL
 #endif
-
-#endif // CC_UI_GUIEXPORT_H

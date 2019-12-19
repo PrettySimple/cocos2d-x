@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_NETWORK_HTTPRESPONSE_H
-#define CC_NETWORK_HTTPRESPONSE_H
+#pragma once
 
 #include <cocos/network/HttpRequest.h>
 
@@ -202,5 +201,3 @@ NS_CC_END
 
 // end group
 /// @}
-
-#endif // CC_NETWORK_HTTPRESPONSE_H

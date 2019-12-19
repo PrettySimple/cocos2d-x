@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_FRAME_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_FRAME_H
+#pragma once
 
 #include "CCTimelineMacro.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -430,5 +429,3 @@ private:
     static const std::string STOP_ACT;
 };
 NS_TIMELINE_END
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_FRAME_H

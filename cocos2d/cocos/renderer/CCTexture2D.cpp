@@ -318,7 +318,7 @@ bool Texture2D::initWithMipmaps(MipmapInfo* mipmaps, int mipmapsNum, backend::Pi
 
         if(info.compressed)
         {
-            _texture->updateCompressedData(data, width, height, dataLen, i);
+            _texture->updateCompressedData(data, width, height, static_cast<unsigned int>(dataLen), i);
         }
         else
         {

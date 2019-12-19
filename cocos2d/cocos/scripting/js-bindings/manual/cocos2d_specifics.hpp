@@ -21,8 +21,7 @@
  * THE SOFTWARE.
  */
 
-#ifndef __JS_COCOS2D_X_SPECIFICS_H__
-#define __JS_COCOS2D_X_SPECIFICS_H__
+#pragma once
 
 #include "scripting/js-bindings/manual/ScriptingCore.h"
 
@@ -304,5 +303,3 @@ bool js_cocos2dx_release(JSContext *cx, uint32_t argc, jsval *vp);
 
 void get_or_create_js_obj(JSContext* cx, JS::HandleObject obj, const std::string &name, JS::MutableHandleObject jsObj);
 void get_or_create_js_obj(const std::string &name, JS::MutableHandleObject jsObj);
-
-#endif

@@ -23,8 +23,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCCONSOLE_H__
-#define __CCCONSOLE_H__
+
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #if defined(_MSC_VER) || defined(__MINGW32__)
@@ -211,7 +212,7 @@ public:
     bool isIpv6Server() const;
     
     /** The command separator */
-    CC_SYNTHESIZE(char, _commandSeparator, CommandSeparator);
+    CC_SYNTHESIZE(char, _commandSeparator, CommandSeparator)
 
 protected:
     // Main Loop
@@ -293,7 +294,7 @@ protected:
 
     std::string _bindAddress;
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Console);
+    CC_DISALLOW_COPY_AND_ASSIGN(Console)
     
     // helper functions
     int printSceneGraph(int fd, Node* node, int level);
@@ -307,4 +308,3 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif /* defined(__CCCONSOLE_H__) */

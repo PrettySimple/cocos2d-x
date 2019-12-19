@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_SPRITE3DREADER_SPRITE3DREADER_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_SPRITE3DREADER_SPRITE3DREADER_H
+
+#pragma once
 
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -58,5 +58,3 @@ namespace cocostudio
         cocos2d::Vec2 getVec2Attribute(const tinyxml2::XMLAttribute* attribute) const;
     };
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_SPRITE3DREADER_SPRITE3DREADER_H

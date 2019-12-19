@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef BREAKABLE_TEST_H
-#define BREAKABLE_TEST_H
+#pragma once
 
 // This is used to test sensor shapes.
 class Breakable : public Test
@@ -151,5 +150,3 @@ public:
 	bool m_broke;
 	bool m_break;
 };
-
-#endif

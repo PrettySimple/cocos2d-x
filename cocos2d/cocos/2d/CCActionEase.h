@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_2D_ACTIONEASE_H
-#define CC_2D_ACTIONEASE_H
+
+#pragma once
 
 #include <cocos/2d/CCActionInterval.h>
 #include <cocos/base/ccConfig.h>
@@ -591,5 +591,3 @@ private:
 /// @}
 
 NS_CC_END
-
-#endif // CC_2D_ACTIONEASE_H

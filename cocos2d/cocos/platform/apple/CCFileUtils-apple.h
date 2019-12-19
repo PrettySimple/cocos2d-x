@@ -24,8 +24,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CC_FILEUTILS_APPLE_H__
-#define __CC_FILEUTILS_APPLE_H__
+#pragma once
 
 #include <memory>
 #include <string>
@@ -79,5 +78,3 @@ private:
 /// @}
 
 NS_CC_END
-
-#endif    // __CC_FILEUTILS_APPLE_H__

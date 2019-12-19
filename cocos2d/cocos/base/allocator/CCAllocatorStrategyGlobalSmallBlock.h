@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_BASE_ALLOCATOR_ALLOCATORSTRATEGYGLOBALSMALLBLOCK_H
-#define CC_BASE_ALLOCATOR_ALLOCATORSTRATEGYGLOBALSMALLBLOCK_H
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 /****************************************************************************
@@ -313,4 +313,3 @@ NS_CC_ALLOCATOR_END
 NS_CC_END
 
 /// @endcond
-#endif // CC_BASE_ALLOCATOR_ALLOCATORSTRATEGYGLOBALSMALLBLOCK_H

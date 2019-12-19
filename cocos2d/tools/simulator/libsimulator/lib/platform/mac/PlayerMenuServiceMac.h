@@ -1,6 +1,5 @@
 
-#ifndef __PLAYER_MENU_SERVICE_MAC_H_
-#define __PLAYER_MENU_SERVICE_MAC_H_
+#pragma once
 
 #include <unordered_map>
 
@@ -78,5 +77,3 @@ private:
 };
 
 PLAYER_NS_END
-
-#endif // __PLAYER_MENU_SERVICE_MAC_H_

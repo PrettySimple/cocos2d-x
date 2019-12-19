@@ -1,5 +1,5 @@
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_LOCALIZATIONMANAGER_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_LOCALIZATIONMANAGER_H
+
+#pragma once
 
 #include "editor-support/cocostudio/CocosStudioExport.h"
 
@@ -109,5 +109,3 @@ namespace cocostudio
         static bool isBinManager();
     };
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_LOCALIZATIONMANAGER_H

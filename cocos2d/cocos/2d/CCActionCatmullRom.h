@@ -31,8 +31,8 @@
  * Adapted from cocos2d-x to cocos2d-iphone by Ricardo Quesada
  */
 
-#ifndef CC_2D_ACTIONCATMULLROM_H
-#define CC_2D_ACTIONCATMULLROM_H
+
+#pragma once
 
 #include <cocos/2d/CCActionInterval.h>
 #include <cocos/base/CCRef.h>
@@ -343,5 +343,3 @@ extern CC_DLL Vec2 ccCardinalSplineAt(Vec2& p0, Vec2& p1, Vec2& p2, Vec2& p3, fl
 /// @}
 
 NS_CC_END;
-
-#endif // CC_2D_ACTIONCATMULLROM_H

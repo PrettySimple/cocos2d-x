@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef CAR_H
-#define CAR_H
+#pragma once
 
 // This is a fun demo that shows off the wheel joint
 class Car : public Test
@@ -282,5 +281,3 @@ public:
 	b2WheelJoint* m_spring1;
 	b2WheelJoint* m_spring2;
 };
-
-#endif

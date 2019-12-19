@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef CONVEX_HULL_H
-#define CONVEX_HULL_H
+#pragma once
 
 class ConvexHull : public Test
 {
@@ -112,5 +111,3 @@ public:
 	int32 m_count;
 	bool m_auto;
 };
-
-#endif

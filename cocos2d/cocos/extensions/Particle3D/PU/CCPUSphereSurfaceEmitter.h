@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SPHERESURFACEEMITTER_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_SPHERESURFACEEMITTER_H
+
+#pragma once
 
 #include <cocos/extensions/Particle3D/PU/CCPUEmitter.h>
 
@@ -61,5 +61,3 @@ protected:
     Vec3 _randomVector;
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_SPHERESURFACEEMITTER_H

@@ -1,5 +1,5 @@
-#ifndef CC_EDITORSUPPORT_COCOSBUILDER_PARTICLESYSTEMQUADLOADER_H
-#define CC_EDITORSUPPORT_COCOSBUILDER_PARTICLESYSTEMQUADLOADER_H
+
+#pragma once
 
 #include <cocos/2d/CCParticleSystemQuad.h>
 #include <cocos/base/CCRef.h>
@@ -78,5 +78,3 @@ namespace cocosbuilder
     };
 
 } // namespace cocosbuilder
-
-#endif // CC_EDITORSUPPORT_COCOSBUILDER_PARTICLESYSTEMQUADLOADER_H

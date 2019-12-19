@@ -23,8 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __WINRT_INPUT_EVENT__
-#define __WINRT_INPUT_EVENT__
+#pragma once
 
 #include "base/ccTypes.h"
 #include "platform/CCPlatformMacros.h"
@@ -141,5 +140,3 @@ private:
 };
 
 NS_CC_END
-
-#endif // #ifndef __WINRT_INPUT_EVENT__

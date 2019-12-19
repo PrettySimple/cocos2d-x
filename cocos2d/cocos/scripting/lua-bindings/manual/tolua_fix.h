@@ -1,6 +1,5 @@
 
-#ifndef __TOLUA_FIX_H_
-#define __TOLUA_FIX_H_
+#pragma once
 
 #include "tolua++.h"
 
@@ -128,5 +127,3 @@ TOLUA_API void toluafix_stack_dump(lua_State* L, const char* label);
 
 // end group
 /// @}
-
-#endif // __TOLUA_FIX_H_

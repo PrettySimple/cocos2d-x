@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_LUA_VALUE_H_
-#define __CC_LUA_VALUE_H_
+#pragma once
 
 #include <list>
 #include <map>
@@ -272,4 +271,3 @@ NS_CC_END
 
 // end group
 /// @}
-#endif // __CC_LUA_VALUE_H_

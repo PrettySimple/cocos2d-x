@@ -106,8 +106,7 @@
 // However, for practicality we set a limit at 64 bits.  The maximum encoded
 // length of a number is thus 10 bytes.
 
-#ifndef GOOGLE_PROTOBUF_IO_CODED_STREAM_H__
-#define GOOGLE_PROTOBUF_IO_CODED_STREAM_H__
+#pragma once
 
 #include <string>
 #ifdef _MSC_VER
@@ -1133,4 +1132,3 @@ inline bool CodedInputStream::IsFlat() const {
 #endif  // _MSC_VER
 
 }  // namespace google
-#endif  // GOOGLE_PROTOBUF_IO_CODED_STREAM_H__

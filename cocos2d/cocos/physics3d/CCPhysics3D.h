@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __PHYSICS_3D_H__
-#define __PHYSICS_3D_H__
+
+#pragma once
 
 #include <cocos/base/ccConfig.h>
 #include <cocos/math/CCMath.h>
@@ -66,5 +66,3 @@ btQuaternion convertQuatTobtQuat(const cocos2d::Quaternion& quat);
 #    endif // CC_ENABLE_BULLET_INTEGRATION
 
 #endif // CC_USE_3D_PHYSICS
-
-#endif // __PHYSICS_3D_H__

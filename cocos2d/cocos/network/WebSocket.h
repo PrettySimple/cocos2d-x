@@ -27,8 +27,7 @@
 
  ****************************************************************************/
 
-#ifndef CC_NETWORK_WEBSOCKET_H
-#define CC_NETWORK_WEBSOCKET_H
+#pragma once
 
 #include <cocos/platform/CCPlatformDefine.h>
 #include <cocos/platform/CCPlatformMacros.h>
@@ -258,5 +257,3 @@ NS_CC_END
 
 // end group
 /// @}
-
-#endif // CC_NETWORK_WEBSOCKET_H

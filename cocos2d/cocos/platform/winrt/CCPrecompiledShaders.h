@@ -22,8 +22,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CC_PRECOMPILED_SHADERS_H__
-#define __CC_PRECOMPILED_SHADERS_H__
+#pragma once
 
 #include "platform/CCCommon.h"
 #include "platform/winrt/CCGL.h"
@@ -83,5 +82,3 @@ protected:
 };
 
 NS_CC_END
-
-#endif // __CC_PRECOMPILED_SHADERS_H__

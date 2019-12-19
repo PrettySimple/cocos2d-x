@@ -25,8 +25,7 @@
  ****************************************************************************/
 
 
-#ifndef __CC_PU_PARTICLE_MESH_SURFACE_EMITTER_H__
-#define __CC_PU_PARTICLE_MESH_SURFACE_EMITTER_H__
+#pragma once
 
 #include "extensions/Particle3D/PU/CCPUEmitter.h"
 
@@ -257,5 +256,3 @@ protected:
 };
 
 NS_CC_END
-
-#endif

@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef DISTANCE_TEST_H
-#define DISTANCE_TEST_H
+#pragma once
 
 class DistanceTest : public Test
 {
@@ -131,5 +130,3 @@ public:
 	b2PolygonShape m_polygonA;
 	b2PolygonShape m_polygonB;
 };
-
-#endif

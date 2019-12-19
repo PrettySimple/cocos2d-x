@@ -20,8 +20,7 @@
  * SOFTWARE.
  */
 
-#ifndef CC_EXTENSIONS_PHYSICSNODES_SPRITE_H
-#define CC_EXTENSIONS_PHYSICSNODES_SPRITE_H
+#pragma once
 
 #include <cocos/2d/CCSprite.h>
 #include <cocos/base/CCEventListenerCustom.h>
@@ -148,5 +147,3 @@ protected:
 NS_CC_EXT_END
 
 #endif // CC_ENABLE_CHIPMUNK_INTEGRATION || CC_ENABLE_BOX2D_INTEGRATION
-
-#endif // CC_EXTENSIONS_PHYSICSNODES_SPRITE_H

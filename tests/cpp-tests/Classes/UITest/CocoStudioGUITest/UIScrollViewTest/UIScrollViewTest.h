@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__UIScrollViewTest__
-#define __TestCpp__UIScrollViewTest__
+#pragma once
 
 #include "../UIScene.h"
 
@@ -154,4 +153,3 @@ protected:
 
     cocos2d::ui::Text* _displayValueLabel;
 };
-#endif /* defined(__TestCpp__UIScrollViewTest__) */

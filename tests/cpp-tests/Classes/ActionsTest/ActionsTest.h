@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _ActionsTest_H_
-#define _ActionsTest_H_
+#pragma once
 
 #include "../BaseTest.h"
 
@@ -595,5 +594,3 @@ public:
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
-
-#endif

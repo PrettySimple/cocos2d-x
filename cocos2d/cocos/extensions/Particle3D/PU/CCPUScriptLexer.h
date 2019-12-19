@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTLEXER_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTLEXER_H
+
+#pragma once
 
 #include <cocos/base/CCRef.h>
 #include <string>
@@ -76,5 +76,3 @@ private: // Private utility operations
 };
 
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTLEXER_H

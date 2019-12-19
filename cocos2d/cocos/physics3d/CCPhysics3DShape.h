@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __PHYSICS_3D_SHAPE_H__
-#define __PHYSICS_3D_SHAPE_H__
+
+#pragma once
 
 #include <cocos/base/CCRef.h>
 #include <cocos/base/ccConfig.h>
@@ -158,5 +158,3 @@ NS_CC_END
 #    endif // CC_ENABLE_BULLET_INTEGRATION
 
 #endif // CC_USE_3D_PHYSICS
-
-#endif // __PHYSICS_3D_SHAPE_H__

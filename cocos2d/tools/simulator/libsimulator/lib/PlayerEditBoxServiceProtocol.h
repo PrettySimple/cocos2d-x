@@ -1,6 +1,5 @@
 
-#ifndef __PLAYER_EDITBOX_SERVICE_PROTOCOL_H_
-#define __PLAYER_EDITBOX_SERVICE_PROTOCOL_H_
+#pragma once
 
 #include <string>
 
@@ -33,5 +32,3 @@ protected:
 };
 
 PLAYER_NS_END
-
-#endif // __PLAYER_EDITBOX_SERVICE_PROTOCOL_H_

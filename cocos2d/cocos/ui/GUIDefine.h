@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_UI_GUIDEFINE_H
-#define CC_UI_GUIDEFINE_H
+#pragma once
 
 #include <cocos/base/ObjectFactory.h>
 #include <string>
@@ -63,5 +62,3 @@ public:                                          \
 
 #define LAYOUT_COMPONENT_NAME "__ui_layout"
 ///@endcond
-
-#endif // CC_UI_GUIDEFINE_H

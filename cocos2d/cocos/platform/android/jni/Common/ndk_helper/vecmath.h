@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#ifndef VECMATH_H_
-#define VECMATH_H_
+#pragma once
 
 #include "JNIHelper.h"
 #include <math.h>
@@ -1051,4 +1050,3 @@ namespace ndk_helper
     };
 
 } // namespace ndk_helper
-#endif /* VECMATH_H_ */

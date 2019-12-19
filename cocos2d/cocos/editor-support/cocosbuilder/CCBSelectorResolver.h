@@ -1,5 +1,5 @@
-#ifndef CC_EDITORSUPPORT_COCOSBUILDER_SELECTORRESOLVER_H
-#define CC_EDITORSUPPORT_COCOSBUILDER_SELECTORRESOLVER_H
+
+#pragma once
 
 #include <cocos/extensions/GUI/CCControlExtension/CCInvocation.h>
 
@@ -48,5 +48,3 @@ namespace cocosbuilder
     };
 
 } // namespace cocosbuilder
-
-#endif // CC_EDITORSUPPORT_COCOSBUILDER_SELECTORRESOLVER_H

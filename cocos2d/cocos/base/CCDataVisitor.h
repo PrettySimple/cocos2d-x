@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_BASE_DATAVISITOR_H
-#define CC_BASE_DATAVISITOR_H
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <cocos/platform/CCPlatformDefine.h>
@@ -111,4 +111,3 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif // CC_BASE_DATAVISITOR_H

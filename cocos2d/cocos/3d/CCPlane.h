@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PLANE_H_
-#define __CC_PLANE_H_
+#pragma once
 
 #include <cocos/base/ccMacros.h>
 #include <cocos/math/CCMath.h>
@@ -107,5 +106,3 @@ protected:
 };
 
 NS_CC_END
-
-#endif

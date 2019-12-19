@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__UIListViewTest__
-#define __TestCpp__UIListViewTest__
+#pragma once
 
 #include "../UIScene.h"
 #include "ui/UIScrollView.h"
@@ -178,5 +177,3 @@ public:
         return cocos2d::ui::ScrollView::Direction::HORIZONTAL;
     }
 };
-
-#endif /* defined(__TestCpp__UIListViewTest__) */

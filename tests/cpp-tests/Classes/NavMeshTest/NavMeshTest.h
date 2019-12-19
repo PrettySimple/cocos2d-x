@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _NAVMESH_TEST_H_
-#define _NAVMESH_TEST_H_
+#pragma once
 
 #include "../BaseTest.h"
 #include "navmesh/CCNavMesh.h"
@@ -121,7 +120,5 @@ protected:
     cocos2d::Label *_agentLabel;
     cocos2d::Label *_debugLabel;
 };
-
-#endif
 
 #endif

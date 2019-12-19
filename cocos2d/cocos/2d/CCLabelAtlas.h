@@ -25,8 +25,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CCLABEL_ATLAS_H__
-#define __CCLABEL_ATLAS_H__
+#pragma once
 
 #include <cocos/2d/CCAtlasNode.h>
 #if CC_LABELATLAS_DEBUG_DRAW
@@ -129,5 +128,3 @@ protected:
 
 
 NS_CC_END
-
-#endif //__CCLABEL_ATLAS_H__

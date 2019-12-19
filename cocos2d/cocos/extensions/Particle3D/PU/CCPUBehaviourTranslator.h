@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_BEHAVIOURTRANSLATOR_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_BEHAVIOURTRANSLATOR_H
+
+#pragma once
 
 #include <cocos/extensions/Particle3D/PU/CCPUBehaviour.h>
 #include <cocos/extensions/Particle3D/PU/CCPUScriptCompiler.h>
@@ -44,5 +44,3 @@ public:
 };
 
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_BEHAVIOURTRANSLATOR_H

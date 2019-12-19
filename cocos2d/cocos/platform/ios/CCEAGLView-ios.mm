@@ -167,7 +167,8 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 - (void) captureGPU
 {
-        MTLCaptureManager* captureManager = [MTLCaptureManager sharedCaptureManager];
+    MTLCaptureManager* captureManager = [MTLCaptureManager sharedCaptureManager];
+    if (@available(iOS 13.0, *)) {
         MTLCaptureDescriptor* captureDescriptor = [[MTLCaptureDescriptor alloc] init];
         captureDescriptor.captureObject = cocos2d::backend::DeviceMTL::getCAMetalLayer().device;
         
@@ -176,7 +177,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
         {
             NSLog(@"Failed to start capture, error %@", error);
         }
-    
+    }
 }
 
 
@@ -513,21 +514,6 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     CCLOG("setMarkedTextRange");
 }
 
-- (UITextRange *)markedTextRange
-{
-    CCLOG("markedTextRange");
-    return nil; // Nil if no marked text.
-}
-- (void)setMarkedTextStyle:(NSDictionary *)markedTextStyle
-{
-    CCLOG("setMarkedTextStyle");
-    
-}
-- (NSDictionary *)markedTextStyle
-{
-    CCLOG("markedTextStyle");
-    return nil;
-}
 - (void)setMarkedText:(NSString *)markedText selectedRange:(NSRange)selectedRange
 {
     CCLOG("setMarkedText");

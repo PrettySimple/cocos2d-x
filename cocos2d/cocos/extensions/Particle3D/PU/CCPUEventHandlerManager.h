@@ -22,8 +22,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_EVENTHANDLERMANAGER_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_EVENTHANDLERMANAGER_H
+
+#pragma once
 
 #include <cocos/base/CCRef.h>
 #include <cocos/extensions/Particle3D/PU/CCPUDoAffectorEventHandlerTranslator.h>
@@ -63,5 +63,3 @@ protected:
 };
 
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_EVENTHANDLERMANAGER_H

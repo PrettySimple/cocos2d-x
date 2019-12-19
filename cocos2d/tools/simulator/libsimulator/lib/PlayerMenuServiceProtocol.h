@@ -1,6 +1,5 @@
 
-#ifndef __PLAYER_MENU_SERVICE_PROTOCOL_H
-#define __PLAYER_MENU_SERVICE_PROTOCOL_H
+#pragma once
 
 #include <string>
 
@@ -63,5 +62,3 @@ public:
 };
 
 PLAYER_NS_END
-
-#endif // __PLAYER_MENU_SERVICE_PROTOCOL_H

@@ -19,8 +19,8 @@
  This file was modified to fit the cocos2d-x project
  */
 
-#ifndef CC_MATH_MAT4_H
-#define CC_MATH_MAT4_H
+
+#pragma once
 
 #include <cocos/math/CCMathBase.h>
 #include <cocos/math/Vec3.h>
@@ -1044,5 +1044,3 @@ NS_CC_MATH_END
  end of base group
  @}
  */
-
-#endif // CC_MATH_MAT4_H

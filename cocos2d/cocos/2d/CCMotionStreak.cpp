@@ -144,7 +144,7 @@ bool MotionStreak::initWithFade(float fade, float minSeg, float stroke, const Co
     std::vector<uint8_t> zeros;
     zeros.resize(VERTEX_SIZE * _vertexCount);
     std::fill(zeros.begin(), zeros.end(), 0);
-    _customCommand.updateVertexBuffer(zeros.data(), zeros.size());
+    _customCommand.updateVertexBuffer(zeros.data(), static_cast<int>(zeros.size()));
 
     setTexture(texture);
     setColor(color);

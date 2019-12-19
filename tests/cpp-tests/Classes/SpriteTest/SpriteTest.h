@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _SPRITE_TEST_H_
-#define _SPRITE_TEST_H_
+#pragma once
 
 #include "cocos2d.h"
 #include "../BaseTest.h"
@@ -801,5 +800,3 @@ protected:
     
     cocos2d::Vec3 rotation;
 };
-
-#endif

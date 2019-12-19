@@ -142,7 +142,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @js NA
      * @lua NA
      */
-    virtual ~ClippingNode();
+    virtual ~ClippingNode() override;
 
     /** Initializes a clipping node without a stencil.
      */
@@ -167,7 +167,7 @@ protected:
     std::unordered_map<Node*, backend::ProgramState*> _originalStencilProgramState;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ClippingNode);
+    CC_DISALLOW_COPY_AND_ASSIGN(ClippingNode)
 };
 /** @} */
 NS_CC_END

@@ -21,8 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __COCOS_SCRIPTING_LUA_BINDING_MANUAL_NAVMESH_LUA_NAVMESH_CONVERSIONS_H__
-#define __COCOS_SCRIPTING_LUA_BINDING_MANUAL_NAVMESH_LUA_NAVMESH_CONVERSIONS_H__
+#pragma once
 
 #if CC_USE_NAVMESH
 
@@ -47,4 +46,3 @@ extern void navmeshagentparam_to_luaval(lua_State* L, const cocos2d::NavMeshAgen
 extern void offmeshlinkdata_to_luaval(lua_State* L, const cocos2d::OffMeshLinkData& inValue);
 
 #endif // #if CC_USE_NAVMESH
-#endif // __COCOS_SCRIPTING_LUA_BINDING_MANUAL_NAVMESH_LUA_NAVMESH_CONVERSIONS_H__

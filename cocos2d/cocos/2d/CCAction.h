@@ -25,8 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_2D_ACTION_H
-#define CC_2D_ACTION_H
+
+#pragma once
 
 #include <cocos/base/CCRef.h>
 #include <cocos/math/CCGeometry.h>
@@ -423,5 +423,3 @@ public:
 /// @}
 
 NS_CC_END
-
-#endif // CC_2D_ACTION_H

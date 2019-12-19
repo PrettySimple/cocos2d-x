@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_ACTIONTIMELINENODE_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_ACTIONTIMELINENODE_H
+#pragma once
 
 #include "CCActionTimeline.h"
 #include "CCTimelineMacro.h"
@@ -56,5 +55,3 @@ protected:
 };
 
 NS_TIMELINE_END
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_ACTIONTIMELINENODE_H

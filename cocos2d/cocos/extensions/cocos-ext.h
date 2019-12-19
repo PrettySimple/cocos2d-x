@@ -1,5 +1,5 @@
-#ifndef CC_EXTENSIONS_EXT_H
-#define CC_EXTENSIONS_EXT_H
+
+#pragma once
 
 #include <cocos/extensions/ExtensionMacros.h>
 
@@ -23,5 +23,3 @@
 #include "Particle3D/CCParticle3DRender.h"
 #include "Particle3D/CCParticleSystem3D.h"
 #include "Particle3D/PU/CCPUParticleSystem3D.h"
-
-#endif // CC_EXTENSIONS_EXT_H

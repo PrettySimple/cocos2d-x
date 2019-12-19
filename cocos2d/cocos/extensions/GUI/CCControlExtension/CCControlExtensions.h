@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_EXTENSIONS_H
-#define CC_EXTENSIONS_GUI_CONTROLEXTENSION_EXTENSIONS_H
+#pragma once
 
 #include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
 #include <cocos/extensions/GUI/CCControlExtension/CCControlButton.h>
@@ -32,5 +31,3 @@ THE SOFTWARE.
 #include <cocos/extensions/GUI/CCControlExtension/CCControlSlider.h>
 #include <cocos/extensions/GUI/CCControlExtension/CCControlStepper.h>
 #include <cocos/extensions/GUI/CCControlExtension/CCControlSwitch.h>
-
-#endif // CC_EXTENSIONS_GUI_CONTROLEXTENSION_EXTENSIONS_H

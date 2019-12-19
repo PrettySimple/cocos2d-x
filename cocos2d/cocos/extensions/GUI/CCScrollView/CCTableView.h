@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_GUI_SCROLLVIEW_TABLEVIEW_H
-#define CC_EXTENSIONS_GUI_SCROLLVIEW_TABLEVIEW_H
+#pragma once
 
 #include <cocos/base/CCVector.h>
 #include <cocos/extensions/ExtensionExport.h>
@@ -338,5 +337,3 @@ public:
 NS_CC_EXT_END
 // end of ui group
 /// @}
-
-#endif // CC_EXTENSIONS_GUI_SCROLLVIEW_TABLEVIEW_H

@@ -31,6 +31,9 @@ CallbackCommand::CallbackCommand()
     _type = RenderCommand::Type::CALLBACK_COMMAND;
 }
 
+CallbackCommand::~CallbackCommand()
+{}
+
 void CallbackCommand::init(float globalOrder)
 {
     _globalOrder = globalOrder;

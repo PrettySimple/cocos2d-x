@@ -24,8 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __PLATFORM_MAC_CCGL_H__
-#define __PLATFORM_MAC_CCGL_H__
+#pragma once
 
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
@@ -35,5 +34,3 @@ THE SOFTWARE.
 #import <OpenGL/glext.h>
 
 #endif // __PLATFORM_MAC_CCGL_H__
-
-#endif //s CC_TARGET_PLATFORM == CC_PLATFORM_MAC

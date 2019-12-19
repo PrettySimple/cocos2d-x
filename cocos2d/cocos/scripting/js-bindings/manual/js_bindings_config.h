@@ -21,8 +21,7 @@
  * THE SOFTWARE.
  */
 
-#ifndef __JS_BINDINGS_CONFIG_H
-#define __JS_BINDINGS_CONFIG_H
+#pragma once
 
 /** @def JSB_ASSERT_ON_FAIL
  Whether or not to assert when the arguments or conversions are incorrect.
@@ -162,5 +161,3 @@
 #ifndef JSB_MAX_STACK_QUOTA
 #    define JSB_MAX_STACK_QUOTA 500000
 #endif // JSB_MAX_STACK_QUOTA
-
-#endif // __JS_BINDINGS_CONFIG_H

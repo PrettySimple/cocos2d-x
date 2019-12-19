@@ -24,8 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_SCRIPT_TRANSLATOR_H__
-#define __CC_PU_SCRIPT_TRANSLATOR_H__
+#pragma once
 
 #include <iostream>
 
@@ -752,5 +751,3 @@ public:
     virtual bool isParticleSystemTranslator() const { return false; }
 };
 NS_CC_END
-
-#endif /* defined(__ssaafsdf__CCScriptTranslator__) */

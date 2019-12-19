@@ -42,6 +42,9 @@ class CC_DLL CallbackCommand : public RenderCommand
 {
 public:
     CallbackCommand();
+    CallbackCommand(const CallbackCommand &) = default;
+    CallbackCommand(CallbackCommand &&) = default;
+    virtual ~CallbackCommand() override;
 
     void init(float globalZOrder);
     void init(float globalZorder, const Mat4 &transform, unsigned int);

@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_PATHFOLLOWER_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_PATHFOLLOWER_H
+
+#pragma once
 
 #include <cocos/base/ccTypes.h>
 #include <cocos/extensions/Particle3D/PU/CCPUAffector.h>
@@ -63,5 +63,3 @@ protected:
     PUSimpleSpline _spline;
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_PATHFOLLOWER_H

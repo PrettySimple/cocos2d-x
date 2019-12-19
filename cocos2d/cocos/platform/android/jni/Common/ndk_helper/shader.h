@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#ifndef SHADER_H_
-#define SHADER_H_
+#pragma once
 
 #include <jni.h>
 
@@ -113,4 +112,3 @@ namespace ndk_helper
     } // namespace shader
 
 } // namespace ndk_helper
-#endif /* SHADER_H_ */

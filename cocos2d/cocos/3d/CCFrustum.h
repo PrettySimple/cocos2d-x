@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_FRUSTUM_H_
-#define __CC_FRUSTUM_H_
+#pragma once
 
 #include <cocos/base/ccMacros.h>
 #include <cocos/math/CCMath.h>
@@ -84,5 +83,3 @@ protected:
 };
 
 NS_CC_END
-
-#endif//__CC_FRUSTUM_H_

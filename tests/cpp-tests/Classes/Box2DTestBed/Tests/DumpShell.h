@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef DUMP_SHELL_H
-#define DUMP_SHELL_H
+#pragma once
 
 // This test holds worlds dumped using b2World::Dump.
 class DumpShell : public Test
@@ -171,5 +170,3 @@ public:
 		return new DumpShell;
 	}
 };
-
-#endif

@@ -61,6 +61,8 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 */
 
+#pragma once
+
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
@@ -105,7 +107,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 @property(nonatomic, readonly) UITextPosition *beginningOfDocument;
 @property(nonatomic, readonly) UITextPosition *endOfDocument;
-@property(nonatomic, assign) id<UITextInputDelegate> inputDelegate;
+@property(nonatomic, assign, unsafe_unretained) id<UITextInputDelegate> inputDelegate;
 @property(nonatomic, readonly) UITextRange *markedTextRange;
 @property (nonatomic, copy) NSDictionary *markedTextStyle;
 @property(readwrite, copy) UITextRange *selectedTextRange;

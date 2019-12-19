@@ -1,6 +1,5 @@
 
-#ifndef __PLAYER_MessageBoxServiceMac_h
-#define __PLAYER_MessageBoxServiceMac_h
+#pragma once
 
 #include <vector>
 
@@ -25,5 +24,3 @@ protected:
 };
 
 PLAYER_NS_END
-
-#endif // __PLAYER_MessageBoxServiceMac_h

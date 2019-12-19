@@ -124,12 +124,13 @@ std::string Application::getVersion() {
     return "";
 }
 
-bool Application::openURL(const std::string &url)
-{
-    NSString* msg = [NSString stringWithCString:url.c_str() encoding:NSUTF8StringEncoding];
-    NSURL* nsUrl = [NSURL URLWithString:msg];
-    return [[UIApplication sharedApplication] openURL:nsUrl];
-}
+// Deprecated
+//bool Application::openURL(const std::string &url)
+//{
+//    NSString* msg = [NSString stringWithCString:url.c_str() encoding:NSUTF8StringEncoding];
+//    NSURL* nsUrl = [NSURL URLWithString:msg];
+//    return [[UIApplication sharedApplication] openURL:nsUrl];
+//}
 
 void Application::applicationScreenSizeChanged(int newWidth, int newHeight) {
 

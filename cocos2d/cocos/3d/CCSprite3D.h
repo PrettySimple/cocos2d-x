@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCSPRITE3D_H__
-#define __CCSPRITE3D_H__
+#pragma once
 
 #include <unordered_map>
 
@@ -203,7 +202,7 @@ public:
 CC_CONSTRUCTOR_ACCESS:
     
     Sprite3D();
-    virtual ~Sprite3D();
+    virtual ~Sprite3D() override;
     
     virtual bool init() override;
     
@@ -339,4 +338,3 @@ protected:
 /// @}
 
 NS_CC_END
-#endif // __SPRITE3D_H_

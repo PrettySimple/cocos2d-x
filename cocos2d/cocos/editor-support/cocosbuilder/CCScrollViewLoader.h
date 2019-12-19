@@ -1,5 +1,5 @@
-#ifndef CC_EDITORSUPPORT_COCOSBUILDER_SCROLLVIEWLOADER_H
-#define CC_EDITORSUPPORT_COCOSBUILDER_SCROLLVIEWLOADER_H
+
+#pragma once
 
 #include "CCNodeLoader.h"
 #include <cocos/extensions/GUI/CCScrollView/CCScrollView.h>
@@ -35,5 +35,3 @@ namespace cocosbuilder
     };
 
 } // namespace cocosbuilder
-
-#endif // CC_EDITORSUPPORT_COCOSBUILDER_SCROLLVIEWLOADER_H

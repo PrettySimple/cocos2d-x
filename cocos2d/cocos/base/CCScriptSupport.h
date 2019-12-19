@@ -24,8 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __SCRIPT_SUPPORT_H__
-#define __SCRIPT_SUPPORT_H__
+#pragma once
 
 #include <cocos/base/ccConfig.h>
 #include <cocos/platform/CCCommon.h>
@@ -919,5 +918,3 @@ NS_CC_END
 
 // end group
 /// @}
-
-#endif // __SCRIPT_SUPPORT_H__

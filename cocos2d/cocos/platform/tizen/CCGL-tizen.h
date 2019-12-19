@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCGL_H__
-#define __CCGL_H__
+#pragma once
 
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
@@ -61,5 +60,3 @@
 ELEMENTARY_GLVIEW_GLOBAL_DECLARE();
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
-
-#endif // __CCGL_H__

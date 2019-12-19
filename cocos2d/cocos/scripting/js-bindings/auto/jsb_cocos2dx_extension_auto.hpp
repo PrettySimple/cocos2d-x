@@ -1,6 +1,5 @@
 #include "base/ccConfig.h"
-#ifndef __cocos2dx_extension_h__
-#define __cocos2dx_extension_h__
+#pragma once
 
 #include "jsapi.h"
 #include "jsfriendapi.h"
@@ -367,5 +366,3 @@ void js_cocos2dx_extension_EventListenerAssetsManagerEx_finalize(JSContext *cx, 
 void js_register_cocos2dx_extension_EventListenerAssetsManagerEx(JSContext *cx, JS::HandleObject global);
 void register_all_cocos2dx_extension(JSContext* cx, JS::HandleObject obj);
 bool js_cocos2dx_extension_EventListenerAssetsManagerEx_EventListenerAssetsManagerEx(JSContext *cx, uint32_t argc, jsval *vp);
-
-#endif // __cocos2dx_extension_h__

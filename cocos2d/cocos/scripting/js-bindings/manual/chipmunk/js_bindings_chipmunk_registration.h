@@ -21,9 +21,6 @@
  * THE SOFTWARE.
  */
 
-#ifndef __JSB_CHIPMUNK_REGISTRATION
-#define __JSB_CHIPMUNK_REGISTRATION
+#pragma once
 
 void jsb_register_chipmunk(JSContext* globalC, JS::HandleObject globalO);
-
-#endif // __JSB_CHIPMUNK_REGISTRATION

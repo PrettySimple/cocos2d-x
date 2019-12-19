@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef VARYING_RESTITUTION_H
-#define VARYING_RESTITUTION_H
+#pragma once
 
 // Note: even with a restitution of 1.0, there is some energy change
 // due to position correction.
@@ -65,5 +64,3 @@ public:
 		return new VaryingRestitution;
 	}
 };
-
-#endif

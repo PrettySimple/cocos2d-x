@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SHAPE_EDITING_H
-#define SHAPE_EDITING_H
+#pragma once
 
 class ShapeEditing : public Test
 {
@@ -101,5 +100,3 @@ public:
 	b2Fixture* m_fixture2;
 	bool m_sensor;
 };
-
-#endif

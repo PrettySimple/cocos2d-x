@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCSKELETON3D_H__
-#define __CCSKELETON3D_H__
+#pragma once
 
 #include <cocos/3d/CCBundle3DData.h>
 #include <cocos/base/CCRef.h>
@@ -238,5 +237,3 @@ protected:
 /// @}
 
 NS_CC_END
-
-#endif // __CCSKELETON3D_H__

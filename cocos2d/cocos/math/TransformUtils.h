@@ -24,8 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_MATH_TRANSFORMUTILS_H
-#define CC_MATH_TRANSFORMUTILS_H
+#pragma once
 
 // TODO: when in MAC or windows, it includes <OpenGL/gl.h>
 
@@ -53,4 +52,3 @@ namespace cocos2d
  end of base group
  @}
  */
-#endif // CC_MATH_TRANSFORMUTILS_H

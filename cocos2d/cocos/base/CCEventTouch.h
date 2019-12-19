@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__TouchEvent__
-#define __cocos2d_libs__TouchEvent__
+#pragma once
 
 #include <cocos/base/CCEvent.h>
 #include <vector>
@@ -80,12 +79,12 @@ public:
      * 
      * @param eventCode A given EventCode.
      */
-    void setEventCode(EventCode eventCode) { _eventCode = eventCode; };
+    void setEventCode(EventCode eventCode) { _eventCode = eventCode; }
     /** Set the touches
      *
      * @param touches A given touches vector.
      */
-    void setTouches(const std::vector<Touch*>& touches) { _touches = touches; };
+    void setTouches(const std::vector<Touch*>& touches) { _touches = touches; }
 #endif
     
 private:
@@ -100,5 +99,3 @@ NS_CC_END
 
 // end of base group
 /// @}
-
-#endif /* defined(__cocos2d_libs__TouchEvent__) */

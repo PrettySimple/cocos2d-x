@@ -21,8 +21,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef UTLIST_H
-#define UTLIST_H
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #define UTLIST_VERSION 1.9.8
@@ -726,4 +726,3 @@ do {                                                                            
 } while (0)                                                                                    \
 
 /// @endcond
-#endif /* UTLIST_H */

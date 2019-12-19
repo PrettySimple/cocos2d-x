@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCValue__
-#define __cocos2d_libs__CCValue__
+#pragma once
 
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/base/ccMacros.h>
@@ -249,5 +248,3 @@ private:
 
 NS_CC_END
 
-
-#endif /* defined(__cocos2d_libs__CCValue__) */

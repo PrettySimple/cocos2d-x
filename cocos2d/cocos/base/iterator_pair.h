@@ -5,8 +5,7 @@
 //  Created by Mathieu Garaud on 06/02/2018.
 //
 
-#ifndef CC_BASE_ITERATORPAIR_H
-#define CC_BASE_ITERATORPAIR_H
+#pragma once
 
 #include <cocos/platform/CCPlatformMacros.h>
 
@@ -51,5 +50,3 @@ inline iterator_pair<PairIter> make_iterator_pair(PairIter&& p)
 }
 
 NS_CC_END
-
-#endif // CC_BASE_ITERATORPAIR_H

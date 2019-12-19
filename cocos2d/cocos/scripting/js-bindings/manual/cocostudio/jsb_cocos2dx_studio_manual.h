@@ -21,12 +21,9 @@
  * THE SOFTWARE.
  */
 
-#ifndef __jsb_cocos2dx_studio_manual__
-#define __jsb_cocos2dx_studio_manual__
+#pragma once
 
 #include "jsapi.h"
 #include "jsfriendapi.h"
 
 void register_all_cocos2dx_studio_manual(JSContext* cx, JS::HandleObject global);
-
-#endif /* defined(__jsb_cocos2dx_studio_manual__) */

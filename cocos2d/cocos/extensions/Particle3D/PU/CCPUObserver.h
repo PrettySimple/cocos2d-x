@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_OBSERVER_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_OBSERVER_H
+
+#pragma once
 
 #include <cocos/base/CCRef.h>
 #include <cocos/extensions/Particle3D/PU/CCPUParticleSystem3D.h>
@@ -239,5 +239,3 @@ protected:
 };
 
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_OBSERVER_H

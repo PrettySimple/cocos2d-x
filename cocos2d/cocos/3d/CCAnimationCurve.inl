@@ -58,9 +58,6 @@ void AnimationCurve<componentSize>::evaluate(float time, float* dst, EvaluateTyp
                 _evaluateFun(time, dst);
         }
         break;
-            
-        default:
-            break;
     }
 }
 

@@ -24,8 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCGLVIEW_H__
-#define __CCGLVIEW_H__
+#pragma once
 
 #include <cocos/base/ccTypes.h>
 #include <cocos/base/CCEventTouch.h>
@@ -138,7 +137,7 @@ public:
      *
      * @return In ios and android it will return false,if in windows or Mac it will return true.
      */
-    virtual bool windowShouldClose() { return false; };
+    virtual bool windowShouldClose() { return false; }
 
     /** Static method and member so that we can modify it on all platforms before create OpenGL context. 
      *
@@ -366,20 +365,20 @@ public:
      *
      * @param filename A path to image file, e.g., "icons/cusom.png". 
      */
-    virtual void setIcon(const std::string& filename) const {};
+    virtual void setIcon(const std::string& filename) const {}
 
     /** Set window icon (implemented for windows and linux).
      * Best icon (based on size) will be auto selected.
      * 
      * @param filelist The array contains icons.
      */
-    virtual void setIcon(const std::vector<std::string>& filelist) const {};
+    virtual void setIcon(const std::vector<std::string>& filelist) const {}
 
     /** Set default window icon (implemented for windows and linux).
      * On windows it will use icon from .exe file (if included).
      * On linux it will use default window icon.
      */
-    virtual void setDefaultIcon() const {};
+    virtual void setDefaultIcon() const {}
 
     /**
      * Get the opengl view port rectangle.
@@ -453,5 +452,3 @@ protected:
 /// @}
 
 NS_CC_END
-
-#endif /* __CCGLVIEW_H__ */

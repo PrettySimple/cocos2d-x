@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_SINGLENODEREADER_SINGLENODEREADER_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_SINGLENODEREADER_SINGLENODEREADER_H
+#pragma once
 
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -50,5 +49,3 @@ namespace cocostudio
         cocos2d::Node* createNodeWithFlatBuffers(const flatbuffers::Table* singleNodeOptions);
     };
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_SINGLENODEREADER_SINGLENODEREADER_H

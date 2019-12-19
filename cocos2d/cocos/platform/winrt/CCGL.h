@@ -23,8 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCGL_H__
-#define __CCGL_H__
+#pragma once
 
 #define GL_BGRA GL_BGRA_EXT
 #define glClearDepth glClearDepthf
@@ -48,5 +47,3 @@ THE SOFTWARE.
 #    define GL_WRITE_ONLY GL_WRITE_ONLY_OES
 
 #endif
-
-#endif // __CCGL_H__

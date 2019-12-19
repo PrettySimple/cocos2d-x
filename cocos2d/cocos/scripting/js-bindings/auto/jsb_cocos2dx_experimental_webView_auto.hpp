@@ -1,7 +1,6 @@
 #include "base/ccConfig.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS) && !defined(CC_TARGET_OS_TVOS)
-#ifndef __cocos2dx_experimental_webView_h__
-#define __cocos2dx_experimental_webView_h__
+#pragma once
 
 #include "jsapi.h"
 #include "jsfriendapi.h"
@@ -34,4 +33,3 @@ bool js_cocos2dx_experimental_webView_WebView_create(JSContext *cx, uint32_t arg
 bool js_cocos2dx_experimental_webView_WebView_WebView(JSContext *cx, uint32_t argc, jsval *vp);
 
 #endif // __cocos2dx_experimental_webView_h__
-#endif //#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS) && !defined(CC_TARGET_OS_TVOS)

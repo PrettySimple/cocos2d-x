@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_WIDGETREADER_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_WIDGETREADER_H
+#pragma once
 
 #include "WidgetReaderProtocol.h"
 #include "cocostudio/CCSGUIReader.h"
@@ -291,5 +290,3 @@ namespace cocostudio
     else if (key == P_AnchorPointY) { _originalAnchorPoint.y = valueToFloat(value); }
 
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_WIDGETREADER_H

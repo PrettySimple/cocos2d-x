@@ -23,8 +23,7 @@
  *
  */
 
-#ifndef __CCCONTROLSTEPPERTEST_H__
-#define __CCCONTROLSTEPPERTEST_H__
+#pragma once
 
 #include "../CCControlScene.h"
 
@@ -44,6 +43,3 @@ protected:
     CC_SYNTHESIZE_RETAIN(cocos2d::Label*, _displayValueLabel, DisplayValueLabel)
         
 };
-
-#endif /* __CCCONTROLSTEPPERTEST_H__ */
-

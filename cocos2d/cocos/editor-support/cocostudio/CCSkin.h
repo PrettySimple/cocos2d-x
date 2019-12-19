@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_SKIN_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_SKIN_H
+#pragma once
 
 #include <cocos/2d/CCSprite.h>
 #include <cocos/renderer/CCQuadCommand.h>
@@ -84,5 +83,3 @@ namespace cocostudio
     };
 
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_SKIN_H

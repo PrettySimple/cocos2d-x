@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__UIRadioButtonTest__
-#define __TestCpp__UIRadioButtonTest__
+#pragma once
 
 #include "../UIScene.h"
 
@@ -80,5 +79,3 @@ public:
     CREATE_FUNC(UIRadioButtonTabTest);
     virtual bool init() override;
 };
-
-#endif /* defined(__TestCpp__UIRadioButtonTest__) */

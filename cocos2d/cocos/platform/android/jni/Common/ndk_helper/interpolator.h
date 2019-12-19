@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#ifndef INTERPOLATOR_H_
-#define INTERPOLATOR_H_
+#pragma once
 
 #include "JNIHelper.h"
 #include "perfMonitor.h"
@@ -77,4 +76,3 @@ namespace ndk_helper
     };
 
 } // namespace ndk_helper
-#endif /* INTERPOLATOR_H_ */

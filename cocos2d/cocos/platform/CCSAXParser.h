@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCSAXPARSER_H__
-#define __CCSAXPARSER_H__
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <cocos/platform/CCPlatformConfig.h>
@@ -124,4 +124,3 @@ public:
 NS_CC_END
 
 /// @endcond
-#endif //__CCSAXPARSER_H__

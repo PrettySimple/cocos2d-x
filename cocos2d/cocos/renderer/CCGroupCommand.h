@@ -24,8 +24,7 @@
  ****************************************************************************/
 
 
-#ifndef _CC_GROUPCOMMAND_H_
-#define _CC_GROUPCOMMAND_H_
+#pragma once
 
 #include <vector>
 #include <unordered_map>
@@ -86,4 +85,3 @@ NS_CC_END
  end of support group
  @}
  */
-#endif //_CC_GROUPCOMMAND_H_

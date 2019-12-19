@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef MOTOR_JOINT_H
-#define MOTOR_JOINT_H
+#pragma once
 
 /// This test shows how to use a motor joint. A motor joint
 /// can be used to animate a dynamic body. With finite motor forces
@@ -110,5 +109,3 @@ public:
 	float32 m_time;
 	bool m_go;
 };
-
-#endif

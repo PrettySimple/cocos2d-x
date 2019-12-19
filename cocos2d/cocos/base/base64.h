@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __SUPPORT_BASE64_H__
-#define __SUPPORT_BASE64_H__
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <cocos/platform/CCPlatformMacros.h>
@@ -67,4 +67,3 @@ int CC_DLL base64Encode(const unsigned char *in, unsigned int inLength, char **o
 #endif    
 
 /// @endcond
-#endif // __SUPPORT_BASE64_H__

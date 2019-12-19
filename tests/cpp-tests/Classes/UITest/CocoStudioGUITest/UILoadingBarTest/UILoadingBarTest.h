@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__UILoadingBarTest__
-#define __TestCpp__UILoadingBarTest__
+#pragma once
 
 #include "../UIScene.h"
 
@@ -141,5 +140,3 @@ protected:
     int _count;
     cocos2d::ui::LoadingBar* _loadingBar;
 };
-
-#endif /* defined(__TestCpp__UILoadingBarTest__) */

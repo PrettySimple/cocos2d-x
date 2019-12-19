@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef DYNAMIC_TREE_TEST_H
-#define DYNAMIC_TREE_TEST_H
+#pragma once
 
 class DynamicTreeTest : public Test
 {
@@ -353,5 +352,3 @@ private:
 	int32 m_stepCount;
 	bool m_automated;
 };
-
-#endif

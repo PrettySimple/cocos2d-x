@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_RENDERCOMMANDPOOL_H__
-#define __CC_RENDERCOMMANDPOOL_H__
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <list>
@@ -100,4 +100,3 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif

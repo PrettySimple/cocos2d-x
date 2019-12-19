@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_RENDER_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_RENDER_H
+
+#pragma once
 
 #include <vector>
 
@@ -228,4 +228,3 @@ protected:
 };
 
 NS_CC_END
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_RENDER_H

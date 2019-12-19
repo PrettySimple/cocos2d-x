@@ -1,5 +1,5 @@
-#ifndef __CCBPROXY_H_
-#define __CCBPROXY_H_
+
+#pragma once
 
 #include "audio/include/SimpleAudioEngine.h"
 #include "editor-support/cocosbuilder/CocosBuilder.h"
@@ -102,5 +102,3 @@ public:
     CCB_STATIC_NEW_AUTORELEASE_OBJECT_METHOD(CCBLayerLoader, loader);
 };
 /// @endcond
-
-#endif // __CCBPROXY_H_

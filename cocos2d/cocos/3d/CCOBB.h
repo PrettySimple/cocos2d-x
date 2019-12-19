@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_OBB_H__
-#define __CC_OBB_H__
+#pragma once
 
 #include <cocos/3d/CCAABB.h>
 
@@ -144,5 +143,3 @@ public:
 /// @}
 
 NS_CC_END
-
-#endif

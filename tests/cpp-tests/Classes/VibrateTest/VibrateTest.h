@@ -24,8 +24,7 @@
 
 #include "platform/CCPlatformConfig.h"
 
-#ifndef __VIBRATE_TEST_H_
-#define __VIBRATE_TEST_H_
+#pragma once
 
 #include "cocos2d.h"
 #include "../BaseTest.h"
@@ -57,5 +56,3 @@ private:
     bool _updateTimeSlider;
 };
 
-
-#endif /* defined(__VIBRATE_TEST_H_) */

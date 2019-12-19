@@ -23,8 +23,7 @@ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CC_FILEUTILS_ANDROID_H__
-#define __CC_FILEUTILS_ANDROID_H__
+#pragma once
 
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
@@ -90,5 +89,3 @@ private:
 NS_CC_END
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-
-#endif // __CC_FILEUTILS_ANDROID_H__

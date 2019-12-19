@@ -26,8 +26,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_2D_ACTIONMANAGER_H
-#define CC_2D_ACTIONMANAGER_H
+
+#pragma once
 
 #include <cocos/2d/CCActionManagerData.h>
 #include <cocos/base/CCRef.h>
@@ -185,5 +185,3 @@ public:
 /// @}
 
 NS_CC_END
-
-#endif // CC_2D_ACTIONMANAGER_H

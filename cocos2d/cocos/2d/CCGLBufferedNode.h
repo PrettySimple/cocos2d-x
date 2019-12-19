@@ -22,8 +22,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef CC_2D_GLBUFFEREDNODE_H
-#define CC_2D_GLBUFFEREDNODE_H
+
+#pragma once
 
 #include <cocos/platform/CCGL.h>
 #include <cocos/platform/CCPlatformMacros.h>
@@ -75,4 +75,3 @@ public:
 private:
     void _clearBuffers();
 };
-#endif // CC_2D_GLBUFFEREDNODE_H

@@ -24,8 +24,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_SCRIPT_COMPILER_H__
-#define __CC_PU_SCRIPT_COMPILER_H__
+#pragma once
+
 #include <cocos/base/CCRef.h>
 #include "extensions/Particle3D/PU/CCPUScriptParser.h"
 
@@ -166,5 +166,3 @@ private:
 
 
 NS_CC_END
-
-#endif /* defined(__ssaafsdf__CCScriptCompile__) */

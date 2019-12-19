@@ -26,8 +26,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CCTMX_OBJECT_GROUP_H__
-#define __CCTMX_OBJECT_GROUP_H__
+#pragma once
 
 #include <cocos/math/CCGeometry.h>
 #include <cocos/base/CCValue.h>
@@ -140,5 +139,3 @@ protected:
 /** @} */
 
 NS_CC_END
-
-#endif //__CCTMX_OBJECT_GROUP_H__

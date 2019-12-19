@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef RAY_CAST_H
-#define RAY_CAST_H
+#pragma once
 
 // This test demonstrates how to use the world ray-cast feature.
 // NOTE: we are intentionally filtering one of the polygons, therefore
@@ -477,5 +476,3 @@ public:
 
 	Mode m_mode;
 };
-
-#endif

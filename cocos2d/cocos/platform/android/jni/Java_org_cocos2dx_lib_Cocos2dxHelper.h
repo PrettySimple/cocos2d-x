@@ -23,8 +23,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __Java_org_cocos2dx_lib_Cocos2dxHelper_H__
-#define __Java_org_cocos2dx_lib_Cocos2dxHelper_H__
+
+#pragma once
 
 #include <string>
 
@@ -37,5 +37,3 @@ extern void conversionEncodingJNI(const char* src, int byteSize, const char* fro
 
 extern int getDeviceSampleRate();
 extern int getDeviceAudioBufferSizeInFrames();
-
-#endif /* __Java_org_cocos2dx_lib_Cocos2dxHelper_H__ */

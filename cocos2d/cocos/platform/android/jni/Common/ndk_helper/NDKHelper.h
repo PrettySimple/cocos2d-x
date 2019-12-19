@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#ifndef _NDKSUPPORT_H
-#define _NDKSUPPORT_H
+#pragma once
 
 /******************************************************************
  * NDK support helpers
@@ -36,4 +35,3 @@
 #include "shader.h" //Shader compiler support
 #include "tapCamera.h" //Tap/Pinch camera control
 #include "vecmath.h" //Vector math support, C++ implementation n current version
-#endif

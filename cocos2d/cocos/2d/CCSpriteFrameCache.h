@@ -28,8 +28,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __SPRITE_CCSPRITE_FRAME_CACHE_H__
-#define __SPRITE_CCSPRITE_FRAME_CACHE_H__
+#pragma once
 
 #include <set>
 #include <unordered_map>
@@ -309,5 +308,3 @@ protected:
 /// @}
 
 NS_CC_END
-
-#endif // __SPRITE_CCSPRITE_FRAME_CACHE_H__

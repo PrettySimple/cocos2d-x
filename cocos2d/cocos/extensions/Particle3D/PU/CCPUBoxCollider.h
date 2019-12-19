@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_BOXCOLLIDER_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_BOXCOLLIDER_H
+
+#pragma once
 
 #include "CCPUBaseCollider.h"
 
@@ -110,5 +110,3 @@ protected:
     bool _innerCollision;
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_BOXCOLLIDER_H

@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_BUNDLE_3D_DATA_H__
-#define __CC_BUNDLE_3D_DATA_H__
+#pragma once
 
 #include <cocos/base/CCRef.h>
 #include <cocos/base/ccTypes.h>
@@ -38,8 +37,6 @@
 #include <string>
 
 #include <cocos/3d/CC3DProgramInfo.h>
-
-using namespace std::chrono_literals;
 
 NS_CC_BEGIN
 
@@ -66,7 +63,7 @@ struct ModelData
     std::vector<std::string> bones;
     std::vector<Mat4>        invBindPose;
     
-    virtual ~ModelData() {}
+    virtual ~ModelData();
 
     virtual void resetData()
     {
@@ -86,10 +83,8 @@ struct NodeData
     std::vector<ModelData*> modelNodeDatas;
     std::vector<NodeData*>  children;
 
-    virtual ~NodeData()
-    {
-        resetData();
-    }
+    virtual ~NodeData();
+    
     virtual void resetData()
     {
         id.clear();
@@ -118,10 +113,7 @@ struct NodeDatas
     std::vector<NodeData*> skeleton; //skeleton
     std::vector<NodeData*> nodes; // nodes, CCNode, Sprite3D or part of Sprite3D
     
-    virtual ~NodeDatas()
-    {
-        resetData();
-    }
+    virtual ~NodeDatas();
     
     void resetData()
     {
@@ -423,7 +415,7 @@ public:
     
     void resetData()
     {
-        _totalTime = 0ms;
+        _totalTime = std::chrono::milliseconds{0};
         _translationKeys.clear();
         _rotationKeys.clear();
         _scaleKeys.clear();
@@ -442,5 +434,3 @@ struct Reference
 };
 
 NS_CC_END
-
-#endif //__CC_BUNDLE_3D_DATA_H__

@@ -24,8 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_APPLICATION_IOS_H__
-#define __CC_APPLICATION_IOS_H__
+#pragma once
 
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
@@ -48,7 +47,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~Application();
+    virtual ~Application() override;
         
     /**
     @brief    Run the message loop.
@@ -94,7 +93,8 @@ public:
      @param String with url to open.
      @return true if the resource located by the URL was successfully opened; otherwise false.
      */
-    virtual bool openURL(const std::string &url) override;
+    // Deprecated
+//    virtual bool openURL(const std::string &url) override;
 
     /**
     @brief  This function will be called when the application screen size is changed.
@@ -110,5 +110,3 @@ protected:
 NS_CC_END
 
 #endif // CC_PLATFORM_IOS
-
-#endif    // end of __CC_APPLICATION_IOS_H__

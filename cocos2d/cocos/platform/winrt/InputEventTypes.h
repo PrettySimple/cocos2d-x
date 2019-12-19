@@ -23,8 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __INPUT_EVENT_TYPES__
-#define __INPUT_EVENT_TYPES__
+#pragma once
 
 NS_CC_BEGIN
 
@@ -37,5 +36,3 @@ enum class Cocos2dKeyEvent : int
 };
 
 NS_CC_END
-
-#endif // #ifndef __INPUT_EVENT_TYPES__

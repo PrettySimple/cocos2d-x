@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_BASEFORCEAFFECTOR_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_BASEFORCEAFFECTOR_H
+
+#pragma once
 
 #include <cocos/extensions/Particle3D/PU/CCPUAffector.h>
 #include <cocos/math/CCMath.h>
@@ -65,5 +65,3 @@ protected:
     ForceApplication _forceApplication;
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_BASEFORCEAFFECTOR_H

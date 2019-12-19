@@ -1,6 +1,5 @@
 
-#ifndef __PLAYER_FILE_DIALOG_SERVICE_WIN_H_
-#define __PLAYER_FILE_DIALOG_SERVICE_WIN_H_
+#pragma once
 
 #include "stdafx.h"
 #include "PlayerFileDialogServiceProtocol.h"
@@ -34,5 +33,3 @@ protected:
 };
 
 PLAYER_NS_END
-
-#endif // __PLAYER_FILE_DIALOG_SERVICE_WIN_H_

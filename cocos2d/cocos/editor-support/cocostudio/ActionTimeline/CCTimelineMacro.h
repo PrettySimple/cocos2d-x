@@ -22,8 +22,7 @@ Copyright (c) 2013-2014 Chukong Technologies
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_MACRO_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_MACRO_H
+#pragma once
 
 #ifdef __cplusplus
 #    define NS_TIMELINE_BEGIN  \
@@ -40,5 +39,3 @@ Copyright (c) 2013-2014 Chukong Technologies
 #    define NS_TIMELINE_END
 #    define USING_NS_TIMELINE
 #endif
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_MACRO_H

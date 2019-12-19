@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_NAVMESH_NAVMESHOBSTACLE_H
-#define CC_NAVMESH_NAVMESHOBSTACLE_H
+#pragma once
 
 #include <cocos/base/ccConfig.h>
 #if CC_USE_NAVMESH
@@ -116,5 +115,3 @@ private:
 NS_CC_END
 
 #endif // CC_USE_NAVMESH
-
-#endif // CC_NAVMESH_NAVMESHOBSTACLE_H

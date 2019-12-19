@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_BOXEMITTER_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_BOXEMITTER_H
+
+#pragma once
 
 #include <cocos/extensions/Particle3D/PU/CCPUEmitter.h>
 
@@ -76,5 +76,3 @@ protected:
     float _zRange;
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_BOXEMITTER_H

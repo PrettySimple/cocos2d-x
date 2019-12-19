@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__UISliderTest__
-#define __TestCpp__UISliderTest__
+#pragma once
 
 #include "../UIScene.h"
 
@@ -126,4 +125,3 @@ public:
 protected:
     cocos2d::ui::TextBMFont* _displayValueLabel;
 };
-#endif /* defined(__TestCpp__UISliderTest__) */

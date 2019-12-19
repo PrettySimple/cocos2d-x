@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef PULLEYS_H
-#define PULLEYS_H
+#pragma once
 
 class Pulleys : public Test
 {
@@ -102,5 +101,3 @@ public:
 
 	b2PulleyJoint* m_joint1;
 };
-
-#endif

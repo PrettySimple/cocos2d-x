@@ -341,10 +341,10 @@ unsigned char* FontFreeType::getGlyphBitmap(uint64_t theChar, long &outWidth, lo
             int glyphMinY = (int)(-outHeight - outRect.origin.y);
             int glyphMaxY = (int)-outRect.origin.y;
 
-            int outlineMinX = bbox.xMin >> 6;
-            int outlineMaxX = bbox.xMax >> 6;
-            int outlineMinY = bbox.yMin >> 6;
-            int outlineMaxY = bbox.yMax >> 6;
+            int outlineMinX = static_cast<int>(bbox.xMin >> 6);
+            int outlineMaxX = static_cast<int>(bbox.xMax >> 6);
+            int outlineMinY = static_cast<int>(bbox.yMin >> 6);
+            int outlineMaxY = static_cast<int>(bbox.yMax >> 6);
             auto outlineWidth = outlineMaxX - outlineMinX;
             auto outlineHeight = outlineMaxY - outlineMinY;
 
@@ -383,7 +383,7 @@ unsigned char* FontFreeType::getGlyphBitmap(uint64_t theChar, long &outWidth, lo
                     for (int y = 0; y < outHeight; ++y)
                     {
                         index = px + x + ((y + py) * blendWidth);
-                        index2 = x + (y * outWidth);
+                        index2 = static_cast<int>(x + (y * outWidth));
                         blendImage[2 * index + 1] = copyBitmap[index2];
                     }
                 }

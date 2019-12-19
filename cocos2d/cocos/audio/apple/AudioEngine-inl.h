@@ -22,79 +22,65 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+#pragma once
 
-#ifndef CC_AUDIO_APPLE_AUDIOENGINEINL_H
-#define CC_AUDIO_APPLE_AUDIOENGINEINL_H
-
-#include <cocos/audio/apple/ALAudioPlayer.h>
-#include <cocos/audio/apple/AudioCache.h>
-#include <cocos/audio/apple/AudioPlayer.h>
-#include <cocos/audio/apple/SimpleAudioPlayer.h>
-#include <cocos/base/CCRef.h>
-#include <cocos/platform/CCPlatformConfig.h>
-
-#include <chrono>
-#include <list>
 #include <unordered_map>
+#include <list>
 
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+#include "base/CCRef.h"
+#include "audio/apple/AudioCache.h"
+#include "audio/apple/AudioPlayer.h"
 
 NS_CC_BEGIN
 class Scheduler;
 
-namespace experimental
+#define MAX_AUDIOINSTANCES 24
+
+class AudioEngineImpl : public cocos2d::Ref
 {
-#    define MAX_AUDIOINSTANCES 24
+public:
+    AudioEngineImpl();
+    ~AudioEngineImpl();
 
-    class AudioEngineImpl : public cocos2d::Ref
-    {
-    public:
-        AudioEngineImpl();
-        ~AudioEngineImpl();
+    bool init();
+    int play2d(const std::string &fileFullPath ,bool loop ,float volume);
+    void setVolume(int audioID,float volume);
+    void setLoop(int audioID, bool loop);
+    bool pause(int audioID);
+    bool resume(int audioID);
+    void stop(int audioID);
+    void stopAll();
+    float getDuration(int audioID);
+    float getCurrentTime(int audioID);
+    bool setCurrentTime(int audioID, float time);
+    void setFinishCallback(int audioID, const std::function<void (int, const std::string &)> &callback);
 
-        bool init();
-        int play2d(const std::string& fileFullPath, bool loop, float volume, bool isMusic);
-        void setVolume(int audioID, float volume);
-        void setLoop(int audioID, bool loop);
-        bool pause(int audioID);
-        bool resume(int audioID);
-        void stop(int audioID);
-        void stopAll();
-        std::chrono::milliseconds getDuration(int audioID);
-        float getCurrentTime(int audioID);
-        bool setCurrentTime(int audioID, float time);
-        void setFinishCallback(int audioID, const std::function<void(int, const std::string&)>& callback);
+    void uncache(const std::string& filePath);
+    void uncacheAll();
+    AudioCache* preload(const std::string& filePath, std::function<void(bool)> callback);
+    void update(std::chrono::milliseconds dt);
 
-        void uncache(const std::string& filePath);
-        void uncacheAll();
-        AudioCache& preload(const std::string& filePath, std::function<void(bool)> const& callback);
-        void update(std::chrono::milliseconds dt);
+private:
+    void _play2d(AudioCache *cache, int audioID);
+    ALuint findValidSource();
 
-    private:
-        void _play2d(AudioPlayer* player, AudioCache& audioCache, bool loop, float volume);
-        void _play2d(AudioCache& cache, int audioID, std::shared_ptr<std::atomic_bool> isCacheDestroyed);
-        ALuint findValidSource();
+    static ALvoid myAlSourceNotificationCallback(ALuint sid, ALuint notificationID, ALvoid* userData);
 
-        static ALvoid myAlSourceNotificationCallback(ALuint sid, ALuint notificationID, ALvoid* userData);
+    ALuint _alSources[MAX_AUDIOINSTANCES];
 
-        ALuint _alSources[MAX_AUDIOINSTANCES];
+    //source,used
+    std::list<ALuint> _unusedSourcesPool;
 
-        // source,used
-        std::list<ALuint> _unusedSourcesPool;
+    //filePath,bufferInfo
+    std::unordered_map<std::string, AudioCache> _audioCaches;
 
-        // filePath,bufferInfo
-        std::unordered_map<std::string, AudioCache> _audioCaches;
+    //audioID,AudioInfo
+    std::unordered_map<int, AudioPlayer*>  _audioPlayers;
+    std::mutex _threadMutex;
 
-        // audioID,AudioInfo
-        std::unordered_map<int, AudioPlayer*> _audioPlayers;
-        std::mutex _threadMutex;
+    bool _lazyInitLoop;
 
-        bool _lazyInitLoop;
-
-        int _currentAudioID;
-        Scheduler* _scheduler;
-    };
-} // namespace experimental
+    int _currentAudioID;
+    Scheduler* _scheduler;
+};
 NS_CC_END
-#endif
-#endif // CC_AUDIO_APPLE_AUDIOENGINEINL_H

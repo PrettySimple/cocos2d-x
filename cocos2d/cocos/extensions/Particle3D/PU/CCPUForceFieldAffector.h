@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_FORCEFIELDAFFECTOR_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_FORCEFIELDAFFECTOR_H
+
+#pragma once
 
 #include "extensions/Particle3D/PU/CCPUForceField.h"
 #include <cocos/extensions/Particle3D/PU/CCPUAffector.h>
@@ -155,5 +155,3 @@ protected:
     bool _suppressGeneration; // Prevents re-generation of the complete forcefield after a change.
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_FORCEFIELDAFFECTOR_H

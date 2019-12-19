@@ -748,13 +748,12 @@ void TransitionShrinkGrow::onEnter()
 
     _inScene->runAction(this->easeActionWithAction(scaleIn));
     _outScene->runAction
-    ({
-        Sequence::create
+    (Sequence::create
         ({
             this->easeActionWithAction(scaleOut),
             CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this))
         })
-    });
+    );
 }
 ActionInterval* TransitionShrinkGrow:: easeActionWithAction(ActionInterval* action)
 {
@@ -1397,14 +1396,13 @@ void TransitionTurnOffTiles::onEnter()
     TurnOffTiles* toff = TurnOffTiles::create(_duration, Size(x,y));
     ActionInterval* action = easeActionWithAction(toff);
     _outSceneProxy->runAction
-    ({
-        Sequence::create
+    (Sequence::create
      ({
             action,
             CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
             StopGrid::create()
     })
-    });
+    );
 }
 
 void TransitionTurnOffTiles::onExit()

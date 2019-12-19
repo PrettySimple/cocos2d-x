@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_ASSETSMANAGER_ASSETSMANAGER_H
-#define CC_EXTENSIONS_ASSETSMANAGER_ASSETSMANAGER_H
+#pragma once
 
 #include <string>
 
@@ -231,5 +230,3 @@ CC_DEPRECATED_ATTRIBUTE typedef AssetsManager CCAssetsManager;
 CC_DEPRECATED_ATTRIBUTE typedef AssetsManagerDelegateProtocol CCAssetsManagerDelegateProtocol;
 
 NS_CC_EXT_END;
-
-#endif // CC_EXTENSIONS_ASSETSMANAGER_ASSETSMANAGER_H

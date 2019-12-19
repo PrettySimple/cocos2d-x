@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__UIImageViewTest__
-#define __TestCpp__UIImageViewTest__
+#pragma once
 
 #include "../UIScene.h"
 
@@ -80,5 +79,3 @@ public:
     
     virtual bool init() override;
 };
-
-#endif /* defined(__TestCpp__UIImageViewTest__) */

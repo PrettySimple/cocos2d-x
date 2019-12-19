@@ -2,6 +2,17 @@
 
 NS_CC_BEGIN
 
+ModelData::~ModelData() {}
+
+NodeData::~NodeData()
+{
+    resetData();
+}
+
+NodeDatas::~NodeDatas()
+{
+    resetData();
+}
 
 int MeshVertexAttrib::getAttribSizeBytes() const
 {

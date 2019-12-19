@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2016-2017 Chukong Technologies Inc.
+Copyright (c) 2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -23,77 +24,75 @@ THE SOFTWARE.
 ****************************************************************************/
 #pragma once
 
+#include <mutex>
 #include "audio/android/IAudioPlayer.h"
 #include "audio/android/PcmData.h"
 #include "audio/android/Track.h"
-#include <mutex>
 
-namespace cocos2d
+namespace cocos2d {
+
+class ICallerThreadUtils;
+class AudioMixerController;
+
+class PcmAudioPlayer : public IAudioPlayer
 {
-    namespace experimental
-    {
-        class ICallerThreadUtils;
-        class AudioMixerController;
+public:
 
-        class PcmAudioPlayer : public IAudioPlayer
-        {
-        public:
-            bool prepare(const std::string& url, const PcmData& decResult);
+    bool prepare(const std::string &url, const PcmData &decResult);
 
-            // Override Functions Begin
-            virtual int getId() const override { return _id; };
+    // Override Functions Begin
+    virtual int getId() const override { return _id; };
 
-            virtual void setId(int id) override { _id = id; };
+    virtual void setId(int id) override { _id = id; };
 
-            virtual std::string getUrl() const override { return _url; };
+    virtual std::string getUrl() const override { return _url; };
 
-            virtual State getState() const override;
+    virtual State getState() const override;
 
-            virtual void play() override;
+    virtual void play() override;
 
-            virtual void pause() override;
+    virtual void pause() override;
 
-            virtual void resume() override;
+    virtual void resume() override;
 
-            virtual void stop() override;
+    virtual void stop() override;
 
-            virtual void rewind() override;
+    virtual void rewind() override;
 
-            virtual void setVolume(float volume) override;
+    virtual void setVolume(float volume) override;
 
-            virtual float getVolume() const override;
+    virtual float getVolume() const override;
 
-            virtual void setAudioFocus(bool isFocus) override;
+    virtual void setAudioFocus(bool isFocus) override;
 
-            virtual void setLoop(bool isLoop) override;
+    virtual void setLoop(bool isLoop) override;
 
-            virtual bool isLoop() const override;
+    virtual bool isLoop() const override;
 
-            virtual float getDuration() const override;
+    virtual float getDuration() const override;
 
-            virtual float getPosition() const override;
+    virtual float getPosition() const override;
 
-            virtual bool setPosition(float pos) override;
+    virtual bool setPosition(float pos) override;
 
-            virtual void setPlayEventCallback(const PlayEventCallback& playEventCallback) override;
+    virtual void setPlayEventCallback(const PlayEventCallback &playEventCallback) override;
 
-            // Override Functions End
+    // Override Functions End
 
-        private:
-            PcmAudioPlayer(AudioMixerController* controller, ICallerThreadUtils* callerThreadUtils);
-            virtual ~PcmAudioPlayer();
+private:
+    PcmAudioPlayer(AudioMixerController * controller, ICallerThreadUtils* callerThreadUtils);
+    virtual ~PcmAudioPlayer();
 
-        private:
-            int _id;
-            std::string _url;
-            PcmData _decResult;
-            Track* _track;
-            PlayEventCallback _playEventCallback;
-            AudioMixerController* _controller;
-            ICallerThreadUtils* _callerThreadUtils;
+private:
+    int _id;
+    std::string _url;
+    PcmData _decResult;
+    Track* _track;
+    PlayEventCallback _playEventCallback;
+    AudioMixerController * _controller;
+    ICallerThreadUtils* _callerThreadUtils;
 
-            friend class AudioPlayerProvider;
-        };
+    friend class AudioPlayerProvider;
+};
 
-    } // namespace experimental
-} // namespace cocos2d
+} // namespace cocos2d {

@@ -21,8 +21,7 @@
  * THE SOFTWARE.
  */
 
-#ifndef __jsb_cocos2dx_spine_manual__
-#define __jsb_cocos2dx_spine_manual__
+#pragma once
 
 #include "editor-support/spine/spine-cocos2dx.h"
 #include "jsapi.h"
@@ -41,5 +40,3 @@ extern jsval sptimeline_to_jsval(JSContext* cx, spTimeline& v);
 extern jsval spanimationstate_to_jsval(JSContext* cx, spAnimationState& v);
 extern jsval spanimation_to_jsval(JSContext* cx, spAnimation& v);
 extern jsval sptrackentry_to_jsval(JSContext* cx, spTrackEntry& v);
-
-#endif /* defined(__jsb_cocos2dx_spine_manual__) */

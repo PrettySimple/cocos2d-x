@@ -4,8 +4,7 @@
 //
 //
 
-#ifndef __Simulator__AppEvent__
-#define __Simulator__AppEvent__
+#pragma once
 
 #include <string>
 #include "cocos2d.h"
@@ -45,5 +44,3 @@ protected:
     std::string _dataString;
     int         _eventType;
 };
-
-#endif /* defined(__Simulator__AppEvent__) */

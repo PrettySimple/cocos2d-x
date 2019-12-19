@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_BASE_ALLOCATOR_ALLOCATORMACROS_H
-#define CC_BASE_ALLOCATOR_ALLOCATORMACROS_H
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <cocos/base/ccConfig.h>
@@ -124,4 +124,3 @@
     }
 
 /// @endcond
-#endif // CC_BASE_ALLOCATOR_ALLOCATORMACROS_H

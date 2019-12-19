@@ -22,8 +22,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CC_MOTION_STREAK3D_H__
-#define __CC_MOTION_STREAK3D_H__
+#pragma once
 
 #include <cocos/base/CCProtocols.h>
 #include <cocos/2d/CCNode.h>
@@ -221,5 +220,3 @@ private:
 /// @}
 
 NS_CC_END
-
-#endif //__CC_MOTION_STREAK3D_H__

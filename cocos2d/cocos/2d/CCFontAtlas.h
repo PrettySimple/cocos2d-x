@@ -24,8 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _CCFontAtlas_h_
-#define _CCFontAtlas_h_
+#pragma once
 
 /// @cond DO_NOT_SHOW
 
@@ -162,4 +161,3 @@ protected:
 NS_CC_END
 
 /// @endcond
-#endif /* defined(__cocos2d_libs__CCFontAtlas__) */

@@ -23,8 +23,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef CC_2D_ACTIONTWEEN_H
-#define CC_2D_ACTIONTWEEN_H
+
+#pragma once
 
 #include <cocos/2d/CCActionInterval.h>
 #include <cocos/base/ccConfig.h>
@@ -130,5 +130,3 @@ protected:
 /// @}
 
 NS_CC_END
-
-#endif // CC_2D_ACTIONTWEEN_H

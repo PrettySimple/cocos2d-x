@@ -21,8 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __LUA_OPENGL_H__
-#define __LUA_OPENGL_H__
+#pragma once
 
 #ifdef __cplusplus
 extern "C"
@@ -70,4 +69,3 @@ TOLUA_API int register_glnode_manual(lua_State* tolua_S);
 
 // end group
 /// @}
-#endif //__LUA_OPENGL_H__

@@ -1,5 +1,5 @@
-#ifndef __gl3_h_
-#define __gl3_h_
+
+#pragma once
 
 /*
  * stub gl3.h for dynamic loading, based on:
@@ -508,6 +508,4 @@ extern "C"
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

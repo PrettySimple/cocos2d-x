@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_ACTIONTIMELINE_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_ACTIONTIMELINE_H
+#pragma once
 
 #include "CCTimeLine.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -233,5 +232,3 @@ protected:
 };
 
 NS_TIMELINE_END
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_ACTIONTIMELINE_H

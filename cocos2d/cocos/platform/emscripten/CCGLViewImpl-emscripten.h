@@ -1,5 +1,5 @@
-#ifndef __CC_EGLViewIMPL_EMSCRIPTEN_H__
-#define __CC_EGLViewIMPL_EMSCRIPTEN_H__
+
+#pragma once
 
 #include "CCDetectInertiaScroll-emscripten.h"
 #include "CCDetectRetinaChange-emscripten.h"
@@ -104,5 +104,3 @@ private:
 };
 
 NS_CC_END // end of namespace cocos2d
-
-#endif // end of __CC_EGLViewIMPL_EMSCRIPTEN_H__

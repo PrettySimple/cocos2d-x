@@ -148,7 +148,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @js NA
      * @lua NA
      */
-    virtual ~ParticleSystemQuad();
+    virtual ~ParticleSystemQuad() override;
     
     // Overrides
     /**
@@ -176,10 +176,9 @@ protected:
     
     backend::UniformLocation _mvpMatrixLocaiton;
     backend::UniformLocation _textureLocation;
-    backend::ProgramState* _programState = nullptr;
     
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSystemQuad);
+    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSystemQuad)
 };
 
 // end of _2d group

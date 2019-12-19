@@ -26,8 +26,7 @@
  * Converted to c++ / cocos2d-x by Angus C
  */
 
-#ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_CONTROL_H
-#define CC_EXTENSIONS_GUI_CONTROLEXTENSION_CONTROL_H
+#pragma once
 
 #include <cocos/2d/CCLayer.h>
 #include <cocos/extensions/ExtensionExport.h>
@@ -276,5 +275,3 @@ CC_EX_DLL Control::EventType operator|(Control::EventType a, Control::EventType 
 /// @}
 
 NS_CC_EXT_END
-
-#endif // CC_EXTENSIONS_GUI_CONTROLEXTENSION_CONTROL_H

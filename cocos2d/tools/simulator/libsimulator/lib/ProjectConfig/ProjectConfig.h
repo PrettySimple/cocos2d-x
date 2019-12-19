@@ -1,6 +1,5 @@
 
-#ifndef __PROJECT_CONFIG_H_
-#define __PROJECT_CONFIG_H_
+#pragma once
 
 #include <string>
 #include <vector>
@@ -151,5 +150,3 @@ private:
      */
     string dealWithSpaceWithPath(const string &path) const;
 };
-
-#endif // __PROJECT_CONFIG_H_

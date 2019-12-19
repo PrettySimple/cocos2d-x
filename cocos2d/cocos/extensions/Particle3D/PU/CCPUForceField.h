@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_FORCEFIELD_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_FORCEFIELD_H
+
+#pragma once
 
 #include "CCPUNoise.h"
 #include <cocos/base/CCRef.h>
@@ -181,5 +181,3 @@ protected:
 //-------------------------------------------------------------------------
 
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_FORCEFIELD_H

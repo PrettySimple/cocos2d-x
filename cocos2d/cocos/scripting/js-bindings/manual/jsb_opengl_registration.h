@@ -21,10 +21,8 @@
  * THE SOFTWARE.
  */
 
-#ifndef __JSB_OPENGL_REGISTRATION
-#define __JSB_OPENGL_REGISTRATION
+#pragma once
+
 #include "scripting/js-bindings/manual/jsb_opengl_functions.h"
 
 void JSB_register_opengl(JSContext* globalC, JS::HandleObject globalO);
-
-#endif // __JSB_OPENGL_REGISTRATION

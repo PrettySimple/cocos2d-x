@@ -1,5 +1,5 @@
-#ifndef __LUABINDINGEXPROT_H__
-#define __LUABINDINGEXPROT_H__
+
+#pragma once
 
 #if (defined(WIN32) && defined(_WINDOWS)) || defined(WINRT) || defined(WP8)
 #    ifdef __MINGW32__
@@ -29,5 +29,3 @@
 #else
 #    define CC_LUA_DLL
 #endif
-
-#endif /* __CCEXTENSIONEXPORT_H__*/

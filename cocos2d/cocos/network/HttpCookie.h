@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_NETWORK_HTTPCOOKIE_H
-#define CC_NETWORK_HTTPCOOKIE_H
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <string>
@@ -58,4 +58,3 @@ private:
 };
 
 /// @endcond
-#endif // CC_NETWORK_HTTPCOOKIE_H

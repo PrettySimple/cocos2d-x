@@ -24,8 +24,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_REF_PTR_H__
-#define __CC_REF_PTR_H__
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <cocos/base/CCRef.h>
@@ -351,4 +351,3 @@ template<class T, class U> RefPtr<T> dynamic_pointer_cast(const RefPtr<U> & r)
 NS_CC_END
 
 /// @endcond
-#endif  // __CC_REF_PTR_H__

@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _ACTIONS__EASE_TEST_H_
-#define _ACTIONS__EASE_TEST_H_
+#pragma once
 
 #include "../BaseTest.h"
 
@@ -271,5 +270,3 @@ public:
     void altertime(float dt);
 };
 
-
-#endif

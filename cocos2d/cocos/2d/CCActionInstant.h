@@ -25,8 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_2D_ACTIONINSTANT_H
-#define CC_2D_ACTIONINSTANT_H
+
+#pragma once
 
 #include <cocos/2d/CCAction.h>
 #include <cocos/base/CCRef.h>
@@ -543,5 +543,3 @@ private:
 /// @}
 
 NS_CC_END
-
-#endif // CC_2D_ACTIONINSTANT_H

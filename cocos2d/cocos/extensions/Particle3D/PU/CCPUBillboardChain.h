@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_BILLBOARDCHAIN_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_BILLBOARDCHAIN_H
+
+#pragma once
 
 #include <cocos/base/CCRef.h>
 #include <cocos/math/CCMath.h>
@@ -316,4 +316,3 @@ protected:
 };
 
 NS_CC_END
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_BILLBOARDCHAIN_H

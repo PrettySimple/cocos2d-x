@@ -627,9 +627,17 @@ namespace network
             char portStr[10];
             sprintf(portStr, "%d", _port);
             std::string ads_port = _host + ":" + portStr;
-
-            _wsInstance =
-                lws_client_connect(_wsContext, _host.c_str(), _port, _SSLConnection, _path.c_str(), ads_port.c_str(), ads_port.c_str(), name.c_str(), -1);
+            lws_client_connect_info data{
+                _wsContext,
+                _host.c_str(),
+                static_cast<int>(_port),
+                _SSLConnection,
+                _path.c_str(),
+                ads_port.c_str(),
+                ads_port.c_str(),
+                name.c_str(),
+                -1};
+            _wsInstance = lws_client_connect_via_info(&data);
 
             if (nullptr == _wsInstance)
             {

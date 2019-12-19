@@ -24,8 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__EventController__
-#define __cocos2d_libs__EventController__
+#pragma once
 
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/base/CCEvent.h>
@@ -110,5 +109,3 @@ NS_CC_END
 
 // end of base group
 /// @}
-
-#endif /* defined(__cocos2d_libs__EventController__) */

@@ -1,5 +1,5 @@
-#ifndef CC_EDITORSUPPORT_COCOSBUILDER_LAYERGRADIENTLOADER_H
-#define CC_EDITORSUPPORT_COCOSBUILDER_LAYERGRADIENTLOADER_H
+
+#pragma once
 
 #include "CCLayerLoader.h"
 
@@ -30,5 +30,3 @@ namespace cocosbuilder
     };
 
 } // namespace cocosbuilder
-
-#endif // CC_EDITORSUPPORT_COCOSBUILDER_LAYERGRADIENTLOADER_H

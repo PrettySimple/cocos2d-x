@@ -24,8 +24,7 @@
 
  ****************************************************************************/
 
-#ifndef __TestCpp__SocketIOTest__
-#define __TestCpp__SocketIOTest__
+#pragma once
 
 #include "cocos2d.h"
 #include "extensions/cocos-ext.h"
@@ -104,5 +103,3 @@ protected:
 
 	cocos2d::Label *_sioClientStatus;
 };
-
-#endif /* defined(__TestCpp__SocketIOTest__) */

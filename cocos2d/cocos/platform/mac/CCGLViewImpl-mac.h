@@ -46,8 +46,8 @@ THE SOFTWARE.
 #ifndef GLFW_EXPOSE_NATIVE_NSGL
 #define GLFW_EXPOSE_NATIVE_NSGL
 #endif
-#ifndef GLFW_EXPOSE_NATIVE_COCOA
-#define GLFW_EXPOSE_NATIVE_COCOA
+#pragma once
+
 #endif
 #include "glfw3native.h"
 #endif // #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
@@ -261,5 +261,3 @@ private:
 };
 
 NS_CC_END   // end of namespace   cocos2d
-
-#endif  // end of __CC_EGLViewImpl_DESKTOP_H__

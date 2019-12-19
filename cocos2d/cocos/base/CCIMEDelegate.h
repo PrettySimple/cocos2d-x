@@ -24,8 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_IME_DELEGATE_H__
-#define __CC_IME_DELEGATE_H__
+#pragma once
 
 #include <string>
 #include <cocos/math/CCGeometry.h>
@@ -176,5 +175,3 @@ protected:
 NS_CC_END
 // end of base group
 /// @}
-
-#endif    // __CC_IME_DELEGATE_H__

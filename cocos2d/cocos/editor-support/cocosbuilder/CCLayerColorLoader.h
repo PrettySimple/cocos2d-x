@@ -1,5 +1,5 @@
-#ifndef CC_EDITORSUPPORT_COCOSBUILDER_LAYERCOLORLOADER_H
-#define CC_EDITORSUPPORT_COCOSBUILDER_LAYERCOLORLOADER_H
+
+#pragma once
 
 #include "CCLayerLoader.h"
 
@@ -29,5 +29,3 @@ namespace cocosbuilder
     };
 
 } // namespace cocosbuilder
-
-#endif // CC_EDITORSUPPORT_COCOSBUILDER_LAYERCOLORLOADER_H

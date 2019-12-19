@@ -1,5 +1,5 @@
-#ifndef CC_EDITORSUPPORT_COCOSBUILDER_NODERELATIVEPOSITIONING_H
-#define CC_EDITORSUPPORT_COCOSBUILDER_NODERELATIVEPOSITIONING_H
+
+#pragma once
 
 #include "CCBReader.h"
 
@@ -11,5 +11,3 @@ namespace cocosbuilder
     extern CC_DLL void setRelativeScale(cocos2d::Node* node, float scaleX, float scaleY, CCBReader::ScaleType type, const std::string& propName);
 
 } // namespace cocosbuilder
-
-#endif // CC_EDITORSUPPORT_COCOSBUILDER_NODERELATIVEPOSITIONING_H

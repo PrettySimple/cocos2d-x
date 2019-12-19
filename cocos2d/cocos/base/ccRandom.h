@@ -24,8 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __ccRandom_H_
-#define __ccRandom_H_
+#pragma once
 
 #include <random>
 #include <cstdlib>
@@ -101,7 +100,7 @@ inline float rand_minus1_1() {
     // without a proper way to set a seed is not useful.
     // Resorting to the old random method since it can
     // be seeded using std::srand()
-    return ((std::rand() / (float)RAND_MAX) * 2) -1;
+    return ((std::rand() / static_cast<float>(RAND_MAX)) * 2) -1;
 
 //    return cocos2d::random(-1.f, 1.f);
 };
@@ -115,7 +114,7 @@ inline float rand_0_1() {
     // without a proper way to set a seed is not useful.
     // Resorting to the old random method since it can
     // be seeded using std::srand()
-    return std::rand() / (float)RAND_MAX;
+    return std::rand() / static_cast<float>(RAND_MAX);
 
 //    return cocos2d::random(0.f, 1.f);
 };
@@ -124,4 +123,3 @@ inline float rand_0_1() {
 NS_CC_END
 // end group
 /// @}
-#endif //__ccRandom_H_

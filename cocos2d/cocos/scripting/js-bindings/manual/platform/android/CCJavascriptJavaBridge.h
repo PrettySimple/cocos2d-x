@@ -20,8 +20,7 @@
  * THE SOFTWARE.
  */
 
-#ifndef __CC_JAVASCRIPT_JAVA_BRIDGE__
-#define __CC_JAVASCRIPT_JAVA_BRIDGE__
+#pragma once
 
 #include "jsapi.h"
 #include "jsfriendapi.h"
@@ -134,5 +133,3 @@ public:
     JS_BINDED_CONSTRUCTOR(JavascriptJavaBridge);
     JS_BINDED_FUNC(JavascriptJavaBridge, callStaticMethod);
 };
-
-#endif

@@ -1,5 +1,5 @@
-#ifndef CC_MATH_MATHBASE_H
-#define CC_MATH_MATHBASE_H
+
+#pragma once
 
 #include <cocos/platform/CCPlatformMacros.h>
 #include <memory>
@@ -50,5 +50,3 @@
  * end of base group
  * @}
  */
-
-#endif // CC_MATH_MATHBASE_H

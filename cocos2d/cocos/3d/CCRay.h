@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_RAY_H_
-#define __CC_RAY_H_
+#pragma once
 
 #include <cocos/math/CCMath.h>
 #include <cocos/3d/CCAABB.h>
@@ -109,5 +108,3 @@ public:
 /// @}
 
 NS_CC_END
-
-#endif

@@ -333,7 +333,6 @@ Vec2 TableView::_offsetFromIndex(ssize_t index)
 Vec2 TableView::__offsetFromIndex(ssize_t index)
 {
     Vec2 offset;
-    Size  cellSize;
 
     switch (this->getDirection())
     {

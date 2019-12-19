@@ -24,8 +24,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _COCOS2D_CCLABEL_H_
-#define _COCOS2D_CCLABEL_H_
+
+#pragma once
 
 #include <cocos/2d/CCNode.h>
 #include <cocos/renderer/CCCustomCommand.h>
@@ -627,7 +627,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @js NA
      * @lua NA
      */
-    virtual ~Label();
+    virtual ~Label() override;
 
     bool initWithTTF(const std::string& text, const std::string& fontFilePath, float fontSize,
                      const Size& dimensions = Size::ZERO, TextHAlignment hAlignment = TextHAlignment::LEFT,
@@ -815,16 +815,12 @@ protected:
     backend::UniformLocation _textColorLocation;
     backend::UniformLocation _effectColorLocation;
     backend::UniformLocation _effectTypeLocation;
-    
-    backend::ProgramState* _programState = nullptr;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Label);
+    CC_DISALLOW_COPY_AND_ASSIGN(Label)
 };
 
 // end group
 /// @}
 
 NS_CC_END
-
-#endif /*__COCOS2D_CCLABEL_H */

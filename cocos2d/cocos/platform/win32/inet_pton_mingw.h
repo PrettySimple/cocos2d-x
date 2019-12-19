@@ -1,5 +1,6 @@
-#ifndef HEADER_CURL_INET_PTON_MINGW_H
-#define HEADER_CURL_INET_PTON_MINGW_H
+
+#pragma once
+
 /***************************************************************************
  *                                  _   _ ____  _
  *  Project                     ___| | | |  _ \| |
@@ -27,6 +28,3 @@
 #if defined(__MINGW32__)
 int inet_pton(int af, const char *src, void *dst);
 #endif
-
-#endif /* HEADER_CURL_INET_PTON_MINGW_H */
-

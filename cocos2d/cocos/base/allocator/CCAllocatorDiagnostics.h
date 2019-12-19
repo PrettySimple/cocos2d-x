@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_BASE_ALLOCATOR_ALLOCATORDIAGNOSTICS_H
-#define CC_BASE_ALLOCATOR_ALLOCATORDIAGNOSTICS_H
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <cocos/base/allocator/CCAllocatorMacros.h>
@@ -55,4 +55,3 @@ NS_CC_ALLOCATOR_END
 NS_CC_END
 
 /// @endcond
-#endif // CC_BASE_ALLOCATOR_ALLOCATORDIAGNOSTICS_H

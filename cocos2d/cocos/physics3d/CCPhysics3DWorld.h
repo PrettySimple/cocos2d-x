@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __PHYSICS_3D_WORLD_H__
-#define __PHYSICS_3D_WORLD_H__
+
+#pragma once
 
 #include <cocos/base/CCRef.h>
 #include <cocos/base/ccConfig.h>
@@ -179,5 +179,3 @@ NS_CC_END
 #    endif
 
 #endif // CC_USE_3D_PHYSICS
-
-#endif // __PHYSICS_3D_WORLD_H__

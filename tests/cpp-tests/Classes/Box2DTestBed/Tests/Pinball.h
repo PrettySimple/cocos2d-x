@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef PINBALL_H
-#define PINBALL_H
+#pragma once
 
 /// This tests bullet collision and provides an example of a gameplay scenario.
 /// This also uses a loop shape.
@@ -165,5 +164,3 @@ public:
 	b2Body* m_ball;
 	bool m_button;
 };
-
-#endif

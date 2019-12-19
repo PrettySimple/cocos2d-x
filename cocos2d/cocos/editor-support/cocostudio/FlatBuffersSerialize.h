@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_FLATBUFFERSERIALIZE_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_FLATBUFFERSERIALIZE_H
+#pragma once
 
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -151,5 +150,3 @@ namespace cocostudio
         std::string _csdVersion;
     };
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_FLATBUFFERSERIALIZE_H

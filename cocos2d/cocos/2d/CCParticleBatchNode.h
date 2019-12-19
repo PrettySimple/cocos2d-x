@@ -154,7 +154,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @js NA
      * @lua NA
      */
-    virtual ~ParticleBatchNode();
+    virtual ~ParticleBatchNode() override;
     
     /** initializes the particle system with Texture2D, a capacity of particles */
     bool initWithTexture(Texture2D *tex, int capacity);
@@ -180,7 +180,6 @@ private:
     
     backend::UniformLocation _mvpMatrixLocaiton;
     backend::UniformLocation _textureLocation;
-    backend::ProgramState* _programState = nullptr;
 };
 
 // end of _2d group

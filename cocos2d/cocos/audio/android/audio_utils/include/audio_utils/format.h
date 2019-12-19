@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-#ifndef COCOS_AUDIO_FORMAT_H
-#define COCOS_AUDIO_FORMAT_H
+#pragma once
 
-#include "audio/android/audio.h"
 #include <stdint.h>
 #include <sys/cdefs.h>
+#include "audio/android/audio.h"
 
 __BEGIN_DECLS
 
@@ -52,7 +51,9 @@ __BEGIN_DECLS
  *
  * Logs a fatal error if dst or src format is not allowed by the conversion rules above.
  */
-void memcpy_by_audio_format(void* dst, audio_format_t dst_format, const void* src, audio_format_t src_format, size_t count);
+void memcpy_by_audio_format(void *dst, audio_format_t dst_format,
+        const void *src, audio_format_t src_format, size_t count);
+
 
 /* This function creates an index array for converting audio data with different
  * channel position and index masks, used by memcpy_by_index_array().
@@ -69,9 +70,7 @@ void memcpy_by_audio_format(void* dst, audio_format_t dst_format, const void* sr
  *  dst_mask    Bit mask corresponding to destination channels present
  *  src_mask    Bit mask corresponding to source channels present
  */
-size_t memcpy_by_index_array_initialization_from_channel_mask(int8_t* idxary, size_t arysize, audio_channel_mask_t dst_channel_mask,
-                                                              audio_channel_mask_t src_channel_mask);
+size_t memcpy_by_index_array_initialization_from_channel_mask(int8_t *idxary, size_t arysize,
+        audio_channel_mask_t dst_channel_mask, audio_channel_mask_t src_channel_mask);
 
 __END_DECLS
-
-#endif // COCOS_AUDIO_FORMAT_H

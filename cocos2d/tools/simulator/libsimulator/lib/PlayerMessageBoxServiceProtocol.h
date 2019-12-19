@@ -1,6 +1,5 @@
 
-#ifndef __PLAYER_MESSAGEBOX_SERVICE_PROTOCOL_H
-#define __PLAYER_MESSAGEBOX_SERVICE_PROTOCOL_H
+#pragma once
 
 #include <string>
 
@@ -31,5 +30,3 @@ public:
 };
 
 PLAYER_NS_END
-
-#endif // __PLAYER_MESSAGEBOX_SERVICE_PROTOCOL_H

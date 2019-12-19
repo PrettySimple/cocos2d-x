@@ -21,8 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef COCOS_SCRIPTING_LUA_BINDINGS_MANUAL_LUA_COCOS2DX_COCOSBUILDER_H
-#define COCOS_SCRIPTING_LUA_BINDINGS_MANUAL_LUA_COCOS2DX_COCOSBUILDER_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C"
@@ -51,5 +50,3 @@ TOLUA_API int register_cocosbuilder_module(lua_State* tolua_S);
 
 // end group
 /// @}
-
-#endif // #ifndef COCOS_SCRIPTING_LUA_BINDINGS_MANUAL_LUA_COCOS2DX_COCOSBUILDER_H

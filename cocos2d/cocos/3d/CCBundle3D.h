@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_3D_BUNDLE3D_H
-#define CC_3D_BUNDLE3D_H
+#pragma once
 
 #include <cocos/3d/CCBundle3DData.h>
 #include <cocos/3d/CCBundleReader.h>
@@ -201,5 +200,3 @@ protected:
 /// @}
 
 NS_CC_END
-
-#endif // CC_3D_BUNDLE3D_H

@@ -23,8 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_PLATFORM_THREAD_H
-#define CC_PLATFORM_THREAD_H
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <cocos/platform/CCPlatformDefine.h>
@@ -63,4 +63,3 @@ public:
 NS_CC_END
 
 /// @endcond
-#endif // CC_PLATFORM_THREAD_H

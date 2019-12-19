@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _TINY_OBJ_LOADER_H
-#define _TINY_OBJ_LOADER_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -109,5 +108,3 @@ namespace tinyobj {
     std::string LoadMtl(std::map<std::string, int> &material_map,
                         std::vector<material_t> &materials, std::istream &inStream);
 }
-
-#endif // _TINY_OBJ_LOADER_H

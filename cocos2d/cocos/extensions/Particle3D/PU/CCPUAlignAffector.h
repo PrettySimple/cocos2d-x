@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_ALIGNAFFECTOR_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_ALIGNAFFECTOR_H
+
+#pragma once
 
 #include <cocos/extensions/Particle3D/PU/CCPUAffector.h>
 
@@ -60,5 +60,3 @@ protected:
     PUParticle3D* _previousParticle;
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_ALIGNAFFECTOR_H

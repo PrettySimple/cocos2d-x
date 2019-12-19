@@ -1,8 +1,7 @@
 //
 //  PerformanceCallbackTest.h
 
-#ifndef __PERFORMANCE_CALLBACK_TEST_H__
-#define __PERFORMANCE_CALLBACK_TEST_H__
+#pragma once
 
 #include "BaseTest.h"
 
@@ -89,5 +88,3 @@ public:
 private:
     std::function<void(float)> _callback;
 };
-
-#endif /* __PERFORMANCE_CALLBACK_TEST_H__ */

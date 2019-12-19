@@ -1,6 +1,5 @@
 
-#ifndef __PLAYER_MESSAGEBOX_SERVICE_WIN_H_
-#define __PLAYER_MESSAGEBOX_SERVICE_WIN_H_
+#pragma once
 
 #include <string>
 
@@ -24,5 +23,3 @@ protected:
 };
 
 PLAYER_NS_END
-
-#endif // __PLAYER_MESSAGEBOX_SERVICE_WIN_H_

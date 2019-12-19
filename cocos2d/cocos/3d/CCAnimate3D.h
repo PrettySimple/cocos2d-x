@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCANIMATE3D_H__
-#define __CCANIMATE3D_H__
+#pragma once
 
 #include <map>
 #include <unordered_map>
@@ -108,7 +107,7 @@ public:
     static std::chrono::milliseconds getTransitionTime() { return _transTime; }
     
     /** set animate transition time between 3d animations */
-    static void setTransitionTime(std::chrono::milliseconds transTime) { if (transTime >= 0ms) _transTime = transTime; }
+    static void setTransitionTime(std::chrono::milliseconds transTime) { if (transTime >= std::chrono::milliseconds{0}) _transTime = transTime; }
     
     /**set animate quality*/
     void setQuality(Animate3DQuality quality);
@@ -132,7 +131,7 @@ public:
 CC_CONSTRUCTOR_ACCESS:
     
     Animate3D();
-    virtual ~Animate3D();
+    virtual ~Animate3D() override;
     
     void removeFromMap();
     
@@ -186,5 +185,3 @@ protected:
 /// @}
 
 NS_CC_END
-
-#endif // __CCANIMATE3D_H__

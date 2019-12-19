@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_COCOLOADER_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_COCOLOADER_H
+#pragma once
 
 #include "cocostudio/CocosStudioExport.h"
 
@@ -118,4 +117,3 @@ namespace cocostudio
 } // namespace cocostudio
 
 #pragma pack()
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_COCOLOADER_H

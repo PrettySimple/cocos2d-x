@@ -3,8 +3,7 @@
 //  Simulator
 //
 
-#ifndef __Simulator__AppLang__
-#define __Simulator__AppLang__
+#pragma once
 
 #include "cocos2d.h"
 #include <map>
@@ -31,5 +30,3 @@ protected:
 };
 
 #define tr(key) AppLang::getInstance()->getString(player::DeviceEx::getInstance()->getCurrentUILangName(), key)
-
-#endif /* defined(__Simulator__AppLang__) */

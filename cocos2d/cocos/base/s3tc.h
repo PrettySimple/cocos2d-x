@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef COCOS2DX_PLATFORM_THIRDPARTY_S3TC_
-#define COCOS2DX_PLATFORM_THIRDPARTY_S3TC_
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <cocos/platform/CCStdC.h>
@@ -45,4 +45,3 @@ enum class S3TCDecodeFlag
                  );
 
  /// @endcond
-#endif /* defined(COCOS2DX_PLATFORM_THIRDPARTY_S3TC_) */

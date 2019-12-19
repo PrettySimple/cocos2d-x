@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_AABB_H__
-#define __CC_AABB_H__
+#pragma once
 
 #include <cocos/base/ccMacros.h>
 #include <cocos/math/CCMath.h>
@@ -124,5 +123,3 @@ public:
 /// @}
 
 NS_CC_END
-
-#endif

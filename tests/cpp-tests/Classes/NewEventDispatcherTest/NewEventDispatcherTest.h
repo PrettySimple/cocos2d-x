@@ -6,8 +6,7 @@
 //
 //
 
-#ifndef __samples__NewEventDispatcherTest__
-#define __samples__NewEventDispatcherTest__
+#pragma once
 
 #include "cocos2d.h"
 #include "../BaseTest.h"
@@ -253,5 +252,3 @@ public:
 private:
     cocos2d::EventListenerCustom* _listener;
 };
-
-#endif /* defined(__samples__NewEventDispatcherTest__) */

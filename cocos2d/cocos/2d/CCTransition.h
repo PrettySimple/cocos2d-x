@@ -26,8 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCTRANSITION_H__
-#define __CCTRANSITION_H__
+#pragma once
 
 #include <cocos/2d/CCScene.h>
 
@@ -1088,6 +1087,3 @@ private:
 /// @}
 
 NS_CC_END
-
-#endif // __CCTRANSITION_H__
-

@@ -25,8 +25,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CCTMX_TILE_MAP_H__
-#define __CCTMX_TILE_MAP_H__
+#pragma once
 
 #include <cocos/2d/CCNode.h>
 #include <cocos/2d/CCTMXObjectGroup.h>
@@ -310,7 +309,3 @@ private:
 /// @}
 
 NS_CC_END
-
-#endif //__CCTMX_TILE_MAP_H__
-
-

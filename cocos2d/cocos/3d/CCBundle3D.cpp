@@ -778,7 +778,7 @@ bool Bundle3D::loadMeshDatasJson(MeshDatas& meshdatas)
                 indexArray.push_back(static_cast<unsigned short>(indices_val_array[j].GetUint()));
 
             meshData->subMeshIndices.push_back(indexArray);
-            meshData->numIndex = meshData->subMeshIndices.size();
+            meshData->numIndex = static_cast<int>(meshData->subMeshIndices.size());
 
             if (mesh_data.HasMember(AABBS))
             {

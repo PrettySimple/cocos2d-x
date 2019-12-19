@@ -33,8 +33,7 @@
 // Implements methods of coded_stream.h that need to be inlined for performance
 // reasons, but should not be defined in a public header.
 
-#ifndef GOOGLE_PROTOBUF_IO_CODED_STREAM_INL_H__
-#define GOOGLE_PROTOBUF_IO_CODED_STREAM_INL_H__
+#pragma once
 
 #include <google/protobuf/io/coded_stream.h>
 #include <string>
@@ -65,4 +64,3 @@ inline bool CodedInputStream::InternalReadStringInline(string* buffer,
 }  // namespace io
 }  // namespace protobuf
 }  // namespace google
-#endif  // GOOGLE_PROTOBUF_IO_CODED_STREAM_INL_H__

@@ -1,6 +1,5 @@
 
-#ifndef __PLAYER_MAC_H_
-#define __PLAYER_MAC_H_
+#pragma once
 
 #include "PlayerProtocol.h"
 
@@ -39,5 +38,3 @@ protected:
 };
 
 PLAYER_NS_END
-
-#endif // __PLAYER_MAC_H_

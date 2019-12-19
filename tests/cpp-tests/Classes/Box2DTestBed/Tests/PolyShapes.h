@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef POLY_SHAPES_H
-#define POLY_SHAPES_H
+#pragma once
 
 /// This tests stacking. It also shows how to use b2World::Query
 /// and b2TestOverlap.
@@ -295,5 +294,3 @@ public:
 	b2PolygonShape m_polygons[4];
 	b2CircleShape m_circle;
 };
-
-#endif

@@ -24,8 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCTABLEVIEWCELL_H__
-#define __CCTABLEVIEWCELL_H__
+#pragma once
 
 #include "extensions/ExtensionMacros.h"
 #include <cocos/2d/CCNode.h>
@@ -64,5 +63,3 @@ private:
 NS_CC_EXT_END
 // end of ui group
 /// @}
-
-#endif /* __CCTABLEVIEWCELL_H__ */

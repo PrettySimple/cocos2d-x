@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef _CPPTESTS_CONTROLLER_H__
-#define _CPPTESTS_CONTROLLER_H__
+#pragma once
 
 #include <condition_variable>
 #include <string>
@@ -88,5 +87,3 @@ private:
 
     std::string _logIndentation;
 };
-
-#endif

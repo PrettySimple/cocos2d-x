@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef CHARACTER_COLLISION_H
-#define CHARACTER_COLLISION_H
+#pragma once
 
 /// This is a test of typical character collision scenarios. This does not
 /// show how you should implement a character in your application.
@@ -249,5 +248,3 @@ public:
 
 	b2Body* m_character;
 };
-
-#endif

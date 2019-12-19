@@ -56,8 +56,7 @@ in the onClose method the pointer should be set to NULL or used to connect to a 
 
  ****************************************************************************/
 
-#ifndef CC_NETWORK_SOCKETIO_H
-#define CC_NETWORK_SOCKETIO_H
+#pragma once
 
 #include <cocos/base/CCMap.h>
 #include <cocos/platform/CCPlatformMacros.h>
@@ -196,7 +195,6 @@ namespace network
     class CC_DLL SIOClient : public cocos2d::Ref
     {
     private:
-        int _port;
         std::string _host, _path, _tag;
         bool _connected;
         SIOClientImpl* _socket;
@@ -279,5 +277,3 @@ NS_CC_END
 
 // end group
 /// @}
-
-#endif // CC_NETWORK_SOCKETIO_H

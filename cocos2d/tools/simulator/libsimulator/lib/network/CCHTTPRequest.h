@@ -1,6 +1,5 @@
 
-#ifndef __CC_HTTP_REQUEST_H_
-#define __CC_HTTP_REQUEST_H_
+#pragma once
 
 #include "cocos2dx_extra.h"
 #include "cocos2d.h"
@@ -222,5 +221,3 @@ private:
 };
 
 NS_CC_EXTRA_END
-
-#endif /* __CC_HTTP_REQUEST_H_ */

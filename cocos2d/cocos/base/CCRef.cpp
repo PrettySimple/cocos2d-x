@@ -43,6 +43,8 @@ static void trackRef(Ref* ref);
 static void untrackRef(Ref* ref);
 #endif
 
+Clonable::~Clonable() {}
+
 Ref::Ref()
 : _referenceCount(1) // when the Ref is created, the reference count of it is 1
 #if CC_ENABLE_SCRIPT_BINDING

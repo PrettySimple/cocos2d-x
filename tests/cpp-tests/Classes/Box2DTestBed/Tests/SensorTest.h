@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SENSOR_TEST_H
-#define SENSOR_TEST_H
+#pragma once
 
 // This is used to test sensor shapes.
 class SensorTest : public Test
@@ -177,5 +176,3 @@ public:
 	b2Body* m_bodies[e_count];
 	bool m_touching[e_count];
 };
-
-#endif

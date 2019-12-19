@@ -101,6 +101,9 @@ public:
 protected:
     /**Constructor.*/
     RenderCommand();
+    RenderCommand(const RenderCommand&) = default;
+    RenderCommand(RenderCommand&&) = default;
+    
     /**Destructor.*/
     virtual ~RenderCommand();
     //used for debug but it is not implemented.

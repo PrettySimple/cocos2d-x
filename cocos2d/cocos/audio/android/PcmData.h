@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2016-2017 Chukong Technologies Inc.
+Copyright (c) 2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -24,45 +25,42 @@ THE SOFTWARE.
 
 #pragma once
 
-#include <memory>
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include <memory>
 
-namespace cocos2d
+namespace cocos2d {
+
+struct PcmData
 {
-    namespace experimental
-    {
-        struct PcmData
-        {
-            std::shared_ptr<std::vector<char>> pcmBuffer;
-            int numChannels;
-            int sampleRate;
-            int bitsPerSample;
-            int containerSize;
-            int channelMask;
-            int endianness;
-            int numFrames;
-            float duration; // in seconds
+    std::shared_ptr<std::vector<char>> pcmBuffer;
+    int numChannels;
+    int sampleRate;
+    int bitsPerSample;
+    int containerSize;
+    int channelMask;
+    int endianness;
+    int numFrames;
+    float duration; // in seconds
 
-            PcmData();
+    PcmData();
 
-            ~PcmData();
+    ~PcmData();
 
-            PcmData(const PcmData& o);
+    PcmData(const PcmData &o);
 
-            PcmData(PcmData&& o);
+    PcmData(PcmData &&o);
 
-            PcmData& operator=(const PcmData& o);
+    PcmData &operator=(const PcmData &o);
 
-            PcmData& operator=(PcmData&& o);
+    PcmData &operator=(PcmData &&o);
 
-            void reset();
+    void reset();
 
-            bool isValid() const;
+    bool isValid() const;
 
-            std::string toString() const;
-        };
+    std::string toString() const;
+};
 
-    } // namespace experimental
-} // namespace cocos2d
+} // namespace cocos2d {

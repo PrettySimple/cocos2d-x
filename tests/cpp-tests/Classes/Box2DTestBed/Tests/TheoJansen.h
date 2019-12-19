@@ -19,8 +19,7 @@
 // Inspired by a contribution by roman_m
 // Dimensions scooped from APE (http://www.cove.org/ape/index.htm)
 
-#ifndef THEO_JANSEN_H
-#define THEO_JANSEN_H
+#pragma once
 
 class TheoJansen : public Test
 {
@@ -252,5 +251,3 @@ public:
 	bool m_motorOn;
 	float32 m_motorSpeed;
 };
-
-#endif // THEO_JANSEN_H

@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SPHERE_STACK_H
-#define SPHERE_STACK_H
+#pragma once
 
 class SphereStack : public Test
 {
@@ -82,5 +81,3 @@ public:
 
 	b2Body* m_bodies[e_count];
 };
-
-#endif

@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ARMATUREDEFINE_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_ARMATUREDEFINE_H
+#pragma once
 
 #define VERSION_COMBINED 0.30f
 #define VERSION_CHANGE_ROTATION_RANGE 1.0f
@@ -57,5 +56,3 @@ namespace cocostudio
     const char* armatureVersion();
 
 }
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ARMATUREDEFINE_H

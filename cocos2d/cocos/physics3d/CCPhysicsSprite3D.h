@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __PHYSICS_SPRITE_3D_H__
-#define __PHYSICS_SPRITE_3D_H__
+
+#pragma once
 
 #include "physics3d/CCPhysics3DComponent.h"
 #include "physics3d/CCPhysics3DObject.h"
@@ -81,5 +81,3 @@ NS_CC_END
 #    endif // CC_ENABLE_BULLET_INTEGRATION
 
 #endif // CC_USE_3D_PHYSICS
-
-#endif // __PHYSICS_SPRITE_3D_H__

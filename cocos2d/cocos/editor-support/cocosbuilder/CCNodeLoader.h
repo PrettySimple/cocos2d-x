@@ -1,5 +1,5 @@
-#ifndef CC_EDITORSUPPORT_COCOSBUILDER_NODELOADER_H
-#define CC_EDITORSUPPORT_COCOSBUILDER_NODELOADER_H
+
+#pragma once
 
 #include "CCBReader.h"
 #include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
@@ -159,5 +159,3 @@ namespace cocosbuilder
     };
 
 } // namespace cocosbuilder
-
-#endif // CC_EDITORSUPPORT_COCOSBUILDER_NODELOADER_H

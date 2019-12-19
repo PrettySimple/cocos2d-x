@@ -171,10 +171,10 @@ bool CameraBackgroundDepthBrush::init()
 void CameraBackgroundDepthBrush::initBuffer()
 {
     uint16_t indices[6] = { 0, 1, 2, 2, 3, 0 };
-    _customCommand.createVertexBuffer(sizeof(_vertices[0]), _vertices.size(), CustomCommand::BufferUsage::STATIC);
+    _customCommand.createVertexBuffer(sizeof(_vertices[0]), static_cast<int>(_vertices.size()), CustomCommand::BufferUsage::STATIC);
     _customCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT, sizeof(indices) / sizeof(indices[0]), CustomCommand::BufferUsage::STATIC);
 
-    _customCommand.updateVertexBuffer(_vertices.data(), sizeof(_vertices[0]) * _vertices.size());
+    _customCommand.updateVertexBuffer(_vertices.data(), static_cast<int>(sizeof(_vertices[0]) * _vertices.size()));
     _customCommand.updateIndexBuffer(indices, sizeof(indices));
 }
 
@@ -259,7 +259,7 @@ void CameraBackgroundColorBrush::setColor(const Color4F& color)
     {
         vert.colors = Color4B(color);
     }
-    _customCommand.updateVertexBuffer(_vertices.data(), sizeof(_vertices[0]) * _vertices.size());
+    _customCommand.updateVertexBuffer(_vertices.data(), static_cast<int>(sizeof(_vertices[0]) * _vertices.size()));
 }
 
 CameraBackgroundColorBrush* CameraBackgroundColorBrush::create(const Color4F& color, float depth)

@@ -28,8 +28,7 @@
 /** Add deprecated global functions and variables here
  */
 
-#ifndef CC_DEPRECATED_DEPRECATED_H
-#define CC_DEPRECATED_DEPRECATED_H
+#pragma once
 
 #include <cocos/2d/CCActionCamera.h>
 #include <cocos/2d/CCActionCatmullRom.h>
@@ -1224,4 +1223,3 @@ CC_DEPRECATED_ATTRIBUTE CC_DLL Vec4* kmVec4Transform(Vec4* pOut, const Vec4* pV,
 NS_CC_END
 
 /// @endcond
-#endif // CC_DEPRECATED_DEPRECATED_H

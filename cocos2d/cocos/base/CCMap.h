@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCMAP_H__
-#define __CCMAP_H__
+#pragma once
 
 #define USE_STD_UNORDERED_MAP 1
 
@@ -91,7 +90,7 @@ public:
     : _data()
     {
         static_assert(std::is_convertible<V, Ref*>::value, "Invalid Type for cocos2d::Map<K, V>!");
-        CCLOGINFO("In the default constructor of Map!");
+        CCLOGINFO("In the default constructor of Map!", "");
     }
     
     /** Constructor with capacity. */
@@ -99,7 +98,7 @@ public:
     : _data()
     {
         static_assert(std::is_convertible<V, Ref*>::value, "Invalid Type for cocos2d::Map<K, V>!");
-        CCLOGINFO("In the constructor with capacity of Map!");
+        CCLOGINFO("In the constructor with capacity of Map!", "");
         _data.reserve(capacity);
     }
     
@@ -107,7 +106,7 @@ public:
     Map<K, V>(const Map<K, V>& other)
     {
         static_assert(std::is_convertible<V, Ref*>::value, "Invalid Type for cocos2d::Map<K, V>!");
-        CCLOGINFO("In the copy constructor of Map!");
+        CCLOGINFO("In the copy constructor of Map!", "");
         _data = other._data;
         addRefForAllObjects();
     }
@@ -116,7 +115,7 @@ public:
     Map<K, V>(Map<K, V>&& other)
     {
         static_assert(std::is_convertible<V, Ref*>::value, "Invalid Type for cocos2d::Map<K, V>!");
-        CCLOGINFO("In the move constructor of Map!");
+        CCLOGINFO("In the move constructor of Map!", "");
         _data = std::move(other._data);
     }
     
@@ -126,7 +125,7 @@ public:
      */
     ~Map<K, V>()
     {
-        CCLOGINFO("In the destructor of Map!");
+        CCLOGINFO("In the destructor of Map!", "");
         clear();
     }
     
@@ -384,7 +383,7 @@ public:
     Map<K, V>& operator= ( const Map<K, V>& other )
     {
         if (this != &other) {
-            CCLOGINFO("In the copy assignment operator of Map!");
+            CCLOGINFO("In the copy assignment operator of Map!", "");
             clear();
             _data = other._data;
             addRefForAllObjects();
@@ -396,7 +395,7 @@ public:
     Map<K, V>& operator= ( Map<K, V>&& other )
     {
         if (this != &other) {
-            CCLOGINFO("In the move assignment operator of Map!");
+            CCLOGINFO("In the move assignment operator of Map!", "");
             clear();
             _data = std::move(other._data);
         }
@@ -421,5 +420,3 @@ protected:
 NS_CC_END
 // end group
 /// @}
-
-#endif /* __CCMAP_H__ */

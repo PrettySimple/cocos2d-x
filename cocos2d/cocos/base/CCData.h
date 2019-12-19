@@ -24,8 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCDATA_H__
-#define __CCDATA_H__
+#pragma once
 
 #include <cocos/platform/CCPlatformMacros.h>
 #include <stdint.h> // for ssize_t on android
@@ -155,4 +154,3 @@ private:
 NS_CC_END
 
 /** @} */
-#endif // __CCDATA_H__

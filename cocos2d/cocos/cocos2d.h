@@ -26,8 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __COCOS2D_H__
-#define __COCOS2D_H__
+#pragma once
 
 // 0x00 HI ME LO
 // 00   03 08 00
@@ -276,5 +275,3 @@ NS_CC_BEGIN
 CC_DLL const char* cocos2dVersion();
 
 NS_CC_END
-
-#endif // __COCOS2D_H__

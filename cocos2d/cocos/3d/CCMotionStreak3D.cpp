@@ -166,7 +166,7 @@ void MotionStreak3D::initCustomCommand()
     _locMVP = _programState->getUniformLocation(backend::Uniform::MVP_MATRIX);
     _locTexture = _programState->getUniformLocation(backend::Uniform::TEXTURE);
 
-    _customCommand.createVertexBuffer(sizeof(VertexData), _vertexData.size(), CustomCommand::BufferUsage::DYNAMIC);
+    _customCommand.createVertexBuffer(sizeof(VertexData), static_cast<int>(_vertexData.size()), CustomCommand::BufferUsage::DYNAMIC);
 }
 
 void MotionStreak3D::setPosition(const Vec2& position)

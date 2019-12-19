@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_NODEREADERPROTOCOL_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_NODEREADERPROTOCOL_H
+#pragma once
 
 #include "cocostudio/CocosStudioExport.h"
 
@@ -60,5 +59,3 @@ namespace cocostudio
         virtual cocos2d::Node* createNodeWithFlatBuffers(const flatbuffers::Table* nodeOptions) = 0;
     };
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_NODEREADERPROTOCOL_H

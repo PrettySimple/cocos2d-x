@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _TRANSITIONS_TEST_H_
-#define _TRANSITIONS_TEST_H_
+#pragma once
 
 #include "../BaseTest.h"
 
@@ -68,5 +67,3 @@ public:
     virtual void onExitTransitionDidStart() override;
     virtual void onExit() override;
 };
-
-#endif

@@ -53,8 +53,9 @@ THE SOFTWARE.
 // gl2.h doesn't define GLchar on Android
 typedef char GLchar;
 // android defines GL_BGRA_EXT but not GL_BRGA
-#ifndef GL_BGRA
-#define GL_BGRA  0x80E1
+#pragma once
+
+0x80E1
 #endif
 
 //declare here while define in EGLView_android.cpp
@@ -68,5 +69,3 @@ extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT;
 
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-
-#endif // __CCGL_H__

@@ -25,8 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_2D_ACTIONINTERVAL_H
-#define CC_2D_ACTIONINTERVAL_H
+
+#pragma once
 
 #include <cocos/2d/CCAction.h>
 #include <cocos/2d/CCAnimation.h>
@@ -1366,7 +1366,7 @@ public:
      * Gets the index of sprite frame currently displayed.
      * @return int  the index of sprite frame currently displayed.
      */
-    inline int getCurrentFrameIndex() const noexcept { return _currFrameIndex; }
+    inline int getCurrentFrameIndex() const noexcept { return static_cast<int>(_currFrameIndex); }
     //
     // Overrides
     //
@@ -1511,5 +1511,3 @@ private:
 /// @}
 
 NS_CC_END
-
-#endif // CC_2D_ACTIONINTERVAL_H

@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_PLANECOLLIDER_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_PLANECOLLIDER_H
+
+#pragma once
 
 #include "CCPUBaseCollider.h"
 #include <cocos/base/ccTypes.h>
@@ -66,5 +66,3 @@ protected:
     PUPlane _plane;
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_PLANECOLLIDER_H

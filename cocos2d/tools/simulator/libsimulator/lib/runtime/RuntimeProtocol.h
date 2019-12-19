@@ -4,8 +4,7 @@
 //
 //
 
-#ifndef __Simulator__RuntimeProtocol__
-#define __Simulator__RuntimeProtocol__
+#pragma once
 
 #include <string>
 #include "json/rapidjson.h"
@@ -30,5 +29,3 @@ public:
 protected:
     std::string _projectPath;
 };
-
-#endif /* defined(__Simulator__RuntimeBase__) */

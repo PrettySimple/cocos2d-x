@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef MOBILE_H
-#define MOBILE_H
+#pragma once
 
 class Mobile : public Test
 {
@@ -98,5 +97,3 @@ public:
 		return new Mobile;
 	}
 };
-
-#endif

@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef REVOLUTE_H
-#define REVOLUTE_H
+#pragma once
 
 class Revolute : public Test
 {
@@ -162,5 +161,3 @@ public:
 	b2Body* m_ball;
 	b2RevoluteJoint* m_joint;
 };
-
-#endif

@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#ifndef COCOS_CUTILS_BITOPS_H
-#define COCOS_CUTILS_BITOPS_H
+#pragma once
 
 #include <stdbool.h>
 #include <string.h>
@@ -40,5 +39,3 @@ static inline int popcountll(unsigned long long x)
 }
 
 __END_DECLS
-
-#endif /* COCOS_CUTILS_BITOPS_H */

@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_TRIGGERBASE_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_TRIGGERBASE_H
+#pragma once
 
 #include "TriggerMng.h"
 #include "TriggerObj.h"
@@ -46,5 +45,3 @@ public:                                        \
     cocos2d::ObjectFactory::TInfo className::Type(#className, &className::createInstance);
 
 void CC_STUDIO_DLL sendEvent(unsigned int event);
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_TRIGGERBASE_H

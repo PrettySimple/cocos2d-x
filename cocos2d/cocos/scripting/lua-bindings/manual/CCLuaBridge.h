@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __LUA_BRIDGE_H_
-#define __LUA_BRIDGE_H_
+#pragma once
 
 #include "scripting/lua-bindings/manual/CCLuaEngine.h"
 #include <map>
@@ -113,5 +112,3 @@ NS_CC_END
 
 // end group
 /// @}
-
-#endif // __LUA_BRIDGE_H_

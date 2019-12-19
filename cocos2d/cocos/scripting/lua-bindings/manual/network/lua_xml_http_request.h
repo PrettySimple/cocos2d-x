@@ -21,8 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __COCOS_SCRIPTING_LUA_BINDINGS_LUA_XML_HTTP_REQUEST_H__
-#define __COCOS_SCRIPTING_LUA_BINDINGS_LUA_XML_HTTP_REQUEST_H__
+#pragma once
 
 #ifdef __cplusplus
 extern "C"
@@ -131,4 +130,3 @@ private:
 
 TOLUA_API int register_xml_http_request(lua_State* L);
 ///@endcond
-#endif //#ifndef __COCOS_SCRIPTING_LUA_BINDINGS_LUA_XML_HTTP_REQUEST_H__

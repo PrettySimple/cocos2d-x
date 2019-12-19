@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_ASSETSMANAGER_ASSETSMANAGEREX_H
-#define CC_EXTENSIONS_ASSETSMANAGER_ASSETSMANAGEREX_H
+#pragma once
 
 #include <string>
 #include <unordered_map>
@@ -268,5 +267,3 @@ private:
 };
 
 NS_CC_EXT_END
-
-#endif // CC_EXTENSIONS_ASSETSMANAGER_ASSETSMANAGEREX_H

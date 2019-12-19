@@ -113,8 +113,8 @@ namespace network
     };
 
     SocketIOPacket::SocketIOPacket()
-    : _separator(":")
-    , _endpointseparator("")
+    : _endpointseparator("")
+    , _separator(":")
     {
         _types.push_back("disconnect");
         _types.push_back("connect");
@@ -331,7 +331,7 @@ namespace network
     class SIOClientImpl : public cocos2d::Ref, public WebSocket::Delegate
     {
     private:
-        int _port, _heartbeat, _timeout;
+        int _heartbeat, _timeout;
         std::string _host, _sid, _uri;
         bool _connected;
         SocketIOPacket::SocketIOVersion _version;
@@ -374,8 +374,7 @@ namespace network
 
     // begin SIOClientImpl methods
     SIOClientImpl::SIOClientImpl(const std::string& host, int port)
-    : _port(port)
-    , _host(host)
+    : _host(host)
     , _connected(false)
     {
         std::stringstream s;
@@ -977,8 +976,7 @@ namespace network
 
     // begin SIOClient methods
     SIOClient::SIOClient(const std::string& host, int port, const std::string& path, SIOClientImpl* impl, SocketIO::SIODelegate& delegate)
-    : _port(port)
-    , _host(host)
+    : _host(host)
     , _path(path)
     , _connected(false)
     , _socket(impl)

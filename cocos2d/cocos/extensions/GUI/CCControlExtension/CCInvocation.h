@@ -27,8 +27,7 @@
  *
  * Helper class to store targets and selectors (and eventually, params?) in the same MutableArray. Basically a very crude form of a NSInvocation
  */
-#ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_INVOCATION_H
-#define CC_EXTENSIONS_GUI_CONTROLEXTENSION_INVOCATION_H
+#pragma once
 
 #include <cocos/base/CCRef.h>
 #include <cocos/extensions/ExtensionExport.h>
@@ -84,5 +83,3 @@ protected:
 /// @}
 
 NS_CC_EXT_END
-
-#endif // CC_EXTENSIONS_GUI_CONTROLEXTENSION_INVOCATION_H

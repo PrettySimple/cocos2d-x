@@ -31,8 +31,7 @@
 // from google3/util/gtl/map-util.h
 // Author: Anton Carver
 
-#ifndef GOOGLE_PROTOBUF_STUBS_MAP_UTIL_H__
-#define GOOGLE_PROTOBUF_STUBS_MAP_UTIL_H__
+#pragma once
 
 #include <google/protobuf/stubs/common.h>
 
@@ -139,5 +138,3 @@ bool InsertIfNotPresent(Collection * const collection,
 
 }  // namespace protobuf
 }  // namespace google
-
-#endif  // GOOGLE_PROTOBUF_STUBS_MAP_UTIL_H__

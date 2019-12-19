@@ -29,8 +29,7 @@
  *
  */
 
-#ifndef __CCDRAWNODES_CCDRAW_NODE_H__
-#define __CCDRAWNODES_CCDRAW_NODE_H__
+#pragma once
 
 #include <cocos/2d/CCNode.h>
 #include <cocos/base/ccTypes.h>
@@ -307,7 +306,7 @@ public:
 
 CC_CONSTRUCTOR_ACCESS:
     DrawNode(float lineWidth = DEFAULT_LINE_WIDTH);
-    virtual ~DrawNode();
+    virtual ~DrawNode() override;
     virtual bool init() override;
 
 protected:
@@ -336,7 +335,6 @@ protected:
 
     BlendFunc   _blendFunc;
     
-    backend::ProgramState* _programState = nullptr;
     backend::ProgramState* _programStatePoint = nullptr;
     backend::ProgramState* _programStateLine = nullptr;
     
@@ -351,9 +349,7 @@ protected:
     float       _lineWidth = 0.0f;
     
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(DrawNode);
+    CC_DISALLOW_COPY_AND_ASSIGN(DrawNode)
 };
 /** @} */
 NS_CC_END
-
-#endif // __CCDRAWNODES_CCDRAW_NODE_H__

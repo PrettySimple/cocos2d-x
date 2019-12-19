@@ -21,12 +21,9 @@
  * THE SOFTWARE.
  */
 
-#ifndef __jsb_websocket__
-#define __jsb_websocket__
+#pragma once
 
 #include "jsapi.h"
 #include "jsfriendapi.h"
 
 void register_jsb_websocket(JSContext* cx, JS::HandleObject global);
-
-#endif /* defined(__jsb_websocket__) */

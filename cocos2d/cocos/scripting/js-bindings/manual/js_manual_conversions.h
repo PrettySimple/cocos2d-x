@@ -22,8 +22,7 @@
  * THE SOFTWARE.
  */
 
-#ifndef __JS_MANUAL_CONVERSIONS_H__
-#define __JS_MANUAL_CONVERSIONS_H__
+#pragma once
 
 #include "jsapi.h"
 #include "jsfriendapi.h"
@@ -378,5 +377,3 @@ jsval vector4_to_jsval(JSContext* cx, const cocos2d::Vec4& v);
 jsval blendfunc_to_jsval(JSContext* cx, const cocos2d::BlendFunc& v);
 jsval vector_vec2_to_jsval(JSContext* cx, const std::vector<cocos2d::Vec2>& v);
 jsval std_map_string_string_to_jsval(JSContext* cx, const std::map<std::string, std::string>& v);
-
-#endif /* __JS_MANUAL_CONVERSIONS_H__ */

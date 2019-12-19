@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2016-2017 Chukong Technologies Inc.
+Copyright (c) 2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -28,54 +29,54 @@ THE SOFTWARE.
 #include "audio/android/OpenSLHelper.h"
 #include "audio/android/PcmData.h"
 
-#include <condition_variable>
 #include <mutex>
+#include <condition_variable>
 
-namespace cocos2d
+namespace cocos2d {
+
+class AudioMixerController;
+
+class PcmAudioService
 {
-    namespace experimental
-    {
-        class AudioMixerController;
+public:
+    inline int getChannelCount() const
+    { return _numChannels; };
 
-        class PcmAudioService
-        {
-        public:
-            inline int getChannelCount() const { return _numChannels; };
+    inline int getSampleRate() const
+    { return _sampleRate; };
 
-            inline int getSampleRate() const { return _sampleRate; };
+private:
+    PcmAudioService(SLEngineItf engineItf, SLObjectItf outputMixObject);
 
-        private:
-            PcmAudioService(SLEngineItf engineItf, SLObjectItf outputMixObject);
+    virtual ~PcmAudioService();
 
-            virtual ~PcmAudioService();
+    bool init(AudioMixerController* controller, int numChannels, int sampleRate, int bufferSizeInBytes);
 
-            bool init(AudioMixerController* controller, int numChannels, int sampleRate, int bufferSizeInBytes);
+    bool enqueue();
 
-            bool enqueue();
+    void bqFetchBufferCallback(SLAndroidSimpleBufferQueueItf bq);
 
-            void bqFetchBufferCallback(SLAndroidSimpleBufferQueueItf bq);
+    void pause();
+    void resume();
 
-            void pause();
-            void resume();
+private:
+    SLEngineItf _engineItf;
+    SLObjectItf _outputMixObj;
 
-        private:
-            SLEngineItf _engineItf;
-            SLObjectItf _outputMixObj;
+    SLObjectItf _playObj;
+    SLPlayItf _playItf;
+    SLVolumeItf _volumeItf;
+    SLAndroidSimpleBufferQueueItf _bufferQueueItf;
 
-            SLObjectItf _playObj;
-            SLPlayItf _playItf;
-            SLVolumeItf _volumeItf;
-            SLAndroidSimpleBufferQueueItf _bufferQueueItf;
+    int _numChannels;
+    int _sampleRate;
+    int _bufferSizeInBytes;
+    bool _isInitialised;
 
-            int _numChannels;
-            int _sampleRate;
-            int _bufferSizeInBytes;
+    AudioMixerController* _controller;
 
-            AudioMixerController* _controller;
+    friend class SLPcmAudioPlayerCallbackProxy;
+    friend class AudioPlayerProvider;
+};
 
-            friend class SLPcmAudioPlayerCallbackProxy;
-            friend class AudioPlayerProvider;
-        };
-
-    } // namespace experimental
-} // namespace cocos2d
+} // namespace cocos2d {

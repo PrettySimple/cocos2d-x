@@ -21,8 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __LUA_SCRIPT_HANDLER_MGR_H__
-#define __LUA_SCRIPT_HANDLER_MGR_H__
+#pragma once
 
 extern "C"
 {
@@ -330,5 +329,3 @@ NS_CC_END
 /// @cond
 TOLUA_API int tolua_script_handler_mgr_open(lua_State* tolua_S);
 /// @endcond
-
-#endif //__LUA_SCRIPT_HANDLER_MGR_H__

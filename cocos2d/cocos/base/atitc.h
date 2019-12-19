@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef COCOS2DX_PLATFORM_THIRDPARTY_ATITC_
-#define COCOS2DX_PLATFORM_THIRDPARTY_ATITC_
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <cocos/platform/CCStdC.h>
@@ -45,4 +45,3 @@ void atitc_decode(uint8_t *encode_data,
                   );
 
 /// @endcond
-#endif /* defined(COCOS2DX_PLATFORM_THIRDPARTY_ATITC_) */

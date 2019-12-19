@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_DOSCALEEVENTHANDLER_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_DOSCALEEVENTHANDLER_H
+
+#pragma once
 
 #include <cocos/base/CCRef.h>
 #include <cocos/extensions/Particle3D/PU/CCPUEventHandler.h>
@@ -84,5 +84,3 @@ protected:
 };
 
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_DOSCALEEVENTHANDLER_H

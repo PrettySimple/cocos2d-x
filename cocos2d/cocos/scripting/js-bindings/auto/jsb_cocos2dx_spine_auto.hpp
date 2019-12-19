@@ -1,6 +1,5 @@
 #include "base/ccConfig.h"
-#ifndef __cocos2dx_spine_h__
-#define __cocos2dx_spine_h__
+#pragma once
 
 #include "jsapi.h"
 #include "jsfriendapi.h"
@@ -60,5 +59,3 @@ bool js_cocos2dx_spine_SkeletonAnimation_setTrackEndListener(JSContext *cx, uint
 bool js_cocos2dx_spine_SkeletonAnimation_setStartListener(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_cocos2dx_spine_SkeletonAnimation_createWithFile(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_cocos2dx_spine_SkeletonAnimation_SkeletonAnimation(JSContext *cx, uint32_t argc, jsval *vp);
-
-#endif // __cocos2dx_spine_h__

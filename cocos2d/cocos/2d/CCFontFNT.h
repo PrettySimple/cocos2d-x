@@ -24,8 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _CCFontFNT_h_
-#define _CCFontFNT_h_
+#pragma once
 
 /// @cond DO_NOT_SHOW
 
@@ -74,5 +73,3 @@ private:
 /// @endcond
 
 NS_CC_END
-
-#endif /* defined(__cocos2d_libs__CCFontFNT__) */

@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef POLYCOLLISION_H
-#define POLYCOLLISION_H
+#pragma once
 
 class PolyCollision : public Test
 {
@@ -118,5 +117,3 @@ public:
 	b2Vec2 m_positionB;
 	float32 m_angleB;
 };
-
-#endif

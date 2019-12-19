@@ -63,8 +63,6 @@ namespace ui
     , _insetTop(0)
     , _insetRight(0)
     , _insetBottom(0)
-    , _flippedX(false)
-    , _flippedY(false)
     , _isPatch9(false)
     , _brightState(State::NORMAL)
     , _nonSliceSpriteAnchor(Vec2::ANCHOR_MIDDLE)
@@ -72,7 +70,6 @@ namespace ui
     , _sliceIndices(nullptr)
     , _sliceSpriteDirty(false)
     , _renderingType(RenderingType::SLICE)
-    , _insideBounds(true)
     {
         this->setAnchorPoint(Vec2(0.5, 0.5));
 #if CC_SPRITE_DEBUG_DRAW
@@ -335,7 +332,7 @@ namespace ui
     }
     const BlendFunc& Scale9Sprite::getBlendFunc() const { return _blendFunc; }
 
-    void Scale9Sprite::updateBlendFunc(Texture2D* texture)
+    void Scale9Sprite::updateBlendFuncWithTexture(Texture2D* texture)
     {
         // it is possible to have an untextured sprite
         if (!texture || !texture->hasPremultipliedAlpha())
@@ -372,7 +369,7 @@ namespace ui
         // Release old sprites
         this->cleanupSlicedSprites();
 
-        updateBlendFunc(sprite ? sprite->getTexture() : nullptr);
+        updateBlendFuncWithTexture(sprite ? sprite->getTexture() : nullptr);
 
         if (nullptr != sprite)
         {
@@ -475,7 +472,6 @@ namespace ui
 
             auto capInsets = CC_RECT_POINTS_TO_PIXELS(_capInsetsInternal);
             auto textureRect = CC_RECT_POINTS_TO_PIXELS(_spriteRect);
-            auto spriteRectSize = _spriteRect.size;
             auto originalSize = CC_SIZE_POINTS_TO_PIXELS(_originalSize);
             auto offset = CC_POINT_POINTS_TO_PIXELS(_offset);
 
@@ -570,8 +566,9 @@ namespace ui
         this->setCapInsets(insets);
     }
 
-    void Scale9Sprite::setSpriteFrame(SpriteFrame* spriteFrame, const Rect& capInsets)
+    void Scale9Sprite::setSpriteFrame(SpriteFrame* spriteFrame)
     {
+        Rect capInsets = Rect::ZERO;
         Sprite* sprite = Sprite::createWithTexture(spriteFrame->getTexture());
         this->updateWithSprite(sprite, spriteFrame->getRect(), spriteFrame->isRotated(), spriteFrame->getOffset(), spriteFrame->getOriginalSize(), capInsets);
 

@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_STD_C_H__
-#define __CC_STD_C_H__
+#pragma once
 
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
@@ -50,5 +49,3 @@
 #    endif // MAX
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
-
-#endif // __CC_STD_C_H__

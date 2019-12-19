@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2016-2017 Chukong Technologies Inc.
+Copyright (c) 2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -26,64 +27,62 @@ THE SOFTWARE.
 
 #include "audio/android/utils/Errors.h"
 
-#include <atomic>
-#include <condition_variable>
-#include <mutex>
 #include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <atomic>
 #include <vector>
 
-namespace cocos2d
+namespace cocos2d {
+
+class Track;
+class AudioMixer;
+
+class AudioMixerController
 {
-    namespace experimental
+public:
+
+    struct OutputBuffer
     {
-        class Track;
-        class AudioMixer;
+        void* buf;
+        size_t size;
+    };
 
-        class AudioMixerController
-        {
-        public:
-            struct OutputBuffer
-            {
-                void* buf;
-                size_t size;
-            };
+    AudioMixerController(int bufferSizeInFrames, int sampleRate, int channelCount);
 
-            AudioMixerController(int bufferSizeInFrames, int sampleRate, int channelCount);
+    ~AudioMixerController();
 
-            ~AudioMixerController();
+    bool init();
 
-            bool init();
+    bool addTrack(Track* track);
+    bool hasPlayingTacks();
 
-            bool addTrack(Track* track);
-            bool hasPlayingTacks();
+    void pause();
+    void resume();
+    inline bool isPaused() const { return _isPaused; };
 
-            void pause();
-            void resume();
-            inline bool isPaused() const { return _isPaused; };
+    void mixOneFrame();
 
-            void mixOneFrame();
+    inline OutputBuffer* current() { return &_mixingBuffer; }
 
-            inline OutputBuffer* current() { return &_mixingBuffer; }
+private:
+    void destroy();
+    void initTrack(Track* track, std::vector<Track*>& tracksToRemove);
 
-        private:
-            void destroy();
-            void initTrack(Track* track, std::vector<Track*>& tracksToRemove);
+private:
+    int _bufferSizeInFrames;
+    int _sampleRate;
+    int _channelCount;
 
-        private:
-            int _bufferSizeInFrames;
-            int _sampleRate;
-            int _channelCount;
+    AudioMixer* _mixer;
 
-            AudioMixer* _mixer;
+    std::mutex _activeTracksMutex;
+    std::vector<Track*> _activeTracks;
 
-            std::mutex _activeTracksMutex;
-            std::vector<Track*> _activeTracks;
+    OutputBuffer _mixingBuffer;
 
-            OutputBuffer _mixingBuffer;
+    std::atomic_bool _isPaused;
+    std::atomic_bool _isMixingFrame;
+};
 
-            std::atomic_bool _isPaused;
-            std::atomic_bool _isMixingFrame;
-        };
-
-    } // namespace experimental
-} // namespace cocos2d
+} // namespace cocos2d {

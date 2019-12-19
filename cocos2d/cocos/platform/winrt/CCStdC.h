@@ -23,8 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_STD_C_H__
-#define __CC_STD_C_H__
+#pragma once
 
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
@@ -106,5 +105,3 @@ struct timezone
 int CC_DLL gettimeofday(struct timeval*, struct timezone*);
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
-
-#endif // __CC_STD_C_H__

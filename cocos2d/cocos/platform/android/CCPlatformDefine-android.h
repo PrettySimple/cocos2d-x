@@ -24,8 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCPLATFORMDEFINE_H__
-#define __CCPLATFORMDEFINE_H__
+#pragma once
 
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
@@ -64,5 +63,3 @@ THE SOFTWARE.
 #endif
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-
-#endif /* __CCPLATFORMDEFINE_H__*/

@@ -17,8 +17,7 @@
 //--------------------------------------------------------------------------------
 // gestureDetector.h
 //--------------------------------------------------------------------------------
-#ifndef GESTUREDETECTOR_H_
-#define GESTUREDETECTOR_H_
+#pragma once
 
 #include <vector>
 
@@ -148,4 +147,3 @@ namespace ndk_helper
     };
 
 } // namespace ndk_helper
-#endif /* GESTUREDETECTOR_H_ */

@@ -20,8 +20,7 @@
  * THE SOFTWARE.
  */
 
-#ifndef __SPIDERMONKEY_SPECIFICS_H__
-#define __SPIDERMONKEY_SPECIFICS_H__
+#pragma once
 
 #include "jsapi.h"
 #include "jsfriendapi.h"
@@ -86,5 +85,3 @@ public:
         JS_ReportError(cx, "Invalid Native Object"); \
         return false;                                \
     }
-
-#endif

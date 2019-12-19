@@ -25,8 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __BASE_CCPROTOCOLS_H__
-#define __BASE_CCPROTOCOLS_H__
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <string>
@@ -42,7 +42,7 @@ NS_CC_BEGIN
 class CC_DLL __RGBAProtocol
 {
 public:
-    virtual ~__RGBAProtocol() {}
+    virtual ~__RGBAProtocol();
     
     /**
      * Changes the color with R,G,B bytes
@@ -171,7 +171,7 @@ public:
 class CC_DLL BlendProtocol
 {
 public:
-    virtual ~BlendProtocol() {}
+    virtual ~BlendProtocol();
 
     /**
      * Sets the source blending function.
@@ -205,7 +205,7 @@ public:
 class CC_DLL TextureProtocol : public BlendProtocol
 {
 public:
-    virtual ~TextureProtocol() {}
+    virtual ~TextureProtocol();
     /**
      * Returns the currently used texture
      *
@@ -231,7 +231,7 @@ public:
 class CC_DLL LabelProtocol
 {
 public:
-    virtual ~LabelProtocol() {}
+    virtual ~LabelProtocol();
 
     /**
      * Sets a new label using a string
@@ -258,7 +258,7 @@ public:
 class CC_DLL DirectorDelegate
 {
 public:
-    virtual ~DirectorDelegate() {}
+    virtual ~DirectorDelegate();
 
     /**
      * Will be called by Director when the projection is updated, and "custom" projection is used
@@ -274,7 +274,7 @@ public:
 class CC_DLL PlayableProtocol
 {
 public:
-    virtual ~PlayableProtocol(){}
+    virtual ~PlayableProtocol();
     
     virtual void start() = 0;
     
@@ -283,4 +283,3 @@ public:
 NS_CC_END
 
 /// @endcond
-#endif // __BASE_CCPROTOCOLS_H__

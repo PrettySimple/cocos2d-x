@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2017 Chukong Technologies Inc.
+Copyright (c) 2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -26,20 +27,17 @@ THE SOFTWARE.
 
 #include "audio/android/AudioDecoder.h"
 
-namespace cocos2d
+namespace cocos2d {
+
+class AudioDecoderMp3 : public AudioDecoder
 {
-    namespace experimental
-    {
-        class AudioDecoderMp3 : public AudioDecoder
-        {
-        protected:
-            AudioDecoderMp3();
-            virtual ~AudioDecoderMp3();
+protected:
+    AudioDecoderMp3();
+    virtual ~AudioDecoderMp3();
 
-            virtual bool decodeToPcm() override;
+    virtual bool decodeToPcm() override;
 
-            friend class AudioDecoderProvider;
-        };
+    friend class AudioDecoderProvider;
+};
 
-    } // namespace experimental
-} // namespace cocos2d
+} // namespace cocos2d {

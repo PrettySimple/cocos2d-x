@@ -26,8 +26,7 @@
  * Converted to c++ / cocos2d-x by Angus C
  */
 
-#ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_SLIDER_H
-#define CC_EXTENSIONS_GUI_CONTROLEXTENSION_SLIDER_H
+#pragma once
 
 #include <cocos/extensions/ExtensionExport.h>
 #include <cocos/extensions/ExtensionMacros.h>
@@ -170,5 +169,3 @@ protected:
 /// @}
 
 NS_CC_EXT_END
-
-#endif // CC_EXTENSIONS_GUI_CONTROLEXTENSION_SLIDER_H

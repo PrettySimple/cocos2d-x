@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_COMEXTENSIONDATA_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_COMEXTENSIONDATA_H
+#pragma once
 
 #include "CCComBase.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -84,5 +83,3 @@ namespace cocostudio
         cocostudio::timeline::ActionTimelineData* _timelineData;
     };
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_COMEXTENSIONDATA_H

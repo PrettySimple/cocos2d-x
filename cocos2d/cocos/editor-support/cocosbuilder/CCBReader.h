@@ -1,5 +1,5 @@
-#ifndef CC_EDITORSUPPORT_COCOSBUILDER_READER_H
-#define CC_EDITORSUPPORT_COCOSBUILDER_READER_H
+
+#pragma once
 
 #include "CCBSequence.h"
 #include "cocosbuilder/CCBAnimationManager.h"
@@ -419,5 +419,3 @@ namespace cocosbuilder
     /// @}
 
 } // namespace cocosbuilder
-
-#endif // CC_EDITORSUPPORT_COCOSBUILDER_READER_H

@@ -1,5 +1,5 @@
-#ifndef CC_EDITORSUPPORT_COCOSBUILDER_NODELOADERLIBRARY_H
-#define CC_EDITORSUPPORT_COCOSBUILDER_NODELOADERLIBRARY_H
+
+#pragma once
 
 #include "CCBReader.h"
 
@@ -114,5 +114,3 @@ namespace cocosbuilder
     };
 
 } // namespace cocosbuilder
-
-#endif // CC_EDITORSUPPORT_COCOSBUILDER_NODELOADERLIBRARY_H

@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_TABCONTROLREADER_TABCONTROLREADER_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_TABCONTROLREADER_TABCONTROLREADER_H
+#pragma once
 
 #include "editor-support/cocostudio/WidgetReader/NodeReaderDefine.h"
 #include "editor-support/cocostudio/WidgetReader/NodeReaderProtocol.h"
@@ -97,5 +96,3 @@ public:
 private:
     static TabItemReader* _tabItemReaderInstance;
 };
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_TABCONTROLREADER_TABCONTROLREADER_H

@@ -1,8 +1,7 @@
 /*
  *
  */
-#ifndef __PERFORMANCE_ALLOC_TEST_H__
-#define __PERFORMANCE_ALLOC_TEST_H__
+#pragma once
 
 #include "BaseTest.h"
 
@@ -111,5 +110,3 @@ public:
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
 };
-
-#endif // __PERFORMANCE_ALLOC_TEST_H__

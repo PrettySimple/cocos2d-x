@@ -24,8 +24,7 @@
 
 #include "platform/CCPlatformConfig.h"
 
-#ifndef __NEWAUDIOENGINE_TEST_H_
-#define __NEWAUDIOENGINE_TEST_H_
+#pragma once
 
 #include "cocos2d.h"
 #include "../BaseTest.h"
@@ -237,5 +236,3 @@ public:
 private:
     std::vector<std::string> _oldSearchPaths;
 };
-
-#endif /* defined(__NEWAUDIOENGINE_TEST_H_) */

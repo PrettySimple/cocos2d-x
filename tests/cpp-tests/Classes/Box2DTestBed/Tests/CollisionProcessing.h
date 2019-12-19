@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef COLLISION_PROCESSING_H
-#define COLLISION_PROCESSING_H
+#pragma once
 
 #include <algorithm>
 
@@ -184,5 +183,3 @@ public:
 		return new CollisionProcessing;
 	}
 };
-
-#endif

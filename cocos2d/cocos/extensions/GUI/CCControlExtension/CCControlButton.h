@@ -26,8 +26,7 @@
  * Converted to c++ / cocos2d-x by Angus C
  */
 
-#ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_BUTTON_H
-#define CC_EXTENSIONS_GUI_CONTROLEXTENSION_BUTTON_H
+#pragma once
 
 #include <cocos/base/CCMap.h>
 #include <cocos/extensions/GUI/CCControlExtension/CCControl.h>
@@ -253,5 +252,3 @@ private:
 /// @}
 
 NS_CC_EXT_END
-
-#endif // CC_EXTENSIONS_GUI_CONTROLEXTENSION_BUTTON_H

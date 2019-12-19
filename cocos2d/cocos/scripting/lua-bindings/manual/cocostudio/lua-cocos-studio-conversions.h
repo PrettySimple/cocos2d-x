@@ -21,8 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __COCOS_SCRIPTING_LUA_BINDING_MANUAL_COCOSTUDIO_LUA_STUDIO_CONVERSIONS_H__
-#define __COCOS_SCRIPTING_LUA_BINDING_MANUAL_COCOSTUDIO_LUA_STUDIO_CONVERSIONS_H__
+#pragma once
 
 extern "C"
 {
@@ -43,5 +42,3 @@ namespace cocostudio
 extern bool luaval_to_animationInfo(lua_State* L, int lo, cocostudio::timeline::AnimationInfo* outValue, const char* funcName = "");
 
 extern void animationInfo_to_luaval(lua_State* L, const cocostudio::timeline::AnimationInfo& inValue);
-
-#endif //__COCOS_SCRIPTING_LUA_BINDING_MANUAL_COCOSTUDIO_LUA_STUDIO_CONVERSIONS_H__

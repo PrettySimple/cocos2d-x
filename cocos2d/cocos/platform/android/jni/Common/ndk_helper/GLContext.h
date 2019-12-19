@@ -17,8 +17,7 @@
 //--------------------------------------------------------------------------------
 // GLContext.h
 //--------------------------------------------------------------------------------
-#ifndef GLCONTEXT_H_
-#define GLCONTEXT_H_
+#pragma once
 
 #include <EGL/egl.h>
 #include <GLES2/gl2.h>
@@ -106,5 +105,3 @@ namespace ndk_helper
     };
 
 } // namespace ndk_helper
-
-#endif /* GLCONTEXT_H_ */

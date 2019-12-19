@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __SUPPORT_ZIPUTILS_H__
-#define __SUPPORT_ZIPUTILS_H__
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <cocos/platform/CCPlatformMacros.h>
@@ -304,4 +304,3 @@ typedef struct unz_file_info_s unz_file_info;
 /// @}
 
 /// @endcond
-#endif // __SUPPORT_ZIPUTILS_H__

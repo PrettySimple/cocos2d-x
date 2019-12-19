@@ -1,6 +1,5 @@
 
-#ifndef __PLAYER_PROTOCOL_H_
-#define __PLAYER_PROTOCOL_H_
+#pragma once
 
 #include "PlayerMacros.h"
 #include "PlayerSettings.h"
@@ -43,5 +42,3 @@ private:
 };
 
 PLAYER_NS_END
-
-#endif // __PLAYER_PROTOCOL_H_

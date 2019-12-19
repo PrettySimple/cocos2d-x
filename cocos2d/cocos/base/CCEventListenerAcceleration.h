@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCAccelerometerListener__
-#define __cocos2d_libs__CCAccelerometerListener__
+#pragma once
 
 #include <cocos/base/CCEventListener.h>
 #include <cocos/base/ccTypes.h>
@@ -75,5 +74,3 @@ NS_CC_END
 
 // end of base group
 /// @}
-
-#endif /* defined(__cocos2d_libs__CCAccelerometerListener__) */

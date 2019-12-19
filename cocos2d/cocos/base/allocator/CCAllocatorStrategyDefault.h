@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_BASE_ALLOCATOR_ALLOCATORSTRATEGYDEFAULT_H
-#define CC_BASE_ALLOCATOR_ALLOCATORSTRATEGYDEFAULT_H
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <cocos/base/allocator/CCAllocatorBase.h>
@@ -52,4 +52,3 @@ NS_CC_ALLOCATOR_END
 NS_CC_END
 
 /// @endcond
-#endif // CC_BASE_ALLOCATOR_ALLOCATORSTRATEGYDEFAULT_H

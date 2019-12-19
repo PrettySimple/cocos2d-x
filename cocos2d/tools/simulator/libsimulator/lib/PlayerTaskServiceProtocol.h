@@ -1,6 +1,5 @@
 
-#ifndef __PLAYER_TASK_SERVICE_PROTOCOL_H
-#define __PLAYER_TASK_SERVICE_PROTOCOL_H
+#pragma once
 
 #include <string>
 
@@ -59,5 +58,3 @@ public:
 };
 
 PLAYER_NS_END
-
-#endif // __PLAYER_TASK_SERVICE_PROTOCOL_H

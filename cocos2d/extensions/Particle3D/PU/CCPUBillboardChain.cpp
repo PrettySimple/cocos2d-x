@@ -713,7 +713,7 @@ void PUBillboardChain::render( Renderer* renderer, const Mat4 &transform, Partic
 
         _meshCommand.setVertexBuffer(_vertexBuffer);
         _meshCommand.setIndexBuffer(_indexBuffer, MeshCommand::IndexFormat::U_SHORT);
-        _meshCommand.setIndexDrawInfo(0, _indices.size());
+        _meshCommand.setIndexDrawInfo(0, static_cast<unsigned int>(_indices.size()));
 
         if (!_vertices.empty() && !_indices.empty())
         {

@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_CHECKBOXREADER_CHECKBOXREADER_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_CHECKBOXREADER_CHECKBOXREADER_H
+#pragma once
 
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/WidgetReader/WidgetReader.h"
@@ -51,5 +50,3 @@ namespace cocostudio
         virtual int getResourceType(std::string key);
     };
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_CHECKBOXREADER_CHECKBOXREADER_H

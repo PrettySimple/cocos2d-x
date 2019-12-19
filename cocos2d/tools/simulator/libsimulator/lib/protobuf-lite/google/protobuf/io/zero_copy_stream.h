@@ -104,8 +104,7 @@
 //   close(infd);
 //   close(outfd);
 
-#ifndef GOOGLE_PROTOBUF_IO_ZERO_COPY_STREAM_H__
-#define GOOGLE_PROTOBUF_IO_ZERO_COPY_STREAM_H__
+#pragma once
 
 #include <string>
 #include <google/protobuf/stubs/common.h>
@@ -235,4 +234,3 @@ class LIBPROTOBUF_EXPORT ZeroCopyOutputStream {
 }  // namespace protobuf
 
 }  // namespace google
-#endif  // GOOGLE_PROTOBUF_IO_ZERO_COPY_STREAM_H__

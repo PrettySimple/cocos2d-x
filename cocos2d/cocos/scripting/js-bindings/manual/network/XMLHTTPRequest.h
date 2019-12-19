@@ -25,8 +25,7 @@
  * THE SOFTWARE.
  */
 
-#ifndef __FAKE_XMLHTTPREQUEST_H__
-#define __FAKE_XMLHTTPREQUEST_H__
+#pragma once
 
 #include "jsapi.h"
 #include "jsfriendapi.h"
@@ -126,5 +125,3 @@ private:
     bool _isAborted;
     cocos2d::Scheduler* _scheduler;
 };
-
-#endif

@@ -24,8 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __PLATFORM_IOS_CCGL_H__
-#define __PLATFORM_IOS_CCGL_H__
+#pragma once
 
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
@@ -34,6 +33,3 @@ THE SOFTWARE.
 #include <OpenGLES/ES2/glext.h>
 
 #endif // CC_PLATFORM_IOS
-
-#endif // __PLATFORM_IOS_CCGL_H__
-

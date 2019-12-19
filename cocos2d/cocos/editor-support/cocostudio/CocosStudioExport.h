@@ -1,5 +1,5 @@
-﻿#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_COCOSSTUDIOEXPORT_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_COCOSSTUDIOEXPORT_H
+﻿
+#pragma once
 
 #if (defined(WIN32) && defined(_WINDOWS)) || defined(WINRT) || defined(WP8)
 #    ifdef __MINGW32__
@@ -29,5 +29,3 @@
 #else
 #    define CC_STUDIO_DLL
 #endif
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_COCOSSTUDIOEXPORT_H

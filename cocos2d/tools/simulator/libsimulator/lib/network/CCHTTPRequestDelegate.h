@@ -1,6 +1,5 @@
 
-#ifndef __CC_EXTENSION_CCHTTP_REQUEST_DELEGATE_H_
-#define __CC_EXTENSION_CCHTTP_REQUEST_DELEGATE_H_
+#pragma once
 
 #include "cocos2dx_extra.h"
 
@@ -16,5 +15,3 @@ public:
 };
 
 NS_CC_EXTRA_END
-
-#endif // __CC_EXTENSION_CCHTTP_REQUEST_DELEGATE_H_

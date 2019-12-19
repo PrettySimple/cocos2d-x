@@ -30,8 +30,7 @@
 
 // This file is an internal atomic implementation, use atomicops.h instead.
 
-#ifndef GOOGLE_PROTOBUF_ATOMICOPS_INTERNALS_MACOSX_H_
-#define GOOGLE_PROTOBUF_ATOMICOPS_INTERNALS_MACOSX_H_
+#pragma once
 
 #include <libkern/OSAtomic.h>
 
@@ -221,5 +220,3 @@ inline Atomic64 Release_Load(volatile const Atomic64* ptr) {
 }  // namespace internal
 }  // namespace protobuf
 }  // namespace google
-
-#endif  // GOOGLE_PROTOBUF_ATOMICOPS_INTERNALS_MACOSX_H_

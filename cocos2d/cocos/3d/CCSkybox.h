@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __SKYBOX_H__
-#define __SKYBOX_H__
+#pragma once
 
 #include <cocos/base/ccTypes.h>
 #include <cocos/platform/CCPlatformMacros.h>
@@ -123,5 +122,3 @@ private:
 /// @}
 
 NS_CC_END
-
-#endif // __SKYBOX_H__

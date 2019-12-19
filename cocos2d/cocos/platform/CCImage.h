@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_IMAGE_H__
-#define __CC_IMAGE_H__
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <cocos/base/CCRef.h>
@@ -53,7 +53,7 @@ typedef struct _MipmapInfo
 {
     unsigned char* address;
     int len;
-    _MipmapInfo():address(NULL),len(0){}
+    _MipmapInfo():address(nullptr),len(0){}
 }MipmapInfo;
 
 class CC_DLL Image : public Ref
@@ -228,4 +228,3 @@ protected:
 NS_CC_END
 
 /// @endcond
-#endif    // __CC_IMAGE_H__

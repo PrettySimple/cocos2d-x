@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef DOMINOS_H
-#define DOMINOS_H
+#pragma once
 
 class Dominos : public Test
 {
@@ -211,5 +210,3 @@ public:
 		return new Dominos;
 	}
 };
-
-#endif

@@ -35,8 +35,7 @@
 // This file contains miscellaneous helper code used by generated code --
 // including lite types -- but which should not be used directly by users.
 
-#ifndef GOOGLE_PROTOBUF_GENERATED_MESSAGE_UTIL_H__
-#define GOOGLE_PROTOBUF_GENERATED_MESSAGE_UTIL_H__
+#pragma once
 
 #include <string>
 
@@ -74,4 +73,3 @@ LIBPROTOBUF_EXPORT int StringSpaceUsedExcludingSelf(const string& str);
 }  // namespace protobuf
 
 }  // namespace google
-#endif  // GOOGLE_PROTOBUF_GENERATED_MESSAGE_UTIL_H__

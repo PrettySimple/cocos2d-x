@@ -1,7 +1,6 @@
 
 
-#ifndef __TestCpp__UITextAtlasTest__
-#define __TestCpp__UITextAtlasTest__
+#pragma once
 
 #include "../UIScene.h"
 
@@ -17,5 +16,3 @@ public:
 protected:
     cocos2d::ui::TextAtlas* _textAtlas;
 };
-
-#endif /* defined(__TestCpp__UITextAtlasTest__) */

@@ -24,8 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_TOUCH_H__
-#define __CC_TOUCH_H__
+#pragma once
 
 #include <cocos/base/CCRef.h>
 #include <cocos/math/CCGeometry.h>
@@ -62,6 +61,8 @@ public:
         _curForce(0.f),
         _maxForce(0.f)
     {}
+    
+    virtual ~Touch() override;
 
     /** Returns the current touch location in OpenGL coordinates.
      *
@@ -179,5 +180,3 @@ private:
 /// @}
 
 NS_CC_END
-
-#endif  // __PLATFORM_TOUCH_H__

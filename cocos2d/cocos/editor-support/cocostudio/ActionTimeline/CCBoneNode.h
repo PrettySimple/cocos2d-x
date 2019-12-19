@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_BONENODE_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_BONENODE_H
+#pragma once
 
 #include "CCSkinNode.h"
 #include "CCTimelineMacro.h"
@@ -224,4 +223,3 @@ private:
 };
 
 NS_TIMELINE_END
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_BONENODE_H

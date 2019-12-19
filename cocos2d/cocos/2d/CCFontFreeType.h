@@ -24,8 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _FontFreetype_h_
-#define _FontFreetype_h_
+#pragma once
 
 /// @cond DO_NOT_SHOW
 
@@ -107,5 +106,3 @@ private:
 /// @endcond
 
 NS_CC_END
-
-#endif

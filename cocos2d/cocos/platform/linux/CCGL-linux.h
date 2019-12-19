@@ -23,8 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCGL_H__
-#define __CCGL_H__
+#pragma once
 
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
@@ -34,5 +33,3 @@ THE SOFTWARE.
 #define CC_GL_DEPTH24_STENCIL8      GL_DEPTH24_STENCIL8
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
-
-#endif // __CCGL_H__

@@ -21,12 +21,9 @@
  * THE SOFTWARE.
  */
 
-#ifndef __jsb_socketio__
-#define __jsb_socketio__
+#pragma once
 
 #include "jsapi.h"
 #include "jsfriendapi.h"
 
 void register_jsb_socketio(JSContext* cx, JS::HandleObject global);
-
-#endif /* defined(__jsb_socketio__) */

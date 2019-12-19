@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_LISTVIEWREADER_LISTVIEWREADER_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_LISTVIEWREADER_LISTVIEWREADER_H
+#pragma once
 
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/WidgetReader/ScrollViewReader/ScrollViewReader.h"
@@ -52,5 +51,3 @@ namespace cocostudio
         int getResourceType(std::string key);
     };
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_LISTVIEWREADER_LISTVIEWREADER_H

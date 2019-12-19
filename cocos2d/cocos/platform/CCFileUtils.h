@@ -23,8 +23,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CC_FILEUTILS_H__
-#define __CC_FILEUTILS_H__
+#pragma once
 
 #include <string>
 #include <vector>
@@ -50,7 +49,7 @@ NS_CC_BEGIN
 
 class ResizableBuffer {
 public:
-    virtual ~ResizableBuffer() {}
+    virtual ~ResizableBuffer();
     virtual void resize(size_t size) = 0;
     virtual void* buffer() const = 0;
 };
@@ -103,6 +102,7 @@ class ResizableBufferAdapter<Data> : public ResizableBuffer {
     typedef Data BufferType;
     BufferType* _buffer;
 public:
+    virtual ~ResizableBufferAdapter() override;
     explicit ResizableBufferAdapter(BufferType* buffer) : _buffer(buffer) {}
     virtual void resize(size_t size) override {
         size_t oldSize = static_cast<size_t>(_buffer->getSize());
@@ -110,7 +110,7 @@ public:
             auto old = _buffer->getBytes();
             void* buffer = realloc(old, size);
             if (buffer)
-                _buffer->fastSet((unsigned char*)buffer, size);
+                _buffer->fastSet(static_cast<unsigned char*>(buffer), size);
         }
     }
     virtual void* buffer() const override {
@@ -1003,5 +1003,3 @@ protected:
 /** @} */
 
 NS_CC_END
-
-#endif    // __CC_FILEUTILS_H__

@@ -94,8 +94,8 @@ typedef SSIZE_T ssize_t;
 #endif
 
 #define _WINSOCKAPI_
-#ifndef NOMINMAX
-  #define NOMINMAX
+#pragma once
+
 #endif
 // Structure timeval has define in winsock.h, include windows.h for it.
 #include <Windows.h>
@@ -163,8 +163,3 @@ inline errno_t strcpy_s(char *strDestination, size_t numberOfElements,
 #undef max
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-
-#endif  // __CC_STD_C_H__
-
-
-

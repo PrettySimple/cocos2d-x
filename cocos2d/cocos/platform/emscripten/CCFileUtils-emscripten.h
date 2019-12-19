@@ -1,5 +1,5 @@
-#ifndef __CC_FILEUTILS_EMSCRIPTEN_H__
-#define __CC_FILEUTILS_EMSCRIPTEN_H__
+
+#pragma once
 
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN
@@ -28,7 +28,5 @@ private:
 };
 
 NS_CC_END
-
-#endif
 
 #endif

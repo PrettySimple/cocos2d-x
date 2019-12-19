@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_DECORATIVEDISPLAY_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_DECORATIVEDISPLAY_H
+#pragma once
 
 #include "cocostudio/CCArmatureDefine.h"
 #include "cocostudio/CCDatas.h"
@@ -92,5 +91,3 @@ namespace cocostudio
     };
 
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_DECORATIVEDISPLAY_H

@@ -22,8 +22,7 @@
  *
  */
 
-#ifndef __CCCONTROLPOTENTIOMETERTEST_H__
-#define __CCCONTROLPOTENTIOMETERTEST_H__
+#pragma once
 
 #include "../CCControlScene.h"
 
@@ -39,7 +38,4 @@ public:
 
     CREATE_FUNC(ControlPotentiometerTest)
 };
-
-
-#endif /* __CCCONTROLPOTENTIOMETERTEST_H__ */
 

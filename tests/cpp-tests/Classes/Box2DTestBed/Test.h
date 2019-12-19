@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef TEST_H
-#define TEST_H
+#pragma once
 
 #include <Box2D/Box2D.h>
 #include "GLES-Render.h"
@@ -192,5 +191,3 @@ protected:
 	b2Profile m_maxProfile;
 	b2Profile m_totalProfile;
 };
-
-#endif

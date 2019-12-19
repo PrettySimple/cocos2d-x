@@ -24,8 +24,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CCVECTOR_H__
-#define __CCVECTOR_H__
+#pragma once
 
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/CCRef.h>
@@ -122,7 +121,7 @@ public:
     : _data()
     {
         static_assert(std::is_convertible<T, Ref*>::value, "Invalid Type for cocos2d::Vector<T>!");
-        CCLOGINFO("In the default constructor with capacity of Vector.");
+        CCLOGINFO("In the default constructor with capacity of Vector.", "");
         reserve(capacity);
     }
 
@@ -138,7 +137,7 @@ public:
     /** Destructor. */
     ~Vector<T>()
     {
-        CCLOGINFO("In the destructor of Vector.");
+        CCLOGINFO("In the destructor of Vector.", "");
         clear();
     }
 
@@ -146,7 +145,7 @@ public:
     Vector<T>(const Vector<T>& other)
     {
         static_assert(std::is_convertible<T, Ref*>::value, "Invalid Type for cocos2d::Vector<T>!");
-        CCLOGINFO("In the copy constructor!");
+        CCLOGINFO("In the copy constructor!", "");
         _data = other._data;
         addRefForAllObjects();
     }
@@ -155,7 +154,7 @@ public:
     Vector<T>(Vector<T>&& other)
     {
         static_assert(std::is_convertible<T, Ref*>::value, "Invalid Type for cocos2d::Vector<T>!");
-        CCLOGINFO("In the move constructor of Vector!");
+        CCLOGINFO("In the move constructor of Vector!", "");
         _data = std::move(other._data);
     }
     
@@ -163,7 +162,7 @@ public:
     Vector<T>& operator=(const Vector<T>& other)
     {
         if (this != &other) {
-            CCLOGINFO("In the copy assignment operator!");
+            CCLOGINFO("In the copy assignment operator!", "");
             clear();
             _data = other._data;
             addRefForAllObjects();
@@ -175,7 +174,7 @@ public:
     Vector<T>& operator=(Vector<T>&& other)
     {
         if (this != &other) {
-            CCLOGINFO("In the move assignment operator!");
+            CCLOGINFO("In the move assignment operator!", "");
             clear();
             _data = std::move(other._data);
         }
@@ -266,7 +265,7 @@ public:
     }
     
     /** Returns the element at position 'index' in the Vector. */
-    T at(ssize_t index) const
+    T at(std::size_t index) const
     {
         CCASSERT( index >= 0 && index < size(), "index out of range in getObjectAtIndex()");
         return _data[index];
@@ -350,7 +349,7 @@ public:
      * @param index The index to be inserted at.
      * @param object The object to be inserted.
      */
-    void insert(ssize_t index, T object)
+    void insert(std::size_t index, T object)
     {
         CCASSERT(index >= 0 && index <= size(), "Invalid index!");
         CCASSERT(object != nullptr, "The object should not be nullptr");
@@ -436,7 +435,7 @@ public:
      *  @param index The index of the element to be removed from the Vector.
      *  @return An iterator pointing to the successor of Vector[index].
      */
-    iterator erase(ssize_t index)
+    iterator erase(std::size_t index)
     {
         CCASSERT(!_data.empty() && index >=0 && index < size(), "Invalid index!");
         auto it = std::next( begin(), index );
@@ -516,5 +515,3 @@ protected:
 /** @} */
 
 NS_CC_END
-
-#endif // __CCVECTOR_H__

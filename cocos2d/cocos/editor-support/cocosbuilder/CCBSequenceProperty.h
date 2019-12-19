@@ -1,5 +1,5 @@
-#ifndef CC_EDITORSUPPORT_COCOSBUILDER_SEQUENCEPROPERTY_H
-#define CC_EDITORSUPPORT_COCOSBUILDER_SEQUENCEPROPERTY_H
+
+#pragma once
 
 #include "CCBKeyframe.h"
 #include <cocos/base/CCRef.h>
@@ -37,5 +37,3 @@ namespace cocosbuilder
     };
 
 } // namespace cocosbuilder
-
-#endif // CC_EDITORSUPPORT_COCOSBUILDER_SEQUENCEPROPERTY_H

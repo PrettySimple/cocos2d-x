@@ -28,8 +28,7 @@
 // Only compile this code on iOS. These files should NOT be included on your Mac project.
 // But in case they are included, it won't be compiled.
 
-#ifndef CC_PLATFORM_IOS_ES2RENDERERIOS_H
-#define CC_PLATFORM_IOS_ES2RENDERERIOS_H
+#pragma once
 
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
@@ -83,5 +82,3 @@
 @end
 
 #endif // CC_PLATFORM_IOS
-
-#endif // CC_PLATFORM_IOS_ES2RENDERERIOS_H

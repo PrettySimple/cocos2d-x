@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_ASSETSMANAGER_EVENTLISTENERASSETSMANAGEREX_H
-#define CC_EXTENSIONS_ASSETSMANAGER_EVENTLISTENERASSETSMANAGEREX_H
+#pragma once
 
 #include <cocos/base/CCEventListener.h>
 #include <cocos/base/CCEventListenerCustom.h>
@@ -82,5 +81,3 @@ protected:
 };
 
 NS_CC_EXT_END
-
-#endif // CC_EXTENSIONS_ASSETSMANAGER_EVENTLISTENERASSETSMANAGEREX_H

@@ -21,8 +21,7 @@
  * THE SOFTWARE.
  */
 
-#ifndef __JS_BINDINGS_CORE_H__
-#define __JS_BINDINGS_CORE_H__
+#pragma once
 
 #include "jsapi.h"
 #include "jsfriendapi.h"
@@ -75,5 +74,3 @@ extern "C"
 #ifdef __cplusplus
 }
 #endif
-
-#endif /* __JS_BINDINGS_CORE_H__ */

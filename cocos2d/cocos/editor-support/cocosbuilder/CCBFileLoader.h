@@ -1,5 +1,5 @@
-#ifndef CC_EDITORSUPPORT_COCOSBUILDER_FILELOADER_H
-#define CC_EDITORSUPPORT_COCOSBUILDER_FILELOADER_H
+
+#pragma once
 
 #include "CCNodeLoader.h"
 
@@ -30,5 +30,3 @@ namespace cocosbuilder
     };
 
 } // namespace cocosbuilder
-
-#endif // CC_EDITORSUPPORT_COCOSBUILDER_FILELOADER_H

@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_GUI_SCROLLVIEW_SCROLLVIEW_H
-#define CC_EXTENSIONS_GUI_SCROLLVIEW_SCROLLVIEW_H
+#pragma once
 
 #include <cocos/2d/CCActionTween.h>
 #include <cocos/2d/CCLayer.h>
@@ -386,5 +385,3 @@ protected:
 NS_CC_EXT_END
 // end of ui group
 /// @}
-
-#endif // CC_EXTENSIONS_GUI_SCROLLVIEW_SCROLLVIEW_H

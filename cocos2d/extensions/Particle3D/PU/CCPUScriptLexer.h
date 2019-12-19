@@ -24,8 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PU_SCRIPT_LEXER_H__
-#define __CC_PU_SCRIPT_LEXER_H__
+#pragma once
 
 #include <cocos/base/CCRef.h>
 #include <vector>
@@ -80,5 +79,3 @@ class PUScriptLexer
 };
 
 NS_CC_END
-
-#endif 

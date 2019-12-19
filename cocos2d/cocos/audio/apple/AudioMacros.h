@@ -31,43 +31,35 @@
 #define QUOTEME_(x) #x
 #define QUOTEME(x) QUOTEME_(x)
 
-#if defined(COCOS2D_AUDIO_DEBUG) && COCOS2D_AUDIO_DEBUG > 0
-#    define ALOGV(...) cocos2d::log2("V/ (" QUOTEME(__LINE__) "): ", __VA_ARGS__)
-#    define ALOGD(...) cocos2d::log2("D/ (" QUOTEME(__LINE__) "): ", __VA_ARGS__)
-#    define ALOGI(...) cocos2d::log2("I/ (" QUOTEME(__LINE__) "): ", __VA_ARGS__)
-#    define ALOGW(...) cocos2d::log2("W/ (" QUOTEME(__LINE__) "): ", __VA_ARGS__)
-#    define ALOGE(...) cocos2d::log2("E/ (" QUOTEME(__LINE__) "): ", __VA_ARGS__)
+#if defined(COCOS2D_DEBUG) && COCOS2D_DEBUG > 0
+#define ALOGV(fmt, ...) printf("V/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
 #else
-#    define ALOGV(...) void(0)
-#    define ALOGD(...) void(0)
-#    define ALOGI(...) void(0)
-#    define ALOGW(...) void(0)
-#    define ALOGE(...) void(0)
+#define ALOGV(fmt, ...) do {} while(false)
 #endif
+#define ALOGD(fmt, ...) printf("D/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
+#define ALOGI(fmt, ...) printf("I/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
+#define ALOGW(fmt, ...) printf("W/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
+#define ALOGE(fmt, ...) printf("E/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
 
-#if defined(COCOS2D_AUDIO_DEBUG) && COCOS2D_AUDIO_DEBUG > 0
-#    define CHECK_AL_ERROR_DEBUG()                                                                     \
-        do                                                                                             \
-        {                                                                                              \
-            ALenum __error = alGetError();                                                             \
-            if (__error)                                                                               \
-            {                                                                                          \
-                ALOGE("OpenAL error 0x%04X in %s %s %d\n", __error, __FILE__, __FUNCTION__, __LINE__); \
-            }                                                                                          \
-        } while (false)
+#if defined(COCOS2D_DEBUG) && COCOS2D_DEBUG > 0
+#define CHECK_AL_ERROR_DEBUG() \
+do { \
+    auto __error = alGetError(); \
+    if (__error) { \
+        ALOGE("OpenAL error 0x%04X in %s %s %d\n", __error, __FILE__, __FUNCTION__, __LINE__); \
+    } \
+} while (false)
 #else
-#    define CHECK_AL_ERROR_DEBUG()
+#define CHECK_AL_ERROR_DEBUG()
 #endif
 
 #define BREAK_IF(condition) \
-    if (!!(condition))      \
-    {                       \
-        break;              \
+    if (!!(condition)) { \
+        break; \
     }
 
-#define BREAK_IF_ERR_LOG(condition, ...)                                  \
-    if (!!(condition))                                                    \
-    {                                                                     \
-        ALOGE("(" QUOTEME(condition) ") failed, message: ", __VA_ARGS__); \
-        break;                                                            \
+#define BREAK_IF_ERR_LOG(condition, fmt, ...) \
+    if (!!(condition)) { \
+        ALOGE("(" QUOTEME(condition) ") failed, message: " fmt, ##__VA_ARGS__); \
+        break; \
     }

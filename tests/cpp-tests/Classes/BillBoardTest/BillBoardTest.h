@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _BILLBOARD_TEST_H_
-#define _BILLBOARD_TEST_H_
+#pragma once
 
 #include "../BaseTest.h"
 #include <string>
@@ -70,5 +69,3 @@ protected:
 };
 
 DEFINE_TEST_SUITE(BillBoardTests);
-
-#endif

@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SLIDER_CRANK_H
-#define SLIDER_CRANK_H
+#pragma once
 
 // A motor driven slider crank with joint friction.
 
@@ -152,5 +151,3 @@ public:
 	b2RevoluteJoint* m_joint1;
 	b2PrismaticJoint* m_joint2;
 };
-
-#endif

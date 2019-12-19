@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#ifndef COCOS_AUDIO_MINIFLOAT_H
-#define COCOS_AUDIO_MINIFLOAT_H
+#pragma once
 
 #include <stdint.h>
 #include <sys/cdefs.h>
@@ -29,14 +28,15 @@ typedef uint16_t gain_minifloat_t;
 typedef uint32_t gain_minifloat_packed_t;
 
 /* The nominal range of a gain, expressed as a float */
-#define GAIN_FLOAT_ZERO 0.0f
-#define GAIN_FLOAT_UNITY 1.0f
+#define GAIN_FLOAT_ZERO         0.0f
+#define GAIN_FLOAT_UNITY        1.0f
 
 /* Unity gain expressed as a minifloat */
-#define GAIN_MINIFLOAT_UNITY 0xE000
+#define GAIN_MINIFLOAT_UNITY    0xE000
 
 /* Pack a pair of gain_mini_float_t into a combined gain_minifloat_packed_t */
-static inline gain_minifloat_packed_t gain_minifloat_pack(gain_minifloat_t left, gain_minifloat_t right)
+static inline gain_minifloat_packed_t gain_minifloat_pack(gain_minifloat_t left,
+        gain_minifloat_t right)
 {
     return (right << 16) | left;
 }
@@ -76,5 +76,3 @@ gain_minifloat_t gain_from_float(float f);
 float float_from_gain(gain_minifloat_t gain);
 
 __END_DECLS
-
-#endif // COCOS_AUDIO_MINIFLOAT_H

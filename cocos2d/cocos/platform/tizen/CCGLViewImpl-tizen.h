@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_EGLVIEWIMPL_TIZEN_H__
-#define __CC_EGLVIEWIMPL_TIZEN_H__
+#pragma once
 
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
@@ -56,5 +55,3 @@ protected:
 NS_CC_END
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
-
-#endif // end of __CC_EGLVIEWIMPL_TIZEN_H__

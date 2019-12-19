@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_LINEARFORCEAFFECTOR_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_LINEARFORCEAFFECTOR_H
+
+#pragma once
 
 #include "CCPUBaseForceAffector.h"
 #include <cocos/base/ccTypes.h>
@@ -45,5 +45,3 @@ public:
     ~PULinearForceAffector() override {}
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_LINEARFORCEAFFECTOR_H

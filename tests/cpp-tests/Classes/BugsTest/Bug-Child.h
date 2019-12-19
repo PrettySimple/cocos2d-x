@@ -6,8 +6,7 @@
 //
 //
 
-#ifndef __Bug_Child__
-#define __Bug_Child__
+#pragma once
 
 #include "BugsTest.h"
 
@@ -42,5 +41,3 @@ public:
     Node* _sprite;
     cocos2d::Label* _spriteMaskLabel;
 };
-
-#endif /* defined(__Bug_Child__) */

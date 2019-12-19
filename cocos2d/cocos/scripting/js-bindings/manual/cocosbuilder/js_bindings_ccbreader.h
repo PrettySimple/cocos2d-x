@@ -22,8 +22,7 @@
  * THE SOFTWARE.
  */
 
-#ifndef __JS_BINDINGS_CCBREADER_H__
-#define __JS_BINDINGS_CCBREADER_H__
+#pragma once
 
 #include "editor-support/cocosbuilder/CocosBuilder.h"
 #include "scripting/js-bindings/manual/cocosbuilder/cocosbuilder_specifics.hpp"
@@ -63,5 +62,3 @@ protected:
 
 void register_CCBuilderReader(JSContext* cx, JS::HandleObject global);
 bool js_CocosBuilder_Run(JSContext* cx, uint32_t argc, jsval* vp);
-
-#endif /* __JS_BINDINGS_CCBREADER_H__ */

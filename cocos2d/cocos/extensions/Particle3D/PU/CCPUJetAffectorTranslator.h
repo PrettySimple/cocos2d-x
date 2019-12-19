@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_JETAFFECTORTRANSLATOR_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_JETAFFECTORTRANSLATOR_H
+
+#pragma once
 
 #include <cocos/extensions/Particle3D/PU/CCPUJetAffector.h>
 #include <cocos/extensions/Particle3D/PU/CCPUScriptCompiler.h>
@@ -43,5 +43,3 @@ public:
 };
 
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_JETAFFECTORTRANSLATOR_H

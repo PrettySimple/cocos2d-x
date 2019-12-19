@@ -149,7 +149,7 @@ public:
     
 CC_CONSTRUCTOR_ACCESS:
     MotionStreak();
-    virtual ~MotionStreak();
+    virtual ~MotionStreak() override;
     
     /** initializes a motion streak with fade in seconds, minimum segments, stroke's width, color and texture filename */
     bool initWithFade(float fade, float minSeg, float stroke, const Color3B& color, const std::string& path);
@@ -187,10 +187,9 @@ protected:
     
     backend::UniformLocation _mvpMatrixLocaiton;
     backend::UniformLocation _textureLocation;
-    backend::ProgramState* _programState = nullptr;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MotionStreak);
+    CC_DISALLOW_COPY_AND_ASSIGN(MotionStreak)
 };
 
 // end of _2d group

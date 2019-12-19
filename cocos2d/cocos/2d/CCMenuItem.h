@@ -26,8 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCMENU_ITEM_H__
-#define __CCMENU_ITEM_H__
+#pragma once
 
 // C++ includes
 #include <functional>
@@ -505,5 +504,3 @@ private:
 /// @}
 
 NS_CC_END
-
-#endif //__CCMENU_ITEM_H__

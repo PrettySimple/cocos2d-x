@@ -25,8 +25,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __PERFORMANCE_SPRITE_TEST_H__
-#define __PERFORMANCE_SPRITE_TEST_H__
+#pragma once
 
 #include <vector>
 
@@ -159,5 +158,3 @@ public:
     virtual std::string title() const override;
     virtual std::string getTestCaseName() override { return "G"; }
 };
-
-#endif

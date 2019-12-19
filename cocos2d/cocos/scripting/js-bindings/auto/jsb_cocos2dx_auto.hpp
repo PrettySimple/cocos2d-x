@@ -1,6 +1,5 @@
 #include "base/ccConfig.h"
-#ifndef __cocos2dx_h__
-#define __cocos2dx_h__
+#pragma once
 
 #include "jsapi.h"
 #include "jsfriendapi.h"
@@ -4146,5 +4145,3 @@ bool js_cocos2dx_ComponentJS_constructor(JSContext *cx, uint32_t argc, jsval *vp
 void js_cocos2dx_ComponentJS_finalize(JSContext *cx, JSObject *obj);
 void js_register_cocos2dx_ComponentJS(JSContext *cx, JS::HandleObject global);
 void register_all_cocos2dx(JSContext* cx, JS::HandleObject obj);
-
-#endif // __cocos2dx_h__

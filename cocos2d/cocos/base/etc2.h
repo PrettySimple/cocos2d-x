@@ -3,8 +3,7 @@
     @note   etc2 cpu decode
 */
 
-#ifndef CC_BASE_ETC2_H
-#define CC_BASE_ETC2_H
+#pragma once
 
 #include <cocos/platform/CCGL.h>
 
@@ -22,5 +21,3 @@ extern "C"
 #ifdef __cplusplus
 }
 #endif
-
-#endif // CC_BASE_ETC2_H

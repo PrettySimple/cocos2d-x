@@ -338,6 +338,11 @@ public:
     }
 };
 
+
+ResizableBuffer::~ResizableBuffer() {}
+
+ResizableBufferAdapter::~ResizableBufferAdapter() {}
+
 ValueMap FileUtils::getValueMapFromFile(const std::string& filename) const
 {
     const std::string fullPath = fullPathForFilename(filename);

@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCCustomEvent__
-#define __cocos2d_libs__CCCustomEvent__
+#pragma once
 
 #include <string>
 #include <cocos/base/CCEvent.h>
@@ -75,5 +74,3 @@ NS_CC_END
 
 // end of base group
 /// @}
-
-#endif /* defined(__cocos2d_libs__CCCustomEvent__) */

@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_SSCENEREADER_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_SSCENEREADER_H
+#pragma once
 
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/DictionaryHelper.h"
@@ -88,5 +87,3 @@ namespace cocostudio
     };
 
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_SSCENEREADER_H

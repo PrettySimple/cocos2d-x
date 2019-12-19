@@ -1,6 +1,5 @@
 
-#ifndef __LUA_EXTRA_H_
-#define __LUA_EXTRA_H_
+#pragma once
 
 #if defined(_USRDLL)
 #    define LUA_EXTENSIONS_DLL __declspec(dllexport)
@@ -22,5 +21,3 @@ extern "C"
 #if __cplusplus
 }
 #endif
-
-#endif /* __LUA_EXTRA_H_ */

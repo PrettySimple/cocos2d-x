@@ -23,8 +23,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __jsb_cococs2dx_physics3d_manual_h__
-#define __jsb_cococs2dx_physics3d_manual_h__
+#pragma once
 
 #include "base/ccConfig.h"
 #if CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION
@@ -36,5 +35,3 @@ void register_all_cocos2dx_physics3d_manual(JSContext* cx, JS::HandleObject glob
 bool jsval_to_physics3DRigidBodyDes(JSContext* cx, JS::HandleValue v, cocos2d::Physics3DRigidBodyDes* des);
 
 #endif
-
-#endif //__jsb_cococs2dx_physics3d_manual_h__

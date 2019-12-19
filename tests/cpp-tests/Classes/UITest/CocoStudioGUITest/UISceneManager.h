@@ -22,7 +22,5 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__UISceneManager__
-#define __TestCpp__UISceneManager__
+#pragma once
 
-#endif /* defined(__TestCpp__UISceneManager__) */

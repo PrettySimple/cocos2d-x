@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCMESHSKIN_H__
-#define __CCMESHSKIN_H__
+#pragma once
 
 #include <cocos/3d/CCBundle3DData.h>
 #include <cocos/base/CCRef.h>
@@ -114,5 +113,3 @@ protected:
 /// @}
 
 NS_CC_END
-
-#endif // __CCSKIN_H__

@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SCALEVELOCITYAFFECTOR_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_SCALEVELOCITYAFFECTOR_H
+
+#pragma once
 
 #include <cocos/base/ccTypes.h>
 #include <cocos/extensions/Particle3D/PU/CCPUAffector.h>
@@ -70,5 +70,3 @@ protected:
     bool _stopAtFlip;
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_SCALEVELOCITYAFFECTOR_H

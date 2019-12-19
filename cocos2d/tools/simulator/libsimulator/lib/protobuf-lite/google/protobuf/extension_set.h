@@ -35,8 +35,7 @@
 // This header is logically internal, but is made public because it is used
 // from protocol-compiler-generated code, which may reside in other components.
 
-#ifndef GOOGLE_PROTOBUF_EXTENSION_SET_H__
-#define GOOGLE_PROTOBUF_EXTENSION_SET_H__
+#pragma once
 
 #include <vector>
 #include <map>
@@ -1004,4 +1003,3 @@ class ExtensionIdentifier {
 }  // namespace protobuf
 
 }  // namespace google
-#endif  // GOOGLE_PROTOBUF_EXTENSION_SET_H__

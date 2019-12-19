@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_MACROS_H
-#define CC_EXTENSIONS_MACROS_H
+#pragma once
 
 #define NS_CC_EXT_BEGIN     \
     namespace cocos2d       \
@@ -34,5 +33,3 @@
     }                 \
     }
 #define USING_NS_CC_EXT using namespace cocos2d::extension
-
-#endif // CC_EXTENSIONS_MACROS_H

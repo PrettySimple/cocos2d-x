@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTTRANSLATOR_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTTRANSLATOR_H
+
+#pragma once
 
 #include <iostream>
 
@@ -982,5 +982,3 @@ public:
     virtual bool isParticleSystemTranslator() const { return false; }
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_SCRIPTTRANSLATOR_H

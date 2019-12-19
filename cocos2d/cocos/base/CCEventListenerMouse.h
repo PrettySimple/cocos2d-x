@@ -24,8 +24,7 @@
 
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCMouseEventListener__
-#define __cocos2d_libs__CCMouseEventListener__
+#pragma once
 
 #include <cocos/base/CCEventListener.h>
 #include <cocos/base/CCEventMouse.h>
@@ -72,5 +71,3 @@ NS_CC_END
 
 // end of base group
 /// @}
-
-#endif /* defined(__cocos2d_libs__CCMouseEventListener__) */

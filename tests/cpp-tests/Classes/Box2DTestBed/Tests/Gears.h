@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef GEARS_H
-#define GEARS_H
+#pragma once
 
 class Gears : public Test
 {
@@ -182,5 +181,3 @@ public:
 	b2GearJoint* m_joint4;
 	b2GearJoint* m_joint5;
 };
-
-#endif

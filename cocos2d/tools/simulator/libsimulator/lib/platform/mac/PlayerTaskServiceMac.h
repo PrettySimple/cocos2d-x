@@ -1,6 +1,5 @@
 
-#ifndef __PLAYER_TASK_SERVICE_MAC_H_
-#define __PLAYER_TASK_SERVICE_MAC_H_
+#pragma once
 
 #include <sstream>
 
@@ -76,5 +75,3 @@ protected:
 
 PLAYER_NS_END
 
-
-#endif // __PLAYER_TASK_SERVICE_MAC_H_

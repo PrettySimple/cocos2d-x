@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef TILES_H
-#define TILES_H
+#pragma once
 
 /// This stress tests the dynamic tree broad-phase. This also shows that tile
 /// based collision is _not_ smooth due to Box2D not knowing about adjacency.
@@ -152,5 +151,3 @@ public:
 	int32 m_fixtureCount;
 	float32 m_createTime;
 };
-
-#endif

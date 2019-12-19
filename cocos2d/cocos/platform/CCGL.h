@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __PLATFORM_CCGL_H__
-#define __PLATFORM_CCGL_H__
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <cocos/platform/CCPlatformConfig.h>
@@ -43,4 +43,3 @@ THE SOFTWARE.
 #endif
 
 /// @endcond
-#endif /* __PLATFORM_CCPLATFORMDEFINE_H__*/

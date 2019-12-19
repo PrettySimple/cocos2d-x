@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef CONFINED_H
-#define CONFINED_H
+#pragma once
 
 class Confined : public Test
 {
@@ -163,5 +162,3 @@ public:
 		return new Confined;
 	}
 };
-
-#endif

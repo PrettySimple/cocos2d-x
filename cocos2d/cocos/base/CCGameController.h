@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCGameController__
-#define __cocos2d_libs__CCGameController__
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <cocos/base/CCController.h>
@@ -32,4 +32,3 @@
 #include <cocos/base/CCEventListenerController.h>
 
 /// @endcond
-#endif /* defined(__cocos2d_libs__CCGameController__) */

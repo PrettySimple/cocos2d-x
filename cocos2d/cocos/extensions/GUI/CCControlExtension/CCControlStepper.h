@@ -25,8 +25,7 @@
  *
  */
 
-#ifndef CC_EXTENSIONS_GUI_CONTROLEXTENSION_STEPPER_H
-#define CC_EXTENSIONS_GUI_CONTROLEXTENSION_STEPPER_H
+#pragma once
 
 #include <cocos/extensions/ExtensionExport.h>
 #include <cocos/extensions/ExtensionMacros.h>
@@ -140,5 +139,3 @@ protected:
 /// @}
 
 NS_CC_EXT_END
-
-#endif // CC_EXTENSIONS_GUI_CONTROLEXTENSION_STEPPER_H

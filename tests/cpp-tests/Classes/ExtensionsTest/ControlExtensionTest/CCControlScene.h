@@ -23,8 +23,7 @@
  *
  */
 
-#ifndef __CCCONTROLSCENE_H__
-#define __CCCONTROLSCENE_H__
+#pragma once
 
 #include "cocos2d.h"
 #include "extensions/cocos-ext.h"
@@ -38,5 +37,3 @@ public:
 
     virtual std::string title() const override { return getTestCaseName(); }
 };
-
-#endif /* __CCCONTROLSCENE_H__ */

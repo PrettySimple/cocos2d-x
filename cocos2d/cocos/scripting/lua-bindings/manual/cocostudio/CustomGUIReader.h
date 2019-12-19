@@ -1,5 +1,5 @@
-#ifndef COCOS_SCRIPTING_LUA_BINDINGS_LUA_COCOS2DX_CUSTOM_GUI_READER_H
-#define COCOS_SCRIPTING_LUA_BINDINGS_LUA_COCOS2DX_CUSTOM_GUI_READER_H
+
+#pragma once
 
 #include "editor-support/cocostudio/WidgetReader/WidgetReader.h"
 
@@ -27,5 +27,3 @@ namespace cocostudio
         int _setPropsFunc;
     };
 } // namespace cocostudio
-
-#endif

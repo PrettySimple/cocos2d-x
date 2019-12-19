@@ -1,6 +1,5 @@
 
-#ifndef __PLAYER_UTILS_H_
-#define __PLAYER_UTILS_H_
+#pragma once
 
 #include "PlayerMacros.h"
 
@@ -32,5 +31,3 @@ vector<T> splitString(T str, T pattern)
 };
 
 PLAYER_NS_END
-
-#endif // __PLAYER_UTILS_H_

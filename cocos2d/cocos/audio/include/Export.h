@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -22,30 +23,27 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef CC_AUDIO_INCLUDE_EXPORT_H
-#define CC_AUDIO_INCLUDE_EXPORT_H
+#pragma once
 
 #if defined(SHP)
-#    include <FBaseConfig.h>
-#    define EXPORT_DLL _EXPORT_
+    #include <FBaseConfig.h>
+    #define EXPORT_DLL  _EXPORT_
 #elif defined(_WIN32)
-#    if defined(CC_STATIC)
-#        define EXPORT_DLL
-#    else
-#        if defined(_EXPORT_DLL_)
-#            define EXPORT_DLL __declspec(dllexport)
-#        else /* use a DLL library */
-#            define EXPORT_DLL __declspec(dllimport)
-#        endif
-#    endif
+    #if defined(CC_STATIC)
+        #define EXPORT_DLL
+    #else
+        #if defined(_EXPORT_DLL_)
+            #define EXPORT_DLL      __declspec(dllexport)    
+        #else         /* use a DLL library */
+            #define EXPORT_DLL     __declspec(dllimport)
+        #endif
+    #endif
 #else
-#    if defined(_SHARED_)
-#        define EXPORT_DLL __attribute__((visibility("default")))
-#    elif defined(IGNORE_EXPORT)
-#        define EXPORT_DLL
-#    else
-#        define EXPORT_DLL
-#    endif
-#endif
-
-#endif // CC_AUDIO_INCLUDE_EXPORT_H
+    #if defined(_SHARED_)
+    #define EXPORT_DLL     __attribute__((visibility("default")))
+    #elif defined(IGNORE_EXPORT)
+    #define EXPORT_DLL
+    #else
+    #define EXPORT_DLL
+    #endif
+#endif 

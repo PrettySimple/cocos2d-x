@@ -24,8 +24,7 @@
 
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCMouseEvent__
-#define __cocos2d_libs__CCMouseEvent__
+#pragma once
 
 #include <cocos/base/CCEvent.h>
 #include <cocos/math/CCGeometry.h>
@@ -199,5 +198,3 @@ NS_CC_END
 
 // end of base group
 /// @}
-
-#endif /* defined(__cocos2d_libs__CCMouseEvent__) */

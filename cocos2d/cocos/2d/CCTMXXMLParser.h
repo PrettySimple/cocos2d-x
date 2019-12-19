@@ -27,8 +27,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 
-#ifndef __CC_TM_XML_PARSER__
-#define __CC_TM_XML_PARSER__
+#pragma once
 
 /// @cond DO_NOT_SHOW
 
@@ -346,4 +345,3 @@ protected:
 NS_CC_END
 
 /// @endcond
-#endif

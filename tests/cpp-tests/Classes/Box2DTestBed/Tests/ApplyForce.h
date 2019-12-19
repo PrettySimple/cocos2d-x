@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef APPLY_FORCE_H
-#define APPLY_FORCE_H
+#pragma once
 
 class ApplyForce : public Test
 {
@@ -176,5 +175,3 @@ public:
 
 	b2Body* m_body;
 };
-
-#endif

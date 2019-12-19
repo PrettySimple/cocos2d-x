@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_CSLOADER_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_CSLOADER_H
+#pragma once
 
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -170,5 +169,3 @@ protected:
 };
 
 NS_CC_END
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONTIMELINE_CSLOADER_H

@@ -27,8 +27,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCNODE_H__
-#define __CCNODE_H__
+#pragma once
 
 #include <cstdint>
 #include <cocos/base/ccMacros.h>
@@ -930,7 +929,7 @@ public:
         static_assert(std::is_base_of<Node, _T>::value, "Node::sortNodes: Only accept derived of Node!");
 #if CC_64BITS
         std::sort(std::begin(nodes), std::end(nodes), [](_T* n1, _T* n2) {
-            return (n1->_localZOrder$Arrival < n2->_localZOrder$Arrival);
+            return (n1->_localZOrderArrival < n2->_localZOrderArrival);
         });
 #else
         std::sort(std::begin(nodes), std::end(nodes), [](_T* n1, _T* n2) {
@@ -1147,7 +1146,7 @@ public:
      *
      * @return The event dispatcher of scene.
      */
-    virtual EventDispatcher* getEventDispatcher() const { return _eventDispatcher; };
+    virtual EventDispatcher* getEventDispatcher() const { return _eventDispatcher; }
 
     /// @{
     /// @name Actions
@@ -1831,24 +1830,29 @@ protected:
     mutable bool _additionalTransformDirty; ///< transform dirty ?
     bool _transformUpdated;         ///< Whether or not the Transform object was updated since the last frame
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu-anonymous-struct"
+#pragma clang diagnostic ignored "-Wnested-anon-types"
+
 #if CC_LITTLE_ENDIAN
     union {
         struct {
             std::uint32_t _orderOfArrival;
             std::int32_t _localZOrder;
         };
-        std::int64_t _localZOrder$Arrival;
+        std::int64_t _localZOrderArrival;
     };
 #else
     union {
         struct {
             std::int32_t _localZOrder;
             std::uint32_t _orderOfArrival;
-        };
-        std::int64_t _localZOrder$Arrival;
+        } _orderArrival;
+        std::int64_t _localZOrderArrival;
     };
 #endif
-
+#pragma clang diagnostic pop
+    
     float _globalZOrder;            ///< Global order used to sort the node
 
     static std::uint32_t s_globalOrderOfArrival;
@@ -1927,7 +1931,7 @@ public:
     static int __attachedNodeCount;
     
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Node);
+    CC_DISALLOW_COPY_AND_ASSIGN(Node)
 };
 
 /**
@@ -1951,5 +1955,3 @@ bool CC_DLL isScreenPointInRect(const Vec2 &pt, const Camera* camera, const Mat4
 /// @}
 
 NS_CC_END
-
-#endif // __CCNODE_H__

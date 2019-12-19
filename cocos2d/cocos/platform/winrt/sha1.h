@@ -32,8 +32,7 @@
  *
  */
 
-#ifndef _SHA1_H_
-#define _SHA1_H_
+#pragma once
 
 #include <stdint.h>
 /*
@@ -85,5 +84,3 @@ int SHA1Reset(SHA1Context*);
 int SHA1Input(SHA1Context*, const uint8_t*, unsigned int);
 int SHA1Result(SHA1Context*, uint8_t Message_Digest[SHA1HashSize]);
 void SHA1ConvertMessageToString(uint8_t* hash_binary, char* hash_string);
-
-#endif

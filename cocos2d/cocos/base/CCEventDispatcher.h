@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_EVENT_DISPATCHER_H__
-#define __CC_EVENT_DISPATCHER_H__
+#pragma once
 
 #include <functional>
 #include <string>
@@ -355,5 +354,3 @@ NS_CC_END
 
 // end of base group
 /// @}
-
-#endif // __CC_EVENT_DISPATCHER_H__

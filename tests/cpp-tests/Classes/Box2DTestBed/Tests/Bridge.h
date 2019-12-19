@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef BRIDGE_H
-#define BRIDGE_H
+#pragma once
 
 class Bridge : public Test
 {
@@ -121,5 +120,3 @@ public:
 
 	b2Body* m_middle;
 };
-
-#endif

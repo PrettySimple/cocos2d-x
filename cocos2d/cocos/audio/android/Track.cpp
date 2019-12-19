@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2016-2017 Chukong Technologies Inc.
+Copyright (c) 2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -24,16 +25,14 @@ THE SOFTWARE.
 
 #define LOG_TAG "Track"
 
-#include "audio/android/Track.h"
 #include "audio/android/cutils/log.h"
+#include "audio/android/Track.h"
 
 #include <math.h>
 
-namespace cocos2d
-{
-    namespace experimental
-    {
-        Track::Track(const PcmData& pcmData)
+namespace cocos2d {
+
+Track::Track(const PcmData &pcmData)
         : onStateChanged(nullptr)
         , _pcmData(pcmData)
         , _prevState(State::IDLE)
@@ -44,56 +43,64 @@ namespace cocos2d
         , _isLoop(false)
         , _isInitialized(false)
         , _isAudioFocus(true)
-        {
-            init(_pcmData.pcmBuffer->data(), _pcmData.numFrames, _pcmData.bitsPerSample / 8 * _pcmData.numChannels);
-        }
+{
+    init(_pcmData.pcmBuffer->data(), _pcmData.numFrames, _pcmData.bitsPerSample / 8 * _pcmData.numChannels);
+}
 
-        Track::~Track() { ALOGV("~Track(): %p", this); }
+Track::~Track()
+{
+    ALOGV("~Track(): %p", this);
+}
 
-        gain_minifloat_packed_t Track::getVolumeLR()
-        {
-            float volume = _isAudioFocus ? _volume : 0.0f;
-            gain_minifloat_t v = gain_from_float(volume);
-            return gain_minifloat_pack(v, v);
-        }
+gain_minifloat_packed_t Track::getVolumeLR()
+{
+    float volume = _isAudioFocus ? _volume : 0.0f;
+    gain_minifloat_t v = gain_from_float(volume);
+    return gain_minifloat_pack(v, v);
+}
 
-        bool Track::setPosition(float pos)
-        {
-            _nextFrame = (size_t)(pos * _numFrames / _pcmData.duration);
-            _unrel = 0;
-            return true;
-        }
+bool Track::setPosition(float pos)
+{
+    _nextFrame = (size_t) (pos * _numFrames / _pcmData.duration);
+    _unrel = 0;
+    return true;
+}
 
-        float Track::getPosition() const { return _nextFrame * _pcmData.duration / _numFrames; }
+float Track::getPosition() const
+{
+    return _nextFrame * _pcmData.duration / _numFrames;
+}
 
-        void Track::setVolume(float volume)
-        {
-            std::lock_guard<std::mutex> lk(_volumeDirtyMutex);
-            if (fabs(_volume - volume) > 0.00001)
-            {
-                _volume = volume;
-                setVolumeDirty(true);
-            }
-        }
+void Track::setVolume(float volume)
+{
+    std::lock_guard<std::mutex> lk(_volumeDirtyMutex);
+    if (fabs(_volume - volume) > 0.00001)
+    {
+        _volume = volume;
+        setVolumeDirty(true);
+    }
+}
 
-        float Track::getVolume() const { return _volume; }
+float Track::getVolume() const
+{
+    return _volume;
+}
 
-        void Track::setAudioFocus(bool isFocus)
-        {
-            _isAudioFocus = isFocus;
-            setVolumeDirty(true);
-        }
+void Track::setAudioFocus(bool isFocus)
+{
+    _isAudioFocus = isFocus;
+    setVolumeDirty(true);
+}
 
-        void Track::setState(State state)
-        {
-            std::lock_guard<std::mutex> lk(_stateMutex);
-            if (_state != state)
-            {
-                _prevState = _state;
-                _state = state;
-                onStateChanged(_state);
-            }
-        };
+void Track::setState(State state)
+{
+    std::lock_guard<std::mutex> lk(_stateMutex);
+    if (_state != state)
+    {
+        _prevState = _state;
+        _state = state;
+        onStateChanged(_state);
+    }
+};
 
-    } // namespace experimental
-} // namespace cocos2d
+} // namespace cocos2d {

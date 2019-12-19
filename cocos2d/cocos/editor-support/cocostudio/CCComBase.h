@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_COMBASE_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_COMBASE_H
+#pragma once
 
 #include "CocoLoader.h"
 #include "DictionaryHelper.h"
@@ -54,5 +53,3 @@ struct CC_STUDIO_DLL SerData
         _cocoLoader = NULL;
     }
 };
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_COMBASE_H

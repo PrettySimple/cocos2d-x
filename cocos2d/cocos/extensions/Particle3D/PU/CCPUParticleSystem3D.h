@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_PARTICLESYSTEM3D_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_PARTICLESYSTEM3D_H
+
+#pragma once
 
 #include <cocos/2d/CCNode.h>
 #include <cocos/base/CCProtocols.h>
@@ -418,5 +418,3 @@ protected:
 };
 
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_PARTICLESYSTEM3D_H

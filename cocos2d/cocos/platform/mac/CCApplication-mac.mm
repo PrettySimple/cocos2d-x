@@ -165,12 +165,13 @@ LanguageType Application::getCurrentLanguage()
     return ccutils::getLanguageTypeByISO2([languageCode UTF8String]);
 }
 
-bool Application::openURL(const std::string &url)
-{
-    NSString* msg = [NSString stringWithCString:url.c_str() encoding:NSUTF8StringEncoding];
-    NSURL* nsUrl = [NSURL URLWithString:msg];
-    return [[NSWorkspace sharedWorkspace] openURL:nsUrl];
-}
+// Deprecated
+//bool Application::openURL(const std::string &url)
+//{
+//    NSString* msg = [NSString stringWithCString:url.c_str() encoding:NSUTF8StringEncoding];
+//    NSURL* nsUrl = [NSURL URLWithString:msg];
+//    return [[NSWorkspace sharedWorkspace] openURL:nsUrl];
+//}
 
 void Application::setStartupScriptFilename(const std::string& startupScriptFile)
 {

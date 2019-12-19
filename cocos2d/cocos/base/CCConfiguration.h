@@ -25,8 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCCONFIGURATION_H__
-#define __CCCONFIGURATION_H__
+#pragma once
 
 #include <string>
 
@@ -280,5 +279,3 @@ protected:
 NS_CC_END
 // end of base group
 /// @}
-
-#endif // __CCCONFIGURATION_H__

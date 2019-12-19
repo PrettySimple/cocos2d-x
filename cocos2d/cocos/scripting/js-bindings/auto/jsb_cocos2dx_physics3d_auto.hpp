@@ -1,7 +1,6 @@
 #include "base/ccConfig.h"
 #if CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION
-#ifndef __cocos2dx_physics3d_h__
-#define __cocos2dx_physics3d_h__
+#pragma once
 
 #include "jsapi.h"
 #include "jsfriendapi.h"
@@ -351,4 +350,3 @@ bool js_cocos2dx_physics3d_Physics3D6DofConstraint_create(JSContext *cx, uint32_
 bool js_cocos2dx_physics3d_Physics3D6DofConstraint_Physics3D6DofConstraint(JSContext *cx, uint32_t argc, jsval *vp);
 
 #endif // __cocos2dx_physics3d_h__
-#endif //#if CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION

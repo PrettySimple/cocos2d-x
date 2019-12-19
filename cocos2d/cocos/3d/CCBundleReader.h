@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_BUNDLE_READER_H__
-#define __CC_BUNDLE_READER_H__
+#pragma once
 
 #include <string>
 #include <vector>
@@ -217,5 +216,3 @@ inline bool BundleReader::readArray<std::string>(unsigned int *length, std::vect
 /// @}
 
 NS_CC_END
-
-#endif

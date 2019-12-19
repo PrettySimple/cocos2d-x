@@ -24,8 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __PLATFORM_CCSTDC_H__
-#define __PLATFORM_CCSTDC_H__
+#pragma once
 
 #include <cocos/platform/CCPlatformConfig.h>
 
@@ -40,5 +39,3 @@ THE SOFTWARE.
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
 #include <cocos/platform/linux/CCStdC-linux.h>
 #endif
-
-#endif /* __PLATFORM_CCSTDC_H__*/

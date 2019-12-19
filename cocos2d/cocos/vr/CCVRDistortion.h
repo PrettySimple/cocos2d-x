@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_VR_DISTORTION_H
-#define CC_VR_DISTORTION_H
+#pragma once
 
 #include <cocos/platform/CCPlatformMacros.h>
 
@@ -49,5 +48,3 @@ private:
 };
 
 NS_CC_END
-
-#endif // CC_VR_DISTORTION_H

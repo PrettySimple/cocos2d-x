@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef AddPair_H
-#define AddPair_H
+#pragma once
 
 class AddPair : public Test
 {
@@ -64,5 +63,3 @@ public:
 		return new AddPair;
 	}
 };
-
-#endif

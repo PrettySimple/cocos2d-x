@@ -22,11 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__CocosGUIScene__
-#define __TestCpp__CocosGUIScene__
+#pragma once
 
 #include "BaseTest.h"
 
 DEFINE_TEST_LIST(GUIDynamicCreateTests);
-
-#endif /* defined(__TestCpp__CocosGUIScene__) */

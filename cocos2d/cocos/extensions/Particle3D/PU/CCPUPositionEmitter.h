@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_POSITIONEMITTER_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_POSITIONEMITTER_H
+
+#pragma once
 
 #include <cocos/extensions/Particle3D/PU/CCPUEmitter.h>
 
@@ -81,5 +81,3 @@ protected:
     size_t _index;
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_POSITIONEMITTER_H

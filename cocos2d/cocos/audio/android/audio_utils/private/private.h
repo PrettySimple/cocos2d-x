@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#ifndef ANDROID_AUDIO_PRIVATE_H
-#define ANDROID_AUDIO_PRIVATE_H
+#pragma once
 
 #include <stdint.h>
 
@@ -28,11 +27,6 @@ __BEGIN_DECLS
 /* struct representation of 3 bytes for packed PCM 24 bit data.
  * The naming follows the ARM NEON convention.
  */
-typedef struct
-{
-    uint8_t c[3];
-} __attribute__((__packed__)) uint8x3_t;
+typedef struct {uint8_t c[3];} __attribute__((__packed__)) uint8x3_t;
 
 __END_DECLS
-
-#endif /*ANDROID_AUDIO_PRIVATE_H*/

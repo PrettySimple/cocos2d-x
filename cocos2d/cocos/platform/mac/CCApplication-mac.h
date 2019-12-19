@@ -24,8 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_APPLICATION_MAC_H__
-#define __CC_APPLICATION_MAC_H__
+#pragma once
 
 #include <cocos/platform/CCCommon.h>
 #include <cocos/platform/CCApplicationProtocol.h>
@@ -92,7 +91,8 @@ public:
      @param String with url to open.
      @return true if the resource located by the URL was successfully opened; otherwise false.
      */
-    virtual bool openURL(const std::string &url) override;
+    // Deprecated
+//    virtual bool openURL(const std::string &url) override;
     
     void setStartupScriptFilename(const std::string& startupScriptFile);
     
@@ -107,5 +107,3 @@ protected:
 };
 
 NS_CC_END
-
-#endif  // end of __CC_APPLICATION_MAC_H__;

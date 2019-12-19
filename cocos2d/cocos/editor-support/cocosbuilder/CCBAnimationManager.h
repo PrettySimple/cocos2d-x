@@ -1,5 +1,5 @@
-#ifndef CC_EDITORSUPPORT_COCOSBUILDER_ANIMATIONMANAGER_H
-#define CC_EDITORSUPPORT_COCOSBUILDER_ANIMATIONMANAGER_H
+
+#pragma once
 
 #include "CCBKeyframe.h"
 #include "CCBSequence.h"
@@ -266,5 +266,3 @@ namespace cocosbuilder
     };
 
 } // namespace cocosbuilder
-
-#endif // CC_EDITORSUPPORT_COCOSBUILDER_ANIMATIONMANAGER_H

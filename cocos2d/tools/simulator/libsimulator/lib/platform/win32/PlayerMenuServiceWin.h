@@ -1,6 +1,5 @@
 
-#ifndef __PLAYER_MENU_SERVICE_WIN_H_
-#define __PLAYER_MENU_SERVICE_WIN_H_
+#pragma once
 
 #include <string>
 #include <unordered_map>
@@ -67,5 +66,3 @@ private:
 };
 
 PLAYER_NS_END
-
-#endif // __PLAYER_MENU_SERVICE_WIN_H_

@@ -34,6 +34,8 @@
 
 NS_CC_BEGIN
 
+using namespace std::chrono_literals;
+
 std::unordered_map<Node*, Animate3D*> Animate3D::s_fadeInAnimates;
 std::unordered_map<Node*, Animate3D*> Animate3D::s_fadeOutAnimates;
 std::unordered_map<Node*, Animate3D*> Animate3D::s_runningAnimates;

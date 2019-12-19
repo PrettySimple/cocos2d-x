@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCTEXTURECUBE_H__
-#define __CCTEXTURECUBE_H__
+#pragma once
 
 #include <cocos/renderer/CCTexture2D.h>
 #include <cocos/renderer/backend/Texture.h>
@@ -93,5 +92,3 @@ private:
 /// @}
 
 NS_CC_END
-
-#endif // __CCTEXTURECUBE_H__

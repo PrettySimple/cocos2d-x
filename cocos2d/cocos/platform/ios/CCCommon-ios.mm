@@ -32,7 +32,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-#import <UIKit/UIAlert.h>
+#import <UIKit/UIAlertController.h>
 #include <cocos/base/CCDirector.h>
 #include <cocos/base/CCConsole.h>
 
@@ -46,13 +46,9 @@ void MessageBox(const char * msg, const char * title)
 #if !defined(CC_TARGET_OS_TVOS)
     NSString * tmpTitle = (title) ? [NSString stringWithUTF8String : title] : nil;
     NSString * tmpMsg = (msg) ? [NSString stringWithUTF8String : msg] : nil;
-    UIAlertView * messageBox = [[UIAlertView alloc] initWithTitle: tmpTitle
-                                                          message: tmpMsg
-                                                         delegate: nil
-                                                cancelButtonTitle: @"OK"
-                                                otherButtonTitles: nil];
+    UIAlertController * messageBox = [UIAlertController alertControllerWithTitle:tmpTitle message:tmpMsg preferredStyle:UIAlertControllerStyleAlert];
+    
     [messageBox autorelease];
-    [messageBox show];
 #endif
 
 }

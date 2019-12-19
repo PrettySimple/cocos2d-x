@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2017 Chukong Technologies Inc.
+Copyright (c) 2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -26,23 +27,20 @@ THE SOFTWARE.
 
 #include "audio/android/AudioDecoder.h"
 
-#include "tremolo/ivorbisfile.h"
+#include "Tremolo/ivorbisfile.h"
 
-namespace cocos2d
+namespace cocos2d {
+
+class AudioDecoderOgg : public AudioDecoder
 {
-    namespace experimental
-    {
-        class AudioDecoderOgg : public AudioDecoder
-        {
-        protected:
-            AudioDecoderOgg();
-            virtual ~AudioDecoderOgg();
+protected:
+    AudioDecoderOgg();
+    virtual ~AudioDecoderOgg();
 
-            static int fseek64Wrap(void* datasource, ogg_int64_t off, int whence);
-            virtual bool decodeToPcm() override;
+    static int fseek64Wrap(void* datasource, ogg_int64_t off, int whence);
+    virtual bool decodeToPcm() override;
 
-            friend class AudioDecoderProvider;
-        };
+    friend class AudioDecoderProvider;
+};
 
-    } // namespace experimental
-} // namespace cocos2d
+} // namespace cocos2d {

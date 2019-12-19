@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_NODEREADERDEFINE_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_NODEREADERDEFINE_H
+#pragma once
 
 #include <cocos/base/ObjectFactory.h>
 #include <string>
@@ -44,5 +43,3 @@ public:                                          \
 #define CREATE_CLASS_NODE_READER_INFO(className) cocos2d::ObjectFactory::TInfo(#className, &className::createInstance)
 
 #define FLATSTR_TO_BOOL(str) (str.compare("True") == 0) ? true : false
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_NODEREADERDEFINE_H

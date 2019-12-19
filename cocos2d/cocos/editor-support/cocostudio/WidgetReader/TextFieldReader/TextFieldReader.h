@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_TEXTFIELDREADER_TEXTFIELDREADER_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_TEXTFIELDREADER_TEXTFIELDREADER_H
+#pragma once
 
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/WidgetReader/WidgetReader.h"
@@ -50,5 +49,3 @@ namespace cocostudio
         cocos2d::Node* createNodeWithFlatBuffers(const flatbuffers::Table* textFieldOptions);
     };
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_TEXTFIELDREADER_TEXTFIELDREADER_H

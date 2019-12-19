@@ -21,11 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __js_tests_bindings_h__
-#define __js_tests_bindings_h__
+#pragma once
 
 #include "jsapi.h"
 
 void register_DrawNode3D_bindings(JSContext *cx, JS::HandleObject global);
-
-#endif

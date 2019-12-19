@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#ifndef PERFMONITOR_H_
-#define PERFMONITOR_H_
+#pragma once
 
 #include "JNIHelper.h"
 #include <errno.h>
@@ -58,4 +57,3 @@ namespace ndk_helper
     };
 
 } // namespace ndk_helper
-#endif /* PERFMONITOR_H_ */

@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__UIScene__
-#define __TestCpp__UIScene__
+#pragma once
 
 #include "cocos2d.h"
 #include "extensions/cocos-ext.h"
@@ -44,5 +43,3 @@ protected:
     cocos2d::ui::Layout* _widget;
     cocos2d::ui::Text* _sceneTitle;
 };
-
-#endif /* defined(__TestCpp__UIScene__) */

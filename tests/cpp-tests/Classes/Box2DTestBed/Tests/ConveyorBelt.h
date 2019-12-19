@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef CONVEYOR_BELT_H
-#define CONVEYOR_BELT_H
+#pragma once
 
 class ConveyorBelt : public Test
 {
@@ -94,5 +93,3 @@ public:
 
 	b2Fixture* m_platform;
 };
-
-#endif

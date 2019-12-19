@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCLIGHT_H__
-#define __CCLIGHT_H__
+#pragma once
 
 #include <cocos/2d/CCNode.h>
 
@@ -291,5 +290,3 @@ CC_CONSTRUCTOR_ACCESS:
 };
 
 NS_CC_END
-
-#endif

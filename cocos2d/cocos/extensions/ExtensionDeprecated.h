@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_DEPRECATED_H
-#define CC_EXTENSIONS_DEPRECATED_H
+#pragma once
 
 #include <cocos/extensions/ExtensionMacros.h>
 #include <cocos/platform/CCPlatformMacros.h>
@@ -37,5 +36,3 @@ CC_DEPRECATED_ATTRIBUTE typedef ui::EditBoxDelegate EditBoxDelegate;
 CC_DEPRECATED_ATTRIBUTE typedef ui::Scale9Sprite Scale9Sprite;
 
 NS_CC_EXT_END
-
-#endif // CC_EXTENSIONS_DEPRECATED_H

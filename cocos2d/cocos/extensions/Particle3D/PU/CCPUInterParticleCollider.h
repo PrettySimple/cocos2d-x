@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_INTERPARTICLECOLLIDER_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_INTERPARTICLECOLLIDER_H
+
+#pragma once
 
 #include "CCPUBaseCollider.h"
 #include <cocos/base/ccTypes.h>
@@ -81,5 +81,3 @@ protected:
     InterParticleCollisionResponse _interParticleCollisionResponse;
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_INTERPARTICLECOLLIDER_H

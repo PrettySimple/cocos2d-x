@@ -6,8 +6,7 @@
 //
 //
 
-#ifndef __TestCpp__WebSocketTest__
-#define __TestCpp__WebSocketTest__
+#pragma once
 
 #include "cocos2d.h"
 #include "extensions/cocos-ext.h"
@@ -72,5 +71,3 @@ public:
 private:
     cocos2d::network::WebSocket* _wsiTest;
 };
-
-#endif /* defined(__TestCpp__WebSocketTest__) */

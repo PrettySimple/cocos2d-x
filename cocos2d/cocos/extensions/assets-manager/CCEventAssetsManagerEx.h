@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_ASSETSMANAGER_EVENTASSETSMANAGEREX_H
-#define CC_EXTENSIONS_ASSETSMANAGER_EVENTASSETSMANAGEREX_H
+#pragma once
 
 #include <cocos/base/CCEvent.h>
 #include <cocos/base/CCEventCustom.h>
@@ -95,5 +94,3 @@ private:
 };
 
 NS_CC_EXT_END
-
-#endif // CC_EXTENSIONS_ASSETSMANAGER_EVENTASSETSMANAGEREX_H

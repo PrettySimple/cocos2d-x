@@ -77,7 +77,10 @@
     self.connError = nil;
 
     // create the connection with the target request and this class as the delegate
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     self.conn = [[[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO] autorelease];
+ #pragma clang diagnostic pop
 
     [self.conn scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 

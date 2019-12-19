@@ -1,6 +1,5 @@
 
-#ifndef __LUA_OBJC_BRIDGE_H_
-#define __LUA_OBJC_BRIDGE_H_
+#pragma once
 
 #include "scripting/lua-bindings/manual/CCLuaBridge.h"
 
@@ -38,4 +37,3 @@ NS_CC_END
 
 // end group
 /// @}
-#endif // __LUA_OBJC_BRIDGE_H_

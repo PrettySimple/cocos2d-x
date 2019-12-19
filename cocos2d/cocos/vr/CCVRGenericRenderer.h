@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_VR_GENERICRENDERER_H
-#define CC_VR_GENERICRENDERER_H
+#pragma once
 
 #include <cocos/renderer/CCCustomCommand.h>
 #include <cocos/renderer/CCFrameBuffer.h>
@@ -81,5 +80,3 @@ protected:
 };
 
 NS_CC_END
-
-#endif // CC_VR_GENERICRENDERER_H

@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef CANTILEVER_H
-#define CANTILEVER_H
+#pragma once
 
 // It is difficult to make a cantilever made of links completely rigid with weld joints.
 // You will have to use a high number of iterations to make them stiff.
@@ -207,5 +206,3 @@ public:
 
 	b2Body* m_middle;
 };
-
-#endif

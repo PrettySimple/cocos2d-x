@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__UILayoutTest__
-#define __TestCpp__UILayoutTest__
+#pragma once
 
 #include "../UIScene.h"
 
@@ -150,5 +149,3 @@ public:
 
     CREATE_FUNC(UILayoutComponent_Berth_Stretch_Test);
 };
-
-#endif /* defined(__TestCpp__UILayoutTest__) */

@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_LINEAFFECTOR_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_LINEAFFECTOR_H
+
+#pragma once
 
 #include <cocos/base/ccTypes.h>
 #include <cocos/extensions/Particle3D/PU/CCPUAffector.h>
@@ -86,5 +86,3 @@ protected:
     bool _first;
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_LINEAFFECTOR_H

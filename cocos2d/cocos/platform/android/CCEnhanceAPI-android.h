@@ -13,8 +13,7 @@
  * you entered into with Samsung
 ****************************************************************************/
 
-#ifndef __CC_ENHANCEAPI_ANDROID_H__
-#define __CC_ENHANCEAPI_ANDROID_H__
+#pragma once
 
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
@@ -100,5 +99,3 @@ public:
 NS_CC_END
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-
-#endif // __CC_ENHANCEAPI_ANDROID_H__

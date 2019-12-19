@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__UITextFieldTest__
-#define __TestCpp__UITextFieldTest__
+#pragma once
 
 #include "../UIScene.h"
 
@@ -118,4 +117,3 @@ protected:
     
     cocos2d::ui::Text* _displayValueLabel;
 };
-#endif /* defined(__TestCpp__UITextFieldTest__) */

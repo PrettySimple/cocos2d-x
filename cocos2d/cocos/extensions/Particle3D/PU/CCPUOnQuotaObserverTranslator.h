@@ -22,8 +22,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_ONQUOTAOBSERVERTRANSLATOR_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_ONQUOTAOBSERVERTRANSLATOR_H
+
+#pragma once
 
 #include <cocos/extensions/Particle3D/PU/CCPUOnQuotaObserver.h>
 #include <cocos/extensions/Particle3D/PU/CCPUScriptCompiler.h>
@@ -42,5 +42,3 @@ public:
 };
 
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_ONQUOTAOBSERVERTRANSLATOR_H

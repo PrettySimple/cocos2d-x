@@ -30,8 +30,7 @@
 
 // This file is an internal atomic implementation, use atomicops.h instead.
 
-#ifndef GOOGLE_PROTOBUF_ATOMICOPS_INTERNALS_ATOMICWORD_COMPAT_H_
-#define GOOGLE_PROTOBUF_ATOMICOPS_INTERNALS_ATOMICWORD_COMPAT_H_
+#pragma once
 
 // AtomicWord is a synonym for intptr_t, and Atomic32 is a synonym for int32,
 // which in turn means int. On some LP32 platforms, intptr_t is an int, but
@@ -118,5 +117,3 @@ inline AtomicWord Release_Load(volatile const AtomicWord* ptr) {
 }   // namespace google
 
 #endif  // !defined(GOOGLE_PROTOBUF_ARCH_64_BIT)
-
-#endif  // GOOGLE_PROTOBUF_ATOMICOPS_INTERNALS_ATOMICWORD_COMPAT_H_

@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_RENDERTRANSLATOR_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_RENDERTRANSLATOR_H
+
+#pragma once
 
 #include <cocos/extensions/Particle3D/PU/CCPUBeamRender.h>
 #include <cocos/extensions/Particle3D/PU/CCPURender.h>
@@ -46,4 +46,3 @@ public:
 };
 
 NS_CC_END
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_RENDERTRANSLATOR_H

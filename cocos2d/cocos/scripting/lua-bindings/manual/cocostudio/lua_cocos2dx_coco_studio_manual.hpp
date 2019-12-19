@@ -21,8 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef COCOS_SCRIPTING_LUA_BINDINGS_LUA_COCOS2DX_COCO_STUDIO_MANUAL_H
-#define COCOS_SCRIPTING_LUA_BINDINGS_LUA_COCOS2DX_COCO_STUDIO_MANUAL_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -93,5 +92,3 @@ struct LuaArmatureFrameEventData
     {
     }
 };
-
-#endif // #ifndef COCOS_SCRIPTING_LUA_BINDINGS_LUA_COCOS2DX_COCO_STUDIO_MANUAL_H

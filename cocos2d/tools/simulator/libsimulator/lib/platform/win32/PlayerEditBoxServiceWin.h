@@ -1,6 +1,5 @@
 
-#ifndef __PLAYER_EDITBOX_SERVICE_WIN_H_
-#define __PLAYER_EDITBOX_SERVICE_WIN_H_
+#pragma once
 
 #include "stdafx.h"
 #include "PlayerEditBoxServiceProtocol.h"
@@ -32,5 +31,3 @@ protected:
 };
 
 PLAYER_NS_END
-
-#endif // __PLAYER_EDITBOX_SERVICE_WIN_H_

@@ -1,6 +1,5 @@
 
-#ifndef __PLAYER_SERVICE_PROTOCOL_H_
-#define __PLAYER_SERVICE_PROTOCOL_H_
+#pragma once
 
 #include "PlayerMacros.h"
 
@@ -13,5 +12,3 @@ public:
 };
 
 PLAYER_NS_END
-
-#endif // __PLAYER_SERVICE_PROTOCOL_H_

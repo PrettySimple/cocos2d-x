@@ -1,6 +1,5 @@
 
-#ifndef __PLAYER_FILE_DIALOG_SERVICE_PROTOCOL_H_
-#define __PLAYER_FILE_DIALOG_SERVICE_PROTOCOL_H_
+#pragma once
 
 #include <string>
 #include <vector>
@@ -29,5 +28,3 @@ public:
 };
 
 PLAYER_NS_END
-
-#endif // __PLAYER_FILE_DIALOG_SERVICE_PROTOCOL_H_

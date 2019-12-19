@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef COLLISION_FILTERING_H
-#define COLLISION_FILTERING_H
+#pragma once
 
 // This is a test of collision filtering.
 // There is a triangle, a box, and a circle.
@@ -173,5 +172,3 @@ public:
 		return new CollisionFiltering;
 	}
 };
-
-#endif

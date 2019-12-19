@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2014 Chukong Technologies Inc.
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
 
@@ -21,72 +22,69 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "platform/CCPlatformConfig.h"
+#pragma once
 
-#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-
-#    ifndef __AUDIO_PLAYER_H_
-#        define __AUDIO_PLAYER_H_
-
-#        include <condition_variable>
-#        include <string>
-#        include <thread>
-#        ifdef OPENAL_PLAIN_INCLUDES
-#            include <al.h>
-#        else
-#            include <AL/al.h>
-#        endif
-#        include "audio/win32/AudioCache.h"
-#        include "platform/CCPlatformMacros.h"
+#include <condition_variable>
+#include <functional>
+#include <mutex>
+#include <string>
+#include <thread>
+#ifdef OPENAL_PLAIN_INCLUDES
+#include <al.h>
+#else
+#include <AL/al.h>
+#endif
+#include "platform/CCPlatformMacros.h"
 
 NS_CC_BEGIN
-namespace experimental
+
+class AudioCache;
+class AudioEngineImpl;
+
+class CC_DLL AudioPlayer
 {
-    class AudioCache;
-    class AudioEngineImpl;
+public:
+    AudioPlayer();
+    ~AudioPlayer();
 
-    class CC_DLL AudioPlayer
-    {
-    public:
-        AudioPlayer();
-        AudioPlayer(const AudioPlayer&);
-        ~AudioPlayer();
+    void destroy();
 
-        // queue buffer related stuff
-        bool setTime(float time);
-        float getTime() { return _currTime; }
-        bool setLoop(bool loop);
-        void notifyExitThread();
+    //queue buffer related stuff
+    bool setTime(float time);
+    float getTime() { return _currTime;}
+    bool setLoop(bool loop);
 
-    protected:
-        void rotateBufferThread(int offsetFrame);
-        bool play2d(AudioCache* cache);
-        int readPcmData(char* buffer, int bufferSize, const std::function<int /*readBytes*/ (char* /*buf*/, int /*bytesToRead*/)>& fileReader);
+protected:
+    void setCache(AudioCache* cache);
+    void rotateBufferThread(int offsetFrame);
+    bool play2d();
 
-        AudioCache* _audioCache;
+    AudioCache* _audioCache;
 
-        float _volume;
-        bool _loop;
-        std::function<void(int, const std::string&)> _finishCallbak;
+    float _volume;
+    bool _loop;
+    std::function<void (int, const std::string &)> _finishCallbak;
 
-        bool _ready;
-        ALuint _alSource;
+    bool _isDestroyed;
+    bool _removeByAudioEngine;
+    bool _ready;
+    ALuint _alSource;
 
-        // play by circular buffer
-        float _currTime;
-        bool _timeDirty;
-        bool _streamingSource;
-        ALuint _bufferIds[QUEUEBUFFER_NUM];
-        std::thread _rotateBufferThread;
-        std::mutex _sleepMutex;
-        std::condition_variable _sleepCondition;
-        bool _exitThread;
-        bool _readForRemove;
+    //play by circular buffer
+    float _currTime;
+    bool _streamingSource;
+    ALuint _bufferIds[3];
+    std::thread* _rotateBufferThread;
+    std::condition_variable _sleepCondition;
+    std::mutex _sleepMutex;
+    bool _timeDirty;
+    bool _isRotateThreadExited;
 
-        friend class AudioEngineImpl;
-    };
+    std::mutex _play2dMutex;
 
-} // namespace experimental
+    unsigned int _id;
+
+    friend class AudioEngineImpl;
+};
+
 NS_CC_END
-#    endif // __AUDIO_PLAYER_H_
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_WIN32

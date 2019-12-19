@@ -23,8 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCSYNC_TASK_POOL_H_
-#define __CCSYNC_TASK_POOL_H_
+#pragma once
 
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/base/CCDirector.h>
@@ -209,13 +208,13 @@ protected:
 
 inline void AsyncTaskPool::stopTasks(TaskType type)
 {
-    auto& threadTask = _threadTasks[(int)type];
+    auto& threadTask = _threadTasks[static_cast<int>(type)];
     threadTask.clear();
 }
 
 inline void AsyncTaskPool::enqueue(AsyncTaskPool::TaskType type, TaskCallBack callback, void* callbackParam, std::function<void()> task)
 {
-    auto& threadTask = _threadTasks[(int)type];
+    auto& threadTask = _threadTasks[static_cast<int>(type)];
     
     threadTask.enqueue(std::move(callback), callbackParam, std::move(task));
 }
@@ -228,4 +227,3 @@ inline void AsyncTaskPool::enqueue(AsyncTaskPool::TaskType type, std::function<v
 NS_CC_END
 // end group
 /// @}
-#endif //__CCSYNC_TASK_POOL_H_

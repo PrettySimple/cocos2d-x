@@ -23,8 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_STORAGE_LOCALSTORAGE_LOCALSTORAGE_H
-#define CC_STORAGE_LOCALSTORAGE_LOCALSTORAGE_H
+#pragma once
 
 #include <cocos/platform/CCPlatformDefine.h>
 
@@ -57,5 +56,3 @@ void CC_DLL localStorageClear();
 
 // end group
 /// @}
-
-#endif // CC_STORAGE_LOCALSTORAGE_LOCALSTORAGE_H

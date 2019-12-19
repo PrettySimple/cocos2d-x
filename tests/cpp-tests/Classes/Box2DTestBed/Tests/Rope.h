@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef ROPE_H
-#define ROPE_H
+#pragma once
 
 ///
 class Rope : public Test
@@ -97,5 +96,3 @@ public:
 	b2Rope m_rope;
 	float32 m_angle;
 };
-
-#endif

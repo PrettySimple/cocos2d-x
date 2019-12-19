@@ -23,8 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_EGLVIEWIMPL_WINRT_H__
-#define __CC_EGLVIEWIMPL_WINRT_H__
+#pragma once
 
 #include "base/CCEventKeyboard.h"
 #include "platform/CCCommon.h"
@@ -190,5 +189,3 @@ private:
 };
 
 NS_CC_END
-
-#endif // end of __CC_EGLVIEWIMPL_WINRT_H__

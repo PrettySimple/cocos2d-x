@@ -1,6 +1,5 @@
 
-#ifndef __PLAYER_SETTINGS_H_
-#define __PLAYER_SETTINGS_H_
+#pragma once
 
 #include "PlayerMacros.h"
 
@@ -21,5 +20,3 @@ public:
 };
 
 PLAYER_NS_END
-
-#endif // __PLAYER_SETTINGS_H_

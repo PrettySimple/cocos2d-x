@@ -23,8 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCTWEENFUNCTION_H__
-#define __CCTWEENFUNCTION_H__
+#pragma once
 
 /// @cond DO_NOT_SHOW
 
@@ -297,4 +296,3 @@ namespace tweenfunc {
 NS_CC_END
 
 /// @endcond
-#endif /*__CCTWEENFUNCTION_H__*/

@@ -1,7 +1,6 @@
 
 
-#ifndef __TestCpp__UIRichTextTest__
-#define __TestCpp__UIRichTextTest__
+#pragma once
 
 #include "../UIScene.h"
 
@@ -225,5 +224,3 @@ public:
 protected:
     cocos2d::ui::RichText* _richText;
 };
-
-#endif /* defined(__TestCpp__UIRichTextTest__) */

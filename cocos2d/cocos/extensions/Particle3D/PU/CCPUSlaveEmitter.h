@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SLAVEEMITTER_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_SLAVEEMITTER_H
+
+#pragma once
 
 #include <cocos/extensions/Particle3D/PU/CCPUEmitter.h>
 #include <cocos/extensions/Particle3D/PU/CCPUListener.h>
@@ -95,5 +95,3 @@ protected:
     bool _masterEmitterNameSet;
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_SLAVEEMITTER_H

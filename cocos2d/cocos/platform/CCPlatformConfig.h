@@ -24,8 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __BASE_CC_PLATFORM_CONFIG_H__
-#define __BASE_CC_PLATFORM_CONFIG_H__
+#pragma once
 /// @cond DO_NOT_SHOW
 
 /**
@@ -120,4 +119,3 @@ THE SOFTWARE.
 #endif
 
 /// @endcond
-#endif  // __BASE_CC_PLATFORM_CONFIG_H__

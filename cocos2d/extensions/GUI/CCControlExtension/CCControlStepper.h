@@ -27,8 +27,7 @@
  *
  */
 
-#ifndef __CCCONTROLSTEPPER_H__
-#define __CCCONTROLSTEPPER_H__
+#pragma once
 
 #include "CCControl.h"
 #include <cocos/2d/CCLabel.h>
@@ -125,5 +124,3 @@ protected:
 /// @}
 
 NS_CC_EXT_END
-
-#endif /* __CCCONTROLSTEPPER_H__ */

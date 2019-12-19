@@ -24,8 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CCDevice_apple_hpp
-#define CCDevice_apple_hpp
+#pragma once
 
 #include <cocos/platform/CCDevice.h>
 
@@ -34,5 +33,3 @@ namespace FontUtils {
     NSTextAlignment _calculateTextAlignment(cocos2d::Device::TextAlign align);
     CGFloat _calculateTextDrawStartWidth(cocos2d::Device::TextAlign align, CGSize realDimensions, CGSize dimensions);
 }
-
-#endif /* CCDevice_apple_hpp */

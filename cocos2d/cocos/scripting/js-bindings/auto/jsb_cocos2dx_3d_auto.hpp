@@ -1,6 +1,5 @@
 #include "base/ccConfig.h"
-#ifndef __cocos2dx_3d_h__
-#define __cocos2dx_3d_h__
+#pragma once
 
 #include "jsapi.h"
 #include "jsfriendapi.h"
@@ -246,5 +245,3 @@ bool js_cocos2dx_3d_Bundle3D_createBundle(JSContext *cx, uint32_t argc, jsval *v
 bool js_cocos2dx_3d_Bundle3D_destroyBundle(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_cocos2dx_3d_Bundle3D_loadObj(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_cocos2dx_3d_Bundle3D_Bundle3D(JSContext *cx, uint32_t argc, jsval *vp);
-
-#endif // __cocos2dx_3d_h__

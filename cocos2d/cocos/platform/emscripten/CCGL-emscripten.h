@@ -23,8 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __PLATFORM_EMSCRIPTEN_CCGL_H__
-#define __PLATFORM_EMSCRIPTEN_CCGL_H__
+#pragma once
 
 #include <cocos/platform/CCPlatformConfig.h>
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
@@ -966,5 +965,3 @@ EGLint wrappedEGLErrorGet();
 #    endif // defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
 
 #endif // (CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
-
-#endif // __PLATFORM_EMSCRIPTEN_CCGL_H__

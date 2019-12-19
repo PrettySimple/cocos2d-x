@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SCALEAFFECTOR_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_SCALEAFFECTOR_H
+
+#pragma once
 
 #include <cocos/base/ccTypes.h>
 #include <cocos/extensions/Particle3D/PU/CCPUAffector.h>
@@ -99,5 +99,3 @@ protected:
     float _latestTimeElapsed;
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_SCALEAFFECTOR_H

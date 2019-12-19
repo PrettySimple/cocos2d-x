@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__UITextBMFontTest__
-#define __TestCpp__UITextBMFontTest__
+#pragma once
 
 #include "../UIScene.h"
 
@@ -39,5 +38,3 @@ public:
 protected:
     cocos2d::ui::TextBMFont* _textBMFont;
 };
-
-#endif /* defined(__TestCpp__UITextBMFontTest__) */

@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCEVENT_TYPE_H__
-#define __CCEVENT_TYPE_H__
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 /**
@@ -46,4 +46,3 @@
 #define EVENT_COME_TO_BACKGROUND    "event_come_to_background"
 
 /// @endcond
-#endif // __CCEVENT_TYPE_H__

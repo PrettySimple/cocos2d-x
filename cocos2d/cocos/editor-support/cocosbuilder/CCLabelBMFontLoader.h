@@ -1,5 +1,5 @@
-#ifndef CC_EDITORSUPPORT_COCOSBUILDER_LABELBMFONTLOADER_H
-#define CC_EDITORSUPPORT_COCOSBUILDER_LABELBMFONTLOADER_H
+
+#pragma once
 
 #include <cocos/2d/CCLabel.h>
 #include <cocos/base/CCRef.h>
@@ -34,5 +34,3 @@ namespace cocosbuilder
     };
 
 } // namespace cocosbuilder
-
-#endif // CC_EDITORSUPPORT_COCOSBUILDER_LABELBMFONTLOADER_H

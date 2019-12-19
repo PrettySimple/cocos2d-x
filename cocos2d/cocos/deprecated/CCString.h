@@ -23,8 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_DEPRECATED_STRING_H
-#define CC_DEPRECATED_STRING_H
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <cocos/base/CCRef.h>
@@ -212,4 +212,3 @@ public:
 NS_CC_END
 
 /// @endcond
-#endif // CC_DEPRECATED_STRING_H

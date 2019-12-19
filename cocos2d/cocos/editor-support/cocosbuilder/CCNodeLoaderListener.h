@@ -1,5 +1,5 @@
-#ifndef CC_EDITORSUPPORT_COCOSBUILDER_NODELOADERLISTENER_H
-#define CC_EDITORSUPPORT_COCOSBUILDER_NODELOADERLISTENER_H
+
+#pragma once
 
 namespace cocosbuilder
 {
@@ -19,5 +19,3 @@ namespace cocosbuilder
     };
 
 } // namespace cocosbuilder
-
-#endif // CC_EDITORSUPPORT_COCOSBUILDER_NODELOADERLISTENER_H

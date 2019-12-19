@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_NODE3DREADER_NODE3DREADER_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_NODE3DREADER_NODE3DREADER_H
+
+#pragma once
 
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -60,5 +60,3 @@ namespace cocostudio
         cocos2d::Vec3 getVec3Attribute(const tinyxml2::XMLAttribute* attribute) const;
     };
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_NODE3DREADER_NODE3DREADER_H

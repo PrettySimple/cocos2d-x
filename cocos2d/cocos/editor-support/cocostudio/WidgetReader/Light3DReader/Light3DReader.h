@@ -22,8 +22,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_LIGHT3DREADER_LIGHT3DREADER_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_LIGHT3DREADER_LIGHT3DREADER_H
+
+#pragma once
+
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/WidgetReader/NodeReaderDefine.h"
@@ -54,5 +55,3 @@ namespace cocostudio
         cocos2d::Node* createNodeWithFlatBuffers(const flatbuffers::Table* light3DOptions);
     };
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_LIGHT3DREADER_LIGHT3DREADER_H

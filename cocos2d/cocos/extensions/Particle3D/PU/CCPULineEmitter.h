@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_LINEEMITTER_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_LINEEMITTER_H
+
+#pragma once
 
 #include <cocos/extensions/Particle3D/PU/CCPUEmitter.h>
 
@@ -115,5 +115,3 @@ protected:
     float _scaledLength;
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_LINEEMITTER_H

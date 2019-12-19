@@ -29,8 +29,7 @@
  */
 
 
-#ifndef __CCCONTROL_BUTTON_H__
-#define __CCCONTROL_BUTTON_H__
+#pragma once
 
 #include "CCControl.h"
 #include "CCInvocation.h"
@@ -256,5 +255,3 @@ private:
 /// @}
 
 NS_CC_EXT_END
-
-#endif

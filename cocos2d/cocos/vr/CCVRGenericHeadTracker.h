@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_VR_GENERICHEADTRACKER_H
-#define CC_VR_GENERICHEADTRACKER_H
+#pragma once
 
 #include <cocos/math/Mat4.h>
 #include <cocos/math/Vec3.h>
@@ -54,5 +53,3 @@ protected:
 };
 
 NS_CC_END
-
-#endif // CC_VR_GENERICHEADTRACKER_H

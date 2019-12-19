@@ -29,8 +29,7 @@
  */
 
 
-#ifndef __CCCONTROL_SLIDER_H__
-#define __CCCONTROL_SLIDER_H__
+#pragma once
 
 #include "CCControl.h"
 #include "CCInvocation.h"
@@ -159,5 +158,3 @@ protected:
 /// @}
 
 NS_CC_EXT_END
-
-#endif

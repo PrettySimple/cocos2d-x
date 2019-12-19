@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef ROPE_JOINT_H
-#define ROPE_JOINT_H
+#pragma once
 
 /// This test shows how a rope joint can be used to stabilize a chain of
 /// bodies with a heavy payload. Notice that the rope joint just prevents
@@ -141,5 +140,3 @@ public:
 	b2RopeJointDef m_ropeDef;
 	b2Joint* m_rope;
 };
-
-#endif

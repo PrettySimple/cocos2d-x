@@ -23,13 +23,10 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __jsb_cocos2dx_3d_manual_h__
-#define __jsb_cocos2dx_3d_manual_h__
+#pragma once
 
 #include "3d/CCTerrain.h"
 #include "jsapi.h"
 
 void register_all_cocos2dx_3d_manual(JSContext* cx, JS::HandleObject global);
 bool jsval_to_TerrainData(JSContext* cx, JS::HandleValue v, cocos2d::Terrain::TerrainData* ret);
-
-#endif

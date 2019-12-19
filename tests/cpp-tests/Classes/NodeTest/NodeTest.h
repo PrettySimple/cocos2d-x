@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _NODE_TEST_H_
-#define _NODE_TEST_H_
+#pragma once
 
 ////----#include "cocos2d.h"
 #include "../BaseTest.h"
@@ -340,5 +339,3 @@ public:
     virtual void onEnter() override;
     virtual void onExit() override;
 };
-
-#endif

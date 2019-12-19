@@ -241,7 +241,7 @@ void TMXLayer::updateTiles(const Rect& culledRect)
             iter->second++;
             
             unsigned short quadIndex = static_cast<unsigned short>(_tileToQuadIndex[tileIndex]);
-            CC_ASSERT(-1 != quadIndex);
+            CC_ASSERT(static_cast<unsigned short>(-1) != quadIndex);
             _indices[6 * offset + 0] = quadIndex * 4 + 0;
             _indices[6 * offset + 1] = quadIndex * 4 + 1;
             _indices[6 * offset + 2] = quadIndex * 4 + 2;

@@ -24,8 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __PLATFORM_IPHONE_PLATFORM_CCLOCK_H__
-#define __PLATFORM_IPHONE_PLATFORM_CCLOCK_H__
+#pragma once
 
 #include <cocos/platform/CCPlatformMacros.h>
 
@@ -49,5 +48,3 @@ public:
 };
 
 NS_CC_END
-
-#endif // __PLATFORM_IPHONE_PLATFORM_CCLOCK_H__

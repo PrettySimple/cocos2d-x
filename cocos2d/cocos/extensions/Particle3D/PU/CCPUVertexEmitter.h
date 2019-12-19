@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_VERTEXEMITTER_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_VERTEXEMITTER_H
+
+#pragma once
 
 #include <cocos/extensions/Particle3D/PU/CCPUEmitter.h>
 #include <list>
@@ -166,5 +166,3 @@ NS_CC_BEGIN
 //	unsigned short _calculateRequestedParticles(float timeElapsed);
 //};
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_VERTEXEMITTER_H

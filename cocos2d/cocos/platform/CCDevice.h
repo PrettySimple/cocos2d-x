@@ -24,8 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCDEVICE_H__
-#define __CCDEVICE_H__
+#pragma once
 
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/base/ccMacros.h>
@@ -99,12 +98,10 @@ public:
     static Data getTextureDataForText(const char * text, const FontDefinition& textDefinition, TextAlign align, int &width, int &height, bool& hasPremultipliedAlpha);
 
 private:
-    CC_DISALLOW_IMPLICIT_CONSTRUCTORS(Device);
+    CC_DISALLOW_IMPLICIT_CONSTRUCTORS(Device)
 };
 
 // end group
 /// @}
 
 NS_CC_END
-
-#endif /* __CCDEVICE_H__ */

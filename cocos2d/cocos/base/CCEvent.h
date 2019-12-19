@@ -24,8 +24,7 @@
  ****************************************************************************/
 
 
-#ifndef __CCEVENT_H__
-#define __CCEVENT_H__
+#pragma once
 
 #include <cocos/base/CCRef.h>
 #include <cocos/platform/CCPlatformMacros.h>
@@ -104,5 +103,3 @@ NS_CC_END
 
 // end of base group
 /// @}
-
-#endif // __CCEVENT_H__

@@ -29,8 +29,7 @@
  *
  * Helper class to store targets and selectors (and eventually, params?) in the same MutableArray. Basically a very crude form of a NSInvocation
  */
-#ifndef __CCINVOCATION_H__
-#define __CCINVOCATION_H__
+#pragma once
 
 #include <cocos/base/CCRef.h>
 #include "../../ExtensionMacros.h"
@@ -78,5 +77,3 @@ protected:
 /// @}
 
 NS_CC_EXT_END
-
-#endif

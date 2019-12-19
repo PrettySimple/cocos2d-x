@@ -1,6 +1,5 @@
 
-#ifndef __SIMULATOR_CONFIG_H_
-#define __SIMULATOR_CONFIG_H_
+#pragma once
 
 #include <string>
 #include <vector>
@@ -54,5 +53,3 @@ private:
 
     ScreenSizeArray _screenSizeArray;
 };
-
-#endif // __SIMULATOR_CONFIG_H_

@@ -23,8 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCWINRT_UTILS_H__
-#define __CCWINRT_UTILS_H__
+#pragma once
 
 #include "platform/CCPlatformMacros.h"
 #include <ppltasks.h>
@@ -64,5 +63,3 @@ bool createMappedCacheFile(/*In*/ const std::string& srcFilePath, /*Out*/ std::s
 void destroyMappedCacheFile(const std::string& key);
 
 NS_CC_END
-
-#endif // __CCWINRT_UTILS_H__

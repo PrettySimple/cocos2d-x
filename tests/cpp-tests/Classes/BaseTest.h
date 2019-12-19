@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _CPPTESTS_BASETEST_H__
-#define _CPPTESTS_BASETEST_H__
+#pragma once
 
 #include "cocos2d.h"
 #include "extensions/cocos-ext.h"
@@ -228,5 +227,3 @@ public:
     virtual void onEnter() override{}
     virtual void onExit() override{}
 };
-
-#endif /* defined(_CPPTESTS_BASETEST_H__) */

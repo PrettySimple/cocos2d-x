@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef COMPOUND_SHAPES_H
-#define COMPOUND_SHAPES_H
+#pragma once
 
 // TODO_ERIN test joints on compounds.
 class CompoundShapes : public Test
@@ -139,5 +138,3 @@ public:
 		return new CompoundShapes;
 	}
 };
-
-#endif

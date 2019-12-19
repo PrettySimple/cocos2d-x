@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_NETWORK_HTTPASYNCCONNECTIONAPPLE_H
-#define CC_NETWORK_HTTPASYNCCONNECTIONAPPLE_H
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <cocos/platform/CCPlatformConfig.h>
@@ -66,4 +66,3 @@
 #endif // #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 
 /// @endcond
-#endif // CC_NETWORK_HTTPASYNCCONNECTIONAPPLE_H

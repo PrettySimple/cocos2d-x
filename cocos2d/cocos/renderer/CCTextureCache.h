@@ -26,8 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCTEXTURE_CACHE_H__
-#define __CCTEXTURE_CACHE_H__
+#pragma once
 
 #include <mutex>
 #include <thread>
@@ -295,6 +294,3 @@ private:
 /// @}
 
 NS_CC_END
-
-#endif //__CCTEXTURE_CACHE_H__
-

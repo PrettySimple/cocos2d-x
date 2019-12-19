@@ -27,9 +27,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CPROTECTEDCNODE_H__
-#define __CPROTECTEDCNODE_H__
-
+#pragma once
 
 #include <cocos/2d/CCNode.h>
 
@@ -203,5 +201,3 @@ private:
 /// @}
 
 NS_CC_END
-
-#endif // __CPROTECTEDCNODE_H__

@@ -1,6 +1,5 @@
 #include "base/ccConfig.h"
-#ifndef __cocos2dx_ui_h__
-#define __cocos2dx_ui_h__
+#pragma once
 
 #include "jsapi.h"
 #include "jsfriendapi.h"
@@ -1037,5 +1036,3 @@ bool js_cocos2dx_ui_ScrollViewBar_getAutoHideTime(JSContext *cx, uint32_t argc, 
 bool js_cocos2dx_ui_ScrollViewBar_setWidth(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_cocos2dx_ui_ScrollViewBar_create(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_cocos2dx_ui_ScrollViewBar_ScrollViewBar(JSContext *cx, uint32_t argc, jsval *vp);
-
-#endif // __cocos2dx_ui_h__

@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef PRISMATIC_H
-#define PRISMATIC_H
+#pragma once
 
 // The motor in this test gets smoother with higher velocity iterations.
 class Prismatic : public Test
@@ -103,5 +102,3 @@ public:
 
 	b2PrismaticJoint* m_joint;
 };
-
-#endif

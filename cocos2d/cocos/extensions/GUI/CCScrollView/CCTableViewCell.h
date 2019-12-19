@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_GUI_SCROLLVIEW_TABLEVIEWCELL_H
-#define CC_EXTENSIONS_GUI_SCROLLVIEW_TABLEVIEWCELL_H
+#pragma once
 
 #include <cocos/2d/CCNode.h>
 #include <cocos/extensions/ExtensionExport.h>
@@ -66,5 +65,3 @@ private:
 NS_CC_EXT_END
 // end of ui group
 /// @}
-
-#endif // CC_EXTENSIONS_GUI_SCROLLVIEW_TABLEVIEWCELL_H

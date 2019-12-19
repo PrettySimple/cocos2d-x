@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_UTILMATH_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_UTILMATH_H
+#pragma once
 
 #include "cocostudio/CCArmatureDefine.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -50,5 +49,3 @@ namespace cocostudio
     cocos2d::Vec2 CC_STUDIO_DLL circleTo(float t, cocos2d::Vec2& center, float radius, float fromRadian, float radianDif);
 
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_UTILMATH_H

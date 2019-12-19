@@ -24,12 +24,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_APPLICATION_PROTOCOL_H__
-#define __CC_APPLICATION_PROTOCOL_H__
+#pragma once
 
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/base/CCAutoreleasePool.h>
 #include <cocos/base/ccTypes.h>
+#include <cocos/platform/CCCommon.h>
 
 NS_CC_BEGIN
 
@@ -65,10 +65,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual ~ApplicationProtocol(){
-        /** clean auto release pool. */
-        PoolManager::destroyInstance();
-    }
+    virtual ~ApplicationProtocol();
 
     /**
     * @brief    Implement Director and Scene init code here.
@@ -155,5 +152,3 @@ public:
 /** @} */
 
 NS_CC_END
-
-#endif    // __CC_APPLICATION_PROTOCOL_H__

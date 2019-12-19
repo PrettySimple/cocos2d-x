@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef BULLET_TEST_H
-#define BULLET_TEST_H
+#pragma once
 
 class BulletTest : public Test
 {
@@ -132,5 +131,3 @@ public:
 	b2Body* m_bullet;
 	float32 m_x;
 };
-
-#endif

@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_PARTICLE3DREADER_PARTICLE3DREADER_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_PARTICLE3DREADER_PARTICLE3DREADER_H
+
+#pragma once
 
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -50,5 +50,3 @@ namespace cocostudio
         cocos2d::Node* createNodeWithFlatBuffers(const flatbuffers::Table* particle3DOptions);
     };
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_PARTICLE3DREADER_PARTICLE3DREADER_H

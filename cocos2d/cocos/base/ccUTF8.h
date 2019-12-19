@@ -24,8 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2dx__ccUTF8__
-#define __cocos2dx__ccUTF8__
+#pragma once
 
 #include <cocos/platform/CCPlatformMacros.h>
 #include <vector>
@@ -254,5 +253,3 @@ private:
 } // namespace StringUtils {
 
 NS_CC_END
-
-#endif /** defined(__cocos2dx__ccUTF8__) */

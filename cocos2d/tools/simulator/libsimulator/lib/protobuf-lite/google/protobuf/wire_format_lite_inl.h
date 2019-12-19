@@ -33,8 +33,7 @@
 //  Based on original Protocol Buffers design by
 //  Sanjay Ghemawat, Jeff Dean, and others.
 
-#ifndef GOOGLE_PROTOBUF_WIRE_FORMAT_LITE_INL_H__
-#define GOOGLE_PROTOBUF_WIRE_FORMAT_LITE_INL_H__
+#pragma once
 
 #include <string>
 #include <google/protobuf/stubs/common.h>
@@ -773,4 +772,3 @@ inline int WireFormatLite::LengthDelimitedSize(int length) {
 }  // namespace protobuf
 
 }  // namespace google
-#endif  // GOOGLE_PROTOBUF_WIRE_FORMAT_LITE_INL_H__

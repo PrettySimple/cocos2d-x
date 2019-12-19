@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCPLATFORMDEFINE_H__
-#define __CCPLATFORMDEFINE_H__
+#pragma once
 
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
@@ -46,5 +45,3 @@
 #    endif
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
-
-#endif /* __CCPLATFORMDEFINE_H__*/

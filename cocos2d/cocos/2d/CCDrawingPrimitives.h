@@ -36,8 +36,8 @@ THE SOFTWARE.
  *
  */
 
-#ifndef CC_2D_DRAWINGPRIMITIVES_H
-#define CC_2D_DRAWINGPRIMITIVES_H
+
+#pragma once
 
 #include <cocos/math/Vec2.h>
 #include <cocos/platform/CCGL.h>
@@ -271,5 +271,3 @@ namespace DrawPrimitives
 /** @} */
 
 NS_CC_END
-
-#endif // CC_2D_DRAWINGPRIMITIVES_H

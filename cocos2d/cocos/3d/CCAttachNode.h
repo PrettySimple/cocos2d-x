@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCATTACHNODE_H__
-#define __CCATTACHNODE_H__
+#pragma once
 
 #include <cocos/math/CCMath.h>
 #include <cocos/2d/CCNode.h>
@@ -73,4 +72,3 @@ protected:
 /// @}
 
 NS_CC_END
-#endif // __CCATTACHNODE_H__

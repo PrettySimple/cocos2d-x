@@ -21,8 +21,7 @@
  */
 
 
-#ifndef __cocos2d_libs__CCProperties__
-#define __cocos2d_libs__CCProperties__
+#pragma once
 
 #include <string>
 #include <functional>
@@ -611,5 +610,3 @@ private:
 };
 
 }
-
-#endif // __cocos2d_libs__CCProperties__

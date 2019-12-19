@@ -24,8 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_NETWORK_HTTPCLIENT_H
-#define CC_NETWORK_HTTPCLIENT_H
+#pragma once
 
 #include <cocos/base/CCScheduler.h>
 #include <cocos/base/CCVector.h>
@@ -209,5 +208,3 @@ NS_CC_END
 
 // end group
 /// @}
-
-#endif // CC_NETWORK_HTTPCLIENT_H

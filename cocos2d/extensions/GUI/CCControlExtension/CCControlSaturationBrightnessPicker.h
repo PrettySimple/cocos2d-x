@@ -32,8 +32,7 @@
  */
 
 
-#ifndef __CCCONTROL_SATURATION_PICKER_H__
-#define __CCCONTROL_SATURATION_PICKER_H__
+#pragma once
 
 #include "CCControl.h"
 #include "CCInvocation.h"
@@ -105,5 +104,3 @@ protected:
 /// @}
 
 NS_CC_EXT_END
-
-#endif

@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_DEPRECATED_NOTIFICATIONCENTER_H
-#define CC_DEPRECATED_NOTIFICATIONCENTER_H
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <cocos/base/CCRef.h>
@@ -209,4 +209,3 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif // CC_DEPRECATED_NOTIFICATIONCENTER_H

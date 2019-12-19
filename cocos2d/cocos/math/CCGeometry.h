@@ -23,8 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_MATH_GEOMETRY_H
-#define CC_MATH_GEOMETRY_H
+#pragma once
 
 #include <cocos/base/ccMacros.h>
 #include <cocos/math/Vec2.h>
@@ -324,5 +323,3 @@ NS_CC_END
 
 // end of base group
 /// @}
-
-#endif // CC_MATH_GEOMETRY_H

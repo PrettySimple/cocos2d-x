@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_NETWORK_HTTPREQUEST_H
-#define CC_NETWORK_HTTPREQUEST_H
+#pragma once
 
 #include <cocos/base/CCRef.h>
 #include <cocos/base/ccMacros.h>
@@ -327,5 +326,3 @@ NS_CC_END
 
 // end group
 /// @}
-
-#endif // CC_NETWORK_HTTPREQUEST_H

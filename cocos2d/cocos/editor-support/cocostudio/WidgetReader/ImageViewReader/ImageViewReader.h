@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_IMAGEVIEWREADER_IMAGEVIEWREADER_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_IMAGEVIEWREADER_IMAGEVIEWREADER_H
+#pragma once
 
 #include "cocostudio/CocosStudioExport.h"
 #include "cocostudio/WidgetReader/WidgetReader.h"
@@ -52,5 +51,3 @@ namespace cocostudio
         int getResourceType(std::string key);
     };
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_IMAGEVIEWREADER_IMAGEVIEWREADER_H

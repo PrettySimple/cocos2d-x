@@ -24,8 +24,7 @@ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_PLATFORM_MACROS_H__
-#define __CC_PLATFORM_MACROS_H__
+#pragma once
 
 /**
  * Define some platform specific macros.
@@ -206,8 +205,11 @@ private: varType varName; public: virtual inline varType get##funName() const { 
 #define CC_SAFE_RETAIN(p)           do { if(p) { (p)->retain(); } } while(0)
 #define CC_BREAK_IF(cond)           if(cond) break
 
-#define __CCLOGWITHFUNCTION(s, ...) \
+#define CCLOGWITHFUNCTION(s, ...) \
     cocos2d::log("%s : %s",__FUNCTION__, cocos2d::StringUtils::format(s, ##__VA_ARGS__).c_str())
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
 
 /// @name Cocos2d debug
 /// @{
@@ -221,13 +223,13 @@ private: varType varName; public: virtual inline varType get##funName() const { 
 #define CCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
 #define CCLOGERROR(format,...)  cocos2d::log(format, ##__VA_ARGS__)
 #define CCLOGINFO(format,...)   do {} while (0)
-#define CCLOGWARN(...) __CCLOGWITHFUNCTION(__VA_ARGS__)
+#define CCLOGWARN(...) CCLOGWITHFUNCTION(__VA_ARGS__)
 
 #elif COCOS2D_DEBUG > 1
 #define CCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
 #define CCLOGERROR(format,...)  cocos2d::log(format, ##__VA_ARGS__)
 #define CCLOGINFO(format,...)   cocos2d::log(format, ##__VA_ARGS__)
-#define CCLOGWARN(...) __CCLOGWITHFUNCTION(__VA_ARGS__)
+#define CCLOGWARN(...) CCLOGWITHFUNCTION(__VA_ARGS__)
 #endif // COCOS2D_DEBUG
 
 /** Lua engine debug */
@@ -239,6 +241,8 @@ private: varType varName; public: virtual inline varType get##funName() const { 
 
 //  end of debug group
 /// @}
+
+#pragma clang diagnostic pop
 
 /** @def CC_DISALLOW_COPY_AND_ASSIGN(TypeName)
  * A macro to disallow the copy constructor and operator= functions.
@@ -326,4 +330,3 @@ private: varType varName; public: virtual inline varType get##funName() const { 
     #endif
 #endif
 
-#endif // __CC_PLATFORM_MACROS_H__

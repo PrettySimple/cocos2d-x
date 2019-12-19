@@ -28,8 +28,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
 */
 
-#ifndef CC_BASE_ETC2TYPES_H
-#define CC_BASE_ETC2TYPES_H
+#pragma once
 
 #include <cocos/platform/CCGL.h>
 
@@ -216,5 +215,3 @@ extern "C"
 #ifdef __cplusplus
 }
 #endif
-
-#endif // CC_BASE_ETC2TYPES_H

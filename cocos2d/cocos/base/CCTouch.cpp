@@ -29,6 +29,8 @@
 
 NS_CC_BEGIN
 
+Touch::~Touch() {}
+
 // returns the current touch location in screen coordinates
 Vec2 Touch::getLocationInView() const 
 { 

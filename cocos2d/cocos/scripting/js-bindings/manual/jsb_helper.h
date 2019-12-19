@@ -20,8 +20,7 @@
  * THE SOFTWARE.
  */
 
-#ifndef __XMLHTTPHELPER_H__
-#define __XMLHTTPHELPER_H__
+#pragma once
 
 #include "jsapi.h"
 #include "jsfriendapi.h"
@@ -146,5 +145,3 @@
             out = (uint32_t)tmp;                               \
         }                                                      \
     } while (0)
-
-#endif /* __XMLHTTPHELPER_H__ */

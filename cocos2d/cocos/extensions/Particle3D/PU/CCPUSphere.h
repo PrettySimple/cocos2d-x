@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SPHERE_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_SPHERE_H
+
+#pragma once
 
 #include <cocos/3d/CCAABB.h>
 #include <cocos/base/CCRef.h>
@@ -83,5 +83,3 @@ public:
     void merge(const PUSphere& oth);
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_SPHERE_H

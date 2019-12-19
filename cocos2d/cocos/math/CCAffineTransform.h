@@ -23,8 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_MATH_AFFINETRANSFORM_H
-#define CC_MATH_AFFINETRANSFORM_H
+#pragma once
 
 #include <cocos/math/CCGeometry.h>
 #include <cocos/math/Mat4.h>
@@ -153,5 +152,3 @@ NS_CC_END
 
 // end of base transform
 /// @}
-
-#endif // CC_MATH_AFFINETRANSFORM_H

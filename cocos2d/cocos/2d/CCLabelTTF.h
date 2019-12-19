@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_2D_LABELTTF_H
-#define CC_2D_LABELTTF_H
+
+#pragma once
 
 /// @cond DO_NOT_SHOW
 
@@ -183,4 +183,3 @@ protected:
 NS_CC_END
 
 /// @endcond
-#endif // CC_2D_LABELTTF_H

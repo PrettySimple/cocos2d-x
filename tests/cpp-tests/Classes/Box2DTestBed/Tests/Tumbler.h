@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef TUMBLER_H
-#define TUMBLER_H
+#pragma once
 
 class Tumbler : public Test
 {
@@ -95,5 +94,3 @@ public:
 	b2RevoluteJoint* m_joint;
 	int32 m_count;
 };
-
-#endif

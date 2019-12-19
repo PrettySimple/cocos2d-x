@@ -31,8 +31,8 @@ Use any of these editors to generate BMFonts:
   http://www.angelcode.com/products/bmfont/ (Free, Windows only)
 
 ****************************************************************************/
-#ifndef CC_2D_LABELBMFONT_H
-#define CC_2D_LABELBMFONT_H
+
+#pragma once
 
 /// @cond DO_NOT_SHOW
 
@@ -180,4 +180,3 @@ private:
 NS_CC_END
 
 /// @endcond
-#endif // CC_2D_LABELBMFONT_H

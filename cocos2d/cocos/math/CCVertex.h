@@ -23,8 +23,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef CC_MATH_VERTEX_H
-#define CC_MATH_VERTEX_H
+#pragma once
 
 #include <cocos/platform/CCPlatformDefine.h>
 #include <cocos/platform/CCPlatformMacros.h>
@@ -50,5 +49,3 @@ NS_CC_END
 
 // end of base group
 /// @}
-
-#endif // CC_MATH_VERTEX_H

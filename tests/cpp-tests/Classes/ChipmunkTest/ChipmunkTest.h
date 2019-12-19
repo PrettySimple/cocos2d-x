@@ -1,8 +1,7 @@
 //
 // cocos2d
 //
-#ifndef __CHIPMUNKTEST_H__
-#define __CHIPMUNKTEST_H__
+#pragma once
 
 #include "cocos2d.h"
 #include "chipmunk/chipmunk.h"
@@ -37,5 +36,3 @@ private:
 };
 
 DEFINE_TEST_SUITE(ChipmunkTests);
-
-#endif /* __CHIPMUNKACCELTOUCHTEST_H__ */

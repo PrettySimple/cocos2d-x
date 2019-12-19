@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef PYRAMID_H
-#define PYRAMID_H
+#pragma once
 
 class Pyramid : public Test
 {
@@ -85,5 +84,3 @@ public:
 		return new Pyramid;
 	}
 };
-
-#endif

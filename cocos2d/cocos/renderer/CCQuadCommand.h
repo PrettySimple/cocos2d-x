@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _CC_QUADCOMMAND_H_
-#define _CC_QUADCOMMAND_H_
+#pragma once
 
 #include <vector>
 
@@ -78,4 +77,3 @@ NS_CC_END
  end of support group
  @}
  */
-#endif //_CC_QUADCOMMAND_H_

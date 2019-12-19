@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef CHAIN_H
-#define CHAIN_H
+#pragma once
 
 class Chain : public Test
 {
@@ -70,5 +69,3 @@ public:
 		return new Chain;
 	}
 };
-
-#endif

@@ -37,8 +37,7 @@
 //      SStringPrintf(&result, "%d %s\n", 10, "hello");
 //      StringAppendF(&result, "%d %s\n", 20, "there");
 
-#ifndef GOOGLE_PROTOBUF_STUBS_STRINGPRINTF_H
-#define GOOGLE_PROTOBUF_STUBS_STRINGPRINTF_H
+#pragma once
 
 #include <stdarg.h>
 #include <string>
@@ -72,5 +71,3 @@ LIBPROTOBUF_EXPORT extern string StringPrintfVector(const char* format, const ve
 
 }  // namespace protobuf
 }  // namespace google
-
-#endif  // GOOGLE_PROTOBUF_STUBS_STRINGPRINTF_H

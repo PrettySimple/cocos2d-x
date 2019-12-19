@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_LUA_ENGINE_H__
-#define __CC_LUA_ENGINE_H__
+#pragma once
 
 extern "C"
 {
@@ -251,5 +250,3 @@ NS_CC_END
 
 // end group
 /// @}
-
-#endif // __CC_LUA_ENGINE_H__

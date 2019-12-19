@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _LIGHT_TEST_H_
-#define _LIGHT_TEST_H_
+#pragma once
 
 #include "../BaseTest.h"
 
@@ -59,6 +58,3 @@ private:
     cocos2d::Label* _pointLightLabel;
     cocos2d::Label* _spotLightLabel;
 };
-
-#endif
-

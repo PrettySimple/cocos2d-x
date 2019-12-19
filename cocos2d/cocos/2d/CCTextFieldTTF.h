@@ -24,8 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_TEXT_FIELD_H__
-#define __CC_TEXT_FIELD_H__
+#pragma once
 
 #include <cocos/2d/CCLabel.h>
 #include <cocos/base/CCIMEDelegate.h>
@@ -290,5 +289,3 @@ private:
 NS_CC_END
 // end of ui group
 /// @}
-
-#endif    // __CC_TEXT_FIELD_H__

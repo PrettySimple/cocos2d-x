@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef EDGE_SHAPES_H
-#define EDGE_SHAPES_H
+#pragma once
 
 class EdgeShapesCallback : public b2RayCastCallback
 {
@@ -245,5 +244,3 @@ public:
 
 	float32 m_angle;
 };
-
-#endif

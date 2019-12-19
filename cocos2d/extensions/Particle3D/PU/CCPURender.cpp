@@ -770,7 +770,7 @@ void PUParticle3DBoxRender::render( Renderer* renderer, const Mat4 &transform, P
         auto &projectionMatrix = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
         _programState->setUniform(_locPMatrix, &projectionMatrix.m, sizeof(projectionMatrix.m));
 
-        _meshCommand.setIndexDrawInfo(0, _indices.size());
+        _meshCommand.setIndexDrawInfo(0, static_cast<unsigned int>(_indices.size()));
 
         renderer->addCommand(&_meshCommand);
     }

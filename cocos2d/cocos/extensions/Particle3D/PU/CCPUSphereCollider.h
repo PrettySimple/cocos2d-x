@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SPHERECOLLIDER_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_SPHERECOLLIDER_H
+
+#pragma once
 
 #include "CCPUBaseCollider.h"
 #include "extensions/Particle3D/PU/CCPUSphere.h"
@@ -79,5 +79,3 @@ protected:
     bool _innerCollision;
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_SPHERECOLLIDER_H

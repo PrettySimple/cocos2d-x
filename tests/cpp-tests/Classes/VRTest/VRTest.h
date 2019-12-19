@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _VR_TEST_H_
-#define _VR_TEST_H_
+#pragma once
 
 #include "cocos2d.h"
 #include "../BaseTest.h"
@@ -48,5 +47,3 @@ public:
     virtual std::string subtitle() const override;
 };
 
-
-#endif

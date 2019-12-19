@@ -22,13 +22,10 @@
  * THE SOFTWARE.
  *
  */
-#ifndef __CCCONTROLSCENEMANAGER_H__
-#define __CCCONTROLSCENEMANAGER_H__
+#pragma once
 
 #include "cocos2d.h"
 #include "extensions/cocos-ext.h"
 #include "BaseTest.h"
 
 DEFINE_TEST_SUITE(ControlTests);
-
-#endif /* __CCCONTROLSCENEMANAGER_H__ */

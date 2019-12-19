@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_COMMON_H__
-#define __CC_COMMON_H__
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <cocos/platform/CCPlatformMacros.h>
@@ -80,4 +80,3 @@ enum class LanguageType
 NS_CC_END
 
 /// @endcond
-#endif    // __CC_COMMON_H__

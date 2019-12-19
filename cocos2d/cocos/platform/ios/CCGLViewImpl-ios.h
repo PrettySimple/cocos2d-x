@@ -24,8 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CC_EGLVIEWIMPL_IPHONE_H__
-#define __CC_EGLVIEWIMPL_IPHONE_H__
+#pragma once
 
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
@@ -66,7 +65,7 @@ public:
     virtual float getContentScaleFactor() const override;
 
     /** returns whether or not the view is in Retina Display mode */
-    virtual bool isRetinaDisplay() const override { return getContentScaleFactor() == 2.0; }
+    virtual bool isRetinaDisplay() const override { return getContentScaleFactor() == 2.0f; }
 
     /** returns the objective-c CCEAGLView instance */
     virtual void* getEAGLView() const override { return _eaglview; }
@@ -81,7 +80,7 @@ public:
 
 protected:
     GLViewImpl();
-    virtual ~GLViewImpl();
+    virtual ~GLViewImpl() override;
 
     bool initWithEAGLView(void* eaGLView);
     bool initWithRect(const std::string& viewName, const Rect& rect, float frameZoomFactor);
@@ -94,5 +93,3 @@ protected:
 NS_CC_END
 
 #endif // CC_PLATFORM_IOS
-
-#endif    // end of __CC_EGLViewImpl_IPHONE_H__

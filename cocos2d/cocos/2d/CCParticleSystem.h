@@ -25,8 +25,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CCPARTICLE_SYSTEM_H__
-#define __CCPARTICLE_SYSTEM_H__
+#pragma once
 
 #include <cocos/base/CCProtocols.h>
 #include <cocos/2d/CCNode.h>
@@ -792,7 +791,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @js NA
      * @lua NA
      */
-    virtual ~ParticleSystem();
+    virtual ~ParticleSystem() override;
 
     /** initializes a ParticleSystem*/
     bool init() override;
@@ -1007,12 +1006,10 @@ protected:
     static Vector<ParticleSystem*> __allInstances;
     
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSystem);
+    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSystem)
 };
 
 // end of _2d group
 /// @}
 
 NS_CC_END
-
-#endif //__CCPARTICLE_SYSTEM_H__

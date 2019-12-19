@@ -23,8 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
-#ifndef _SPINETEST_H_
-#define _SPINETEST_H_
+#pragma once
 
 #include "cocos2d.h"
 #include "../BaseTest.h"
@@ -114,5 +113,3 @@ public:
     
 	CREATE_FUNC (SpineTestPerformanceLayer);
 };
-
-#endif // _EXAMPLELAYER_H_

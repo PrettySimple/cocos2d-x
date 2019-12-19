@@ -1,5 +1,5 @@
-#ifndef CC_EDITORSUPPORT_COCOSBUILDER_SCALE9SPRITELOADER_H
-#define CC_EDITORSUPPORT_COCOSBUILDER_SCALE9SPRITELOADER_H
+
+#pragma once
 
 #include "CCNodeLoader.h"
 #include "CCScale9SpriteLoader.h"
@@ -73,5 +73,3 @@ namespace cocosbuilder
     };
 
 } // namespace cocosbuilder
-
-#endif // CC_EDITORSUPPORT_COCOSBUILDER_SCALE9SPRITELOADER_H

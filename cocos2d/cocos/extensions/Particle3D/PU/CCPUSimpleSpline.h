@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SIMPLESPLINE_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_SIMPLESPLINE_H
+
+#pragma once
 
 #include <cocos/base/CCRef.h>
 #include <cocos/math/CCMath.h>
@@ -100,5 +100,3 @@ protected:
     Mat4 _coeffs;
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_SIMPLESPLINE_H

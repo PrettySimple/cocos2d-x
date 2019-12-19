@@ -107,7 +107,6 @@ void Particle3DQuadRender::render(Renderer* renderer, const Mat4 &transform, Par
     auto cameraMat = camera->getNodeToWorldTransform();
     const Mat4 &viewMat = cameraMat.getInversed();
     
-    Mat4 pRotMat;
     Vec3 right(cameraMat.m[0], cameraMat.m[1], cameraMat.m[2]);
     Vec3 up(cameraMat.m[4], cameraMat.m[5], cameraMat.m[6]);
     Vec3 backward(cameraMat.m[8], cameraMat.m[9], cameraMat.m[10]);

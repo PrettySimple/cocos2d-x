@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __TestCpp__UITabControlTest__
-#define __TestCpp__UITabControlTest__
+#pragma once
 
 #include "../UIScene.h"
 
@@ -42,5 +41,3 @@ public:
 
 };
 
-
-#endif //__TestCpp__UITabControlTest__

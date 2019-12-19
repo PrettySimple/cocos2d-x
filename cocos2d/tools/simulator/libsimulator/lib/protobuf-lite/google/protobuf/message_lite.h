@@ -36,8 +36,7 @@
 // Defines MessageLite, the abstract interface implemented by all (lite
 // and non-lite) protocol message objects.
 
-#ifndef GOOGLE_PROTOBUF_MESSAGE_LITE_H__
-#define GOOGLE_PROTOBUF_MESSAGE_LITE_H__
+#pragma once
 
 #include <google/protobuf/stubs/common.h>
 
@@ -243,4 +242,3 @@ class LIBPROTOBUF_EXPORT MessageLite {
 }  // namespace protobuf
 
 }  // namespace google
-#endif  // GOOGLE_PROTOBUF_MESSAGE_LITE_H__

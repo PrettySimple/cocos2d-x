@@ -1,8 +1,7 @@
 //
 //  PerformanceEventDispatcherTest.h
 
-#ifndef __PERFORMANCE_EVENTDISPATCHER_TEST_H__
-#define __PERFORMANCE_EVENTDISPATCHER_TEST_H__
+#pragma once
 
 #include "BaseTest.h"
 
@@ -101,5 +100,3 @@ public:
 private:
     std::vector<cocos2d::EventListener*> _customListeners;
 };
-
-#endif /* defined(__PERFORMANCE_EVENTDISPATCHER_TEST_H__) */

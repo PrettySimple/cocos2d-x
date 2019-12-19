@@ -1,6 +1,5 @@
 
-#ifndef __Simulator__RuntimeCCSImpl__
-#define __Simulator__RuntimeCCSImpl__
+#pragma once
 
 #include "RuntimeProtocol.h"
 
@@ -17,5 +16,3 @@ private:
     void loadCSDProject(const std::string& file);
     void loadCSBProject(const std::string& file);
 };
-
-#endif /* defined(__Simulator__RuntimeCCSImpl__) */

@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONNODE_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONNODE_H
+#pragma once
 
 #include "cocostudio/CCActionFrame.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -189,5 +188,3 @@ namespace cocostudio
     };
 
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ACTIONNODE_H

@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _ACTIONS__PROGRESS_TEST_H_
-#define _ACTIONS__PROGRESS_TEST_H_
+#pragma once
 
 #include "../BaseTest.h"
 
@@ -102,5 +101,3 @@ public:
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
-
-#endif // _ACTIONS__PROGRESS_TEST_H_

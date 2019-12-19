@@ -22,8 +22,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __COCOS2DX_LUA_LOADER_H__
-#define __COCOS2DX_LUA_LOADER_H__
+#pragma once
 
 extern "C"
 {
@@ -33,5 +32,3 @@ extern "C"
 
     extern int cocos2dx_lua_loader(lua_State* L);
 }
-
-#endif // __COCOS2DX_LUA_LOADER_H__

@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
-Copyright (c) 2013-2017 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -24,19 +25,17 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "audio/android/ccdandroidUtils.h"
 
-#include "platform/CCFileUtils.h"
-#include "platform/android/jni/JniHelper.h"
-#include <android/log.h>
 #include <jni.h>
+#include <android/log.h>
+#include "platform/android/jni/JniHelper.h"
+#include "platform/CCFileUtils.h"
+
 
 USING_NS_CC;
 
-namespace CocosDenshion
-{
-    namespace android
-    {
-        std::string getFullPathWithoutAssetsPrefix(const char* pszFilename)
-        {
+namespace CocosDenshion {
+    namespace android {
+        std::string getFullPathWithoutAssetsPrefix(const char* pszFilename) {
             // Changing file path to full path
             std::string fullPath = cocos2d::FileUtils::getInstance()->fullPathForFilename(pszFilename);
             // Removing `assets` since it isn't needed for the API of playing sound.
@@ -47,5 +46,5 @@ namespace CocosDenshion
             }
             return fullPath;
         }
-    } // namespace android
-} // namespace CocosDenshion
+    }
+}

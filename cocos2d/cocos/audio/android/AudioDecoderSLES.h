@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2017 Chukong Technologies Inc.
+Copyright (c) 2016 Chukong Technologies Inc.
+Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
 http://www.cocos2d-x.org
 
@@ -25,75 +26,72 @@ THE SOFTWARE.
 #pragma once
 
 #include "audio/android/AudioDecoder.h"
-#include <condition_variable>
 #include <mutex>
+#include <condition_variable>
 
-namespace cocos2d
+namespace cocos2d {
+
+class AudioDecoderSLES : public AudioDecoder
 {
-    namespace experimental
+protected:
+    AudioDecoderSLES();
+    virtual ~AudioDecoderSLES();
+
+    bool init(SLEngineItf engineItf, const std::string &url, int bufferSizeInFrames, int sampleRate, const FdGetterCallback &fdGetterCallback);
+    virtual bool decodeToPcm() override;
+
+private:
+    void queryAudioInfo();
+
+    void signalEos();
+    void decodeToPcmCallback(SLAndroidSimpleBufferQueueItf queueItf);
+    void prefetchCallback(SLPrefetchStatusItf caller, SLuint32 event);
+    void decodeProgressCallback(SLPlayItf caller, SLuint32 event);
+
+    SLEngineItf _engineItf;
+    SLObjectItf _playObj;
+    /* Local storage for decoded audio data */
+    char* _pcmData;
+
+    /* we only want to query / display the PCM format once */
+    bool _formatQueried;
+    /* Used to signal prefetching failures */
+    bool _prefetchError;
+
+    /* to display the number of decode iterations */
+    int _counter;
+
+    /* metadata key index for the PCM format information we want to retrieve */
+    int _numChannelsKeyIndex;
+    int _sampleRateKeyIndex;
+    int _bitsPerSampleKeyIndex;
+    int _containerSizeKeyIndex;
+    int _channelMaskKeyIndex;
+    int _endiannessKeyIndex;
+
+    /* to signal to the test app the end of the stream to decode has been reached */
+    bool _eos;
+    std::mutex _eosLock;
+    std::condition_variable _eosCondition;
+
+    /* Structure for passing information to callback function */
+    typedef struct CallbackCntxt_
     {
-        class AudioDecoderSLES : public AudioDecoder
-        {
-        protected:
-            AudioDecoderSLES();
-            virtual ~AudioDecoderSLES();
+        SLPlayItf playItf;
+        SLMetadataExtractionItf metaItf;
+        SLuint32 size;
+        SLint8 *pDataBase;    // Base address of local audio data storage
+        SLint8 *pData;        // Current address of local audio data storage
+    } CallbackCntxt;
 
-            bool init(SLEngineItf engineItf, const std::string& url, int bufferSizeInFrames, int sampleRate, const FdGetterCallback& fdGetterCallback);
-            virtual bool decodeToPcm() override;
+    CallbackCntxt _decContext;
+    int _bufferSizeInFrames;
+    int _assetFd;
+    FdGetterCallback _fdGetterCallback;
+    bool _isDecodingCallbackInvoked;
 
-        private:
-            void queryAudioInfo();
+    friend class SLAudioDecoderCallbackProxy;
+    friend class AudioDecoderProvider;
+};
 
-            void signalEos();
-            void decodeToPcmCallback(SLAndroidSimpleBufferQueueItf queueItf);
-            void prefetchCallback(SLPrefetchStatusItf caller, SLuint32 event);
-            void decodeProgressCallback(SLPlayItf caller, SLuint32 event);
-
-            SLEngineItf _engineItf;
-            SLObjectItf _playObj;
-            /* Local storage for decoded audio data */
-            char* _pcmData;
-
-            /* we only want to query / display the PCM format once */
-            bool _formatQueried;
-            /* Used to signal prefetching failures */
-            bool _prefetchError;
-
-            /* to display the number of decode iterations */
-            int _counter;
-
-            /* metadata key index for the PCM format information we want to retrieve */
-            int _numChannelsKeyIndex;
-            int _sampleRateKeyIndex;
-            int _bitsPerSampleKeyIndex;
-            int _containerSizeKeyIndex;
-            int _channelMaskKeyIndex;
-            int _endiannessKeyIndex;
-
-            /* to signal to the test app the end of the stream to decode has been reached */
-            bool _eos;
-            std::mutex _eosLock;
-            std::condition_variable _eosCondition;
-
-            /* Structure for passing information to callback function */
-            typedef struct CallbackCntxt_
-            {
-                SLPlayItf playItf;
-                SLMetadataExtractionItf metaItf;
-                SLuint32 size;
-                SLint8* pDataBase; // Base address of local audio data storage
-                SLint8* pData; // Current address of local audio data storage
-            } CallbackCntxt;
-
-            CallbackCntxt _decContext;
-            int _bufferSizeInFrames;
-            int _assetFd;
-            FdGetterCallback _fdGetterCallback;
-            bool _isDecodingCallbackInvoked;
-
-            friend class SLAudioDecoderCallbackProxy;
-            friend class AudioDecoderProvider;
-        };
-
-    } // namespace experimental
-} // namespace cocos2d
+} // namespace cocos2d {

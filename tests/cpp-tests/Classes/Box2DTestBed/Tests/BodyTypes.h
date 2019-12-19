@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef BODY_TYPES_H
-#define BODY_TYPES_H
+#pragma once
 
 class BodyTypes : public Test
 {
@@ -155,5 +154,3 @@ public:
 	b2Body* m_platform;
 	float32 m_speed;
 };
-
-#endif

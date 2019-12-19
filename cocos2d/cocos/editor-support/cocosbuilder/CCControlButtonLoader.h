@@ -1,5 +1,5 @@
-#ifndef CC_EDITORSUPPORT_COCOSBUILDER_CONTROLBUTTONLOADER_H
-#define CC_EDITORSUPPORT_COCOSBUILDER_CONTROLBUTTONLOADER_H
+
+#pragma once
 
 #include "CCControlLoader.h"
 #include <cocos/extensions/GUI/CCControlExtension/CCControlButton.h>
@@ -39,5 +39,3 @@ namespace cocosbuilder
     };
 
 } // namespace cocosbuilder
-
-#endif // CC_EDITORSUPPORT_COCOSBUILDER_CONTROLBUTTONLOADER_H

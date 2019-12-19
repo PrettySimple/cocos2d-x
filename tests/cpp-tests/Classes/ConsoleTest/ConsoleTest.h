@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _CONSOLE_TEST_H_
-#define _CONSOLE_TEST_H_
+#pragma once
 
 #include "../BaseTest.h"
 
@@ -77,5 +76,3 @@ protected:
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(ConsoleUploadFile);
 };
-
-#endif // _CONSOLE_TEST_H_

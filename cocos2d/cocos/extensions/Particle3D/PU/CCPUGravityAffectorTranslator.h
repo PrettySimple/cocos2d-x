@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_GRAVITYAFFECTORTRANSLATOR_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_GRAVITYAFFECTORTRANSLATOR_H
+
+#pragma once
 
 #include <cocos/extensions/Particle3D/PU/CCPUGravityAffector.h>
 #include <cocos/extensions/Particle3D/PU/CCPUScriptCompiler.h>
@@ -43,5 +43,3 @@ public:
 };
 
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_GRAVITYAFFECTORTRANSLATOR_H

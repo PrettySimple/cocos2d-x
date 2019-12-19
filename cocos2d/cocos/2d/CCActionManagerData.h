@@ -5,8 +5,8 @@
 //  Created by Mathieu Garaud on 02/02/2018.
 //
 
-#ifndef CC_2D_ACTIONMANAGERDATA_H
-#define CC_2D_ACTIONMANAGERDATA_H
+
+#pragma once
 
 #include <cocos/platform/CCPlatformMacros.h>
 
@@ -86,5 +86,3 @@ public:
 };
 
 NS_CC_END
-
-#endif // CC_2D_ACTIONMANAGERDATA_H

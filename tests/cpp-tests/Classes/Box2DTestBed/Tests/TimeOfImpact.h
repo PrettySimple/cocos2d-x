@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef TIME_OF_IMPACT_H
-#define TIME_OF_IMPACT_H
+#pragma once
 
 class TimeOfImpact : public Test
 {
@@ -123,5 +122,3 @@ public:
 	b2PolygonShape m_shapeA;
 	b2PolygonShape m_shapeB;
 };
-
-#endif

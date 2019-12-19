@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef WEB_H
-#define WEB_H
+#pragma once
 
 // This tests distance joints, body destruction, and joint destruction.
 class Web : public Test
@@ -205,5 +204,3 @@ public:
 	b2Body* m_bodies[4];
 	b2Joint* m_joints[8];
 };
-
-#endif

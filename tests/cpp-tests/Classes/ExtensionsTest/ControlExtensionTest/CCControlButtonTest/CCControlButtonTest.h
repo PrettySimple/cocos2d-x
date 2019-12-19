@@ -23,8 +23,7 @@
  *
  */
 
-#ifndef __CCCONTROLBUTTONTEST_H__
-#define __CCCONTROLBUTTONTEST_H__
+#pragma once
 
 #include "../CCControlScene.h"
 
@@ -71,5 +70,3 @@ public:
     CREATE_FUNC(ControlButtonTest_Styling);
 };
 
-
-#endif /* __CCCONTROLBUTTONTEST_H__ */

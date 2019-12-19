@@ -21,8 +21,7 @@
  * THE SOFTWARE.
  */
 
-#ifndef __js_bindings_chipmunk_manual
-#define __js_bindings_chipmunk_manual
+#pragma once
 
 #include "jsapi.h"
 #include "scripting/js-bindings/manual/ScriptingCore.h"
@@ -120,5 +119,3 @@ bool JSB_cpPolyShape_constructor(JSContext* cx, uint32_t argc, jsval* vp);
 void JSB_cpSpace_finalize(JSFreeOp* fop, JSObject* obj);
 
 #endif // JSB_INCLUDE_CHIPMUNK
-
-#endif // __js_bindings_chipmunk_manual

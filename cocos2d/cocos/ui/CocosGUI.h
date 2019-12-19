@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_UI_COCOSGUI_H
-#define CC_UI_COCOSGUI_H
+#pragma once
 
 #include <cocos/ui/UIButton.h>
 #include <cocos/ui/UICheckBox.h>
@@ -77,5 +76,3 @@ namespace ui
 NS_CC_END
 // end of ui group
 /// @}
-
-#endif // CC_UI_COCOSGUI_H

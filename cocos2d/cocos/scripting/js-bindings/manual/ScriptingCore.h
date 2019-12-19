@@ -22,8 +22,7 @@
  * THE SOFTWARE.
  */
 
-#ifndef __SCRIPTING_CORE_H__
-#define __SCRIPTING_CORE_H__
+#pragma once
 
 #include "jsapi.h"
 #include "jsfriendapi.h"
@@ -661,5 +660,3 @@ void jsb_register_finalize_hook(JSObject* hook, JSObject* owner);
  * Remove the entry of finalize hook and its owner in _js_hook_owner_map
  */
 JSObject* jsb_get_and_remove_hook_owner(JSObject* hook);
-
-#endif /* __SCRIPTING_CORE_H__ */

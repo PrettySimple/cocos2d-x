@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_COMAUDIOREADER_COMAUDIOREADER_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_COMAUDIOREADER_COMAUDIOREADER_H
+#pragma once
 
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -48,5 +47,3 @@ namespace cocostudio
         cocos2d::Node* createNodeWithFlatBuffers(const flatbuffers::Table* nodeOptions) { return nullptr; };
     };
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_COMAUDIOREADER_COMAUDIOREADER_H

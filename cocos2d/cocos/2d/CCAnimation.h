@@ -24,8 +24,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef CC_2D_ANIMATION_H
-#define CC_2D_ANIMATION_H
+
+#pragma once
 
 #include <cocos/base/CCRef.h>
 #include <cocos/base/CCValue.h>
@@ -316,5 +316,3 @@ private:
 /// @}
 
 NS_CC_END
-
-#endif // CC_2D_ANIMATION_H

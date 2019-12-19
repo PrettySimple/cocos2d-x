@@ -16,7 +16,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 //
 
-#define _USE_MATH_DEFINES
+#define USE_MATH_DEFINES
 #include <string.h>
 #include <float.h>
 #include <stdlib.h>

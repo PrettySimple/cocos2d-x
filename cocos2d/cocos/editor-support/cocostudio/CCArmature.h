@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_ARMATURE_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_ARMATURE_H
+#pragma once
 
 #include "cocostudio/CCArmatureAnimation.h"
 #include "cocostudio/CCArmatureDataManager.h"
@@ -274,5 +273,3 @@ namespace cocostudio
     };
 
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_ARMATURE_H

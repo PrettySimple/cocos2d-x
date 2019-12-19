@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_DYNAMICATTRIBUTE_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_DYNAMICATTRIBUTE_H
+
+#pragma once
 
 #include "CCPUSimpleSpline.h"
 #include <cocos/base/CCRef.h>
@@ -327,5 +327,3 @@ public:
     float calculate(PUDynamicAttribute* dyn, float x, float defaultValue = 0.0f);
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_DYNAMICATTRIBUTE_H

@@ -24,8 +24,7 @@
  
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCTouchEventListener__
-#define __cocos2d_libs__CCTouchEventListener__
+#pragma once
 
 #include <cocos/base/CCEventListener.h>
 #include <vector>
@@ -56,7 +55,7 @@ public:
      * Destructor.
      * @js NA
      */
-    virtual ~EventListenerTouchOneByOne();
+    virtual ~EventListenerTouchOneByOne() override;
     
     /** Whether or not to swall touches.
      *
@@ -111,7 +110,7 @@ public:
     /** Destructor.
      * @js NA
      */
-    virtual ~EventListenerTouchAllAtOnce();
+    virtual ~EventListenerTouchAllAtOnce() override;
     
     /// Overrides
     virtual EventListenerTouchAllAtOnce* clone() override;
@@ -138,5 +137,3 @@ NS_CC_END
 
 // end of base group
 /// @}
-
-#endif /* defined(__cocos2d_libs__CCTouchEventListener__) */

@@ -1,5 +1,5 @@
-#ifndef CC_EDITORSUPPORT_COCOSBUILDER_MENULOADER_H
-#define CC_EDITORSUPPORT_COCOSBUILDER_MENULOADER_H
+
+#pragma once
 
 #include "CCLayerLoader.h"
 #include <cocos/2d/CCMenu.h>
@@ -36,5 +36,3 @@ namespace cocosbuilder
     };
 
 } // namespace cocosbuilder
-
-#endif // CC_EDITORSUPPORT_COCOSBUILDER_MENULOADER_H

@@ -111,8 +111,6 @@ protected:
 
     /**Rendered triangles.*/
     Triangles _triangles;
-    /**Model view matrix when rendering the triangles.*/
-    Mat4 _mv;
 
     uint8_t _alphaTextureID = 0; // ANDROID ETC1 ALPHA supports.
 

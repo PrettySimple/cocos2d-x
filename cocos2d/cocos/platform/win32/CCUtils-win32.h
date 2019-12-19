@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_UTILS_WIN32_H__
-#define __CC_UTILS_WIN32_H__
+
+#pragma once
 
 #include <cocos/platform/CCPlatformMacros.h>
 
@@ -38,5 +38,3 @@ std::string CC_DLL StringWideCharToUtf8(const std::wstring& strWideChar);
 std::string CC_DLL UTF8StringToMultiByte(const std::string& strUtf8);
 
 NS_CC_END
-
-#endif // __CC_UTILS_WIN32_H__

@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCPHYSICS_BODY_H__
-#define __CCPHYSICS_BODY_H__
+#pragma once
 
 #include <cocos/base/ccConfig.h>
 #if CC_USE_PHYSICS
@@ -590,4 +589,3 @@ protected:
 NS_CC_END
 
 #endif // CC_USE_PHYSICS
-#endif // __CCPHYSICS_BODY_H__

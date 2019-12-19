@@ -24,8 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CCAPLICATION_H_
-#define CCAPLICATION_H_
+#pragma once
 
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
@@ -118,5 +117,3 @@ protected:
 NS_CC_END
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
-
-#endif /* CCAPLICATION_H_ */

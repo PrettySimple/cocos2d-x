@@ -26,8 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __SPRITE_CCSPRITE_FRAME_H__
-#define __SPRITE_CCSPRITE_FRAME_H__
+#pragma once
 
 #include <cocos/2d/CCNode.h>
 #include <cocos/2d/CCAutoPolygon.h>
@@ -262,7 +261,7 @@ CC_CONSTRUCTOR_ACCESS:
     /**
      * @lua NA
      */
-    virtual ~SpriteFrame();
+    virtual ~SpriteFrame() override;
     
     /** Initializes a SpriteFrame with a texture, rect in points.
      It is assumed that the frame was not trimmed.
@@ -305,5 +304,3 @@ protected:
 /// @}
 
 NS_CC_END
-
-#endif //__SPRITE_CCSPRITE_FRAME_H__

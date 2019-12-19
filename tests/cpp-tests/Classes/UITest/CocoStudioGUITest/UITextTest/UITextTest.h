@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__UITextTest__
-#define __TestCpp__UITextTest__
+#pragma once
 
 #include "../UIScene.h"
 
@@ -86,5 +85,3 @@ public:
 
     virtual bool init() override;
 };
-
-#endif /* defined(__TestCpp__UITextTest__) */

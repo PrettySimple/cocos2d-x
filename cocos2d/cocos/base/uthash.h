@@ -21,8 +21,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef UTHASH_H
-#define UTHASH_H 
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <string.h>   /* memcmp,strlen */
@@ -939,4 +939,3 @@ typedef struct UT_hash_handle {
 } UT_hash_handle;
 
 /// @endcond
-#endif /* UTHASH_H */

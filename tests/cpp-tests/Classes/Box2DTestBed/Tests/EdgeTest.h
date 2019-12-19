@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef EDGE_TEST_H
-#define EDGE_TEST_H
+#pragma once
 
 class EdgeTest : public Test
 {
@@ -105,5 +104,3 @@ public:
 		return new EdgeTest;
 	}
 };
-
-#endif

@@ -162,7 +162,7 @@ public:
 
 CC_CONSTRUCTOR_ACCESS:
     Layer();
-    virtual ~Layer();
+    virtual ~Layer() override;
 
     virtual bool init() override;
 
@@ -182,7 +182,7 @@ protected:
     bool _swallowsTouches;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Layer);
+    CC_DISALLOW_COPY_AND_ASSIGN(Layer)
 
 };
 
@@ -408,7 +408,7 @@ public:
     
 CC_CONSTRUCTOR_ACCESS:
     LayerGradient();
-    virtual ~LayerGradient();
+    virtual ~LayerGradient() override;
     
     virtual bool init() override;
     /** Initializes the Layer with a gradient between start and end.
@@ -489,7 +489,7 @@ public:
     
 CC_CONSTRUCTOR_ACCESS:
     LayerRadialGradient();
-    virtual ~LayerRadialGradient();
+    virtual ~LayerRadialGradient() override;
     
     bool initWithColor(const Color4B& startColor, const Color4B& endColor, float radius, const Vec2& center, float expand);
     
@@ -598,7 +598,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @js NA
      * @lua NA
      */
-    virtual ~LayerMultiplex();
+    virtual ~LayerMultiplex() override;
     
     virtual bool init() override;
     /** initializes a MultiplexLayer with one or more layers using a variable argument list.
@@ -617,7 +617,7 @@ protected:
     Vector<Layer*>    _layers;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(LayerMultiplex);
+    CC_DISALLOW_COPY_AND_ASSIGN(LayerMultiplex)
 };
 
 

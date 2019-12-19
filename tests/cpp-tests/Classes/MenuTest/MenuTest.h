@@ -23,8 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _MENU_TEST_H_
-#define _MENU_TEST_H_
+#pragma once
 
 ////----#include "cocos2d.h"
 #include "../BaseTest.h"
@@ -132,5 +131,3 @@ private:
     cocos2d::MenuItemFont *item;
     cocos2d::EventListenerTouchOneByOne* _touchListener;
 };
-
-#endif

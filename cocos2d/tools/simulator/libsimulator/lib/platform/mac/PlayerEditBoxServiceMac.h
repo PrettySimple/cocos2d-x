@@ -3,8 +3,7 @@
 //  player
 //
 
-#ifndef __player__EditBoxServiceMac__
-#define __player__EditBoxServiceMac__
+#pragma once
 
 #include "PlayerEditBoxServiceProtocol.h"
 
@@ -58,5 +57,3 @@ private:
 };
 
 PLAYER_NS_END
-
-#endif

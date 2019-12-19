@@ -22,8 +22,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCANIMATIONCURVE_H__
-#define __CCANIMATIONCURVE_H__
+#pragma once
 
 #include <cmath>
 #include <functional>
@@ -106,5 +105,3 @@ protected:
 NS_CC_END
 
 #include <cocos/3d/CCAnimationCurve.inl>
-
-#endif

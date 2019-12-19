@@ -16,8 +16,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef CONTINUOUS_TEST_H
-#define CONTINUOUS_TEST_H
+#pragma once
 
 class ContinuousTest : public Test
 {
@@ -153,5 +152,3 @@ public:
 	b2Body* m_body;
 	float32 m_angularVelocity;
 };
-
-#endif

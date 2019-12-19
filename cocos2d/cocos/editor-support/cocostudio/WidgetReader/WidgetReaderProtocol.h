@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_WIDGETREADERPROTOCOL_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_WIDGETREADERPROTOCOL_H
+#pragma once
 
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -55,5 +54,3 @@ namespace cocostudio
         virtual void setPropsFromBinary(cocos2d::ui::Widget* widget, CocoLoader* cocoLoader, stExpCocoNode* pCocoNode) = 0;
     };
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_WIDGETREADERPROTOCOL_H

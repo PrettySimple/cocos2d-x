@@ -1,8 +1,7 @@
 /*
  *
  */
-#ifndef __RELEASE_POOL_TEST_H__
-#define __RELEASE_POOL_TEST_H__
+#pragma once
 
 #include "../BaseTest.h"
 
@@ -16,5 +15,3 @@ public:
 private:
     
 };
-
-#endif // __RELEASE_POOL_TEST_H__

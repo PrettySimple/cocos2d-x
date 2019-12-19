@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_GAMENODE3DREADER_GAMENODE3DREADER_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_GAMENODE3DREADER_GAMENODE3DREADER_H
+
+#pragma once
 
 #include "cocos2d.h"
 #include "cocostudio/CocosStudioExport.h"
@@ -60,5 +60,3 @@ namespace cocostudio
         int getResourceType(std::string key);
     };
 } // namespace cocostudio
-
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_GAMENODE3DREADER_GAMENODE3DREADER_H

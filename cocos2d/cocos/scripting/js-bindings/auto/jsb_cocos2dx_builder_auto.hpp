@@ -1,6 +1,5 @@
 #include "base/ccConfig.h"
-#ifndef __cocos2dx_builder_h__
-#define __cocos2dx_builder_h__
+#pragma once
 
 #include "jsapi.h"
 #include "jsfriendapi.h"
@@ -78,5 +77,3 @@ bool js_cocos2dx_builder_CCBReader_getAnimationManagersForNodes(JSContext *cx, u
 bool js_cocos2dx_builder_CCBReader_getNodesWithAnimationManagers(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_cocos2dx_builder_CCBReader_setResolutionScale(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_cocos2dx_builder_CCBReader_CCBReader(JSContext *cx, uint32_t argc, jsval *vp);
-
-#endif // __cocos2dx_builder_h__

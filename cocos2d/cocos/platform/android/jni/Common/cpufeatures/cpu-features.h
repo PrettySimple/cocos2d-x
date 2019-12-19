@@ -25,8 +25,7 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-#ifndef CPU_FEATURES_H
-#define CPU_FEATURES_H
+#pragma once
 
 #include <stdint.h>
 #include <sys/cdefs.h>
@@ -317,5 +316,3 @@ extern int android_setCpuArm(int cpu_count, uint64_t cpu_features, uint32_t cpu_
 #endif
 
 __END_DECLS
-
-#endif /* CPU_FEATURES_H */

@@ -156,7 +156,7 @@ const MeshVertexAttrib& Mesh::getMeshVertexAttribute(int idx)
 
 int Mesh::getVertexSizeInBytes() const
 {
-    return _meshIndexData->getMeshVertexData()->getSizePerVertex();
+    return static_cast<int>(_meshIndexData->getMeshVertexData()->getSizePerVertex());
 }
 
 Mesh* Mesh::create(const std::vector<float>& positions, const std::vector<float>& normals, const std::vector<float>& texs, const IndexArray& indices)
@@ -433,7 +433,7 @@ void Mesh::draw(Renderer* renderer, float globalZOrder, const Mat4& transform, u
                     getIndexBuffer(),
                     getPrimitiveType(),
                     getIndexFormat(),
-                    getIndexCount(),
+                    static_cast<unsigned int>(getIndexCount()),
                     transform);
 
 }
@@ -485,7 +485,6 @@ void Mesh::calculateAABB()
         {
             //get skin root
             Bone3D* root = nullptr;
-            Mat4 invBindPose;
             if (_skin->_skinBones.size())
             {
                 root = _skin->_skinBones.at(0);

@@ -25,8 +25,7 @@
  ****************************************************************************/
 
 
-#ifndef __CC_PU_SCRIPT_PARSER_H__
-#define __CC_PU_SCRIPT_PARSER_H__
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -88,5 +87,3 @@ class PUScriptParser
 };
 
 NS_CC_END
-
-#endif /* defined(__cocos2d_libs__CCScriptParser__) */

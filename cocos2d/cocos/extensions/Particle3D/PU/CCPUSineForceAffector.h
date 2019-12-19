@@ -23,8 +23,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CC_EXTENSIONS_PARTICLE3D_PU_SINEFORCEAFFECTOR_H
-#define CC_EXTENSIONS_PARTICLE3D_PU_SINEFORCEAFFECTOR_H
+
+#pragma once
 
 #include "CCPUBaseForceAffector.h"
 #include <cocos/base/ccTypes.h>
@@ -65,5 +65,3 @@ protected:
     float _frequency;
 };
 NS_CC_END
-
-#endif // CC_EXTENSIONS_PARTICLE3D_PU_SINEFORCEAFFECTOR_H

@@ -41,8 +41,8 @@ THE SOFTWARE.
  - ccCArray functions that manipulates values like if they were standard C structures (no retain/release is performed)
  */
 
-#ifndef CC_ARRAY_H
-#define CC_ARRAY_H
+#pragma once
+
 /// @cond DO_NOT_SHOW
 
 #include <cocos/base/ccMacros.h>
@@ -206,4 +206,3 @@ void ccCArrayFullRemoveArray(ccCArray *arr, ccCArray *minusArr);
 NS_CC_END
 	
 /// @endcond
-#endif // CC_ARRAY_H

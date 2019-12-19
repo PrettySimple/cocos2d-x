@@ -22,8 +22,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CC_FILEUTILS_WINRT_H__
-#define __CC_FILEUTILS_WINRT_H__
+#pragma once
 
 #include <string>
 #include <vector>
@@ -117,5 +116,3 @@ private:
 /// @}
 
 NS_CC_END
-
-#endif // __CC_FILEUTILS_WINRT_H__

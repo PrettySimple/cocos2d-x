@@ -29,8 +29,7 @@
  */
 
 
-#ifndef __CCCONTROL_H__
-#define __CCCONTROL_H__
+#pragma once
 
 #include "CCControlUtils.h"
 #include <cocos/2d/CCLayer.h>
@@ -276,5 +275,3 @@ CC_EX_DLL Control::EventType operator|(Control::EventType a, Control::EventType 
 /// @}
 
 NS_CC_EXT_END
-
-#endif

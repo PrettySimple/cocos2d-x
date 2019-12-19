@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_SKELETONREADER_SKELETONREADER_H
-#define CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_SKELETONREADER_SKELETONREADER_H
+#pragma once
 
 #include "cocos2d.h"
 #include "cocostudio/WidgetReader/SkeletonReader/BoneNodeReader.h"
@@ -43,4 +42,3 @@ public:
 
     cocos2d::Node* createNodeWithFlatBuffers(const flatbuffers::Table* boneOptions) override;
 };
-#endif // CC_EDITORSUPPORT_COCOSSTUDIO_WIDGETREADER_SKELETONREADER_SKELETONREADER_H
