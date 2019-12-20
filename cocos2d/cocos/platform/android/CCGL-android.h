@@ -24,8 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCGL_H__
-#define __CCGL_H__
+#pragma once
 
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
@@ -53,9 +52,8 @@ THE SOFTWARE.
 // gl2.h doesn't define GLchar on Android
 typedef char GLchar;
 // android defines GL_BGRA_EXT but not GL_BRGA
-#pragma once
-
-0x80E1
+#ifndef GL_BGRA
+#define GL_BGRA  0x80E1
 #endif
 
 //declare here while define in EGLView_android.cpp

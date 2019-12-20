@@ -281,11 +281,15 @@ ProgramState *ProgramState::clone() const
 
 backend::UniformLocation ProgramState::getUniformLocation(backend::Uniform name) const
 {
+    if (!_program)
+        return backend::UniformLocation();
     return _program->getUniformLocation(name);
 }
 
 backend::UniformLocation ProgramState::getUniformLocation(const std::string& uniform) const
 {
+    if (!_program)
+        return backend::UniformLocation();
     return _program->getUniformLocation(uniform);
 }
 

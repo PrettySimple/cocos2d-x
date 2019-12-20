@@ -24,8 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CC_EGLViewIMPL_DESKTOP_H__
-#define __CC_EGLViewIMPL_DESKTOP_H__
+#pragma once
 
 #include <cocos/base/CCRef.h>
 #include <cocos/platform/CCCommon.h>
@@ -46,8 +45,8 @@ THE SOFTWARE.
 #ifndef GLFW_EXPOSE_NATIVE_NSGL
 #define GLFW_EXPOSE_NATIVE_NSGL
 #endif
-#pragma once
-
+#ifndef GLFW_EXPOSE_NATIVE_COCOA
+#define GLFW_EXPOSE_NATIVE_COCOA
 #endif
 #include "glfw3native.h"
 #endif // #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)

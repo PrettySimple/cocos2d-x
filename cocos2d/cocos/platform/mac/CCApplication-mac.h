@@ -92,7 +92,7 @@ public:
      @return true if the resource located by the URL was successfully opened; otherwise false.
      */
     // Deprecated
-//    virtual bool openURL(const std::string &url) override;
+    virtual bool openURL(const std::string &url) override { return false; }
     
     void setStartupScriptFilename(const std::string& startupScriptFile);
     

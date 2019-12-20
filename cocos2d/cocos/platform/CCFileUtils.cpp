@@ -46,6 +46,9 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
+ResizableBuffer::~ResizableBuffer() {}
+
+ResizableBufferAdapter<Data>::~ResizableBufferAdapter() {}
 // Implement DictMaker
 
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_IOS) && (CC_TARGET_PLATFORM != CC_PLATFORM_MAC)
@@ -337,11 +340,6 @@ public:
         }
     }
 };
-
-
-ResizableBuffer::~ResizableBuffer() {}
-
-ResizableBufferAdapter::~ResizableBufferAdapter() {}
 
 ValueMap FileUtils::getValueMapFromFile(const std::string& filename) const
 {

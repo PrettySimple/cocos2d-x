@@ -90,6 +90,12 @@ typedef std::function<int(const std::string&, off_t* start, off_t* length)> FdGe
 #define ANDROID_KEY_PCMFORMAT_CHANNELMASK   "AndroidPcmFormatChannelMask"
 #endif
 
+#ifndef ANDROID_KEY_PCMFORMAT_ENDIANNESS
+#    define ANDROID_KEY_PCMFORMAT_ENDIANNESS "AndroidPcmFormatEndianness"
+#endif
+
+#define clockNow() std::chrono::high_resolution_clock::now()
+#define intervalInMS(oldTime, newTime) (static_cast<long>(std::chrono::duration_cast<std::chrono::microseconds>((newTime) - (oldTime)).count()) / 1000.f)
 #pragma once
 
-"AndroidPcmFormatEndianness"
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))

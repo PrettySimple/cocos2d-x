@@ -78,7 +78,6 @@ elseif(ANDROID)
     set(COCOS_AUDIO_PLATFORM_SRC
         audio/android/ccdandroidUtils.cpp
         audio/android/AudioEngine-inl.cpp
-        audio/android/CCThreadPool.cpp
         audio/android/AssetFd.cpp
         audio/android/AudioDecoder.cpp
         audio/android/AudioDecoderProvider.cpp
@@ -90,6 +89,7 @@ elseif(ANDROID)
         audio/android/AudioResampler.cpp
         audio/android/AudioResamplerCubic.cpp
         audio/android/PcmBufferProvider.cpp
+        audio/android/CCThreadPool.cpp
         audio/android/PcmAudioPlayer.cpp
         audio/android/UrlAudioPlayer.cpp
         audio/android/PcmData.cpp

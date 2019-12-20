@@ -23,26 +23,31 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
+
 #pragma once
 
-#include <assert.h>
+#include <cocos/platform/CCPlatformConfig.h>
+#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
+#    include <assert.h>
 
-#define CC_DLL
+#    ifdef _USRDLL
+#        define CC_DLL __attribute__((visibility("default")))
+#    else
+#        define CC_DLL
+#    endif
 
-#if CC_DISABLE_ASSERT > 0
-#define CC_ASSERT(cond)
-#else
-#define CC_ASSERT(cond) assert(cond)
-#endif
+#    define CC_ASSERT(cond) assert(cond)
 
-#define CC_UNUSED_PARAM(unusedparam) (void)unusedparam
+#    define CC_UNUSED_PARAM(unusedparam) (void)unusedparam
 
 /* Define NULL pointer value */
-#ifndef NULL
-#ifdef __cplusplus
-#define NULL    0
-#else
-#define NULL    ((void *)0)
-#endif
-#endif
+#    ifndef NULL
+#        ifdef __cplusplus
+#            define NULL 0
+#        else
+#            define NULL ((void*)0)
+#        endif
+#    endif
+
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_MAC

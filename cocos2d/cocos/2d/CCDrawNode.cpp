@@ -70,7 +70,6 @@ DrawNode::~DrawNode()
     free(_bufferGLLine);
     _bufferGLLine = nullptr;
     
-    CC_SAFE_RELEASE(_programState);
     CC_SAFE_RELEASE(_programStatePoint);
     CC_SAFE_RELEASE(_programStateLine);
 }

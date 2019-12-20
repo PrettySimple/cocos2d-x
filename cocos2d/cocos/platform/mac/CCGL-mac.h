@@ -29,8 +29,8 @@ THE SOFTWARE.
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#import <OpenGL/gl.h>
-#import <OpenGL/glu.h>
-#import <OpenGL/glext.h>
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
+#include <OpenGL/glext.h>
 
 #endif // __PLATFORM_MAC_CCGL_H__

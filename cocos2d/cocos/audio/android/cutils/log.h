@@ -25,8 +25,7 @@
 // supports O_APPEND.  These calls have mutex-protected data structures
 // and so are NOT reentrant.  Do not use LOG in a signal handler.
 //
-#ifndef COCOS_CUTILS_LOG_H
-#define COCOS_CUTILS_LOG_H
+#pragma once
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -59,9 +58,8 @@ extern "C" {
  * logging macros.  You can change this preprocessor definition
  * before using the other macros to change the tag.
  */
-#pragma once
-
-NULL
+#ifndef LOG_TAG
+#    define LOG_TAG NULL
 #endif
 
 // ---------------------------------------------------------------------
