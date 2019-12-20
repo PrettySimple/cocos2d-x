@@ -115,10 +115,11 @@ namespace shaderinfos
             shaderinfos::attribute::ATTRIBUTE_NAME_TANGENT,
             shaderinfos::attribute::ATTRIBUTE_NAME_BINORMAL
         };
-
-        static int max = sizeof(s_attributeNames) / sizeof(s_attributeNames[0]);
         auto idx = static_cast<int>(key);
-        CCASSERT(idx >= 0 && idx < max, "invalid key ");    
+#ifdef DEBUG
+        static int max = sizeof(s_attributeNames) / sizeof(s_attributeNames[0]);
+        CCASSERT(idx >= 0 && idx < max, "invalid key ");
+#endif
         return s_attributeNames[idx];
     }
 };

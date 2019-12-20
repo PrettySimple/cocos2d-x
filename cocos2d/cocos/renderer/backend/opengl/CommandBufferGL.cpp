@@ -408,7 +408,8 @@ void CommandBufferGL::bindVertexBuffer(ProgramGL *program) const
     // Bind vertex buffers and set the attributes.
     auto vertexLayout = _programState->getVertexLayout();
     
-    if (!vertexLayout->isValid())
+    if (!vertexLayout->isValid() ||
+        !_vertexBuffer)
         return;
     
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer->getHandler());

@@ -224,6 +224,7 @@ ETC2_error_code _unpackETC(const GLubyte* __restrict srcETC, const GLenum srcFor
 
         default:
             assert(0); // Upper levels should be passing only one of the above srcFormats.
+            return ETC2_NOT_FOUND;
     }
 
     /* active_{width,height} show how many pixels contain active data,

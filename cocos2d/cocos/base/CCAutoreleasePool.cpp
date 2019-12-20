@@ -89,12 +89,14 @@ bool AutoreleasePool::contains(Ref* object) const
 
 void AutoreleasePool::dump()
 {
+#ifdef DEBUG
     CCLOG("autorelease pool: %s, number of managed object %d\n", _name.c_str(), static_cast<int>(_managedObjectArray.size()));
     CCLOG("%20s%20s%20s", "Object pointer", "Object id", "reference count");
     for (const auto &obj : _managedObjectArray)
     {
         CCLOG("%20p%20u\n", obj, obj->getReferenceCount());
     }
+#endif
 }
 
 

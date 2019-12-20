@@ -145,6 +145,8 @@ const UniformInfo& ProgramMTL::getActiveUniformInfo(ShaderStage stage, int locat
             CCASSERT(false, "Invalid shader stage.");
         break;
     }
+    static UniformInfo _null;
+    return _null;
 }
 
 
@@ -173,6 +175,8 @@ const std::unordered_map<std::string, UniformInfo>& ProgramMTL::getAllActiveUnif
             CCASSERT(false, "Invalid shader stage.");
             break;
     }
+    static std::unordered_map<std::string, UniformInfo> _null;
+    return _null;
 }
 
 CC_BACKEND_END
