@@ -130,7 +130,13 @@ void Configuration::gatherGPUInfo()
 #if defined(CC_USE_GL) || defined(CC_USE_GLES)
     int glMajorVersion = 0;
     glGetIntegerv(GL_MAJOR_VERSION, &glMajorVersion);
-    _supportsETC2 = glMajorVersion >= 3;
+    GLenum __error = glGetError();
+    if(__error) {
+        cocos2d::log("OpenGL error 0x%04X in %s %s %d\n", __error, __FILE__, __FUNCTION__, __LINE__);
+        _supportsETC2 = false;
+    } else {
+        _supportsETC2 = glMajorVersion >= 3;
+    }
 #else
     _supportsETC2 = false;
 #endif
