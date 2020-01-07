@@ -64,6 +64,7 @@ class CC_DLL CaptureScreenCallbackCommand : public RenderCommand
 {
 public:
     CaptureScreenCallbackCommand();
+    virtual ~CaptureScreenCallbackCommand() override;
     
     void init(float globalZOrder);
     

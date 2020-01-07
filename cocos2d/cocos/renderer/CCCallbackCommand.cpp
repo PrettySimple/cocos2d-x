@@ -52,6 +52,9 @@ void CallbackCommand::execute()
    }
 }
 
+CaptureScreenCallbackCommand::~CaptureScreenCallbackCommand()
+{}
+
 CaptureScreenCallbackCommand::CaptureScreenCallbackCommand()
 {
     _type = RenderCommand::Type::CAPTURE_SCREEN_COMMAND;

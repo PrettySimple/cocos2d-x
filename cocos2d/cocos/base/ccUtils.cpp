@@ -136,31 +136,6 @@ void onCaptureScreenFilename(const std::function<void(bool, const std::string&)>
     } while (0);
 }
 
-void onCaptureScreen(const std::function<void(bool, Image*)>& afterCaptured, const unsigned char* imageData, int width, int height)
-{
-    static bool startedCapture = false;
-    
-    if (!imageData || startedCapture) {
-        if (startedCapture)
-            CCLOG("Screen capture is already working");
-        afterCaptured(false, nullptr);
-        return;
-    }
-    
-    startedCapture = true;
-    
-    if (afterCaptured) {
-        Image *image = new (std::nothrow) Image;
-        if (image)
-            image->initWithRawData(imageData, width * height * 4, width, height, 8);
-        
-        afterCaptured(true, image);
-        delete image;
-    }
-    
-    startedCapture = false;
-}
-
 /*
  * Capture screen interface
  */
@@ -184,21 +159,6 @@ void captureScreen(const std::function<void(bool, const std::string&)>& afterCap
         director->getRenderer()->render();
     });
 
-}
-
-void captureCurrentScreen(const std::function<void(bool, Image*)>& afterCaptured)
-{
-    if (s_captureScreenListener)
-    {
-        CCLOG("Warning: CaptureScreen has been called already, don't call more than once in one frame.");
-        return;
-    }
-    s_captureScreenCommand.init(std::numeric_limits<float>::max());
-    s_captureScreenCommand.func = std::bind(onCaptureScreen, afterCaptured, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-    
-    auto director = Director::getInstance();
-    director->getRenderer()->addCommand(&s_captureScreenCommand);
-//        director->getRenderer()->render();
 }
 
 static std::unordered_map<Node*, EventListenerCustom*> s_captureNodeListener;
