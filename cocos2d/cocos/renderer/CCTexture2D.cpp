@@ -112,7 +112,7 @@ namespace {
         PixelFormatInfoMapValue(backend::PixelFormat::ATC_INTERPOLATED_ALPHA, Texture2D::PixelFormatInfo(8, true, false)),
 #endif
         //metal formats
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#if defined(CC_USE_METAL) && (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
         PixelFormatInfoMapValue(backend::PixelFormat::MTL_ABGR4, Texture2D::PixelFormatInfo(16, false, true)),
         PixelFormatInfoMapValue(backend::PixelFormat::MTL_B5G6R5, Texture2D::PixelFormatInfo(16, false, false)),
         PixelFormatInfoMapValue(backend::PixelFormat::MTL_BGR5A1, Texture2D::PixelFormatInfo(16, false, true)),
@@ -413,7 +413,7 @@ bool Texture2D::initWithImage(Image *image, backend::PixelFormat format)
     //override renderFormat, since some render format is not supported by metal
     switch (renderFormat)
     {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#if defined(CC_USE_METAL) && (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
         //packed 16 bits pixels only available on iOS
         case PixelFormat::RGB565:
             renderFormat = PixelFormat::MTL_B5G6R5;

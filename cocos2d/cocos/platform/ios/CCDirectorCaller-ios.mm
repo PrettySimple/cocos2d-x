@@ -36,6 +36,9 @@
 
 #import <cocos/base/CCDirector.h>
 #import <cocos/platform/ios/CCEAGLView-ios.h>
+#import <UIKit/UIAlertView.h>
+#import <UIKit/UIApplication.h>
+#import <UIKit/UIScreen.h>
 
 static id s_sharedDirectorCaller;
 

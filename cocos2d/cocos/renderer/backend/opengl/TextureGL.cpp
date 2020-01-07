@@ -21,7 +21,9 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
- 
+
+#include <cocos/platform/CCPlatformConfig.h>
+#if defined(CC_USE_GL) || defined(CC_USE_GLES)
 #include "TextureGL.h"
 #include <cocos/base/ccMacros.h>
 #include <cocos/base/CCEventListenerCustom.h>
@@ -467,3 +469,5 @@ void TextureCubeGL::generateMipmaps()
 }
 
 CC_BACKEND_END
+#endif
+

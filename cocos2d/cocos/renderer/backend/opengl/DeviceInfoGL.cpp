@@ -21,7 +21,9 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
- 
+
+#include <cocos/platform/CCPlatformConfig.h>
+#if defined(CC_USE_GL) || defined(CC_USE_GLES)
 #include "DeviceInfoGL.h"
 #include <cocos/platform/CCGL.h>
 
@@ -110,3 +112,4 @@ bool DeviceInfoGL::checkForGLExtension(const std::string &searchName) const
 }
 
 CC_BACKEND_END
+#endif

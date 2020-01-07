@@ -22,6 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
  
+#include <cocos/platform/CCPlatformConfig.h>
+#if defined(CC_USE_GL) || defined(CC_USE_GLES)
 #include "BufferGL.h"
 #include <cassert>
 #include <cocos/base/ccMacros.h>
@@ -167,3 +169,4 @@ void BufferGL::updateSubData(void* data, unsigned long offset, unsigned long siz
 }
 
 CC_BACKEND_END
+#endif

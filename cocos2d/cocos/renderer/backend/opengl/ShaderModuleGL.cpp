@@ -22,6 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
  
+#include <cocos/platform/CCPlatformConfig.h>
+#if defined(CC_USE_GL) || defined(CC_USE_GLES)
 #include "ShaderModuleGL.h"
 
 #include <cocos/platform/CCPlatformMacros.h>
@@ -81,3 +83,4 @@ void ShaderModuleGL::deleteShader()
 }
 
 CC_BACKEND_END
+#endif

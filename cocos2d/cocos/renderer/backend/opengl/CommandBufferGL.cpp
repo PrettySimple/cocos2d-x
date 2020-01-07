@@ -21,7 +21,9 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
- 
+
+#include <cocos/platform/CCPlatformConfig.h>
+#if defined(CC_USE_GL) || defined(CC_USE_GLES)
 #include "CommandBufferGL.h"
 #include "BufferGL.h"
 #include "RenderPipelineGL.h"
@@ -246,7 +248,7 @@ void CommandBufferGL::applyRenderPassDescriptor(const RenderPassDescriptor& desc
         glGetIntegerv(GL_DEPTH_FUNC, &oldDepthFunc);
         
         mask |= GL_DEPTH_BUFFER_BIT;
-        glClearDepth(descirptor.clearDepthValue);
+        glClearDepthf(descirptor.clearDepthValue);
         glEnable(GL_DEPTH_TEST);
         glDepthMask(GL_TRUE);
         glDepthFunc(GL_ALWAYS);
@@ -272,7 +274,7 @@ void CommandBufferGL::applyRenderPassDescriptor(const RenderPassDescriptor& desc
         
         glDepthMask(oldDepthWrite);
         glDepthFunc(oldDepthFunc);
-        glClearDepth(oldDepthClearValue);
+        glClearDepthf(oldDepthClearValue);
     }
     
     CHECK_GL_ERROR_DEBUG();
@@ -634,3 +636,4 @@ void CommandBufferGL::captureScreen(std::function<void(const unsigned char*, int
 }
 
 CC_BACKEND_END
+#endif

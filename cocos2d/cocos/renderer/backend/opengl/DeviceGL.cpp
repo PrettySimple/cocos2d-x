@@ -21,7 +21,9 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
- 
+
+#include <cocos/platform/CCPlatformConfig.h>
+#if defined(CC_USE_GL) || defined(CC_USE_GLES)
 #include "DeviceGL.h"
 #include "RenderPipelineGL.h"
 #include "BufferGL.h"
@@ -107,3 +109,4 @@ Program* DeviceGL::newProgram(const std::string& vertexShader, const std::string
 }
 
 CC_BACKEND_END
+#endif

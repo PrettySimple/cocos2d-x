@@ -73,6 +73,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 #define CHECK_GL_ERROR() ({ GLenum __error = glGetError(); if(__error) printf("OpenGL error 0x%04X in %s %d\n", __error, __FUNCTION__, __LINE__); })
 
 
+#ifdef CC_USE_METAL
 /* Optional delegate methods support */
 #ifndef __DELEGATE_IVAR__
 #define __DELEGATE_IVAR__ _delegate
@@ -83,3 +84,5 @@ _delegateMethods
 #endif
 #define TEST_DELEGATE_METHOD_BIT(__BIT__) (self->__DELEGATE_METHODS_IVAR__ & (1 << __BIT__))
 #define SET_DELEGATE_METHOD_BIT(__BIT__, __NAME__) { if([self->__DELEGATE_IVAR__ respondsToSelector:@selector(__NAME__)]) self->__DELEGATE_METHODS_IVAR__ |= (1 << __BIT__); else self->__DELEGATE_METHODS_IVAR__ &= ~(1 << __BIT__); }
+
+#endif // ifdef CC_USE_METAL

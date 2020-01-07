@@ -22,6 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
  
+#include <cocos/platform/CCPlatformConfig.h>
+#if defined(CC_USE_GL) || defined(CC_USE_GLES)
 #include "ProgramGL.h"
 #include "ShaderModuleGL.h"
 #include <cocos/renderer/backend/Types.h>
@@ -40,7 +42,7 @@ namespace {
 ProgramGL::ProgramGL(const std::string& vertexShader, const std::string& fragmentShader)
 : Program(vertexShader, fragmentShader)
 {
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#ifdef CC_USE_GLES
     //some device required manually specify the precision qualifiers for vertex shader.
     _vertexShaderModule = static_cast<ShaderModuleGL*>(ShaderCache::newVertexShaderModule(std::move(vsPreDefine + _vertexShader)));
     _fragmentShaderModule = static_cast<ShaderModuleGL*>(ShaderCache::newFragmentShaderModule(std::move(fsPreDefine +  _fragmentShader)));
@@ -346,3 +348,4 @@ std::size_t ProgramGL::getUniformBufferSize(ShaderStage stage) const
 }
 
 CC_BACKEND_END
+#endif

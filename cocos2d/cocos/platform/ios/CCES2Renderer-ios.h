@@ -32,6 +32,7 @@
 
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#ifdef CC_USE_GLES
 
 #    include <cocos/platform/ios/CCESRenderer-ios.h>
 
@@ -81,4 +82,5 @@
 - (BOOL)resizeFromLayer:(CAEAGLLayer*)layer;
 @end
 
+#endif // ifdef CC_USE_GLES
 #endif // CC_PLATFORM_IOS

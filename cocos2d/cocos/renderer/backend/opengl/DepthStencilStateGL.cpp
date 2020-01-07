@@ -22,6 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
  
+#include <cocos/platform/CCPlatformConfig.h>
+#if defined(CC_USE_GL) || defined(CC_USE_GLES)
 #include "DepthStencilStateGL.h"
 #include <cocos/platform/CCGL.h>
 
@@ -107,3 +109,4 @@ void DepthStencilStateGL::apply(unsigned int stencilReferenceValueFront, unsigne
 }
 
 CC_BACKEND_END
+#endif
