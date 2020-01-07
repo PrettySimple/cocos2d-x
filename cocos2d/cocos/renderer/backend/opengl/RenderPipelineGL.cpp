@@ -22,6 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
  
+#include <cocos/platform/CCPlatformConfig.h>
+#if defined(CC_USE_GL) || defined(CC_USE_GLES)
 #include "RenderPipelineGL.h"
 #include "ShaderModuleGL.h"
 #include "DepthStencilStateGL.h"
@@ -79,3 +81,4 @@ RenderPipelineGL::~RenderPipelineGL()
 }
 
 CC_BACKEND_END
+#endif

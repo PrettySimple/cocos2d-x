@@ -66,6 +66,11 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 #include <cocos/platform/CCPlatformConfig.h>
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
+#ifdef CC_USE_GLES
+    #include <cocos/platform/ios/CCES2Renderer-ios.h>
+    #include <cocos/platform/ios/OpenGL_Internal-ios.h>
+#endif
+
 #import <UIKit/UIKit.h>
 #import <OpenGLES/EAGL.h>
 #import <OpenGLES/EAGLDrawable.h>
@@ -105,6 +110,18 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     BOOL                    isKeyboardShown_;
 }
 
+#ifdef CC_USE_GLES
+@property (nonatomic, strong) id<CCESRenderer> renderer;
+/** OpenGL context */
+@property(nonatomic, weak) EAGLContext *context;
+@property(nonatomic,readwrite) unsigned int requestedSamples;
+@property(nonatomic,readwrite) BOOL discardFramebufferSupported;
+@property(nonatomic,readwrite) BOOL preserveBackbuffer;
+#else
+/** OpenGL context */
+@property(nonatomic,readonly) EAGLContext *context;
+#endif
+
 @property(nonatomic, readonly) UITextPosition *beginningOfDocument;
 @property(nonatomic, readonly) UITextPosition *endOfDocument;
 @property(nonatomic, assign, unsafe_unretained) id<UITextInputDelegate> inputDelegate;
@@ -143,9 +160,6 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 /** returns surface size in pixels */
 @property(nonatomic,readonly) CGSize surfaceSize;
-
-/** OpenGL context */
-@property(nonatomic,readonly) EAGLContext *context;
 
 @property(nonatomic,readwrite) BOOL multiSampling;
 

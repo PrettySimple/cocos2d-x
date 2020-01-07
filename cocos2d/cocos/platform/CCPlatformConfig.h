@@ -110,6 +110,17 @@ THE SOFTWARE.
     #define CC_PLATFORM_PC
 #endif
 
+
+// switch comment/uncomment
+// uncomment this IF you want to activate openGL on IOS
+//#if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+//    #define CC_USE_METAL
+//#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+//    #define CC_USE_GLES
+//#else
+//    #define CC_USE_GL
+//#endif
+// uncomment this IF you want to activate METAL on IOS
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     #define CC_USE_METAL
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

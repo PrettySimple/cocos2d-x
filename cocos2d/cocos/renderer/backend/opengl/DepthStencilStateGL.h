@@ -24,6 +24,8 @@
  
 #pragma once
 
+#include <cocos/platform/CCPlatformConfig.h>
+#if defined(CC_USE_GL) || defined(CC_USE_GLES)
 #include "../DepthStencilState.h"
 
 CC_BACKEND_BEGIN
@@ -56,3 +58,4 @@ public:
 //end of _opengl group
 /// @}
 CC_BACKEND_END
+#endif

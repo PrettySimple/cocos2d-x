@@ -23,6 +23,8 @@
  ****************************************************************************/
  
 #pragma once
+#include <cocos/platform/CCPlatformConfig.h>
+#if defined(CC_USE_GL) || defined(CC_USE_GLES)
 
 #include "../ShaderModule.h"
 
@@ -64,3 +66,4 @@ private:
 //end of _opengl group
 /// @}
 CC_BACKEND_END
+#endif

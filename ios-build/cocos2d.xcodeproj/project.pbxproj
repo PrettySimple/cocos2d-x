@@ -926,6 +926,28 @@
 		F2DB4A8693DA4A73BB2B137E /* DeviceInfoMTL.mm in Sources */ = {isa = PBXBuildFile; fileRef = 672AD40795CE4E889D75207E /* DeviceInfoMTL.mm */; };
 		F451049D43D141D19D13A8FD /* WebSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6775300B33464C8B9C0A89 /* WebSocket.cpp */; };
 		F490176FBD7145519CB62203 /* DetourCommon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 399C1730807C43278698F80B /* DetourCommon.cpp */; };
+		F582D64123C4816800A3DF3C /* ShaderModuleGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582D62D23C4816800A3DF3C /* ShaderModuleGL.cpp */; };
+		F582D64223C4816800A3DF3C /* BufferGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582D62E23C4816800A3DF3C /* BufferGL.cpp */; };
+		F582D64323C4816800A3DF3C /* DepthStencilStateGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582D63023C4816800A3DF3C /* DepthStencilStateGL.cpp */; };
+		F582D64423C4816800A3DF3C /* ProgramGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582D63723C4816800A3DF3C /* ProgramGL.cpp */; };
+		F582D64523C4816800A3DF3C /* RenderPipelineGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582D63923C4816800A3DF3C /* RenderPipelineGL.cpp */; };
+		F582D64623C4816800A3DF3C /* CommandBufferGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582D63A23C4816800A3DF3C /* CommandBufferGL.cpp */; };
+		F582D64723C4816800A3DF3C /* TextureGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582D63D23C4816800A3DF3C /* TextureGL.cpp */; };
+		F582D64823C4816800A3DF3C /* UtilsGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582D63E23C4816800A3DF3C /* UtilsGL.cpp */; };
+		F582D64923C4816800A3DF3C /* DeviceInfoGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582D63F23C4816800A3DF3C /* DeviceInfoGL.cpp */; };
+		F582D64A23C4816800A3DF3C /* DeviceGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582D64023C4816800A3DF3C /* DeviceGL.cpp */; };
+		F582D64B23C4818900A3DF3C /* ShaderModuleGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582D62D23C4816800A3DF3C /* ShaderModuleGL.cpp */; };
+		F582D64C23C4818900A3DF3C /* BufferGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582D62E23C4816800A3DF3C /* BufferGL.cpp */; };
+		F582D64D23C4818900A3DF3C /* DepthStencilStateGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582D63023C4816800A3DF3C /* DepthStencilStateGL.cpp */; };
+		F582D64E23C4818900A3DF3C /* ProgramGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582D63723C4816800A3DF3C /* ProgramGL.cpp */; };
+		F582D64F23C4818900A3DF3C /* RenderPipelineGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582D63923C4816800A3DF3C /* RenderPipelineGL.cpp */; };
+		F582D65023C4818900A3DF3C /* CommandBufferGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582D63A23C4816800A3DF3C /* CommandBufferGL.cpp */; };
+		F582D65123C4818900A3DF3C /* TextureGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582D63D23C4816800A3DF3C /* TextureGL.cpp */; };
+		F582D65223C4818900A3DF3C /* UtilsGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582D63E23C4816800A3DF3C /* UtilsGL.cpp */; };
+		F582D65323C4818900A3DF3C /* DeviceInfoGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582D63F23C4816800A3DF3C /* DeviceInfoGL.cpp */; };
+		F582D65423C4818900A3DF3C /* DeviceGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582D64023C4816800A3DF3C /* DeviceGL.cpp */; };
+		F582D68123C4887200A3DF3C /* CCES2Renderer-ios.m in Sources */ = {isa = PBXBuildFile; fileRef = F582D68023C4887200A3DF3C /* CCES2Renderer-ios.m */; };
+		F582D68223C4887200A3DF3C /* CCES2Renderer-ios.m in Sources */ = {isa = PBXBuildFile; fileRef = F582D68023C4887200A3DF3C /* CCES2Renderer-ios.m */; };
 		F5A95C07844A4BAB910538E2 /* CCFontFNT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 351342B40A744B5F90787C01 /* CCFontFNT.cpp */; };
 		F6B05527205047ED81951772 /* CCParticle3DAffector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EF9997563E6348BFA9A15D87 /* CCParticle3DAffector.cpp */; };
 		F83A76CC69F0410792A469B5 /* CCControlColourPicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4BC33AFC894D1B87763930 /* CCControlColourPicker.cpp */; };
@@ -2402,6 +2424,29 @@
 		F4F3E2D9696E4A8F93A68086 /* CocoStudio.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CocoStudio.cpp; path = "cocos2d/cocos/editor-support/cocostudio/CocoStudio.cpp"; sourceTree = SOURCE_ROOT; };
 		F5081C1135B341DD9D8A262C /* CCNavMeshObstacle.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCNavMeshObstacle.cpp; path = cocos2d/cocos/navmesh/CCNavMeshObstacle.cpp; sourceTree = SOURCE_ROOT; };
 		F524D0F4717E42FCA2E7ECDC /* CCPUPlaneCollider.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CCPUPlaneCollider.h; path = cocos2d/extensions/Particle3D/PU/CCPUPlaneCollider.h; sourceTree = SOURCE_ROOT; };
+		F582D62D23C4816800A3DF3C /* ShaderModuleGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShaderModuleGL.cpp; path = cocos2d/cocos/renderer/backend/opengl/ShaderModuleGL.cpp; sourceTree = SOURCE_ROOT; };
+		F582D62E23C4816800A3DF3C /* BufferGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BufferGL.cpp; path = cocos2d/cocos/renderer/backend/opengl/BufferGL.cpp; sourceTree = SOURCE_ROOT; };
+		F582D62F23C4816800A3DF3C /* UtilsGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtilsGL.h; sourceTree = "<group>"; };
+		F582D63023C4816800A3DF3C /* DepthStencilStateGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DepthStencilStateGL.cpp; path = cocos2d/cocos/renderer/backend/opengl/DepthStencilStateGL.cpp; sourceTree = SOURCE_ROOT; };
+		F582D63123C4816800A3DF3C /* ProgramGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgramGL.h; sourceTree = "<group>"; };
+		F582D63223C4816800A3DF3C /* RenderPipelineGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderPipelineGL.h; sourceTree = "<group>"; };
+		F582D63323C4816800A3DF3C /* ShaderModuleGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderModuleGL.h; sourceTree = "<group>"; };
+		F582D63423C4816800A3DF3C /* BufferGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BufferGL.h; sourceTree = "<group>"; };
+		F582D63523C4816800A3DF3C /* TextureGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureGL.h; sourceTree = "<group>"; };
+		F582D63623C4816800A3DF3C /* DeviceGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceGL.h; sourceTree = "<group>"; };
+		F582D63723C4816800A3DF3C /* ProgramGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProgramGL.cpp; path = cocos2d/cocos/renderer/backend/opengl/ProgramGL.cpp; sourceTree = SOURCE_ROOT; };
+		F582D63823C4816800A3DF3C /* DepthStencilStateGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DepthStencilStateGL.h; sourceTree = "<group>"; };
+		F582D63923C4816800A3DF3C /* RenderPipelineGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RenderPipelineGL.cpp; path = cocos2d/cocos/renderer/backend/opengl/RenderPipelineGL.cpp; sourceTree = SOURCE_ROOT; };
+		F582D63A23C4816800A3DF3C /* CommandBufferGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CommandBufferGL.cpp; path = cocos2d/cocos/renderer/backend/opengl/CommandBufferGL.cpp; sourceTree = SOURCE_ROOT; };
+		F582D63B23C4816800A3DF3C /* CommandBufferGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandBufferGL.h; sourceTree = "<group>"; };
+		F582D63C23C4816800A3DF3C /* DeviceInfoGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceInfoGL.h; sourceTree = "<group>"; };
+		F582D63D23C4816800A3DF3C /* TextureGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureGL.cpp; path = cocos2d/cocos/renderer/backend/opengl/TextureGL.cpp; sourceTree = SOURCE_ROOT; };
+		F582D63E23C4816800A3DF3C /* UtilsGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UtilsGL.cpp; path = cocos2d/cocos/renderer/backend/opengl/UtilsGL.cpp; sourceTree = SOURCE_ROOT; };
+		F582D63F23C4816800A3DF3C /* DeviceInfoGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DeviceInfoGL.cpp; path = cocos2d/cocos/renderer/backend/opengl/DeviceInfoGL.cpp; sourceTree = SOURCE_ROOT; };
+		F582D64023C4816800A3DF3C /* DeviceGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DeviceGL.cpp; path = cocos2d/cocos/renderer/backend/opengl/DeviceGL.cpp; sourceTree = SOURCE_ROOT; };
+		F582D67E23C4887200A3DF3C /* CCESRenderer-ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CCESRenderer-ios.h"; path = "cocos2d/cocos/platform/ios/CCESRenderer-ios.h"; sourceTree = "<group>"; };
+		F582D67F23C4887200A3DF3C /* CCES2Renderer-ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CCES2Renderer-ios.h"; path = "cocos2d/cocos/platform/ios/CCES2Renderer-ios.h"; sourceTree = "<group>"; };
+		F582D68023C4887200A3DF3C /* CCES2Renderer-ios.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CCES2Renderer-ios.m"; path = "cocos2d/cocos/platform/ios/CCES2Renderer-ios.m"; sourceTree = "<group>"; };
 		F653CCE8D8F74B199DAED4E0 /* CCBone.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCBone.cpp; path = "cocos2d/cocos/editor-support/cocostudio/CCBone.cpp"; sourceTree = SOURCE_ROOT; };
 		F654C9D39274426EAAF780D2 /* CCPUOnClearObserverTranslator.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCPUOnClearObserverTranslator.cpp; path = cocos2d/extensions/Particle3D/PU/CCPUOnClearObserverTranslator.cpp; sourceTree = SOURCE_ROOT; };
 		F65B371CA6134A66B6D5503B /* atitc.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = atitc.h; path = cocos2d/cocos/base/atitc.h; sourceTree = SOURCE_ROOT; };
@@ -3676,6 +3721,9 @@
 				43280AD7FB4C414A8FFF9156 /* CCDirectorCaller-ios.mm */,
 				82E5397FDBD8455FBC8D575D /* CCEAGLView-ios.h */,
 				73ACF612C64045559DE8BE90 /* CCEAGLView-ios.mm */,
+				F582D67F23C4887200A3DF3C /* CCES2Renderer-ios.h */,
+				F582D68023C4887200A3DF3C /* CCES2Renderer-ios.m */,
+				F582D67E23C4887200A3DF3C /* CCESRenderer-ios.h */,
 				77DA99B0B8E24BFBBAAE08E8 /* CCGL-ios.h */,
 				BD93DE78DA7648F7BDA94D08 /* CCGLViewImpl-ios.h */,
 				F08F0C445FA245499E032C3C /* CCGLViewImpl-ios.mm */,
@@ -3731,6 +3779,7 @@
 		7D298EE5419D41B4A5E57583 /* backend */ = {
 			isa = PBXGroup;
 			children = (
+				F582D62C23C4816800A3DF3C /* opengl */,
 				3DCB4913BE0744B6B39ADF61 /* metal */,
 				3A02B804AE034256B9B1D699 /* Backend.h */,
 				5F6F9A2C6169458ABA03FAEB /* Buffer.h */,
@@ -4486,6 +4535,34 @@
 			name = external;
 			sourceTree = "<group>";
 		};
+		F582D62C23C4816800A3DF3C /* opengl */ = {
+			isa = PBXGroup;
+			children = (
+				F582D62D23C4816800A3DF3C /* ShaderModuleGL.cpp */,
+				F582D62E23C4816800A3DF3C /* BufferGL.cpp */,
+				F582D62F23C4816800A3DF3C /* UtilsGL.h */,
+				F582D63023C4816800A3DF3C /* DepthStencilStateGL.cpp */,
+				F582D63123C4816800A3DF3C /* ProgramGL.h */,
+				F582D63223C4816800A3DF3C /* RenderPipelineGL.h */,
+				F582D63323C4816800A3DF3C /* ShaderModuleGL.h */,
+				F582D63423C4816800A3DF3C /* BufferGL.h */,
+				F582D63523C4816800A3DF3C /* TextureGL.h */,
+				F582D63623C4816800A3DF3C /* DeviceGL.h */,
+				F582D63723C4816800A3DF3C /* ProgramGL.cpp */,
+				F582D63823C4816800A3DF3C /* DepthStencilStateGL.h */,
+				F582D63923C4816800A3DF3C /* RenderPipelineGL.cpp */,
+				F582D63A23C4816800A3DF3C /* CommandBufferGL.cpp */,
+				F582D63B23C4816800A3DF3C /* CommandBufferGL.h */,
+				F582D63C23C4816800A3DF3C /* DeviceInfoGL.h */,
+				F582D63D23C4816800A3DF3C /* TextureGL.cpp */,
+				F582D63E23C4816800A3DF3C /* UtilsGL.cpp */,
+				F582D63F23C4816800A3DF3C /* DeviceInfoGL.cpp */,
+				F582D64023C4816800A3DF3C /* DeviceGL.cpp */,
+			);
+			name = opengl;
+			path = cocos2d/cocos/renderer/backend/opengl;
+			sourceTree = SOURCE_ROOT;
+		};
 		F6B4A2B65A9D4E609604646F /* ListViewReader */ = {
 			isa = PBXGroup;
 			children = (
@@ -5097,9 +5174,11 @@
 				4ACB1EEB2397FE150025B0A8 /* CCSpriteBatchNode.cpp in Sources */,
 				4ACB1EEC2397FE150025B0A8 /* CCSpriteFrame.cpp in Sources */,
 				4ACB1EED2397FE150025B0A8 /* CCSpriteFrameCache.cpp in Sources */,
+				F582D65123C4818900A3DF3C /* TextureGL.cpp in Sources */,
 				4ACB1EEE2397FE150025B0A8 /* CCOBB.cpp in Sources */,
 				4ACB1EEF2397FE150025B0A8 /* CCTMXLayer.cpp in Sources */,
 				4ACB1EF02397FE150025B0A8 /* CCTMXObjectGroup.cpp in Sources */,
+				F582D68223C4887200A3DF3C /* CCES2Renderer-ios.m in Sources */,
 				4ACB1EF12397FE150025B0A8 /* CCTMXTiledMap.cpp in Sources */,
 				4ACB1EF22397FE150025B0A8 /* CCTMXXMLParser.cpp in Sources */,
 				4ACB1EF32397FE150025B0A8 /* CCTextFieldTTF.cpp in Sources */,
@@ -5117,13 +5196,16 @@
 				4ACB1F042397FE150025B0A8 /* CCController.cpp in Sources */,
 				4ACB1F052397FE150025B0A8 /* CCData.cpp in Sources */,
 				4ACB1F062397FE150025B0A8 /* CCDirector.cpp in Sources */,
+				F582D65423C4818900A3DF3C /* DeviceGL.cpp in Sources */,
 				4ACB1F072397FE150025B0A8 /* CCEvent.cpp in Sources */,
+				F582D64C23C4818900A3DF3C /* BufferGL.cpp in Sources */,
 				4ACB1F082397FE150025B0A8 /* CCEventAcceleration.cpp in Sources */,
 				4ACB1F092397FE150025B0A8 /* CCEventController.cpp in Sources */,
 				4ACB1F0A2397FE150025B0A8 /* CCEventCustom.cpp in Sources */,
 				4ACB1F0B2397FE150025B0A8 /* CCEventDispatcher.cpp in Sources */,
 				4ACB1F0C2397FE150025B0A8 /* CCRay.cpp in Sources */,
 				4ACB1F0D2397FE150025B0A8 /* CCEventFocus.cpp in Sources */,
+				F582D64F23C4818900A3DF3C /* RenderPipelineGL.cpp in Sources */,
 				4ACB1F0E2397FE150025B0A8 /* CCEventKeyboard.cpp in Sources */,
 				4ACB1F0F2397FE150025B0A8 /* CCEventListener.cpp in Sources */,
 				4ACB1F102397FE150025B0A8 /* CCEventListenerAcceleration.cpp in Sources */,
@@ -5214,6 +5296,7 @@
 				4ACB1F5F2397FE150025B0A8 /* CCFileUtils-apple.mm in Sources */,
 				4ACB1F602397FE150025B0A8 /* CCLock-apple.cpp in Sources */,
 				4ACB1F682397FE150025B0A8 /* CCSkeleton3D.cpp in Sources */,
+				F582D64B23C4818900A3DF3C /* ShaderModuleGL.cpp in Sources */,
 				4ACB1F692397FE150025B0A8 /* CCCallbackCommand.cpp in Sources */,
 				4ACB1F6A2397FE150025B0A8 /* CCCustomCommand.cpp in Sources */,
 				4ACB1F6B2397FE150025B0A8 /* CCGroupCommand.cpp in Sources */,
@@ -5231,6 +5314,7 @@
 				4ACB1F772397FE150025B0A8 /* CCTextureCache.cpp in Sources */,
 				4ACB1F782397FE150025B0A8 /* CCTextureCube.cpp in Sources */,
 				4ACB1F792397FE150025B0A8 /* CCTextureUtils.cpp in Sources */,
+				F582D65323C4818900A3DF3C /* DeviceInfoGL.cpp in Sources */,
 				4ACB1F7A2397FE150025B0A8 /* CCTrianglesCommand.cpp in Sources */,
 				4ACB1F7B2397FE150025B0A8 /* CommandBuffer.cpp in Sources */,
 				4ACB1F7C2397FE150025B0A8 /* DepthStencilState.cpp in Sources */,
@@ -5285,6 +5369,7 @@
 				4ACB1FAE2397FE150025B0A8 /* CCPUBaseCollider.cpp in Sources */,
 				4ACB1FAF2397FE150025B0A8 /* CCPUBaseColliderTranslator.cpp in Sources */,
 				4ACB1FB02397FE150025B0A8 /* CCPUBaseForceAffector.cpp in Sources */,
+				F582D64E23C4818900A3DF3C /* ProgramGL.cpp in Sources */,
 				4ACB1FB12397FE150025B0A8 /* CCPUBaseForceAffectorTranslator.cpp in Sources */,
 				4ACB1FB22397FE150025B0A8 /* CCPUBeamRender.cpp in Sources */,
 				4ACB1FB32397FE150025B0A8 /* CCPUBehaviour.cpp in Sources */,
@@ -5324,11 +5409,13 @@
 				4ACB1FD62397FE150025B0A8 /* CCPUEmitterTranslator.cpp in Sources */,
 				4ACB1FD72397FE150025B0A8 /* CCPUEventHandler.cpp in Sources */,
 				4ACB1FD82397FE150025B0A8 /* CCPUEventHandlerManager.cpp in Sources */,
+				F582D64D23C4818900A3DF3C /* DepthStencilStateGL.cpp in Sources */,
 				4ACB1FD92397FE150025B0A8 /* CCPUEventHandlerTranslator.cpp in Sources */,
 				4ACB1FDA2397FE150025B0A8 /* CCPUFlockCenteringAffector.cpp in Sources */,
 				4ACB1FDB2397FE150025B0A8 /* CCPUFlockCenteringAffectorTranslator.cpp in Sources */,
 				4ACB1FDC2397FE150025B0A8 /* CCPUForceField.cpp in Sources */,
 				4ACB1FDD2397FE150025B0A8 /* CCPUForceFieldAffector.cpp in Sources */,
+				F582D65023C4818900A3DF3C /* CommandBufferGL.cpp in Sources */,
 				4ACB1FDE2397FE150025B0A8 /* CCPUForceFieldAffectorTranslator.cpp in Sources */,
 				4ACB1FDF2397FE150025B0A8 /* CCPUGeometryRotator.cpp in Sources */,
 				4ACB1FE02397FE150025B0A8 /* CCPUGeometryRotatorTranslator.cpp in Sources */,
@@ -5423,6 +5510,7 @@
 				4ACB20362397FE150025B0A8 /* HttpAsynConnection-apple.m in Sources */,
 				4ACB20372397FE150025B0A8 /* CCPUSlaveEmitterTranslator.cpp in Sources */,
 				4ACB20382397FE150025B0A8 /* CCPUSphere.cpp in Sources */,
+				F582D65223C4818900A3DF3C /* UtilsGL.cpp in Sources */,
 				4ACB20392397FE150025B0A8 /* CCPUSphereCollider.cpp in Sources */,
 				4ACB203A2397FE150025B0A8 /* CCPUSphereColliderTranslator.cpp in Sources */,
 				4ACB203B2397FE150025B0A8 /* CCPUSphereSurfaceEmitter.cpp in Sources */,
@@ -5600,7 +5688,9 @@
 			files = (
 				324A3E4A8D474B25AEC4D256 /* CCAction.cpp in Sources */,
 				0D069574932D4AF0AC8FDFDC /* CCActionCamera.cpp in Sources */,
+				F582D64A23C4816800A3DF3C /* DeviceGL.cpp in Sources */,
 				0E9CFF60C095447FA744835B /* CCActionCatmullRom.cpp in Sources */,
+				F582D64323C4816800A3DF3C /* DepthStencilStateGL.cpp in Sources */,
 				36E96761586049D094008319 /* CCActionEase.cpp in Sources */,
 				4A6A9A1E23707898009F16ED /* CCTerrain.cpp in Sources */,
 				ADCD8B5380CD40F7ADA7D1EA /* CCActionGrid.cpp in Sources */,
@@ -5631,6 +5721,7 @@
 				87C0F5B22ED4480AAFBBD254 /* CCFastTMXLayer.cpp in Sources */,
 				CA071854AF2B4DCE9445E6F2 /* CCFastTMXTiledMap.cpp in Sources */,
 				48A7C60A6C5946C68FBCF123 /* CCFont.cpp in Sources */,
+				F582D64223C4816800A3DF3C /* BufferGL.cpp in Sources */,
 				C32C600175034C03B9244124 /* CCFontAtlas.cpp in Sources */,
 				BA42DCF91010468E97582334 /* CCFontAtlasCache.cpp in Sources */,
 				5BD94AD1BBEB496BA8B48F31 /* CCFontCharMap.cpp in Sources */,
@@ -5831,6 +5922,7 @@
 				BB4FFE0200804D35895D4A75 /* CCControlButton.cpp in Sources */,
 				F83A76CC69F0410792A469B5 /* CCControlColourPicker.cpp in Sources */,
 				3A6116F782214A61BCDB6920 /* CCControlHuePicker.cpp in Sources */,
+				F582D64523C4816800A3DF3C /* RenderPipelineGL.cpp in Sources */,
 				D50DDE3C782E4F4B8801DC9E /* CCControlPotentiometer.cpp in Sources */,
 				E054E1D8187E477F87ECC491 /* CCControlSaturationBrightnessPicker.cpp in Sources */,
 				B755D05D3D1B4900A37EB793 /* CCControlSlider.cpp in Sources */,
@@ -5838,6 +5930,7 @@
 				63591B97F1A2449D869DC02D /* CCControlSwitch.cpp in Sources */,
 				75285CC029344D6E9061B02E /* CCControlUtils.cpp in Sources */,
 				19058BFE7C7C462CA95DFF5E /* CCInvocation.cpp in Sources */,
+				F582D64123C4816800A3DF3C /* ShaderModuleGL.cpp in Sources */,
 				05BC7CEADB0E4EDC9F514213 /* CCScrollView.cpp in Sources */,
 				1420F70095C74E1E8C4957DF /* CCTableView.cpp in Sources */,
 				47CA3B52ABFF4F95AF26F78D /* CCTableViewCell.cpp in Sources */,
@@ -5846,6 +5939,7 @@
 				DDF403B3F2AE4768A334D3D4 /* CCParticle3DRender.cpp in Sources */,
 				4A6A9A2D23707899009F16ED /* CCAnimation3D.cpp in Sources */,
 				75A50659105D4C26B9B01497 /* CCParticleSystem3D.cpp in Sources */,
+				F582D68123C4887200A3DF3C /* CCES2Renderer-ios.m in Sources */,
 				F292D6928C8942BCA1AE26EE /* CCPUAffector.cpp in Sources */,
 				CFFD76870E644CC3AFB338CF /* CCPUAffectorManager.cpp in Sources */,
 				3E7153C7685A44AA980A6EB3 /* CCPUAffectorTranslator.cpp in Sources */,
@@ -5876,6 +5970,7 @@
 				281734D3D37B4FCEBBC11AC4 /* CCPUDoAffectorEventHandlerTranslator.cpp in Sources */,
 				E7757B8A16B34BC190E09E90 /* CCPUDoEnableComponentEventHandler.cpp in Sources */,
 				5D66FB7E41894427A023AAFB /* CCPUDoEnableComponentEventHandlerTranslator.cpp in Sources */,
+				F582D64623C4816800A3DF3C /* CommandBufferGL.cpp in Sources */,
 				BA07EDE0523C49B9943FE878 /* CCPUDoExpireEventHandler.cpp in Sources */,
 				598723FE36ED479882969C94 /* CCPUDoExpireEventHandlerTranslator.cpp in Sources */,
 				4F4BE85ABE1E4D5EB6CA12CC /* CCPUDoFreezeEventHandler.cpp in Sources */,
@@ -5962,12 +6057,14 @@
 				27AE79C90E834FDB8C9F4AD4 /* CCPUPlane.cpp in Sources */,
 				807251D2537A4F499AB5088F /* CCPUPlaneCollider.cpp in Sources */,
 				0CA61CE54DFD44BC81809BCD /* CCPUPlaneColliderTranslator.cpp in Sources */,
+				F582D64423C4816800A3DF3C /* ProgramGL.cpp in Sources */,
 				E7CE0DD1C43445108125ADA4 /* CCPUPointEmitter.cpp in Sources */,
 				4A6A99852370726B009F16ED /* HttpCookie.cpp in Sources */,
 				C6C7193379914078AF858B0D /* CCPUPointEmitterTranslator.cpp in Sources */,
 				B60AAC679EA94BACA333F9E3 /* CCPUPositionEmitter.cpp in Sources */,
 				A6A7CD75B76D4A5B860A163A /* CCPUPositionEmitterTranslator.cpp in Sources */,
 				9C3499CD72AD41DFB97B2F1A /* CCPURandomiser.cpp in Sources */,
+				F582D64923C4816800A3DF3C /* DeviceInfoGL.cpp in Sources */,
 				4A7B288223A0F16900C3EDD1 /* etcdec.cxx in Sources */,
 				C9860274FF2543D2ABE54FDE /* CCPURandomiserTranslator.cpp in Sources */,
 				16F4ED75A5594245A5C55ED6 /* CCPURender.cpp in Sources */,
@@ -5996,6 +6093,7 @@
 				8C99537B40A64204A61166CE /* CCPUSphereCollider.cpp in Sources */,
 				6140563E9C5944118A394A20 /* CCPUSphereColliderTranslator.cpp in Sources */,
 				CFDCEEF9327D481AAE96C2C3 /* CCPUSphereSurfaceEmitter.cpp in Sources */,
+				F582D64723C4816800A3DF3C /* TextureGL.cpp in Sources */,
 				C1D1F3CA33864D9FA2ABFED8 /* CCPUSphereSurfaceEmitterTranslator.cpp in Sources */,
 				69B38C0F75D8445D8E7887A4 /* CCPUTechniqueTranslator.cpp in Sources */,
 				3590F421F5594273B8C8D3BB /* CCPUTextureAnimator.cpp in Sources */,
@@ -6014,6 +6112,7 @@
 				11C81C65EE4E4A53A701021D /* CCEventAssetsManagerEx.cpp in Sources */,
 				12D06F7E78D945C49B903D0A /* CCEventListenerAssetsManagerEx.cpp in Sources */,
 				93E893AD310B47AFA304ED47 /* Manifest.cpp in Sources */,
+				F582D64823C4816800A3DF3C /* UtilsGL.cpp in Sources */,
 				926A76B5F13147D0BBEC2E4A /* CCPhysicsDebugNode.cpp in Sources */,
 				4A4A913123AA80080070852B /* AudioEngine.cpp in Sources */,
 				D81D0E8B3E8547B0BDEBE539 /* CCPhysicsSprite.cpp in Sources */,

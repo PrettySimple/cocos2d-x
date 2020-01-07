@@ -21,7 +21,9 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
- 
+
+#include <cocos/platform/CCPlatformConfig.h>
+#if defined(CC_USE_GL) || defined(CC_USE_GLES)
 #include "UtilsGL.h"
 #include "ProgramGL.h"
 #include <cocos/renderer/backend/Types.h>
@@ -577,3 +579,4 @@ GLenum UtilsGL::toGLCullMode(CullMode mode)
 }
 
 CC_BACKEND_END
+#endif
