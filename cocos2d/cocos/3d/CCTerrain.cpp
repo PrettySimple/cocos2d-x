@@ -43,6 +43,7 @@ USING_NS_CC;
 NS_CC_BEGIN
 
 namespace {
+#ifdef CC_USE_METAL
     //It's used for creating a default texture when lightMap is nullpter
     static unsigned char cc_2x2_white_image[] = {
         // RGBA8888
@@ -51,6 +52,7 @@ namespace {
         0xFF, 0xFF, 0xFF, 0xFF,
         0xFF, 0xFF, 0xFF, 0xFF
     };
+#endif
 
     // check a number is power of two.
     static bool isPOT(int number)

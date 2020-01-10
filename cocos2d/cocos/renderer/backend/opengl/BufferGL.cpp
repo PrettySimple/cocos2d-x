@@ -126,7 +126,7 @@ void BufferGL::updateData(void* data, unsigned long size)
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, toGLUsage(_usage));
         }
         CHECK_GL_ERROR_DEBUG();
-        _bufferAllocated = size;
+        _bufferAllocated = static_cast<unsigned int>(size);
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
         fillBuffer(data, 0, size);
@@ -153,7 +153,7 @@ void BufferGL::updateSubData(void* data, unsigned long offset, unsigned long siz
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffer);
             glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, offset, size, data);
         }
-        _bufferAllocated = std::max(_size, offset+size);
+        _bufferAllocated = static_cast<unsigned int>(std::max(_size, offset+size));
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
         fillBuffer(data, offset, size);

@@ -351,7 +351,7 @@ void CommandBufferGL::drawElements(PrimitiveType primitiveType, IndexFormat inde
 {
     prepareDrawing();
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer->getHandler());
-    glDrawElements(UtilsGL::toGLPrimitiveType(primitiveType), count, UtilsGL::toGLIndexType(indexType), (GLvoid*)offset);
+    glDrawElements(UtilsGL::toGLPrimitiveType(primitiveType), count, UtilsGL::toGLIndexType(indexType), reinterpret_cast<GLvoid*>(offset));
     CHECK_GL_ERROR_DEBUG();
     cleanResources();
 }
@@ -426,7 +426,7 @@ void CommandBufferGL::bindVertexBuffer(ProgramGL *program) const
             UtilsGL::toGLAttributeType(attribute.format),
             attribute.needToBeNormallized,
             vertexLayout->getStride(),
-            (GLvoid*)attribute.offset);
+            reinterpret_cast<GLvoid*>(attribute.offset));
     }
 }
 
@@ -445,7 +445,6 @@ void CommandBufferGL::setUniforms(ProgramGL* program) const
             cb.second(_programState, cb.first);
         }
 
-        int i = 0;
         for(auto& iter : uniformInfos)
         {
             auto& uniformInfo = iter.second;

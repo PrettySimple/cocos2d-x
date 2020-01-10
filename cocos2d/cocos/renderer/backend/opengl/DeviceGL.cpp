@@ -68,7 +68,7 @@ CommandBuffer* DeviceGL::newCommandBuffer()
 
 Buffer* DeviceGL::newBuffer(unsigned long size, BufferType type, BufferUsage usage)
 {
-    return new (std::nothrow) BufferGL(size, type, usage);
+    return new (std::nothrow) BufferGL(static_cast<unsigned int>(size), type, usage);
 }
 
 TextureBackend* DeviceGL::newTexture(const TextureDescriptor& descriptor)

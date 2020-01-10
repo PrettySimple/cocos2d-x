@@ -266,7 +266,7 @@ void ProgramGL::computeUniformInfos()
         }
         uniform.location = glGetUniformLocation(_program, uniformName);
         uniform.size = UtilsGL::getGLDataTypeSize(uniform.type);
-        uniform.bufferOffset = (uniform.size == 0) ? 0 : _totalBufferSize;
+        uniform.bufferOffset = static_cast<unsigned int>((uniform.size == 0) ? 0 : _totalBufferSize);
         _activeUniformInfos[uniformName] = uniform;
         _totalBufferSize += uniform.size * uniform.count;
         _maxLocation = _maxLocation <= uniform.location ? (uniform.location + 1) : _maxLocation;

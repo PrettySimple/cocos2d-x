@@ -48,7 +48,11 @@ namespace {
 #define BVEC4_SIZE 4
 #define IVEC3_SIZE 12
 #define IVEC4_SIZE 16
-    
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-function"
+
+
     void convertbVec3TobVec4(const bool* src, bool* dst)
     {
         dst[0] = src[0];
@@ -80,6 +84,9 @@ namespace {
         dst[4] = src[3]; dst[5] = src[4]; dst[6] = src[5];
         dst[8] = src[6]; dst[9] = src[7]; dst[10] = src[8];
     }
+
+#pragma clang diagnostic pop
+
 }
 
 //static field

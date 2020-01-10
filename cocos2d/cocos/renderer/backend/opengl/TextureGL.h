@@ -154,7 +154,6 @@ private:
 
     SamplerDescriptor _samplerDescriptor;
     TextureInfoGL _textureInfo;
-    EventListener* _backToForegroundListener = nullptr;
 };
 
 /**
@@ -216,7 +215,6 @@ private:
     void setTexParameters();
 
     TextureInfoGL _textureInfo;
-    EventListener* _backToForegroundListener = nullptr;
 };
 
 //end of _opengl group

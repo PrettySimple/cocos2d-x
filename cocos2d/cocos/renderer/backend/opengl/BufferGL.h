@@ -93,8 +93,6 @@ private:
 
     GLuint _buffer = 0;
     unsigned int _bufferAllocated = 0;
-    char* _data = nullptr;
-    bool _needDefaultStoredData = true;
 };
 //end of _opengl group
 ///> @}
