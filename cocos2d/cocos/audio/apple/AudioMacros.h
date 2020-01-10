@@ -31,7 +31,9 @@
 #define QUOTEME_(x) #x
 #define QUOTEME(x) QUOTEME_(x)
 
-#if defined(COCOS2D_DEBUG) && COCOS2D_DEBUG > 0
+// Uncomment for audio logs
+//#define AUDIO_LOGS
+#if defined(AUDIO_LOGS) && defined(COCOS2D_DEBUG) && COCOS2D_DEBUG > 0
 #define ALOGV(fmt, ...) printf("V/" LOG_TAG " (" QUOTEME(__LINE__) "): " fmt "\n", ##__VA_ARGS__)
 #else
 #define ALOGV(fmt, ...) do {} while(false)
