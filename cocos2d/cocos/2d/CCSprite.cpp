@@ -457,12 +457,17 @@ void Sprite::updateProgramState()
 
 void Sprite::setMVPMatrixUniform()
 {
-    const auto& projectionMat = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
-    auto programState = _trianglesCommand.getPipelineDescriptor().programState;
-    if (programState && _mvpMatrixLocation) {
-        assert(_mvpMatrixLocation.location[0] < 20 && _mvpMatrixLocation.location[1] < 20);
-        programState->setUniform(_mvpMatrixLocation, projectionMat.m, sizeof(projectionMat.m));
-    }
+    const auto &projectionMat = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
+    auto        programState  = _trianglesCommand.getPipelineDescriptor().programState;
+    if (programState)
+        
+        if (programState) {
+            updateProgramState();
+            if (_mvpMatrixLocation) {
+                assert(_mvpMatrixLocation.location[0] < 20 && _mvpMatrixLocation.location[1] < 20);
+                programState->setUniform(_mvpMatrixLocation, projectionMat.m, sizeof(projectionMat.m));
+            }
+        }
 }
 
 void Sprite::setTexture(Texture2D* texture)
