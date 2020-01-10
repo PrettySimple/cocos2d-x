@@ -674,6 +674,11 @@ void Renderer::drawBatchedTriangles()
 void Renderer::drawCustomCommand(RenderCommand *command)
 {
     auto cmd = static_cast<CustomCommand*>(command);
+    auto drawType = cmd->getDrawType();
+    
+    if ((CustomCommand::DrawType::ELEMENT == drawType && cmd->getIndexDrawCount() == 0) ||
+        (CustomCommand::DrawType::ELEMENT != drawType && cmd->getVertexDrawCount() == 0)) // Nothing to draw
+        return;
 
     if (cmd->getBeforeCallback()) cmd->getBeforeCallback()();
 
@@ -682,7 +687,7 @@ void Renderer::drawCustomCommand(RenderCommand *command)
         _commandBuffer->setVertexBuffer(cmd->getVertexBuffer());
     _commandBuffer->setProgramState(cmd->getPipelineDescriptor().programState);
     
-    auto drawType = cmd->getDrawType();
+   
     _commandBuffer->setLineWidth(cmd->getLineWidth());
     if (CustomCommand::DrawType::ELEMENT == drawType)
     {
