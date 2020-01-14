@@ -434,8 +434,6 @@ void Sprite::setProgramState(backend::ProgramState *programState)
     _textureLocation = pipelineDescriptor.programState->getUniformLocation(backend::Uniform::TEXTURE);
     _alphaTextureLocation = pipelineDescriptor.programState->getUniformLocation(backend::Uniform::TEXTURE1);
     
-    assert(_mvpMatrixLocation.location[0] < 20 && _mvpMatrixLocation.location[1] < 20);
-    
     setVertexLayout();
     updateProgramState();
     setMVPMatrixUniform();

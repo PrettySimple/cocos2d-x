@@ -154,6 +154,9 @@ private:
 
     SamplerDescriptor _samplerDescriptor;
     TextureInfoGL _textureInfo;
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+    EventListener* _backToForegroundListener = nullptr;
+#endif
 };
 
 /**
@@ -215,6 +218,9 @@ private:
     void setTexParameters();
 
     TextureInfoGL _textureInfo;
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+    EventListener* _backToForegroundListener = nullptr;
+#endif
 };
 
 //end of _opengl group

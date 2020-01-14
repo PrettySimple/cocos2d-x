@@ -93,6 +93,10 @@ private:
 
     GLuint _buffer = 0;
     unsigned int _bufferAllocated = 0;
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+    char* _data = nullptr;
+    bool _needDefaultStoredData = true;
+#endif
 };
 //end of _opengl group
 ///> @}

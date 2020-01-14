@@ -37,7 +37,7 @@
 #include "audio/win32/AudioDecoderManager.h"
 #include "audio/win32/AudioDecoder.h"
 
-#define VERY_VERY_VERBOSE_LOGGING
+//#define VERY_VERY_VERBOSE_LOGGING
 #ifdef VERY_VERY_VERBOSE_LOGGING
 #define ALOGVV ALOGV
 #else
