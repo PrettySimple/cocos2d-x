@@ -254,6 +254,14 @@ id<MTLRenderCommandEncoder> CommandBufferMTL::getRenderCommandEncoder(const Rend
     auto mtlDescriptor = toMTLRenderPassDescriptor(renderPassDescriptor);
     _renderTargetWidth = (unsigned int)mtlDescriptor.colorAttachments[0].texture.width;
     _renderTargetHeight = (unsigned int)mtlDescriptor.colorAttachments[0].texture.height;
+    if (mtlDescriptor.stencilAttachment &&
+        mtlDescriptor.stencilAttachment.texture) {
+        _renderTargetWidth = std::min(_renderTargetWidth,
+                                      (unsigned int)mtlDescriptor.stencilAttachment.texture.width);
+        _renderTargetHeight = std::min(_renderTargetHeight,
+                                       (unsigned int)mtlDescriptor.stencilAttachment.texture.height);
+    }
+    
     id<MTLRenderCommandEncoder> mtlRenderEncoder = [_mtlCommandBuffer renderCommandEncoderWithDescriptor:mtlDescriptor];
     [mtlRenderEncoder retain];
     
