@@ -453,6 +453,18 @@ void ParticleSystemQuad::updateParticleQuads()
     }
 }
 
+
+void ParticleSystemQuad::_addUniformMatrixCommand(Renderer* renderer)
+{
+    _uniformCommand.init(_globalZOrder);
+    _uniformCommand.func = [this]() {
+        cocos2d::Mat4 projectionMat = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
+        auto programState = _quadCommand.getPipelineDescriptor().programState;
+        programState->setUniform(_mvpMatrixLocaiton, projectionMat.m, sizeof(projectionMat.m));
+    };
+    renderer->addCommand(&_uniformCommand);
+}
+
 // overriding draw method
 void ParticleSystemQuad::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
 {
@@ -462,8 +474,7 @@ void ParticleSystemQuad::draw(Renderer *renderer, const Mat4 &transform, uint32_
         auto programState = _quadCommand.getPipelineDescriptor().programState;
         programState->setTexture(_textureLocation, 0, _texture->getBackendTexture());
         
-        cocos2d::Mat4 projectionMat = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
-        programState->setUniform(_mvpMatrixLocaiton, projectionMat.m, sizeof(projectionMat.m));
+        _addUniformMatrixCommand(renderer);
         
         _quadCommand.init(_globalZOrder, _texture, _blendFunc, _quads, _particleCount, _positionType == PositionType::WORLD ? Mat4::IDENTITY : transform, flags);
         renderer->addCommand(&_quadCommand);
