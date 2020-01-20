@@ -30,6 +30,7 @@ THE SOFTWARE.
 
 #include <cocos/2d/CCParticleSystem.h>
 #include <cocos/renderer/CCQuadCommand.h>
+#include <cocos/renderer/CCCallbackCommand.h>
 
 NS_CC_BEGIN
 
@@ -173,6 +174,8 @@ protected:
     unsigned short      *_indices = nullptr;      // indices
 
     QuadCommand _quadCommand;           // quad command
+    CallbackCommand _uniformCommand;
+    void _addUniformMatrixCommand(cocos2d::Renderer* renderer);
     
     backend::UniformLocation _mvpMatrixLocaiton;
     backend::UniformLocation _textureLocation;
