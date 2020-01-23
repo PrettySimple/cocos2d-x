@@ -27,6 +27,7 @@
 #include "../Device.h"
 #import <Metal/Metal.h>
 #import <QuartzCore/CAMetalLayer.h>
+#include <unordered_map>
 
 CC_BACKEND_BEGIN
 
@@ -147,6 +148,10 @@ protected:
      * @return A Program object.
      */
     virtual Program* newProgram(const std::string& vertexShader, const std::string& fragmentShader) override;
+    
+    using DepthStencilCache = std::unordered_map<DepthStencilDescriptor, DepthStencilState*>;
+    
+    static DepthStencilCache &_depthStencilCache();
     
 private:
     static CAMetalLayer* _metalLayer;

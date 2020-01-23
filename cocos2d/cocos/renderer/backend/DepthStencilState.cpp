@@ -23,6 +23,7 @@
  ****************************************************************************/
  
 #include "DepthStencilState.h"
+#include <xxhash.h>
 
 CC_BACKEND_BEGIN
 
@@ -45,5 +46,20 @@ DepthStencilState::DepthStencilState(const DepthStencilDescriptor& descriptor)
 
 DepthStencilState::~DepthStencilState()
 {}
+
+bool DepthStencilDescriptor::operator==(const DepthStencilDescriptor &rhs) const
+{
+    return (depthCompareFunction == rhs.depthCompareFunction &&
+            depthWriteEnabled == rhs.depthWriteEnabled &&
+            depthTestEnabled == rhs.depthTestEnabled &&
+            stencilTestEnabled == rhs.stencilTestEnabled &&
+            backFaceStencil == rhs.backFaceStencil &&
+            frontFaceStencil == rhs.frontFaceStencil);
+}
+
+std::size_t DepthStencilDescriptor::hash() const
+{
+    return XXH32((const void *)this, sizeof(cocos2d::backend::DepthStencilDescriptor), 0);
+}
 
 CC_BACKEND_END
