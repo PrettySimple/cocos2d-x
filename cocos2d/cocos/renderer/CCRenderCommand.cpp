@@ -29,9 +29,11 @@
 
 NS_CC_BEGIN
 
-RenderCommand::RenderCommand()
+RenderCommand::RenderCommand(Type type)
+: _type(type)
 {
 }
+
 
 RenderCommand::~RenderCommand()
 {

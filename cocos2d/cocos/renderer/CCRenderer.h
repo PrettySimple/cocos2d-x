@@ -118,8 +118,6 @@ protected:
     bool _isDepthWrite;
 };
 
-class GroupCommandManager;
-
 
 /* Class responsible for the rendering in.
 
@@ -128,6 +126,7 @@ Whenever possible prefer to use `TrianglesCommand` objects since the renderer wi
 class CC_DLL Renderer
 {
 public:
+    using render_queue_id_t = std::size_t;
     
     /**The max number of vertices in a vertex buffer object.*/
     static const int VBO_SIZE = 65536;
@@ -149,18 +148,18 @@ public:
     void addCommand(RenderCommand* command);
 
     /** Adds a `RenderComamnd` into the renderer specifying a particular render queue ID */
-    void addCommand(RenderCommand* command, int renderQueueID);
+    void addCommand(RenderCommand* command, render_queue_id_t renderQueueID);
 
     /** Pushes a group into the render queue */
-    void pushGroup(int renderQueueID);
+    void pushGroup(render_queue_id_t renderQueueID);
 
     /** Pops a group from the render queue */
     void popGroup();
     
-    int currentGroupId() const { return _commandGroupStack.top(); }
+    Renderer::render_queue_id_t currentGroupId() const { return static_cast<Renderer::render_queue_id_t>(_commandGroupStack.top()); }
 
     /** Creates a render queue and returns its Id */
-    int createRenderQueue();
+    render_queue_id_t createRenderQueue();
 
     /** Renders into the GLView all the queued `RenderCommand` objects */
     void render();
@@ -448,7 +447,6 @@ protected:
         std::vector<backend::Buffer*> _indexBufferPool;
     };
 
-    inline GroupCommandManager * getGroupCommandManager() const { return _groupCommandManager; }
     void drawBatchedTriangles();
     void drawCustomCommand(RenderCommand* command);
     void drawMeshCommand(RenderCommand* command);
@@ -492,7 +490,7 @@ protected:
     CullMode _cullMode  = CullMode::NONE;
     Winding _winding    = Winding::COUNTER_CLOCK_WISE; //default front face is CCW in GL
 
-    std::stack<int> _commandGroupStack;
+    std::stack<render_queue_id_t> _commandGroupStack;
     
     std::vector<RenderQueue> _renderGroups;
 
@@ -535,8 +533,6 @@ protected:
     bool _isRendering = false;
     bool _isDepthTestFor2D = false;
         
-    GroupCommandManager* _groupCommandManager = nullptr;
-
     unsigned int _stencilRef = 0;
 
     // weak reference

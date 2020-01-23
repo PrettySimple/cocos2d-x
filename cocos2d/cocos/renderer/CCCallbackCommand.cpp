@@ -27,8 +27,8 @@
 NS_CC_BEGIN
 
 CallbackCommand::CallbackCommand()
+: RenderCommand(RenderCommand::Type::CALLBACK_COMMAND)
 {
-    _type = RenderCommand::Type::CALLBACK_COMMAND;
 }
 
 CallbackCommand::~CallbackCommand()
@@ -56,8 +56,8 @@ CaptureScreenCallbackCommand::~CaptureScreenCallbackCommand()
 {}
 
 CaptureScreenCallbackCommand::CaptureScreenCallbackCommand()
+: RenderCommand(RenderCommand::Type::CAPTURE_SCREEN_COMMAND)
 {
-    _type = RenderCommand::Type::CAPTURE_SCREEN_COMMAND;
 }
 
 void CaptureScreenCallbackCommand::init(float globalOrder)

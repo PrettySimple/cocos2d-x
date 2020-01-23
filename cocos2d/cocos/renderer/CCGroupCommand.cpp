@@ -1,19 +1,18 @@
 /****************************************************************************
  Copyright (c) 2013-2016 Chukong Technologies Inc.
- Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
-
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,72 +22,64 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-
 #include <cocos/renderer/CCGroupCommand.h>
-#include <cocos/renderer/CCRenderer.h>
+
 #include <cocos/base/CCDirector.h>
+#include <cocos/platform/CCPlatformMacros.h>
+#include <cocos/renderer/CCRenderCommand.h>
+#include <cocos/renderer/CCRenderer.h>
+
+#include <unordered_set>
 
 NS_CC_BEGIN
 
-GroupCommandManager::GroupCommandManager()
+std::unordered_set<std::size_t>& get_unused_ids() noexcept
 {
-
+    static std::unordered_set<std::size_t> unusedIDs;
+    return unusedIDs;
 }
 
-GroupCommandManager::~GroupCommandManager()
+std::size_t get_group_id()
 {
+    auto& unused_ids = get_unused_ids();
     
-}
-
-bool GroupCommandManager::init()
-{
-    //0 is the default render group
-    _groupMapping[0] = true;
-    return true;
-}
-
-int GroupCommandManager::getGroupID()
-{
-    //Reuse old id
-    if (!_unusedIDs.empty())
+    // Reuse old id
+    if (!unused_ids.empty())
     {
-        int groupID = *_unusedIDs.rbegin();
-        _unusedIDs.pop_back();
-        _groupMapping[groupID] = true;
+        auto it = unused_ids.begin();
+        std::size_t groupID = *it;
+        unused_ids.erase(it);
         return groupID;
     }
-
-    //Create new ID
-//    int newID = _groupMapping.size();
-    int newID = Director::getInstance()->getRenderer()->createRenderQueue();
-    _groupMapping[newID] = true;
-
-    return newID;
+    
+    // Create new ID
+    return Director::getInstance()->getRenderer()->createRenderQueue();
 }
 
-void GroupCommandManager::releaseGroupID(int groupID)
+void recycle_group_id(std::size_t group_id)
 {
-    _groupMapping[groupID] = false;
-    _unusedIDs.push_back(groupID);
+    if (group_id != std::numeric_limits<std::size_t>::max())
+    {
+        auto& unused_ids = get_unused_ids();
+        unused_ids.emplace(group_id);
+    }
 }
 
 GroupCommand::GroupCommand()
+: RenderCommand(RenderCommand::Type::GROUP_COMMAND)
 {
-    _type = RenderCommand::Type::GROUP_COMMAND;
-    _renderQueueID = Director::getInstance()->getRenderer()->getGroupCommandManager()->getGroupID();
+}
+
+GroupCommand::~GroupCommand()
+{
+    recycle_group_id(_renderQueueID);
 }
 
 void GroupCommand::init(float globalOrder)
 {
     _globalOrder = globalOrder;
-    auto manager = Director::getInstance()->getRenderer()->getGroupCommandManager();
-    manager->releaseGroupID(_renderQueueID);
-    _renderQueueID = manager->getGroupID();
-}
-
-GroupCommand::~GroupCommand()
-{
-    Director::getInstance()->getRenderer()->getGroupCommandManager()->releaseGroupID(_renderQueueID);
+    recycle_group_id(_renderQueueID);
+    _renderQueueID = get_group_id();
 }
 
 NS_CC_END
