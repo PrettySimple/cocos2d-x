@@ -172,19 +172,15 @@ void RenderQueue::realloc(size_t reserveSize)
 //
 //
 //
-static const int DEFAULT_RENDER_QUEUE = 0;
+static constexpr Renderer::render_queue_id_t const DEFAULT_RENDER_QUEUE = 0;
 
 //
 // constructors, destructor, init
 //
 Renderer::Renderer()
 {
-    _groupCommandManager = new (std::nothrow) GroupCommandManager();
-    
     _commandGroupStack.push(DEFAULT_RENDER_QUEUE);
-    
-    RenderQueue defaultRenderQueue;
-    _renderGroups.push_back(defaultRenderQueue);
+    _renderGroups.push_back(RenderQueue{});
     _queuedTriangleCommands.reserve(BATCH_TRIAGCOMMAND_RESERVED_SIZE);
 
     // for the batched TriangleCommand
@@ -194,7 +190,6 @@ Renderer::Renderer()
 Renderer::~Renderer()
 {
     _renderGroups.clear();
-    _groupCommandManager->release();
     
     free(_triBatchesToDraw);
     
@@ -217,11 +212,11 @@ void Renderer::init()
 
 void Renderer::addCommand(RenderCommand* command)
 {
-    int renderQueueID =_commandGroupStack.top();
+    Renderer::render_queue_id_t renderQueueID =_commandGroupStack.top();
     addCommand(command, renderQueueID);
 }
 
-void Renderer::addCommand(RenderCommand* command, int renderQueueID)
+void Renderer::addCommand(RenderCommand* command, Renderer::render_queue_id_t renderQueueID)
 {
     CCASSERT(!_isRendering, "Cannot add command while rendering");
     CCASSERT(renderQueueID >=0, "Invalid render queue");
@@ -230,7 +225,7 @@ void Renderer::addCommand(RenderCommand* command, int renderQueueID)
     _renderGroups[renderQueueID].push_back(command);
 }
 
-void Renderer::pushGroup(int renderQueueID)
+void Renderer::pushGroup(Renderer::render_queue_id_t renderQueueID)
 {
     CCASSERT(!_isRendering, "Cannot change render queue while rendering");
     _commandGroupStack.push(renderQueueID);
@@ -242,18 +237,17 @@ void Renderer::popGroup()
     _commandGroupStack.pop();
 }
 
-int Renderer::createRenderQueue()
+Renderer::render_queue_id_t Renderer::createRenderQueue()
 {
-    RenderQueue newRenderQueue;
-    _renderGroups.push_back(newRenderQueue);
-    return (int)_renderGroups.size() - 1;
+    _renderGroups.push_back(RenderQueue{});
+    return static_cast<Renderer::render_queue_id_t>(_renderGroups.size() - 1);
 }
 
 void Renderer::processGroupCommand(GroupCommand* command)
 {
     flush();
 
-    int renderQueueID = ((GroupCommand*) command)->getRenderQueueID();
+    auto renderQueueID = ((GroupCommand*) command)->getRenderQueueID();
 
     pushStateBlock();
     //apply default state for all render queues

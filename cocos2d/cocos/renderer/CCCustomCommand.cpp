@@ -31,8 +31,8 @@
 NS_CC_BEGIN
 
 CustomCommand::CustomCommand()
+: RenderCommand(RenderCommand::Type::CUSTOM_COMMAND)
 {
-    _type = RenderCommand::Type::CUSTOM_COMMAND;
 }
 
 CustomCommand::~CustomCommand()

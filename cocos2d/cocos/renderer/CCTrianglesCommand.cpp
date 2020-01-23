@@ -31,8 +31,8 @@
 NS_CC_BEGIN
 
 TrianglesCommand::TrianglesCommand()
+: RenderCommand(RenderCommand::Type::TRIANGLES_COMMAND)
 {
-    _type = RenderCommand::Type::TRIANGLES_COMMAND;
 }
 
 void TrianglesCommand::init(float globalOrder, Texture2D* texture, const BlendFunc& blendType, const Triangles& triangles, const Mat4& mv, uint32_t flags)

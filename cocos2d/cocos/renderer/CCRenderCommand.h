@@ -100,7 +100,7 @@ public:
 
 protected:
     /**Constructor.*/
-    RenderCommand();
+    RenderCommand(Type _type);
     RenderCommand(const RenderCommand&) = default;
     RenderCommand(RenderCommand&&) = default;
     
