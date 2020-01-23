@@ -27,6 +27,8 @@
 #include "Macros.h"
 #include "Types.h"
 
+#include <stdint.h>
+
 #include <cocos/base/CCRef.h>
 
 CC_BACKEND_BEGIN
@@ -56,6 +58,8 @@ struct StencilDescriptor
  */
 struct DepthStencilDescriptor
 {
+    bool operator==(const DepthStencilDescriptor& rhs) const;
+    
     CompareFunction depthCompareFunction = CompareFunction::LESS;
     bool depthWriteEnabled = false;
     bool depthTestEnabled = false;
@@ -63,6 +67,8 @@ struct DepthStencilDescriptor
     bool stencilTestEnabled = false;
     StencilDescriptor backFaceStencil;
     StencilDescriptor frontFaceStencil;
+    
+    std::size_t hash() const;
 };
 
 /**
@@ -84,3 +90,12 @@ protected:
 // end of _backend group
 /// @}
 CC_BACKEND_END
+
+namespace std {
+template <>
+struct hash<cocos2d::backend::DepthStencilDescriptor> {
+    size_t operator()(cocos2d::backend::DepthStencilDescriptor const &v) const {
+        return v.hash();
+    }
+};
+} // namespace std
