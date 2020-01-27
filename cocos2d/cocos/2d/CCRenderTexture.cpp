@@ -205,7 +205,7 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, backend::PixelFormat fo
 
         _renderTargetFlags = RenderTargetFlag::COLOR;
 
-        clearColorAttachment();
+        //clearColorAttachment(); <- this seem to be useless and sometimes causes the rendertexture to be cleared AFTER being rendered
 
         if (PixelFormat::D24S8 == depthStencilFormat)
         {
@@ -411,7 +411,12 @@ bool RenderTexture::saveToFileAsNonPMA(const std::string& fileName, Image::Forma
 
     _saveFileCallback = callback;
 
-    std::string fullpath = FileUtils::getInstance()->getWritablePath() + fileName;
+    std::string fullpath;
+    if (fileName.at(0) == '/')
+        fullpath = fileName;
+    else
+        fullpath = FileUtils::getInstance()->getWritablePath() + fileName;
+    
     _saveToFileCommand.init(_globalZOrder);
     _saveToFileCommand.func = CC_CALLBACK_0(RenderTexture::onSaveToFile, this, fullpath, isRGBA, true, flipImage);
 
@@ -428,7 +433,12 @@ bool RenderTexture::saveToFile(const std::string& fileName, Image::Format format
     
     _saveFileCallback = callback;
     
-    std::string fullpath = FileUtils::getInstance()->getWritablePath() + fileName;
+    std::string fullpath;
+    if (fileName.at(0) == '/')
+        fullpath = fileName;
+    else
+        fullpath = FileUtils::getInstance()->getWritablePath() + fileName;
+    
     _saveToFileCommand.init(_globalZOrder);
     _saveToFileCommand.func = CC_CALLBACK_0(RenderTexture::onSaveToFile, this, fullpath, isRGBA, false, flipImage);
     
