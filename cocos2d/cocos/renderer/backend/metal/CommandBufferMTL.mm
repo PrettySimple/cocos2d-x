@@ -93,94 +93,6 @@ namespace
         }
     }
     
-    MTLRenderPassDescriptor* toMTLRenderPassDescriptor(const RenderPassDescriptor& descriptor)
-    {
-        MTLRenderPassDescriptor* mtlDescritpor = [MTLRenderPassDescriptor renderPassDescriptor];
-        
-        // Set color attachments.
-        if (descriptor.needColorAttachment)
-        {
-            bool hasCustomColorAttachment = false;
-            for (int i = 0; i < MAX_COLOR_ATTCHMENT; ++i)
-            {
-                if (! descriptor.colorAttachmentsTexture[i])
-                    continue;
-                
-                mtlDescritpor.colorAttachments[i].texture = static_cast<TextureMTL*>(descriptor.colorAttachmentsTexture[i])->getMTLTexture();
-                if (descriptor.needClearColor)
-                {
-                    mtlDescritpor.colorAttachments[i].loadAction = MTLLoadActionClear;
-                    mtlDescritpor.colorAttachments[i].clearColor = MTLClearColorMake(descriptor.clearColorValue[0],
-                                                                                     descriptor.clearColorValue[1],
-                                                                                     descriptor.clearColorValue[2],
-                                                                                     descriptor.clearColorValue[3]);
-                }
-                else
-                    mtlDescritpor.colorAttachments[i].loadAction = MTLLoadActionLoad;
-                
-                hasCustomColorAttachment = true;
-            }
-            
-            if (!hasCustomColorAttachment)
-            {
-                mtlDescritpor.colorAttachments[0].texture = DeviceMTL::getCurrentDrawable().texture;
-                if (descriptor.needClearColor)
-                {
-                    mtlDescritpor.colorAttachments[0].loadAction = MTLLoadActionClear;
-                    mtlDescritpor.colorAttachments[0].clearColor = MTLClearColorMake(descriptor.clearColorValue[0],
-                                                                                     descriptor.clearColorValue[1],
-                                                                                     descriptor.clearColorValue[2],
-                                                                                     descriptor.clearColorValue[3]);
-                }
-                else
-                    mtlDescritpor.colorAttachments[0].loadAction = MTLLoadActionLoad;
-            }
-
-            mtlDescritpor.colorAttachments[0].storeAction = MTLStoreActionStore;
-        }
-        
-        if(descriptor.needDepthStencilAttachment())
-        {
-            // Set depth attachment
-            {
-                if (descriptor.depthAttachmentTexture)
-                    mtlDescritpor.depthAttachment.texture = static_cast<TextureMTL*>(descriptor.depthAttachmentTexture)->getMTLTexture();
-                else
-                    mtlDescritpor.depthAttachment.texture = Utils::getDefaultDepthStencilTexture();
-                
-                if (descriptor.needClearDepth)
-                {
-                    mtlDescritpor.depthAttachment.loadAction = MTLLoadActionClear;
-                    mtlDescritpor.depthAttachment.clearDepth = descriptor.clearDepthValue;
-                }
-                else
-                    mtlDescritpor.depthAttachment.loadAction = MTLLoadActionLoad;
-
-                mtlDescritpor.depthAttachment.storeAction = MTLStoreActionStore;
-            }
-            
-            // Set stencil attachment
-            {
-                if (descriptor.stencilAttachmentTexture)
-                    mtlDescritpor.stencilAttachment.texture = static_cast<TextureMTL*>(descriptor.stencilAttachmentTexture)->getMTLTexture();
-                else
-                    mtlDescritpor.stencilAttachment.texture = Utils::getDefaultDepthStencilTexture();
-                
-                if (descriptor.needClearStencil)
-                {
-                    mtlDescritpor.stencilAttachment.loadAction = MTLLoadActionClear;
-                    mtlDescritpor.stencilAttachment.clearStencil = descriptor.clearStencilValue;
-                }
-                else
-                    mtlDescritpor.stencilAttachment.loadAction = MTLLoadActionLoad;
-
-                mtlDescritpor.stencilAttachment.storeAction = MTLStoreActionStore;
-            }
-        }
-        
-        return mtlDescritpor;
-    }
-    
     id<MTLTexture> getMTLTexture(TextureBackend* texture)
     {
         switch (texture->getTextureType())
@@ -233,25 +145,29 @@ void CommandBufferMTL::beginFrame()
     BufferManager::beginFrame();
 }
 
-id<MTLRenderCommandEncoder> CommandBufferMTL::getRenderCommandEncoder(const RenderPassDescriptor& renderPassDescriptor)
+void CommandBufferMTL::beginRenderPass(const RenderPassDescriptor& descriptor)
 {
-    if(_mtlRenderEncoder != nil && _prevRenderPassDescriptor == renderPassDescriptor)
-    {
-        return _mtlRenderEncoder;
-    }
-    else
-    {
-        _prevRenderPassDescriptor = renderPassDescriptor;
-    }
-    
-    if(_mtlRenderEncoder != nil)
-    {
-        [_mtlRenderEncoder endEncoding];
-        [_mtlRenderEncoder release];
-        _mtlRenderEncoder = nil;
+    auto renderPassDescriptorCopy = descriptor;
+    if (_clearNextCommand) {
+        renderPassDescriptorCopy.needClearColor = true;
+        renderPassDescriptorCopy.clearColorValue = {
+            _clearNextCommandColorV.r,
+            _clearNextCommandColorV.g,
+            _clearNextCommandColorV.b,
+            _clearNextCommandColorV.a
+        };
+        renderPassDescriptorCopy.needClearDepth= true;
+        renderPassDescriptorCopy.clearDepthValue = _clearNextCommandDepthV;
+        renderPassDescriptorCopy.needClearStencil = true;
+        renderPassDescriptorCopy.clearStencilValue = _clearNextCommandStencilV;
+
+        _clearNextCommand = false;
     }
 
-    auto mtlDescriptor = toMTLRenderPassDescriptor(renderPassDescriptor);
+    auto rc = _mtlRenderCommandEncoderCache(_mtlCommandBuffer).getOrCreateState(renderPassDescriptorCopy);
+    _mtlRenderEncoder = rc.renderCommandEncoder;
+    
+    auto mtlDescriptor = rc.renderPassDecriptor;
     _renderTargetWidth = (unsigned int)mtlDescriptor.colorAttachments[0].texture.width;
     _renderTargetHeight = (unsigned int)mtlDescriptor.colorAttachments[0].texture.height;
     if (mtlDescriptor.stencilAttachment &&
@@ -261,17 +177,8 @@ id<MTLRenderCommandEncoder> CommandBufferMTL::getRenderCommandEncoder(const Rend
         _renderTargetHeight = std::min(_renderTargetHeight,
                                        (unsigned int)mtlDescriptor.stencilAttachment.texture.height);
     }
-    
-    id<MTLRenderCommandEncoder> mtlRenderEncoder = [_mtlCommandBuffer renderCommandEncoderWithDescriptor:mtlDescriptor];
-    [mtlRenderEncoder retain];
-    
-    return mtlRenderEncoder;
-}
 
-void CommandBufferMTL::beginRenderPass(const RenderPassDescriptor& descriptor)
-{
-    _mtlRenderEncoder = getRenderCommandEncoder(descriptor);
-//    [_mtlRenderEncoder setFrontFacingWinding:MTLWindingCounterClockwise];
+    //    [_mtlRenderEncoder setFrontFacingWinding:MTLWindingCounterClockwise];
 }
 
 void CommandBufferMTL::setRenderPipeline(RenderPipeline* renderPipeline)
@@ -366,8 +273,7 @@ void CommandBufferMTL::captureScreen(std::function<void(const unsigned char*, in
 
 void CommandBufferMTL::endFrame()
 {
-    [_mtlRenderEncoder endEncoding];
-    [_mtlRenderEncoder release];
+    _mtlRenderCommandEncoderCache(_mtlCommandBuffer).clearCache();
     _mtlRenderEncoder = nil;
     
     [_mtlCommandBuffer presentDrawable:DeviceMTL::getCurrentDrawable()];
@@ -395,12 +301,29 @@ void CommandBufferMTL::afterDraw()
     CC_SAFE_RELEASE_NULL(_programState);
 }
 
+state_helper::DepthStencilStateTracker &CommandBufferMTL::_mtlDepthStencilStateTracker()
+{
+    static state_helper::DepthStencilStateTracker __mtlDepthStencilStateTracker;
+    return __mtlDepthStencilStateTracker;
+}
+
+state_helper::RenderCommandEncoderCache &CommandBufferMTL::_mtlRenderCommandEncoderCache(id<MTLCommandBuffer> mtlCommandBuffer)
+{
+    static state_helper::RenderCommandEncoderCache __mtlRenderCommandEncoderCache{mtlCommandBuffer, false};
+    // Update the command buffer
+    __mtlRenderCommandEncoderCache.setCreatorHelper(mtlCommandBuffer);
+    return __mtlRenderCommandEncoderCache;
+}
+
 void CommandBufferMTL::setDepthStencilState(DepthStencilState* depthStencilState)
 {
-    if (depthStencilState)
+    if (depthStencilState) {
         _mtlDepthStencilState = static_cast<DepthStencilStateMTL*>(depthStencilState)->getMTLDepthStencilState();
-    else
+        _mtlDepthStencilStateTracker().updateState(state_helper::DepthStencilState::convert(depthStencilState->depthStencilInfo()));
+    } else {
         _mtlDepthStencilState = nil;
+        _mtlDepthStencilStateTracker().invalidate();
+    }
     
 }
 
@@ -411,9 +334,11 @@ void CommandBufferMTL::prepareDrawing() const
     
     if (_mtlDepthStencilState)
     {
-        [_mtlRenderEncoder setDepthStencilState:_mtlDepthStencilState];
-        [_mtlRenderEncoder setStencilFrontReferenceValue:_stencilReferenceValueFront
-                                      backReferenceValue:_stencilReferenceValueBack];
+        if (_mtlDepthStencilStateTracker().stateChanged()) {
+            [_mtlRenderEncoder setDepthStencilState:_mtlDepthStencilState];
+            [_mtlRenderEncoder setStencilFrontReferenceValue:_stencilReferenceValueFront
+                                          backReferenceValue:_stencilReferenceValueBack];
+        }
     }
 }
 

@@ -425,7 +425,6 @@ void Renderer::clean()
 void Renderer::setDepthTest(bool value)
 {
     _depthStencilDescriptor.depthTestEnabled = value;
-    _renderPassDescriptor.depthTestEnabled = value;
 }
 
 void Renderer::setDepthWrite(bool value)
@@ -456,7 +455,7 @@ bool Renderer::getDepthWrite() const
 void Renderer::setStencilTest(bool value)
 {
     _depthStencilDescriptor.stencilTestEnabled = value;
-    _renderPassDescriptor.stencilTestEnabled = value;
+//    _renderPassDescriptor.stencilTestEnabled = value; // Keep the stencil always on to prevent render command encoder switch
 }
 
 void Renderer::setStencilCompareFunction(backend::CompareFunction func, unsigned int ref, unsigned int readMask)
@@ -770,13 +769,7 @@ void Renderer::setRenderPipeline(const PipelineDescriptor& pipelineDescriptor, c
 {
     auto device = backend::Device::getInstance();
     _renderPipeline->update(pipelineDescriptor, renderPassDescriptor);
-    backend::DepthStencilState* depthStencilState = nullptr;
-    auto needDepthStencilAttachment = renderPassDescriptor.depthTestEnabled || renderPassDescriptor.stencilTestEnabled;
-    if (needDepthStencilAttachment)
-    {
-        depthStencilState = device->createDepthStencilState(_depthStencilDescriptor);
-    }
-    _commandBuffer->setDepthStencilState(depthStencilState);
+    _commandBuffer->setDepthStencilState(device->createDepthStencilState(_depthStencilDescriptor));
 #ifdef CC_USE_METAL
     _commandBuffer->setRenderPipeline(_renderPipeline);
 #endif
@@ -826,7 +819,7 @@ void Renderer::setRenderTarget(RenderTargetFlag flags, Texture2D* colorAttachmen
     }
     else
     {
-        _renderPassDescriptor.depthTestEnabled = false;
+        _renderPassDescriptor.depthTestEnabled = true; // Keep the stencil test always on to prevent render command encoder switch
         _renderPassDescriptor.depthAttachmentTexture = nullptr;
         _depthAttachment = nullptr;
     }
@@ -843,7 +836,7 @@ void Renderer::setRenderTarget(RenderTargetFlag flags, Texture2D* colorAttachmen
     else
     {
         _stencilAttachment = nullptr;
-        _renderPassDescriptor.stencilTestEnabled = false;
+        _renderPassDescriptor.stencilTestEnabled = true; // Keep the stencil test always on to prevent render command encoder switch
         _renderPassDescriptor.stencilAttachmentTexture = nullptr;
     }
 }
@@ -883,7 +876,22 @@ void Renderer::clear(ClearFlag flags, const Color4F& color, float depth, unsigne
         }
 
         _commandBuffer->beginRenderPass(descriptor);
-        _commandBuffer->endRenderPass();
+
+        delete command;
+    };
+    addCommand(command);
+}
+
+void Renderer::clearNextCommand(ClearFlag flags, const Color4F& color, float depth, unsigned int stencil, float globalOrder, bool is3D, bool isTransparent)
+{
+    _clearFlag = flags;
+
+    CallbackCommand* command = new CallbackCommand();
+    command->init(isTransparent ? 0 : globalOrder);
+    command->set3D(is3D);
+    command->setTransparent(isTransparent);
+    command->func = [=]() -> void {
+        _commandBuffer->clearNextCommand(flags, color, depth, stencil);
 
         delete command;
     };

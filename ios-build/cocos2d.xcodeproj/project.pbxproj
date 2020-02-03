@@ -134,6 +134,8 @@
 		48A7C60A6C5946C68FBCF123 /* CCFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7084932E4FCC4F6E92AF4CE2 /* CCFont.cpp */; };
 		498727388E334398A4361D5E /* CCParallaxNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04E236CAFA7148E69A3AFB7D /* CCParallaxNode.cpp */; };
 		4A0667B823AD2AA20000A250 /* CCProtocols.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A484E0523ABD1B60098CCD0 /* CCProtocols.cpp */; };
+		4A154BD523DAFE1100915719 /* MetalState.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4A154BD323DAFE1000915719 /* MetalState.mm */; };
+		4A154BD623DAFE1100915719 /* MetalState.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4A154BD323DAFE1000915719 /* MetalState.mm */; };
 		4A15DC482358C932008A24D3 /* CCActionManagerData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A15DC472358C932008A24D3 /* CCActionManagerData.cpp */; };
 		4A35C2E02375C33B00DD3A6E /* CCProgramStateCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A35C2DE2375C33B00DD3A6E /* CCProgramStateCache.cpp */; };
 		4A484E0623ABD1B60098CCD0 /* CCProtocols.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A484E0523ABD1B60098CCD0 /* CCProtocols.cpp */; };
@@ -1561,6 +1563,8 @@
 		499274FADF94449DADA12B19 /* SpriteReader.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = SpriteReader.cpp; path = "cocos2d/cocos/editor-support/cocostudio/WidgetReader/SpriteReader/SpriteReader.cpp"; sourceTree = SOURCE_ROOT; };
 		49C082A4AE244BB99B0145D6 /* CCActionTimelineCache.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CCActionTimelineCache.cpp; path = "cocos2d/cocos/editor-support/cocostudio/ActionTimeline/CCActionTimelineCache.cpp"; sourceTree = SOURCE_ROOT; };
 		49E6A6335B664BFFBC095D54 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = sourcecode.text.plist; fileEncoding = 4; lastKnownFileType = text.plist; name = Info.plist; path = "ios-build/engine/external/xxtea/CMakeFiles/ext_xxtea.dir/Info.plist"; sourceTree = SOURCE_ROOT; };
+		4A154BD323DAFE1000915719 /* MetalState.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalState.mm; path = cocos2d/cocos/renderer/backend/metal/MetalState.mm; sourceTree = "<group>"; };
+		4A154BD423DAFE1000915719 /* MetalState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MetalState.hpp; path = cocos2d/cocos/renderer/backend/metal/MetalState.hpp; sourceTree = "<group>"; };
 		4A15DC472358C932008A24D3 /* CCActionManagerData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CCActionManagerData.cpp; path = cocos2d/cocos/2d/CCActionManagerData.cpp; sourceTree = "<group>"; };
 		4A15DC492358C9FE008A24D3 /* iterator_pair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iterator_pair.h; path = cocos2d/cocos/base/iterator_pair.h; sourceTree = "<group>"; };
 		4A15DC4A2358C9FE008A24D3 /* CCEnumClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCEnumClass.h; path = cocos2d/cocos/base/CCEnumClass.h; sourceTree = "<group>"; };
@@ -3214,6 +3218,8 @@
 		3DCB4913BE0744B6B39ADF61 /* metal */ = {
 			isa = PBXGroup;
 			children = (
+				4A154BD423DAFE1000915719 /* MetalState.hpp */,
+				4A154BD323DAFE1000915719 /* MetalState.mm */,
 				8092DF730314488E96F00226 /* BufferMTL.h */,
 				8DAADDC765274D28958D8B29 /* BufferMTL.mm */,
 				ABFDF45DAD9740E3A41825B3 /* BufferManager.h */,
@@ -5432,6 +5438,7 @@
 				4ACB1FEB2397FE150025B0A8 /* CCPULineAffectorTranslator.cpp in Sources */,
 				4ACB1FEC2397FE150025B0A8 /* CCPULineEmitter.cpp in Sources */,
 				4ACB1FED2397FE150025B0A8 /* CCPULineEmitterTranslator.cpp in Sources */,
+				4A154BD623DAFE1100915719 /* MetalState.mm in Sources */,
 				4ACB1FEE2397FE150025B0A8 /* CCPULinearForceAffector.cpp in Sources */,
 				4ACB1FEF2397FE150025B0A8 /* CCPULinearForceAffectorTranslator.cpp in Sources */,
 				4ACB1FF02397FE150025B0A8 /* CCPUListener.cpp in Sources */,
@@ -6049,6 +6056,7 @@
 				EE2374207E884B8C9936673A /* CCPUOnVelocityObserver.cpp in Sources */,
 				5D198A75DFF846CD873B3DD5 /* CCPUOnVelocityObserverTranslator.cpp in Sources */,
 				8F7A3B3A572644D6B5B5BDD3 /* CCPUParticleFollower.cpp in Sources */,
+				4A154BD523DAFE1100915719 /* MetalState.mm in Sources */,
 				6489CDC8AA8F4A55A7D341C5 /* CCPUParticleFollowerTranslator.cpp in Sources */,
 				DB2E6FD80A7A462EBF9C5E6D /* CCPUParticleSystem3D.cpp in Sources */,
 				CB8451EBC5F149C0B042F8E3 /* CCPUParticleSystem3DTranslator.cpp in Sources */,

@@ -26,6 +26,7 @@
 
 #include "../DepthStencilState.h"
 #import <Metal/Metal.h>
+#include "MetalState.hpp"
 
 CC_BACKEND_BEGIN
 
@@ -33,7 +34,6 @@ CC_BACKEND_BEGIN
  * @addtogroup _metal
  * @{
  */
-
 
 /**
  * A class represent a depth/stencil test status.
@@ -56,6 +56,8 @@ public:
     
 private:
     id<MTLDepthStencilState> _mtlDepthStencilState = nil;
+    
+    static state_helper::DepthStencilStateCache &_depthStencilStateCache(id<MTLDevice> mtlDevice);
 };
 
 // end of _metal group

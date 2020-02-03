@@ -26,8 +26,7 @@
 
 #include "../CommandBuffer.h"
 #include "DeviceMTL.h"
-
-#include <unordered_map>
+#include "MetalState.hpp"
 
 CC_BACKEND_BEGIN
 
@@ -188,7 +187,10 @@ private:
     
     RenderPipelineMTL* _renderPipelineMTL = nullptr;
     ProgramState* _programState = nullptr;
-    id<MTLDepthStencilState> _mtlDepthStencilState = nil;
+    
+    id<MTLDepthStencilState>                        _mtlDepthStencilState = nil;
+    static state_helper::DepthStencilStateTracker & _mtlDepthStencilStateTracker();
+    static state_helper::RenderCommandEncoderCache &_mtlRenderCommandEncoderCache(id<MTLCommandBuffer> mtlCommandBuffer);
     
     unsigned int _renderTargetWidth = 0;
     unsigned int _renderTargetHeight = 0;

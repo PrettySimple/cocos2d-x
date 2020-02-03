@@ -34,6 +34,7 @@
 #include "CCStdC.h"
 #include "ProgramState.h"
 #include "VertexLayout.h"
+#include "cocos/base/ccTypes.h"
 
 #include <memory>
 #include <vector>
@@ -183,9 +184,16 @@ public:
      * @param backRef Specifies back stencil reference value.
      */
     void setStencilReferenceValue(unsigned int frontRef, unsigned int backRef);
+    
+    virtual void clearNextCommand(ClearFlag flags, const Color4F& color, float depth, unsigned int stencil);
 
 protected:
     virtual ~CommandBuffer() = default;
+    
+    bool         _clearNextCommand   = false;
+    Color4F      _clearNextCommandColorV;
+    float        _clearNextCommandDepthV;
+    unsigned int _clearNextCommandStencilV;
     
     unsigned int _stencilReferenceValueFront = 0; ///< front stencil reference value.
     unsigned int _stencilReferenceValueBack = 0; ///< back stencil reference value.

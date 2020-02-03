@@ -49,8 +49,8 @@ struct StencilDescriptor
     StencilOperation depthFailureOperation = StencilOperation::KEEP;
     StencilOperation depthStencilPassOperation = StencilOperation::KEEP;
     CompareFunction stencilCompareFunction = CompareFunction::ALWAYS;
-    unsigned int readMask = 0;
-    unsigned int writeMask = 0;
+    uint8_t readMask = 0;
+    uint8_t writeMask = 0;
 };
 
 /**
@@ -76,6 +76,8 @@ struct DepthStencilDescriptor
  */
 class DepthStencilState : public cocos2d::Ref
 {
+public:
+    const DepthStencilDescriptor & depthStencilInfo() const { return _depthStencilInfo; }
 protected:
     /**
      * @param descriptor Specifies depth and stencil descriptor.
