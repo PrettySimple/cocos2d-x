@@ -265,7 +265,7 @@ void Director::drawScene()
         _eventDispatcher->dispatchEvent(_eventAfterUpdate);
     }
 
-    _renderer->clear(ClearFlag::ALL, _clearColor, 1, 0, -10000.0);
+    _renderer->clearNextCommand(ClearFlag::ALL, _clearColor, 1, 0, -10000.0);
     
     _eventDispatcher->dispatchEvent(_eventBeforeDraw);
     

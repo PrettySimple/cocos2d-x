@@ -311,7 +311,7 @@ LayerColor::LayerColor()
     unsigned short indices[] = {0, 1, 2, 2, 1, 3};
     _customCommand.updateIndexBuffer(indices, sizeof(indices));
     
-    _customCommand.createVertexBuffer(sizeof(_vertexData[0]), 4, CustomCommand::BufferUsage::DYNAMIC);
+    _customCommand.createVertexBuffer(sizeof(_vertexData[0]), 4, CustomCommand::BufferUsage::STATIC);
     
     _customCommand.setDrawType(CustomCommand::DrawType::ELEMENT);
     _customCommand.setPrimitiveType(CustomCommand::PrimitiveType::TRIANGLE);

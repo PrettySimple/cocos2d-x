@@ -173,6 +173,11 @@ void ClippingNode::visit(Renderer *renderer, const Mat4 &parentTransform, uint32
     if (!_visible || !hasContent())
         return;
     
+    if (!_stencil) {
+        Node::visit(renderer, parentTransform, parentFlags);
+        return;
+    }
+    
     uint32_t flags = processParentFlags(parentTransform, parentFlags);
 
     // IMPORTANT:

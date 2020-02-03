@@ -116,19 +116,9 @@ ShaderModule* DeviceMTL::newShaderModule(ShaderStage stage, const std::string& s
 
 DepthStencilState* DeviceMTL::createDepthStencilState(const DepthStencilDescriptor& descriptor)
 {
-    // Check if we already have a state in the cache
-    auto &cache = _depthStencilCache();
-    auto it = cache.find(descriptor);
-    if (it != cache.end())
-        // Return value from cache
-        return it->second;
-    
     auto ret = new (std::nothrow) DepthStencilStateMTL(_mtlDevice, descriptor);
     if (ret)
         ret->autorelease();
-    
-    cache.emplace(descriptor, ret);
-    ret->retain();
     
     return ret;
 }
@@ -146,12 +136,6 @@ Program* DeviceMTL::newProgram(const std::string& vertexShader, const std::strin
 void DeviceMTL::setFrameBufferOnly(bool frameBufferOnly)
 {
     [DeviceMTL::_metalLayer setFramebufferOnly:frameBufferOnly];
-}
-
-DeviceMTL::DepthStencilCache &DeviceMTL::_depthStencilCache()
-{
-    static DepthStencilCache __depthStencilCache;
-    return __depthStencilCache;
 }
 
 CC_BACKEND_END

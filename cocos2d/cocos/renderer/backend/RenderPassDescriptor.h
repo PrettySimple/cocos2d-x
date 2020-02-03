@@ -45,14 +45,19 @@ struct RenderPassDescriptor
 {
     RenderPassDescriptor& operator=(const RenderPassDescriptor& descriptor);
     bool operator==(const RenderPassDescriptor& descriptor) const;
+    bool operator!=(const RenderPassDescriptor& descriptor) const { return !operator==(descriptor); }
+    bool equalExceptClear(const RenderPassDescriptor& descriptor) const;
+    
+    std::string diff(const RenderPassDescriptor& descriptor) const;
+    
     bool needDepthStencilAttachment() const { return depthTestEnabled || stencilTestEnabled; }
 
     float clearDepthValue = 0.f;
     float clearStencilValue = 0.f;
     std::array<float, 4> clearColorValue {{0.f, 0.f, 0.f, 0.f}}; // double-braces required in C++11
     bool needColorAttachment = true;
-    bool depthTestEnabled = false;
-    bool stencilTestEnabled = false;
+    bool depthTestEnabled = true;
+    bool stencilTestEnabled = true;
     bool needClearColor = false;
     bool needClearDepth = false;
     bool needClearStencil = false;

@@ -26,6 +26,18 @@
 
 CC_BACKEND_BEGIN
 
+void CommandBuffer::clearNextCommand(ClearFlag flags, const Color4F& color, float depth, unsigned int stencil)
+{
+    _clearNextCommand = true;
+    
+    if (flags & ClearFlag::COLOR)
+        _clearNextCommandColorV = color;
+    if (flags & ClearFlag::DEPTH)
+        _clearNextCommandDepthV = depth;
+    if (flags & ClearFlag::STENCIL)
+        _clearNextCommandStencilV = stencil;
+}
+
 void CommandBuffer::setStencilReferenceValue(uint32_t value)
 {
     _stencilReferenceValueBack = _stencilReferenceValueFront = value;

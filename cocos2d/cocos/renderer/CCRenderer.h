@@ -195,6 +195,7 @@ public:
     @stencil The clear stencil value.
     */
     void clear(ClearFlag flags, const Color4F& color, float depth, unsigned int stencil, float globalOrder, bool is3D = false, bool isTransparent = false);
+    void clearNextCommand(ClearFlag flags, const Color4F& color, float depth, unsigned int stencil, float globalOrder, bool is3D = false, bool isTransparent = false);
 
     /**
      * Get color attachment.
