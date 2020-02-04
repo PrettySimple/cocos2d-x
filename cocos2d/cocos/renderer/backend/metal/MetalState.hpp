@@ -100,7 +100,7 @@ namespace cocos2d {
                 using Map         = std::unordered_map<StateType, __strong MetalType>;
                 using MapIterator = typename Map::iterator;
                 
-                StateCache()                   = default;
+                StateCache()                   = delete;
                 StateCache(const StateCache &) = delete;
                 StateCache &operator=(const StateCache &) = delete;
 
@@ -213,6 +213,12 @@ namespace cocos2d {
            
             using RenderCommandEncoderCache = StateCache<RenderPassDescriptor, RenderCommandEncoderCacheElement, RenderCommandEncoderCreator, id<MTLCommandBuffer>>;
         
+            template <>
+            void RenderCommandEncoderCache::clearCache(const RenderPassDescriptor *descriptor);
+        
+            template <>
+            RenderCommandEncoderCache::MapIterator RenderCommandEncoderCache::cacheFind(const RenderPassDescriptor &state);
+
         } // namespace state_helper
     }     // namespace backend
 } // namespace cocos2d
