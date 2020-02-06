@@ -394,13 +394,13 @@ void ProgressTimer::updateRadial()
     {
         sameIndexCount = false;
         _vertexData.resize(index + 3);
-        _customCommand.createVertexBuffer(sizeof(_vertexData[0]), (unsigned int)_vertexData.size(),  CustomCommand::BufferUsage::DYNAMIC);
+        _customCommand.createVertexBuffer(sizeof(_vertexData[0]), (unsigned int)_vertexData.size(),  CustomCommand::BufferUsage::DYNAMIC, _vertexData.data());
     }
 
     if (_indexData.size() != 3 + 3 * index)
     {
         _indexData.resize(3 + 3 * index);
-        _customCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT, (unsigned int)_indexData.size(), CustomCommand::BufferUsage::STATIC);
+        _customCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT, (unsigned int)_indexData.size(), CustomCommand::BufferUsage::STATIC, _indexData.data());
     }
 
     if (!sameIndexCount)
@@ -483,7 +483,7 @@ void ProgressTimer::updateBar()
         if (_vertexData.size() != 4)
         {
             _vertexData.resize(4);
-            _customCommand.createVertexBuffer(sizeof(_vertexData[0]),(unsigned int) _vertexData.size(), CustomCommand::BufferUsage::DYNAMIC);
+            _customCommand.createVertexBuffer(sizeof(_vertexData[0]),(unsigned int) _vertexData.size(), CustomCommand::BufferUsage::DYNAMIC, _vertexData.data());
         }
 
         //    TOPLEFT
@@ -508,8 +508,8 @@ void ProgressTimer::updateBar()
     } else {
         if(_vertexData.size() != 8) {
             _vertexData.resize(8);
-            _customCommand.createVertexBuffer(sizeof(_vertexData[0]), (unsigned int)(_vertexData.size() / 2), CustomCommand::BufferUsage::DYNAMIC);
-            _customCommand2.createVertexBuffer(sizeof(_vertexData[0]), (unsigned int)(_vertexData.size() / 2), CustomCommand::BufferUsage::DYNAMIC);
+            _customCommand.createVertexBuffer(sizeof(_vertexData[0]), (unsigned int)(_vertexData.size() / 2), CustomCommand::BufferUsage::DYNAMIC, _vertexData.data());
+            _customCommand2.createVertexBuffer(sizeof(_vertexData[0]), (unsigned int)(_vertexData.size() / 2), CustomCommand::BufferUsage::DYNAMIC, _vertexData.data());
             //    TOPLEFT 1
             _vertexData[0].texCoords = textureCoordFromAlphaPoint(Vec2(0,1));
             _vertexData[0].vertices = vertexFromAlphaPoint(Vec2(0,1));

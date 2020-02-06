@@ -138,12 +138,10 @@ bool MotionStreak::initWithFade(float fade, float minSeg, float stroke, const Co
     _vertices = (Vec2*)malloc(sizeof(Vec2) * _vertexCount);
     _texCoords = (Tex2F*)malloc(sizeof(Tex2F) * _vertexCount);
     _colorPointer =  (uint8_t*)malloc(sizeof(uint8_t) * 4 * _vertexCount);
-    _customCommand.createVertexBuffer(VERTEX_SIZE, _vertexCount, CustomCommand::BufferUsage::DYNAMIC);
-
     std::vector<uint8_t> zeros;
     zeros.resize(VERTEX_SIZE * _vertexCount);
     std::fill(zeros.begin(), zeros.end(), 0);
-    _customCommand.updateVertexBuffer(zeros.data(), static_cast<int>(zeros.size()));
+    _customCommand.createVertexBuffer(VERTEX_SIZE, _vertexCount, CustomCommand::BufferUsage::DYNAMIC, zeros.data());
 
     setTexture(texture);
     setColor(color);

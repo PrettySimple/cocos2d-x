@@ -462,7 +462,7 @@ void Sprite::setMVPMatrixUniform()
         if (programState) {
             updateProgramState();
             if (_mvpMatrixLocation) {
-                assert(_mvpMatrixLocation.location[0] < 20 && _mvpMatrixLocation.location[1] < 20);
+                //assert(_mvpMatrixLocation.location[0] < 20 && _mvpMatrixLocation.location[1] < 20);
                 programState->setUniform(_mvpMatrixLocation, projectionMat.m, sizeof(projectionMat.m));
             }
         }

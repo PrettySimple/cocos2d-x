@@ -32,6 +32,7 @@ THE SOFTWARE.
 #include <cocos/base/CCEventDispatcher.h>
 #include <cocos/renderer/backend/Device.h>
 #include "base/etc2types.h"
+#include <stdio.h>
 NS_CC_BEGIN
 
 extern const char* cocos2dVersion();

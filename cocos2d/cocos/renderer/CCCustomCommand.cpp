@@ -61,7 +61,7 @@ void CustomCommand::init(float globalZOrder, const BlendFunc& blendFunc)
     blendDescriptor.destinationRGBBlendFactor = blendDescriptor.destinationAlphaBlendFactor = blendFunc.dst;
 }
 
-void CustomCommand::createVertexBuffer(unsigned int vertexSize, unsigned int capacity, BufferUsage usage)
+void CustomCommand::createVertexBuffer(unsigned int vertexSize, unsigned int capacity, BufferUsage usage, void* data)
 {
     CC_SAFE_RELEASE(_vertexBuffer);
     
@@ -70,9 +70,11 @@ void CustomCommand::createVertexBuffer(unsigned int vertexSize, unsigned int cap
     
     auto device = backend::Device::getInstance();
     _vertexBuffer = device->newBuffer(vertexSize * capacity, backend::BufferType::VERTEX, usage);
+    if(data)
+        updateVertexBuffer(data, vertexSize * capacity);
 }
 
-void CustomCommand::createIndexBuffer(IndexFormat format, unsigned int capacity, BufferUsage usage)
+void CustomCommand::createIndexBuffer(IndexFormat format, unsigned int capacity, BufferUsage usage, void* data)
 {
     CC_SAFE_RELEASE(_indexBuffer);
     
@@ -83,12 +85,13 @@ void CustomCommand::createIndexBuffer(IndexFormat format, unsigned int capacity,
     
     auto device = backend::Device::getInstance();
     _indexBuffer = device->newBuffer(_indexSize * capacity, backend::BufferType::INDEX, usage);
+    updateIndexBuffer(data, _indexSize * capacity);
 }
 
 void CustomCommand::updateVertexBuffer(void* data, unsigned int offset, unsigned int length)
 {   
     assert(_vertexBuffer);
-    if (offset == 0)
+    if (!_vertexBuffer->isAllocated())
         _vertexBuffer->updateData(data, length);
     else
         _vertexBuffer->updateSubData(data, offset, length);
@@ -97,7 +100,7 @@ void CustomCommand::updateVertexBuffer(void* data, unsigned int offset, unsigned
 void CustomCommand::updateIndexBuffer(void* data, unsigned int offset, unsigned int length)
 {
     assert(_indexBuffer);
-    if (offset == 0)
+    if (!_indexBuffer->isAllocated())
         _indexBuffer->updateData(data, length);
     else
         _indexBuffer->updateSubData(data, offset, length);
@@ -108,6 +111,7 @@ void CustomCommand::setVertexBuffer(backend::Buffer *vertexBuffer)
     if (_vertexBuffer == vertexBuffer)
         return;
 
+    CC_SAFE_RELEASE(_vertexBuffer);
     _vertexBuffer = vertexBuffer;
     CC_SAFE_RETAIN(_vertexBuffer);
 }
@@ -117,6 +121,7 @@ void CustomCommand::setIndexBuffer(backend::Buffer *indexBuffer, IndexFormat for
     if (_indexBuffer == indexBuffer && _indexFormat == format)
         return;
 
+    CC_SAFE_RELEASE(_indexBuffer);
     _indexBuffer = indexBuffer;
     CC_SAFE_RETAIN(_indexBuffer);
 

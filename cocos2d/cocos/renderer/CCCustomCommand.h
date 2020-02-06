@@ -102,7 +102,7 @@ public:
     @param usage the usage of the vertex buffer. Use Static of the vertex data are not updated
                  every frame, otherwise use DYNAMIC.
     */
-    void createVertexBuffer(unsigned int vertexSize, unsigned int capacity, BufferUsage usage);
+    void createVertexBuffer(unsigned int vertexSize, unsigned int capacity, BufferUsage usage, void* data);
     /**
     Create an index buffer of the custom command. The buffer size is (indexSize * capacity).
     Index size is determined by format. If the buffer already exists, then it will delete the
@@ -113,7 +113,7 @@ public:
     @param usage the usage of the vertex buffer. Use Static of the index data are not updated
                  every frame, otherwise use DYNAMIC.
     */
-    void createIndexBuffer(IndexFormat format, unsigned int capacity, BufferUsage usage);
+    void createIndexBuffer(IndexFormat format, unsigned int capacity, BufferUsage usage, void* data);
 
     /**
     Update vertex buffer contents.

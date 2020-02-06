@@ -491,8 +491,6 @@ Label::~Label()
 
     CC_SAFE_RELEASE_NULL(_textSprite);
     CC_SAFE_RELEASE_NULL(_shadowNode);
-    
-    CC_SAFE_RELEASE(_programState);
 }
 
 void Label::reset()
@@ -1604,11 +1602,13 @@ void Label::updateBuffer(TextureAtlas* textureAtlas, CustomCommand& customComman
 {
     if (textureAtlas->getTotalQuads() > customCommand.getVertexCapacity())
     {
-        customCommand.createVertexBuffer((unsigned int)sizeof(V3F_C4B_T2F_Quad), (unsigned int)textureAtlas->getTotalQuads(), CustomCommand::BufferUsage::DYNAMIC);
-        customCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT, (unsigned int)textureAtlas->getTotalQuads() * 6, CustomCommand::BufferUsage::DYNAMIC);
+        customCommand.createVertexBuffer((unsigned int)sizeof(V3F_C4B_T2F_Quad), (unsigned int)textureAtlas->getTotalQuads(), CustomCommand::BufferUsage::DYNAMIC, textureAtlas->getQuads());
+        customCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT, (unsigned int)textureAtlas->getTotalQuads() * 6, CustomCommand::BufferUsage::DYNAMIC, textureAtlas->getIndices());
     }
-    customCommand.updateVertexBuffer(textureAtlas->getQuads(), (unsigned int)(textureAtlas->getTotalQuads() * sizeof(V3F_C4B_T2F_Quad)));
-    customCommand.updateIndexBuffer(textureAtlas->getIndices(), (unsigned int)(textureAtlas->getTotalQuads() * 6 * sizeof(unsigned short)));
+    else {
+        customCommand.updateVertexBuffer(textureAtlas->getQuads(), (unsigned int)(textureAtlas->getTotalQuads() * sizeof(V3F_C4B_T2F_Quad)));
+        customCommand.updateIndexBuffer(textureAtlas->getIndices(), (unsigned int)(textureAtlas->getTotalQuads() * 6 * sizeof(unsigned short)));
+    }
     customCommand.setIndexDrawInfo(0, (unsigned int)(textureAtlas->getTotalQuads() * 6));
 }
 

@@ -41,7 +41,6 @@ Skybox::Skybox():
 
 Skybox::~Skybox()
 {
-    CC_SAFE_RELEASE_NULL(_programState);
     _texture->release();
 }
 
@@ -136,11 +135,8 @@ void Skybox::initBuffers()
 
     uint16_t idxBuf[] = { 0, 1, 2, 0, 2, 3 };
 
-    _customCommand.createVertexBuffer(sizeof(Vec3), sizeof(vexBuf), CustomCommand::BufferUsage::STATIC);
-    _customCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT, 6, CustomCommand::BufferUsage::STATIC);
-
-    _customCommand.updateVertexBuffer(&vexBuf[0], sizeof(vexBuf));
-    _customCommand.updateIndexBuffer(&idxBuf[0], sizeof(idxBuf));
+    _customCommand.createVertexBuffer(sizeof(Vec3), sizeof(vexBuf), CustomCommand::BufferUsage::STATIC, idxBuf);
+    _customCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT, 6, CustomCommand::BufferUsage::STATIC, vexBuf);
 }
 
 void Skybox::draw(Renderer* renderer, const Mat4& transform, uint32_t flags)

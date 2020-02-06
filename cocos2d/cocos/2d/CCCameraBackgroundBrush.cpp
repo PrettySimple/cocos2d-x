@@ -171,11 +171,8 @@ bool CameraBackgroundDepthBrush::init()
 void CameraBackgroundDepthBrush::initBuffer()
 {
     uint16_t indices[6] = { 0, 1, 2, 2, 3, 0 };
-    _customCommand.createVertexBuffer(sizeof(_vertices[0]), static_cast<int>(_vertices.size()), CustomCommand::BufferUsage::STATIC);
-    _customCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT, sizeof(indices) / sizeof(indices[0]), CustomCommand::BufferUsage::STATIC);
-
-    _customCommand.updateVertexBuffer(_vertices.data(), static_cast<int>(sizeof(_vertices[0]) * _vertices.size()));
-    _customCommand.updateIndexBuffer(indices, sizeof(indices));
+    _customCommand.createVertexBuffer(sizeof(_vertices[0]), static_cast<int>(_vertices.size()), CustomCommand::BufferUsage::STATIC, _vertices.data());
+    _customCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT, sizeof(indices) / sizeof(indices[0]), CustomCommand::BufferUsage::STATIC, indices);
 }
 
 void CameraBackgroundDepthBrush::drawBackground(Camera* /*camera*/)
@@ -438,8 +435,7 @@ void CameraBackgroundSkyBoxBrush::initBuffer()
         Vec3(1, -1, -1), Vec3(1, 1, -1), Vec3(-1, 1, -1), Vec3(-1, -1, -1)
     };
 
-    _customCommand.createVertexBuffer(sizeof(vexBuf[0]), sizeof(vexBuf) / sizeof(vexBuf[0]), CustomCommand::BufferUsage::STATIC);
-    _customCommand.updateVertexBuffer(vexBuf, sizeof(vexBuf));
+    _customCommand.createVertexBuffer(sizeof(vexBuf[0]), sizeof(vexBuf) / sizeof(vexBuf[0]), CustomCommand::BufferUsage::STATIC, vexBuf);
 
     // init index buffer object
     uint16_t idxBuf[] = { 
@@ -450,8 +446,7 @@ void CameraBackgroundSkyBoxBrush::initBuffer()
         2, 6, 5, 2, 5, 1, // up
         3, 0, 4, 3, 4, 7  // down
     };
-    _customCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT, sizeof(idxBuf) / sizeof(idxBuf[0]), CustomCommand::BufferUsage::STATIC);
-    _customCommand.updateIndexBuffer(idxBuf, sizeof(idxBuf));
+    _customCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT, sizeof(idxBuf) / sizeof(idxBuf[0]), CustomCommand::BufferUsage::STATIC, idxBuf);
 }
 
 void CameraBackgroundSkyBoxBrush::setTexture(TextureCube*  texture)

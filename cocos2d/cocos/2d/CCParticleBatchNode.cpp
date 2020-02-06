@@ -77,7 +77,6 @@ ParticleBatchNode::ParticleBatchNode()
 ParticleBatchNode::~ParticleBatchNode()
 {
     CC_SAFE_RELEASE(_textureAtlas);
-    CC_SAFE_RELEASE(_programState);
 }
 /*
  * creation with Texture2D
@@ -446,11 +445,8 @@ void ParticleBatchNode::draw(Renderer* renderer, const Mat4 & transform, uint32_
         unsigned int capacity = (unsigned int)_textureAtlas->getCapacity();
         const auto& indices = _textureAtlas->getIndices();
         
-        _customCommand.createVertexBuffer((unsigned int)(sizeof(quads[0]) ), capacity, CustomCommand::BufferUsage::STATIC);
-        _customCommand.updateVertexBuffer(quads, sizeof(quads[0]) * capacity);
-        
-        _customCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT , capacity * 6, CustomCommand::BufferUsage::STATIC);
-        _customCommand.updateIndexBuffer(indices, sizeof(indices[0]) * capacity * 6);
+        _customCommand.createVertexBuffer((unsigned int)(sizeof(quads[0]) ), capacity, CustomCommand::BufferUsage::STATIC, quads);
+        _customCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT , capacity * 6, CustomCommand::BufferUsage::STATIC, indices);
     }
         
     renderer->addCommand(&_customCommand);

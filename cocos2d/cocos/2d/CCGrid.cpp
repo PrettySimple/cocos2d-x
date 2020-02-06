@@ -550,12 +550,10 @@ void Grid3D::updateVertexAndTexCoordinate()
         memcpy((char*)_vertexBuffer + offset, &tempVecPointer[i], sizeof(Vec3));
         memcpy((char*)_vertexBuffer + offset + sizeof(Vec3), &tempTexPointer[i], sizeof(Vec2));
     }
-    _drawCommand.createVertexBuffer((unsigned int)(sizeof(Vec3) + sizeof(Vec2)), numOfPoints, CustomCommand::BufferUsage::DYNAMIC);
-    _drawCommand.updateVertexBuffer(_vertexBuffer, numOfPoints * sizeof(Vec3) + numOfPoints * sizeof(Vec2));
+    _drawCommand.createVertexBuffer((unsigned int)(sizeof(Vec3) + sizeof(Vec2)), numOfPoints, CustomCommand::BufferUsage::DYNAMIC, _vertexBuffer);
 
     unsigned int capacity = (unsigned int)(_gridSize.width * _gridSize.height) * 6;
-    _drawCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT, capacity, CustomCommand::BufferUsage::DYNAMIC);
-    _drawCommand.updateIndexBuffer(_indices, capacity * sizeof(unsigned short));
+    _drawCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT, capacity, CustomCommand::BufferUsage::DYNAMIC, _indices);
 }
 
 // implementation of TiledGrid3D
@@ -809,11 +807,8 @@ void TiledGrid3D::updateVertexAndTexCoordinate()
         memcpy((char*)_vertexBuffer + offset, &tempVecPointer[i], sizeof(Vec3));
         memcpy((char*)_vertexBuffer + offset + sizeof(Vec3), &tempTexPointer[i], sizeof(Vec2));
     }
-    _drawCommand.createVertexBuffer((unsigned int)(sizeof(Vec3) + sizeof(Vec2) ), static_cast<int>(numOfPoints), CustomCommand::BufferUsage::DYNAMIC);
-    _drawCommand.updateVertexBuffer(_vertexBuffer, static_cast<int>(numOfPoints * sizeof(Vec3) + numOfPoints * sizeof(Vec2)));
-
-    _drawCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT, static_cast<int>(gradSize * 6), CustomCommand::BufferUsage::DYNAMIC);
-    _drawCommand.updateIndexBuffer(_indices, static_cast<int>(gradSize * 6 * sizeof(unsigned short)));
+    _drawCommand.createVertexBuffer((unsigned int)(sizeof(Vec3) + sizeof(Vec2) ), static_cast<int>(numOfPoints), CustomCommand::BufferUsage::DYNAMIC, _vertexBuffer);
+    _drawCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT, static_cast<int>(gradSize * 6), CustomCommand::BufferUsage::DYNAMIC, _indices);
 }
 
 NS_CC_END

@@ -98,7 +98,8 @@ void Texture2DGL::initWithZeros()
     auto size = _width * _height * _bitsPerElement / 8;
     uint8_t* data = (uint8_t*)malloc(size);
     memset(data, 0, size);
-    updateData(data, _width, _height, 0);
+    if(!_isCompressed)
+        updateData(data, _width, _height, 0);
     free(data);
 }
 
