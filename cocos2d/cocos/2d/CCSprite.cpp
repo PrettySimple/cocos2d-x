@@ -772,7 +772,7 @@ void Sprite::draw(Renderer* renderer, const Mat4& transform, uint32_t flags)
     if (visitingCamera == nullptr)
         _insideBounds = true;
     else if (visitingCamera == defaultCamera)
-        _insideBounds = ((flags & FLAGS_TRANSFORM_DIRTY) || visitingCamera->isViewProjectionUpdated()) && !FLAGS_NO_VISIBILITY_CULLING ? renderer->checkVisibility(transform, _contentSize) : _insideBounds;
+        _insideBounds = (((flags & FLAGS_TRANSFORM_DIRTY) || visitingCamera->isViewProjectionUpdated()) && !(flags & FLAGS_NO_VISIBILITY_CULLING)) ? renderer->checkVisibility(transform, _contentSize) : _insideBounds;
     else
         // XXX: this always return true since
         _insideBounds = renderer->checkVisibility(transform, _contentSize);
