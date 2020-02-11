@@ -111,7 +111,7 @@ void DrawNode::ensureCapacityGLPoint(int count)
         _bufferCapacityPoint += MAX(_bufferCapacityPoint, count);
         _bufferGLPoint = (V2F_C4B_T2F*)realloc(_bufferGLPoint, _bufferCapacityPoint*sizeof(V2F_C4B_T2F));
         
-        _customCommandPoint.createVertexBuffer(sizeof(V2F_C4B_T2F), _bufferCapacityPoint, CustomCommand::BufferUsage::STATIC, _bufferGLPoint);
+        _customCommandPoint.createVertexBuffer(sizeof(V2F_C4B_T2F), _bufferCapacityPoint, CustomCommand::BufferUsage::DYNAMIC, _bufferGLPoint);
     }
 }
 
@@ -124,7 +124,7 @@ void DrawNode::ensureCapacityGLLine(int count)
         _bufferCapacityLine += MAX(_bufferCapacityLine, count);
         _bufferGLLine = (V2F_C4B_T2F*)realloc(_bufferGLLine, _bufferCapacityLine*sizeof(V2F_C4B_T2F));
         
-        _customCommandLine.createVertexBuffer(sizeof(V2F_C4B_T2F), _bufferCapacityLine, CustomCommand::BufferUsage::STATIC, _bufferGLLine);
+        _customCommandLine.createVertexBuffer(sizeof(V2F_C4B_T2F), _bufferCapacityLine, CustomCommand::BufferUsage::DYNAMIC, _bufferGLLine);
     }
 }
 
