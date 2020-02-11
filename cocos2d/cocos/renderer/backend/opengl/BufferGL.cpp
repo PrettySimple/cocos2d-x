@@ -127,6 +127,7 @@ void BufferGL::updateData(void* data, unsigned long size)
         }
         CHECK_GL_ERROR_DEBUG();
         _bufferAllocated = static_cast<unsigned int>(size);
+        _allocated = true;
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
         fillBuffer(data, 0, size);
@@ -139,6 +140,7 @@ void BufferGL::updateSubData(void* data, unsigned long offset, unsigned long siz
 
     CCASSERT(_bufferAllocated != 0, "updateData should be invoke before updateSubData");
     CCASSERT(offset + size <= _size, "buffer size overflow");
+    CCASSERT(offset + size <= _bufferAllocated, "buffer size overflow");
 
     if (_buffer)
     {
@@ -153,7 +155,6 @@ void BufferGL::updateSubData(void* data, unsigned long offset, unsigned long siz
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffer);
             glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, offset, size, data);
         }
-        _bufferAllocated = static_cast<unsigned int>(std::max(_size, offset+size));
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
         fillBuffer(data, offset, size);

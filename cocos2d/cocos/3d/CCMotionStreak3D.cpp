@@ -55,7 +55,6 @@ MotionStreak3D::MotionStreak3D()
 MotionStreak3D::~MotionStreak3D()
 {
     CC_SAFE_RELEASE(_texture);
-    CC_SAFE_RELEASE(_programState);
 }
 
 MotionStreak3D* MotionStreak3D::create(float fade, float minSeg, float stroke, const Color3B& color, const std::string& path)
@@ -166,7 +165,7 @@ void MotionStreak3D::initCustomCommand()
     _locMVP = _programState->getUniformLocation(backend::Uniform::MVP_MATRIX);
     _locTexture = _programState->getUniformLocation(backend::Uniform::TEXTURE);
 
-    _customCommand.createVertexBuffer(sizeof(VertexData), static_cast<int>(_vertexData.size()), CustomCommand::BufferUsage::DYNAMIC);
+    _customCommand.createVertexBuffer(sizeof(VertexData), static_cast<int>(_vertexData.size()), CustomCommand::BufferUsage::DYNAMIC, _vertexData.data());
 }
 
 void MotionStreak3D::setPosition(const Vec2& position)

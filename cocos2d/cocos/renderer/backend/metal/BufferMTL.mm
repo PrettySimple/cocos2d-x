@@ -75,6 +75,7 @@ void BufferMTL::updateData(void* data, unsigned long size)
     assert(size <= _size);
     updateIndex();
     memcpy((uint8_t*)_mtlBuffer.contents, data, size);
+    _allocated = true;
 }
 
 void BufferMTL::updateSubData(void* data, unsigned long offset, unsigned long size)

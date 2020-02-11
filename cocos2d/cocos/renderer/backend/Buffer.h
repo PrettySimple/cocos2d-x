@@ -75,6 +75,8 @@ public:
      * @return The buffer size in bytes.
      */
     unsigned long getSize() const { return _size; }
+    
+    bool isAllocated() const { return _allocated; }
 
 protected:
     /**
@@ -93,6 +95,7 @@ protected:
     BufferUsage _usage = BufferUsage::DYNAMIC; ///< Buffer usage.
     BufferType _type = BufferType::VERTEX; ///< Buffer type.
     unsigned long _size = 0; ///< buffer size in bytes.
+    bool _allocated = false;
 };
 
 // end of _backend group

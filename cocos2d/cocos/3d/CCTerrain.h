@@ -532,7 +532,6 @@ protected:
     StateBlock _stateBlock;
     StateBlock _stateBlockOld;
 private:
-    backend::ProgramState *_programState = nullptr;
     //uniform locations
     backend::UniformLocation _detailMapLocation[4];
     backend::UniformLocation _alphaMapLocation;

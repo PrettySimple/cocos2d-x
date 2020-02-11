@@ -73,7 +73,8 @@ namespace
     }
 }
 
-CommandBufferGL::CommandBufferGL()
+CommandBufferGL::CommandBufferGL() :
+_vertexBuffer(nullptr)
 {
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_defaultFBO);
 

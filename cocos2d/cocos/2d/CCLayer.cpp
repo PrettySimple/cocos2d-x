@@ -307,11 +307,9 @@ LayerColor::LayerColor()
     
     _mvpMatrixLocation = pipelineDescriptor.programState->getUniformLocation(backend::Uniform::MVP_MATRIX);
     
-    _customCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT, 6, CustomCommand::BufferUsage::STATIC);
     unsigned short indices[] = {0, 1, 2, 2, 1, 3};
-    _customCommand.updateIndexBuffer(indices, sizeof(indices));
-    
-    _customCommand.createVertexBuffer(sizeof(_vertexData[0]), 4, CustomCommand::BufferUsage::STATIC);
+    _customCommand.createIndexBuffer(CustomCommand::IndexFormat::U_SHORT, 6, CustomCommand::BufferUsage::STATIC, indices);
+    _customCommand.createVertexBuffer(sizeof(_vertexData[0]), 4, CustomCommand::BufferUsage::STATIC, _vertexData);
     
     _customCommand.setDrawType(CustomCommand::DrawType::ELEMENT);
     _customCommand.setPrimitiveType(CustomCommand::PrimitiveType::TRIANGLE);
@@ -319,7 +317,6 @@ LayerColor::LayerColor()
     
 LayerColor::~LayerColor()
 {
-    CC_SAFE_RELEASE(_programState);
 }
 
 /// blendFunc getter
@@ -722,14 +719,13 @@ LayerRadialGradient::LayerRadialGradient()
     }
     vertexLayout->setLayout(sizeof(_vertices[0]));
 
-    _customCommand.createVertexBuffer(sizeof(_vertices[0]), sizeof(_vertices) / sizeof(_vertices[0]), CustomCommand::BufferUsage::STATIC);
+    _customCommand.createVertexBuffer(sizeof(_vertices[0]), sizeof(_vertices) / sizeof(_vertices[0]), CustomCommand::BufferUsage::STATIC, _vertices);
     _customCommand.setDrawType(CustomCommand::DrawType::ARRAY);
     _customCommand.setPrimitiveType(CustomCommand::PrimitiveType::TRIANGLE_STRIP);
 }
 
 LayerRadialGradient::~LayerRadialGradient()
 {
-    CC_SAFE_RELEASE(_programState);
 }
 
 bool LayerRadialGradient::initWithColor(const cocos2d::Color4B &startColor, const cocos2d::Color4B &endColor, float radius, const Vec2& center, float expand)

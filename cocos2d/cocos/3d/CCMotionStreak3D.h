@@ -205,7 +205,6 @@ private:
 
     CallbackCommand _beforeCommand;
     CallbackCommand _afterCommand;
-    backend::ProgramState *_programState = nullptr;
     backend::UniformLocation _locMVP;
     backend::UniformLocation _locTexture;
 
