@@ -91,8 +91,10 @@ void CustomCommand::createIndexBuffer(IndexFormat format, unsigned int capacity,
 void CustomCommand::updateVertexBuffer(void* data, unsigned int offset, unsigned int length)
 {   
     assert(_vertexBuffer);
-    if (!_vertexBuffer->isAllocated())
+    if (!_vertexBuffer->isAllocated()){
+        assert(offset == 0);
         _vertexBuffer->updateData(data, length);
+    }
     else
         _vertexBuffer->updateSubData(data, offset, length);
 }
@@ -100,8 +102,10 @@ void CustomCommand::updateVertexBuffer(void* data, unsigned int offset, unsigned
 void CustomCommand::updateIndexBuffer(void* data, unsigned int offset, unsigned int length)
 {
     assert(_indexBuffer);
-    if (!_indexBuffer->isAllocated())
+    if (!_indexBuffer->isAllocated()){
+        assert(offset == 0);
         _indexBuffer->updateData(data, length);
+    }
     else
         _indexBuffer->updateSubData(data, offset, length);
 }

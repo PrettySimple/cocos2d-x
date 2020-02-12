@@ -40,6 +40,7 @@ CC_BACKEND_BEGIN
 CAMetalLayer* DeviceMTL::_metalLayer = nil;
 id<CAMetalDrawable> DeviceMTL::_currentDrawable = nil;
 
+#ifdef CC_USE_METAL
 Device* Device::getInstance()
 {
     if (! Device::_instance)
@@ -47,6 +48,7 @@ Device* Device::getInstance()
 
     return Device::_instance;
 }
+#endif
 
 void DeviceMTL::setCAMetalLayer(CAMetalLayer* metalLayer)
 {

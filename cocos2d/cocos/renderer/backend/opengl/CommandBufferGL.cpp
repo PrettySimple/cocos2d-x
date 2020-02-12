@@ -249,7 +249,11 @@ void CommandBufferGL::applyRenderPassDescriptor(const RenderPassDescriptor& desc
         glGetIntegerv(GL_DEPTH_FUNC, &oldDepthFunc);
         
         mask |= GL_DEPTH_BUFFER_BIT;
+#ifdef CC_USE_GL
+        glClearDepth(descirptor.clearDepthValue);
+#else
         glClearDepthf(descirptor.clearDepthValue);
+#endif
         glEnable(GL_DEPTH_TEST);
         glDepthMask(GL_TRUE);
         glDepthFunc(GL_ALWAYS);
@@ -275,7 +279,11 @@ void CommandBufferGL::applyRenderPassDescriptor(const RenderPassDescriptor& desc
         
         glDepthMask(oldDepthWrite);
         glDepthFunc(oldDepthFunc);
-        glClearDepthf(oldDepthClearValue);
+        #ifdef CC_USE_GL
+                glClearDepth(oldDepthClearValue);
+        #else
+                glClearDepthf(oldDepthClearValue);
+        #endif
     }
     
     CHECK_GL_ERROR_DEBUG();
@@ -350,6 +358,9 @@ void CommandBufferGL::drawArrays(PrimitiveType primitiveType, unsigned int start
 
 void CommandBufferGL::drawElements(PrimitiveType primitiveType, IndexFormat indexType, unsigned int count, unsigned int offset)
 {
+    if( count <= 0 )
+        return;
+    
     prepareDrawing();
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer->getHandler());
     glDrawElements(UtilsGL::toGLPrimitiveType(primitiveType), count, UtilsGL::toGLIndexType(indexType), reinterpret_cast<GLvoid*>(offset));
@@ -441,6 +452,7 @@ void CommandBufferGL::unbindVertexBuffer(ProgramGL *program) const
         return;
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     const auto& attributes = vertexLayout->getAttributes();
     for (const auto& attributeInfo : attributes)
