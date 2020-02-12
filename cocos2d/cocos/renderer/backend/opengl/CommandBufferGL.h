@@ -182,6 +182,7 @@ private:
     
     void prepareDrawing() const;
     void bindVertexBuffer(ProgramGL* program) const;
+    void unbindVertexBuffer(ProgramGL* program) const;
     void setUniforms(ProgramGL* program) const;
     void setUniform(bool isArray, GLuint location, unsigned int size, GLenum uniformType, void* data) const;
     void cleanResources();

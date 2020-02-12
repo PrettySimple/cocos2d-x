@@ -431,6 +431,25 @@ void CommandBufferGL::bindVertexBuffer(ProgramGL *program) const
     }
 }
 
+void CommandBufferGL::unbindVertexBuffer(ProgramGL *program) const
+{
+    // Bind vertex buffers and set the attributes.
+    auto vertexLayout = _programState->getVertexLayout();
+    
+    if (!vertexLayout->isValid() ||
+        !_vertexBuffer)
+        return;
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    const auto& attributes = vertexLayout->getAttributes();
+    for (const auto& attributeInfo : attributes)
+    {
+        const auto& attribute = attributeInfo.second;
+        glDisableVertexAttribArray(attribute.index);
+    }
+}
+
 void CommandBufferGL::setUniforms(ProgramGL* program) const
 {
     if (_programState)
@@ -579,6 +598,9 @@ void CommandBufferGL::setUniform(bool isArray, GLuint location, unsigned int siz
 
 void CommandBufferGL::cleanResources()
 {
+    const auto& program = _renderPipeline->getProgram();
+    unbindVertexBuffer(program);
+    
     CC_SAFE_RELEASE_NULL(_indexBuffer);
     CC_SAFE_RELEASE_NULL(_programState);  
     CC_SAFE_RELEASE_NULL(_vertexBuffer);
