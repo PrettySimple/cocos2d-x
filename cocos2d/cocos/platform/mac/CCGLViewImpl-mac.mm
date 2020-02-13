@@ -297,9 +297,11 @@ bool GLViewImpl::initWithRect(const std::string& viewName, Rect rect, float fram
     glfwWindowHint(GLFW_STENCIL_BITS,_glContextAttrs.stencilBits);
     
     glfwWindowHint(GLFW_SAMPLES, _glContextAttrs.multisamplingCount);
-    
+
+#ifdef CC_USE_METAL
     // Don't create gl context.
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+#endif
 
     int neededWidth = rect.size.width * _frameZoomFactor;
     int neededHeight = rect.size.height * _frameZoomFactor;
@@ -323,6 +325,7 @@ bool GLViewImpl::initWithRect(const std::string& viewName, Rect rect, float fram
     glfwGetFramebufferSize(_mainWindow, &fbWidth, &fbHeight);
     
     
+#ifdef CC_USE_METAL
     CGSize size;
     size.width = static_cast<CGFloat>(fbWidth);
     size.height = static_cast<CGFloat>(fbHeight);
@@ -344,7 +347,8 @@ bool GLViewImpl::initWithRect(const std::string& viewName, Rect rect, float fram
     [layer setDrawableSize:size];
     [contentView setLayer:layer];
     backend::DeviceMTL::setCAMetalLayer(layer);
-
+#endif
+    
     /*
     *  Note that the created window and context may differ from what you requested,
     *  as not all parameters and hints are
@@ -365,6 +369,10 @@ bool GLViewImpl::initWithRect(const std::string& viewName, Rect rect, float fram
     {
         rect.size.height = realH / _frameZoomFactor;
     }
+    
+#ifdef CC_USE_GL
+    glfwMakeContextCurrent(_mainWindow);
+#endif
 
     glfwSetMouseButtonCallback(_mainWindow, GLFWEventHandler::onGLFWMouseCallBack);
     glfwSetCursorPosCallback(_mainWindow, GLFWEventHandler::onGLFWMouseMoveCallBack);
@@ -377,6 +385,28 @@ bool GLViewImpl::initWithRect(const std::string& viewName, Rect rect, float fram
     glfwSetWindowFocusCallback(_mainWindow, GLFWEventHandler::onGLFWWindowFocusCallback);
 
     setFrameSize(rect.size.width, rect.size.height);
+    
+#ifdef CC_USE_GL
+    // check OpenGL version at first
+    const GLubyte* glVersion = glGetString(GL_VERSION);
+
+    if (std::atof((const char*)glVersion) < 1.5)
+    {
+        char strComplain[256] = {0};
+        sprintf(strComplain, "OpenGL 1.5 or higher is required (your version is %s). Please upgrade the driver of your video card.", glVersion);
+        MessageBox(strComplain, "OpenGL version too old");
+        return false;
+    }
+
+    initGlew();
+
+    // Enable point size by default.
+    glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
+
+    //    // GLFW v3.2 no longer emits "onGLFWWindowSizeFunCallback" at creation time. Force default viewport:
+    //    setViewPortInPoints(0, 0, neededWidth, neededHeight);
+    //
+#endif
 
     return true;
 }
@@ -426,8 +456,10 @@ void GLViewImpl::end()
 
 void GLViewImpl::swapBuffers()
 {
-//    if(_mainWindow)
-//        glfwSwapBuffers(_mainWindow);
+#ifdef CC_USE_GL
+    if(_mainWindow)
+        glfwSwapBuffers(_mainWindow);
+#endif
 }
 
 bool GLViewImpl::windowShouldClose()
@@ -922,6 +954,48 @@ void GLViewImpl::onGLFWWindowFocusCallback(GLFWwindow* /*window*/, int focused)
     {
         Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(GLViewImpl::EVENT_WINDOW_UNFOCUSED, nullptr);
     }
+}
+
+// helper
+bool GLViewImpl::initGlew()
+{
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_MAC)
+    GLenum GlewInitResult = glewInit();
+    if (GLEW_OK != GlewInitResult)
+    {
+        MessageBox((char*)glewGetErrorString(GlewInitResult), "OpenGL error");
+        return false;
+    }
+
+    if (GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader)
+    {
+        log("Ready for GLSL");
+    }
+    else
+    {
+        log("Not totally ready :(");
+    }
+
+    if (glewIsSupported("GL_VERSION_2_0"))
+    {
+        log("Ready for OpenGL 2.0");
+    }
+    else
+    {
+        log("OpenGL 2.0 not supported");
+    }
+
+#    if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+    if (glew_dynamic_binding() == false)
+    {
+        MessageBox("No OpenGL framebuffer support. Please upgrade the driver of your video card.", "OpenGL error");
+        return false;
+    }
+#    endif
+
+#endif // (CC_TARGET_PLATFORM != CC_PLATFORM_MAC)
+
+    return true;
 }
 
 NS_CC_END // end of namespace cocos2d;
