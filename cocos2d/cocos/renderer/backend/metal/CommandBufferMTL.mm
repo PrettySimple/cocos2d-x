@@ -433,10 +433,18 @@ void CommandBufferMTL::setScissorRect(bool isEnabled, float x, float y, float wi
     
     if(isEnabled)
     {
-        scissorRect.x = static_cast<unsigned long>(std::max(0.0f, x));
-        scissorRect.y = static_cast<unsigned long>(std::max(0.0f, _renderTargetHeight - height - y));
-        scissorRect.width = std::max(0UL, static_cast<unsigned long>(width));
-        scissorRect.height = std::max(0UL, static_cast<unsigned long>(height));
+        if (x < 0.0f) {
+            scissorRect.x = 0.0f;
+            width += x;
+        } else
+            scissorRect.x = static_cast<unsigned long>(x);
+        if (_renderTargetHeight - height - y < 0.0f) {
+            scissorRect.y = 0.0f;
+            height += _renderTargetHeight - height - y;
+        } else
+            scissorRect.y = static_cast<unsigned long>(_renderTargetHeight - height - y);
+        scissorRect.width = static_cast<unsigned long>(std::max(0.0f, width));
+        scissorRect.height = static_cast<unsigned long>(std::max(0.0f, height));
         // Ensure that we are smaller than render pass size
         scissorRect.width  = static_cast<unsigned long>(std::max(0.0f, std::min( 1.0f* scissorRect.width,  1.0f* _renderTargetWidth  - 1.0f * scissorRect.x)));
         if (scissorRect.width == 0)
