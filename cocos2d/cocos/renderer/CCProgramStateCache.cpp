@@ -23,9 +23,15 @@ ProgramStateCache &ProgramStateCache::_getInstance()
     return _cache;
 }
 
+ProgramStateCache::MaterialId ProgramStateCache::hash(const void* input, int len)
+{
+    return XXH32(input, len, 0);
+}
+
 ProgramStateCache::MaterialId ProgramStateCache::computeMaterialId(cocos2d::backend::Program *       programs,
                                                                    cocos2d::backend::TextureBackend *texture,
-                                                                   cocos2d::BlendFunc                blendType)
+                                                                   cocos2d::BlendFunc                blendType,
+                                                                   MaterialId                        uniformId)
 {
     struct
     {
@@ -33,6 +39,7 @@ ProgramStateCache::MaterialId ProgramStateCache::computeMaterialId(cocos2d::back
         void *               program;
         backend::BlendFactor src;
         backend::BlendFactor dst;
+        MaterialId           uniformId;
     } hashMe;
     
     // NOTE: Initialize hashMe struct to make the value of padding bytes be filled with zero.
@@ -40,36 +47,51 @@ ProgramStateCache::MaterialId ProgramStateCache::computeMaterialId(cocos2d::back
     // are set to random values by different compilers.
     memset(&hashMe, 0, sizeof(hashMe));
     
-    hashMe.texture = texture;
-    hashMe.src     = blendType.src;
-    hashMe.dst     = blendType.dst;
-    hashMe.program = programs;
-    return XXH32((const void *)&hashMe, sizeof(hashMe), 0);
+    hashMe.texture   = texture;
+    hashMe.src       = blendType.src;
+    hashMe.dst       = blendType.dst;
+    hashMe.program   = programs;
+    hashMe.uniformId = uniformId;
+    return hash((const void *)&hashMe, sizeof(hashMe));
 }
 
 backend::ProgramState *ProgramStateCache::getOrCreateProgramState(backend::ProgramType type,
                                                                   cocos2d::Texture2D * texture,
                                                                   cocos2d::BlendFunc   blendType,
+                                                                  MaterialId           uniformId,
                                                                   NewProgramStateCbk   newProgramStateCbk)
 {
-    return _getInstance()._getOrCreateProgramState(new cocos2d::backend::ProgramState(type), texture, blendType, newProgramStateCbk);
+    return _getInstance()._getOrCreateProgramState(new cocos2d::backend::ProgramState(type),
+                                                   texture,
+                                                   blendType,
+                                                   uniformId,
+                                                   newProgramStateCbk);
 }
 
 backend::ProgramState *ProgramStateCache::getOrCreateProgramState(const std::string & vertexSh,
                                                                   const std::string & fragSh,
                                                                   cocos2d::Texture2D *texture,
                                                                   cocos2d::BlendFunc  blendType,
+                                                                  MaterialId          uniformId,
                                                                   NewProgramStateCbk  newProgramStateCbk)
 {
-    return _getInstance()._getOrCreateProgramState(new cocos2d::backend::ProgramState(vertexSh, fragSh), texture, blendType, newProgramStateCbk);
+    return _getInstance()._getOrCreateProgramState(new cocos2d::backend::ProgramState(vertexSh, fragSh),
+                                                   texture,
+                                                   blendType,
+                                                   uniformId,
+                                                   newProgramStateCbk);
 }
 
 backend::ProgramState *ProgramStateCache::_getOrCreateProgramState(cocos2d::backend::ProgramState *templateProgram,
                                                                    cocos2d::Texture2D *            texture,
                                                                    cocos2d::BlendFunc              blendType,
+                                                                   MaterialId                      uniformId,
                                                                    NewProgramStateCbk              newProgramStateCbk)
 {
-    auto materialID         = computeMaterialId(templateProgram->getProgram(), texture ? texture->getBackendTexture() : nullptr, blendType);
+    auto materialID         = computeMaterialId(templateProgram->getProgram(),
+                                                texture ? texture->getBackendTexture() : nullptr,
+                                                blendType,
+                                                uniformId);
     
     auto cachedProgramState = _programStateCache.find(materialID);
     if (cachedProgramState != _programStateCache.end()) {

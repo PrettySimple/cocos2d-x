@@ -24,32 +24,37 @@ namespace cocos2d {
         public:
             using MaterialId = uint32_t;
             using NewProgramStateCbk = std::function<void(backend::ProgramState*)>;
-            
+        
+            static MaterialId hash(const void* input, int len);
+        
             static MaterialId computeMaterialId(cocos2d::backend::Program *       program,
                                                 cocos2d::backend::TextureBackend *texture,
-                                                cocos2d::BlendFunc                blendType);
+                                                cocos2d::BlendFunc                blendType,
+                                                MaterialId                        uniformId = 0);
             
             static backend::ProgramState *getOrCreateProgramState(backend::ProgramType type,
                                                                   cocos2d::Texture2D * texture,
                                                                   cocos2d::BlendFunc   blendType,
-                                                                  NewProgramStateCbk newProgramStateCbk = nullptr);
+                                                                  MaterialId           uniformId = 0,
+                                                                  NewProgramStateCbk   newProgramStateCbk = nullptr);
             
             static backend::ProgramState *getOrCreateProgramState(const std::string & vertexSh,
                                                                   const std::string & fragSh,
                                                                   cocos2d::Texture2D *texture,
                                                                   cocos2d::BlendFunc  blendType,
-                                                                  NewProgramStateCbk newProgramStateCbk = nullptr);
+                                                                  MaterialId          uniformId = 0,
+                                                                  NewProgramStateCbk  newProgramStateCbk = nullptr);
             
             static void clear();
             
             static void setUpStandardAttributeLayout(cocos2d::backend::ProgramState *programState);
   
-        static void addStandardUniformRenderCommand(cocos2d::CallbackCommand *      cmd,
-                                                    cocos2d::Renderer *             renderer,
-                                                    cocos2d::backend::ProgramState *programState,
-                                                    float                           globalOrder,
-                                                    cocos2d::Texture2D *            texture,
-                                                    bool                            isUsingMVP);
+            static void addStandardUniformRenderCommand(cocos2d::CallbackCommand *      cmd,
+                                                        cocos2d::Renderer *             renderer,
+                                                        cocos2d::backend::ProgramState *programState,
+                                                        float                           globalOrder,
+                                                        cocos2d::Texture2D *            texture,
+                                                        bool                            isUsingMVP);
         protected:
             std::map<MaterialId, cocos2d::backend::ProgramState *> _programStateCache;
             
@@ -58,7 +63,8 @@ namespace cocos2d {
             backend::ProgramState *_getOrCreateProgramState(cocos2d::backend::ProgramState *templateProgram,
                                                             cocos2d::Texture2D *            texture,
                                                             cocos2d::BlendFunc              blendType,
-                                                            NewProgramStateCbk newProgramStateCbk = nullptr);
+                                                            MaterialId                      uniformId          = 0,
+                                                            NewProgramStateCbk              newProgramStateCbk = nullptr);
         
             void _cleanUnusued();
             
