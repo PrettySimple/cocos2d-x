@@ -170,14 +170,7 @@ void CommandBufferMTL::beginRenderPass(const RenderPassDescriptor& descriptor)
     auto mtlDescriptor = rc.renderPassDecriptor;
     _renderTargetWidth = (unsigned int)mtlDescriptor.colorAttachments[0].texture.width;
     _renderTargetHeight = (unsigned int)mtlDescriptor.colorAttachments[0].texture.height;
-    if (mtlDescriptor.stencilAttachment &&
-        mtlDescriptor.stencilAttachment.texture) {
-        _renderTargetWidth = std::min(_renderTargetWidth,
-                                      (unsigned int)mtlDescriptor.stencilAttachment.texture.width);
-        _renderTargetHeight = std::min(_renderTargetHeight,
-                                       (unsigned int)mtlDescriptor.stencilAttachment.texture.height);
-    }
-
+   
     //    [_mtlRenderEncoder setFrontFacingWinding:MTLWindingCounterClockwise];
 }
 
@@ -421,15 +414,6 @@ void CommandBufferMTL::setLineWidth(float lineWidth)
 void CommandBufferMTL::setScissorRect(bool isEnabled, float x, float y, float width, float height)
 {
     MTLScissorRect scissorRect;
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
-    // Check against Frame buffer size to prevent crash on window resize
-    auto frameBufferSize = Director::getInstance()->getOpenGLView()->getFramebufferSize();
-    if (_renderTargetWidth > frameBufferSize.width)
-        _renderTargetWidth = frameBufferSize.width;
-    if (_renderTargetHeight > frameBufferSize.height)
-        _renderTargetHeight = frameBufferSize.height;
-#endif
     
     if(isEnabled)
     {

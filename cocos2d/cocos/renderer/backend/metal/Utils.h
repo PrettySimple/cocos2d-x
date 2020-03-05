@@ -67,7 +67,7 @@ public:
      * @return The default combined depth and stencil texture.
      */
     static id<MTLTexture> getDefaultDepthStencilTexture();
-
+    static void clearDefaultDepthStencilTexture();
     /**
      * Convert backend::PixelFormat to MTLPixelFormat.
      * @param textureFormat Specifies a pixel format to be converted.

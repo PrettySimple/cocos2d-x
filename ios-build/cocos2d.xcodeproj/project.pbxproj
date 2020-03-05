@@ -1639,6 +1639,7 @@
 		4A6A9A1423707898009F16ED /* CCAnimation3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAnimation3D.cpp; sourceTree = "<group>"; };
 		4A6A9A1523707898009F16ED /* CCAttachNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAttachNode.h; sourceTree = "<group>"; };
 		4A6A9A1623707898009F16ED /* CCBundle3DData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCBundle3DData.cpp; sourceTree = "<group>"; };
+		4A78B1C7241110880017EB12 /* Utils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Utils.hpp; path = cocos2d/cocos/renderer/backend/metal/Utils.hpp; sourceTree = "<group>"; };
 		4A7B287D23A0F16900C3EDD1 /* etcdec.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = etcdec.cxx; path = cocos2d/cocos/base/etcdec.cxx; sourceTree = "<group>"; };
 		4A7B287E23A0F16900C3EDD1 /* etc2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = etc2.h; path = cocos2d/cocos/base/etc2.h; sourceTree = "<group>"; };
 		4A7B287F23A0F16900C3EDD1 /* etc2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = etc2.cpp; path = cocos2d/cocos/base/etc2.cpp; sourceTree = "<group>"; };
@@ -3241,6 +3242,7 @@
 				F308CC61E2154550968D96D4 /* TextureMTL.h */,
 				D3F3D0A955FA4319861F8936 /* TextureMTL.mm */,
 				0927243A450C49EF94CBE93F /* Utils.h */,
+				4A78B1C7241110880017EB12 /* Utils.hpp */,
 				6FCC83BC8DDE4417ACF8ED3C /* Utils.mm */,
 			);
 			name = metal;

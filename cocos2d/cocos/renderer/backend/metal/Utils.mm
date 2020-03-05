@@ -23,6 +23,7 @@
  ****************************************************************************/
  
 #include "Utils.h"
+#include "Utils.hpp"
 #include "DeviceMTL.h"
 #include <cocos/base/CCConfiguration.h>
 
@@ -95,6 +96,17 @@ id<MTLTexture> Utils::getDefaultDepthStencilTexture()
         _defaultDepthStencilAttachmentTexture = Utils::createDepthStencilAttachmentTexture();
     
     return _defaultDepthStencilAttachmentTexture;
+}
+
+void Utils::clearDefaultDepthStencilTexture()
+{
+    [_defaultDepthStencilAttachmentTexture release];
+    _defaultDepthStencilAttachmentTexture = nil;
+}
+
+void UtilsCpp::clearDefaultDepthStencilTexture()
+{
+    Utils::clearDefaultDepthStencilTexture();
 }
 
 void Utils::updateDefaultColorAttachmentTexture(id<MTLTexture> texture)
