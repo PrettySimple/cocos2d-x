@@ -65,7 +65,9 @@ THE SOFTWARE.
 #include <cocos/base/CCScriptSupport.h>
 #endif
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "TargetConditionals.h"
+#endif
 
 /**
  Position of the FPS
