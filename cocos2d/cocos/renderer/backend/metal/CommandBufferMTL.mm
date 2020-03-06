@@ -170,7 +170,14 @@ void CommandBufferMTL::beginRenderPass(const RenderPassDescriptor& descriptor)
     auto mtlDescriptor = rc.renderPassDecriptor;
     _renderTargetWidth = (unsigned int)mtlDescriptor.colorAttachments[0].texture.width;
     _renderTargetHeight = (unsigned int)mtlDescriptor.colorAttachments[0].texture.height;
-   
+    if (mtlDescriptor.stencilAttachment &&
+        mtlDescriptor.stencilAttachment.texture) {
+        _renderTargetWidth = std::min(_renderTargetWidth,
+                                      (unsigned int)mtlDescriptor.stencilAttachment.texture.width);
+        _renderTargetHeight = std::min(_renderTargetHeight,
+                                       (unsigned int)mtlDescriptor.stencilAttachment.texture.height);
+    }
+
     //    [_mtlRenderEncoder setFrontFacingWinding:MTLWindingCounterClockwise];
 }
 
