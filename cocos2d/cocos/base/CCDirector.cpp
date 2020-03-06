@@ -65,6 +65,8 @@ THE SOFTWARE.
 #include <cocos/base/CCScriptSupport.h>
 #endif
 
+#include "TargetConditionals.h"
+
 /**
  Position of the FPS
  
@@ -1243,8 +1245,10 @@ void Director::createStatsLabel()
         FileUtils::getInstance()->purgeCachedEntries();
     }
 
+#if !TARGET_OS_SIMULATOR
     backend::PixelFormat currentFormat = Texture2D::getDefaultAlphaPixelFormat();
     Texture2D::setDefaultAlphaPixelFormat(backend::PixelFormat::RGBA4444);
+#endif
     unsigned char *data = nullptr;
     ssize_t dataLength = 0;
     getFPSImageData(&data, &dataLength);
@@ -1290,7 +1294,9 @@ void Director::createStatsLabel()
     _drawnVerticesLabel->setScale(scaleFactor);
 
 
+#if !TARGET_OS_SIMULATOR
     Texture2D::setDefaultAlphaPixelFormat(currentFormat);
+#endif
 
     const int height_spacing = (int)(22 / CC_CONTENT_SCALE_FACTOR());
     _drawnVerticesLabel->setPosition(_displayStatsOffset + Vec2(0, height_spacing*2.0f) + CC_DIRECTOR_STATS_POSITION);
