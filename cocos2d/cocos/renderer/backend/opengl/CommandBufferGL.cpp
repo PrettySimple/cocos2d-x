@@ -226,6 +226,16 @@ void CommandBufferGL::applyRenderPassDescriptor(const RenderPassDescriptor& desc
     }
     CHECK_GL_ERROR_DEBUG();
     
+    // set viewport and scissor in order to clear correctly
+    if( descirptor.colorAttachmentsTexture[0] ) {
+        auto texture = dynamic_cast<Texture2DBackend *>(descirptor.colorAttachmentsTexture[0]);
+        if( texture ) {
+            setViewport(0, 0, (unsigned int) texture->getWidth(),
+                        (unsigned int) texture->getHeight());
+            setScissorRect(false, 0, 0, 0, 0);
+        }
+    }
+    
     // set clear color, depth and stencil
     GLbitfield mask = 0;
     if (descirptor.needClearColor)
