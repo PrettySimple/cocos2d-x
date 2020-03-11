@@ -45,8 +45,12 @@ public:
      * Set CAMetalLayer.
      * @param metalLayer A CAMetalLayer object.
      */
+    #pragma clang diagnostic push
+    // Bypass an XCode bug: warning that CAMetalLayer is only IOS> 13
+    #pragma clang diagnostic ignored "-Wunguarded-availability-new"
     static void setCAMetalLayer(CAMetalLayer* metalLayer);
-    
+    #pragma clang diagnostic pop
+
     /**
      * Invoke by engine internally at the beginning of rendering a new frame.
      */
@@ -56,7 +60,11 @@ public:
      * Get a CAMetalLayer.
      * @return A CAMetalLayer object.
      */
+    #pragma clang diagnostic push
+    // Bypass an XCode bug: warning that CAMetalLayer is only IOS> 13
+    #pragma clang diagnostic ignored "-Wunguarded-availability-new"
     static CAMetalLayer* getCAMetalLayer() { return DeviceMTL::_metalLayer; }
+    #pragma clang diagnostic pop
     
     /**
      * Get available Drawable.
@@ -149,7 +157,11 @@ protected:
     virtual Program* newProgram(const std::string& vertexShader, const std::string& fragmentShader) override;
     
 private:
+    #pragma clang diagnostic push
+    // Bypass an XCode bug: warning that CAMetalLayer is only IOS> 13
+    #pragma clang diagnostic ignored "-Wunguarded-availability-new"
     static CAMetalLayer* _metalLayer;
+    #pragma clang diagnostic pop
     static id<CAMetalDrawable> _currentDrawable;
     
     id<MTLDevice> _mtlDevice = nil;

@@ -980,7 +980,11 @@ UIInterfaceOrientation getFixedOrientation(UIInterfaceOrientation statusBarOrien
 @synthesize keyboardShowNotification = keyboardShowNotification_;
 + (Class) layerClass
 {
+    #pragma clang diagnostic push
+    // Bypass an XCode bug: warning that CAMetalLayer is only IOS> 13
+    #pragma clang diagnostic ignored "-Wunguarded-availability-new"
     return [CAMetalLayer class];
+    #pragma clang diagnostic pop
 }
 
 + (id) viewWithFrame:(CGRect)frame
@@ -1035,7 +1039,12 @@ UIInterfaceOrientation getFixedOrientation(UIInterfaceOrientation statusBarOrien
              CCLOG("Doesn't support metal.");
              return nil;
         }
+        #pragma clang diagnostic push
+        // Bypass an XCode bug: warning that CAMetalLayer is only IOS> 13
+        #pragma clang diagnostic ignored "-Wunguarded-availability-new"
         CAMetalLayer* metalLayer = (CAMetalLayer*)[self layer];
+        #pragma clang diagnostic pop
+
         metalLayer.device = device;
         metalLayer.pixelFormat = MTLPixelFormatBGRA8Unorm;
         metalLayer.framebufferOnly = YES;

@@ -37,7 +37,11 @@
 
 CC_BACKEND_BEGIN
 
+#pragma clang diagnostic push
+// Bypass an XCode bug: warning that CAMetalLayer is only IOS> 13
+#pragma clang diagnostic ignored "-Wunguarded-availability-new"
 CAMetalLayer* DeviceMTL::_metalLayer = nil;
+#pragma clang diagnostic pop
 id<CAMetalDrawable> DeviceMTL::_currentDrawable = nil;
 
 #ifdef CC_USE_METAL
@@ -50,10 +54,14 @@ Device* Device::getInstance()
 }
 #endif
 
+#pragma clang diagnostic push
+// Bypass an XCode bug: warning that CAMetalLayer is only IOS> 13
+#pragma clang diagnostic ignored "-Wunguarded-availability-new"
 void DeviceMTL::setCAMetalLayer(CAMetalLayer* metalLayer)
 {
     DeviceMTL::_metalLayer = metalLayer;
 }
+#pragma clang diagnostic pop
 
 id<CAMetalDrawable> DeviceMTL::getCurrentDrawable()
 {
