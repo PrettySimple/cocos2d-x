@@ -68,6 +68,10 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 #import <cocos/base/CCTouch.h>
 #import <cocos/base/CCIMEDispatcher.h>
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#include "TargetConditionals.h"
+#endif
+
 ///// ==================================================== GLES IMPLEMENTATION ====================================================
 #ifdef CC_USE_GLES
 #import <cocos/renderer/backend/opengl/DeviceGL.h>
@@ -980,11 +984,15 @@ UIInterfaceOrientation getFixedOrientation(UIInterfaceOrientation statusBarOrien
 @synthesize keyboardShowNotification = keyboardShowNotification_;
 + (Class) layerClass
 {
-    #pragma clang diagnostic push
+#if TARGET_OS_SIMULATOR
+#pragma clang diagnostic push
     // Bypass an XCode bug: warning that CAMetalLayer is only IOS> 13
-    #pragma clang diagnostic ignored "-Wunguarded-availability-new"
+#pragma clang diagnostic ignored "-Wunguarded-availability-new"
+#endif
     return [CAMetalLayer class];
-    #pragma clang diagnostic pop
+#if TARGET_OS_SIMULATOR
+#pragma clang diagnostic pop
+#endif
 }
 
 + (id) viewWithFrame:(CGRect)frame
@@ -1039,11 +1047,15 @@ UIInterfaceOrientation getFixedOrientation(UIInterfaceOrientation statusBarOrien
              CCLOG("Doesn't support metal.");
              return nil;
         }
-        #pragma clang diagnostic push
+#if TARGET_OS_SIMULATOR
+#pragma clang diagnostic push
         // Bypass an XCode bug: warning that CAMetalLayer is only IOS> 13
-        #pragma clang diagnostic ignored "-Wunguarded-availability-new"
+#pragma clang diagnostic ignored "-Wunguarded-availability-new"
+#endif
         CAMetalLayer* metalLayer = (CAMetalLayer*)[self layer];
-        #pragma clang diagnostic pop
+#if TARGET_OS_SIMULATOR
+#pragma clang diagnostic pop
+#endif
 
         metalLayer.device = device;
         metalLayer.pixelFormat = MTLPixelFormatBGRA8Unorm;

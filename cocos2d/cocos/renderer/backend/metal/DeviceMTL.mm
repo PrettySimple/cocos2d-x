@@ -35,13 +35,21 @@
 
 #include <cocos/base/ccMacros.h>
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#include "TargetConditionals.h"
+#endif
+
 CC_BACKEND_BEGIN
 
+#if TARGET_OS_SIMULATOR
 #pragma clang diagnostic push
 // Bypass an XCode bug: warning that CAMetalLayer is only IOS> 13
 #pragma clang diagnostic ignored "-Wunguarded-availability-new"
+#endif
 CAMetalLayer* DeviceMTL::_metalLayer = nil;
+#if TARGET_OS_SIMULATOR
 #pragma clang diagnostic pop
+#endif
 id<CAMetalDrawable> DeviceMTL::_currentDrawable = nil;
 
 #ifdef CC_USE_METAL
@@ -54,14 +62,18 @@ Device* Device::getInstance()
 }
 #endif
 
+#if TARGET_OS_SIMULATOR
 #pragma clang diagnostic push
 // Bypass an XCode bug: warning that CAMetalLayer is only IOS> 13
 #pragma clang diagnostic ignored "-Wunguarded-availability-new"
+#endif
 void DeviceMTL::setCAMetalLayer(CAMetalLayer* metalLayer)
 {
     DeviceMTL::_metalLayer = metalLayer;
 }
+#if TARGET_OS_SIMULATOR
 #pragma clang diagnostic pop
+#endif
 
 id<CAMetalDrawable> DeviceMTL::getCurrentDrawable()
 {

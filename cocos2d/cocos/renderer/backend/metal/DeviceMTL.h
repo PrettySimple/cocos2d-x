@@ -28,6 +28,10 @@
 #import <Metal/Metal.h>
 #import <QuartzCore/CAMetalLayer.h>
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#include "TargetConditionals.h"
+#endif
+
 CC_BACKEND_BEGIN
 
 /**
@@ -45,11 +49,15 @@ public:
      * Set CAMetalLayer.
      * @param metalLayer A CAMetalLayer object.
      */
-    #pragma clang diagnostic push
+#if TARGET_OS_SIMULATOR
+#pragma clang diagnostic push
     // Bypass an XCode bug: warning that CAMetalLayer is only IOS> 13
-    #pragma clang diagnostic ignored "-Wunguarded-availability-new"
+#pragma clang diagnostic ignored "-Wunguarded-availability-new"
+#endif
     static void setCAMetalLayer(CAMetalLayer* metalLayer);
-    #pragma clang diagnostic pop
+#if TARGET_OS_SIMULATOR
+#pragma clang diagnostic pop
+#endif
 
     /**
      * Invoke by engine internally at the beginning of rendering a new frame.
@@ -60,11 +68,15 @@ public:
      * Get a CAMetalLayer.
      * @return A CAMetalLayer object.
      */
-    #pragma clang diagnostic push
+#if TARGET_OS_SIMULATOR
+#pragma clang diagnostic push
     // Bypass an XCode bug: warning that CAMetalLayer is only IOS> 13
-    #pragma clang diagnostic ignored "-Wunguarded-availability-new"
+#pragma clang diagnostic ignored "-Wunguarded-availability-new"
+#endif
     static CAMetalLayer* getCAMetalLayer() { return DeviceMTL::_metalLayer; }
-    #pragma clang diagnostic pop
+#if TARGET_OS_SIMULATOR
+#pragma clang diagnostic pop
+#endif
     
     /**
      * Get available Drawable.
@@ -157,11 +169,15 @@ protected:
     virtual Program* newProgram(const std::string& vertexShader, const std::string& fragmentShader) override;
     
 private:
-    #pragma clang diagnostic push
+#if TARGET_OS_SIMULATOR
+#pragma clang diagnostic push
     // Bypass an XCode bug: warning that CAMetalLayer is only IOS> 13
-    #pragma clang diagnostic ignored "-Wunguarded-availability-new"
+#pragma clang diagnostic ignored "-Wunguarded-availability-new"
+#endif
     static CAMetalLayer* _metalLayer;
-    #pragma clang diagnostic pop
+#if TARGET_OS_SIMULATOR
+#pragma clang diagnostic pop
+#endif
     static id<CAMetalDrawable> _currentDrawable;
     
     id<MTLDevice> _mtlDevice = nil;
