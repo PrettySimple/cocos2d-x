@@ -36,7 +36,7 @@
 CC_BACKEND_BEGIN
 namespace {
     std::string vsPreDefine("#version 100\n precision highp float;\n precision highp int;\n");
-    std::string fsPreDefine("precision mediump float;\n precision mediump int;\n");
+    std::string fsPreDefine("#version 100\n precision mediump float;\n precision mediump int;\n");
 }
 
 ProgramGL::ProgramGL(const std::string& vertexShader, const std::string& fragmentShader)
