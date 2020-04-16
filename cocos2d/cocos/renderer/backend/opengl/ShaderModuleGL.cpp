@@ -29,6 +29,8 @@
 #include <cocos/platform/CCPlatformMacros.h>
 #include <cocos/base/ccMacros.h>
 
+#include "glsl_optimizer.h"
+
 CC_BACKEND_BEGIN
 
 ShaderModuleGL::ShaderModuleGL(ShaderStage stage, const std::string& source)
@@ -44,8 +46,28 @@ ShaderModuleGL::~ShaderModuleGL()
 
 void ShaderModuleGL::compileShader(ShaderStage stage, const std::string &source)
 {
+    // Optimise GLSL shader for GLES20
+    static glslopt_ctx* ctx = glslopt_initialize(kGlslTargetOpenGLES20);
+    glslopt_shader_type st = stage == ShaderStage::VERTEX ? kGlslOptShaderVertex : kGlslOptShaderFragment;
+    glslopt_shader* glslShader = glslopt_optimize(ctx, st, source.c_str(), 0);
+    if (!glslShader)
+    {
+        CCLOG("Can not optimise GLSL shader:");
+        CCLOG("%s", source.c_str());
+        return;
+    }
+
+    const char* optimShader = glslopt_get_output(glslShader);
+    if (!optimShader)
+    {
+        CCLOG("Can not get optimised shader:");
+        CCLOG("%s", source.c_str());
+        CCLOG("glslopt log %s", glslopt_get_log(glslShader));
+        return;
+    }
+    
     GLenum shaderType = stage == ShaderStage::VERTEX ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER;
-    const GLchar* sourcePtr = reinterpret_cast<const GLchar*>(source.c_str());
+    const GLchar* sourcePtr = reinterpret_cast<const GLchar*>(optimShader);
     _shader = glCreateShader(shaderType);
     if (!_shader)
         return;
@@ -62,6 +84,8 @@ void ShaderModuleGL::compileShader(ShaderStage stage, const std::string &source)
         deleteShader();
         CCASSERT(false, "Shader compile failed!");
     }
+
+    glslopt_shader_delete(glslShader);
 }
 
 char* ShaderModuleGL::getErrorLog(GLuint shader) const
