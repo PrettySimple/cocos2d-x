@@ -46,9 +46,8 @@ ShaderModuleGL::~ShaderModuleGL()
 
 void ShaderModuleGL::compileShader(ShaderStage stage, const std::string &source)
 {
-    // Convert GLSL shader to metal shader
-    //TODO: don't crreate/destroy ctx every time.
-    glslopt_ctx* ctx = glslopt_initialize(kGlslTargetOpenGLES20);
+    // Optimise GLSL shader for GLES20
+    static glslopt_ctx* ctx = glslopt_initialize(kGlslTargetOpenGLES20);
     glslopt_shader_type st = stage == ShaderStage::VERTEX ? kGlslOptShaderVertex : kGlslOptShaderFragment;
     glslopt_shader* glslShader = glslopt_optimize(ctx, st, source.c_str(), 0);
     if (!glslShader)
@@ -61,10 +60,9 @@ void ShaderModuleGL::compileShader(ShaderStage stage, const std::string &source)
     const char* optimShader = glslopt_get_output(glslShader);
     if (!optimShader)
     {
-        CCLOG("Can not get metal shader:");
+        CCLOG("Can not get optimised shader:");
         CCLOG("%s", source.c_str());
         CCLOG("glslopt log %s", glslopt_get_log(glslShader));
-        glslopt_cleanup(ctx);
         return;
     }
     
@@ -88,7 +86,6 @@ void ShaderModuleGL::compileShader(ShaderStage stage, const std::string &source)
     }
 
     glslopt_shader_delete(glslShader);
-    glslopt_cleanup(ctx);
 }
 
 char* ShaderModuleGL::getErrorLog(GLuint shader) const
