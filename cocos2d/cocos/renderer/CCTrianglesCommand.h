@@ -103,7 +103,7 @@ public:
     void updateMaterialID();
     
     // this lets the node set a material id based on a custom shader uniforms value
-    void updateMaterialIDWithHash(uint32_t uniformsHash);
+    void enableBatchingForCustomShader(uint32_t uniformsHash);
   
 protected:
     /**Generate the material ID by textureID, glProgramState, and blend function.*/

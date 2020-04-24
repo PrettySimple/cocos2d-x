@@ -104,7 +104,7 @@ void TrianglesCommand::generateMaterialID()
 //    _materialID = XXH32((const void*)&hashMe, sizeof(hashMe), 0);
 }
 
-void TrianglesCommand::updateMaterialIDWithHash(uint32_t uniformsHash)
+void TrianglesCommand::enableBatchingForCustomShader(uint32_t uniformsHash)
 {
     setSkipBatching(false);
     _materialID = ProgramStateCache::computeMaterialId(_program, _texture, _blendType, uniformsHash);
