@@ -265,6 +265,8 @@ public:
     void setParameterAutoBinding(const std::string &uniformName, const std::string &autoBinding);
 
     inline std::shared_ptr<VertexLayout> getVertexLayout() const { return _vertexLayout; }
+    
+    uint32_t getUniformsBufferHash();
 protected:
 
     ProgramState();
