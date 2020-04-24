@@ -31,6 +31,7 @@
 #include <cocos/base/CCEventType.h>
 #include <cocos/base/CCDirector.h>
 
+#include <xxhash.h>
 #include <algorithm>
 
 #ifdef CC_USE_METAL
@@ -539,6 +540,18 @@ void ProgramState::getFragmentUniformBuffer(char** buffer, std::size_t& size) co
 {
     *buffer = _fragmentUniformBuffer;
     size = _fragmentUniformBufferSize;
+}
+
+uint32_t ProgramState::getUniformsBufferHash(){
+    struct UniformsHashStruct {
+        uint32_t vertexUniformsHash;
+        uint32_t fragmentUniformsHash;
+    } uniformsHash =
+    {
+        XXH32(_vertexUniformBuffer, static_cast<int>(_vertexUniformBufferSize), 0),
+        XXH32(_fragmentUniformBuffer, static_cast<int>(_fragmentUniformBufferSize), 0)
+    };
+    return XXH32(&uniformsHash, sizeof(uniformsHash), 0);
 }
 
 CC_BACKEND_END
