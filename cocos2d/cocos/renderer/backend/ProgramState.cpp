@@ -543,6 +543,7 @@ void ProgramState::getFragmentUniformBuffer(char** buffer, std::size_t& size) co
 }
 
 uint32_t ProgramState::getUniformsBufferHash(){
+#ifdef CC_USE_METAL
     struct UniformsHashStruct {
         uint32_t vertexUniformsHash;
         uint32_t fragmentUniformsHash;
@@ -552,6 +553,9 @@ uint32_t ProgramState::getUniformsBufferHash(){
         XXH32(_fragmentUniformBuffer, static_cast<int>(_fragmentUniformBufferSize), 0)
     };
     return XXH32(&uniformsHash, sizeof(uniformsHash), 0);
+#else
+    return XXH32(_vertexUniformBuffer, static_cast<int>(_vertexUniformBufferSize), 0);
+#endif    
 }
 
 CC_BACKEND_END
