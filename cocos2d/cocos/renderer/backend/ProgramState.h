@@ -264,7 +264,7 @@ public:
     */
     void setParameterAutoBinding(const std::string &uniformName, const std::string &autoBinding);
 
-    inline std::shared_ptr<VertexLayout> getVertexLayout() {
+    inline std::shared_ptr<VertexLayout> getVertexLayout() const {
         if (!_vertexLayout)
             _vertexLayout = std::make_shared<VertexLayout>();
         return _vertexLayout;
@@ -348,7 +348,7 @@ protected:
     std::unordered_map<std::string, std::string>            _autoBindings;
 
     static std::vector<AutoBindingResolver*>                _customAutoBindingResolvers;
-    std::shared_ptr<VertexLayout> _vertexLayout = nullptr;
+    mutable std::shared_ptr<VertexLayout> _vertexLayout = nullptr;
     
 #ifdef COCOS2D_DEBUG
     std::string _vertexShaderStr4Dbg;

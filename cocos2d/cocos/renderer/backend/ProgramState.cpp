@@ -277,7 +277,7 @@ ProgramState *ProgramState::clone() const
     cp->_fragmentTextureInfos = _fragmentTextureInfos;
     cp->_vertexUniformBuffer = new char[_vertexUniformBufferSize];
     memcpy(cp->_vertexUniformBuffer, _vertexUniformBuffer, _vertexUniformBufferSize);
-    cp->_vertexLayout = std::make_shared<VertexLayout>(*_vertexLayout);
+    cp->_vertexLayout = std::make_shared<VertexLayout>(*getVertexLayout());
 #ifdef CC_USE_METAL
     cp->_fragmentUniformBuffer = new char[_fragmentUniformBufferSize];
     memcpy(cp->_fragmentUniformBuffer, _fragmentUniformBuffer, _fragmentUniformBufferSize);
