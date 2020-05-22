@@ -162,12 +162,12 @@ namespace
 
 id<MTLDepthStencilState> DepthStateCreator::operator()(id<MTLDevice> device, const DepthStencilState& state) noexcept {
     MTLDepthStencilDescriptor* depthStencilDescriptor = [MTLDepthStencilDescriptor new];
+    MTLStencilDescriptor* stencilDescriptor = nil;
 
     depthStencilDescriptor.depthCompareFunction = state.depthCompareFunction;
     depthStencilDescriptor.depthWriteEnabled = state.depthWriteEnabled;
 
     if (state.stencilWriteEnabled || (!state.stencilWriteEnabled && state.stencilMask != 0xff)) {
-        MTLStencilDescriptor* stencilDescriptor = nil;
         stencilDescriptor = [MTLStencilDescriptor new];
         stencilDescriptor.stencilCompareFunction = state.stencilCompareFunction;
         stencilDescriptor.stencilFailureOperation = state.stencilFailureFunction;
@@ -185,7 +185,13 @@ id<MTLDepthStencilState> DepthStateCreator::operator()(id<MTLDevice> device, con
         depthStencilDescriptor.backFaceStencil = stencilDescriptor;
     }
 
-    return [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
+    auto ret = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
+    
+    [depthStencilDescriptor release];
+    if (stencilDescriptor)
+        [stencilDescriptor release];
+    
+    return ret;
 }
 
 #define VERBOSE_RENDERCOMMANDENCODER

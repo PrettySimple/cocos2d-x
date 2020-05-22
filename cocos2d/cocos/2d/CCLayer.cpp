@@ -44,6 +44,7 @@ THE SOFTWARE.
 #include <cocos/renderer/backend/Buffer.h>
 #include <cocos/renderer/ccShaders.h>
 #include <cocos/renderer/backend/ProgramState.h>
+#include <cocos/renderer/CCProgramStateCache.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 #include <cocos/platform/desktop/CCGLViewImpl-desktop.h>
@@ -287,8 +288,10 @@ LayerColor::LayerColor()
     // default blend function
     _blendFunc = BlendFunc::ALPHA_PREMULTIPLIED;
     
+    setProgramState(ProgramStateCache::getOrCreateProgramState(positionColor_vert, positionColor_frag,
+                                                               nullptr,
+                                                               _blendFunc));
     auto& pipelineDescriptor = _customCommand.getPipelineDescriptor();
-    setProgramState(new (std::nothrow) backend::ProgramState(positionColor_vert, positionColor_frag));
     pipelineDescriptor.programState = _programState;
     
     auto vertexLayout = _programState->getVertexLayout();
@@ -701,7 +704,9 @@ LayerRadialGradient* LayerRadialGradient::create()
 LayerRadialGradient::LayerRadialGradient()
 {
     auto& pipelineDescriptor = _customCommand.getPipelineDescriptor();
-    setProgramState(new (std::nothrow) backend::ProgramState(position_vert, layer_radialGradient_frag));
+    setProgramState(ProgramStateCache::getOrCreateProgramState(position_vert, layer_radialGradient_frag,
+                                                               nullptr,
+                                                               _blendFunc));
     pipelineDescriptor.programState = _programState;
     _mvpMatrixLocation = pipelineDescriptor.programState->getUniformLocation(backend::Uniform::MVP_MATRIX);
     _startColorLocation = pipelineDescriptor.programState->getUniformLocation("u_startColor");
