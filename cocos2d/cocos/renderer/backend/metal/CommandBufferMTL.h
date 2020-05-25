@@ -194,6 +194,7 @@ private:
     
     unsigned int _renderTargetWidth = 0;
     unsigned int _renderTargetHeight = 0;
+    unsigned int _renderTargetColorHeight = 0;
     
     dispatch_semaphore_t _frameBoundarySemaphore;
     RenderPassDescriptor _prevRenderPassDescriptor;

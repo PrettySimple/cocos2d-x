@@ -170,6 +170,7 @@ void CommandBufferMTL::beginRenderPass(const RenderPassDescriptor& descriptor)
     auto mtlDescriptor = rc.renderPassDecriptor;
     _renderTargetWidth = (unsigned int)mtlDescriptor.colorAttachments[0].texture.width;
     _renderTargetHeight = (unsigned int)mtlDescriptor.colorAttachments[0].texture.height;
+    _renderTargetColorHeight = (unsigned int)mtlDescriptor.colorAttachments[0].texture.height;
     if (mtlDescriptor.stencilAttachment &&
         mtlDescriptor.stencilAttachment.texture) {
         _renderTargetWidth = std::min(_renderTargetWidth,
@@ -194,7 +195,7 @@ void CommandBufferMTL::setViewport(int x, int y, unsigned int w, unsigned int h)
 {
     MTLViewport viewport;
     viewport.originX = x;
-    viewport.originY = (int)(_renderTargetHeight - y - h);
+    viewport.originY = (int)(_renderTargetColorHeight - y - h);
     viewport.width = w;
     viewport.height = h;
     viewport.znear = -1;
