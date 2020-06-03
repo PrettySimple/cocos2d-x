@@ -124,6 +124,9 @@ void ProgramStateCache::_cleanUnusued()
 
 void ProgramStateCache::clear()
 {
+    for(auto &p : _getInstance()._programStateCache)
+        p.second->release();
+          
     _getInstance()._programStateCache.clear();
 }
 
