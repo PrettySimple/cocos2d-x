@@ -92,6 +92,8 @@ public:
      */
     static void vibrate(std::chrono::milliseconds duration);
 
+    static void vibrateWPattern(std::vector<long> pattern, std::vector<int> amplitude);
+
     /**
      * Gets texture data for text.
      */

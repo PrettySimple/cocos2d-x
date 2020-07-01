@@ -311,14 +311,16 @@ private:
 
     static jstring convert(LocalRefMapType& localRefs, cocos2d::JniMethodInfo& t, const std::string& x);
 
-    inline static jint      convert(LocalRefMapType&, cocos2d::JniMethodInfo&, int32_t value) { return static_cast<jint>(value);}
-    inline static jlong     convert(LocalRefMapType&, cocos2d::JniMethodInfo&, int64_t value) { return static_cast<jlong>(value);}
-    inline static jfloat    convert(LocalRefMapType&, cocos2d::JniMethodInfo&, float   value) { return static_cast<jfloat>(value);}
-    inline static jdouble   convert(LocalRefMapType&, cocos2d::JniMethodInfo&, double  value) { return static_cast<jdouble>(value);}
-    inline static jboolean  convert(LocalRefMapType&, cocos2d::JniMethodInfo&, bool    value) { return static_cast<jboolean>(value);}
-    inline static jbyte     convert(LocalRefMapType&, cocos2d::JniMethodInfo&, int8_t  value) { return static_cast<jbyte>(value);}
-    inline static jchar     convert(LocalRefMapType&, cocos2d::JniMethodInfo&, uint8_t value) { return static_cast<jchar>(value);}
-    inline static jshort    convert(LocalRefMapType&, cocos2d::JniMethodInfo&, int16_t value) { return static_cast<jshort>(value);}
+    inline static jint         convert(LocalRefMapType&, cocos2d::JniMethodInfo&, int32_t value) { return static_cast<jint>(value);}
+    inline static jlong        convert(LocalRefMapType&, cocos2d::JniMethodInfo&, int64_t value) { return static_cast<jlong>(value);}
+    inline static jfloat       convert(LocalRefMapType&, cocos2d::JniMethodInfo&, float   value) { return static_cast<jfloat>(value);}
+    inline static jdouble      convert(LocalRefMapType&, cocos2d::JniMethodInfo&, double  value) { return static_cast<jdouble>(value);}
+    inline static jboolean     convert(LocalRefMapType&, cocos2d::JniMethodInfo&, bool    value) { return static_cast<jboolean>(value);}
+    inline static jbyte        convert(LocalRefMapType&, cocos2d::JniMethodInfo&, int8_t  value) { return static_cast<jbyte>(value);}
+    inline static jchar        convert(LocalRefMapType&, cocos2d::JniMethodInfo&, uint8_t value) { return static_cast<jchar>(value);}
+    inline static jshort       convert(LocalRefMapType&, cocos2d::JniMethodInfo&, int16_t value) { return static_cast<jshort>(value);}
+    static jlongArray   convert(LocalRefMapType &localRefs, cocos2d::JniMethodInfo &t, std::vector<long> &value);
+    static jintArray    convert(LocalRefMapType &localRefs, cocos2d::JniMethodInfo &t, std::vector<int> &value);
 
     template <typename T>
     static T convert(LocalRefMapType& localRefs, cocos2d::JniMethodInfo&, T x) {
@@ -365,6 +367,14 @@ private:
 
     static std::string getJNISignature(const std::string&) {
         return "Ljava/lang/String;";
+    }
+
+    static std::string getJNISignature(std::vector<long>) {
+        return "[J";
+    }
+
+    static std::string getJNISignature(std::vector<int>) {
+        return "[I";
     }
 
     template <typename T>

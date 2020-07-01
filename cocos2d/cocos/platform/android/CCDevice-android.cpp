@@ -182,6 +182,11 @@ void Device::vibrate(std::chrono::milliseconds duration)
     JniHelper::callStaticVoidMethod(helperClassName, "vibrate", duration.count() / 1000.0f);
 }
 
+void Device::vibrateWPattern(std::vector<long> pattern, std::vector<int> amplitude)
+{
+    JniHelper::callStaticVoidMethod(helperClassName, "vibrateWPattern", pattern, amplitude);
+}
+
 NS_CC_END
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

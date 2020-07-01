@@ -297,6 +297,22 @@ namespace cocos2d {
         return convert(localRefs, t, x.c_str());
     }
 
+    jlongArray JniHelper::convert(LocalRefMapType &localRefs, cocos2d::JniMethodInfo &t, std::vector<long> &value) {
+        jlongArray jarr = t.env->NewLongArray(value.size());
+        std::vector<jlong> buffer{value.begin(), value.end()};
+        t.env->SetLongArrayRegion(jarr, 0, buffer.size(), buffer.data());
+        localRefs[t.env].push_back(jarr);
+        return jarr;
+    }
+
+    jintArray JniHelper::convert(LocalRefMapType &localRefs, cocos2d::JniMethodInfo &t, std::vector<int> &value) {
+        jintArray jarr = t.env->NewIntArray(value.size());
+        std::vector<jint> buffer{value.begin(), value.end()};
+        t.env->SetIntArrayRegion(jarr, 0, buffer.size(), buffer.data());
+        localRefs[t.env].push_back(jarr);
+        return jarr;
+    }
+
     void JniHelper::deleteLocalRefs(JNIEnv* env, LocalRefMapType& localRefs) {
         if (!env) {
             return;

@@ -618,6 +618,9 @@ void Device::vibrate(std::chrono::milliseconds duration)
     }
 }
 
+static void vibrateWPattern(std::vector<long> pattern, std::vector<int> amplitude)
+{}
+
 NS_CC_END
 
 #endif // CC_PLATFORM_IOS

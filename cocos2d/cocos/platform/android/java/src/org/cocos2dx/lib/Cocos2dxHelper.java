@@ -44,6 +44,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.IBinder;
 import android.os.ParcelFileDescriptor;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.preference.PreferenceManager.OnActivityResultListener;
 import android.util.DisplayMetrics;
@@ -313,7 +314,32 @@ public class Cocos2dxHelper {
     }
 
     public static void vibrate(float duration) {
-        sVibrateService.vibrate((long)(duration * 1000));
+        try {
+            sVibrateService.vibrate((long)(duration * 1000));
+        }
+        catch(SecurityException se)
+        {
+            se.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public static void vibrateWPattern(long[] pattern, int[] amplitude) {
+        try {
+            VibrationEffect effect = VibrationEffect.createWaveform(pattern, amplitude, -1);
+            sVibrateService.vibrate(pattern, -1);
+        }
+        catch(SecurityException se)
+        {
+            se.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
  	public static String getVersion() {
