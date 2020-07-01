@@ -618,8 +618,11 @@ void Device::vibrate(std::chrono::milliseconds duration)
     }
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-function"
 static void vibrateWPattern(std::vector<long> pattern, std::vector<int> amplitude)
 {}
+#pragma clang diagnostic pop
 
 NS_CC_END
 
