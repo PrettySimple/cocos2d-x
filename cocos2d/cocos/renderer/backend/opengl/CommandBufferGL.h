@@ -171,6 +171,22 @@ public:
      */
     virtual void captureScreen(std::function<void(const unsigned char*, int, int)> callback) override ;
 
+
+    void setDepthTest(bool enabled);
+    void setDepthMask(uint8_t enabled);
+    void setDepthFunc(CompareFunction function);
+    void setStencilTest(bool enabled);
+    void setDepthClearValue(float value);
+
+    void setStencilFunc(CompareFunction f, float ref, uint8_t mask);
+    void setStencilOp(StencilOperation fail, StencilOperation zfail, StencilOperation zpass);
+    void setStencilMask(uint8_t enabled);
+
+    void setStencilFuncSeparate(CompareFunction backF, float backRef, uint8_t backMask,
+                                CompareFunction frontF, float frontRef, uint8_t frontMask);
+    void setStencilOpSeparate(StencilOperation backFail, StencilOperation backZfail, StencilOperation backZpass,
+                              StencilOperation frontFail, StencilOperation frontZfail, StencilOperation frontZpass);
+    void setStencilMaskSeparate(uint8_t back, uint8_t front);
 private:
     struct Viewport
     {
@@ -180,7 +196,7 @@ private:
         unsigned int h = 0;
     };
     
-    void prepareDrawing() const;
+    void prepareDrawing();
     void bindVertexBuffer(ProgramGL* program) const;
     void unbindVertexBuffer(ProgramGL* program) const;
     void setUniforms(ProgramGL* program) const;
@@ -201,8 +217,48 @@ private:
     BufferGL* _indexBuffer = nullptr;
     RenderPipelineGL* _renderPipeline = nullptr;
     CullMode _cullMode = CullMode::NONE;
+    bool _updateCullMode = true;
+    Winding _winding = (Winding)-1;
     DepthStencilStateGL* _depthStencilStateGL = nullptr;
     Viewport _viewPort;
+    bool _updateStencilState = true;
+    bool _scissorTest = false;
+    float _scissorTestX = -1;
+    float _scissorTestY = -1;
+    float _scissorTestW = -1;
+    float _scissorTestH = -1;
+    float _lineWidth = -1;
+    RenderPassDescriptor _passDescriptor;
+
+    bool _depthTest = false;
+    uint8_t _depthMask = 0;
+    CompareFunction _depthFunction = CompareFunction::LESS_EQUAL;
+    bool _stencilTest = false;
+    float _depthClearValue = 1;
+
+    CompareFunction _stencilFunction = (CompareFunction)-1;
+    float _stencilFunctionRef = -1;
+    uint8_t _stencilFunctionReadMask = -1;
+    StencilOperation _stencilOpFail = (StencilOperation)-1;
+    StencilOperation _stencilOpZFail = (StencilOperation)-1;
+    StencilOperation _stencilOpZPass = (StencilOperation)-1;
+    uint8_t _stencilMask = -1;
+
+    CompareFunction _stencilFunctionBack = (CompareFunction)-1;
+    CompareFunction _stencilFunctionFront = (CompareFunction)-1;
+    float _stencilFunctionRefBack = -1;
+    float _stencilFunctionRefFront = -1;
+    uint8_t _stencilFunctionReadMaskBack = -1;
+    uint8_t _stencilFunctionReadMaskFront = -1;
+    StencilOperation _stencilOpFailBack = (StencilOperation)-1;
+    StencilOperation _stencilOpZFailBack = (StencilOperation)-1;
+    StencilOperation _stencilOpZPassBack = (StencilOperation)-1;
+    StencilOperation _stencilOpFailFront = (StencilOperation)-1;
+    StencilOperation _stencilOpZFailFront = (StencilOperation)-1;
+    StencilOperation _stencilOpZPassFront = (StencilOperation)-1;
+    uint8_t _stencilMaskBack = -1;
+    uint8_t _stencilMaskFront = -1;
+
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     EventListenerCustom* _backToForegroundListener = nullptr;

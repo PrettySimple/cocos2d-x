@@ -110,6 +110,21 @@ void CommandBufferGL::beginRenderPass(const RenderPassDescriptor& descirptor)
 
 void CommandBufferGL::applyRenderPassDescriptor(const RenderPassDescriptor& descirptor)
 {
+    if( descirptor.needColorAttachment == _passDescriptor.needColorAttachment &&
+    descirptor.depthTestEnabled == _passDescriptor.depthTestEnabled &&
+    descirptor.stencilTestEnabled == _passDescriptor.stencilTestEnabled &&
+    descirptor.clearDepthValue == _passDescriptor.clearStencilValue &&
+    descirptor.clearColorValue == _passDescriptor.clearColorValue &&
+    descirptor.needClearColor == _passDescriptor.needClearColor &&
+    descirptor.needClearDepth == _passDescriptor.needClearDepth &&
+    descirptor.needClearStencil == _passDescriptor.needClearStencil &&
+    descirptor.depthAttachmentTexture == _passDescriptor.depthAttachmentTexture &&
+    descirptor.stencilAttachmentTexture == _passDescriptor.stencilAttachmentTexture &&
+    descirptor.colorAttachmentsTexture[0] == _passDescriptor.colorAttachmentsTexture[0])
+        return;
+
+    _passDescriptor = descirptor;
+
     bool useColorAttachmentExternal = descirptor.needColorAttachment && descirptor.colorAttachmentsTexture[0];
     bool useDepthAttachmentExternal = descirptor.depthTestEnabled && descirptor.depthAttachmentTexture;
     bool useStencilAttachmentExternal = descirptor.stencilTestEnabled && descirptor.stencilAttachmentTexture;
@@ -246,27 +261,15 @@ void CommandBufferGL::applyRenderPassDescriptor(const RenderPassDescriptor& desc
     }
     
     CHECK_GL_ERROR_DEBUG();
-    
-    GLboolean oldDepthWrite = GL_FALSE;
-    GLboolean oldDepthTest = GL_FALSE;
-    GLfloat oldDepthClearValue = 0.f;
-    GLint oldDepthFunc = GL_LESS;
+
+    bool oldDepthWrite = _depthMask;
+    float oldDepthClearValue = _depthClearValue;
     if (descirptor.needClearDepth)
     {
-        glGetBooleanv(GL_DEPTH_WRITEMASK, &oldDepthWrite);
-        glGetBooleanv(GL_DEPTH_TEST, &oldDepthTest);
-        glGetFloatv(GL_DEPTH_CLEAR_VALUE, &oldDepthClearValue);
-        glGetIntegerv(GL_DEPTH_FUNC, &oldDepthFunc);
-        
         mask |= GL_DEPTH_BUFFER_BIT;
-#ifdef CC_USE_GL
-        glClearDepth(descirptor.clearDepthValue);
-#else
-        glClearDepthf(descirptor.clearDepthValue);
-#endif
-        glEnable(GL_DEPTH_TEST);
-        glDepthMask(GL_TRUE);
-        glDepthFunc(GL_ALWAYS);
+
+        setDepthClearValue(descirptor.clearDepthValue);
+        setDepthMask(true);
     }
     
     CHECK_GL_ERROR_DEBUG();
@@ -280,22 +283,17 @@ void CommandBufferGL::applyRenderPassDescriptor(const RenderPassDescriptor& desc
     if(mask) glClear(mask);
     
     CHECK_GL_ERROR_DEBUG();
-    
+
     // restore depth test
     if (descirptor.needClearDepth)
     {
-        if (!oldDepthTest)
-            glDisable(GL_DEPTH_TEST);
-        
-        glDepthMask(oldDepthWrite);
-        glDepthFunc(oldDepthFunc);
-        #ifdef CC_USE_GL
-                glClearDepth(oldDepthClearValue);
-        #else
-                glClearDepthf(oldDepthClearValue);
-        #endif
+        if(!oldDepthWrite)
+            setDepthMask(oldDepthWrite);
+
+        if(descirptor.clearDepthValue != oldDepthClearValue)
+            setDepthClearValue(oldDepthClearValue);
     }
-    
+
     CHECK_GL_ERROR_DEBUG();
 }
 
@@ -313,21 +311,29 @@ void CommandBufferGL::setRenderPipeline(RenderPipeline* renderPipeline)
 
 void CommandBufferGL::setViewport(int x, int y, unsigned int w, unsigned int h)
 {
-    glViewport(x, y, w, h);
-    _viewPort.x = x;
-    _viewPort.y = y;
-    _viewPort.w = w;
-    _viewPort.h = h;
+    if( x != _viewPort.x || y != _viewPort.y || w != _viewPort.w || h != _viewPort.h ) {
+        glViewport(x, y, w, h);
+        _viewPort.x = x;
+        _viewPort.y = y;
+        _viewPort.w = w;
+        _viewPort.h = h;
+    }
 }
 
 void CommandBufferGL::setCullMode(CullMode mode)
 {
-    _cullMode = mode;
+    if( mode != _cullMode ) {
+        _cullMode = mode;
+        _updateCullMode = true;
+    }
 }
 
 void CommandBufferGL::setWinding(Winding winding)
 {
-    glFrontFace(UtilsGL::toGLFrontFace(winding));
+    if( winding != _winding ){
+        _winding = winding;
+        glFrontFace(UtilsGL::toGLFrontFace(winding));
+    }
 }
 
 void CommandBufferGL::setIndexBuffer(Buffer* buffer)
@@ -388,17 +394,19 @@ void CommandBufferGL::endFrame()
 
 void CommandBufferGL::setDepthStencilState(DepthStencilState* depthStencilState)	
 {	
-    if (depthStencilState)	
+    if (depthStencilState && depthStencilState != _depthStencilStateGL)
     {	
-        _depthStencilStateGL = static_cast<DepthStencilStateGL*>(depthStencilState);	
+        _depthStencilStateGL = static_cast<DepthStencilStateGL*>(depthStencilState);
+        _updateStencilState = true;
     }	
-    else	
+    else if( depthStencilState != _depthStencilStateGL )
     {	
-        _depthStencilStateGL = nullptr;	
+        _depthStencilStateGL = nullptr;
+        _updateStencilState = true;
     }	
 }
 
-void CommandBufferGL::prepareDrawing() const
+void CommandBufferGL::prepareDrawing()
 {   
     const auto& program = _renderPipeline->getProgram();
     glUseProgram(program->getHandler());
@@ -409,21 +417,24 @@ void CommandBufferGL::prepareDrawing() const
     // Set depth/stencil state.
     if (_depthStencilStateGL)
     {
-        _depthStencilStateGL->apply(_stencilReferenceValueFront, _stencilReferenceValueBack);
+        _depthStencilStateGL->apply(_stencilReferenceValueFront, _stencilReferenceValueBack, this);
+        _updateStencilState = false;
     }
         
-    else
-        DepthStencilStateGL::reset();
+    else {
+        setDepthTest(false);
+        setStencilTest(false);
+    }
     
     // Set cull mode.
-    if (CullMode::NONE == _cullMode)
-    {
-        glDisable(GL_CULL_FACE);
-    }
-    else
-    {
-        glEnable(GL_CULL_FACE);
-        glCullFace(UtilsGL::toGLCullMode(_cullMode));
+    if( _updateCullMode ) {
+        _updateCullMode = false;
+        if (CullMode::NONE == _cullMode) {
+            glDisable(GL_CULL_FACE);
+        } else {
+            glEnable(GL_CULL_FACE);
+            glCullFace(UtilsGL::toGLCullMode(_cullMode));
+        }
     }
 }
 
@@ -630,6 +641,11 @@ void CommandBufferGL::cleanResources()
 
 void CommandBufferGL::setLineWidth(float lineWidth)
 {
+    if( lineWidth == _lineWidth )
+        return;
+
+    _lineWidth = lineWidth;
+
     if(lineWidth > 0.0f)
         glLineWidth(lineWidth);
     else
@@ -640,6 +656,15 @@ void CommandBufferGL::setLineWidth(float lineWidth)
 
 void CommandBufferGL::setScissorRect(bool isEnabled, float x, float y, float width, float height)
 {
+    if(isEnabled == _scissorTest && _scissorTestX == x && _scissorTestY == y && _scissorTestW == width && _scissorTestH == height)
+        return;
+
+    _scissorTest = isEnabled;
+    _scissorTestX = x;
+    _scissorTestY = y;
+    _scissorTestW = width;
+    _scissorTestH = height;
+
     if(isEnabled)
     {
         glEnable(GL_SCISSOR_TEST);
@@ -679,5 +704,131 @@ void CommandBufferGL::captureScreen(std::function<void(const unsigned char*, int
     callback(flippedBuffer.get(), _viewPort.w, _viewPort.h);
 }
 
+void CommandBufferGL::setDepthTest(bool enabled) {
+    if( _depthTest != enabled ){
+        _depthTest = enabled;
+
+        if( enabled )
+            glEnable(GL_DEPTH_TEST);
+        else
+            glDisable(GL_DEPTH_TEST);
+    }
+}
+
+void CommandBufferGL::setDepthMask(uint8_t enabled) {
+    if( _depthMask != enabled ){
+        _depthMask = enabled;
+
+        glDepthMask(enabled);
+    }
+}
+
+void CommandBufferGL::setDepthFunc(CompareFunction function) {
+    if( _depthFunction != function ){
+        _depthFunction = function;
+
+        glDepthFunc(UtilsGL::toGLComareFunction(function));
+    }
+}
+
+void CommandBufferGL::setStencilTest(bool enabled) {
+    if( _stencilTest != enabled ){
+        _stencilTest = enabled;
+
+        if( enabled )
+            glEnable(GL_STENCIL_TEST);
+        else
+            glDisable(GL_STENCIL_TEST);
+    }
+}
+
+void CommandBufferGL::setDepthClearValue(float value) {
+    if( _depthClearValue != value ){
+        _depthClearValue = value;
+
+#ifdef CC_USE_GL
+        glClearDepth(value);
+#else
+        glClearDepthf(value);
+#endif
+    }
+}
+
+void CommandBufferGL::setStencilFunc(CompareFunction f, float ref, uint8_t mask){
+    if( _stencilFunction != f || _stencilFunctionRef != ref || _stencilFunctionReadMask != mask ){
+        _stencilFunction = f;
+        _stencilFunctionRef = ref;
+        _stencilFunctionReadMask = mask;
+
+        glStencilFunc(UtilsGL::toGLComareFunction(f), ref, mask);
+    }
+}
+void CommandBufferGL::setStencilOp(StencilOperation fail, StencilOperation zfail, StencilOperation zpass) {
+    if( _stencilOpFail != fail || _stencilOpZFail != zfail || _stencilOpZPass != zpass ){
+        _stencilOpFail = fail;
+        _stencilOpZFail = zfail;
+        _stencilOpZPass = zpass;
+
+        glStencilOp(UtilsGL::toGLStencilOperation(fail),
+                UtilsGL::toGLStencilOperation(zfail),
+                UtilsGL::toGLStencilOperation(zpass));
+    }
+}
+
+void CommandBufferGL::setStencilMask(uint8_t enabled) {
+    if( _stencilMask != enabled ){
+        _stencilMask = enabled;
+
+        glStencilMask(enabled);
+    }
+}
+
+void CommandBufferGL::setStencilFuncSeparate(CompareFunction backF, float backRef, uint8_t backMask,
+                            CompareFunction frontF, float frontRef, uint8_t frontMask) {
+    if( _stencilFunctionBack != backF || _stencilFunctionRefBack != backRef || _stencilFunctionReadMaskBack != backMask ||
+        _stencilFunctionFront != frontF || _stencilFunctionRefFront != frontRef || _stencilFunctionReadMaskFront != frontMask){
+        _stencilFunctionBack = backF;
+        _stencilFunctionRefBack = backRef;
+        _stencilFunctionReadMaskBack = backMask;
+        _stencilFunctionFront = frontF;
+        _stencilFunctionRefFront = frontRef;
+        _stencilFunctionReadMaskFront = frontMask;
+
+        glStencilFuncSeparate(GL_BACK, UtilsGL::toGLComareFunction(backF), backRef, backMask);
+        glStencilFuncSeparate(GL_FRONT, UtilsGL::toGLComareFunction(frontF), frontRef, frontMask);
+    }
+}
+void CommandBufferGL::setStencilOpSeparate(StencilOperation backFail, StencilOperation backZfail, StencilOperation backZpass,
+                                  StencilOperation frontFail, StencilOperation frontZfail, StencilOperation frontZpass) {
+    if( _stencilOpFailBack != backFail || _stencilOpZFailBack != backZfail || _stencilOpZPassBack != backZpass ||
+        _stencilOpFailFront != frontFail || _stencilOpZFailFront != frontZfail || _stencilOpZPassFront != frontZpass){
+        _stencilOpFailBack = backFail;
+        _stencilOpZFailBack = backZfail;
+        _stencilOpZPassBack = backZpass;
+        _stencilOpFailFront = frontFail;
+        _stencilOpZFailFront = frontZfail;
+        _stencilOpZPassFront = frontZpass;
+
+        glStencilOpSeparate(GL_BACK,
+                UtilsGL::toGLStencilOperation(backFail),
+                UtilsGL::toGLStencilOperation(backZfail),
+                UtilsGL::toGLStencilOperation(backZpass));
+        glStencilOpSeparate(GL_FRONT,
+                            UtilsGL::toGLStencilOperation(frontFail),
+                            UtilsGL::toGLStencilOperation(frontZfail),
+                            UtilsGL::toGLStencilOperation(frontZpass));
+    }
+}
+void CommandBufferGL::setStencilMaskSeparate(uint8_t back, uint8_t front) {
+    if( _stencilMaskBack != back || _stencilMaskFront != front ){
+        _stencilMaskBack = back;
+        _stencilMaskFront = front;
+
+        glStencilMaskSeparate(GL_BACK, back);
+        glStencilMaskSeparate(GL_FRONT, front);
+    }
+}
+
 CC_BACKEND_END
 #endif
+

@@ -137,6 +137,8 @@ void BufferGL::updateData(void* data, unsigned long size)
 
 void BufferGL::updateSubData(void* data, unsigned long offset, unsigned long size)
 {
+    if( size == 0 )
+        return;
 
     CCASSERT(_bufferAllocated != 0, "updateData should be invoke before updateSubData");
     CCASSERT(offset + size <= _size, "buffer size overflow");
