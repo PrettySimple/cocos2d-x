@@ -180,6 +180,7 @@ protected:
 
     Touch::DispatchMode _touchMode;
     bool _swallowsTouches;
+    bool _buffersDirty = true;
 
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(Layer)

@@ -34,14 +34,14 @@ CC_BACKEND_BEGIN
  * @{
  */
 
+class CommandBufferGL;
+
 /**
  * Set depth and stencil status to pipeline.
  */
 class DepthStencilStateGL : public DepthStencilState
 {
 public:
-    /// Reset to default state.
-    static void reset();
     
     /**
      * @param descriptor Specifies the depth and stencil status.
@@ -53,7 +53,8 @@ public:
      * @param stencilReferenceValueFront Specifies front stencil reference value.
      * @param stencilReferenceValueBack Specifies back stencil reference value.
      */
-    void apply(unsigned int stencilReferenceValueFront, unsigned int stencilReferenceValueBack) const;
+    void apply(unsigned int stencilReferenceValueFront, unsigned int stencilReferenceValueBack, CommandBufferGL* gl) const;
+
 };
 //end of _opengl group
 /// @}

@@ -48,6 +48,17 @@ void RenderPipelineGL::update(const PipelineDescriptor& pipelineDescirptor, cons
 
 void RenderPipelineGL::updateBlendState(const BlendDescriptor& descriptor)
 {
+    if( descriptor.blendEnabled == _blendState.blendEnabled &&
+    descriptor.alphaBlendOperation == _blendState.alphaBlendOperation &&
+    descriptor.sourceRGBBlendFactor == _blendState.sourceRGBBlendFactor &&
+    descriptor.destinationRGBBlendFactor == _blendState.destinationRGBBlendFactor &&
+    descriptor.sourceAlphaBlendFactor == _blendState.sourceAlphaBlendFactor &&
+    descriptor.destinationAlphaBlendFactor == _blendState.destinationAlphaBlendFactor &&
+    descriptor.writeMask == _blendState.writeMask)
+        return;
+
+    _blendState = descriptor;
+
     auto blendEnabled = descriptor.blendEnabled;
     auto rgbBlendOperation = UtilsGL::toGLBlendOperation(descriptor.rgbBlendOperation);
     auto alphaBlendOperation = UtilsGL::toGLBlendOperation(descriptor.alphaBlendOperation);

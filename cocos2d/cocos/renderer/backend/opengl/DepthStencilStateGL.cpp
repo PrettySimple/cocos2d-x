@@ -25,6 +25,7 @@
 #include <cocos/platform/CCPlatformConfig.h>
 #if defined(CC_USE_GL) || defined(CC_USE_GLES)
 #include "DepthStencilStateGL.h"
+#include "CommandBufferGL.h"
 #include <cocos/platform/CCGL.h>
 
 #include <cocos/base/ccMacros.h>
@@ -32,76 +33,49 @@
 
 CC_BACKEND_BEGIN
 
-void DepthStencilStateGL::reset()
-{
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_STENCIL_TEST);
-}
-
 DepthStencilStateGL::DepthStencilStateGL(const DepthStencilDescriptor& descriptor)
 : DepthStencilState(descriptor)
 {}
 
-void DepthStencilStateGL::apply(unsigned int stencilReferenceValueFront, unsigned int stencilReferenceValueBack) const
+void DepthStencilStateGL::apply(unsigned int stencilReferenceValueFront, unsigned int stencilReferenceValueBack, CommandBufferGL* gl) const
 {
     // depth test
-    
-    if (_depthStencilInfo.depthTestEnabled)
-    {
-        glEnable(GL_DEPTH_TEST); 
-    }
-    else
-    {
-        glDisable(GL_DEPTH_TEST);
-    }
-    
-    if (_depthStencilInfo.depthWriteEnabled)
-        glDepthMask(GL_TRUE);
-    else
-        glDepthMask(GL_FALSE);
-    
-    glDepthFunc(UtilsGL::toGLComareFunction(_depthStencilInfo.depthCompareFunction));
-    
-    if (_depthStencilInfo.stencilTestEnabled)
-        glEnable(GL_STENCIL_TEST);
-    else
-        glDisable(GL_STENCIL_TEST);
+    gl->setDepthTest(_depthStencilInfo.depthTestEnabled);
+    gl->setDepthMask(_depthStencilInfo.depthWriteEnabled);
+    gl->setDepthFunc(_depthStencilInfo.depthCompareFunction);
+    gl->setStencilTest(_depthStencilInfo.stencilTestEnabled);
 
     // stencil test
     if (_depthStencilInfo.stencilTestEnabled)
     {
         if (_isBackFrontStencilEqual)
         {
-            glStencilFunc(UtilsGL::toGLComareFunction(_depthStencilInfo.frontFaceStencil.stencilCompareFunction),
-                          stencilReferenceValueFront,
-                          _depthStencilInfo.frontFaceStencil.readMask);
-            glStencilOp(UtilsGL::toGLStencilOperation(_depthStencilInfo.frontFaceStencil.stencilFailureOperation),
-                        UtilsGL::toGLStencilOperation(_depthStencilInfo.frontFaceStencil.depthFailureOperation),
-                        UtilsGL::toGLStencilOperation(_depthStencilInfo.frontFaceStencil.depthStencilPassOperation));
-            glStencilMask(_depthStencilInfo.frontFaceStencil.writeMask);
+            gl->setStencilFunc(_depthStencilInfo.frontFaceStencil.stencilCompareFunction,
+                    stencilReferenceValueFront,
+                    _depthStencilInfo.frontFaceStencil.readMask);
+            gl->setStencilOp(_depthStencilInfo.frontFaceStencil.stencilFailureOperation,
+                             _depthStencilInfo.frontFaceStencil.depthFailureOperation,
+                             _depthStencilInfo.frontFaceStencil.depthStencilPassOperation);
+            gl->setStencilMask(_depthStencilInfo.frontFaceStencil.writeMask);
         }
         else
         {
-            glStencilFuncSeparate(GL_BACK,
-                                  UtilsGL::toGLComareFunction(_depthStencilInfo.backFaceStencil.stencilCompareFunction),
-                                  stencilReferenceValueBack,
-                                  _depthStencilInfo.backFaceStencil.readMask);
-            glStencilFuncSeparate(GL_FRONT,
-                                  UtilsGL::toGLComareFunction(_depthStencilInfo.frontFaceStencil.stencilCompareFunction),
-                                  stencilReferenceValueFront,
-                                  _depthStencilInfo.frontFaceStencil.readMask);
-            
-            glStencilOpSeparate(GL_BACK,
-                                UtilsGL::toGLStencilOperation(_depthStencilInfo.backFaceStencil.stencilFailureOperation),
-                                UtilsGL::toGLStencilOperation(_depthStencilInfo.backFaceStencil.depthFailureOperation),
-                                UtilsGL::toGLStencilOperation(_depthStencilInfo.backFaceStencil.depthStencilPassOperation));
-            glStencilOpSeparate(GL_FRONT,
-                                UtilsGL::toGLStencilOperation(_depthStencilInfo.frontFaceStencil.stencilFailureOperation),
-                                UtilsGL::toGLStencilOperation(_depthStencilInfo.frontFaceStencil.depthFailureOperation),
-                                UtilsGL::toGLStencilOperation(_depthStencilInfo.frontFaceStencil.depthStencilPassOperation));
-            
-            glStencilMaskSeparate(GL_BACK, _depthStencilInfo.backFaceStencil.writeMask);
-            glStencilMaskSeparate(GL_FRONT, _depthStencilInfo.frontFaceStencil.writeMask);
+            gl->setStencilFuncSeparate(_depthStencilInfo.backFaceStencil.stencilCompareFunction,
+                    stencilReferenceValueBack,
+                    _depthStencilInfo.backFaceStencil.readMask,
+                    _depthStencilInfo.frontFaceStencil.stencilCompareFunction,
+                    stencilReferenceValueFront,
+                    _depthStencilInfo.frontFaceStencil.readMask);
+
+            gl->setStencilOpSeparate(_depthStencilInfo.backFaceStencil.stencilFailureOperation,
+                                     _depthStencilInfo.backFaceStencil.depthFailureOperation,
+                                     _depthStencilInfo.backFaceStencil.depthStencilPassOperation,
+                                     _depthStencilInfo.frontFaceStencil.stencilFailureOperation,
+                                     _depthStencilInfo.frontFaceStencil.depthFailureOperation,
+                                     _depthStencilInfo.frontFaceStencil.depthStencilPassOperation);
+
+            gl->setStencilMaskSeparate(_depthStencilInfo.backFaceStencil.writeMask,
+                    _depthStencilInfo.frontFaceStencil.writeMask);
         }
     }
     

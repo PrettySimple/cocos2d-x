@@ -455,16 +455,20 @@ void LayerColor::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
     cocos2d::Mat4 projectionMat = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
     auto& pipelineDescriptor = _customCommand.getPipelineDescriptor();
     pipelineDescriptor.programState->setUniform(_mvpMatrixLocation, projectionMat.m, sizeof(projectionMat.m));
-    
-    for(int i = 0; i < 4; ++i)
-    {
-        Vec4 pos;
-        pos.x = _squareVertices[i].x; pos.y = _squareVertices[i].y; pos.z = _positionZ;
-        pos.w = 1;
-        _modelViewTransform.transformVector(pos);
-        _vertexData[i].vertices = Vec4(pos.x/pos.w,pos.y/pos.w,pos.z/pos.w, 1.0f);
+
+    if( _buffersDirty ) {
+        for (int i = 0; i < 4; ++i) {
+            Vec4 pos;
+            pos.x = _squareVertices[i].x;
+            pos.y = _squareVertices[i].y;
+            pos.z = _positionZ;
+            pos.w = 1;
+            _modelViewTransform.transformVector(pos);
+            _vertexData[i].vertices = Vec4(pos.x / pos.w, pos.y / pos.w, pos.z / pos.w, 1.0f);
+        }
+        updateVertexBuffer();
+        _buffersDirty = false;
     }
-    updateVertexBuffer();
 }
 
 void LayerColor::updateVertexBuffer()

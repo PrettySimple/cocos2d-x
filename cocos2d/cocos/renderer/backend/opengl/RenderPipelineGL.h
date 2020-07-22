@@ -64,6 +64,7 @@ private:
     void updateBlendState(const BlendDescriptor& descriptor);
 
     ProgramGL* _programGL = nullptr;
+    BlendDescriptor _blendState;
 };
 // end of _opengl group
 /// @}
