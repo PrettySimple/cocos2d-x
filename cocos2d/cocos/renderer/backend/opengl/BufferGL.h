@@ -82,21 +82,19 @@ public:
      */
     inline GLuint getHandler() const { return _buffer; }
 
+    void uploadAndBind();
 private:
-#if CC_ENABLE_CACHE_TEXTURE_DATA
     void reloadBuffer();
-    void fillBuffer(void* data, unsigned int offset, unsigned int size);
 
     bool _bufferAlreadyFilled = false;
     EventListenerCustom* _backToForegroundListener = nullptr;
-#endif
 
     GLuint _buffer = 0;
     unsigned int _bufferAllocated = 0;
-#if CC_ENABLE_CACHE_TEXTURE_DATA
+
     char* _data = nullptr;
     bool _needDefaultStoredData = true;
-#endif
+    bool _dirty = true;
 };
 //end of _opengl group
 ///> @}
