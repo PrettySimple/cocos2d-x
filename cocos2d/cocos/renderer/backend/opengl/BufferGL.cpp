@@ -66,17 +66,13 @@ BufferGL::~BufferGL()
     if (_buffer)
         glDeleteBuffers(1, &_buffer);
 
-#if CC_ENABLE_CACHE_TEXTURE_DATA
     CC_SAFE_DELETE_ARRAY(_data);
     Director::getInstance()->getEventDispatcher()->removeEventListener(_backToForegroundListener);
-#endif
 }
 
 void BufferGL::usingDefaultStoredData(bool needDefaultStoredData)
 {
-#if CC_ENABLE_CACHE_TEXTURE_DATA
     _needDefaultStoredData = needDefaultStoredData;
-#endif
 }
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
@@ -90,49 +86,22 @@ void BufferGL::reloadBuffer()
     _bufferAlreadyFilled = true;
     updateData(_data, _bufferAllocated);
 }
-
-void BufferGL::fillBuffer(void* data, unsigned int offset, unsigned int size)
-{
-    if(_bufferAlreadyFilled || !_needDefaultStoredData || BufferUsage::STATIC != _usage)
-        return;
-
-    if(_data == nullptr)
-    {
-        _data = new (std::nothrow) char[_bufferAllocated];
-    }
-
-    memcpy(_data + offset, data, size);
-
-}
 #endif
 
 void BufferGL::updateData(void* data, unsigned long size)
 {
-    if (size == 0)
+    if( size == 0 )
         return;
 
     assert(size && size <= _size);
-    
-    if (_buffer)
-    {
-        if (BufferType::VERTEX == _type)
-        {
-            glBindBuffer(GL_ARRAY_BUFFER, _buffer);
-            glBufferData(GL_ARRAY_BUFFER, size, data, toGLUsage(_usage));
-        }
-        else
-        {
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffer);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, toGLUsage(_usage));
-        }
-        CHECK_GL_ERROR_DEBUG();
-        _bufferAllocated = static_cast<unsigned int>(size);
-        _allocated = true;
-
-#if CC_ENABLE_CACHE_TEXTURE_DATA
-        fillBuffer(data, 0, size);
-#endif
+    if( size != _bufferAllocated ) {
+        _bufferAllocated = size;
+        CC_SAFE_DELETE_ARRAY(_data);
+        _data = new(std::nothrow) char[_bufferAllocated];
     }
+
+    memcpy(_data, data, size);
+    _dirty = true;
 }
 
 void BufferGL::updateSubData(void* data, unsigned long offset, unsigned long size)
@@ -144,29 +113,22 @@ void BufferGL::updateSubData(void* data, unsigned long offset, unsigned long siz
     CCASSERT(offset + size <= _size, "buffer size overflow");
     CCASSERT(offset + size <= _bufferAllocated, "buffer size overflow");
 
-    if (_buffer)
-    {
-        CHECK_GL_ERROR_DEBUG();
-        if (BufferType::VERTEX == _type)
-        {
+    memcpy(_data, data, size);
+    _dirty = true;
+}
+
+void BufferGL::uploadAndBind()
+{
+    if (_buffer) {
+        if (BufferType::VERTEX == _type) {
             glBindBuffer(GL_ARRAY_BUFFER, _buffer);
-            glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
-        }
-        else
-        {
+            if( _dirty )
+                glBufferData(GL_ARRAY_BUFFER, _bufferAllocated, _data, toGLUsage(_usage));
+        } else {
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffer);
-            glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, offset, size, data);
+            if( _dirty )
+                glBufferData(GL_ELEMENT_ARRAY_BUFFER, _bufferAllocated, _data, toGLUsage(_usage));
         }
-
-#if CC_ENABLE_CACHE_TEXTURE_DATA
-        fillBuffer(data, offset, size);
-#endif
-
-//#define ASSERT_ON_GLERROR
-#ifdef ASSERT_ON_GLERROR
-        GLenum error = glGetError();
-        assert(!error);
-#endif
         CHECK_GL_ERROR_DEBUG();
     }
 }

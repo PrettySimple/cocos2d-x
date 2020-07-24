@@ -55,22 +55,6 @@ namespace
             return 0;
         }
     }
-
-    void applyTexture(TextureBackend* texture, int slot)
-    {
-        switch (texture->getTextureType())
-        {
-        case TextureType::TEXTURE_2D:
-            static_cast<Texture2DGL*>(texture)->apply(slot);
-            break;
-        case TextureType::TEXTURE_CUBE:
-            static_cast<TextureCubeGL*>(texture)->apply(slot);
-            break;
-        default:
-            assert(false);
-            return ;
-        }
-    }
 }
 
 CommandBufferGL::CommandBufferGL() :
@@ -378,7 +362,7 @@ void CommandBufferGL::drawElements(PrimitiveType primitiveType, IndexFormat inde
         return;
     
     prepareDrawing();
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer->getHandler());
+    _indexBuffer->uploadAndBind();
     glDrawElements(UtilsGL::toGLPrimitiveType(primitiveType), count, UtilsGL::toGLIndexType(indexType), reinterpret_cast<GLvoid*>(offset));
     CHECK_GL_ERROR_DEBUG();
     cleanResources();
@@ -390,6 +374,9 @@ void CommandBufferGL::endRenderPass()
 
 void CommandBufferGL::endFrame()
 {
+    _usedProgram = -1;
+    _boundTexture = -1;
+    _updateStencilState = true;
 }
 
 void CommandBufferGL::setDepthStencilState(DepthStencilState* depthStencilState)	
@@ -409,8 +396,11 @@ void CommandBufferGL::setDepthStencilState(DepthStencilState* depthStencilState)
 void CommandBufferGL::prepareDrawing()
 {   
     const auto& program = _renderPipeline->getProgram();
-    glUseProgram(program->getHandler());
-    
+    if( _usedProgram != program->getHandler() ){
+        _usedProgram = program->getHandler();
+        glUseProgram(program->getHandler());
+    }
+
     bindVertexBuffer(program);
     setUniforms(program);
 
@@ -438,7 +428,7 @@ void CommandBufferGL::prepareDrawing()
     }
 }
 
-void CommandBufferGL::bindVertexBuffer(ProgramGL *program) const
+void CommandBufferGL::bindVertexBuffer(ProgramGL *program)
 {
     // Bind vertex buffers and set the attributes.
     auto vertexLayout = _programState->getVertexLayout();
@@ -446,14 +436,22 @@ void CommandBufferGL::bindVertexBuffer(ProgramGL *program) const
     if (!vertexLayout->isValid() ||
         !_vertexBuffer)
         return;
-    
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer->getHandler());
+
+    // Upload and bind
+    _vertexBuffer->uploadAndBind();
 
     const auto& attributes = vertexLayout->getAttributes();
+
+    std::set<unsigned int> toUnbind = _vertexAttribsEnabled;
     for (const auto& attributeInfo : attributes)
     {
         const auto& attribute = attributeInfo.second;
-        glEnableVertexAttribArray(attribute.index);
+        if( !_vertexAttribsEnabled.count(attribute.index) ) {
+            _vertexAttribsEnabled.insert(attribute.index);
+            glEnableVertexAttribArray(attribute.index);
+        }
+        toUnbind.erase(attribute.index);
+
         glVertexAttribPointer(attribute.index,
             UtilsGL::getGLAttributeSize(attribute.format),
             UtilsGL::toGLAttributeType(attribute.format),
@@ -461,9 +459,15 @@ void CommandBufferGL::bindVertexBuffer(ProgramGL *program) const
             vertexLayout->getStride(),
             reinterpret_cast<GLvoid*>(attribute.offset));
     }
+
+    // Unbind attribs that are not used
+    for( auto e : toUnbind ){
+        glDisableVertexAttribArray(e);
+        _vertexAttribsEnabled.erase(e);
+    }
 }
 
-void CommandBufferGL::unbindVertexBuffer(ProgramGL *program) const
+void CommandBufferGL::unbindVertexBuffer(ProgramGL *program)
 {
     // Bind vertex buffers and set the attributes.
     auto vertexLayout = _programState->getVertexLayout();
@@ -474,16 +478,9 @@ void CommandBufferGL::unbindVertexBuffer(ProgramGL *program) const
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-    const auto& attributes = vertexLayout->getAttributes();
-    for (const auto& attributeInfo : attributes)
-    {
-        const auto& attribute = attributeInfo.second;
-        glDisableVertexAttribArray(attribute.index);
-    }
 }
 
-void CommandBufferGL::setUniforms(ProgramGL* program) const
+void CommandBufferGL::setUniforms(ProgramGL* program)
 {
     if (_programState)
     {
@@ -517,23 +514,43 @@ void CommandBufferGL::setUniforms(ProgramGL* program) const
         {
             const auto& textures = iter.second.textures;
             const auto& slot = iter.second.slot;
-            auto location = iter.first;
-#if CC_ENABLE_CACHE_TEXTURE_DATA
-            location = iter.second.location;
-#endif
+
             int i = 0;
             for (const auto& texture: textures)
             {
                 applyTexture(texture, slot[i]);
                 ++i;
             }
-            
-            auto arrayCount = slot.size();
-            if (arrayCount > 1)
-                glUniform1iv(location, (uint32_t)arrayCount, (GLint*)slot.data());
-            else
-                glUniform1i(location, slot[0]);
         }
+    }
+}
+
+
+void CommandBufferGL::applyTexture(TextureBackend* texture, int slot)
+{
+    switch (texture->getTextureType())
+    {
+        case TextureType::TEXTURE_2D: {
+            auto tex = static_cast<Texture2DGL *>(texture);
+            if (tex->getHandler() != _boundTexture) {
+                _boundTexture = tex->getHandler();
+                tex->apply(slot);
+            }
+        }
+        break;
+
+        case TextureType::TEXTURE_CUBE: {
+            auto tex = static_cast<TextureCubeGL *>(texture);
+            if (tex->getHandler() != _boundTexture) {
+                _boundTexture = tex->getHandler();
+                tex->apply(slot);
+            }
+        }
+        break;
+
+        default:
+            assert(false);
+            return ;
     }
 }
 
