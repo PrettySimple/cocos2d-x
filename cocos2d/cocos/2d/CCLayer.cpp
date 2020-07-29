@@ -417,6 +417,8 @@ void LayerColor::setContentSize(const Size & size)
     _squareVertices[2].y = size.height;
     _squareVertices[3].x = size.width;
     _squareVertices[3].y = size.height;
+    
+    _buffersDirty = true;
 
     Layer::setContentSize(size);
 }
