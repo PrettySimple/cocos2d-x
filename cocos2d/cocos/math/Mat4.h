@@ -966,6 +966,20 @@ public:
         multiply(mat);
         return *this;
     }
+    
+    inline bool operator==(const Mat4& mat)
+    {
+        for(int i=0; i<16; i++){
+            if(fabs(m[i]-mat.m[i]) > 0.00001f)
+                return false;
+        }
+        return true;
+    }
+    
+    inline bool operator!=(const Mat4& mat)
+    {
+        return !(*this==mat);
+    }
 
     /** equals to a matrix full of zeros */
     static const Mat4 ZERO;

@@ -281,6 +281,8 @@ protected:
         Color4F colors;
     };
     VertData _vertexData[4];
+    Mat4 _mvpCache;
+    float _positionZCache;
     
     backend::UniformLocation _mvpMatrixLocation;
 private:

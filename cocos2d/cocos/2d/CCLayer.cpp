@@ -285,6 +285,9 @@ std::string Layer::getDescription() const
 
 LayerColor::LayerColor()
 {
+    _mvpCache.setZero();
+    _positionZCache = 0;
+    
     // default blend function
     _blendFunc = BlendFunc::ALPHA_PREMULTIPLIED;
     
@@ -458,7 +461,7 @@ void LayerColor::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
     auto& pipelineDescriptor = _customCommand.getPipelineDescriptor();
     pipelineDescriptor.programState->setUniform(_mvpMatrixLocation, projectionMat.m, sizeof(projectionMat.m));
 
-    if( _buffersDirty ) {
+    if( _buffersDirty || (_modelViewTransform != _mvpCache) || (fabs(_positionZCache-_positionZ) > 0.00001f) ) {
         for (int i = 0; i < 4; ++i) {
             Vec4 pos;
             pos.x = _squareVertices[i].x;
@@ -470,6 +473,8 @@ void LayerColor::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
         }
         updateVertexBuffer();
         _buffersDirty = false;
+        _mvpCache = _modelViewTransform;
+        _positionZCache = _positionZ;
     }
 }
 
